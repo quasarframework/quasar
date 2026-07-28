@@ -20,22 +20,76 @@ export const isRuntimeSsrPreHydration = __QUASAR_SSR_SERVER__
 
 let preHydrationBrowser
 
+// Long User-Agent values are not useful for platform detection and can make
+// complex browser expressions prohibitively expensive.
+const maxUserAgentLength = 512
+
+function normalizeUserAgent(userAgent) {
+  return typeof userAgent === 'string'
+    ? userAgent.slice(0, maxUserAgentLength).toLowerCase()
+    : ''
+}
+
+function getSafariMatch(userAgent) {
+  const versionMatch = /(?:^|\s)version\/([\w.]+)/.exec(userAgent)
+
+  return versionMatch !== null &&
+    /(?:^|\s)applewebkit\/[\w.]+/.test(userAgent) &&
+    /(?:^|\s)safari\/[\w.]+/.test(userAgent)
+    ? {
+        browser: 'safari',
+        version: versionMatch[1]
+      }
+    : null
+}
+
+function getOperaMatch(userAgent) {
+  const operaMatch = /(?:^|\s)opera\/([\w.]+)/.exec(userAgent)
+
+  if (operaMatch === null) return null
+
+  const versionMatch = /(?:^|\s)version\/([\w.]+)/.exec(userAgent)
+
+  return {
+    browser: 'opera',
+    version: versionMatch?.[1] || operaMatch[1]
+  }
+}
+
 function getMatch(userAgent, platformMatch) {
-  const match =
+  let match =
     /(edg|edge|edga|edgios)\/([\w.]+)/.exec(userAgent) ||
     /(opr)[\/]([\w.]+)/.exec(userAgent) ||
     /(vivaldi)[\/]([\w.]+)/.exec(userAgent) ||
-    /(chrome|crios)[\/]([\w.]+)/.exec(userAgent) ||
-    /(version)(applewebkit)[\/]([\w.]+).*(safari)[\/]([\w.]+)/.exec(
-      userAgent
-    ) ||
-    /(webkit)[\/]([\w.]+).*(version)[\/]([\w.]+).*(safari)[\/]([\w.]+)/.exec(
-      userAgent
-    ) ||
-    /(firefox|fxios)[\/]([\w.]+)/.exec(userAgent) ||
-    /(webkit)[\/]([\w.]+)/.exec(userAgent) ||
-    /(opera)(?:.*version|)[\/]([\w.]+)/.exec(userAgent) ||
-    []
+    /(chrome|crios)[\/]([\w.]+)/.exec(userAgent)
+
+  if (match === null) {
+    const safariMatch = getSafariMatch(userAgent)
+
+    if (safariMatch !== null) {
+      return {
+        ...safariMatch,
+        platform: platformMatch[0] || ''
+      }
+    }
+
+    match =
+      /(firefox|fxios)[\/]([\w.]+)/.exec(userAgent) ||
+      /(webkit)[\/]([\w.]+)/.exec(userAgent)
+
+    if (match === null) {
+      const operaMatch = getOperaMatch(userAgent)
+
+      if (operaMatch !== null) {
+        return {
+          ...operaMatch,
+          platform: platformMatch[0] || ''
+        }
+      }
+
+      match = []
+    }
+  }
 
   return {
     browser: match[5] || match[3] || match[1] || '',
@@ -71,7 +125,7 @@ const hasTouch = __QUASAR_SSR_SERVER__
   : 'ontouchstart' in window || window.navigator.maxTouchPoints > 0
 
 function getPlatform(UA) {
-  const userAgent = UA.toLowerCase()
+  const userAgent = normalizeUserAgent(UA)
   const platformMatch = getPlatformMatch(userAgent)
   const matched = getMatch(userAgent, platformMatch)
   const browser = {
