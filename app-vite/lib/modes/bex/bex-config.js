@@ -37,7 +37,7 @@ export const quasarBexConfig = {
         // due to it being chrome-extension://<runtime-id>/) and it will output an error
         // that Websocket couldn't connect then: "Direct websocket connection fallback."
         // --- So we avoid that by enforcing the correct values:
-        hmr: {
+        ws: {
           protocol: 'ws',
           host: 'localhost',
           port: quasarConf.devServer.port
