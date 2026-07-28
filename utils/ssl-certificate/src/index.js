@@ -1,4 +1,10 @@
-import { existsSync, readFileSync, statSync, writeFileSync } from 'node:fs'
+import {
+  chmodSync,
+  existsSync,
+  readFileSync,
+  statSync,
+  writeFileSync
+} from 'node:fs'
 import fse from 'fs-extra'
 import { generate } from 'selfsigned'
 
@@ -19,22 +25,18 @@ export async function generateCertificate({ log, fatal }) {
     extensions: [
       {
         name: 'basicConstraints',
-        cA: true
+        cA: false,
+        critical: true
       },
       {
         name: 'keyUsage',
-        keyCertSign: true,
         digitalSignature: true,
-        nonRepudiation: true,
         keyEncipherment: true,
-        dataEncipherment: true
+        critical: true
       },
       {
         name: 'extKeyUsage',
-        serverAuth: true,
-        clientAuth: true,
-        codeSigning: true,
-        timeStamping: true
+        serverAuth: true
       },
       {
         name: 'subjectAltName',
@@ -57,17 +59,13 @@ export async function generateCertificate({ log, fatal }) {
             value: '*.lvh.me'
           },
           {
-            type: 2,
-            value: '[::1]'
+            type: 7,
+            ip: '::1'
           },
           {
             // type 7 is IP
             type: 7,
             ip: '127.0.0.1'
-          },
-          {
-            type: 7,
-            ip: 'fe80::1'
           }
         ]
       }
@@ -76,7 +74,11 @@ export async function generateCertificate({ log, fatal }) {
 
   const certContent = pems.private + pems.cert
   try {
-    writeFileSync(certPath, certContent, 'utf8')
+    writeFileSync(certPath, certContent, {
+      encoding: 'utf8',
+      mode: 0o600
+    })
+    chmodSync(certPath, 0o600)
   } catch (err) {
     console.error(err)
     fatal(
@@ -96,10 +98,24 @@ export async function getCertificate({ log, fatal }) {
     const now = new Date()
 
     // cert is more than 30 days old
-    if ((now - certStat.ctime) / certTtl > 30) {
+    if ((now - certStat.mtime) / certTtl > 30) {
       log('Localhost SSL Certificate is more than 30 days old. Removing.')
       fse.removeSync(certPath)
       certExists = false
+    } else if (
+      process.platform !== 'win32' &&
+      (certStat.mode & 0o777) !== 0o600
+    ) {
+      try {
+        chmodSync(certPath, 0o600)
+      } catch (err) {
+        console.error(err)
+        fatal(
+          'Cannot restrict localhost SSL certificate permissions at: ' +
+            certPath +
+            '. Aborting...'
+        )
+      }
     }
   }
 
