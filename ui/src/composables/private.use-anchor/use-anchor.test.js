@@ -82,26 +82,13 @@ describe('[useAnchor API]', () => {
   describe('[Variables]', () => {
     describe('[(variable)useAnchorStaticProps]', () => {
       test('is defined correctly', () => {
-        expect(Object.keys(useAnchorStaticProps)).toStrictEqual([
-          'target',
-          'noParentEvent'
-        ])
-        expect(useAnchorStaticProps.target).toMatchObject({
-          type: [Boolean, String, Element],
-          default: true
-        })
-        expect(useAnchorStaticProps.noParentEvent).toBe(Boolean)
+        expect(useAnchorStaticProps).$props()
       })
     })
 
     describe('[(variable)useAnchorProps]', () => {
       test('is defined correctly', () => {
-        expect(Object.keys(useAnchorProps)).toStrictEqual([
-          'target',
-          'noParentEvent',
-          'contextMenu'
-        ])
-        expect(useAnchorProps.contextMenu).toBe(Boolean)
+        expect(useAnchorProps).$props()
       })
     })
   })

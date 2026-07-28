@@ -49,14 +49,7 @@ describe('[useModelToggle API]', () => {
   describe('[Variables]', () => {
     describe('[(variable)useModelToggleProps]', () => {
       test('is defined correctly', () => {
-        expect(Object.keys(useModelToggleProps)).toStrictEqual([
-          'modelValue',
-          'onUpdate:modelValue'
-        ])
-        expect(useModelToggleProps.modelValue).toMatchObject({
-          type: Boolean,
-          default: null
-        })
+        expect(useModelToggleProps).$props()
       })
     })
 

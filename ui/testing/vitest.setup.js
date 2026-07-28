@@ -58,6 +58,68 @@ function $any(received, expectedList) {
   }
 }
 
+const vuePropOptionKeys = new Set(['type', 'required', 'default', 'validator'])
+
+function isVuePropType(value, allowTrue = false) {
+  return (
+    value === null ||
+    typeof value === 'function' ||
+    (allowTrue === true && value === true) ||
+    (Array.isArray(value) &&
+      value.every(type => type === null || typeof type === 'function'))
+  )
+}
+
+function isVuePropDefinition(value) {
+  if (isVuePropType(value)) {
+    return true
+  }
+
+  if (value === null || typeof value !== 'object' || Array.isArray(value)) {
+    return false
+  }
+
+  const keys = Object.keys(value)
+
+  return (
+    keys.every(key => vuePropOptionKeys.has(key)) &&
+    (value.type === void 0 || isVuePropType(value.type, true)) &&
+    (value.required === void 0 || typeof value.required === 'boolean') &&
+    (value.validator === void 0 || typeof value.validator === 'function')
+  )
+}
+
+/**
+ * Examples:
+ *   expect(component.props).$props()
+ *   expect(composableProps).$props()
+ */
+export function $props(received) {
+  const isObject =
+    received !== null &&
+    typeof received === 'object' &&
+    Array.isArray(received) === false
+  const invalidKeys = isObject
+    ? Object.keys(received).filter(
+        key =>
+          key.startsWith('$') || isVuePropDefinition(received[key]) === false
+      )
+    : []
+  const pass = isObject && invalidKeys.length === 0
+
+  return {
+    pass,
+    message: () =>
+      `expected ${this.utils.printReceived(
+        received
+      )} to${this.isNot ? ' not' : ''} be an object containing valid Vue prop definitions${
+        invalidKeys.length !== 0
+          ? `; invalid prop keys: ${this.utils.printReceived(invalidKeys)}`
+          : ''
+      }`
+  }
+}
+
 /**
  * Examples:
  *   expect(arr).$arrayValues({ ... })
@@ -148,6 +210,7 @@ export function $reactive(received, expected) {
 
 expect.extend({
   $any,
+  $props,
   $objectValues,
   $arrayValues,
   $ref,
