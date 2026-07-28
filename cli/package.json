@@ -44,13 +44,13 @@
   },
   "dependencies": {
     "@clack/prompts": "^1.7.0",
-    "@hono/node-server": "^2.0.10",
+    "@hono/node-server": "^2.0.12",
     "@quasar/art": "workspace:^",
     "@quasar/ssl-certificate": "workspace:^",
     "ci-info": "^4.4.0",
     "cross-spawn": "^7.0.6",
-    "fs-extra": "^11.3.6",
-    "hono": "^4.12.31",
+    "fs-extra": "^11.4.0",
+    "hono": "^4.12.32",
     "kolorist": "^1.8.0",
     "open": "^11.0.0",
     "update-notifier": "^7.3.1"

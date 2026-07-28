@@ -54,7 +54,7 @@
   },
   "devDependencies": {
     "@vue/test-utils": "^2.4.10",
-    "fs-extra": "^11.3.6",
+    "fs-extra": "^11.4.0",
     "jsdom": "29.1.1",
     "pug": "^3.0.4",
     "quasar": "workspace:*",

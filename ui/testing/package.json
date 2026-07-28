@@ -9,7 +9,7 @@
     "coverage": "vitest run --coverage"
   },
   "dependencies": {
-    "clipboardy": "^5.3.1"
+    "clipboardy": "^5.3.2"
   },
   "devDependencies": {
     "@quasar/extras": "workspace:*",
@@ -18,7 +18,7 @@
     "@vitest/ui": "^4.1.10",
     "@vue/test-utils": "^2.4.10",
     "acorn": "^8.17.0",
-    "fs-extra": "^11.3.6",
+    "fs-extra": "^11.4.0",
     "jsdom": "29.1.1",
     "prompts": "^2.4.2",
     "tinyglobby": "^0.2.17",

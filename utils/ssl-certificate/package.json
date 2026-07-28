@@ -28,7 +28,7 @@
     "test": "node --test test/index.test.js"
   },
   "dependencies": {
-    "fs-extra": "^11.3.6",
+    "fs-extra": "^11.4.0",
     "selfsigned": "^5.5.0"
   },
   "engines": {
