@@ -50,8 +50,7 @@ describe('[useFullscreen API]', () => {
 
     describe('[(variable)useFullscreenEmits]', () => {
       test('is defined correctly', () => {
-        expect(Array.isArray(useFullscreenEmits)).toBe(true)
-        expect(useFullscreenEmits).not.toHaveLength(0)
+        expect(useFullscreenEmits).$emits()
       })
     })
   })

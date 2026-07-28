@@ -120,6 +120,37 @@ export function $props(received) {
   }
 }
 
+function isVueEmitsDefinition(value) {
+  if (Array.isArray(value)) {
+    return value.every(eventName => typeof eventName === 'string')
+  }
+
+  return (
+    value !== null &&
+    typeof value === 'object' &&
+    Object.values(value).every(
+      validator => validator === null || typeof validator === 'function'
+    )
+  )
+}
+
+/**
+ * Examples:
+ *   expect(component.emits).$emits()
+ *   expect(composableEmits).$emits()
+ */
+export function $emits(received) {
+  const pass = isVueEmitsDefinition(received)
+
+  return {
+    pass,
+    message: () =>
+      `expected ${this.utils.printReceived(
+        received
+      )} to${this.isNot ? ' not' : ''} be a valid Vue emits definition`
+  }
+}
+
 /**
  * Examples:
  *   expect(arr).$arrayValues({ ... })
@@ -210,6 +241,7 @@ export function $reactive(received, expected) {
 
 expect.extend({
   $any,
+  $emits,
   $props,
   $objectValues,
   $arrayValues,
