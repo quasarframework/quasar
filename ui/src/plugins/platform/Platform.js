@@ -4,10 +4,10 @@ import { reactive, ref } from 'vue'
 import { injectProp } from '../../utils/private.inject-obj-prop/inject-obj-prop.js'
 
 /**
- * __ QUASAR_SSR __            -> runs on SSR on client or server
- * __ QUASAR_SSR_SERVER __     -> runs on SSR on server
- * __ QUASAR_SSR_CLIENT __     -> runs on SSR on client
- * __ QUASAR_SSR_PWA __        -> built with SSR+PWA; may run on SSR on client or on PWA client
+ * __ QUASAR_SSR __            -> runs on SSR/SSG on client or server
+ * __ QUASAR_SSR_SERVER __     -> runs on SSR/SSG on server
+ * __ QUASAR_SSR_CLIENT __     -> runs on SSR/SSG on client
+ * __ QUASAR_SSR_PWA __        -> built with SSR/SSG + PWA; may run on SSR/SSG on client or on PWA client
  *                              (needs runtime detection)
  */
 

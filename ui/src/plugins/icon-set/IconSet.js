@@ -42,7 +42,7 @@ const Plugin = createReactivePlugin(
 
         $q.iconSet.set(initialSet)
 
-        // one-time SSR server operation
+        // one-time SSR/SSG server operation
         if (this.props === void 0 || this.props.name !== initialSet.name) {
           this.props = { ...initialSet }
         }

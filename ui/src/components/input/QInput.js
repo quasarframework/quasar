@@ -43,7 +43,7 @@ export default createComponent({
 
     // override of useFieldProps > modelValue
     modelValue: __QUASAR_SSR_SERVER__
-      ? {} // SSR does not know about FileList
+      ? {} // SSR/SSG does not know about FileList
       : [String, Number, FileList],
     modelModifiers: Object,
 

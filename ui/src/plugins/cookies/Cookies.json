@@ -149,7 +149,7 @@
     },
 
     "parseSSR": {
-      "desc": "For SSR usage only, and only on the global import (not on $q.cookies)",
+      "desc": "For SSR/SSG usage only, and only on the global import (not on $q.cookies)",
       "params": {
         "ssrContext": {
           "type": "Object",
@@ -160,7 +160,7 @@
       "returns": {
         "type": "Object",
         "tsType": "Cookies",
-        "desc": "Cookie object (like $q.cookies) for SSR usage purposes"
+        "desc": "Cookie object (like $q.cookies) for SSR/SSG usage purposes"
       }
     }
   }

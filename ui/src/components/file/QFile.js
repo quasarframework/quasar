@@ -38,7 +38,7 @@ export default createComponent({
     ...useFormProps,
     ...useFileProps,
 
-    /* SSR does not know about File & FileList */
+    /* SSR/SSG does not know about File & FileList */
     modelValue: __QUASAR_SSR_SERVER__ ? {} : [File, FileList, Array],
 
     append: Boolean,

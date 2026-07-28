@@ -16,7 +16,7 @@ function getId(val, required) {
  * Returns an "id" which is a ref() that can be used as
  * a unique identifier to apply to a DOM node attribute.
  *
- * On SSR, it takes care of generating the id on the client side (only) to
+ * On SSR/SSG, it takes care of generating the id on the client side (only) to
  * avoid hydration errors.
  */
 export default function useId({ getValue, required = true } = {}) {

@@ -217,7 +217,7 @@ export default createComponent({
     const flagPanning = ref(false)
     const flagMiniAnimate = ref(false)
     const flagContentPosition = ref(
-      // starting with "hidden" for SSR
+      // starting with "hidden" for SSR/SSG
       size.value * stateDirection.value
     )
 

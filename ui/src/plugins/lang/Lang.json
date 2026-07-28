@@ -1106,7 +1106,7 @@
         },
         "ssrContent": {
           "type": "Object",
-          "desc": "Required for SSR only",
+          "desc": "Required for SSR/SSG only",
           "__exemption": ["examples"]
         }
       },
@@ -1114,7 +1114,7 @@
     },
 
     "getLocale": {
-      "desc": "Get the browser locale ISO name; Returns undefined when it cannot determine current browser locale or when running on server in SSR mode",
+      "desc": "Get the browser locale ISO name; Returns undefined when it cannot determine current browser locale or when running on server in SSR/SSG mode",
       "params": null,
       "returns": {
         "type": ["String", "undefined"],

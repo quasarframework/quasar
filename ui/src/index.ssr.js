@@ -1,7 +1,7 @@
 // oxlint-disable import/no-namespace
 
 /**
- * SSR server prod entry-point
+ * SSR/SSG server prod entry-point
  */
 
 import installQuasar from './install-quasar.js'
