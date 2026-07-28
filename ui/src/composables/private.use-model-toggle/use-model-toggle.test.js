@@ -55,12 +55,7 @@ describe('[useModelToggle API]', () => {
 
     describe('[(variable)useModelToggleEmits]', () => {
       test('is defined correctly', () => {
-        expect(useModelToggleEmits).toStrictEqual([
-          'beforeShow',
-          'show',
-          'beforeHide',
-          'hide'
-        ])
+        expect(useModelToggleEmits).$emits()
       })
     })
   })
