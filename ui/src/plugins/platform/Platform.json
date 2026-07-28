@@ -158,14 +158,6 @@
           "type": "Boolean",
           "desc": "Whether the operating system is Windows Phone"
         },
-        "blackberry": {
-          "type": "Boolean",
-          "desc": "Whether the device is a Blackberry"
-        },
-        "playbook": {
-          "type": "Boolean",
-          "desc": "Whether the device is a Blackberry Playbook"
-        },
         "silk": {
           "type": "Boolean",
           "desc": "Whether the browser is Amazon Silk"

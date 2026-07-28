@@ -101,8 +101,6 @@ describe('[Platform API]', () => {
           ipod: expect.any(Boolean),
           kindle: expect.any(Boolean),
           winphone: expect.any(Boolean),
-          blackberry: expect.any(Boolean),
-          playbook: expect.any(Boolean),
           silk: expect.any(Boolean)
         }
 

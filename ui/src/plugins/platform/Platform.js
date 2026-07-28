@@ -116,9 +116,6 @@ const winRE = /(win)/ // "windows" is too generic and can be used in other platf
 const macRE = /(mac)/
 const linuxRE = /(linux)/
 const crosRE = /(cros)/
-const playbookRE = /(playbook)/
-const bbRE = /(bb)/
-const blackberryRE = /(blackberry)/
 function getPlatformMatch(userAgent) {
   return (
     ipadRE.exec(userAgent) ||
@@ -132,11 +129,6 @@ function getPlatformMatch(userAgent) {
     macRE.exec(userAgent) ||
     linuxRE.exec(userAgent) ||
     crosRE.exec(userAgent) ||
-    // TODO: Remove BlackBerry detection. BlackBerry OS, BlackBerry 10, and BlackBerry PlayBook OS
-    // is officially dead as of January 4, 2022 (https://www.blackberry.com/us/en/support/devices/end-of-life)
-    playbookRE.exec(userAgent) ||
-    bbRE.exec(userAgent) ||
-    blackberryRE.exec(userAgent) ||
     []
   )
 }
@@ -182,8 +174,6 @@ function getPlatform(UA) {
     ipod: false,
     kindle: false,
     winphone: false,
-    blackberry: false,
-    playbook: false,
     silk: false
   }
 
@@ -200,13 +190,10 @@ function getPlatform(UA) {
   const knownMobiles =
     browser.android ||
     browser.ios ||
-    browser.bb ||
-    browser.blackberry ||
     browser.ipad ||
     browser.iphone ||
     browser.ipod ||
     browser.kindle ||
-    browser.playbook ||
     browser.silk ||
     browser['windows phone']
 
@@ -270,13 +257,7 @@ function getPlatform(UA) {
 
   // Some browsers are marked as Safari but are not
   if (browser.safari) {
-    if (browser.blackberry || browser.bb) {
-      matched.browser = 'blackberry'
-      browser.blackberry = true
-    } else if (browser.playbook) {
-      matched.browser = 'playbook'
-      browser.playbook = true
-    } else if (browser.android) {
+    if (browser.android) {
       matched.browser = 'android'
       browser.android = true
     } else if (browser.kindle) {
