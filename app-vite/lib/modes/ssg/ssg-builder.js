@@ -2,6 +2,7 @@ import { join } from 'node:path'
 import { merge } from 'webpack-merge'
 
 import { AppBuilder } from '../../app-builder.js'
+import { getContainedFilePath } from '../../utils/get-contained-file-path.js'
 import { getPackage } from '../../utils/get-package.js'
 import { getRouteMatcher } from '../../utils/get-route-matcher.js'
 import { quasarSsgConfig } from './ssg-config.js'
@@ -575,6 +576,7 @@ export class QuasarModeBuilder extends AppBuilder {
     const handleError = getSsgRendererErrorHandler(onSsgRendererError)
     let errorsEncountered = 0
 
+    /* async */
     const getSsgPageFilename = ssgPage => {
       if (
         ssgRendererDirectoryIndexes === false &&
@@ -582,13 +584,13 @@ export class QuasarModeBuilder extends AppBuilder {
         ssgPage.filename === void 0
       ) {
         const routePath = ssgPage.route.slice(1).replace(trailingSlashRE, '')
-        return join(
+        return getContainedFilePath(
           this.quasarConf.build.distDir,
           routePath === '' ? 'index.html' : `${routePath}.html`
         )
       }
 
-      return join(
+      return getContainedFilePath(
         this.quasarConf.build.distDir,
         ssgPage.dir ?? ssgPage.route.slice(1),
         ssgPage.filename ?? 'index.html'
@@ -596,6 +598,7 @@ export class QuasarModeBuilder extends AppBuilder {
     }
 
     const renderPage = async ssgPage => {
+      const filename = await getSsgPageFilename(ssgPage)
       const ssrContext = ssgPage.ssrContext ?? {}
       const url =
         'http://localhost' +
@@ -677,8 +680,6 @@ export class QuasarModeBuilder extends AppBuilder {
           return
         }
       }
-
-      const filename = getSsgPageFilename(ssgPage)
 
       const hasFile = await this.writeFile(
         filename,

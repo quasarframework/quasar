@@ -32,14 +32,17 @@ export interface SsgPage {
 
   /**
    * Optional directory to place the generated HTML file in.
-   * Must use relative path to the dist folder.
+   * Must be a relative path that resolves inside the dist folder.
    * It will be joined with the quasar.config > build > distDir.
+   * Absolute paths, parent traversal and symlink escapes are rejected.
    * If not provided, the route will be used to determine the directory.
    */
   dir?: string;
 
   /**
    * Optional filename to use for the generated HTML file.
+   * Must resolve inside the dist folder.
+   * Absolute paths, parent traversal and symlink escapes are rejected.
    * @default 'index.html'
    */
   filename?: string;
