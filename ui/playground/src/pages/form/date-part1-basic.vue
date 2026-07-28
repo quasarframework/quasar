@@ -209,6 +209,7 @@
           v-model="locale"
           label="Locale"
           :options="localeOptions"
+          options-dense
           emit-value
           map-options
           clearable
@@ -440,7 +441,7 @@ export default {
     }
 
     Promise.all(promises).then(languages => {
-      this.localeOptions = languages.map(lang => ({
+      this.localeOptions = languages.map(({ default: lang }) => ({
         label: lang.nativeName,
         value: lang
       }))
