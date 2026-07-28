@@ -2,6 +2,8 @@ import { mount } from '@vue/test-utils'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import { defineComponent } from 'vue'
 
+import { getMainEvent } from 'testing/runtime/directive.js'
+
 import { client } from '../../plugins/platform/Platform.js'
 import TouchSwipe from './TouchSwipe.js'
 
@@ -39,10 +41,6 @@ function mountTouchSwipe(modifiers = 'mouse', handler = vi.fn()) {
   }
 }
 
-function getMainEvent(ctx, name) {
-  return ctx.__q_main_evt.find(event => event[1] === name)
-}
-
 function dispatchMouseSwipe(wrapper, x, y) {
   wrapper.element.dispatchEvent(
     new MouseEvent('mousedown', {
@@ -58,6 +56,13 @@ function dispatchMouseSwipe(wrapper, x, y) {
     new MouseEvent('mousemove', {
       bubbles: true,
       cancelable: true,
+      clientX: x,
+      clientY: y
+    })
+  )
+  document.dispatchEvent(
+    new MouseEvent('mouseup', {
+      bubbles: true,
       clientX: x,
       clientY: y
     })

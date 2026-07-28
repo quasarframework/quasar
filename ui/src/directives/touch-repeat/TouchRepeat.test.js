@@ -2,6 +2,8 @@ import { mount } from '@vue/test-utils'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import { defineComponent } from 'vue'
 
+import { getMainEvent } from 'testing/runtime/directive.js'
+
 import { client } from '../../plugins/platform/Platform.js'
 import TouchRepeat from './TouchRepeat.js'
 
@@ -34,10 +36,6 @@ function mountTouchRepeat(template, handler = vi.fn()) {
     handler,
     wrapper: mount(TestComponent)
   }
-}
-
-function getMainEvent(ctx, name) {
-  return ctx.__q_main_evt.find(event => event[1] === name)
 }
 
 function dispatchMouseDown(wrapper) {
@@ -82,6 +80,8 @@ describe('[TouchRepeat API]', () => {
       vi.advanceTimersByTime(600)
 
       expect(handler).toHaveBeenCalledTimes(2)
+
+      wrapper.unmount()
     })
 
     test('as undefined', () => {
@@ -112,6 +112,8 @@ describe('[TouchRepeat API]', () => {
       vi.advanceTimersByTime(40)
 
       expect(handler).toHaveBeenCalledTimes(2)
+
+      wrapper.unmount()
     })
   })
 

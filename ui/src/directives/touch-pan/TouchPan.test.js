@@ -2,6 +2,8 @@ import { mount } from '@vue/test-utils'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import { defineComponent } from 'vue'
 
+import { getMainEvent } from 'testing/runtime/directive.js'
+
 import { client } from '../../plugins/platform/Platform.js'
 import TouchPan from './TouchPan.js'
 
@@ -39,10 +41,6 @@ function mountTouchPan(modifiers = 'mouse', handler = vi.fn(() => true)) {
   }
 }
 
-function getMainEvent(ctx, name) {
-  return ctx.__q_main_evt.find(event => event[1] === name)
-}
-
 function dispatchMousePan(wrapper, x, y) {
   wrapper.element.dispatchEvent(
     new MouseEvent('mousedown', {
@@ -57,6 +55,13 @@ function dispatchMousePan(wrapper, x, y) {
     new MouseEvent('mousemove', {
       bubbles: true,
       cancelable: true,
+      clientX: x,
+      clientY: y
+    })
+  )
+  document.dispatchEvent(
+    new MouseEvent('mouseup', {
+      bubbles: true,
       clientX: x,
       clientY: y
     })
@@ -178,9 +183,25 @@ describe('[TouchPan API]', () => {
 
     describe('[(modifier)mouseAllDir]', () => {
       test('has effect', () => {
-        const { wrapper } = mountTouchPan('right.mouse.mouseAllDir')
+        const strict = mountTouchPan('right.mouse')
 
-        expect(wrapper.element.__qtouchpan.modifiers.mouseAllDir).toBe(true)
+        dispatchMousePan(strict.wrapper, 5, 40)
+
+        expect(strict.handler).not.toHaveBeenCalled()
+
+        const mouseAllDir = mountTouchPan('right.mouse.mouseAllDir')
+
+        dispatchMousePan(mouseAllDir.wrapper, 5, 40)
+
+        expect(mouseAllDir.handler).toHaveBeenCalledWith(
+          expect.objectContaining({
+            direction: 'right',
+            distance: {
+              x: 5,
+              y: 40
+            }
+          })
+        )
       })
     })
 

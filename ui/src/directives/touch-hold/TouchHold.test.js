@@ -2,6 +2,8 @@ import { mount } from '@vue/test-utils'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import { defineComponent } from 'vue'
 
+import { getMainEvent } from 'testing/runtime/directive.js'
+
 import { client } from '../../plugins/platform/Platform.js'
 import TouchHold from './TouchHold.js'
 
@@ -35,10 +37,6 @@ function mountTouchHold(template, handler = vi.fn()) {
   }
 }
 
-function getMainEvent(ctx, name) {
-  return ctx.__q_main_evt.find(event => event[1] === name)
-}
-
 describe('[TouchHold API]', () => {
   describe('[Value]', () => {
     test('as Function', () => {
@@ -67,6 +65,8 @@ describe('[TouchHold API]', () => {
           duration: 600
         })
       )
+
+      wrapper.unmount()
     })
 
     test('as undefined', () => {
