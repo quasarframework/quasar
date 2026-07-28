@@ -1,4 +1,4 @@
-import { readFileSync } from 'node:fs'
+import { readFileSync, writeFileSync } from 'node:fs'
 import { dirname, join } from 'node:path'
 import { createServer } from 'vite'
 
@@ -123,11 +123,29 @@ export class QuasarModeDevserver extends AppDevserver {
       await delay(100)
     }
 
+    const electronEntryDir = this.ctx.appPaths.resolve.entry('electron')
+    const { name, productName, version, desktopName } = this.ctx.pkg.appPkg
+
+    // Electron only loads application metadata when launched with an app
+    // directory. Passing the compiled main file directly makes development
+    // builds inherit Electron's name, version and Linux desktop identity.
+    writeFileSync(
+      join(electronEntryDir, 'package.json'),
+      JSON.stringify({
+        name,
+        productName,
+        version,
+        desktopName,
+        main: './electron-main.js',
+        type: 'module'
+      })
+    )
+
     this.#pid = spawn(
       this.#electronExecutable,
       [
         '--inspect=' + quasarConf.electron.inspectPort,
-        this.ctx.appPaths.resolve.entry('electron/electron-main.js'),
+        electronEntryDir,
         ...this.argv._
       ],
       { cwd: this.ctx.appPaths.appDir },
