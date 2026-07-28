@@ -23,7 +23,10 @@ export class QuasarModeDevserver extends AppDevserver {
       this.clientServer?.ws.send({ type: 'custom', event: 'qbex:hmr:reload' })
     }, 200)
 
-    this.registerDiff('distDir', quasarConf => [quasarConf.build.distDir])
+    this.registerDiff('distDir', quasarConf => [
+      quasarConf.build.distDir,
+      quasarConf.build.allowOutsideProjectDistDir
+    ])
 
     this.registerDiff('bexManifest', quasarConf => [
       quasarConf.sourceFiles.bexManifestFile,
@@ -86,7 +89,10 @@ export class QuasarModeDevserver extends AppDevserver {
       this.#scriptWatcherList.length = 0
     })
 
-    this.cleanArtifacts(quasarConf.build.distDir)
+    this.cleanArtifacts(
+      quasarConf.build.distDir,
+      quasarConf.build.allowOutsideProjectDistDir
+    )
 
     // ensure we have a stub www/index.html file otherwise the browser
     // will complain about it not being found

@@ -118,6 +118,7 @@ const appBuilder = new QuasarModeBuilder({ argv, quasarConf })
 let outputFolder = quasarConf.build.distDir
 const { removeBuildArtifacts } =
   await import('../utils/remove-build-artifacts.js')
+
 try {
   removeBuildArtifacts({
     targetDir: outputFolder,
