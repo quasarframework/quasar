@@ -14,6 +14,7 @@ function readFile(target) {
 const before = readFile('before')
 const after = readFile('after')
 
+const scriptEscapeRE = /[<>&\u2028\u2029]/g
 const scriptEscapeMap = {
   '<': String.raw`\u003C`,
   '>': String.raw`\u003E`,
@@ -24,7 +25,7 @@ const scriptEscapeMap = {
 
 function stringifyForScript(data) {
   return JSON.stringify(data).replaceAll(
-    /[<>&\u2028\u2029]/g,
+    scriptEscapeRE,
     character => scriptEscapeMap[character]
   )
 }
