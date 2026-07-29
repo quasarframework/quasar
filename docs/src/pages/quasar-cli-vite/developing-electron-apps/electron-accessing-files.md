@@ -35,7 +35,7 @@ import {
 
 async function createWindow() {
   const mainWindow = new BrowserWindow({
-    icon: resolveElectronAssetsPath('icons/icon.png') // linux
+    icon: resolveElectronAssetsPath('icons/icon.png') // Windows and Linux
     // ...
   })
   // ...

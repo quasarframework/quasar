@@ -827,7 +827,7 @@ async function createWindow() { // [!code --]
     }, // [!code --]
 async function createWindow() {
   const mainWindow = new BrowserWindow({
-    icon: resolveElectronAssetsPath("icons/icon.png"), // linux
+    icon: resolveElectronAssetsPath("icons/icon.png"), // Windows and Linux
     webPreferences: {
       preload: path.join(import.meta.dirname, "electron-preload.cjs")
     },
@@ -886,7 +886,7 @@ async function createWindow () {
    * Initial window options
    */
   const mainWindow = new BrowserWindow({
-    icon: resolveElectronAssetsPath('icons/icon.png'), // linux
+    icon: resolveElectronAssetsPath('icons/icon.png'), // Windows and Linux
     width: 1000,
     height: 600,
     useContentSize: true,
@@ -947,7 +947,7 @@ async function createWindow() {
    * Initial window options
    */
   const mainWindow = new BrowserWindow({
-    icon: resolveElectronAssetsPath("icons/icon.png"), // linux
+    icon: resolveElectronAssetsPath("icons/icon.png"), // Windows and Linux
     width: 1000,
     height: 600,
     useContentSize: true,
