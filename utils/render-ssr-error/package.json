@@ -1,6 +1,6 @@
 {
   "name": "@quasar/render-ssr-error",
-  "version": "2.2.3",
+  "version": "2.2.4",
   "description": "Renders SSR errors for Quasar CLI",
   "homepage": "https://quasar.dev",
   "bugs": "https://github.com/quasarframework/quasar/issues",
