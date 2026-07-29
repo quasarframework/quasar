@@ -63,46 +63,6 @@ showCliBanner()
 const { ensureArgv } = await import('../utils/ensure-argv.js')
 ensureArgv(argv, 'dev')
 
-async function startVueDevtools(ctx, devtoolsPort) {
-  const {
-    appPaths: { appDir },
-    cacheProxy
-  } = ctx
-
-  const { spawn } = await import('../utils/spawn.js')
-  const { getPackagePath } = await import('../utils/get-package-path.js')
-
-  let vueDevtoolsBin = getPackagePath('.bin/vue-devtools', appDir)
-
-  async function run() {
-    log('Booting up remote Vue Devtools...')
-    spawn(vueDevtoolsBin, [], {
-      env: {
-        ...process.env,
-        PORT: devtoolsPort
-      }
-    })
-
-    log('Waiting for remote Vue Devtools to initialize...')
-    const { promise, resolve } = Promise.withResolvers()
-    setTimeout(resolve, 1000)
-    await promise
-  }
-
-  if (vueDevtoolsBin !== void 0) {
-    await run()
-    return
-  }
-
-  const nodePackager = await cacheProxy.getModule('nodePackager')
-  await nodePackager.installPackage('@vue/devtools', { isDevDependency: true })
-
-  // a small delay is a must, otherwise require.resolve
-  // after a installing the dependencies will fail
-  vueDevtoolsBin = getPackagePath('.bin/vue-devtools', appDir)
-  await run()
-}
-
 const { getCtx } = await import('../utils/get-ctx.js')
 const ctx = getCtx({
   mode: argv.mode,
@@ -127,10 +87,6 @@ const quasarConfFile = new QuasarConfigFile({
 })
 
 const quasarConf = await quasarConfFile.read()
-
-if (quasarConf.metaConf.vueDevtools) {
-  await startVueDevtools(ctx, quasarConf.metaConf.vueDevtools.port)
-}
 
 const { QuasarModeDevserver } = await import(
   `../modes/${argv.mode}/${argv.mode}-devserver.js`

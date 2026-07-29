@@ -3,15 +3,17 @@ import serialize from 'serialize-javascript'
 import { green } from 'kolorist'
 import { normalizePath } from 'vite'
 
-export { getNonceAttr } from '../../../templates/entry/ssr-nonce.js'
-
 import { dot, info, log } from '../../utils/logger.js'
 
-const autoRemove = 'document.currentScript.remove()'
+export { injectNonceAttr } from '../../../templates/entry/ssr-nonce.js'
 
-export function renderStoreState(ssrContext, nonce) {
+export function renderStoreState(ssrContext) {
   const state = serialize(ssrContext.state, { isJSON: true })
-  return `<script${nonce}>window.__INITIAL_STATE__=${state};${autoRemove}</script>`
+  return (
+    `<script${ssrContext.__quasarNonceAttr}>` +
+    `window.__INITIAL_STATE__=${state};` +
+    'document.currentScript.remove()</script>'
+  )
 }
 
 export function logServerMessage(title, msg, additional) {
@@ -49,7 +51,7 @@ function walkCriticalCssModules(moduleList, criticalCSS) {
       (url.includes('vue&type=style') || styleUrlRE.test(url))
     ) {
       criticalCSS.meta.endingHeadTags +=
-        `<link${criticalCSS.nonce} rel="stylesheet"` +
+        `<link${criticalCSS.nonceAttr} rel="stylesheet"` +
         ` href="${url}" data-quasar-ssr-style>`
     }
 
@@ -63,7 +65,6 @@ export function injectCriticalCssPath({
   viteServer,
   serverEntryFile,
   rootFolder,
-  nonce,
   ssrContext
 }) {
   const entryModules = viteServer.moduleGraph.getModulesByFile(
@@ -83,7 +84,7 @@ export function injectCriticalCssPath({
     walkCriticalCssModules(entryModules, {
       seenNodes: new Set(),
       renderedSfcFiles,
-      nonce,
+      nonceAttr: ssrContext.__quasarNonceAttr,
       meta: ssrContext._meta
     })
   }

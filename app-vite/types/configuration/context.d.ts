@@ -32,7 +32,12 @@ interface BaseQuasarContext {
   readonly modeName: QuasarMode;
   /** True if debugging is enabled */
   readonly debug: boolean;
-  /** True if opening remote Vue Devtools in development mode. */
+  /**
+   * True if requested Vue Devtools by
+   * the `--devtools` param in the `quasar dev` command.
+   * Can be overridden by quasar.config > devServer.vueDevtools
+   * when explicitly specified there.
+   */
   readonly vueDevtools: boolean;
   /**
    * Util dealing with app paths

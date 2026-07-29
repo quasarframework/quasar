@@ -41,7 +41,6 @@ export default defineConfig((/* ctx */) => ({
 
     vueRouterMode: 'history' // available values: 'hash', 'history'
     // vueRouterBase,
-    // vueDevtools,
 
     // publicPath: '/',
     // define: {},
@@ -60,6 +59,7 @@ export default defineConfig((/* ctx */) => ({
 
   // https://v2.quasar.dev/quasar-cli-vite/quasar-config-file#devserver
   devServer: {
+    // vueDevtools: true,
     // https: true,
     open: {
       app: { name: 'google chrome' }

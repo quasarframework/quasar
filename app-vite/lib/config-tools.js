@@ -239,16 +239,31 @@ export async function createViteConfig(
   }
 
   if (ctx.dev) {
-    const warmup =
-      compileId !== 'vite-ssr-server' && compileId !== 'vite-ssg-server'
-        ? {
+    if (compileId !== 'vite-ssr-server' && compileId !== 'vite-ssg-server') {
+      if (quasarConf.metaConf.vueDevtoolsOptions) {
+        const vitePluginVueDevtools =
+          await ctx.cacheProxy.getModule('vueDevtools')
+
+        viteConf.plugins.push(
+          vitePluginVueDevtools(quasarConf.metaConf.vueDevtoolsOptions)
+        )
+      }
+
+      // also protects against Vite (or a Vite plugin) mutating the original
+      // and triggering endless cfg diff loop
+      viteConf.server = merge(
+        {
+          warmup: {
             clientFiles: [quasarConf.metaConf.entryScript.absolutePath]
           }
-        : {}
-
-    // protect against Vite (or a Vite plugin) mutating the original
-    // and triggering endless cfg diff loop
-    viteConf.server = merge({ warmup }, quasarConf.devServer)
+        },
+        quasarConf.devServer
+      )
+    } else {
+      // protect against Vite (or a Vite plugin) mutating the original
+      // and triggering endless cfg diff loop
+      viteConf.server = merge({}, quasarConf.devServer)
+    }
   } else {
     viteConf.build.outDir = build.distDir
   }

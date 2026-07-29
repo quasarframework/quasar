@@ -9,6 +9,10 @@ export class QuasarModeDevserver extends AppDevserver {
   run(quasarConf, __isRetry) {
     const { diff, queue } = super.run(quasarConf, __isRetry)
 
+    if (diff('vueDevtools', quasarConf)) {
+      return queue(() => this.installVueDevtools(quasarConf))
+    }
+
     if (diff('htmlTemplate', quasarConf)) {
       this.clientNeedsReload = true
       updateHtmlVariables(quasarConf)

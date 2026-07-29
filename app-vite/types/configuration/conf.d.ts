@@ -1,6 +1,7 @@
 import type { DeepNonNullable, DeepRequired } from "ts-essentials";
 import type { Options as OpenOptions } from "open";
 import type { ServerOptions as ViteServerOptions } from "vite";
+import type { VitePluginVueDevToolsOptions } from "vite-plugin-vue-devtools";
 
 import type {
   QuasarAnimations,
@@ -23,10 +24,25 @@ import type { QuasarBexConfiguration } from "./bex-conf.d.ts";
 import type { QuasarContext } from "./context.d.ts";
 
 type DevServerOptions = Omit<ViteServerOptions, "open" | "https"> & {
-  open?: Omit<OpenOptions, "wait"> | boolean;
   https?: ViteServerOptions["https"] | boolean;
-  /** Automatically open remote Vue DevTools in development mode. */
-  vueDevtools?: boolean;
+
+  /**
+   * Automatically open the browser window when the dev server starts.
+   * If a string is provided, it will be used as the URL to open.
+   * If an object is provided, it will be passed to the `open` package.
+   *
+   * @default false
+   */
+  open?: Omit<OpenOptions, "wait"> | boolean;
+
+  /**
+   * Automatically open remote Vue DevTools in development mode.
+   * Overrides the `--devtools` param in the `quasar dev` command
+   * when explicitly specified.
+   *
+   * @default false
+   */
+  vueDevtools?: boolean | VitePluginVueDevToolsOptions;
 };
 
 /**
@@ -170,7 +186,6 @@ export interface QuasarConf
 interface QuasarMetaConf {
   debugging: boolean;
   needsAppMountHook: boolean;
-  vueDevtools: boolean | Record<string, any>;
   versions: {
     capacitor?: number;
     capacitorPluginApp?: number | true;

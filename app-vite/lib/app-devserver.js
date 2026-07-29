@@ -77,8 +77,13 @@ export class AppDevserver extends AppTool {
       quasarConf.metaConf.backendEnvDefineList
     ])
 
+    this.registerDiff('vueDevtools', quasarConf => [
+      quasarConf.metaConf.vueDevtoolsOptions
+    ])
+
     this.registerDiff('vite', quasarConf => [
       quasarConf.devServer,
+      quasarConf.metaConf.vueDevtoolsOptions,
       quasarConf.build,
       quasarConf.framework.autoImportComponentCase,
       quasarConf.framework.autoImportVueExtensions,
@@ -246,6 +251,22 @@ export class AppDevserver extends AppTool {
   clearWatcherList([...watcherList], clearFn) {
     clearFn()
     return Promise.all(watcherList.map(watcher => watcher.close()))
+  }
+
+  async installVueDevtools(quasarConf) {
+    if (
+      quasarConf.metaConf.vueDevtoolsOptions &&
+      quasarConf.ctx.pkg.appPkg.devDependencies?.[
+        'vite-plugin-vue-devtools'
+      ] === void 0
+    ) {
+      const { cacheProxy } = quasarConf.ctx
+
+      const nodePackager = await cacheProxy.getModule('nodePackager')
+      await nodePackager.installPackage('vite-plugin-vue-devtools', {
+        isDevDependency: true
+      })
+    }
   }
 
   printBanner(quasarConf) {

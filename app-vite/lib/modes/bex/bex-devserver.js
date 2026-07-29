@@ -50,6 +50,10 @@ export class QuasarModeDevserver extends AppDevserver {
   run(quasarConf, __isRetry) {
     const { diff, queue } = super.run(quasarConf, __isRetry)
 
+    if (diff('vueDevtools', quasarConf)) {
+      return queue(() => this.installVueDevtools(quasarConf))
+    }
+
     if (diff('distDir', quasarConf)) {
       return queue(() => this.#onDistDir(quasarConf))
     }

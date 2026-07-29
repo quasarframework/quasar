@@ -356,12 +356,30 @@ animations?: QuasarAnimationsConfiguration | 'all';
 More info: [Vite server options](https://vite.dev/config/server-options)
 
 ```ts
-import { ServerOptions as ViteServerOptions } from "vite";
-import { Options as OpenOptions } from "open";
+import type { ServerOptions as ViteServerOptions } from "vite";
+import type { Options as OpenOptions } from "open";
+import type { VitePluginVueDevToolsOptions } from "vite-plugin-vue-devtools";
+
 type DevServerOptions = Omit<ViteServerOptions, "open" | "https"> & {
-  open?: Omit<OpenOptions, "wait"> | boolean;
   https?: ViteServerOptions["https"] | boolean;
-  vueDevtools?: boolean;
+
+  /**
+   * Automatically open the browser window when the dev server starts.
+   * If a string is provided, it will be used as the URL to open.
+   * If an object is provided, it will be passed to the `open` package.
+   *
+   * @default false
+   */
+  open?: Omit<OpenOptions, "wait"> | boolean;
+
+  /**
+   * Automatically open remote Vue DevTools in development mode.
+   * Overrides the `--devtools` param in the `quasar dev` command
+   * when explicitly specified.
+   *
+   * @default false
+   */
+  vueDevtools?: boolean | VitePluginVueDevToolsOptions;
 };
 
 /**

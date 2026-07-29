@@ -17,8 +17,8 @@ import {
 } from '../../plugins/vite.html.js'
 
 import {
-  getNonceAttr,
   injectCriticalCssPath,
+  injectNonceAttr,
   logServerMessage,
   renderStoreState
 } from '../ssr/ssr-utils.js'
@@ -70,6 +70,10 @@ export class QuasarModeDevserver extends AppDevserver {
   run(quasarConf, __isRetry) {
     const { diff, queue } = super.run(quasarConf, __isRetry)
 
+    if (diff('vueDevtools', quasarConf)) {
+      return queue(() => this.installVueDevtools(quasarConf))
+    }
+
     if (quasarConf.ssg.pwa) {
       // also update pwa-devserver.js & ssr-devserver.js when changing here
       if (diff('pwaManifest', quasarConf)) {
@@ -91,8 +95,7 @@ export class QuasarModeDevserver extends AppDevserver {
 
     if (diff('htmlTemplate', quasarConf)) {
       this.clientNeedsReload = true
-      const htmlStore = updateHtmlVariables(quasarConf)
-      this.#updateTemplate(htmlStore, quasarConf)
+      this.#updateTemplate(quasarConf)
     }
 
     // also update pwa-devserver.js & ssr-devserver.js when changing here
@@ -126,14 +129,14 @@ export class QuasarModeDevserver extends AppDevserver {
           }
   }
 
-  #updateTemplate(htmlStore, quasarConf) {
+  #updateTemplate(quasarConf) {
+    const htmlStore = updateHtmlVariables(quasarConf)
     const template = readFileSync(this.#pathMap.templatePath, 'utf8')
 
     this.#csrTemplate = template
     this.#renderTemplate = getDevSsrTemplateFn(
       template,
-      htmlStore.htmlVariables,
-      quasarConf
+      htmlStore.htmlVariables
     )
   }
 
@@ -173,8 +176,7 @@ export class QuasarModeDevserver extends AppDevserver {
       chokidarWatch(templatePath, {
         ignoreInitial: true
       }).on('change', () => {
-        const htmlStore = updateHtmlVariables(quasarConf)
-        this.#updateTemplate(htmlStore, quasarConf)
+        this.#updateTemplate(quasarConf)
         this.reloadClient()
       })
     )
@@ -204,13 +206,12 @@ export class QuasarModeDevserver extends AppDevserver {
 
         const app = await renderApp.default(ssrContext)
         const runtimePageContent = await vueRenderToString(app, ssrContext)
-        const nonce = getNonceAttr(ssrContext)
 
+        injectNonceAttr(ssrContext)
         injectCriticalCssPath({
           viteServer,
           serverEntryFile,
           rootFolder,
-          nonce,
           ssrContext
         })
 
@@ -227,7 +228,7 @@ export class QuasarModeDevserver extends AppDevserver {
           quasarConf.ssg.manualStoreSerialization !== true
         ) {
           ssrContext._meta.headTags =
-            renderStoreState(ssrContext, nonce) + ssrContext._meta.headTags
+            renderStoreState(ssrContext) + ssrContext._meta.headTags
         }
 
         let html = this.#renderTemplate(ssrContext)
@@ -347,8 +348,7 @@ export class QuasarModeDevserver extends AppDevserver {
       'change',
       debounce(async () => {
         await inject()
-        const htmlStore = updateHtmlVariables(quasarConf)
-        this.#updateTemplate(htmlStore, quasarConf)
+        this.#updateTemplate(quasarConf)
         this.reloadClient()
       }, 550)
     )

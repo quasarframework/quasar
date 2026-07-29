@@ -327,7 +327,6 @@ export class QuasarConfigFile {
 
   #cssVariables
   #storeProvider
-  #vueDevtools
   #electronInspectPort
 
   constructor({ ctx, host, port, verifyAddress, watch = false }) {
@@ -873,7 +872,7 @@ export class QuasarConfigFile {
       debugging: Boolean(this.#ctx.dev || this.#ctx.debug),
       hasTypescript: await this.#ctx.cacheProxy.getModule('hasTypescript'),
       needsAppMountHook: false,
-      vueDevtools: false,
+      vueDevtoolsOptions: false,
       versions: { ...this.#versions }, // used by entry templates
       css: { ...this.#cssVariables }
     }
@@ -1379,20 +1378,19 @@ export class QuasarConfigFile {
     }
 
     if (this.#ctx.dev) {
-      if (this.#ctx.vueDevtools || cfg.devServer.vueDevtools) {
-        if (this.#vueDevtools === void 0) {
-          const host = localHostList.includes(cfg.devServer.host.toLowerCase())
-            ? 'localhost'
-            : cfg.devServer.host
+      const { vueDevtools } = cfg.devServer
 
-          this.#vueDevtools = {
-            host,
-            port: await findClosestOpenPort(11_111, '0.0.0.0')
-          }
-        }
-
-        cfg.metaConf.vueDevtools = { ...this.#vueDevtools }
+      if (vueDevtools === true) {
+        cfg.metaConf.vueDevtoolsOptions = {}
+      } else if (vueDevtools === false) {
+        cfg.metaConf.vueDevtoolsOptions = false
+      } else if (Object(vueDevtools) === vueDevtools) {
+        cfg.metaConf.vueDevtoolsOptions = vueDevtools
+      } else if (this.#ctx.vueDevtools) {
+        cfg.metaConf.vueDevtoolsOptions = {}
       }
+
+      delete cfg.devServer.vueDevtools
 
       if (this.#ctx.mode.electron || this.#ctx.mode.bex) {
         cfg.devServer.https = false
@@ -1483,12 +1481,14 @@ export class QuasarConfigFile {
     if (this.#ctx.dev) {
       const getUrl = hostname =>
         `http${cfg.devServer.https ? 's' : ''}://${hostname}:${cfg.devServer.port}${cfg.build.publicPath}`
+
       const hostname =
         cfg.devServer.host === '0.0.0.0' ? 'localhost' : cfg.devServer.host
 
       cfg.metaConf.APP_URL = this.#ctx.mode.bex
         ? 'index.html'
         : getUrl(hostname)
+
       cfg.metaConf.getUrl = getUrl
     } else if (
       this.#ctx.mode.cordova ||
