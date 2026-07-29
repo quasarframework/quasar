@@ -14,6 +14,7 @@ import serialize from '#q-serialize-javascript'
 import renderTemplate from './render-template.js'
 import serverEntry from './server/server-entry.js'
 import clientManifest from './quasar.manifest.json' with { type: 'json' }
+import { getNonceAttr } from './ssr-nonce.js'
 
 import { create, listen, renderPreloadTag, serveStaticContent } from '@/../src-ssr/server'
 import injectMiddlewares from './ssr-middlewares'
@@ -124,11 +125,7 @@ function renderModulesPreload (modules, opts) {
 <% if (quasarConf.metaConf.hasStore && quasarConf.ssr.manualStoreSerialization !== true) { %>
 const autoRemove = 'document.currentScript.remove()'
 
-function renderStoreState (ssrContext) {
-  const nonce = ssrContext.nonce !== void 0
-    ? ' nonce="' + ssrContext.nonce + '"'
-    : ''
-
+function renderStoreState (ssrContext, nonce) {
   const state = serialize(ssrContext.state, { isJSON: true })
   return '<script' + nonce + '>window.__INITIAL_STATE__=' + state + ';' + autoRemove + '</script>'
 }
@@ -152,6 +149,7 @@ async function render (ssrContext) {
 
   const renderFn = await serverEntry(ssrContext)
   const runtimePageContent = await renderToString(renderFn, ssrContext)
+  const nonce = getNonceAttr(ssrContext)
 
   onRenderedList.forEach(fn => { fn() })
 
@@ -163,7 +161,7 @@ async function render (ssrContext) {
 
 <% if (quasarConf.metaConf.hasStore && quasarConf.ssr.manualStoreSerialization !== true) { %>
   if (ssrContext.state !== void 0) {
-    ssrContext._meta.headTags = renderStoreState(ssrContext) + ssrContext._meta.headTags
+    ssrContext._meta.headTags = renderStoreState(ssrContext, nonce) + ssrContext._meta.headTags
   }
 <% } %>
 

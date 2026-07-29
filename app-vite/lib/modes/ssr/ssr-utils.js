@@ -3,6 +3,8 @@ import serialize from 'serialize-javascript'
 import { green } from 'kolorist'
 import { normalizePath } from 'vite'
 
+export { getNonceAttr } from '../../../templates/entry/ssr-nonce.js'
+
 import { dot, info, log } from '../../utils/logger.js'
 
 const autoRemove = 'document.currentScript.remove()'
@@ -10,10 +12,6 @@ const autoRemove = 'document.currentScript.remove()'
 export function renderStoreState(ssrContext, nonce) {
   const state = serialize(ssrContext.state, { isJSON: true })
   return `<script${nonce}>window.__INITIAL_STATE__=${state};${autoRemove}</script>`
-}
-
-export function getNonceAttr(ssrContext) {
-  return ssrContext.nonce !== void 0 ? ` nonce="${ssrContext.nonce}"` : ''
 }
 
 export function logServerMessage(title, msg, additional) {

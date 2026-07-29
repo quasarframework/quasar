@@ -13,6 +13,7 @@ import serialize from '#q-serialize-javascript'
 import renderTemplate from './render-template.js'
 import serverEntry from './server-entry.js'
 import clientManifest from './quasar.manifest.json' with { type: 'json' }
+import { getNonceAttr } from './ssr-nonce.js'
 
 import { renderPreloadTag } from '@/../src-ssg/ssg-renderer'
 
@@ -51,11 +52,7 @@ function renderModulesPreload (modules, opts) {
 <% if (quasarConf.metaConf.hasStore && quasarConf.ssg.manualStoreSerialization !== true) { %>
 const autoRemove = 'document.currentScript.remove()'
 
-function renderStoreState (ssrContext) {
-  const nonce = ssrContext.nonce !== void 0
-    ? ' nonce="' + ssrContext.nonce + '"'
-    : ''
-
+function renderStoreState (ssrContext, nonce) {
   const state = serialize(ssrContext.state, { isJSON: true })
   return '<script' + nonce + '>window.__INITIAL_STATE__=' + state + ';' + autoRemove + '</script>'
 }
@@ -83,6 +80,8 @@ export async function renderSsgPage (ssrContext, usePreloadTags) {
     throw ssrContext.__quasarSsrError
   }
 
+  const nonce = getNonceAttr(ssrContext)
+
   onRenderedList.forEach(fn => { fn() })
 
   // maintain compatibility with some well-known Vue plugins
@@ -93,7 +92,7 @@ export async function renderSsgPage (ssrContext, usePreloadTags) {
 
 <% if (quasarConf.metaConf.hasStore && quasarConf.ssg.manualStoreSerialization !== true) { %>
   if (ssrContext.state !== void 0) {
-    ssrContext._meta.headTags = renderStoreState(ssrContext) + ssrContext._meta.headTags
+    ssrContext._meta.headTags = renderStoreState(ssrContext, nonce) + ssrContext._meta.headTags
   }
 <% } %>
 

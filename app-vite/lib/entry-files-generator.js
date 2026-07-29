@@ -16,6 +16,10 @@ export class EntryFilesGenerator {
       'quasar-user-options.js'
     ]
 
+    if (ctx.mode.ssr || ctx.mode.ssg) {
+      regularFiles.push('ssr-nonce.js')
+    }
+
     if (ctx.mode.ssr) {
       templateFiles.push(
         'server-entry.js',

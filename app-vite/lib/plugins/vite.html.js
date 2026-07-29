@@ -1,5 +1,6 @@
 import { minify } from 'html-minifier-terser'
 
+import { getNonceAttr } from '../../templates/entry/ssr-nonce.js'
 import { fatal, warn } from '../utils/logger.js'
 import {
   compileTemplateToFile,
@@ -144,9 +145,15 @@ function injectSsrRuntimeInterpolation(html) {
 }
 
 function injectVueDevtools(html, { host, port }, nonce = '') {
+  // Dev SSR/SSG injects this before Vite transforms the rendered HTML,
+  // so make the later transform idempotent.
+  if (html.includes('window.__VUE_DEVTOOLS_HOST__=')) {
+    return html
+  }
+
   const scripts =
     `<script${nonce}>window.__VUE_DEVTOOLS_HOST__='${host}';window.__VUE_DEVTOOLS_PORT__='${port}';</script>` +
-    `\n<script src="http://${host}:${port}"></script>`
+    `\n<script${nonce} src="http://${host}:${port}"></script>`
 
   return html.replace(headEndRE, (_, tag) => `${scripts}${tag}`)
 }
@@ -255,15 +262,21 @@ export function getDevSsrTemplateFn(template, htmlVariables, quasarConf) {
   html = injectPublicPath(html, '/')
   html = injectSsrRuntimeInterpolation(html)
 
-  if (quasarConf.metaConf.vueDevtools) {
-    html = injectVueDevtools(
-      html,
-      quasarConf.metaConf.vueDevtools,
-      "{{ ssrContext.nonce ? ' nonce=\"' + ssrContext.nonce + '\"' : '' }}"
-    )
+  const renderTemplateFn = compileTemplateToFn(html, ssrTemplateCompileOpts)
+  if (renderTemplateFn === templateRenderError) {
+    return () => handleTemplateError(false)
   }
 
-  return compileTemplateToFn(html, ssrTemplateCompileOpts)
+  const vueDevtools = quasarConf.metaConf.vueDevtools
+
+  return vueDevtools
+    ? ssrContext =>
+        injectVueDevtools(
+          renderTemplateFn(ssrContext),
+          vueDevtools,
+          getNonceAttr(ssrContext)
+        )
+    : renderTemplateFn
 }
 
 /**

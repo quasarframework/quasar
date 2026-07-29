@@ -58,7 +58,8 @@ ssrContext: {
   res, // Webserver-specific response object
   $q, // The Quasar's $q Object
   nonce, // (optional to set it yourself)
-  // The global "nonce" attribute to use
+  // The global CSP "nonce" attribute to use.
+  // Must be a non-empty base64 or base64url value.
 
   onRendered, // Registers a function to be executed server-side after
   // app has been rendered with Vue. You might need this
@@ -76,7 +77,7 @@ ssrContext: {
 }
 ```
 
-More information on the purpose of the "nonce" property is available on [MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/nonce).
+More information on the purpose and required format of the `nonce` property is available on [MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/nonce).
 
 The exact `req` and `res` types depend on the selected webserver (Hono, Express, Fastify, or Koa). They represent the current request and response; consult that webserver's API before using framework-specific properties.
 

@@ -16,7 +16,10 @@ export interface QSsrContext extends HasStoreParam {
    */
   readonly $q: QVueGlobals;
 
-  /** The global "nonce" attribute to use */
+  /**
+   * The global CSP "nonce" attribute to use.
+   * Must be a non-empty base64 or base64url value.
+   */
   nonce?: string;
 
   /**
