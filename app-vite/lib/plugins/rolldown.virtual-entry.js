@@ -1,11 +1,23 @@
 import path from 'node:path'
 
-export function quasarRolldownVirtualEntry({ inputFile, targetFile }) {
+export function quasarRolldownVirtualEntry({
+  inputFile,
+  targetFile,
+  beforeImportCode
+}) {
   const importPath = path
     .relative(path.dirname(inputFile), targetFile)
     .replaceAll('\\', '/')
 
-  const code = `import './${importPath}'`
+  /**
+   * Static ESM imports evaluate dependencies before the importing module's
+   * body. Use a dynamic import when bootstrap code must run before the target,
+   * while preserving the existing static import for all other entries.
+   */
+  const code =
+    beforeImportCode === void 0
+      ? `import './${importPath}'`
+      : `${beforeImportCode}\n\nawait import('./${importPath}')`
 
   return {
     name: 'quasar:virtual-entry',

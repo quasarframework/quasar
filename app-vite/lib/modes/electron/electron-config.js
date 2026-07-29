@@ -1,3 +1,4 @@
+import { existsSync } from 'node:fs'
 import { basename, join } from 'node:path'
 
 import {
@@ -117,6 +118,16 @@ export const quasarElectronConfig = {
     if (quasarConf.ctx.dev) {
       const inputFile = appPaths.resolve.entry('electron/q.entry.main.js')
 
+      /**
+       * macOS ignores BrowserWindow's icon for the Dock and otherwise displays
+       * Electron.app's icon in development. The runtime NativeImage API
+       * supports PNG rather than the ICNS asset used during packaging.
+       */
+      const macOSDockIconPath =
+        process.platform === 'darwin'
+          ? appPaths.resolve.electron('electron-assets/icons/icon.png')
+          : void 0
+
       cfg.plugins ||= []
       cfg.plugins.push(
         /**
@@ -128,7 +139,12 @@ export const quasarElectronConfig = {
          */
         quasarRolldownVirtualEntry({
           inputFile,
-          targetFile: quasarConf.sourceFiles.electronMain
+          targetFile: quasarConf.sourceFiles.electronMain,
+          beforeImportCode:
+            macOSDockIconPath === void 0 ||
+            existsSync(macOSDockIconPath) === false
+              ? void 0
+              : `import { app as quasarElectronApp } from 'electron'\n\nquasarElectronApp.dock.setIcon(${JSON.stringify(macOSDockIconPath)})`
         })
       )
 
