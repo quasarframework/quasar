@@ -245,7 +245,11 @@ export async function createViteConfig(
           await ctx.cacheProxy.getModule('vueDevtools')
 
         viteConf.plugins.push(
-          vitePluginVueDevtools(quasarConf.metaConf.vueDevtoolsOptions)
+          vitePluginVueDevtools({
+            // protect against the Vite plugin mutating its own options
+            // and triggering endless cfg diff loop
+            ...quasarConf.metaConf.vueDevtoolsOptions
+          })
         )
       }
 
