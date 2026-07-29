@@ -14,9 +14,26 @@ import {
   vi
 } from 'vitest'
 
+import { defineComponent, h } from 'vue'
+
 import QDialog from './QDialog.js'
+import useFullscreen, {
+  useFullscreenProps
+} from '../../composables/private.use-fullscreen/use-fullscreen.js'
 import { getRouter } from 'testing/runtime/router.js'
 import DialogWrapper from './test/DialogWrapper.vue'
+
+const FullscreenChild = defineComponent({
+  name: 'FullscreenChild',
+  props: useFullscreenProps,
+
+  setup() {
+    useFullscreen()
+
+    return () =>
+      h('section', null, [h('input', { 'data-test': 'fullscreen-input' })])
+  }
+})
 
 let wrapper = null
 
@@ -667,6 +684,27 @@ describe('[QDialog API]', () => {
 
         await wrapper.setProps({ allowFocusOutside: true })
         await flushPromises()
+
+        el.focus()
+
+        await flushPromises()
+        await vi.runAllTimers()
+
+        expect(document.activeElement).toBe(el)
+      })
+
+      test('does not trap focus away from a fullscreen child', async () => {
+        wrapper = mount(QDialog, {
+          props: { modelValue: true },
+          slots: { default: () => h(FullscreenChild, { fullscreen: true }) }
+        })
+
+        await flushPromises()
+        await vi.runAllTimers()
+
+        const el = document.body.querySelector('[data-test="fullscreen-input"]')
+
+        expect(el.closest('.q-dialog__inner')).toBeNull()
 
         el.focus()
 

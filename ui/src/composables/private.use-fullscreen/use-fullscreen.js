@@ -21,6 +21,26 @@ import {
 let counter = 0
 let restoreState = null
 
+const fillerMap = new Map()
+
+function fillerNodeFor(el) {
+  for (const [fillerNode, movedVm] of fillerMap) {
+    if (movedVm.$el.contains(el)) return fillerNode
+  }
+}
+
+export function focusIsInDetachedFullscreen(rootEl, focusedEl) {
+  for (
+    let node = fillerNodeFor(focusedEl);
+    node !== void 0;
+    node = fillerNodeFor(node)
+  ) {
+    if (rootEl.contains(node)) return true
+  }
+
+  return false
+}
+
 export const useFullscreenProps = {
   fullscreen: Boolean,
   noRouteFullscreenExit: Boolean
@@ -85,6 +105,7 @@ export default function useFullscreen() {
     inFullscreen.value = true
     proxy.$el.replaceWith(fullscreenFillerNode)
     document.body.append(proxy.$el)
+    fillerMap.set(fullscreenFillerNode, proxy)
 
     counter++
     if (counter === 1) {
@@ -104,6 +125,8 @@ export default function useFullscreen() {
       History.remove(historyEntry)
       historyEntry = void 0
     }
+
+    fillerMap.delete(fullscreenFillerNode)
 
     if (shouldRestoreElement === true) {
       fullscreenFillerNode.replaceWith(proxy.$el)
