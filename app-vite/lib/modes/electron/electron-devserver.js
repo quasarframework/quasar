@@ -17,6 +17,7 @@ import { getPackagePath } from '../../utils/get-package-path.js'
 import { updateHtmlVariables } from '../../plugins/vite.html.js'
 import { quasarElectronConfig } from './electron-config.js'
 
+const isLinux = process.platform === 'linux'
 const linuxDesktopEntryMarker = 'X-Quasar-Dev-Entry=true'
 
 function delay(time) {
@@ -26,12 +27,18 @@ function delay(time) {
 }
 
 function getLinuxDesktopName({ desktopName, productName, name }) {
-  if (typeof desktopName === 'string' && desktopName.trim() !== '') {
-    const configuredName = desktopName.trim().replace(/\.desktop$/i, '')
+  if (typeof desktopName === 'string') {
+    const trimmedName = desktopName.trim()
+    if (trimmedName !== '') {
+      const configuredName = trimmedName.replace(/\.desktop$/i, '')
 
-    // A desktop file ID cannot contain a path separator. Preserve unusual
-    // explicit values for Electron itself, but do not use them as file paths.
-    return /^[a-zA-Z0-9_.-]+$/.test(configuredName) ? configuredName : null
+      /**
+       * A desktop file ID cannot contain a path separator.
+       * Preserve unusual explicit values for Electron itself,
+       * but do not use them as file paths.
+       */
+      return /^[a-zA-Z0-9_.-]+$/.test(configuredName) ? configuredName : null
+    }
   }
 
   for (const appName of [productName, name]) {
@@ -64,8 +71,8 @@ export class QuasarModeDevserver extends AppDevserver {
   #watcherList = []
   #killedPid = false
   #electronExecutable
-  #linuxDesktopEntryPath
-  #linuxDesktopEntryContent
+  #linuxDesktopEntryPath = null
+  #linuxDesktopEntryContent = null
 
   constructor(opts) {
     super(opts)
@@ -81,9 +88,11 @@ export class QuasarModeDevserver extends AppDevserver {
       electronPkg.bin.electron
     )
 
-    onShutdown(() => {
-      this.#removeLinuxDesktopEntry()
-    })
+    if (isLinux) {
+      onShutdown(() => {
+        this.#removeLinuxDesktopEntry()
+      })
+    }
 
     this.registerDiff('electron', (quasarConf, diffMap) => [
       quasarConf.devServer,
@@ -178,28 +187,30 @@ export class QuasarModeDevserver extends AppDevserver {
     }
 
     const electronEntryDir = this.ctx.appPaths.resolve.entry('electron')
-    const { name, productName, version, desktopName } = this.ctx.pkg.appPkg
-    const linuxDesktopName =
-      process.platform === 'linux'
-        ? getLinuxDesktopName({ name, productName, desktopName })
-        : null
+    // oxlint-disable-next-line prefer-const
+    let { name, productName, version, desktopName } = this.ctx.pkg.appPkg
 
-    this.#createLinuxDesktopEntry({
-      name,
-      productName,
-      desktopName: linuxDesktopName
-    })
+    if (isLinux) {
+      desktopName = getLinuxDesktopName({ name, productName, desktopName })
+      this.#createLinuxDesktopEntry({
+        name,
+        productName,
+        desktopName
+      })
+    }
 
-    // Electron only loads application metadata when launched with an app
-    // directory. Passing the compiled main file directly makes development
-    // builds inherit Electron's name, version and Linux desktop identity.
+    /**
+     * Electron only loads application metadata when launched with an app
+     * directory. Passing the compiled main file directly makes development
+     * builds inherit Electron's name, version and Linux desktop identity.
+     */
     writeFileSync(
       join(electronEntryDir, 'package.json'),
       JSON.stringify({
         name,
         productName,
         version,
-        desktopName: linuxDesktopName || desktopName,
+        desktopName: desktopName || 'QuasarApp',
         main: './electron-main.js',
         type: 'module'
       })
@@ -233,7 +244,6 @@ export class QuasarModeDevserver extends AppDevserver {
     this.#removeLinuxDesktopEntry()
 
     if (
-      process.platform !== 'linux' ||
       desktopName === null ||
       (process.env.DISPLAY === void 0 && process.env.WAYLAND_DISPLAY === void 0)
     ) {
@@ -246,16 +256,15 @@ export class QuasarModeDevserver extends AppDevserver {
       appPaths.resolve.electron('electron-assets/icons/linux-512x512.png')
     ]
     const iconPath = iconPathList.find(existsSync)
-
-    if (iconPath === void 0) {
-      return
-    }
+    if (iconPath === void 0) return
 
     const filename = `${desktopName}.desktop`
     const appDir = escapeDesktopEntryValue(appPaths.appDir)
     const appDirMarker = `X-Quasar-Dev-AppDir=${appDir}`
+
     const dataHome =
       process.env.XDG_DATA_HOME || join(homedir(), '.local', 'share')
+
     const dataDirList = (
       process.env.XDG_DATA_DIRS || '/usr/local/share:/usr/share'
     )
@@ -290,18 +299,19 @@ export class QuasarModeDevserver extends AppDevserver {
     const appDisplayName = escapeDesktopEntryValue(
       productName || name || 'Quasar App'
     )
-    const content = `[Desktop Entry]
-Type=Application
-Name=${appDisplayName} (Development)
-Comment=Temporary launcher metadata for Quasar Electron development
-Exec=/bin/false
-Icon=${escapeDesktopEntryValue(iconPath)}
-NoDisplay=true
-StartupNotify=false
-StartupWMClass=${desktopName}
-${linuxDesktopEntryMarker}
-${appDirMarker}
-`
+    const content = [
+      '[Desktop Entry]',
+      'Type=Application',
+      `Name=${appDisplayName} (Development)`,
+      'Comment=Temporary launcher metadata for Quasar Electron development',
+      'Exec=/bin/false',
+      `Icon=${escapeDesktopEntryValue(iconPath)}`,
+      'NoDisplay=true',
+      'StartupNotify=false',
+      `StartupWMClass=${desktopName}`,
+      linuxDesktopEntryMarker,
+      appDirMarker
+    ].join('\n')
 
     try {
       mkdirSync(dirname(desktopEntryPath), { recursive: true })
@@ -318,7 +328,7 @@ ${appDirMarker}
   }
 
   #removeLinuxDesktopEntry() {
-    if (this.#linuxDesktopEntryPath === void 0) {
+    if (this.#linuxDesktopEntryPath === null) {
       return
     }
 
@@ -335,7 +345,7 @@ ${appDirMarker}
       // The entry may already have been removed by the user or the OS.
     }
 
-    this.#linuxDesktopEntryPath = void 0
-    this.#linuxDesktopEntryContent = void 0
+    this.#linuxDesktopEntryPath = null
+    this.#linuxDesktopEntryContent = null
   }
 }
