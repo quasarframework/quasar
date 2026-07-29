@@ -33,11 +33,14 @@ function getLinuxDesktopName({ desktopName, productName, name }) {
       const configuredName = trimmedName.replace(/\.desktop$/i, '')
 
       /**
-       * A desktop file ID cannot contain a path separator.
-       * Preserve unusual explicit values for Electron itself,
-       * but do not use them as file paths.
+       * The value becomes a desktop-entry filename, so reject path separators
+       * and the special dot-only path segments.
        */
-      return /^[a-zA-Z0-9_.-]+$/.test(configuredName) ? configuredName : null
+      return configuredName !== '.' &&
+        configuredName !== '..' &&
+        /^[a-zA-Z0-9_.-]+$/.test(configuredName)
+        ? configuredName
+        : null
     }
   }
 
@@ -62,6 +65,7 @@ function getLinuxDesktopName({ desktopName, productName, name }) {
 function escapeDesktopEntryValue(value) {
   return String(value)
     .replaceAll('\\', String.raw`\\`)
+    .replaceAll('\t', String.raw`\t`)
     .replaceAll('\n', String.raw`\n`)
     .replaceAll('\r', '')
 }
