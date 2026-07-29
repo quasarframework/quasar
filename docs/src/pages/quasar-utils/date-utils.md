@@ -362,16 +362,23 @@ const newDate = new Date(2017, 1, 9)
 const day = date.getDayOfWeek(newDate) // `day` is 4
 ```
 
-To get the number of days in the month for the specified date:
+#### Days in a month
+
+`date.daysInMonth(date, utc)` returns the number of days in the month containing
+the specified date without mutating the input.
+
+The optional `utc` Boolean defaults to `false`, which reads the input's local
+year and month. Set it to `true` to read the UTC year and month instead. This is
+useful when the input represents a UTC calendar value that could fall in a
+different month when converted to local time.
 
 ```js
 import { date } from 'quasar'
 
-const newDate = new Date()
-const days = date.daysInMonth(newDate) // e.g. 30
+const leapYearDate = new Date('2024-02-15T12:00:00.000Z')
 
-// with UTC:
-const days = date.daysInMonth(newDate, true)
+const localDays = date.daysInMonth(leapYearDate) // 29
+const utcDays = date.daysInMonth(leapYearDate, true) // 29
 ```
 
 ### Start/End of time
