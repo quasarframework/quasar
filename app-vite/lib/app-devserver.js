@@ -34,6 +34,7 @@ export class AppDevserver extends AppTool {
       quasarConf.sourceFiles,
       quasarConf.preFetch,
       quasarConf.build.publicPath,
+      quasarConf.build.vueRouterMode,
       ...(quasarConf.ctx.ssr
         ? [
             quasarConf.ssr.pwa,
