@@ -1,6 +1,6 @@
 {
   "name": "@quasar/ssl-certificate",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "SSL Certificate for localhost - used by Quasar CLI(s)",
   "homepage": "https://quasar.dev",
   "bugs": "https://github.com/quasarframework/quasar/issues",
