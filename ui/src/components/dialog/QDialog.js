@@ -261,7 +261,7 @@ export default createComponent({
 
         refocusTarget = null
         addFocusFn(() => {
-          if (target.isConnected) target.focus()
+          if (target.isConnected) target.focus({ preventScroll: true })
         })
       }
 
