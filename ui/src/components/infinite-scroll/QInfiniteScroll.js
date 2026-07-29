@@ -295,7 +295,9 @@ export default createComponent({
       return h(
         'div',
         {
-          class: 'q-infinite-scroll',
+          class:
+            'q-infinite-scroll' +
+            (props.reverse ? ' q-infinite-scroll--reverse' : ''),
           ref: rootRef
         },
         child
