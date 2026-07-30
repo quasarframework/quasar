@@ -45,6 +45,9 @@ describe('[QItemLabel API]', () => {
 
         expect(wrapper.attributes('style')).toContain('overflow: hidden')
         expect(wrapper.attributes('style')).toContain('display: -webkit-box')
+        expect(wrapper.attributes('style')).toContain(
+          '-webkit-box-orient: vertical'
+        )
         expect(wrapper.attributes('style')).toContain('-webkit-line-clamp: 3')
       })
 

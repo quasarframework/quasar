@@ -30,6 +30,17 @@ describe('[QTh API]', () => {
 
         await wrapper.trigger('click')
         expect(sort).toHaveBeenCalledWith(col)
+
+        sort.mockClear()
+        await wrapper.trigger('keyup', { key: 'Enter' })
+        expect(sort).toHaveBeenCalledOnce()
+        expect(sort).toHaveBeenCalledWith(col)
+
+        sort.mockClear()
+        await wrapper.trigger('keydown', { key: ' ' })
+        await wrapper.trigger('keyup', { key: ' ' })
+        expect(sort).toHaveBeenCalledOnce()
+        expect(sort).toHaveBeenCalledWith(col)
       })
     })
 

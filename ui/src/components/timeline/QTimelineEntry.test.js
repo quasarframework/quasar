@@ -5,8 +5,9 @@ import { describe, expect, test } from 'vitest'
 import QTimeline from './QTimeline.js'
 import QTimelineEntry from './QTimelineEntry.js'
 
-function mountTimelineEntry(props = {}, slots = {}) {
+function mountTimelineEntry(props = {}, slots = {}, timelineProps = {}) {
   return mount(QTimeline, {
+    props: timelineProps,
     slots: {
       default: () => h(QTimelineEntry, props, slots)
     }
@@ -52,6 +53,32 @@ describe('[QTimelineEntry API]', () => {
         expect(wrapper.get('.q-timeline__entry').classes()).toContain(
           'q-timeline__entry--right'
         )
+      })
+
+      test('comfortable left timeline reverses the entry content order', () => {
+        const wrapper = mountTimelineEntry(
+          {
+            title: 'December party',
+            subtitle: 'All invited',
+            body: 'Timeline body content'
+          },
+          {},
+          {
+            layout: 'comfortable',
+            side: 'left'
+          }
+        )
+
+        expect(
+          Array.from(
+            wrapper.get('.q-timeline__entry').element.children,
+            element => element.classList[0]
+          )
+        ).toStrictEqual([
+          'q-timeline__content',
+          'q-timeline__dot',
+          'q-timeline__subtitle'
+        ])
       })
     })
 

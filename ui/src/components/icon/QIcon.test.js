@@ -33,6 +33,7 @@ describe('[QIcon API]', () => {
 
         expect(wrapper.classes()).toContain('material-icons')
         expect(wrapper.text()).toBe('map')
+        expect(wrapper.attributes('aria-hidden')).toBe('true')
       })
     })
 
@@ -77,6 +78,20 @@ describe('[QIcon API]', () => {
           }
         })
 
+        expect(wrapper.text()).toContain(slotContent)
+      })
+
+      test('renders the content alongside the icon', () => {
+        const slotContent = 'Custom icon content'
+        const wrapper = mount(QIcon, {
+          props: { name: 'map' },
+          slots: {
+            default: () => slotContent
+          }
+        })
+
+        expect(wrapper.classes()).toContain('material-icons')
+        expect(wrapper.text()).toContain('map')
         expect(wrapper.text()).toContain(slotContent)
       })
     })
