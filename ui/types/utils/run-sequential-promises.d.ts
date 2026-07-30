@@ -42,6 +42,8 @@ export type RunSequentialPromisesResult<TKey extends number | string, TValue> =
 
 export interface RunSequentialPromisesOptions {
   /**
+   * Must be a positive integer. Invalid runtime values fall back to `1`.
+   *
    * When making HTTP requests, be aware of the maximum threads that
    * the hosting browser supports (usually 5). Any number of threads
    * above that won't add any real benefits.

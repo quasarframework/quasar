@@ -73,6 +73,25 @@ describe('[runSequentialPromises API]', () => {
 
           expect(result.taskB.value).toBe(150)
         })
+
+        test('supports object jobs with reserved property names', async () => {
+          const names = ['__proto__', 'constructor', 'toString']
+          const tasks = Object.fromEntries(
+            names.map(name => [name, () => Promise.resolve(name)])
+          )
+
+          const result = await runSequentialPromises(tasks)
+
+          expect(Object.getPrototypeOf(result)).toBeNull()
+
+          for (const name of names) {
+            expect(result[name]).toStrictEqual({
+              key: name,
+              status: 'fulfilled',
+              value: name
+            })
+          }
+        })
       })
 
       describe('Error Handling (abortOnFail)', () => {
@@ -156,6 +175,34 @@ describe('[runSequentialPromises API]', () => {
           // If they ran sequentially, maxConcurrency would be 1.
           // If threading worked, it should hit exactly 3.
           expect(maxConcurrency).toBe(3)
+        })
+
+        test.each([
+          Number.NaN,
+          Number.POSITIVE_INFINITY,
+          Number.NEGATIVE_INFINITY,
+          0,
+          -1,
+          1.5,
+          '2'
+        ])('falls back to one thread for %o', async threadsNumber => {
+          let runningTasks = 0
+          let maxConcurrency = 0
+
+          const trackConcurrency = async () => {
+            runningTasks++
+            maxConcurrency = Math.max(maxConcurrency, runningTasks)
+            await Promise.resolve()
+            runningTasks--
+          }
+
+          const result = await runSequentialPromises(
+            [trackConcurrency, trackConcurrency, trackConcurrency],
+            { threadsNumber }
+          )
+
+          expect(result).toHaveLength(3)
+          expect(maxConcurrency).toBe(1)
         })
       })
 
