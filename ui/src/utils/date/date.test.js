@@ -118,6 +118,35 @@ describe('[date API]', () => {
           ).toStrictEqual(new Date(2024, 0, 1))
         }
       })
+
+      test.each([
+        ['months', 'MMMM D YYYY', ' 1 2024'],
+        ['monthsShort', 'MMM D YYYY', ' 1 2024'],
+        ['days', 'dddd YYYY-MM-DD', ' 2024-01-01'],
+        ['daysShort', 'ddd YYYY-MM-DD', ' 2024-01-01']
+      ])(
+        'treats regexp metacharacters in custom %s names as literals',
+        async (localeField, mask, suffix) => {
+          const { default: enUS } = await import('quasar/lang/en-US.js')
+          const localeNames = [...enUS.date[localeField]]
+          const localeName = [
+            localeField,
+            String.raw`.*+?^$`,
+            '{}()|[name]',
+            String.raw`\path`
+          ].join('')
+          localeNames[0] = localeName
+
+          const locale = {
+            ...enUS.date,
+            [localeField]: localeNames
+          }
+
+          expect(
+            date.extractDate(localeName + suffix, mask, locale)
+          ).toStrictEqual(new Date(2024, 0, 1))
+        }
+      )
     })
 
     describe('[(function)buildDate]', () => {
