@@ -352,6 +352,10 @@ export function adjustDate(date, rawMod, utc) {
 export function extractDate(str, mask, dateLocale) {
   const d = __splitDate(str, mask, dateLocale)
 
+  if (d.dateHash === null) {
+    return new Date(Number.NaN)
+  }
+
   const date = new Date(
     d.year,
     d.month === null ? null : d.month - 1,
@@ -450,9 +454,13 @@ export function __splitDate(str, mask, dateLocale, calendar, defaultModel) {
     }
 
     if (map.H !== void 0) {
-      date.hour = Number.parseInt(match[map.H], 10) % 24
+      date.hour = Number.parseInt(match[map.H], 10)
+      if (date.hour > 23) return date
     } else if (map.h !== void 0) {
-      date.hour = Number.parseInt(match[map.h], 10) % 12
+      date.hour = Number.parseInt(match[map.h], 10)
+      if (date.hour < 1 || date.hour > 12) return date
+
+      date.hour %= 12
       if (
         (map.A && match[map.A] === 'PM') ||
         (map.a && match[map.a] === 'pm') ||
@@ -465,11 +473,13 @@ export function __splitDate(str, mask, dateLocale, calendar, defaultModel) {
     }
 
     if (map.m !== void 0) {
-      date.minute = Number.parseInt(match[map.m], 10) % 60
+      date.minute = Number.parseInt(match[map.m], 10)
+      if (date.minute > 59) return date
     }
 
     if (map.s !== void 0) {
-      date.second = Number.parseInt(match[map.s], 10) % 60
+      date.second = Number.parseInt(match[map.s], 10)
+      if (date.second > 59) return date
     }
 
     if (map.S !== void 0) {
@@ -480,9 +490,18 @@ export function __splitDate(str, mask, dateLocale, calendar, defaultModel) {
     if (map.Z !== void 0 || map.ZZ !== void 0) {
       tzString =
         map.Z !== void 0 ? match[map.Z].replace(':', '') : match[map.ZZ]
-      date.timezoneOffset =
-        (tzString[0] === '+' ? -1 : 1) *
-        (60 * tzString.slice(1, 3) + Number(tzString.slice(3, 5)))
+
+      if (tzString === 'Z') {
+        date.timezoneOffset = 0
+      } else {
+        const tzHours = Number(tzString.slice(1, 3)),
+          tzMinutes = Number(tzString.slice(3, 5))
+
+        if (tzHours > 23 || tzMinutes > 59) return date
+
+        date.timezoneOffset =
+          (tzString[0] === '+' ? -1 : 1) * (60 * tzHours + tzMinutes)
+      }
     }
   }
 

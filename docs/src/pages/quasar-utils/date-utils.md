@@ -447,6 +447,17 @@ const date = date.extractDate('21/03/1985', 'DD/MM/YYYY')
 // date is a new Date() object
 ```
 
+The input may contain additional text after the part described by the mask.
+When the input does not start with a matching value, or contains an impossible
+date, time, or timezone component, `extractDate()` returns an `Invalid Date`
+object:
+
+```js
+const parsed = date.extractDate('2024-02-30', 'YYYY-MM-DD')
+
+console.log(Number.isNaN(parsed.getTime())) // true
+```
+
 With optional custom locale:
 
 ```js
