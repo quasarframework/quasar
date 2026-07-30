@@ -307,6 +307,34 @@ describe('[Lang API]', () => {
         expect(Lang.props.nativeName).toBe(itLang.nativeName)
         expect($q.lang.nativeName).toBe(itLang.nativeName)
       })
+
+      test('quotes and encodes SSR language attributes', async () => {
+        const { Lang: SsrLang } =
+          await import('quasar/dist/quasar.server.prod.js')
+        const ssrContext = {
+          $q: {
+            config: {},
+            lang: { set() {} }
+          },
+          _meta: { htmlAttrs: '' }
+        }
+
+        SsrLang.set(
+          {
+            isoName: `en" onload="<script>'&`,
+            rtl: false
+          },
+          ssrContext
+        )
+
+        expect(ssrContext._meta.htmlAttrs).toBe(
+          'lang="en&quot; onload=&quot;&lt;script&gt;&#39;&amp;" dir="ltr"'
+        )
+
+        SsrLang.set({ isoName: 'ar', rtl: true }, ssrContext)
+
+        expect(ssrContext._meta.htmlAttrs).toBe('lang="ar" dir="rtl"')
+      })
     })
 
     describe('[(method)getLocale]', () => {

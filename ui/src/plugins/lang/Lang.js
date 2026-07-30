@@ -3,6 +3,18 @@ import { createReactivePlugin } from '../../utils/private.create/create.js'
 // oxlint-disable-next-line unicorn/prefer-export-from
 import defaultLang from '../../../lang/en-US.js'
 
+const htmlChars = {
+  '&': '&amp;',
+  '<': '&lt;',
+  '>': '&gt;',
+  '"': '&quot;',
+  "'": '&#39;'
+}
+
+function encodeHtmlAttribute(value) {
+  return String(value).replaceAll(/[&<>"']/g, char => htmlChars[char])
+}
+
 function getLocale() {
   if (__QUASAR_SSR_SERVER__) return
 
@@ -58,7 +70,7 @@ const Plugin = createReactivePlugin(
           !ssrContext.$q.config.lang.noHtmlAttrs
         ) {
           const dir = lang.rtl ? 'rtl' : 'ltr'
-          const attrs = `lang=${lang.isoName} dir=${dir}`
+          const attrs = `lang="${encodeHtmlAttribute(lang.isoName)}" dir="${dir}"`
 
           ssrContext._meta.htmlAttrs =
             ssrContext.__qPrevLang !== void 0
