@@ -13,7 +13,7 @@ function parsePromises(sequentialPromises) {
   const resultAggregator = resultKeys.reduce((acc, key) => {
     acc[key] = null
     return acc
-  }, {})
+  }, Object.create(null))
 
   return {
     isList: false,
@@ -32,6 +32,8 @@ function parsePromises(sequentialPromises) {
  * @param {*} opts - Optional options Object
  *                   Object form: { threadsNumber?: number, abortOnFail?: boolean }
  *                   Default: { threadsNumber: 1, abortOnFail: true }
+ *                   threadsNumber must be a positive integer; invalid values
+ *                       fall back to 1
  *                   When configuring threadsNumber AND using http requests, be
  *                       aware of the maximum threads that the hosting browser
  *                       supports (usually 5); any number of threads above that
@@ -102,7 +104,10 @@ export default function runSequentialPromises(
       })
   }
 
-  const concurrencyLimit = Math.min(totalJobs, Math.max(1, threadsNumber))
+  const concurrencyLimit = Math.min(
+    totalJobs,
+    Number.isInteger(threadsNumber) && threadsNumber > 0 ? threadsNumber : 1
+  )
   const threads = Array.from({ length: concurrencyLimit }, () => {
     const threadCtx = Promise.withResolvers()
     runNextPromise(threadCtx)
