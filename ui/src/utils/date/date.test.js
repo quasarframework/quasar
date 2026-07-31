@@ -75,6 +75,31 @@ describe('[date API]', () => {
         ).toBe(Date.parse(value))
       })
 
+      test('accepts a valid prefix when the input continues beyond the mask', () => {
+        expect(
+          date.extractDate('2024-02-29T13:05:06Z', 'YYYY-MM-DD')
+        ).toStrictEqual(new Date(2024, 1, 29))
+      })
+
+      test.each([
+        [void 0, 'YYYY-MM-DD'],
+        [null, 'YYYY-MM-DD'],
+        ['', 'YYYY-MM-DD'],
+        ['not a date', 'YYYY-MM-DD'],
+        ['2024-02', 'YYYY-MM-DD'],
+        ['2024-02-30', 'YYYY-MM-DD'],
+        ['2024-02-29 24:00', 'YYYY-MM-DD HH:mm'],
+        ['2024-02-29 13:60', 'YYYY-MM-DD HH:mm'],
+        ['2024-02-29 13:05:60', 'YYYY-MM-DD HH:mm:ss'],
+        ['2024-02-29 00:05 PM', 'YYYY-MM-DD hh:mm A'],
+        ['2024-02-29 13:05 +2460', 'YYYY-MM-DD HH:mm ZZ']
+      ])('returns Invalid Date for %o with mask %s', (value, mask) => {
+        const result = date.extractDate(value, mask)
+
+        expect(result).toBeInstanceOf(Date)
+        expect(Number.isNaN(result.getTime())).toBe(true)
+      })
+
       test.each(['X', 'x'])(
         'round-trips a pre-1970 date through the %s mask',
         mask => {
@@ -627,6 +652,19 @@ describe('[date API]', () => {
 
       test('rejects an impossible calendar date', () => {
         const result = __splitDate('2023-02-29', 'YYYY-MM-DD')
+
+        expect(result.dateHash).toBeNull()
+        expect(result.timeHash).toBeNull()
+      })
+
+      test.each([
+        ['24:00', 'HH:mm'],
+        ['13:00 PM', 'hh:mm A'],
+        ['23:60', 'HH:mm'],
+        ['23:59:60', 'HH:mm:ss'],
+        ['23:59 +2460', 'HH:mm ZZ']
+      ])('rejects out-of-range time components in %s', (value, mask) => {
+        const result = __splitDate(value, mask)
 
         expect(result.dateHash).toBeNull()
         expect(result.timeHash).toBeNull()
