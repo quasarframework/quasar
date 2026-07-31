@@ -192,18 +192,19 @@
  * Separators
  */
 .q-table--horizontal-separator, .q-table--cell-separator
-  thead th, tbody tr:not(:last-child) > td
-    border-bottom-width: 1px
+  > table, > .q-table__middle > table
+    > thead > tr > th, > tbody > tr:not(:last-child) > td
+      border-bottom-width: 1px
 
 .q-table--vertical-separator, .q-table--cell-separator
-  td, th
-    border-left-width: 1px
-  thead tr:last-child th,
-  &.q-table--loading tr:nth-last-child(2) th
+  > table, > .q-table__middle > table
+    > * > tr > * + *
+      border-left-width: 1px
+    > thead > tr:last-child > th
+      border-bottom-width: 1px
+  &.q-table--loading > .q-table__middle > table > thead > tr:nth-last-child(2) > th
     border-bottom-width: 1px
-  td:first-child, th:first-child
-    border-left: 0
-  .q-table__top
+  > .q-table__top
     border-bottom: 1px solid $table-border-color
 
 /*
@@ -290,5 +291,5 @@ body.desktop .q-table > tbody > tr:not(.q-tr--no-hover):hover > td:not(.q-td--no
         background: $table-dark-selected-background
 
   &.q-table--vertical-separator, &.q-table--cell-separator
-    .q-table__top
+    > .q-table__top
       border-color: $table-dark-border-color
