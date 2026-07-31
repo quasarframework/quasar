@@ -172,20 +172,21 @@ export default createComponent({
     )
 
     function startTimer() {
-      const duration = isNumber(props.autoplay)
-        ? Math.abs(props.autoplay)
-        : 5000
+      // a negative value means "walk backwards",
+      // so the sign picks the direction while its
+      // absolute value is the interval
+      const interval = isNumber(props.autoplay) ? props.autoplay : 5000
 
       if (timer !== null) clearTimeout(timer)
       timer = setTimeout(() => {
         timer = null
 
-        if (duration >= 0) {
+        if (interval >= 0) {
           nextPanel()
         } else {
           previousPanel()
         }
-      }, duration)
+      }, Math.abs(interval))
     }
 
     onMounted(() => {
