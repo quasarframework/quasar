@@ -17,29 +17,13 @@ import {
   getHorizontalScrollPosition,
   getVerticalScrollPosition
 } from '../../utils/scroll/scroll.js'
+import {
+  addDetachedFullscreen,
+  removeDetachedFullscreen
+} from '../../utils/private.focus/detached-fullscreen.js'
 
 let counter = 0
 let restoreState = null
-
-const fillerMap = new Map()
-
-function fillerNodeFor(el) {
-  for (const [fillerNode, movedVm] of fillerMap) {
-    if (movedVm.$el.contains(el)) return fillerNode
-  }
-}
-
-export function focusIsInDetachedFullscreen(rootEl, focusedEl) {
-  for (
-    let node = fillerNodeFor(focusedEl);
-    node !== void 0;
-    node = fillerNodeFor(node)
-  ) {
-    if (rootEl.contains(node)) return true
-  }
-
-  return false
-}
 
 export const useFullscreenProps = {
   fullscreen: Boolean,
@@ -105,7 +89,7 @@ export default function useFullscreen() {
     inFullscreen.value = true
     proxy.$el.replaceWith(fullscreenFillerNode)
     document.body.append(proxy.$el)
-    fillerMap.set(fullscreenFillerNode, proxy)
+    addDetachedFullscreen(fullscreenFillerNode, proxy)
 
     counter++
     if (counter === 1) {
@@ -126,7 +110,7 @@ export default function useFullscreen() {
       historyEntry = void 0
     }
 
-    fillerMap.delete(fullscreenFillerNode)
+    removeDetachedFullscreen(fullscreenFillerNode)
 
     if (shouldRestoreElement === true) {
       fullscreenFillerNode.replaceWith(proxy.$el)

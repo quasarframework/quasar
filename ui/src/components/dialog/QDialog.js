@@ -20,7 +20,6 @@ import useTransition, {
 } from '../../composables/private.use-transition/use-transition.js'
 import usePortal from '../../composables/private.use-portal/use-portal.js'
 import usePreventScroll from '../../composables/private.use-prevent-scroll/use-prevent-scroll.js'
-import { focusIsInDetachedFullscreen } from '../../composables/private.use-fullscreen/use-fullscreen.js'
 
 import { createComponent } from '../../utils/private.create/create.js'
 import { childHasFocus } from '../../utils/dom/dom.js'
@@ -34,6 +33,7 @@ import {
   removeFocusout
 } from '../../utils/private.focus/focusout.js'
 import { addFocusFn } from '../../utils/private.focus/focus-manager.js'
+import { focusIsInDetachedFullscreen } from '../../utils/private.focus/detached-fullscreen.js'
 
 let maximizedModals = 0
 

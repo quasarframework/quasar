@@ -45,6 +45,7 @@ import {
   removeClickOutside
 } from '../../utils/private.click-outside/click-outside.js'
 import { addFocusFn } from '../../utils/private.focus/focus-manager.js'
+import { focusIsInDetachedFullscreen } from '../../utils/private.focus/detached-fullscreen.js'
 
 import {
   parsePosition,
@@ -366,7 +367,8 @@ export default createComponent({
       if (
         handlesFocus.value &&
         !props.noFocus &&
-        !childHasFocus(innerRef.value, evt.target)
+        !childHasFocus(innerRef.value, evt.target) &&
+        !focusIsInDetachedFullscreen(innerRef.value, evt.target)
       ) {
         focus()
       }

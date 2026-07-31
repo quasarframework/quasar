@@ -693,9 +693,14 @@ describe('[QDialog API]', () => {
         expect(document.activeElement).toBe(el)
       })
 
-      test('does not trap focus away from a fullscreen child', async () => {
+      test('keeps trapping while a fullscreen child is detached', async () => {
+        const outsideEl = createFocusEl()
+
         wrapper = mount(QDialog, {
-          props: { modelValue: true },
+          props: {
+            modelValue: true,
+            allowFocusOutside: false
+          },
           slots: { default: () => h(FullscreenChild, { fullscreen: true }) }
         })
 
@@ -704,6 +709,7 @@ describe('[QDialog API]', () => {
 
         const el = document.body.querySelector('[data-test="fullscreen-input"]')
 
+        // useFullscreen() has moved the child out of the dialog
         expect(el.closest('.q-dialog__inner')).toBeNull()
 
         el.focus()
@@ -711,7 +717,16 @@ describe('[QDialog API]', () => {
         await flushPromises()
         await vi.runAllTimers()
 
+        // ...yet it still belongs to the dialog, so it keeps the focus
         expect(document.activeElement).toBe(el)
+
+        outsideEl.focus()
+
+        await flushPromises()
+        await vi.runAllTimers()
+
+        // ...while focus that is genuinely outside is still pulled back
+        expect(document.activeElement).not.toBe(outsideEl)
       })
     })
   })

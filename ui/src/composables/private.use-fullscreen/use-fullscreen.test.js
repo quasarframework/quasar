@@ -3,10 +3,10 @@ import { flushPromises, mount } from '@vue/test-utils'
 import { KeepAlive, defineComponent, h, ref } from 'vue'
 
 import useFullscreen, {
-  focusIsInDetachedFullscreen,
   useFullscreenEmits,
   useFullscreenProps
 } from './use-fullscreen.js'
+import { focusIsInDetachedFullscreen } from '../../utils/private.focus/detached-fullscreen.js'
 
 let wrapper, mountTarget
 
@@ -70,8 +70,8 @@ describe('[useFullscreen API]', () => {
   })
 
   describe('[Functions]', () => {
-    describe('[(function)focusIsInDetachedFullscreen]', () => {
-      test('has correct return value', async () => {
+    describe('[(function)default]', () => {
+      test('registers the detached element for its original position', async () => {
         mountTarget = document.createElement('div')
         document.body.append(mountTarget)
 
@@ -91,9 +91,6 @@ describe('[useFullscreen API]', () => {
         expect(
           focusIsInDetachedFullscreen(document.createElement('div'), el)
         ).toBe(false)
-        expect(focusIsInDetachedFullscreen(mountTarget, mountTarget)).toBe(
-          false
-        )
 
         await wrapper.setProps({ fullscreen: false })
         await flushPromises()
@@ -101,7 +98,32 @@ describe('[useFullscreen API]', () => {
         expect(focusIsInDetachedFullscreen(mountTarget, el)).toBe(false)
       })
 
-      test('follows a chain of nested fullscreen elements', async () => {
+      test('unregisters the detached element when unmounted while fullscreen', async () => {
+        mountTarget = document.createElement('div')
+        document.body.append(mountTarget)
+
+        wrapper = mount(FullscreenComponent, {
+          props: { fullscreen: true },
+          attachTo: mountTarget
+        })
+
+        await flushPromises()
+
+        const el = document.body.querySelector(
+          '[data-test="fullscreen-component"]'
+        )
+
+        expect(focusIsInDetachedFullscreen(mountTarget, el)).toBe(true)
+
+        wrapper.unmount()
+        wrapper = void 0
+
+        await flushPromises()
+
+        expect(focusIsInDetachedFullscreen(mountTarget, el)).toBe(false)
+      })
+
+      test('registers a chain of nested fullscreen elements', async () => {
         mountTarget = document.createElement('div')
         document.body.append(mountTarget)
 
@@ -120,9 +142,7 @@ describe('[useFullscreen API]', () => {
         expect(wrapper.vm.$el.contains(el)).toBe(false)
         expect(focusIsInDetachedFullscreen(mountTarget, el)).toBe(true)
       })
-    })
 
-    describe('[(function)default]', () => {
       test('does not move a deactivated root back into the live DOM', async () => {
         const showFullscreen = ref(true)
 
