@@ -451,7 +451,6 @@ The input may contain additional text after the part described by the mask. When
 
 ```js
 const parsed = date.extractDate('2024-02-30', 'YYYY-MM-DD')
-
 console.log(Number.isNaN(parsed.getTime())) // true
 ```
 
