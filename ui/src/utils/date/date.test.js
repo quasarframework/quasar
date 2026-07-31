@@ -81,6 +81,12 @@ describe('[date API]', () => {
         ).toStrictEqual(new Date(2024, 1, 29))
       })
 
+      test('parses a literal Z timezone as UTC', () => {
+        expect(
+          date.extractDate('2024-02-29 13:05 Z', 'YYYY-MM-DD HH:mm Z').getTime()
+        ).toBe(Date.UTC(2024, 1, 29, 13, 5))
+      })
+
       test.each([
         [void 0, 'YYYY-MM-DD'],
         [null, 'YYYY-MM-DD'],
@@ -658,17 +664,28 @@ describe('[date API]', () => {
       })
 
       test.each([
-        ['24:00', 'HH:mm'],
-        ['13:00 PM', 'hh:mm A'],
-        ['23:60', 'HH:mm'],
-        ['23:59:60', 'HH:mm:ss'],
-        ['23:59 +2460', 'HH:mm ZZ']
-      ])('rejects out-of-range time components in %s', (value, mask) => {
+        ['24:00', 'HH:mm', 'hour'],
+        ['13:00 PM', 'hh:mm A', 'hour'],
+        ['23:60', 'HH:mm', 'minute'],
+        ['23:59:60', 'HH:mm:ss', 'second'],
+        ['23:59 +2460', 'HH:mm ZZ', 'timezoneOffset']
+      ])('rejects out-of-range time components in %s', (value, mask, field) => {
         const result = __splitDate(value, mask)
 
         expect(result.dateHash).toBeNull()
         expect(result.timeHash).toBeNull()
+        expect(result[field]).toBeNull()
       })
+
+      test.each(['Z', 'ZZ'])(
+        'parses a literal Z timezone as UTC with the %s mask',
+        token => {
+          expect(
+            __splitDate('2024-02-29 13:05 Z', `YYYY-MM-DD HH:mm ${token}`)
+              .timezoneOffset
+          ).toBe(0)
+        }
+      )
     })
   })
 })

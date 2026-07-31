@@ -461,10 +461,16 @@ export function __splitDate(str, mask, dateLocale, calendar, defaultModel) {
 
     if (map.H !== void 0) {
       date.hour = Number.parseInt(match[map.H], 10)
-      if (date.hour > 23) return date
+      if (date.hour > 23) {
+        date.hour = null
+        return date
+      }
     } else if (map.h !== void 0) {
       date.hour = Number.parseInt(match[map.h], 10)
-      if (date.hour < 1 || date.hour > 12) return date
+      if (date.hour < 1 || date.hour > 12) {
+        date.hour = null
+        return date
+      }
 
       date.hour %= 12
       if (
@@ -480,12 +486,18 @@ export function __splitDate(str, mask, dateLocale, calendar, defaultModel) {
 
     if (map.m !== void 0) {
       date.minute = Number.parseInt(match[map.m], 10)
-      if (date.minute > 59) return date
+      if (date.minute > 59) {
+        date.minute = null
+        return date
+      }
     }
 
     if (map.s !== void 0) {
       date.second = Number.parseInt(match[map.s], 10)
-      if (date.second > 59) return date
+      if (date.second > 59) {
+        date.second = null
+        return date
+      }
     }
 
     if (map.S !== void 0) {
