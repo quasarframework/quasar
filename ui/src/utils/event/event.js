@@ -110,6 +110,11 @@ export function stopAndPrevent(e) {
 export function preventDraggable(el, status) {
   if (el === void 0 || (status && el.__dragPrevented)) return
 
+  // the guard above reads the flag off the container,
+  // so the container is what has to carry it
+  if (status) el.__dragPrevented = true
+  else delete el.__dragPrevented
+
   const fn = status
     ? element => {
         element.__dragPrevented = true
