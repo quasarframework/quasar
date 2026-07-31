@@ -279,7 +279,7 @@ importers:
         specifier: ^4.3.1
         version: 4.3.1
       quasar:
-        specifier: ^2.23.3
+        specifier: ^2.23.4
         version: link:../ui
       shiki:
         specifier: ^4.3.1
