@@ -343,4 +343,84 @@ describe('[QToggle API]', () => {
       })
     })
   })
+
+  describe('[Generic]', () => {
+    // The Quasar stylesheet is loaded into jsdom by testing/vitest.setup.js
+    // ("import 'quasar/src/css/index.sass'"), so the rules below are the ones
+    // that QToggle.sass actually produces. jsdom cannot emulate forced-colors
+    // mode, so these assert the cascade rather than the rendered result.
+
+    const checkedTrackSelector = '.q-toggle__inner--truthy .q-toggle__track'
+    const forcedColorsRE = /\(\s*forced-colors\s*:\s*active\s*\)/
+
+    // both selectors involved are made up of classes only,
+    // so counting them yields their specificity
+    const classCount = selector => (selector.match(/\.[\w-]+/g) || []).length
+
+    function getToggleRules() {
+      const styleSheet = [...document.styleSheets].find(
+        entry =>
+          [...entry.cssRules].some(
+            rule => rule.selectorText === checkedTrackSelector
+          ) === true
+      )
+
+      return styleSheet === void 0 ? [] : [...styleSheet.cssRules]
+    }
+
+    function getForcedColorsRule(selectorRE) {
+      const rules = getToggleRules()
+      const matches = rule => selectorRE.test(rule.selectorText) === true
+
+      const index = rules.findIndex(
+        rule =>
+          rule.media !== void 0 &&
+          forcedColorsRE.test(rule.media.mediaText) === true &&
+          [...rule.cssRules].some(matches) === true
+      )
+
+      return index === -1
+        ? null
+        : { index, rule: [...rules[index].cssRules].find(matches) }
+    }
+
+    test('outlines the track and the thumb in forced-colors mode', () => {
+      // forced-colors mode maps background-color to a system color and forces
+      // box-shadow to none, which is the entire visual of both parts; a border
+      // is what survives, since border-color is mapped to CanvasText
+      const track = getForcedColorsRule(/\.q-toggle__track$/)
+      const thumb = getForcedColorsRule(/\.q-toggle__thumb:after$/)
+
+      expect(track).not.toBeNull()
+      expect(thumb).not.toBeNull()
+
+      for (const { rule } of [track, thumb]) {
+        expect(rule.style.getPropertyValue('border-style')).toBe('solid')
+        expect(
+          Number.parseFloat(rule.style.getPropertyValue('border-width'))
+        ).toBeGreaterThan(0)
+      }
+    })
+
+    test('applies the forced-colors track outline over the checked state', () => {
+      const track = getForcedColorsRule(/\.q-toggle__track$/)
+
+      // opacity is not a forced property, so the decorative .38/.54 alpha would
+      // otherwise fade the outline - and by differing amounts per state
+      expect(track.rule.style.opacity).toBe('1')
+
+      // ...which only takes effect if the rule outranks the checked-state one:
+      // it must not be less specific...
+      expect(classCount(track.rule.selectorText)).toBeGreaterThanOrEqual(
+        classCount(checkedTrackSelector)
+      )
+
+      // ...and, since the two currently tie, must come later in the stylesheet
+      expect(track.index).toBeGreaterThan(
+        getToggleRules().findIndex(
+          rule => rule.selectorText === checkedTrackSelector
+        )
+      )
+    })
+  })
 })
