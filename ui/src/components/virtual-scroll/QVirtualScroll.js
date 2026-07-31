@@ -127,7 +127,10 @@ export default createComponent({
     )
 
     function getVirtualScrollEl() {
-      return rootRef.value.$el || rootRef.value
+      // nothing gets rendered without the default scoped slot,
+      // which leaves us without a root element
+      const el = rootRef.value
+      return el === null ? null : el.$el || el
     }
 
     function getVirtualScrollTarget() {
@@ -135,10 +138,10 @@ export default createComponent({
     }
 
     function configureScrollTarget() {
-      localScrollTarget = getScrollTarget(
-        getVirtualScrollEl(),
-        props.scrollTarget
-      )
+      const el = getVirtualScrollEl()
+      if (el === null) return
+
+      localScrollTarget = getScrollTarget(el, props.scrollTarget)
       localScrollTarget.addEventListener(
         'scroll',
         onVirtualScrollEvt,

@@ -171,7 +171,9 @@ export default createComponent({
             ]
           : [svg]
 
-      if (!props.disable) {
+      // the native input only carries the value for a form submission,
+      // so it is of no use without a name
+      if (props.name !== void 0 && !props.disable) {
         injectFormInput(
           content,
           'unshift',
