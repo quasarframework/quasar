@@ -332,7 +332,6 @@ runSequentialPromises(
 })
 ```
 
-`threadsNumber` must be a positive integer. Invalid values fall back to `1`.
 When configuring threadsNumber (`opts > threadsNumber`) AND using http
 requests, be aware of the maximum threads that the hosting browser supports
 (usually 5). Any number of threads above that won't add any real benefits.
