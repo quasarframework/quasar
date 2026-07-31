@@ -66,6 +66,13 @@ $toggle-transition: .22s cubic-bezier(.4,0,.2,1)
           color: #fff
           opacity: 1
 
+  @media (forced-colors: active)
+    &__inner &__track
+      opacity: 1
+      border: 1px solid
+    &__thumb:after
+      border: 1px solid
+
   &.disabled
     opacity: .75 !important
 
