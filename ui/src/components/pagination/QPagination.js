@@ -191,6 +191,7 @@ export default createComponent({
 
       round: props.round,
       rounded: props.rounded,
+      glossy: props.glossy,
 
       padding: props.padding,
 
