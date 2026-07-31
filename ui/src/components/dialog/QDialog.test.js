@@ -589,6 +589,29 @@ describe('[QDialog API]', () => {
 
         expect(document.activeElement).not.toBe(el)
       })
+
+      test('refocuses without scrolling the target into view', async () => {
+        const el = createFocusEl()
+
+        el.focus()
+
+        const focusSpy = vi.spyOn(el, 'focus')
+
+        wrapper = mount(QDialog)
+
+        wrapper.findComponent({ name: 'QDialog' }).vm.show()
+
+        await flushPromises()
+        await vi.runAllTimers()
+
+        wrapper.findComponent({ name: 'QDialog' }).vm.hide()
+
+        await flushPromises()
+        await vi.runAllTimers()
+
+        expect(document.activeElement).toBe(el)
+        expect(focusSpy).toHaveBeenCalledWith({ preventScroll: true })
+      })
     })
 
     describe('[(prop)no-focus]', () => {
