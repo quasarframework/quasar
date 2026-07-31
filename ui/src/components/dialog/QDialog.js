@@ -20,6 +20,7 @@ import useTransition, {
 } from '../../composables/private.use-transition/use-transition.js'
 import usePortal from '../../composables/private.use-portal/use-portal.js'
 import usePreventScroll from '../../composables/private.use-prevent-scroll/use-prevent-scroll.js'
+import { focusIsInDetachedFullscreen } from '../../composables/private.use-fullscreen/use-fullscreen.js'
 
 import { createComponent } from '../../utils/private.create/create.js'
 import { childHasFocus } from '../../utils/dom/dom.js'
@@ -406,7 +407,8 @@ export default createComponent({
       if (
         !props.allowFocusOutside &&
         portalIsAccessible.value &&
-        !childHasFocus(innerRef.value, evt.target)
+        !childHasFocus(innerRef.value, evt.target) &&
+        !focusIsInDetachedFullscreen(innerRef.value, evt.target)
       ) {
         focus('[tabindex]:not([tabindex="-1"])')
       }
