@@ -11,13 +11,18 @@ const MILLISECONDS_IN_DAY = 86_400_000,
     /\[((?:[^\]\\]|\\]|\\)*)\]|do|d{1,4}|Mo|M{1,4}|m{1,2}|wo|w{1,2}|Qo|Do|DDDo|D{1,4}|YY(?:YY)?|H{1,2}|h{1,2}|s{1,2}|S{1,3}|Z{1,2}|a{1,2}|[AQExX]/g,
   reverseToken =
     /(\[[^\]]*\])|do|d{1,4}|Mo|M{1,4}|m{1,2}|wo|w{1,2}|Qo|Do|DDDo|D{1,4}|YY(?:YY)?|H{1,2}|h{1,2}|s{1,2}|S{1,3}|Z{1,2}|a{1,2}|[AQExX]|([.*+:?^,\s${}()|\\]+)/g,
+  escapeRegexRE = /[.*+?^${}()|[\]\\]/g,
   regexStore = new Map()
 
+function escapeRegex(str) {
+  return str.replaceAll(escapeRegexRE, String.raw`\$&`)
+}
+
 function getRegexData(mask, dateLocale) {
-  const days = '(' + dateLocale.days.join('|') + ')',
-    daysShort = '(' + dateLocale.daysShort.join('|') + ')',
-    months = '(' + dateLocale.months.join('|') + ')',
-    monthsShort = '(' + dateLocale.monthsShort.join('|') + ')'
+  const days = '(' + dateLocale.days.map(escapeRegex).join('|') + ')',
+    daysShort = '(' + dateLocale.daysShort.map(escapeRegex).join('|') + ')',
+    months = '(' + dateLocale.months.map(escapeRegex).join('|') + ')',
+    monthsShort = '(' + dateLocale.monthsShort.map(escapeRegex).join('|') + ')'
 
   const key = [mask, days, daysShort, months, monthsShort].join('|')
 
@@ -189,7 +194,8 @@ function getRegexData(mask, dateLocale) {
         if (match[0] === '[') {
           match = match.slice(1, -1)
         }
-        return match.replaceAll(/[.*+?^${}()|[\]\\]/g, String.raw`\$&`)
+
+        return escapeRegex(match)
       }
     }
   })

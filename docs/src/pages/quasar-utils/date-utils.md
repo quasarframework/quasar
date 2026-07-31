@@ -449,6 +449,9 @@ const date = date.extractDate('21/03/1985', 'DD/MM/YYYY')
 
 With optional custom locale:
 
+Custom day and month names are matched literally, including any regular
+expression metacharacters they contain.
+
 ```js
 import { date } from 'quasar'
 
