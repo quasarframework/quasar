@@ -5,7 +5,8 @@
 
 export default class EventBus {
   constructor() {
-    this.__stack = {}
+    // Event names can match properties inherited from Object.prototype.
+    this.__stack = Object.create(null)
   }
 
   on(name, callback, ctx) {
