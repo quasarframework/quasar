@@ -134,7 +134,7 @@ export default createComponent({
     const ripple = computed(() => props.stepper.headerNav && headerNav.value)
 
     function onActivate() {
-      blurRef.value?.focus()
+      blurRef.value?.focus({ preventScroll: true })
       if (!isActive.value) props.goToPanel(props.step.name)
     }
 

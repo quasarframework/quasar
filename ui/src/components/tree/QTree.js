@@ -772,7 +772,7 @@ export default createComponent({
     }
 
     function blur(key) {
-      blurTargets[key]?.focus()
+      blurTargets[key]?.focus({ preventScroll: true })
     }
 
     function focusNode(key) {

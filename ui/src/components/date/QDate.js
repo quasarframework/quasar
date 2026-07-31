@@ -801,7 +801,7 @@ export default createComponent({
         blurTargetRef.value !== null &&
         proxy.$el.contains(document.activeElement)
       ) {
-        blurTargetRef.value.focus()
+        blurTargetRef.value.focus({ preventScroll: true })
       }
     })
 

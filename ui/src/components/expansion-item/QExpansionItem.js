@@ -184,7 +184,9 @@ export default createComponent({
     }
 
     function toggleIcon(e, keyboard) {
-      if (!keyboard && !e.qAvoidFocus) blurTargetRef.value?.focus()
+      if (!keyboard && !e.qAvoidFocus) {
+        blurTargetRef.value?.focus({ preventScroll: true })
+      }
 
       toggle(e)
       stopAndPrevent(e)

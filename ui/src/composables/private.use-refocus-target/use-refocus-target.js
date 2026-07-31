@@ -23,13 +23,13 @@ export default function useRefocusTarget(props, rootRef) {
         document.activeElement !== root &&
         root?.contains(document.activeElement) === true
       ) {
-        root.focus()
+        root.focus({ preventScroll: true })
       }
     } else if (
       refocusRef.value !== null &&
       (e === void 0 || root?.contains(e.target) === true)
     ) {
-      refocusRef.value.focus()
+      refocusRef.value.focus({ preventScroll: true })
     }
   }
 
