@@ -56,6 +56,7 @@ export default createComponent({
   setup(props, { slots, emit }) {
     const isFetching = ref(false)
     const isWorking = ref(true)
+    const suppressAnchoring = ref(false)
     const rootRef = ref(null)
     const loadingRef = ref(null)
 
@@ -65,6 +66,12 @@ export default createComponent({
     const classes = computed(
       () =>
         'q-infinite-scroll__loading' + (isFetching.value ? '' : ' invisible')
+    )
+
+    const rootClasses = computed(
+      () =>
+        'q-infinite-scroll' +
+        (suppressAnchoring.value ? ' q-infinite-scroll--no-anchoring' : '')
     )
 
     function immediatePoll() {
@@ -96,6 +103,17 @@ export default createComponent({
       index++
       isFetching.value = true
 
+      // In reverse mode we compensate for the prepended content ourselves, by
+      // pushing the scroll position down by however much taller the content
+      // got. The browser's CSS scroll anchoring does the very same thing, so
+      // while a load is in flight we opt out of it -- otherwise both fire and
+      // the list jumps by a whole batch. We only suppress it for the duration
+      // of the load, so that anchoring keeps protecting the reading position
+      // against everything else (a late-loading image, a webfont swap...).
+      if (props.reverse === true) {
+        suppressAnchoring.value = true
+      }
+
       const heightBefore = getScrollHeight(localScrollTarget)
 
       emit('load', index, isDone => {
@@ -112,6 +130,8 @@ export default createComponent({
                 scrollPosition + heightDifference
               )
             }
+
+            suppressAnchoring.value = false
 
             if (isDone === true) {
               stop()
@@ -140,6 +160,8 @@ export default createComponent({
       if (isWorking.value) {
         isWorking.value = false
         isFetching.value = false
+        // a load that never calls done() must not leave anchoring off forever
+        suppressAnchoring.value = false
         localScrollTarget.removeEventListener('scroll', poll, passive)
         poll?.cancel?.()
       }
@@ -295,7 +317,7 @@ export default createComponent({
       return h(
         'div',
         {
-          class: 'q-infinite-scroll',
+          class: rootClasses.value,
           ref: rootRef
         },
         child

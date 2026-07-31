@@ -164,6 +164,51 @@ describe('[QInfiniteScroll API]', () => {
         expect(wrapper.emitted('load')).toHaveLength(1)
         expect(wrapper.text()).toBe('LoadingContent')
       })
+
+      test('opts out of browser scroll anchoring while loading', async () => {
+        const { target, wrapper } = mountInfiniteScroll({ reverse: true })
+
+        target.scrollTop = 100
+        wrapper.vm.poll()
+        await nextTick()
+
+        // the component compensates for the prepended content itself, so the
+        // browser must not also do it while the load is in flight
+        expect(wrapper.classes()).toContain('q-infinite-scroll--no-anchoring')
+
+        // the loaded batch prepends 600px worth of content
+        Object.defineProperty(target, 'scrollHeight', {
+          configurable: true,
+          value: 1600
+        })
+
+        const [, done] = wrapper.emitted('load')[0]
+        done()
+        await nextTick()
+        await nextTick()
+
+        // the scroll position follows the content that got pushed down...
+        expect(target.scrollTop).toBe(700)
+
+        // ...and anchoring is handed back afterwards, so that it keeps
+        // protecting the reading position against unrelated content growth
+        expect(wrapper.classes()).not.toContain(
+          'q-infinite-scroll--no-anchoring'
+        )
+      })
+
+      test('does not opt out of scroll anchoring when not reverse', async () => {
+        const target = createScrollTarget()
+        target.scrollTop = 350
+
+        const { wrapper } = mountInfiniteScroll({ offset: 550 }, {}, target)
+        await nextTick()
+
+        expect(wrapper.emitted('load')).toHaveLength(1)
+        expect(wrapper.classes()).not.toContain(
+          'q-infinite-scroll--no-anchoring'
+        )
+      })
     })
   })
 
