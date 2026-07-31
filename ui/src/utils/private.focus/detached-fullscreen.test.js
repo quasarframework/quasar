@@ -133,6 +133,16 @@ describe('[detachedFullscreen API]', () => {
         expect(focusIsInDetachedFullscreen(otherEl, targetEl)).toBe(false)
       })
 
+      test('returns false for a nullish root', () => {
+        const rootEl = createNode()
+        const { targetEl } = detach(rootEl)
+
+        // unlike childHasFocus(), which treats a nullish root as containing
+        // everything -- a gone root cannot own a detached element
+        expect(focusIsInDetachedFullscreen(null, targetEl)).toBe(false)
+        expect(focusIsInDetachedFullscreen(void 0, targetEl)).toBe(false)
+      })
+
       test('returns false when nothing is detached', () => {
         const rootEl = createNode()
         const targetEl = createNode('input')

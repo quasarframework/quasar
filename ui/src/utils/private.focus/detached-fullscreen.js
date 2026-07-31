@@ -39,6 +39,10 @@ function fillerNodeFor(el) {
  * agrees with the physical containment test it complements at the call sites.
  */
 export function focusIsInDetachedFullscreen(rootEl, focusedEl) {
+  // childHasFocus() treats a nullish root as containing everything; here a
+  // root that no longer exists cannot logically own a detached element
+  if (rootEl === void 0 || rootEl === null) return false
+
   // Each hop moves to the filler of a strictly outer detached element, and
   // every detached element is a direct child of <body>, so the chain cannot
   // cycle. The guard only defends against a stale entry left behind by a
