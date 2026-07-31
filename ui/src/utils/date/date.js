@@ -194,6 +194,7 @@ function getRegexData(mask, dateLocale) {
         if (match[0] === '[') {
           match = match.slice(1, -1)
         }
+
         return escapeRegex(match)
       }
     }
