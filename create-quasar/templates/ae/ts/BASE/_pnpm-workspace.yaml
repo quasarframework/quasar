@@ -8,9 +8,9 @@ linkWorkspacePackages: true
 publishBranch: dev
 
 catalog:
-  "@quasar/app-vite": "^3.3.0"
+  "@quasar/app-vite": "^3.3.1"
   "@quasar/extras": "^2.0.0"
-  "quasar": "^2.23.4"
+  "quasar": "^2.23.5"
   "vue": "^3.5.39"
 
 allowBuilds:

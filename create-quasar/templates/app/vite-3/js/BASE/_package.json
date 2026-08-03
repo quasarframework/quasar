@@ -24,7 +24,7 @@
     <% if (scope.preset.i18n) { %>"vue-i18n": "^11.3.0",<% } %>
     <% if (scope.preset.pinia) { %>"pinia": "^4.0.2",<% } %>
     "@quasar/extras": "^2.0.0",
-    "quasar": "^2.23.4",
+    "quasar": "^2.23.5",
     "vue": "^3.5.22",
     "vue-router": "^5.0.6"
   },
@@ -43,7 +43,7 @@
     "@vue/eslint-config-prettier": "^10.2.0",
     "prettier": "^3.8.1",
     <% } %>
-    "@quasar/app-vite": "^3.3.0",
+    "@quasar/app-vite": "^3.3.1",
     "autoprefixer": "^10.4.27",
     "postcss": "^8.5.8"
   },

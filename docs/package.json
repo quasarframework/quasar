@@ -21,13 +21,13 @@
     "@quasar/extras": "^2.0.0",
     "@shikijs/langs": "^4.4.1",
     "@shikijs/transformers": "^4.4.1",
-    "quasar": "^2.23.4",
+    "quasar": "^2.23.5",
     "shiki": "^4.4.1",
     "vue": "^3.5.40",
     "vue-router": "^5.2.0"
   },
   "devDependencies": {
-    "@quasar/app-vite": "^3.3.0",
+    "@quasar/app-vite": "^3.3.1",
     "@rolldown/pluginutils": "^1.0.1",
     "fs-extra": "^11.4.0",
     "gray-matter": "^4.0.3",
