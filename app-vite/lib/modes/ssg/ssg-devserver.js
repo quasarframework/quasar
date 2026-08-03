@@ -234,9 +234,11 @@ export class QuasarModeDevserver extends AppDevserver {
         let html = this.#renderTemplate(ssrContext)
 
         html = await viteClient.transformIndexHtml(url, html, originalUrl)
+        // use a function replacement so that special patterns ($$, $&, ...)
+        // in the rendered page content are not interpreted by String.replace()
         html = html.replace(
           entryPointMarkup,
-          `<div id="q-app">${runtimePageContent}</div>`
+          () => `<div id="q-app">${runtimePageContent}</div>`
         )
 
         logServerMessage('Rendered', url, `${Date.now() - startTime}ms`)
