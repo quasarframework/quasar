@@ -163,18 +163,22 @@ describe('[useValidate API]', () => {
         expect(result.validate()).toBe(expected)
       })
 
-      test('complains about an unknown pattern name', () => {
+      test('fails on an unknown pattern name', () => {
         const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => {})
         const { result } = mountValidate({
           modelValue: 'x',
           rules: ['thereIsNoSuchPattern']
         })
 
-        // the rule is skipped, but a misspelled pattern must not go unnoticed
-        expect(result.validate()).toBe(true)
+        // a misspelled pattern must not quietly accept anything
+        expect(result.validate()).toBe(false)
+        expect(result.hasError.value).toBe(true)
         expect(errorSpy).toHaveBeenCalledExactlyOnceWith(
           'Unknown validation pattern rule: "thereIsNoSuchPattern"'
         )
+
+        // it fails like any other message-less rule does
+        expect(result.errorMessage.value).toBeNull()
       })
 
       test('stops at the first failing rule', () => {
