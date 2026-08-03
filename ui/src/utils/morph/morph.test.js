@@ -430,6 +430,49 @@ describe('[morph API]', () => {
         expect(keyframes).toContain('-from-tween')
       })
 
+      test('leaves the source spacer alone when it shares its size', () => {
+        const { parent, from } = createScene()
+
+        morph({ from })
+        flushFrames()
+
+        // the destination clone is inserted right before the source one
+        const [toClone, fromClone] = parent.children
+        const keyframes = getKeyframes()
+
+        // the source is the destination here, so the destination spacer
+        // carries the sizing on its own
+        expect(keyframes).not.toContain('-from {')
+        expect(fromClone.style.animation).toBe('none')
+
+        expect(keyframes).toContain('-to {')
+        expect(toClone.style.animation).toContain('-to')
+      })
+
+      test('animates the source spacer when it has a size of its own', () => {
+        const { parent, from, to } = createScene({ separateTo: true })
+
+        morph({ from, to })
+        flushFrames()
+
+        const [, fromClone] = parent.children
+
+        expect(getKeyframes()).toContain('-from {')
+        expect(fromClone.style.animation).toContain('-from')
+      })
+
+      test('leaves the destination spacer alone when the clone is kept', () => {
+        const { parent, from } = createScene()
+
+        morph({ from, keepToClone: true })
+        flushFrames()
+
+        const [toClone] = parent.children
+
+        expect(getKeyframes()).not.toContain('-to {')
+        expect(toClone.style.animation).toBe('none')
+      })
+
       test('morphs towards a different destination element', () => {
         const { parent, from, to } = createScene({ separateTo: true })
 

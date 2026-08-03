@@ -77,11 +77,12 @@ function injectPlugin({ props, emit, helpers }) {
     workingThreads.value++
 
     const failed = (err, promise) => {
-      if (helpers.isAlive()) {
-        if (promise !== void 0) {
-          promises.value = promises.value.filter(p => p !== promise)
-        }
+      if (promise !== void 0) {
+        promises.value = promises.value.filter(p => p !== promise)
+      }
 
+      // only touch the files & report back if there is still someone listening
+      if (helpers.isAlive()) {
         const liveFiles = getLiveFiles(files)
 
         if (liveFiles.length !== 0) {
@@ -92,9 +93,11 @@ function injectPlugin({ props, emit, helpers }) {
 
           emit('factoryFailed', err, liveFiles)
         }
-
-        workingThreads.value--
       }
+
+      // ...but the thread must be released either way, otherwise a
+      // deactivated (keep-alive) uploader comes back stuck on "uploading"
+      workingThreads.value--
     }
 
     if (typeof props.factory !== 'function') {
@@ -127,9 +130,14 @@ function injectPlugin({ props, emit, helpers }) {
               new Error('QUploader: factory() does not return properly'),
               res
             )
-          } else if (helpers.isAlive()) {
+          } else {
             promises.value = promises.value.filter(p => p !== res)
-            startUpload(factory)
+
+            if (helpers.isAlive()) {
+              startUpload(factory)
+            } else {
+              workingThreads.value--
+            }
           }
         })
         .catch(err => {

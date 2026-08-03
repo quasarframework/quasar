@@ -478,21 +478,33 @@ describe('[xhrUploaderPlugin API]', () => {
         )
       })
 
-      test('stops caring once the component is gone', async () => {
-        const { api, emit, helpers, queue } = createPlugin({
-          factory: () => Promise.reject(new Error('too late'))
-        })
+      test.each([
+        ['rejects', () => Promise.reject(new Error('too late'))],
+        ['resolves', () => Promise.resolve({ url: 'http://localhost/late' })]
+      ])(
+        'settles its bookkeeping when the component goes away before the factory %s',
+        async (_, factory) => {
+          const { api, emit, helpers, queue } = createPlugin({ factory })
+          const files = queue(makeFile())
 
-        queue(makeFile())
-        helpers.isAlive.mockReturnValue(false)
+          api.upload()
+          helpers.isAlive.mockReturnValue(false)
 
-        api.upload()
-        await nextTick()
-        await nextTick()
+          await nextTick()
+          await nextTick()
 
-        expect(emit).not.toHaveBeenCalled()
-        expect(api.isUploading.value).toBe(true)
-      })
+          // nothing gets reported to a component that is no longer there
+          expect(emit).not.toHaveBeenCalled()
+          expect(helpers.queuedFiles.value).toStrictEqual([])
+          expect(files[0].__status).toBeUndefined()
+          expect(xhrInstances).toHaveLength(0)
+
+          // ...but it must not stay stuck as uploading/busy either, or a
+          // deactivated keep-alive uploader would never accept a file again
+          expect(api.isUploading.value).toBe(false)
+          expect(api.isBusy.value).toBe(false)
+        }
+      )
     })
   })
 })
