@@ -417,7 +417,11 @@ export default createComponent({
               fixedIcon: token.fixedIcon,
               highlight: token.highlight,
               list: token.list,
-              options: token.options.map(item => def[item])
+              // an unknown option is ignored, the same way that
+              // an unknown plain token is
+              options: token.options
+                .map(item => def[item])
+                .filter(item => item !== void 0)
             }
           }
 
