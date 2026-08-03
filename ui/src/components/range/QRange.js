@@ -16,6 +16,8 @@ const dragType = {
   MAX: 2
 }
 
+const emptyModel = { min: null, max: null }
+
 export default createComponent({
   name: 'QRange',
 
@@ -50,6 +52,10 @@ export default createComponent({
       proxy: { $q }
     } = getCurrentInstance()
 
+    // the model can also be null, which means the same thing
+    // as having no value on either end of the range
+    const modelProp = computed(() => props.modelValue || emptyModel)
+
     const { state, methods } = useSlider({
       updateValue,
       updatePosition,
@@ -57,7 +63,7 @@ export default createComponent({
       formAttrs: computed(() => ({
         type: 'hidden',
         name: props.name,
-        value: `${props.modelValue.min}|${props.modelValue.max}`
+        value: `${modelProp.value.min}|${modelProp.value.max}`
       }))
     })
 
@@ -68,19 +74,19 @@ export default createComponent({
 
     function normalizeModel() {
       model.value.min =
-        props.modelValue.min === null
+        modelProp.value.min === null
           ? state.innerMin.value
           : between(
-              props.modelValue.min,
+              modelProp.value.min,
               state.innerMin.value,
               state.innerMax.value
             )
 
       model.value.max =
-        props.modelValue.max === null
+        modelProp.value.max === null
           ? state.innerMax.value
           : between(
-              props.modelValue.max,
+              modelProp.value.max,
               state.innerMin.value,
               state.innerMax.value
             )
@@ -88,7 +94,7 @@ export default createComponent({
 
     watch(
       () =>
-        `${props.modelValue.min}|${props.modelValue.max}|${state.innerMin.value}|${state.innerMax.value}`,
+        `${modelProp.value.min}|${modelProp.value.max}|${state.innerMin.value}|${state.innerMax.value}`,
       normalizeModel
     )
 
@@ -215,8 +221,8 @@ export default createComponent({
 
     function updateValue(change) {
       if (
-        model.value.min !== props.modelValue.min ||
-        model.value.max !== props.modelValue.max
+        model.value.min !== modelProp.value.min ||
+        model.value.max !== modelProp.value.max
       ) {
         emit('update:modelValue', { ...model.value })
       }
@@ -422,11 +428,11 @@ export default createComponent({
           class:
             'q-range ' +
             state.classes.value +
-            (props.modelValue.min === null || props.modelValue.max === null
+            (modelProp.value.min === null || modelProp.value.max === null
               ? ' q-slider--no-value'
               : ''),
           ...state.attributes.value,
-          'aria-valuenow': props.modelValue.min + '|' + props.modelValue.max
+          'aria-valuenow': modelProp.value.min + '|' + modelProp.value.max
         },
         content
       )
