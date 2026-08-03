@@ -53,9 +53,10 @@
     "prepublishOnly": "pnpm run build"
   },
   "devDependencies": {
+    "@vitest/browser-playwright": "^4.1.10",
     "@vue/test-utils": "^2.4.10",
     "fs-extra": "^11.4.0",
-    "jsdom": "29.1.1",
+    "playwright": "^1.57.0",
     "pug": "^3.0.4",
     "quasar": "workspace:*",
     "rolldown": "^1.2.1",

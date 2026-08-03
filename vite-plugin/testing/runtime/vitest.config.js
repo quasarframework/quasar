@@ -2,6 +2,7 @@ import { join, normalize } from 'node:path'
 
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
+import { playwright } from '@vitest/browser-playwright'
 
 import { quasar, transformAssetUrls } from '../../src/index.js'
 
@@ -25,21 +26,24 @@ export default defineConfig(() => ({
 
   resolve: {
     alias: {
+      // mount()/shallowMount() attach to the document by default
+      // (needed for computed styles and layout in a real browser)
+      '@vue/test-utils': join(import.meta.dirname, 'test-utils.js'),
       '@': resolve('src')
     }
   },
 
   test: {
     globals: true,
-    environment: 'jsdom',
-    environmentOptions: {
-      pretendToBeVisual: true
+    browser: {
+      provider: playwright(),
+      enabled: true,
+      headless: true,
+      screenshotFailures: false,
+      viewport: { width: 1280, height: 800 },
+      // at least one instance is required
+      instances: [{ browser: 'chromium' }]
     },
-    // browser: {
-    //   enabled: true,
-    //   headless: true,
-    //   name: 'chrome'
-    // },
     css: {
       include: [/.+/]
     },
