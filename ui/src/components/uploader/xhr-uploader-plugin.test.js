@@ -348,7 +348,7 @@ describe('[xhrUploaderPlugin API]', () => {
 
       test('refuses to upload without a URL', () => {
         const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => {})
-        const { api, helpers, queue } = createPlugin({ url: void 0 })
+        const { api, emit, helpers, queue } = createPlugin({ url: void 0 })
         const files = queue(makeFile())
 
         api.upload()
@@ -358,6 +358,12 @@ describe('[xhrUploaderPlugin API]', () => {
         expect(helpers.queuedFiles.value).toStrictEqual(files)
         expect(files[0].__status).toBe('failed')
         expect(api.isUploading.value).toBe(false)
+
+        // it fails like any other failed upload does
+        expect(emit).toHaveBeenCalledExactlyOnceWith('failed', {
+          files,
+          xhr: xhrInstances[0]
+        })
       })
 
       test('aborts every request in flight', () => {
