@@ -272,8 +272,6 @@ export function getRenderer(getPlugin, expose) {
       state.uploadedFiles.value = state.uploadedFiles.value.filter(
         f => f.__key !== file.__key
       )
-    } else if (isUploading) {
-      uploadSize.value -= file.size
     } else {
       uploadSize.value -= file.size
     }
