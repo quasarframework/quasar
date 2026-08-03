@@ -47,6 +47,15 @@ const panOpts = {
 
 const getMinThumbSize = size => (size >= 250 ? 50 : Math.ceil(size / 5))
 
+function isValidAxis(axis, methodName) {
+  if (axisList.includes(axis)) return true
+
+  console.error(
+    `[QScrollArea]: wrong first param of ${methodName} (vertical/horizontal)`
+  )
+  return false
+}
+
 export default createComponent({
   name: 'QScrollArea',
 
@@ -287,12 +296,7 @@ export default createComponent({
     }, 0)
 
     function localSetScrollPosition(axis, offset, duration) {
-      if (!axisList.includes(axis)) {
-        console.error(
-          '[QScrollArea]: wrong first param of setScrollPosition (vertical/horizontal)'
-        )
-        return
-      }
+      if (!isValidAxis(axis, 'setScrollPosition')) return
 
       const fn =
         axis === 'vertical'
@@ -541,6 +545,8 @@ export default createComponent({
       }),
       setScrollPosition: localSetScrollPosition,
       setScrollPercentage(axis, percentage, duration) {
+        if (!isValidAxis(axis, 'setScrollPercentage')) return
+
         const offset =
           percentage * (scroll[axis].size.value - container[axis].value)
 

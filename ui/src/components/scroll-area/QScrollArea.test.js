@@ -655,6 +655,17 @@ describe('[QScrollArea API]', () => {
           wrapper.vm.setScrollPercentage('horizontal', 0.5)
         ).toBeUndefined()
         expect(target.scrollLeft).toBe(200)
+
+        // an unknown axis is reported, just like for setScrollPosition
+        const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => {})
+
+        expect(wrapper.vm.setScrollPercentage('diagonal', 0.75)).toBeUndefined()
+
+        expect(errorSpy).toHaveBeenCalledTimes(1)
+        expect(errorSpy.mock.calls[0][0]).toContain('setScrollPercentage')
+
+        expect(target.scrollTop).toBe(100)
+        expect(target.scrollLeft).toBe(200)
       })
     })
   })
