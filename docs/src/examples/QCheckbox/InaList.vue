@@ -10,7 +10,7 @@
 
         <q-item tag="label" v-ripple>
           <q-item-section avatar>
-            <q-checkbox v-model="color" val="teal" color="teal" />
+            <q-checkbox v-model="color" val="teal" color="teal" name="teal" />
           </q-item-section>
           <q-item-section>
             <q-item-label>Teal</q-item-label>
@@ -19,7 +19,7 @@
 
         <q-item tag="label" v-ripple>
           <q-item-section avatar>
-            <q-checkbox v-model="color" val="orange" color="orange" />
+            <q-checkbox v-model="color" val="orange" color="orange" name="orange" />
           </q-item-section>
           <q-item-section>
             <q-item-label>Orange</q-item-label>
@@ -29,7 +29,7 @@
 
         <q-item tag="label" v-ripple>
           <q-item-section avatar top>
-            <q-checkbox v-model="color" val="cyan" color="cyan" />
+            <q-checkbox v-model="color" val="cyan" color="cyan" name="cyan" />
           </q-item-section>
           <q-item-section>
             <q-item-label>Cyan</q-item-label>
