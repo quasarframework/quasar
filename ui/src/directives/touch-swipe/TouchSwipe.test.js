@@ -162,6 +162,49 @@ describe('[TouchSwipe API]', () => {
           getMainEvent(wrapper.element.__qtouchswipe, 'mousedown')[3]
         ).toBe('passive')
       })
+
+      test('shields the page from pointer events only while swiping', () => {
+        const { wrapper } = mountTouchSwipe()
+        const el = wrapper.element
+
+        el.dispatchEvent(
+          new MouseEvent('mousedown', {
+            bubbles: true,
+            button: 0,
+            cancelable: true,
+            clientX: 0,
+            clientY: 0
+          })
+        )
+        vi.advanceTimersByTime(100)
+        document.dispatchEvent(
+          new MouseEvent('mousemove', {
+            bubbles: true,
+            cancelable: true,
+            clientX: 100,
+            clientY: 5
+          })
+        )
+
+        expect(
+          document.body.classList.contains('no-pointer-events--children')
+        ).toBe(true)
+
+        document.dispatchEvent(
+          new MouseEvent('mouseup', {
+            bubbles: true,
+            clientX: 100,
+            clientY: 5
+          })
+        )
+
+        // the page must become hit-testable again as soon as the swipe ended,
+        // otherwise a mousedown that follows shortly after resolves to the
+        // document element instead of its real target (#18496)
+        expect(
+          document.body.classList.contains('no-pointer-events--children')
+        ).toBe(false)
+      })
     })
 
     describe('[(modifier)mouseCapture]', () => {

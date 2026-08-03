@@ -202,15 +202,16 @@ export default createDirective(
                   )
                   clearSelection()
 
-                  ctx.styleCleanup = withDelay => {
+                  ctx.styleCleanup = () => {
                     ctx.styleCleanup = void 0
                     document.body.classList.remove('non-selectable')
 
-                    if (withDelay === true) {
-                      setTimeout(removeBodyChildrenNoPointerEvents, 50)
-                    } else {
-                      removeBodyChildrenNoPointerEvents()
-                    }
+                    // The class must NOT be kept around after the gesture ended
+                    // (#18496): while it's set, nothing in the page can be
+                    // hit-tested, so a mousedown that follows shortly after
+                    // resolves to the document element instead of the element
+                    // the user actually pressed on.
+                    removeBodyChildrenNoPointerEvents()
                   }
                 }
 
@@ -235,7 +236,7 @@ export default createDirective(
 
               cleanEvt(ctx, 'temp')
               if (client.is.firefox) preventDraggable(el, false)
-              ctx.styleCleanup?.(true)
+              ctx.styleCleanup?.()
               if (evt !== void 0 && ctx.event.dir !== false) stopAndPrevent(evt)
 
               ctx.event = void 0
