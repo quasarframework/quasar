@@ -61,6 +61,7 @@ export default createComponent({
 
     modelValue: {
       required: true,
+      default: null,
       validator: val =>
         typeof val === 'string' ||
         Array.isArray(val) ||
