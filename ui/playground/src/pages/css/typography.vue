@@ -9,7 +9,9 @@
             dense
             v-model="testFont"
             :options="testFonts"
-            hide-underline
+            emit-value
+            map-options
+            borderless
           />
           <q-toggle v-model="testHeight" left-label label="Test line heights" />
         </q-card-section>

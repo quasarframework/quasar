@@ -224,10 +224,10 @@
         label="Tree Select - Single"
         tabindex="0"
       >
-        <template v-slot:control="{ id, floatingLabel, value, emitValue }">
+        <template v-slot:control="{ id, floatingLabel, modelValue, emitValue }">
           <input
             :id="id"
-            :value="value"
+            :value="modelValue"
             @input="e => emitValue(e.target.value)"
             v-show="floatingLabel"
           />
@@ -242,14 +242,14 @@
         hint="Choose a color"
         tabindex="0"
       >
-        <template v-slot:control="{ id, value, emitValue }">
+        <template v-slot:control="{ id, modelValue, emitValue }">
           <q-color
             class="col"
             no-header
             flat
             :id="id"
-            :value="value"
-            @input="emitValue"
+            :model-value="modelValue"
+            @update:model-value="emitValue"
           />
         </template>
       </q-field>

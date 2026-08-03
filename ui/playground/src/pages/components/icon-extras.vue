@@ -49,6 +49,7 @@ import * as svgMdiIcons from '@quasar/extras/mdi-v7'
 import * as svgThemifyIcons from '@quasar/extras/themify'
 
 import { computed, ref, watch } from 'vue'
+import { debounce } from 'quasar'
 
 const icons = ref([
   {
@@ -132,9 +133,8 @@ const filtered = computed(() => {
 
 watch(
   () => filter.value,
-  newValue => {
+  debounce(newValue => {
     debouncedFilter.value = newValue
-  },
-  { debounce: 300 } // 300ms debounce
+  }, 300)
 )
 </script>

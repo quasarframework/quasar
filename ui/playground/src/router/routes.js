@@ -192,6 +192,7 @@ const routes = [
 for (const key in pagesList) {
   if (
     !key.startsWith('../pages/meta') &&
+    !key.startsWith('../pages/layout/pages/') &&
     key !== '../pages/components/tabs.vue'
   ) {
     routes.push(component(key))

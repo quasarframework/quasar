@@ -76,8 +76,7 @@
       :loading="loading"
       row-key="name"
       color="primary"
-      no-top
-      no-bottom
+      hide-bottom
     />
 
     <h4>Custom top</h4>

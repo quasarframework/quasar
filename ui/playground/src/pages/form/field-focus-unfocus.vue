@@ -15,9 +15,9 @@
           filled
           ref="select"
           v-model="value"
-          @add="resetInputText"
+          @add="() => resetInputText('select')"
           @filter="onFilterOptions"
-          :options="options"
+          :options="filteredOptions"
           stack-label
           use-input
           input-debounce="0"
@@ -126,11 +126,11 @@
 
         <q-select
           filled
-          ref="select"
+          ref="select2"
           v-model="value"
-          @add="resetInputText"
+          @add="() => resetInputText('select2')"
           @filter="onFilterOptions"
-          :options="options"
+          :options="filteredOptions"
           stack-label
           use-input
           input-debounce="0"
@@ -265,6 +265,29 @@
 </template>
 
 <script>
+const options = [
+  {
+    label: 'Google',
+    value: '1'
+  },
+  {
+    label: 'Facebook',
+    value: '2'
+  },
+  {
+    label: 'Twitter',
+    value: '3'
+  },
+  {
+    label: 'Apple',
+    value: '4'
+  },
+  {
+    label: 'Oracle',
+    value: '5'
+  }
+]
+
 export default {
   data() {
     return {
@@ -278,28 +301,8 @@ export default {
       time: '',
       date: '',
       value: [],
-      options: [
-        {
-          label: 'Google',
-          value: '1'
-        },
-        {
-          label: 'Facebook',
-          value: '2'
-        },
-        {
-          label: 'Twitter',
-          value: '3'
-        },
-        {
-          label: 'Apple',
-          value: '4'
-        },
-        {
-          label: 'Oracle',
-          value: '5'
-        }
-      ]
+      options,
+      filteredOptions: options
     }
   },
   methods: {
@@ -318,8 +321,8 @@ export default {
         )
       })
     },
-    resetInputText() {
-      this.$refs.select.updateInputValue('')
+    resetInputText(ref) {
+      this.$refs[ref].updateInputValue('')
     }
   }
 }

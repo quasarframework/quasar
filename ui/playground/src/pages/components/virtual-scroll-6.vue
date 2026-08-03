@@ -126,7 +126,7 @@ for (let i = 0; i <= listSize; i++) {
       const width = getRandomInt(100, 150),
         height = getRandomInt(150, 350)
       row[columns[j]] = {
-        src: 'https://www.fillmurray.com/' + width + '/' + height + '?ver=' + j,
+        src: 'https://picsum.photos/' + width + '/' + height + '?ver=' + j,
         width,
         height
       }

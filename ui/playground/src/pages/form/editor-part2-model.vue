@@ -63,15 +63,15 @@ export default {
 
     removeTags(text) {
       return text.length > 25
-        ? text.replaceAll(/<b>/, '').replaceAll(/<\/b>/, '')
+        ? text.replaceAll('<b>', '').replaceAll('</b>', '')
         : text
     },
 
     addTags(text) {
       return text
-        .replaceAll(/<b>/, '')
-        .replaceAll(/<\/b>/, '')
-        .replaceAll(/bacon/, '<i>bacon</i>')
+        .replaceAll('<b>', '')
+        .replaceAll('</b>', '')
+        .replaceAll('bacon', '<i>bacon</i>')
     },
 
     onBlur() {

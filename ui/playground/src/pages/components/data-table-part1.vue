@@ -431,13 +431,11 @@
       <q-table
         :rows="data"
         :columns="columns"
-        :title="title"
         :filter="filter"
         :loading="loading"
         row-key="name"
         color="primary"
-        no-top
-        no-bottom
+        hide-bottom
       />
 
       <h2>top-left template</h2>

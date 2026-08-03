@@ -126,7 +126,6 @@
     <div class="q-my-md">Using .q-carousel--padding:</div>
     <q-carousel
       v-bind="props"
-      ref="carousel"
       swipeable
       animated
       :padding="false"
@@ -432,7 +431,7 @@
       <template v-slot:control>
         <q-carousel-control position="bottom" :offset="[0, 0]">
           <q-linear-progress
-            :value="(slide2 - 1) / 11"
+            :value="slide2 / 11"
             height="6px"
             stripe
             color="amber"

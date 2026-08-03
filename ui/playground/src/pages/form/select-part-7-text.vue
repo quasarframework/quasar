@@ -21,7 +21,7 @@
         fill-input
         hide-selected
         @filter="filterOptions"
-        @update:model-value-value="
+        @update:model-value="
           val => {
             model = val
           }

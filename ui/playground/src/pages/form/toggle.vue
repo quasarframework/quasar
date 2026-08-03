@@ -398,9 +398,9 @@
           :dark="dark"
           :dense="dense"
         >
-          <template v-slot:control="{ value, emitValue }">
+          <template v-slot:control="{ modelValue, emitValue }">
             <q-toggle
-              :model-value="value"
+              :model-value="modelValue"
               @update:model-value="emitValue"
               color="orange"
               :dark="dark"

@@ -375,10 +375,10 @@
             :dense="dense"
             class="col"
           >
-            <template v-slot:control="{ id, value, emitValue }">
+            <template v-slot:control="{ id, modelValue, emitValue }">
               <q-radio
                 :for="id"
-                :model-value="value"
+                :model-value="modelValue"
                 val="opt1"
                 @update:model-value="emitValue"
                 color="orange"
@@ -396,9 +396,9 @@
             :dense="dense"
             class="col"
           >
-            <template v-slot:control="{ value, emitValue }">
+            <template v-slot:control="{ modelValue, emitValue }">
               <q-radio
-                :model-value="value"
+                :model-value="modelValue"
                 val="opt2"
                 @update:model-value="emitValue"
                 color="orange"

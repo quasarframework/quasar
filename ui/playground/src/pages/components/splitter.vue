@@ -119,7 +119,6 @@
           <q-splitter
             v-model="innerSeparatorSplitModel"
             :reverse="modelReverse"
-            vertical
             :disable="disable"
             separator-class="bg-deep-orange"
             class="bg-white rounded-borders"
@@ -127,7 +126,7 @@
           >
             <template v-slot:before>
               <div class="q-layout-padding">
-                <q-input outline v-model="text" dense />
+                <q-input outlined v-model="text" dense />
                 <div v-for="n in 20" :key="n" class="q-my-md"
                   >{{ n }}. Lorem ipsum dolor sit.</div
                 >
@@ -156,7 +155,7 @@
           <template v-slot:before>
             <div class="q-layout-padding">
               <div class="text-h1 q-mb-md">After - Before</div>
-              <q-input outline v-model="text" dense />
+              <q-input outlined v-model="text" dense />
               <div v-for="n in 20" :key="n" class="q-my-md">
                 {{ n }}. Lorem ipsum dolor sit, amet consectetur adipisicing
                 elit. Quis praesentium cumque magnam odio iure quidem, quod

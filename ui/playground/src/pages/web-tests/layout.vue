@@ -17,46 +17,38 @@
 
     <br /><br />
 
-    <q-tabs
-      inverted
-      align="center"
-      v-model="tab"
-      @update:model-value="onInput"
-      @select="onSelect"
-    >
-      <q-tab name="one" label="One" @select="onTabSelect" />
-      <q-tab name="two" label="Two" @select="onTabSelect" />
-      <q-tab name="three" label="Three" @select="onTabSelect" />
-      <q-tab name="four" label="Four" @select="onTabSelect" />
-      <q-tab name="five" label="Five" @select="onTabSelect" />
-      <q-tab name="six" label="Six" @select="onTabSelect" />
+    <q-tabs align="center" v-model="tab" @update:model-value="onInput">
+      <q-tab name="one" label="One" @click="onTabClick('one')" />
+      <q-tab name="two" label="Two" @click="onTabClick('two')" />
+      <q-tab name="three" label="Three" @click="onTabClick('three')" />
+      <q-tab name="four" label="Four" @click="onTabClick('four')" />
+      <q-tab name="five" label="Five" @click="onTabClick('five')" />
+      <q-tab name="six" label="Six" @click="onTabClick('six')" />
     </q-tabs>
     <br />
 
-    <q-tabs inverted @update:model-value="onInput" @select="onSelect">
-      <q-tab name="one" label="One" @select="onTabSelect" />
-      <q-tab name="two" label="Two" @select="onTabSelect" />
-      <q-tab name="three" label="Three" @select="onTabSelect" />
-      <q-tab name="four" label="Four" @select="onTabSelect" />
-      <q-tab name="five" label="Five" @select="onTabSelect" />
-      <q-tab name="six" label="Six" @select="onTabSelect" />
+    <q-tabs @update:model-value="onInput">
+      <q-tab name="one" label="One" @click="onTabClick('one')" />
+      <q-tab name="two" label="Two" @click="onTabClick('two')" />
+      <q-tab name="three" label="Three" @click="onTabClick('three')" />
+      <q-tab name="four" label="Four" @click="onTabClick('four')" />
+      <q-tab name="five" label="Five" @click="onTabClick('five')" />
+      <q-tab name="six" label="Six" @click="onTabClick('six')" />
     </q-tabs>
     <br />
 
-    <q-tabs color="secondary" inverted>
+    <q-tabs active-color="secondary">
       <q-route-tab
         v-for="route in ['a', 'b', 'c']"
         :key="route"
         :name="route"
         :to="`/lay/${route}`"
         :label="`Route ${route}`"
-        @select="onRouteTabSelect"
+        @click="onRouteTabClick(route)"
         replace
         icon="receipt"
       />
-      <q-tab name="link" label="Link" icon="cloud" color="amber" />
-
-      <q-tab-panel name="link"> Link Tab </q-tab-panel>
+      <q-tab name="link" label="Link" icon="cloud" />
     </q-tabs>
 
     <router-view />
@@ -74,14 +66,11 @@ export default {
     onInput(val) {
       console.log('@update:model-value', val)
     },
-    onSelect(val) {
-      console.log('@select', val)
+    onTabClick(val) {
+      console.log('tab click', val)
     },
-    onTabSelect(val) {
-      console.log('@tab-select', val)
-    },
-    onRouteTabSelect(val) {
-      console.log('@routeTab-select', val)
+    onRouteTabClick(val) {
+      console.log('route tab click', val)
     }
   }
 }

@@ -54,7 +54,7 @@
 
       <q-toggle v-model="autofocus" label="Autofocus form" />
 
-      <q-form @submit="onSubmitClear" ref="form" :autofocus="autofocus">
+      <q-form @submit="onSubmitClear" ref="clearForm" :autofocus="autofocus">
         <q-input
           dense
           filled
@@ -141,7 +141,7 @@ export default {
 
     onSubmitClear() {
       this.form = {}
-      this.$refs.form.reset()
+      this.$refs.clearForm.reset()
     }
   }
 }

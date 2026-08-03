@@ -9,7 +9,7 @@
       label="Example Selector"
       multiple
       clearable
-      fullscreen
+      behavior="dialog"
       @clear="onClear"
       @update:modelValue="onUpdateModelValue"
     />

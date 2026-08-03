@@ -43,7 +43,7 @@ const actions = [
   {
     label: 'Google Hangouts',
     img: 'https://cdn.quasar.dev/img/logo_hangouts_128px.png',
-    id: 'calendar'
+    id: 'hangouts'
   },
   {
     label: 'Calendar',

@@ -36,10 +36,10 @@
       </q-slide-item>
 
       <q-slide-item @left="onLeft" @right="onRight">
-        <template v-slot:top>
+        <template v-slot:left>
           <div>Left</div>
         </template>
-        <template v-slot:bottom>
+        <template v-slot:right>
           <div>Right content.. long</div>
         </template>
 

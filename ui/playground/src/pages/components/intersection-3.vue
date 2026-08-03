@@ -9,7 +9,7 @@
         style="min-width: 250px"
       />
     </div>
-    <table v-if="visible" ref="table">
+    <table v-if="visible" :ref="el => (tableEl = el)">
       <tbody>
         <tr v-for="index in 10" :key="index">
           <q-intersection
@@ -42,12 +42,8 @@ export default {
     return {
       visible: true,
       once: false,
-      transition: 'scale'
-    }
-  },
-  computed: {
-    tableEl() {
-      return this.$refs.table ? this.$refs.table.$el : null
+      transition: 'scale',
+      tableEl: null
     }
   }
 }

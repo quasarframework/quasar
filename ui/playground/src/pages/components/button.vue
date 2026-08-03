@@ -187,7 +187,6 @@
       </div>
       <div class="q-mt-md">
         <q-toggle v-model="testD" label="Disable form buttons" />
-        <q-toggle v-model="testR" label="Wait for ripple" />
         <form
           @submit.prevent="submit"
           @reset.prevent="reset"
@@ -198,10 +197,7 @@
               <q-input v-model="test" />
             </div>
             <div class="col">
-              <q-input
-                :model-value="testC"
-                @change="v => (testC = v.target.value)"
-              />
+              <q-input :model-value="testC" @change="v => (testC = v)" />
             </div>
             <div class="col">
               <q-input type="number" v-model="testN" />
@@ -216,7 +212,6 @@
             title="Reset"
             @click="onClick"
             :disable="testD"
-            :wait-for-ripple="testR"
           />
           <q-btn
             fab
@@ -227,7 +222,6 @@
             title="Submit"
             @click="onClick"
             :disable="testD"
-            :wait-for-ripple="testR"
           />
         </form>
       </div>
@@ -1099,7 +1093,7 @@
           color="secondary"
           class="full-width"
           label="Full-width"
-          justify="start"
+          align="left"
         />
         <q-btn
           :type="tag"
@@ -1107,7 +1101,7 @@
           icon="alarm"
           class="full-width"
           label="Full-width"
-          justify="end"
+          align="right"
         />
         <q-btn
           :type="tag"
@@ -1115,16 +1109,7 @@
           icon-right="alarm"
           class="full-width"
           label="Full-width"
-          justify="center"
-        />
-        <q-btn
-          :type="tag"
-          color="secondary"
-          icon="lock"
-          icon-right="alarm"
-          class="full-width"
-          label="Full-width"
-          justify="between"
+          align="center"
         />
         <q-btn
           :type="tag"
@@ -1133,7 +1118,16 @@
           icon-right="alarm"
           class="full-width"
           label="Full-width"
-          justify="around"
+          align="between"
+        />
+        <q-btn
+          :type="tag"
+          color="secondary"
+          icon="lock"
+          icon-right="alarm"
+          class="full-width"
+          label="Full-width"
+          align="around"
         />
       </div>
 
@@ -1286,7 +1280,7 @@
           color="primary"
           icon="lock"
           icon-right="alarm"
-          justify="between"
+          align="between"
           size="sm"
           class="full-width"
         >
@@ -1297,7 +1291,7 @@
           color="primary"
           icon="lock"
           icon-right="alarm"
-          justify="between"
+          align="between"
           class="full-width"
         >
           Normal Full-width<br />Multiline<br />Button
@@ -1307,7 +1301,7 @@
           color="primary"
           icon="lock"
           icon-right="alarm"
-          justify="between"
+          align="between"
           size="lg"
           class="full-width"
         >
@@ -1497,7 +1491,6 @@ export default {
       testC: 'Initial value onChange',
       testN: 0,
       testD: false,
-      testR: false,
       tag: 'button',
       toDisable: false
     }

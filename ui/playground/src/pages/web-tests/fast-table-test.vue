@@ -9,7 +9,7 @@
       make a new *.vue file here or in another folder under /dev/components.
     -->
     <q-table
-      :data="xxl"
+      :rows="xxl"
       :columns="columns"
       :filter="filter"
       :color="color"

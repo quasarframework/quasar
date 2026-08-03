@@ -200,7 +200,7 @@
                   no-caps
                   flat
                   color="primary"
-                  @click="customComponent(false)"
+                  @click="customComponentCompositionApi(false)"
                 />
               </q-item-section>
             </q-item>
@@ -211,7 +211,7 @@
                   no-caps
                   flat
                   color="primary"
-                  @click="customComponent(true)"
+                  @click="customComponentCompositionApi(true)"
                 />
               </q-item-section>
             </q-item>

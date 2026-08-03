@@ -83,7 +83,7 @@ export default {
     }
   },
   created() {
-    if (this.$isServer) {
+    if (import.meta.env.QUASAR_SERVER) {
       console.log('setting ssr_cookie')
       this.$q.cookies.set('ssr_cookie', 'yes')
       this.$q.cookies.set('ssr_cookie-second', 'yes')

@@ -988,6 +988,9 @@ export default {
         'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Tempore, nemo minus dolore facere saepe molestias, fugiat officia aspernatur expedita pariatur, accusantium hic exercitationem perspiciatis voluptate possimus nobis temporibus ipsa officiis!'
     }
   },
+  beforeUnmount() {
+    clearInterval(this.hndl)
+  },
   methods: {
     notify(message, close) {
       this.$q.notify({

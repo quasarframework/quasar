@@ -157,6 +157,7 @@
       <div class="row flex-center q-my-md q-gutter-md">
         <router-link
           to="/components/button-functional?q=0&a=0"
+          custom
           v-slot="{ href, route, isActive, isExactActive }"
         >
           <q-btn
@@ -172,6 +173,7 @@
         </router-link>
         <router-link
           to="/components/button-functional?q=1"
+          custom
           v-slot="{ href, route, isActive, isExactActive }"
         >
           <q-btn
@@ -187,6 +189,7 @@
         </router-link>
         <router-link
           to="/components/button-functional?q=1&a=1"
+          custom
           v-slot="{ href, route, isActive, isExactActive }"
         >
           <q-btn
@@ -202,6 +205,7 @@
         </router-link>
         <router-link
           to="/components/button-functional?q=1&a=2"
+          custom
           v-slot="{ href, route, isActive, isExactActive }"
         >
           <q-btn
@@ -217,6 +221,7 @@
         </router-link>
         <router-link
           to="/components/button-functional?q=2"
+          custom
           v-slot="{ href, route, isActive, isExactActive }"
         >
           <q-btn
@@ -281,10 +286,7 @@
             <q-input v-model="test" type="textarea" />
           </div>
           <div class="col">
-            <q-input
-              :model-value="testC"
-              @change="v => (testC = v.target.value)"
-            />
+            <q-input :model-value="testC" @change="v => (testC = v)" />
           </div>
           <div class="col">
             <q-input type="number" v-model="testN" />
@@ -331,10 +333,7 @@
             <q-input v-model="test" type="textarea" />
           </div>
           <div class="col">
-            <q-input
-              :model-value="testC"
-              @change="v => (testC = v.target.value)"
-            />
+            <q-input :model-value="testC" @change="v => (testC = v)" />
           </div>
           <div class="col">
             <q-input type="number" v-model="testN" />

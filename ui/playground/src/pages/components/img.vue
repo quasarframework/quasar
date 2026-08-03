@@ -174,7 +174,7 @@
 
       <q-img
         :src="bogusSrc"
-        error-src="bogusSrc"
+        :error-src="bogusSrc"
         spinner-color="white"
         ratio="1"
         style="min-height: 50px; max-width: 125px"
