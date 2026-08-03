@@ -1034,7 +1034,9 @@ export default function morph(_options) {
             animationDirection === 'normal' ? 'reverse' : 'normal'
 
           elFromClone.style.animationDirection = animationDirection
-          elFromTween.style.animationDirection = animationDirection
+          if (elFromTween !== void 0) {
+            elFromTween.style.animationDirection = animationDirection
+          }
           elToClone.style.animationDirection = animationDirection
           elTo.style.animationDirection = animationDirection
 
