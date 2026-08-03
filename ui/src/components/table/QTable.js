@@ -412,7 +412,9 @@ export default createComponent({
         return
       }
 
-      toIndex = Number.parseInt(toIndex, 10)
+      // sanitize the same way as the virtual scroll branch does
+      // (a NaN would make an invalid selector below, which throws)
+      toIndex = Math.max(0, Number.parseInt(toIndex, 10) || 0)
       const rowEl = rootRef.value.querySelector(
         `tbody tr:nth-of-type(${toIndex + 1})`
       )

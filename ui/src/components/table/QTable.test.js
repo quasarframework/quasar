@@ -2549,6 +2549,15 @@ describe('[QTable API]', () => {
         expect(rowEl.offsetTop).toBeGreaterThan(0)
         expect(middle.scrollTop).toBe(rowEl.offsetTop)
         expect(wrapper.emitted('virtualScroll')[0][0].index).toBe(2)
+
+        // a non-numeric index (e.g. from a cleared input box)
+        // does not throw and lands on the first row
+        expect(wrapper.vm.scrollTo('')).toBeUndefined()
+        await flushPromises()
+
+        const firstRowEl = middle.querySelector('tbody tr:nth-of-type(1)')
+        expect(middle.scrollTop).toBe(firstRowEl.offsetTop)
+        expect(wrapper.emitted('virtualScroll')[1][0].index).toBe(0)
       })
     })
 

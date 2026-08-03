@@ -11,7 +11,7 @@
           :max="255"
           @update:model-value="
             val => {
-              table1.value !== null && table1.value.scrollTo(val)
+              table1 !== null && table1.scrollTo(val)
             }
           "
         />
@@ -54,8 +54,7 @@
           :max="255"
           @update:model-value="
             val => {
-              table2.value !== null &&
-                table2.value.scrollTo(val, 'center-force')
+              table2 !== null && table2.scrollTo(val, 'center-force')
             }
           "
         />
@@ -103,8 +102,8 @@ import { ref } from 'vue'
 export default {
   setup() {
     return {
-      index1: 0,
-      index2: 0,
+      index1: ref(0),
+      index2: ref(0),
 
       table1: ref(null),
       table2: ref(null),
