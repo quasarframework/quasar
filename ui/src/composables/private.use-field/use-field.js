@@ -24,6 +24,7 @@ import useValidate, {
 } from '../private.use-validate/use-validate.js'
 
 import { hSlot } from '../../utils/private.render/render.js'
+import { injectProp } from '../../utils/private.inject-obj-prop/inject-obj-prop.js'
 import { prevent, stopAndPrevent } from '../../utils/event/event.js'
 import {
   addFocusFn,
@@ -284,14 +285,22 @@ export default function useField(state) {
         : '')
   )
 
-  const controlSlotScope = computed(() => ({
-    id: state.targetUid.value,
-    editable: state.editable.value,
-    focused: state.focused.value,
-    floatingLabel: floatingLabel.value,
-    modelValue: props.modelValue,
-    emitValue: state.emitValue
-  }))
+  const controlSlotScope = computed(() =>
+    // "field" is resolved on access, as the root element is only
+    // available after the first render
+    injectProp(
+      {
+        id: state.targetUid.value,
+        editable: state.editable.value,
+        focused: state.focused.value,
+        floatingLabel: floatingLabel.value,
+        modelValue: props.modelValue,
+        emitValue: state.emitValue
+      },
+      'field',
+      () => state.rootRef.value
+    )
+  )
 
   const attributes = computed(() => {
     const acc = {}
