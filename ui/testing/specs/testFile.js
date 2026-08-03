@@ -375,37 +375,45 @@ function createTestFileContent({ ctx, json, generator }) {
     const categoryJson = json[jsonKey]
     if (categoryJson === void 0) return
 
-    hasContent = true
     const { categoryId, getTestId, createTestFn, shouldIgnoreEntry } =
       identifiers[jsonKey]
 
     if (getTestId === void 0) {
+      hasContent = true
       acc += createTestFn({ categoryId, jsonEntry: categoryJson, json, ctx })
-    } else {
-      acc += `\n  describe('${categoryId}', () => {`
-
-      Object.keys(categoryJson).forEach(entryName => {
-        const testId = getTestId(entryName)
-        const jsonEntry = categoryJson[entryName]
-
-        if (jsonEntry.internal === true) return
-
-        const scope = {
-          name: entryName,
-          camelCaseName: camelCase(entryName),
-          testId,
-          jsonEntry,
-          json,
-          ctx
-        }
-
-        if (shouldIgnoreEntry?.(scope) !== true) {
-          acc += createTestFn(scope)
-        }
-      })
-
-      acc += '  })\n'
+      return
     }
+
+    let categoryAcc = ''
+
+    Object.keys(categoryJson).forEach(entryName => {
+      const testId = getTestId(entryName)
+      const jsonEntry = categoryJson[entryName]
+
+      if (jsonEntry.internal === true) return
+
+      const scope = {
+        name: entryName,
+        camelCaseName: camelCase(entryName),
+        testId,
+        jsonEntry,
+        json,
+        ctx
+      }
+
+      if (shouldIgnoreEntry?.(scope) !== true) {
+        categoryAcc += createTestFn(scope)
+      }
+    })
+
+    /**
+     * Every entry might be internal or ignored (example: QEditor, whose only
+     * slot is a dynamic one), which would leave behind an empty describe()
+     */
+    if (categoryAcc === '') return
+
+    hasContent = true
+    acc += `\n  describe('${categoryId}', () => {${categoryAcc}  })\n`
   })
 
   if (!hasContent) {

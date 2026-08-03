@@ -38,6 +38,10 @@ export function getDryRunCmd() {
       for (const fail of result.failList) {
         console.log(`    ❌ ${fail}`)
       }
+      console.log()
+
+      // the summary is printed above, so only the status is left to fix up
+      process.exitCode = 1
     }
   })
 

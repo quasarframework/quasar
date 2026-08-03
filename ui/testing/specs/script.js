@@ -57,6 +57,7 @@ import { cmdValidateTestFile } from './cmd.validateTestFile.js'
 import { cmdCreateTestFile } from './cmd.createTestFile.js'
 import { cmdGenerateSection } from './cmd.generateSection.js'
 import { getDryRunCmd } from './cmd.dryRun.js'
+import { plural } from './specs.utils.js'
 
 const targetList = getTargetList(argv)
 
@@ -66,6 +67,10 @@ if (targetList.length === 0) {
 }
 
 const cmdDryRun = argv['dry-run'] ? getDryRunCmd() : null
+
+// gathered and reported in one go at the end, so that all of them
+// are known after a single run
+const missingTestFileList = []
 
 for (const target of targetList) {
   if (ignoredTestFiles.has(target)) {
@@ -84,7 +89,34 @@ for (const target of targetList) {
     await cmdGenerateSection({ ctx, testFile, jsonPath: argv.generate })
   } else if (testFile.content !== null) {
     await cmdValidateTestFile({ ctx, testFile, argv })
-  } else if (argv.ci !== true) {
-    await cmdCreateTestFile({ ctx, testFile, ignoredTestFiles })
+  } else if (argv.ci === true) {
+    // there is nobody to answer the prompts in CI
+    missingTestFileList.push(ctx)
+  } else if (
+    (await cmdCreateTestFile({ ctx, testFile, ignoredTestFiles })) !== true
+  ) {
+    missingTestFileList.push(ctx)
   }
+}
+
+if (missingTestFileList.length !== 0) {
+  const suffix = plural(missingTestFileList.length)
+
+  console.error(
+    `\n  ❌ Missing ${missingTestFileList.length} test file${suffix}:`
+  )
+
+  missingTestFileList.forEach(ctx => {
+    console.error(`       • ${ctx.testFileRelative}`)
+  })
+
+  console.error(
+    `\n  Generate the missing test file${suffix} with:` +
+      '\n       $ pnpm test:specs --target <target_file>' +
+      '\n  ...or add the source file' +
+      suffix +
+      ' to testing/specs/ignoredTestFiles.conf\n'
+  )
+
+  process.exit(1)
 }

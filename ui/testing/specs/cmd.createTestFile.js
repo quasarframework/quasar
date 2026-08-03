@@ -2,7 +2,9 @@ import fse from 'fs-extra'
 import prompts from 'prompts'
 
 /**
- * Creates a test file (does NOT run in CI mode)
+ * Creates a test file (does NOT run in CI mode).
+ * Returns true if the target ended up with a test file
+ * or was added to the ignore list.
  */
 export async function cmdCreateTestFile({ ctx, testFile, ignoredTestFiles }) {
   const { action } = await prompts({
@@ -21,11 +23,11 @@ export async function cmdCreateTestFile({ ctx, testFile, ignoredTestFiles }) {
   // allow user to exit
   if (action === void 0 || action === 'exit') process.exit(1)
 
-  if (action === 'skip') return
+  if (action === 'skip') return false
 
   if (action === 'add-file-to-ignore-list') {
     ignoredTestFiles.add(ctx.targetRelative)
-    return
+    return true
   }
 
   const testFileContent = testFile.createContent()
@@ -46,5 +48,8 @@ export async function cmdCreateTestFile({ ctx, testFile, ignoredTestFiles }) {
   if (confirm) {
     fse.writeFileSync(ctx.testFileAbsolute, testFileContent, 'utf8')
     console.log(`  🎉 Created "${ctx.testFileRelative}"`)
+    return true
   }
+
+  return false
 }
