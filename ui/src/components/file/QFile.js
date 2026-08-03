@@ -192,14 +192,14 @@ export default createComponent({
         return innerValue.value.length === 0
           ? getFiller()
           : innerValue.value.map((file, index) =>
-              slots.file({ index, file, ref: this })
+              slots.file({ index, file, ref: proxy })
             )
       }
 
       if (slots.selected !== void 0) {
         return innerValue.value.length === 0
           ? getFiller()
-          : slots.selected({ files: innerValue.value, ref: this })
+          : slots.selected({ files: innerValue.value, ref: proxy })
       }
 
       if (props.useChips) {
