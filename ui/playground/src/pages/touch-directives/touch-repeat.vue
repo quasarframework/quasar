@@ -182,87 +182,79 @@
   </div>
 </template>
 
-<script>
+<script setup>
+import { computed, ref } from 'vue'
+
 import './touch-style.sass'
 
-export default {
-  data() {
-    return {
-      info1: null,
-      info2: null,
-      info3: null,
-      disable: false,
+const info1 = ref(null)
+const info2 = ref(null)
+const info3 = ref(null)
+const disable = ref(false)
 
-      repeatTestStopPropagation: true,
-      infoTest: null,
+const repeatTestStopPropagation = ref(true)
+const infoTest = ref(null)
 
-      infoTestCapture: null,
+const infoTestCapture = ref(null)
 
-      testN: 0
-    }
-  },
+const testN = ref(0)
 
-  computed: {
-    computedHandleHold1() {
-      return this.disable ? void 0 : this.handleHold1
-    }
-  },
+const computedHandleHold1 = computed(() =>
+  disable.value ? void 0 : handleHold1
+)
 
-  methods: {
-    handleHold1({ evt, ...info }) {
-      this.info1 = info
+function handleHold1({ evt, ...info }) {
+  info1.value = info
 
-      // native Javascript event
-      console.log('TRIGGER', evt)
-    },
+  // native Javascript event
+  console.log('TRIGGER', evt)
+}
 
-    handleHold2({ evt, ...info }) {
-      this.info2 = info
+function handleHold2({ evt, ...info }) {
+  info2.value = info
 
-      if (info.keyboard) {
-        this.info2.key = evt.key
-        this.info2.code = evt.code
-      }
-
-      // native Javascript event
-      console.log('TRIGGER', evt)
-    },
-
-    handleHold3({ evt, ...info }) {
-      this.info3 = info
-
-      if (info.keyboard) {
-        this.info3.key = evt.key
-        this.info3.code = evt.code
-      }
-
-      // native Javascript event
-      console.log('TRIGGER', evt)
-    },
-
-    handleEvt(e) {
-      if (this.repeatTestStopPropagation) {
-        e.stopPropagation()
-      }
-    },
-
-    handleRepeatTest({ evt, ...info }) {
-      this.infoTest = info
-
-      // native Javascript event
-      console.log('TRIGGER', evt)
-    },
-
-    handleRepeatTestCapture({ evt, ...info }) {
-      this.infoTestCapture = info
-
-      // native Javascript event
-      console.log('TRIGGER', evt)
-    },
-
-    onClick(evt) {
-      console.log('@click', evt)
-    }
+  if (info.keyboard) {
+    info2.value.key = evt.key
+    info2.value.code = evt.code
   }
+
+  // native Javascript event
+  console.log('TRIGGER', evt)
+}
+
+function handleHold3({ evt, ...info }) {
+  info3.value = info
+
+  if (info.keyboard) {
+    info3.value.key = evt.key
+    info3.value.code = evt.code
+  }
+
+  // native Javascript event
+  console.log('TRIGGER', evt)
+}
+
+function handleEvt(e) {
+  if (repeatTestStopPropagation.value) {
+    e.stopPropagation()
+  }
+}
+
+function handleRepeatTest({ evt, ...info }) {
+  infoTest.value = info
+
+  // native Javascript event
+  console.log('TRIGGER', evt)
+}
+
+function handleRepeatTestCapture({ evt, ...info }) {
+  infoTestCapture.value = info
+
+  // native Javascript event
+  console.log('TRIGGER', evt)
+}
+
+function onClick(evt) {
+  console.log('@click', evt)
 }
 </script>

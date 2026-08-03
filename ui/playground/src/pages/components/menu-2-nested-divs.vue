@@ -123,21 +123,6 @@
   </div>
 </template>
 
-<script>
-import {
-  computed,
-  getCurrentInstance,
-  h,
-  nextTick,
-  onBeforeUnmount,
-  onMounted,
-  ref,
-  watch
-} from 'vue'
-
-export default {
-  setup() {
-    return {}
-  }
-}
+<script setup>
+// no script logic needed for this page
 </script>

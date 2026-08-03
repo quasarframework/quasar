@@ -36,17 +36,13 @@
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      visible: true,
-      once: false,
-      transition: 'scale',
-      tableEl: null
-    }
-  }
-}
+<script setup>
+import { ref } from 'vue'
+
+const visible = ref(true)
+const once = ref(false)
+const transition = ref('scale')
+const tableEl = ref(null)
 </script>
 
 <style lang="sass">

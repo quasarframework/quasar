@@ -97,26 +97,16 @@
   </div>
 </template>
 
-<script>
+<script setup>
+import { computed, ref } from 'vue'
 import { skeletonTypes } from 'quasar/src/components/skeleton/QSkeleton.js'
 
-export default {
-  data() {
-    return {
-      bordered: false,
-      dark: null,
-      skeletonTypes,
-      dialog: false
-    }
-  },
+const bordered = ref(false)
+const dark = ref(null)
+const dialog = ref(false)
 
-  computed: {
-    props() {
-      return {
-        bordered: this.bordered,
-        dark: this.dark
-      }
-    }
-  }
-}
+const props = computed(() => ({
+  bordered: bordered.value,
+  dark: dark.value
+}))
 </script>

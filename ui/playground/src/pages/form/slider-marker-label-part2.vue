@@ -34,26 +34,20 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    return {
-      model: ref(2),
-      fnMarkerLabel: val => 10 * val + '%',
-      objMarkerLabel: { 0: '0°C', 3: { label: '3°C' }, 5: '5°C', 10: '10°C' },
+const model = ref(2)
+const fnMarkerLabel = val => 10 * val + '%'
+const objMarkerLabel = { 0: '0°C', 3: { label: '3°C' }, 5: '5°C', 10: '10°C' }
 
-      priceModel: ref(5),
-      arrayMarkerLabel: [
-        { value: 3, label: '$3' },
-        { value: 4, label: '$4' },
-        { value: 5, label: '$5' },
-        { value: 6, label: '$6' },
-        { value: 7, label: '$7' },
-        { value: 8, label: '$8' }
-      ]
-    }
-  }
-}
+const priceModel = ref(5)
+const arrayMarkerLabel = [
+  { value: 3, label: '$3' },
+  { value: 4, label: '$4' },
+  { value: 5, label: '$5' },
+  { value: 6, label: '$6' },
+  { value: 7, label: '$7' },
+  { value: 8, label: '$8' }
+]
 </script>

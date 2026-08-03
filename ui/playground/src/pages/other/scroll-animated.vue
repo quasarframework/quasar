@@ -81,81 +81,72 @@
   </div>
 </template>
 
-<script>
-import { scroll } from 'quasar'
+<script setup>
+import { scroll as scrollUtil } from 'quasar'
+import { computed, ref } from 'vue'
 
-const { animVerticalScrollTo, animHorizontalScrollTo } = scroll
+const { animVerticalScrollTo, animHorizontalScrollTo } = scrollUtil
 
-export default {
-  data() {
-    return {
-      duration: 2000,
-      from: { left: 0, top: 0, timeX: 0, timeY: 0, duration: 2000 },
-      to: { left: 0, top: 0, timeX: 0, timeY: 0 }
+const scrollableEl = ref(null)
+
+const duration = ref(2000)
+const from = ref({ left: 0, top: 0, timeX: 0, timeY: 0, duration: 2000 })
+const to = ref({ left: 0, top: 0, timeX: 0, timeY: 0 })
+
+const diff = computed(() => ({
+  left: to.value.left - from.value.left,
+  top: to.value.top - from.value.top,
+  timeX: to.value.timeX - from.value.timeX,
+  timeY: to.value.timeY - from.value.timeY,
+  devX:
+    ((to.value.timeX - from.value.timeX - from.value.duration) /
+      from.value.duration) *
+    100,
+  devY:
+    ((to.value.timeY - from.value.timeY - from.value.duration) /
+      from.value.duration) *
+    100
+}))
+
+function scroll() {
+  const el = scrollableEl.value
+  const timeStart = performance.now()
+
+  from.value = {
+    left: Math.round(el.scrollLeft),
+    top: Math.round(el.scrollTop),
+    timeX: timeStart,
+    timeY: timeStart,
+    duration: duration.value
+  }
+
+  to.value = {
+    left: Math.round((el.scrollWidth - el.clientWidth) * Math.random()),
+    top: Math.round((el.scrollHeight - el.clientHeight) * Math.random()),
+    timeX: timeStart,
+    timeY: timeStart
+  }
+
+  let { left, top } = from.value
+  const fn = e => {
+    const time = performance.now()
+
+    if (el.scrollLeft !== left) {
+      to.value.timeX = time
+      left = el.scrollLeft
     }
-  },
-
-  computed: {
-    diff() {
-      return {
-        left: this.to.left - this.from.left,
-        top: this.to.top - this.from.top,
-        timeX: this.to.timeX - this.from.timeX,
-        timeY: this.to.timeY - this.from.timeY,
-        devX:
-          ((this.to.timeX - this.from.timeX - this.from.duration) /
-            this.from.duration) *
-          100,
-        devY:
-          ((this.to.timeY - this.from.timeY - this.from.duration) /
-            this.from.duration) *
-          100
-      }
-    }
-  },
-
-  methods: {
-    scroll() {
-      const el = this.$refs.scrollableEl
-      const timeStart = performance.now()
-
-      this.from = {
-        left: Math.round(el.scrollLeft),
-        top: Math.round(el.scrollTop),
-        timeX: timeStart,
-        timeY: timeStart,
-        duration: this.duration
-      }
-
-      this.to = {
-        left: Math.round((el.scrollWidth - el.clientWidth) * Math.random()),
-        top: Math.round((el.scrollHeight - el.clientHeight) * Math.random()),
-        timeX: timeStart,
-        timeY: timeStart
-      }
-
-      let { left, top } = this.from
-      const fn = e => {
-        const time = performance.now()
-
-        if (el.scrollLeft !== left) {
-          this.to.timeX = time
-          left = el.scrollLeft
-        }
-        if (el.scrollTop !== top) {
-          this.to.timeY = time
-          top = el.scrollTop
-        }
-      }
-      el.addEventListener('scroll', fn, { passive: true })
-      setTimeout(() => {
-        el.removeEventListener('scroll', fn, { passive: true })
-      }, this.duration + 500)
-
-      animHorizontalScrollTo(el, this.to.left, this.duration)
-      animVerticalScrollTo(el, this.to.top, this.duration)
+    if (el.scrollTop !== top) {
+      to.value.timeY = time
+      top = el.scrollTop
     }
   }
+  el.addEventListener('scroll', fn, { passive: true })
+  setTimeout(() => {
+    el.removeEventListener('scroll', fn, { passive: true })
+  }, duration.value + 500)
+
+  animHorizontalScrollTo(el, to.value.left, duration.value)
+  animVerticalScrollTo(el, to.value.top, duration.value)
 }
 </script>
 

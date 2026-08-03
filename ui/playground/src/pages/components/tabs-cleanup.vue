@@ -37,43 +37,40 @@
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      tab: 'last',
-      isFarAway: false
-    }
-  },
+<script setup>
+import { nextTick, ref } from 'vue'
+import { useRouter } from 'vue-router'
 
-  methods: {
-    toFirst() {
-      this.isFarAway = false
-      this.tab = 'first'
-    },
+const router = useRouter()
 
-    toLast() {
-      this.isFarAway = false
-      this.tab = 'last'
-    },
+const tab = ref('last')
+const isFarAway = ref(false)
 
-    // navigate to some other component, outside of q-tabs
-    toFarAway() {
-      this.isFarAway = true
-    },
+function toFirst() {
+  isFarAway.value = false
+  tab.value = 'first'
+}
 
-    changeTabAndNavigateAway() {
-      this.toFirst()
-      this.$nextTick(() => {
-        this.$router.push('/')
-      })
-    },
+function toLast() {
+  isFarAway.value = false
+  tab.value = 'last'
+}
 
-    navigateAwayWithDelay() {
-      setTimeout(() => {
-        this.$router.push('/')
-      }, 1500)
-    }
-  }
+// navigate to some other component, outside of q-tabs
+function toFarAway() {
+  isFarAway.value = true
+}
+
+function changeTabAndNavigateAway() {
+  toFirst()
+  nextTick(() => {
+    router.push('/')
+  })
+}
+
+function navigateAwayWithDelay() {
+  setTimeout(() => {
+    router.push('/')
+  }, 1500)
 }
 </script>

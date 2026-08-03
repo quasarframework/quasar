@@ -181,32 +181,24 @@
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      vertical: false,
-      reverse: false,
-      switchLabelSide: false,
-      switchMarkerLabelsPos: false,
+<script setup>
+import { computed, ref } from 'vue'
 
-      model: 4
-    }
-  },
+const vertical = ref(false)
+const reverse = ref(false)
+const switchLabelSide = ref(false)
+const switchMarkerLabelsPos = ref(false)
 
-  computed: {
-    props() {
-      return {
-        min: 0,
-        max: 10,
-        vertical: this.vertical,
-        reverse: this.reverse,
-        switchLabelSide: this.switchLabelSide,
-        switchMarkerLabelsSide: this.switchMarkerLabelsPos
-      }
-    }
-  }
-}
+const model = ref(4)
+
+const props = computed(() => ({
+  min: 0,
+  max: 10,
+  vertical: vertical.value,
+  reverse: reverse.value,
+  switchLabelSide: switchLabelSide.value,
+  switchMarkerLabelsSide: switchMarkerLabelsPos.value
+}))
 </script>
 
 <style lang="sass" scoped>

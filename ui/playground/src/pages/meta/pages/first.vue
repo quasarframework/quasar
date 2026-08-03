@@ -68,65 +68,57 @@
 
 <style></style>
 
-<script>
+<script setup>
 import { useMeta } from 'quasar'
 import { onMounted, onUnmounted, ref } from 'vue'
 
-function timeout(ms) {
-  return new Promise(resolve => {
-    setTimeout(resolve, ms)
-  })
-}
-
-export default {
+defineOptions({
   name: 'PageIndex',
 
   async preFetch() {
     console.log('called prefetch')
-    await timeout(1000)
-  },
-
-  setup() {
-    console.log('created first.vue')
-
-    const title = ref('Page 1')
-
-    useMeta(() => {
-      console.log('running meta fn in first.vue')
-      return {
-        title: title.value,
-        meta: {
-          description: { name: 'description', content: 'Page 1' }
-        },
-        link: {
-          google: { rel: 'stylesheet', href: 'http://bogus.com/1' }
-        },
-        noscript: {
-          default: 'This is for non-JS'
-        },
-        script: {
-          ldJson: {
-            type: 'application/ld+json',
-            defer: true,
-            innerHTML: `{ "@context": "http://schema.org" }`
-          }
-        }
-      }
+    await new Promise(resolve => {
+      setTimeout(resolve, 1000)
     })
+  }
+})
 
-    onMounted(() => {
-      console.log('mounted first.vue')
-    })
+console.log('created first.vue')
 
-    onUnmounted(() => {
-      console.log('unmounted first.vue')
-    })
+const title = ref('Page 1')
 
-    return {
-      toggleTitle() {
-        title.value = title.value === 'Page 1' ? 'Page 1 Extended' : 'Page 1'
+useMeta(() => {
+  console.log('running meta fn in first.vue')
+  return {
+    title: title.value,
+    meta: {
+      description: { name: 'description', content: 'Page 1' }
+    },
+    link: {
+      google: { rel: 'stylesheet', href: 'http://bogus.com/1' }
+    },
+    noscript: {
+      default: 'This is for non-JS'
+    },
+    script: {
+      ldJson: {
+        type: 'application/ld+json',
+        defer: true,
+        innerHTML: `{ "@context": "http://schema.org" }`
       }
     }
   }
+})
+
+onMounted(() => {
+  console.log('mounted first.vue')
+})
+
+onUnmounted(() => {
+  console.log('unmounted first.vue')
+})
+
+function toggleTitle() {
+  title.value = title.value === 'Page 1' ? 'Page 1 Extended' : 'Page 1'
 }
 </script>

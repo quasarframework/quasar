@@ -191,38 +191,29 @@
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      radio: 'op2',
-      checkbox: ['op2'],
-      toggle: ['op2'],
-      dark: null,
-      dense: false,
-      keepColor: false
-    }
-  },
-  watch: {
-    group(val, old) {
-      console.log(
-        `Changed from ${JSON.stringify(old)} to ${JSON.stringify(val)}`
-      )
-    }
-  },
-  methods: {
-    onChange(val) {
-      console.log('@change', JSON.stringify(val))
-    },
-    onInput(val) {
-      console.log('@update:model-value', JSON.stringify(val))
-    },
-    onFocus() {
-      console.log('focused')
-    },
-    onBlur() {
-      console.log('blur')
-    }
-  }
+<script setup>
+import { ref } from 'vue'
+
+const radio = ref('op2')
+const checkbox = ref(['op2'])
+const toggle = ref(['op2'])
+const dark = ref(null)
+const dense = ref(false)
+const keepColor = ref(false)
+
+// Note: the original Options API code had a watcher on a non-existent
+// "group" property, which could never fire; it has been dropped.
+
+function onChange(val) {
+  console.log('@change', JSON.stringify(val))
+}
+function onInput(val) {
+  console.log('@update:model-value', JSON.stringify(val))
+}
+function onFocus() {
+  console.log('focused')
+}
+function onBlur() {
+  console.log('blur')
 }
 </script>

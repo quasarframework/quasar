@@ -25,44 +25,37 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    let index = 0
+let index = 0
 
-    const url = ref('https://cdn.quasar.dev/img/parallax2.jpg')
-    const gIndex = ref('q_0_')
+const url = ref('https://cdn.quasar.dev/img/parallax2.jpg')
+const gIndex = ref('q_0_')
 
-    return {
-      trigger() {
-        gIndex.value = 'q_' + ++index + '_'
-        url.value =
-          url.value === 'https://cdn.quasar.dev/img/parallax2.jpg'
-            ? 'https://cdn.quasar.dev/img/parallax1.jpg'
-            : 'https://cdn.quasar.dev/img/parallax2.jpg'
-      },
-      url,
-      gIndex,
-      transitions: [
-        'slide-right',
-        'slide-left',
-        'slide-up',
-        'slide-down',
-        'fade',
-        'scale',
-        'rotate',
-        'flip-right',
-        'flip-left',
-        'flip-up',
-        'flip-down',
-        'jump-right',
-        'jump-left',
-        'jump-up',
-        'jump-down'
-      ]
-    }
-  }
+function trigger() {
+  gIndex.value = 'q_' + ++index + '_'
+  url.value =
+    url.value === 'https://cdn.quasar.dev/img/parallax2.jpg'
+      ? 'https://cdn.quasar.dev/img/parallax1.jpg'
+      : 'https://cdn.quasar.dev/img/parallax2.jpg'
 }
+
+const transitions = [
+  'slide-right',
+  'slide-left',
+  'slide-up',
+  'slide-down',
+  'fade',
+  'scale',
+  'rotate',
+  'flip-right',
+  'flip-left',
+  'flip-up',
+  'flip-down',
+  'jump-right',
+  'jump-left',
+  'jump-up',
+  'jump-down'
+]
 </script>

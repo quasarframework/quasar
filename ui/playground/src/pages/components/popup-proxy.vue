@@ -248,56 +248,60 @@
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      text: '',
-      type: this.$q.screen.width < 600 ? 'dialog' : 'menu',
-      input: '',
-      date: '2018/11/03',
-      model: true,
-      dialog: false
-    }
-  },
+<script setup>
+import { useQuasar } from 'quasar'
+import { ref, watch } from 'vue'
 
-  watch: {
-    '$q.screen.width'(width) {
-      const type = width < 450 ? 'dialog' : 'menu'
+const $q = useQuasar()
 
-      if (this.type !== type) {
-        this.type = type
-      }
-    }
-  },
+const text = ref('')
+const type = ref($q.screen.width < 600 ? 'dialog' : 'menu')
+const input = ref('')
+const date = ref('2018/11/03')
+const model = ref(true)
+const dialog = ref(false)
 
-  methods: {
-    onBeforeShow1() {
-      console.log('onBeforeShow1')
-    },
-    onShow1() {
-      console.log('onShow1')
-    },
-    onBeforeHide1() {
-      console.log('onBeforeHide1')
-    },
-    onHide1() {
-      console.log('onHide1')
-    },
+watch(
+  () => $q.screen.width,
+  width => {
+    const newType = width < 450 ? 'dialog' : 'menu'
 
-    onBeforeShow2() {
-      console.log('onBeforeShow2')
-    },
-    onShow2() {
-      console.log('onShow2')
-    },
-    onBeforeHide2() {
-      console.log('onBeforeHide2')
-    },
-    onHide2() {
-      console.log('onHide2')
+    if (type.value !== newType) {
+      type.value = newType
     }
   }
+)
+
+function onBeforeShow1() {
+  console.log('onBeforeShow1')
+}
+
+function onShow1() {
+  console.log('onShow1')
+}
+
+function onBeforeHide1() {
+  console.log('onBeforeHide1')
+}
+
+function onHide1() {
+  console.log('onHide1')
+}
+
+function onBeforeShow2() {
+  console.log('onBeforeShow2')
+}
+
+function onShow2() {
+  console.log('onShow2')
+}
+
+function onBeforeHide2() {
+  console.log('onBeforeHide2')
+}
+
+function onHide2() {
+  console.log('onHide2')
 }
 </script>
 

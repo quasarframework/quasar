@@ -356,31 +356,29 @@
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      test: 'Initial value',
-      testC: 'Initial value onChange',
-      testN: 0
-    }
-  },
-  methods: {
-    submit() {
-      this.$q.notify(
-        `Submit called with: [${this.test}], [${this.testC}], [${this.testN}]`
-      )
-    },
-    reset() {
-      this.test = 'Initial value'
-      this.testC = 'Initial value onChange'
-      this.testN = 0
-      this.$q.notify('Reset called')
-    },
-    onClick(e) {
-      this.$q.notify('Click called')
-      console.log('@click', e.target, e)
-    }
-  }
+<script setup>
+import { useQuasar } from 'quasar'
+import { ref } from 'vue'
+
+const $q = useQuasar()
+
+const test = ref('Initial value')
+const testC = ref('Initial value onChange')
+const testN = ref(0)
+
+function submit() {
+  $q.notify(
+    `Submit called with: [${test.value}], [${testC.value}], [${testN.value}]`
+  )
+}
+function reset() {
+  test.value = 'Initial value'
+  testC.value = 'Initial value onChange'
+  testN.value = 0
+  $q.notify('Reset called')
+}
+function onClick(e) {
+  $q.notify('Click called')
+  console.log('@click', e.target, e)
 }
 </script>

@@ -49,24 +49,18 @@
   </div>
 </template>
 
-<script>
-const nextMorph = {
+<script setup>
+import { ref } from 'vue'
+
+const nextMorphMap = {
   btn: 'card1',
   card1: 'card2',
   card2: 'btn'
 }
 
-export default {
-  data() {
-    return {
-      morphModel: 'btn'
-    }
-  },
+const morphModel = ref('btn')
 
-  methods: {
-    nextMorph() {
-      this.morphModel = nextMorph[this.morphModel]
-    }
-  }
+function nextMorph() {
+  morphModel.value = nextMorphMap[morphModel.value]
 }
 </script>

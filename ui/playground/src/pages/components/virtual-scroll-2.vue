@@ -57,7 +57,7 @@
   </q-layout>
 </template>
 
-<script>
+<script setup>
 const heavyList = []
 
 for (let i = 0; i < 100_000; i++) {
@@ -69,12 +69,4 @@ for (let i = 0; i < 100_000; i++) {
 }
 
 Object.freeze(heavyList)
-
-export default {
-  data() {
-    return {
-      heavyList
-    }
-  }
-}
 </script>

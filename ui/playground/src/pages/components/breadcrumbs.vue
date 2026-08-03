@@ -89,16 +89,12 @@
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      first: true,
-      second: true,
-      third: true
-    }
-  }
-}
+<script setup>
+import { ref } from 'vue'
+
+const first = ref(true)
+const second = ref(true)
+const third = ref(true)
 </script>
 
 <style lang="sass">

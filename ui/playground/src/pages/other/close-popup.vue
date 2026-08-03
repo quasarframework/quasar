@@ -869,27 +869,22 @@
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      menu: false,
+<script setup>
+import { ref } from 'vue'
 
-      dialog: false,
-      dialog2: false,
-      dialog3: false,
-      dialog4: false,
+const menu = ref(false)
 
-      text: 'text',
+const dialog = ref(false)
+const dialog2 = ref(false)
+const dialog3 = ref(false)
+const dialog4 = ref(false)
 
-      selection: 'item 1',
-      options: ['item 1', 'item 2']
-    }
-  },
-  methods: {
-    showNotify() {
-      console.log('@click')
-    }
-  }
+const text = ref('text')
+
+const selection = ref('item 1')
+const options = ref(['item 1', 'item 2'])
+
+function showNotify() {
+  console.log('@click')
 }
 </script>

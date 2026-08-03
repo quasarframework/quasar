@@ -107,7 +107,9 @@
   </q-layout>
 </template>
 
-<script>
+<script setup>
+import { onMounted, ref } from 'vue'
+
 const heavyList = []
 
 for (let i = 0; i < 100_000; i++) {
@@ -120,31 +122,27 @@ for (let i = 0; i < 100_000; i++) {
 
 Object.freeze(heavyList)
 
-export default {
-  data() {
-    return {
-      heavyList,
-      scrollTarget: void 0,
-      virtualListIndex1: 0,
-      virtualListIndex2: 1200
-    }
-  },
+const scrollTarget = ref(void 0)
+const virtualListIndex1 = ref(0)
+const virtualListIndex2 = ref(1200)
 
-  mounted() {
-    this.scrollTarget = this.$refs.virtualScrollTargetRef
-    this.$refs.virtualListRef.scrollTo(this.virtualListIndex2)
-  },
+const virtualScrollTargetRef = ref(null)
+const virtualListRef = ref(null)
 
-  methods: {
-    onIndexChange(index) {
-      this.$refs.virtualListRef.scrollTo(index)
-    },
-    onVirtualScroll1({ index }) {
-      this.virtualListIndex1 = index
-    },
-    onVirtualScroll2({ index }) {
-      this.virtualListIndex2 = index
-    }
-  }
+onMounted(() => {
+  scrollTarget.value = virtualScrollTargetRef.value
+  virtualListRef.value.scrollTo(virtualListIndex2.value)
+})
+
+function onIndexChange(index) {
+  virtualListRef.value.scrollTo(index)
+}
+
+function onVirtualScroll1({ index }) {
+  virtualListIndex1.value = index
+}
+
+function onVirtualScroll2({ index }) {
+  virtualListIndex2.value = index
 }
 </script>

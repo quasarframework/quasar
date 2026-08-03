@@ -139,12 +139,8 @@
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      disable: false
-    }
-  }
-}
+<script setup>
+import { ref } from 'vue'
+
+const disable = ref(false)
 </script>

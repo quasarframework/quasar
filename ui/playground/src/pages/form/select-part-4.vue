@@ -86,42 +86,35 @@
   </div>
 </template>
 
-<script>
+<script setup>
+import { ref } from 'vue'
+
 const stringOptions = ['Google', 'Facebook', 'Twitter', 'Apple', 'Oracle']
 
-export default {
-  data() {
-    return {
-      model: null,
-      options: stringOptions,
-      outputup: 'n/a',
-      outputdown: 'n/a'
-    }
-  },
-  methods: {
-    mykeyup(e) {
-      console.log('keyup', e)
-      this.outputup = e.key
-    },
-    mykeydown(e) {
-      console.log('keydown', e)
-      this.outputdown = e.key
-    },
-    filterFn(val, update) {
-      if (val === '') {
-        update(() => {
-          this.options = stringOptions
-        })
-        return
-      }
+const model = ref(null)
+const options = ref(stringOptions)
+const outputup = ref('n/a')
+const outputdown = ref('n/a')
 
-      update(() => {
-        const needle = val.toLowerCase()
-        this.options = stringOptions.filter(v =>
-          v.toLowerCase().includes(needle)
-        )
-      })
-    }
+function mykeyup(e) {
+  console.log('keyup', e)
+  outputup.value = e.key
+}
+function mykeydown(e) {
+  console.log('keydown', e)
+  outputdown.value = e.key
+}
+function filterFn(val, update) {
+  if (val === '') {
+    update(() => {
+      options.value = stringOptions
+    })
+    return
   }
+
+  update(() => {
+    const needle = val.toLowerCase()
+    options.value = stringOptions.filter(v => v.toLowerCase().includes(needle))
+  })
 }
 </script>

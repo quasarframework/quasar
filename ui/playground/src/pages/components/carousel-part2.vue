@@ -109,27 +109,24 @@
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      padding: true,
-      vertical: false,
-      arrows: true,
-      navigation: true,
+<script setup>
+import { ref } from 'vue'
 
-      navPos: 'bottom',
-      navigationPositions: [
-        { value: 'top', label: 'top' },
-        { value: 'right', label: 'right' },
-        { value: 'bottom', label: 'bottom (default)' },
-        { value: 'left', label: 'left' }
-      ],
+const padding = ref(true)
+const vertical = ref(false)
+const arrows = ref(true)
+const navigation = ref(true)
 
-      slide: 'tv',
-      lorem:
-        'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Itaque voluptatem totam, architecto cupiditate officia rerum, error dignissimos praesentium libero ab nemo.'
-    }
-  }
-}
+const navPos = ref('bottom')
+const navigationPositions = ref([
+  { value: 'top', label: 'top' },
+  { value: 'right', label: 'right' },
+  { value: 'bottom', label: 'bottom (default)' },
+  { value: 'left', label: 'left' }
+])
+
+const slide = ref('tv')
+const lorem = ref(
+  'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Itaque voluptatem totam, architecto cupiditate officia rerum, error dignissimos praesentium libero ab nemo.'
+)
 </script>

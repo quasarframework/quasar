@@ -146,7 +146,9 @@
   </div>
 </template>
 
-<script>
+<script setup>
+import { onMounted, ref } from 'vue'
+
 const seed = [
   {
     name: 'Frozen Yogurt',
@@ -252,101 +254,92 @@ const seed = [
 
 // we generate lots of rows here
 const data = []
-const listSize = 1000
-for (let i = 0; i < listSize; i++) {
+const dataSize = 1000
+for (let i = 0; i < dataSize; i++) {
   data.push(...seed.map(r => ({ ...r })))
 }
 data.forEach((row, index) => {
   row.index = index
 })
 
-export default {
-  data() {
-    return {
-      dense: false,
-      title: 'QDataTable',
-      filter: '',
-      loading: false,
-      selected: [],
-      visibleColumns: [
-        'index',
-        'desc',
-        'fat',
-        'carbs',
-        'protein',
-        'sodium',
-        'calcium',
-        'iron'
-      ],
-      separator: 'horizontal',
-      pagination: {
-        rowsPerPage: 0
-      },
+const dense = ref(false)
+const title = ref('QDataTable')
+const filter = ref('')
+const loading = ref(false)
+const selected = ref([])
+const visibleColumns = ref([
+  'index',
+  'desc',
+  'fat',
+  'carbs',
+  'protein',
+  'sodium',
+  'calcium',
+  'iron'
+])
+const separator = ref('horizontal')
+const pagination = ref({
+  rowsPerPage: 0
+})
 
-      listSize: listSize * seed.length - 1,
-      listIndex: 50,
+const listSize = ref(dataSize * seed.length - 1)
+const listIndex = ref(50)
 
-      columns: [
-        {
-          name: 'index',
-          label: '#',
-          field: 'index'
-        },
-        {
-          name: 'desc',
-          required: true,
-          label: 'Dessert (100g serving)',
-          align: 'left',
-          field: row => row.name,
-          format: val => `~${val}`,
-          sortable: true
-        },
-        {
-          name: 'calories',
-          align: 'center',
-          label: 'Calories',
-          field: 'calories',
-          sortable: true
-        },
-        { name: 'fat', label: 'Fat (g)', field: 'fat', sortable: true },
-        { name: 'carbs', label: 'Carbs (g)', field: 'carbs' },
-        { name: 'protein', label: 'Protein (g)', field: 'protein' },
-        { name: 'sodium', label: 'Sodium (mg)', field: 'sodium' },
-        {
-          name: 'calcium',
-          label: 'Calcium (%)',
-          field: 'calcium',
-          sortable: true,
-          sort: (a, b) => Number.parseInt(a, 10) - Number.parseInt(b, 10)
-        },
-        {
-          name: 'iron',
-          label: 'Iron (%)',
-          field: 'iron',
-          sortable: true,
-          sort: (a, b) => Number.parseInt(a, 10) - Number.parseInt(b, 10)
-        }
-      ]
-    }
+const columns = ref([
+  {
+    name: 'index',
+    label: '#',
+    field: 'index'
   },
-
-  methods: {
-    onIndexChange(index) {
-      this.$refs.virtualScrollTable.scrollTo(index)
-    },
-    onVirtualScroll({ index }) {
-      this.listIndex = index
-    }
+  {
+    name: 'desc',
+    required: true,
+    label: 'Dessert (100g serving)',
+    align: 'left',
+    field: row => row.name,
+    format: val => `~${val}`,
+    sortable: true
   },
-
-  created() {
-    this.data = data
+  {
+    name: 'calories',
+    align: 'center',
+    label: 'Calories',
+    field: 'calories',
+    sortable: true
   },
-
-  mounted() {
-    this.$refs.virtualScrollTable.scrollTo(this.listIndex)
+  { name: 'fat', label: 'Fat (g)', field: 'fat', sortable: true },
+  { name: 'carbs', label: 'Carbs (g)', field: 'carbs' },
+  { name: 'protein', label: 'Protein (g)', field: 'protein' },
+  { name: 'sodium', label: 'Sodium (mg)', field: 'sodium' },
+  {
+    name: 'calcium',
+    label: 'Calcium (%)',
+    field: 'calcium',
+    sortable: true,
+    sort: (a, b) => Number.parseInt(a, 10) - Number.parseInt(b, 10)
+  },
+  {
+    name: 'iron',
+    label: 'Iron (%)',
+    field: 'iron',
+    sortable: true,
+    sort: (a, b) => Number.parseInt(a, 10) - Number.parseInt(b, 10)
   }
+])
+
+const virtualScrollTable = ref(null)
+
+function onIndexChange(index) {
+  virtualScrollTable.value.scrollTo(index)
 }
+
+function onVirtualScroll({ index }) {
+  listIndex.value = index
+}
+
+onMounted(() => {
+  virtualScrollTable.value.scrollTo(listIndex.value)
+})
 </script>
 
 <style lang="sass">

@@ -324,86 +324,71 @@
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      dark: null,
-      border: false,
-      dense: false,
-      individualBorder: false,
-      color: null,
+<script setup>
+import { computed, ref, watch } from 'vue'
 
-      selected: null,
-      ticked: [],
-      props: [
-        {
-          label: 'Satisfied customers',
-          avatar: 'https://cdn.quasar.dev/img/boy-avatar.png',
-          children: [
-            {
-              label: 'Good food',
-              icon: 'restaurant_menu',
-              children: [
-                { label: 'Quality ingredients' },
-                { label: 'Good recipe' }
-              ]
-            },
-            {
-              label: 'Good service',
-              icon: 'room_service',
-              children: [
-                { label: 'Prompt attention' },
-                { label: 'Professional waiter' }
-              ]
-            },
-            {
-              label: 'Pleasant surroundings',
-              icon: 'photo',
-              children: [
-                {
-                  label: 'Happy atmosphere'
-                },
-                {
-                  label: 'Good table presentation'
-                },
-                {
-                  label: 'Pleasing decor'
-                }
-              ]
-            }
-          ]
-        }
-      ],
+const dark = ref(null)
+const border = ref(false)
+const dense = ref(false)
+const individualBorder = ref(false)
+const color = ref(null)
 
-      testValue: 'Initial value'
-    }
-  },
-
-  watch: {
-    border(v) {
-      if (v) this.individualBorder = false
-    },
-
-    individualBorder(v) {
-      if (v) this.border = false
-    }
-  },
-
-  computed: {
-    classes() {
-      return {
-        'bg-black text-white': this.dark,
-        'fields-border': this.border,
-        'fields-individual-border': this.individualBorder
+const selected = ref(null)
+const ticked = ref([])
+const props = ref([
+  {
+    label: 'Satisfied customers',
+    avatar: 'https://cdn.quasar.dev/img/boy-avatar.png',
+    children: [
+      {
+        label: 'Good food',
+        icon: 'restaurant_menu',
+        children: [{ label: 'Quality ingredients' }, { label: 'Good recipe' }]
+      },
+      {
+        label: 'Good service',
+        icon: 'room_service',
+        children: [
+          { label: 'Prompt attention' },
+          { label: 'Professional waiter' }
+        ]
+      },
+      {
+        label: 'Pleasant surroundings',
+        icon: 'photo',
+        children: [
+          {
+            label: 'Happy atmosphere'
+          },
+          {
+            label: 'Good table presentation'
+          },
+          {
+            label: 'Pleasing decor'
+          }
+        ]
       }
-    },
-
-    tickedValue() {
-      return this.ticked.join(', ')
-    }
+    ]
   }
-}
+])
+
+const testValue = ref('Initial value')
+
+watch(border, v => {
+  if (v) individualBorder.value = false
+})
+
+watch(individualBorder, v => {
+  if (v) border.value = false
+})
+
+const classes = computed(() => ({
+  'bg-black text-white': dark.value,
+  'fields-border': border.value,
+  'fields-individual-border': individualBorder.value
+}))
+
+const tickedValue = computed(() => ticked.value.join(', '))
 </script>
 
 <style lang="sass">

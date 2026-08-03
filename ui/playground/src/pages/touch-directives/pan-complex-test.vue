@@ -400,53 +400,50 @@
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      items: [1],
-      slider: 10
-    }
-  },
+<script setup>
+import { useQuasar } from 'quasar'
+import { ref } from 'vue'
 
-  methods: {
-    refresh(done) {
-      setTimeout(() => {
-        this.items.push(this.items.length + 1)
-        done()
-      }, 1000)
-    },
+const $q = useQuasar()
 
-    onLeft({ reset }) {
-      console.log('Left action!')
-      this.finalize(reset)
-    },
-    onRight({ reset }) {
-      console.log('Right action!')
-      this.finalize(reset)
-    },
-    onTop({ reset }) {
-      console.log('Top-side action!')
-      this.finalize(reset)
-    },
-    onBottom({ reset }) {
-      console.log('Bottom-side action!')
-      this.finalize(reset)
-    },
-    finalize(reset) {
-      console.log('Resetting in 2 seconds')
-      setTimeout(() => {
-        reset()
-      }, 2000)
-    },
+const items = ref([1])
+const slider = ref(10)
 
-    onClick(msg, evt) {
-      if (this.$q.platform.is.desktop) {
-        console.log('vue click on', msg, evt)
-      } else {
-        this.$q.notify('vue click on ' + msg)
-      }
-    }
+function refresh(done) {
+  setTimeout(() => {
+    items.value.push(items.value.length + 1)
+    done()
+  }, 1000)
+}
+
+function onLeft({ reset }) {
+  console.log('Left action!')
+  finalize(reset)
+}
+function onRight({ reset }) {
+  console.log('Right action!')
+  finalize(reset)
+}
+function onTop({ reset }) {
+  console.log('Top-side action!')
+  finalize(reset)
+}
+function onBottom({ reset }) {
+  console.log('Bottom-side action!')
+  finalize(reset)
+}
+function finalize(reset) {
+  console.log('Resetting in 2 seconds')
+  setTimeout(() => {
+    reset()
+  }, 2000)
+}
+
+function onClick(msg, evt) {
+  if ($q.platform.is.desktop) {
+    console.log('vue click on', msg, evt)
+  } else {
+    $q.notify('vue click on ' + msg)
   }
 }
 </script>

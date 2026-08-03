@@ -264,7 +264,9 @@
   </div>
 </template>
 
-<script>
+<script setup>
+import { ref } from 'vue'
+
 const options = [
   {
     label: 'Google',
@@ -288,43 +290,40 @@ const options = [
   }
 ]
 
-export default {
-  data() {
-    return {
-      password: '',
-      isPwd: true,
+const password = ref('')
+const isPwd = ref(true)
 
-      email: '',
-      search: '',
-      tel: '',
-      url: '',
-      time: '',
-      date: '',
-      value: [],
-      options,
-      filteredOptions: options
-    }
-  },
-  methods: {
-    onFilterOptions(val, update) {
-      if (val === '') {
-        update(() => {
-          this.filteredOptions = this.options
-        })
-        return
-      }
+const email = ref('')
+const search = ref('')
+const tel = ref('')
+const url = ref('')
+const time = ref('')
+const date = ref('')
+const value = ref([])
+const filteredOptions = ref(options)
 
-      update(() => {
-        const needle = val.toLowerCase()
-        this.filteredOptions = this.options.filter(v =>
-          v.label.toLowerCase().includes(needle)
-        )
-      })
-    },
-    resetInputText(ref) {
-      this.$refs[ref].updateInputValue('')
-    }
+const select = ref(null)
+const select2 = ref(null)
+const selectRefs = { select, select2 }
+
+function onFilterOptions(val, update) {
+  if (val === '') {
+    update(() => {
+      filteredOptions.value = options
+    })
+    return
   }
+
+  update(() => {
+    const needle = val.toLowerCase()
+    filteredOptions.value = options.filter(v =>
+      v.label.toLowerCase().includes(needle)
+    )
+  })
+}
+
+function resetInputText(refName) {
+  selectRefs[refName].value.updateInputValue('')
 }
 </script>
 

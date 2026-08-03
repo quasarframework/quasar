@@ -41,13 +41,9 @@
       text-align: center
 </style>
 
-<script>
-export default {
-  data() {
-    return {
-      bp: ['', '-xs', '-sm', '-md', '-lg', '-xl'],
-      sz: ['xs', 'sm', 'md', 'lg', 'xl']
-    }
-  }
-}
+<script setup>
+import { ref } from 'vue'
+
+const bp = ref(['', '-xs', '-sm', '-md', '-lg', '-xl'])
+const sz = ref(['xs', 'sm', 'md', 'lg', 'xl'])
 </script>

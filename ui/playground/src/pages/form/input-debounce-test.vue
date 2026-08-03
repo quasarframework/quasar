@@ -14,29 +14,26 @@
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      text: '',
-      i: 0
-    }
-  },
-  methods: {
-    start() {
-      this.stop()
-      this.timer = setInterval(() => {
-        this.i++
-      }, 100)
-    },
+<script setup>
+import { onBeforeUnmount, ref } from 'vue'
 
-    stop() {
-      clearInterval(this.timer)
-    }
-  },
+const text = ref('')
+const i = ref(0)
 
-  beforeUnmount() {
-    this.stop()
-  }
+let timer
+
+function start() {
+  stop()
+  timer = setInterval(() => {
+    i.value++
+  }, 100)
 }
+
+function stop() {
+  clearInterval(timer)
+}
+
+onBeforeUnmount(() => {
+  stop()
+})
 </script>

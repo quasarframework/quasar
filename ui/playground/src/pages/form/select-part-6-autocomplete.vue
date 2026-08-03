@@ -47,41 +47,35 @@
   </div>
 </template>
 
-<script>
-export default {
-  data: function data() {
-    return {
-      name: '',
-      city: null,
-      country: null,
-      cityOptions: [
-        { value: 'Bucuresti', label: 'Bucuresti' },
-        { value: 'Bucharest', label: 'Bucharest' },
-        { value: 'London', label: 'London' }
-      ],
-      countryOptions: [
-        { value: 'GB', label: 'United Kingdom' },
-        { value: 'RO', label: 'Romania' },
-        { value: 'RO', label: 'RO' }
-      ],
-      filteredCountryOptions: [],
-      behavior: 'menu'
-    }
-  },
+<script setup>
+import { ref } from 'vue'
 
-  methods: {
-    filterCountryOptions(val, update) {
-      update(() => {
-        if (val === '') {
-          this.filteredCountryOptions = this.countryOptions
-        } else {
-          const needle = val.toLowerCase()
-          this.filteredCountryOptions = this.countryOptions.filter(v =>
-            v.label.toLowerCase().includes(needle)
-          )
-        }
-      })
+const name = ref('')
+const city = ref(null)
+const country = ref(null)
+const cityOptions = ref([
+  { value: 'Bucuresti', label: 'Bucuresti' },
+  { value: 'Bucharest', label: 'Bucharest' },
+  { value: 'London', label: 'London' }
+])
+const countryOptions = ref([
+  { value: 'GB', label: 'United Kingdom' },
+  { value: 'RO', label: 'Romania' },
+  { value: 'RO', label: 'RO' }
+])
+const filteredCountryOptions = ref([])
+const behavior = ref('menu')
+
+function filterCountryOptions(val, update) {
+  update(() => {
+    if (val === '') {
+      filteredCountryOptions.value = countryOptions.value
+    } else {
+      const needle = val.toLowerCase()
+      filteredCountryOptions.value = countryOptions.value.filter(v =>
+        v.label.toLowerCase().includes(needle)
+      )
     }
-  }
+  })
 }
 </script>

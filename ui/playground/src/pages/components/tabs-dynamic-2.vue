@@ -50,201 +50,210 @@
   </div>
 </template>
 
-<script>
-import { colors, setCssVar } from 'quasar'
+<script setup>
+import { colors as quasarColors, setCssVar } from 'quasar'
+import { computed, ref, watch } from 'vue'
 
-const { luminosity } = colors
+const { luminosity } = quasarColors
 
-export default {
-  data() {
-    return {
-      colors: {
-        primary: '#027BE3',
-        secondary: '#26A69A',
-        accent: '#9C27B0',
+const colors = ref({
+  primary: '#027BE3',
+  secondary: '#26A69A',
+  accent: '#9C27B0',
 
-        dark: '#1d1d1d',
+  dark: '#1d1d1d',
 
-        positive: '#21BA45',
-        negative: '#C10015',
-        info: '#31CCEC',
-        warning: '#F2C037'
-      },
+  positive: '#21BA45',
+  negative: '#C10015',
+  info: '#31CCEC',
+  warning: '#F2C037'
+})
 
-      dark: {
-        primary: true,
-        secondary: true,
-        accent: true,
-        dark: true,
+const dark = ref({
+  primary: true,
+  secondary: true,
+  accent: true,
+  dark: true,
 
-        positive: true,
-        negative: true,
-        info: false,
-        warning: false
-      },
+  positive: true,
+  negative: true,
+  info: false,
+  warning: false
+})
 
-      darkMode: false,
-      exportDialog: false,
-      exportTab: 'sass',
-      list: [
-        'primary',
-        'secondary',
-        'accent',
-        'dark',
-        'positive',
-        'negative',
-        'info',
-        'warning'
-      ],
-      sideColors: [
-        'secondary',
-        'dark',
-        'positive',
-        'negative',
-        'info',
-        'warning'
-      ]
-    }
-  },
+const darkMode = ref(false)
+const exportDialog = ref(false)
+const exportTab = ref('sass')
+const list = ref([
+  'primary',
+  'secondary',
+  'accent',
+  'dark',
+  'positive',
+  'negative',
+  'info',
+  'warning'
+])
+const sideColors = ref([
+  'secondary',
+  'dark',
+  'positive',
+  'negative',
+  'info',
+  'warning'
+])
 
-  watch: {
-    'colors.primary'(val) {
-      this.update('primary', val)
-    },
+watch(
+  () => colors.value.primary,
+  val => {
+    update('primary', val)
+  }
+)
 
-    'colors.secondary'(val) {
-      this.update('secondary', val)
-    },
+watch(
+  () => colors.value.secondary,
+  val => {
+    update('secondary', val)
+  }
+)
 
-    'colors.accent'(val) {
-      this.update('accent', val)
-    },
+watch(
+  () => colors.value.accent,
+  val => {
+    update('accent', val)
+  }
+)
 
-    'colors.dark'(val) {
-      this.update('dark', val)
-    },
+watch(
+  () => colors.value.dark,
+  val => {
+    update('dark', val)
+  }
+)
 
-    'colors.positive'(val) {
-      this.update('positive', val)
-    },
+watch(
+  () => colors.value.positive,
+  val => {
+    update('positive', val)
+  }
+)
 
-    'colors.negative'(val) {
-      this.update('negative', val)
-    },
+watch(
+  () => colors.value.negative,
+  val => {
+    update('negative', val)
+  }
+)
 
-    'colors.info'(val) {
-      this.update('info', val)
-    },
+watch(
+  () => colors.value.info,
+  val => {
+    update('info', val)
+  }
+)
 
-    'colors.warning'(val) {
-      this.update('warning', val)
-    }
-  },
+watch(
+  () => colors.value.warning,
+  val => {
+    update('warning', val)
+  }
+)
 
-  computed: {
-    pageClass() {
-      return this.darkMode === true
-        ? 'bg-grey-10 text-white'
-        : 'bg-white text-black'
-    },
+const pageClass = computed(() =>
+  darkMode.value === true ? 'bg-grey-10 text-white' : 'bg-white text-black'
+)
 
-    sassExport() {
-      return (
-        '// src/css/quasar.variables.sass\n\n' +
-        `$primary   : ${this.colors.primary}\n` +
-        `$secondary : ${this.colors.secondary}\n` +
-        `$accent    : ${this.colors.accent}\n\n` +
-        `$dark      : ${this.colors.dark}\n\n` +
-        `$positive  : ${this.colors.positive}\n` +
-        `$negative  : ${this.colors.negative}\n` +
-        `$info      : ${this.colors.info}\n` +
-        `$warning   : ${this.colors.warning}`
-      )
-    },
+const sassExport = computed(
+  () =>
+    '// src/css/quasar.variables.sass\n\n' +
+    `$primary   : ${colors.value.primary}\n` +
+    `$secondary : ${colors.value.secondary}\n` +
+    `$accent    : ${colors.value.accent}\n\n` +
+    `$dark      : ${colors.value.dark}\n\n` +
+    `$positive  : ${colors.value.positive}\n` +
+    `$negative  : ${colors.value.negative}\n` +
+    `$info      : ${colors.value.info}\n` +
+    `$warning   : ${colors.value.warning}`
+)
 
-    scssExport() {
-      return (
-        '// src/css/quasar.variables.scss\n\n' +
-        `$primary   : ${this.colors.primary};\n` +
-        `$secondary : ${this.colors.secondary};\n` +
-        `$accent    : ${this.colors.accent};\n\n` +
-        `$dark      : ${this.colors.dark};\n\n` +
-        `$positive  : ${this.colors.positive};\n` +
-        `$negative  : ${this.colors.negative};\n` +
-        `$info      : ${this.colors.info};\n` +
-        `$warning   : ${this.colors.warning};`
-      )
-    },
+const scssExport = computed(
+  () =>
+    '// src/css/quasar.variables.scss\n\n' +
+    `$primary   : ${colors.value.primary};\n` +
+    `$secondary : ${colors.value.secondary};\n` +
+    `$accent    : ${colors.value.accent};\n\n` +
+    `$dark      : ${colors.value.dark};\n\n` +
+    `$positive  : ${colors.value.positive};\n` +
+    `$negative  : ${colors.value.negative};\n` +
+    `$info      : ${colors.value.info};\n` +
+    `$warning   : ${colors.value.warning};`
+)
 
-    quasarCliExport() {
-      return `// quasar.conf.js
+const quasarCliExport = computed(
+  () => `// quasar.conf.js
 
 return {
   framework: {
     config: {
       brand: {
-        primary: '${this.colors.primary}',
-        secondary: '${this.colors.secondary}',
-        accent: '${this.colors.accent}',
+        primary: '${colors.value.primary}',
+        secondary: '${colors.value.secondary}',
+        accent: '${colors.value.accent}',
 
-        dark: '${this.colors.dark}',
+        dark: '${colors.value.dark}',
 
-        positive: '${this.colors.positive}',
-        negative: '${this.colors.negative}',
-        info: '${this.colors.info}',
-        warning: '${this.colors.warning}'
+        positive: '${colors.value.positive}',
+        negative: '${colors.value.negative}',
+        info: '${colors.value.info}',
+        warning: '${colors.value.warning}'
       }
     }
   }
 }`
-    },
+)
 
-    umdExport() {
-      return `app.use(Quasar, {
+const umdExport = computed(
+  () => `app.use(Quasar, {
   config: {
     brand: {
-      primary: '${this.colors.primary}',
-      secondary: '${this.colors.secondary}',
-      accent: '${this.colors.accent}',
+      primary: '${colors.value.primary}',
+      secondary: '${colors.value.secondary}',
+      accent: '${colors.value.accent}',
 
-      dark: '${this.colors.dark}',
+      dark: '${colors.value.dark}',
 
-      positive: '${this.colors.positive}',
-      negative: '${this.colors.negative}',
-      info: '${this.colors.info}',
-      warning: '${this.colors.warning}'
+      positive: '${colors.value.positive}',
+      negative: '${colors.value.negative}',
+      info: '${colors.value.info}',
+      warning: '${colors.value.warning}'
     }
   }
 }`
-    },
+)
 
-    vueCliExport() {
-      return `// main.js
+const vueCliExport = computed(
+  () => `// main.js
 
 app.use(Quasar, {
   config: {
     brand: {
-      primary: '${this.colors.primary}',
-      secondary: '${this.colors.secondary}',
-      accent: '${this.colors.accent}',
+      primary: '${colors.value.primary}',
+      secondary: '${colors.value.secondary}',
+      accent: '${colors.value.accent}',
 
-      dark: '${this.colors.dark}',
+      dark: '${colors.value.dark}',
 
-      positive: '${this.colors.positive}',
-      negative: '${this.colors.negative}',
-      info: '${this.colors.info}',
-      warning: '${this.colors.warning}'
+      positive: '${colors.value.positive}',
+      negative: '${colors.value.negative}',
+      info: '${colors.value.info}',
+      warning: '${colors.value.warning}'
     }
   }
 })`
-    }
-  },
+)
 
-  methods: {
-    update(color, val) {
-      setCssVar(color, val, document.getElementById('theme-picker'))
-      this.dark[color] = luminosity(val) <= 0.4
-    }
-  }
+function update(color, val) {
+  setCssVar(color, val, document.getElementById('theme-picker'))
+  dark.value[color] = luminosity(val) <= 0.4
 }
 </script>

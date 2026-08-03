@@ -216,70 +216,64 @@ Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis praesentium cumqu
   </div>
 </template>
 
-<script>
+<script setup>
+import { computed, ref } from 'vue'
+
 import './touch-style.sass'
 
-export default {
-  data() {
-    return {
-      info: null,
-      infoRight: null,
-      infoCustom: null,
-      infoTest: null,
-      infoTestCapture: null,
-      swipeTestStopPropagation: true,
-      disable: false,
+const info = ref(null)
+const infoRight = ref(null)
+const infoCustom = ref(null)
+const infoTest = ref(null)
+const infoTestCapture = ref(null)
+const swipeTestStopPropagation = ref(true)
+const disable = ref(false)
 
-      tab: 'mails',
-      text: 'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis praesentium cumque magnam odio iure quidem, quod illum numquam possimus obcaecati commodi minima assumenda consectetur culpa fuga nulla ullam. In, libero.'
-    }
-  },
+const tab = ref('mails')
+const text = ref(
+  'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis praesentium cumque magnam odio iure quidem, quod illum numquam possimus obcaecati commodi minima assumenda consectetur culpa fuga nulla ullam. In, libero.'
+)
 
-  computed: {
-    computedHandleSwipe() {
-      return this.disable ? void 0 : this.handleSwipe
-    }
-  },
+const computedHandleSwipe = computed(() =>
+  disable.value ? void 0 : handleSwipe
+)
 
-  methods: {
-    handleSwipe({ evt, ...info }) {
-      this.info = info
+function handleSwipe({ evt, ...localInfo }) {
+  info.value = localInfo
 
-      // native Javascript event
-      console.log(evt)
-    },
+  // native Javascript event
+  console.log(evt)
+}
 
-    handleSwipeTest({ evt, ...info }) {
-      this.infoTest = info
+function handleSwipeTest({ evt, ...localInfo }) {
+  infoTest.value = localInfo
 
-      // native Javascript event
-      console.log(evt)
-    },
+  // native Javascript event
+  console.log(evt)
+}
 
-    handleSwipeTestCapture({ evt, ...info }) {
-      this.infoTestCapture = info
+function handleSwipeTestCapture({ evt, ...localInfo }) {
+  infoTestCapture.value = localInfo
 
-      // native Javascript event
-      console.log(evt)
-    },
+  // native Javascript event
+  console.log(evt)
+}
 
-    swipeToRight({ evt, ...info }) {
-      this.infoRight = info
-    },
+function swipeToRight({ evt, ...localInfo }) {
+  infoRight.value = localInfo
+}
 
-    swipeToCustom({ evt, ...info }) {
-      this.infoCustom = info
-    },
+function swipeToCustom({ evt, ...localInfo }) {
+  infoCustom.value = localInfo
+}
 
-    onClick() {
-      console.log('onClick')
-    },
+function onClick() {
+  console.log('onClick')
+}
 
-    handleEvt(e) {
-      if (this.swipeTestStopPropagation) {
-        e.stopPropagation()
-      }
-    }
+function handleEvt(e) {
+  if (swipeTestStopPropagation.value) {
+    e.stopPropagation()
   }
 }
 </script>

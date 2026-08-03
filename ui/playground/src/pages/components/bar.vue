@@ -93,12 +93,8 @@
   </div>
 </template>
 
-<script>
-export default {
-  methods: {
-    onClick(evt) {
-      console.log(evt)
-    }
-  }
+<script setup>
+function onClick(evt) {
+  console.log(evt)
 }
 </script>

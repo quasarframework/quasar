@@ -284,9 +284,11 @@
   top: 0
 </style>
 
-<script>
+<script setup>
+import { computed, ref } from 'vue'
+
 const stringOptions = ['Google', 'Facebook', 'Twitter', 'Apple', 'Oracle'],
-  objectOptions = () => [
+  createObjectOptions = () => [
     {
       label: 'Google',
       value: 1
@@ -308,96 +310,84 @@ const stringOptions = ['Google', 'Facebook', 'Twitter', 'Apple', 'Oracle'],
       value: 5
     }
   ],
-  lotsOptions = () =>
+  createLotsOptions = () =>
     Array.from({ length: 5000 }, (item, i) => ({
       value: i,
       label: `Item ${i}`
     }))
 
-export default {
-  data() {
-    return {
-      model: 'Twitter',
-      model2: null,
-      model3: null,
-      options: stringOptions,
-      objectOptions: objectOptions(),
-      lotsOptions: Object.freeze(lotsOptions()),
-      forceMenu: null
-    }
-  },
+const model = ref('Twitter')
+const model2 = ref(null)
+const model3 = ref(null)
+const options = ref(stringOptions)
+const objectOptions = ref(createObjectOptions())
+const lotsOptions = ref(Object.freeze(createLotsOptions()))
+const forceMenu = ref(null)
 
-  computed: {
-    behavior() {
-      return this.forceMenu === null
-        ? 'default'
-        : this.forceMenu === true
-          ? 'menu'
-          : 'dialog'
-    },
+const behavior = computed(() =>
+  forceMenu.value === null
+    ? 'default'
+    : forceMenu.value === true
+      ? 'menu'
+      : 'dialog'
+)
 
-    forceMenuLabel() {
-      if (this.forceMenu === true) {
-        return 'Force menu'
-      }
-
-      return this.forceMenu === false ? 'Force dialog' : 'Based on platform'
-    }
-  },
-
-  methods: {
-    filterFn(val, update) {
-      console.log('filterFn', val)
-      if (val === '') {
-        update(() => {
-          this.options = stringOptions
-        })
-        return
-      }
-
-      update(() => {
-        const needle = val.toLowerCase()
-        this.options = stringOptions.filter(v =>
-          v.toLowerCase().includes(needle)
-        )
-      })
-    },
-
-    filterObjectFn(val, update) {
-      console.log('filterObjectFn', val)
-      if (val === '') {
-        update(() => {
-          this.objectOptions = objectOptions()
-        })
-        return
-      }
-
-      setTimeout(() => {
-        update(() => {
-          const needle = val.toLowerCase()
-          this.objectOptions = objectOptions().filter(v =>
-            v.label.toLowerCase().includes(needle)
-          )
-        })
-      }, 100)
-    },
-
-    filterLotsFn(val, update) {
-      console.log('filterLotsFn', val)
-      if (val === '') {
-        update(() => {
-          this.lotsOptions = Object.freeze(lotsOptions())
-        })
-        return
-      }
-
-      update(() => {
-        const needle = val.toLowerCase()
-        this.lotsOptions = Object.freeze(
-          lotsOptions().filter(v => v.label.toLowerCase().includes(needle))
-        )
-      })
-    }
+const forceMenuLabel = computed(() => {
+  if (forceMenu.value === true) {
+    return 'Force menu'
   }
+
+  return forceMenu.value === false ? 'Force dialog' : 'Based on platform'
+})
+
+function filterFn(val, update) {
+  console.log('filterFn', val)
+  if (val === '') {
+    update(() => {
+      options.value = stringOptions
+    })
+    return
+  }
+
+  update(() => {
+    const needle = val.toLowerCase()
+    options.value = stringOptions.filter(v => v.toLowerCase().includes(needle))
+  })
+}
+
+function filterObjectFn(val, update) {
+  console.log('filterObjectFn', val)
+  if (val === '') {
+    update(() => {
+      objectOptions.value = createObjectOptions()
+    })
+    return
+  }
+
+  setTimeout(() => {
+    update(() => {
+      const needle = val.toLowerCase()
+      objectOptions.value = createObjectOptions().filter(v =>
+        v.label.toLowerCase().includes(needle)
+      )
+    })
+  }, 100)
+}
+
+function filterLotsFn(val, update) {
+  console.log('filterLotsFn', val)
+  if (val === '') {
+    update(() => {
+      lotsOptions.value = Object.freeze(createLotsOptions())
+    })
+    return
+  }
+
+  update(() => {
+    const needle = val.toLowerCase()
+    lotsOptions.value = Object.freeze(
+      createLotsOptions().filter(v => v.label.toLowerCase().includes(needle))
+    )
+  })
 }
 </script>

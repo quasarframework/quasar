@@ -915,10 +915,4 @@
         width: 2em
 </style>
 
-<script>
-export default {
-  data() {
-    return {}
-  }
-}
-</script>
+<script setup></script>

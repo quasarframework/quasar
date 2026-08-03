@@ -16,13 +16,9 @@
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      model1: '',
-      model2: ''
-    }
-  }
-}
+<script setup>
+import { ref } from 'vue'
+
+const model1 = ref('')
+const model2 = ref('')
 </script>

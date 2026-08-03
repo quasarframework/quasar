@@ -977,47 +977,52 @@
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      open: true,
-      counter: 0,
-      somegroup: 'somegroup',
-      lorem:
-        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Tempore, nemo minus dolore facere saepe molestias, fugiat officia aspernatur expedita pariatur, accusantium hic exercitationem perspiciatis voluptate possimus nobis temporibus ipsa officiis!'
-    }
-  },
-  beforeUnmount() {
-    clearInterval(this.hndl)
-  },
-  methods: {
-    notify(message, close) {
-      this.$q.notify({
-        color: close ? 'accent' : 'secondary',
-        message
-      })
-    },
-    startCounting() {
-      console.log('counter start')
+<script setup>
+import { useQuasar } from 'quasar'
+import { onBeforeUnmount, ref } from 'vue'
 
-      this.hndl = setInterval(() => {
-        this.counter++
-      }, 1000)
-    },
-    stopCounting() {
-      console.log('counter stop')
+const $q = useQuasar()
 
-      clearInterval(this.hndl)
-    },
+const open = ref(true)
+const counter = ref(0)
+const somegroup = ref('somegroup')
+const lorem = ref(
+  'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Tempore, nemo minus dolore facere saepe molestias, fugiat officia aspernatur expedita pariatur, accusantium hic exercitationem perspiciatis voluptate possimus nobis temporibus ipsa officiis!'
+)
 
-    onClick(which) {
-      console.log('onClick', which)
-    },
-    onKeyup(which) {
-      console.log('onKeyup', which)
-    }
-  }
+let hndl
+
+onBeforeUnmount(() => {
+  clearInterval(hndl)
+})
+
+function notify(message, close) {
+  $q.notify({
+    color: close ? 'accent' : 'secondary',
+    message
+  })
+}
+
+function startCounting() {
+  console.log('counter start')
+
+  hndl = setInterval(() => {
+    counter.value++
+  }, 1000)
+}
+
+function stopCounting() {
+  console.log('counter stop')
+
+  clearInterval(hndl)
+}
+
+function onClick(which) {
+  console.log('onClick', which)
+}
+
+function onKeyup(which) {
+  console.log('onKeyup', which)
 }
 </script>
 

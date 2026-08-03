@@ -412,24 +412,19 @@
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      dark: null,
-      progress: 0.67,
-      progressBuffer: 0.41,
-      buffer: 0.67
-    }
-  },
-  methods: {
-    randomize() {
-      this.progress = Math.random()
-    },
-    randomizeBuffer() {
-      this.progressBuffer = Math.random() * 0.51
-      this.buffer = this.progressBuffer + Math.random() * 0.47
-    }
-  }
+<script setup>
+import { ref } from 'vue'
+
+const dark = ref(null)
+const progress = ref(0.67)
+const progressBuffer = ref(0.41)
+const buffer = ref(0.67)
+
+function randomize() {
+  progress.value = Math.random()
+}
+function randomizeBuffer() {
+  progressBuffer.value = Math.random() * 0.51
+  buffer.value = progressBuffer.value + Math.random() * 0.47
 }
 </script>

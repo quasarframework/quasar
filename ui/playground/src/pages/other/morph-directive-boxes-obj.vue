@@ -69,41 +69,35 @@
   </div>
 </template>
 
-<script>
+<script setup>
+import { ref } from 'vue'
+
 const boxValues = ['topleft', 'topright', 'bottomleft', 'bottomright']
 
-export default {
-  data() {
-    return {
-      boxesModel: {
-        model: 'topleft',
-        group: 'first',
-        duration: 500,
-        tween: true
-      },
+const boxesModel = ref({
+  model: 'topleft',
+  group: 'first',
+  duration: 500,
+  tween: true
+})
 
-      morphBox: {
-        model: 'btn',
-        group: 'second'
-      }
-    }
-  },
+const morphBox = ref({
+  model: 'btn',
+  group: 'second'
+})
 
-  methods: {
-    toggleBoxes() {
-      let value = this.boxesModel.model
+function toggleBoxes() {
+  let value = boxesModel.value.model
 
-      while (value === this.boxesModel.model) {
-        const i = Math.floor(Math.random() * boxValues.length)
-        value = boxValues[i]
-      }
-
-      this.boxesModel.model = value
-    },
-
-    toggleMorph() {
-      this.morphBox.model = this.morphBox.model === 'card' ? 'btn' : 'card'
-    }
+  while (value === boxesModel.value.model) {
+    const i = Math.floor(Math.random() * boxValues.length)
+    value = boxValues[i]
   }
+
+  boxesModel.value.model = value
+}
+
+function toggleMorph() {
+  morphBox.value.model = morphBox.value.model === 'card' ? 'btn' : 'card'
 }
 </script>

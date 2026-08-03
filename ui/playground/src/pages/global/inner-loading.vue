@@ -54,36 +54,27 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { QSpinnerGears } from 'quasar'
+import { ref } from 'vue'
 
-export default {
-  data() {
-    return {
-      showing: false,
-      showing2: false,
-      showSimulatedReturnData: false
-    }
-  },
-  components: {
-    QSpinnerGears
-  },
-  methods: {
-    showTextLoading() {
-      this.show()
-    },
-    show() {
-      this.showing = true
-      this.showSimulatedReturnData = false
+const showing = ref(false)
+const showing2 = ref(false)
+const showSimulatedReturnData = ref(false)
 
-      setTimeout(() => {
-        this.showing = false
-        this.showSimulatedReturnData = true
-      }, 5000)
-    },
-    showTextLoading2() {
-      this.showing2 = true
-    }
-  }
+function showTextLoading() {
+  show()
+}
+function show() {
+  showing.value = true
+  showSimulatedReturnData.value = false
+
+  setTimeout(() => {
+    showing.value = false
+    showSimulatedReturnData.value = true
+  }, 5000)
+}
+function showTextLoading2() {
+  showing2.value = true
 }
 </script>

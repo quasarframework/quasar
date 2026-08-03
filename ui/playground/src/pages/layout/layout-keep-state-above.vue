@@ -56,25 +56,22 @@
   </q-layout>
 </template>
 
-<script>
-export default {
-  name: 'MainLayout',
+<script setup>
+import { useQuasar } from 'quasar'
+import { ref } from 'vue'
 
-  data() {
-    return {
-      leftDrawerOpen: false,
-      rightDrawerOpen: false
-    }
-  },
+defineOptions({ name: 'MainLayout' })
 
-  methods: {
-    toggleLeft() {
-      this.leftDrawerOpen = !this.leftDrawerOpen
-    },
+const $q = useQuasar()
 
-    toggleRight() {
-      this.rightDrawerOpen = !this.rightDrawerOpen
-    }
-  }
+const leftDrawerOpen = ref(false)
+const rightDrawerOpen = ref(false)
+
+function toggleLeft() {
+  leftDrawerOpen.value = !leftDrawerOpen.value
+}
+
+function toggleRight() {
+  rightDrawerOpen.value = !rightDrawerOpen.value
 }
 </script>

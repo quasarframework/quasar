@@ -55,7 +55,9 @@
   </div>
 </template>
 
-<script>
+<script setup>
+import { computed, ref } from 'vue'
+
 const start = new Date(2020, 1, 1).getTime()
 const randomDate = () => {
   const end = Date.now()
@@ -63,37 +65,29 @@ const randomDate = () => {
   return new Date(start + Math.random() * (end - start))
 }
 
-const items = Array.from({ length: 50 }, (_, id) => ({
+const initialItems = Array.from({ length: 50 }, (_, id) => ({
   id,
   date: randomDate()
 }))
 
-export default {
-  data() {
-    return {
-      items,
-      hide: false
-    }
-  },
-  computed: {
-    sortedItems() {
-      return this.items.toSorted((a, b) => {
-        a = new Date(a.date)
-        b = new Date(b.date)
-        return a > b ? -1 : a < b ? 1 : 0
-      })
-    }
-  },
-  methods: {
-    shuffle() {
-      const randomIndex = Math.floor(Math.random() * this.items.length)
+const items = ref(initialItems)
+const hide = ref(false)
 
-      this.items.splice(randomIndex, 1, {
-        ...this.items[randomIndex],
-        date: new Date()
-      })
-    }
-  }
+const sortedItems = computed(() =>
+  items.value.toSorted((a, b) => {
+    a = new Date(a.date)
+    b = new Date(b.date)
+    return a > b ? -1 : a < b ? 1 : 0
+  })
+)
+
+function shuffle() {
+  const randomIndex = Math.floor(Math.random() * items.value.length)
+
+  items.value.splice(randomIndex, 1, {
+    ...items.value[randomIndex],
+    date: new Date()
+  })
 }
 </script>
 

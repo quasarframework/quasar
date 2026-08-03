@@ -7,30 +7,25 @@
   </div>
 </template>
 
-<script>
-import { exportFile } from 'quasar'
+<script setup>
+import { exportFile, useQuasar } from 'quasar'
+import { ref } from 'vue'
 
-export default {
-  data() {
-    return {
-      copyText: 'Fill me',
-      pasteText: 'Hit btn above then paste here'
-    }
-  },
+const $q = useQuasar()
 
-  methods: {
-    exportMe() {
-      const status = exportFile('some-file.txt', this.copyText) // [...Array(8000000).keys()].join('--')
+const copyText = ref('Fill me')
+const pasteText = ref('Hit btn above then paste here')
 
-      if (status === true) {
-        this.$q.notify('Success')
-      } else {
-        this.$q.notify({
-          color: 'negative',
-          message: 'Failed: ' + status
-        })
-      }
-    }
+function exportMe() {
+  const status = exportFile('some-file.txt', copyText.value) // [...Array(8000000).keys()].join('--')
+
+  if (status === true) {
+    $q.notify('Success')
+  } else {
+    $q.notify({
+      color: 'negative',
+      message: 'Failed: ' + status
+    })
   }
 }
 </script>

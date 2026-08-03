@@ -247,71 +247,75 @@
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      hideToolbar: false,
-      flat: false,
-      square: false,
-      dense: false,
-      btnType: 'none',
-      push: false,
-      outline: false,
-      rounded: false,
-      modelWithPlaceHolder: '',
-      model:
-        'Editor in <a href="https://quasar.dev">Quasar</a></div><div>Second line',
-      modelScroll:
-        'Editor in <a href="https://quasar.dev">Quasar</a></div><div style="height: 500px; background: yellow">Spacer 1</div><div style="height: 500px; background: yellow">Spacer 2</div><div>Second line'
-    }
-  },
-  watch: {
-    btnType(val) {
-      ;['push', 'outline', 'flat'].forEach(type => {
-        this[type] = type === val
-      })
-    }
-  },
-  methods: {
-    saveWork() {
-      this.$q.notify({
-        icon: 'done',
-        color: 'positive',
-        message: 'I guess something got saved.'
-      })
-    },
-    upload() {
-      this.$q.notify({
-        icon: 'cloud_upload',
-        color: 'secondary',
-        message: 'Hmm, will upload at another time, ok?'
-      })
-    },
-    spellCheck() {
-      this.$q.notify({
-        icon: 'spellcheck',
-        color: 'secondary',
-        message: "I'll sure run the spellcheck. Later."
-      })
-    },
-    importSomething() {
-      this.$q.notify({
-        color: 'accent',
-        message: 'Importing...'
-      })
-    },
-    add(name) {
-      const edit = this.$refs.editor
-      this.$refs.token.hide()
-      edit.caret.restore()
-      edit.runCmd(
-        'insertHTML',
-        `&nbsp;<div class="editor_token row inline items-center" contenteditable="false">&nbsp;<span>${name}</span>&nbsp;<i class="q-icon material-icons cursor-pointer" onclick="this.parentNode.parentNode.removeChild(this.parentNode)">close</i></div>&nbsp;`
-      )
-      edit.focus()
-    }
-  }
+<script setup>
+import { useQuasar } from 'quasar'
+import { ref, watch } from 'vue'
+
+const $q = useQuasar()
+
+const hideToolbar = ref(false)
+const flat = ref(false)
+const square = ref(false)
+const dense = ref(false)
+const btnType = ref('none')
+const push = ref(false)
+const outline = ref(false)
+const rounded = ref(false)
+const modelWithPlaceHolder = ref('')
+const model = ref(
+  'Editor in <a href="https://quasar.dev">Quasar</a></div><div>Second line'
+)
+const modelScroll = ref(
+  'Editor in <a href="https://quasar.dev">Quasar</a></div><div style="height: 500px; background: yellow">Spacer 1</div><div style="height: 500px; background: yellow">Spacer 2</div><div>Second line'
+)
+
+const editor = ref(null)
+const token = ref(null)
+
+const typeRefs = { push, outline, flat }
+
+watch(btnType, val => {
+  ;['push', 'outline', 'flat'].forEach(type => {
+    typeRefs[type].value = type === val
+  })
+})
+
+function saveWork() {
+  $q.notify({
+    icon: 'done',
+    color: 'positive',
+    message: 'I guess something got saved.'
+  })
+}
+function upload() {
+  $q.notify({
+    icon: 'cloud_upload',
+    color: 'secondary',
+    message: 'Hmm, will upload at another time, ok?'
+  })
+}
+function spellCheck() {
+  $q.notify({
+    icon: 'spellcheck',
+    color: 'secondary',
+    message: "I'll sure run the spellcheck. Later."
+  })
+}
+function importSomething() {
+  $q.notify({
+    color: 'accent',
+    message: 'Importing...'
+  })
+}
+function add(name) {
+  const edit = editor.value
+  token.value.hide()
+  edit.caret.restore()
+  edit.runCmd(
+    'insertHTML',
+    `&nbsp;<div class="editor_token row inline items-center" contenteditable="false">&nbsp;<span>${name}</span>&nbsp;<i class="q-icon material-icons cursor-pointer" onclick="this.parentNode.parentNode.removeChild(this.parentNode)">close</i></div>&nbsp;`
+  )
+  edit.focus()
 }
 </script>
 

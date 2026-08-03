@@ -15,46 +15,43 @@
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      messages: Array.from({ length: 20 }, (_, id) => ({
-        id,
-        text: 'message ' + id
-      }))
-    }
-  },
+<script setup>
+import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 
-  computed: {
-    count() {
-      return this.messages.length
-    }
-  },
-  methods: {
-    scrollDown() {
-      setTimeout(() => {
-        this.$refs.scroll.setScrollPercentage('vertical', 1)
-      }, 0)
-    }
-  },
-  watch: {
-    count() {
-      this.scrollDown()
-    }
-  },
-  mounted() {
-    this.scrollDown()
+const messages = ref(
+  Array.from({ length: 20 }, (_, id) => ({
+    id,
+    text: 'message ' + id
+  }))
+)
 
-    this.timer = setInterval(() => {
-      const id = this.messages.length
+const scroll = ref(null)
 
-      this.messages = [...this.messages, { id, text: 'New message ' + id }]
-    }, 2000)
-  },
+const count = computed(() => messages.value.length)
 
-  beforeUnmount() {
-    clearInterval(this.timer)
-  }
+function scrollDown() {
+  setTimeout(() => {
+    scroll.value.setScrollPercentage('vertical', 1)
+  }, 0)
 }
+
+watch(count, () => {
+  scrollDown()
+})
+
+let timer = null
+
+onMounted(() => {
+  scrollDown()
+
+  timer = setInterval(() => {
+    const id = messages.value.length
+
+    messages.value = [...messages.value, { id, text: 'New message ' + id }]
+  }, 2000)
+})
+
+onBeforeUnmount(() => {
+  clearInterval(timer)
+})
 </script>

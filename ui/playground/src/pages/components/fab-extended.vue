@@ -177,64 +177,56 @@
   </q-layout>
 </template>
 
-<script>
-export default {
-  data() {
+<script setup>
+import { computed, ref } from 'vue'
+
+const fabDirection = ref('up')
+const fabVerticalActionsAlign = ref('center')
+const fabExtended = ref(true)
+const fabExternalLabel = ref(true)
+const fabLabelPosition = ref('right')
+const fabSquare = ref(false)
+const hideLabel = ref(false)
+const hideIcon = ref(false)
+const withLabelClass = ref(false)
+
+const fabDirections = ref(['right', 'left', 'up', 'down'])
+const fabVerticalActionsAligns = ref(['center', 'left', 'right'])
+const fabLabelPositions = ref(['right', 'left', 'top', 'bottom'])
+
+const labelClass = computed(() =>
+  withLabelClass.value ? 'bg-white text-grey-8' : ''
+)
+
+const stickyConfig = computed(() => {
+  if (fabDirection.value === 'up') {
     return {
-      fabDirection: 'up',
-      fabVerticalActionsAlign: 'center',
-      fabExtended: true,
-      fabExternalLabel: true,
-      fabLabelPosition: 'right',
-      fabSquare: false,
-      hideLabel: false,
-      hideIcon: false,
-      withLabelClass: false,
-
-      fabDirections: ['right', 'left', 'up', 'down'],
-      fabVerticalActionsAligns: ['center', 'left', 'right'],
-      fabLabelPositions: ['right', 'left', 'top', 'bottom']
-    }
-  },
-
-  computed: {
-    labelClass() {
-      return this.withLabelClass ? 'bg-white text-grey-8' : ''
-    },
-
-    stickyConfig() {
-      if (this.fabDirection === 'up') {
-        return {
-          position: 'bottom',
-          offset: [this.fabVerticalActionsAlign === 'center' ? 0 : 18, 18]
-        }
-      }
-
-      if (this.fabDirection === 'down') {
-        return {
-          position: 'top',
-          offset: [this.fabVerticalActionsAlign === 'center' ? 0 : 18, 18]
-        }
-      }
-
-      if (this.fabDirection === 'left') {
-        return {
-          position: 'right',
-          offset: [18, 0]
-        }
-      }
-
-      return {
-        position: 'left',
-        offset: [18, 0]
-      }
-    }
-  },
-
-  methods: {
-    logEvt(evt) {
-      console.log(`@${evt.type}`, evt)
+      position: 'bottom',
+      offset: [fabVerticalActionsAlign.value === 'center' ? 0 : 18, 18]
     }
   }
+
+  if (fabDirection.value === 'down') {
+    return {
+      position: 'top',
+      offset: [fabVerticalActionsAlign.value === 'center' ? 0 : 18, 18]
+    }
+  }
+
+  if (fabDirection.value === 'left') {
+    return {
+      position: 'right',
+      offset: [18, 0]
+    }
+  }
+
+  return {
+    position: 'left',
+    offset: [18, 0]
+  }
+})
+
+function logEvt(evt) {
+  console.log(`@${evt.type}`, evt)
 }
 </script>

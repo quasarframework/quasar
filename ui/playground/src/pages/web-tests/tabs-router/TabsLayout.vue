@@ -19,20 +19,11 @@
   <router-view v-bind:allowRouteChange="allowRouteChange" />
 </template>
 
-<script>
-import { defineComponent, ref } from 'vue'
+<script setup>
+import { ref } from 'vue'
 
-export default defineComponent({
-  name: 'TabsLayout',
+defineOptions({ name: 'TabsLayout' })
 
-  setup() {
-    const tab = ref('one')
-    const allowRouteChange = ref(false)
-
-    return {
-      tab,
-      allowRouteChange
-    }
-  }
-})
+const tab = ref('one')
+const allowRouteChange = ref(false)
 </script>

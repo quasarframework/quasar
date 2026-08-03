@@ -24,32 +24,25 @@
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      disable: false,
-      loremipsum:
-        'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
-    }
-  },
+<script setup>
+import { computed, ref } from 'vue'
 
-  computed: {
-    computedBounceImage() {
-      return this.disable ? void 0 : this.bounceImage
-    }
-  },
+const disable = ref(false)
+const loremipsum = ref(
+  'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
+)
 
-  methods: {
-    bounceImage(el) {
-      el.classList.add('animate-bounce')
-      setTimeout(() => {
-        if (document.body.contains(el)) {
-          el.classList.remove('animate-bounce')
-        }
-      }, 2000)
+const computedBounceImage = computed(() =>
+  disable.value ? void 0 : bounceImage
+)
+
+function bounceImage(el) {
+  el.classList.add('animate-bounce')
+  setTimeout(() => {
+    if (document.body.contains(el)) {
+      el.classList.remove('animate-bounce')
     }
-  }
+  }, 2000)
 }
 </script>
 

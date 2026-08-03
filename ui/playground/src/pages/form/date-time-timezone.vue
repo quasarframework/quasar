@@ -85,42 +85,37 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { date as qDate } from 'quasar'
+import { onMounted, ref } from 'vue'
 
-export default {
-  data() {
-    return {
-      date1: '2020-03-18 17:40:45+05:00',
-      date2: '2020-03-18 17:40 -0730',
-      date3: '2020-03-18 17:40'
-    }
-  },
-  methods: {
-    test(dateString, formatMask) {
-      const date = new Date(dateString)
-      console.log('date [' + dateString + ']: ', date)
-      console.log(
-        'extr [' + dateString + ']: ',
-        qDate.extractDate(dateString, formatMask)
-      )
-    }
-  },
-  mounted() {
-    this.test('2020-03-14 10:44:05+05:00', 'YYYY-MM-DD HH:mm:ssZ')
-    this.test('2020-03-14 10:44:05+02:00', 'YYYY-MM-DD HH:mm:ssZ')
-    this.test('2020-03-14 10:44:05+05:30', 'YYYY-MM-DD HH:mm:ssZ')
-    this.test('2020-03-14 10:44:05-05:30', 'YYYY-MM-DD HH:mm:ssZ')
+const date1 = ref('2020-03-18 17:40:45+05:00')
+const date2 = ref('2020-03-18 17:40 -0730')
+const date3 = ref('2020-03-18 17:40')
 
-    this.test('2020-03-14 10:44:05+0500', 'YYYY-MM-DD HH:mm:ssZZ')
-    this.test('2020-03-14 10:44:05+0200', 'YYYY-MM-DD HH:mm:ssZZ')
-    this.test('2020-03-14 10:44:05+0530', 'YYYY-MM-DD HH:mm:ssZZ')
-    this.test('2020-03-14 10:44:05-0530', 'YYYY-MM-DD HH:mm:ssZZ')
-
-    this.test('2020-03-14 10:44:05', 'YYYY-MM-DD HH:mm:ss')
-    this.test('2020-03-14 10:44:05', 'YYYY-MM-DD HH:mm:ss')
-    this.test('2020-03-14 10:44:05', 'YYYY-MM-DD HH:mm:ss')
-    this.test('2020-03-14 10:44:05', 'YYYY-MM-DD HH:mm:ss')
-  }
+function test(dateString, formatMask) {
+  const date = new Date(dateString)
+  console.log('date [' + dateString + ']: ', date)
+  console.log(
+    'extr [' + dateString + ']: ',
+    qDate.extractDate(dateString, formatMask)
+  )
 }
+
+onMounted(() => {
+  test('2020-03-14 10:44:05+05:00', 'YYYY-MM-DD HH:mm:ssZ')
+  test('2020-03-14 10:44:05+02:00', 'YYYY-MM-DD HH:mm:ssZ')
+  test('2020-03-14 10:44:05+05:30', 'YYYY-MM-DD HH:mm:ssZ')
+  test('2020-03-14 10:44:05-05:30', 'YYYY-MM-DD HH:mm:ssZ')
+
+  test('2020-03-14 10:44:05+0500', 'YYYY-MM-DD HH:mm:ssZZ')
+  test('2020-03-14 10:44:05+0200', 'YYYY-MM-DD HH:mm:ssZZ')
+  test('2020-03-14 10:44:05+0530', 'YYYY-MM-DD HH:mm:ssZZ')
+  test('2020-03-14 10:44:05-0530', 'YYYY-MM-DD HH:mm:ssZZ')
+
+  test('2020-03-14 10:44:05', 'YYYY-MM-DD HH:mm:ss')
+  test('2020-03-14 10:44:05', 'YYYY-MM-DD HH:mm:ss')
+  test('2020-03-14 10:44:05', 'YYYY-MM-DD HH:mm:ss')
+  test('2020-03-14 10:44:05', 'YYYY-MM-DD HH:mm:ss')
+})
 </script>

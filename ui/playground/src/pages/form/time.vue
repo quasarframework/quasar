@@ -155,67 +155,57 @@
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      dark: null,
-      disable: false,
-      readonly: false,
-      withSeconds: false,
-      format24h: false,
-      fullWidth: false,
-      nowBtn: false,
+<script setup>
+import { computed, ref } from 'vue'
 
-      time: '10:56',
-      nullTime: null,
-      input: null,
-      input2: '12:35 PM',
+const dark = ref(null)
+const disable = ref(false)
+const readonly = ref(false)
+const withSeconds = ref(false)
+const format24h = ref(false)
+const fullWidth = ref(false)
+const nowBtn = ref(false)
 
-      timeLimit: '10:56',
-      hourOptions: [9, 10, 11, 13, 15],
-      minuteOptions: [0, 15, 30, 45],
-      secondOptions: [0, 10, 20, 30, 40, 50]
-    }
-  },
+const time = ref('10:56')
+const nullTime = ref(null)
+const input = ref(null)
+const input2 = ref('12:35 PM')
 
-  computed: {
-    props() {
-      return {
-        withSeconds: this.withSeconds,
-        format24h: this.format24h,
-        nowBtn: this.nowBtn,
-        dark: this.dark,
-        disable: this.disable,
-        readonly: this.readonly
-      }
-    },
+const timeLimit = ref('10:56')
+const hourOptions = ref([9, 10, 11, 13, 15])
+const minuteOptions = ref([0, 15, 30, 45])
+const secondOptions = ref([0, 10, 20, 30, 40, 50])
 
-    style() {
-      if (this.fullWidth) {
-        return 'width: 100%;'
-      }
-      return null
-    }
-  },
+const props = computed(() => ({
+  withSeconds: withSeconds.value,
+  format24h: format24h.value,
+  nowBtn: nowBtn.value,
+  dark: dark.value,
+  disable: disable.value,
+  readonly: readonly.value
+}))
 
-  methods: {
-    onInput(val) {
-      console.log('@update:model-value', val)
-    },
-
-    optionsFn(hr, min, sec) {
-      if (hr < 6 || hr > 15 || hr % 2 !== 0) {
-        return false
-      }
-      if (min !== null && (min <= 25 || min >= 58)) {
-        return false
-      }
-      if (sec !== null && sec % 10 !== 0) {
-        return false
-      }
-      return true
-    }
+const style = computed(() => {
+  if (fullWidth.value) {
+    return 'width: 100%;'
   }
+  return null
+})
+
+function onInput(val) {
+  console.log('@update:model-value', val)
+}
+
+function optionsFn(hr, min, sec) {
+  if (hr < 6 || hr > 15 || hr % 2 !== 0) {
+    return false
+  }
+  if (min !== null && (min <= 25 || min >= 58)) {
+    return false
+  }
+  if (sec !== null && sec % 10 !== 0) {
+    return false
+  }
+  return true
 }
 </script>

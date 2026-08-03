@@ -43,185 +43,183 @@
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    const messages = [
-      {
-        label: 'Sunday, 19th'
-      },
-      {
-        name: 'Vladimir',
-        text: ['How are you?'],
-        avatar: 'https://cdn.quasar.dev/img/boy-avatar.png',
-        stamp: 'Yesterday 13:34'
-      },
-      {
-        name: 'Jane',
-        text: ["I'm good, thank you!", 'And you?'],
-        sent: true,
-        textColor: 'white',
-        bgColor: 'black',
-        avatar: 'https://cdn.quasar.dev/img/linux-avatar.png',
-        stamp: 'Yesterday at 13:50'
-      },
-      {
-        name: 'Jane',
-        text: [
-          'And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? '
-        ],
-        sent: true,
-        avatar: 'https://cdn.quasar.dev/img/linux-avatar.png',
-        stamp: 'Yesterday at 13:51'
-      },
-      {
-        name: '<strong class="text-uppercase">Trusted Vladimir</strong>',
-        nameHtml: true,
-        text: [
-          'I\'m also fine, thank you. <span class="text-primary">But I feel like writing a very long text here too test the avatar.</span>'
-        ],
-        textHtml: true,
-        avatar: 'https://cdn.quasar.dev/img/boy-avatar.png',
-        stamp: 'Yesterday 13:34'
-      },
-      {
-        name: '<strong class="text-uppercase">Untrusted Vladimir</strong>',
-        text: [
-          'I\'m also fine, thank you. <span class="text-primary">But I feel like writing a very long text here too test the avatar.</span>'
-        ],
-        avatar: 'https://cdn.quasar.dev/img/boy-avatar.png',
-        stamp: 'Yesterday 13:34'
-      },
-      {
-        name: 'Vladimir',
-        text: [
-          'I\'m also fine, thank you. <span class="text-primary">But I feel like writing a very long text here too test the avatar.</span>'
-        ],
-        textHtml: true,
-        avatar: 'https://cdn.quasar.dev/img/boy-avatar.png',
-        stamp: 'Yesterday 13:34'
-      },
-      {
-        label:
-          '<span class="bg-primary text-white q-pa-sm rounded-borders">Sunday, 19th (labelHtml: true)</span>',
-        labelHtml: true
-      },
-      {
-        name: 'Vladimir',
-        bgColor: 'amber',
-        textColor: 'white',
-        text: ['Fine. Nice weather today, right?', 'Hmm...'],
-        avatar: 'https://cdn.quasar.dev/img/boy-avatar.png',
-        stamp: '13:55'
-      },
+<script setup>
+import { ref } from 'vue'
 
-      {
-        label: 'Sunday, 19th'
-      },
-      {
-        name: 'Vladimir',
-        text: ['How are you?'],
-        avatar: 'https://cdn.quasar.dev/img/boy-avatar.png',
-        stamp: 'Yesterday 13:34'
-      },
-      {
-        name: 'Jane',
-        text: ["I'm good, thank you!", 'And you?'],
-        sent: true,
-        avatar: 'https://cdn.quasar.dev/img/linux-avatar.png',
-        stamp: 'Yesterday at 13:50'
-      },
-      {
-        name: 'Jane',
-        text: ['And you?'],
-        sent: true,
-        avatar: 'https://cdn.quasar.dev/img/linux-avatar.png',
-        stamp: 'Yesterday at 13:51'
-      },
-      {
-        label: 'Sunday, 19th'
-      },
-      {
-        name: 'Vladimir',
-        text: ['Fine. Nice weather today, right?', 'Hmm...'],
-        avatar: 'https://cdn.quasar.dev/img/boy-avatar.png',
-        stamp: '13:55'
-      },
+const messages = ref([
+  {
+    label: 'Sunday, 19th'
+  },
+  {
+    name: 'Vladimir',
+    text: ['How are you?'],
+    avatar: 'https://cdn.quasar.dev/img/boy-avatar.png',
+    stamp: 'Yesterday 13:34'
+  },
+  {
+    name: 'Jane',
+    text: ["I'm good, thank you!", 'And you?'],
+    sent: true,
+    textColor: 'white',
+    bgColor: 'black',
+    avatar: 'https://cdn.quasar.dev/img/linux-avatar.png',
+    stamp: 'Yesterday at 13:50'
+  },
+  {
+    name: 'Jane',
+    text: [
+      'And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? '
+    ],
+    sent: true,
+    avatar: 'https://cdn.quasar.dev/img/linux-avatar.png',
+    stamp: 'Yesterday at 13:51'
+  },
+  {
+    name: '<strong class="text-uppercase">Trusted Vladimir</strong>',
+    nameHtml: true,
+    text: [
+      'I\'m also fine, thank you. <span class="text-primary">But I feel like writing a very long text here too test the avatar.</span>'
+    ],
+    textHtml: true,
+    avatar: 'https://cdn.quasar.dev/img/boy-avatar.png',
+    stamp: 'Yesterday 13:34'
+  },
+  {
+    name: '<strong class="text-uppercase">Untrusted Vladimir</strong>',
+    text: [
+      'I\'m also fine, thank you. <span class="text-primary">But I feel like writing a very long text here too test the avatar.</span>'
+    ],
+    avatar: 'https://cdn.quasar.dev/img/boy-avatar.png',
+    stamp: 'Yesterday 13:34'
+  },
+  {
+    name: 'Vladimir',
+    text: [
+      'I\'m also fine, thank you. <span class="text-primary">But I feel like writing a very long text here too test the avatar.</span>'
+    ],
+    textHtml: true,
+    avatar: 'https://cdn.quasar.dev/img/boy-avatar.png',
+    stamp: 'Yesterday 13:34'
+  },
+  {
+    label:
+      '<span class="bg-primary text-white q-pa-sm rounded-borders">Sunday, 19th (labelHtml: true)</span>',
+    labelHtml: true
+  },
+  {
+    name: 'Vladimir',
+    bgColor: 'amber',
+    textColor: 'white',
+    text: ['Fine. Nice weather today, right?', 'Hmm...'],
+    avatar: 'https://cdn.quasar.dev/img/boy-avatar.png',
+    stamp: '13:55'
+  },
 
-      {
-        label: 'Sunday, 19th'
-      },
-      {
-        name: 'Vladimir',
-        text: ['How are you?'],
-        avatar: 'https://cdn.quasar.dev/img/boy-avatar.png',
-        stamp: 'Yesterday 13:34'
-      },
-      {
-        name: 'Jane',
-        text: ["I'm good, thank you!", 'And you?'],
-        sent: true,
-        avatar: 'https://cdn.quasar.dev/img/linux-avatar.png',
-        stamp: 'Yesterday at 13:50'
-      },
-      {
-        name: 'Jane',
-        text: ['And you?'],
-        sent: true,
-        avatar: 'https://cdn.quasar.dev/img/linux-avatar.png',
-        stamp: 'Yesterday at 13:51'
-      },
-      {
-        label: 'Sunday, 19th'
-      },
-      {
-        name: 'Vladimir',
-        text: ['Fine. Nice weather today, right?', 'Hmm...'],
-        avatar: 'https://cdn.quasar.dev/img/boy-avatar.png',
-        stamp: '13:55'
-      },
+  {
+    label: 'Sunday, 19th'
+  },
+  {
+    name: 'Vladimir',
+    text: ['How are you?'],
+    avatar: 'https://cdn.quasar.dev/img/boy-avatar.png',
+    stamp: 'Yesterday 13:34'
+  },
+  {
+    name: 'Jane',
+    text: ["I'm good, thank you!", 'And you?'],
+    sent: true,
+    avatar: 'https://cdn.quasar.dev/img/linux-avatar.png',
+    stamp: 'Yesterday at 13:50'
+  },
+  {
+    name: 'Jane',
+    text: ['And you?'],
+    sent: true,
+    avatar: 'https://cdn.quasar.dev/img/linux-avatar.png',
+    stamp: 'Yesterday at 13:51'
+  },
+  {
+    label: 'Sunday, 19th'
+  },
+  {
+    name: 'Vladimir',
+    text: ['Fine. Nice weather today, right?', 'Hmm...'],
+    avatar: 'https://cdn.quasar.dev/img/boy-avatar.png',
+    stamp: '13:55'
+  },
 
-      {
-        label: 'Sunday, 19th'
-      },
-      {
-        name: 'Vladimir',
-        text: ['How are you?'],
-        avatar: 'https://cdn.quasar.dev/img/boy-avatar.png',
-        stamp: 'Yesterday 13:34'
-      },
-      {
-        name: 'Jane',
-        text: ["I'm good, thank you!", 'And you?'],
-        sent: true,
-        avatar: 'https://cdn.quasar.dev/img/linux-avatar.png',
-        stamp: 'Yesterday at 13:50'
-      },
-      {
-        name: 'Jane',
-        text: ['And you?'],
-        sent: true,
-        avatar: 'https://cdn.quasar.dev/img/linux-avatar.png',
-        stamp: 'Yesterday at 13:51'
-      },
-      {
-        label: 'Sunday, 19th'
-      },
-      {
-        name: 'Vladimir',
-        text: ['Fine. Nice weather today, right?', 'Hmm...'],
-        avatar: 'https://cdn.quasar.dev/img/boy-avatar.png',
-        stamp: '13:55'
-      }
-    ]
-    return {
-      message: '',
-      messages,
-      messagesWithoutAvatar: messages.map(msg => ({
-        ...msg,
-        avatar: void 0
-      }))
-    }
+  {
+    label: 'Sunday, 19th'
+  },
+  {
+    name: 'Vladimir',
+    text: ['How are you?'],
+    avatar: 'https://cdn.quasar.dev/img/boy-avatar.png',
+    stamp: 'Yesterday 13:34'
+  },
+  {
+    name: 'Jane',
+    text: ["I'm good, thank you!", 'And you?'],
+    sent: true,
+    avatar: 'https://cdn.quasar.dev/img/linux-avatar.png',
+    stamp: 'Yesterday at 13:50'
+  },
+  {
+    name: 'Jane',
+    text: ['And you?'],
+    sent: true,
+    avatar: 'https://cdn.quasar.dev/img/linux-avatar.png',
+    stamp: 'Yesterday at 13:51'
+  },
+  {
+    label: 'Sunday, 19th'
+  },
+  {
+    name: 'Vladimir',
+    text: ['Fine. Nice weather today, right?', 'Hmm...'],
+    avatar: 'https://cdn.quasar.dev/img/boy-avatar.png',
+    stamp: '13:55'
+  },
+
+  {
+    label: 'Sunday, 19th'
+  },
+  {
+    name: 'Vladimir',
+    text: ['How are you?'],
+    avatar: 'https://cdn.quasar.dev/img/boy-avatar.png',
+    stamp: 'Yesterday 13:34'
+  },
+  {
+    name: 'Jane',
+    text: ["I'm good, thank you!", 'And you?'],
+    sent: true,
+    avatar: 'https://cdn.quasar.dev/img/linux-avatar.png',
+    stamp: 'Yesterday at 13:50'
+  },
+  {
+    name: 'Jane',
+    text: ['And you?'],
+    sent: true,
+    avatar: 'https://cdn.quasar.dev/img/linux-avatar.png',
+    stamp: 'Yesterday at 13:51'
+  },
+  {
+    label: 'Sunday, 19th'
+  },
+  {
+    name: 'Vladimir',
+    text: ['Fine. Nice weather today, right?', 'Hmm...'],
+    avatar: 'https://cdn.quasar.dev/img/boy-avatar.png',
+    stamp: '13:55'
   }
-}
+])
+
+const message = ref('')
+const messagesWithoutAvatar = ref(
+  messages.value.map(msg => ({
+    ...msg,
+    avatar: void 0
+  }))
+)
 </script>

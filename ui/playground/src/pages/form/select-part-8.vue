@@ -336,54 +336,49 @@
   </div>
 </template>
 
-<script>
+<script setup>
+import { ref } from 'vue'
+
 const quizOptions = [
   { label: 'Google', value: 1 },
   { label: 'Facebook', value: 2 }
 ]
 
-export default {
-  data() {
-    return {
-      dialog: false,
-      selectedUserControl: null,
-      userControl: [' Joypad', 'Keyboard', 'Mouse'],
-      selectedUserColors: [],
-      userColors: [
-        { label: 'Blue', value: 1 },
-        { label: 'Green', value: 2 },
-        { label: 'White', value: 3 },
-        { label: 'Red', value: 4 }
-      ],
-      check1: true,
-      check2: false,
-      check3: false,
+const dialog = ref(false)
+const selectedUserControl = ref(null)
+const userControl = ref([' Joypad', 'Keyboard', 'Mouse'])
+const selectedUserColors = ref([])
+const userColors = ref([
+  { label: 'Blue', value: 1 },
+  { label: 'Green', value: 2 },
+  { label: 'White', value: 3 },
+  { label: 'Red', value: 4 }
+])
+const check1 = ref(true)
+const check2 = ref(false)
+const check3 = ref(false)
 
-      notif1: true,
-      notif2: true,
-      notif3: false,
+const notif1 = ref(true)
+const notif2 = ref(true)
+const notif3 = ref(false)
 
-      volume: 6,
-      brightness: 3,
-      mic: 8,
+const volume = ref(6)
+const brightness = ref(3)
+const mic = ref(8)
 
-      quiz: {},
-      quizList: []
-    }
-  },
-  methods: {
-    getQuiz(value, update, abort) {
-      if (this.quizList.length !== 0) {
-        update()
-        return
-      }
+const quiz = ref({})
+const quizList = ref([])
 
-      setTimeout(() => {
-        update(() => {
-          this.quizList = quizOptions
-        })
-      }, 2000)
-    }
+function getQuiz(value, update, abort) {
+  if (quizList.value.length !== 0) {
+    update()
+    return
   }
+
+  setTimeout(() => {
+    update(() => {
+      quizList.value = quizOptions
+    })
+  }, 2000)
 }
 </script>

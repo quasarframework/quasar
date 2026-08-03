@@ -82,20 +82,16 @@
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      show: false,
+<script setup>
+import { ref } from 'vue'
 
-      inputModel: '',
-      selectModel: null,
+const show = ref(false)
 
-      forInput: 'QInputId',
-      forSelect: 'QSelectId',
+const inputModel = ref('')
+const selectModel = ref(null)
 
-      options: ['Option 1', 'Option 2', 'Option 3']
-    }
-  }
-}
+const forInput = ref('QInputId')
+const forSelect = ref('QSelectId')
+
+const options = ref(['Option 1', 'Option 2', 'Option 3'])
 </script>

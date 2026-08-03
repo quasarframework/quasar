@@ -1443,117 +1443,116 @@
   </div>
 </template>
 
-<script>
-import { extend } from 'quasar'
+<script setup>
+import { extend, useQuasar } from 'quasar'
+import { onBeforeUnmount, ref } from 'vue'
 
-export default {
-  data() {
-    return {
-      icon: 'alarm',
-      sizes: ['xs', 'sm', 'md', 'lg', 'xl'],
-      colors: [
-        'primary',
-        'secondary',
-        'accent',
-        'positive',
-        'negative',
-        'warning',
-        'info',
-        '',
-        'light',
-        'dark',
-        'red',
-        'pink',
-        'purple',
-        'deep-purple',
-        'indigo',
-        'blue',
-        'light-blue',
-        'cyan',
-        'teal',
-        'green',
-        'light-green',
-        'lime',
-        'yellow',
-        'amber',
-        'orange',
-        'deep-orange',
-        'brown',
-        'grey',
-        'blue-grey'
-      ],
-      extras: ['flat', 'outline', 'round', 'rounded', 'push', 'glossy'],
-      loading: {},
-      loading2: false,
-      percentage: 0,
-      clickTimes: 0,
-      test: 'Initial value',
-      testC: 'Initial value onChange',
-      testN: 0,
-      testD: false,
-      tag: 'button',
-      toDisable: false
-    }
-  },
-  methods: {
-    startProgress() {
-      this.percentage = 0
-      this.loading2 = true
-      this.interval = setInterval(() => {
-        this.percentage += Math.floor(Math.random() * 8 + 10)
-        if (this.percentage >= 100) {
-          this.percentage = 0
-          clearInterval(this.interval)
-          this.loading2 = false
-        }
-      }, 700)
-    },
-    simulateProgress(index) {
-      const timeout = setTimeout(
-        () => {
-          if (index in this.loading) {
-            this.loading = extend({}, this.loading, { [index]: false })
-          }
-        },
-        5 * 60 * 1000
-      )
-      this.loading = extend({}, this.loading, { [index]: timeout })
-    },
-    stopProgress() {
-      Object.values(this.loading)
-        .filter(Boolean)
-        .map(t => clearTimeout(t))
-      this.loading = {}
-    },
-    submit() {
-      this.$q.notify(
-        `Submit called with: [${this.test}], [${this.testC}], [${this.testN}]`
-      )
-    },
-    reset() {
-      this.test = 'Initial value'
-      this.testN = 0
-      this.$q.notify('Reset called')
-    },
-    onClick(e) {
-      this.$q.notify('Click called')
-    },
-    linkClick(e, go) {
-      e.preventDefault() // we choose when we navigate
+const $q = useQuasar()
 
-      console.log('triggering navigation in 2s')
-      setTimeout(() => {
-        console.log('navigating as promised 2s ago')
-        go()
-      }, 2000)
-    },
-    handle(type, e, abort) {
-      console.log(type, e)
-      if (abort) e.preventDefault()
+const icon = ref('alarm')
+const sizes = ref(['xs', 'sm', 'md', 'lg', 'xl'])
+const colors = ref([
+  'primary',
+  'secondary',
+  'accent',
+  'positive',
+  'negative',
+  'warning',
+  'info',
+  '',
+  'light',
+  'dark',
+  'red',
+  'pink',
+  'purple',
+  'deep-purple',
+  'indigo',
+  'blue',
+  'light-blue',
+  'cyan',
+  'teal',
+  'green',
+  'light-green',
+  'lime',
+  'yellow',
+  'amber',
+  'orange',
+  'deep-orange',
+  'brown',
+  'grey',
+  'blue-grey'
+])
+const extras = ref(['flat', 'outline', 'round', 'rounded', 'push', 'glossy'])
+const loading = ref({})
+const loading2 = ref(false)
+const percentage = ref(0)
+const clickTimes = ref(0)
+const test = ref('Initial value')
+const testC = ref('Initial value onChange')
+const testN = ref(0)
+const testD = ref(false)
+const tag = ref('button')
+const toDisable = ref(false)
+
+let interval = null
+
+function startProgress() {
+  percentage.value = 0
+  loading2.value = true
+  interval = setInterval(() => {
+    percentage.value += Math.floor(Math.random() * 8 + 10)
+    if (percentage.value >= 100) {
+      percentage.value = 0
+      clearInterval(interval)
+      loading2.value = false
     }
-  },
-  beforeUnmount() {
-    clearInterval(this.interval)
-  }
+  }, 700)
 }
+function simulateProgress(index) {
+  const timeout = setTimeout(
+    () => {
+      if (index in loading.value) {
+        loading.value = extend({}, loading.value, { [index]: false })
+      }
+    },
+    5 * 60 * 1000
+  )
+  loading.value = extend({}, loading.value, { [index]: timeout })
+}
+function stopProgress() {
+  Object.values(loading.value)
+    .filter(Boolean)
+    .map(t => clearTimeout(t))
+  loading.value = {}
+}
+function submit() {
+  $q.notify(
+    `Submit called with: [${test.value}], [${testC.value}], [${testN.value}]`
+  )
+}
+function reset() {
+  test.value = 'Initial value'
+  testN.value = 0
+  $q.notify('Reset called')
+}
+function onClick(e) {
+  $q.notify('Click called')
+}
+function linkClick(e, go) {
+  e.preventDefault() // we choose when we navigate
+
+  console.log('triggering navigation in 2s')
+  setTimeout(() => {
+    console.log('navigating as promised 2s ago')
+    go()
+  }, 2000)
+}
+function handle(type, e, abort) {
+  console.log(type, e)
+  if (abort) e.preventDefault()
+}
+
+onBeforeUnmount(() => {
+  clearInterval(interval)
+})
 </script>

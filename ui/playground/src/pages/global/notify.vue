@@ -126,7 +126,10 @@
   </div>
 </template>
 
-<script>
+<script setup>
+import { useQuasar } from 'quasar'
+import { onMounted, ref } from 'vue'
+
 const alerts = [
   {
     color: 'negative',
@@ -148,237 +151,234 @@ const alerts = [
   }
 ]
 
-export default {
-  data() {
-    return {
-      visible: true,
-      visible2: true
-    }
-  },
-  methods: {
-    fullscreenEl(el = this.$refs.fullscreen) {
-      this.$q.fullscreen
-        .exit()
-        .catch(() => {})
-        .then(() => {
-          setTimeout(() => {
-            // oxlint-disable-next-line promise/no-nesting
-            this.$q.fullscreen.request(el).catch(() => {})
-          }, 0)
-        })
-    },
+const $q = useQuasar()
 
-    fullscreenNone() {
-      this.$q.fullscreen.exit()
-    },
+const visible = ref(true)
+const visible2 = ref(true)
 
-    showGroup1() {
-      this.$q.notify({
-        message: 'Grouped message ' + Math.random(),
-        group: 'some-group',
-        progress: true,
-        badgeColor: 'teal'
-      })
-    },
+const fullscreen = ref(null)
 
-    showGroup2() {
-      this.$q.notify({
-        message: 'Some message',
-        progress: true
-      })
-    },
-
-    alertAsMethod(position) {
-      const { color, textColor, multiLine, icon, message, avatar } =
-        alerts[Math.floor(Math.random(alerts.length) * 10) % alerts.length]
-      const random = Math.random() * 100
-
-      const twoActions = random > 70
-      const buttonColor = color ? 'white' : void 0
-
-      this.$q.notify({
-        color,
-        textColor,
-        icon: random > 30 ? icon : null,
-        message,
-        caption: random < 30 ? '5 minutes ago' : null,
-        position,
-        avatar,
-        multiLine,
-        progress: true,
-        actions: twoActions
-          ? [
-              {
-                label: 'Reply',
-                color: buttonColor,
-                handler: () => console.log('reply wooow ' + random)
-              },
-              {
-                label: 'Dismiss',
-                color: 'yellow',
-                handler: () => console.log('dismiss wooow ' + random)
-              }
-            ]
-          : random > 40
-            ? [
-                {
-                  label: 'Reply',
-                  color: buttonColor,
-                  handler: () => console.log('reply wooow ' + random)
-                }
-              ]
-            : null,
-        timeout: Math.random() * 5000 + 8000
-      })
-      /*
-      this.$q.notify({
-        color,
-        textColor,
-        icon,
-        message,
-        position,
-        avatar,
-        closeBtn: true,
-        actions: Math.random() * 100 > 50
-          ? [ { label: 'Reply', handler: () => console.log('wooow') } ]
-          : null,
-        timeout: Math.random() * 5000 + 3000
-      })
-      */
-    }
-  },
-
-  mounted() {
-    this.$q.notify({
-      message: 'Avatar test',
-      avatar: 'https://cdn.quasar.dev/img/mountains.jpg'
+function fullscreenEl(el = fullscreen.value) {
+  $q.fullscreen
+    .exit()
+    .catch(() => {})
+    .then(() => {
+      setTimeout(() => {
+        // oxlint-disable-next-line promise/no-nesting
+        $q.fullscreen.request(el).catch(() => {})
+      }, 0)
     })
-
-    this.$q.notify({
-      type: 'positive',
-      icon: 'done'
-    })
-
-    this.$q.notify.registerType('my-error', {
-      icon: 'warning',
-      color: 'yellow',
-      textColor: 'black',
-      iconColor: 'blue',
-      position: 'top'
-    })
-
-    this.$q.notify({
-      type: 'my-error',
-      message: 'Type: my-error',
-      position: 'top',
-      onDismiss: () => {
-        console.log('dismissed first my-error')
-      }
-    })
-    this.$q.notify({
-      type: 'my-error',
-      message: 'Type: my-error, with overrided props',
-      icon: 'map',
-      position: 'top'
-    })
-
-    this.$q.notify({
-      type: 'positive',
-      message: 'Positive',
-      position: 'left'
-    })
-    this.$q.notify({
-      type: 'info',
-      message: 'Info',
-      position: 'left'
-    })
-    this.$q.notify({
-      type: 'warning',
-      message: 'Original warning',
-      position: 'left'
-    })
-
-    this.$q.notify({
-      type: 'negative',
-      message: 'Negative',
-      position: 'left'
-    })
-    this.$q.notify({
-      type: 'negative',
-      message: 'Negative with overrided props',
-      icon: 'map',
-      position: 'left'
-    })
-
-    this.$q.notify.setDefaults({
-      color: 'red'
-    })
-    this.$q.notify('red; with defaults')
-    this.$q.notify({
-      message: 'discarded defaults',
-      ignoreDefaults: true
-    })
-    this.$q.notify.setDefaults({
-      color: void 0
-    })
-
-    this.$q.notify({
-      message:
-        '<em>I can</em> <span style="color: red">inject</span> <strong>HTML</strong>',
-      html: true
-    })
-    // this.$q.notify.setDefaults({
-    //   actions: [ { icon: 'close', handler () { console.log('cloooose') } } ]
-    // })
-    this.$q.notify({
-      message: 'You need to know about this!',
-      caption: 'This is a caption',
-      timeout: 0,
-      avatar: 'https://cdn.quasar.dev/img/boy-avatar.png',
-      attrs: {
-        role: 'alertdialog'
-      },
-      position: 'bottom-right'
-    })
-    this.$q.notify({
-      message: 'You need to know about this!',
-      caption: 'This is a caption',
-      timeout: 0,
-      color: 'yellow',
-      textColor: 'black',
-      multiLine: true,
-      avatar: 'https://cdn.quasar.dev/img/boy-avatar.png',
-      actions: [
-        {
-          label: 'Reply',
-          handler: () => console.log('wooow'),
-          attrs: { 'aria-label': 'Reply' }
-        }
-      ],
-      position: 'bottom-right'
-    })
-    this.$q.notify({
-      html: true,
-      icon: 'map',
-      avatar: 'https://cdn.quasar.dev/img/boy-avatar.png',
-      message: 'HTML; You need to know about this!',
-      caption: 'This is a caption',
-      timeout: 0,
-      position: 'bottom-right'
-    })
-    this.$q.notify({
-      html: true,
-      message: 'HTML; You need to know about this!',
-      caption: 'This is a caption',
-      timeout: 0,
-      closeBtn: 'Close',
-      color: 'yellow',
-      textColor: 'black',
-      multiLine: true,
-      avatar: 'https://cdn.quasar.dev/img/boy-avatar.png',
-      actions: [{ label: 'Reply', handler: () => console.log('wooow') }],
-      position: 'bottom-right'
-    })
-  }
 }
+
+function fullscreenNone() {
+  $q.fullscreen.exit()
+}
+
+function showGroup1() {
+  $q.notify({
+    message: 'Grouped message ' + Math.random(),
+    group: 'some-group',
+    progress: true,
+    badgeColor: 'teal'
+  })
+}
+
+function showGroup2() {
+  $q.notify({
+    message: 'Some message',
+    progress: true
+  })
+}
+
+function alertAsMethod(position) {
+  const { color, textColor, multiLine, icon, message, avatar } =
+    alerts[Math.floor(Math.random(alerts.length) * 10) % alerts.length]
+  const random = Math.random() * 100
+
+  const twoActions = random > 70
+  const buttonColor = color ? 'white' : void 0
+
+  $q.notify({
+    color,
+    textColor,
+    icon: random > 30 ? icon : null,
+    message,
+    caption: random < 30 ? '5 minutes ago' : null,
+    position,
+    avatar,
+    multiLine,
+    progress: true,
+    actions: twoActions
+      ? [
+          {
+            label: 'Reply',
+            color: buttonColor,
+            handler: () => console.log('reply wooow ' + random)
+          },
+          {
+            label: 'Dismiss',
+            color: 'yellow',
+            handler: () => console.log('dismiss wooow ' + random)
+          }
+        ]
+      : random > 40
+        ? [
+            {
+              label: 'Reply',
+              color: buttonColor,
+              handler: () => console.log('reply wooow ' + random)
+            }
+          ]
+        : null,
+    timeout: Math.random() * 5000 + 8000
+  })
+  /*
+  $q.notify({
+    color,
+    textColor,
+    icon,
+    message,
+    position,
+    avatar,
+    closeBtn: true,
+    actions: Math.random() * 100 > 50
+      ? [ { label: 'Reply', handler: () => console.log('wooow') } ]
+      : null,
+    timeout: Math.random() * 5000 + 3000
+  })
+  */
+}
+
+onMounted(() => {
+  $q.notify({
+    message: 'Avatar test',
+    avatar: 'https://cdn.quasar.dev/img/mountains.jpg'
+  })
+
+  $q.notify({
+    type: 'positive',
+    icon: 'done'
+  })
+
+  $q.notify.registerType('my-error', {
+    icon: 'warning',
+    color: 'yellow',
+    textColor: 'black',
+    iconColor: 'blue',
+    position: 'top'
+  })
+
+  $q.notify({
+    type: 'my-error',
+    message: 'Type: my-error',
+    position: 'top',
+    onDismiss: () => {
+      console.log('dismissed first my-error')
+    }
+  })
+  $q.notify({
+    type: 'my-error',
+    message: 'Type: my-error, with overrided props',
+    icon: 'map',
+    position: 'top'
+  })
+
+  $q.notify({
+    type: 'positive',
+    message: 'Positive',
+    position: 'left'
+  })
+  $q.notify({
+    type: 'info',
+    message: 'Info',
+    position: 'left'
+  })
+  $q.notify({
+    type: 'warning',
+    message: 'Original warning',
+    position: 'left'
+  })
+
+  $q.notify({
+    type: 'negative',
+    message: 'Negative',
+    position: 'left'
+  })
+  $q.notify({
+    type: 'negative',
+    message: 'Negative with overrided props',
+    icon: 'map',
+    position: 'left'
+  })
+
+  $q.notify.setDefaults({
+    color: 'red'
+  })
+  $q.notify('red; with defaults')
+  $q.notify({
+    message: 'discarded defaults',
+    ignoreDefaults: true
+  })
+  $q.notify.setDefaults({
+    color: void 0
+  })
+
+  $q.notify({
+    message:
+      '<em>I can</em> <span style="color: red">inject</span> <strong>HTML</strong>',
+    html: true
+  })
+  // $q.notify.setDefaults({
+  //   actions: [ { icon: 'close', handler () { console.log('cloooose') } } ]
+  // })
+  $q.notify({
+    message: 'You need to know about this!',
+    caption: 'This is a caption',
+    timeout: 0,
+    avatar: 'https://cdn.quasar.dev/img/boy-avatar.png',
+    attrs: {
+      role: 'alertdialog'
+    },
+    position: 'bottom-right'
+  })
+  $q.notify({
+    message: 'You need to know about this!',
+    caption: 'This is a caption',
+    timeout: 0,
+    color: 'yellow',
+    textColor: 'black',
+    multiLine: true,
+    avatar: 'https://cdn.quasar.dev/img/boy-avatar.png',
+    actions: [
+      {
+        label: 'Reply',
+        handler: () => console.log('wooow'),
+        attrs: { 'aria-label': 'Reply' }
+      }
+    ],
+    position: 'bottom-right'
+  })
+  $q.notify({
+    html: true,
+    icon: 'map',
+    avatar: 'https://cdn.quasar.dev/img/boy-avatar.png',
+    message: 'HTML; You need to know about this!',
+    caption: 'This is a caption',
+    timeout: 0,
+    position: 'bottom-right'
+  })
+  $q.notify({
+    html: true,
+    message: 'HTML; You need to know about this!',
+    caption: 'This is a caption',
+    timeout: 0,
+    closeBtn: 'Close',
+    color: 'yellow',
+    textColor: 'black',
+    multiLine: true,
+    avatar: 'https://cdn.quasar.dev/img/boy-avatar.png',
+    actions: [{ label: 'Reply', handler: () => console.log('wooow') }],
+    position: 'bottom-right'
+  })
+})
 </script>

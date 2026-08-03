@@ -38,7 +38,7 @@
       <div>Multiple + Range {{ daysRange || 'none ' }}:</div>
       <div class="row no-wrap">
         <q-date
-          ref="daysRange"
+          ref="daysRangeRef"
           v-model="daysRange"
           multiple
           today-btn
@@ -62,86 +62,78 @@
   </div>
 </template>
 
-<script>
+<script setup>
 /* oxlint-disable */
 
-export default {
-  data() {
-    return {
-      noUnset: false,
+import { ref } from 'vue'
 
-      day: null,
-      days: null,
-      dayRange: null,
-      daysRange: null,
+const noUnset = ref(false)
 
-      day: '2020/07/02',
-      days: [
-        '2020/08/02',
-        '2020/08/10'
-        // '2021/09/11',
-      ],
-      dayRange: { from: '2020/07/08', to: '2020/07/17' },
-      daysRange: [
-        { from: '2020/08/12', to: '2020/08/16' },
-        '2020/08/02',
-        '2020/08/10',
-        { from: '2020/08/27', to: '2020/09/15' }
-        // '2021/09/11',
-      ]
-    }
-  },
-  methods: {
-    nullify() {
-      this.day = null
-      this.days = null
-      this.dayRange = null
-      this.daysRange = null
-    },
+const day = ref('2020/07/02')
+const days = ref([
+  '2020/08/02',
+  '2020/08/10'
+  // '2021/09/11',
+])
+const dayRange = ref({ from: '2020/07/08', to: '2020/07/17' })
+const daysRange = ref([
+  { from: '2020/08/12', to: '2020/08/16' },
+  '2020/08/02',
+  '2020/08/10',
+  { from: '2020/08/27', to: '2020/09/15' }
+  // '2021/09/11',
+])
 
-    reset() {
-      this.day = '2020/07/02'
-      this.days = [
-        '2020/08/02',
-        '2020/08/10'
-        // '2021/09/11',
-      ]
-      this.dayRange = { from: '2020/07/08', to: '2020/07/17' }
-      this.daysRange = [
-        '2020/08/02',
-        '2020/08/10',
-        { from: '2020/08/12', to: '2020/08/16' },
-        { from: '2020/08/27', to: '2020/09/15' }
-        // '2021/09/11',
-      ]
-    },
+const daysRangeRef = ref(null)
 
-    onInput(value, reason, details) {
-      console.log('@update:model-value:', value, reason, details)
-    },
+function nullify() {
+  day.value = null
+  days.value = null
+  dayRange.value = null
+  daysRange.value = null
+}
 
-    onRangeStart(payload) {
-      console.log('@range-start', payload)
-    },
+function reset() {
+  day.value = '2020/07/02'
+  days.value = [
+    '2020/08/02',
+    '2020/08/10'
+    // '2021/09/11',
+  ]
+  dayRange.value = { from: '2020/07/08', to: '2020/07/17' }
+  daysRange.value = [
+    '2020/08/02',
+    '2020/08/10',
+    { from: '2020/08/12', to: '2020/08/16' },
+    { from: '2020/08/27', to: '2020/09/15' }
+    // '2021/09/11',
+  ]
+}
 
-    onRangeEnd(payload) {
-      console.log('@range-end', payload)
-    },
+function onInput(value, reason, details) {
+  console.log('@update:model-value:', value, reason, details)
+}
 
-    setRangeFrom() {
-      this.$refs.daysRange.setEditingRange({ year: 2020, month: 8, day: 4 })
-    },
+function onRangeStart(payload) {
+  console.log('@range-start', payload)
+}
 
-    setRangeFromTo() {
-      this.$refs.daysRange.setEditingRange(
-        { year: 2020, month: 8, day: 4 },
-        { year: 2020, month: 8, day: 6 }
-      )
-    },
+function onRangeEnd(payload) {
+  console.log('@range-end', payload)
+}
 
-    setRangeNull() {
-      this.$refs.daysRange.setEditingRange()
-    }
-  }
+function setRangeFrom() {
+  daysRangeRef.value.setEditingRange({ year: 2020, month: 8, day: 4 })
+}
+
+function setRangeFromTo() {
+  daysRangeRef.value.setEditingRange(
+    { year: 2020, month: 8, day: 4 },
+    { year: 2020, month: 8, day: 6 }
+  )
+}
+
+function setRangeNull() {
+  daysRangeRef.value.setEditingRange()
 }
 </script>

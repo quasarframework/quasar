@@ -71,14 +71,10 @@
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      text: '',
-      sel: null,
-      options: ['Opt 1', 'Opt 2']
-    }
-  }
-}
+<script setup>
+import { ref } from 'vue'
+
+const text = ref('')
+const sel = ref(null)
+const options = ref(['Opt 1', 'Opt 2'])
 </script>

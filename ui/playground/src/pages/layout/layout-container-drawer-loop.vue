@@ -57,23 +57,15 @@
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      drawer: true,
-      width: 1030,
-      contentSize: 30
-    }
-  },
+<script setup>
+import { computed, ref } from 'vue'
 
-  computed: {
-    containerStyle() {
-      return {
-        height: '800px',
-        width: this.width + 'px'
-      }
-    }
-  }
-}
+const drawer = ref(true)
+const width = ref(1030)
+const contentSize = ref(30)
+
+const containerStyle = computed(() => ({
+  height: '800px',
+  width: width.value + 'px'
+}))
 </script>

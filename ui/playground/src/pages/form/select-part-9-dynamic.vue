@@ -46,65 +46,53 @@
   </div>
 </template>
 
-<script>
+<script setup>
+import { computed, nextTick, ref } from 'vue'
+
 const optionNames = ['Google', 'Twitter', 'Facebook', 'Apple', 'Oracle']
-const options = Array.from({ length: 100_000 }).reduce((acc, _, i) => {
+const allOptions = Array.from({ length: 100_000 }).reduce((acc, _, i) => {
   optionNames.forEach(n => {
     acc.push(`${n} - ${i}`)
   })
   return acc
 }, [])
 const pageSize = 50
-const lastPage = Math.ceil(options.length / pageSize)
+const lastPage = Math.ceil(allOptions.length / pageSize)
 
-export default {
-  data: () => ({
-    multiple1: [],
-    multiple2: null,
+const multiple1 = ref([])
+const multiple2 = ref(null)
 
-    nextPage: 2,
-    loading: false
-  }),
+const nextPage = ref(2)
+const loading = ref(false)
 
-  computed: {
-    filteredOptions() {
-      if (this.multiple1.some(x => x.includes('Google'))) {
-        return options.filter(
-          x =>
-            !x.includes('Twitter') &&
-            !x.includes('Apple') &&
-            !x.includes('Oracle')
-        )
-      }
-      return options
-    },
+const filteredOptions = computed(() => {
+  if (multiple1.value.some(x => x.includes('Google'))) {
+    return allOptions.filter(
+      x =>
+        !x.includes('Twitter') && !x.includes('Apple') && !x.includes('Oracle')
+    )
+  }
+  return allOptions
+})
 
-    options() {
-      return options.slice(0, pageSize * (this.nextPage - 1))
-    }
-  },
+const options = computed(() =>
+  allOptions.slice(0, pageSize * (nextPage.value - 1))
+)
 
-  methods: {
-    onScroll({ to, ref }) {
-      const lastIndex = this.options.length - 1
+function onScroll({ to, ref: vmRef }) {
+  const lastIndex = options.value.length - 1
 
-      if (
-        this.loading !== true &&
-        this.nextPage < lastPage &&
-        to === lastIndex
-      ) {
-        this.loading = true
+  if (loading.value !== true && nextPage.value < lastPage && to === lastIndex) {
+    loading.value = true
 
-        setTimeout(() => {
-          this.nextPage++
+    setTimeout(() => {
+      nextPage.value++
 
-          this.$nextTick(() => {
-            ref.refresh()
-            this.loading = false
-          })
-        }, 500)
-      }
-    }
+      nextTick(() => {
+        vmRef.refresh()
+        loading.value = false
+      })
+    }, 500)
   }
 }
 </script>

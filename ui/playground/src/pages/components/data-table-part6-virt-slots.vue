@@ -96,39 +96,33 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    return {
-      index1: ref(0),
-      index2: ref(0),
+const index1 = ref(0)
+const index2 = ref(0)
 
-      table1: ref(null),
-      table2: ref(null),
+const table1 = ref(null)
+const table2 = ref(null)
 
-      pagination: { sortBy: '', descending: false, rowsPerPage: 0 },
-      columns: [
-        {
-          field: 'id',
-          label: 'ID',
-          align: 'center',
-          sortable: true
-        },
-        {
-          field: 'ip',
-          label: 'IP',
-          align: 'center',
-          sortable: true
-        }
-      ],
-
-      rows: Array.from({ length: 256 }, (_, i) => ({
-        id: '#' + i,
-        ip: '10.0.0.' + i
-      }))
-    }
+const pagination = { sortBy: '', descending: false, rowsPerPage: 0 }
+const columns = [
+  {
+    field: 'id',
+    label: 'ID',
+    align: 'center',
+    sortable: true
+  },
+  {
+    field: 'ip',
+    label: 'IP',
+    align: 'center',
+    sortable: true
   }
-}
+]
+
+const rows = Array.from({ length: 256 }, (_, i) => ({
+  id: '#' + i,
+  ip: '10.0.0.' + i
+}))
 </script>

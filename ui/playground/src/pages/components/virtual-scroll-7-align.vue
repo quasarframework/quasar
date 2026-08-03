@@ -54,7 +54,9 @@
   </q-layout>
 </template>
 
-<script>
+<script setup>
+import { onMounted, ref } from 'vue'
+
 const heavyList = []
 
 for (let i = 0; i < 100_000; i++) {
@@ -67,35 +69,31 @@ for (let i = 0; i < 100_000; i++) {
 
 Object.freeze(heavyList)
 
-export default {
-  data() {
-    return {
-      heavyList,
-      virtualListIndex: 1200,
-      alignMode: void 0,
-      alignModes: [
-        'auto',
-        'start',
-        'center',
-        'end',
-        'start-force',
-        'center-force',
-        'end-force'
-      ].map(label => ({ label, value: label === 'auto' ? void 0 : label }))
-    }
-  },
+const virtualListIndex = ref(1200)
+const alignMode = ref(void 0)
+const alignModes = ref(
+  [
+    'auto',
+    'start',
+    'center',
+    'end',
+    'start-force',
+    'center-force',
+    'end-force'
+  ].map(label => ({ label, value: label === 'auto' ? void 0 : label }))
+)
 
-  mounted() {
-    this.$refs.virtualListRef.scrollTo(this.virtualListIndex)
-  },
+const virtualListRef = ref(null)
 
-  methods: {
-    onIndexChange(index) {
-      this.$refs.virtualListRef.scrollTo(index, this.alignMode)
-    },
-    onVirtualScroll({ index }) {
-      this.virtualListIndex = index
-    }
-  }
+onMounted(() => {
+  virtualListRef.value.scrollTo(virtualListIndex.value)
+})
+
+function onIndexChange(index) {
+  virtualListRef.value.scrollTo(index, alignMode.value)
+}
+
+function onVirtualScroll({ index }) {
+  virtualListIndex.value = index
 }
 </script>

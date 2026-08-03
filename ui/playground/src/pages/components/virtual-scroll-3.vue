@@ -104,38 +104,34 @@
   </q-layout>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      size: 100
-    }
-  },
+<script setup>
+import { onBeforeUnmount, onMounted, ref } from 'vue'
 
-  methods: {
-    getItems(from, size) {
-      const items = []
+const size = ref(100)
 
-      for (let i = 0; i < size; i++) {
-        items.push({
-          avatarColor: 'red',
-          avatarLetter: 'A',
-          label: `Item ${from + i + 1}`
-        })
-      }
+function getItems(from, count) {
+  const items = []
 
-      return Object.freeze(items)
-    }
-  },
-
-  mounted() {
-    this.intervalTimer = setInterval(() => {
-      this.size += 1
-    }, 3000)
-  },
-
-  beforeUnmount() {
-    clearInterval(this.intervalTimer)
+  for (let i = 0; i < count; i++) {
+    items.push({
+      avatarColor: 'red',
+      avatarLetter: 'A',
+      label: `Item ${from + i + 1}`
+    })
   }
+
+  return Object.freeze(items)
 }
+
+let intervalTimer = null
+
+onMounted(() => {
+  intervalTimer = setInterval(() => {
+    size.value += 1
+  }, 3000)
+})
+
+onBeforeUnmount(() => {
+  clearInterval(intervalTimer)
+})
 </script>

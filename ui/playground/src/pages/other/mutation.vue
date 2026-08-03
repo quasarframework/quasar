@@ -65,41 +65,33 @@
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      nodesNumber: 3,
-      nodesNumber2: 3,
-      attrs: ['third'],
-      attrs2: ['third'],
-      char: ['wee'],
-      char2: ['wee']
-    }
-  },
+<script setup>
+import { computed, ref } from 'vue'
 
-  computed: {
-    attributes() {
-      const att = {}
-      this.attrs.forEach(a => {
-        att[a] = 'yes'
-      })
-      return att
-    },
+const nodesNumber = ref(3)
+const nodesNumber2 = ref(3)
+const attrs = ref(['third'])
+const attrs2 = ref(['third'])
+const char = ref(['wee'])
+const char2 = ref(['wee'])
 
-    attributes2() {
-      const att = {}
-      this.attrs2.forEach(a => {
-        att[a] = 'yes'
-      })
-      return att
-    }
-  },
+const attributes = computed(() => {
+  const att = {}
+  attrs.value.forEach(a => {
+    att[a] = 'yes'
+  })
+  return att
+})
 
-  methods: {
-    onMutation(mutationList) {
-      console.log(mutationList)
-    }
-  }
+const attributes2 = computed(() => {
+  const att = {}
+  attrs2.value.forEach(a => {
+    att[a] = 'yes'
+  })
+  return att
+})
+
+function onMutation(mutationList) {
+  console.log(mutationList)
 }
 </script>

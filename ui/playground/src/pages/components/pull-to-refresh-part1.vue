@@ -100,60 +100,58 @@
   height: 0
 </style>
 
-<script>
-export default {
-  data() {
-    return {
-      items: [{}, {}, {}, {}, {}, {}, {}, {}, {}],
-      guardTop: true,
-      guardBottom: true,
-      header: true,
-      footer: true,
-      disable: false,
-      scroll: false,
-      scrollArea: false,
-      selectModel: null,
-      selectOptions: Array.from(
-        { length: 50 },
-        (_, index) => `Option ${index + 1}`
-      )
-    }
-  },
-  watch: {
-    scroll() {
-      this.$nextTick(() => {
-        this.$refs.pull.updateScrollTarget()
-      })
-    },
-    scrollArea() {
-      this.$nextTick(() => {
-        this.$refs.pull.updateScrollTarget()
-      })
-    }
-  },
-  computed: {
-    hasScroll() {
-      return this.scroll || this.scrollArea
-    },
-    scrollClass() {
-      if (this.scrollArea) {
-        return 'col'
-      }
-      return this.scroll ? 'scroll' : null
-    }
-  },
-  methods: {
-    refresh(done) {
-      setTimeout(() => {
-        this.items.push({})
-        this.$q.notify('Item #' + this.items.length + ' is new.')
-        done()
-      }, 1000)
-    },
-    test(evt) {
-      evt.stopPropagation()
-      console.log('test', evt)
-    }
+<script setup>
+import { useQuasar } from 'quasar'
+import { computed, nextTick, ref, watch } from 'vue'
+
+const $q = useQuasar()
+
+const pull = ref(null)
+
+const items = ref([{}, {}, {}, {}, {}, {}, {}, {}, {}])
+const guardTop = ref(true)
+const guardBottom = ref(true)
+const header = ref(true)
+const footer = ref(true)
+const disable = ref(false)
+const scroll = ref(false)
+const scrollArea = ref(false)
+const selectModel = ref(null)
+const selectOptions = ref(
+  Array.from({ length: 50 }, (_, index) => `Option ${index + 1}`)
+)
+
+watch(scroll, () => {
+  nextTick(() => {
+    pull.value.updateScrollTarget()
+  })
+})
+
+watch(scrollArea, () => {
+  nextTick(() => {
+    pull.value.updateScrollTarget()
+  })
+})
+
+const hasScroll = computed(() => scroll.value || scrollArea.value)
+
+const scrollClass = computed(() => {
+  if (scrollArea.value) {
+    return 'col'
   }
+  return scroll.value ? 'scroll' : null
+})
+
+function refresh(done) {
+  setTimeout(() => {
+    items.value.push({})
+    $q.notify('Item #' + items.value.length + ' is new.')
+    done()
+  }, 1000)
+}
+
+function test(evt) {
+  evt.stopPropagation()
+  console.log('test', evt)
 }
 </script>

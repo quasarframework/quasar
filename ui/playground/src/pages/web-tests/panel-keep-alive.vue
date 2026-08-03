@@ -86,91 +86,82 @@
   </div>
 </template>
 
-<script>
-import { h } from 'vue'
+<script setup>
+import { h, ref } from 'vue'
 import { QForm, QInput } from 'quasar'
 
-export default {
-  components: {
-    KeepAliveTest: {
-      name: 'KeepAliveTest',
+const KeepAliveTest = {
+  name: 'KeepAliveTest',
 
-      props: {
-        name: String
-      },
-
-      data() {
-        return {
-          text: 'input text sample'
-        }
-      },
-
-      created() {
-        this.log('created')
-      },
-
-      beforeMount() {
-        this.log('beforeMount')
-      },
-
-      mounted() {
-        this.log('mounted')
-      },
-
-      activated() {
-        this.log('activated')
-      },
-
-      deactivated() {
-        this.log('deactivated')
-      },
-
-      beforeUnmount() {
-        this.log('beforeUnmount')
-      },
-
-      unmounted() {
-        this.log('unmounted')
-      },
-
-      methods: {
-        log(what) {
-          console.log(`[KeepAliveTest > ${this.name}] ${what}`)
-        }
-      },
-
-      render() {
-        return h('div', [
-          'keep alive test ' + this.name,
-          h(
-            QForm,
-            {
-              autofocus: true
-            },
-            () => [
-              h(QInput, {
-                class: 'q-my-md',
-                style: 'max-width: 300px',
-                modelValue: this.text,
-                // autofocus: true,
-                outlined: true,
-                label: 'Input with autofocus',
-                'onUpdate:model-value': val => {
-                  this.text = val
-                }
-              })
-            ]
-          )
-        ])
-      }
-    }
+  props: {
+    name: String
   },
 
   data() {
     return {
-      tab: 'one'
+      text: 'input text sample'
     }
   },
-  methods: {}
+
+  created() {
+    this.log('created')
+  },
+
+  beforeMount() {
+    this.log('beforeMount')
+  },
+
+  mounted() {
+    this.log('mounted')
+  },
+
+  activated() {
+    this.log('activated')
+  },
+
+  deactivated() {
+    this.log('deactivated')
+  },
+
+  beforeUnmount() {
+    this.log('beforeUnmount')
+  },
+
+  unmounted() {
+    this.log('unmounted')
+  },
+
+  methods: {
+    log(what) {
+      console.log(`[KeepAliveTest > ${this.name}] ${what}`)
+    }
+  },
+
+  render() {
+    return h('div', [
+      'keep alive test ' + this.name,
+      h(
+        QForm,
+        {
+          autofocus: true
+        },
+        () => [
+          h(QInput, {
+            class: 'q-my-md',
+            style: 'max-width: 300px',
+            modelValue: this.text,
+            // autofocus: true,
+            outlined: true,
+            label: 'Input with autofocus',
+            'onUpdate:model-value': val => {
+              this.text = val
+            }
+          })
+        ]
+      )
+    ])
+  }
 }
+
+const tab = ref('one')
 </script>

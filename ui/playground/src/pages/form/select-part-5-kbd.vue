@@ -435,8 +435,10 @@
   </div>
 </template>
 
-<script>
-const options = [
+<script setup>
+import { computed, ref } from 'vue'
+
+const allOptions = [
     'Google 1',
     'Facebook 1',
     'Twitter 1',
@@ -454,7 +456,7 @@ const options = [
     'Oracle 3',
     'A very long text of an options that goes over the length limit when you open the debugger'
   ],
-  objOptions = options.map((label, value) => ({ label, value })),
+  allObjOptions = allOptions.map((label, value) => ({ label, value })),
   optionsK = [
     'A A label',
     'A B label',
@@ -468,91 +470,79 @@ const options = [
   ],
   objOptionsK = optionsK.map((label, value) => ({ label, value }))
 
-export default {
-  data() {
-    return {
-      modelS: null,
-      modelM: null,
-      modelO: [3, 4, 5],
-      modelK: null,
-      modelKO: null,
-      options,
-      optionsK,
-      objOptions,
-      objOptionsK,
-      forceMenu: null
-    }
-  },
+const modelS = ref(null)
+const modelM = ref(null)
+const modelO = ref([3, 4, 5])
+const modelK = ref(null)
+const modelKO = ref(null)
+const options = ref(allOptions)
+const objOptions = ref(allObjOptions)
+const forceMenu = ref(null)
 
-  computed: {
-    behavior() {
-      return this.forceMenu === null
-        ? 'default'
-        : this.forceMenu === true
-          ? 'menu'
-          : 'dialog'
-    },
+const behavior = computed(() =>
+  forceMenu.value === null
+    ? 'default'
+    : forceMenu.value === true
+      ? 'menu'
+      : 'dialog'
+)
 
-    forceMenuLabel() {
-      if (this.forceMenu === true) {
-        return 'Force menu'
-      }
-
-      return this.forceMenu === false ? 'Force dialog' : 'Based on platform'
-    }
-  },
-
-  methods: {
-    filterFn(val, update) {
-      console.log('filterFn', val)
-
-      if (val === '') {
-        update(() => {
-          this.options = options
-        })
-        return
-      }
-
-      update(
-        () => {
-          const needle = val.toLowerCase()
-          this.options = options.filter(v => v.toLowerCase().includes(needle))
-        },
-        ref => {
-          ref.setOptionIndex(-1)
-          ref.moveOptionSelection(1, true)
-        }
-      )
-    },
-
-    filterFnObj(val, update) {
-      console.log('filterFnObj', val)
-      if (val === '') {
-        update(() => {
-          this.objOptions = objOptions
-        })
-        return
-      }
-
-      update(() => {
-        const needle = val.toLowerCase()
-        this.objOptions = objOptions.filter(v =>
-          v.label.toLowerCase().includes(needle)
-        )
-      })
-    },
-
-    kOptionValue(item) {
-      if (item === void 0) console.trace('kOptionValue', item)
-
-      return item === Object(item) ? item.value : item
-    },
-
-    kOptionLabel(item) {
-      if (item === void 0) console.trace('kOptionLabel', item)
-
-      return item === Object(item) ? item.label : item
-    }
+const forceMenuLabel = computed(() => {
+  if (forceMenu.value === true) {
+    return 'Force menu'
   }
+
+  return forceMenu.value === false ? 'Force dialog' : 'Based on platform'
+})
+
+function filterFn(val, update) {
+  console.log('filterFn', val)
+
+  if (val === '') {
+    update(() => {
+      options.value = allOptions
+    })
+    return
+  }
+
+  update(
+    () => {
+      const needle = val.toLowerCase()
+      options.value = allOptions.filter(v => v.toLowerCase().includes(needle))
+    },
+    vmRef => {
+      vmRef.setOptionIndex(-1)
+      vmRef.moveOptionSelection(1, true)
+    }
+  )
+}
+
+function filterFnObj(val, update) {
+  console.log('filterFnObj', val)
+  if (val === '') {
+    update(() => {
+      objOptions.value = allObjOptions
+    })
+    return
+  }
+
+  update(() => {
+    const needle = val.toLowerCase()
+    objOptions.value = allObjOptions.filter(v =>
+      v.label.toLowerCase().includes(needle)
+    )
+  })
+}
+
+function kOptionValue(item) {
+  if (item === void 0) console.trace('kOptionValue', item)
+
+  return item === Object(item) ? item.value : item
+}
+
+function kOptionLabel(item) {
+  if (item === void 0) console.trace('kOptionLabel', item)
+
+  return item === Object(item) ? item.label : item
 }
 </script>

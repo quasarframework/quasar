@@ -175,35 +175,28 @@
   </q-layout>
 </template>
 
-<script>
+<script setup>
+import { ref, watch } from 'vue'
+
 const maxSize = 100_000
-const heavyList = []
+const fullList = []
 
 for (let i = 0; i < maxSize; i++) {
-  heavyList.push({
+  fullList.push({
     label: 'Option ' + (i + 1),
     html: 'Option <em class="text-h6">' + (i + 1) + '</em>',
     value: Math.trunc(1 + Math.random() * 99)
   })
 }
 
-Object.freeze(heavyList)
+Object.freeze(fullList)
 
-export default {
-  data() {
-    return {
-      maxSize,
-      size: heavyList.length,
-      heavyList,
-      scrollTo: 0,
-      scrollToH: 0
-    }
-  },
+const size = ref(fullList.length)
+const heavyList = ref(fullList)
+const scrollTo = ref(0)
+const scrollToH = ref(0)
 
-  watch: {
-    size(size) {
-      this.heavyList = Object.freeze(heavyList.slice(0, size))
-    }
-  }
-}
+watch(size, val => {
+  heavyList.value = Object.freeze(fullList.slice(0, val))
+})
 </script>

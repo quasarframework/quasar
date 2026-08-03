@@ -470,36 +470,31 @@
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      dark: null,
-      dense: false,
+<script setup>
+import { computed, ref } from 'vue'
 
-      defaultLabels: false,
-      labelLeftTemplate: 'Current left value: {model}',
-      labelRightTemplate: 'Current right value: {model}',
+const dark = ref(null)
+const dense = ref(false)
 
-      sliderModel: 10,
-      rangeModel: {
-        min: 10,
-        max: 35
-      }
-    }
-  },
-  computed: {
-    labelLeftValue() {
-      return this.defaultLabels === true
-        ? () => void 0
-        : model => this.labelLeftTemplate.split('{model}').join(model)
-    },
+const defaultLabels = ref(false)
+const labelLeftTemplate = ref('Current left value: {model}')
+const labelRightTemplate = ref('Current right value: {model}')
 
-    labelRightValue() {
-      return this.defaultLabels === true
-        ? () => void 0
-        : model => this.labelRightTemplate.split('{model}').join(model)
-    }
-  }
-}
+const sliderModel = ref(10)
+const rangeModel = ref({
+  min: 10,
+  max: 35
+})
+
+const labelLeftValue = computed(() =>
+  defaultLabels.value === true
+    ? () => void 0
+    : model => labelLeftTemplate.value.split('{model}').join(model)
+)
+
+const labelRightValue = computed(() =>
+  defaultLabels.value === true
+    ? () => void 0
+    : model => labelRightTemplate.value.split('{model}').join(model)
+)
 </script>

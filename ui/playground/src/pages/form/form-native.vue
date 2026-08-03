@@ -320,84 +320,79 @@
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      keepColor: true,
-      disable: false,
-      dark: null,
+<script setup>
+import { ref } from 'vue'
 
-      checked: true,
-      checked2: false,
-      checked3: false,
-      checked4: false,
+const keepColor = ref(true)
+const disable = ref(false)
+const dark = ref(null)
 
-      trueValue: {
-        value: true
-      },
+const checked = ref(true)
+const checked2 = ref(false)
+const checked3 = ref(false)
+const checked4 = ref(false)
 
-      date: null,
-      time: null,
-      color: 'rgb(2,2,2)',
-      btnToggle: null,
-      btnToggleOptions: [
-        { label: 'One', value: 'one' },
-        { label: 'Two', value: 'two' },
-        { label: 'Three', value: 'three' }
-      ],
+const trueValue = ref({
+  value: true
+})
 
-      option: 'opt1',
+const date = ref(null)
+const time = ref(null)
+const color = ref('rgb(2,2,2)')
+const btnToggle = ref(null)
+const btnToggleOptions = ref([
+  { label: 'One', value: 'one' },
+  { label: 'Two', value: 'two' },
+  { label: 'Three', value: 'three' }
+])
 
-      select1: null,
-      select2: null,
-      select3: null,
-      select4: null,
-      options1: [
-        'Option 1',
-        'Option 2',
-        { label: 'Option 3 - Obj' },
-        { label: 'Option 4 - Obj' }
-      ],
-      options2: [
-        { label: 'Option 1 - Obj', value: 'Option 1' },
-        { label: 'Option 2 - Obj', value: 'Option 2' },
-        { label: 'Option 3 - Obj', value: 'Option 3' },
-        { label: 'Option 4 - Obj', value: 'Option 4' }
-      ],
+const option = ref('opt1')
 
-      text1: '1',
-      text2: '2',
+const select1 = ref(null)
+const select2 = ref(null)
+const select3 = ref(null)
+const select4 = ref(null)
+const options1 = ref([
+  'Option 1',
+  'Option 2',
+  { label: 'Option 3 - Obj' },
+  { label: 'Option 4 - Obj' }
+])
+const options2 = ref([
+  { label: 'Option 1 - Obj', value: 'Option 1' },
+  { label: 'Option 2 - Obj', value: 'Option 2' },
+  { label: 'Option 3 - Obj', value: 'Option 3' },
+  { label: 'Option 4 - Obj', value: 'Option 4' }
+])
 
-      number1: 10,
-      number2: 20,
-      number3: 30,
-      number4: 40,
+const text1 = ref('1')
+const text2 = ref('2')
 
-      range1: {
-        min: 20,
-        max: 60
-      },
+const number1 = ref(10)
+const number2 = ref(20)
+const number3 = ref(30)
+const number4 = ref(40)
 
-      rating1: 3,
+const range1 = ref({
+  min: 20,
+  max: 60
+})
 
-      file: null,
+const rating1 = ref(3)
 
-      submitResult: null
-    }
-  },
-  methods: {
-    onSubmit(evt) {
-      const formData = new FormData(evt.target)
-      const submitResult = []
-      for (const [name, value] of formData.entries()) {
-        submitResult.push({
-          name,
-          value: value.name || value
-        })
-      }
-      this.submitResult = submitResult
-    }
+const file = ref(null)
+
+const submitResult = ref(null)
+
+function onSubmit(evt) {
+  const formData = new FormData(evt.target)
+  const result = []
+  for (const [name, value] of formData.entries()) {
+    result.push({
+      name,
+      value: value.name || value
+    })
   }
+  submitResult.value = result
 }
 </script>

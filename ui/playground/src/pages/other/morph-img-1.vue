@@ -29,92 +29,89 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { morph } from 'quasar'
+import { ref } from 'vue'
 
-export default {
-  data() {
-    return {
-      indexZoomed: void 0,
-      imgLoaded: {
-        promise: Promise.resolve(),
-        resolve: () => {},
-        reject: () => {}
-      },
-      images: Array.from(
-        { length: 24 },
-        (_, i) => 'https://picsum.photos/id/' + i + '/500/300'
-      )
-    }
-  },
+const indexZoomed = ref(void 0)
+const imgLoaded = ref({
+  promise: Promise.resolve(),
+  resolve: () => {},
+  reject: () => {}
+})
+const images = ref(
+  Array.from(
+    { length: 24 },
+    (_, i) => 'https://picsum.photos/id/' + i + '/500/300'
+  )
+)
 
-  methods: {
-    imgLoadedResolve() {
-      this.imgLoaded.resolve()
-    },
+const refThumb = ref(null)
+const refFull = ref(null)
 
-    imgLoadedReject() {
-      this.imgLoaded.reject()
-    },
+let cancel
 
-    zoomImage(index) {
-      const { indexZoomed } = this
+function imgLoadedResolve() {
+  imgLoaded.value.resolve()
+}
 
-      this.imgLoaded.reject()
+function imgLoadedReject() {
+  imgLoaded.value.reject()
+}
 
-      const zoom = () => {
-        if (index !== void 0 && index !== indexZoomed) {
-          this.imgLoaded.promise = new Promise((resolve, reject) => {
-            this.imgLoaded.resolve = () => {
-              this.imgLoaded.resolve = () => {}
-              this.imgLoaded.reject = () => {}
+function zoomImage(index) {
+  const zoomedIndex = indexZoomed.value
 
-              resolve()
-            }
-            this.imgLoaded.reject = () => {
-              this.imgLoaded.resolve = () => {}
-              this.imgLoaded.reject = () => {}
+  imgLoaded.value.reject()
 
-              reject(new Error('Error loading image'))
-            }
-          })
+  const zoom = () => {
+    if (index !== void 0 && index !== zoomedIndex) {
+      imgLoaded.value.promise = new Promise((resolve, reject) => {
+        imgLoaded.value.resolve = () => {
+          imgLoaded.value.resolve = () => {}
+          imgLoaded.value.reject = () => {}
 
-          this.cancel = morph({
-            from: this.$refs.refThumb[index].$el,
-            to: this.$refs.refFull.$el,
-            onToggle: () => {
-              this.indexZoomed = index
-            },
-            waitFor: this.imgLoaded.promise,
-            duration: 400,
-            hideFromClone: true,
-            onEnd: end => {
-              if (end === 'from' && this.indexZoomed === index) {
-                this.indexZoomed = void 0
-              }
-            }
-          })
+          resolve()
         }
-      }
+        imgLoaded.value.reject = () => {
+          imgLoaded.value.resolve = () => {}
+          imgLoaded.value.reject = () => {}
 
-      if (
-        indexZoomed !== void 0 &&
-        (this.cancel === void 0 || this.cancel() === false)
-      ) {
-        morph({
-          from: this.$refs.refFull.$el,
-          to: this.$refs.refThumb[indexZoomed].$el,
-          onToggle: () => {
-            this.indexZoomed = void 0
-          },
-          duration: 200,
-          keepToClone: true,
-          onEnd: zoom
-        })
-      } else {
-        zoom()
-      }
+          reject(new Error('Error loading image'))
+        }
+      })
+
+      cancel = morph({
+        from: refThumb.value[index].$el,
+        to: refFull.value.$el,
+        onToggle: () => {
+          indexZoomed.value = index
+        },
+        waitFor: imgLoaded.value.promise,
+        duration: 400,
+        hideFromClone: true,
+        onEnd: end => {
+          if (end === 'from' && indexZoomed.value === index) {
+            indexZoomed.value = void 0
+          }
+        }
+      })
     }
+  }
+
+  if (zoomedIndex !== void 0 && (cancel === void 0 || cancel() === false)) {
+    morph({
+      from: refFull.value.$el,
+      to: refThumb.value[zoomedIndex].$el,
+      onToggle: () => {
+        indexZoomed.value = void 0
+      },
+      duration: 200,
+      keepToClone: true,
+      onEnd: zoom
+    })
+  } else {
+    zoom()
   }
 }
 </script>

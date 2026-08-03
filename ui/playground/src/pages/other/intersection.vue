@@ -51,51 +51,42 @@
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      visible1: false,
-      visible2: false,
-      percent: 0
-    }
-  },
-  computed: {
-    visible1Style() {
-      return {
-        background: this.visible1 === true ? 'green' : 'red',
-        color: 'white'
-      }
-    },
-    visible2Style() {
-      return {
-        background: this.visible2 === true ? 'green' : 'red',
-        color: 'white'
-      }
-    },
-    options() {
-      return {
-        handler: this.onVisible3,
-        cfg: {
-          threshold: [0, 0.25, 0.5, 0.75, 1]
-        }
-      }
-    }
-  },
-  methods: {
-    onVisible1(data) {
-      this.visible1 = data.isIntersecting || data.isVisible
-      console.log(data)
-    },
-    onVisible2(data) {
-      this.visible2 = data.isIntersecting
-    },
-    onVisible3(data) {
-      this.percent = (data.intersectionRatio * 100).toFixed(2)
-      this.visible3 = data.isVisible
-      this.intersecting3 = data.isIntersecting
-    }
+<script setup>
+import { computed, ref } from 'vue'
+
+const visible1 = ref(false)
+const visible2 = ref(false)
+const percent = ref(0)
+
+const visible3 = ref(false)
+const intersecting3 = ref(false)
+
+const visible1Style = computed(() => ({
+  background: visible1.value === true ? 'green' : 'red',
+  color: 'white'
+}))
+const visible2Style = computed(() => ({
+  background: visible2.value === true ? 'green' : 'red',
+  color: 'white'
+}))
+const options = computed(() => ({
+  handler: onVisible3,
+  cfg: {
+    threshold: [0, 0.25, 0.5, 0.75, 1]
   }
+}))
+
+function onVisible1(data) {
+  visible1.value = data.isIntersecting || data.isVisible
+  console.log(data)
+}
+function onVisible2(data) {
+  visible2.value = data.isIntersecting
+}
+function onVisible3(data) {
+  percent.value = (data.intersectionRatio * 100).toFixed(2)
+  visible3.value = data.isVisible
+  intersecting3.value = data.isIntersecting
 }
 </script>
 

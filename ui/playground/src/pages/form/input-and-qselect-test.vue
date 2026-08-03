@@ -44,14 +44,10 @@
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      text: 'Text',
-      text2: 'Text',
-      text3: ''
-    }
-  }
-}
+<script setup>
+import { ref } from 'vue'
+
+const text = ref('Text')
+const text2 = ref('Text')
+const text3 = ref('')
 </script>

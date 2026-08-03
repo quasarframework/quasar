@@ -327,19 +327,15 @@
     // margin 5px 15px
 </style>
 
-<script>
-export default {
-  data() {
-    return {
-      options: [false, true],
-      types: [
-        { push: false, outline: false, flat: false },
-        { push: true, outline: false, flat: false },
-        { push: false, outline: true, flat: false },
-        { push: false, outline: false, flat: true }
-      ],
-      sizes: ['sm', 'md', 'lg']
-    }
-  }
-}
+<script setup>
+import { ref } from 'vue'
+
+const options = ref([false, true])
+const types = ref([
+  { push: false, outline: false, flat: false },
+  { push: true, outline: false, flat: false },
+  { push: false, outline: true, flat: false },
+  { push: false, outline: false, flat: true }
+])
+const sizes = ref(['sm', 'md', 'lg'])
 </script>

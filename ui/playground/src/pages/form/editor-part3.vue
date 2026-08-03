@@ -22,33 +22,28 @@
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      editorValue: ''
-    }
-  },
-  methods: {
-    handleEditorEnter(e) {
-      if (e.ctrlKey) {
-        console.log('OnEnter Editor value:', this.editorValue)
-        this.editorValue = ''
-      }
-    },
-    logFocus(c) {
-      console.log(c, 'focus')
-    },
-    logBlur(c) {
-      console.log(c, 'blur')
-    },
-    logInput(c) {
-      console.log(c, 'input')
-    },
-    testCaret(e) {
-      console.log('testCaret Editor value:', this.editorValue)
-      this.editorValue = ''
-    }
+<script setup>
+import { ref } from 'vue'
+
+const editorValue = ref('')
+
+function handleEditorEnter(e) {
+  if (e.ctrlKey) {
+    console.log('OnEnter Editor value:', editorValue.value)
+    editorValue.value = ''
   }
+}
+function logFocus(c) {
+  console.log(c, 'focus')
+}
+function logBlur(c) {
+  console.log(c, 'blur')
+}
+function logInput(c) {
+  console.log(c, 'input')
+}
+function testCaret(e) {
+  console.log('testCaret Editor value:', editorValue.value)
+  editorValue.value = ''
 }
 </script>

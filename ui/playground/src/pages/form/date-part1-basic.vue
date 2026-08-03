@@ -398,132 +398,121 @@
   </div>
 </template>
 
-<script>
+<script setup>
+import { useQuasar } from 'quasar'
+import { computed, ref, watch } from 'vue'
+
 const langList = import.meta.glob('../../../../lang/*.js')
 
-export default {
-  data() {
-    return {
-      dark: null,
-      disable: false,
-      readonly: false,
-      fullWidth: false,
-      biggerHeight: false,
-      minimal: false,
-      todayBtn: false,
-      yearsInMonthView: false,
+const $q = useQuasar()
 
-      mask: '[Month: ]MMM[, Day: ]Do[, Year: ]YYYY',
+const dark = ref(null)
+const disable = ref(false)
+const readonly = ref(false)
+const fullWidth = ref(false)
+const biggerHeight = ref(false)
+const minimal = ref(false)
+const todayBtn = ref(false)
+const yearsInMonthView = ref(false)
 
-      date: '2018/11/03',
-      dateParse: 'Month: Aug, Day: 28th, Year: 2018',
-      dateNeg: '-13/11/03',
-      dateFrom: '2012/06/18',
-      dateTo: '2015/04/10',
-      nullDate: null,
-      nullDate2: null,
-      defaultYearMonth: '1986/02',
+const mask = ref('[Month: ]MMM[, Day: ]Do[, Year: ]YYYY')
 
-      persian: false,
+const date = ref('2018/11/03')
+const dateParse = ref('Month: Aug, Day: 28th, Year: 2018')
+const dateNeg = ref('-13/11/03')
+const dateFrom = ref('2012/06/18')
+const dateTo = ref('2015/04/10')
+const nullDate = ref(null)
+const nullDate2 = ref(null)
+const defaultYearMonth = ref('1986/02')
 
-      input: null,
-      inputFull: null,
+const persian = ref(false)
 
-      locale: null,
-      localeOptions: []
-    }
-  },
+const input = ref(null)
+const inputFull = ref(null)
 
-  created() {
-    const promises = []
-    for (const key in langList) {
-      promises.push(langList[key]())
-    }
+const locale = ref(null)
+const localeOptions = ref([])
 
-    Promise.all(promises).then(languages => {
-      this.localeOptions = languages.map(({ default: lang }) => ({
-        label: lang.nativeName,
-        value: lang
-      }))
-    })
-  },
+const promises = []
+for (const key in langList) {
+  promises.push(langList[key]())
+}
 
-  computed: {
-    lang() {
-      return this.$q.lang.isoName
-    },
-    events() {
-      return this.persian === true
-        ? ['1397/08/14', '1397/08/15', '1397/08/18', '1397/08/28']
-        : ['2018/11/05', '2018/11/06', '2018/11/09', '2018/11/23']
-    },
-    options() {
-      return this.persian === true
-        ? ['1397/08/14', '1397/08/15', '1397/08/18', '1397/08/28']
-        : ['2018/11/05', '2018/11/06', '2018/11/09', '2018/11/23']
-    },
-    props() {
-      return {
-        dark: this.dark,
-        disable: this.disable,
-        readonly: this.readonly,
-        minimal: this.minimal,
-        todayBtn: this.todayBtn,
-        yearsInMonthView: this.yearsInMonthView,
-        calendar: this.persian ? 'persian' : 'gregorian'
-      }
-    },
+Promise.all(promises).then(languages => {
+  localeOptions.value = languages.map(({ default: lang }) => ({
+    label: lang.nativeName,
+    value: lang
+  }))
+})
 
-    style() {
-      let style = ''
-      if (this.fullWidth) {
-        style += 'width: 100%;'
-      }
-      if (this.biggerHeight) {
-        style += 'height: 650px'
-      }
-      return style
-    },
+const lang = computed(() => $q.lang.isoName)
+const events = computed(() =>
+  persian.value === true
+    ? ['1397/08/14', '1397/08/15', '1397/08/18', '1397/08/28']
+    : ['2018/11/05', '2018/11/06', '2018/11/09', '2018/11/23']
+)
+const options = computed(() =>
+  persian.value === true
+    ? ['1397/08/14', '1397/08/15', '1397/08/18', '1397/08/28']
+    : ['2018/11/05', '2018/11/06', '2018/11/09', '2018/11/23']
+)
+const props = computed(() => ({
+  dark: dark.value,
+  disable: disable.value,
+  readonly: readonly.value,
+  minimal: minimal.value,
+  todayBtn: todayBtn.value,
+  yearsInMonthView: yearsInMonthView.value,
+  calendar: persian.value ? 'persian' : 'gregorian'
+}))
 
-    localeComputed() {
-      return this.locale ? this.locale.date : this.$q.lang.date
-    }
-  },
-  watch: {
-    persian(val) {
-      if (val === true) {
-        this.date = '1397/08/12'
-        this.nullDate = void 0
-        this.defaultYearMonth = '1364/11'
-      } else {
-        this.date = '2018/11/03'
-        this.nullDate = null
-        this.defaultYearMonth = '1986/02'
-      }
-    }
-  },
-  methods: {
-    eventFn(date) {
-      return date[9] % 3 === 0
-    },
-
-    eventColor(date) {
-      return date[9] % 2 === 0 ? 'teal' : 'orange'
-    },
-
-    optionsFn(date) {
-      return date[9] % 3 === 0
-    },
-
-    optionsFn2(date) {
-      return this.persian === true
-        ? date >= '1397/08/12' && date <= '1397/08/24'
-        : date >= '2018/11/03' && date <= '2018/11/15'
-    },
-
-    inputLog(value, reason, date) {
-      console.log('@update:model-value', value, reason, date)
-    }
+const style = computed(() => {
+  let acc = ''
+  if (fullWidth.value) {
+    acc += 'width: 100%;'
   }
+  if (biggerHeight.value) {
+    acc += 'height: 650px'
+  }
+  return acc
+})
+
+const localeComputed = computed(() =>
+  locale.value ? locale.value.date : $q.lang.date
+)
+
+watch(persian, val => {
+  if (val === true) {
+    date.value = '1397/08/12'
+    nullDate.value = void 0
+    defaultYearMonth.value = '1364/11'
+  } else {
+    date.value = '2018/11/03'
+    nullDate.value = null
+    defaultYearMonth.value = '1986/02'
+  }
+})
+
+function eventFn(dateStr) {
+  return dateStr[9] % 3 === 0
+}
+
+function eventColor(dateStr) {
+  return dateStr[9] % 2 === 0 ? 'teal' : 'orange'
+}
+
+function optionsFn(dateStr) {
+  return dateStr[9] % 3 === 0
+}
+
+function optionsFn2(dateStr) {
+  return persian.value === true
+    ? dateStr >= '1397/08/12' && dateStr <= '1397/08/24'
+    : dateStr >= '2018/11/03' && dateStr <= '2018/11/15'
+}
+
+function inputLog(value, reason, dateStr) {
+  console.log('@update:model-value', value, reason, dateStr)
 }
 </script>

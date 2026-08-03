@@ -20,33 +20,34 @@
   </div>
 </template>
 
-<script>
+<script setup>
+import { useQuasar } from 'quasar'
+import { ref, watch } from 'vue'
+
 function pad(number) {
   return (number < 10 ? '0' : '') + number
 }
 
-export default {
-  data() {
-    return {
-      eventList: []
-    }
-  },
-  watch: {
-    '$q.appVisible'(state) {
-      const date = new Date()
+const $q = useQuasar()
 
-      this.eventList.unshift({
-        timestamp:
-          pad(date.getHours()) +
-          ':' +
-          pad(date.getMinutes()) +
-          ':' +
-          pad(date.getSeconds()) +
-          '.' +
-          date.getMilliseconds(),
-        label: ` App became ${state ? 'visible' : 'hidden'}`
-      })
-    }
+const eventList = ref([])
+
+watch(
+  () => $q.appVisible,
+  state => {
+    const date = new Date()
+
+    eventList.value.unshift({
+      timestamp:
+        pad(date.getHours()) +
+        ':' +
+        pad(date.getMinutes()) +
+        ':' +
+        pad(date.getSeconds()) +
+        '.' +
+        date.getMilliseconds(),
+      label: ` App became ${state ? 'visible' : 'hidden'}`
+    })
   }
-}
+)
 </script>

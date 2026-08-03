@@ -55,23 +55,18 @@
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      tab: ''
-    }
-  },
-  methods: {
-    onInput(val) {
-      console.log('@update:model-value', val)
-    },
-    onTabClick(val) {
-      console.log('tab click', val)
-    },
-    onRouteTabClick(val) {
-      console.log('route tab click', val)
-    }
-  }
+<script setup>
+import { ref } from 'vue'
+
+const tab = ref('')
+
+function onInput(val) {
+  console.log('@update:model-value', val)
+}
+function onTabClick(val) {
+  console.log('tab click', val)
+}
+function onRouteTabClick(val) {
+  console.log('route tab click', val)
 }
 </script>

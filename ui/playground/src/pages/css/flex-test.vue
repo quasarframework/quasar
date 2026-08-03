@@ -21,28 +21,15 @@
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      conf: 'col-xs-4 col-sm-auto col-md-6'
-    }
-  },
-  computed: {
-    split() {
-      return this.conf.split(' ')
-    },
-    first() {
-      return this.split[0]
-    },
-    second() {
-      return this.split[1]
-    },
-    last() {
-      return this.split[2]
-    }
-  }
-}
+<script setup>
+import { computed, ref } from 'vue'
+
+const conf = ref('col-xs-4 col-sm-auto col-md-6')
+
+const split = computed(() => conf.value.split(' '))
+const first = computed(() => split.value[0])
+const second = computed(() => split.value[1])
+const last = computed(() => split.value[2])
 </script>
 
 <style lang="sass">

@@ -98,35 +98,31 @@
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      anchorOrigin: 'left',
-      selfOrigin: 'left',
-      options: [
-        {
-          label: 'Left',
-          value: 'left'
-        },
-        {
-          label: 'Middle',
-          value: 'middle'
-        },
-        {
-          label: 'Right',
-          value: 'right'
-        },
-        {
-          label: 'Start (left on LTR / right on RTL)',
-          value: 'start'
-        },
-        {
-          label: 'End (right on LTR / left on RTL)',
-          value: 'end'
-        }
-      ]
-    }
+<script setup>
+import { ref } from 'vue'
+
+const anchorOrigin = ref('left')
+const selfOrigin = ref('left')
+const options = ref([
+  {
+    label: 'Left',
+    value: 'left'
+  },
+  {
+    label: 'Middle',
+    value: 'middle'
+  },
+  {
+    label: 'Right',
+    value: 'right'
+  },
+  {
+    label: 'Start (left on LTR / right on RTL)',
+    value: 'start'
+  },
+  {
+    label: 'End (right on LTR / left on RTL)',
+    value: 'end'
   }
-}
+])
 </script>

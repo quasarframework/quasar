@@ -60,27 +60,22 @@
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      n: null,
-      num1: null,
-      num2: null,
-      num3: null
-    }
-  },
-  methods: {
-    onInput(val) {
-      console.log(typeof val, val)
-    },
+<script setup>
+import { ref } from 'vue'
 
-    setNum1(val) {
-      const v = Number.parseFloat(val)
-      if (v < 4) {
-        this.num1 = v
-      }
-    }
+const n = ref(null)
+const num1 = ref(null)
+const num2 = ref(null)
+const num3 = ref(null)
+
+function onInput(val) {
+  console.log(typeof val, val)
+}
+
+function setNum1(val) {
+  const v = Number.parseFloat(val)
+  if (v < 4) {
+    num1.value = v
   }
 }
 </script>

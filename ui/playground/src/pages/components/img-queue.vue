@@ -20,7 +20,9 @@
   </div>
 </template>
 
-<script>
+<script setup>
+import { ref } from 'vue'
+
 const imageUrls = Array.from(
   { length: 12 },
   (_, i) => `https://picsum.photos/seed/quasar-${i}/400/300`
@@ -41,17 +43,9 @@ const generateImageList = () => {
   return list
 }
 
-export default {
-  data() {
-    return {
-      images: generateImageList()
-    }
-  },
+const images = ref(generateImageList())
 
-  methods: {
-    refresh() {
-      this.images = generateImageList()
-    }
-  }
+function refresh() {
+  images.value = generateImageList()
 }
 </script>

@@ -4,16 +4,12 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { uid } from 'quasar'
 
-export default {
-  setup() {
-    const uids = []
-    for (let i = 0; i < 100; i++) {
-      uids.push(uid())
-    }
-    return { uidResult: JSON.stringify(uids, null, 2) }
-  }
+const uids = []
+for (let i = 0; i < 100; i++) {
+  uids.push(uid())
 }
+const uidResult = JSON.stringify(uids, null, 2)
 </script>

@@ -903,54 +903,54 @@
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      toggle: false,
+<script setup>
+import { useQuasar } from 'quasar'
+import { ref } from 'vue'
 
-      fullWidth: true,
+const $q = useQuasar()
 
-      conf: [
-        { split: false, dense: false, disable: false },
-        { split: false, dense: true, disable: false },
-        { split: true, dense: false, disable: false },
-        { split: true, dense: true, disable: false },
-        { split: false, dense: false, disable: true },
-        { split: false, dense: true, disable: true },
-        { split: true, dense: false, disable: true },
-        { split: true, dense: true, disable: true }
-      ],
-      sizes: ['sm', 'md', 'lg'],
-      labelA: '',
-      disableMainBtn: false,
-      disableDropdown: false
-    }
-  },
-  methods: {
-    log(evt) {
-      console.log(evt)
-    },
-    label(cfg) {
-      let label = 'QBtnDropdown'
-      if (cfg.split) {
-        label += ' Split'
-      }
-      if (cfg.dense) {
-        label += ' dense'
-      }
-      if (cfg.disable) {
-        label += ' disable'
-      }
-      return label
-    },
-    hideDropdown(index) {
-      console.log(this.$refs)
-      this.$refs.first[index].hide()
-    },
-    showNotification() {
-      this.$q.notify('wow')
-    }
+const toggle = ref(false)
+
+const fullWidth = ref(true)
+
+const conf = ref([
+  { split: false, dense: false, disable: false },
+  { split: false, dense: true, disable: false },
+  { split: true, dense: false, disable: false },
+  { split: true, dense: true, disable: false },
+  { split: false, dense: false, disable: true },
+  { split: false, dense: true, disable: true },
+  { split: true, dense: false, disable: true },
+  { split: true, dense: true, disable: true }
+])
+const sizes = ref(['sm', 'md', 'lg'])
+const labelA = ref('')
+const disableMainBtn = ref(false)
+const disableDropdown = ref(false)
+
+const first = ref(null)
+
+function log(evt) {
+  console.log(evt)
+}
+function label(cfg) {
+  let result = 'QBtnDropdown'
+  if (cfg.split) {
+    result += ' Split'
   }
+  if (cfg.dense) {
+    result += ' dense'
+  }
+  if (cfg.disable) {
+    result += ' disable'
+  }
+  return result
+}
+function hideDropdown(index) {
+  console.log(first.value)
+  first.value[index].hide()
+}
+function showNotification() {
+  $q.notify('wow')
 }
 </script>

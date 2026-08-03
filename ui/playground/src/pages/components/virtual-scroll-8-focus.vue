@@ -28,17 +28,11 @@
     background-size: auto var(--q-virtual-scroll-item-height, 50px)
 </style>
 
-<script>
+<script setup>
 const virtualScrollElements = 1000
 
-export default {
-  setup() {
-    return {
-      rows: Array.from({ length: virtualScrollElements }, (_, id) => ({
-        id: `k_${id + 1}`,
-        text: `text ${id + 1}`
-      }))
-    }
-  }
-}
+const rows = Array.from({ length: virtualScrollElements }, (_, id) => ({
+  id: `k_${id + 1}`,
+  text: `text ${id + 1}`
+}))
 </script>

@@ -25,13 +25,9 @@
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      currentTab: 'one',
-      tabs: ['a', 'one', 'two', 'three']
-    }
-  }
-}
+<script setup>
+import { ref } from 'vue'
+
+const currentTab = ref('one')
+const tabs = ref(['a', 'one', 'two', 'three'])
 </script>

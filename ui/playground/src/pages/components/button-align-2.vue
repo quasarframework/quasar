@@ -210,26 +210,17 @@
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      center: false,
-      typeA: false,
-      noWrap: false
-    }
-  },
-  computed: {
-    rowClass() {
-      return this.center ? 'items-center' : ''
-    },
+<script setup>
+import { computed, ref } from 'vue'
 
-    props() {
-      return {
-        type: this.typeA ? 'a' : 'button',
-        noWrap: this.noWrap
-      }
-    }
-  }
-}
+const center = ref(false)
+const typeA = ref(false)
+const noWrap = ref(false)
+
+const rowClass = computed(() => (center.value ? 'items-center' : ''))
+
+const props = computed(() => ({
+  type: typeA.value ? 'a' : 'button',
+  noWrap: noWrap.value
+}))
 </script>

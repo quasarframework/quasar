@@ -34,84 +34,80 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { morph } from 'quasar'
+import { computed, ref } from 'vue'
 
-export default {
-  data() {
-    return {
-      toggle1: false,
-      toggle2: false
-    }
-  },
+const toggle1 = ref(false)
+const toggle2 = ref(false)
 
-  computed: {
-    props1() {
-      return this.toggle1 === true
-        ? {
-            class: 'q-ml-sm q-pa-md bg-orange text-white rounded-borders',
-            style: 'font-size: 24px'
-          }
-        : {
-            class: 'q-ml-xl q-px-xl q-py-lg bg-blue text-white',
-            style: 'border-radius: 25% 0/50% 0; font-size: 36px'
-          }
-    },
+const morphedElement1 = ref(null)
+const morphedElement2 = ref(null)
 
-    props2() {
-      return this.toggle2 === true
-        ? {
-            fontSize: '52px',
-            color: 'positive',
-            icon: 'check',
-            rounded: true
-          }
-        : {
-            fontSize: '32px',
-            color: 'negative',
-            icon: 'close'
-          }
-    }
-  },
+let cancel1, cancel2
 
-  methods: {
-    morphContent1() {
-      const toggleLogic = () => {
-        this.toggle1 = this.toggle1 !== true
+const props1 = computed(() =>
+  toggle1.value === true
+    ? {
+        class: 'q-ml-sm q-pa-md bg-orange text-white rounded-borders',
+        style: 'font-size: 24px'
       }
-
-      if (this.cancel1 === void 0 || this.cancel1() === false) {
-        this.cancel1 = morph({
-          from: this.$refs.morphedElement1,
-          onToggle: toggleLogic,
-          duration: 500,
-          tween: true,
-          onEnd: end => {
-            if (end === 'from') toggleLogic()
-          }
-        })
+    : {
+        class: 'q-ml-xl q-px-xl q-py-lg bg-blue text-white',
+        style: 'border-radius: 25% 0/50% 0; font-size: 36px'
       }
-    },
+)
 
-    morphContent2() {
-      const toggleLogic = () => {
-        this.toggle2 = this.toggle2 !== true
+const props2 = computed(() =>
+  toggle2.value === true
+    ? {
+        fontSize: '52px',
+        color: 'positive',
+        icon: 'check',
+        rounded: true
       }
+    : {
+        fontSize: '32px',
+        color: 'negative',
+        icon: 'close'
+      }
+)
 
-      if (this.cancel2 === void 0 || this.cancel2() === false) {
-        this.cancel2 = morph({
-          from: this.$refs.morphedElement2.$el,
-          onToggle: toggleLogic,
-          duration: 500,
-          tween: true,
-          tweenFromOpacity: 0.8,
-          tweenToOpacity: 0.4,
-          onEnd: end => {
-            if (end === 'from') toggleLogic()
-          }
-        })
+function morphContent1() {
+  const toggleLogic = () => {
+    toggle1.value = toggle1.value !== true
+  }
+
+  if (cancel1 === void 0 || cancel1() === false) {
+    cancel1 = morph({
+      from: morphedElement1.value,
+      onToggle: toggleLogic,
+      duration: 500,
+      tween: true,
+      onEnd: end => {
+        if (end === 'from') toggleLogic()
       }
-    }
+    })
+  }
+}
+
+function morphContent2() {
+  const toggleLogic = () => {
+    toggle2.value = toggle2.value !== true
+  }
+
+  if (cancel2 === void 0 || cancel2() === false) {
+    cancel2 = morph({
+      from: morphedElement2.value.$el,
+      onToggle: toggleLogic,
+      duration: 500,
+      tween: true,
+      tweenFromOpacity: 0.8,
+      tweenToOpacity: 0.4,
+      onEnd: end => {
+        if (end === 'from') toggleLogic()
+      }
+    })
   }
 }
 </script>

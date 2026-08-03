@@ -57,32 +57,30 @@
   </q-page>
 </template>
 
-<script>
+<script setup>
 import { useMeta } from 'quasar'
 import { onMounted, onUnmounted } from 'vue'
 
-export default {
-  name: 'PageThird',
+defineOptions({
+  name: 'PageThird'
+})
 
-  setup() {
-    console.log('created third.vue')
+console.log('created third.vue')
 
-    useMeta({
-      bodyAttr: {
-        some: 'value'
-      },
-      htmlAttr: {
-        'third-page': ''
-      }
-    })
-
-    onMounted(() => {
-      console.log('mounted third.vue')
-    })
-
-    onUnmounted(() => {
-      console.log('unmounted third.vue')
-    })
+useMeta({
+  bodyAttr: {
+    some: 'value'
+  },
+  htmlAttr: {
+    'third-page': ''
   }
-}
+})
+
+onMounted(() => {
+  console.log('mounted third.vue')
+})
+
+onUnmounted(() => {
+  console.log('unmounted third.vue')
+})
 </script>

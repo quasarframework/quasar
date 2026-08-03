@@ -4,26 +4,22 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { useMeta } from 'quasar'
 import { onMounted, ref } from 'vue'
 
-export default {
-  setup() {
-    console.log('init')
+console.log('init')
 
-    const title = ref('Test Start')
+const title = ref('Test Start')
 
-    useMeta(() => {
-      console.log('running meta fn in title.vue', title.value)
-      return {
-        title: title.value
-      }
-    })
-
-    onMounted(() => {
-      title.value = 'Test End'
-    })
+useMeta(() => {
+  console.log('running meta fn in title.vue', title.value)
+  return {
+    title: title.value
   }
-}
+})
+
+onMounted(() => {
+  title.value = 'Test End'
+})
 </script>

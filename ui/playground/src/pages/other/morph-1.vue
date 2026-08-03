@@ -108,123 +108,116 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { morph } from 'quasar'
+import { computed, ref } from 'vue'
 
-export default {
-  data() {
-    return {
-      forceResize: false,
-      forceCssAnimation: false,
-      tween: false,
+const forceResize = ref(false)
+const forceCssAnimation = ref(false)
+const tween = ref(false)
 
-      btn1Position: null,
-      card1Position: null,
-      toggle1: false,
+const btn1Position = ref(null)
+const card1Position = ref(null)
+const toggle1 = ref(false)
 
-      toggle2: false
-    }
-  },
+const toggle2 = ref(false)
 
-  computed: {
-    btn1PositionText() {
-      if (this.btn1Position === null) {
-        return 'Static -> Fixed'
+const flipFrom1 = ref(null)
+const flipTo1 = ref(null)
+
+let cancel1, cancel2
+
+const btn1PositionText = computed(() => {
+  if (btn1Position.value === null) {
+    return 'Static -> Fixed'
+  }
+  return btn1Position.value === true
+    ? 'Fixed -> Absolute'
+    : 'Absolute -> Static'
+})
+
+const card1PositionText = computed(() => {
+  if (card1Position.value === null) {
+    return 'Static -> Fixed'
+  }
+  return card1Position.value === true
+    ? 'Fixed -> Absolute'
+    : 'Absolute -> Static'
+})
+
+const btn1Class = computed(() => {
+  if (btn1Position.value !== null) {
+    return btn1Position.value === true ? 'fixed-top-left' : 'absolute-top-left'
+  }
+  return null
+})
+
+const card1Class = computed(() => {
+  if (card1Position.value !== null) {
+    return card1Position.value === true ? 'fixed-bottom' : 'absolute-bottom'
+  }
+  return null
+})
+
+const div2Text = computed(() =>
+  !toggle2.value
+    ? 'A short text'
+    : 'A much longer text to show how it works. It should grow / shrink. Is it working?'
+)
+
+const div2Class = computed(() =>
+  !toggle2.value
+    ? 'absolute-top-left rounded-borders bg-red-2 q-pa-lg q-ma-sm'
+    : 'absolute-bottom-right bg-red-6 q-pa-sm q-ma-md'
+)
+
+function test1() {
+  const onToggle = () => {
+    toggle1.value = !toggle1.value
+  }
+
+  if (cancel1 === void 0 || cancel1() === false) {
+    cancel1 = morph({
+      from: () => {
+        const target = toggle1.value === true ? flipTo1.value : flipFrom1.value
+        return target ? target.$el || target : null
+      },
+      onToggle,
+      waitFor: toggle1.value !== true ? 'transitionend' : 0,
+      duration: 800,
+      easing: 'ease-in-out',
+      resize: forceResize.value,
+      useCSS: forceCssAnimation.value,
+      tween: tween.value,
+      tweenFromOpacity: 1,
+      tweenToOpacity: 0.5,
+      onEnd: end => {
+        if (end === 'from') onToggle()
+        console.log('Morph 1 ready: ' + end)
       }
-      return this.btn1Position === true
-        ? 'Fixed -> Absolute'
-        : 'Absolute -> Static'
-    },
+    })
+  }
+}
 
-    card1PositionText() {
-      if (this.card1Position === null) {
-        return 'Static -> Fixed'
+function test2() {
+  const onToggle = () => {
+    toggle2.value = toggle2.value !== true
+  }
+
+  if (cancel2 === void 0 || cancel2() === false) {
+    cancel2 = morph({
+      from: '.test-2',
+      onToggle,
+      duration: 500,
+      easing: 'ease-in-out',
+      resize: forceResize.value,
+      useCSS: forceCssAnimation.value,
+      classes: 'bg-orange',
+      onEnd: end => {
+        if (end === 'from') onToggle()
+        console.log('Morph 2 ready: ' + end)
       }
-      return this.card1Position === true
-        ? 'Fixed -> Absolute'
-        : 'Absolute -> Static'
-    },
-
-    btn1Class() {
-      if (this.btn1Position !== null) {
-        return this.btn1Position === true
-          ? 'fixed-top-left'
-          : 'absolute-top-left'
-      }
-      return null
-    },
-
-    card1Class() {
-      if (this.card1Position !== null) {
-        return this.card1Position === true ? 'fixed-bottom' : 'absolute-bottom'
-      }
-      return null
-    },
-
-    div2Text() {
-      return !this.toggle2
-        ? 'A short text'
-        : 'A much longer text to show how it works. It should grow / shrink. Is it working?'
-    },
-
-    div2Class() {
-      return !this.toggle2
-        ? 'absolute-top-left rounded-borders bg-red-2 q-pa-lg q-ma-sm'
-        : 'absolute-bottom-right bg-red-6 q-pa-sm q-ma-md'
-    }
-  },
-
-  methods: {
-    test1() {
-      const onToggle = () => {
-        this.toggle1 = !this.toggle1
-      }
-
-      if (this.cancel1 === void 0 || this.cancel1() === false) {
-        this.cancel1 = morph({
-          from: () => {
-            const ref =
-              this.$refs[this.toggle1 === true ? 'flipTo1' : 'flipFrom1']
-            return ref ? ref.$el || ref : null
-          },
-          onToggle,
-          waitFor: this.toggle1 !== true ? 'transitionend' : 0,
-          duration: 800,
-          easing: 'ease-in-out',
-          resize: this.forceResize,
-          useCSS: this.forceCssAnimation,
-          tween: this.tween,
-          tweenFromOpacity: 1,
-          tweenToOpacity: 0.5,
-          onEnd: end => {
-            if (end === 'from') onToggle()
-            console.log('Morph 1 ready: ' + end)
-          }
-        })
-      }
-    },
-
-    test2() {
-      const onToggle = () => {
-        this.toggle2 = this.toggle2 !== true
-      }
-
-      if (this.cancel2 === void 0 || this.cancel2() === false) {
-        this.cancel2 = morph({
-          from: '.test-2',
-          onToggle,
-          duration: 500,
-          easing: 'ease-in-out',
-          resize: this.forceResize,
-          useCSS: this.forceCssAnimation,
-          classes: 'bg-orange',
-          onEnd: end => {
-            if (end === 'from') onToggle()
-            console.log('Morph 2 ready: ' + end)
-          }
-        })
-      }
-    }
+    })
   }
 }
 </script>

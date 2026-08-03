@@ -43,13 +43,9 @@
   </q-layout>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      drawer: true,
-      contentSize: 47
-    }
-  }
-}
+<script setup>
+import { ref } from 'vue'
+
+const drawer = ref(true)
+const contentSize = ref(47)
 </script>

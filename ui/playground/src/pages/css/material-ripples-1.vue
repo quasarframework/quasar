@@ -82,9 +82,7 @@
   </div>
 </template>
 
-<script>
-export default {}
-</script>
+<script setup></script>
 
 <style lang="sass">
 .ripple-example

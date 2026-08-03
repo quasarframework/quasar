@@ -35,15 +35,11 @@
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      icon: false,
-      bar: false,
-      bar2: false,
-      toolbar: false
-    }
-  }
-}
+<script setup>
+import { ref } from 'vue'
+
+const icon = ref(false)
+const bar = ref(false)
+const bar2 = ref(false)
+const toolbar = ref(false)
 </script>

@@ -95,7 +95,9 @@
     bottom: 0
 </style>
 
-<script>
+<script setup>
+import { onMounted, ref } from 'vue'
+
 const heavyList = [],
   columns = [],
   listSize = 10_000
@@ -115,27 +117,19 @@ for (let i = 0; i <= listSize; i++) {
 
 Object.freeze(heavyList)
 
-export default {
-  data() {
-    return {
-      heavyList,
-      columns,
-      listSize,
-      listIndex: 8200
-    }
-  },
+const listIndex = ref(8200)
 
-  methods: {
-    onIndexChange(index) {
-      this.$refs.virtualListRef.scrollTo(index)
-    },
-    onVirtualScroll({ index }) {
-      this.listIndex = index
-    }
-  },
+const virtualListRef = ref(null)
 
-  mounted() {
-    this.$refs.virtualListRef.scrollTo(this.listIndex)
-  }
+function onIndexChange(index) {
+  virtualListRef.value.scrollTo(index)
 }
+
+function onVirtualScroll({ index }) {
+  listIndex.value = index
+}
+
+onMounted(() => {
+  virtualListRef.value.scrollTo(listIndex.value)
+})
 </script>

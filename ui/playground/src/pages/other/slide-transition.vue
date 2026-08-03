@@ -93,27 +93,22 @@
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      visibleVShow: true,
-      visibleVIf: true,
-      visibleVShow2: true,
-      visibleVIf2: true,
-      outerCondition: false,
-      innerCondition: false
-    }
-  },
-  methods: {
-    log(msg) {
-      console.log(msg)
-    },
+<script setup>
+import { ref } from 'vue'
 
-    toggleConditions() {
-      this.outerCondition = !this.outerCondition
-      this.innerCondition = !this.innerCondition
-    }
-  }
+const visibleVShow = ref(true)
+const visibleVIf = ref(true)
+const visibleVShow2 = ref(true)
+const visibleVIf2 = ref(true)
+const outerCondition = ref(false)
+const innerCondition = ref(false)
+
+function log(msg) {
+  console.log(msg)
+}
+
+function toggleConditions() {
+  outerCondition.value = !outerCondition.value
+  innerCondition.value = !innerCondition.value
 }
 </script>

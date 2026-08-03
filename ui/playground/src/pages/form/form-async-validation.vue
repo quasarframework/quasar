@@ -56,7 +56,9 @@
   </div>
 </template>
 
-<script>
+<script setup>
+import { computed, ref } from 'vue'
+
 const wait = (delay = 3000) =>
   new Promise(resolve => {
     setTimeout(resolve, delay)
@@ -65,39 +67,29 @@ const required = val =>
   (typeof val === 'string' && val.length !== 0) || 'Field is required'
 const asyncValidate = val => wait().then(() => required(val))
 
-export default {
-  data() {
-    return {
-      modelValue: '',
-      submitted: false,
-      validated: null,
-      async: true
-    }
-  },
+const modelValue = ref('')
+const submitted = ref(false)
+const validated = ref(null)
+const async = ref(true)
 
-  computed: {
-    validationRules() {
-      return this.async === true ? [asyncValidate] : [required]
-    }
-  },
+const validationRules = computed(() =>
+  async.value === true ? [asyncValidate] : [required]
+)
 
-  methods: {
-    onReset() {
-      this.modelValue = ''
-      this.submitted = false
-      this.validated = null
-    },
+function onReset() {
+  modelValue.value = ''
+  submitted.value = false
+  validated.value = null
+}
 
-    onSubmit() {
-      console.log('onSubmit')
-      this.submitted = true
-    },
+function onSubmit() {
+  console.log('onSubmit')
+  submitted.value = true
+}
 
-    onValidationChange(state) {
-      console.log('@validation-' + (state === true ? 'success' : 'error'))
-      this.submitted = false
-      this.validated = state
-    }
-  }
+function onValidationChange(state) {
+  console.log('@validation-' + (state === true ? 'success' : 'error'))
+  submitted.value = false
+  validated.value = state
 }
 </script>

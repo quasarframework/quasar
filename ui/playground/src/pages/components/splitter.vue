@@ -192,43 +192,38 @@
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      model: 50,
-      insideModel: 50,
-      innerSeparatorSplitModel: 50,
-      horizontal: false,
-      modelReverse: false,
-      modelUnit: '%',
-      funkyLimits: false,
-      disable: false,
-      showSeparator: true,
-      emitImmediately: false,
+<script setup>
+import { useQuasar } from 'quasar'
+import { computed, ref } from 'vue'
 
-      text: ''
-    }
-  },
+const $q = useQuasar()
 
-  computed: {
-    limits() {
-      return this.modelUnit === '%'
-        ? this.funkyLimits === true
-          ? [70, 100]
-          : [10, 90]
-        : this.funkyLimits === true
-          ? [100, 500]
-          : [0, Infinity]
-    }
-  },
+const model = ref(50)
+const insideModel = ref(50)
+const innerSeparatorSplitModel = ref(50)
+const horizontal = ref(false)
+const modelReverse = ref(false)
+const modelUnit = ref('%')
+const funkyLimits = ref(false)
+const disable = ref(false)
+const showSeparator = ref(true)
+const emitImmediately = ref(false)
 
-  methods: {
-    separatorLog(e) {
-      this.$q.notify('Clicked on separator')
-      console.log('separatorLog', e)
-    }
-  }
+const text = ref('')
+
+const limits = computed(() =>
+  modelUnit.value === '%'
+    ? funkyLimits.value === true
+      ? [70, 100]
+      : [10, 90]
+    : funkyLimits.value === true
+      ? [100, 500]
+      : [0, Infinity]
+)
+
+function separatorLog(e) {
+  $q.notify('Clicked on separator')
+  console.log('separatorLog', e)
 }
 </script>
 

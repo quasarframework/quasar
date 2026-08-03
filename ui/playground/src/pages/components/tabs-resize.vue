@@ -21,12 +21,8 @@
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      tab: 'tab1'
-    }
-  }
-}
+<script setup>
+import { ref } from 'vue'
+
+const tab = ref('tab1')
 </script>

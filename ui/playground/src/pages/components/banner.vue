@@ -142,13 +142,9 @@
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      text: '',
-      dense: false
-    }
-  }
-}
+<script setup>
+import { ref } from 'vue'
+
+const text = ref('')
+const dense = ref(false)
 </script>

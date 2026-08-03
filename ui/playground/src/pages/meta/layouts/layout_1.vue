@@ -13,21 +13,19 @@
   </q-layout>
 </template>
 
-<script>
+<script setup>
 import { useMeta } from 'quasar'
 
-export default {
-  name: 'LayoutDefault',
+defineOptions({
+  name: 'LayoutDefault'
+})
 
-  setup() {
-    useMeta({
-      title: 'LayoutDefault',
-      titleTemplate: chunk => `${chunk} - My Website`,
-      meta: {
-        // description: { name: 'description', content: 'Layout 1' }
-        description: { template: chunk => `${chunk} - Layout 1` }
-      }
-    })
+useMeta({
+  title: 'LayoutDefault',
+  titleTemplate: chunk => `${chunk} - My Website`,
+  meta: {
+    // description: { name: 'description', content: 'Layout 1' }
+    description: { template: chunk => `${chunk} - Layout 1` }
   }
-}
+})
 </script>

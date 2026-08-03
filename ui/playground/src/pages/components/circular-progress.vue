@@ -130,32 +130,30 @@
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      value: 70,
-      size: 160,
-      thickness: 0.2,
-      angle: 0,
-      range: {
-        min: 0,
-        max: 100
-      },
-      showValue: true,
-      reverse: false,
-      indeterminate: false,
-      rounded: false
-    }
-  },
-  methods: {
-    randomize() {
-      this.progress = Math.round(Math.random() * 100)
-    },
-    randomizeBuffer() {
-      this.progressBuffer = Math.round(Math.random() * 51)
-      this.buffer = Math.round(Math.random() * 47)
-    }
-  }
+<script setup>
+import { ref } from 'vue'
+
+const value = ref(70)
+const size = ref(160)
+const thickness = ref(0.2)
+const angle = ref(0)
+const range = ref({
+  min: 0,
+  max: 100
+})
+const showValue = ref(true)
+const reverse = ref(false)
+const indeterminate = ref(false)
+const rounded = ref(false)
+
+let progress, progressBuffer, buffer
+
+function randomize() {
+  progress = Math.round(Math.random() * 100)
+}
+
+function randomizeBuffer() {
+  progressBuffer = Math.round(Math.random() * 51)
+  buffer = Math.round(Math.random() * 47)
 }
 </script>

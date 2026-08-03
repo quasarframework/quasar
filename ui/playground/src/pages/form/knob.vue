@@ -138,32 +138,24 @@
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      model: 30,
-      modelZero: 20.03,
-      modelSmall: 1.1,
-      min: 0,
-      max: 50,
-      maxSmall: 2
-    }
-  },
-  watch: {
-    model(val, old) {
-      console.log(
-        `Changed from ${JSON.stringify(old)} to ${JSON.stringify(val)}`
-      )
-    }
-  },
-  methods: {
-    onChange(val) {
-      console.log('@change', JSON.stringify(val))
-    },
-    onInput(val) {
-      console.log('@update:model-value', JSON.stringify(val))
-    }
-  }
+<script setup>
+import { ref, watch } from 'vue'
+
+const model = ref(30)
+const modelZero = ref(20.03)
+const modelSmall = ref(1.1)
+const min = ref(0)
+const max = ref(50)
+const maxSmall = ref(2)
+
+watch(model, (val, old) => {
+  console.log(`Changed from ${JSON.stringify(old)} to ${JSON.stringify(val)}`)
+})
+
+function onChange(val) {
+  console.log('@change', JSON.stringify(val))
+}
+function onInput(val) {
+  console.log('@update:model-value', JSON.stringify(val))
 }
 </script>

@@ -46,12 +46,8 @@
   </div>
 </template>
 
-<script>
-export default {
-  methods: {
-    onClick() {
-      console.log('onClick')
-    }
-  }
+<script setup>
+function onClick() {
+  console.log('onClick')
 }
 </script>

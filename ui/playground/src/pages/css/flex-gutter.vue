@@ -86,14 +86,10 @@
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      model: 'some text'
-    }
-  }
-}
+<script setup>
+import { ref } from 'vue'
+
+const model = ref('some text')
 </script>
 
 <style lang="sass">

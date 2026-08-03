@@ -59,45 +59,43 @@
 
 <style></style>
 
-<script>
+<script setup>
 import { useMeta } from 'quasar'
 import { onMounted, onUnmounted } from 'vue'
 
-export default {
-  name: 'PageSecond',
+defineOptions({
+  name: 'PageSecond'
+})
 
-  setup() {
-    console.log('created second.vue')
+console.log('created second.vue')
 
-    useMeta({
-      title: 'PAGE 2',
-      meta: {
-        description: { name: 'description', content: 'Page 2' }
-      },
-      link: {
-        google: { rel: 'stylesheet', href: 'http://bogus.com/2' }
-      },
-      bodyAttr: {
-        some: 'value'
-      },
-      htmlAttr: {
-        'third-page': 'w'
-      },
-      script: {
-        ldJson: {
-          type: 'application/ld+json',
-          innerHTML: `{ "@context": "http://schema.org" }`
-        }
-      }
-    })
-
-    onMounted(() => {
-      console.log('mounted second.vue')
-    })
-
-    onUnmounted(() => {
-      console.log('unmounted second.vue')
-    })
+useMeta({
+  title: 'PAGE 2',
+  meta: {
+    description: { name: 'description', content: 'Page 2' }
+  },
+  link: {
+    google: { rel: 'stylesheet', href: 'http://bogus.com/2' }
+  },
+  bodyAttr: {
+    some: 'value'
+  },
+  htmlAttr: {
+    'third-page': 'w'
+  },
+  script: {
+    ldJson: {
+      type: 'application/ld+json',
+      innerHTML: `{ "@context": "http://schema.org" }`
+    }
   }
-}
+})
+
+onMounted(() => {
+  console.log('mounted second.vue')
+})
+
+onUnmounted(() => {
+  console.log('unmounted second.vue')
+})
 </script>

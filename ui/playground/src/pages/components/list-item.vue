@@ -828,26 +828,20 @@
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      dark: null,
-      separator: false,
+<script setup>
+import { ref } from 'vue'
 
-      check1: true,
-      check2: false,
-      check3: false,
+const dark = ref(null)
+const separator = ref(false)
 
-      text: 'text'
-    }
-  },
+const check1 = ref(true)
+const check2 = ref(false)
+const check3 = ref(false)
 
-  methods: {
-    onClick() {
-      console.log('onClick')
-    }
-  }
+const text = ref('text')
+
+function onClick() {
+  console.log('onClick')
 }
 </script>
 

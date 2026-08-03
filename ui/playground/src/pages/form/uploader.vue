@@ -275,109 +275,101 @@
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      dark: null,
-      square: false,
-      flat: false,
-      bordered: false,
+<script setup>
+import { computed, ref } from 'vue'
 
-      autoUpload: false,
-      batch: true,
-      noThumbnails: false,
-      label: true,
+const dark = ref(null)
+const square = ref(false)
+const flat = ref(false)
+const bordered = ref(false)
 
-      readonly: false,
-      disable: false
-    }
-  },
+const autoUpload = ref(false)
+const batch = ref(true)
+const noThumbnails = ref(false)
+const label = ref(true)
 
-  computed: {
-    props() {
-      return {
-        dark: this.dark,
-        square: this.square,
-        flat: this.flat,
-        bordered: this.bordered,
+const readonly = ref(false)
+const disable = ref(false)
 
-        autoUpload: this.autoUpload,
-        batch: this.batch,
-        noThumbnails: this.noThumbnails,
-        label: this.label ? 'Upload files' : null,
+const aborter = ref(null)
 
-        readonly: this.readonly,
-        disable: this.disable
-      }
-    }
-  },
+const props = computed(() => ({
+  dark: dark.value,
+  square: square.value,
+  flat: flat.value,
+  bordered: bordered.value,
 
-  methods: {
-    onChange(val) {
-      console.log('@change', JSON.stringify(val))
-    },
-    onInput(val) {
-      console.log('@update:model-value', JSON.stringify(val))
-    },
-    onAdded(files) {
-      console.log(`@added ${files.length || 0} files`)
-      console.log(files)
-    },
-    onRemoved(files) {
-      console.log(`@removed ${files.length || 0} files`)
-      console.log(files)
-    },
-    onFactoryFailed(err) {
-      console.log('@factory-failed', err)
-    },
-    onStart() {
-      console.log('@start')
-    },
-    onFinish() {
-      console.log('@finish')
-    },
-    onUpload() {
-      console.log('@uploaded')
-    },
-    onFail() {
-      console.log('@failed')
-    },
-    onRejected(files) {
-      console.log('@rejected', files)
-    },
-    promiseFn(files) {
-      return new Promise(resolve => {
-        setTimeout(() => {
-          console.log('resolving promise', this.batch)
-          resolve({
-            batch: this.batch,
-            url: 'http://localhost:4444/upload'
-          })
-        }, 2000)
+  autoUpload: autoUpload.value,
+  batch: batch.value,
+  noThumbnails: noThumbnails.value,
+  label: label.value ? 'Upload files' : null,
+
+  readonly: readonly.value,
+  disable: disable.value
+}))
+
+function onChange(val) {
+  console.log('@change', JSON.stringify(val))
+}
+function onInput(val) {
+  console.log('@update:model-value', JSON.stringify(val))
+}
+function onAdded(files) {
+  console.log(`@added ${files.length || 0} files`)
+  console.log(files)
+}
+function onRemoved(files) {
+  console.log(`@removed ${files.length || 0} files`)
+  console.log(files)
+}
+function onFactoryFailed(err) {
+  console.log('@factory-failed', err)
+}
+function onStart() {
+  console.log('@start')
+}
+function onFinish() {
+  console.log('@finish')
+}
+function onUpload() {
+  console.log('@uploaded')
+}
+function onFail() {
+  console.log('@failed')
+}
+function onRejected(files) {
+  console.log('@rejected', files)
+}
+function promiseFn(files) {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      console.log('resolving promise', batch.value)
+      resolve({
+        batch: batch.value,
+        url: 'http://localhost:4444/upload'
       })
-    },
-    promiseFnAbort(files) {
-      setTimeout(() => {
-        this.$refs.aborter.abort()
-      }, 100)
-      return new Promise(resolve => {
-        setTimeout(() => {
-          console.log('resolving promise', this.batch)
-          resolve({
-            batch: this.batch,
-            url: 'http://localhost:4444/upload'
-          })
-        }, 2000)
+    }, 2000)
+  })
+}
+function promiseFnAbort(files) {
+  setTimeout(() => {
+    aborter.value.abort()
+  }, 100)
+  return new Promise(resolve => {
+    setTimeout(() => {
+      console.log('resolving promise', batch.value)
+      resolve({
+        batch: batch.value,
+        url: 'http://localhost:4444/upload'
       })
-    },
-    rejectFn(files) {
-      return new Promise((resolve, reject) => {
-        setTimeout(() => {
-          reject(new Error('Failed to solve promise - Test'))
-        }, 2000)
-      })
-    }
-  }
+    }, 2000)
+  })
+}
+function rejectFn(files) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      reject(new Error('Failed to solve promise - Test'))
+    }, 2000)
+  })
 }
 </script>

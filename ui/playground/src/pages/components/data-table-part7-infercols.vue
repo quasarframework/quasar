@@ -11,7 +11,9 @@
   </div>
 </template>
 
-<script>
+<script setup>
+import { ref } from 'vue'
+
 const rows = Object.freeze([
   {
     name: '1Frozen Yogurt',
@@ -115,12 +117,5 @@ const rows = Object.freeze([
   }
 ])
 
-export default {
-  data() {
-    return {
-      rows,
-      selected: []
-    }
-  }
-}
+const selected = ref([])
 </script>

@@ -83,7 +83,7 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { Loading, QSpinnerFacebook, QSpinnerGears, useQuasar } from 'quasar'
 
 import { computed, onMounted, ref } from 'vue'
@@ -96,271 +96,264 @@ function show(options, timeout = 3000) {
   }, timeout)
 }
 
-export default {
-  /*
-  mounted () {
-    this.$q.loading.hide()
-    this.$q.loading.hide()
-    this.$q.loading.show()
-    this.$q.loading.hide()
-    this.$q.loading.show()
-    this.$q.loading.show()
-    this.$q.loading.hide()
-    this.$q.loading.show({
-      message: 'gigi'
+/*
+onMounted(() => {
+  $q.loading.hide()
+  $q.loading.hide()
+  $q.loading.show()
+  $q.loading.hide()
+  $q.loading.show()
+  $q.loading.show()
+  $q.loading.hide()
+  $q.loading.show({
+    message: 'gigi'
+  })
+  setTimeout(() => {
+    $q.loading.hide()
+  }, 5000)
+})
+*/
+
+const showCount = ref(3)
+const $q = useQuasar()
+
+onMounted(() => {
+  $q.loading.setDefaults({
+    spinnerColor: 'amber'
+  })
+  $q.loading.show({
+    message: 'With defaults'
+  })
+  setTimeout(() => {
+    $q.loading.show({
+      message: 'Discarded defaults',
+      ignoreDefaults: true
     })
     setTimeout(() => {
-      this.$q.loading.hide()
-    }, 5000)
-  },
-  */
-
-  setup() {
-    const showCount = ref(3)
-    const $q = useQuasar()
-
-    onMounted(() => {
+      $q.loading.hide()
       $q.loading.setDefaults({
-        spinnerColor: 'amber'
+        spinnerColor: void 0
       })
-      $q.loading.show({
-        message: 'With defaults'
+    }, 1000)
+  }, 1000)
+})
+
+const stateInner = computed(() => $q.loading.isActive)
+const stateOuter = computed(() => Loading.isActive)
+
+function noMessage() {
+  show()
+}
+function customLoading() {
+  show({
+    spinner: QSpinnerFacebook,
+    spinnerColor: 'amber',
+    spinnerSize: 140,
+    message: 'Some important process is in progress. Hang on...',
+    messageColor: 'orange'
+  })
+}
+function withHtmlMessage() {
+  show({
+    message:
+      'Some <b class="text-orange">important</b> process is in progress. Hang on...',
+    html: true
+  })
+}
+function withMessageSanitized() {
+  show({
+    message:
+      'Some <b class="text-orange">important</b> process is in progress. Hang on...'
+  })
+}
+function withBox() {
+  show({
+    message: 'Please wait...',
+    boxClass: 'bg-white text-grey-9'
+  })
+}
+function changeMessage() {
+  Loading.show({
+    message: 'First message. Gonna change it in 3 seconds...'
+  })
+  setTimeout(() => {
+    show({
+      spinner: QSpinnerGears,
+      spinnerColor: 'red',
+      messageColor: 'black',
+      backgroundColor: 'yellow',
+      message: 'Updated message'
+    })
+  }, 3000)
+}
+function changeMessage2() {
+  Loading.show({
+    message: 'First message. Gonna change it in 1.5 seconds...'
+  })
+  setTimeout(() => {
+    Loading.show({
+      spinner: QSpinnerGears,
+      message: 'Updated message'
+    })
+    setTimeout(() => {
+      Loading.show({
+        spinnerColor: 'red',
+        messageColor: 'black',
+        backgroundColor: 'yellow',
+        message: 'Updated message 2'
       })
       setTimeout(() => {
-        $q.loading.show({
-          message: 'Discarded defaults',
-          ignoreDefaults: true
-        })
-        setTimeout(() => {
-          $q.loading.hide()
-          $q.loading.setDefaults({
-            spinnerColor: void 0
-          })
-        }, 1000)
-      }, 1000)
+        Loading.hide()
+      }, 2500)
+    }, 2500)
+  }, 2500)
+}
+async function showMultiple() {
+  for (let i = 0; i < showCount.value; i++) {
+    Loading.show()
+
+    await new Promise(resolve => {
+      setTimeout(resolve, 2000)
     })
 
-    return {
-      showCount,
-      stateInner: computed(() => $q.loading.isActive),
-      stateOuter: computed(() => Loading.isActive),
-
-      noMessage() {
-        show()
-      },
-      customLoading() {
-        show({
-          spinner: QSpinnerFacebook,
-          spinnerColor: 'amber',
-          spinnerSize: 140,
-          message: 'Some important process is in progress. Hang on...',
-          messageColor: 'orange'
-        })
-      },
-      withHtmlMessage() {
-        show({
-          message:
-            'Some <b class="text-orange">important</b> process is in progress. Hang on...',
-          html: true
-        })
-      },
-      withMessageSanitized() {
-        show({
-          message:
-            'Some <b class="text-orange">important</b> process is in progress. Hang on...'
-        })
-      },
-      withBox() {
-        show({
-          message: 'Please wait...',
-          boxClass: 'bg-white text-grey-9'
-        })
-      },
-      changeMessage() {
-        Loading.show({
-          message: 'First message. Gonna change it in 3 seconds...'
-        })
-        setTimeout(() => {
-          show({
-            spinner: QSpinnerGears,
-            spinnerColor: 'red',
-            messageColor: 'black',
-            backgroundColor: 'yellow',
-            message: 'Updated message'
-          })
-        }, 3000)
-      },
-      changeMessage2() {
-        Loading.show({
-          message: 'First message. Gonna change it in 1.5 seconds...'
-        })
-        setTimeout(() => {
-          Loading.show({
-            spinner: QSpinnerGears,
-            message: 'Updated message'
-          })
-          setTimeout(() => {
-            Loading.show({
-              spinnerColor: 'red',
-              messageColor: 'black',
-              backgroundColor: 'yellow',
-              message: 'Updated message 2'
-            })
-            setTimeout(() => {
-              Loading.hide()
-            }, 2500)
-          }, 2500)
-        }, 2500)
-      },
-      async showMultiple() {
-        for (let i = 0; i < showCount.value; i++) {
-          Loading.show()
-
-          await new Promise(resolve => {
-            setTimeout(resolve, 2000)
-          })
-
-          Loading.hide()
-        }
-      },
-
-      shortLoading(timeout) {
-        if (timeout === void 0) {
-          Loading.show({ delay: 500 })
-          Loading.show({ delay: 500 })
-          Loading.hide()
-        } else {
-          show({ delay: 500 }, timeout)
-          Loading.show({ delay: 500 })
-        }
-      },
-
-      showGroup1() {
-        const one = $q.loading.show({
-          group: 'one',
-          message: 'One.1'
-        })
-
-        setTimeout(() => {
-          one({ message: 'One.2' })
-
-          const two = $q.loading.show({
-            group: 'two',
-            message: 'Two.1'
-          })
-
-          setTimeout(() => {
-            two()
-            setTimeout(() => {
-              one()
-            }, 1000)
-          }, 1000)
-        }, 1000)
-      },
-
-      showGroup2() {
-        const one = $q.loading.show({
-          group: 'one',
-          message: 'One.1'
-        })
-
-        setTimeout(() => {
-          one({
-            spinner: QSpinnerGears,
-            message: 'One.2'
-          })
-
-          const two = $q.loading.show({
-            group: 'two',
-            message: 'Two.1'
-          })
-
-          setTimeout(() => {
-            const third = $q.loading.show({
-              group: 'third',
-              message: 'Three.1'
-            })
-            two()
-
-            setTimeout(() => {
-              third()
-              setTimeout(() => {
-                one()
-              }, 1000)
-            }, 1000)
-          }, 1000)
-        }, 1000)
-      },
-
-      showGroup3() {
-        const one = $q.loading.show({
-          group: 'one',
-          message: 'One.1'
-        })
-
-        setTimeout(() => {
-          one({ message: 'One.2' })
-
-          $q.loading.show({
-            message: 'Default'
-          })
-
-          setTimeout(() => {
-            $q.loading.hide()
-            one()
-          }, 1000)
-        }, 1000)
-      },
-
-      showGroup4() {
-        const one = $q.loading.show({
-          group: 'one',
-          message: 'One.1'
-        })
-
-        setTimeout(() => {
-          one()
-          one()
-          $q.loading.hide()
-          one()
-        }, 1000)
-      },
-
-      showGroup5() {
-        $q.loading.show({
-          group: 'one',
-          message: 'One.1'
-        })
-
-        setTimeout(() => {
-          $q.loading.show({
-            group: 'one',
-            spinner: QSpinnerGears,
-            message: 'One.2'
-          })
-
-          $q.loading.show({
-            group: 'two',
-            message: 'Two.1'
-          })
-
-          setTimeout(() => {
-            $q.loading.show({
-              group: 'third',
-              message: 'Three.1'
-            })
-            $q.loading.hide('two')
-
-            setTimeout(() => {
-              $q.loading.hide('third')
-              setTimeout(() => {
-                $q.loading.hide('one')
-              }, 1000)
-            }, 1000)
-          }, 1000)
-        }, 1000)
-      }
-    }
+    Loading.hide()
   }
+}
+
+function shortLoading(timeout) {
+  if (timeout === void 0) {
+    Loading.show({ delay: 500 })
+    Loading.show({ delay: 500 })
+    Loading.hide()
+  } else {
+    show({ delay: 500 }, timeout)
+    Loading.show({ delay: 500 })
+  }
+}
+
+function showGroup1() {
+  const one = $q.loading.show({
+    group: 'one',
+    message: 'One.1'
+  })
+
+  setTimeout(() => {
+    one({ message: 'One.2' })
+
+    const two = $q.loading.show({
+      group: 'two',
+      message: 'Two.1'
+    })
+
+    setTimeout(() => {
+      two()
+      setTimeout(() => {
+        one()
+      }, 1000)
+    }, 1000)
+  }, 1000)
+}
+
+function showGroup2() {
+  const one = $q.loading.show({
+    group: 'one',
+    message: 'One.1'
+  })
+
+  setTimeout(() => {
+    one({
+      spinner: QSpinnerGears,
+      message: 'One.2'
+    })
+
+    const two = $q.loading.show({
+      group: 'two',
+      message: 'Two.1'
+    })
+
+    setTimeout(() => {
+      const third = $q.loading.show({
+        group: 'third',
+        message: 'Three.1'
+      })
+      two()
+
+      setTimeout(() => {
+        third()
+        setTimeout(() => {
+          one()
+        }, 1000)
+      }, 1000)
+    }, 1000)
+  }, 1000)
+}
+
+function showGroup3() {
+  const one = $q.loading.show({
+    group: 'one',
+    message: 'One.1'
+  })
+
+  setTimeout(() => {
+    one({ message: 'One.2' })
+
+    $q.loading.show({
+      message: 'Default'
+    })
+
+    setTimeout(() => {
+      $q.loading.hide()
+      one()
+    }, 1000)
+  }, 1000)
+}
+
+function showGroup4() {
+  const one = $q.loading.show({
+    group: 'one',
+    message: 'One.1'
+  })
+
+  setTimeout(() => {
+    one()
+    one()
+    $q.loading.hide()
+    one()
+  }, 1000)
+}
+
+function showGroup5() {
+  $q.loading.show({
+    group: 'one',
+    message: 'One.1'
+  })
+
+  setTimeout(() => {
+    $q.loading.show({
+      group: 'one',
+      spinner: QSpinnerGears,
+      message: 'One.2'
+    })
+
+    $q.loading.show({
+      group: 'two',
+      message: 'Two.1'
+    })
+
+    setTimeout(() => {
+      $q.loading.show({
+        group: 'third',
+        message: 'Three.1'
+      })
+      $q.loading.hide('two')
+
+      setTimeout(() => {
+        $q.loading.hide('third')
+        setTimeout(() => {
+          $q.loading.hide('one')
+        }, 1000)
+      }, 1000)
+    }, 1000)
+  }, 1000)
 }
 </script>

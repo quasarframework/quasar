@@ -373,38 +373,32 @@
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      toggle: true,
-      toggleOn: true,
-      loading: false,
-      delay: 500,
-      hdelay: 1000,
-      vIfTest: true,
-      color: true,
-      anchorOrigin: { vertical: 'bottom', horizontal: 'middle' },
-      selfOrigin: { vertical: 'top', horizontal: 'middle' },
-      targetEl: '#target-img-1',
-      dialog: false
-    }
-  },
-  computed: {
-    anchor() {
-      return `${this.anchorOrigin.vertical} ${this.anchorOrigin.horizontal}`
-    },
-    self() {
-      return `${this.selfOrigin.vertical} ${this.selfOrigin.horizontal}`
-    }
-  },
-  methods: {
-    setLoading() {
-      this.loading = true
-      setTimeout(() => {
-        this.loading = false
-      }, 1000)
-    }
-  }
+<script setup>
+import { computed, ref } from 'vue'
+
+const toggle = ref(true)
+const toggleOn = ref(true)
+const loading = ref(false)
+const delay = ref(500)
+const hdelay = ref(1000)
+const vIfTest = ref(true)
+const color = ref(true)
+const anchorOrigin = ref({ vertical: 'bottom', horizontal: 'middle' })
+const selfOrigin = ref({ vertical: 'top', horizontal: 'middle' })
+const targetEl = ref('#target-img-1')
+const dialog = ref(false)
+
+const anchor = computed(
+  () => `${anchorOrigin.value.vertical} ${anchorOrigin.value.horizontal}`
+)
+const self = computed(
+  () => `${selfOrigin.value.vertical} ${selfOrigin.value.horizontal}`
+)
+
+function setLoading() {
+  loading.value = true
+  setTimeout(() => {
+    loading.value = false
+  }, 1000)
 }
 </script>
