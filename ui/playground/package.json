@@ -19,7 +19,7 @@
   },
   "devDependencies": {
     "@quasar/app-vite": "workspace:*",
-    "postcss": "^8.5.23"
+    "postcss": "^8.5.25"
   },
   "engines": {
     "node": "^24 || ^22 || ^20",

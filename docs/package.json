@@ -19,10 +19,10 @@
   },
   "dependencies": {
     "@quasar/extras": "^2.0.0",
-    "@shikijs/langs": "^4.3.1",
-    "@shikijs/transformers": "^4.3.1",
+    "@shikijs/langs": "^4.4.1",
+    "@shikijs/transformers": "^4.4.1",
     "quasar": "^2.23.4",
-    "shiki": "^4.3.1",
+    "shiki": "^4.4.1",
     "vue": "^3.5.40",
     "vue-router": "^5.2.0"
   },
