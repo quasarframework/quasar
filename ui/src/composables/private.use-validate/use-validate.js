@@ -155,8 +155,13 @@ export default function useValidate(focused, innerLoading) {
 
       if (typeof rule === 'function') {
         res = rule(val, testPattern)
-      } else if (typeof rule === 'string' && testPattern[rule] !== void 0) {
-        res = testPattern[rule](val)
+      } else if (typeof rule === 'string') {
+        if (testPattern[rule] === void 0) {
+          // a misspelled pattern would otherwise silently disable the rule
+          console.error(`Unknown validation pattern rule: "${rule}"`)
+        } else {
+          res = testPattern[rule](val)
+        }
       }
 
       if (res === false || typeof res === 'string') {
