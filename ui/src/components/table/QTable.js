@@ -421,7 +421,10 @@ export default createComponent({
         const scrollTarget = rootRef.value.querySelector(
           '.q-table__middle.scroll'
         )
-        const offsetTop = rowEl.offsetTop - props.virtualScrollStickySizeStart
+        // the passthrough prop declaration has no default (so that the
+        // virtual scroll branch can detect a missing value), hence the fallback
+        const offsetTop =
+          rowEl.offsetTop - (props.virtualScrollStickySizeStart || 0)
         const direction =
           offsetTop < scrollTarget.scrollTop ? 'decrease' : 'increase'
 
