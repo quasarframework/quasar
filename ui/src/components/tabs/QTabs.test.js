@@ -14,7 +14,7 @@ const defaultTabList = [
   { name: 'other', label: 'Other' }
 ]
 
-function mountTabs(props = {}, tabList = defaultTabList) {
+function mountTabs(props = {}, tabList = defaultTabList, attrs = {}) {
   return mount(QTabs, {
     props: {
       modelValue: 'home',
@@ -22,6 +22,7 @@ function mountTabs(props = {}, tabList = defaultTabList) {
       'onUpdate:modelValue': () => {},
       ...props
     },
+    attrs,
     slots: {
       default: () => tabList.map(tabProps => h(QTab, tabProps))
     }
@@ -53,19 +54,12 @@ function getRightArrow(wrapper) {
 }
 
 /**
- * jsdom reports a zero size for every element, which would make QTabs
- * believe that it is narrower than its breakpoint; the container size is
- * reported through the QResizeObserver that QTabs renders.
+ * QTabs measures its real container size through a tick scheduled by the
+ * tab registration; wait for that measurement and for the re-render that
+ * it triggers.
  */
-async function setContainerSize(wrapper, { width = 1000, height = 400 } = {}) {
-  // let the size recalculation scheduled by the tab registration
-  // run first, otherwise it would overwrite this one
+async function waitForContainerMeasurement() {
   await nextTick()
-
-  wrapper.getComponent({ name: 'QResizeObserver' }).vm.$emit('resize', {
-    width,
-    height
-  })
   await nextTick()
 }
 
@@ -164,11 +158,13 @@ describe('[QTabs API]', () => {
 
     describe('[(prop)align]', () => {
       async function testAlign(propVal) {
-        const wrapper = mountTabs({ align: propVal })
-
         // a container wider than the breakpoint is what allows
         // the requested alignment to be used
-        await setContainerSize(wrapper)
+        const wrapper = mountTabs({ align: propVal }, defaultTabList, {
+          style: 'width: 1000px'
+        })
+
+        await waitForContainerMeasurement()
 
         expect(getContent(wrapper).classes()).toContain(
           `q-tabs__content--align-${propVal}`
@@ -203,36 +199,49 @@ describe('[QTabs API]', () => {
     describe('[(prop)breakpoint]', () => {
       test('type Number has effect', async () => {
         const propVal = 600
-        const wrapper = mountTabs({ align: 'left', breakpoint: propVal })
+        const wrapper = mountTabs(
+          { align: 'left', breakpoint: propVal },
+          defaultTabList,
+          { style: `width: ${propVal - 1}px` }
+        )
 
-        await setContainerSize(wrapper, { width: propVal - 1 })
+        await waitForContainerMeasurement()
 
         // below the breakpoint the tabs get justified, no matter the alignment
         expect(getContent(wrapper).classes()).toContain(
           'q-tabs__content--align-justify'
         )
 
-        await setContainerSize(wrapper, { width: propVal })
+        // growing to the breakpoint is picked up by the real resize observer
+        wrapper.element.style.width = `${propVal}px`
 
-        expect(getContent(wrapper).classes()).toContain(
-          'q-tabs__content--align-left'
-        )
+        await vi.waitFor(() => {
+          expect(getContent(wrapper).classes()).toContain(
+            'q-tabs__content--align-left'
+          )
+        })
       })
 
       test('type String has effect', async () => {
-        const wrapper = mountTabs({ align: 'left', breakpoint: '600' })
+        const wrapper = mountTabs(
+          { align: 'left', breakpoint: '600' },
+          defaultTabList,
+          { style: 'width: 599px' }
+        )
 
-        await setContainerSize(wrapper, { width: 599 })
+        await waitForContainerMeasurement()
 
         expect(getContent(wrapper).classes()).toContain(
           'q-tabs__content--align-justify'
         )
 
-        await setContainerSize(wrapper, { width: 600 })
+        wrapper.element.style.width = '600px'
 
-        expect(getContent(wrapper).classes()).toContain(
-          'q-tabs__content--align-left'
-        )
+        await vi.waitFor(() => {
+          expect(getContent(wrapper).classes()).toContain(
+            'q-tabs__content--align-left'
+          )
+        })
       })
     })
 

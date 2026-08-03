@@ -25,10 +25,15 @@ async function mountVirtualScroll(props = {}, slots = {}, mountOptions = {}) {
     props: { items, ...props },
     slots: { default: defaultSlot, ...slots },
     attachTo: document.body,
+    // the component itself is the scroll container, so it needs an
+    // explicit height for the browser to compute a real (partial) slice
+    attrs: { style: 'height: 200px' },
     ...mountOptions
   })
 
-  // jsdom reports no viewport size, so the first slice needs a nudge
+  // the initial slice only renders once the composable's debounced (35ms)
+  // scroll handler fires after mount; an explicit scrollTo(0) computes it
+  // deterministically instead of waiting out the debounce
   wrapper.vm.scrollTo(0)
   await settle()
 

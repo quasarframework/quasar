@@ -1,6 +1,6 @@
 import { mount } from '@vue/test-utils'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
-import { defineComponent } from 'vue'
+import { defineComponent, h, withDirectives } from 'vue'
 
 import { getMainEvent } from 'testing/runtime/directive.js'
 
@@ -27,11 +27,13 @@ afterEach(() => {
 })
 
 function mountTouchSwipe(modifiers = 'mouse', handler = vi.fn()) {
+  const modifierMap = Object.fromEntries(
+    modifiers.split('.').map(mod => [mod, true])
+  )
   const TestComponent = defineComponent({
-    template: `<div v-touch-swipe.${modifiers}="handler" />`,
-    directives: { TouchSwipe },
     setup() {
-      return { handler }
+      return () =>
+        withDirectives(h('div'), [[TouchSwipe, handler, void 0, modifierMap]])
     }
   })
 
@@ -100,8 +102,12 @@ describe('[TouchSwipe API]', () => {
 
     test('as undefined', () => {
       const TestComponent = defineComponent({
-        template: '<div v-touch-swipe.mouse />',
-        directives: { TouchSwipe }
+        setup() {
+          return () =>
+            withDirectives(h('div'), [
+              [TouchSwipe, void 0, void 0, { mouse: true }]
+            ])
+        }
       })
       const wrapper = mount(TestComponent)
 
@@ -120,12 +126,12 @@ describe('[TouchSwipe API]', () => {
   describe('[Argument]', () => {
     test('has effect', () => {
       const TestComponent = defineComponent({
-        template: '<div v-touch-swipe:1:12:80.mouse="handler" />',
-        directives: { TouchSwipe },
         setup() {
-          return {
-            handler: vi.fn()
-          }
+          const handler = vi.fn()
+          return () =>
+            withDirectives(h('div'), [
+              [TouchSwipe, handler, '1:12:80', { mouse: true }]
+            ])
         }
       })
       const wrapper = mount(TestComponent)

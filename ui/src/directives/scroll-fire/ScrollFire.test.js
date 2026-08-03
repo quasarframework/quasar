@@ -1,6 +1,6 @@
 import { mount } from '@vue/test-utils'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
-import { defineComponent } from 'vue'
+import { defineComponent, h, withDirectives } from 'vue'
 
 import ScrollFire from './ScrollFire.js'
 
@@ -22,11 +22,7 @@ describe('[ScrollFire API]', () => {
     test('as Function', () => {
       const handler = vi.fn()
       const TestComponent = defineComponent({
-        template: '<div v-scroll-fire="handler" />',
-        directives: { ScrollFire },
-        setup() {
-          return { handler }
-        }
+        render: () => withDirectives(h('div'), [[ScrollFire, handler]])
       })
 
       const wrapper = mount(TestComponent)
@@ -46,8 +42,7 @@ describe('[ScrollFire API]', () => {
 
     test('as undefined', () => {
       const TestComponent = defineComponent({
-        template: '<div v-scroll-fire />',
-        directives: { ScrollFire }
+        render: () => withDirectives(h('div'), [[ScrollFire]])
       })
 
       const wrapper = mount(TestComponent)

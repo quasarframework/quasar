@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'vitest'
 import { mount } from '@vue/test-utils'
-import { defineComponent } from 'vue'
+import { defineComponent, h } from 'vue'
 
 import useHydration from './use-hydration.js'
 
@@ -10,7 +10,7 @@ describe('[useHydration API]', () => {
       test('can be used in a Vue Component', () => {
         const wrapper = mount(
           defineComponent({
-            template: '<div />',
+            render: () => h('div'),
             setup() {
               const result = useHydration()
               return { result }

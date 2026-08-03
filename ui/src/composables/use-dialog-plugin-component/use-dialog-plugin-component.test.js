@@ -1,6 +1,6 @@
 import { describe, expect, test, vi } from 'vitest'
 import { mount } from '@vue/test-utils'
-import { defineComponent } from 'vue'
+import { defineComponent, h } from 'vue'
 
 import useDialogPluginComponent from './use-dialog-plugin-component.js'
 
@@ -12,7 +12,7 @@ describe('[useDialogPluginComponent API]', () => {
 
         const wrapper = mount(
           defineComponent({
-            template: '<div />',
+            render: () => h('div'),
             emits: useDialogPluginComponent.emits,
             setup() {
               result = useDialogPluginComponent()

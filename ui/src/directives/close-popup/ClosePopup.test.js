@@ -1,6 +1,6 @@
 import { mount } from '@vue/test-utils'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
-import { defineComponent } from 'vue'
+import { defineComponent, h, withDirectives } from 'vue'
 
 import ClosePopup from './ClosePopup.js'
 
@@ -27,13 +27,7 @@ describe('[ClosePopup API]', () => {
   describe('[Value]', () => {
     test('as Boolean', async () => {
       const TestComponent = defineComponent({
-        template: '<div v-close-popup="val" />',
-        directives: { ClosePopup },
-        setup() {
-          return {
-            val: true
-          }
-        }
+        render: () => withDirectives(h('div'), [[ClosePopup, true]])
       })
 
       const wrapper = mount(TestComponent)
@@ -52,13 +46,7 @@ describe('[ClosePopup API]', () => {
 
     test('as Number', async () => {
       const TestComponent = defineComponent({
-        template: '<div v-close-popup="val" />',
-        directives: { ClosePopup },
-        setup() {
-          return {
-            val: 10
-          }
-        }
+        render: () => withDirectives(h('div'), [[ClosePopup, 10]])
       })
 
       const wrapper = mount(TestComponent)
@@ -77,13 +65,7 @@ describe('[ClosePopup API]', () => {
 
     test('as String', async () => {
       const TestComponent = defineComponent({
-        template: '<div v-close-popup="val" />',
-        directives: { ClosePopup },
-        setup() {
-          return {
-            val: 'some-string'
-          }
-        }
+        render: () => withDirectives(h('div'), [[ClosePopup, 'some-string']])
       })
 
       const wrapper = mount(TestComponent)

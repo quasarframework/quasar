@@ -78,37 +78,32 @@ async function hideMenu(wrapper, evt) {
 }
 
 /**
- * jsdom reports a zero size for every element, which makes the position
- * engine bail out before it applies any style; give it something to work with.
- * The viewport is also widened so that the computed position never gets
- * corrected by the boundary logic.
- */
-function giveElementsSize() {
-  vi.spyOn(HTMLElement.prototype, 'offsetWidth', 'get').mockReturnValue(50)
-  vi.spyOn(HTMLElement.prototype, 'offsetHeight', 'get').mockReturnValue(20)
-  vi.spyOn(Element.prototype, 'clientWidth', 'get').mockReturnValue(1024)
-}
-
-/**
- * The anchor sits at (100, 100) and is 100x50 big, which means:
+ * The anchor becomes a real fixed-positioned 100x50 box at (100, 100),
+ * which means:
  *   top: 100, center: 125, bottom: 150
  *   left: 100, middle: 150, right: 200
  */
 function setAnchorRect(wrapper) {
-  getAnchor(wrapper).element.getBoundingClientRect = () => ({
-    top: 100,
-    bottom: 150,
-    height: 50,
-    left: 100,
-    right: 200,
-    width: 100
+  Object.assign(getAnchor(wrapper).element.style, {
+    position: 'fixed',
+    top: '100px',
+    left: '100px',
+    width: '100px',
+    height: '50px'
   })
 }
 
+/**
+ * Mounts a menu with deterministic real geometry: the anchor is the box
+ * described above and the menu content a real 50x20 box, so the position
+ * engine measures everything through the actual layout engine. Everything
+ * sits far from the viewport edges, so the boundary logic never corrects
+ * the computed position.
+ */
 async function mountPositionedMenu(props) {
-  giveElementsSize()
-
-  const wrapper = mountMenu(props)
+  const wrapper = mountMenu(props, {
+    default: () => h('div', { style: { width: '50px', height: '20px' } })
+  })
   setAnchorRect(wrapper)
 
   await showMenu(wrapper)
@@ -128,18 +123,27 @@ describe('[QMenu API]', () => {
     describe('[(prop)transition-show]', () => {
       test('type String has effect', async () => {
         const propVal = 'scale'
-        const wrapper = mountMenu({ transitionShow: propVal })
-
-        await showMenu(wrapper)
-
-        // jsdom never runs the transition itself, so the wiring
-        // of the enter classes is what gets verified here
-        expect(getTransitionProps(wrapper)).toMatchObject({
-          appear: true,
-          enterFromClass: `q-transition--${propVal}-enter-from`,
-          enterActiveClass: `q-transition--${propVal}-enter-active`,
-          enterToClass: `q-transition--${propVal}-enter-to`
+        // @vue/test-utils stubs out Transition by default; disable the
+        // stub so that the real transition can be watched while it runs
+        const wrapper = mountMenu({ transitionShow: propVal }, void 0, {
+          global: { stubs: { transition: false } }
         })
+
+        getMenuComponent(wrapper).vm.show()
+        await flushPromises()
+
+        // while entering, the menu carries the requested enter classes
+        expect(getMenu().classList).toContain(
+          `q-transition--${propVal}-enter-active`
+        )
+
+        await vi.runAllTimersAsync()
+
+        // and it sheds them once the transition is over
+        expect(getMenu().classList).not.toContain(
+          `q-transition--${propVal}-enter-active`
+        )
+        expect(getMenu()).not.toBeNull()
       })
 
       test('defaults to a fade transition', async () => {
@@ -156,15 +160,26 @@ describe('[QMenu API]', () => {
     describe('[(prop)transition-hide]', () => {
       test('type String has effect', async () => {
         const propVal = 'scale'
-        const wrapper = mountMenu({ transitionHide: propVal })
+        // @vue/test-utils stubs out Transition by default; disable the
+        // stub so that the real transition can be watched while it runs
+        const wrapper = mountMenu({ transitionHide: propVal }, void 0, {
+          global: { stubs: { transition: false } }
+        })
 
         await showMenu(wrapper)
 
-        expect(getTransitionProps(wrapper)).toMatchObject({
-          leaveFromClass: `q-transition--${propVal}-leave-from`,
-          leaveActiveClass: `q-transition--${propVal}-leave-active`,
-          leaveToClass: `q-transition--${propVal}-leave-to`
-        })
+        getMenuComponent(wrapper).vm.hide()
+        await flushPromises()
+
+        // while leaving, the menu carries the requested leave classes
+        expect(getMenu().classList).toContain(
+          `q-transition--${propVal}-leave-active`
+        )
+
+        await vi.runAllTimersAsync()
+
+        // and it is gone once the transition is over
+        expect(getMenu()).toBeNull()
       })
 
       test('defaults to a fade transition', async () => {
@@ -670,8 +685,6 @@ describe('[QMenu API]', () => {
 
     describe('[(prop)touch-position]', () => {
       test('type Boolean has effect', async () => {
-        giveElementsSize()
-
         const wrapper = mountMenu({ touchPosition: true })
         setAnchorRect(wrapper)
 
@@ -1096,13 +1109,9 @@ describe('[QMenu API]', () => {
         const wrapper = await mountPositionedMenu()
 
         // the anchor moved without any of the watched dependencies changing
-        getAnchor(wrapper).element.getBoundingClientRect = () => ({
-          top: 200,
-          bottom: 250,
-          height: 50,
-          left: 300,
-          right: 400,
-          width: 100
+        Object.assign(getAnchor(wrapper).element.style, {
+          top: '200px',
+          left: '300px'
         })
 
         expect(getMenuComponent(wrapper).vm.updatePosition()).toBeUndefined()

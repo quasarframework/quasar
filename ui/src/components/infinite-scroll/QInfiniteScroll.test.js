@@ -18,18 +18,12 @@ function createScrollTarget(id) {
   const target = document.createElement('div')
   if (id !== void 0) target.id = id
 
-  Object.defineProperty(target, 'scrollHeight', {
-    configurable: true,
-    value: 1000
-  })
-  target.getBoundingClientRect = () => ({
-    top: 0,
-    left: 0,
-    right: 100,
-    bottom: 100,
-    width: 100,
-    height: 100
-  })
+  // a real 100px tall scroll container holding 1000px worth of content
+  target.style.cssText = 'height: 100px; width: 100px; overflow: auto;'
+
+  const content = document.createElement('div')
+  content.style.height = '1000px'
+  target.append(content)
 
   document.body.append(target)
   targets.push(target)
@@ -177,10 +171,7 @@ describe('[QInfiniteScroll API]', () => {
         expect(wrapper.classes()).toContain('q-infinite-scroll--no-anchoring')
 
         // the loaded batch prepends 600px worth of content
-        Object.defineProperty(target, 'scrollHeight', {
-          configurable: true,
-          value: 1600
-        })
+        target.firstChild.style.height = '1600px'
 
         const [, done] = wrapper.emitted('load')[0]
         done()

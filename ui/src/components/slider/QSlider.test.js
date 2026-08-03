@@ -45,8 +45,9 @@ function getMarkerLabelsContainer(wrapper) {
 }
 
 /**
- * jsdom has no layout, so the slider is given a 100x10 track in order
- * for the pointer position to be convertible into a model value.
+ * The slider is given an explicit 100x10 track so that converting a pointer
+ * position into a model value stays simple, deterministic math instead of
+ * depending on the real rendered width.
  */
 function giveSliderSize(wrapper) {
   wrapper.element.getBoundingClientRect = () => ({
@@ -103,9 +104,11 @@ describe('[QSlider API]', () => {
         await wrapper.setProps({ min: -50 })
 
         expect(wrapper.attributes('aria-valuemin')).toBe('-50')
+        // the browser's CSSOM serializes the percentage rounded
+        // to a few decimals, so allow for that loss of precision
         expect(Number.parseFloat(getThumb(wrapper).$style('left'))).toBeCloseTo(
           (100 * 100) / 150,
-          5
+          3
         )
       })
     })

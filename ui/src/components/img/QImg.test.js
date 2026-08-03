@@ -22,27 +22,36 @@ function getCurrentImg(wrapper) {
 }
 
 /**
- * jsdom never really loads an image, so completion is simulated.
+ * A data: URL image that the browser loads for real,
+ * with a deterministic natural size.
+ *
+ * Tests awaiting a real load/error event mount with
+ * loading: 'eager' -- headless Chromium can defer
+ * loading="lazy" fetches indefinitely mid-suite.
  */
-async function simulateLoad(
-  wrapper,
-  { naturalWidth = 16, naturalHeight = 9 } = {}
-) {
-  const img = getCurrentImg(wrapper)
+function realImgSrc(naturalWidth = 16, naturalHeight = 9) {
+  return (
+    'data:image/svg+xml,' +
+    encodeURIComponent(
+      `<svg xmlns="http://www.w3.org/2000/svg" width="${naturalWidth}" height="${naturalHeight}"></svg>`
+    )
+  )
+}
 
-  Object.defineProperties(img.element, {
-    naturalWidth: { configurable: true, value: naturalWidth },
-    naturalHeight: { configurable: true, value: naturalHeight },
-    complete: { configurable: true, value: true },
-    currentSrc: { configurable: true, value: img.element.getAttribute('src') }
+// undecodable image data, so the browser fires a real error event
+const brokenImgSrc = 'data:image/png;base64,invalid'
+
+async function waitForLoad(wrapper) {
+  await vi.waitFor(() => {
+    expect(wrapper.emitted('load')).toBeDefined()
   })
-
-  await img.trigger('load')
   await flushPromises()
 }
 
-async function simulateError(wrapper) {
-  await getCurrentImg(wrapper).trigger('error')
+async function waitForError(wrapper) {
+  await vi.waitFor(() => {
+    expect(wrapper.emitted('error')).toBeDefined()
+  })
   await flushPromises()
 }
 
@@ -129,9 +138,13 @@ describe('[QImg API]', () => {
     describe('[(prop)error-src]', () => {
       test('type String has effect', async () => {
         const propVal = '/images/error.png'
-        const wrapper = mountImg({ errorSrc: propVal })
+        const wrapper = mountImg({
+          src: brokenImgSrc,
+          loading: 'eager',
+          errorSrc: propVal
+        })
 
-        await simulateError(wrapper)
+        await waitForError(wrapper)
 
         expect(wrapper.get('img').attributes('src')).toBe(propVal)
       })
@@ -163,9 +176,13 @@ describe('[QImg API]', () => {
       })
 
       test('is replaced by the natural ratio once loaded', async () => {
-        const wrapper = mountImg({ initialRatio: 2 })
+        const wrapper = mountImg({
+          initialRatio: 2,
+          src: realImgSrc(4, 1),
+          loading: 'eager'
+        })
 
-        await simulateLoad(wrapper, { naturalWidth: 4, naturalHeight: 1 })
+        await waitForLoad(wrapper)
 
         expect(wrapper.element.firstElementChild.style.paddingBottom).toBe(
           '25%'
@@ -300,7 +317,9 @@ describe('[QImg API]', () => {
 
         const wrapper = mountImg({ position: '0 0' })
 
-        expect(getCurrentImg(wrapper).element.style.objectPosition).toBe('0 0')
+        expect(getCurrentImg(wrapper).element.style.objectPosition).toBe(
+          '0px 0px'
+        )
       })
     })
 
@@ -416,9 +435,12 @@ describe('[QImg API]', () => {
     describe('[(slot)default]', () => {
       test('renders the content', async () => {
         const slotContent = 'some-slot-content'
-        const wrapper = mountImg({}, { default: () => slotContent })
+        const wrapper = mountImg(
+          { src: realImgSrc(), loading: 'eager' },
+          { default: () => slotContent }
+        )
 
-        await simulateLoad(wrapper)
+        await waitForLoad(wrapper)
 
         expect(wrapper.get('.q-img__content').text()).toBe(slotContent)
       })
@@ -439,11 +461,11 @@ describe('[QImg API]', () => {
       test('renders the content', async () => {
         const slotContent = 'some-error-content'
         const wrapper = mountImg(
-          {},
+          { src: brokenImgSrc, loading: 'eager' },
           { default: () => 'ok content', error: () => slotContent }
         )
 
-        await simulateError(wrapper)
+        await waitForError(wrapper)
 
         expect(wrapper.get('.q-img__content').text()).toBe(slotContent)
       })
@@ -453,22 +475,23 @@ describe('[QImg API]', () => {
   describe('[Events]', () => {
     describe('[(event)load]', () => {
       test('is emitting', async () => {
-        const wrapper = mountImg()
+        const propVal = realImgSrc()
+        const wrapper = mountImg({ src: propVal, loading: 'eager' })
 
-        await simulateLoad(wrapper)
+        await waitForLoad(wrapper)
 
         const eventList = wrapper.emitted()
         expect(eventList).toHaveProperty('load')
         expect(eventList.load).toHaveLength(1)
-        expect(eventList.load[0]).toStrictEqual([src])
+        expect(eventList.load[0]).toStrictEqual([propVal])
       })
 
       test('clears the loading state', async () => {
-        const wrapper = mountImg()
+        const wrapper = mountImg({ src: realImgSrc(), loading: 'eager' })
 
         expect(wrapper.find('.q-img__loading').exists()).toBe(true)
 
-        await simulateLoad(wrapper)
+        await waitForLoad(wrapper)
 
         expect(wrapper.find('.q-img__loading').exists()).toBe(false)
       })
@@ -476,9 +499,9 @@ describe('[QImg API]', () => {
 
     describe('[(event)error]', () => {
       test('is emitting', async () => {
-        const wrapper = mountImg()
+        const wrapper = mountImg({ src: brokenImgSrc, loading: 'eager' })
 
-        await simulateError(wrapper)
+        await waitForError(wrapper)
 
         const eventList = wrapper.emitted()
         expect(eventList).toHaveProperty('error')
@@ -487,9 +510,9 @@ describe('[QImg API]', () => {
       })
 
       test('clears the loading state', async () => {
-        const wrapper = mountImg()
+        const wrapper = mountImg({ src: brokenImgSrc, loading: 'eager' })
 
-        await simulateError(wrapper)
+        await waitForError(wrapper)
 
         expect(wrapper.find('.q-img__loading').exists()).toBe(false)
       })

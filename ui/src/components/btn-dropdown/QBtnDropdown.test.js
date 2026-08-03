@@ -85,33 +85,33 @@ async function hideMenu(wrapper) {
 }
 
 /**
- * jsdom reports a zero size for every element, which makes the position
- * engine bail out before it applies any style; give it something to work
- * with and widen the viewport so that nothing gets clamped.
- *
- * The button sits at (100, 100) and is 100x50 big, which means:
+ * The button becomes a real fixed-positioned 100x50 box at (100, 100),
+ * which means:
  *   top: 100, center: 125, bottom: 150
  *   left: 100, middle: 150, right: 200
  */
 function givePositionContext(wrapper) {
-  vi.spyOn(HTMLElement.prototype, 'offsetWidth', 'get').mockReturnValue(50)
-  vi.spyOn(HTMLElement.prototype, 'offsetHeight', 'get').mockReturnValue(20)
-  vi.spyOn(Element.prototype, 'clientWidth', 'get').mockReturnValue(1024)
-
   // the button content carries "q-anchor--skip", so the menu anchors
   // itself to the button element itself
-  getRoot(wrapper).element.getBoundingClientRect = () => ({
-    top: 100,
-    bottom: 150,
-    height: 50,
-    left: 100,
-    right: 200,
-    width: 100
+  Object.assign(getRoot(wrapper).element.style, {
+    position: 'fixed',
+    top: '100px',
+    left: '100px',
+    width: '100px',
+    height: '50px'
   })
 }
 
+/**
+ * Mounts a dropdown with deterministic real geometry: the button is the
+ * box described above and the menu content a real 50x20 box, so the
+ * position engine measures everything through the actual layout engine.
+ * Everything sits far from the viewport edges, so nothing gets clamped.
+ */
 async function mountPositionedBtnDropdown(props) {
-  const wrapper = mountBtnDropdown(props)
+  const wrapper = mountBtnDropdown(props, {
+    default: () => h('div', { style: { width: '50px', height: '20px' } })
+  })
 
   givePositionContext(wrapper)
   await showMenu(wrapper)
@@ -124,28 +124,52 @@ describe('[QBtnDropdown API]', () => {
     describe('[(prop)transition-show]', () => {
       test('type String has effect', async () => {
         const propVal = 'scale'
-        const wrapper = mountBtnDropdown({ transitionShow: propVal })
+        // @vue/test-utils stubs out Transition by default; disable the
+        // stub so that the real transition can be watched while it runs
+        const wrapper = mountBtnDropdown({ transitionShow: propVal }, void 0, {
+          global: { stubs: { transition: false } }
+        })
 
-        await showMenu(wrapper)
+        wrapper.vm.show()
+        await flushPromises()
 
-        // jsdom never runs the transition itself, so the wiring
-        // of the enter classes is what gets verified here
-        expect(
-          wrapper.getComponent({ name: 'Transition' }).props('enterActiveClass')
-        ).toBe(`q-transition--${propVal}-enter-active`)
+        // while entering, the menu carries the requested enter classes
+        expect(getMenu().classList).toContain(
+          `q-transition--${propVal}-enter-active`
+        )
+
+        await vi.runAllTimersAsync()
+
+        // and it sheds them once the transition is over
+        expect(getMenu().classList).not.toContain(
+          `q-transition--${propVal}-enter-active`
+        )
       })
     })
 
     describe('[(prop)transition-hide]', () => {
       test('type String has effect', async () => {
         const propVal = 'scale'
-        const wrapper = mountBtnDropdown({ transitionHide: propVal })
+        // @vue/test-utils stubs out Transition by default; disable the
+        // stub so that the real transition can be watched while it runs
+        const wrapper = mountBtnDropdown({ transitionHide: propVal }, void 0, {
+          global: { stubs: { transition: false } }
+        })
 
         await showMenu(wrapper)
 
-        expect(
-          wrapper.getComponent({ name: 'Transition' }).props('leaveActiveClass')
-        ).toBe(`q-transition--${propVal}-leave-active`)
+        wrapper.vm.hide()
+        await flushPromises()
+
+        // while leaving, the menu carries the requested leave classes
+        expect(getMenu().classList).toContain(
+          `q-transition--${propVal}-leave-active`
+        )
+
+        await vi.runAllTimersAsync()
+
+        // and it is gone once the transition is over
+        expect(getMenu()).toBeNull()
       })
     })
 

@@ -300,7 +300,11 @@ describe('[QBtn API]', () => {
 
         expect(target.classes()).toContain('q-btn--outline')
 
-        expect(target.$computedStyle('background')).toBe('transparent')
+        // "background: transparent" resolves to a fully
+        // transparent background-color in the browser
+        expect(target.$computedStyle('background-color')).toBe(
+          'rgba(0, 0, 0, 0)'
+        )
       })
     })
 
@@ -964,8 +968,10 @@ describe('[QBtn API]', () => {
 
         expect(wrapper.find('.q-btn__progress').exists()).toBe(true)
 
+        // the computed transform resolves to a matrix in the
+        // browser, so assert the percentage on the inline style
         expect(
-          wrapper.get('.q-btn__progress-indicator').$computedStyle('transform')
+          wrapper.get('.q-btn__progress-indicator').$style('transform')
         ).toContain(`${100 - propVal}%`)
 
         expect(wrapper.find('.q-spinner').exists()).toBe(true)

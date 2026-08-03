@@ -345,10 +345,11 @@ describe('[QToggle API]', () => {
   })
 
   describe('[Generic]', () => {
-    // The Quasar stylesheet is loaded into jsdom by testing/vitest.setup.js
+    // The Quasar stylesheet is loaded by testing/vitest.setup.js
     // ("import 'quasar/src/css/index.sass'"), so the rules below are the ones
-    // that QToggle.sass actually produces. jsdom cannot emulate forced-colors
-    // mode, so these assert the cascade rather than the rendered result.
+    // that QToggle.sass actually produces. The test browser does not run with
+    // forced-colors emulation, so these assert the cascade rather than the
+    // rendered result.
 
     const checkedTrackSelector = '.q-toggle__inner--truthy .q-toggle__track'
     const forcedColorsRE = /\(\s*forced-colors\s*:\s*active\s*\)/
@@ -389,7 +390,8 @@ describe('[QToggle API]', () => {
       // box-shadow to none, which is the entire visual of both parts; a border
       // is what survives, since border-color is mapped to CanvasText
       const track = getForcedColorsRule(/\.q-toggle__track$/)
-      const thumb = getForcedColorsRule(/\.q-toggle__thumb:after$/)
+      // the browser's CSSOM normalizes ":after" to "::after" in selectorText
+      const thumb = getForcedColorsRule(/\.q-toggle__thumb::?after$/)
 
       expect(track).not.toBeNull()
       expect(thumb).not.toBeNull()

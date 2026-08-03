@@ -84,36 +84,33 @@ async function hidePopup(wrapper) {
 }
 
 /**
- * jsdom reports a zero size for every element, which makes the position
- * engine bail out before it applies any style; give it something to work
- * with and widen the viewport so that nothing gets clamped.
- */
-function giveElementsSize() {
-  vi.spyOn(HTMLElement.prototype, 'offsetWidth', 'get').mockReturnValue(50)
-  vi.spyOn(HTMLElement.prototype, 'offsetHeight', 'get').mockReturnValue(20)
-  vi.spyOn(Element.prototype, 'clientWidth', 'get').mockReturnValue(1024)
-}
-
-/**
- * The anchor sits at (100, 100) and is 100x50 big, which means:
+ * The anchor becomes a real fixed-positioned 100x50 box at (100, 100),
+ * which means:
  *   top: 100, center: 125, bottom: 150
  *   left: 100, middle: 150, right: 200
  */
 function setAnchorRect(wrapper) {
-  getAnchor(wrapper).element.getBoundingClientRect = () => ({
-    top: 100,
-    bottom: 150,
-    height: 50,
-    left: 100,
-    right: 200,
-    width: 100
+  Object.assign(getAnchor(wrapper).element.style, {
+    position: 'fixed',
+    top: '100px',
+    left: '100px',
+    width: '100px',
+    height: '50px'
   })
 }
 
+/**
+ * Mounts a popup with deterministic real geometry: the anchor is the box
+ * described above and the popup a real 50x20 box (its own padding gets
+ * turned off through the style attr, which falls through to the underlying
+ * QMenu element, so the slot content alone defines its size). The position
+ * engine measures everything through the actual layout engine; everything
+ * sits far from the viewport edges, so nothing gets clamped.
+ */
 async function mountPositionedPopupEdit(props) {
-  giveElementsSize()
-
-  const wrapper = mountPopupEdit(props)
+  const wrapper = mountPopupEdit({ style: 'padding: 0', ...props }, () =>
+    h('div', { style: { width: '50px', height: '20px' } })
+  )
   setAnchorRect(wrapper)
 
   await showPopup(wrapper)
@@ -581,8 +578,6 @@ describe('[QPopupEdit API]', () => {
 
     describe('[(prop)touch-position]', () => {
       test('type Boolean has effect', async () => {
-        giveElementsSize()
-
         const wrapper = mountPopupEdit({ cover: false, touchPosition: true })
         setAnchorRect(wrapper)
 
@@ -900,13 +895,9 @@ describe('[QPopupEdit API]', () => {
         const wrapper = await mountPositionedPopupEdit({ cover: false })
 
         // the anchor moved without any of the watched dependencies changing
-        getAnchor(wrapper).element.getBoundingClientRect = () => ({
-          top: 200,
-          bottom: 250,
-          height: 50,
-          left: 300,
-          right: 400,
-          width: 100
+        Object.assign(getAnchor(wrapper).element.style, {
+          top: '200px',
+          left: '300px'
         })
 
         expect(getPopupEdit(wrapper).vm.updatePosition()).toBeUndefined()

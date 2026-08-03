@@ -3,9 +3,10 @@ import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import morph from './morph.js'
 
 /**
- * jsdom has neither a layout engine nor the Web Animations API, so:
- *   - every measurement (bounding rects, computed styles) is stubbed;
- *   - morph() takes its CSS keyframes fallback, which is what gets asserted.
+ * To keep the geometry deterministic, every measurement (bounding rects,
+ * computed styles) is stubbed. The browser implements the Web Animations
+ * API, so the tests asserting the generated CSS keyframes explicitly opt
+ * into that fallback with `useCSS: true`.
  */
 const baseComputedStyle = {
   length: 0,
@@ -112,11 +113,12 @@ function getKeyframes() {
 }
 
 function endAnimation(el) {
-  const evt = new Event('animationend')
-
-  // the animation shorthand ends with the generated keyframes name
-  evt.animationName = el.style.animation.split(' ').pop()
-  el.dispatchEvent(evt)
+  // the animation name is the generated keyframes name
+  el.dispatchEvent(
+    new AnimationEvent('animationend', {
+      animationName: el.style.animationName
+    })
+  )
 }
 
 describe('[morph API]', () => {
@@ -179,7 +181,7 @@ describe('[morph API]', () => {
         expect(clone.className).toBe(from.className)
         expect(clone.getAttribute('aria-hidden')).toBe('true')
         expect(clone.style.transition).toBe('none')
-        expect(clone.style.animation).toBe('none')
+        expect(clone.style.animationName).toBe('none')
         expect(clone.style.pointerEvents).toBe('none')
         expect(clone.classList).not.toContain('q-morph--internal')
       })
@@ -197,6 +199,7 @@ describe('[morph API]', () => {
 
         morph({
           from,
+          useCSS: true,
           duration: 500,
           easing: 'linear',
           delay: 20,
@@ -204,12 +207,14 @@ describe('[morph API]', () => {
         })
         flushFrames()
 
-        const animationName = from.style.animation.split(' ').pop()
+        const animationName = from.style.animationName
 
         expect(animationName).toMatch(/^q-morph-anim-\d+$/)
-        expect(from.style.animation).toBe(
-          `500ms linear 20ms normal both ${animationName}`
-        )
+        expect(from.style.animationDuration).toBe('500ms')
+        expect(from.style.animationTimingFunction).toBe('linear')
+        expect(from.style.animationDelay).toBe('20ms')
+        expect(from.style.animationDirection).toBe('normal')
+        expect(from.style.animationFillMode).toBe('both')
         expect(getKeyframes()).toContain(`@keyframes ${animationName}`)
 
         // the morphed element is lifted out of the flow
@@ -222,18 +227,21 @@ describe('[morph API]', () => {
       test('falls back to the default animation options', () => {
         const { from } = createScene()
 
-        morph({ from })
+        morph({ from, useCSS: true })
         flushFrames()
 
-        expect(from.style.animation).toMatch(
-          /^300ms ease-in-out 0ms normal none q-morph-anim-\d+$/
-        )
+        expect(from.style.animationName).toMatch(/^q-morph-anim-\d+$/)
+        expect(from.style.animationDuration).toBe('300ms')
+        expect(from.style.animationTimingFunction).toBe('ease-in-out')
+        expect(from.style.animationDelay).toBe('0ms')
+        expect(from.style.animationDirection).toBe('normal')
+        expect(from.style.animationFillMode).toBe('none')
       })
 
       test('translates and scales the source onto the destination', () => {
         const { from, to } = createScene({ separateTo: true })
 
-        morph({ from, to })
+        morph({ from, to, useCSS: true })
         flushFrames()
 
         // from (50, 100, 100x40) -> to (200, 300, 200x80)
@@ -247,7 +255,7 @@ describe('[morph API]', () => {
       test('animates the box instead of scaling it when resizing', () => {
         const { from, to } = createScene({ separateTo: true })
 
-        morph({ from, to, resize: true })
+        morph({ from, to, resize: true, useCSS: true })
         flushFrames()
 
         const keyframes = getKeyframes()
@@ -308,7 +316,7 @@ describe('[morph API]', () => {
           el === parent ? { position: 'relative', zIndex: '42' } : {}
         )
 
-        morph({ from })
+        morph({ from, useCSS: true })
         flushFrames()
 
         expect(getKeyframes()).toContain('z-index: 42;')
@@ -343,7 +351,7 @@ describe('[morph API]', () => {
         const onEnd = vi.fn()
         const classSaved = from.className
 
-        morph({ from, onEnd })
+        morph({ from, onEnd, useCSS: true })
         flushFrames()
         endAnimation(from)
 
@@ -360,12 +368,14 @@ describe('[morph API]', () => {
         const { from } = createScene()
         const onEnd = vi.fn()
 
-        morph({ from, onEnd })
+        morph({ from, onEnd, useCSS: true })
         flushFrames()
 
-        const evt = new Event('animationend')
-        evt.animationName = 'some-other-animation'
-        from.dispatchEvent(evt)
+        from.dispatchEvent(
+          new AnimationEvent('animationend', {
+            animationName: 'some-other-animation'
+          })
+        )
 
         expect(onEnd).not.toHaveBeenCalled()
         expect(from.parentNode).toBe(document.body)
@@ -375,7 +385,7 @@ describe('[morph API]', () => {
         const { parent, from } = createScene()
         const onEnd = vi.fn()
 
-        const cancel = morph({ from, onEnd })
+        const cancel = morph({ from, onEnd, useCSS: true })
         flushFrames()
 
         expect(cancel(true)).toBe(true)
@@ -397,7 +407,7 @@ describe('[morph API]', () => {
           const { parent, from } = createScene()
           const onEnd = vi.fn()
 
-          const cancel = morph({ from, onEnd, ...options })
+          const cancel = morph({ from, onEnd, useCSS: true, ...options })
           flushFrames()
 
           expect(cancel()).toBe(true)
@@ -420,7 +430,13 @@ describe('[morph API]', () => {
       test('tweens the source over the destination', () => {
         const { from } = createScene()
 
-        morph({ from, tween: true, tweenFromOpacity: 0.8, tweenToOpacity: 0.3 })
+        morph({
+          from,
+          useCSS: true,
+          tween: true,
+          tweenFromOpacity: 0.8,
+          tweenToOpacity: 0.3
+        })
         flushFrames()
 
         const keyframes = getKeyframes()
@@ -433,7 +449,7 @@ describe('[morph API]', () => {
       test('leaves the source spacer alone when it shares its size', () => {
         const { parent, from } = createScene()
 
-        morph({ from })
+        morph({ from, useCSS: true })
         flushFrames()
 
         // the destination clone is inserted right before the source one
@@ -443,40 +459,40 @@ describe('[morph API]', () => {
         // the source is the destination here, so the destination spacer
         // carries the sizing on its own
         expect(keyframes).not.toContain('-from {')
-        expect(fromClone.style.animation).toBe('none')
+        expect(fromClone.style.animationName).toBe('none')
 
         expect(keyframes).toContain('-to {')
-        expect(toClone.style.animation).toContain('-to')
+        expect(toClone.style.animationName).toContain('-to')
       })
 
       test('animates the source spacer when it has a size of its own', () => {
         const { parent, from, to } = createScene({ separateTo: true })
 
-        morph({ from, to })
+        morph({ from, to, useCSS: true })
         flushFrames()
 
         const [, fromClone] = parent.children
 
         expect(getKeyframes()).toContain('-from {')
-        expect(fromClone.style.animation).toContain('-from')
+        expect(fromClone.style.animationName).toContain('-from')
       })
 
       test('leaves the destination spacer alone when the clone is kept', () => {
         const { parent, from } = createScene()
 
-        morph({ from, keepToClone: true })
+        morph({ from, keepToClone: true, useCSS: true })
         flushFrames()
 
         const [toClone] = parent.children
 
         expect(getKeyframes()).not.toContain('-to {')
-        expect(toClone.style.animation).toBe('none')
+        expect(toClone.style.animationName).toBe('none')
       })
 
       test('morphs towards a different destination element', () => {
         const { parent, from, to } = createScene({ separateTo: true })
 
-        morph({ from, to })
+        morph({ from, to, useCSS: true })
         flushFrames()
 
         expect(to.parentNode).toBe(document.body)
@@ -492,7 +508,7 @@ describe('[morph API]', () => {
       test('leaves the destination clone alone when requested', () => {
         const { from, to } = createScene({ separateTo: true })
 
-        morph({ from, to, keepToClone: true })
+        morph({ from, to, keepToClone: true, useCSS: true })
         flushFrames()
 
         // the destination is never hidden and its clone is not animated
@@ -503,7 +519,7 @@ describe('[morph API]', () => {
       test('animates the destination clone by default', () => {
         const { from, to } = createScene({ separateTo: true })
 
-        morph({ from, to })
+        morph({ from, to, useCSS: true })
         flushFrames()
 
         expect(getKeyframes()).toContain('-to {')
@@ -544,7 +560,7 @@ describe('[morph API]', () => {
           resolveWaitFor = resolve
         })
 
-        morph({ from, waitFor })
+        morph({ from, waitFor, useCSS: true })
         flushFrames()
 
         expect(getMorphStyleNodes()).toHaveLength(0)
@@ -558,7 +574,7 @@ describe('[morph API]', () => {
       test('waits for the given amount of time before animating', async () => {
         const { from } = createScene()
 
-        morph({ from, waitFor: 10 })
+        morph({ from, waitFor: 10, useCSS: true })
         flushFrames()
 
         expect(getMorphStyleNodes()).toHaveLength(0)

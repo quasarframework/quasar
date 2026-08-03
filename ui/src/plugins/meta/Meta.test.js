@@ -1,9 +1,10 @@
+import { h } from 'vue'
 import { describe, expect, test } from 'vitest'
 import { config, mount } from '@vue/test-utils'
 
 import Meta from './Meta.js'
 
-const mountPlugin = () => mount({ template: '<div />' })
+const mountPlugin = () => mount({ render: () => h('div') })
 
 // We override Quasar install so it installs this plugin
 const quasarVuePlugin = config.global.plugins.find(

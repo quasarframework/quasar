@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, test, vi } from 'vitest'
 import { mount } from '@vue/test-utils'
-import { defineComponent, nextTick, reactive } from 'vue'
+import { defineComponent, h, nextTick, reactive } from 'vue'
 
 import { listenOpts } from '../../utils/event/event.js'
 import useScrollTarget from './use-scroll-target.js'
@@ -19,7 +19,7 @@ describe('[useScrollTarget API]', () => {
 
         const wrapper = mount(
           defineComponent({
-            template: '<div />',
+            render: () => h('div'),
             setup() {
               result = useScrollTarget(props, configureScrollTarget)
             }

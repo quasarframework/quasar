@@ -5,20 +5,15 @@ import { nextTick } from 'vue'
 import QEditor from './QEditor.js'
 
 /**
- * jsdom implements neither execCommand nor the queryCommand* family, which
- * the contenteditable engine behind QEditor is built on top of.
+ * The contenteditable engine behind QEditor runs on the real execCommand
+ * and queryCommand* implementations of the browser; a passthrough spy on
+ * execCommand merely keeps the calls observable.
  */
 let execCommand
 const activeWrappers = []
 
 beforeEach(() => {
-  execCommand = vi.fn()
-
-  Object.assign(document, {
-    execCommand,
-    queryCommandState: vi.fn(() => false),
-    queryCommandValue: vi.fn(() => '')
-  })
+  execCommand = vi.spyOn(document, 'execCommand')
 })
 
 afterEach(() => {
@@ -26,9 +21,7 @@ afterEach(() => {
     activeWrappers.pop().unmount()
   }
 
-  for (const key of ['execCommand', 'queryCommandState', 'queryCommandValue']) {
-    delete document[key]
-  }
+  document.getSelection().removeAllRanges()
   vi.restoreAllMocks()
 })
 
@@ -408,11 +401,15 @@ describe('[QEditor API]', () => {
     describe('[(prop)toolbar-toggle-color]', () => {
       test('type String has effect', async () => {
         const propVal = 'accent'
-        // an active command is what gets the toggle color
-        document.queryCommandState = vi.fn(() => true)
 
+        // an active command is what gets the toggle color; selecting the
+        // bold content makes the real queryCommandState report it as active
         const wrapper = mountEditor(
-          { toolbar: [['bold']], toolbarToggleColor: propVal },
+          {
+            modelValue: '<b>Hello</b>',
+            toolbar: [['bold']],
+            toolbarToggleColor: propVal
+          },
           { attachTo: document.body }
         )
         await flushToolbar()
@@ -433,10 +430,8 @@ describe('[QEditor API]', () => {
       })
 
       test('defaults to primary', async () => {
-        document.queryCommandState = vi.fn(() => true)
-
         const wrapper = mountEditor(
-          { toolbar: [['bold']] },
+          { modelValue: '<b>Hello</b>', toolbar: [['bold']] },
           { attachTo: document.body }
         )
         selectContent(wrapper)

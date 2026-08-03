@@ -9,7 +9,18 @@ function createCounter(name) {
   return defineComponent({
     name,
     data: () => ({ count: 0 }),
-    template: `<button data-step="${name}" @click="count++">{{ count }}</button>`
+    render() {
+      return h(
+        'button',
+        {
+          'data-step': name,
+          onClick: () => {
+            this.count++
+          }
+        },
+        String(this.count)
+      )
+    }
   })
 }
 

@@ -1,8 +1,3 @@
-/**
- * Ignored specs:
- * [(prop)backdrop-filter]
- */
-
 import { flushPromises, mount } from '@vue/test-utils'
 import {
   afterEach,
@@ -368,39 +363,38 @@ describe('[QDialog API]', () => {
       })
     })
 
-    /**
-     * Commented because jsdom doesn't understand backdrop-filter
-     *
-        describe('[(prop)backdrop-filter]', () => {
-          test('type String has effect', async () => {
-            const propVal = 'blur(4px)'
-            wrapper = mount(QDialog, {
-              props: {
-                modelValue: true,
-                backdropFilter: propVal
-              }
-            })
-
-            await flushPromises()
-            await vi.runAllTimers()
-
-            expect(
-              wrapper.findComponent({ name: 'QPortal' })
-                .get('.q-dialog__backdrop')
-                .$style('backdrop-filter')
-            ).toBe(propVal)
-
-            await wrapper.setProps({ backdropFilter: void 0 })
-            await flushPromises()
-
-            expect(
-              wrapper.findComponent({ name: 'QPortal' })
-                .get('.q-dialog__backdrop')
-                .$style('backdrop-filter')
-            ).toBeUndefined()
-          })
+    describe('[(prop)backdrop-filter]', () => {
+      test('type String has effect', async () => {
+        const propVal = 'blur(4px)'
+        wrapper = mount(QDialog, {
+          props: {
+            modelValue: true,
+            backdropFilter: propVal
+          }
         })
-    */
+
+        await flushPromises()
+        await vi.runAllTimers()
+
+        expect(
+          wrapper
+            .findComponent({ name: 'QPortal' })
+            .get('.q-dialog__backdrop')
+            .$style('backdrop-filter')
+        ).toBe(propVal)
+
+        await wrapper.setProps({ backdropFilter: void 0 })
+        await flushPromises()
+
+        // the inline style entry is removed, so the browser reports an empty value
+        expect(
+          wrapper
+            .findComponent({ name: 'QPortal' })
+            .get('.q-dialog__backdrop')
+            .$style('backdrop-filter')
+        ).toBe('')
+      })
+    })
 
     describe('[(prop)maximized]', () => {
       test('type Boolean has effect', async () => {

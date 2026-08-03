@@ -276,7 +276,7 @@ describe('[QSlideItem API]', () => {
         content.element.style.transform = 'translateX(100%)'
 
         expect(wrapper.vm.reset()).toBeUndefined()
-        expect(content.$style('transform')).toBe('translate(0,0)')
+        expect(content.$style('transform')).toBe('translate(0px, 0px)')
       })
     })
   })

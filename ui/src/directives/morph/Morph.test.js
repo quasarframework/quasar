@@ -1,19 +1,16 @@
 import { mount } from '@vue/test-utils'
 import { describe, expect, test, vi } from 'vitest'
-import { defineComponent } from 'vue'
+import { defineComponent, h, withDirectives } from 'vue'
 
 import Morph from './Morph.js'
 
 function mountModifier(modifier) {
   const group = `modifier-${modifier.toLowerCase()}`
   const TestComponent = defineComponent({
-    template: `<div v-morph:item:${group}.${modifier}="model" />`,
-    directives: { Morph },
-    setup() {
-      return {
-        model: 'item'
-      }
-    }
+    render: () =>
+      withDirectives(h('div'), [
+        [Morph, 'item', `item:${group}`, { [modifier]: true }]
+      ])
   })
 
   return mount(TestComponent)
@@ -32,31 +29,28 @@ describe('[Morph API]', () => {
     test('as Object', () => {
       const onEnd = vi.fn()
       const TestComponent = defineComponent({
-        template: '<div v-morph:item="val" />',
-        directives: { Morph },
         setup() {
-          return {
-            val: {
-              group: 'dialogGroup',
-              name: 'btn',
-              model: 'btn',
-              duration: 300,
-              delay: 0,
-              easing: 'ease-in-out',
-              fill: 'none',
-              classes: 'bg-grey-2',
-              style: 'border-radius: 20px',
-              resize: true,
-              useCSS: true,
-              hideFromClone: true,
-              keepToClone: true,
-              tween: true,
-              tweenFromOpacity: 0.6,
-              tweenToOpacity: 0.5,
-              waitFor: 0,
-              onEnd
-            }
+          const val = {
+            group: 'dialogGroup',
+            name: 'btn',
+            model: 'btn',
+            duration: 300,
+            delay: 0,
+            easing: 'ease-in-out',
+            fill: 'none',
+            classes: 'bg-grey-2',
+            style: 'border-radius: 20px',
+            resize: true,
+            useCSS: true,
+            hideFromClone: true,
+            keepToClone: true,
+            tween: true,
+            tweenFromOpacity: 0.6,
+            tweenToOpacity: 0.5,
+            waitFor: 0,
+            onEnd
           }
+          return () => withDirectives(h('div'), [[Morph, val, 'item']])
         }
       })
 
@@ -90,13 +84,10 @@ describe('[Morph API]', () => {
 
     test('as Any', () => {
       const TestComponent = defineComponent({
-        template: '<div v-morph:any-value:primitive-group="val" />',
-        directives: { Morph },
-        setup() {
-          return {
-            val: 'any-value'
-          }
-        }
+        render: () =>
+          withDirectives(h('div'), [
+            [Morph, 'any-value', 'any-value:primitive-group']
+          ])
       })
 
       const wrapper = mount(TestComponent)
@@ -114,14 +105,10 @@ describe('[Morph API]', () => {
   describe('[Argument]', () => {
     test('has effect', () => {
       const TestComponent = defineComponent({
-        template:
-          '<div v-morph:item:argument-group:450:transitionend="model" />',
-        directives: { Morph },
-        setup() {
-          return {
-            model: 'other'
-          }
-        }
+        render: () =>
+          withDirectives(h('div'), [
+            [Morph, 'other', 'item:argument-group:450:transitionend']
+          ])
       })
 
       const wrapper = mount(TestComponent)

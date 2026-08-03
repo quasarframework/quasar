@@ -2,7 +2,7 @@ import { join } from 'node:path'
 
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
-// import { playwright } from '@vitest/browser-playwright'
+import { playwright } from '@vitest/browser-playwright'
 
 import { quasar, transformAssetUrls } from '@quasar/vite-plugin'
 
@@ -35,6 +35,9 @@ export default defineConfig(() => ({
 
   resolve: {
     alias: {
+      // mount()/shallowMount() attach to the document by default
+      // (needed for computed styles and layout in a real browser)
+      '@vue/test-utils': resolve('runtime/test-utils.js'),
       testing: resolve('.'),
       quasar: resolve('..')
     }
@@ -43,17 +46,17 @@ export default defineConfig(() => ({
   test: {
     ...getReporterConfig(),
     globals: true,
-    environment: 'jsdom',
-    environmentOptions: {
-      pretendToBeVisual: true
+    browser: {
+      provider: playwright(),
+      enabled: true,
+      headless: true,
+      screenshotFailures: false,
+      // a desktop-sized viewport; tests needing other sizes
+      // change it with page.viewport()
+      viewport: { width: 1280, height: 800 },
+      // at least one instance is required
+      instances: [{ browser: 'chromium' }]
     },
-    // browser: {
-    //   provider: playwright(),
-    //   enabled: true,
-    //   headless: true,
-    //   // at least one instance is required
-    //   instances: [{ browser: 'chromium' }]
-    // },
     css: {
       include: [/.+/]
     },

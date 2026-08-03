@@ -1,6 +1,6 @@
 import { mount } from '@vue/test-utils'
 import { describe, expect, test } from 'vitest'
-import { defineComponent } from 'vue'
+import { defineComponent, h } from 'vue'
 
 import useBtn, {
   btnDesignOptions,
@@ -53,11 +53,11 @@ describe('[useBtn API]', () => {
       test('has correct return value', () => {
         const wrapper = mount(
           defineComponent({
-            template: '<div />',
             setup() {
               const result = useBtn({})
               return { result }
-            }
+            },
+            render: () => h('div')
           })
         )
 

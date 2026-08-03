@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'vitest'
 import { flushPromises, mount } from '@vue/test-utils'
-import { getCurrentInstance, h } from 'vue'
+import { Fragment, getCurrentInstance, h } from 'vue'
 
 import {
   getNormalizedVNodes,
@@ -18,7 +18,7 @@ describe('[vm API]', () => {
         let childVm, parentVm
 
         const ChildComponent = {
-          template: '<div />',
+          render: () => h('div'),
           setup() {
             childVm = getCurrentInstance()
             return {}
@@ -26,10 +26,7 @@ describe('[vm API]', () => {
         }
 
         mount({
-          template: '<div> <ChildComponent /> </div>',
-          components: {
-            ChildComponent
-          },
+          render: () => h('div', [h(ChildComponent)]),
           setup() {
             parentVm = getCurrentInstance()
             return {}
@@ -43,7 +40,7 @@ describe('[vm API]', () => {
         let childVm, parentVm
 
         const ChildComponent = {
-          template: '<div />',
+          render: () => h('div'),
           setup() {
             childVm = getCurrentInstance()
             return {}
@@ -51,17 +48,11 @@ describe('[vm API]', () => {
         }
 
         const IntermediateComponent = {
-          template: '<div> <ChildComponent /> </div>',
-          components: {
-            ChildComponent
-          }
+          render: () => h('div', [h(ChildComponent)])
         }
 
         mount({
-          template: '<div> <IntermediateComponent /> </div>',
-          components: {
-            IntermediateComponent
-          },
+          render: () => h('div', [h(IntermediateComponent)]),
           setup() {
             parentVm = getCurrentInstance()
             return {}
@@ -90,25 +81,27 @@ describe('[vm API]', () => {
         }
 
         const ChildComponent = {
-          template: `
-            <div>
-              <div>Simple</div>
-              <div v-for="n in 2" :key="n">Child {{ n }}</div>
-            </div>
-          `
+          render: () =>
+            h('div', [
+              h('div', 'Simple'),
+              h(
+                Fragment,
+                [1, 2].map(n => h('div', { key: n }, `Child ${n}`))
+              )
+            ])
         }
 
         mount({
-          template: `
-            <ParentComponent>
-              <ChildComponent />
-              <ChildComponent v-for="n in 2" :key="n" />
-            </ParentComponent>
-          `,
-          components: {
-            ParentComponent,
-            ChildComponent
-          }
+          render: () =>
+            h(ParentComponent, null, {
+              default: () => [
+                h(ChildComponent),
+                h(
+                  Fragment,
+                  [1, 2].map(n => h(ChildComponent, { key: n }))
+                )
+              ]
+            })
         })
 
         expect(vnodes).toBeDefined()
@@ -121,7 +114,7 @@ describe('[vm API]', () => {
         let vm
 
         mount({
-          template: '<div />',
+          render: () => h('div'),
           setup() {
             vm = getCurrentInstance()
             return {}
@@ -137,7 +130,7 @@ describe('[vm API]', () => {
 
         mount(
           {
-            template: '<div />',
+            render: () => h('div'),
             setup() {
               vm = getCurrentInstance()
               return {}
@@ -159,7 +152,7 @@ describe('[vm API]', () => {
         let vm
 
         const wrapper = mount({
-          template: '<div />',
+          render: () => h('div'),
           setup() {
             vm = getCurrentInstance()
             return {}

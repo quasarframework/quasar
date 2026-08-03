@@ -1,5 +1,6 @@
 import { flushPromises, mount } from '@vue/test-utils'
 import { describe, expect, test, vi } from 'vitest'
+import { h } from 'vue'
 
 import QForm from './QForm.js'
 
@@ -24,7 +25,7 @@ describe('[QForm API]', () => {
         const wrapper = mount(QForm, {
           props: { autofocus: true },
           slots: {
-            default: '<input data-autofocus tabindex="0">'
+            default: () => h('input', { 'data-autofocus': '', tabindex: '0' })
           },
           attachTo: document.body
         })
@@ -61,7 +62,7 @@ describe('[QForm API]', () => {
             noResetFocus: true
           },
           slots: {
-            default: '<input data-autofocus tabindex="0">'
+            default: () => h('input', { 'data-autofocus': '', tabindex: '0' })
           },
           attachTo: document.body
         })
@@ -185,7 +186,7 @@ describe('[QForm API]', () => {
       test('should be callable', () => {
         const wrapper = mount(QForm, {
           slots: {
-            default: '<button data-autofocus>Focus target</button>'
+            default: () => h('button', { 'data-autofocus': '' }, 'Focus target')
           },
           attachTo: document.body
         })

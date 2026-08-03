@@ -14,6 +14,15 @@ afterEach(() => {
 function createScrollTarget(id) {
   const target = document.createElement('div')
   if (id !== void 0) target.id = id
+
+  // a real browser only accepts scrollTop/scrollLeft changes
+  // on an element that actually overflows
+  target.style.cssText = 'width: 200px; height: 200px; overflow: auto;'
+
+  const content = document.createElement('div')
+  content.style.cssText = 'width: 500px; height: 500px;'
+  target.append(content)
+
   document.body.append(target)
   targets.push(target)
   return target

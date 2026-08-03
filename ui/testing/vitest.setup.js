@@ -1,5 +1,7 @@
 import { config } from '@vue/test-utils'
-import { expect } from 'vitest'
+import { afterEach, expect } from 'vitest'
+
+import { removeMountContainers } from './runtime/test-utils.js'
 
 import { isReactive, isRef } from 'vue'
 
@@ -22,6 +24,8 @@ console.warn = (...args) => {
 
 config.global.plugins.push(quasarVuePlugin)
 
+afterEach(removeMountContainers)
+
 config.plugins.DOMWrapper.install(wrapper => ({
   $style: prop =>
     prop === void 0 ? wrapper.attributes('style') : wrapper.element.style[prop],
@@ -31,9 +35,6 @@ config.plugins.DOMWrapper.install(wrapper => ({
     return prop === void 0 ? result : result.getPropertyValue(prop)
   }
 }))
-
-// jsdom not supplying this
-window.scrollTo = () => {}
 
 /**
  * Examples:

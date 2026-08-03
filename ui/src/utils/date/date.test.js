@@ -1,26 +1,145 @@
 // oxlint-disable import/no-named-as-default-member
 
-import { afterEach, describe, expect, test } from 'vitest'
+import { afterEach, describe, expect, test, vi } from 'vitest'
 
 import date, { __splitDate, getWeekOfYear } from './date.js'
+
+// The browser's timezone cannot be changed at runtime (there is no
+// process.env.TZ equivalent), so mock the global Date class with one
+// that interprets local date components in the target IANA timezone
+function mockDateInTimezone(timeZone) {
+  const RealDate = Date
+
+  const formatter = new Intl.DateTimeFormat('en-US', {
+    timeZone,
+    hourCycle: 'h23',
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit'
+  })
+
+  // same sign convention as Date#getTimezoneOffset()
+  function getTimezoneOffset(timestamp) {
+    const parts = {}
+    for (const { type, value } of formatter.formatToParts(timestamp)) {
+      parts[type] = value
+    }
+
+    const asUTC = Date.UTC(
+      Number(parts.year),
+      Number(parts.month) - 1,
+      Number(parts.day),
+      Number(parts.hour),
+      Number(parts.minute),
+      Number(parts.second)
+    )
+
+    return (timestamp - (timestamp % 1000) - asUTC) / 60_000
+  }
+
+  function toTimestamp(year, month, day, hour, minute, second, ms) {
+    const utcGuess = Date.UTC(year, month, day, hour, minute, second, ms)
+    // the second pass corrects the guess around a DST switch
+    const guess = utcGuess + getTimezoneOffset(utcGuess) * 60_000
+    return utcGuess + getTimezoneOffset(guess) * 60_000
+  }
+
+  class MockDate extends RealDate {
+    constructor(...args) {
+      if (args.length > 1) {
+        const [year, month, day = 1, hour = 0, minute = 0, second = 0, ms = 0] =
+          args
+        super(toTimestamp(year, month, day, hour, minute, second, ms))
+      } else {
+        super(...args)
+      }
+    }
+
+    #local() {
+      return new RealDate(this.getTime() - this.getTimezoneOffset() * 60_000)
+    }
+
+    #setLocal({ day, minute }) {
+      const local = this.#local()
+      return this.setTime(
+        toTimestamp(
+          local.getUTCFullYear(),
+          local.getUTCMonth(),
+          day ?? local.getUTCDate(),
+          local.getUTCHours(),
+          minute ?? local.getUTCMinutes(),
+          local.getUTCSeconds(),
+          local.getUTCMilliseconds()
+        )
+      )
+    }
+
+    getTimezoneOffset() {
+      return getTimezoneOffset(this.getTime())
+    }
+
+    getFullYear() {
+      return this.#local().getUTCFullYear()
+    }
+
+    getMonth() {
+      return this.#local().getUTCMonth()
+    }
+
+    getDate() {
+      return this.#local().getUTCDate()
+    }
+
+    getDay() {
+      return this.#local().getUTCDay()
+    }
+
+    getHours() {
+      return this.#local().getUTCHours()
+    }
+
+    getMinutes() {
+      return this.#local().getUTCMinutes()
+    }
+
+    getSeconds() {
+      return this.#local().getUTCSeconds()
+    }
+
+    getMilliseconds() {
+      return this.getUTCMilliseconds()
+    }
+
+    setDate(day) {
+      return this.#setLocal({ day })
+    }
+
+    setMinutes(minute) {
+      return this.#setLocal({ minute })
+    }
+  }
+
+  vi.stubGlobal('Date', MockDate)
+}
 
 describe('[date API]', () => {
   describe('[Functions]', () => {
     describe('[(function)getWeekOfYear]', () => {
-      const originalTZ = process.env.TZ
       afterEach(() => {
-        if (originalTZ === void 0) delete process.env.TZ
-        else process.env.TZ = originalTZ
+        vi.unstubAllGlobals()
       })
 
       // Mon 8 Apr 2024 is ISO week 15 (Jan 1 2024 is a Monday).
       test('is correct across a DST switch (southern hemisphere)', () => {
-        process.env.TZ = 'Australia/Sydney' // January in DST, April not
+        mockDateInTimezone('Australia/Sydney') // January in DST, April not
         expect(getWeekOfYear(new Date(2024, 3, 8, 12, 0, 0))).toBe(15)
       })
 
       test('is correct in a northern-hemisphere zone', () => {
-        process.env.TZ = 'America/New_York'
+        mockDateInTimezone('America/New_York')
         expect(getWeekOfYear(new Date(2024, 3, 8, 12, 0, 0))).toBe(15)
       })
 
@@ -338,11 +457,9 @@ describe('[date API]', () => {
 
     describe('[(function)endOfDate]', () => {
       const original = new Date('2024-07-14T13:14:15.678Z')
-      const originalTZ = process.env.TZ
 
       afterEach(() => {
-        if (originalTZ === void 0) delete process.env.TZ
-        else process.env.TZ = originalTZ
+        vi.unstubAllGlobals()
       })
 
       test.each([
@@ -371,7 +488,7 @@ describe('[date API]', () => {
           '2024-01-31T23:59:59.999Z'
         ]
       ])('uses the UTC month length in %s', (timezone, value, expected) => {
-        process.env.TZ = timezone
+        mockDateInTimezone(timezone)
 
         expect(date.endOfDate(value, 'month', true).toISOString()).toBe(
           expected

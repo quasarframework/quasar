@@ -3,25 +3,33 @@
  * [(method)parseSSR]
  */
 
-import { describe, expect, test, vi } from 'vitest'
+import { h } from 'vue'
+import { describe, expect, test } from 'vitest'
 import { mount } from '@vue/test-utils'
 
 import Platform from './Platform.js'
 
-const mountPlugin = () => mount({ template: '<div />' })
+const mountPlugin = () => mount({ render: () => h('div') })
+
+let platformImportId = 0
 
 async function loadPlatformForUserAgent(userAgent) {
-  const userAgentGetter = vi
-    .spyOn(window.navigator, 'userAgent', 'get')
-    .mockReturnValue(userAgent)
-
-  vi.resetModules()
+  // The real "userAgent" getter lives on Navigator.prototype,
+  // so shadow it with an own property on the instance
+  Object.defineProperty(window.navigator, 'userAgent', {
+    get: () => userAgent,
+    configurable: true
+  })
 
   try {
-    const platformModule = await import('./Platform.js')
+    // The browser caches ES modules ("vi.resetModules()" cannot help here),
+    // so use a unique query string to force a fresh module evaluation
+    const platformModule = await import(
+      /* @vite-ignore */ `./Platform.js?userAgent=${++platformImportId}`
+    )
     return platformModule.default
   } finally {
-    userAgentGetter.mockRestore()
+    delete window.navigator.userAgent
   }
 }
 

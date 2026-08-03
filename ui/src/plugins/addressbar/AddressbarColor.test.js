@@ -1,3 +1,4 @@
+import { h } from 'vue'
 import { describe, expect, test, vi } from 'vitest'
 import { config, mount } from '@vue/test-utils'
 
@@ -16,7 +17,7 @@ function mountPlugin(addressbarColor) {
       plugins: { AddressbarColor }
     })
 
-  return mount({ template: '<div />' })
+  return mount({ render: () => h('div') })
 }
 
 describe('[AddressbarColor API]', () => {

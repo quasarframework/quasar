@@ -1,17 +1,27 @@
 import { onTestFinished, vi } from 'vitest'
 
 /**
- * jsdom does not support Fullscreen API,
- * so we mock the functionality
+ * The real Fullscreen API rejects without a user gesture
+ * (and "document.fullscreenElement" only has a legacy no-op setter),
+ * so we mock the functionality deterministically
  */
 
+let fullscreenEl = null
+
+// The real "fullscreenElement" getter lives on Document.prototype,
+// so shadow it with an own property on the instance
+Object.defineProperty(document, 'fullscreenElement', {
+  get: () => fullscreenEl,
+  configurable: true
+})
+
 export function mockedRequestFullscreen(el = document.documentElement) {
-  document.fullscreenElement = el
+  fullscreenEl = el
   mockedToggleFullscreen()
 }
 
 export function mockedExitFullscreen() {
-  document.fullscreenElement = null
+  fullscreenEl = null
   mockedToggleFullscreen()
 }
 
@@ -25,7 +35,7 @@ export function createMockedEl() {
   document.body.append(el)
 
   el.requestFullscreen = vi.fn(() => {
-    document.fullscreenElement = el
+    fullscreenEl = el
     mockedToggleFullscreen()
   })
 

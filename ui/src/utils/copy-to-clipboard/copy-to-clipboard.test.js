@@ -2,37 +2,28 @@ import { afterEach, describe, expect, test, vi } from 'vitest'
 
 import copyToClipboard from './copy-to-clipboard.js'
 
-const originalExecCommand = document.execCommand
-
-// jsdom implements neither the async Clipboard API nor document.execCommand(),
-// so both code paths need to be installed by hand.
-function useClipboardApi(writeText) {
-  Object.defineProperty(navigator, 'clipboard', {
-    configurable: true,
-    writable: true,
-    value: { writeText }
-  })
+// The test iframe is not granted the clipboard-write permission, so a real
+// navigator.clipboard.writeText() call always rejects with a NotAllowedError;
+// the outcome therefore has to be simulated on the real Clipboard object.
+function mockClipboardWrite(implementation) {
+  return vi
+    .spyOn(navigator.clipboard, 'writeText')
+    .mockImplementation(implementation)
 }
 
-function useExecCommandFallback(execCommand) {
-  // ensure the async API path is not taken
+// The browser always exposes the async Clipboard API, so the
+// execCommand("copy") fallback branch can only be reached by hiding it.
+function hideClipboardApi() {
   Object.defineProperty(navigator, 'clipboard', {
     configurable: true,
     writable: true,
     value: void 0
   })
-
-  document.execCommand = execCommand
 }
 
 afterEach(() => {
+  // drop the own property (if any), resurfacing the native accessor
   delete navigator.clipboard
-
-  if (originalExecCommand === void 0) {
-    delete document.execCommand
-  } else {
-    document.execCommand = originalExecCommand
-  }
 
   vi.restoreAllMocks()
 })
@@ -41,8 +32,7 @@ describe('[copyToClipboard API]', () => {
   describe('[Functions]', () => {
     describe('[(function)default]', () => {
       test('uses the Clipboard API when available', async () => {
-        const writeText = vi.fn(() => Promise.resolve())
-        useClipboardApi(writeText)
+        const writeText = mockClipboardWrite(() => Promise.resolve())
 
         await expect(copyToClipboard('some text')).resolves.toBeUndefined()
 
@@ -52,21 +42,25 @@ describe('[copyToClipboard API]', () => {
 
       test('forwards a Clipboard API rejection', async () => {
         const err = new Error('denied')
-        useClipboardApi(vi.fn(() => Promise.reject(err)))
+        mockClipboardWrite(() => Promise.reject(err))
 
         await expect(copyToClipboard('some text')).rejects.toBe(err)
       })
 
       test('falls back to execCommand("copy") and resolves on success', async () => {
-        let selectedValue
-        const execCommand = vi.fn(cmd => {
-          // capture the state of the DOM while the temporary node still exists
-          const area = document.querySelector('textarea')
-          selectedValue = area?.value
-          return cmd === 'copy'
-        })
+        hideClipboardApi()
 
-        useExecCommandFallback(execCommand)
+        // a successful execCommand('copy') needs user activation, which an
+        // automated run does not have, so success has to be simulated
+        let selectedValue
+        const execCommand = vi
+          .spyOn(document, 'execCommand')
+          .mockImplementation(cmd => {
+            // capture the state of the DOM while the temporary node still exists
+            const area = document.querySelector('textarea')
+            selectedValue = area?.value
+            return cmd === 'copy'
+          })
 
         await expect(copyToClipboard('some text')).resolves.toBe(true)
 
@@ -76,7 +70,8 @@ describe('[copyToClipboard API]', () => {
       })
 
       test('removes the temporary node used by the fallback', async () => {
-        useExecCommandFallback(vi.fn(() => true))
+        hideClipboardApi()
+        vi.spyOn(document, 'execCommand').mockImplementation(() => true)
 
         await copyToClipboard('some text')
 
@@ -84,9 +79,15 @@ describe('[copyToClipboard API]', () => {
       })
 
       test('rejects when the fallback fails to copy', async () => {
-        useExecCommandFallback(vi.fn(() => false))
+        hideClipboardApi()
+
+        // without user activation the real execCommand('copy')
+        // refuses to copy and returns false
+        const execCommand = vi.spyOn(document, 'execCommand')
 
         await expect(copyToClipboard('some text')).rejects.toBe(false)
+
+        expect(execCommand).toHaveBeenCalledExactlyOnceWith('copy')
         expect(document.querySelector('textarea')).toBeNull()
       })
     })

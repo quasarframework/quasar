@@ -57,8 +57,9 @@ function getLabelTexts(wrapper) {
 }
 
 /**
- * jsdom has no layout, so the range is given a 100x10 track in order
- * for the pointer position to be convertible into a model value.
+ * The range is given an explicit 100x10 track so that converting a pointer
+ * position into a model value stays simple, deterministic math instead of
+ * depending on the real rendered width.
  */
 function giveRangeSize(wrapper) {
   wrapper.element.getBoundingClientRect = () => ({

@@ -1,6 +1,6 @@
 import { mount } from '@vue/test-utils'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
-import { defineComponent } from 'vue'
+import { defineComponent, h, withDirectives } from 'vue'
 
 import { getMainEvent } from 'testing/runtime/directive.js'
 
@@ -23,12 +23,14 @@ afterEach(() => {
   vi.useRealTimers()
 })
 
-function mountTouchRepeat(template, handler = vi.fn()) {
+function mountTouchRepeat(modifiers, options = {}) {
+  const handler = 'handler' in options ? options.handler : vi.fn()
   const TestComponent = defineComponent({
-    template,
-    directives: { TouchRepeat },
     setup() {
-      return { handler }
+      return () =>
+        withDirectives(h('div'), [
+          [TouchRepeat, handler, options.arg, modifiers]
+        ])
     }
   })
 
@@ -51,9 +53,7 @@ function dispatchMouseDown(wrapper) {
 }
 
 function expectKeyboard(modifier, expected) {
-  const { wrapper } = mountTouchRepeat(
-    `<div v-touch-repeat.${modifier}="handler" />`
-  )
+  const { wrapper } = mountTouchRepeat({ [modifier]: true })
 
   expect(wrapper.element.__qtouchrepeat.keyboard).toStrictEqual(expected)
 
@@ -63,9 +63,7 @@ function expectKeyboard(modifier, expected) {
 describe('[TouchRepeat API]', () => {
   describe('[Value]', () => {
     test('as Function', () => {
-      const { handler, wrapper } = mountTouchRepeat(
-        '<div v-touch-repeat.mouse="handler" />'
-      )
+      const { handler, wrapper } = mountTouchRepeat({ mouse: true })
 
       dispatchMouseDown(wrapper)
 
@@ -85,7 +83,7 @@ describe('[TouchRepeat API]', () => {
     })
 
     test('as undefined', () => {
-      const { wrapper } = mountTouchRepeat('<div v-touch-repeat.mouse />')
+      const { wrapper } = mountTouchRepeat({ mouse: true }, { handler: void 0 })
 
       dispatchMouseDown(wrapper)
 
@@ -97,7 +95,8 @@ describe('[TouchRepeat API]', () => {
   describe('[Argument]', () => {
     test('has effect', () => {
       const { handler, wrapper } = mountTouchRepeat(
-        '<div v-touch-repeat:100:40:20.mouse="handler" />'
+        { mouse: true },
+        { arg: '100:40:20' }
       )
 
       dispatchMouseDown(wrapper)
@@ -121,9 +120,7 @@ describe('[TouchRepeat API]', () => {
     describe('[(modifier)capture]', () => {
       test('has effect', () => {
         client.has.touch = true
-        const { wrapper } = mountTouchRepeat(
-          '<div v-touch-repeat.capture="handler" />'
-        )
+        const { wrapper } = mountTouchRepeat({ capture: true })
 
         expect(
           getMainEvent(wrapper.element.__qtouchrepeat, 'touchstart')[3]
@@ -133,9 +130,7 @@ describe('[TouchRepeat API]', () => {
 
     describe('[(modifier)mouse]', () => {
       test('has effect', () => {
-        const { wrapper } = mountTouchRepeat(
-          '<div v-touch-repeat.mouse="handler" />'
-        )
+        const { wrapper } = mountTouchRepeat({ mouse: true })
 
         expect(
           getMainEvent(wrapper.element.__qtouchrepeat, 'mousedown')[3]
@@ -145,9 +140,10 @@ describe('[TouchRepeat API]', () => {
 
     describe('[(modifier)mouseCapture]', () => {
       test('has effect', () => {
-        const { wrapper } = mountTouchRepeat(
-          '<div v-touch-repeat.mouse.mouseCapture="handler" />'
-        )
+        const { wrapper } = mountTouchRepeat({
+          mouse: true,
+          mouseCapture: true
+        })
 
         expect(
           getMainEvent(wrapper.element.__qtouchrepeat, 'mousedown')[3]
@@ -157,9 +153,10 @@ describe('[TouchRepeat API]', () => {
 
     describe('[(modifier)keyCapture]', () => {
       test('has effect', () => {
-        const { wrapper } = mountTouchRepeat(
-          '<div v-touch-repeat.enter.keyCapture="handler" />'
-        )
+        const { wrapper } = mountTouchRepeat({
+          enter: true,
+          keyCapture: true
+        })
 
         expect(getMainEvent(wrapper.element.__qtouchrepeat, 'keydown')[3]).toBe(
           'notPassiveCapture'

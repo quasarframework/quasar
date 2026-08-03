@@ -1,6 +1,6 @@
 import { mount } from '@vue/test-utils'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
-import { defineComponent } from 'vue'
+import { defineComponent, h, withDirectives } from 'vue'
 
 import { getMainEvent } from 'testing/runtime/directive.js'
 
@@ -27,11 +27,13 @@ afterEach(() => {
 })
 
 function mountTouchPan(modifiers = 'mouse', handler = vi.fn(() => true)) {
+  const modifierMap = Object.fromEntries(
+    modifiers.split('.').map(mod => [mod, true])
+  )
   const TestComponent = defineComponent({
-    template: `<div v-touch-pan.${modifiers}="handler" />`,
-    directives: { TouchPan },
     setup() {
-      return { handler }
+      return () =>
+        withDirectives(h('div'), [[TouchPan, handler, void 0, modifierMap]])
     }
   })
 
@@ -95,8 +97,12 @@ describe('[TouchPan API]', () => {
 
     test('as undefined', () => {
       const TestComponent = defineComponent({
-        template: '<div v-touch-pan.mouse />',
-        directives: { TouchPan }
+        setup() {
+          return () =>
+            withDirectives(h('div'), [
+              [TouchPan, void 0, void 0, { mouse: true }]
+            ])
+        }
       })
       const wrapper = mount(TestComponent)
 

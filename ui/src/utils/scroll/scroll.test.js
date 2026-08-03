@@ -22,11 +22,14 @@ afterEach(() => {
   nodes.splice(0).forEach(node => node.remove())
   restoreFns.splice(0).forEach(fn => fn())
   vi.restoreAllMocks()
+  window.scrollTo(0, 0)
 })
 
 /**
- * Overrides a (usually layout-related) property that jsdom always reports as 0,
- * then registers the undo so the next test starts from a clean slate.
+ * Overrides a property with a fixed value, then registers the undo so the
+ * next test starts from a clean slate. Only used for the legacy window
+ * fallback chains: the browser keeps pageX/YOffset, scrollX/Y and the body
+ * scroll offsets in sync, so each fallback branch has to be forced by hand.
  */
 function mockProperty(target, key, value) {
   const descriptor = Object.getOwnPropertyDescriptor(target, key)
@@ -40,40 +43,71 @@ function mockProperty(target, key, value) {
 }
 
 /**
- * Creates an attached element with observable scroll positions, since jsdom
- * has no layout and would silently discard the assigned values.
+ * Creates an attached fixed-size container, optionally holding real
+ * overflowing content so it can actually scroll. Every scrollTop/scrollLeft
+ * write is still applied for real, but also recorded, so the exact write
+ * sequence stays observable.
  */
-function createScrollElement({ className, style } = {}) {
+function createScrollElement({
+  className,
+  style,
+  contentWidth,
+  contentHeight,
+  scrollable = false
+} = {}) {
   const el = document.createElement('div')
   const positions = { top: [], left: [] }
-  let scrollTop = 0
-  let scrollLeft = 0
 
   if (className !== void 0) el.className = className
-  if (style !== void 0) Object.assign(el.style, style)
 
-  Object.defineProperty(el, 'scrollTop', {
-    configurable: true,
-    get: () => scrollTop,
-    set: value => {
-      scrollTop = value
-      positions.top.push(value)
-    }
-  })
+  if (scrollable === true) {
+    el.style.overflow = 'auto'
+    if (contentWidth === void 0) contentWidth = 1000
+    if (contentHeight === void 0) contentHeight = 1000
+  }
 
-  Object.defineProperty(el, 'scrollLeft', {
-    configurable: true,
-    get: () => scrollLeft,
-    set: value => {
-      scrollLeft = value
-      positions.left.push(value)
-    }
+  Object.assign(el.style, { width: '100px', height: '100px' }, style)
+
+  if (contentWidth !== void 0 || contentHeight !== void 0) {
+    const content = document.createElement('div')
+    // a zero-sized axis would contribute no overflow, so default it to 10px
+    content.style.width = `${contentWidth ?? 10}px`
+    content.style.height = `${contentHeight ?? 10}px`
+    el.append(content)
+  }
+
+  ;[
+    ['scrollTop', positions.top],
+    ['scrollLeft', positions.left]
+  ].forEach(([key, list]) => {
+    const { get, set } = Object.getOwnPropertyDescriptor(Element.prototype, key)
+
+    Object.defineProperty(el, key, {
+      configurable: true,
+      get() {
+        return get.call(this)
+      },
+      set(value) {
+        list.push(value)
+        set.call(this, value)
+      }
+    })
   })
 
   document.body.append(el)
   nodes.push(el)
 
   return { el, positions }
+}
+
+// gives the document real overflowing content, so window scrolling works;
+// the afterEach hook removes the filler and resets the scroll position
+function makeDocumentScrollable() {
+  const filler = document.createElement('div')
+  Object.assign(filler.style, { width: '3000px', height: '3000px' })
+
+  document.body.append(filler)
+  nodes.push(filler)
 }
 
 /**
@@ -161,37 +195,37 @@ describe('[scroll API]', () => {
 
     describe('[(function)getScrollHeight]', () => {
       test('returns the scrollHeight of the element', () => {
-        const { el } = createScrollElement()
-        mockProperty(el, 'scrollHeight', 720)
+        const { el } = createScrollElement({ contentHeight: 720 })
 
         expect(getScrollHeight(el)).toBe(720)
       })
 
       test('reads the body when the target is window', () => {
-        mockProperty(document.body, 'scrollHeight', 1500)
+        makeDocumentScrollable()
 
-        expect(getScrollHeight(window)).toBe(1500)
+        expect(getScrollHeight(window)).toBe(document.body.scrollHeight)
+        expect(getScrollHeight(window)).toBeGreaterThanOrEqual(3000)
       })
     })
 
     describe('[(function)getScrollWidth]', () => {
       test('returns the scrollWidth of the element', () => {
-        const { el } = createScrollElement()
-        mockProperty(el, 'scrollWidth', 480)
+        const { el } = createScrollElement({ contentWidth: 480 })
 
         expect(getScrollWidth(el)).toBe(480)
       })
 
       test('reads the body when the target is window', () => {
-        mockProperty(document.body, 'scrollWidth', 2000)
+        makeDocumentScrollable()
 
-        expect(getScrollWidth(window)).toBe(2000)
+        expect(getScrollWidth(window)).toBe(document.body.scrollWidth)
+        expect(getScrollWidth(window)).toBeGreaterThanOrEqual(3000)
       })
     })
 
     describe('[(function)getVerticalScrollPosition]', () => {
       test('returns the scrollTop of the element', () => {
-        const { el } = createScrollElement()
+        const { el } = createScrollElement({ scrollable: true })
         el.scrollTop = 42
 
         expect(getVerticalScrollPosition(el)).toBe(42)
@@ -225,7 +259,7 @@ describe('[scroll API]', () => {
 
     describe('[(function)getHorizontalScrollPosition]', () => {
       test('returns the scrollLeft of the element', () => {
-        const { el } = createScrollElement()
+        const { el } = createScrollElement({ scrollable: true })
         el.scrollLeft = 24
 
         expect(getHorizontalScrollPosition(el)).toBe(24)
@@ -259,17 +293,18 @@ describe('[scroll API]', () => {
 
     describe('[(function)animVerticalScrollTo]', () => {
       test('scrolls right away when there is nothing to animate', () => {
-        const { el, positions } = createScrollElement()
+        const { el, positions } = createScrollElement({ scrollable: true })
         const raf = mockAnimationFrames([])
 
         animVerticalScrollTo(el, 300)
 
         expect(positions.top).toStrictEqual([300])
+        expect(el.scrollTop).toBe(300)
         expect(raf).not.toHaveBeenCalled()
       })
 
       test('does not touch the target when it is already there', () => {
-        const { el, positions } = createScrollElement()
+        const { el, positions } = createScrollElement({ scrollable: true })
         el.scrollTop = 300
         positions.top.length = 0
 
@@ -279,41 +314,45 @@ describe('[scroll API]', () => {
       })
 
       test('eases towards the destination on each frame', () => {
-        const { el, positions } = createScrollElement()
+        const { el, positions } = createScrollElement({ scrollable: true })
         const raf = mockAnimationFrames([50, 100])
 
         animVerticalScrollTo(el, 100, 100)
 
         expect(positions.top).toStrictEqual([50, 100])
+        expect(el.scrollTop).toBe(100)
         expect(raf).toHaveBeenCalledTimes(2)
       })
 
       test('animates window through window.scrollTo()', () => {
-        const scrollTo = vi
-          .spyOn(window, 'scrollTo')
-          .mockImplementation(() => {})
+        makeDocumentScrollable()
+        window.scrollTo(15, 0)
+
+        const scrollTo = vi.spyOn(window, 'scrollTo')
         mockAnimationFrames([100])
-        mockProperty(window, 'pageXOffset', 15)
 
         animVerticalScrollTo(window, 100, 100)
 
         expect(scrollTo).toHaveBeenCalledExactlyOnceWith(15, 100)
+        expect(window.scrollX).toBe(15)
+        expect(window.scrollY).toBe(100)
       })
     })
 
     describe('[(function)animHorizontalScrollTo]', () => {
       test('scrolls right away when there is nothing to animate', () => {
-        const { el, positions } = createScrollElement()
+        const { el, positions } = createScrollElement({ scrollable: true })
         const raf = mockAnimationFrames([])
 
         animHorizontalScrollTo(el, 300)
 
         expect(positions.left).toStrictEqual([300])
+        expect(el.scrollLeft).toBe(300)
         expect(raf).not.toHaveBeenCalled()
       })
 
       test('does not touch the target when it is already there', () => {
-        const { el, positions } = createScrollElement()
+        const { el, positions } = createScrollElement({ scrollable: true })
         el.scrollLeft = 300
         positions.left.length = 0
 
@@ -323,25 +362,28 @@ describe('[scroll API]', () => {
       })
 
       test('eases towards the destination on each frame', () => {
-        const { el, positions } = createScrollElement()
+        const { el, positions } = createScrollElement({ scrollable: true })
         const raf = mockAnimationFrames([50, 100])
 
         animHorizontalScrollTo(el, 100, 100)
 
         expect(positions.left).toStrictEqual([50, 100])
+        expect(el.scrollLeft).toBe(100)
         expect(raf).toHaveBeenCalledTimes(2)
       })
 
       test('animates window through window.scrollTo()', () => {
-        const scrollTo = vi
-          .spyOn(window, 'scrollTo')
-          .mockImplementation(() => {})
+        makeDocumentScrollable()
+        window.scrollTo(0, 25)
+
+        const scrollTo = vi.spyOn(window, 'scrollTo')
         mockAnimationFrames([100])
-        mockProperty(window, 'pageYOffset', 25)
 
         animHorizontalScrollTo(window, 100, 100)
 
         expect(scrollTo).toHaveBeenCalledExactlyOnceWith(100, 25)
+        expect(window.scrollX).toBe(100)
+        expect(window.scrollY).toBe(25)
       })
     })
 
@@ -350,17 +392,18 @@ describe('[scroll API]', () => {
         ['no duration', void 0],
         ['a zero duration', 0]
       ])('scrolls synchronously with %s', (_, duration) => {
-        const { el, positions } = createScrollElement()
+        const { el, positions } = createScrollElement({ scrollable: true })
         const raf = mockAnimationFrames([])
 
         setVerticalScrollPosition(el, 250, duration)
 
         expect(positions.top).toStrictEqual([250])
+        expect(el.scrollTop).toBe(250)
         expect(raf).not.toHaveBeenCalled()
       })
 
       test('animates when a duration is given', () => {
-        const { el, positions } = createScrollElement()
+        const { el, positions } = createScrollElement({ scrollable: true })
         const raf = mockAnimationFrames([50, 100])
 
         setVerticalScrollPosition(el, 100, 100)
@@ -370,14 +413,16 @@ describe('[scroll API]', () => {
       })
 
       test('scrolls window synchronously', () => {
-        const scrollTo = vi
-          .spyOn(window, 'scrollTo')
-          .mockImplementation(() => {})
-        mockProperty(window, 'pageXOffset', 5)
+        makeDocumentScrollable()
+        window.scrollTo(5, 0)
+
+        const scrollTo = vi.spyOn(window, 'scrollTo')
 
         setVerticalScrollPosition(window, 80)
 
         expect(scrollTo).toHaveBeenCalledExactlyOnceWith(5, 80)
+        expect(window.scrollX).toBe(5)
+        expect(window.scrollY).toBe(80)
       })
     })
 
@@ -386,17 +431,18 @@ describe('[scroll API]', () => {
         ['no duration', void 0],
         ['a zero duration', 0]
       ])('scrolls synchronously with %s', (_, duration) => {
-        const { el, positions } = createScrollElement()
+        const { el, positions } = createScrollElement({ scrollable: true })
         const raf = mockAnimationFrames([])
 
         setHorizontalScrollPosition(el, 250, duration)
 
         expect(positions.left).toStrictEqual([250])
+        expect(el.scrollLeft).toBe(250)
         expect(raf).not.toHaveBeenCalled()
       })
 
       test('animates when a duration is given', () => {
-        const { el, positions } = createScrollElement()
+        const { el, positions } = createScrollElement({ scrollable: true })
         const raf = mockAnimationFrames([50, 100])
 
         setHorizontalScrollPosition(el, 100, 100)
@@ -406,14 +452,16 @@ describe('[scroll API]', () => {
       })
 
       test('scrolls window synchronously', () => {
-        const scrollTo = vi
-          .spyOn(window, 'scrollTo')
-          .mockImplementation(() => {})
-        mockProperty(window, 'pageYOffset', 7)
+        makeDocumentScrollable()
+        window.scrollTo(0, 7)
+
+        const scrollTo = vi.spyOn(window, 'scrollTo')
 
         setHorizontalScrollPosition(window, 80)
 
         expect(scrollTo).toHaveBeenCalledExactlyOnceWith(80, 7)
+        expect(window.scrollX).toBe(80)
+        expect(window.scrollY).toBe(7)
       })
     })
 
@@ -449,47 +497,45 @@ describe('[scroll API]', () => {
         ['no overflow at all', {}, {}, false],
         [
           'overflowing content but no overflow style',
-          { scrollHeight: 200, clientHeight: 100 },
+          { contentHeight: 200 },
           {},
           false
         ],
         [
           'the scroll class',
-          { scrollHeight: 200, clientHeight: 100 },
+          { contentHeight: 200 },
           { className: 'scroll' },
           true
         ],
         [
           'the overflow-auto class',
-          { scrollHeight: 200, clientHeight: 100 },
+          { contentHeight: 200 },
           { className: 'overflow-auto' },
           true
         ],
         [
           'an auto overflow-y',
-          { scrollHeight: 200, clientHeight: 100 },
+          { contentHeight: 200 },
           { style: { overflowY: 'auto' } },
           true
         ],
         [
           'a scroll overflow-y',
-          { scrollHeight: 200, clientHeight: 100 },
+          { contentHeight: 200 },
           { style: { overflowY: 'scroll' } },
           true
         ],
         [
           'a scrollable style but no overflowing content',
-          { scrollHeight: 100, clientHeight: 100 },
+          { contentHeight: 100 },
           { style: { overflowY: 'scroll' } },
           false
         ]
       ])(
         'detects a vertical scrollbar with %s',
-        (_, sizes, elProps, expected) => {
-          const { el } = createScrollElement(elProps)
-          Object.entries(sizes).forEach(([key, value]) =>
-            mockProperty(el, key, value)
-          )
+        (_, layout, elProps, expected) => {
+          // the container is 100px tall, so 200px tall content really overflows
+          const { el } = createScrollElement({ ...elProps, ...layout })
 
           expect(hasScrollbar(el)).toBe(expected)
         }
@@ -499,47 +545,45 @@ describe('[scroll API]', () => {
         ['no overflow at all', {}, {}, false],
         [
           'overflowing content but no overflow style',
-          { scrollWidth: 200, clientWidth: 100 },
+          { contentWidth: 200 },
           {},
           false
         ],
         [
           'the scroll class',
-          { scrollWidth: 200, clientWidth: 100 },
+          { contentWidth: 200 },
           { className: 'scroll' },
           true
         ],
         [
           'the overflow-auto class',
-          { scrollWidth: 200, clientWidth: 100 },
+          { contentWidth: 200 },
           { className: 'overflow-auto' },
           true
         ],
         [
           'an auto overflow-x',
-          { scrollWidth: 200, clientWidth: 100 },
+          { contentWidth: 200 },
           { style: { overflowX: 'auto' } },
           true
         ],
         [
           'a scroll overflow-x',
-          { scrollWidth: 200, clientWidth: 100 },
+          { contentWidth: 200 },
           { style: { overflowX: 'scroll' } },
           true
         ],
         [
           'a scrollable style but no overflowing content',
-          { scrollWidth: 100, clientWidth: 100 },
+          { contentWidth: 100 },
           { style: { overflowX: 'scroll' } },
           false
         ]
       ])(
         'detects a horizontal scrollbar with %s',
-        (_, sizes, elProps, expected) => {
-          const { el } = createScrollElement(elProps)
-          Object.entries(sizes).forEach(([key, value]) =>
-            mockProperty(el, key, value)
-          )
+        (_, layout, elProps, expected) => {
+          // the container is 100px wide, so 200px wide content really overflows
+          const { el } = createScrollElement({ ...elProps, ...layout })
 
           expect(hasScrollbar(el, false)).toBe(expected)
         }

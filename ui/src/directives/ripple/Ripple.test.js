@@ -5,7 +5,7 @@
 
 import { flushPromises, mount } from '@vue/test-utils'
 import { describe, expect, test } from 'vitest'
-import { defineComponent, ref } from 'vue'
+import { defineComponent, h, ref, withDirectives } from 'vue'
 
 import Ripple from './Ripple.js'
 
@@ -13,8 +13,7 @@ describe('[Ripple API]', () => {
   describe('[Value]', () => {
     test('no value', async () => {
       const TestComponent = defineComponent({
-        template: '<div v-ripple />',
-        directives: { Ripple }
+        render: () => withDirectives(h('div'), [[Ripple]])
       })
 
       const wrapper = mount(TestComponent)
@@ -26,8 +25,7 @@ describe('[Ripple API]', () => {
 
     test('as Boolean true', async () => {
       const TestComponent = defineComponent({
-        template: '<div v-ripple="true" />',
-        directives: { Ripple }
+        render: () => withDirectives(h('div'), [[Ripple, true]])
       })
 
       const wrapper = mount(TestComponent)
@@ -39,8 +37,7 @@ describe('[Ripple API]', () => {
 
     test('as Boolean false', async () => {
       const TestComponent = defineComponent({
-        template: '<div v-ripple="false" />',
-        directives: { Ripple }
+        render: () => withDirectives(h('div'), [[Ripple, false]])
       })
 
       const wrapper = mount(TestComponent)
@@ -52,12 +49,9 @@ describe('[Ripple API]', () => {
 
     test('as empty Object', async () => {
       const TestComponent = defineComponent({
-        template: '<div v-ripple="val" />',
-        directives: { Ripple },
         setup() {
-          return {
-            val: {}
-          }
+          const val = {}
+          return () => withDirectives(h('div'), [[Ripple, val]])
         }
       })
 
@@ -70,17 +64,14 @@ describe('[Ripple API]', () => {
 
     test('as full Object', async () => {
       const TestComponent = defineComponent({
-        template: '<div v-ripple="val" />',
-        directives: { Ripple },
         setup() {
-          return {
-            val: {
-              stop: true,
-              center: true,
-              color: 'orange-5',
-              keyCodes: []
-            }
+          const val = {
+            stop: true,
+            center: true,
+            color: 'orange-5',
+            keyCodes: []
           }
+          return () => withDirectives(h('div'), [[Ripple, val]])
         }
       })
 
@@ -93,12 +84,9 @@ describe('[Ripple API]', () => {
 
     test('as { early: true }', async () => {
       const TestComponent = defineComponent({
-        template: '<div v-ripple="val" />',
-        directives: { Ripple },
         setup() {
-          return {
-            val: { early: true }
-          }
+          const val = { early: true }
+          return () => withDirectives(h('div'), [[Ripple, val]])
         }
       })
 
@@ -111,12 +99,9 @@ describe('[Ripple API]', () => {
 
     test('as { color: orange-5 }', async () => {
       const TestComponent = defineComponent({
-        template: '<div v-ripple="val" />',
-        directives: { Ripple },
         setup() {
-          return {
-            val: { color: 'orange-5' }
-          }
+          const val = { color: 'orange-5' }
+          return () => withDirectives(h('div'), [[Ripple, val]])
         }
       })
 
@@ -129,12 +114,9 @@ describe('[Ripple API]', () => {
 
     test('as { stop: true }', async () => {
       const TestComponent = defineComponent({
-        template: '<div><i v-ripple="val" /></div>',
-        directives: { Ripple },
         setup() {
-          return {
-            val: { stop: true }
-          }
+          const val = { stop: true }
+          return () => h('div', [withDirectives(h('i'), [[Ripple, val]])])
         }
       })
 
@@ -149,12 +131,9 @@ describe('[Ripple API]', () => {
 
     test('as { keyCodes: [ 65 ] }', async () => {
       const TestComponent = defineComponent({
-        template: '<div v-ripple="val" />',
-        directives: { Ripple },
         setup() {
-          return {
-            val: { keyCodes: [65] }
-          }
+          const val = { keyCodes: [65] }
+          return () => withDirectives(h('div'), [[Ripple, val]])
         }
       })
 
@@ -167,15 +146,12 @@ describe('[Ripple API]', () => {
 
     test('as { early: true, keyCodes: [ 65 ] }', async () => {
       const TestComponent = defineComponent({
-        template: '<div v-ripple="val" />',
-        directives: { Ripple },
         setup() {
-          return {
-            val: {
-              early: true,
-              keyCodes: [65]
-            }
+          const val = {
+            early: true,
+            keyCodes: [65]
           }
+          return () => withDirectives(h('div'), [[Ripple, val]])
         }
       })
 
@@ -189,10 +165,8 @@ describe('[Ripple API]', () => {
     test('is reactive', async () => {
       const val = ref({ stop: true })
       const TestComponent = defineComponent({
-        template: '<div><i v-ripple="val" /></div>',
-        directives: { Ripple },
         setup() {
-          return { val }
+          return () => h('div', [withDirectives(h('i'), [[Ripple, val.value]])])
         }
       })
 
@@ -214,12 +188,10 @@ describe('[Ripple API]', () => {
 
     test('merges modifiers with value', async () => {
       const TestComponent = defineComponent({
-        template: '<div v-ripple.early="val" />',
-        directives: { Ripple },
         setup() {
-          return {
-            val: { color: 'orange-5' }
-          }
+          const val = { color: 'orange-5' }
+          return () =>
+            withDirectives(h('div'), [[Ripple, val, void 0, { early: true }]])
         }
       })
 
@@ -236,8 +208,7 @@ describe('[Ripple API]', () => {
   describe('[Argument]', () => {
     test('has effect', async () => {
       const TestComponent = defineComponent({
-        template: '<div v-ripple:orange-5 />',
-        directives: { Ripple }
+        render: () => withDirectives(h('div'), [[Ripple, void 0, 'orange-5']])
       })
 
       const wrapper = mount(TestComponent)
@@ -252,8 +223,10 @@ describe('[Ripple API]', () => {
     describe('[(modifier)early]', () => {
       test('has effect', async () => {
         const TestComponent = defineComponent({
-          template: '<div v-ripple.early />',
-          directives: { Ripple }
+          render: () =>
+            withDirectives(h('div'), [
+              [Ripple, void 0, void 0, { early: true }]
+            ])
         })
 
         const wrapper = mount(TestComponent)
@@ -267,8 +240,10 @@ describe('[Ripple API]', () => {
     describe('[(modifier)stop]', () => {
       test('has effect', async () => {
         const TestComponent = defineComponent({
-          template: '<div><i v-ripple.stop /></div>',
-          directives: { Ripple }
+          render: () =>
+            h('div', [
+              withDirectives(h('i'), [[Ripple, void 0, void 0, { stop: true }]])
+            ])
         })
 
         const wrapper = mount(TestComponent)

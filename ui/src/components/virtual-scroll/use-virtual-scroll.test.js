@@ -28,6 +28,10 @@ function runFramesSynchronously() {
 /**
  * Mounts a minimal virtual scroller: a scrolling container holding the
  * padding/content structure that padVirtualScroll() builds.
+ *
+ * The container gets an explicit 96px height (4 default-sized items) and
+ * every item is sized to virtualScrollItemSize, so the slice math out of
+ * the real browser layout stays deterministic.
  */
 function mountVirtualScroll({ length = 100, tag = 'div', ...props } = {}) {
   let virtualScroll
@@ -62,15 +66,25 @@ function mountVirtualScroll({ length = 100, tag = 'div', ...props } = {}) {
 
           for (let i = from; i < to; i++) {
             items.push(
-              h(tag === 'tbody' ? 'tr' : 'div', { key: i, class: 'my-item' }, [
-                tag === 'tbody' ? h('td', `item ${i}`) : `item ${i}`
-              ])
+              h(
+                tag === 'tbody' ? 'tr' : 'div',
+                {
+                  key: i,
+                  class: 'my-item',
+                  style: { height: `${componentProps.virtualScrollItemSize}px` }
+                },
+                [tag === 'tbody' ? h('td', `item ${i}`) : `item ${i}`]
+              )
             )
           }
 
           return h(
             'div',
-            { ref: rootRef, class: 'scroll-target' },
+            {
+              ref: rootRef,
+              class: 'scroll-target',
+              style: { height: '96px', overflow: 'auto' }
+            },
             virtualScroll.padVirtualScroll(tag, items)
           )
         }

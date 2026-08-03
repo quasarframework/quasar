@@ -1,6 +1,6 @@
 import { mount } from '@vue/test-utils'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
-import { defineComponent } from 'vue'
+import { defineComponent, h, withDirectives } from 'vue'
 
 import Scroll from './Scroll.js'
 
@@ -32,11 +32,7 @@ describe('[Scroll API]', () => {
     test('as Function', () => {
       const handler = vi.fn()
       const TestComponent = defineComponent({
-        template: '<div v-scroll="handler" />',
-        directives: { Scroll },
-        setup() {
-          return { handler }
-        }
+        render: () => withDirectives(h('div'), [[Scroll, handler]])
       })
 
       const wrapper = mount(TestComponent)
@@ -62,8 +58,7 @@ describe('[Scroll API]', () => {
 
     test('as undefined', () => {
       const TestComponent = defineComponent({
-        template: '<div v-scroll />',
-        directives: { Scroll }
+        render: () => withDirectives(h('div'), [[Scroll]])
       })
 
       const wrapper = mount(TestComponent)

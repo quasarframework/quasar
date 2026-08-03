@@ -5,6 +5,38 @@
 > IMPORTANT!
 > All commands should be run from `/ui`, not from `/ui/testing`.
 
+## Test environment
+
+Tests run in a real headless Chromium browser through
+[Vitest browser mode](https://vitest.dev/guide/browser/) (Playwright provider),
+not in jsdom. One-time setup after installing dependencies:
+
+```bash
+$ pnpm exec playwright install chromium
+# run from /ui/testing (or use --filter quasar-ui-test from the repo root)
+```
+
+Notes on the environment:
+
+- `mount()`/`shallowMount()` from `@vue/test-utils` are wrapped (see
+  `testing/runtime/test-utils.js`) so components are attached to the document
+  by default. This makes computed styles and real layout (sizes, positions,
+  scrolling) work. Pass your own `attachTo` option to opt out.
+- The default viewport is 1280x800 (desktop). If a test needs a different
+  viewport size, use `page.viewport()` from `@vitest/browser/context` and
+  restore the default afterwards.
+- Layout, scrolling, focus, CSS animations/transitions, `ResizeObserver`,
+  `IntersectionObserver`, media queries etc. are all real and often
+  asynchronous — prefer awaiting effects (`vi.waitFor()`, `expect.poll()`)
+  over synchronous assumptions.
+- `console.error`/`console.warn` calls fail the running test (see
+  `testing/vitest.setup.js`).
+- `vue` resolves through its standard package exports (no alias), which is
+  the runtime-only build — there is no runtime template compilation. Write
+  test components with render functions (`h()`, `withDirectives()`) instead
+  of `template:` strings, and use `() => h(...)` for slots containing
+  markup.
+
 ## Using the Specs script
 
 ### Steps for a new test file

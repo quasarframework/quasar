@@ -63,7 +63,7 @@ describe('[QAjaxBar API]', () => {
         const wrapper = mountAjaxBar({ reverse: true })
 
         expect(wrapper.attributes('style')).toContain(
-          'translate3d(100%,-200%,0)'
+          'translate3d(100%, -200%, 0px)'
         )
       })
     })

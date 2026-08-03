@@ -149,18 +149,20 @@ describe('[QSelect API]', () => {
     describe('[(prop)virtual-scroll-slice-size]', () => {
       const options = getOptions(50)
 
+      // the slice never gets smaller than what covers the real menu
+      // viewport, so the requested size has to exceed that to show up
       test('type Number has effect', async () => {
-        const wrapper = mountSelect({ options, virtualScrollSliceSize: 30 })
+        const wrapper = mountSelect({ options, virtualScrollSliceSize: 45 })
         const portal = await openPopup(wrapper)
 
-        expect(portal.findAll('.q-item')).toHaveLength(30)
+        expect(portal.findAll('.q-item')).toHaveLength(45)
       })
 
       test('type String has effect', async () => {
-        const wrapper = mountSelect({ options, virtualScrollSliceSize: '30' })
+        const wrapper = mountSelect({ options, virtualScrollSliceSize: '45' })
         const portal = await openPopup(wrapper)
 
-        expect(portal.findAll('.q-item')).toHaveLength(30)
+        expect(portal.findAll('.q-item')).toHaveLength(45)
       })
 
       test('type null has effect', async () => {
@@ -252,20 +254,34 @@ describe('[QSelect API]', () => {
     })
 
     describe('[(prop)virtual-scroll-sticky-size-start]', () => {
-      // scrollTo() offsets the scroll position with the sticky size;
-      // jsdom reports every offset as 0, so the result is the negated size
-      test('type Number has effect', async () => {
-        const wrapper = mountSelect({ virtualScrollStickySizeStart: 40 })
+      // the sticky part at the start would cover the scrolled-to option,
+      // so aligning an item to the start stops short by that size
+      async function getStartAlignedScroll(props) {
+        const wrapper = mountSelect({ options: getOptions(100), ...props })
         const portal = await openPopup(wrapper)
 
-        expect(portal.get('.q-menu').element.scrollTop).toBe(-40)
+        await settleVirtualScroll(wrapper, 50, 'start-force')
+
+        return portal.get('.q-menu').element.scrollTop
+      }
+
+      test('type Number has effect', async () => {
+        const base = await getStartAlignedScroll()
+        const scroll = await getStartAlignedScroll({
+          virtualScrollStickySizeStart: 40
+        })
+
+        expect(base).toBeGreaterThan(40)
+        expect(scroll).toBe(base - 40)
       })
 
       test('type String has effect', async () => {
-        const wrapper = mountSelect({ virtualScrollStickySizeStart: '40' })
-        const portal = await openPopup(wrapper)
+        const base = await getStartAlignedScroll()
+        const scroll = await getStartAlignedScroll({
+          virtualScrollStickySizeStart: '40'
+        })
 
-        expect(portal.get('.q-menu').element.scrollTop).toBe(-40)
+        expect(scroll).toBe(base - 40)
       })
     })
 
@@ -273,10 +289,10 @@ describe('[QSelect API]', () => {
       // the sticky part at the end shrinks the usable view, so aligning an
       // item to the end pushes the scroll position further by that size
       async function getEndAlignedScroll(props) {
-        const wrapper = mountSelect(props)
+        const wrapper = mountSelect({ options: getOptions(100), ...props })
         const portal = await openPopup(wrapper)
 
-        await settleVirtualScroll(wrapper, 1, 'end-force')
+        await settleVirtualScroll(wrapper, 50, 'end-force')
 
         return portal.get('.q-menu').element.scrollTop
       }
@@ -2336,7 +2352,12 @@ describe('[QSelect API]', () => {
 
     describe('[(method)reset]', () => {
       test('should be callable', async () => {
-        const wrapper = mountSelect({ options: getOptions(100) })
+        // the estimated item size is deliberately bigger than the real
+        // (48px) option height, so measuring visibly shrinks the padding
+        const wrapper = mountSelect({
+          options: getOptions(100),
+          virtualScrollItemSize: 100
+        })
         const portal = await openPopup(wrapper)
 
         const getPaddingHeight = () =>
@@ -2344,8 +2365,8 @@ describe('[QSelect API]', () => {
             portal.get('.q-virtual-scroll__padding').$style('height')
           )
 
-        // scrolling around makes it remember the sizes of the options it
-        // rendered on the way, which jsdom reports as 0px
+        // scrolling around makes it remember the real sizes of the
+        // options it rendered on the way
         await settleVirtualScroll(wrapper, 50)
         await settleVirtualScroll(wrapper, 90)
 

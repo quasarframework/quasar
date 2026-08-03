@@ -1,9 +1,10 @@
+import { h } from 'vue'
 import { describe, expect, test } from 'vitest'
 import { mount } from '@vue/test-utils'
 
 import IconSet from './IconSet.js'
 
-const mountPlugin = () => mount({ template: '<div />' })
+const mountPlugin = () => mount({ render: () => h('div') })
 
 describe('[IconSet API]', () => {
   describe('[Injection]', () => {

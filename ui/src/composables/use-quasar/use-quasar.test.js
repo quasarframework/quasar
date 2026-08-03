@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'vitest'
 import { mount } from '@vue/test-utils'
-import { defineComponent } from 'vue'
+import { defineComponent, h } from 'vue'
 
 import useQuasar from './use-quasar.js'
 
@@ -10,7 +10,7 @@ describe('[useQuasar API]', () => {
       test('can be used in a Vue Component', () => {
         const wrapper = mount(
           defineComponent({
-            template: '<div />',
+            render: () => h('div'),
             setup() {
               const result = useQuasar()
               return { result }

@@ -1,6 +1,7 @@
 import { afterEach, describe, expect, test, vi } from 'vitest'
 
 import { client } from '../../plugins/platform/Platform.js'
+import { getScrollbarWidth } from '../scroll/scroll.js'
 import {
   getAnchorProps,
   parsePosition,
@@ -23,8 +24,9 @@ afterEach(() => {
 })
 
 /**
- * jsdom has no layout engine, so every measurement the engine relies on
- * must be stubbed; the undo is registered for the next test.
+ * Stubs a property that cannot be driven for real (e.g. the visual viewport
+ * offsets, which only change on a pinch-zoom); the undo is registered for
+ * the next test.
  */
 function mockProperty(target, key, value) {
   const descriptor = Object.getOwnPropertyDescriptor(target, key)
@@ -41,10 +43,20 @@ function mockProperty(target, key, value) {
   })
 }
 
-function createAnchor(rect) {
+/**
+ * Creates a real fixed-positioned element so the engine measures it through
+ * the actual layout engine (bottom/right/middle/center all derive from it).
+ */
+function createAnchor({ top, left, width, height }) {
   const el = document.createElement('div')
 
-  el.getBoundingClientRect = () => rect
+  Object.assign(el.style, {
+    position: 'fixed',
+    top: `${top}px`,
+    left: `${left}px`,
+    width: `${width}px`,
+    height: `${height}px`
+  })
 
   document.body.append(el)
   nodes.push(el)
@@ -54,35 +66,36 @@ function createAnchor(rect) {
 function createTarget({ width = 150, height = 50 } = {}) {
   const el = document.createElement('div')
 
-  mockProperty(el, 'offsetWidth', width)
-  mockProperty(el, 'offsetHeight', height)
+  Object.assign(el.style, {
+    position: 'fixed',
+    width: `${width}px`,
+    height: `${height}px`
+  })
 
   document.body.append(el)
   nodes.push(el)
   return el
 }
 
-const viewport = { height: 768, width: 1024 }
+/**
+ * The viewport exactly as the position engine sees it.
+ */
+function viewportSize() {
+  return {
+    width: document.body.clientWidth,
+    height: window.innerHeight - getScrollbarWidth()
+  }
+}
 
 /**
- * Builds a config where the anchor is a 100x30 box and the target a 150x50 one,
- * inside a 1024x768 viewport.
+ * Builds a config where the anchor is a real 100x30 box at (100, 100) and
+ * the target a real 150x50 one, laid out in the actual viewport.
  */
 function createConfig({
-  anchorRect = {
-    top: 100,
-    left: 100,
-    bottom: 130,
-    right: 200,
-    width: 100,
-    height: 30
-  },
+  anchorRect = { top: 100, left: 100, width: 100, height: 30 },
   targetSize,
   ...cfg
 } = {}) {
-  mockProperty(window, 'innerHeight', viewport.height)
-  mockProperty(document.body, 'clientWidth', viewport.width)
-
   return {
     anchorEl: createAnchor(anchorRect),
     targetEl: createTarget(targetSize),
@@ -189,8 +202,6 @@ describe('[positionEngine API]', () => {
         const el = createAnchor({
           top: 100,
           left: 200,
-          bottom: 140,
-          right: 300,
           width: 100,
           height: 40
         })
@@ -211,8 +222,6 @@ describe('[positionEngine API]', () => {
         const el = createAnchor({
           top: 100,
           left: 200,
-          bottom: 140,
-          right: 300,
           width: 100,
           height: 40
         })
@@ -275,15 +284,12 @@ describe('[positionEngine API]', () => {
       })
 
       test('flips above the anchor when there is no room below', () => {
+        const { height } = viewportSize()
+        // the 30px tall anchor sits so close to the bottom edge that the
+        // 50px tall target cannot fit below it anymore
+        const anchorTop = height - 68
         const cfg = createConfig({
-          anchorRect: {
-            top: 700,
-            left: 100,
-            bottom: 730,
-            right: 200,
-            width: 100,
-            height: 30
-          }
+          anchorRect: { top: anchorTop, left: 100, width: 100, height: 30 }
         })
 
         setPosition(cfg)
@@ -292,39 +298,29 @@ describe('[positionEngine API]', () => {
         const top = Number.parseFloat(cfg.targetEl.style.top)
         const maxHeight = Number.parseFloat(cfg.targetEl.style.maxHeight)
 
-        expect(top).toBe(650)
-        expect(top + maxHeight).toBeLessThanOrEqual(viewport.height)
+        expect(top).toBe(anchorTop - 50)
+        expect(top + maxHeight).toBeLessThanOrEqual(height)
       })
 
       test('shrinks the target when it cannot fit the viewport at all', () => {
+        const { height } = viewportSize()
         const cfg = createConfig({
-          anchorRect: {
-            top: 300,
-            left: 100,
-            bottom: 330,
-            right: 200,
-            width: 100,
-            height: 30
-          },
+          anchorRect: { top: 300, left: 100, width: 100, height: 30 },
           targetSize: { width: 150, height: 2000 }
         })
 
         setPosition(cfg)
 
         expect(cfg.targetEl.style.top).toBe('330px')
-        expect(cfg.targetEl.style.maxHeight).toBe(`${viewport.height - 330}px`)
+        expect(cfg.targetEl.style.maxHeight).toBe(`${height - 330}px`)
       })
 
       test('keeps the target inside the viewport horizontally', () => {
+        const { width } = viewportSize()
+        // a 30px wide anchor near the right edge, so the 150px wide
+        // target would overflow the viewport
         const cfg = createConfig({
-          anchorRect: {
-            top: 100,
-            left: 980,
-            bottom: 130,
-            right: 1010,
-            width: 30,
-            height: 30
-          }
+          anchorRect: { top: 100, left: width - 44, width: 30, height: 30 }
         })
 
         setPosition(cfg)
@@ -333,20 +329,13 @@ describe('[positionEngine API]', () => {
         const maxWidth = Number.parseFloat(cfg.targetEl.style.maxWidth)
 
         expect(left).toBeGreaterThanOrEqual(0)
-        expect(left + maxWidth).toBeLessThanOrEqual(viewport.width)
+        expect(left + maxWidth).toBeLessThanOrEqual(width)
       })
 
       test('matches the anchor width when fitting', () => {
         const cfg = createConfig({
           fit: true,
-          anchorRect: {
-            top: 100,
-            left: 100,
-            bottom: 130,
-            right: 400,
-            width: 300,
-            height: 30
-          }
+          anchorRect: { top: 100, left: 100, width: 300, height: 30 }
         })
 
         setPosition(cfg)
@@ -359,14 +348,7 @@ describe('[positionEngine API]', () => {
         const cfg = createConfig({
           cover: true,
           offset: [10, 5],
-          anchorRect: {
-            top: 100,
-            left: 100,
-            bottom: 130,
-            right: 400,
-            width: 300,
-            height: 30
-          }
+          anchorRect: { top: 100, left: 100, width: 300, height: 30 }
         })
 
         setPosition(cfg)
@@ -381,14 +363,7 @@ describe('[positionEngine API]', () => {
 
       test('treats an absolute offset as a 1x1 anchor', () => {
         const cfg = createConfig({
-          anchorRect: {
-            top: 10,
-            left: 20,
-            bottom: 10,
-            right: 20,
-            width: 0,
-            height: 0
-          },
+          anchorRect: { top: 10, left: 20, width: 0, height: 0 },
           absoluteOffset: { top: 200, left: 300 },
           offset: [5, 7]
         })
@@ -401,16 +376,13 @@ describe('[positionEngine API]', () => {
       })
 
       test('re-anchors an absolutely offset target when it flips', () => {
+        const { height } = viewportSize()
+        // a "touch position" so close to the bottom edge that the 50px
+        // tall target cannot fit below it
+        const pointerTop = height - 28
         const cfg = createConfig({
-          anchorRect: {
-            top: 0,
-            left: 0,
-            bottom: 0,
-            right: 0,
-            width: 0,
-            height: 0
-          },
-          absoluteOffset: { top: 740, left: 300 },
+          anchorRect: { top: 0, left: 0, width: 0, height: 0 },
+          absoluteOffset: { top: pointerTop, left: 300 },
           offset: [5, 7]
         })
 
@@ -420,8 +392,8 @@ describe('[positionEngine API]', () => {
         const maxHeight = Number.parseFloat(cfg.targetEl.style.maxHeight)
 
         // it sits above the pointer, clear of the offset it was pushed by
-        expect(top).toBeLessThan(740)
-        expect(top + maxHeight).toBeLessThanOrEqual(viewport.height)
+        expect(top).toBeLessThan(pointerTop)
+        expect(top + maxHeight).toBeLessThanOrEqual(height)
       })
 
       test('retries until the target reports its dimensions', () => {
@@ -433,8 +405,8 @@ describe('[positionEngine API]', () => {
         vi.advanceTimersByTime(10)
         expect(cfg.targetEl.style.top).toBe('')
 
-        mockProperty(cfg.targetEl, 'offsetWidth', 150)
-        mockProperty(cfg.targetEl, 'offsetHeight', 50)
+        cfg.targetEl.style.width = '150px'
+        cfg.targetEl.style.height = '50px'
         vi.advanceTimersByTime(10)
 
         expect(cfg.targetEl.style.top).toBe('130px')
@@ -458,6 +430,8 @@ describe('[positionEngine API]', () => {
           client.is.ios = originalIos
         })
 
+        // the real visualViewport only reports non-zero offsets during a
+        // pinch-zoom, which cannot be driven deterministically here
         mockProperty(window, 'visualViewport', {
           offsetLeft: 13,
           offsetTop: 27

@@ -65,15 +65,6 @@ async function showTooltip(wrapper) {
   await vi.runAllTimersAsync()
 }
 
-/**
- * jsdom reports a zero size for every element, which makes the position
- * engine give up before it applies any style; give it something to work with.
- */
-function giveElementsSize() {
-  vi.spyOn(HTMLElement.prototype, 'offsetWidth', 'get').mockReturnValue(50)
-  vi.spyOn(HTMLElement.prototype, 'offsetHeight', 'get').mockReturnValue(20)
-}
-
 async function hideTooltip(wrapper) {
   getTooltipComponent(wrapper).vm.hide()
   await flushPromises()
@@ -246,7 +237,6 @@ describe('[QTooltip API]', () => {
 
     describe('[(prop)max-height]', () => {
       test('type String has effect', async () => {
-        giveElementsSize()
         const wrapper = mountTooltip({ maxHeight: '100px' })
 
         await showTooltip(wrapper)
@@ -255,7 +245,6 @@ describe('[QTooltip API]', () => {
       })
 
       test('leaves the height unbounded without it', async () => {
-        giveElementsSize()
         const wrapper = mountTooltip()
 
         await showTooltip(wrapper)
@@ -266,7 +255,6 @@ describe('[QTooltip API]', () => {
 
     describe('[(prop)max-width]', () => {
       test('type String has effect', async () => {
-        giveElementsSize()
         const wrapper = mountTooltip({ maxWidth: '100px' })
 
         await showTooltip(wrapper)
@@ -557,7 +545,6 @@ describe('[QTooltip API]', () => {
 
     describe('[(method)updatePosition]', () => {
       test('should be callable', async () => {
-        giveElementsSize()
         const wrapper = mountTooltip({ maxHeight: '100px' })
 
         await showTooltip(wrapper)

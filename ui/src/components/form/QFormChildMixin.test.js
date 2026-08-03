@@ -1,5 +1,5 @@
 import { mount } from '@vue/test-utils'
-import { defineComponent } from 'vue'
+import { defineComponent, h } from 'vue'
 import { describe, expect, test, vi } from 'vitest'
 
 import { formKey } from '../../utils/private.symbols/symbols.js'
@@ -12,7 +12,7 @@ function mountFormChild(form) {
       props: {
         disable: Boolean
       },
-      template: '<div />'
+      render: () => h('div')
     }),
     {
       global: {

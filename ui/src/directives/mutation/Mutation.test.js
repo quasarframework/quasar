@@ -1,6 +1,6 @@
 import { mount } from '@vue/test-utils'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
-import { defineComponent } from 'vue'
+import { defineComponent, h, withDirectives } from 'vue'
 
 import Mutation from './Mutation.js'
 
@@ -31,11 +31,10 @@ afterEach(() => {
 function mountModifier(modifier) {
   const handler = vi.fn(() => true)
   const TestComponent = defineComponent({
-    template: `<div v-mutation.${modifier}="handler" />`,
-    directives: { Mutation },
-    setup() {
-      return { handler }
-    }
+    render: () =>
+      withDirectives(h('div'), [
+        [Mutation, handler, void 0, { [modifier]: true }]
+      ])
   })
 
   return {
@@ -59,11 +58,7 @@ describe('[Mutation API]', () => {
     test('as Function', () => {
       const handler = vi.fn(() => true)
       const TestComponent = defineComponent({
-        template: '<div v-mutation="handler" />',
-        directives: { Mutation },
-        setup() {
-          return { handler }
-        }
+        render: () => withDirectives(h('div'), [[Mutation, handler]])
       })
 
       const wrapper = mount(TestComponent)

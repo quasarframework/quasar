@@ -1,6 +1,6 @@
 import { mount } from '@vue/test-utils'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
-import { defineComponent } from 'vue'
+import { defineComponent, h, withDirectives } from 'vue'
 
 import { getMainEvent } from 'testing/runtime/directive.js'
 
@@ -22,12 +22,12 @@ afterEach(() => {
   vi.useRealTimers()
 })
 
-function mountTouchHold(template, handler = vi.fn()) {
+function mountTouchHold(modifiers, options = {}) {
+  const handler = 'handler' in options ? options.handler : vi.fn()
   const TestComponent = defineComponent({
-    template,
-    directives: { TouchHold },
     setup() {
-      return { handler }
+      return () =>
+        withDirectives(h('div'), [[TouchHold, handler, options.arg, modifiers]])
     }
   })
 
@@ -40,9 +40,7 @@ function mountTouchHold(template, handler = vi.fn()) {
 describe('[TouchHold API]', () => {
   describe('[Value]', () => {
     test('as Function', () => {
-      const { handler, wrapper } = mountTouchHold(
-        '<div v-touch-hold.mouse="handler" />'
-      )
+      const { handler, wrapper } = mountTouchHold({ mouse: true })
 
       wrapper.element.dispatchEvent(
         new MouseEvent('mousedown', {
@@ -70,7 +68,7 @@ describe('[TouchHold API]', () => {
     })
 
     test('as undefined', () => {
-      const { wrapper } = mountTouchHold('<div v-touch-hold.mouse />')
+      const { wrapper } = mountTouchHold({ mouse: true }, { handler: void 0 })
 
       wrapper.element.dispatchEvent(
         new MouseEvent('mousedown', {
@@ -86,9 +84,7 @@ describe('[TouchHold API]', () => {
 
   describe('[Argument]', () => {
     test('has effect', () => {
-      const { wrapper } = mountTouchHold(
-        '<div v-touch-hold:25:11:13.mouse="handler" />'
-      )
+      const { wrapper } = mountTouchHold({ mouse: true }, { arg: '25:11:13' })
       const ctx = wrapper.element.__qtouchhold
 
       expect(ctx.duration).toBe(25)
@@ -101,9 +97,7 @@ describe('[TouchHold API]', () => {
     describe('[(modifier)capture]', () => {
       test('has effect', () => {
         client.has.touch = true
-        const { wrapper } = mountTouchHold(
-          '<div v-touch-hold.capture="handler" />'
-        )
+        const { wrapper } = mountTouchHold({ capture: true })
 
         expect(
           getMainEvent(wrapper.element.__qtouchhold, 'touchstart')[3]
@@ -113,9 +107,7 @@ describe('[TouchHold API]', () => {
 
     describe('[(modifier)mouse]', () => {
       test('has effect', () => {
-        const { wrapper } = mountTouchHold(
-          '<div v-touch-hold.mouse="handler" />'
-        )
+        const { wrapper } = mountTouchHold({ mouse: true })
 
         expect(getMainEvent(wrapper.element.__qtouchhold, 'mousedown')[3]).toBe(
           'passive'
@@ -125,9 +117,10 @@ describe('[TouchHold API]', () => {
 
     describe('[(modifier)mouseCapture]', () => {
       test('has effect', () => {
-        const { wrapper } = mountTouchHold(
-          '<div v-touch-hold.mouse.mouseCapture="handler" />'
-        )
+        const { wrapper } = mountTouchHold({
+          mouse: true,
+          mouseCapture: true
+        })
 
         expect(getMainEvent(wrapper.element.__qtouchhold, 'mousedown')[3]).toBe(
           'passiveCapture'

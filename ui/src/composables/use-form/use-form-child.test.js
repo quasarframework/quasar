@@ -1,5 +1,5 @@
 import { mount } from '@vue/test-utils'
-import { defineComponent, getCurrentInstance, nextTick } from 'vue'
+import { defineComponent, getCurrentInstance, h, nextTick } from 'vue'
 import { describe, expect, test, vi } from 'vitest'
 
 import { formKey } from '../../utils/private.symbols/symbols.js'
@@ -30,7 +30,7 @@ describe('[useFormChild API]', () => {
                 requiresQForm: true
               })
             },
-            template: '<div />'
+            render: () => h('div')
           }),
           {
             global: {
@@ -69,7 +69,7 @@ describe('[useFormChild API]', () => {
                   requiresQForm: true
                 })
               },
-              template: '<div />'
+              render: () => h('div')
             })
           )
           await nextTick()

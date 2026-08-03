@@ -1,9 +1,10 @@
+import { h } from 'vue'
 import { describe, expect, test } from 'vitest'
 import { mount } from '@vue/test-utils'
 
 import Body, { getBodyClasses } from './Body.js'
 
-const mountPlugin = () => mount({ template: '<div />' })
+const mountPlugin = () => mount({ render: () => h('div') })
 
 function getNativeMobilePlatform(
   is,
@@ -42,8 +43,10 @@ describe('[Body API]', () => {
       test('sets body classes', () => {
         mountPlugin()
 
+        // the really detected platform: desktop headless Chromium
+        // (no touch support) running the tests within an iframe
         expect(document.body.getAttribute('class')).toBe(
-          'desktop touch body--light'
+          'desktop no-touch within-iframe body--light'
         )
       })
     })

@@ -14,34 +14,25 @@ describe('[useSplitAttrs API]', () => {
         ['attrs and listeners', { a: '1' }, ['b']],
         ['multiple attrs and listeners', { a: '1', b: '2' }, ['f1', 'f2']]
       ])('correctly splits: %s', (_, attrs, listeners) => {
-        const attrHtml = Object.keys(attrs)
-          .map(key => `${key}="${attrs[key]}"`)
-          .join(' ')
-
         const fn = () => {}
         const fnList = {}
-        const listenerHtml = listeners
-          .map(key => {
-            fnList['on' + key.toUpperCase()] = fn
-            return `@${key}="fn"`
-          })
-          .join(' ')
+        listeners.forEach(key => {
+          fnList['on' + key.toUpperCase()] = fn
+        })
 
         const ChildComponent = {
           name: 'ChildComponent',
-          template: '<div />',
           setup() {
             const result = useSplitAttrs()
             return { result }
-          }
+          },
+          render: () => h('div')
         }
 
         const wrapper = mount(
           defineComponent({
-            template: `<ChildComponent ${attrHtml} ${listenerHtml} />`,
-            components: { ChildComponent },
             setup() {
-              return { fn }
+              return () => h(ChildComponent, { ...attrs, ...fnList })
             }
           })
         )

@@ -1,5 +1,5 @@
 import { mount } from '@vue/test-utils'
-import { defineComponent, nextTick, ref } from 'vue'
+import { defineComponent, h, nextTick, ref } from 'vue'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 
 import useMeta from './use-meta.js'
@@ -35,7 +35,7 @@ describe('[useMeta API]', () => {
                 }
               }))
             },
-            template: '<div />'
+            render: () => h('div')
           })
         )
 

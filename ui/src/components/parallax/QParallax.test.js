@@ -91,7 +91,7 @@ describe('[QParallax API]', () => {
         const stationaryMedia = updateMedia(stationary)
         const movingMedia = updateMedia(moving)
 
-        expect(stationaryMedia.style.transform).toContain(',0px,0)')
+        expect(stationaryMedia.style.transform).toContain(', 0px, 0px)')
         expect(movingMedia.style.transform).not.toBe(
           stationaryMedia.style.transform
         )

@@ -40,25 +40,22 @@ describe('[QResizeObserver API]', () => {
       test('is emitting', async () => {
         const wrapper = mount(QResizeObserver)
 
-        Object.defineProperties(wrapper.element, {
-          offsetHeight: {
-            configurable: true,
-            value: 80
-          },
-          offsetWidth: {
-            configurable: true,
-            value: 120
-          }
-        })
-
         await nextTick()
-        wrapper.vm.trigger(true)
 
+        // the initial emission, done when the observed parent is picked up
         const eventList = wrapper.emitted()
         expect(eventList).toHaveProperty('resize')
         expect(eventList.resize).toHaveLength(1)
 
-        const [size] = eventList.resize[0]
+        // resize the observed parent element
+        wrapper.vm.$el.parentNode.style.cssText = 'width: 120px; height: 80px;'
+
+        // a real ResizeObserver notifies asynchronously
+        await vi.waitFor(() => {
+          expect(eventList.resize).toHaveLength(2)
+        })
+
+        const [size] = eventList.resize.at(-1)
         expect(size).toStrictEqual({
           height: 80,
           width: 120

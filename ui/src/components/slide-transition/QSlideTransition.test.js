@@ -1,5 +1,5 @@
 import { mount } from '@vue/test-utils'
-import { defineComponent } from 'vue'
+import { defineComponent, h } from 'vue'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 
 import QSlideTransition from './QSlideTransition.js'
@@ -11,17 +11,21 @@ function mountTransition({
 } = {}) {
   const wrapper = mount(
     defineComponent({
-      components: { QSlideTransition },
       props: {
         appear: Boolean,
         duration: Number
       },
       data: () => ({ visible }),
-      template: `
-        <QSlideTransition :appear :duration>
-          <div v-if="visible" class="content">content</div>
-        </QSlideTransition>
-      `
+      render() {
+        return h(
+          QSlideTransition,
+          { appear: this.appear, duration: this.duration },
+          () =>
+            this.visible === true
+              ? h('div', { class: 'content' }, 'content')
+              : null
+        )
+      }
     }),
     {
       props: { appear, duration },

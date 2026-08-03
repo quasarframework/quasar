@@ -2,20 +2,19 @@ import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 
 import exportFile from './export-file.js'
 
-const objectUrl = 'blob:quasar/export-file'
-
 let createObjectURL, revokeObjectURL, clickSpy, lastLink
 
 beforeEach(() => {
   vi.useFakeTimers()
 
-  // jsdom implements neither of the two Object URL methods
-  createObjectURL = vi.fn(() => objectUrl)
-  revokeObjectURL = vi.fn()
-  window.URL.createObjectURL = createObjectURL
-  window.URL.revokeObjectURL = revokeObjectURL
+  // observe the real Object URL methods (the calls go through,
+  // so a genuine blob: URL gets created and later revoked)
+  createObjectURL = vi.spyOn(window.URL, 'createObjectURL')
+  revokeObjectURL = vi.spyOn(window.URL, 'revokeObjectURL')
 
   lastLink = void 0
+  // a real click would start an actual browser download,
+  // so the activation is intercepted instead
   clickSpy = vi
     .spyOn(HTMLAnchorElement.prototype, 'click')
     .mockImplementation(function onClick() {
@@ -37,17 +36,19 @@ function captureLink(el) {
 }
 
 afterEach(() => {
+  // flush the delayed revoke so every created blob: URL gets released
   vi.runOnlyPendingTimers()
   vi.useRealTimers()
-
-  delete window.URL.createObjectURL
-  delete window.URL.revokeObjectURL
 
   vi.restoreAllMocks()
 })
 
 function getBlob() {
   return createObjectURL.mock.calls[0][0]
+}
+
+function getObjectUrl() {
+  return createObjectURL.mock.results[0].value
 }
 
 describe('[exportFile API]', () => {
@@ -58,7 +59,8 @@ describe('[exportFile API]', () => {
 
         expect(clickSpy).toHaveBeenCalledTimes(1)
         expect(lastLink.connected).toBe(true)
-        expect(lastLink.href).toBe(objectUrl)
+        expect(lastLink.href).toMatch(/^blob:/)
+        expect(lastLink.href).toBe(getObjectUrl())
         expect(lastLink.download).toBe('my-file.txt')
       })
 
@@ -77,7 +79,7 @@ describe('[exportFile API]', () => {
 
         // the revoke is delayed on purpose (iOS)
         vi.runOnlyPendingTimers()
-        expect(revokeObjectURL).toHaveBeenCalledWith(objectUrl)
+        expect(revokeObjectURL).toHaveBeenCalledWith(getObjectUrl())
       })
 
       test('defaults to a binary mime type', () => {
@@ -145,7 +147,7 @@ describe('[exportFile API]', () => {
 
         expect(lastLink.el.isConnected).toBe(false)
         vi.runOnlyPendingTimers()
-        expect(revokeObjectURL).toHaveBeenCalledWith(objectUrl)
+        expect(revokeObjectURL).toHaveBeenCalledWith(getObjectUrl())
       })
     })
   })

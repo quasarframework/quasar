@@ -23,7 +23,7 @@ describe('[QLinearProgress API]', () => {
 
         expect(
           wrapper.get('.q-linear-progress__model').attributes('style')
-        ).toContain('transform: scale3d(0.4,1,1)')
+        ).toContain('transform: scale3d(0.4, 1, 1)')
         expect(wrapper.attributes('aria-valuenow')).toBe('0.4')
       })
     })
@@ -36,7 +36,7 @@ describe('[QLinearProgress API]', () => {
 
         expect(
           wrapper.get('.q-linear-progress__track').attributes('style')
-        ).toContain('transform: scale3d(0.6,1,1)')
+        ).toContain('transform: scale3d(0.6, 1, 1)')
       })
     })
 

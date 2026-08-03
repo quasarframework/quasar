@@ -1,9 +1,10 @@
+import { h } from 'vue'
 import { describe, expect, test, vi } from 'vitest'
 import { mount } from '@vue/test-utils'
 
 import Dark from './Dark.js'
 
-const mountPlugin = () => mount({ template: '<div />' })
+const mountPlugin = () => mount({ render: () => h('div') })
 
 describe('[Dark API]', () => {
   describe('[Injection]', () => {
@@ -70,7 +71,11 @@ describe('[Dark API]', () => {
           vm: { $q }
         } = mountPlugin()
 
-        // jsdom hack
+        // The real matchMedia('(prefers-color-scheme: dark)') works in the
+        // browser, but the OS/emulated color scheme cannot be toggled from
+        // inside the page, so we stub it to deterministically drive both
+        // states of "auto" mode and to observe listener (un)registration
+        const originalMatchMedia = window.matchMedia
         const media = {
           matches: true,
           addListener: vi.fn(),
@@ -108,6 +113,10 @@ describe('[Dark API]', () => {
         expect(Dark.isActive).toBe(true)
         expect($q.dark.isActive).toBe(true)
         expect(document.body.classList.contains('body--dark')).toBe(true)
+
+        // Dark.set(true) above detached the plugin from the stubbed media
+        // query, so the native matchMedia can be safely restored
+        window.matchMedia = originalMatchMedia
       })
     })
 

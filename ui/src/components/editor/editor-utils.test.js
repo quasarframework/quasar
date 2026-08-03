@@ -6,19 +6,21 @@ import QBtn from '../btn/QBtn.js'
 import QBtnDropdown from '../btn-dropdown/QBtnDropdown.js'
 import { getFonts, getLinkEditor, getToolbar } from './editor-utils.js'
 
-/** jsdom does not implement execCommand, which the link editor drives. */
+/**
+ * The link editor drives the real execCommand of the browser; a passthrough
+ * spy keeps the calls observable. The caret handed in by createEVm() is a
+ * stub, so no selection gets restored and the commands act on nothing.
+ */
 let execCommand
 let wrapper
 
 beforeEach(() => {
-  execCommand = vi.fn()
-  document.execCommand = execCommand
+  execCommand = vi.spyOn(document, 'execCommand')
 })
 
 afterEach(() => {
   wrapper?.unmount()
   wrapper = void 0
-  delete document.execCommand
   vi.restoreAllMocks()
 })
 

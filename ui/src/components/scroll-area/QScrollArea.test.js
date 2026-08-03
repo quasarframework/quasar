@@ -1,4 +1,4 @@
-import { nextTick } from 'vue'
+import { h, nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterEach, describe, expect, test, vi } from 'vitest'
 
@@ -6,6 +6,19 @@ import QScrollArea from './QScrollArea.js'
 
 function mountScrollArea(props = {}, slots = {}) {
   return mount(QScrollArea, { props, slots })
+}
+
+/**
+ * A real 100x100 viewport holding real 500x500 content, so that the
+ * container element can actually be scrolled.
+ */
+function mountScrollableArea() {
+  return mount(QScrollArea, {
+    attrs: { style: 'width: 100px; height: 100px' },
+    slots: {
+      default: () => h('div', { style: 'width: 500px; height: 500px' })
+    }
+  })
 }
 
 function getContainer(wrapper) {
@@ -540,9 +553,14 @@ describe('[QScrollArea API]', () => {
 
     describe('[(method)getScroll]', () => {
       test('should be callable', async () => {
-        const wrapper = mountScrollArea({
-          verticalOffset: [10, 10],
-          horizontalOffset: [20, 20]
+        // starts out as a real 0x0 element so that the initial
+        // snapshot below reports zero sizes
+        const wrapper = mount(QScrollArea, {
+          props: {
+            verticalOffset: [10, 10],
+            horizontalOffset: [20, 20]
+          },
+          attrs: { style: 'width: 0; height: 0' }
         })
 
         expect(wrapper.vm.getScroll()).toStrictEqual({
@@ -616,7 +634,7 @@ describe('[QScrollArea API]', () => {
 
     describe('[(method)setScrollPosition]', () => {
       test('should be callable', async () => {
-        const wrapper = mountScrollArea()
+        const wrapper = mountScrollableArea()
         await setupScrollableArea(wrapper)
 
         const target = wrapper.vm.getScrollTarget()
@@ -642,7 +660,7 @@ describe('[QScrollArea API]', () => {
 
     describe('[(method)setScrollPercentage]', () => {
       test('should be callable', async () => {
-        const wrapper = mountScrollArea()
+        const wrapper = mountScrollableArea()
         await setupScrollableArea(wrapper)
 
         const target = wrapper.vm.getScrollTarget()

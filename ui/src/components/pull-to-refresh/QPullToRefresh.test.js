@@ -4,6 +4,7 @@ import { describe, expect, test } from 'vitest'
 
 import { getMainEvent } from 'testing/runtime/directive.js'
 
+import { client } from '../../plugins/platform/Platform.js'
 import QPullToRefresh from './QPullToRefresh.js'
 
 function mountPullToRefresh(props = {}, slots = {}) {
@@ -11,6 +12,21 @@ function mountPullToRefresh(props = {}, slots = {}) {
     props,
     slots
   })
+}
+
+// a real scroll container, scrolled 10px down
+function createScrollTarget(className) {
+  const scrollTarget = document.createElement('div')
+  if (className !== void 0) scrollTarget.className = className
+  scrollTarget.style.cssText = 'height: 50px; overflow: auto;'
+
+  const content = document.createElement('div')
+  content.style.height = '200px'
+  scrollTarget.append(content)
+
+  document.body.append(scrollTarget)
+  scrollTarget.scrollTop = 10
+  return scrollTarget
 }
 
 function getPanContext(wrapper) {
@@ -56,15 +72,25 @@ describe('[QPullToRefresh API]', () => {
 
     describe('[(prop)no-mouse]', () => {
       test('type Boolean has effect', () => {
-        const withMouse = mountPullToRefresh()
-        const withoutMouse = mountPullToRefresh({ noMouse: true })
+        // without touch support, TouchPan does not bind at all when noMouse
+        // is set; pretend the device has touch so that the pan context exists
+        // and only the mousedown binding differs
+        const origTouch = client.has.touch
+        client.has.touch = true
 
-        expect(
-          getMainEvent(getPanContext(withMouse), 'mousedown')
-        ).toBeDefined()
-        expect(
-          getMainEvent(getPanContext(withoutMouse), 'mousedown')
-        ).toBeUndefined()
+        try {
+          const withMouse = mountPullToRefresh()
+          const withoutMouse = mountPullToRefresh({ noMouse: true })
+
+          expect(
+            getMainEvent(getPanContext(withMouse), 'mousedown')
+          ).toBeDefined()
+          expect(
+            getMainEvent(getPanContext(withoutMouse), 'mousedown')
+          ).toBeUndefined()
+        } finally {
+          client.has.touch = origTouch
+        }
       })
     })
 
@@ -78,9 +104,7 @@ describe('[QPullToRefresh API]', () => {
 
     describe('[(prop)scroll-target]', () => {
       test('type Element has effect', async () => {
-        const scrollTarget = document.createElement('div')
-        scrollTarget.scrollTop = 10
-        document.body.append(scrollTarget)
+        const scrollTarget = createScrollTarget()
 
         const wrapper = mountPullToRefresh({ scrollTarget })
         await nextTick()
@@ -95,10 +119,7 @@ describe('[QPullToRefresh API]', () => {
       })
 
       test('type String has effect', async () => {
-        const scrollTarget = document.createElement('div')
-        scrollTarget.className = 'pull-scroll-target'
-        scrollTarget.scrollTop = 10
-        document.body.append(scrollTarget)
+        const scrollTarget = createScrollTarget('pull-scroll-target')
 
         const wrapper = mountPullToRefresh({
           scrollTarget: '.pull-scroll-target'
@@ -156,9 +177,7 @@ describe('[QPullToRefresh API]', () => {
 
     describe('[(method)updateScrollTarget]', () => {
       test('should be callable', () => {
-        const scrollTarget = document.createElement('div')
-        scrollTarget.scrollTop = 10
-        document.body.append(scrollTarget)
+        const scrollTarget = createScrollTarget()
 
         const wrapper = mountPullToRefresh({ scrollTarget })
 

@@ -1,6 +1,9 @@
+import { h } from 'vue'
 import { createRouter, createWebHistory } from 'vue-router'
 
-const routeComponent = { template: '<div />' }
+// a render function instead of a template string, so that
+// the runtime-only Vue build suffices
+const routeComponent = { render: () => h('div') }
 
 function getRouteEntry(path, children = []) {
   return { path, component: routeComponent, children }

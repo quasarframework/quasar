@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import { mount } from '@vue/test-utils'
-import { defineComponent } from 'vue'
+import { defineComponent, h } from 'vue'
 
 import useTimeout from './use-timeout.js'
 
@@ -28,7 +28,7 @@ describe('[useTimeout API]', () => {
 
         wrapper = mount(
           defineComponent({
-            template: '<div />',
+            render: () => h('div'),
             setup() {
               const { registerTimeout } = useTimeout()
 
@@ -53,7 +53,7 @@ describe('[useTimeout API]', () => {
 
         wrapper = mount(
           defineComponent({
-            template: '<div />',
+            render: () => h('div'),
             setup() {
               const { registerTimeout } = useTimeout()
 
@@ -78,7 +78,7 @@ describe('[useTimeout API]', () => {
 
         wrapper = mount(
           defineComponent({
-            template: '<div />',
+            render: () => h('div'),
             setup() {
               const { registerTimeout, removeTimeout } = useTimeout()
 
@@ -110,7 +110,7 @@ describe('[useTimeout API]', () => {
 
         wrapper = mount(
           defineComponent({
-            template: '<div />',
+            render: () => h('div'),
             setup() {
               const { registerTimeout } = useTimeout()
 
@@ -136,7 +136,7 @@ describe('[useTimeout API]', () => {
 
         wrapper = mount(
           defineComponent({
-            template: '<div />',
+            render: () => h('div'),
             setup() {
               const { registerTimeout } = useTimeout()
               return { registerTimeout }

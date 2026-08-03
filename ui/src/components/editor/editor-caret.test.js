@@ -6,34 +6,25 @@ import editorCaret from './editor-caret.js'
 const Caret = editorCaret
 
 /**
- * jsdom implements neither execCommand nor the queryCommand* family, which
- * the contenteditable engine behind the caret is built on top of.
+ * The suite runs in a real browser, so execCommand and the queryCommand*
+ * family (which the contenteditable engine behind the caret is built on
+ * top of) are exercised for real; passthrough spies merely keep the calls
+ * observable.
  */
 let execCommand
-let queryCommandState
 let queryCommandValue
 
 const nodes = []
 
 beforeEach(() => {
-  execCommand = vi.fn()
-  queryCommandState = vi.fn(() => false)
-  queryCommandValue = vi.fn(() => '')
-
-  Object.assign(document, {
-    execCommand,
-    queryCommandState,
-    queryCommandValue
-  })
+  execCommand = vi.spyOn(document, 'execCommand')
+  queryCommandValue = vi.spyOn(document, 'queryCommandValue')
 })
 
 afterEach(() => {
   nodes.splice(0).forEach(node => node.remove())
   document.getSelection().removeAllRanges()
 
-  for (const key of ['execCommand', 'queryCommandState', 'queryCommandValue']) {
-    delete document[key]
-  }
   vi.restoreAllMocks()
 })
 
@@ -302,10 +293,11 @@ describe('[editorCaret API]', () => {
       })
 
       test('resolves fontSize through the queried value', () => {
-        const { caret, el } = createCaret()
-        queryCommandValue.mockReturnValue('4')
+        const { caret, el } = createCaret({
+          html: '<font size="4">Hello</font>'
+        })
 
-        select(el.firstChild, 0, 1)
+        select(el.firstChild.firstChild, 0, 1)
 
         expect(caret.is('fontSize', '4')).toBe(true)
         expect(caret.is('fontSize', '5')).toBe(false)
@@ -313,16 +305,19 @@ describe('[editorCaret API]', () => {
       })
 
       test.each([
-        ['a quoted value', '"Arial"'],
+        // the browser quotes a multi-word family name, a single-word one
+        // stays bare, which drives both shapes the caret has to accept
+        ['a quoted value', 'Comic Sans MS'],
         ['a bare value', 'Arial']
       ])('resolves fontName through %s', (_, value) => {
-        const { caret, el } = createCaret()
-        queryCommandValue.mockReturnValue(value)
+        const { caret, el } = createCaret({
+          html: `<font face="${value}">Hello</font>`
+        })
 
-        select(el.firstChild, 0, 1)
+        select(el.firstChild.firstChild, 0, 1)
 
-        expect(caret.is('fontName', 'Arial')).toBe(true)
-        expect(caret.is('fontName', 'Times')).toBe(false)
+        expect(caret.is('fontName', value)).toBe(true)
+        expect(caret.is('fontName', 'Georgia')).toBe(false)
       })
 
       test.each([
@@ -354,10 +349,12 @@ describe('[editorCaret API]', () => {
         ['against a matching value', false, false, true],
         ['against a differing value', true, false, false]
       ])('resolves any other command %s', (_, param, state, expected) => {
-        const { caret, el } = createCaret()
-        queryCommandState.mockReturnValue(state)
+        // bold content drives the real queryCommandState to the wanted state
+        const { caret, el } = createCaret({
+          html: state ? '<b>bold</b>' : 'Hello world'
+        })
 
-        select(el.firstChild, 0, 1)
+        select(state ? el.firstChild.firstChild : el.firstChild, 0, 1)
 
         expect(caret.is('bold', param)).toBe(expected)
       })
@@ -403,9 +400,10 @@ describe('[editorCaret API]', () => {
       })
 
       test('applies a plain command and reports back', () => {
-        const { caret } = createCaret()
+        const { caret, el } = createCaret()
         const done = vi.fn()
 
+        select(el.firstChild, 0, 5)
         caret.apply('bold', void 0, done)
 
         expect(execCommand).toHaveBeenCalledExactlyOnceWith(
@@ -414,19 +412,22 @@ describe('[editorCaret API]', () => {
           void 0
         )
         expect(done).toHaveBeenCalledOnce()
+        // the command really ran against the selection
+        expect(el.innerHTML).toBe('<b>Hello</b> world')
       })
 
       test.each([
-        ['H1', 'outdent', null],
-        ['BLOCKQUOTE', 'outdent', null],
-        ['PRE', 'formatBlock', 'P']
+        ['H1', 'outdent', null, '<h1>Hello</h1>'],
+        ['BLOCKQUOTE', 'outdent', null, '<blockquote>Hello</blockquote>'],
+        ['PRE', 'formatBlock', 'P', '<pre>Hello</pre>']
       ])(
         'toggles formatBlock %s off when already applied',
-        (param, cmd, arg) => {
-          const { caret, el } = createCaret()
-          const is = vi.spyOn(caret, 'is').mockReturnValue(true)
+        (param, cmd, arg, html) => {
+          // the content already carries the block, so is() resolves for real
+          const { caret, el } = createCaret({ html })
+          const is = vi.spyOn(caret, 'is')
 
-          select(el.firstChild, 0, 1)
+          select(el.firstChild.firstChild, 0, 1)
           caret.apply('formatBlock', param)
 
           expect(execCommand).toHaveBeenCalledExactlyOnceWith(cmd, false, arg)
@@ -436,7 +437,6 @@ describe('[editorCaret API]', () => {
 
       test('leaves formatBlock alone when it is not applied yet', () => {
         const { caret, el } = createCaret()
-        vi.spyOn(caret, 'is').mockReturnValue(false)
 
         select(el.firstChild, 0, 1)
         caret.apply('formatBlock', 'H1')
@@ -449,6 +449,8 @@ describe('[editorCaret API]', () => {
       })
 
       test('prints the content in a separate window', () => {
+        // window.open stays mocked: a real popup plus its blocking print
+        // dialog cannot be driven from a headless test
         const { caret } = createCaret({ html: '<p>Printed</p>' })
         const done = vi.fn()
         const win = {
@@ -527,6 +529,8 @@ describe('[editorCaret API]', () => {
           false,
           expected
         )
+        // the anchor was really created around the selection
+        expect(el.querySelector('a')?.getAttribute('href')).toBe(expected)
       })
 
       test('refuses to link an empty selection without an image', () => {
@@ -534,6 +538,8 @@ describe('[editorCaret API]', () => {
         const { caret, el } = createCaret({ eVm })
 
         select(el.firstChild, 2, 2)
+        // selectWord is pinned to the collapsed selection: a real word
+        // expansion would grab the surrounding word and defeat the case
         vi.spyOn(caret, 'selectWord').mockImplementation(sel => sel)
 
         caret.apply('link')
@@ -561,6 +567,10 @@ describe('[editorCaret API]', () => {
           const node = el.firstChild
           const anchorOffset = backwards ? 5 : 2
           const focusOffset = backwards ? 2 : 5
+          // a synthetic selection: a real collapsed Selection always has
+          // anchor === focus, so the backwards branch is unreachable through
+          // the document selection, and the exact modify() sequence is the
+          // observable contract here
           const sel = {
             isCollapsed: true,
             anchorNode: node,

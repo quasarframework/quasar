@@ -1,6 +1,6 @@
 import { mount } from '@vue/test-utils'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
-import { defineComponent } from 'vue'
+import { defineComponent, h, withDirectives } from 'vue'
 
 import Intersection from './Intersection.js'
 
@@ -34,19 +34,16 @@ describe('[Intersection API]', () => {
       const handler = vi.fn(() => true)
       const root = document.createElement('div')
       const TestComponent = defineComponent({
-        template: '<div v-intersection="val" />',
-        directives: { Intersection },
         setup() {
-          return {
-            val: {
-              handler,
-              cfg: {
-                root,
-                rootMargin: '10px 20px 30px 40px',
-                threshold: [0, 0.25, 0.5, 0.75, 1]
-              }
+          const val = {
+            handler,
+            cfg: {
+              root,
+              rootMargin: '10px 20px 30px 40px',
+              threshold: [0, 0.25, 0.5, 0.75, 1]
             }
           }
+          return () => withDirectives(h('div'), [[Intersection, val]])
         }
       })
 
@@ -72,11 +69,7 @@ describe('[Intersection API]', () => {
     test('as Function', () => {
       const handler = vi.fn(() => true)
       const TestComponent = defineComponent({
-        template: '<div v-intersection="handler" />',
-        directives: { Intersection },
-        setup() {
-          return { handler }
-        }
+        render: () => withDirectives(h('div'), [[Intersection, handler]])
       })
 
       const wrapper = mount(TestComponent)
@@ -104,11 +97,10 @@ describe('[Intersection API]', () => {
       test('has effect', () => {
         const handler = vi.fn(() => true)
         const TestComponent = defineComponent({
-          template: '<div v-intersection.once="handler" />',
-          directives: { Intersection },
-          setup() {
-            return { handler }
-          }
+          render: () =>
+            withDirectives(h('div'), [
+              [Intersection, handler, void 0, { once: true }]
+            ])
         })
 
         const wrapper = mount(TestComponent)

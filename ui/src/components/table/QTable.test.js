@@ -424,28 +424,34 @@ describe('[QTable API]', () => {
     })
 
     describe('[(prop)virtual-scroll-sticky-size-start]', () => {
-      test('type Number has effect', async () => {
-        // scrollTo() offsets the scroll position with the sticky size;
-        // jsdom reports offsetTop 0 so the resulting scrollTop is negated
-        const wrapper = mountTable({ virtualScrollStickySizeStart: 40 })
+      // scrollTo() offsets the scroll position with the sticky size, so
+      // the sticky part does not cover the scrolled-to row; the table
+      // needs an explicit height for its middle section to really scroll
+      async function getScrollTop(virtualScrollStickySizeStart) {
+        const wrapper = mountTable(
+          { virtualScrollStickySizeStart },
+          { attrs: { style: 'height: 150px' } }
+        )
 
-        wrapper.vm.scrollTo(3)
+        wrapper.vm.scrollTo(2)
         await flushPromises()
 
-        expect(wrapper.get('.q-table__middle.scroll').element.scrollTop).toBe(
-          -40
-        )
+        return wrapper.get('.q-table__middle.scroll').element.scrollTop
+      }
+
+      test('type Number has effect', async () => {
+        const base = await getScrollTop(0)
+        const scroll = await getScrollTop(40)
+
+        expect(base).toBeGreaterThan(40)
+        expect(scroll).toBe(base - 40)
       })
 
       test('type String has effect', async () => {
-        const wrapper = mountTable({ virtualScrollStickySizeStart: '40' })
+        const base = await getScrollTop('0')
+        const scroll = await getScrollTop('40')
 
-        wrapper.vm.scrollTo(3)
-        await flushPromises()
-
-        expect(wrapper.get('.q-table__middle.scroll').element.scrollTop).toBe(
-          -40
-        )
+        expect(scroll).toBe(base - 40)
       })
     })
 
@@ -2529,16 +2535,19 @@ describe('[QTable API]', () => {
 
     describe('[(method)scrollTo]', () => {
       test('should be callable', async () => {
-        // a negative sticky size makes the (otherwise 0)
-        // jsdom scroll position land on a positive value
-        const wrapper = mountTable({ virtualScrollStickySizeStart: -100 })
+        // the table needs an explicit height for its middle section
+        // to really scroll
+        const wrapper = mountTable({}, { attrs: { style: 'height: 150px' } })
 
         expect(wrapper.vm.scrollTo(2)).toBeUndefined()
         await flushPromises()
 
-        expect(wrapper.get('.q-table__middle.scroll').element.scrollTop).toBe(
-          100
-        )
+        const middle = wrapper.get('.q-table__middle.scroll').element
+        const rowEl = middle.querySelector('tbody tr:nth-of-type(3)')
+
+        // it landed right at the top of the requested row
+        expect(rowEl.offsetTop).toBeGreaterThan(0)
+        expect(middle.scrollTop).toBe(rowEl.offsetTop)
         expect(wrapper.emitted('virtualScroll')[0][0].index).toBe(2)
       })
     })
@@ -2605,9 +2614,9 @@ describe('[QTable API]', () => {
   })
 
   describe('[Generic]', () => {
-    // The Quasar stylesheet is loaded into jsdom by testing/vitest.setup.js
-    // ("import 'quasar/src/css/index.sass'"), so the border widths below are
-    // the ones that QTable.sass actually produces.
+    // The full Quasar stylesheet is loaded by testing/vitest.setup.js
+    // ("import 'quasar/src/css/index.sass'"), so the computed border widths
+    // below are the ones that QTable.sass actually produces in the browser.
 
     const separatorList = ['horizontal', 'vertical', 'cell', 'none']
 
@@ -2673,9 +2682,9 @@ describe('[QTable API]', () => {
       document.body.append(el)
 
       return {
-        // data attributes instead of ids: jsdom resolves "#id" through
-        // document.getElementById, which picks the wrong node when a previous
-        // fixture is still attached
+        // data attributes instead of ids: fixtures reuse the same cell names,
+        // so several attached at once would duplicate the ids; the scoped
+        // querySelector keeps the lookup unambiguous either way
         border(name, side) {
           const target = el.querySelector(`[data-t="${name}"]`)
           expect(

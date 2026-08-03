@@ -1,6 +1,6 @@
 import { mount } from '@vue/test-utils'
 import { describe, expect, test } from 'vitest'
-import { computed, defineComponent } from 'vue'
+import { computed, defineComponent, h } from 'vue'
 
 import useHistory from './use-history.js'
 
@@ -10,7 +10,7 @@ describe('[useHistory API]', () => {
       test('can be used in a Vue Component', () => {
         const wrapper = mount(
           defineComponent({
-            template: '<div />',
+            render: () => h('div'),
             setup() {
               const showing = computed(() => false)
               const hide = () => {}
@@ -32,7 +32,7 @@ describe('[useHistory API]', () => {
       test('can add and remove', () => {
         const wrapper = mount(
           defineComponent({
-            template: '<div />',
+            render: () => h('div'),
             setup() {
               const showing = computed(() => false)
               const hide = () => {}
@@ -54,7 +54,7 @@ describe('[useHistory API]', () => {
       test('does not throw on unmount with showing=true', () => {
         const wrapper = mount(
           defineComponent({
-            template: '<div />',
+            render: () => h('div'),
             setup() {
               const showing = computed(() => true)
               const hide = () => {}
@@ -78,7 +78,7 @@ describe('[useHistory API]', () => {
 
         const wrapper = mount(
           defineComponent({
-            template: '<div />',
+            render: () => h('div'),
             setup () {
               const showing = computed(() => false)
               const hideOnRouteChange = computed(() => true)

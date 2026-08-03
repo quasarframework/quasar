@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, test, vi } from 'vitest'
 import { mount } from '@vue/test-utils'
-import { defineComponent } from 'vue'
+import { defineComponent, h } from 'vue'
 
 import useAnimationFrame from './use-animation-frame.js'
 
@@ -27,7 +27,7 @@ describe('[useAnimationFrame API]', () => {
 
         wrapper = mount(
           defineComponent({
-            template: '<div />',
+            render: () => h('div'),
             setup() {
               const { registerAnimationFrame } = useAnimationFrame()
 
@@ -47,7 +47,7 @@ describe('[useAnimationFrame API]', () => {
 
         wrapper = mount(
           defineComponent({
-            template: '<div />',
+            render: () => h('div'),
             setup() {
               const { registerAnimationFrame, removeAnimationFrame } =
                 useAnimationFrame()
@@ -70,7 +70,7 @@ describe('[useAnimationFrame API]', () => {
 
         wrapper = mount(
           defineComponent({
-            template: '<div />',
+            render: () => h('div'),
             setup() {
               const { registerAnimationFrame } = useAnimationFrame()
 
@@ -96,7 +96,7 @@ describe('[useAnimationFrame API]', () => {
 
         wrapper = mount(
           defineComponent({
-            template: '<div />',
+            render: () => h('div'),
             setup() {
               const { registerAnimationFrame } = useAnimationFrame()
               return { registerAnimationFrame }

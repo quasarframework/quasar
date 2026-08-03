@@ -155,7 +155,8 @@ describe('[usePageSticky API]', () => {
       test('does not translate when the layout has no offsets', () => {
         mountSticky()
 
-        expect(wrapper.element.style.transform).toBe('translate(0, 0)')
+        // the browser serializes the unitless "translate(0, 0)" with units
+        expect(wrapper.element.style.transform).toBe('translate(0px, 0px)')
       })
 
       test('translates away from the header and the left drawer', () => {
@@ -182,7 +183,7 @@ describe('[usePageSticky API]', () => {
           layout: createLayout({ footer: 50, right: 30 })
         })
 
-        expect(wrapper.element.style.transform).toBe('translate(0, 0)')
+        expect(wrapper.element.style.transform).toBe('translate(0px, 0px)')
       })
 
       test('applies the offset prop as a margin', () => {
