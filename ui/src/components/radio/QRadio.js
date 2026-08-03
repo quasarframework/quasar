@@ -171,9 +171,10 @@ export default createComponent({
             ]
           : [svg]
 
-      // the native input only carries the value for a form submission,
-      // so it is of no use without a name
-      if (props.name !== void 0 && !props.disable) {
+      // the native input carries the value for a form submission (when a name
+      // is supplied), but it is also what makes a wrapping <label> forward its
+      // clicks to us, so it must be rendered even without a name
+      if (!props.disable) {
         injectFormInput(
           content,
           'unshift',

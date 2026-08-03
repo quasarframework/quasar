@@ -379,11 +379,16 @@ describe('[useCheckbox API]', () => {
         expect(wrapper.get('input').attributes('value')).toBe('a')
       })
 
-      test('injects no form input when there is no name', () => {
+      test('injects the native input even when there is no name', () => {
         mountCheckbox()
 
-        // nothing to submit means nothing to inject
-        expect(wrapper.find('input').exists()).toBe(false)
+        // a wrapping <label> forwards its clicks through the native input,
+        // so it must be there even when there is nothing to submit
+        const input = wrapper.get('input')
+
+        expect(input.attributes('type')).toBe('checkbox')
+        expect(input.attributes('name')).toBeUndefined()
+        expect(input.classes()).toContain('q-checkbox__native')
       })
 
       test('injects no form input when disabled', () => {

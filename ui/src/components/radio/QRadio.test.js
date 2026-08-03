@@ -32,6 +32,17 @@ describe('[QRadio API]', () => {
         expect(input.attributes('value')).toBe('car')
         expect(input.element.checked).toBe(true)
       })
+
+      test('the native input is still rendered without a name', () => {
+        const wrapper = mountRadio()
+
+        // a wrapping <label> forwards its clicks through the native input,
+        // so it must be there even when there is nothing to submit
+        const input = wrapper.get('input[type="radio"]')
+
+        expect(input.attributes('name')).toBeUndefined()
+        expect(input.classes()).toContain('q-radio__native')
+      })
     })
 
     describe('[(prop)size]', () => {
