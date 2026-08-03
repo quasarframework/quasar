@@ -593,7 +593,15 @@ export default createComponent({
 
         for (let i = 1; i <= daysInMonth.value; i++) {
           const dayHash = viewMonthHash.value + '/' + pad(i)
-          map[i] = fn(dayHash) && evtColor.value(dayHash)
+
+          if (fn(dayHash)) {
+            // the color is optional (the CSS supplies a default one),
+            // so we store the resulting class instead of the color
+            const color = evtColor.value(dayHash)
+            map[i] = 'q-date__event' + (color ? ` bg-${color}` : '')
+          } else {
+            map[i] = false
+          }
         }
       }
 
@@ -1463,10 +1471,7 @@ export default createComponent({
                                   })
                                 },
                                 day.event
-                                  ? () =>
-                                      h('div', {
-                                        class: 'q-date__event bg-' + day.event
-                                      })
+                                  ? () => h('div', { class: day.event })
                                   : null
                               )
                             : h('div', String(day.i))
