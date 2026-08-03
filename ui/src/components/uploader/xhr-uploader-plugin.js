@@ -180,6 +180,7 @@ function injectPlugin({ props, emit, helpers }) {
       files.forEach(f => {
         helpers.updateFileStatus(f, 'failed')
       })
+      emit('failed', { files, xhr })
       workingThreads.value--
       return
     }
