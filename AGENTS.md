@@ -6,6 +6,9 @@ These instructions apply to the entire repository. A more deeply nested
 ## Repository workflow
 
 - This is a pnpm workspace.
+- Formatting is handled by `oxfmt` and linting by `oxlint`. Both are wired into
+  the root `lint` and `lint:check` scripts and into the `lint-staged` pre-commit
+  hook. Do not introduce Prettier, ESLint, or any other formatter or linter.
 - Run commands from the repository root unless package documentation explicitly
   requires another working directory.
 - Before changing a package, inspect its `package.json`, nearby tests, and
@@ -109,7 +112,13 @@ by `ui/testing/README.md`: build the UI, run `pnpm test:specs --dry-run`, run
 
 - Run the narrowest relevant test while developing and the package's complete
   relevant suite before handoff.
-- Run `pnpm lint:check` when the change can affect linted source.
+- Run `pnpm lint` when the change can affect linted source. It runs `oxfmt`,
+  which rewrites the files in place, then `oxlint --fix`, so formatting and
+  auto-fixable lint issues are corrected rather than merely reported. Review the
+  resulting diff and fix by hand whatever `oxlint` still reports.
+- Do not use `pnpm lint:check` (`oxfmt --check` plus `oxlint`) to find
+  formatting issues. It is a read-only CI gate; running `pnpm lint` fixes them
+  instead of listing them.
 - Run `git diff --check` before committing.
 - Do not weaken assertions, ignore generated cases, or change production
   behavior solely to make a failing test pass. Diagnose the contract first.
