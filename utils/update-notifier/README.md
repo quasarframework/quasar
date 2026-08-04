@@ -4,7 +4,7 @@
 
 > **Used internally by Quasar CLI(s).**
 
-<img src="https://img.shields.io/npm/v/%40quasar/update-notifier.svg?label=@quasar/update-notifier">
+<img alt="@quasar/update-notifier npm version" src="https://img.shields.io/npm/v/%40quasar/update-notifier.svg?label=@quasar/update-notifier">
 
 ## Chat Support
 

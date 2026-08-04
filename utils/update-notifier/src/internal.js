@@ -148,6 +148,14 @@ export async function checkForUpdate({ cacheFile, name, version }) {
   })
 }
 
+function startBackgroundCheck(cacheFile, name, version) {
+  spawn(
+    process.execPath,
+    [fileURLToPath(moduleUrl), backgroundCheckFlag, cacheFile, name, version],
+    { detached: true, stdio: 'ignore' }
+  ).unref()
+}
+
 export function notifyUpdate({ name, version }) {
   if (!name || !version || isDisabled()) return
 
@@ -157,14 +165,11 @@ export function notifyUpdate({ name, version }) {
 
   if (!cache) {
     writeCache(cacheFile, { checkedAt: now })
+    startBackgroundCheck(cacheFile, name, version)
     return
   }
 
   const latest = cache.latest
-  if (latest !== void 0) {
-    writeCache(cacheFile, { checkedAt: cache.checkedAt })
-  }
-
   if (
     process.stdout.isTTY &&
     process.env.npm_lifecycle_event === void 0 &&
@@ -176,15 +181,12 @@ export function notifyUpdate({ name, version }) {
       name
     })
     process.once('exit', () => console.error(`\n${message}\n`))
+    writeCache(cacheFile, { checkedAt: cache.checkedAt })
   }
 
   if (now - cache.checkedAt < checkInterval) return
 
-  spawn(
-    process.execPath,
-    [fileURLToPath(moduleUrl), backgroundCheckFlag, cacheFile, name, version],
-    { detached: true, stdio: 'ignore' }
-  ).unref()
+  startBackgroundCheck(cacheFile, name, version)
 }
 
 if (process.argv[2] === backgroundCheckFlag) {

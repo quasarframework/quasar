@@ -1,8 +1,11 @@
 import assert from 'node:assert/strict'
+import { execFile } from 'node:child_process'
 import { mkdir, mkdtemp, readFile, rm, writeFile } from 'node:fs/promises'
 import { createServer } from 'node:http'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
+import { pathToFileURL } from 'node:url'
+import { promisify } from 'node:util'
 import { test } from 'node:test'
 
 import {
@@ -11,6 +14,34 @@ import {
   notifyUpdate,
   renderNotification
 } from '../src/internal.js'
+
+const execFileAsync = promisify(execFile)
+const notifierEnvironmentKeys = [
+  'CI',
+  'NODE_ENV',
+  'NO_UPDATE_NOTIFIER',
+  'npm_lifecycle_event'
+]
+
+function enableNotifier(t) {
+  const previous = Object.fromEntries(
+    notifierEnvironmentKeys.map(key => [key, process.env[key]])
+  )
+
+  for (const key of notifierEnvironmentKeys) {
+    delete process.env[key]
+  }
+
+  t.after(() => {
+    for (const [key, value] of Object.entries(previous)) {
+      if (value === void 0) {
+        delete process.env[key]
+      } else {
+        process.env[key] = value
+      }
+    }
+  })
+}
 
 const versionComparisons = [
   ['2.0.0', '1.0.0', true],
@@ -102,7 +133,75 @@ test('checks the configured registry and caches an available update', async t =>
   assert.equal(JSON.parse(await readFile(cacheFile, 'utf8')).latest, '2.0.0')
 })
 
-test('consumes a cached update after one invocation', async t => {
+test('starts the first update check immediately', async t => {
+  const cacheRoot = await mkdtemp(join(tmpdir(), 'quasar-update-notifier-'))
+  const cacheFile = join(
+    cacheRoot,
+    'quasar',
+    'update-notifier',
+    '%40quasar%2Ftest.json'
+  )
+  const server = createServer((request, response) => {
+    response.setHeader('content-type', 'application/json')
+    response.end('{"latest":"2.0.0"}')
+  })
+
+  t.after(async () => {
+    await new Promise(resolve => {
+      server.close(resolve)
+    })
+    await rm(cacheRoot, { recursive: true })
+  })
+
+  await new Promise(resolve => {
+    server.listen(0, '127.0.0.1', resolve)
+  })
+
+  const environment = {
+    ...process.env,
+    XDG_CACHE_HOME: cacheRoot,
+    npm_config_registry: `http://127.0.0.1:${server.address().port}/`
+  }
+  delete environment.CI
+  delete environment.NODE_ENV
+  delete environment.NO_UPDATE_NOTIFIER
+  delete environment.npm_lifecycle_event
+
+  const notifierUrl = pathToFileURL(
+    join(import.meta.dirname, '../src/index.js')
+  ).href
+  await execFileAsync(
+    process.execPath,
+    [
+      '--input-type=module',
+      '--eval',
+      `import { notifyUpdate } from '${notifierUrl}'; notifyUpdate({ name: '@quasar/test', version: '1.0.0' })`
+    ],
+    { env: environment }
+  )
+
+  let cache
+  const timeout = Date.now() + 5000
+
+  while (Date.now() < timeout) {
+    try {
+      cache = JSON.parse(await readFile(cacheFile, 'utf8'))
+      if (cache.latest === '2.0.0') break
+    } catch {
+      // The detached check may not have written its result yet.
+    }
+
+    await new Promise(resolve => {
+      setTimeout(resolve, 25)
+    })
+  }
+
+  assert.equal(cache?.latest, '2.0.0')
+})
+
+test('preserves a cached update when notification output is suppressed', async t => {
+  enableNotifier(t)
+
   const cacheRoot = await mkdtemp(join(tmpdir(), 'quasar-update-notifier-'))
   const cacheDirectory = join(cacheRoot, 'quasar', 'update-notifier')
   const cacheFile = join(cacheDirectory, '%40quasar%2Ftest.json')
@@ -124,6 +223,50 @@ test('consumes a cached update after one invocation', async t => {
     JSON.stringify({ checkedAt: Date.now(), latest: '2.0.0' })
   )
   process.env.XDG_CACHE_HOME = cacheRoot
+
+  notifyUpdate({ name: '@quasar/test', version: '1.0.0' })
+
+  const cache = JSON.parse(await readFile(cacheFile, 'utf8'))
+  assert.equal(typeof cache.checkedAt, 'number')
+  assert.equal(cache.latest, '2.0.0')
+})
+
+test('consumes a cached update when its notification is scheduled', async t => {
+  enableNotifier(t)
+
+  const cacheRoot = await mkdtemp(join(tmpdir(), 'quasar-update-notifier-'))
+  const cacheDirectory = join(cacheRoot, 'quasar', 'update-notifier')
+  const cacheFile = join(cacheDirectory, '%40quasar%2Ftest.json')
+  const previousCacheHome = process.env.XDG_CACHE_HOME
+  const previousIsTTY = process.stdout.isTTY
+
+  t.after(async () => {
+    if (previousCacheHome === void 0) {
+      delete process.env.XDG_CACHE_HOME
+    } else {
+      process.env.XDG_CACHE_HOME = previousCacheHome
+    }
+
+    if (previousIsTTY === void 0) {
+      delete process.stdout.isTTY
+    } else {
+      process.stdout.isTTY = previousIsTTY
+    }
+
+    await rm(cacheRoot, { recursive: true })
+  })
+
+  await mkdir(cacheDirectory, { recursive: true })
+  await writeFile(
+    cacheFile,
+    JSON.stringify({ checkedAt: Date.now(), latest: '2.0.0' })
+  )
+  process.env.XDG_CACHE_HOME = cacheRoot
+  process.stdout.isTTY = true
+  t.mock.method(process, 'once', event => {
+    assert.equal(event, 'exit')
+    return process
+  })
 
   notifyUpdate({ name: '@quasar/test', version: '1.0.0' })
 
