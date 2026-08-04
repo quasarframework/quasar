@@ -90,7 +90,7 @@
     "open": "^11.0.0",
     "postcss": "^8.5.25",
     "postcss-rtlcss": "^6.0.0",
-    "rolldown": "^1.2.1",
+    "rolldown": "^1.2.2",
     "sass-embedded": "^1.100.0",
     "table": "^6.8.2",
     "tinyglobby": "^0.2.17",

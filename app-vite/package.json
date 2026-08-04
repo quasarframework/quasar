@@ -125,7 +125,7 @@
     "mlly": "^1.8.2",
     "open": "^11.0.0",
     "picomatch": "^4.0.5",
-    "rolldown": "^1.2.1",
+    "rolldown": "^1.2.2",
     "sass-embedded": "^1.100.0",
     "semver": "^7.8.5",
     "serialize-javascript": "^7.0.7",
