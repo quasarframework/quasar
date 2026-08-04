@@ -14,11 +14,13 @@ const resolve = _path => join(playgroundFolder, _path)
 /**
  * Exported so that the vitest-*.config.js variants can run the whole
  * suite through every transformation mode: AST/regex-fallback times
- * treeshaking/dev (see the test:runtime* scripts).
+ * treeshaking/dev, plus the default-variables setup (no custom
+ * variables file - see the test:runtime* scripts).
  */
 export const createConfig = ({
   astAutoImport = true,
-  devTreeshaking = true
+  devTreeshaking = true,
+  customVariables = true
 } = {}) =>
   defineConfig(() => ({
     plugins: [
@@ -28,7 +30,10 @@ export const createConfig = ({
 
       quasar({
         devTreeshaking,
-        sassVariables: resolve('src/quasar-variables.sass'),
+        sassVariables:
+          customVariables === true
+            ? resolve('src/quasar-variables.sass')
+            : true,
         autoImportComponentCase: 'combined',
         astAutoImport
       })
@@ -58,13 +63,20 @@ export const createConfig = ({
         include: [/.+/]
       },
       include: ['./testing/runtime/tests/*.test.{js,ts}'],
-      // without dev treeshaking, "quasar" imports intentionally stay on
-      // the aliased dev bundle instead of being mapped to per-file
-      // paths, so the mapping-specific specs do not apply
-      exclude:
-        devTreeshaking === true
+      exclude: [
+        // without dev treeshaking, "quasar" imports intentionally stay
+        // on the aliased dev bundle instead of being mapped to per-file
+        // paths, so the mapping-specific specs do not apply
+        ...(devTreeshaking === true
           ? []
-          : ['**/tests/js-transform.test.js', '**/tests/ts-transform.test.ts'],
+          : ['**/tests/js-transform.test.js', '**/tests/ts-transform.test.ts']),
+        // these two suites assert opposing variable values: custom
+        // overrides vs the framework defaults (served through the
+        // prebuilt css alias)
+        customVariables === true
+          ? '**/tests/default-variables.test.js'
+          : '**/tests/sass-transform.test.js'
+      ],
       setupFiles: ['./testing/runtime/vitest.setup.js']
     }
   }))
