@@ -87,6 +87,23 @@ describe('scss transform', () => {
     expect(result.code).toContain(`@import ${quasarImport}\n`)
   })
 
+  test('the documented @use extend pattern gets full injection', () => {
+    // https://quasar.dev - sass variables page "extend" example
+    const transform = makeTransform('scss', true)
+    const content =
+      "@use 'quasar/src/css/variables' as q;\n" +
+      "@use 'sass:map';\n" +
+      '$new-spaces: map.set(q.$spaces, xxl, 64px);\n'
+    const result = transform(content, 'test.scss')
+
+    // targeted injection cannot apply (content loads a file), and the
+    // full injection lands after the @use statements
+    expect(result.code).toContain(`@import ${quasarImport};`)
+    expect(
+      result.code.indexOf('@import') > result.code.lastIndexOf('@use ')
+    ).toBe(true)
+  })
+
   test('targeted injection imports a closure file, zero scss line shift', () => {
     const transform = makeTransform('scss', true)
     const content = '.foo { padding: $flex-gutter-sm; }\n'
