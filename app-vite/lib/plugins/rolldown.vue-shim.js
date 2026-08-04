@@ -6,12 +6,15 @@ export function quasarRolldownVueShimPlugin() {
   return {
     name: 'quasar:vue-shim',
 
-    load(id) {
-      if (!id.endsWith('.vue')) return null
+    load: {
+      // native (Rust-side) filtering
+      filter: { id: /\.vue$/ },
 
-      return {
-        code: '',
-        map: { mappings: '' }
+      handler() {
+        return {
+          code: '',
+          map: { mappings: '' }
+        }
       }
     }
   }

@@ -16,41 +16,49 @@ export const quasarRolldownInjectReplacementsDefine = {
 }
 
 const fileRE = /\.[cm]?[jt]s$/
+const tokenRE = /__dirname|__filename|import\.meta\.(?:url|dirname|filename)/
 
 export function quasarRolldownInjectReplacementsPlugin() {
   return {
     name: 'quasar:inject-replacements',
 
-    transform(code, id) {
-      if (!fileRE.test(id)) return null
+    transform: {
+      // native (Rust-side) filtering; modules without any of the
+      // tokens never cross into the JS handler
+      filter: {
+        id: fileRE,
+        code: tokenRE
+      },
 
-      let prefix = ''
-      let idPath
-      let dirPath
+      handler(code, id) {
+        let prefix = ''
+        let idPath
+        let dirPath
 
-      if (code.includes('__dirname')) {
-        dirPath = JSON.stringify(path.dirname(id))
-        prefix += `const ${dirnameReplacement} = ${dirPath};\n`
-      }
+        if (code.includes('__dirname')) {
+          dirPath = JSON.stringify(path.dirname(id))
+          prefix += `const ${dirnameReplacement} = ${dirPath};\n`
+        }
 
-      if (code.includes('__filename')) {
-        idPath = JSON.stringify(id)
-        prefix += `const ${filenameReplacement} = ${idPath};\n`
-      }
+        if (code.includes('__filename')) {
+          idPath = JSON.stringify(id)
+          prefix += `const ${filenameReplacement} = ${idPath};\n`
+        }
 
-      if (code.includes('import.meta.url')) {
-        prefix += `const ${importMetaUrlReplacement} = ${JSON.stringify(pathToFileURL(id).href)};\n`
-      }
-      if (code.includes('import.meta.dirname')) {
-        dirPath ??= JSON.stringify(path.dirname(id))
-        prefix += `const ${importMetaDirnameReplacement} = ${dirPath};\n`
-      }
-      if (code.includes('import.meta.filename')) {
-        idPath ??= JSON.stringify(id)
-        prefix += `const ${importMetaFilenameReplacement} = ${idPath};\n`
-      }
+        if (code.includes('import.meta.url')) {
+          prefix += `const ${importMetaUrlReplacement} = ${JSON.stringify(pathToFileURL(id).href)};\n`
+        }
+        if (code.includes('import.meta.dirname')) {
+          dirPath ??= JSON.stringify(path.dirname(id))
+          prefix += `const ${importMetaDirnameReplacement} = ${dirPath};\n`
+        }
+        if (code.includes('import.meta.filename')) {
+          idPath ??= JSON.stringify(id)
+          prefix += `const ${importMetaFilenameReplacement} = ${idPath};\n`
+        }
 
-      return prefix ? { code: prefix + code } : null
+        return prefix ? { code: prefix + code } : null
+      }
     }
   }
 }

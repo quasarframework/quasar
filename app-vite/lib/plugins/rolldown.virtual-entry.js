@@ -19,15 +19,29 @@ export function quasarRolldownVirtualEntry({
       ? `import './${importPath}'`
       : `${beforeImportCode}\n\nawait import('./${importPath}')`
 
+  // native (Rust-side) filtering: only the virtual entry itself
+  // reaches the JS handlers
+  const inputFileRE = new RegExp(
+    `^${inputFile.replaceAll(/[.*+?^${}()|[\]\\]/g, String.raw`\$&`)}$`
+  )
+
   return {
     name: 'quasar:virtual-entry',
 
-    resolveId(source) {
-      return source === inputFile ? inputFile : null
+    resolveId: {
+      filter: { id: inputFileRE },
+
+      handler(source) {
+        return source === inputFile ? inputFile : null
+      }
     },
 
-    load(id) {
-      return id === inputFile ? code : null
+    load: {
+      filter: { id: inputFileRE },
+
+      handler(id) {
+        return id === inputFile ? code : null
+      }
     }
   }
 }
