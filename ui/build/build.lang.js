@@ -110,13 +110,15 @@ function validateLanguageShape(file, lang, expectedPaths) {
 export async function generate() {
   const languages = []
   try {
-    const { default: enUS } = await import(resolveToRoot('lang/en-US.js'))
+    // relative import specifiers keep this working on Windows too
+    // (an absolute path is not a valid ESM specifier there)
+    const { default: enUS } = await import('../lang/en-US.js')
     const expectedPaths = flatten(enUS)
 
-    const fileList = globSync('lang/*.js', { cwd: rootFolder, absolute: true })
+    const fileList = globSync('lang/*.js', { cwd: rootFolder })
 
     for (const file of fileList) {
-      const lang = await import(file).then(module => module.default)
+      const lang = await import(`../${file}`).then(module => module.default)
 
       validateLanguageShape(basename(file), lang, expectedPaths)
       languages.push({

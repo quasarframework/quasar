@@ -268,8 +268,10 @@ function generateSvgFile(type) {
 
 export async function generate() {
   try {
+    // relative import specifiers keep this working on Windows too
+    // (an absolute path is not a valid ESM specifier there)
     const expectedPaths = flatten(
-      await import(resolveToRoot('icon-set/material-icons.js')).then(
+      await import('../icon-set/material-icons.js').then(
         module => module.default
       )
     )
@@ -278,16 +280,14 @@ export async function generate() {
       const filename = `${type.name}.js`
 
       // also validates import statements from q/extras are valid
-      const { default: iconSet } = await import(
-        resolveToRoot(`icon-set/${filename}`)
-      )
+      const { default: iconSet } = await import(`../icon-set/${filename}`)
 
       validateIconSetShape(filename, iconSet, expectedPaths)
 
       await generateSvgFile(type)
 
       // validates import statements from q/extras are valid
-      await import(resolveToRoot(`icon-set/svg-${filename}`))
+      await import(`../icon-set/svg-${filename}`)
     }
   } catch (err) {
     logError('build.icon-sets.js: something went wrong...')
