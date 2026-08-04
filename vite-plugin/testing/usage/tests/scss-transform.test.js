@@ -1,5 +1,16 @@
 import { describe, expect, test } from 'vitest'
-import { mkdtempSync, readFileSync, utimesSync, writeFileSync } from 'node:fs'
+import {
+  mkdirSync,
+  mkdtempSync,
+  readFileSync,
+  readdirSync,
+  realpathSync,
+  rmSync,
+  statSync,
+  symlinkSync,
+  utimesSync,
+  writeFileSync
+} from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 
@@ -128,12 +139,73 @@ describe('scss transform', () => {
     const first = closureFileOf(transform(content, 'test.scss').code)
     expect(first).toContain('#111111')
 
-    // a fresh mtime is required for the stat-based change detection
+    // same byte length AND identical mtime: only content-hash based
+    // change detection can catch this
+    const { mtime, atime } = statSync(varsFile)
     writeFileSync(varsFile, '$primary: #222222\n')
-    const now = Date.now() / 1000 + 10
-    utimesSync(varsFile, now, now)
+    utimesSync(varsFile, atime, mtime)
 
     const second = closureFileOf(transform(content, 'test.scss').code)
     expect(second).toContain('#222222')
+  })
+
+  test('watches the real path of a symlinked variables file', () => {
+    const target = join(tmpDir, 'real-vars.sass')
+    const link = join(tmpDir, 'linked-vars.sass')
+    writeFileSync(target, '$primary: #333333\n')
+    symlinkSync(target, link)
+
+    const transform = makeTransform('scss', link)
+    const watched = []
+    transform('.foo { color: $primary; }\n', 'test.scss', {
+      addWatchFile: file => watched.push(file)
+    })
+
+    expect(watched).toContain(link)
+    expect(watched).toContain(realpathSync(target))
+  })
+
+  test('recovers after the cache dir is wiped mid-session', () => {
+    const manager = createVariablesManager(true)
+    const cacheRoot = mkdtempSync(join(tmpdir(), 'quasar-cache-root-'))
+    mkdirSync(join(cacheRoot, 'node_modules'), { recursive: true })
+    manager.setCacheRoot(cacheRoot)
+
+    const transform = createScssTransform('scss', true, manager)
+    const content = '.foo { color: $primary; }\n'
+
+    const first = transform(content, 'test.scss')
+    expect(closureFileOf(first.code)).toContain('$primary:')
+
+    // simulate a node_modules reinstall wiping the cache dir
+    rmSync(join(cacheRoot, 'node_modules'), { recursive: true, force: true })
+    mkdirSync(join(cacheRoot, 'node_modules'), { recursive: true })
+
+    const second = transform(content, 'test.scss')
+    // first attempt after the wipe falls back to full injection...
+    expect(second.code).toContain(`@import ${quasarImport};`)
+    // ...and the one after recovers the targeted fast path
+    const third = transform(content, 'test.scss')
+    expect(closureFileOf(third.code)).toContain('$primary:')
+  })
+
+  test('leaves no temporary files behind', () => {
+    const manager = createVariablesManager(true)
+    const cacheRoot = mkdtempSync(join(tmpdir(), 'quasar-cache-root-'))
+    mkdirSync(join(cacheRoot, 'node_modules'), { recursive: true })
+    manager.setCacheRoot(cacheRoot)
+
+    const transform = createScssTransform('scss', true, manager)
+    transform('.foo { padding: $space-base; }\n', 'test.scss')
+
+    const cacheDir = join(
+      cacheRoot,
+      'node_modules',
+      '.cache',
+      'quasar-vite-plugin'
+    )
+    const files = readdirSync(cacheDir)
+    expect(files.length).toBeGreaterThan(0)
+    expect(files.some(f => f.endsWith('.tmp'))).toBe(false)
   })
 })

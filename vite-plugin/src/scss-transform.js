@@ -3,7 +3,8 @@ import {
   existsSync,
   mkdirSync,
   readFileSync,
-  statSync,
+  realpathSync,
+  renameSync,
   writeFileSync
 } from 'node:fs'
 import { join } from 'node:path'
@@ -47,24 +48,26 @@ export function areVariablesDefinitionsOnly(sassVariables) {
 
 /**
  * Holds the variables graph and keeps it fresh: a custom variables file
- * can be edited during dev, so its stat signature is re-checked on every
- * transform (a sub-microsecond operation) and the graph is rebuilt when
- * it changes. Also emits the content-addressed "closure files" that the
- * targeted injection imports.
+ * can be edited during dev, so its content hash is re-checked on every
+ * transform (~10us; immune to filesystems with coarse mtime resolution)
+ * and the graph is rebuilt when it changes. Also emits the
+ * content-addressed "closure files" that the targeted injection imports.
  */
 export function createVariablesManager(sassVariables) {
   const isCustomFile = typeof sassVariables === 'string'
 
   let cacheDir = join(tmpdir(), 'quasar-vite-plugin')
   let cacheDirReady = false
-  let statKey = null
+  let contentKey = null
   let canSkipInjection = false
   let graph = null
+  let watchFileList = []
 
-  function getStatKey() {
+  function getContentKey() {
     try {
-      const stat = statSync(sassVariables)
-      return stat.mtimeMs + ':' + stat.size
+      return createHash('sha1')
+        .update(readFileSync(sassVariables))
+        .digest('hex')
     } catch {
       return 'missing'
     }
@@ -74,6 +77,20 @@ export function createVariablesManager(sassVariables) {
     canSkipInjection = areVariablesDefinitionsOnly(sassVariables)
     graph =
       canSkipInjection === true ? buildVariablesGraph(sassVariables) : null
+
+    if (isCustomFile === true) {
+      // editors modify a symlink's target, so the real path must be
+      // watched as well or edits would not invalidate the style modules
+      watchFileList = [sassVariables]
+      try {
+        const realPath = realpathSync(sassVariables)
+        if (realPath !== sassVariables) {
+          watchFileList.push(realPath)
+        }
+      } catch {
+        // keep watching the configured path only
+      }
+    }
   }
 
   return {
@@ -84,9 +101,9 @@ export function createVariablesManager(sassVariables) {
     },
 
     refresh() {
-      const key = isCustomFile === true ? getStatKey() : 'static'
-      if (key !== statKey) {
-        statKey = key
+      const key = isCustomFile === true ? getContentKey() : 'static'
+      if (key !== contentKey) {
+        contentKey = key
         rebuild()
       }
     },
@@ -96,6 +113,9 @@ export function createVariablesManager(sassVariables) {
     },
     get graph() {
       return graph
+    },
+    get watchFileList() {
+      return watchFileList
     },
 
     /**
@@ -124,9 +144,17 @@ export function createVariablesManager(sassVariables) {
           cacheDirReady = true
         }
         if (existsSync(file) === false) {
-          writeFileSync(file, content)
+          // atomic write: a killed process or a concurrent build must
+          // never leave a partial file behind under the final name
+          // (its content-addressed name would be trusted forever)
+          const tempFile = `${file}.${process.pid}.tmp`
+          writeFileSync(tempFile, content)
+          renameSync(tempFile, file)
         }
       } catch {
+        // re-attempt the mkdir next time; the cache dir may have been
+        // wiped mid-session (e.g. a node_modules reinstall)
+        cacheDirReady = false
         return null
       }
 
@@ -214,10 +242,12 @@ export function createScssTransform(fileExtension, sassVariables, manager) {
   return (content, id, ctx) => {
     manager.refresh()
 
-    // during dev, edits to the custom variables file must invalidate
-    // every style module so that they pick up the fresh values
-    if (typeof sassVariables === 'string' && ctx?.addWatchFile !== void 0) {
-      ctx.addWatchFile(sassVariables)
+    // during dev and build --watch, edits to the custom variables file
+    // must invalidate every style module to pick up the fresh values
+    if (ctx?.addWatchFile !== void 0) {
+      for (const file of manager.watchFileList) {
+        ctx.addWatchFile(file)
+      }
     }
 
     const loadsFiles = contentLoadsFilesRegex.test(content)
