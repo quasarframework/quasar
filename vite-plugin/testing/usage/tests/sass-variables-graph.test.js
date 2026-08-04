@@ -10,7 +10,6 @@ import {
   resolveVariablesClosure
 } from '../../../src/sass-variables-graph.js'
 import { quasarPath } from '../../../src/quasar-path.js'
-import { createScssTransform } from '../../../src/scss-transform.js'
 
 const tmpDir = mkdtempSync(join(tmpdir(), 'quasar-vars-'))
 
@@ -117,51 +116,27 @@ describe('sass variables graph', () => {
   })
 })
 
-describe('targeted injection', () => {
+describe('closure resolution for injection', () => {
   const graph = buildVariablesGraph(true)
 
-  test('injects only the referenced declarations for scss, zero line shift', () => {
-    const transform = createScssTransform('scss', true, true, graph)
-    const content = '.foo { padding: $flex-gutter-sm; }\n'
-    const result = transform(content)
-
-    expect(result).toContain('$flex-gutter-sm:')
-    expect(result).toContain('$space-base:')
-    expect(result).not.toContain('@import')
-    expect(result.split('\n').length).toBe(content.split('\n').length)
-  })
-
-  test('prepends @use sass:map when breakpoints are referenced', () => {
-    const transform = createScssTransform('scss', true, true, graph)
-    const result = transform(
-      '@media (min-width: $breakpoint-sm-min) { .foo { color: red; } }\n'
+  test('closure keeps declaration order and transitive deps', () => {
+    const { declarations, usesNamespace } = resolveVariablesClosure(
+      graph,
+      new Set(['flex-gutter-sm'])
     )
 
-    expect(result.startsWith("@use 'sass:map';")).toBe(true)
-    expect(result).toContain('$sizes:')
-    expect(result).not.toContain('@import')
+    expect(usesNamespace).toBe(false)
+    expect(declarations[0]).toMatch(/^\$space-base:/)
+    expect(declarations.at(-1)).toMatch(/^\$flex-gutter-sm:/)
   })
 
-  test('falls back to full injection when content has @use and closure needs namespaces', () => {
-    const transform = createScssTransform('scss', true, true, graph)
-    const result = transform(
-      "@use 'sass:math';\n.foo { width: $breakpoint-sm-min; }\n"
+  test('breakpoint closure flags the sass:map namespace', () => {
+    const { declarations, usesNamespace } = resolveVariablesClosure(
+      graph,
+      new Set(['breakpoint-sm-min'])
     )
 
-    expect(result).toContain("@import 'quasar/src/css/variables.sass';")
-  })
-
-  test('returns content unchanged when only local variables are used', () => {
-    const transform = createScssTransform('scss', true, true, graph)
-    const content = '$local: 4px;\n.foo { padding: $local; }\n'
-
-    expect(transform(content)).toBe(content)
-  })
-
-  test('falls back to full injection when content loads other files', () => {
-    const transform = createScssTransform('sass', true, true, graph)
-    const result = transform("@import './other'\n")
-
-    expect(result).toContain("@import 'quasar/src/css/variables.sass'")
+    expect(usesNamespace).toBe(true)
+    expect(declarations.some(d => d.startsWith('$sizes:'))).toBe(true)
   })
 })

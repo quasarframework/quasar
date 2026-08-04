@@ -1,6 +1,16 @@
-import { readFileSync } from 'node:fs'
+import { createHash } from 'node:crypto'
+import {
+  existsSync,
+  mkdirSync,
+  readFileSync,
+  statSync,
+  writeFileSync
+} from 'node:fs'
+import { join } from 'node:path'
+import { tmpdir } from 'node:os'
 
 import {
+  buildVariablesGraph,
   loadPrecomputedQuasarVariables,
   resolveVariablesClosure
 } from './sass-variables-graph.js'
@@ -14,14 +24,6 @@ import {
 const nonVariableDefRegex =
   /@(?:mixin|function|import|forward)\b|@use\s+(?!['"]sass:)|%[a-zA-Z_]/
 
-/**
- * When all injected files contain nothing but variable definitions,
- * a style content without any "$" character cannot possibly reference
- * them, so the injection (and its compilation cost — the variables are
- * re-evaluated for every single style block) can be safely skipped.
- * If a file cannot be read (e.g. the custom variables file path relies
- * on a Vite alias), stay safe and always inject.
- */
 export function areVariablesDefinitionsOnly(sassVariables) {
   // the precomputed parse shipped by the Quasar UI build (guaranteed by
   // the peer dependency floor) is the proof that its own variables file
@@ -44,6 +46,96 @@ export function areVariablesDefinitionsOnly(sassVariables) {
 }
 
 /**
+ * Holds the variables graph and keeps it fresh: a custom variables file
+ * can be edited during dev, so its stat signature is re-checked on every
+ * transform (a sub-microsecond operation) and the graph is rebuilt when
+ * it changes. Also emits the content-addressed "closure files" that the
+ * targeted injection imports.
+ */
+export function createVariablesManager(sassVariables) {
+  const isCustomFile = typeof sassVariables === 'string'
+
+  let cacheDir = join(tmpdir(), 'quasar-vite-plugin')
+  let cacheDirReady = false
+  let statKey = null
+  let canSkipInjection = false
+  let graph = null
+
+  function getStatKey() {
+    try {
+      const stat = statSync(sassVariables)
+      return stat.mtimeMs + ':' + stat.size
+    } catch {
+      return 'missing'
+    }
+  }
+
+  function rebuild() {
+    canSkipInjection = areVariablesDefinitionsOnly(sassVariables)
+    graph =
+      canSkipInjection === true ? buildVariablesGraph(sassVariables) : null
+  }
+
+  return {
+    // the app's node_modules/.cache is preferred over the tmpdir default
+    setCacheRoot(rootDir) {
+      cacheDir = join(rootDir, 'node_modules', '.cache', 'quasar-vite-plugin')
+      cacheDirReady = false
+    },
+
+    refresh() {
+      const key = isCustomFile === true ? getStatKey() : 'static'
+      if (key !== statKey) {
+        statKey = key
+        rebuild()
+      }
+    },
+
+    get canSkipInjection() {
+      return canSkipInjection
+    },
+    get graph() {
+      return graph
+    },
+
+    /**
+     * Writes the closure declarations into a content-addressed scss file
+     * (a separate sass module, so its "@use sass:*" statements cannot
+     * collide with the target content's own) and returns its import path.
+     * Returns null when the file cannot be written, in which case full
+     * injection is used instead.
+     */
+    getClosureImportPath({ declarations, usesNamespace }) {
+      const statements =
+        usesNamespace === true
+          ? [
+              ...graph.namespaces.map(ns => `@use 'sass:${ns}'`),
+              ...declarations
+            ]
+          : declarations
+      const content = statements.map(entry => entry + ';').join('\n') + '\n'
+
+      const hash = createHash('sha1').update(content).digest('hex').slice(0, 16)
+      const file = join(cacheDir, `vars-${hash}.scss`)
+
+      try {
+        if (cacheDirReady === false) {
+          mkdirSync(cacheDir, { recursive: true })
+          cacheDirReady = true
+        }
+        if (existsSync(file) === false) {
+          writeFileSync(file, content)
+        }
+      } catch {
+        return null
+      }
+
+      return file.replaceAll('\\', '/')
+    }
+  }
+}
+
+/**
  * Content loading other stylesheets (except built-in "sass:*" modules)
  * can propagate the injected variables into them through @import
  * semantics, so the injection cannot be skipped for it.
@@ -51,12 +143,36 @@ export function areVariablesDefinitionsOnly(sassVariables) {
 const contentLoadsFilesRegex = /@(?:import|use|forward)\s+(?!['"]sass:)/
 const varRefRegex = /\$([\w-]+)/g
 
-export function createScssTransform(
-  fileExtension,
-  sassVariables,
-  canSkipInjection = false,
-  variablesGraph = null
-) {
+/**
+ * A source map that only shifts lines: identity mappings around
+ * `insertCount` unmapped lines at `insertLine`.
+ */
+function lineShiftMap(id, source, insertLine, insertCount) {
+  const parts = []
+  let mappedAny = false
+
+  const identity = () => {
+    const segment = mappedAny === false ? 'AAAA' : 'AACA'
+    mappedAny = true
+    return segment
+  }
+
+  for (let i = 0; i < insertLine; i++) parts.push(identity())
+  for (let i = 0; i < insertCount; i++) parts.push('')
+
+  const remaining = source.split('\n').length - insertLine
+  for (let i = 0; i < remaining; i++) parts.push(identity())
+
+  return {
+    version: 3,
+    sources: [id],
+    sourcesContent: [source],
+    names: [],
+    mappings: parts.join(';')
+  }
+}
+
+export function createScssTransform(fileExtension, sassVariables, manager) {
   const importList = ["'quasar/src/css/variables.sass'"]
 
   if (typeof sassVariables === 'string') {
@@ -72,12 +188,6 @@ export function createScssTransform(
     ? `@import ${importList.join(', ')}\n`
     : `@import ${importList.join(', ')};`
 
-  /**
-   * Injecting only the declarations the content actually references
-   * (plus their transitive dependencies) instead of the full variables
-   * files spares sass from re-evaluating hundreds of declarations for
-   * every single style block.
-   */
   const getTargetedPrefix = content => {
     const refNames = new Set()
     for (const match of content.matchAll(varRefRegex)) {
@@ -87,49 +197,47 @@ export function createScssTransform(
     // content defines/uses only its own variables
     if (refNames.size === 0) return ''
 
-    const { declarations, usesNamespace } = resolveVariablesClosure(
-      variablesGraph,
-      refNames
-    )
+    const closure = resolveVariablesClosure(manager.graph, refNames)
+    if (closure.declarations.length === 0) return ''
 
-    if (declarations.length === 0) return ''
+    const importPath = manager.getClosureImportPath(closure)
+    if (importPath === null) return null
 
-    const statements = [...declarations]
-    if (usesNamespace === true) {
-      // the "@use sass:*" lines must come first; if the content has any
-      // "@use" of its own, give up on targeting (a duplicate "@use" of
-      // the same module would be a sass error) - full injection keeps
-      // the namespaces inside the imported file instead
-      if (content.includes('@use') === true) return null
-      statements.unshift(
-        ...variablesGraph.namespaces.map(ns => `@use 'sass:${ns}'`)
-      )
-    }
-
-    return isIndented
-      ? statements.join('\n') + '\n'
-      : statements.join(';') + ';'
+    return isIndented ? `@import '${importPath}'\n` : `@import '${importPath}';`
   }
 
-  return content => {
+  /**
+   * Returns null when no injection is needed, or { code, map }.
+   * The map only records the (constant) line shift of the injection:
+   * zero lines for scss, one line for sass.
+   */
+  return (content, id, ctx) => {
+    manager.refresh()
+
+    // during dev, edits to the custom variables file must invalidate
+    // every style module so that they pick up the fresh values
+    if (typeof sassVariables === 'string' && ctx?.addWatchFile !== void 0) {
+      ctx.addWatchFile(sassVariables)
+    }
+
     const loadsFiles = contentLoadsFilesRegex.test(content)
 
     if (
-      canSkipInjection === true &&
+      manager.canSkipInjection === true &&
       loadsFiles === false &&
       content.includes('$') === false
     ) {
-      return content
+      return null
     }
 
     let prefix = fullPrefix
 
     // content loading other files can propagate the injected variables
     // into them, so only self-contained content can get a targeted subset
-    if (variablesGraph !== null && loadsFiles === false) {
+    if (manager.graph !== null && loadsFiles === false) {
       const targetedPrefix = getTargetedPrefix(content)
 
-      if (targetedPrefix === '') return content
+      if (targetedPrefix === '') return null
       if (targetedPrefix !== null) prefix = targetedPrefix
     }
 
@@ -138,17 +246,32 @@ export function createScssTransform(
       content.lastIndexOf('@forward ')
     )
 
-    if (useIndex === -1) {
-      return prefix + content
+    let insertAt = 0
+
+    if (useIndex !== -1) {
+      const newLineIndex = content.indexOf('\n', useIndex)
+      insertAt = newLineIndex !== -1 ? newLineIndex + 1 : content.length + 1
     }
 
-    const newLineIndex = content.indexOf('\n', useIndex)
+    const insertedLines = isIndented ? 1 : 0
 
-    if (newLineIndex !== -1) {
-      const index = newLineIndex + 1
-      return content.slice(0, index) + prefix + content.slice(index)
+    if (insertAt > content.length) {
+      // single-line content ending in @use/@forward without a newline
+      return {
+        code: content + '\n' + prefix,
+        map: null
+      }
     }
 
-    return content + '\n' + prefix
+    const insertLine =
+      insertAt === 0 ? 0 : content.slice(0, insertAt).split('\n').length - 1
+
+    return {
+      code: content.slice(0, insertAt) + prefix + content.slice(insertAt),
+      map:
+        insertedLines === 0
+          ? null
+          : lineShiftMap(id, content, insertLine, insertedLines)
+    }
   }
 }

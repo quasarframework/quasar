@@ -4,10 +4,9 @@ import { getViteConfig } from './vite-config.js'
 import { vueTransform } from './vue-transform.js'
 import { createQuasarNodeTransform } from './vue-ast-transform.js'
 import {
-  areVariablesDefinitionsOnly,
-  createScssTransform
+  createScssTransform,
+  createVariablesManager
 } from './scss-transform.js'
-import { buildVariablesGraph } from './sass-variables-graph.js'
 import { createExtMatcher, parseViteRequest } from './query.js'
 import {
   hasResidualQuasarImports,
@@ -70,36 +69,19 @@ function getScssTransformsPlugin(opts) {
       ? normalizePath(opts.sassVariables)
       : opts.sassVariables
 
-  const canSkipInjection = areVariablesDefinitionsOnly(sassVariables)
-
-  // targeted injection requires confidently parsed, declarations-only files
-  const variablesGraph =
-    canSkipInjection === true ? buildVariablesGraph(sassVariables) : null
-
-  const scssTransform = createScssTransform(
-    'scss',
-    sassVariables,
-    canSkipInjection,
-    variablesGraph
-  )
-  const sassTransform = createScssTransform(
-    'sass',
-    sassVariables,
-    canSkipInjection,
-    variablesGraph
-  )
+  const manager = createVariablesManager(sassVariables)
+  const scssTransform = createScssTransform('scss', sassVariables, manager)
+  const sassTransform = createScssTransform('sass', sassVariables, manager)
 
   function transformHandler(src, id) {
     const is = parseViteRequest(id)
 
     if (is.style(scssMatcher)) {
-      const code = scssTransform(src)
-      return code === src ? null : { code, map: null }
+      return scssTransform(src, id, this)
     }
 
     if (is.style(sassMatcher)) {
-      const code = sassTransform(src)
-      return code === src ? null : { code, map: null }
+      return sassTransform(src, id, this)
     }
 
     return null
@@ -109,6 +91,10 @@ function getScssTransformsPlugin(opts) {
     name: 'vite:quasar:scss',
 
     enforce: 'pre',
+
+    configResolved(resolvedConfig) {
+      manager.setCacheRoot(resolvedConfig.root)
+    },
 
     transform: {
       filter: {
