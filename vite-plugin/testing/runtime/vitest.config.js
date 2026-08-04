@@ -11,46 +11,52 @@ const playgroundFolder = normalize(
 )
 const resolve = _path => join(playgroundFolder, _path)
 
-export default defineConfig(() => ({
-  plugins: [
-    vue({
-      template: { transformAssetUrls }
-    }),
+/**
+ * Exported so that vitest-fallback.config.js can run the whole suite
+ * through the regex-based fallback transformation as well
+ * (see the test:runtime:fallback script).
+ */
+export const createConfig = astAutoImport =>
+  defineConfig(() => ({
+    plugins: [
+      vue({
+        template: { transformAssetUrls }
+      }),
 
-    quasar({
-      devTreeshaking: true,
-      sassVariables: resolve('src/quasar-variables.sass'),
-      autoImportComponentCase: 'combined',
-      // allows exercising the regex-based fallback transformation
-      // through the whole runtime suite (see test:runtime:fallback)
-      astAutoImport: process.env.QUASAR_VITE_PLUGIN_AST !== 'false'
-    })
-  ],
+      quasar({
+        devTreeshaking: true,
+        sassVariables: resolve('src/quasar-variables.sass'),
+        autoImportComponentCase: 'combined',
+        astAutoImport
+      })
+    ],
 
-  resolve: {
-    alias: {
-      // mount()/shallowMount() attach to the document by default
-      // (needed for computed styles and layout in a real browser)
-      '@vue/test-utils': join(import.meta.dirname, 'test-utils.js'),
-      '@': resolve('src')
+    resolve: {
+      alias: {
+        // mount()/shallowMount() attach to the document by default
+        // (needed for computed styles and layout in a real browser)
+        '@vue/test-utils': join(import.meta.dirname, 'test-utils.js'),
+        '@': resolve('src')
+      }
+    },
+
+    test: {
+      globals: true,
+      browser: {
+        provider: playwright(),
+        enabled: true,
+        headless: true,
+        screenshotFailures: false,
+        viewport: { width: 1280, height: 800 },
+        // at least one instance is required
+        instances: [{ browser: 'chromium' }]
+      },
+      css: {
+        include: [/.+/]
+      },
+      include: ['./testing/runtime/tests/*.test.{js,ts}'],
+      setupFiles: ['./testing/runtime/vitest.setup.js']
     }
-  },
+  }))
 
-  test: {
-    globals: true,
-    browser: {
-      provider: playwright(),
-      enabled: true,
-      headless: true,
-      screenshotFailures: false,
-      viewport: { width: 1280, height: 800 },
-      // at least one instance is required
-      instances: [{ browser: 'chromium' }]
-    },
-    css: {
-      include: [/.+/]
-    },
-    include: ['./testing/runtime/tests/*.test.{js,ts}'],
-    setupFiles: ['./testing/runtime/vitest.setup.js']
-  }
-}))
+export default createConfig(true)

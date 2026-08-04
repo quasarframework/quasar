@@ -47,7 +47,7 @@
     "test:watch": "vitest run --watch --config ./testing/runtime/vitest.config.js",
     "test:usage": "vitest run --config ./testing/usage/vitest.config.js",
     "test:runtime": "vitest run --config ./testing/runtime/vitest.config.js",
-    "test:runtime:fallback": "QUASAR_VITE_PLUGIN_AST=false vitest run --config ./testing/runtime/vitest.config.js",
+    "test:runtime:fallback": "vitest run --config ./testing/runtime/vitest-fallback.config.js",
     "pretest:watch": "playwright install chromium",
     "pretest:runtime": "playwright install chromium",
     "pretest:runtime:fallback": "playwright install chromium"
