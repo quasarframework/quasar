@@ -51,16 +51,6 @@ jobs:
           name: ui-build
           path: ui/dist
 
-      - name: Build vite-plugin package
-        working-directory: vite-plugin
-        run: pnpm build
-
-      - name: Upload vite-plugin build artifact
-        uses: actions/upload-artifact@v7
-        with:
-          name: vite-plugin-build
-          path: vite-plugin/dist
-
   tests:
     # If the build pipeline doesn't succeed, we don't need to run tests at all
     needs: build
@@ -103,12 +93,6 @@ jobs:
         with:
           name: ui-build
           path: ui/dist
-
-      - name: Download vite-plugin build artifact
-        uses: actions/download-artifact@v8
-        with:
-          name: vite-plugin-build
-          path: vite-plugin/dist
 
       - name: Run tests
         run: pnpm test
