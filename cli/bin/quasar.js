@@ -11,9 +11,9 @@ if (
 import '../lib/node-version-check.js'
 
 import { cliPkg } from '../lib/cli-pkg.js'
-import updateNotifier from 'update-notifier'
+import { notifyUpdate } from '../lib/update-notifier.js'
 
-updateNotifier({ pkg: cliPkg }).notify()
+notifyUpdate(cliPkg)
 
 let cmd = process.argv[2]
 

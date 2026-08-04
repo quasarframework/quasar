@@ -61,8 +61,7 @@
     "sharp": "^0.35.3",
     "svgo": "^4.0.1",
     "tinyglobby": "^0.2.10",
-    "untildify": "^6.0.0",
-    "update-notifier": "^7.0.0"
+    "untildify": "^6.0.0"
   },
   "engines": {
     "node": ">= 22.22.0"
