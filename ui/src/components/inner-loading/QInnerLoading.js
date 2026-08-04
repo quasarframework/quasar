@@ -10,7 +10,7 @@ import useTransition, {
   useTransitionProps
 } from '../../composables/private.use-transition/use-transition.js'
 
-export default createComponent({
+export default /*#__PURE__*/ createComponent({
   name: 'QInnerLoading',
 
   props: {

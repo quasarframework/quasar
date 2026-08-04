@@ -6,7 +6,7 @@ import { createComponent } from '../../utils/private.create/create.js'
 const innerHTML =
   '<circle cx="50" cy="50" r="44" fill="none" stroke-width="4" stroke-opacity=".5" stroke="currentColor"></circle><circle cx="8" cy="54" r="6" fill="currentColor" stroke-width="3" stroke="currentColor"><animateTransform attributeName="transform" type="rotate" from="0 50 48" to="360 50 52" dur="2s" repeatCount="indefinite"></animateTransform></circle>'
 
-export default createComponent({
+export default /*#__PURE__*/ createComponent({
   name: 'QSpinnerOrbit',
 
   props: useSpinnerProps,

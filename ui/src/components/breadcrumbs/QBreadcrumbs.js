@@ -10,7 +10,7 @@ import { getNormalizedVNodes } from '../../utils/private.vm/vm.js'
 
 const disabledValues = ['', true]
 
-export default createComponent({
+export default /*#__PURE__*/ createComponent({
   name: 'QBreadcrumbs',
 
   props: {

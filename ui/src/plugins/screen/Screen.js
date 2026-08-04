@@ -7,7 +7,7 @@ import debounce from '../../utils/debounce/debounce.js'
 const SIZE_LIST = ['sm', 'md', 'lg', 'xl']
 const { passive } = listenOpts
 
-export default createReactivePlugin(
+export default /*#__PURE__*/ createReactivePlugin(
   {
     width: 0,
     height: 0,

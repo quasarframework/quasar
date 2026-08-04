@@ -16,7 +16,7 @@ import useDark, {
   useDarkProps
 } from '../../../composables/private.use-dark/use-dark.js'
 
-export default createComponent({
+export default /*#__PURE__*/ createComponent({
   name: 'BottomSheetComponent',
 
   props: {

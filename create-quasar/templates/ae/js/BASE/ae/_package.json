@@ -22,7 +22,7 @@
     "vue": "catalog:"
   },
   "peerDependencies": {
-    "@quasar/app-vite": "^3.3.1"
+    "@quasar/app-vite": "^3.4.0"
   },
   "keywords": [
     "quasar",

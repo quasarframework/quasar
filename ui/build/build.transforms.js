@@ -2,7 +2,13 @@
 // and by @quasar/app-* auto-import feature
 
 import path from 'node:path'
+import { readFileSync } from 'node:fs'
 import { globSync } from 'tinyglobby'
+
+// single source of truth for the sass variables parsing logic;
+// the plugin uses the same parser at runtime as a fallback for
+// custom variables files and older Quasar versions
+import { parseVariablesFile } from '../../vite-plugin/src/sass-variables-graph.js'
 
 import {
   filterOutPrivateFiles,
@@ -135,4 +141,28 @@ export function generate({ compact = false } = {}) {
     resolveToRoot('dist/transforms/auto-import.json'),
     getAutoImportFile(autoImport, encodeFn)
   )
+
+  writeFile(
+    resolveToRoot('dist/transforms/sass-variables.json'),
+    getSassVariablesFile(encodeFn)
+  )
+}
+
+function getSassVariablesFile(encodeFn) {
+  const parsed = parseVariablesFile(
+    readFileSync(resolveToRoot('src/css/variables.sass'), 'utf8')
+  )
+
+  if (parsed === null) {
+    throw new Error(
+      'src/css/variables.sass must contain only variable declarations' +
+        ' and "@use sass:*" statements (required by the targeted sass' +
+        ' variables injection of @quasar/vite-plugin)'
+    )
+  }
+
+  return encodeFn({
+    uses: parsed.uses,
+    declarations: parsed.decls
+  })
 }

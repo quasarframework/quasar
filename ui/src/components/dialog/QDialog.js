@@ -53,7 +53,7 @@ const defaultTransitions = {
   left: ['slide-right', 'slide-left']
 }
 
-export default createComponent({
+export default /*#__PURE__*/ createComponent({
   name: 'QDialog',
 
   inheritAttrs: false,

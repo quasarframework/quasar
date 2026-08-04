@@ -37,7 +37,7 @@ function removeBodyChildrenNoPointerEvents() {
   document.body.classList.remove('no-pointer-events--children')
 }
 
-export default createDirective(
+export default /*#__PURE__*/ createDirective(
   __QUASAR_SSR_SERVER__
     ? { name: 'touch-swipe', getSSRProps }
     : {

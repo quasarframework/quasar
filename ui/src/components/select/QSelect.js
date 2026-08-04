@@ -63,7 +63,7 @@ function getPropValueFn(userPropName, defaultPropName) {
       : opt
 }
 
-export default createComponent({
+export default /*#__PURE__*/ createComponent({
   name: 'QSelect',
 
   inheritAttrs: false,

@@ -10,7 +10,7 @@ import { listenOpts } from '../../utils/event/event.js'
 const { passive } = listenOpts
 const mediaEvents = ['load', 'loadstart', 'loadedmetadata']
 
-export default createComponent({
+export default /*#__PURE__*/ createComponent({
   name: 'QParallax',
 
   props: {

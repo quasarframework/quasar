@@ -5,7 +5,7 @@ import { usePanelChildProps } from '../../composables/private.use-panel/use-pane
 
 import { hSlot } from '../../utils/private.render/render.js'
 
-export default createComponent({
+export default /*#__PURE__*/ createComponent({
   name: 'QCarouselSlide',
 
   props: {

@@ -20,7 +20,10 @@ export default defineConfig(() => ({
     quasar({
       devTreeshaking: true,
       sassVariables: resolve('src/quasar-variables.sass'),
-      autoImportComponentCase: 'combined'
+      autoImportComponentCase: 'combined',
+      // allows exercising the regex-based fallback transformation
+      // through the whole runtime suite (see test:runtime:fallback)
+      astAutoImport: process.env.QUASAR_VITE_PLUGIN_AST !== 'false'
     })
   ],
 

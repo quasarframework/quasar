@@ -31,7 +31,7 @@ const comps = {
 
 const typeOptions = ['list', 'table', '__qtable']
 
-export default createComponent({
+export default /*#__PURE__*/ createComponent({
   name: 'QVirtualScroll',
 
   props: {

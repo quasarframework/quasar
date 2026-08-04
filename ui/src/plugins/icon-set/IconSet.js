@@ -3,7 +3,7 @@ import { injectProp } from '../../utils/private.inject-obj-prop/inject-obj-prop.
 
 import materialIcons from '../../../icon-set/material-icons.js'
 
-const Plugin = createReactivePlugin(
+const Plugin = /*#__PURE__*/ createReactivePlugin(
   {
     iconMapFn: null,
     __qIconSet: {}

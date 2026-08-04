@@ -28,7 +28,7 @@ function onKeydown(e) {
   if (e.keyCode === 13) prevent(e)
 }
 
-export default createComponent({
+export default /*#__PURE__*/ createComponent({
   name: 'QFile',
 
   inheritAttrs: false,

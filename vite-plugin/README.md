@@ -13,6 +13,16 @@
 <a href="https://forum.quasar.dev" target="_blank"><img src="https://img.shields.io/badge/community-forum-brightgreen.svg"></a>
 [![https://good-labs.github.io/greater-good-affirmation/assets/images/badge.svg](https://good-labs.github.io/greater-good-affirmation/assets/images/badge.svg)](https://good-labs.github.io/greater-good-affirmation)
 
+## Requirements (v2)
+
+- Vite 8+
+- `@vitejs/plugin-vue` 6+
+- Quasar v2.24+
+- Node 20.19+
+- ESM-only package
+
+For older setups, use `@quasar/vite-plugin` v1.x.
+
 ## Installation
 
 https://quasar.dev/start/vite-plugin

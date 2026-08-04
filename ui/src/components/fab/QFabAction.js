@@ -18,7 +18,7 @@ const anchorMap = {
 
 const anchorValues = Object.keys(anchorMap)
 
-export default createComponent({
+export default /*#__PURE__*/ createComponent({
   name: 'QFabAction',
 
   props: {

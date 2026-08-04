@@ -107,7 +107,7 @@ function restoreAjax(start) {
   }
 }
 
-export default createComponent({
+export default /*#__PURE__*/ createComponent({
   name: 'QAjaxBar',
 
   props: {

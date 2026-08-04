@@ -27,7 +27,7 @@ export const defaultSizes = {
   xl: 24
 }
 
-export default createComponent({
+export default /*#__PURE__*/ createComponent({
   name: 'QChip',
 
   props: {

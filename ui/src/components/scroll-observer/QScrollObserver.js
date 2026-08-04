@@ -12,7 +12,7 @@ import { listenOpts, noop } from '../../utils/event/event.js'
 const { passive } = listenOpts
 const axisValues = ['both', 'horizontal', 'vertical']
 
-export default createComponent({
+export default /*#__PURE__*/ createComponent({
   name: 'QScrollObserver',
 
   props: {

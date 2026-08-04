@@ -1,4 +1,4 @@
-import { describe, expect, test, vi } from 'vitest'
+import { describe, expect, test } from 'vitest'
 import { quasar } from '../../../src/index'
 
 describe('quasar plugin', () => {
@@ -12,7 +12,7 @@ describe('quasar plugin', () => {
   })
 
   describe('vite:quasar:vite-conf', () => {
-    test('should throw an error if test is not added after Vite Vue plugin', () => {
+    test('should throw an error if not added after Vite Vue plugin', () => {
       const [viteConfPlugin] = quasar()
 
       const configResolved = viteConfPlugin.configResolved
@@ -22,22 +22,12 @@ describe('quasar plugin', () => {
         )
       }
 
-      const consoleError = vi
-        .spyOn(console, 'error')
-        .mockImplementationOnce(() => {})
-      const processExit = vi
-        .spyOn(process, 'exit')
-        .mockImplementationOnce(() => {})
-
-      configResolved.call(viteConfPlugin, { plugins: [] })
-
-      expect(consoleError).toHaveBeenCalledOnce()
-      expect(processExit).toHaveBeenCalledWith(1)
-
-      vi.restoreAllMocks()
+      expect(() =>
+        configResolved.call(viteConfPlugin, { plugins: [] })
+      ).toThrow('after ** the Vue one')
     })
 
-    test('should not throw an error if test is added after Vite Vue plugin', () => {
+    test('should not throw an error if added after Vite Vue plugin', () => {
       const [viteConfPlugin] = quasar()
 
       const configResolved = viteConfPlugin.configResolved
@@ -47,19 +37,97 @@ describe('quasar plugin', () => {
         )
       }
 
-      const consoleError = vi
-        .spyOn(console, 'error')
-        .mockImplementationOnce(() => {})
-      const processExit = vi
-        .spyOn(process, 'exit')
-        .mockImplementationOnce(() => {})
+      expect(() =>
+        configResolved.call(viteConfPlugin, { plugins: [{ name: 'vite:vue' }] })
+      ).not.toThrow()
+    })
+  })
 
-      configResolved.call(viteConfPlugin, { plugins: [{ name: 'vite:vue' }] })
+  describe('framework css alias', () => {
+    const cssAlias = 'quasar/dist/quasar.css'
 
-      expect(consoleError).not.toHaveBeenCalled()
-      expect(processExit).not.toHaveBeenCalled()
+    const getAliasList = (
+      pluginOpts = {},
+      userCfg = {},
+      mode = 'production'
+    ) => {
+      const [viteConfPlugin] = quasar(pluginOpts)
+      return viteConfPlugin.config(userCfg, { mode }).resolve?.alias ?? []
+    }
 
-      vi.restoreAllMocks()
+    const hasCssAlias = list =>
+      list.some(entry => entry.replacement === cssAlias)
+
+    test('aliases index.sass to the prebuilt css without a custom variables file', () => {
+      expect(hasCssAlias(getAliasList({}))).toBe(true)
+      expect(hasCssAlias(getAliasList({ sassVariables: false }))).toBe(true)
+      // in dev mode too, alongside the dev bundle alias
+      expect(hasCssAlias(getAliasList({}, {}, 'development'))).toBe(true)
+    })
+
+    test('keeps compiling from source with a custom variables file', () => {
+      expect(hasCssAlias(getAliasList({ sassVariables: 'src/my.sass' }))).toBe(
+        false
+      )
+    })
+
+    test('keeps compiling from source when the user injects additionalData', () => {
+      for (const lang of ['sass', 'scss']) {
+        const userCfg = {
+          css: { preprocessorOptions: { [lang]: { additionalData: '$x: 1' } } }
+        }
+        expect(hasCssAlias(getAliasList({}, userCfg))).toBe(false)
+      }
+    })
+
+    test('keeps compiling from source when the user aliases the quasar package', () => {
+      // object form (e.g. the quasar monorepo's own ui test suite)
+      expect(
+        hasCssAlias(
+          getAliasList({}, { resolve: { alias: { quasar: '/repo/ui' } } })
+        )
+      ).toBe(false)
+
+      // array form with a string find
+      expect(
+        hasCssAlias(
+          getAliasList(
+            {},
+            {
+              resolve: { alias: [{ find: 'quasar', replacement: '/repo/ui' }] }
+            }
+          )
+        )
+      ).toBe(false)
+
+      // array form with a regex find
+      expect(
+        hasCssAlias(
+          getAliasList(
+            {},
+            {
+              resolve: {
+                alias: [{ find: /^quasar\//, replacement: '/repo/ui/' }]
+              }
+            }
+          )
+        )
+      ).toBe(false)
+
+      // unrelated aliases do not disable it
+      expect(
+        hasCssAlias(
+          getAliasList({}, { resolve: { alias: { '@': '/app/src' } } })
+        )
+      ).toBe(true)
+    })
+
+    test('the alias matches only the exact framework css specifier', () => {
+      const entry = getAliasList({}).find(e => e.replacement === cssAlias)
+
+      expect(entry.find.test('quasar/src/css/index.sass')).toBe(true)
+      expect(entry.find.test('quasar/src/css/flex-addon.sass')).toBe(false)
+      expect(entry.find.test('quasar/src/css/index.sass.bak')).toBe(false)
     })
   })
 
@@ -110,9 +178,12 @@ describe('quasar plugin', () => {
       )
       scriptPlugin.configResolved({ mode: 'test' })
 
+      // the transform hook is object-form (with filters)
+      const transform = scriptPlugin.transform.handler
+
       const code = "import {QBtn} from 'quasar'"
-      const scriptTransformed = scriptPlugin.transform(code, 'test.js')
-      const templateTransformed = scriptPlugin.transform(code, 'test.vue')
+      const scriptTransformed = transform(code, 'test.js')
+      const templateTransformed = transform(code, 'test.vue')
 
       expect(templateTransformed).toMatchObject({
         code: "import {QBtn} from 'quasar';"

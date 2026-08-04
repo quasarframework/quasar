@@ -9,7 +9,7 @@ import {
   timelineKey
 } from '../../utils/private.symbols/symbols.js'
 
-export default createComponent({
+export default /*#__PURE__*/ createComponent({
   name: 'QTimelineEntry',
 
   props: {

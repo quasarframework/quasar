@@ -1,6 +1,6 @@
 {
   "name": "@quasar/vite-plugin",
-  "version": "1.12.0",
+  "version": "2.0.0",
   "description": "Vite plugin for Quasar Framework",
   "keywords": [
     "quasar",
@@ -26,7 +26,6 @@
     "url": "https://donate.quasar.dev"
   },
   "files": [
-    "dist",
     "src",
     "index.d.ts"
   ],
@@ -35,8 +34,7 @@
   "exports": {
     ".": {
       "types": "./index.d.ts",
-      "import": "./src/index.js",
-      "require": "./dist/index.cjs"
+      "import": "./src/index.js"
     },
     "./*": "./*"
   },
@@ -45,32 +43,29 @@
   },
   "scripts": {
     "dev": "cd ./playground && pnpm dev",
-    "build": "node ./build/clean.js && rolldown --config ./build/rolldown.config.js",
-    "test": "pnpm test:usage && pnpm test:runtime",
+    "test": "pnpm test:usage && pnpm test:runtime && pnpm test:runtime:fallback",
     "test:watch": "vitest run --watch --config ./testing/runtime/vitest.config.js",
     "test:usage": "vitest run --config ./testing/usage/vitest.config.js",
     "test:runtime": "vitest run --config ./testing/runtime/vitest.config.js",
-    "prepublishOnly": "pnpm run build"
+    "test:runtime:fallback": "QUASAR_VITE_PLUGIN_AST=false vitest run --config ./testing/runtime/vitest.config.js"
   },
   "devDependencies": {
     "@vitest/browser-playwright": "^4.1.10",
     "@vue/test-utils": "^2.4.10",
-    "fs-extra": "^11.4.0",
     "playwright": "^1.57.0",
     "pug": "^3.0.4",
     "quasar": "workspace:*",
-    "rolldown": "^1.2.1",
     "vite": "^8.2.0",
     "vitest": "^4.1.10",
     "vue": "^3.5.40"
   },
   "peerDependencies": {
-    "@vitejs/plugin-vue": "^2.0.0 || ^3.0.0 || ^4.0.0 || ^5.0.0 || ^6.0.5",
-    "quasar": "^2.16.0",
-    "vite": "^2.0.0 || ^3.0.0 || ^4.0.0 || ^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0",
+    "@vitejs/plugin-vue": "^6.0.5",
+    "quasar": "^2.24.0",
+    "vite": "^8.0.0",
     "vue": "^3.0.0"
   },
   "engines": {
-    "node": ">=20"
+    "node": "^20.19.0 || >=22.12.0"
   }
 }

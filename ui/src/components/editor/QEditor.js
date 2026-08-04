@@ -29,7 +29,7 @@ import extend from '../../utils/extend/extend.js'
 import { shouldIgnoreKey } from '../../utils/private.keyboard/key-composition.js'
 import { addFocusFn } from '../../utils/private.focus/focus-manager.js'
 
-export default createComponent({
+export default /*#__PURE__*/ createComponent({
   name: 'QEditor',
 
   props: {

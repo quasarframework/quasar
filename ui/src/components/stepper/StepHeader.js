@@ -10,7 +10,7 @@ function preventSpace(e) {
   if (e.keyCode === 32) stopAndPrevent(e)
 }
 
-export default createComponent({
+export default /*#__PURE__*/ createComponent({
   name: 'StepHeader',
 
   props: {

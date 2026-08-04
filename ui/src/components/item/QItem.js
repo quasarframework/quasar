@@ -12,7 +12,7 @@ import { hUniqueSlot } from '../../utils/private.render/render.js'
 import { stopAndPrevent } from '../../utils/event/event.js'
 import { isKeyCode } from '../../utils/private.keyboard/key-composition.js'
 
-export default createComponent({
+export default /*#__PURE__*/ createComponent({
   name: 'QItem',
 
   props: {

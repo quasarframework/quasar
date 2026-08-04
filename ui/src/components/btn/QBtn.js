@@ -36,7 +36,7 @@ function onLoadingEvt(evt) {
   evt.qSkipRipple = true
 }
 
-export default createComponent({
+export default /*#__PURE__*/ createComponent({
   name: 'QBtn',
 
   props: {

@@ -9,7 +9,7 @@ import useSize, {
 import { createComponent } from '../../utils/private.create/create.js'
 import { hMergeSlotSafely } from '../../utils/private.render/render.js'
 
-export default createComponent({
+export default /*#__PURE__*/ createComponent({
   name: 'QAvatar',
 
   props: {

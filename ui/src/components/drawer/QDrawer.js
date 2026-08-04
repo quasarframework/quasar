@@ -40,7 +40,7 @@ function updateLocal(prop, val) {
   }
 }
 
-export default createComponent({
+export default /*#__PURE__*/ createComponent({
   name: 'QDrawer',
 
   inheritAttrs: false,

@@ -32,14 +32,14 @@ import { stopAndPrevent } from '../../utils/event/event.js'
 import { hSlot } from '../../utils/private.render/render.js'
 import uid from '../../utils/uid/uid.js'
 
-const itemGroups = shallowReactive({})
+const itemGroups = /*#__PURE__*/ shallowReactive({})
 
 function preventSpace(e) {
   if (e.keyCode === 32) stopAndPrevent(e)
 }
 const LINK_PROPS = Object.keys(useRouterLinkProps)
 
-export default createComponent({
+export default /*#__PURE__*/ createComponent({
   name: 'QExpansionItem',
 
   props: {

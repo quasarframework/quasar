@@ -49,7 +49,7 @@ function registerProps(opts) {
   return newProps
 }
 
-const Plugin = createReactivePlugin(
+const Plugin = /*#__PURE__*/ createReactivePlugin(
   {
     isActive: false
   },

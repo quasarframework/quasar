@@ -16,7 +16,7 @@ import { stopAndPrevent } from '../../utils/event/event.js'
 import { between } from '../../utils/format/format.js'
 import { hMergeSlot } from '../../utils/private.render/render.js'
 
-export default createComponent({
+export default /*#__PURE__*/ createComponent({
   name: 'QRating',
 
   props: {

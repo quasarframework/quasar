@@ -1,6 +1,6 @@
 import { createReactivePlugin } from '../../utils/private.create/create.js'
 
-const Plugin = createReactivePlugin(
+const Plugin = /*#__PURE__*/ createReactivePlugin(
   {
     isActive: false,
     mode: false

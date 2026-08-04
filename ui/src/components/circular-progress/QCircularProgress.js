@@ -12,7 +12,7 @@ const radius = 50,
   circumference = diameter * Math.PI,
   strokeDashArray = Math.round(circumference * 1000) / 1000
 
-export default createComponent({
+export default /*#__PURE__*/ createComponent({
   name: 'QCircularProgress',
 
   props: {

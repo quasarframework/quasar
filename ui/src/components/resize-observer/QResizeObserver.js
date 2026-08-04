@@ -20,7 +20,7 @@ const resizeProps = hasObserver
       url: 'about:blank'
     }
 
-export default createComponent({
+export default /*#__PURE__*/ createComponent({
   name: 'QResizeObserver',
 
   props: {

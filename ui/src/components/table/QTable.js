@@ -61,7 +61,7 @@ function getCellValue(col, row) {
   return col.format !== void 0 ? col.format(val, row) : val
 }
 
-export default createComponent({
+export default /*#__PURE__*/ createComponent({
   name: 'QTable',
 
   props: {

@@ -54,7 +54,7 @@ import {
   validatePosition
 } from '../../utils/private.position-engine/position-engine.js'
 
-export default createComponent({
+export default /*#__PURE__*/ createComponent({
   name: 'QMenu',
 
   inheritAttrs: false,

@@ -25,7 +25,7 @@ function getLocale() {
   }
 }
 
-const Plugin = createReactivePlugin(
+const Plugin = /*#__PURE__*/ createReactivePlugin(
   {
     __qLang: {}
   },

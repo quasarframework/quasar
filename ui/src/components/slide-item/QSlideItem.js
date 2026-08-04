@@ -25,7 +25,7 @@ const slotsDef = [
   ['bottom', 'end', 'center', 'height']
 ]
 
-export default createComponent({
+export default /*#__PURE__*/ createComponent({
   name: 'QSlideItem',
 
   props: {

@@ -1,7 +1,7 @@
 import { createComponent } from '../../utils/private.create/create.js'
 import usePageSticky, { usePageStickyProps } from './use-page-sticky.js'
 
-export default createComponent({
+export default /*#__PURE__*/ createComponent({
   name: 'QPageSticky',
 
   props: usePageStickyProps,

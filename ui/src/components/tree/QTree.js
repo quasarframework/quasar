@@ -43,7 +43,7 @@ function getNodeMedia(node) {
   }
 }
 
-export default createComponent({
+export default /*#__PURE__*/ createComponent({
   name: 'QTree',
 
   props: {

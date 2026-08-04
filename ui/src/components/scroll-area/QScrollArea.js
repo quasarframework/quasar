@@ -56,7 +56,7 @@ function isValidAxis(axis, methodName) {
   return false
 }
 
-export default createComponent({
+export default /*#__PURE__*/ createComponent({
   name: 'QScrollArea',
 
   props: {

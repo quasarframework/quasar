@@ -13,7 +13,7 @@ const NAMED_MASKS = {
 }
 
 const { tokenMap: DEFAULT_TOKEN_MAP, tokenKeys: DEFAULT_TOKEN_MAP_KEYS } =
-  getTokenMap({
+  /*#__PURE__*/ getTokenMap({
     '#': { pattern: '[\\d]', negate: '[^\\d]' },
 
     S: { pattern: '[a-zA-Z]', negate: '[^a-zA-Z]' },
@@ -68,7 +68,9 @@ function getTokenRegexMask(keys) {
 }
 
 const escRegex = /[.*+?^${}()|[\]\\]/g
-const DEFAULT_TOKEN_REGEX_MASK = getTokenRegexMask(DEFAULT_TOKEN_MAP_KEYS)
+const DEFAULT_TOKEN_REGEX_MASK = /*#__PURE__*/ getTokenRegexMask(
+  DEFAULT_TOKEN_MAP_KEYS
+)
 const MARKER = String.fromCodePoint(1)
 
 export const useMaskProps = {

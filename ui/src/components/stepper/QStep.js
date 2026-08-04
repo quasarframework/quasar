@@ -37,7 +37,7 @@ const PanelWrapper = {
   }
 }
 
-export default createComponent({
+export default /*#__PURE__*/ createComponent({
   name: 'QStep',
 
   props: {

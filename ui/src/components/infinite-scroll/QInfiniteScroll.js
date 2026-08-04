@@ -26,7 +26,7 @@ import { hSlot, hUniqueSlot } from '../../utils/private.render/render.js'
 
 const { passive } = listenOpts
 
-export default createComponent({
+export default /*#__PURE__*/ createComponent({
   name: 'QInfiniteScroll',
 
   props: {

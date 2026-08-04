@@ -81,7 +81,7 @@ function getValidValues(start, count, testFn) {
   }
 }
 
-export default createComponent({
+export default /*#__PURE__*/ createComponent({
   name: 'QTime',
 
   props: {

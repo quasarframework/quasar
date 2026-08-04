@@ -46,7 +46,7 @@ import {
 
 let nonSelectableCount = 0
 
-export default createComponent({
+export default /*#__PURE__*/ createComponent({
   name: 'QTooltip',
 
   inheritAttrs: false,

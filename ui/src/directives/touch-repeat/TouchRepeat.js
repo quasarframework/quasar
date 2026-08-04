@@ -35,7 +35,7 @@ function removeBodyNonSelectable() {
   document.body.classList.remove('non-selectable')
 }
 
-export default createDirective(
+export default /*#__PURE__*/ createDirective(
   __QUASAR_SSR_SERVER__
     ? { name: 'touch-repeat', getSSRProps }
     : {

@@ -24,7 +24,7 @@ function width(val) {
   }
 }
 
-export default createComponent({
+export default /*#__PURE__*/ createComponent({
   name: 'QLinearProgress',
 
   props: {

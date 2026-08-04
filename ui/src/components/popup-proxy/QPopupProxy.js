@@ -10,7 +10,7 @@ import useAnchor, {
 import { createComponent } from '../../utils/private.create/create.js'
 import { injectProp } from '../../utils/private.inject-obj-prop/inject-obj-prop.js'
 
-export default createComponent({
+export default /*#__PURE__*/ createComponent({
   name: 'QPopupProxy',
 
   props: {

@@ -31,7 +31,7 @@ import {
 } from '../../utils/private.focus/focus-manager.js'
 import { injectProp } from '../../utils/private.inject-obj-prop/inject-obj-prop.js'
 
-export default createComponent({
+export default /*#__PURE__*/ createComponent({
   name: 'QInput',
 
   inheritAttrs: false,

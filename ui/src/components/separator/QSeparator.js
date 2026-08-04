@@ -20,7 +20,7 @@ export const margins = {
   xl: 24
 }
 
-export default createComponent({
+export default /*#__PURE__*/ createComponent({
   name: 'QSeparator',
 
   props: {

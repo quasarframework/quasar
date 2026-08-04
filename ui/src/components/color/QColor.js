@@ -147,7 +147,7 @@ const rgbRE = /^rgb\([0-9]{1,3},[0-9]{1,3},[0-9]{1,3}\)$/
 const rgbaRE =
   /^rgba\([0-9]{1,3},[0-9]{1,3},[0-9]{1,3},(0|0\.[0-9]+[1-9]|0\.[1-9]+|1)\)$/
 
-export default createComponent({
+export default /*#__PURE__*/ createComponent({
   name: 'QColor',
 
   props: {

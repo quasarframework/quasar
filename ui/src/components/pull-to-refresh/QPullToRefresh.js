@@ -25,7 +25,7 @@ import { hDir, hSlot } from '../../utils/private.render/render.js'
 const PULLER_HEIGHT = 40,
   OFFSET_TOP = 20
 
-export default createComponent({
+export default /*#__PURE__*/ createComponent({
   name: 'QPullToRefresh',
 
   props: {

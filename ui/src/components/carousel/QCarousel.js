@@ -28,7 +28,7 @@ import { hDir, hMergeSlot } from '../../utils/private.render/render.js'
 const navigationPositionOptions = ['top', 'right', 'bottom', 'left']
 const controlTypeOptions = ['regular', 'flat', 'outline', 'push', 'unelevated']
 
-export default createComponent({
+export default /*#__PURE__*/ createComponent({
   name: 'QCarousel',
 
   props: {

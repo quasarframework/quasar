@@ -6,6 +6,14 @@ desc: How to embed Quasar into a Vite app.
 If you want to embed Quasar into your existing [Vite](https://vitejs.dev) project then follow this guide to install and use the `@quasar/vite-plugin`.
 What our Vite plugin offers out of the box is tree-shaking for Quasar and also Quasar Sass variables integration.
 
+::: tip Requirements for @quasar/vite-plugin v2
+
+- Vite 8+, `@vitejs/plugin-vue` 6+, Quasar v2.24+ and Node 20.19+.
+- The package is ESM-only.
+- If you are on older versions of the above, use `@quasar/vite-plugin` v1.x instead.
+
+:::
+
 ::: warning Warning! Limitation ahead:
 
 - Are you sure that you've landed correctly? This page will teach you to use our Vite plugin, but it's not the same as our full-fledged [Quasar CLI with Vite](/start/quasar-cli#installation-project-scaffolding) under the hood.
@@ -46,17 +54,17 @@ Navigate to your Vite project folder and install the necessary packages.
 
 ```tabs
 <<| bash PNPM |>>
-pnpm add quasar @quasar/extras
-pnpm add -D @quasar/vite-plugin sass-embedded@^1.93.2
+pnpm add quasar@latest @quasar/extras@latest
+pnpm add -D @quasar/vite-plugin@latest sass-embedded@^1.93.2
 <<| bash Yarn |>>
-yarn add quasar @quasar/extras
-yarn add -D @quasar/vite-plugin sass-embedded@^1.93.2
+yarn add quasar@latest @quasar/extras@latest
+yarn add -D @quasar/vite-plugin@latest sass-embedded@^1.93.2
 <<| bash NPM |>>
-npm install quasar @quasar/extras
-npm install -D @quasar/vite-plugin sass-embedded@^1.93.2
+npm install quasar@latest @quasar/extras@latest
+npm install -D @quasar/vite-plugin@latest sass-embedded@^1.93.2
 <<| bash Bun |>>
-bun add quasar @quasar/extras
-bun add -D @quasar/vite-plugin sass-embedded@^1.93.2
+bun add quasar@latest @quasar/extras@latest
+bun add -D @quasar/vite-plugin@latest sass-embedded@^1.93.2
 ```
 
 ## Using Quasar

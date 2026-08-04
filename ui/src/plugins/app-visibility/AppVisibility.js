@@ -1,7 +1,7 @@
 import { createReactivePlugin } from '../../utils/private.create/create.js'
 import { injectProp } from '../../utils/private.inject-obj-prop/inject-obj-prop.js'
 
-const Plugin = createReactivePlugin(
+const Plugin = /*#__PURE__*/ createReactivePlugin(
   {
     appVisible: true
   },

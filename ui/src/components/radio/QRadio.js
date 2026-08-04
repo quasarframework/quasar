@@ -45,7 +45,7 @@ function onKeydown(e) {
   }
 }
 
-export default createComponent({
+export default /*#__PURE__*/ createComponent({
   name: 'QRadio',
 
   props: {

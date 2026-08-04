@@ -39,7 +39,7 @@ function hasQueryIncluded(targetQuery, matchingQuery) {
 
 const alignValues = ['left', 'center', 'right', 'justify']
 
-export default createComponent({
+export default /*#__PURE__*/ createComponent({
   name: 'QTabs',
 
   props: {

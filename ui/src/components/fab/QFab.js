@@ -17,7 +17,7 @@ import { fabKey } from '../../utils/private.symbols/symbols.js'
 const directions = ['up', 'right', 'down', 'left']
 const alignValues = ['left', 'center', 'right']
 
-export default createComponent({
+export default /*#__PURE__*/ createComponent({
   name: 'QFab',
 
   props: {

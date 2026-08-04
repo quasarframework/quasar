@@ -21,7 +21,7 @@ import useDark, {
 import { isKeyCode } from '../../../utils/private.keyboard/key-composition.js'
 import { isObject } from '../../../utils/is/is.js'
 
-export default createComponent({
+export default /*#__PURE__*/ createComponent({
   name: 'DialogPluginComponent',
 
   props: {

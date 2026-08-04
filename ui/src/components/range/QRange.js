@@ -18,7 +18,7 @@ const dragType = {
 
 const emptyModel = { min: null, max: null }
 
-export default createComponent({
+export default /*#__PURE__*/ createComponent({
   name: 'QRange',
 
   props: {

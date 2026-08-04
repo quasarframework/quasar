@@ -63,6 +63,10 @@ If you want to customize the variables (or add your own) and your project does n
 
 You can freely override any of Quasar's variables (see next section) in those files. For convenience, if you picked Sass or SCSS when you created your Quasar project folder, these files initially contain only the brand color-related variables.
 
+::: tip Performance (Quasar v2.24+ with @quasar/vite-plugin v2 / @quasar/app-vite v3.4+)
+Keep your variables file limited to variable declarations only. When it contains nothing else, Quasar injects into each style block only the variables that the block actually uses (instead of all of them), which significantly speeds up Sass compilation for both dev and production builds. If the file contains anything else (mixins, functions, `@import`/`@use` of other files), everything still works, but the faster targeted injection is automatically disabled.
+:::
+
 If you want more than to override a Quasar Sass variable, but to extend one, you can achieve it in the next way:
 
 ```scss

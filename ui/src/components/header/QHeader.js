@@ -23,7 +23,7 @@ function updateLocal(prop, val) {
   }
 }
 
-export default createComponent({
+export default /*#__PURE__*/ createComponent({
   name: 'QHeader',
 
   props: {

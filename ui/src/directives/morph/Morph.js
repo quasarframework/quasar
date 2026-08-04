@@ -159,7 +159,7 @@ function updateValue(ctx, value) {
   }
 }
 
-export default createDirective(
+export default /*#__PURE__*/ createDirective(
   __QUASAR_SSR_SERVER__
     ? {
         name: 'morph',
