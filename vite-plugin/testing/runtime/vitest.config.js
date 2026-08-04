@@ -12,11 +12,14 @@ const playgroundFolder = normalize(
 const resolve = _path => join(playgroundFolder, _path)
 
 /**
- * Exported so that vitest-fallback.config.js can run the whole suite
- * through the regex-based fallback transformation as well
- * (see the test:runtime:fallback script).
+ * Exported so that the vitest-*.config.js variants can run the whole
+ * suite through every transformation mode: AST/regex-fallback times
+ * treeshaking/dev (see the test:runtime* scripts).
  */
-export const createConfig = astAutoImport =>
+export const createConfig = ({
+  astAutoImport = true,
+  devTreeshaking = true
+} = {}) =>
   defineConfig(() => ({
     plugins: [
       vue({
@@ -24,7 +27,7 @@ export const createConfig = astAutoImport =>
       }),
 
       quasar({
-        devTreeshaking: true,
+        devTreeshaking,
         sassVariables: resolve('src/quasar-variables.sass'),
         autoImportComponentCase: 'combined',
         astAutoImport
@@ -55,8 +58,15 @@ export const createConfig = astAutoImport =>
         include: [/.+/]
       },
       include: ['./testing/runtime/tests/*.test.{js,ts}'],
+      // without dev treeshaking, "quasar" imports intentionally stay on
+      // the aliased dev bundle instead of being mapped to per-file
+      // paths, so the mapping-specific specs do not apply
+      exclude:
+        devTreeshaking === true
+          ? []
+          : ['**/tests/js-transform.test.js', '**/tests/ts-transform.test.ts'],
       setupFiles: ['./testing/runtime/vitest.setup.js']
     }
   }))
 
-export default createConfig(true)
+export default createConfig()

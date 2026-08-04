@@ -43,14 +43,18 @@
   },
   "scripts": {
     "dev": "cd ./playground && pnpm dev",
-    "test": "pnpm test:usage && pnpm test:runtime && pnpm test:runtime:fallback",
+    "test": "pnpm test:usage && pnpm test:runtime && pnpm test:runtime:fallback && pnpm test:runtime:dev && pnpm test:runtime:dev:fallback",
     "test:watch": "vitest run --watch --config ./testing/runtime/vitest.config.js",
     "test:usage": "vitest run --config ./testing/usage/vitest.config.js",
     "test:runtime": "vitest run --config ./testing/runtime/vitest.config.js",
     "test:runtime:fallback": "vitest run --config ./testing/runtime/vitest-fallback.config.js",
     "pretest:watch": "playwright install chromium",
     "pretest:runtime": "playwright install chromium",
-    "pretest:runtime:fallback": "playwright install chromium"
+    "pretest:runtime:fallback": "playwright install chromium",
+    "pretest:runtime:dev": "playwright install chromium",
+    "test:runtime:dev": "vitest run --config ./testing/runtime/vitest-dev.config.js",
+    "pretest:runtime:dev:fallback": "playwright install chromium",
+    "test:runtime:dev:fallback": "vitest run --config ./testing/runtime/vitest-dev-fallback.config.js"
   },
   "devDependencies": {
     "@vitest/browser-playwright": "^4.1.10",

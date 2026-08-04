@@ -145,15 +145,14 @@ function getScriptTransformsPlugin(opts) {
 
     const is = parseViteRequest(id)
 
-    if (is.template(vueMatcher)) {
-      // with the AST transform active, components and directives are
-      // already resolved at template compile time; only user-written
-      // "quasar" imports are left to map when treeshaking
-      const code = astAutoImportActive
-        ? useTreeshaking === true
-          ? mapQuasarImports(src)
-          : src
-        : vueTransform(src, opts.autoImportComponentCase, useTreeshaking)
+    // the regex fallback post-processes the compiled render code,
+    // so template requests need their own handling there
+    if (astAutoImportActive === false && is.template(vueMatcher)) {
+      const code = vueTransform(
+        src,
+        opts.autoImportComponentCase,
+        useTreeshaking
+      )
 
       warnResidualImports(this, code, id)
 
@@ -165,15 +164,24 @@ function getScriptTransformsPlugin(opts) {
           }
     }
 
-    if (useTreeshaking && is.script(scriptMatcher)) {
+    // with the AST transform active, components and directives are
+    // already resolved at template compile time, which leaves Vue SFCs
+    // with the same needs as any script file: mapping user-written
+    // "quasar" imports to per-file paths when treeshaking
+    if (
+      useTreeshaking === true &&
+      (is.script(scriptMatcher) || is.template(vueMatcher))
+    ) {
       const code = mapQuasarImports(src)
 
       warnResidualImports(this, code, id)
 
-      return {
-        code,
-        map: null // the transformations preserve line positions
-      }
+      return code === src
+        ? null
+        : {
+            code,
+            map: null // the transformations preserve line positions
+          }
     }
 
     return null

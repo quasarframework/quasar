@@ -6,4 +6,4 @@ import { createConfig } from './vitest.config.js'
  * instead of an env variable keeps the script cross-platform
  * (cmd.exe does not support inline VAR=value assignments).
  */
-export default createConfig(false)
+export default createConfig({ astAutoImport: false })
