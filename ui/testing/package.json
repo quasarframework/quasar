@@ -3,10 +3,14 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "pretest": "playwright install chromium",
     "test": "vitest run",
     "test:watch": "vitest watch",
     "test:watch:ui": "vitest watch --ui",
-    "coverage": "vitest run --coverage"
+    "coverage": "vitest run --coverage",
+    "pretest:watch": "playwright install chromium",
+    "pretest:watch:ui": "playwright install chromium",
+    "precoverage": "playwright install chromium"
   },
   "dependencies": {
     "clipboardy": "^5.3.2"

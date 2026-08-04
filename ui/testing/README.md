@@ -9,12 +9,9 @@
 
 Tests run in a real headless Chromium browser through
 [Vitest browser mode](https://vitest.dev/guide/browser/) (Playwright provider),
-not in jsdom. One-time setup after installing dependencies:
-
-```bash
-$ pnpm exec playwright install chromium
-# run from /ui/testing (or use --filter quasar-ui-test from the repo root)
-```
+not in jsdom. The Chromium binary is installed automatically the first time
+you run the test scripts (through their `pre` lifecycle hooks); no manual
+setup step is needed.
 
 Notes on the environment:
 
