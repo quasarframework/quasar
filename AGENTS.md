@@ -17,6 +17,13 @@ These instructions apply to the entire repository. A more deeply nested
   present in the worktree.
 - Follow existing code and test patterns. Update related tests, types, API JSON,
   and documentation when a public contract changes.
+- The website documentation lives in `/docs` (pages under `docs/src/pages`).
+  Whenever a change to `/ui`, `/app-vite` or `/vite-plugin` affects anything a
+  user can observe — options, defaults, requirements, behavior, performance
+  characteristics, setup steps — locate the docs pages covering that area
+  (search `docs/src/pages` for the option or feature name) and update them in
+  the same change set. Do not consider such a change complete on code and
+  tests alone.
 
 ## UI test specifications
 
