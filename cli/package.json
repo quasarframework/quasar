@@ -47,13 +47,13 @@
     "@hono/node-server": "^2.0.12",
     "@quasar/art": "workspace:^",
     "@quasar/ssl-certificate": "workspace:^",
+    "@quasar/update-notifier": "workspace:^",
     "ci-info": "^4.4.0",
     "cross-spawn": "^7.0.6",
     "fs-extra": "^11.4.0",
     "hono": "^4.12.34",
     "kolorist": "^1.8.0",
-    "open": "^11.0.0",
-    "update-notifier": "^7.3.1"
+    "open": "^11.0.0"
   },
   "engines": {
     "node": ">= 20.20.0"

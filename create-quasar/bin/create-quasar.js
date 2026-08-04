@@ -21,8 +21,8 @@ const { showCliBanner } = await import('@quasar/art')
 
 const { runningPackageManager } = await import('../lib/running-pm.js')
 if (!runningPackageManager) {
-  const { default: updateNotifier } = await import('update-notifier')
-  updateNotifier({ pkg: cliPkg }).notify()
+  const { notifyUpdate } = await import('@quasar/update-notifier')
+  notifyUpdate(cliPkg)
 }
 
 showCliBanner()
