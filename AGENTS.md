@@ -1,161 +1,111 @@
 # Quasar Repository Agent Guide
 
-These instructions apply to the entire repository. A more deeply nested
-`AGENTS.md`, if present, takes precedence for files in its directory.
+Applies repo-wide; a more deeply nested `AGENTS.md` takes precedence for its
+directory.
 
-## Repository workflow
+## Workflow
 
-- This is a pnpm workspace.
-- Formatting is handled by `oxfmt` and linting by `oxlint`. Both are wired into
-  the root `lint` and `lint:check` scripts and into the `lint-staged` pre-commit
-  hook. Do not introduce Prettier, ESLint, or any other formatter or linter.
-- Run commands from the repository root unless package documentation explicitly
-  requires another working directory.
+- pnpm workspace. Run commands from the repo root unless a package's docs
+  require another directory.
+- Formatting: `oxfmt`; linting: `oxlint` — wired into the root
+  `lint`/`lint:check` scripts and the `lint-staged` pre-commit hook. Do not
+  introduce Prettier, ESLint, or any other formatter/linter.
 - Before changing a package, inspect its `package.json`, nearby tests, and
-  package-specific README files.
-- Keep changes focused. Do not modify, discard, or commit unrelated work already
-  present in the worktree.
-- Follow existing code and test patterns. Update related tests, types, API JSON,
-  and documentation when a public contract changes.
-- The website documentation lives in `/docs` (pages under `docs/src/pages`).
-  Whenever a change to `/ui`, `/app-vite` or `/vite-plugin` affects anything a
-  user can observe — options, defaults, requirements, behavior, performance
-  characteristics, setup steps — locate the docs pages covering that area
-  (search `docs/src/pages` for the option or feature name) and update them in
-  the same change set. Do not consider such a change complete on code and
-  tests alone.
+  package READMEs.
+- Keep changes focused; do not modify, discard, or commit unrelated work
+  already in the worktree.
+- Follow existing code/test patterns. When a public contract changes, update
+  related tests, types, API JSON, and documentation.
+- Website docs live in `docs/src/pages`. Any user-observable change to `/ui`,
+  `/app-vite`, or `/vite-plugin` (options, defaults, requirements, behavior,
+  performance, setup) is incomplete until the covering docs pages (search
+  there for the option/feature name) are updated in the same change set.
 
 ## Code style
 
-- Do not compare the result of a native JS method that already returns a
-  strict boolean (`RegExp.test()`, `Array.some()`/`every()`/`includes()`,
-  `Set.has()`, `Map.has()`, `String.includes()`/`startsWith()`/`endsWith()`,
-  `Object.hasOwn()`, `Number.isNaN()`, `existsSync()`, and the like) against
-  `=== true` or `=== false`. Use the value directly, or negate it with `!`.
-- Keep the explicit `=== true` / `=== false` comparison when the value is not
-  guaranteed to be a strict boolean (for example user-provided options, values
-  that may be `undefined`, or calls to project functions — their implementation
-  can change to return a non-boolean and silently break truthiness-based call
-  sites), where truthiness would change behavior.
+- Do not compare a native JS method's strict-boolean result (`RegExp.test()`,
+  `Array.some()`/`every()`/`includes()`, `Set.has()`, `Map.has()`,
+  `String.includes()`/`startsWith()`/`endsWith()`, `Object.hasOwn()`,
+  `Number.isNaN()`, `existsSync()`, and the like) against `=== true`/
+  `=== false`; use the value directly or negate with `!`.
+- Keep the explicit comparison when the value is not a guaranteed strict
+  boolean — user-provided options, possibly-`undefined` values, or calls to
+  project functions (their implementation can change to return a non-boolean
+  and silently break truthiness-based call sites).
 
 ## UI test specifications
 
-Read `ui/testing/README.md` before creating or editing files under
-`ui/src/**/*.test.js`.
+Read `ui/testing/README.md` before creating or editing `ui/src/**/*.test.js`.
+Run all `test:specs` commands from `/ui`, not `/ui/testing`.
 
-All `test:specs` commands must be run from `/ui`, not `/ui/testing`.
+1. Build first: `cd ui && pnpm build`.
+2. Run `pnpm test:specs --target <source_file>` (no extension). Use a subpath
+   relative to `/ui/src` when a filename matches multiple sources, e.g.
+   `utils/date/date` — not a broad `date`.
+3. Accept every required case the Specs script offers; do not skip or ignore
+   one merely to pass validation.
+4. Replace every generated `test.todo()` with a real behavioral test; leave no
+   `.todo()`/`.skip()` on any `describe()`/`test()`.
+5. Preserve the generated `describe()` statements and identifiers; align
+   failing existing files with the exact hierarchy the script reports.
+6. Rerun the same target until the script reports success.
+7. Run the focused Vitest file while developing, then root `pnpm test` after
+   editing any existing or new test file.
 
-1. Build the UI before generating or regenerating test specifications:
-
-   ```bash
-   cd ui
-   pnpm build
-   ```
-
-2. Target the source file, without its extension:
-
-   ```bash
-   pnpm test:specs --target <target_file>
-   ```
-
-   Use a subpath relative to `/ui/src` when a filename can match multiple
-   sources. For example:
-
-   ```bash
-   pnpm test:specs --target utils/date/date
-   ```
-
-   Avoid a broad target such as `date` when only one file is intended.
-
-3. Accept every required test case offered by the Specs script. Do not skip or
-   ignore a case merely to make validation pass.
-
-4. Replace every generated `test.todo()` with a real behavioral test. Do not
-   leave `.todo()` or `.skip()` on any `describe()` or `test()` call.
-
-5. Preserve the `describe()` statements and identifiers generated by the Specs
-   script. If an existing test file fails structural validation, align it with
-   the exact identifier and hierarchy reported by the script.
-
-6. Rerun the precise target until the Specs script reports success:
-
-   ```bash
-   pnpm test:specs --target <target_file>
-   ```
-
-7. Run the focused Vitest file while developing, then run the complete
-   repository test command from the repository root after editing any existing
-   or newly created test file:
-
-   ```bash
-   cd ..
-   pnpm test
-   ```
-
-If the Specs script itself changes, also run the additional validation required
-by `ui/testing/README.md`: build the UI, run `pnpm test:specs --dry-run`, run
-`pnpm test:specs:ci`, and then run the root `pnpm test`.
+If the Specs script itself changes, also run the extra validation from
+`ui/testing/README.md`: build the UI, `pnpm test:specs --dry-run`,
+`pnpm test:specs:ci`, then root `pnpm test`.
 
 ### Test design
 
-- Test public behavior and reusable structure rather than a fixed snapshot of
-  the current implementation.
-- For generic Vue props and emits declaration tests, use the `$props()` and
-  `$emits()` matchers from `ui/testing/vitest.setup.js`. Do not duplicate the
-  exact prop or event names, types, defaults, validators, or ordering merely to
-  prove that the declaration is valid. Adding, changing, or removing an
-  unrelated prop or event should not break such a test.
-- Continue to assert an exact prop, event, default, validator, or emitted
-  payload when that specific public behavior is the subject of the test.
-- Apply the same principle to other exported definitions. Prefer an existing
-  structural matcher, such as `$objectValues()` or `$arrayValues()`, over
-  assertions coupled to the current members. When a recurring definition form
-  has no suitable matcher, add a reusable matcher to
-  `ui/testing/vitest.setup.js` rather than repeating implementation-specific
-  assertions across test files.
+- Test public behavior and reusable structure, not a snapshot of the current
+  implementation.
+- For generic Vue prop/emit declaration tests, use the `$props()`/`$emits()`
+  matchers from `ui/testing/vitest.setup.js`; do not duplicate exact names,
+  types, defaults, validators, or ordering merely to prove a declaration
+  valid — changing an unrelated prop/event must not break such a test.
+- Still assert an exact prop, event, default, validator, or payload when that
+  specific public behavior is the subject of the test.
+- Apply the same principle to other exported definitions: prefer structural
+  matchers (`$objectValues()`, `$arrayValues()`); when a recurring form has no
+  suitable matcher, add a reusable one to `ui/testing/vitest.setup.js` instead
+  of repeating implementation-specific assertions.
 
 ## Generated Quasar configuration
 
-- Quasar apps generate `.quasar/tsconfig.json` and related type files during
-  `quasar dev` and `quasar build`. Use `quasar prepare` when those generated
-  files are needed without starting a development server or build.
-- Prepare an app after a fresh checkout or clean worktree, after dependency or
-  Quasar configuration changes that affect generated types, and whenever lint
-  or typechecking reports that `.quasar/tsconfig.json` is missing or
-  unreadable.
-- From the repository root, run `pnpm prepare:types` to prepare all workspace
-  packages that define that script. To prepare a single app, run
-  `pnpm --dir <app-directory> exec quasar prepare --silent`.
-- Treat `.quasar` as generated output. Do not edit or commit its contents.
+- `quasar dev`/`quasar build` generate `.quasar/tsconfig.json` and related
+  type files; `quasar prepare` generates them without a dev server or build.
+- Prepare after a fresh checkout or clean worktree, after dependency/config
+  changes affecting generated types, and whenever lint or typechecking reports
+  `.quasar/tsconfig.json` missing or unreadable.
+- Root `pnpm prepare:types` prepares all workspace packages defining that
+  script; `pnpm --dir <app-directory> exec quasar prepare --silent` prepares
+  one app.
+- `.quasar` is generated output; do not edit or commit its contents.
 
 ## Validation
 
 - Run the narrowest relevant test while developing and the package's complete
   relevant suite before handoff.
-- Run `pnpm lint` when the change can affect linted source. It runs `oxfmt`,
-  which rewrites the files in place, then `oxlint --fix`, so formatting and
-  auto-fixable lint issues are corrected rather than merely reported. Review the
-  resulting diff and fix by hand whatever `oxlint` still reports.
-- Do not use `pnpm lint:check` (`oxfmt --check` plus `oxlint`) to find
-  formatting issues. It is a read-only CI gate; running `pnpm lint` fixes them
-  instead of listing them.
+- Run `pnpm lint` when the change can affect linted source: it runs `oxfmt`
+  (rewrites files in place) then `oxlint --fix`; review the resulting diff and
+  hand-fix whatever `oxlint` still reports. Do not use `pnpm lint:check` to
+  find formatting issues — it is a read-only CI gate.
 - Run `git diff --check` before committing.
 - Do not weaken assertions, ignore generated cases, or change production
-  behavior solely to make a failing test pass. Diagnose the contract first.
-- Report every validation command run and its outcome. If a required command
+  behavior solely to make a failing test pass; diagnose the contract first.
+- Report every validation command run and its outcome; if a required command
   cannot run, state the exact blocker.
 
 ## Pull requests
 
-- Keep each PR scoped to one logical change.
-- Include the root cause or motivation, user/developer impact, and validation
-  results in the PR description.
+- One logical change per PR. Include root cause/motivation, user/developer
+  impact, and validation results in the description.
 - Call out public API, SSR, hydration, platform, accessibility, or security
   implications when applicable.
-- Do not include unrelated dependency, lockfile, formatting, or generated-file
-  changes.
-- Treat CodeRabbitAI and all other automated review output as advisory. Verify
-  each claim against the current code, tests, generated Specs requirements, and
-  intended public contract. Apply valid findings, but reject or explain
-  incorrect, stale, duplicate, or speculative suggestions instead of changing
-  code or weakening tests merely to satisfy a bot.
+- No unrelated dependency, lockfile, formatting, or generated-file changes.
+- Automated review output (CodeRabbitAI and others) is advisory: verify each
+  claim against the current code, tests, generated Specs requirements, and
+  intended public contract; apply valid findings, reject or explain
+  incorrect, stale, duplicate, or speculative ones — never change code or
+  weaken tests merely to satisfy a bot.
