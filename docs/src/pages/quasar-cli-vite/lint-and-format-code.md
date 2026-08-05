@@ -218,13 +218,13 @@ When you scaffold a Quasar project folder it will ask you if you want ESLint (al
 
 ```tabs
 <<| bash PNPM |>>
-pnpm add -D @eslint/js eslint@9 eslint-plugin-vue vue-eslint-parser globals vite-plugin-checker
+pnpm add -D @eslint/js eslint@10 eslint-plugin-vue vue-eslint-parser globals vite-plugin-checker
 <<| bash Yarn |>>
-yarn add -D @eslint/js eslint@9 eslint-plugin-vue vue-eslint-parser globals vite-plugin-checker
+yarn add -D @eslint/js eslint@10 eslint-plugin-vue vue-eslint-parser globals vite-plugin-checker
 <<| bash NPM |>>
-npm install -D @eslint/js eslint@9 eslint-plugin-vue vue-eslint-parser globals vite-plugin-checker
+npm install -D @eslint/js eslint@10 eslint-plugin-vue vue-eslint-parser globals vite-plugin-checker
 <<| bash Bun |>>
-bun add -D @eslint/js eslint@9 eslint-plugin-vue vue-eslint-parser globals vite-plugin-checker
+bun add -D @eslint/js eslint@10 eslint-plugin-vue vue-eslint-parser globals vite-plugin-checker
 ```
 
 If you want `prettier` as a code formatter, then install these too:
@@ -345,13 +345,13 @@ export default [
 
 ```tabs
 <<| bash PNPM |>>
-pnpm add -D vue-tsc @vue/eslint-config-typescript @eslint/js eslint@9 eslint-plugin-vue globals vite-plugin-checker
+pnpm add -D vue-tsc @vue/eslint-config-typescript @eslint/js eslint@10 eslint-plugin-vue globals vite-plugin-checker
 <<| bash Yarn |>>
-yarn add -D vue-tsc @vue/eslint-config-typescript @eslint/js eslint@9 eslint-plugin-vue globals vite-plugin-checker
+yarn add -D vue-tsc @vue/eslint-config-typescript @eslint/js eslint@10 eslint-plugin-vue globals vite-plugin-checker
 <<| bash NPM |>>
-npm install -D vue-tsc @vue/eslint-config-typescript @eslint/js eslint@9 eslint-plugin-vue globals vite-plugin-checker
+npm install -D vue-tsc @vue/eslint-config-typescript @eslint/js eslint@10 eslint-plugin-vue globals vite-plugin-checker
 <<| bash Bun |>>
-bun add -D vue-tsc @vue/eslint-config-typescript @eslint/js eslint@9 eslint-plugin-vue globals vite-plugin-checker
+bun add -D vue-tsc @vue/eslint-config-typescript @eslint/js eslint@10 eslint-plugin-vue globals vite-plugin-checker
 ```
 
 If you want `prettier` as a code formatter, then install these too:
