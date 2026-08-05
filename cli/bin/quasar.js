@@ -10,10 +10,11 @@ if (
 // oxlint-disable-next-line import/no-unassigned-import
 import '../lib/node-version-check.js'
 
-import { cliPkg } from '../lib/cli-pkg.js'
-import updateNotifier from 'update-notifier'
+import { notifyUpdate } from '@quasar/update-notifier'
 
-updateNotifier({ pkg: cliPkg }).notify()
+import { cliPkg } from '../lib/cli-pkg.js'
+
+notifyUpdate(cliPkg)
 
 let cmd = process.argv[2]
 

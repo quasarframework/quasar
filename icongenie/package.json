@@ -48,6 +48,7 @@
   },
   "dependencies": {
     "@quasar/art": "^1.0.0",
+    "@quasar/update-notifier": "^1.0.0",
     "ci-info": "^4.4.0",
     "cross-spawn": "^7.0.6",
     "elementtree": "^0.1.7",
@@ -61,8 +62,7 @@
     "sharp": "^0.35.3",
     "svgo": "^4.0.1",
     "tinyglobby": "^0.2.10",
-    "untildify": "^6.0.0",
-    "update-notifier": "^7.0.0"
+    "untildify": "^6.0.0"
   },
   "engines": {
     "node": ">= 22.22.0"

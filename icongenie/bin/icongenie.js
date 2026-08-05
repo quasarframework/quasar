@@ -9,10 +9,10 @@ if (
 
 await import('../lib/utils/node-version-check.js')
 
-const { default: updateNotifier } = await import('update-notifier')
 const { packageJson } = await import('../lib/utils/package-json.js')
+const { notifyUpdate } = await import('@quasar/update-notifier')
 
-updateNotifier({ pkg: packageJson }).notify()
+notifyUpdate(packageJson)
 
 const commands = ['generate', 'verify', 'profile', 'help']
 

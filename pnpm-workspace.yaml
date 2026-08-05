@@ -13,6 +13,7 @@ packages:
   - utils/art
   - utils/render-ssr-error
   - utils/ssl-certificate
+  - utils/update-notifier
   - docs
 
 # The packages below are not included. Use their individual folders.

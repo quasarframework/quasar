@@ -29,12 +29,12 @@
   "dependencies": {
     "@clack/prompts": "^1.7.0",
     "@quasar/art": "workspace:^",
+    "@quasar/update-notifier": "workspace:^",
     "ci-info": "^4.4.0",
     "cross-spawn": "^7.0.6",
     "fs-extra": "^11.4.0",
     "kolorist": "^1.8.0",
-    "tinyglobby": "^0.2.17",
-    "update-notifier": "^7.3.1"
+    "tinyglobby": "^0.2.17"
   },
   "engines": {
     "node": ">=20"
