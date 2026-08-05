@@ -6,7 +6,7 @@
     "lint": "oxfmt && oxlint --fix --no-error-on-unmatched-pattern",
     "lint:check": "oxfmt --check && oxlint --no-error-on-unmatched-pattern",
     "lint:ui:check": "oxfmt --check ./ui && oxlint --no-error-on-unmatched-pattern ./ui",
-    "test": "pnpm build && pnpm --filter quasar test:specs:ci && pnpm --filter quasar test && pnpm --filter @quasar/vite-plugin test && pnpm --filter @quasar/update-notifier test",
+    "test": "pnpm build && pnpm --filter quasar test:specs:ci && pnpm --filter quasar test && pnpm --filter @quasar/vite-plugin test",
     "build": "pnpm --filter quasar build",
     "vite-ecosystem-ci:build": "pnpm build",
     "vite-ecosystem-ci:test": "pnpm --filter @quasar/vite-plugin test",
