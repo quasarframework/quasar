@@ -76,7 +76,8 @@
     "test:watch": "pnpm --filter quasar-ui-test test:watch",
     "test:watch:ui": "pnpm --filter quasar-ui-test test:watch:ui",
     "test:specs": "node ./testing/specs/script.js",
-    "test:specs:ci": "node ./testing/specs/script.js --ci"
+    "test:specs:ci": "node ./testing/specs/script.js --ci",
+    "prepublishOnly": "pnpm build && pnpm test:specs:ci && pnpm test"
   },
   "devDependencies": {
     "@quasar/extras": "workspace:*",
