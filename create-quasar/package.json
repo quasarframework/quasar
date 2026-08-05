@@ -24,7 +24,7 @@
   "type": "module",
   "main": "bin/create-quasar.js",
   "scripts": {
-    "test": "node bin/create-quasar.js"
+    "test": "vitest run"
   },
   "dependencies": {
     "@clack/prompts": "^1.7.0",
@@ -35,6 +35,9 @@
     "fs-extra": "^11.4.0",
     "kolorist": "^1.8.0",
     "tinyglobby": "^0.2.17"
+  },
+  "devDependencies": {
+    "vitest": "^4.1.10"
   },
   "engines": {
     "node": ">=20"

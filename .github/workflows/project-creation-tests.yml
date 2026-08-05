@@ -18,7 +18,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  lint:
+  unit-tests:
     if: >-
       ${{
         github.event_name == 'workflow_dispatch' ||
@@ -38,7 +38,7 @@ jobs:
       run:
         working-directory: create-quasar
 
-    name: Lint create-quasar
+    name: Unit tests for create-quasar
     steps:
       - name: Checkout code
         uses: actions/checkout@v6
@@ -55,8 +55,11 @@ jobs:
       - name: Install dependencies
         run: pnpm i
 
+      - name: Run unit tests
+        run: pnpm test
+
   test-app:
-    needs: lint
+    needs: unit-tests
 
     permissions:
       contents: read # to fetch code (actions/checkout)
@@ -178,7 +181,7 @@ jobs:
           kill $!
 
   test-ae:
-    needs: lint
+    needs: unit-tests
 
     permissions:
       contents: read # to fetch code (actions/checkout)
