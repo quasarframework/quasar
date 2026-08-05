@@ -71,9 +71,6 @@ export function isPortAvailable(port, host) {
         })
         .close()
     })
-    .on('error', err => {
-      reject(err)
-    })
     .listen(port, host)
 
   return promise

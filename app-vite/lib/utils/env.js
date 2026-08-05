@@ -38,9 +38,7 @@ function getEnvPrefixRE(prefix) {
 const processEnv = Object.keys(process.env)
   .filter(key => validEnvKeyRE.test(key))
   .reduce((acc, key) => {
-    if (validEnvKeyRE.test(key)) {
-      acc[key] = process.env[key]
-    }
+    acc[key] = process.env[key]
     return acc
   }, {})
 

@@ -60,7 +60,7 @@ export function ensureArgv(argv, cmd) {
       fatal(`Please also specify a target (-T <${targets.join('|')}>)`)
     }
     if (!targets.includes(argv.target)) {
-      fatal(`Unknown target "${argv.target}" for Cordova\n`)
+      fatal(`Unknown target "${argv.target}" for Cordova`)
     }
   }
 

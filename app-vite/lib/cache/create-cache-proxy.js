@@ -28,12 +28,22 @@ export function createCacheProxy(ctx) {
       const value = moduleCache[key]
       if (value !== void 0) return value
 
-      return import(`./module.${key}.js`)
+      // cache the in-flight promise too, so concurrent
+      // calls do not instantiate the module twice
+      const pendingModule = import(`./module.${key}.js`)
         .then(({ createInstance }) => createInstance(ctx))
         .then(val => {
           moduleCache[key] = val
           return val
         })
+        .catch(err => {
+          // a failure must not be cached (allows a retry)
+          delete moduleCache[key]
+          throw err
+        })
+
+      moduleCache[key] = pendingModule
+      return pendingModule
     }
   }
 }

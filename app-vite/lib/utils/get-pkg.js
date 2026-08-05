@@ -19,10 +19,10 @@ function injectPkg(acc, propName, pkgPath) {
     get: () => {
       if (!existsSync(pkgPath)) return {}
 
-      const { mtime } = statSync(pkgPath)
+      const { mtimeMs } = statSync(pkgPath)
 
-      if (mtime !== lastModePkgModifiedTime) {
-        lastModePkgModifiedTime = mtime
+      if (mtimeMs !== lastModePkgModifiedTime) {
+        lastModePkgModifiedTime = mtimeMs
         try {
           // This may get updated and written, so use parseJSON to preserve formatting
           pkg = parseJSON(readFileSync(pkgPath, 'utf8'))
