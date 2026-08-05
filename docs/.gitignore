@@ -1,3 +1,4 @@
 /quasar.config.*.temporary.compiled*
 .env*
+src-*/pnpm-lock.yaml
 pnpm-lock.yaml

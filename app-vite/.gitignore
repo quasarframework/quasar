@@ -1,1 +1,3 @@
 ssl-server.pem
+playground-*/pnpm-lock.yaml
+playground-*/src-*/pnpm-lock.yaml

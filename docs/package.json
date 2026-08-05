@@ -27,7 +27,7 @@
     "vue-router": "^5.2.0"
   },
   "devDependencies": {
-    "@quasar/app-vite": "^3.4.0",
+    "@quasar/app-vite": "^3.4.1",
     "@rolldown/pluginutils": "^1.0.1",
     "fs-extra": "^11.4.0",
     "gray-matter": "^4.0.3",
