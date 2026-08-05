@@ -18,6 +18,10 @@
     "type": "github",
     "url": "https://donate.quasar.dev"
   },
+  "files": [
+    "compiled-assets",
+    "src"
+  ],
   "type": "module",
   "main": "src/index.js",
   "module": "src/index.js",
@@ -30,7 +34,7 @@
     "build": "pnpm build:ui && pnpm build:package",
     "build:ui": "cd src-ui && vite build",
     "build:package": "node ./build/index.js",
-    "prepublishOnly": "pnpm run build"
+    "prepublishOnly": "pnpm run build && pnpm test"
   },
   "dependencies": {
     "stack-trace": "^1.0.0"

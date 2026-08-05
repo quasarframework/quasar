@@ -45,7 +45,8 @@
   "scripts": {
     "test": "pnpm test:unit && pnpm test:e2e",
     "test:unit": "vitest run",
-    "test:e2e": "vitest run --config ./vitest-e2e.config.js"
+    "test:e2e": "vitest run --config ./vitest-e2e.config.js",
+    "prepublishOnly": "pnpm test"
   },
   "dependencies": {
     "@clack/prompts": "^1.7.0",

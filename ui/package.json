@@ -38,6 +38,8 @@
     "lang",
     "icon-set",
     "src",
+    "!src/**/*.test.js",
+    "!src/**/test",
     "wrappers"
   ],
   "type": "module",

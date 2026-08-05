@@ -18,6 +18,9 @@
     "type": "github",
     "url": "https://donate.quasar.dev"
   },
+  "files": [
+    "src"
+  ],
   "type": "module",
   "main": "src/index.js",
   "module": "src/index.js",
@@ -25,7 +28,8 @@
     "access": "public"
   },
   "scripts": {
-    "test": "node --test test/index.test.js"
+    "test": "node --test test/index.test.js",
+    "prepublishOnly": "pnpm test"
   },
   "dependencies": {
     "fs-extra": "^11.4.0",
