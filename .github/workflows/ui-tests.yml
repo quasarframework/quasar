@@ -6,10 +6,17 @@ on:
     branches:
       - 'dev'
     paths:
-      - '.github/workflows/tests-on-pr.yml'
+      - '.github/workflows/ui-tests.yml'
       - 'ui/**/*.js'
+      # JSON API files, validated by the specs tooling
+      - 'ui/src/**/*.json'
+      - 'ui/src/css/**'
       - 'ui/package.json'
       - 'ui/playground/package.json'
+      # root dependency changes affect every package
+      - 'package.json'
+      - 'pnpm-lock.yaml'
+      - 'pnpm-workspace.yaml'
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -22,8 +29,6 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    # Check if the build cache exists, and if it does, do nothing else.
-    # Otherwise, run the build and cache it.
     name: Build the packages
     steps:
       - name: Checkout code
@@ -65,9 +70,6 @@ jobs:
       run:
         working-directory: ui
 
-    strategy:
-      fail-fast: false
-
     name: Tests
     steps:
       - name: Checkout code
@@ -97,7 +99,7 @@ jobs:
       - name: Run tests
         run: pnpm test
 
-      # Upload required artifacts to be used in tests-on-pr-report.yml
+      # Upload required artifacts to be used in ui-tests-report.yml
 
       - name: Upload test results
         if: ${{ always() }}

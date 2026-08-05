@@ -1,4 +1,4 @@
-name: Comment build results
+name: UI types results
 
 # We are not using using a single workflow on `pull_request_target`, and have two workflows on `pull_request` -> `workflow_run`:
 # https://securitylab.github.com/research/github-actions-preventing-pwn-requests/
@@ -6,7 +6,7 @@ name: Comment build results
 on:
   workflow_run:
     workflows:
-      - Build types
+      - UI types
     types:
       - completed
 
@@ -35,7 +35,7 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               branch: 'dev', // TODO: Get the PR target branch to support branches other than dev
-              workflow_id: 'build-types.yml',
+              workflow_id: 'ui-types.yml',
               event: 'push',
               status: 'success',
             });
@@ -44,7 +44,7 @@ jobs:
               id: workflowRun?.id || -1,
             }
 
-  comment-build-results:
+  comment-types-results:
     runs-on: ubuntu-latest
     permissions:
       actions: read # to download artifacts

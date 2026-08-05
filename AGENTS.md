@@ -2,7 +2,8 @@
 
 Applies repo-wide; a more deeply nested `AGENTS.md` takes precedence for its
 directory. Nested guides: `app-vite/AGENTS.md`, `cli/AGENTS.md`,
-`create-quasar/AGENTS.md`, `ui/AGENTS.md`, `vite-plugin/AGENTS.md`.
+`create-quasar/AGENTS.md`, `docs/AGENTS.md`, `icongenie/AGENTS.md`,
+`ui/AGENTS.md`, `utils/AGENTS.md`, `vite-plugin/AGENTS.md`.
 
 ## Workflow
 

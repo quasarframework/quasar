@@ -20,7 +20,7 @@ from `/create-quasar`.
   vars (app: `E2E_INSTALL`, `E2E_SCRIPT`, `E2E_LINTER`, `E2E_FBR`,
   `E2E_ALL_PRESETS`; ae: `E2E_SCRIPT`, `E2E_LINT`), e.g.
   `E2E_SCRIPT=ts E2E_LINTER=eslint pnpm test:e2e:app`. CI runs the full
-  matrix (`.github/workflows/project-creation-tests.yml`).
+  matrix (`.github/workflows/create-quasar-tests.yml`).
 
 ## Gotchas
 

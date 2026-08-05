@@ -1,4 +1,4 @@
-name: Build types
+name: UI types
 
 on:
   workflow_dispatch:
@@ -6,7 +6,7 @@ on:
     branches:
       - dev
     paths:
-      - '.github/workflows/build-types.yml'
+      - '.github/workflows/ui-types.yml'
 
       # We don't need to hunt for every possible case, these should cover almost all cases
       - 'ui/package.json'
@@ -23,7 +23,7 @@ on:
       - opened
       - synchronize
     paths:
-      - '.github/workflows/build-types.yml'
+      - '.github/workflows/ui-types.yml'
 
       # We don't need to hunt for every possible case, these should cover almost all cases
       - 'ui/package.json'
@@ -86,4 +86,4 @@ jobs:
             ui/dist/types
             ui/dist/.pr-number
 
-      # The flow continues with ./comment-build-results.yml for PRs
+      # The flow continues with ./ui-types-report.yml for PRs

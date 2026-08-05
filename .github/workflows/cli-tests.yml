@@ -12,6 +12,14 @@ on:
     paths:
       - '.github/workflows/cli-tests.yml'
       - 'cli/**'
+      # the e2e tests scaffold a project through create-quasar
+      - 'create-quasar/**'
+      # bundled runtime dependencies of the CLI
+      - 'utils/**'
+      # root dependency changes affect every package
+      - 'package.json'
+      - 'pnpm-lock.yaml'
+      - 'pnpm-workspace.yaml'
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -47,7 +55,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v6
         with:
-          node-version: 22
+          node-version: 24
           cache: 'pnpm'
 
       - name: Install dependencies
@@ -79,7 +87,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v6
         with:
-          node-version: 22
+          node-version: 24
           cache: 'pnpm'
 
       - name: Install dependencies

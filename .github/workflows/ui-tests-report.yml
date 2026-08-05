@@ -1,4 +1,4 @@
-name: Test results
+name: UI test results
 
 on:
   workflow_run:

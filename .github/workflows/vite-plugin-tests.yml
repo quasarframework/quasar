@@ -1,0 +1,54 @@
+name: Vite plugin tests
+
+on:
+  workflow_dispatch:
+  pull_request:
+    types: [opened, synchronize]
+    branches:
+      - 'dev'
+    paths:
+      - '.github/workflows/vite-plugin-tests.yml'
+      - 'vite-plugin/**'
+      # the plugin is tested against the built quasar package
+      - 'ui/**'
+      # root dependency changes affect every package
+      - 'package.json'
+      - 'pnpm-lock.yaml'
+      - 'pnpm-workspace.yaml'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  tests:
+    permissions:
+      contents: read # to fetch code (actions/checkout)
+
+    runs-on: ubuntu-latest
+
+    name: Tests for @quasar/vite-plugin
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v5
+
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm i
+
+      - name: Build the UI package
+        run: pnpm build
+
+      - name: Install Playwright browser
+        run: pnpm --filter @quasar/vite-plugin exec playwright install --with-deps chromium
+
+      - name: Run tests
+        run: pnpm --filter @quasar/vite-plugin test
