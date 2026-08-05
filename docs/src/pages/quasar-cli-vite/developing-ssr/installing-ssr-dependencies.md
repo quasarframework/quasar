@@ -43,7 +43,7 @@ Notice the `/src-ssr/package.json` file in your generated `/src-ssr` folder. The
   "description": "Quasar SSR server folder",
   "type": "module",
   "dependencies": {
-    "@fastify/compress": "^8.3.1",
+    "@fastify/compress": "^9.1.1",
     "@fastify/static": "^10.1.2",
     "fastify": "^5.8.4"
   },

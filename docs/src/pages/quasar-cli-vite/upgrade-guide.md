@@ -443,7 +443,7 @@ Edit your /package.json file to remove Quasar mode specific dependencies and mov
   "private": true,
   "type": "module",
   "devDependencies": {
-    "@types/chrome": "^0.1.40" // for TS only
+    "@types/chrome": "^0.2.5" // for TS only
   }
 }
 <<| js PWA |>>

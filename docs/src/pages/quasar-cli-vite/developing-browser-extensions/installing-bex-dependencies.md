@@ -22,7 +22,7 @@ Notice the `/src-bex/package.json` file in your generated `/src-bex` folder. The
   "private": true,
   "type": "module",
   "devDependencies": {
-    "@types/chrome": "^0.1.40"
+    "@types/chrome": "^0.2.5"
   }
 }
 ```
