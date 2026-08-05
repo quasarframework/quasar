@@ -42,6 +42,11 @@
   "publishConfig": {
     "access": "public"
   },
+  "scripts": {
+    "test": "pnpm test:unit && pnpm test:e2e",
+    "test:unit": "vitest run",
+    "test:e2e": "vitest run --config ./vitest-e2e.config.js"
+  },
   "dependencies": {
     "@clack/prompts": "^1.7.0",
     "@hono/node-server": "^2.0.12",
@@ -54,6 +59,9 @@
     "hono": "^4.12.34",
     "kolorist": "^1.8.0",
     "open": "^11.0.0"
+  },
+  "devDependencies": {
+    "vitest": "^4.1.10"
   },
   "engines": {
     "node": ">= 20.20.0"

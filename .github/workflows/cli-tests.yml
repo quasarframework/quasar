@@ -1,0 +1,101 @@
+name: CLI tests
+
+on:
+  workflow_dispatch:
+  release:
+    types:
+      - released # A release was published, or a pre-release was changed to a release.
+  pull_request:
+    types: [opened, synchronize]
+    branches:
+      - 'dev'
+    paths:
+      - '.github/workflows/cli-tests.yml'
+      - 'cli/**'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  unit-tests:
+    if: >-
+      ${{
+        github.event_name == 'workflow_dispatch' ||
+        github.event_name == 'pull_request' ||
+
+        startsWith(github.event.release.tag_name, '@quasar/cli')
+      }}
+
+    permissions:
+      contents: read # to fetch code (actions/checkout)
+
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: cli
+
+    name: Unit tests for @quasar/cli
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v5
+
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm i
+
+      - name: Run unit tests
+        run: pnpm test:unit
+
+  e2e-tests:
+    needs: unit-tests
+
+    permissions:
+      contents: read # to fetch code (actions/checkout)
+
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: cli
+
+    name: E2E tests for @quasar/cli
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v5
+
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm i
+
+      - name: Get pnpm store directory
+        id: pnpm-cache
+        run: |
+          echo "PNPM_CACHE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
+      - name: Setup pnpm cache
+        uses: actions/cache@v5
+        with:
+          path: ${{ steps.pnpm-cache.outputs.PNPM_CACHE_PATH }}
+          key: pnpm-cache-cli-e2e
+
+      # boots ad-hoc servers and scaffolds a real project
+      # (with dependency install) to test local CLI deferral & upgrade
+      - name: Run e2e tests
+        run: pnpm test:e2e

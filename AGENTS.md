@@ -1,8 +1,8 @@
 # Quasar Repository Agent Guide
 
 Applies repo-wide; a more deeply nested `AGENTS.md` takes precedence for its
-directory. Nested guides: `app-vite/AGENTS.md`, `create-quasar/AGENTS.md`,
-`ui/AGENTS.md`, `vite-plugin/AGENTS.md`.
+directory. Nested guides: `app-vite/AGENTS.md`, `cli/AGENTS.md`,
+`create-quasar/AGENTS.md`, `ui/AGENTS.md`, `vite-plugin/AGENTS.md`.
 
 ## Workflow
 
