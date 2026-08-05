@@ -29,7 +29,8 @@
     "access": "public"
   },
   "scripts": {
-    "test": "vitest run"
+    "test": "vitest run",
+    "prepublishOnly": "pnpm test"
   },
   "dependencies": {
     "ci-info": "^4.4.0"

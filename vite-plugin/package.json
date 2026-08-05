@@ -56,7 +56,8 @@
     "pretest:runtime:dev:fallback": "playwright install chromium",
     "test:runtime:dev:fallback": "vitest run --config ./testing/runtime/vitest-dev-fallback.config.js",
     "pretest:runtime:default-vars": "playwright install chromium",
-    "test:runtime:default-vars": "vitest run --config ./testing/runtime/vitest-default-vars.config.js"
+    "test:runtime:default-vars": "vitest run --config ./testing/runtime/vitest-default-vars.config.js",
+    "prepublishOnly": "pnpm --workspace-root build && pnpm test"
   },
   "devDependencies": {
     "@vitest/browser-playwright": "^4.1.10",
