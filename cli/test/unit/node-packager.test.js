@@ -47,6 +47,11 @@ describe('[node-packager.js]', () => {
       const pm = getNodePackager(makeProjectDir('lockless'))
       expect(['yarn', 'pnpm', 'npm', 'bun']).toContain(pm.name)
     })
+
+    test('works without a project folder at all', () => {
+      const pm = getNodePackager(void 0)
+      expect(['yarn', 'pnpm', 'npm', 'bun']).toContain(pm.name)
+    })
   })
 
   describe('install params', () => {
@@ -158,6 +163,54 @@ describe('[node-packager.js]', () => {
           npmRegistryUrl: registryUrl
         })
       ).toBe('3.0.0-alpha.1')
+    })
+
+    test('picks the highest version, not the last published one', async () => {
+      // the registry lists versions in publish order; a patch for an
+      // older minor version can get released after a newer minor version
+      mockRegistry(['2.0.0', '2.9.0', '2.10.0', '2.9.5'])
+
+      expect(
+        await nodePackager.getPackageLatestVersion({
+          packageName: 'quasar',
+          npmRegistryUrl: registryUrl,
+          currentVersion: '2.0.0'
+        })
+      ).toBe('2.10.0')
+
+      mockRegistry(['1.0.0', '2.1.0', '1.5.0'])
+      expect(
+        await nodePackager.getPackageLatestVersion({
+          packageName: 'quasar',
+          npmRegistryUrl: registryUrl
+        })
+      ).toBe('2.1.0')
+    })
+
+    test('prefers a stable release over its own pre-releases', async () => {
+      mockRegistry(['2.0.0', '2.1.0-beta.2', '2.1.0', '2.1.0-beta.1'])
+
+      expect(
+        await nodePackager.getPackageLatestVersion({
+          packageName: 'quasar',
+          npmRegistryUrl: registryUrl,
+          currentVersion: '2.0.0',
+          preReleaseVersion: true
+        })
+      ).toBe('2.1.0')
+    })
+
+    test('orders pre-releases numerically', async () => {
+      mockRegistry(['2.1.0-beta.2', '2.1.0-beta.10', '2.1.0-beta.9'])
+
+      expect(
+        await nodePackager.getPackageLatestVersion({
+          packageName: 'quasar',
+          npmRegistryUrl: registryUrl,
+          currentVersion: '2.0.0',
+          preReleaseVersion: true
+        })
+      ).toBe('2.1.0-beta.10')
     })
 
     test('returns null on registry errors or invalid input', async () => {

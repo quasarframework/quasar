@@ -19,8 +19,8 @@ const argv = getArgv({
   history: { type: 'boolean' },
   proxy: { type: 'string', short: 'P' },
   https: { type: 'boolean' },
-  C: { type: 'string' },
-  K: { type: 'string' },
+  cert: { type: 'string', short: 'C' },
+  key: { type: 'string', short: 'K' },
   'no-color': { type: 'boolean' },
   help: { type: 'boolean', short: 'h' }
 })
@@ -233,13 +233,15 @@ const getHttpOptions = async () => {
     fakeCert = await getCertificate({ log, fatal })
   }
 
-  const { createServer } = await import('node:http2')
+  const { createSecureServer } = await import('node:http2')
 
   return {
-    createServer,
+    createServer: createSecureServer,
     serverOptions: {
       keepAlive: true,
       keepAliveTimeout: 5000,
+      // so that HTTP/1.1 clients can connect too
+      allowHTTP1: true,
       key: key || fakeCert,
       cert: cert || fakeCert
     }

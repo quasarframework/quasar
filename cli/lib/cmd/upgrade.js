@@ -262,8 +262,8 @@ for (const type of Object.keys(deps)) {
     removeSync(appPaths.resolve.app('node_modules/' + dep.packageName))
 
     const pinned = /^\d/.test(
-      appPkg.dependencies[dep.packageName] ||
-        appPkg.devDependencies[dep.packageName] ||
+      appPkg.dependencies?.[dep.packageName] ||
+        appPkg.devDependencies?.[dep.packageName] ||
         '^' // fallback, just in case
     )
 

@@ -1,9 +1,27 @@
 import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs'
+import { request } from 'node:https'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { afterAll, describe, expect, test } from 'vitest'
 
 import { binFile, run, withServer } from './e2e-utils.js'
+
+// the certificates in play are self-signed,
+// so certificate validation must be skipped
+function httpsGet(url) {
+  return new Promise((resolve, reject) => {
+    const req = request(url, { rejectUnauthorized: false }, res => {
+      let body = ''
+      res.on('data', chunk => {
+        body += chunk
+      })
+      res.on('end', () => resolve({ status: res.statusCode, body }))
+    })
+
+    req.on('error', reject)
+    req.end()
+  })
+}
 
 const workDir = mkdtempSync(join(tmpdir(), 'quasar-cli-serve-'))
 const distDir = join(workDir, 'dist')
@@ -116,6 +134,54 @@ describe('[e2e] serve', () => {
       const index = await fetch(url)
       expect(index.status).toBe(200)
     })
+  })
+
+  test('serves over TLS with a generated certificate', async () => {
+    await withServer(serveArgs(['--https']), async ({ url }) => {
+      expect(url).toMatch(/^https:/)
+
+      const index = await httpsGet(url)
+      expect(index.status).toBe(200)
+      expect(index.body).toContain('INDEX-PAGE')
+    })
+  })
+
+  test('serves over TLS with a provided certificate', async () => {
+    // the ssl-certificate package produces a single pem holding
+    // both the private key and the certificate
+    const { getCertificate } = await import('@quasar/ssl-certificate')
+    const pem = await getCertificate({
+      log: () => {},
+      fatal: msg => {
+        throw new Error(msg)
+      }
+    })
+
+    const pemFile = join(workDir, 'ssl-server.pem')
+    writeFileSync(pemFile, pem)
+
+    await withServer(
+      serveArgs(['--https', '--cert', pemFile, '--key', pemFile]),
+      async ({ url }) => {
+        const index = await httpsGet(url)
+        expect(index.status).toBe(200)
+        expect(index.body).toContain('INDEX-PAGE')
+      }
+    )
+  })
+
+  test('fails on missing SSL key/cert files', async () => {
+    const { code, output } = await run(
+      process.execPath,
+      [
+        binFile,
+        ...serveArgs(['--https', '--cert', 'nope.pem', '--key', 'nope.pem'])
+          .args
+      ],
+      workDir
+    )
+    expect(code).toBe(1)
+    expect(output).toContain('SSL key file not found')
   })
 
   test('fails on a missing index file in history mode', async () => {

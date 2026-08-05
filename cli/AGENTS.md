@@ -17,8 +17,8 @@ Run from `/cli`.
 ## Gotchas
 
 - `lib/app-paths.js` and `lib/node-packager.js` resolve the project at
-  import time from `process.cwd()`; importing `node-packager.js` outside a
-  project folder throws. Tests chdir into temp projects before importing.
+  import time from `process.cwd()`. Tests chdir into temp projects before
+  importing.
 - Tests spawning the binary must strip `NODE_PATH` from the child env:
   vitest points it at the monorepo's pnpm store, which would let the CLI
   resolve host packages a real user would not have.
