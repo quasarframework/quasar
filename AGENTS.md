@@ -25,6 +25,19 @@ These instructions apply to the entire repository. A more deeply nested
   the same change set. Do not consider such a change complete on code and
   tests alone.
 
+## Code style
+
+- Do not compare the result of a native JS method that already returns a
+  strict boolean (`RegExp.test()`, `Array.some()`/`every()`/`includes()`,
+  `Set.has()`, `Map.has()`, `String.includes()`/`startsWith()`/`endsWith()`,
+  `Object.hasOwn()`, `Number.isNaN()`, `existsSync()`, and the like) against
+  `=== true` or `=== false`. Use the value directly, or negate it with `!`.
+- Keep the explicit `=== true` / `=== false` comparison when the value is not
+  guaranteed to be a strict boolean (for example user-provided options, values
+  that may be `undefined`, or calls to project functions — their implementation
+  can change to return a non-boolean and silently break truthiness-based call
+  sites), where truthiness would change behavior.
+
 ## UI test specifications
 
 Read `ui/testing/README.md` before creating or editing files under

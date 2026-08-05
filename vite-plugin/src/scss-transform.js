@@ -143,7 +143,7 @@ export function createVariablesManager(sassVariables) {
           mkdirSync(cacheDir, { recursive: true })
           cacheDirReady = true
         }
-        if (existsSync(file) === false) {
+        if (!existsSync(file)) {
           // atomic write: a killed process or a concurrent build must
           // never leave a partial file behind under the final name
           // (its content-addressed name would be trusted forever)
@@ -255,7 +255,7 @@ export function createScssTransform(fileExtension, sassVariables, manager) {
     if (
       manager.canSkipInjection === true &&
       loadsFiles === false &&
-      content.includes('$') === false
+      !content.includes('$')
     ) {
       return null
     }

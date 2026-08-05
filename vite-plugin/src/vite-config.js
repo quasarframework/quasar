@@ -79,7 +79,7 @@ export function getViteConfig(
     typeof sassVariables !== 'string' &&
     userPreprocessorOptions?.sass?.additionalData === void 0 &&
     userPreprocessorOptions?.scss?.additionalData === void 0 &&
-    userAliasCoversFrameworkCss(externalViteCfg.resolve?.alias) === false
+    !userAliasCoversFrameworkCss(externalViteCfg.resolve?.alias)
   ) {
     aliasList.push({
       find: /^quasar\/src\/css\/index\.sass$/,

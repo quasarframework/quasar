@@ -17,7 +17,7 @@ function passesFilter(filter, id, code) {
   const exclude = toList(filter.id.exclude ?? [])
 
   if (exclude.some(regex => regex.test(id))) return false
-  if (include.some(regex => regex.test(id)) === false) return false
+  if (!include.some(regex => regex.test(id))) return false
 
   return filter.code === void 0 || filter.code.test(code)
 }

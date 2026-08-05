@@ -232,7 +232,7 @@ export function resolveVariablesClosure(graph, refNames) {
         usesNamespace = true
       }
       for (const dep of entry.deps) {
-        if (visited.has(dep) === false) {
+        if (!visited.has(dep)) {
           pending.push(dep)
         }
       }

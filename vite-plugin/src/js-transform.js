@@ -71,7 +71,7 @@ function containsQuasarDynamicImport(node) {
  * string content, like documentation code snippets).
  */
 export function hasResidualQuasarImports(code) {
-  if (residualQuasarImportRegex.test(code) === false) {
+  if (!residualQuasarImportRegex.test(code)) {
     return false
   }
 
@@ -96,8 +96,8 @@ export function hasResidualQuasarImports(code) {
   // dynamic import("quasar") can appear anywhere, but the full AST
   // walk is only worth it when its textual form is present at all
   return (
-    dynamicResidualRegex.test(code) === true &&
-    containsQuasarDynamicImport(ast.body)
+    dynamicResidualRegex.test(code) &&
+    containsQuasarDynamicImport(ast.body) === true
   )
 }
 

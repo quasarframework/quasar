@@ -119,9 +119,9 @@ function getScriptTransformsPlugin(opts) {
 
   function warnResidualImports(ctx, code, id) {
     if (
-      useTreeshaking === true &&
-      warnedFiles.has(id) === false &&
-      hasResidualQuasarImports(code) === true
+      useTreeshaking &&
+      !warnedFiles.has(id) &&
+      hasResidualQuasarImports(code)
     ) {
       warnedFiles.add(id)
       const msg =
@@ -139,7 +139,7 @@ function getScriptTransformsPlugin(opts) {
 
   function transformHandler(src, id) {
     // when hook filters are not available, this mirrors their fast bail out
-    if (quasarCodeRegex.test(src) === false) {
+    if (!quasarCodeRegex.test(src)) {
       return null
     }
 
@@ -169,7 +169,7 @@ function getScriptTransformsPlugin(opts) {
     // with the same needs as any script file: mapping user-written
     // "quasar" imports to per-file paths when treeshaking
     if (
-      useTreeshaking === true &&
+      useTreeshaking &&
       (is.script(scriptMatcher) || is.template(vueMatcher))
     ) {
       const code = mapQuasarImports(src)

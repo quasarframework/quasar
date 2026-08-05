@@ -55,7 +55,7 @@ export function createQuasarNodeTransform(
       const devSpecifierList = []
 
       const registerImport = (name, assetId) => {
-        if (useTreeshaking === true) {
+        if (useTreeshaking) {
           context.imports.push({
             exp: assetId,
             path: importTransformation(name)
