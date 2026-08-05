@@ -97,7 +97,7 @@ describe.each(getCombos().map(combo => [comboName(combo), combo]))(
         'pinia'
       )
     }
-    scaffoldArgs.push('--defaults', '--no-git')
+    scaffoldArgs.push('--defaults')
 
     const repro = makeRepro(scaffoldArgs, name)
     const stepTest = createStepTest()
@@ -125,6 +125,11 @@ describe.each(getCombos().map(combo => [comboName(combo), combo]))(
         expect(existsSync(join(projectFolder, 'node_modules')), repro()).toBe(
           true
         )
+
+        // a git repository gets initialized with an initial commit
+        expect(existsSync(join(projectFolder, '.git')), repro()).toBe(true)
+        const gitLog = await run('git', ['log', '--format=%s'], projectFolder)
+        expect(gitLog.output, repro()).toContain('Initialize the project')
       }
     )
 

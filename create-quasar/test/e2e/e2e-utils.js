@@ -9,7 +9,16 @@ export const env = {
   ...process.env,
   NO_UPDATE_NOTIFIER: '1',
   // See https://github.com/yarnpkg/yarn/issues/9015
-  SKIP_YARN_COREPACK_CHECK: '1'
+  SKIP_YARN_COREPACK_CHECK: '1',
+  // deterministic git behavior for the scaffolding's repo initialization:
+  // no user/system config (so no GPG signing or hooks that could hang the
+  // run) and a fixed commit identity
+  GIT_CONFIG_GLOBAL: '/dev/null',
+  GIT_CONFIG_SYSTEM: '/dev/null',
+  GIT_AUTHOR_NAME: 'Test',
+  GIT_AUTHOR_EMAIL: 'test@example.com',
+  GIT_COMMITTER_NAME: 'Test',
+  GIT_COMMITTER_EMAIL: 'test@example.com'
 }
 // Deliberately NO prefer-offline overrides here: the package managers'
 // persistent local caches already avoid re-downloading tarballs, while

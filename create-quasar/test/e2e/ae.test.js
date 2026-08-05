@@ -99,6 +99,9 @@ describe.each(getCombos().map(combo => [comboName(combo), combo]))(
         expect(existsSync(join(projectFolder, 'node_modules')), repro()).toBe(
           true
         )
+
+        // --no-git skips the git repository initialization
+        expect(existsSync(join(projectFolder, '.git')), repro()).toBe(false)
       }
     )
 

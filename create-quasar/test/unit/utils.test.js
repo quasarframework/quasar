@@ -1,6 +1,14 @@
-import { existsSync } from 'node:fs'
+import { execSync } from 'node:child_process'
+import {
+  existsSync,
+  mkdirSync,
+  mkdtempSync,
+  rmSync,
+  writeFileSync
+} from 'node:fs'
+import { tmpdir } from 'node:os'
 import { join } from 'node:path'
-import { describe, expect, test } from 'vitest'
+import { afterAll, beforeAll, describe, expect, test, vi } from 'vitest'
 
 import utils from '../../lib/utils.js'
 
@@ -147,6 +155,53 @@ describe('[utils.js]', () => {
 
       expect(asked).toEqual([])
       expect(scope).toEqual({ install: false, author: '' })
+    })
+  })
+
+  describe('initializeGit()', () => {
+    const rootDir = mkdtempSync(join(tmpdir(), 'create-quasar-git-'))
+
+    beforeAll(() => {
+      // deterministic git behavior: no user/system config
+      // (so no GPG signing or hooks) and a fixed commit identity
+      vi.stubEnv('GIT_CONFIG_GLOBAL', '/dev/null')
+      vi.stubEnv('GIT_CONFIG_SYSTEM', '/dev/null')
+      vi.stubEnv('GIT_AUTHOR_NAME', 'Test')
+      vi.stubEnv('GIT_AUTHOR_EMAIL', 'test@example.com')
+      vi.stubEnv('GIT_COMMITTER_NAME', 'Test')
+      vi.stubEnv('GIT_COMMITTER_EMAIL', 'test@example.com')
+    })
+
+    afterAll(() => {
+      vi.unstubAllEnvs()
+      rmSync(rootDir, { recursive: true, force: true })
+    })
+
+    test('initializes a repository with an initial commit', () => {
+      const projectFolder = join(rootDir, 'fresh')
+      mkdirSync(projectFolder, { recursive: true })
+      // a freshly scaffolded folder always has files to commit
+      writeFileSync(join(projectFolder, 'package.json'), '{}')
+
+      utils.initializeGit(projectFolder)
+
+      expect(existsSync(join(projectFolder, '.git'))).toBe(true)
+
+      const log = execSync('git log --format=%s', {
+        cwd: projectFolder
+      }).toString()
+      expect(log).toContain('Initialize the project')
+    })
+
+    test('skips when a parent folder is already a git repository', () => {
+      const parentRepo = join(rootDir, 'parent-repo')
+      const projectFolder = join(parentRepo, 'nested-project')
+      mkdirSync(projectFolder, { recursive: true })
+      execSync('git init', { cwd: parentRepo })
+
+      utils.initializeGit(projectFolder)
+
+      expect(existsSync(join(projectFolder, '.git'))).toBe(false)
     })
   })
 })

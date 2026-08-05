@@ -14,12 +14,18 @@ afterAll(() => {
   rmSync(workDir, { recursive: true, force: true })
 })
 
-function runCli(args, { cwd = workDir } = {}) {
+function runCli(args, { cwd = workDir, userAgent } = {}) {
   const env = { ...process.env, NO_UPDATE_NOTIFIER: '1' }
   // simulate a direct invocation (not through a package manager's
-  // "create" command), so --install accepts a package manager name
+  // "create" command), so --install accepts a package manager name...
   delete env.npm_config_user_agent
   delete env.npm_lifecycle_event
+
+  // ...unless a package manager's "create" invocation is being
+  // simulated, where --install acts as a boolean instead
+  if (userAgent) {
+    env.npm_config_user_agent = userAgent
+  }
 
   return new Promise(resolve => {
     execFile(
@@ -46,6 +52,7 @@ describe('[bin/create-quasar.js]', () => {
     expect(stdout).toContain('Scaffolds Quasar Apps & App Extensions')
     expect(stdout).toContain('--template, -t')
     expect(stdout).toContain('--preset')
+    expect(stdout).toContain('$ create-quasar')
   })
 
   test('fails on an unknown option', async () => {
@@ -157,6 +164,78 @@ describe('[bin/create-quasar.js]', () => {
     expect(stderr).toContain(
       'must NOT be executed inside of a Quasar project folder'
     )
+  })
+
+  describe('invoked through a package manager "create" command', () => {
+    const pnpmAgent = 'pnpm/9.12.0 npm/? node/v22.0.0 darwin arm64'
+
+    test('--help shows the package manager create command', async () => {
+      const { code, stdout } = await runCli(['--help'], {
+        userAgent: pnpmAgent
+      })
+      expect(code).toBe(0)
+      expect(stdout).toContain('$ pnpm create quasar@latest')
+    })
+
+    test('--install is a boolean, so a value becomes a positional', async () => {
+      const { code, stderr } = await runCli(
+        ['my-dir', '--template', 'app', '--install', 'pnpm'],
+        { userAgent: pnpmAgent }
+      )
+      expect(code).toBe(1)
+      expect(stderr).toContain('Too many positional arguments')
+    })
+
+    test('accepts --install under a supported package manager', async () => {
+      // validation must pass; the run is stopped afterwards by the
+      // non-empty target directory, before any actual scaffolding
+      const targetDir = join(workDir, 'pm-non-empty-target')
+      mkdirSync(targetDir, { recursive: true })
+      writeFileSync(join(targetDir, 'keep.txt'), 'keep')
+
+      const { code, stdout, stderr } = await runCli(
+        ['pm-non-empty-target', '--template', 'app', '--install', '--defaults'],
+        { userAgent: pnpmAgent }
+      )
+      expect(code).toBe(1)
+      expect(stdout + stderr).toContain(
+        'Target directory "pm-non-empty-target" is not empty'
+      )
+    })
+
+    test('fails on --install under an unsupported package manager', async () => {
+      const { code, stderr } = await runCli(
+        ['--template', 'app', '--install'],
+        { userAgent: 'cnpm/9.2.0 npm/? node/v22.0.0 darwin arm64' }
+      )
+      expect(code).toBe(1)
+      expect(stderr).toContain('Package manager cnpm is not allowed')
+    })
+
+    test('fails on --install for template "ae" under a non-pnpm package manager', async () => {
+      const { code, stderr } = await runCli(['--template', 'ae', '--install'], {
+        userAgent: 'npm/10.8.2 node/v22.0.0 darwin arm64'
+      })
+      expect(code).toBe(1)
+      expect(stderr).toContain(
+        'Package manager npm is not allowed with --install. Use only "pnpm".'
+      )
+    })
+
+    test('accepts --install for template "ae" under pnpm', async () => {
+      const targetDir = join(workDir, 'ae-non-empty-target')
+      mkdirSync(targetDir, { recursive: true })
+      writeFileSync(join(targetDir, 'keep.txt'), 'keep')
+
+      const { code, stdout, stderr } = await runCli(
+        ['ae-non-empty-target', '--template', 'ae', '--install', '--defaults'],
+        { userAgent: pnpmAgent }
+      )
+      expect(code).toBe(1)
+      expect(stdout + stderr).toContain(
+        'Target directory "ae-non-empty-target" is not empty'
+      )
+    })
   })
 
   test('refuses to scaffold with --defaults into a non-empty directory', async () => {
