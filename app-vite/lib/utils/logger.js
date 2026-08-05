@@ -49,6 +49,7 @@ export const clearConsole = process.stdout.isTTY
   : () => {}
 
 export function tip(msg) {
+  if (isSuppressed) return
   console.log(msg ? ` ${tipBanner} ${msg}` : '')
 }
 
@@ -69,13 +70,16 @@ export function warn(msg, pill) {
 }
 
 export function fatal(msg, pill) {
-  if (isSuppressed) return
-  if (msg !== void 0) {
-    const pillBanner = pill !== void 0 ? errorPill(pill) + ' ' : ''
+  // suppression only silences the output;
+  // a fatal error must still exit the process
+  if (!isSuppressed) {
+    if (msg !== void 0) {
+      const pillBanner = pill !== void 0 ? errorPill(pill) + ' ' : ''
 
-    console.error(`\n ${redBanner} ⚠️  ${pillBanner}${msg}\n`)
-  } else {
-    console.error()
+      console.error(`\n ${redBanner} ⚠️  ${pillBanner}${msg}\n`)
+    } else {
+      console.error()
+    }
   }
 
   process.exit(1)
@@ -89,7 +93,7 @@ export function success(msg, title = 'SUCCESS') {
   if (isSuppressed) return
   console.log(` ${greenBanner} ${successPill(title)} ${green(dot + ' ' + msg)}`)
 }
-export function getSuccess(msg, title) {
+export function getSuccess(msg, title = 'SUCCESS') {
   return ` ${greenBanner} ${successPill(title)} ${green(dot + ' ' + msg)}`
 }
 
@@ -97,7 +101,7 @@ export function info(msg, title = 'INFO') {
   if (isSuppressed) return
   console.log(` ${greenBanner} ${infoPill(title)} ${green(dot)} ${msg}`)
 }
-export function getInfo(msg, title) {
+export function getInfo(msg, title = 'INFO') {
   return ` ${greenBanner} ${infoPill(title)} ${green(dot)} ${msg}`
 }
 

@@ -17,6 +17,8 @@ const extraEnvParams = isCI
  Returns nothing, takes onFail
  */
 export async function spawnSync(cmd, params, opts) {
+  opts ??= {}
+
   const targetFolder = opts?.cwd
     ? ` in /${relative(process.cwd(), opts.cwd)}`
     : ''

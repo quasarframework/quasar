@@ -97,11 +97,18 @@ export function getBuildArtifactsCleanTarget({
 export function removeBuildArtifacts(options) {
   const { target, effectiveTarget } = getBuildArtifactsCleanTarget(options)
 
-  if (fse.pathExistsSync(target)) {
-    const symlinkTarget =
-      target !== effectiveTarget ? ` (resolves to: ${effectiveTarget})` : ''
+  if (fse.pathExistsSync(target) === false) return
 
-    log(`Removing build artifacts: ${target}${symlinkTarget}`)
+  const symlinkTarget =
+    target !== effectiveTarget ? ` (resolves to: ${effectiveTarget})` : ''
+
+  log(`Removing build artifacts: ${target}${symlinkTarget}`)
+
+  if (fse.lstatSync(target).isSymbolicLink()) {
+    // empty the real directory but preserve the link itself,
+    // so that future builds keep writing through it
+    fse.emptyDirSync(effectiveTarget)
+  } else {
     fse.removeSync(target)
   }
 }

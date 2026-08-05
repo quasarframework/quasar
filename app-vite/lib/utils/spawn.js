@@ -20,6 +20,8 @@ const extraEnvParams = isCI
  Returns nothing, takes onFail
  */
 export async function spawnSync(cmd, params, opts, onFail) {
+  opts ??= {}
+
   const targetFolder = opts?.cwd
     ? ` in /${relative(process.cwd(), opts.cwd)}`
     : ''
@@ -67,6 +69,8 @@ export async function spawnSync(cmd, params, opts, onFail) {
  Returns pid, takes onClose
  */
 export function spawn(cmd, params, opts, onClose) {
+  opts ??= {}
+
   if (!cmd) {
     fatal('Command name was not available. Please run again.')
   }

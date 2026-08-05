@@ -57,10 +57,17 @@ const TEMPLATING_FILE_EXTENSIONS = [
   '.sass'
 ]
 
-function cancelScaffolding({
-  message = 'Scaffolding cancelled',
-  exit = true
-} = {}) {
+function cancelScaffolding(opts = {}) {
+  // only the object form is valid; anything else (e.g. a plain string
+  // message) would get silently dropped by the destructuring below
+  if (typeof opts !== 'object' || opts === null) {
+    throw new TypeError(
+      'cancelScaffolding() expects an options object: { message?, exit? }'
+    )
+  }
+
+  const { message = 'Scaffolding cancelled', exit = true } = opts
+
   cancel(message)
   if (exit !== false) process.exit(exit === true ? 1 : exit)
 }
@@ -216,7 +223,6 @@ async function runCommand({
 
   const runner = spawnSync(cmd, args, {
     cwd,
-    args,
     stdio: 'inherit',
     // Force colors so the captured error formatting isn't lost
     env: { ...process.env, FORCE_COLOR: '1' }

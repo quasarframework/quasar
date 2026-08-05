@@ -111,6 +111,54 @@ describe('[utils.js]', () => {
     })
   })
 
+  describe('cancelScaffolding()', () => {
+    afterAll(() => {
+      vi.restoreAllMocks()
+    })
+
+    test('prints the message and exits with the object form', () => {
+      const writeSpy = vi
+        .spyOn(process.stdout, 'write')
+        .mockImplementation(() => true)
+      const exitSpy = vi.spyOn(process, 'exit').mockImplementation(() => {
+        throw new Error('process.exit called')
+      })
+
+      expect(() =>
+        utils.cancelScaffolding({ message: 'custom cancel message' })
+      ).toThrow('process.exit called')
+      expect(exitSpy).toHaveBeenCalledExactlyOnceWith(1)
+
+      const output = writeSpy.mock.calls.map(call => call[0]).join('')
+      expect(output).toContain('custom cancel message')
+    })
+
+    test('rejects anything but the object form', () => {
+      const exitSpy = vi.spyOn(process, 'exit').mockImplementation(() => {
+        throw new Error('process.exit called')
+      })
+      exitSpy.mockClear()
+
+      for (const param of ['a plain string message', 42, true]) {
+        expect(() => utils.cancelScaffolding(param)).toThrow(TypeError)
+      }
+      expect(exitSpy).not.toHaveBeenCalled()
+    })
+
+    test('does not exit when the exit option is false', () => {
+      vi.spyOn(process.stdout, 'write').mockImplementation(() => true)
+      const exitSpy = vi.spyOn(process, 'exit').mockImplementation(() => {
+        throw new Error('process.exit called')
+      })
+      exitSpy.mockClear()
+
+      expect(() =>
+        utils.cancelScaffolding({ message: 'no exit', exit: false })
+      ).not.toThrow()
+      expect(exitSpy).not.toHaveBeenCalled()
+    })
+  })
+
   describe('promptUser()', () => {
     test('skips questions for pre-filled keys', async () => {
       const scope = { name: 'pre-filled' }

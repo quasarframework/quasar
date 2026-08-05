@@ -19,7 +19,7 @@ const colorFn = {
   html: cyan
 }
 
-function getAssets(distDir) {
+export function getAssets(distDir) {
   const acc = []
 
   Object.keys(colorFn).forEach(type => {
@@ -41,7 +41,7 @@ function getAssets(distDir) {
   return acc
 }
 
-function getHumanSize(bytes) {
+export function getHumanSize(bytes) {
   return `${(bytes / 1024).toFixed(2)} KB`
 }
 
@@ -50,11 +50,11 @@ function getGzippedSize(file) {
     const buffer = readFileSync(file)
     return gzipSync(buffer).length
   } catch {
-    return '-'
+    return null // the file could not be read
   }
 }
 
-function getAssetLines(assetList, showGzipped) {
+export function getAssetLines(assetList, showGzipped) {
   const total = highlightTypes.reduce((acc, type) => {
     acc[type] = { size: 0, number: 0 }
     return acc
@@ -84,9 +84,8 @@ function getAssetLines(assetList, showGzipped) {
     }
 
     if (showGzipped) {
-      const val = shouldHighlight
-        ? getHumanSize(getGzippedSize(asset.file))
-        : '-'
+      const gzippedSize = shouldHighlight ? getGzippedSize(asset.file) : null
+      const val = gzippedSize === null ? '-' : getHumanSize(gzippedSize)
 
       acc.gzipped = gray(val)
       acc.gzippedLen = val.length
@@ -123,7 +122,7 @@ function getAssetLines(assetList, showGzipped) {
   return lineList
 }
 
-function getAssetColumnWidth(assetList) {
+export function getAssetColumnWidth(assetList) {
   const total = highlightTypes.reduce((acc, type) => {
     acc[type] = 0
     return acc
@@ -137,9 +136,9 @@ function getAssetColumnWidth(assetList) {
   }, 0)
 
   highlightTypes.forEach(type => {
-    const target = total[type]
-    const plural = target.number > 1 ? 's' : ''
-    const banner = `Total ${type.toUpperCase()} (${target.number} file${plural})`
+    const count = total[type]
+    const plural = count > 1 ? 's' : ''
+    const banner = `Total ${type.toUpperCase()} (${count} file${plural})`
 
     if (banner.length > maxAssetNameLen) {
       maxAssetNameLen = banner.length
