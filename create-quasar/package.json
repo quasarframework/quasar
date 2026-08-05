@@ -24,7 +24,11 @@
   "type": "module",
   "main": "bin/create-quasar.js",
   "scripts": {
-    "test": "vitest run"
+    "test": "pnpm test:unit && pnpm test:e2e",
+    "test:unit": "vitest run",
+    "test:e2e": "pnpm test:e2e:app && pnpm test:e2e:ae",
+    "test:e2e:app": "vitest run --config ./vitest-e2e.config.js test/e2e/app",
+    "test:e2e:ae": "vitest run --config ./vitest-e2e.config.js test/e2e/ae"
   },
   "dependencies": {
     "@clack/prompts": "^1.7.0",

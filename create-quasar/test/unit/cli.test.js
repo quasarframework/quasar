@@ -4,9 +4,9 @@ import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { afterAll, describe, expect, test } from 'vitest'
 
-import { cliPkg } from '../lib/cli-pkg.js'
+import { cliPkg } from '../../lib/cli-pkg.js'
 
-const binFile = join(import.meta.dirname, '../bin/create-quasar.js')
+const binFile = join(import.meta.dirname, '../../bin/create-quasar.js')
 
 const workDir = mkdtempSync(join(tmpdir(), 'create-quasar-cli-'))
 

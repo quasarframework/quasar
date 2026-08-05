@@ -56,7 +56,7 @@ jobs:
         run: pnpm i
 
       - name: Run unit tests
-        run: pnpm test
+        run: pnpm test:unit
 
   test-app:
     needs: unit-tests
@@ -150,35 +150,16 @@ jobs:
             npm-cache-app-${{ matrix.script }}-${{ matrix.engine }}-
             npm-cache-app-
 
-      - name: Create the test project
-        run: node bin/create-quasar.js test-project --template app --install ${{ matrix.install }}${{ matrix.script == 'ts' && ' --preset typescript' || '' }} --preset ${{ matrix.linter }}${{ matrix.fbr == true && ' --preset fbr' || '' }}${{ matrix.allPresets == true && ' --preset sass --preset i18n --preset pinia' || '' }} --defaults
-
-      - name: Lint the project
-        working-directory: create-quasar/test-project
-        run: ${{ matrix.install }} run lint
-
-      - name: Test the build
-        working-directory: create-quasar/test-project
-        run: ${{ matrix.install }} run build
-
-      - name: Test the development server
-        working-directory: create-quasar/test-project
+      # scaffolds the project (with dependency install), then lints it,
+      # builds it and boots the dev server
+      - name: Test the project creation
         env:
-          # For Vite, see https://github.com/jeffbski/wait-on/issues/78#issuecomment-867813529
-          WAIT_ON_CONFIG: |
-            {
-              "headers": {
-                "accept": "text/html"
-              }
-            }
-
-        # wait-on is pinned for stability and safety reasons, it can be updated manually after testing a new version
-        run: |
-          ${{ matrix.install }} run dev &
-            echo $WAIT_ON_CONFIG > wait-on.json
-            npx wait-on@7.2.0 --config wait-on.json --timeout 5000 http-get://127.0.0.1:9000
-
-          kill $!
+          E2E_INSTALL: ${{ matrix.install }}
+          E2E_SCRIPT: ${{ matrix.script }}
+          E2E_LINTER: ${{ matrix.linter }}
+          E2E_FBR: ${{ matrix.fbr }}
+          E2E_ALL_PRESETS: ${{ matrix.allPresets }}
+        run: pnpm test:e2e:app
 
   test-ae:
     needs: unit-tests
@@ -230,29 +211,10 @@ jobs:
           path: ${{ steps.pnpm-cache.outputs.PNPM_CACHE_PATH }}
           key: pnpm-cache-ae-${{ matrix.script }}-${{ matrix.lint }}
 
-      - name: Create the test project
-        run: node bin/create-quasar.js test-project --template ae --install pnpm${{ matrix.script == 'ts' && ' --preset typescript' || '' }}${{ matrix.lint == true && ' --preset oxlint' || '' }} --preset prompts --preset install --preset uninstall --defaults
-
-      - name: Lint the project
-        if: ${{ matrix.lint == true }}
-        working-directory: create-quasar/test-project
-        run: pnpm run lint
-
-      - name: Test the development server
-        working-directory: create-quasar/test-project
+      # scaffolds the App Extension (with dependency install), then
+      # lints it and boots the playground dev server
+      - name: Test the project creation
         env:
-          # For Vite, see https://github.com/jeffbski/wait-on/issues/78#issuecomment-867813529
-          WAIT_ON_CONFIG: |
-            {
-              "headers": {
-                "accept": "text/html"
-              }
-            }
-
-        # wait-on is pinned for stability and safety reasons, it can be updated manually after testing a new version
-        run: |
-          pnpm run dev &
-            echo $WAIT_ON_CONFIG > wait-on.json
-            npx wait-on@7.2.0 --config wait-on.json --timeout 5000 http-get://127.0.0.1:9000
-
-          kill $!
+          E2E_SCRIPT: ${{ matrix.script }}
+          E2E_LINT: ${{ matrix.lint }}
+        run: pnpm test:e2e:ae

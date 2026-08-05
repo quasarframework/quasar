@@ -7,7 +7,7 @@ afterEach(() => {
 
 async function getRunningPackageManager(userAgent) {
   vi.stubEnv('npm_config_user_agent', userAgent)
-  const { runningPackageManager } = await import('../lib/running-pm.js')
+  const { runningPackageManager } = await import('../../lib/running-pm.js')
   return runningPackageManager
 }
 

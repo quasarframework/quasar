@@ -3,7 +3,7 @@ import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { afterAll, afterEach, describe, expect, test } from 'vitest'
 
-import { isInsideQuasarProject } from '../lib/ensure-outside-project.js'
+import { isInsideQuasarProject } from '../../lib/ensure-outside-project.js'
 
 const originalCwd = process.cwd()
 const rootDir = mkdtempSync(join(tmpdir(), 'create-quasar-ensure-'))

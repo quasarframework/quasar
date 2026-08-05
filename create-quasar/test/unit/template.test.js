@@ -4,7 +4,7 @@ import {
   compileTemplateToFile,
   compileTemplateToFn,
   renderTemplate
-} from '../lib/template.js'
+} from '../../lib/template.js'
 
 describe('[template.js]', () => {
   describe('renderTemplate()', () => {

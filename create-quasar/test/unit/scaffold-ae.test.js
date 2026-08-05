@@ -3,8 +3,8 @@ import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { afterAll, describe, expect, test } from 'vitest'
 
-import { createQuasarScript } from '../templates/ae/create-quasar-script.js'
-import utils from '../lib/utils.js'
+import { createQuasarScript } from '../../templates/ae/create-quasar-script.js'
+import utils from '../../lib/utils.js'
 
 const rootDir = mkdtempSync(join(tmpdir(), 'create-quasar-ae-'))
 

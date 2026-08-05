@@ -2,7 +2,7 @@ import { existsSync } from 'node:fs'
 import { join } from 'node:path'
 import { describe, expect, test } from 'vitest'
 
-import utils from '../lib/utils.js'
+import utils from '../../lib/utils.js'
 
 describe('[utils.js]', () => {
   describe('definitions', () => {
@@ -18,7 +18,7 @@ describe('[utils.js]', () => {
         existsSync(
           join(
             import.meta.dirname,
-            '../templates',
+            '../../templates',
             utils.definitions.template.default,
             'create-quasar-script.js'
           )

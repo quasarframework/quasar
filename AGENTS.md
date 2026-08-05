@@ -1,7 +1,8 @@
 # Quasar Repository Agent Guide
 
 Applies repo-wide; a more deeply nested `AGENTS.md` takes precedence for its
-directory.
+directory. Nested guides: `app-vite/AGENTS.md`, `create-quasar/AGENTS.md`,
+`ui/AGENTS.md`, `vite-plugin/AGENTS.md`.
 
 ## Workflow
 
@@ -15,11 +16,8 @@ directory.
 - Keep changes focused; do not modify, discard, or commit unrelated work
   already in the worktree.
 - Follow existing code/test patterns. When a public contract changes, update
-  related tests, types, API JSON, and documentation.
-- Website docs live in `docs/src/pages`. Any user-observable change to `/ui`,
-  `/app-vite`, or `/vite-plugin` (options, defaults, requirements, behavior,
-  performance, setup) is incomplete until the covering docs pages (search
-  there for the option/feature name) are updated in the same change set.
+  related tests, types, API JSON, and documentation (website docs live in
+  `docs/src/pages`).
 
 ## Code style
 
@@ -32,44 +30,6 @@ directory.
   boolean — user-provided options, possibly-`undefined` values, or calls to
   project functions (their implementation can change to return a non-boolean
   and silently break truthiness-based call sites).
-
-## UI test specifications
-
-Read `ui/testing/README.md` before creating or editing `ui/src/**/*.test.js`.
-Run all `test:specs` commands from `/ui`, not `/ui/testing`.
-
-1. Build first: `cd ui && pnpm build`.
-2. Run `pnpm test:specs --target <source_file>` (no extension). Use a subpath
-   relative to `/ui/src` when a filename matches multiple sources, e.g.
-   `utils/date/date` — not a broad `date`.
-3. Accept every required case the Specs script offers; do not skip or ignore
-   one merely to pass validation.
-4. Replace every generated `test.todo()` with a real behavioral test; leave no
-   `.todo()`/`.skip()` on any `describe()`/`test()`.
-5. Preserve the generated `describe()` statements and identifiers; align
-   failing existing files with the exact hierarchy the script reports.
-6. Rerun the same target until the script reports success.
-7. Run the focused Vitest file while developing, then root `pnpm test` after
-   editing any existing or new test file.
-
-If the Specs script itself changes, also run the extra validation from
-`ui/testing/README.md`: build the UI, `pnpm test:specs --dry-run`,
-`pnpm test:specs:ci`, then root `pnpm test`.
-
-### Test design
-
-- Test public behavior and reusable structure, not a snapshot of the current
-  implementation.
-- For generic Vue prop/emit declaration tests, use the `$props()`/`$emits()`
-  matchers from `ui/testing/vitest.setup.js`; do not duplicate exact names,
-  types, defaults, validators, or ordering merely to prove a declaration
-  valid — changing an unrelated prop/event must not break such a test.
-- Still assert an exact prop, event, default, validator, or payload when that
-  specific public behavior is the subject of the test.
-- Apply the same principle to other exported definitions: prefer structural
-  matchers (`$objectValues()`, `$arrayValues()`); when a recurring form has no
-  suitable matcher, add a reusable one to `ui/testing/vitest.setup.js` instead
-  of repeating implementation-specific assertions.
 
 ## Generated Quasar configuration
 
