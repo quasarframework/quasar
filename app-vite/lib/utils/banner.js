@@ -4,7 +4,7 @@ import { join } from 'node:path'
 import { cliPkg } from '../utils/cli-runtime.js'
 import { getIPs } from '../utils/net.js'
 
-function getPackager(argv, cmd) {
+export function getPackager(argv, cmd) {
   if (
     argv.ide ||
     (cmd === 'dev' && ['capacitor', 'cordova'].includes(argv.mode))
