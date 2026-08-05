@@ -37,12 +37,19 @@ jobs:
 
     permissions:
       contents: read # to fetch code (actions/checkout)
+      pull-requests: read # to list the changed files
 
     runs-on: ubuntu-latest
 
     defaults:
       run:
         working-directory: create-quasar
+
+    # the expensive e2e matrix only runs when the scaffolding itself may
+    # have changed; PRs merely touching the root dependency files stop
+    # after the unit tests
+    outputs:
+      e2e: ${{ steps.scope.outputs.e2e }}
 
     name: Unit tests for create-quasar
     steps:
@@ -64,8 +71,23 @@ jobs:
       - name: Run unit tests
         run: pnpm test:unit
 
+      - name: Determine whether the e2e matrix should run
+        id: scope
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if [ "${{ github.event_name }}" != "pull_request" ]; then
+            echo "e2e=true" >> $GITHUB_OUTPUT
+          elif gh api "repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/files" --paginate --jq '.[].filename' \
+            | grep -qE '^(create-quasar/|utils/|\.github/workflows/create-quasar-tests\.yml)'; then
+            echo "e2e=true" >> $GITHUB_OUTPUT
+          else
+            echo "e2e=false" >> $GITHUB_OUTPUT
+          fi
+
   test-app:
     needs: unit-tests
+    if: ${{ needs.unit-tests.outputs.e2e == 'true' }}
 
     permissions:
       contents: read # to fetch code (actions/checkout)
@@ -169,6 +191,7 @@ jobs:
 
   test-ae:
     needs: unit-tests
+    if: ${{ needs.unit-tests.outputs.e2e == 'true' }}
 
     permissions:
       contents: read # to fetch code (actions/checkout)
