@@ -6,3 +6,5 @@ playground-*/pnpm-lock.yaml
 playground-*/src-*/
 # scaffolded into the app by the PWA mode installation
 playground-*/public/icons/
+# pristine-config backups the e2e suite self-heals from after a killed run
+playground-*/quasar.config.*.e2e-backup

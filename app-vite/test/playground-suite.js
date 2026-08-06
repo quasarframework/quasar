@@ -1,4 +1,5 @@
 import {
+  copyFileSync,
   existsSync,
   readFileSync,
   readdirSync,
@@ -65,38 +66,60 @@ export function definePlaygroundSuite({ playgroundDir, scriptExt }) {
     expect(code, output + repro).toBe(0)
   }
 
-  // Reads the playground quasar.config for a from→to modification,
-  // guarding both directions: the anchor must still exist, and the
-  // modification must NOT already be present — a hard-killed previous
-  // run (finally never ran) would otherwise get compounded silently.
+  // Config-modifying steps write the pristine file to this gitignored
+  // sibling BEFORE modifying and delete it after restoring — so even a
+  // hard-killed run (finally never fires) self-heals on the next one,
+  // without involving git (which could also wipe unrelated user edits).
+  const configFile = join(playgroundDir, `quasar.config.${scriptExt}`)
+  const configBackupFile = `${configFile}.e2e-backup`
+
+  const healConfigLeftover = () => {
+    if (existsSync(configBackupFile)) {
+      copyFileSync(configBackupFile, configFile)
+      rmSync(configBackupFile)
+    }
+  }
+
+  const restoreConfig = originalConfig => {
+    writeFileSync(configFile, originalConfig)
+    rmSync(configBackupFile, { force: true })
+  }
+
+  // Reads the playground quasar.config for a from→to modification —
+  // self-healing any leftover of a killed run first — and guards both
+  // directions: the anchor must still exist, and the modification must
+  // not already be present (possible only through external editing,
+  // since a leftover would have healed above). Writes the backup;
+  // callers MUST end with restoreConfig(originalConfig) in a finally.
   const readCleanConfig = (from, to) => {
-    const configFile = join(playgroundDir, `quasar.config.${scriptExt}`)
+    healConfigLeftover()
+
     const originalConfig = readFileSync(configFile, 'utf8')
 
     expect(
       originalConfig,
-      `quasar.config.${scriptExt} already contains the modification — ` +
-        'a previously killed run left it behind; restore the file ' +
-        '(e.g. "git checkout") before re-running'
+      `quasar.config.${scriptExt} already contains the modification and ` +
+        'no backup exists to heal from — restore the file manually'
     ).not.toContain(to)
     expect(
       originalConfig,
       `quasar.config.${scriptExt} lost its "${from}" edit anchor`
     ).toContain(from)
 
-    return { configFile, originalConfig }
+    writeFileSync(configBackupFile, originalConfig)
+    return originalConfig
   }
 
   // temporarily applies a from→to quasar.config modification for the
   // given fn, always restoring the original file afterwards
   const withModifiedConfig = async ({ from, to }, fn) => {
-    const { configFile, originalConfig } = readCleanConfig(from, to)
+    const originalConfig = readCleanConfig(from, to)
     writeFileSync(configFile, originalConfig.replace(from, to))
 
     try {
       await fn()
     } finally {
-      writeFileSync(configFile, originalConfig)
+      restoreConfig(originalConfig)
     }
   }
 
@@ -139,6 +162,9 @@ export function definePlaygroundSuite({ playgroundDir, scriptExt }) {
   const hasStore = existsSync(join(playgroundDir, 'src/stores'))
 
   stepTest('cleans the build artifacts', async () => {
+    // a hard-killed previous run may have left a modified config behind
+    healConfigLeftover()
+
     const { code, output, repro } = await runQuasar(['clean'], playgroundDir)
     expect(code, output + repro).toBe(0)
 
@@ -493,12 +519,12 @@ export function definePlaygroundSuite({ playgroundDir, scriptExt }) {
     )
     expect(code, output + repro).toBe(0)
 
-    const configFile = readFileSync(
+    const capacitorConfig = readFileSync(
       join(playgroundDir, `src-capacitor/capacitor.config.${scriptExt}`),
       'utf8'
     )
-    expect(configFile, repro).toContain("appId: 'org.quasar.e2e'")
-    expect(configFile, repro).toContain("appName: 'Quasar E2E'")
+    expect(capacitorConfig, repro).toContain("appId: 'org.quasar.e2e'")
+    expect(capacitorConfig, repro).toContain("appName: 'Quasar E2E'")
   })
 
   stepTest(
@@ -673,7 +699,7 @@ export function definePlaygroundSuite({ playgroundDir, scriptExt }) {
       // correctly diffed away by the devserver, restarting nothing.
       // Applied mid-flight (the server must boot with the original),
       // hence readCleanConfig directly instead of withModifiedConfig.
-      const { configFile, originalConfig } = readCleanConfig(
+      const originalConfig = readCleanConfig(
         'devServer: {',
         "devServer: {\n    headers: { 'X-Qe2e': 'reload' },"
       )
@@ -704,7 +730,7 @@ export function definePlaygroundSuite({ playgroundDir, scriptExt }) {
           }
         })
       } finally {
-        writeFileSync(configFile, originalConfig)
+        restoreConfig(originalConfig)
       }
     }
   )

@@ -60,6 +60,11 @@ Applies repo-wide; a nested `AGENTS.md` takes precedence for its directory
   padding); else declare ONE named constant documenting the owning file,
   with a breadcrumb comment at the fixture pointing back. Test-created
   values may be asserted directly.
+- Tests may write only to OS temp dirs or gitignored generated paths. A
+  test that must mutate a tracked repo file follows app-vite's e2e
+  backup/restore protocol (pristine copy to a gitignored sibling before
+  modifying, self-heal from it on the next run) so a killed run can never
+  leave the worktree dirty.
 - Report every validation command run and its outcome; if one can't run,
   state the exact blocker.
 

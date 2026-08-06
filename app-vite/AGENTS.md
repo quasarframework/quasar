@@ -31,6 +31,11 @@ Supplements the repo-root `AGENTS.md`.
     `test/playground-suite.js > fixtureMarkers` and
     `lib/quasar-config-file.test.js > playgroundConfig`; the fixtures
     carry breadcrumb comments pointing back.
+  - steps editing a playground quasar.config back it up to a gitignored
+    `*.e2e-backup` sibling first and self-heal from it on the next run —
+    any new repo-file mutation in tests must follow the same
+    backup/restore protocol so a killed run can never leave the worktree
+    dirty.
 - Manual verification: the playgrounds (`pnpm dev`/`dev:ts`,
   `build`/`build:ts` from `/app-vite`) run the workspace app-vite, so
   they exercise the local code.
