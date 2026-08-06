@@ -101,11 +101,18 @@ describe('[create-app-ext.js] extension hooks', () => {
 
     // registered via registerDescribeApi() with a path relative to
     // the fixture's index script
-    const result = await getApi('Qe2eThing', ctx)
+    const result = await getApi(qe2eMarkers.describeApiName, ctx)
 
     expect(result.supplier).toBe('qe2e')
-    expect(result.api.type).toBe('component')
-    expect(result.api.props.marker).toBeTypeOf('object')
+    // the served API is exactly the fixture's registered JSON file
+    expect(result.api).toEqual(
+      JSON.parse(
+        readFileSync(
+          join(fixtureExtDir, 'src/describe-api/qe2e-thing.json'),
+          'utf8'
+        )
+      )
+    )
   })
 })
 

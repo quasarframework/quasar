@@ -12,6 +12,8 @@ export default {
   viteHtmlMarker: '<!-- qe2e-vite-plugin-marker -->',
   // index.js -> registerCommand
   greetCommandOutput: 'qe2e greet command executed',
+  // index.js -> registerDescribeApi (serves ./describe-api/qe2e-thing.json)
+  describeApiName: 'Qe2eThing',
   // prompts.js answer, interpolated into the rendered template
   promptGreeting: 'Hello from qe2e prompts',
   // install.js / uninstall.js exit logs

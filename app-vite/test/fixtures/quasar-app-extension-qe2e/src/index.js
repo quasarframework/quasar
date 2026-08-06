@@ -19,5 +19,8 @@ export default function qe2eExtension(api) {
     console.log(markers.greetCommandOutput)
   })
 
-  api.registerDescribeApi('Qe2eThing', './describe-api/qe2e-thing.json')
+  api.registerDescribeApi(
+    markers.describeApiName,
+    './describe-api/qe2e-thing.json'
+  )
 }
