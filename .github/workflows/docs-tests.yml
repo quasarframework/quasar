@@ -1,4 +1,4 @@
-name: Docs tests
+name: docs tests
 
 on:
   workflow_dispatch:
@@ -41,6 +41,21 @@ jobs:
 
       - name: Install dependencies
         run: pnpm i
+
+      # The test suite needs the built ui package (its generated API
+      # files). Same exact-input-hash cache key as app-vite's build-ui
+      # job, so runs usually restore instead of building; no
+      # restore-keys on purpose — a stale dist must never be served.
+      - name: Restore UI build cache
+        id: ui-build-cache
+        uses: actions/cache@v5
+        with:
+          path: ui/dist
+          key: ui-dist-${{ runner.os }}-${{ hashFiles('ui/src/**', 'ui/lang/**', 'ui/icon-set/**', 'ui/build/**', 'ui/package.json', 'pnpm-lock.yaml') }}
+
+      - name: Build the UI package
+        if: steps.ui-build-cache.outputs.cache-hit != 'true'
+        run: pnpm --filter quasar build
 
       - name: Run tests
         run: pnpm --filter quasar.dev test

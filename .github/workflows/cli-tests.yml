@@ -1,4 +1,4 @@
-name: CLI tests
+name: cli tests
 
 on:
   workflow_dispatch:

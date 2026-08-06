@@ -49,6 +49,7 @@ export const createConfig = ({
     },
 
     test: {
+      globalSetup: join(import.meta.dirname, '../ensure-ui-built.js'),
       globals: true,
       browser: {
         provider: playwright(),

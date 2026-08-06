@@ -1,4 +1,4 @@
-name: Generate and Publish Release Notes JSON
+name: Release Notes JSON
 
 on:
   workflow_dispatch:

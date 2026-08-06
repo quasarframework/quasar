@@ -2,6 +2,7 @@ import { defineConfig } from 'vitest/config'
 
 export default defineConfig({
   test: {
+    globalSetup: './vitest.global-setup.js',
     // /test hosts the e2e suite exclusively (unit tests are colocated
     // with their sources under /lib)
     include: ['./test/*.test.js'],

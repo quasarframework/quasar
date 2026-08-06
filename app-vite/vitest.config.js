@@ -2,6 +2,7 @@ import { defineConfig } from 'vitest/config'
 
 export default defineConfig({
   test: {
+    globalSetup: './vitest.global-setup.js',
     // tests are colocated with their source file (<file>.test.js);
     // the npm package excludes them via the "files" field
     include: ['./lib/**/*.test.js'],

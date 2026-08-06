@@ -1,5 +1,5 @@
 import { expect, test } from 'vitest'
-import { existsSync, readFileSync } from 'node:fs'
+import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { renderApi } from '../api-render/render-api.js'
 
@@ -68,15 +68,12 @@ test('scoped slots are partitioned into Scoped Slots section', () => {
 
 const qKnobApiPath = resolve(__dirname, '../../../../ui/dist/api/QKnob.json')
 
-// Skipped when ui/dist/api isn't built. Run `pnpm --filter quasar build` first.
-test.skipIf(!existsSync(qKnobApiPath))(
-  'end-to-end: renderApi on real QKnob.json produces expected structure',
-  () => {
-    const json = JSON.parse(readFileSync(qKnobApiPath, 'utf8'))
-    const output = renderApi('QKnob', json)
-    expect(output).toMatch(/^## QKnob API\n/)
-    expect(output).toMatch(/### Props/)
-    // QKnob has min/max/step props. Verify Stripe-style formatting on one.
-    expect(output).toMatch(/- `min` \(number, optional\)/)
-  }
-)
+// a built ui package is guaranteed by the vitest globalSetup preflight
+test('end-to-end: renderApi on real QKnob.json produces expected structure', () => {
+  const json = JSON.parse(readFileSync(qKnobApiPath, 'utf8'))
+  const output = renderApi('QKnob', json)
+  expect(output).toMatch(/^## QKnob API\n/)
+  expect(output).toMatch(/### Props/)
+  // QKnob has min/max/step props. Verify Stripe-style formatting on one.
+  expect(output).toMatch(/- `min` \(number, optional\)/)
+})

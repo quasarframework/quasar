@@ -1,4 +1,4 @@
-name: Vite plugin tests
+name: vite-plugin tests
 
 on:
   workflow_dispatch:

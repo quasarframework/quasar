@@ -7,6 +7,7 @@ import { docApiHandler } from '../emit/doc-api.js'
 const __dirname = import.meta.dirname
 const apiDir = resolve(__dirname, '../../../../ui/dist/api')
 
+// a built ui package is guaranteed by the vitest globalSetup preflight
 test('renders QKnob API from real JSON file', () => {
   const handler = docApiHandler({ apiDir })
   const token = { content: '<DocApi file="QKnob" />' }
