@@ -1,4 +1,4 @@
-name: UI types results
+name: ui types results
 
 # We are not using using a single workflow on `pull_request_target`, and have two workflows on `pull_request` -> `workflow_run`:
 # https://securitylab.github.com/research/github-actions-preventing-pwn-requests/
@@ -6,7 +6,7 @@ name: UI types results
 on:
   workflow_run:
     workflows:
-      - UI types
+      - ui types
     types:
       - completed
 

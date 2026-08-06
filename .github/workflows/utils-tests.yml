@@ -1,4 +1,4 @@
-name: Utils tests
+name: utils tests
 
 on:
   workflow_dispatch:

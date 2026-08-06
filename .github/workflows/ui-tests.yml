@@ -1,4 +1,4 @@
-name: UI tests
+name: ui tests
 
 on:
   workflow_dispatch:
@@ -30,7 +30,7 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    name: Build the packages
+    name: Build the UI package
     steps:
       - name: Checkout code
         uses: actions/checkout@v6
