@@ -7,17 +7,21 @@
   "type": "module",
   "scripts": {
     "dev": "quasar dev",
-    "build": "quasar build"
+    "build": "quasar build",
+    "typecheck": "vue-tsc --noEmit"
   },
   "dependencies": {
     "@quasar/extras": "workspace:*",
+    "pinia": "^4.0.2",
     "quasar": "workspace:*",
     "vue": "^3.5.40",
     "vue-router": "^5.2.0"
   },
   "devDependencies": {
     "@quasar/app-vite": "workspace:*",
-    "@types/node": "^22.19.11"
+    "@types/node": "^22.19.11",
+    "typescript": "^6.0.0",
+    "vue-tsc": "^3.3.3"
   },
   "engines": {
     "node": ">= 26 || ^24 || ^22.12",

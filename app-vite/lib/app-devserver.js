@@ -269,7 +269,7 @@ export class AppDevserver extends AppTool {
     }
   }
 
-  printBanner(quasarConf) {
-    printDevRunningBanner(quasarConf)
+  printBanner(quasarConf, opts) {
+    printDevRunningBanner(quasarConf, opts)
   }
 }

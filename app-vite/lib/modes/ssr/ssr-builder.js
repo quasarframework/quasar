@@ -4,7 +4,7 @@ import { merge } from 'webpack-merge'
 
 import { AppBuilder } from '../../app-builder.js'
 import { quasarSsrConfig } from './ssr-config.js'
-import { getFixedDeps } from '../../utils/get-fixed-deps.js'
+import { getPinnedDeps } from '../../utils/get-pinned-deps.js'
 import {
   getProdSsrRenderTemplateFileContent,
   transformProdHtmlShell
@@ -198,8 +198,8 @@ export class QuasarModeBuilder extends AppBuilder {
       pkg: { appPkg, ssrPkg }
     } = this.ctx
 
-    const rootAppDeps = getFixedDeps(appPkg.dependencies, appPaths.appDir)
-    const ssrAppDeps = getFixedDeps(ssrPkg.dependencies, appPaths.ssrDir)
+    const rootAppDeps = getPinnedDeps(appPkg.dependencies, appPaths.appDir)
+    const ssrAppDeps = getPinnedDeps(ssrPkg.dependencies, appPaths.ssrDir)
 
     let pkg = {
       name: appPkg.name,

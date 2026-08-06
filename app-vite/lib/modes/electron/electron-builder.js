@@ -6,7 +6,7 @@ import { log, progress, warn } from '../../utils/logger.js'
 import { AppBuilder } from '../../app-builder.js'
 import { quasarElectronConfig } from './electron-config.js'
 import { getPackageJson } from '../../utils/get-package-json.js'
-import { getFixedDeps } from '../../utils/get-fixed-deps.js'
+import { getPinnedDeps } from '../../utils/get-pinned-deps.js'
 
 export class QuasarModeBuilder extends AppBuilder {
   async build() {
@@ -55,7 +55,7 @@ export class QuasarModeBuilder extends AppBuilder {
 
     let pkg = merge({}, appPkg)
 
-    pkg.dependencies = getFixedDeps(
+    pkg.dependencies = getPinnedDeps(
       electronPkg.dependencies,
       appPaths.electronDir
     )

@@ -9,7 +9,7 @@ import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { afterAll, describe, expect, test } from 'vitest'
 
-import { getFixedDeps } from './get-fixed-deps.js'
+import { getPinnedDeps } from './get-pinned-deps.js'
 
 // realpath, so results match what path resolution reports
 // (macOS symlinks /var to /private/var)
@@ -25,26 +25,43 @@ afterAll(() => {
   rmSync(appDir, { recursive: true, force: true })
 })
 
-describe('[get-fixed-deps.js]', () => {
+describe('[get-pinned-deps.js]', () => {
   test('pins resolvable dependencies to their installed version', () => {
-    expect(getFixedDeps({ 'installed-dep': '^1.0.0' }, appDir)).toEqual({
+    expect(getPinnedDeps({ 'installed-dep': '^1.0.0' }, appDir)).toEqual({
       'installed-dep': '1.2.3'
     })
   })
 
   test('keeps the range of unresolvable dependencies', () => {
-    expect(getFixedDeps({ 'missing-dep': '^9.0.0' }, appDir)).toEqual({
+    expect(getPinnedDeps({ 'missing-dep': '^9.0.0' }, appDir)).toEqual({
       'missing-dep': '^9.0.0'
+    })
+  })
+
+  test.each([
+    ['workspace:*'],
+    ['workspace:^'],
+    ['workspace:~'],
+    ['workspace:^1.0.0']
+  ])('pins a "%s" dependency to the installed version', versionRange => {
+    expect(getPinnedDeps({ 'installed-dep': versionRange }, appDir)).toEqual({
+      'installed-dep': '1.2.3'
+    })
+  })
+
+  test('keeps an unresolvable workspace dependency as-is', () => {
+    expect(getPinnedDeps({ 'missing-dep': 'workspace:*' }, appDir)).toEqual({
+      'missing-dep': 'workspace:*'
     })
   })
 
   test('leaves URL-style ranges untouched', () => {
     expect(
-      getFixedDeps({ 'installed-dep': 'https://some.url/pkg.tgz' }, appDir)
+      getPinnedDeps({ 'installed-dep': 'https://some.url/pkg.tgz' }, appDir)
     ).toEqual({ 'installed-dep': 'https://some.url/pkg.tgz' })
   })
 
   test('returns an empty object without dependencies', () => {
-    expect(getFixedDeps(void 0, appDir)).toEqual({})
+    expect(getPinnedDeps(void 0, appDir)).toEqual({})
   })
 })

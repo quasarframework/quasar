@@ -127,6 +127,65 @@ describe('[mode.js]', () => {
     expect(output).toContain('Unknown mode "foo" to add')
   })
 
+  test('"mode add ssr" with an unknown --webserver exits 1', async () => {
+    const { code, output } = await runQuasar(
+      ['mode', 'add', 'ssr', '--webserver', 'nginx'],
+      appDir
+    )
+
+    expect(code, output).toBe(1)
+    expect(output).toContain('Unknown SSR webserver "nginx"')
+  })
+
+  test('--webserver outside of "add ssr" exits 1', async () => {
+    const { code, output } = await runQuasar(
+      ['mode', 'remove', 'pwa', '--yes', '--webserver', 'hono'],
+      appDir
+    )
+
+    expect(code, output).toBe(1)
+    expect(output).toContain(
+      'The --webserver parameter only applies to "quasar mode add ssr"'
+    )
+  })
+
+  test('--filename-based-routing outside of "add ssg" exits 1', async () => {
+    const { code, output } = await runQuasar(
+      ['mode', 'add', 'pwa', '--filename-based-routing'],
+      appDir
+    )
+
+    expect(code, output).toBe(1)
+    expect(output).toContain(
+      'The --filename-based-routing parameter only applies to "quasar mode add ssg"'
+    )
+  })
+
+  test('--app-id outside of "add cordova/capacitor" exits 1', async () => {
+    const { code, output } = await runQuasar(
+      ['mode', 'add', 'ssr', '--app-id', 'org.quasar.app'],
+      appDir
+    )
+
+    expect(code, output).toBe(1)
+    expect(output).toContain(
+      'The --app-id parameter only applies to ' +
+        '"quasar mode add cordova" / "quasar mode add capacitor"'
+    )
+  })
+
+  test('--app-name outside of "add capacitor" exits 1', async () => {
+    const { code, output } = await runQuasar(
+      ['mode', 'add', 'cordova', '--app-name', 'My App'],
+      appDir
+    )
+
+    expect(code, output).toBe(1)
+    expect(output).toContain(
+      'The --app-name parameter only applies to "quasar mode add capacitor"'
+    )
+  })
+
   test('adding/removing SPA mode exits 1 (built-in mode)', async () => {
     const { code, output } = await runQuasar(['mode', 'add', 'spa'], appDir)
 

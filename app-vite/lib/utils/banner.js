@@ -2,6 +2,7 @@ import { dim, gray, green, underline } from 'kolorist'
 import { join } from 'node:path'
 
 import { cliPkg } from '../utils/cli-runtime.js'
+import { fatal } from '../utils/logger.js'
 import { getIPs } from '../utils/net.js'
 
 export function getPackager(argv, cmd) {
@@ -24,6 +25,16 @@ function getCompilationTarget(target) {
 }
 
 export async function displayBanner({ argv, ctx, cmd, details }) {
+  // an unresolvable quasar/vite package would otherwise surface as a
+  // cryptic TypeError below
+  if (ctx.pkg.quasarPkg === void 0 || ctx.pkg.vitePkg === void 0) {
+    fatal(
+      'The project dependencies are not installed. Please run your package' +
+        ' manager\'s install command ("pnpm install" / "npm install" / ...)' +
+        ' first.'
+    )
+  }
+
   let banner = ''
 
   if (details?.buildOutputFolder) {
@@ -144,7 +155,7 @@ function capitalize(str) {
   return str.at(0).toUpperCase() + str.slice(1)
 }
 
-export function printDevRunningBanner(quasarConf) {
+export function printDevRunningBanner(quasarConf, { electronPid } = {}) {
   const { ctx } = quasarConf
 
   const banner = [
@@ -152,7 +163,9 @@ export function printDevRunningBanner(quasarConf) {
     ` ${greenBanner} App dir................ ${green(ctx.appPaths.appDir)}`
   ]
 
-  if (ctx.mode.bex !== true) {
+  // BEX loads as an unpacked extension and Electron inside its own
+  // window — a browsable App URL would serve no purpose for either
+  if (ctx.mode.bex !== true && ctx.mode.electron !== true) {
     const urlList =
       quasarConf.devServer.host === '0.0.0.0'
         ? getIPList()
@@ -173,6 +186,12 @@ export function printDevRunningBanner(quasarConf) {
   if (['electron', 'ssr', 'ssg'].includes(ctx.modeName)) {
     banner.push(
       ` ${greenBanner} Node target............ ${getCompilationTarget(quasarConf.build.target.node)}`
+    )
+  }
+
+  if (electronPid !== void 0) {
+    banner.push(
+      ` ${greenBanner} Electron PID........... ${green(String(electronPid))}`
     )
   }
 

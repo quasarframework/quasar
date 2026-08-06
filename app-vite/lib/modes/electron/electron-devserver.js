@@ -242,6 +242,10 @@ export class QuasarModeDevserver extends AppDevserver {
         )
       }
     )
+
+    // like every other mode's devserver does (the App URL shown is the
+    // renderer's dev server, which the Electron window loads)
+    this.printBanner(quasarConf, { electronPid: this.#pid })
   }
 
   #createLinuxDesktopEntry({ name, productName, desktopName }) {

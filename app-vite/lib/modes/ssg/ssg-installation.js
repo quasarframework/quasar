@@ -5,16 +5,18 @@ import {
   copyModeWorkspace,
   ensureModeDeps,
   ensureModePackageJsonAndWorkspace,
-  isModeInstalled
+  isModeInstalled,
+  resolvePromptAnswer
 } from '../modes-utils.js'
 
 /**
  * @param {{
  *   ctx: import('../../../types/configuration/context').InternalQuasarContext,
- *   silent: boolean
+ *   silent: boolean,
+ *   filenameBasedRouting?: boolean
  * }} options
  */
-export async function addMode({ ctx, silent }) {
+export async function addMode({ ctx, silent, filenameBasedRouting }) {
   const { appPaths, cacheProxy } = ctx
 
   if (isModeInstalled(appPaths, 'ssg')) {
@@ -30,13 +32,19 @@ export async function addMode({ ctx, silent }) {
 
   const promptSession = await createPromptSession('Installing SSG Mode...')
 
-  const scope = await promptSession.prompt({
-    filenameBasedRouting: () =>
-      promptSession.confirm({
-        message: `Are you using filename-based routing?`,
-        initialValue: false
-      })
-  })
+  const scope = {
+    filenameBasedRouting: await resolvePromptAnswer({
+      promptSession,
+      value: filenameBasedRouting,
+      fallback: false,
+      fallbackNote: 'Scaffolding for filename-based routing NOT being used.',
+      question: () =>
+        promptSession.confirm({
+          message: `Are you using filename-based routing?`,
+          initialValue: false
+        })
+    })
+  }
 
   const copyTask = promptSession.taskLog({ title: 'Creating /src-ssg...' })
 
