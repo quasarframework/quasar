@@ -8,3 +8,5 @@ node_modules/
 quasar.config.*.temporary.compiled*
 src-capacitor/
 src-cordova/
+# personal Claude Code permission grants — never commit
+.claude/settings.local.json
