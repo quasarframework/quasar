@@ -1,5 +1,7 @@
 import path from 'node:path'
 
+const escapeRE = str => str.replaceAll(/[.*+?^${}()|[\]\\]/g, String.raw`\$&`)
+
 export function quasarRolldownVirtualEntry({
   inputFile,
   targetFile,
@@ -9,38 +11,49 @@ export function quasarRolldownVirtualEntry({
     .relative(path.dirname(inputFile), targetFile)
     .replaceAll('\\', '/')
 
+  const bootstrapFile = `\0quasar:virtual-entry-bootstrap:${inputFile}`
+
   /**
    * Static ESM imports evaluate dependencies before the importing module's
-   * body. Use a dynamic import when bootstrap code must run before the target,
-   * while preserving the existing static import for all other entries.
+   * body, and in source order. Bootstrap code therefore gets a module of its
+   * own, so that it still runs before the target while both are imported
+   * statically.
+   *
+   * A dynamic import would give the same ordering, but it makes Rolldown defer
+   * the whole target graph into async module initializers, which deadlock when
+   * the app has circular imports.
    */
   const code =
     beforeImportCode === void 0
       ? `import './${importPath}'`
-      : `${beforeImportCode}\n\nawait import('./${importPath}')`
+      : `import ${JSON.stringify(bootstrapFile)}\nimport './${importPath}'`
 
-  // native (Rust-side) filtering: only the virtual entry itself
-  // reaches the JS handlers
-  const inputFileRE = new RegExp(
-    `^${inputFile.replaceAll(/[.*+?^${}()|[\]\\]/g, String.raw`\$&`)}$`
+  // native (Rust-side) filtering: only the virtual entry and its bootstrap
+  // module reach the JS handlers
+  const idRE = new RegExp(
+    `^(${escapeRE(inputFile)}|${escapeRE(bootstrapFile)})$`
   )
 
   return {
     name: 'quasar:virtual-entry',
 
     resolveId: {
-      filter: { id: inputFileRE },
+      filter: { id: idRE },
 
       handler(source) {
-        return source === inputFile ? inputFile : null
+        return source === inputFile || source === bootstrapFile ? source : null
       }
     },
 
     load: {
-      filter: { id: inputFileRE },
+      filter: { id: idRE },
 
       handler(id) {
-        return id === inputFile ? code : null
+        if (id === inputFile) return code
+        if (id === bootstrapFile) {
+          return { code: beforeImportCode, moduleSideEffects: 'no-treeshake' }
+        }
+        return null
       }
     }
   }
