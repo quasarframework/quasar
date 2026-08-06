@@ -271,7 +271,7 @@ export class IndexAPI extends BaseAPI {
    *   (relative path to Api file)
    */
   registerDescribeApi(name, relativePath) {
-    const callerPath = getCallerPath()
+    const callerPath = getCallerPath(1)
 
     this.#hooks.describeApi[name] = {
       callerPath,
