@@ -1,6 +1,7 @@
 {
   "name": "quasar-monorepo",
   "private": true,
+  "type": "module",
   "scripts": {
     "prepare:types": "pnpm --recursive --parallel prepare:types",
     "lint": "oxfmt && oxlint --fix --no-error-on-unmatched-pattern",
