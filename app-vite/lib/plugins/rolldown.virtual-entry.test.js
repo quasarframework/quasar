@@ -45,4 +45,31 @@ describe('[rolldown.virtual-entry.js]', () => {
     expect(plugin.load.filter.id.test('/app/Xquasar/entry (v2)Xjs')).toBe(false)
     expect(plugin.load.filter.id.test(trickyInput + '.map')).toBe(false)
   })
+
+  test('the native filter and handlers accept Windows paths in both separator forms', () => {
+    // rolldown normalizes ids to forward slashes before evaluating native
+    // filters (rolldown repo: crates/rolldown_utils/src/filter_expression.rs)
+    // while the JS handlers receive the raw OS-native id (#18504)
+    const winInput = String.raw`D:\app\.quasar\dev-electron\electron\q.entry.main.js`
+    const winTarget = String.raw`D:\app\src-electron\electron-main.js`
+    const normalizedId = winInput.replaceAll('\\', '/')
+
+    const plugin = quasarRolldownVirtualEntry({
+      inputFile: winInput,
+      targetFile: winTarget
+    })
+
+    expect(plugin.resolveId.filter.id.test(normalizedId)).toBe(true)
+    expect(plugin.load.filter.id.test(normalizedId)).toBe(true)
+    expect(plugin.resolveId.filter.id.test(winInput)).toBe(true)
+    expect(plugin.load.filter.id.test(winInput)).toBe(true)
+    expect(plugin.load.filter.id.test('D:/app/other.js')).toBe(false)
+
+    expect(plugin.resolveId.handler(winInput)).toBe(winInput)
+    expect(plugin.resolveId.handler(normalizedId)).toBe(winInput)
+
+    const loadedCode = plugin.load.handler(winInput)
+    expect(loadedCode).not.toBeNull()
+    expect(plugin.load.handler(normalizedId)).toBe(loadedCode)
+  })
 })
