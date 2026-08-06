@@ -1,0 +1,12 @@
+{
+  "type": "component",
+  "meta": {
+    "docsUrl": "https://example.com/qe2e-thing"
+  },
+  "props": {
+    "marker": {
+      "type": "String",
+      "desc": "Fixture prop used by the app-vite test suites"
+    }
+  }
+}

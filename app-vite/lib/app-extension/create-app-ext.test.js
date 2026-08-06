@@ -1,6 +1,7 @@
 import {
   mkdirSync,
   mkdtempSync,
+  readFileSync,
   realpathSync,
   rmSync,
   symlinkSync,
@@ -8,10 +9,12 @@ import {
 } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
-import { afterAll, afterEach, describe, expect, test } from 'vitest'
+import { afterAll, afterEach, describe, expect, test, vi } from 'vitest'
 
 import { QuasarConfigFile } from '../quasar-config-file.js'
 import { getCtx } from '../utils/get-ctx.js'
+import { getApi } from '../utils/get-api.js'
+import { getAppExtJson } from './create-app-ext.js'
 
 const playgroundDir = join(import.meta.dirname, '../../playground-js')
 const fixtureExtDir = join(
@@ -22,6 +25,7 @@ const originalCwd = process.cwd()
 
 const appDirs = []
 afterEach(() => {
+  vi.restoreAllMocks()
   process.chdir(originalCwd)
 })
 afterAll(() => {
@@ -85,5 +89,116 @@ describe('[create-app-ext.js] extension hooks', () => {
     const conf = await readConf(makeApp({ withExtension: false }))
 
     expect(conf.htmlVariables.qe2eMarker).toBeUndefined()
+  })
+
+  test('a registered extension supplies its registered describe API', async () => {
+    vi.spyOn(console, 'log').mockImplementation(() => {})
+
+    const appDir = makeApp({ withExtension: true })
+    process.chdir(appDir)
+    const ctx = getCtx({ mode: 'spa', prod: true })
+
+    // registered via registerDescribeApi() with a path relative to
+    // the fixture's index script
+    const result = await getApi('Qe2eThing', ctx)
+
+    expect(result.supplier).toBe('qe2e')
+    expect(result.api.type).toBe('component')
+    expect(result.api.props.marker).toBeTypeOf('object')
+  })
+})
+
+describe('[create-app-ext.js] getAppExtJson()', () => {
+  function makeExtJson(json = {}) {
+    const dir = realpathSync(mkdtempSync(join(tmpdir(), 'app-vite-ext-json-')))
+    appDirs.push(dir)
+
+    const file = join(dir, 'quasar.extensions.json')
+    const updates = []
+
+    return {
+      file,
+      updates,
+      acc: getAppExtJson({
+        file,
+        json,
+        onListUpdate: updatedJson => {
+          updates.push(structuredClone(updatedJson))
+        }
+      })
+    }
+  }
+
+  function readExtFile(file) {
+    return JSON.parse(readFileSync(file, 'utf8'))
+  }
+
+  test('reports nothing for unknown extensions', () => {
+    const { acc } = makeExtJson()
+
+    expect(acc.has('qtest')).toBe(false)
+    expect(acc.get('qtest')).toBeUndefined()
+    expect(acc.getPrompts('qtest')).toEqual({})
+    expect(acc.getInternal('qtest')).toEqual({})
+  })
+
+  test('set() persists to the file and notifies only on list changes', () => {
+    vi.spyOn(console, 'log').mockImplementation(() => {})
+    const { acc, file, updates } = makeExtJson()
+
+    acc.set('qtest', { answer: 1 })
+
+    expect(acc.has('qtest')).toBe(true)
+    expect(readExtFile(file)).toEqual({ qtest: { answer: 1 } })
+    // a freshly created file uses 2-space indentation
+    expect(readFileSync(file, 'utf8')).toContain('\n  "qtest"')
+    expect(updates).toHaveLength(1)
+
+    // updating an already registered extension does not change the list
+    acc.set('qtest', { answer: 2 })
+    expect(readExtFile(file)).toEqual({ qtest: { answer: 2 } })
+    expect(updates).toHaveLength(1)
+  })
+
+  test('get() and getPrompts() return detached clones', () => {
+    vi.spyOn(console, 'log').mockImplementation(() => {})
+    const { acc } = makeExtJson()
+
+    acc.set('qtest', { answer: 1 })
+
+    acc.get('qtest').answer = 99
+    acc.getPrompts('qtest').answer = 99
+
+    expect(acc.get('qtest')).toEqual({ answer: 1 })
+  })
+
+  test('setInternal() keeps the internal config out of the prompts', () => {
+    vi.spyOn(console, 'log').mockImplementation(() => {})
+    const { acc, file } = makeExtJson()
+
+    acc.set('qtest', { answer: 1 })
+    acc.setInternal('qtest', { secret: true })
+
+    expect(acc.getInternal('qtest')).toEqual({ secret: true })
+    expect(acc.getPrompts('qtest')).toEqual({ answer: 1 })
+    expect(readExtFile(file)).toEqual({
+      qtest: { answer: 1, __internal: { secret: true } }
+    })
+  })
+
+  test('remove() deregisters and notifies; unknown ids are a no-op', () => {
+    vi.spyOn(console, 'log').mockImplementation(() => {})
+    const { acc, file, updates } = makeExtJson()
+
+    acc.set('qtest', { answer: 1 })
+    expect(updates).toHaveLength(1)
+
+    acc.remove('qtest')
+    expect(acc.has('qtest')).toBe(false)
+    expect(readExtFile(file)).toEqual({})
+    expect(updates).toHaveLength(2)
+
+    acc.remove('never-registered')
+    expect(updates).toHaveLength(2)
   })
 })
