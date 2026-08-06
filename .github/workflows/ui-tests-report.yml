@@ -11,7 +11,13 @@ jobs:
   test-results:
     name: Test Results
     runs-on: ubuntu-latest
-    if: ${{ github.event.workflow_run.conclusion != 'skipped' }}
+    # PR runs only (like ui-types-report): a workflow_dispatch-triggered
+    # "UI tests" run has no PR to report against, so the report skips
+    if: >-
+      ${{
+        github.event.workflow_run.event == 'pull_request' &&
+        github.event.workflow_run.conclusion != 'skipped'
+      }}
 
     permissions:
       checks: write

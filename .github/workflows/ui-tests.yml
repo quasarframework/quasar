@@ -1,6 +1,7 @@
 name: UI tests
 
 on:
+  workflow_dispatch:
   pull_request:
     types: [opened, synchronize]
     branches:
