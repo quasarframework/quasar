@@ -75,7 +75,17 @@ jobs:
       - name: Install dependencies
         run: pnpm i
 
+      # exact input-hash key on purpose (NO restore-keys): a stale dist
+      # must never be served — either the inputs are identical or we build
+      - name: Restore UI build cache
+        id: ui-build-cache
+        uses: actions/cache@v5
+        with:
+          path: ui/dist
+          key: ui-dist-${{ runner.os }}-${{ hashFiles('ui/src/**', 'ui/lang/**', 'ui/icon-set/**', 'ui/build/**', 'ui/package.json', 'pnpm-lock.yaml') }}
+
       - name: Build the UI package
+        if: steps.ui-build-cache.outputs.cache-hit != 'true'
         working-directory: ui
         run: pnpm build
 
@@ -118,14 +128,63 @@ jobs:
         uses: actions/setup-node@v6
         with:
           node-version: 24
-          cache: 'pnpm'
+
+      - name: Get pnpm store path
+        id: pnpm-store
+        shell: bash
+        run: echo "PNPM_STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
+
+      # Accreting cache (run-scoped key + prefix restore) instead of the
+      # lockfile-keyed setup-node cache: the e2e run installs mode deps
+      # (SSR webservers, workbox, capacitor, electron) that are NOT in
+      # the root lockfile and would otherwise re-download every run. The
+      # store is content-addressed and integrity-checked by pnpm, so
+      # restoring stale entries is safe.
+      - name: Setup pnpm store cache
+        uses: actions/cache@v5
+        with:
+          path: ${{ steps.pnpm-store.outputs.PNPM_STORE_PATH }}
+          key: pnpm-store-e2e-${{ runner.os }}-${{ github.run_id }}
+          restore-keys: pnpm-store-e2e-${{ runner.os }}-
+
+      # electron's install.js validates downloads against SHASUMS,
+      # so an accreting cache cannot serve a corrupt binary
+      - name: Setup Electron binary cache
+        uses: actions/cache@v5
+        with:
+          path: ~/.cache/electron
+          key: electron-cache-${{ runner.os }}-${{ github.run_id }}
+          restore-keys: electron-cache-${{ runner.os }}-
 
       - name: Install dependencies
         run: pnpm i
 
-      # the Cordova mode-installation e2e step spawns it
+      # The Cordova mode-installation e2e step spawns the global CLI.
+      # Cordova stays UNPINNED: every run resolves the current latest
+      # (the registry lookup below IS the fresh-resolution check) and the
+      # cache key carries that exact version + node version, so a new
+      # cordova release or node bump busts the key immediately — the
+      # cache only ever skips reinstalling an identical version.
+      - name: Resolve latest Cordova version
+        id: cordova
+        shell: bash
+        run: |
+          echo "VERSION=$(npm view cordova version)" >> $GITHUB_OUTPUT
+          echo "PREFIX=$(npm prefix -g)" >> $GITHUB_OUTPUT
+          echo "NODE=$(node -p process.version)" >> $GITHUB_OUTPUT
+
+      - name: Setup Cordova CLI cache
+        id: cordova-cache
+        uses: actions/cache@v5
+        with:
+          path: |
+            ${{ steps.cordova.outputs.PREFIX }}/lib/node_modules/cordova
+            ${{ steps.cordova.outputs.PREFIX }}/bin/cordova
+          key: cordova-${{ steps.cordova.outputs.VERSION }}-${{ steps.cordova.outputs.NODE }}-${{ runner.os }}
+
       - name: Install Cordova CLI
-        run: npm i -g cordova
+        if: steps.cordova-cache.outputs.cache-hit != 'true'
+        run: npm i -g cordova@${{ steps.cordova.outputs.VERSION }}
 
       - name: Download UI build artifact
         uses: actions/download-artifact@v8

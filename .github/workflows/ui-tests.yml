@@ -87,6 +87,15 @@ jobs:
       - name: Install dependencies
         run: pnpm i
 
+      # Playwright validates browser revisions by directory, so restoring
+      # a stale cache just triggers a fresh download of the right one
+      - name: Setup Playwright browser cache
+        uses: actions/cache@v5
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
+          restore-keys: playwright-${{ runner.os }}-
+
       - name: Install Playwright browser
         run: pnpm --filter quasar-ui-test exec playwright install --with-deps chromium
 
