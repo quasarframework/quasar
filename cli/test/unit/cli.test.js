@@ -99,7 +99,7 @@ describe('[bin/quasar.js]', () => {
     const { code, stdout, stderr } = await runCli(['info'])
     expect(code, stdout + stderr).toBe(0)
     expect(stdout).toContain('Operating System')
-    expect(stdout).toContain('@quasar/cli')
+    expect(stdout).toContain(cliPkg.name)
     expect(stdout).toContain(cliPkg.version)
   })
 

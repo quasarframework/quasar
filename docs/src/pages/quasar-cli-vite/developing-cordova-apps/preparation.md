@@ -58,7 +58,12 @@ Add the Cordova project under `/src-cordova`:
 
 ```bash
 quasar mode add cordova
+
+# or, to skip the app id prompt (useful for scripts/CI):
+quasar mode add cordova --app-id org.cordova.quasar.app
 ```
+
+In a non-interactive environment (such as CI), where the prompt cannot be answered, the app id defaults to `org.cordova.quasar.app` unless the `--app-id` parameter is specified.
 
 Quasar installs Android or iOS on demand when you first develop or build that target. To add one manually:
 

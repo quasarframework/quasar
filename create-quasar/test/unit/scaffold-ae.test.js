@@ -8,6 +8,13 @@ import utils from '../../lib/utils.js'
 
 const rootDir = mkdtempSync(join(tmpdir(), 'create-quasar-ae-'))
 
+// Expected values that mirror template content are read from the
+// owning templates themselves (single source). The files carry EJS
+// tokens/conditionals, so values are extracted from the raw text.
+const aeTemplatesDir = join(import.meta.dirname, '../../templates/ae')
+const readAeTemplate = (ext, file) =>
+  readFileSync(join(aeTemplatesDir, ext, 'BASE', file), 'utf8')
+
 // silence the scaffolding progress UI in the test output
 const testUtils = {
   ...utils,
@@ -88,7 +95,9 @@ describe('[templates/ae] scaffolding', () => {
       expect(has(scope, 'README.md')).toBe(true)
 
       const rootPkg = readJson(scope, 'package.json')
-      expect(rootPkg.name).toBe('quasar-app-extension')
+      expect(rootPkg.name).toBe(
+        readAeTemplate(ext, '_package.json').match(/"name": "([^"]+)"/)[1]
+      )
       expect(rootPkg.author).toBe(author)
 
       // the App Extension package itself
@@ -99,11 +108,14 @@ describe('[templates/ae] scaffolding', () => {
       expect(aePkg.name).toBe('quasar-app-extension-my-ext')
       expect(has(scope, `ae/src/index.${ext}`)).toBe(true)
 
-      // the playground app
+      // the playground app links the AE with the range the template
+      // declares (its key is templated, hence the lookup by token)
+      const aeLinkRange = readAeTemplate(ext, 'playground/_package.json').match(
+        /"<%= scope\.aeFullName %>": "([^"]+)"/
+      )[1]
+
       const playgroundPkg = readJson(scope, 'playground/package.json')
-      expect(playgroundPkg.devDependencies['quasar-app-extension-my-ext']).toBe(
-        'workspace:*'
-      )
+      expect(playgroundPkg.devDependencies[scope.aeFullName]).toBe(aeLinkRange)
       expect(has(scope, `playground/quasar.config.${ext}`)).toBe(true)
 
       // optional AE scripts
@@ -156,7 +168,11 @@ describe('[templates/ae] scaffolding', () => {
         join(scope.projectFolder, 'README.md'),
         'utf8'
       )
-      expect(readme).toContain(`Quasar App Extension "${aeShortName}"`)
+      // the template heading, rendered with this combo's short name
+      const readmeHeading = readAeTemplate('js', 'README.md')
+        .split('\n')[0]
+        .replace('<%= scope.aeShortName %>', aeShortName)
+      expect(readme).toContain(readmeHeading)
     }
   )
 })

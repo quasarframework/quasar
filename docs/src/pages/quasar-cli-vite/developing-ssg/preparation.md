@@ -23,7 +23,12 @@ Add SSG mode to an existing Quasar project with:
 
 ```bash
 quasar mode add ssg
+
+# or, to skip the filename-based-routing prompt (useful for scripts/CI):
+quasar mode add ssg --filename-based-routing
 ```
+
+In a non-interactive environment (such as CI), where the prompt cannot be answered, the scaffolding assumes filename-based routing is NOT being used, unless the `--filename-based-routing` parameter is specified.
 
 You can also start the SSG development server directly:
 

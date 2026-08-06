@@ -84,14 +84,21 @@ export function makeRepro(scaffoldArgs, projectFolderName) {
     '\n'
 }
 
+// The devServer browser-open setting as rendered by the
+// templates/{app,ae}/*/BASE/**/quasar.config.* files. No breadcrumb
+// comments over there: those files are rendered into user projects,
+// where such a comment would be noise — this constant is the single
+// documented coupling point instead.
+const devServerOpenSetting = 'open: true'
+
 export function disableDevServerOpen(configFile) {
   const config = readFileSync(configFile, 'utf8')
 
   // guard against the template dropping/renaming the setting,
   // which would silently start opening browser windows again
-  expect(config).toContain('open: true')
+  expect(config).toContain(devServerOpenSetting)
 
-  writeFileSync(configFile, config.replace('open: true', 'open: false'))
+  writeFileSync(configFile, config.replace(devServerOpenSetting, 'open: false'))
 }
 
 // boots the dev server, waits for it to announce its URL,

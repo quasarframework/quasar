@@ -107,6 +107,9 @@ export default defineConfig((/* ctx */) => ({
     /**
      * The default port that the production server should use
      * (gets superseded if process.env.PORT is specified at runtime)
+     *
+     * Mirrored by /app-vite/lib/quasar-config-file.test.js
+     * > playgroundConfig — keep in sync
      */
     prodPort: 3000,
     middlewares: [
@@ -174,9 +177,11 @@ export default defineConfig((/* ctx */) => ({
     // extendElectronPackageJson (pkgJson) {},
 
     // Electron preload scripts (if any) from /src-electron, WITHOUT file extension
+    // (mirrored by /app-vite/lib/quasar-config-file.test.js > playgroundConfig)
     preloadScripts: ['electron-preload'],
 
     // specify the debugging port to use for the Electron app when running in development mode
+    // (mirrored by /app-vite/lib/quasar-config-file.test.js > playgroundConfig)
     inspectPort: 5858,
 
     bundler: 'packager', // 'packager' or 'builder'

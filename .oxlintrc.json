@@ -6,6 +6,7 @@
     "**/.quasar/",
 
     "app-vite/templates/",
+    "app-vite/playground-*/src-*/",
     "app-vite/types/client/",
     "app-vite/types/globals.d.ts",
 

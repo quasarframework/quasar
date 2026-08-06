@@ -1,3 +1,8 @@
 ssl-server.pem
 playground-*/pnpm-lock.yaml
-playground-*/src-*/pnpm-lock.yaml
+# non-SPA mode folders are generated: the CLI auto-installs a missing mode
+# on "quasar dev/build -m <mode>" (SSR picks the hono webserver when it
+# cannot prompt), which the e2e suite relies on
+playground-*/src-*/
+# scaffolded into the app by the PWA mode installation
+playground-*/public/icons/

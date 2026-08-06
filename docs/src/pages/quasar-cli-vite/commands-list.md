@@ -353,14 +353,38 @@ $ quasar mode -h
   Usage
     $ quasar mode [add|remove] [pwa|ssr|ssg|bex|cordova|capacitor|electron] [--yes]
 
+    # add SSR mode non-interactively:
+    $ quasar mode add ssr --webserver hono
+
     # determine what modes are currently installed:
     $ quasar mode
 
   Options
-    --yes, -y     Skips the "Are you sure?" question
-                  when removing a Quasar mode
-    --no-color    Disable colored output
-    --help, -h    Displays this message
+    --yes, -y      Skips the "Are you sure?" question
+                   when removing a Quasar mode
+    --no-color     Disable colored output
+    --help, -h     Displays this message
+
+    The mode-specific options below make "quasar mode add" fully
+    non-interactive. Without them, an interactive terminal gets a
+    prompt while CI/non-interactive runs pick the listed default.
+
+    ONLY when adding SSR mode:
+    --webserver, -w  The production webserver to scaffold for
+                       [hono|fastify|express|koa] (default: hono)
+
+    ONLY when adding SSG mode:
+    --filename-based-routing  Scaffold for filename-based routing
+                                (default: not using it)
+
+    ONLY when adding Cordova or Capacitor mode:
+    --app-id       The application id to scaffold with
+                     (default: org.cordova.quasar.app /
+                      org.capacitor.quasar.app)
+
+    ONLY when adding Capacitor mode:
+    --app-name     The application display name to scaffold with
+                     (default: package.json > productName or name)
 ```
 
 When you initialize a project with the CLI, you can build SPA (Single Page Website/Application), SSR (Server-side Render Website/Application with optional PWA client takeover), SSG (Static Site Generator with optional PWA client takeover), PWA (Progressive Web App), Mobile App (through Cordova), and/or Electron Apps. When you develop for SSR, SSG, PWA, Cordova or Electron, you need these modes installed. If you issue "quasar dev" or "quasar build" they will automatically be installed.

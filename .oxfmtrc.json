@@ -3,6 +3,7 @@
     "**/node_modules/",
     "**/dist/",
     "**/templates/",
+    "app-vite/playground-*/src-*/",
     "**/quasar.config.*.temporary.compiled*",
     "**/.quasar/",
 

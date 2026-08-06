@@ -108,7 +108,8 @@ function escapeHTMLAttribute(str) {
   return str ? str.replaceAll('"', '') : ''
 }
 
-function formatPublicPath(publicPath) {
+// exported for testing purposes only
+export function formatPublicPath(publicPath) {
   if (!publicPath) return '/'
 
   if (!publicPath.endsWith('/')) {
@@ -124,7 +125,8 @@ function formatPublicPath(publicPath) {
   return publicPath
 }
 
-function formatRouterBase(publicPath) {
+// exported for testing purposes only
+export function formatRouterBase(publicPath) {
   if (!publicPath || !publicPath.startsWith('http')) {
     return publicPath
   }

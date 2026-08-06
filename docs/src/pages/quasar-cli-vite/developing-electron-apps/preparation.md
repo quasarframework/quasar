@@ -35,6 +35,17 @@ quasar mode add electron
 
 The main process and preload sources live in `/src-electron`; the renderer UI remains in `/src`.
 
+::: tip Using pnpm with an older Electron version?
+Electron v43+ downloads its binary on first launch, so no special setup is needed. Older Electron versions download it through a postinstall script instead — which pnpm does not run unless allowlisted. The scaffolded `/src-electron/pnpm-workspace.yaml` allowlists it through `onlyBuiltDependencies`. If your project predates this scaffolding and you pin Electron < 43 (symptom: the Electron binary is missing when running the app), add to `/src-electron/pnpm-workspace.yaml`:
+
+```yaml
+onlyBuiltDependencies:
+  - electron
+```
+
+...then run `pnpm install` inside `/src-electron`.
+:::
+
 The new folder has the following structure:
 
 <DocTree :def="scope.tree" />

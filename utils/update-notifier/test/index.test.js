@@ -116,6 +116,19 @@ test('compares SemVer versions', () => {
   }
 })
 
+// The rendered box is this package's output contract, pinned exactly —
+// but only ONCE: the colored variant below strips ANSI codes and
+// compares against this same value instead of hand-aligning a copy.
+const expectedNotificationBox = [
+  '╭────────────────────────────────────╮',
+  '│ Update available 1.0.0 → 2.0.0     │',
+  '│ Run npm i -g @quasar/cli to update │',
+  '╰────────────────────────────────────╯'
+].join('\n')
+
+const ESC = String.fromCodePoint(27)
+const ansiRE = new RegExp(`${ESC}\\[[0-9;]*m`, 'g')
+
 test('renders a plain update message when colors are disabled', () => {
   setColorEnvironment('0')
 
@@ -125,34 +138,27 @@ test('renders a plain update message when colors are disabled', () => {
       latest: '2.0.0',
       name: '@quasar/cli'
     })
-  ).toBe(
-    [
-      '╭────────────────────────────────────╮',
-      '│ Update available 1.0.0 → 2.0.0     │',
-      '│ Run npm i -g @quasar/cli to update │',
-      '╰────────────────────────────────────╯'
-    ].join('\n')
-  )
+  ).toBe(expectedNotificationBox)
 })
 
 test('colors the update message when FORCE_COLOR requests it', () => {
   setColorEnvironment('1')
 
-  expect(
-    renderNotification({
-      current: '1.0.0',
-      latest: '2.0.0',
-      name: '@quasar/cli'
-    })
-  ).toBe(
-    [
-      '╭────────────────────────────────────╮',
-      '│ Update available 1.0.0 → \u001B[32m2.0.0\u001B[39m     │',
-      '│ Run \u001B[36mnpm i -g @quasar/cli\u001B[39m to update │',
-      '╰────────────────────────────────────╯'
-    ].join('\n')
-  )
+  const output = renderNotification({
+    current: '1.0.0',
+    latest: '2.0.0',
+    name: '@quasar/cli'
+  })
+
+  // same box as the uncolored render, plus color escapes on the
+  // highlighted parts
+  expect(output.replace(ansiRE, '')).toBe(expectedNotificationBox)
+  expect(output).toContain('\u001B[32m2.0.0\u001B[39m')
+  expect(output).toContain('\u001B[36mnpm i -g @quasar/cli\u001B[39m')
 })
+
+// the package's own cache-filename encoding contract
+const cachedUpdateFile = '%40quasar%2Ftest.json'
 
 test('checks the configured registry and caches an available update', async () => {
   const directory = await createCacheRoot()
@@ -228,7 +234,7 @@ test(
       cacheRoot,
       'quasar',
       'update-notifier',
-      '%40quasar%2Ftest.json'
+      cachedUpdateFile
     )
     const port = await startRegistryServer('{"latest":"2.0.0"}')
 
@@ -283,7 +289,7 @@ test('preserves a cached update when notification output is suppressed', async (
 
   const cacheRoot = await createCacheRoot()
   const cacheDirectory = join(cacheRoot, 'quasar', 'update-notifier')
-  const cacheFile = join(cacheDirectory, '%40quasar%2Ftest.json')
+  const cacheFile = join(cacheDirectory, cachedUpdateFile)
 
   await mkdir(cacheDirectory, { recursive: true })
   await writeFile(
@@ -309,7 +315,7 @@ test('consumes a cached update when its notification is scheduled', async () => 
 
   const cacheRoot = await createCacheRoot()
   const cacheDirectory = join(cacheRoot, 'quasar', 'update-notifier')
-  const cacheFile = join(cacheDirectory, '%40quasar%2Ftest.json')
+  const cacheFile = join(cacheDirectory, cachedUpdateFile)
 
   await mkdir(cacheDirectory, { recursive: true })
   await writeFile(
@@ -341,7 +347,7 @@ test('discards a cached update produced by another registry', async () => {
 
   const cacheRoot = await createCacheRoot()
   const cacheDirectory = join(cacheRoot, 'quasar', 'update-notifier')
-  const cacheFile = join(cacheDirectory, '%40quasar%2Ftest.json')
+  const cacheFile = join(cacheDirectory, cachedUpdateFile)
 
   await mkdir(cacheDirectory, { recursive: true })
   await writeFile(
@@ -389,7 +395,7 @@ test('does nothing when running in CI', async () => {
 
   await expect(
     readFile(
-      join(cacheRoot, 'quasar', 'update-notifier', '%40quasar%2Ftest.json'),
+      join(cacheRoot, 'quasar', 'update-notifier', cachedUpdateFile),
       'utf8'
     )
   ).rejects.toThrow()

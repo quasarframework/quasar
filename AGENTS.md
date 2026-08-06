@@ -55,6 +55,14 @@ directory. Nested guides: `app-vite/AGENTS.md`, `cli/AGENTS.md`,
 - Run `git diff --check` before committing.
 - Do not weaken assertions, ignore generated cases, or change production
   behavior solely to make a failing test pass; diagnose the contract first.
+- Tests must not pin incidental fixture content or presentation formatting
+  as scattered inline literals. Prefer, in order: derive the expected value
+  from the fixture itself (e.g. read its package.json); assert the semantic
+  shape via regex (e.g. a banner's label + value, never its column
+  padding); when a literal pin is warranted, declare it ONCE in a named
+  constant documenting the owning file, and leave a breadcrumb comment at
+  the fixture pointing back to it. Values a test itself creates may be
+  asserted directly.
 - Report every validation command run and its outcome; if a required command
   cannot run, state the exact blocker.
 

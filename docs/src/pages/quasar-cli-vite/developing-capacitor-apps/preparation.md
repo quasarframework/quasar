@@ -67,7 +67,12 @@ In order to develop/build a Mobile app, we need to add the Capacitor mode to our
 
 ```bash
 quasar mode add capacitor
+
+# or, to skip the prompts (useful for scripts/CI):
+quasar mode add capacitor --app-id org.capacitor.quasar.app --app-name "My App"
 ```
+
+In a non-interactive environment (such as CI), where the prompts cannot be answered, the app id defaults to `org.capacitor.quasar.app` and the app display name to your package.json `productName` (or `name`), unless the `--app-id` / `--app-name` parameters are specified.
 
 ## Step 3: Start Developing
 

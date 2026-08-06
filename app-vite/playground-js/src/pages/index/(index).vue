@@ -7,5 +7,6 @@
 </template>
 
 <script setup>
-//
+// the button label is asserted by the e2e suites — keep it in sync
+// with /app-vite/test/playground-suite.js > fixtureMarkers
 </script>

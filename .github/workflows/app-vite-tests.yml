@@ -11,6 +11,7 @@ on:
       - 'app-vite/**'
       # bundled runtime dependencies of the CLI
       - 'utils/**'
+      - 'vite-plugin/**'
       # root dependency changes affect every package
       - 'package.json'
       - 'pnpm-lock.yaml'
@@ -50,3 +51,88 @@ jobs:
 
       - name: Run unit tests
         run: pnpm test:unit
+
+  build-ui:
+    permissions:
+      contents: read # to fetch code (actions/checkout)
+
+    runs-on: ubuntu-latest
+
+    name: Build the UI package (for the e2e tests)
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v5
+
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm i
+
+      - name: Build the UI package
+        working-directory: ui
+        run: pnpm build
+
+      - name: Upload UI build artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: ui-build
+          path: ui/dist
+
+  e2e-tests:
+    # the playgrounds depend on the workspace "quasar" (ui) package
+    needs: build-ui
+
+    permissions:
+      contents: read # to fetch code (actions/checkout)
+
+    runs-on: ubuntu-latest
+
+    # the in-test deadlines are far shorter; this only catches hangs
+    timeout-minutes: 30
+
+    strategy:
+      fail-fast: false
+      matrix:
+        playground: [js, ts]
+
+    defaults:
+      run:
+        working-directory: app-vite
+
+    name: E2E tests for app-vite (playground-${{ matrix.playground }})
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v5
+
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm i
+
+      # the Cordova mode-installation e2e step spawns it
+      - name: Install Cordova CLI
+        run: npm i -g cordova
+
+      - name: Download UI build artifact
+        uses: actions/download-artifact@v8
+        with:
+          name: ui-build
+          path: ui/dist
+
+      - name: Run e2e tests
+        # xvfb provides the display the Electron dev-mode step needs
+        run: xvfb-run --auto-servernum pnpm test:e2e playground-${{ matrix.playground }}

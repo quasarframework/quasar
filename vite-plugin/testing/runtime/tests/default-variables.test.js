@@ -1,6 +1,8 @@
 import { describe, expect, test } from 'vitest'
 import { mount } from '@vue/test-utils'
 
+import { plainTestPadding, uiDefaults } from '../../fixture-values.js'
+
 import 'quasar/src/css/index.sass'
 
 import { QToolbar } from 'quasar'
@@ -15,7 +17,7 @@ describe('Default variables (no custom variables file)', () => {
     // the framework default, as opposed to the custom file's 100px
     // override that the other suites assert
     expect(window.getComputedStyle(element).getPropertyValue('padding')).toBe(
-      '0px 12px'
+      uiDefaults.toolbarPadding
     )
   })
 
@@ -26,10 +28,10 @@ describe('Default variables (no custom variables file)', () => {
     const style = window.getComputedStyle(element)
 
     // $flex-gutter-sm = $space-base * .5 = 8px (framework defaults)
-    expect(style.getPropertyValue('padding')).toBe('8px')
+    expect(style.getPropertyValue('padding')).toBe(uiDefaults.flexGutterSm)
     // viewport is 1280px wide, so the $breakpoint-sm-min media query
     // ($sizes through "@use sass:map") is active
-    expect(style.getPropertyValue('margin')).toBe('4px')
+    expect(style.getPropertyValue('margin')).toBe(uiDefaults.flexGutterXs)
   })
 
   test('variable-less style blocks still skip injection safely', () => {
@@ -37,7 +39,7 @@ describe('Default variables (no custom variables file)', () => {
 
     const { element } = wrapper.get('div.my-plain-div')
     expect(window.getComputedStyle(element).getPropertyValue('padding')).toBe(
-      '25px'
+      plainTestPadding
     )
   })
 })

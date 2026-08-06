@@ -52,8 +52,10 @@ describe('[e2e] project', () => {
     )
     expect(code, output).toBe(0)
 
-    // this section only exists in the local (@quasar/app-vite) CLI output;
-    // the global CLI fallback of the "info" command does not print it
+    // This section only exists in the local (@quasar/app-vite) CLI output;
+    // the global CLI fallback of the "info" command does not print it.
+    // The marker is owned by app-vite/lib/cmd/info.js (which carries a
+    // breadcrumb comment) and is also pinned by app-vite's own info test.
     expect(output, output).toContain('Important local packages')
     expect(output, output).toContain('@quasar/app-vite')
   })
