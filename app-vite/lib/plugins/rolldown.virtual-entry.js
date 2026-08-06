@@ -1,5 +1,11 @@
 import path from 'node:path'
 
+const toSeparatorAgnosticSource = posixId =>
+  posixId
+    .split('/')
+    .map(segment => segment.replaceAll(/[.*+?^${}()|[\]\\]/g, String.raw`\$&`))
+    .join(String.raw`[\\/]`)
+
 export function quasarRolldownVirtualEntry({
   inputFile,
   targetFile,
@@ -9,15 +15,21 @@ export function quasarRolldownVirtualEntry({
     .relative(path.dirname(inputFile), targetFile)
     .replaceAll('\\', '/')
 
+  const bootstrapFile = `\0quasar:virtual-entry-bootstrap:${inputFile}`
+
   /**
    * Static ESM imports evaluate dependencies before the importing module's
-   * body. Use a dynamic import when bootstrap code must run before the target,
-   * while preserving the existing static import for all other entries.
+   * body, in source order. Bootstrap code therefore gets a module of its own
+   * so it still runs before the target while both stay statically imported.
+   *
+   * A dynamic import would give the same ordering, but it makes Rolldown
+   * defer the target graph into (potentially async) module initializers,
+   * which can deadlock on circular imports (see PR #18505).
    */
   const code =
     beforeImportCode === void 0
       ? `import './${importPath}'`
-      : `${beforeImportCode}\n\nawait import('./${importPath}')`
+      : `import ${JSON.stringify(bootstrapFile)}\nimport './${importPath}'`
 
   /**
    * Rolldown evaluates native id filters against the forward-slash-normalized
@@ -28,36 +40,41 @@ export function quasarRolldownVirtualEntry({
    * Windows never matches (#18504).
    */
   const posixInputFile = inputFile.replaceAll('\\', '/')
+  const posixBootstrapFile = bootstrapFile.replaceAll('\\', '/')
+
   const isInputFile = id =>
     id === inputFile || id.replaceAll('\\', '/') === posixInputFile
+  const isBootstrapFile = id =>
+    id === bootstrapFile || id.replaceAll('\\', '/') === posixBootstrapFile
 
-  // native (Rust-side) filtering: only the virtual entry itself
-  // reaches the JS handlers
-  const inputFileRE = new RegExp(
-    `^${posixInputFile
-      .split('/')
-      .map(segment =>
-        segment.replaceAll(/[.*+?^${}()|[\]\\]/g, String.raw`\$&`)
-      )
-      .join(String.raw`[\\/]`)}$`
+  // native (Rust-side) filtering: only the virtual entry and its
+  // bootstrap module reach the JS handlers
+  const idRE = new RegExp(
+    `^(?:${toSeparatorAgnosticSource(posixInputFile)}|${toSeparatorAgnosticSource(posixBootstrapFile)})$`
   )
 
   return {
     name: 'quasar:virtual-entry',
 
     resolveId: {
-      filter: { id: inputFileRE },
+      filter: { id: idRE },
 
       handler(source) {
-        return isInputFile(source) ? inputFile : null
+        if (isInputFile(source)) return inputFile
+        if (isBootstrapFile(source)) return bootstrapFile
+        return null
       }
     },
 
     load: {
-      filter: { id: inputFileRE },
+      filter: { id: idRE },
 
       handler(id) {
-        return isInputFile(id) ? code : null
+        if (isInputFile(id)) return code
+        if (isBootstrapFile(id)) {
+          return { code: beforeImportCode, moduleSideEffects: 'no-treeshake' }
+        }
+        return null
       }
     }
   }

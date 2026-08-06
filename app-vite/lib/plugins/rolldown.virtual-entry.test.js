@@ -14,16 +14,28 @@ describe('[rolldown.virtual-entry.js]', () => {
     )
   })
 
-  test('defers the import when bootstrap code must run first', () => {
+  test('imports a bootstrap module first when bootstrap code must run before the target', () => {
+    const beforeImportCode = 'globalThis.__bootstrap = true'
+    const bootstrapFile = `\0quasar:virtual-entry-bootstrap:${inputFile}`
     const plugin = quasarRolldownVirtualEntry({
       inputFile,
       targetFile,
-      beforeImportCode: 'globalThis.__bootstrap = true'
+      beforeImportCode
     })
 
+    // static imports in source order keep the graph synchronous — a dynamic
+    // import would defer it into async initializers that can deadlock on
+    // circular imports (PR #18505)
     expect(plugin.load.handler(inputFile)).toBe(
-      "globalThis.__bootstrap = true\n\nawait import('./electron/electron-main.js')"
+      `import ${JSON.stringify(bootstrapFile)}\nimport './electron/electron-main.js'`
     )
+
+    expect(plugin.resolveId.filter.id.test(bootstrapFile)).toBe(true)
+    expect(plugin.resolveId.handler(bootstrapFile)).toBe(bootstrapFile)
+    expect(plugin.load.handler(bootstrapFile)).toEqual({
+      code: beforeImportCode,
+      moduleSideEffects: 'no-treeshake'
+    })
   })
 
   test('resolves only the virtual entry itself', () => {
@@ -56,8 +68,19 @@ describe('[rolldown.virtual-entry.js]', () => {
 
     const plugin = quasarRolldownVirtualEntry({
       inputFile: winInput,
-      targetFile: winTarget
+      targetFile: winTarget,
+      beforeImportCode: 'globalThis.__bootstrap = true'
     })
+
+    // the bootstrap id embeds the OS-native input path, so it is
+    // normalized by rolldown's native filters the same way
+    const bootstrapFile = `\0quasar:virtual-entry-bootstrap:${winInput}`
+    expect(
+      plugin.resolveId.filter.id.test(bootstrapFile.replaceAll('\\', '/'))
+    ).toBe(true)
+    expect(plugin.resolveId.handler(bootstrapFile.replaceAll('\\', '/'))).toBe(
+      bootstrapFile
+    )
 
     expect(plugin.resolveId.filter.id.test(normalizedId)).toBe(true)
     expect(plugin.load.filter.id.test(normalizedId)).toBe(true)
