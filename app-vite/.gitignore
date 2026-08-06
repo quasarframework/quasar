@@ -8,3 +8,7 @@ playground-*/src-*/
 playground-*/public/icons/
 # pristine-config backups the e2e suite self-heals from after a killed run
 playground-*/quasar.config.*.e2e-backup
+# written by the e2e qe2e-extension step and removed by its cleanup
+# (the clean step also heals leftovers of a killed run)
+playground-*/quasar.extensions.json
+playground-*/qe2e-rendered/

@@ -5,6 +5,7 @@ import {
   readdirSync,
   realpathSync,
   rmSync,
+  symlinkSync,
   writeFileSync
 } from 'node:fs'
 import { join } from 'node:path'
@@ -19,6 +20,7 @@ import {
   testDevServer,
   testSsrProdServer
 } from './e2e-utils.js'
+import qe2eMarkers from './fixtures/quasar-app-extension-qe2e/src/markers.js'
 
 // installing Cordova mode spawns the (globally installed) cordova CLI
 const hasCordovaBin = hasBin('cordova')
@@ -153,6 +155,27 @@ export function definePlaygroundSuite({ playgroundDir, scriptExt }) {
     expect(existsSync(join(distDir, 'node_modules')), repro).toBe(true)
   }
 
+  // The fixture App Extension gets symlinked into the playground,
+  // invoked (registration + rendered files) and uninvoked again within
+  // a single step. Everything it leaves behind is gitignored and healed
+  // by the clean step, so a hard-killed run cannot dirty the worktree.
+  const qe2eFixtureDir = join(
+    import.meta.dirname,
+    'fixtures/quasar-app-extension-qe2e'
+  )
+  const qe2ePackageLink = join(
+    playgroundDir,
+    'node_modules/quasar-app-extension-qe2e'
+  )
+  const qe2eExtensionsFile = join(playgroundDir, 'quasar.extensions.json')
+  const qe2eRenderedDir = join(playgroundDir, qe2eMarkers.renderedDirName)
+
+  const healQe2eLeftovers = () => {
+    rmSync(qe2eExtensionsFile, { force: true })
+    rmSync(qe2eRenderedDir, { recursive: true, force: true })
+    rmSync(qe2ePackageLink, { recursive: true, force: true })
+  }
+
   const appPkgName = JSON.parse(
     readFileSync(join(playgroundDir, 'package.json'), 'utf8')
   ).name
@@ -162,8 +185,10 @@ export function definePlaygroundSuite({ playgroundDir, scriptExt }) {
   const hasStore = existsSync(join(playgroundDir, 'src/stores'))
 
   stepTest('cleans the build artifacts', async () => {
-    // a hard-killed previous run may have left a modified config behind
+    // a hard-killed previous run may have left a modified config
+    // or an invoked qe2e extension behind
     healConfigLeftover()
+    healQe2eLeftovers()
 
     const { code, output, repro } = await runQuasar(['clean'], playgroundDir)
     expect(code, output + repro).toBe(0)
@@ -206,6 +231,45 @@ export function definePlaygroundSuite({ playgroundDir, scriptExt }) {
     // it references at least one built (hashed) script
     expect(indexHtml, repro).toMatch(/assets\/[\w.-]+\.js/)
   })
+
+  stepTest(
+    'builds the app in SPA mode with the qe2e extension invoked',
+    async () => {
+      healQe2eLeftovers()
+      symlinkSync(qe2eFixtureDir, qe2ePackageLink)
+
+      try {
+        // invoke: prompts answers stored + install script rendered files
+        let res = await runQuasar(['ext', 'invoke', 'qe2e'], playgroundDir)
+        expect(res.code, res.output + res.repro).toBe(0)
+        expect(res.output, res.repro).toContain(qe2eMarkers.installExitLog)
+        expect(
+          JSON.parse(readFileSync(qe2eExtensionsFile, 'utf8')).qe2e,
+          res.repro
+        ).toEqual({ greeting: qe2eMarkers.promptGreeting })
+        expect(
+          readFileSync(join(qe2eRenderedDir, 'greeting.txt'), 'utf8'),
+          res.repro
+        ).toContain(`greeting=${qe2eMarkers.promptGreeting}`)
+
+        // a real build picks up the AE's extendViteConf hook
+        res = await runQuasar(['build'], playgroundDir)
+        expect(res.code, res.output + res.repro).toBe(0)
+        expect(
+          readFileSync(join(playgroundDir, 'dist/spa/index.html'), 'utf8'),
+          res.repro
+        ).toContain(qe2eMarkers.viteHtmlMarker)
+
+        // uninvoke: uninstall script removes what install rendered
+        res = await runQuasar(['ext', 'uninvoke', 'qe2e'], playgroundDir)
+        expect(res.code, res.output + res.repro).toBe(0)
+        expect(res.output, res.repro).toContain(qe2eMarkers.uninstallExitLog)
+        expect(existsSync(qe2eRenderedDir), res.repro).toBe(false)
+      } finally {
+        healQe2eLeftovers()
+      }
+    }
+  )
 
   stepTest('builds the app in SSR mode, auto-installing it', async () => {
     removeModeDir('ssr')

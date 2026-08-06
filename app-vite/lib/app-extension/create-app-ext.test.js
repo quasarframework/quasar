@@ -15,6 +15,7 @@ import { QuasarConfigFile } from '../quasar-config-file.js'
 import { getCtx } from '../utils/get-ctx.js'
 import { getApi } from '../utils/get-api.js'
 import { getAppExtJson } from './create-app-ext.js'
+import qe2eMarkers from '../../test/fixtures/quasar-app-extension-qe2e/src/markers.js'
 
 const playgroundDir = join(import.meta.dirname, '../../playground-js')
 const fixtureExtDir = join(
@@ -82,7 +83,7 @@ describe('[create-app-ext.js] extension hooks', () => {
   test('a registered extension extends the quasar config', async () => {
     const conf = await readConf(makeApp({ withExtension: true }))
 
-    expect(conf.htmlVariables.qe2eMarker).toBe('qe2e-extension-active')
+    expect(conf.htmlVariables.qe2eMarker).toBe(qe2eMarkers.quasarConfMarker)
   })
 
   test('without registration the extension has no effect', async () => {

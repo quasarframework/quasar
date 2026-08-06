@@ -14,6 +14,8 @@ import { join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { afterAll, describe, expect, test } from 'vitest'
 
+import qe2eMarkers from '../../test/fixtures/quasar-app-extension-qe2e/src/markers.js'
+
 const binFile = fileURLToPath(new URL('../../bin/quasar.js', import.meta.url))
 const fixtureExtDir = fileURLToPath(
   new URL('../../test/fixtures/quasar-app-extension-qe2e', import.meta.url)
@@ -78,9 +80,24 @@ describe.sequential('[ext.js]', () => {
 
     expect(code, output).toBe(0)
     expect(existsSync(extensionsFile), output).toBe(true)
-    expect(JSON.parse(readFileSync(extensionsFile, 'utf8'))).toHaveProperty(
-      'qe2e'
+
+    // the prompts script answers got stored
+    expect(JSON.parse(readFileSync(extensionsFile, 'utf8'))).toEqual({
+      qe2e: { greeting: qe2eMarkers.promptGreeting }
+    })
+
+    // the install script rendered its templates folder, interpolating
+    // the prompts answers and applying the underscore name mappings
+    const renderedDir = join(appDir, qe2eMarkers.renderedDirName)
+    expect(readFileSync(join(renderedDir, 'greeting.txt'), 'utf8')).toContain(
+      `greeting=${qe2eMarkers.promptGreeting}`
     )
+    expect(existsSync(join(renderedDir, '.dotfile.txt')), output).toBe(true)
+    expect(existsSync(join(renderedDir, '_dotfile.txt')), output).toBe(false)
+    expect(existsSync(join(renderedDir, '_underscore.txt')), output).toBe(true)
+
+    // the install script exit log got printed
+    expect(output).toContain(qe2eMarkers.installExitLog)
   })
 
   test('bare "quasar ext" now lists the extension', async () => {
@@ -101,6 +118,12 @@ describe.sequential('[ext.js]', () => {
     expect(JSON.parse(readFileSync(extensionsFile, 'utf8'))).not.toHaveProperty(
       'qe2e'
     )
+
+    // the uninstall script removed what install rendered, and logged
+    expect(existsSync(join(appDir, qe2eMarkers.renderedDirName)), output).toBe(
+      false
+    )
+    expect(output).toContain(qe2eMarkers.uninstallExitLog)
   })
 
   test('unknown action exits 1', async () => {

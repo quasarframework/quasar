@@ -12,6 +12,8 @@ import { join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { afterAll, describe, expect, test } from 'vitest'
 
+import qe2eMarkers from '../../test/fixtures/quasar-app-extension-qe2e/src/markers.js'
+
 const binFile = fileURLToPath(new URL('../../bin/quasar.js', import.meta.url))
 const fixtureExtDir = fileURLToPath(
   new URL('../../test/fixtures/quasar-app-extension-qe2e', import.meta.url)
@@ -87,7 +89,7 @@ describe('[run.js]', () => {
 
     expect(code, output).toBe(0)
     expect(output).toContain('Running App Extension command "greet"')
-    expect(output).toContain('qe2e greet command executed')
+    expect(output).toContain(qe2eMarkers.greetCommandOutput)
   })
 
   test('an unknown command exits 1 and lists the valid ones', async () => {
