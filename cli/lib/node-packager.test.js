@@ -18,8 +18,7 @@ function makeProjectDir(name, lockFile) {
 // so it must be imported from within a project folder
 const pnpmProjectDir = makeProjectDir('pnpm-project', 'pnpm-lock.yaml')
 process.chdir(pnpmProjectDir)
-const { getNodePackager, nodePackager } =
-  await import('../../lib/node-packager.js')
+const { getNodePackager, nodePackager } = await import('./node-packager.js')
 process.chdir(originalCwd)
 
 afterAll(() => {

@@ -34,7 +34,7 @@ function makeDir(...segments) {
 // appDir detection runs at import time based on process.cwd()
 async function getAppPaths(cwd) {
   process.chdir(cwd)
-  const { default: appPaths } = await import('../../lib/app-paths.js')
+  const { default: appPaths } = await import('./app-paths.js')
   return appPaths
 }
 

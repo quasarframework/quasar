@@ -1,10 +1,10 @@
 import { dirname, join } from 'node:path'
 import { describe, expect, test } from 'vitest'
 
-import { getPackagePath } from '../../lib/get-package-path.js'
-import { getPackageJson } from '../../lib/get-package-json.js'
+import { getPackagePath } from './get-package-path.js'
+import { getPackageJson } from './get-package-json.js'
 
-const cliDir = join(import.meta.dirname, '../..')
+const cliDir = join(import.meta.dirname, '..')
 
 describe('[get-package-path.js]', () => {
   test('resolves a package installed in the given folder', () => {

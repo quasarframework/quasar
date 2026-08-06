@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'vitest'
 
-import { getArgv } from '../../lib/get-argv.js'
+import { getArgv } from './get-argv.js'
 
 function parse(args, options, opts) {
   const originalArgv = process.argv

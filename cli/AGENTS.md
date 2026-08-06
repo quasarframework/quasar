@@ -8,8 +8,10 @@ inside a project it defers to the locally installed
 
 Run from `/cli`.
 
-- `pnpm test:unit` — fast; run for any change here. Includes spawned-binary
-  tests of every fast CLI path (help/version/errors/deferral stubs).
+- `pnpm test:unit` — fast; run for any change here. Colocated with their
+  sources (`lib/**/<file>.test.js`, `bin/quasar.test.js`; npm-excluded).
+  Includes spawned-binary tests of every fast CLI path
+  (help/version/errors/deferral stubs).
 - `pnpm test:e2e` — boots real `quasar serve` servers and scaffolds a real
   project via `create-quasar` (pnpm install + registry access) to test
   local CLI deferral and `upgrade`.

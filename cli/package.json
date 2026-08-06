@@ -35,7 +35,9 @@
   "files": [
     "assets",
     "bin",
-    "lib"
+    "!bin/*.test.js",
+    "lib",
+    "!lib/**/*.test.js"
   ],
   "type": "module",
   "main": "bin/quasar.js",

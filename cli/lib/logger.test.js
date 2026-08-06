@@ -9,7 +9,7 @@ import {
   infoPill,
   successPill,
   warningPill
-} from '../../lib/logger.js'
+} from './logger.js'
 
 describe('[logger.js]', () => {
   test('pills wrap the message in padding', () => {

@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'vitest'
 
-import { getExternalNetworkInterface, getIPs } from '../../lib/net.js'
+import { getExternalNetworkInterface, getIPs } from './net.js'
 
 const ipv4RE = /^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$/
 
