@@ -196,7 +196,8 @@ export class AppExtensionInstance {
         getPackagePath(this.packageName, appDir) ||
         // As a last resort, try to resolve the index script. By not doing this as the only/first option, we can give a more precise error message
         // if the package is installed but the index script is missing
-        this.#getScriptPath('index')
+        // (the raw resolver, NOT #getScriptPath: its isInstalled guard would recurse right back into this method)
+        this.#resolveScriptPath('index')
 
       if (resolvedPath !== void 0) {
         this.#packageParentUrl = pathToFileURL(resolvedPath).href
@@ -386,6 +387,10 @@ export class AppExtensionInstance {
   #getScriptPath(scriptName) {
     if (!this.isInstalled) return
 
+    return this.#resolveScriptPath(scriptName)
+  }
+
+  #resolveScriptPath(scriptName) {
     for (const ext of this.#scriptsExtensionList) {
       for (const folder of this.#scriptsTargetFolderList) {
         const path = getPackagePath(
