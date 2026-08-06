@@ -11,6 +11,10 @@ import {
 
 import { quasarVitePluginPwaResources } from './pwa-utils.js'
 
+// matched by Workbox against URLs (always forward-slash);
+// same pattern as the custom-sw template files
+export const workboxFileRE = /workbox-(.)*\.js$/
+
 /**
  * Warning!
  *
@@ -104,7 +108,7 @@ export const quasarPwaConfig = {
 
         opts.navigateFallbackDenylist = [
           new RegExp(escapeRegexString(quasarConf.pwa.swFilename) + '$'),
-          /workbox-(.)*\\.js$/
+          workboxFileRE
         ]
 
         if (ctx.mode.ssg) {
