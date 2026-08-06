@@ -23,6 +23,10 @@ concurrency:
 
 jobs:
   unit-tests:
+    # the config-file tests import @quasar/vite-plugin, which reads
+    # ui/dist at module load — a built ui package is required
+    needs: build-ui
+
     permissions:
       contents: read # to fetch code (actions/checkout)
 
@@ -48,6 +52,12 @@ jobs:
 
       - name: Install dependencies
         run: pnpm i
+
+      - name: Download UI build artifact
+        uses: actions/download-artifact@v8
+        with:
+          name: ui-build
+          path: ui/dist
 
       - name: Run unit tests
         run: pnpm test:unit

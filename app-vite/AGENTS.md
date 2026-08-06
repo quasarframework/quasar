@@ -6,7 +6,9 @@ Supplements the repo-root `AGENTS.md`.
   `files`). Touching a source file means updating its sibling test; a new
   testable file gets one; export internals when worth testing directly.
   Tests spawning the CLI must strip `NODE_PATH` from the child env (vitest
-  points it at the monorepo pnpm store). `pnpm test:unit` (from
+  points it at the monorepo pnpm store). The config-file suites need a
+  built ui package (`@quasar/vite-plugin` reads `ui/dist` at module
+  load; CI downloads the shared artifact). `pnpm test:unit` (from
   `/app-vite`) runs them all — fast.
   CI: `.github/workflows/app-vite-tests.yml`.
 - E2E: `/test` is e2e-only; `test/playground-suite.js` runs the same
