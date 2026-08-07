@@ -4,6 +4,24 @@ on:
   workflow_dispatch:
   # the release-tests workflow reruns this suite at the released tag
   workflow_call:
+  # direct pushes are the norm in this repo — they get the same
+  # path-scoped coverage as PRs (rapid push trains collapse through the
+  # per-ref concurrency group)
+  push:
+    branches:
+      - 'dev'
+    paths:
+      - '.github/workflows/ui-tests.yml'
+      - 'ui/**/*.js'
+      # JSON API files, validated by the specs tooling
+      - 'ui/src/**/*.json'
+      - 'ui/src/css/**'
+      - 'ui/package.json'
+      - 'ui/playground/package.json'
+      # root dependency changes affect every package
+      - 'package.json'
+      - 'pnpm-lock.yaml'
+      - 'pnpm-workspace.yaml'
   pull_request:
     types: [opened, synchronize]
     branches:

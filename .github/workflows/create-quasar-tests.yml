@@ -4,6 +4,19 @@ on:
   workflow_dispatch:
   # the release-tests workflow reruns this suite at the released tag
   workflow_call:
+  # direct pushes are the norm in this repo — they get the same
+  # path-scoped coverage as PRs (rapid push trains collapse through the
+  # per-ref concurrency group)
+  push:
+    branches:
+      - 'dev'
+    paths:
+      - '.github/workflows/create-quasar-tests.yml'
+      - 'create-quasar/**'
+      # root dependency changes affect every package
+      - 'package.json'
+      - 'pnpm-lock.yaml'
+      - 'pnpm-workspace.yaml'
   pull_request:
     types: [opened, synchronize]
     branches:
@@ -61,14 +74,27 @@ jobs:
       - name: Run unit tests
         run: pnpm test:unit
 
+      # changed files come from the API per event kind; anything
+      # uncertain (unknown event, API failure, a possibly-truncated
+      # compare listing) falls back to running the matrix
       - name: Determine whether the e2e matrix should run
         id: scope
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          if [ "${{ github.event_name }}" != "pull_request" ]; then
-            echo "e2e=true" >> $GITHUB_OUTPUT
-          elif gh api "repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/files" --paginate --jq '.[].filename' \
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            FILES=$(gh api "repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/files" --paginate --jq '.[].filename' || echo __ALL__)
+          elif [ "${{ github.event_name }}" = "push" ]; then
+            FILES=$(gh api "repos/${{ github.repository }}/compare/${{ github.event.before }}...${{ github.event.after }}" --jq '.files[].filename' || echo __ALL__)
+            # the compare endpoint caps the file listing at 300
+            if [ "$(printf '%s\n' "$FILES" | wc -l)" -ge 300 ]; then
+              FILES=__ALL__
+            fi
+          else
+            FILES=__ALL__
+          fi
+
+          if [ "$FILES" = "__ALL__" ] || printf '%s\n' "$FILES" \
             | grep -qE '^(create-quasar/|\.github/workflows/create-quasar-tests\.yml)'; then
             echo "e2e=true" >> $GITHUB_OUTPUT
           else
