@@ -150,8 +150,9 @@ Bump + commit:
 
 Draft release — never a duplicate:
 
-- `utils/*` packages get NO draft (not direct public-facing): their
-  continuation ends at the bump + commit — say so when asking.
+- `utils/*` packages and create-quasar get NO draft (no GitHub
+  releases for them): their continuation ends at the bump + commit —
+  say so when asking.
 - Release label: ONLY the ui package is marked "Latest"
   (`--latest`); every other package passes `--latest=false` (label
   "None"). Apply on BOTH create and edit.
