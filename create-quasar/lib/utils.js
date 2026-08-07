@@ -314,7 +314,21 @@ function initializeGit(projectFolder) {
   })
 
   try {
-    exec('git init', { cwd: projectFolder })
+    let init = 'git init'
+    try {
+      exec('git config --get init.defaultBranch', {
+        stdio: 'ignore',
+        cwd: projectFolder
+      })
+    } catch {
+      // the user has no configured branch name preference, so pin the
+      // initial branch to "main" instead of the git version's own
+      // default (also silences git's branch-name advice); git < 2.28
+      // ignores the unknown config key without erroring
+      init = 'git -c init.defaultBranch=main init'
+    }
+
+    exec(init, { cwd: projectFolder })
     exec('git add -A', { cwd: projectFolder })
 
     // Provide useful feedback to the user if they have GPG signing

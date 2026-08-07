@@ -239,6 +239,37 @@ describe('[utils.js]', () => {
         cwd: projectFolder
       }).toString()
       expect(log).toContain('Initialize the project')
+
+      // no user branch-name preference in this env -> pinned to "main"
+      const branch = execSync('git branch --show-current', {
+        cwd: projectFolder
+      })
+        .toString()
+        .trim()
+      expect(branch).toBe('main')
+    })
+
+    test('respects a user-configured default branch name', () => {
+      const projectFolder = join(rootDir, 'configured-branch')
+      mkdirSync(projectFolder, { recursive: true })
+      writeFileSync(join(projectFolder, 'package.json'), '{}')
+
+      const gitConfig = join(rootDir, 'gitconfig')
+      writeFileSync(gitConfig, '[init]\n\tdefaultBranch = trunk\n')
+      vi.stubEnv('GIT_CONFIG_GLOBAL', gitConfig)
+
+      try {
+        utils.initializeGit(projectFolder)
+      } finally {
+        vi.stubEnv('GIT_CONFIG_GLOBAL', '/dev/null')
+      }
+
+      const branch = execSync('git branch --show-current', {
+        cwd: projectFolder
+      })
+        .toString()
+        .trim()
+      expect(branch).toBe('trunk')
     })
 
     test('skips when a parent folder is already a git repository', () => {
