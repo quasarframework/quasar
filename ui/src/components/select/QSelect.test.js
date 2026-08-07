@@ -1398,8 +1398,8 @@ describe('[QSelect API]', () => {
         await defaultWrapper.get('input').trigger('keydown', { keyCode: 13 })
         await flushPromises()
 
-        expect(defaultWrapper.findComponent({ name: 'QPortal' }).exists()).toBe(
-          true
+        expect(defaultWrapper.get('input').attributes('aria-expanded')).toBe(
+          'true'
         )
 
         const wrapper = mountSelect({
@@ -1411,7 +1411,18 @@ describe('[QSelect API]', () => {
         await flushPromises()
 
         expect(wrapper.emitted('keydown')).toHaveLength(1)
-        expect(wrapper.findComponent({ name: 'QPortal' }).exists()).toBe(false)
+        expect(wrapper.get('input').attributes('aria-expanded')).toBe('false')
+
+        wrapper.vm.showPopup()
+        await flushPromises()
+        wrapper.vm.setOptionIndex(1)
+
+        await wrapper.get('input').trigger('keydown', { keyCode: 13 })
+        await flushPromises()
+
+        expect(wrapper.emitted('update:modelValue')).toBeUndefined()
+        expect(wrapper.vm.getOptionIndex()).toBe(1)
+        expect(wrapper.get('input').attributes('aria-expanded')).toBe('true')
       })
     })
 
