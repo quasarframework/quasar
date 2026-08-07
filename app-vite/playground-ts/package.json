@@ -14,7 +14,7 @@
     "@quasar/extras": "workspace:*",
     "pinia": "^4.0.2",
     "quasar": "workspace:*",
-    "vue": "^3.5.40",
+    "vue": "^3.5.41",
     "vue-router": "^5.2.0"
   },
   "devDependencies": {
