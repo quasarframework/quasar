@@ -51,3 +51,11 @@ if (!type || type === 'css') {
   const { buildCss } = await import('./script.build.css.js')
   await buildCss(/* with diff */ type === 'css')
 }
+
+if (!type) {
+  // stamp dist as matching its inputs — the test suites consuming the
+  // build verify this (build-stamp.js); partial builds (js/css) leave
+  // the previous stamp in place, so they read as stale until a full one
+  const { writeBuildStamp } = await import('./build-stamp.js')
+  writeBuildStamp()
+}

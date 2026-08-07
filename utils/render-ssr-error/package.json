@@ -34,7 +34,7 @@
     "build": "pnpm build:ui && pnpm build:package",
     "build:ui": "cd src-ui && vite build",
     "build:package": "node ./build/index.js",
-    "prepublishOnly": "pnpm run build && pnpm test"
+    "prepublishOnly": "node ../../ui/build/ensure-fresh-build.js && pnpm run build && pnpm test"
   },
   "dependencies": {
     "stack-trace": "^1.0.0"

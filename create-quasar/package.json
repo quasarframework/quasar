@@ -47,6 +47,7 @@
     "tinyglobby": "^0.2.17"
   },
   "devDependencies": {
+    "verdaccio": "^6.9.2",
     "vitest": "^4.1.10"
   },
   "engines": {

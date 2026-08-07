@@ -7,6 +7,14 @@ on:
     types:
       - released # A release was published, or a pre-release was changed to a release.
 
+# a release train publishes several tags minutes apart; every run
+# regenerates ALL notes from the GitHub API and commits to the cdn
+# repo, so parallel runs only race on that push — collapse the burst
+# into the newest run (same pattern as release-tests.yml)
+concurrency:
+  group: release-notes
+  cancel-in-progress: true
+
 jobs:
   generate:
     permissions:

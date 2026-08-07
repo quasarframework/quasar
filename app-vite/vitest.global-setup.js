@@ -1,21 +1,25 @@
 import { existsSync } from 'node:fs'
 import { join } from 'node:path'
 
-// @quasar/vite-plugin reads this file at module load, so without a
-// built ui package every suite touching the quasar config file dies
-// with a cryptic ENOENT deep inside an import chain — fail the run
-// up front with the actual instruction instead.
+import { ensureFreshBuild } from '../ui/build/build-stamp.js'
+
+// @quasar/vite-plugin reads this file at module load, so the suites
+// need a fresh ui build — auto-built here when missing or stale (same
+// self-healing as the dev scripts and the e2e registry).
 const probeFile = join(
   import.meta.dirname,
   '../ui/dist/transforms/loader-asset-urls.json'
 )
 
 export default function ensureUiIsBuilt() {
+  ensureFreshBuild()
+
+  // backstop: a "fresh" or just-built dist must actually contain what
+  // the vite-plugin reads at module load
   if (!existsSync(probeFile)) {
     throw new Error(
-      'The "quasar" (ui) package is not built — the app-vite test suites ' +
-        'need it.\nBuild it first (from /app-vite):  pnpm --dir ../ui build\n' +
-        'Rebuild it whenever the ui package changes.'
+      `The ui build did not produce ${probeFile}, which the app-vite ` +
+        'test suites need'
     )
   }
 }

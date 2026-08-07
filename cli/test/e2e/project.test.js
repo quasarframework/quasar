@@ -4,6 +4,7 @@ import { join } from 'node:path'
 import { afterAll, describe, expect } from 'vitest'
 
 import { binFile, createStepTest, run } from './e2e-utils.js'
+import { assertLocalQuasarInstall } from '../../../create-quasar/test/e2e/local-registry.js'
 
 const createQuasarBin = join(
   import.meta.dirname,
@@ -42,6 +43,10 @@ describe('[e2e] project', () => {
     )
     expect(code, output).toBe(0)
     expect(existsSync(join(projectFolder, 'node_modules'))).toBe(true)
+
+    // the install must have used the local monorepo packages,
+    // never published ones
+    assertLocalQuasarInstall(projectFolder)
   })
 
   stepTest('defers "info" to the locally installed CLI', async () => {

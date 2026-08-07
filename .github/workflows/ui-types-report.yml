@@ -125,8 +125,8 @@ jobs:
 
           echo "## JSON API" >> build-results.md
           echo "" >> build-results.md
-          # git diff exits with 1 if there is no diff, which evaluates to true
-          if $(git diff --no-index ./current-build/api ./pr-build/api > ./api.diff); then
+          # git diff --no-index exits 0 when the trees are identical
+          if git diff --no-index ./current-build/api ./pr-build/api > ./api.diff; then
             echo "📜 No changes detected." >> build-results.md
           else
             echo "📜 Changes detected:" >> build-results.md
@@ -138,8 +138,8 @@ jobs:
 
           echo "## Types" >> build-results.md
           echo "" >> build-results.md
-          # git diff exits with 1 if there is no diff, which evaluates to true
-          if $(git diff --no-index ./current-build/types ./pr-build/types > ./types.diff); then
+          # git diff --no-index exits 0 when the trees are identical
+          if git diff --no-index ./current-build/types ./pr-build/types > ./types.diff; then
             echo "📜 No changes detected." >> build-results.md
           else
             echo "📜 Changes detected:" >> build-results.md

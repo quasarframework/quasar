@@ -8,6 +8,7 @@
     "lint:check": "oxfmt --check && oxlint --no-error-on-unmatched-pattern",
     "lint:ui:check": "oxfmt --check ./ui && oxlint --no-error-on-unmatched-pattern ./ui",
     "test": "pnpm build && pnpm --filter quasar test:specs:ci && pnpm --filter quasar test",
+    "test:all": "pnpm test && pnpm --filter './utils/**' test && pnpm --filter @quasar/vite-plugin test && pnpm --filter @quasar/cli test && pnpm --filter quasar.dev test && pnpm --filter @quasar/app-vite test && pnpm --filter create-quasar test",
     "build": "pnpm --filter quasar build",
     "vite-ecosystem-ci:build": "pnpm build",
     "vite-ecosystem-ci:test": "pnpm --filter @quasar/vite-plugin test",

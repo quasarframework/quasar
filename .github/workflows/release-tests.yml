@@ -1,0 +1,140 @@
+name: release tests
+
+# Full-repo test sweep on release: the regular "<package> tests"
+# workflows are PR-path-scoped to their own package, so cross-package
+# breakage can land silently between releases. This workflow reruns
+# EVERY suite at the released tag. All suites always exercise the
+# monorepo's local code — registry installs included (see
+# create-quasar/test/e2e/local-registry.js); published npm packages are
+# never tested. Also manually dispatchable for an on-demand full sweep
+# on any ref.
+
+on:
+  workflow_dispatch:
+  # weekly drift check on dev: the PR triggers are strictly
+  # per-package, so cross-package breakage would otherwise only
+  # surface when a release is already underway
+  schedule:
+    - cron: '0 6 * * 1'
+  release:
+    types:
+      - released # A release was published, or a pre-release was changed to a release.
+
+# a release train publishes several tags minutes apart from the same
+# dev tip — collapse the burst into the newest tag's sweep
+concurrency:
+  group: release-tests
+  cancel-in-progress: true
+
+jobs:
+  # skip releases of packages nothing tests (icongenie); the tag
+  # prefixes are v-anchored so a prefix cannot match unrelated tag names
+  gate:
+    if: >-
+      ${{
+        github.event_name == 'workflow_dispatch'
+        || github.event_name == 'schedule'
+        || startsWith(github.event.release.tag_name, 'quasar-v')
+        || startsWith(github.event.release.tag_name, 'create-quasar-v')
+        || startsWith(github.event.release.tag_name, '@quasar/extras-v')
+        || startsWith(github.event.release.tag_name, '@quasar/app-vite-v')
+        || startsWith(github.event.release.tag_name, '@quasar/vite-plugin-v')
+        || startsWith(github.event.release.tag_name, '@quasar/cli-v')
+        || startsWith(github.event.release.tag_name, '@quasar/art-v')
+        || startsWith(github.event.release.tag_name, '@quasar/render-ssr-error-v')
+        || startsWith(github.event.release.tag_name, '@quasar/ssl-certificate-v')
+        || startsWith(github.event.release.tag_name, '@quasar/update-notifier-v')
+      }}
+
+    runs-on: ubuntu-latest
+
+    name: Tag gate
+    steps:
+      - name: Report what triggered the sweep
+        run: echo "Full test sweep for ${{ github.event.release.tag_name || 'manual dispatch' }}"
+
+  # builds ui ONCE for the whole sweep: the cache saved here (on this
+  # run's ref) is restored by every called workflow's own ui-build
+  # steps, turning their builds into cache hits
+  build-ui:
+    needs: gate
+
+    permissions:
+      contents: read # to fetch code (actions/checkout)
+
+    runs-on: ubuntu-latest
+
+    name: Build the UI package (for the whole sweep)
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v5
+
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm i
+
+      # exact input-hash key on purpose (NO restore-keys): a stale dist
+      # must never be served — either the inputs are identical or we build
+      - name: Restore UI build cache
+        id: ui-build-cache
+        uses: actions/cache@v5
+        with:
+          path: ui/dist
+          key: ui-dist-${{ runner.os }}-${{ hashFiles('ui/src/**', 'ui/lang/**', 'ui/icon-set/**', 'ui/build/**', 'ui/package.json', 'pnpm-lock.yaml') }}
+
+      - name: Build the UI package
+        if: steps.ui-build-cache.outputs.cache-hit != 'true'
+        working-directory: ui
+        run: pnpm build
+
+  ui-tests:
+    needs: build-ui
+    permissions:
+      contents: read
+      actions: read # requested by the called workflow's tests job
+    uses: ./.github/workflows/ui-tests.yml
+
+  vite-plugin-tests:
+    needs: build-ui
+    permissions:
+      contents: read
+    uses: ./.github/workflows/vite-plugin-tests.yml
+
+  app-vite-tests:
+    needs: build-ui
+    permissions:
+      contents: read
+    uses: ./.github/workflows/app-vite-tests.yml
+
+  docs-tests:
+    needs: build-ui
+    permissions:
+      contents: read
+    uses: ./.github/workflows/docs-tests.yml
+
+  utils-tests:
+    needs: gate
+    permissions:
+      contents: read
+    uses: ./.github/workflows/utils-tests.yml
+
+  create-quasar-tests:
+    needs: build-ui
+    permissions:
+      contents: read
+      pull-requests: read # requested by the called workflow's unit-tests job
+    uses: ./.github/workflows/create-quasar-tests.yml
+
+  cli-tests:
+    needs: build-ui
+    permissions:
+      contents: read
+    uses: ./.github/workflows/cli-tests.yml

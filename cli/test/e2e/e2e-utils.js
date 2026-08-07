@@ -9,7 +9,20 @@ export const env = {
   FORCE_COLOR: '0',
   NO_UPDATE_NOTIFIER: '1',
   // See https://github.com/yarnpkg/yarn/issues/9015
-  SKIP_YARN_COREPACK_CHECK: '1'
+  SKIP_YARN_COREPACK_CHECK: '1',
+  // set by the local-registry global setup (see
+  // create-quasar/test/e2e/local-registry.js): every package manager
+  // the tests spawn must resolve through the local monorepo registry
+  ...(process.env.E2E_REGISTRY_URL !== void 0
+    ? {
+        npm_config_registry: process.env.E2E_REGISTRY_URL,
+        YARN_REGISTRY: process.env.E2E_REGISTRY_URL,
+        // pnpm and yarn 1 ignore the env vars above — the controlled
+        // home's .npmrc/.yarnrc are the authoritative redirection
+        HOME: process.env.E2E_REGISTRY_HOME,
+        USERPROFILE: process.env.E2E_REGISTRY_HOME
+      }
+    : {})
 }
 // vitest points NODE_PATH at the monorepo's pnpm store, which would
 // let the CLI resolve host packages that a real user would not have

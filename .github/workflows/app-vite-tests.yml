@@ -2,6 +2,8 @@ name: app-vite tests
 
 on:
   workflow_dispatch:
+  # the release-tests workflow reruns this suite at the released tag
+  workflow_call:
   pull_request:
     types: [opened, synchronize]
     branches:
@@ -9,16 +11,16 @@ on:
     paths:
       - '.github/workflows/app-vite-tests.yml'
       - 'app-vite/**'
-      # bundled runtime dependencies of the CLI
-      - 'utils/**'
-      - 'vite-plugin/**'
       # root dependency changes affect every package
       - 'package.json'
       - 'pnpm-lock.yaml'
       - 'pnpm-workspace.yaml'
 
+# literal prefix instead of github.workflow: when called from another
+# workflow, github.workflow resolves to the CALLER's name, which would
+# collide with the other suites called from the same run
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
+  group: app-vite-tests-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -56,7 +58,7 @@ jobs:
       - name: Download UI build artifact
         uses: actions/download-artifact@v8
         with:
-          name: ui-build
+          name: ui-build-app-vite
           path: ui/dist
 
       - name: Run unit tests
@@ -102,7 +104,7 @@ jobs:
       - name: Upload UI build artifact
         uses: actions/upload-artifact@v7
         with:
-          name: ui-build
+          name: ui-build-app-vite
           path: ui/dist
 
   e2e-tests:
@@ -199,9 +201,61 @@ jobs:
       - name: Download UI build artifact
         uses: actions/download-artifact@v8
         with:
-          name: ui-build
+          name: ui-build-app-vite
           path: ui/dist
 
       - name: Run e2e tests
         # xvfb provides the display the Electron dev-mode step needs
         run: xvfb-run --auto-servernum pnpm test:e2e playground-${{ matrix.playground }}
+
+  ae-lifecycle-tests:
+    # the local registry serves the repo-built ui package
+    needs: build-ui
+
+    permissions:
+      contents: read # to fetch code (actions/checkout)
+
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: app-vite
+
+    name: AE package-lifecycle e2e for app-vite
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v5
+
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24
+
+      - name: Get pnpm store path
+        id: pnpm-store
+        shell: bash
+        run: echo "PNPM_STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
+
+      # accreting cache (see the e2e-tests job): the host-app install
+      # pulls third-party packages that are not in the root lockfile
+      - name: Setup pnpm store cache
+        uses: actions/cache@v5
+        with:
+          path: ${{ steps.pnpm-store.outputs.PNPM_STORE_PATH }}
+          key: pnpm-store-e2e-${{ runner.os }}-${{ github.run_id }}
+          restore-keys: pnpm-store-e2e-${{ runner.os }}-
+
+      - name: Install dependencies
+        run: pnpm i
+
+      - name: Download UI build artifact
+        uses: actions/download-artifact@v8
+        with:
+          name: ui-build-app-vite
+          path: ui/dist
+
+      - name: Run the AE package-lifecycle e2e
+        run: pnpm test:e2e:ae

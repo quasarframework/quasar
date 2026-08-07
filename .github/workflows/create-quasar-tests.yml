@@ -2,9 +2,8 @@ name: create-quasar tests
 
 on:
   workflow_dispatch:
-  release:
-    types:
-      - released # A release was published, or a pre-release was changed to a release.
+  # the release-tests workflow reruns this suite at the released tag
+  workflow_call:
   pull_request:
     types: [opened, synchronize]
     branches:
@@ -12,29 +11,20 @@ on:
     paths:
       - '.github/workflows/create-quasar-tests.yml'
       - 'create-quasar/**'
-      # bundled runtime dependencies of the CLI
-      - 'utils/**'
       # root dependency changes affect every package
       - 'package.json'
       - 'pnpm-lock.yaml'
       - 'pnpm-workspace.yaml'
 
+# literal prefix instead of github.workflow: when called from another
+# workflow, github.workflow resolves to the CALLER's name, which would
+# collide with the other suites called from the same run
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
+  group: create-quasar-tests-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
   unit-tests:
-    if: >-
-      ${{
-        github.event_name == 'workflow_dispatch' ||
-        github.event_name == 'pull_request' ||
-
-        startsWith(github.event.release.tag_name, 'quasar') ||
-        startsWith(github.event.release.tag_name, '@quasar/extras') ||
-        startsWith(github.event.release.tag_name, '@quasar/app-vite')
-      }}
-
     permissions:
       contents: read # to fetch code (actions/checkout)
       pull-requests: read # to list the changed files
@@ -79,14 +69,59 @@ jobs:
           if [ "${{ github.event_name }}" != "pull_request" ]; then
             echo "e2e=true" >> $GITHUB_OUTPUT
           elif gh api "repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/files" --paginate --jq '.[].filename' \
-            | grep -qE '^(create-quasar/|utils/|\.github/workflows/create-quasar-tests\.yml)'; then
+            | grep -qE '^(create-quasar/|\.github/workflows/create-quasar-tests\.yml)'; then
             echo "e2e=true" >> $GITHUB_OUTPUT
           else
             echo "e2e=false" >> $GITHUB_OUTPUT
           fi
 
+  # the e2e publishes the monorepo's ui package to its local registry,
+  # which needs the build output (same pattern as app-vite-tests.yml)
+  build-ui:
+    permissions:
+      contents: read # to fetch code (actions/checkout)
+
+    runs-on: ubuntu-latest
+
+    name: Build the UI package (for the e2e tests)
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v5
+
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm i
+
+      # exact input-hash key on purpose (NO restore-keys): a stale dist
+      # must never be served — either the inputs are identical or we build
+      - name: Restore UI build cache
+        id: ui-build-cache
+        uses: actions/cache@v5
+        with:
+          path: ui/dist
+          key: ui-dist-${{ runner.os }}-${{ hashFiles('ui/src/**', 'ui/lang/**', 'ui/icon-set/**', 'ui/build/**', 'ui/package.json', 'pnpm-lock.yaml') }}
+
+      - name: Build the UI package
+        if: steps.ui-build-cache.outputs.cache-hit != 'true'
+        working-directory: ui
+        run: pnpm build
+
+      - name: Upload UI build artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: ui-build-create-quasar
+          path: ui/dist
+
   test-app:
-    needs: unit-tests
+    needs: [unit-tests, build-ui]
     if: ${{ needs.unit-tests.outputs.e2e == 'true' }}
 
     permissions:
@@ -129,6 +164,12 @@ jobs:
 
       - name: Install dependencies
         run: pnpm i
+
+      - name: Download UI build artifact
+        uses: actions/download-artifact@v8
+        with:
+          name: ui-build-create-quasar
+          path: ui/dist
 
       # pnpm
       - name: Get pnpm store directory
@@ -190,7 +231,7 @@ jobs:
         run: pnpm test:e2e:app
 
   test-ae:
-    needs: unit-tests
+    needs: [unit-tests, build-ui]
     if: ${{ needs.unit-tests.outputs.e2e == 'true' }}
 
     permissions:
@@ -229,6 +270,12 @@ jobs:
 
       - name: Install dependencies
         run: pnpm i
+
+      - name: Download UI build artifact
+        uses: actions/download-artifact@v8
+        with:
+          name: ui-build-create-quasar
+          path: ui/dist
 
       - name: Get pnpm store directory
         id: pnpm-cache

@@ -16,6 +16,9 @@ Run from `/cli`.
   project via `create-quasar` (pnpm install + registry access) to test
   local CLI deferral and `upgrade`.
   CI: `.github/workflows/cli-tests.yml`.
+- The e2e installs the monorepo's own packages, never published ones
+  (shared registry harness:
+  `create-quasar/test/e2e/local-registry.js`).
 
 ## Gotchas
 

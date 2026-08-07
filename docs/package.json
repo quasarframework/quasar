@@ -7,15 +7,16 @@
   "type": "module",
   "scripts": {
     "prepare:types": "quasar prepare --silent",
+    "generate:search": "node build/search.js",
     "generate:ai-docs": "node build/ai-docs/extract.js",
-    "test": "vitest run",
-    "dev": "quasar dev",
-    "dev:ssg": "quasar dev -m ssg",
-    "dev:ssr": "quasar dev -m ssr",
-    "preview": "quasar clean && quasar build -m ssr --no-summary && cp src-ssr/pnpm-workspace.yaml dist/quasar.dev/ && pnpm i --dir dist/quasar.dev && du -sh dist/quasar.dev/client && du -sh dist/quasar.dev/server && node dist/quasar.dev",
-    "build": "quasar clean && node build/search.js && quasar build -m ssg --no-summary && pnpm generate:ai-docs && cp -R build/ai-docs/dist/. dist/quasar.dev/ && rm -f dist/quasar.dev/_warnings.json && du -sh dist/quasar.dev && du -h dist/quasar.dev/service-worker.js",
-    "relnotes": "node build/release-notes/index.js",
-    "test:watch": "vitest"
+    "test": "vitest run && pnpm build",
+    "test:watch": "vitest",
+    "dev": "node ../ui/build/ensure-fresh-build.js && quasar dev",
+    "dev:ssg": "node ../ui/build/ensure-fresh-build.js && quasar dev -m ssg",
+    "dev:ssr": "node ../ui/build/ensure-fresh-build.js && quasar dev -m ssr",
+    "preview": "node ../ui/build/ensure-fresh-build.js && quasar clean && quasar build -m ssr --no-summary && cp src-ssr/pnpm-workspace.yaml dist/quasar.dev/ && pnpm i --dir dist/quasar.dev && du -sh dist/quasar.dev/client && du -sh dist/quasar.dev/server && node dist/quasar.dev",
+    "build": "node ../ui/build/ensure-fresh-build.js && quasar clean && pnpm generate:search && quasar build -m ssg --no-summary && pnpm generate:ai-docs && cp -R build/ai-docs/dist/. dist/quasar.dev/ && rm -f dist/quasar.dev/_warnings.json && du -sh dist/quasar.dev && du -h dist/quasar.dev/service-worker.js",
+    "relnotes": "node build/release-notes/index.js"
   },
   "dependencies": {
     "@quasar/extras": "^2.0.0",

@@ -8,7 +8,23 @@ export const quasarBin = join(import.meta.dirname, '../bin/quasar.js')
 // The spawned CLI must behave as it does for a real user:
 // vitest sets NODE_ENV=test, which "quasar dev"/"quasar build" would
 // otherwise inherit instead of defaulting to development/production
-export const env = { ...process.env, NO_COLOR: '1' }
+export const env = {
+  ...process.env,
+  NO_COLOR: '1',
+  // set by the local-registry global setup (ae-lifecycle suite only):
+  // every package manager the tests spawn must resolve through the
+  // local monorepo registry
+  ...(process.env.E2E_REGISTRY_URL !== void 0
+    ? {
+        npm_config_registry: process.env.E2E_REGISTRY_URL,
+        YARN_REGISTRY: process.env.E2E_REGISTRY_URL,
+        // pnpm and yarn 1 ignore the env vars above — the controlled
+        // home's .npmrc/.yarnrc are the authoritative redirection
+        HOME: process.env.E2E_REGISTRY_HOME,
+        USERPROFILE: process.env.E2E_REGISTRY_HOME
+      }
+    : {})
+}
 delete env.NODE_ENV
 
 const reproFor = (cwd, command) =>

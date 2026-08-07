@@ -11,6 +11,7 @@ import {
   run,
   testDevServer
 } from './e2e-utils.js'
+import { assertLocalQuasarInstall } from './local-registry.js'
 
 const envKeys = [
   'E2E_INSTALL',
@@ -130,6 +131,10 @@ describe.each(getCombos().map(combo => [comboName(combo), combo]))(
         expect(existsSync(join(projectFolder, '.git')), repro()).toBe(true)
         const gitLog = await run('git', ['log', '--format=%s'], projectFolder)
         expect(gitLog.output, repro()).toContain('Initialize the project')
+
+        // the install must have used the local monorepo packages,
+        // never published ones
+        assertLocalQuasarInstall(projectFolder)
       }
     )
 

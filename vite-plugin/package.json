@@ -42,7 +42,7 @@
     "access": "public"
   },
   "scripts": {
-    "dev": "cd ./playground && pnpm dev",
+    "dev": "node ../ui/build/ensure-fresh-build.js && cd ./playground && pnpm dev",
     "test": "pnpm test:usage && pnpm test:runtime && pnpm test:runtime:fallback && pnpm test:runtime:dev && pnpm test:runtime:dev:fallback && pnpm test:runtime:default-vars",
     "test:watch": "vitest run --watch --config ./testing/runtime/vitest.config.js",
     "test:usage": "vitest run --config ./testing/usage/vitest.config.js",
@@ -57,7 +57,7 @@
     "test:runtime:dev:fallback": "vitest run --config ./testing/runtime/vitest-dev-fallback.config.js",
     "pretest:runtime:default-vars": "playwright install chromium",
     "test:runtime:default-vars": "vitest run --config ./testing/runtime/vitest-default-vars.config.js",
-    "prepublishOnly": "pnpm --workspace-root build && pnpm test"
+    "prepublishOnly": "node ../ui/build/ensure-fresh-build.js && pnpm test"
   },
   "devDependencies": {
     "@vitest/browser-playwright": "^4.1.10",

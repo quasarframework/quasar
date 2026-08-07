@@ -11,6 +11,7 @@ import {
   run,
   testDevServer
 } from './e2e-utils.js'
+import { assertLocalQuasarInstall } from './local-registry.js'
 
 const envKeys = ['E2E_SCRIPT', 'E2E_LINT']
 
@@ -102,6 +103,10 @@ describe.each(getCombos().map(combo => [comboName(combo), combo]))(
 
         // --no-git skips the git repository initialization
         expect(existsSync(join(projectFolder, '.git')), repro()).toBe(false)
+
+        // the install must have used the local monorepo packages,
+        // never published ones
+        assertLocalQuasarInstall(projectFolder)
       }
     )
 

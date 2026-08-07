@@ -18,7 +18,19 @@ export const env = {
   GIT_AUTHOR_NAME: 'Test',
   GIT_AUTHOR_EMAIL: 'test@example.com',
   GIT_COMMITTER_NAME: 'Test',
-  GIT_COMMITTER_EMAIL: 'test@example.com'
+  GIT_COMMITTER_EMAIL: 'test@example.com',
+  // set by the local-registry global setup: every package manager the
+  // tests spawn must resolve through the local monorepo registry
+  ...(process.env.E2E_REGISTRY_URL !== void 0
+    ? {
+        npm_config_registry: process.env.E2E_REGISTRY_URL,
+        YARN_REGISTRY: process.env.E2E_REGISTRY_URL,
+        // pnpm and yarn 1 ignore the env vars above — the controlled
+        // home's .npmrc/.yarnrc are the authoritative redirection
+        HOME: process.env.E2E_REGISTRY_HOME,
+        USERPROFILE: process.env.E2E_REGISTRY_HOME
+      }
+    : {})
 }
 // Deliberately NO prefer-offline overrides here: the package managers'
 // persistent local caches already avoid re-downloading tarballs, while

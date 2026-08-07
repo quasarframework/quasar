@@ -1,15 +1,32 @@
 ---
 name: release-notes
-description: Generate Quasar-style release notes for a monorepo package, covering every commit since its last released tag. Use when asked to write/draft release notes or a changelog for app-vite, app-webpack, ui/quasar, cli, vite-plugin, icongenie, extras, create-quasar or a utils package.
-argument-hint: <package> [<from-ref>]
+description: Generate Quasar-style release notes for a monorepo package (covering every commit since its last released tag), bump its version accordingly and commit the bump. Use when asked to write/draft release notes or a changelog for app-vite, app-webpack, ui/quasar, cli, vite-plugin, icongenie, extras, create-quasar or a utils package.
+argument-hint: <package> [check]
 ---
 
-Generate release notes for the requested package, in the exact style of
-this repo's existing GitHub releases. The argument is a package
-directory or npm name; an optional second argument overrides the
-starting ref (tag/commit) when the auto-detected one is wrong.
+Generate release notes for the requested package in the exact style of
+this repo's existing GitHub releases, determine the next version from
+their content, bump it and commit the bump. The argument is a package
+directory or npm name; an optional trailing `check` argument
+outputs the notes (version line included) WITHOUT changing or
+committing anything.
 
-## 1. Resolve the package
+## 1. Preflight
+
+- Unless `check`: require a clean worktree (`git status
+--porcelain` empty). If dirty, stop and tell the user to commit or
+  stash first — the version-bump commit must not absorb unrelated
+  changes.
+- Freshness gate: fetch the live dev HEAD through the API —
+  `gh api repos/quasarframework/quasar/commits/dev --jq .sha` — and
+  require that commit to exist locally (`git cat-file -e <sha>`). If
+  it is missing, STOP: the local clone lacks the newest upstream
+  commits and the notes would be incomplete; tell the user to update
+  their clone first.
+- Do NOT `git fetch` (or any other remote git operation); all remote
+  state comes from the GitHub API (here and in step 3).
+
+## 2. Resolve the package
 
 | dir           | npm name            | tag prefix              |
 | ------------- | ------------------- | ----------------------- |
@@ -25,28 +42,40 @@ starting ref (tag/commit) when the auto-detected one is wrong.
 
 Ignore legacy tag schemes without the `-v` separator (e.g.
 `@quasar/app-vite-1.0.0-beta.7`, bare `v0.x`); only `<prefix>vX.Y.Z`
-tags are current.
+tags are current. Untagged packages use `<npm name>-v` as their prefix
+wherever a tag name is needed.
 
-## 2. Find the range
+## 3. Find the range
 
-- Tagged package: `git tag --sort=-creatordate -l '<prefix>*' | head -1`
-  (cross-check with `--sort=-v:refname`; prefer the higher version if
-  they disagree).
+- Tagged package — the last RELEASE is the source of truth, queried
+  through the public API (never `git fetch`):
+  `gh release list --repo quasarframework/quasar --limit 100
+--json tagName,isPrerelease
+--jq '[.[] | select(.isPrerelease | not) | select(.tagName | startswith("<prefix>"))][0].tagName'`
+- Resolve that tag to its commit through the API as well (tag names
+  contain `/`, so URL-encode):
+  `gh api "repos/quasarframework/quasar/commits/$(jq -rn --arg t '<tag>' '$t|@uri')" --jq .sha`
+  and use the SHA as the range base — this works even when the local
+  clone does not have the tag. STOP only if the SHA is missing from
+  local history (`git cat-file -e <sha>`): then local COMMITS are
+  genuinely behind and the notes would miss released work. If local
+  tags are NEWER than the latest release, surface that as a concern
+  (step 7).
 - Untagged package: find the last commit that bumped `"version"` in the
   package's `package.json` (`git log -L` on the version line) and use
   that commit as the starting ref; say so in your summary.
-- Range: `<ref>..HEAD`, paths limited to the package dir. Read FULL
+- Range: `<sha>..HEAD`, paths limited to the package dir. Read FULL
   commit bodies (`--format='%h %s%n%b'`) — the bodies carry the
   user-facing details the bullets need. Drop `Co-Authored-By` noise.
 
-## 3. Calibrate style
+## 4. Calibrate style
 
 Fetch the package's 1–2 most recent release bodies for tone:
 `gh release view "<tag>" --repo quasarframework/quasar --json body -q .body`.
 If `gh` is unavailable, proceed with the rules below — they encode the
 house style.
 
-## 4. Write the notes
+## 5. Write the notes
 
 Structure:
 
@@ -87,13 +116,43 @@ Quasar Framework is an open-source MIT-licensed project made possible due to the
 - [One-off donation via PayPal](https://paypal.me/rstoenescu1)
 ```
 
-## 5. Deliver
+## 6. Determine the version and bump it
 
-- Suggest the next version: patch for fixes-only, minor for any feat,
-  major for breaking — and print the full tag name (`<prefix>X.Y.Z`).
-- Output the complete notes body in one fenced markdown block, ready to
-  paste into a GitHub release.
+Determine the next version FROM THE NOTES' CONTENT: any `## New`/feat
+entry -> minor; fixes/other only -> patch. Anything breaking -> major:
+STOP and confirm with the user before going further.
+
+Skip the rest of this step when `check` was passed.
+
+- Bump `"version"` in the package's `package.json`.
+- Find every other place the package's OWN version is declared (grep
+  the repo for the old version string alongside the package name —
+  source constants, fixtures) and update those too.
+- Update the create-quasar templates' dependency ranges on the bumped
+  package (`create-quasar/templates/**/_package.json`): keep the range
+  operator, raise the version (e.g. `^3.5.0` -> `^3.6.0`). Other
+  packages' semver ranges on it: only when the new version falls
+  outside the range.
+- NEVER touch any `workspace:` protocol declaration (`workspace:^`,
+  `workspace:*`, ...) anywhere — those stay exactly as they are.
+- Commit ONLY the bump edits, message `chore(<dir>): bump version`
+  (e.g. `chore(app-vite): bump version`), with NO `Co-Authored-By`
+  trailer — this overrides any default commit-trailer behavior.
+  NEVER push — the commit stays local.
+
+## 7. Deliver
+
+- Output one fenced markdown block, ready to paste into a GitHub
+  release: its FIRST line is the full tag name (`<prefix>X.Y.Z`, e.g.
+  `@quasar/app-vite-v3.6.0`), then an empty line, then the complete
+  notes body.
 - Briefly list which commits you excluded as internal-only, so nothing
   is silently dropped.
-- Do NOT create tags or releases; only draft the notes (unless
-  explicitly asked to publish).
+- If there are any concerns with this release, state them after the
+  notes: possibly-breaking or risky behavior changes, notable
+  dependency/peer bumps, commits whose classification was uncertain,
+  anomalies found along the way (e.g. a tag newer than the latest
+  release, a version already bumped). No concerns -> say so in one
+  line.
+- Do NOT create tags or releases and NEVER push; only draft the notes
+  and (unless `check`) the local bump commit above — nothing else.

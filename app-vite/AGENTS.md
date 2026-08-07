@@ -6,11 +6,8 @@ Supplements the repo-root `AGENTS.md`.
   `files`). Touching a source file means updating its sibling test; a new
   testable file gets one; export internals when worth testing directly.
   Tests spawning the CLI must strip `NODE_PATH` from the child env (vitest
-  points it at the monorepo pnpm store). Both test suites need a built
-  ui package (`@quasar/vite-plugin` reads `ui/dist` at module load; CI
-  downloads the shared artifact) — a vitest globalSetup preflight fails
-  fast with the build instruction when it is missing. `pnpm test:unit`
-  (from `/app-vite`) runs them all — fast.
+  points it at the monorepo pnpm store). `pnpm test:unit` (from
+  `/app-vite`) runs them all — fast.
   CI: `.github/workflows/app-vite-tests.yml`.
 - E2E: `/test` is e2e-only; `test/playground-suite.js` runs the same
   pipeline against both playgrounds (js + ts template variants), driving
@@ -18,10 +15,14 @@ Supplements the repo-root `AGENTS.md`.
   production SSR webserver, dev servers with real HTTP checks, config
   hot-reload, vue-tsc typecheck. Run `pnpm test:e2e` (all), one mode via
   `pnpm test:e2e:<mode>`, one playground by appending a filename fragment.
-  Needs the ui package built (`pnpm --dir ../ui build`); the Electron dev
-  step briefly opens a real window locally. Slower — run before handoff
-  when dev/build behavior may be affected. `pnpm test` (unit + e2e) gates
-  publishing via `prepublishOnly`. Mode deps (electron "latest", the SSR
+  `pnpm test:e2e:ae` (test/ae-lifecycle/) covers the AE package
+  lifecycle: `ext add`/`remove` performing real package-manager installs
+  of the qe2e fixture into a temp host app, driven through the INSTALLED
+  @quasar/app-vite package (registry harness:
+  create-quasar/test/e2e/local-registry.js).
+  The Electron dev step briefly opens a real window locally. Slower —
+  run before handoff when dev/build behavior may be affected. `pnpm test`
+  gates publishing via `prepublishOnly`. Mode deps (electron "latest", the SSR
   webservers, workbox, @capacitor/*) resolve fresh from the registry BY
   DESIGN — an e2e failure without a repo change usually means an upstream
   release broke something. Invariants to preserve:

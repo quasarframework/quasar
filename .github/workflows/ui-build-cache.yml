@@ -1,0 +1,66 @@
+name: ui build cache
+
+# Seeds the shared ui-dist cache on the default branch. GitHub only
+# lets PR and tag runs restore caches created on their own ref or on
+# the default branch — and since none of the test workflows run on
+# push, the exact-input-hash key the "<package> tests" workflows all
+# use would otherwise only ever exist inside a single PR. With this
+# seed, any PR that does not change the ui build inputs restores dev's
+# warm dist instead of building it.
+
+on:
+  # re-seed manually if the dev cache ever gets evicted
+  workflow_dispatch:
+  push:
+    branches:
+      - 'dev'
+    # exactly the inputs of the shared cache key below
+    paths:
+      - 'ui/src/**'
+      - 'ui/lang/**'
+      - 'ui/icon-set/**'
+      - 'ui/build/**'
+      - 'ui/package.json'
+      - 'pnpm-lock.yaml'
+
+concurrency:
+  group: ui-build-cache
+  cancel-in-progress: true
+
+jobs:
+  build:
+    permissions:
+      contents: read # to fetch code (actions/checkout)
+
+    runs-on: ubuntu-latest
+
+    name: Build the UI package (cache seed)
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v5
+
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm i
+
+      # exact input-hash key on purpose (NO restore-keys): a stale dist
+      # must never be served — either the inputs are identical or we build
+      - name: Restore UI build cache
+        id: ui-build-cache
+        uses: actions/cache@v5
+        with:
+          path: ui/dist
+          key: ui-dist-${{ runner.os }}-${{ hashFiles('ui/src/**', 'ui/lang/**', 'ui/icon-set/**', 'ui/build/**', 'ui/package.json', 'pnpm-lock.yaml') }}
+
+      - name: Build the UI package
+        if: steps.ui-build-cache.outputs.cache-hit != 'true'
+        working-directory: ui
+        run: pnpm build

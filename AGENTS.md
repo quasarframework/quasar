@@ -3,6 +3,13 @@
 Applies repo-wide; a nested `AGENTS.md` takes precedence for its directory
 (most packages have one — check).
 
+When editing any `AGENTS.md` (this one included), keep it to commands,
+package-specific gotchas and pointers into code. State repo-wide
+mechanics once — here, not per package; leave design rationale to code
+comments; drop whatever an agent can discover from the code or never
+acts on. Exception: procedures that must be followed exactly (e.g.
+/ui's Specs workflow) earn their length.
+
 ## Workflow
 
 - pnpm workspace; run commands from the repo root unless a package's docs
@@ -47,6 +54,16 @@ Applies repo-wide; a nested `AGENTS.md` takes precedence for its directory
 
 - Narrowest relevant test while developing; the package's complete relevant
   suite before handoff.
+- Root `pnpm test:all` runs every package's full suite — hours long,
+  meant for release-grade sweeps, never routine development.
+- Tests, dev servers and builds that need the built ui package
+  self-heal: they build it only when `ui/dist` is missing or stale
+  (`ui/build/build-stamp.js`), so expect an occasional multi-minute ui
+  build mid-command. The scaffolding e2e suites install the monorepo's
+  own packages through a throwaway local registry
+  (`create-quasar/test/e2e/local-registry.js`) — published npm packages
+  are never tested; after publishing a release train, sanity-check the
+  uploads with `npm create quasar@latest` in a temp dir.
 - Run `pnpm lint` when linted source may be affected: it runs `oxfmt`
   (rewrites in place) then `oxlint --fix`; review the diff and hand-fix
   what `oxlint` still reports. `pnpm lint:check` is a read-only CI gate —

@@ -21,6 +21,10 @@ Supplements the repo-root `AGENTS.md`. Run all commands from
   `E2E_ALL_PRESETS`; ae: `E2E_SCRIPT`, `E2E_LINT`), e.g.
   `E2E_SCRIPT=ts E2E_LINTER=eslint pnpm test:e2e:app`. CI runs the full
   matrix (`.github/workflows/create-quasar-tests.yml`).
+- The e2e installs the monorepo's own packages, never published ones;
+  third-party deps still resolve from npm (registry harness:
+  `test/e2e/local-registry.js` — also reused by the cli and app-vite
+  e2e suites, so keep its exports stable).
 
 ## Gotchas
 

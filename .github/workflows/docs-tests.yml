@@ -2,6 +2,8 @@ name: docs tests
 
 on:
   workflow_dispatch:
+  # the release-tests workflow reruns this suite at the released tag
+  workflow_call:
   pull_request:
     types: [opened, synchronize]
     branches:
@@ -14,8 +16,11 @@ on:
       - 'pnpm-lock.yaml'
       - 'pnpm-workspace.yaml'
 
+# literal prefix instead of github.workflow: when called from another
+# workflow, github.workflow resolves to the CALLER's name, which would
+# collide with the other suites called from the same run
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
+  group: docs-tests-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
