@@ -155,9 +155,13 @@ Bump + commit:
   place the package's OWN version is declared (grep the old version
   string alongside the package name — source constants, fixtures).
 - Raise the create-quasar templates' dependency ranges on the bumped
-  package (`create-quasar/templates/**/_package.json`), keeping the
-  range operator (`^3.5.0` -> `^3.6.0`). Other packages' ranges on it:
-  only when the new version falls outside the range.
+  package — every `create-quasar/templates/**/_package.json` AND the
+  AE templates' pnpm catalog entries
+  (`create-quasar/templates/ae/*/BASE/_pnpm-workspace.yaml`) — keeping
+  the range operator (`^3.5.0` -> `^3.6.0`). Grep the templates dir
+  for the package name to catch every declaration site. Other
+  packages' ranges on it: only when the new version falls outside the
+  range.
 - NEVER touch any `workspace:` protocol declaration.
 - Commit ONLY the bump edits, message `chore(<dir>): bump version`,
   with NO `Co-Authored-By` trailer (overrides any default). The
