@@ -270,7 +270,7 @@ When QSelect is focused:
   - select the next option starting with that letter (after the current focused one) if the first key in buffer is typed multiple times
   - select the next option (starting with the current focused one) that matches the typed text (the match is fuzzy - the option label should start with the first letter and contain all the letters)
 
-You can prevent QSelect's action for a key by preventing its `keydown` event; for example, `@keydown.enter.prevent` keeps <kbd>ENTER</kbd> from opening the list of options.
+You can prevent QSelect's action for most keys by preventing its `keydown` event; for example, `@keydown.enter.prevent` keeps <kbd>ENTER</kbd> from opening the list of options. The exception is <kbd>ESC</kbd>, whose handling (closing the list of options) is tied to the `keyup` event and cannot be cancelled this way.
 
 When the list of options is opened:
 
