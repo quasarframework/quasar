@@ -151,18 +151,20 @@ commit must not absorb unrelated changes.
 
 Bump + commit:
 
-- Bump `"version"` in the package's `package.json`, plus every other
-  place the package's OWN version is declared (grep the old version
-  string alongside the package name — source constants, fixtures).
-- Raise the create-quasar templates' dependency ranges on the bumped
-  package — every `create-quasar/templates/**/_package.json` AND the
-  AE templates' pnpm catalog entries
-  (`create-quasar/templates/ae/*/BASE/_pnpm-workspace.yaml`) — keeping
-  the range operator (`^3.5.0` -> `^3.6.0`). Grep the templates dir
-  for the package name to catch every declaration site. Other
-  packages' ranges on it: only when the new version falls outside the
-  range.
-- NEVER touch any `workspace:` protocol declaration.
+- Bump every place the package's OWN version is declared — its
+  `package.json` `"version"` field plus any source constants and
+  fixtures (grep the old version string alongside the package name;
+  hits that are dependency RANGES belong to the next bullet, not to a
+  verbatim replace).
+- Raise every dependency range on the bumped package, keeping the
+  range operator (`^3.5.0` -> `^3.6.0`): grep the repo's manifests —
+  `package.json`, templates' `_package.json`, the AE pnpm catalogs
+  (`create-quasar/templates/ae/*/BASE/_pnpm-workspace.yaml`) — for
+  the package name. Templates, other packages' regular deps/devDeps,
+  docs and test fixtures all get raised. NEVER touch `workspace:`
+  declarations or minimum-version floors (`peerDependencies`,
+  engines-style ranges — they declare the oldest supported version,
+  not the latest), even though the greps surface both.
 - Commit ONLY the bump edits, message `chore(<dir>): bump version`,
   with NO `Co-Authored-By` trailer (overrides any default). The
   commit stays local.
