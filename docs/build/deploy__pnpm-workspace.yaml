@@ -9,3 +9,6 @@ allowBuilds:
   lightningcss: true
   rolldown: true
   unrs-resolver: true
+
+overrides:
+  'js-yaml@3': ^3.15.1
