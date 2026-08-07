@@ -1391,6 +1391,39 @@ describe('[QSelect API]', () => {
         expect(input.attributes('aria-autocomplete')).toBe('list')
         expect(input.attributes('readonly')).toBeUndefined()
       })
+
+      test('preventing keydown cancels the internal keyboard handling', async () => {
+        const defaultWrapper = mountSelect({ useInput: true })
+
+        await defaultWrapper.get('input').trigger('keydown', { keyCode: 13 })
+        await flushPromises()
+
+        expect(defaultWrapper.get('input').attributes('aria-expanded')).toBe(
+          'true'
+        )
+
+        const wrapper = mountSelect({
+          useInput: true,
+          onKeydown: evt => evt.preventDefault()
+        })
+
+        await wrapper.get('input').trigger('keydown', { keyCode: 13 })
+        await flushPromises()
+
+        expect(wrapper.emitted('keydown')).toHaveLength(1)
+        expect(wrapper.get('input').attributes('aria-expanded')).toBe('false')
+
+        wrapper.vm.showPopup()
+        await flushPromises()
+        wrapper.vm.setOptionIndex(1)
+
+        await wrapper.get('input').trigger('keydown', { keyCode: 13 })
+        await flushPromises()
+
+        expect(wrapper.emitted('update:modelValue')).toBeUndefined()
+        expect(wrapper.vm.getOptionIndex()).toBe(1)
+        expect(wrapper.get('input').attributes('aria-expanded')).toBe('true')
+      })
     })
 
     describe('[(prop)maxlength]', () => {

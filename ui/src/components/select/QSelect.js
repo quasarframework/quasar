@@ -759,7 +759,7 @@ export default /*#__PURE__*/ createComponent({
     function onTargetKeydown(e) {
       emit('keydown', e)
 
-      if (shouldIgnoreKey(e)) return
+      if (shouldIgnoreKey(e) || e.defaultPrevented) return
 
       const newValueModeValid =
         inputValue.value.length !== 0 &&
