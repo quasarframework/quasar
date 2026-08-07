@@ -154,5 +154,14 @@ Skip the rest of this step when `check` was passed.
   anomalies found along the way (e.g. a tag newer than the latest
   release, a version already bumped). No concerns -> say so in one
   line.
-- Do NOT create tags or releases and NEVER push; only draft the notes
-  and (unless `check`) the local bump commit above — nothing else.
+- Unless `check`: END by ASKING the user whether to create a DRAFT
+  GitHub release from these notes. Only on an explicit yes:
+  `gh release create "<tag>" --repo quasarframework/quasar --draft
+--title "<tag>" --notes-file <file>` — tag and title are the full
+  tag name, the body is the notes WITHOUT the leading tag line. A
+  draft creates no tag; remind the user the tag is cut from dev HEAD
+  at publish time, so the bump commit must be pushed before
+  publishing the draft.
+- NEVER publish a release, create a tag or push; beyond the notes,
+  the (non-`check`) local bump commit and the user-confirmed draft
+  above — nothing else.

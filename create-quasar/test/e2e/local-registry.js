@@ -133,36 +133,20 @@ export function assertLocalQuasarInstall(projectFolder) {
   }
 }
 
-let extraUserCounter = 0
-
 // Publishes an additional package directory into the running local
 // registry (started by setup() in this same process group — reads the
-// registry URL from the environment). Used by app-vite's AE-lifecycle
-// e2e for its fixture extension. The directory is packed from a temp
-// copy with any "private" flag stripped (so in-repo fixtures stay
-// publish-protected) and an optional name override applied (so a
-// fixture can publish under a scope its on-disk name does not carry).
+// registry URL and the auth-carrying controlled home from the
+// environment). Used by app-vite's AE-lifecycle e2e for its fixture
+// extension. The directory is packed from a temp copy with any
+// "private" flag stripped (so in-repo fixtures stay publish-protected)
+// and an optional name override applied (so a fixture can publish
+// under a scope its on-disk name does not carry).
 export async function publishToLocalRegistry(dir, { name } = {}) {
   const registryUrl = process.env.E2E_REGISTRY_URL
-  if (registryUrl === void 0) {
+  const registryHome = process.env.E2E_REGISTRY_HOME
+  if (registryUrl === void 0 || registryHome === void 0) {
     throw new Error(
       'publishToLocalRegistry() needs the local registry started by setup()'
-    )
-  }
-
-  const username = `e2e-extra-${process.pid}-${extraUserCounter++}`
-  const userRes = await fetch(
-    `${registryUrl}-/user/org.couchdb.user:${username}`,
-    {
-      method: 'PUT',
-      headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({ name: username, password: 'e2e-password' })
-    }
-  )
-  const { token } = await userRes.json()
-  if (!userRes.ok || !token) {
-    throw new Error(
-      `local registry: could not create a registry user (${userRes.status})`
     )
   }
 
@@ -179,7 +163,8 @@ export async function publishToLocalRegistry(dir, { name } = {}) {
     }
     writeFileSync(packageFile, JSON.stringify(packageJson, null, 2) + '\n')
 
-    const registryHost = registryUrl.replace(/^http:/, '')
+    // auth comes from the controlled home's .npmrc (see setup(): the
+    // file channel is the only one pnpm trusts everywhere, CI included)
     const { code, output } = await run(
       'pnpm',
       [
@@ -190,7 +175,7 @@ export async function publishToLocalRegistry(dir, { name } = {}) {
         '--ignore-scripts'
       ],
       packDir,
-      { [`npm_config_${registryHost}:_authToken`]: token }
+      { HOME: registryHome, USERPROFILE: registryHome }
     )
     if (code !== 0) {
       throw new Error(
@@ -268,6 +253,8 @@ export async function setup() {
     rmSync(storageDir, { recursive: true, force: true })
   }
 
+  const fakeHomeDir = join(storageDir, 'home')
+
   // an open registry server would otherwise keep vitest alive
   // (and the storage dir around) when the setup fails midway
   try {
@@ -283,7 +270,51 @@ export async function setup() {
       )
     }
 
+    // The controlled home is built BEFORE publishing, and it is the ONLY
+    // trusted config channel: pnpm and yarn 1 ignore the
+    // npm_config_registry environment variable, and on GitHub Actions
+    // pnpm also drops env-provided auth tokens after its OIDC attempt
+    // (E401) — registry AND publish token therefore live in this home's
+    // .npmrc/.yarnrc, with the real store/cache paths pinned back in so
+    // tarball reuse survives the home switch.
+    mkdirSync(fakeHomeDir)
+
+    const realPaths = {}
+    for (const [key, cmd, args] of [
+      ['pnpmStore', 'pnpm', ['store', 'path']],
+      ['npmCache', 'npm', ['config', 'get', 'cache']],
+      ['yarnCache', 'yarn', ['cache', 'dir']]
+    ]) {
+      // tolerate an absent package manager; take the last output line
+      // (some print banners/warnings before the path)
+      const res = await run(cmd, args, repoDir).catch(() => ({ code: 1 }))
+      realPaths[key] =
+        res.code === 0 ? res.output.trim().split('\n').pop() : null
+    }
+
     const registryHost = registryUrl.replace(/^http:/, '')
+    writeFileSync(
+      join(fakeHomeDir, '.npmrc'),
+      [
+        `registry=${registryUrl}`,
+        `${registryHost}:_authToken=${token}`,
+        'update-notifier=false',
+        ...(realPaths.pnpmStore ? [`store-dir=${realPaths.pnpmStore}`] : []),
+        ...(realPaths.npmCache ? [`cache=${realPaths.npmCache}`] : []),
+        ''
+      ].join('\n')
+    )
+    writeFileSync(
+      join(fakeHomeDir, '.yarnrc'),
+      [
+        `registry "${registryUrl}"`,
+        ...(realPaths.yarnCache
+          ? [`cache-folder "${realPaths.yarnCache}"`]
+          : []),
+        ''
+      ].join('\n')
+    )
+
     for (const [name, dir] of Object.entries(localPackages)) {
       const { code, output } = await run(
         'pnpm',
@@ -298,7 +329,7 @@ export async function setup() {
           '--ignore-scripts'
         ],
         join(repoDir, dir),
-        { [`npm_config_${registryHost}:_authToken`]: token }
+        { HOME: fakeHomeDir, USERPROFILE: fakeHomeDir }
       )
       if (code !== 0) {
         throw new Error(`local registry: publishing ${name} failed:\n${output}`)
@@ -308,47 +339,6 @@ export async function setup() {
     teardown()
     throw err
   }
-
-  // pnpm and yarn 1 IGNORE the npm_config_registry environment variable
-  // (npm honors it), so environment-only redirection silently leaks
-  // installs to npmjs. The one channel all three package managers
-  // respect is the user config: spawned processes get HOME pointed at a
-  // controlled home dir whose .npmrc/.yarnrc pin the local registry.
-  // The real store/cache paths are pinned back in, so tarball reuse
-  // survives the home switch.
-  const fakeHomeDir = join(storageDir, 'home')
-  mkdirSync(fakeHomeDir)
-
-  const realPaths = {}
-  for (const [key, cmd, args] of [
-    ['pnpmStore', 'pnpm', ['store', 'path']],
-    ['npmCache', 'npm', ['config', 'get', 'cache']],
-    ['yarnCache', 'yarn', ['cache', 'dir']]
-  ]) {
-    // tolerate an absent package manager; take the last output line
-    // (some print banners/warnings before the path)
-    const res = await run(cmd, args, repoDir).catch(() => ({ code: 1 }))
-    realPaths[key] = res.code === 0 ? res.output.trim().split('\n').pop() : null
-  }
-
-  writeFileSync(
-    join(fakeHomeDir, '.npmrc'),
-    [
-      `registry=${registryUrl}`,
-      'update-notifier=false',
-      ...(realPaths.pnpmStore ? [`store-dir=${realPaths.pnpmStore}`] : []),
-      ...(realPaths.npmCache ? [`cache=${realPaths.npmCache}`] : []),
-      ''
-    ].join('\n')
-  )
-  writeFileSync(
-    join(fakeHomeDir, '.yarnrc'),
-    [
-      `registry "${registryUrl}"`,
-      ...(realPaths.yarnCache ? [`cache-folder "${realPaths.yarnCache}"`] : []),
-      ''
-    ].join('\n')
-  )
 
   console.log(
     `local registry: serving ${Object.keys(localPackages).length}` +
