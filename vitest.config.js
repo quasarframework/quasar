@@ -11,6 +11,7 @@ export default {
       './create-quasar/vitest.config.js',
       './docs/vitest.config.js',
       './ui/testing/vitest.config.js',
+      './utils/update-notifier/vitest.config.js',
 
       // the vite-plugin configs resolve their include/setup paths
       // against /vite-plugin (their package scripts' cwd), so they
