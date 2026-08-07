@@ -1,28 +1,27 @@
 ---
 name: release-notes
-description: Generate Quasar-style release notes for a monorepo package (covering every commit since its last released tag), bump its version accordingly and commit the bump. Use when asked to write/draft release notes or a changelog for app-vite, app-webpack, ui/quasar, cli, vite-plugin, icongenie, extras, create-quasar or a utils package.
-argument-hint: <package> [check]
+description: Generate Quasar-style release notes for a monorepo package (covering every commit since its last released tag), then — on a single confirmation — bump its version, commit and draft the GitHub release. Use when asked to write/draft release notes or a changelog for app-vite, app-webpack, ui/quasar, cli, vite-plugin, icongenie, extras, create-quasar or a utils package.
+argument-hint: <package>
 ---
 
 Generate release notes for the requested package in the exact style of
-this repo's existing GitHub releases, determine the next version from
-their content, bump it and commit the bump. The argument is a package
-directory or npm name; an optional trailing `check` argument
-outputs the notes (version line included) WITHOUT changing or
-committing anything.
+this repo's existing GitHub releases and determine the next version
+from their content. Output the notes first; THEN ask the user a single
+yes/no "continue?" — on yes, the version-bump commit AND the draft
+GitHub release follow with no further questions; nothing is changed,
+committed or created without it. The argument is a package directory or npm name.
 
 ## 1. Preflight
 
-- Unless `check`: require a clean worktree (`git status
---porcelain` empty). If dirty, stop and tell the user to commit or
-  stash first — the version-bump commit must not absorb unrelated
-  changes.
 - Freshness gate: fetch the live dev HEAD through the API —
   `gh api repos/quasarframework/quasar/commits/dev --jq .sha` — and
   require that commit to exist locally (`git cat-file -e <sha>`). If
   it is missing, STOP: the local clone lacks the newest upstream
   commits and the notes would be incomplete; tell the user to update
   their clone first.
+- Note whether the worktree is clean (`git status --porcelain`); a
+  dirty worktree does not block the notes, but it blocks the bump
+  commit later (step 8) — mention it early so the user knows.
 - Do NOT `git fetch` (or any other remote git operation); all remote
   state comes from the GitHub API (here and in step 3).
 
@@ -116,13 +115,39 @@ Quasar Framework is an open-source MIT-licensed project made possible due to the
 - [One-off donation via PayPal](https://paypal.me/rstoenescu1)
 ```
 
-## 6. Determine the version and bump it
+## 6. Determine the version
 
-Determine the next version FROM THE NOTES' CONTENT: any `## New`/feat
-entry -> minor; fixes/other only -> patch. Anything breaking -> major:
-STOP and confirm with the user before going further.
+FROM THE NOTES' CONTENT: any `## New`/feat entry -> minor; fixes/other
+only -> patch. Anything breaking -> major: STOP and confirm with the
+user before going further.
 
-Skip the rest of this step when `check` was passed.
+## 7. Deliver
+
+- Output one fenced markdown block, ready to paste into a GitHub
+  release: its FIRST line is the full tag name (`<prefix>X.Y.Z`, e.g.
+  `@quasar/app-vite-v3.6.0`), then an empty line, then the complete
+  notes body.
+- Briefly list which commits you excluded as internal-only, so nothing
+  is silently dropped.
+- If there are any concerns with this release, state them after the
+  notes: possibly-breaking or risky behavior changes, notable
+  dependency/peer bumps, commits whose classification was uncertain,
+  anomalies found along the way (e.g. a tag newer than the latest
+  release, a version already bumped). No concerns -> say so in one
+  line.
+
+## 8. Confirm, then execute
+
+END by ASKING the user a single yes/no question: continue? On an
+explicit yes, do ALL of the remaining work — the bump + commit, then
+the draft release — with no further questions. On no (or no answer),
+stop; nothing gets changed, committed or created.
+
+A dirty worktree blocks the continuation: say so and stop BEFORE any
+edit (the bump commit must not absorb unrelated changes); the user can
+clean up and confirm again.
+
+Bump + commit:
 
 - Bump `"version"` in the package's `package.json`.
 - Find every other place the package's OWN version is declared (grep
@@ -140,28 +165,14 @@ Skip the rest of this step when `check` was passed.
   trailer — this overrides any default commit-trailer behavior.
   NEVER push — the commit stays local.
 
-## 7. Deliver
+Draft release:
 
-- Output one fenced markdown block, ready to paste into a GitHub
-  release: its FIRST line is the full tag name (`<prefix>X.Y.Z`, e.g.
-  `@quasar/app-vite-v3.6.0`), then an empty line, then the complete
-  notes body.
-- Briefly list which commits you excluded as internal-only, so nothing
-  is silently dropped.
-- If there are any concerns with this release, state them after the
-  notes: possibly-breaking or risky behavior changes, notable
-  dependency/peer bumps, commits whose classification was uncertain,
-  anomalies found along the way (e.g. a tag newer than the latest
-  release, a version already bumped). No concerns -> say so in one
-  line.
-- Unless `check`: END by ASKING the user whether to create a DRAFT
-  GitHub release from these notes. Only on an explicit yes:
-  `gh release create "<tag>" --repo quasarframework/quasar --draft
+- `gh release create "<tag>" --repo quasarframework/quasar --draft
 --title "<tag>" --notes-file <file>` — tag and title are the full
   tag name, the body is the notes WITHOUT the leading tag line. A
   draft creates no tag; remind the user the tag is cut from dev HEAD
   at publish time, so the bump commit must be pushed before
   publishing the draft.
-- NEVER publish a release, create a tag or push; beyond the notes,
-  the (non-`check`) local bump commit and the user-confirmed draft
-  above — nothing else.
+
+NEVER publish a release, create a tag or push; beyond the notes and
+the confirmed follow-ups above — nothing else.

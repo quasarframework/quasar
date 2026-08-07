@@ -20,7 +20,8 @@
   },
   "files": [
     "compiled-assets",
-    "src"
+    "src",
+    "!src/**/*.test.js"
   ],
   "type": "module",
   "main": "src/index.js",
@@ -30,7 +31,7 @@
   },
   "scripts": {
     "dev": "cd src-ui && vite",
-    "test": "node ./test/index.js",
+    "test": "vitest run",
     "build": "pnpm build:ui && pnpm build:package",
     "build:ui": "cd src-ui && vite build",
     "build:package": "node ./build/index.js",
@@ -46,6 +47,7 @@
     "prismjs": "^1.29.0",
     "quasar": "workspace:*",
     "vite": "^8.2.0",
+    "vitest": "^4.1.10",
     "vue": "^3.5.40",
     "vue-router": "^5.2.0"
   },

@@ -12,7 +12,7 @@ import { afterEach, expect, onTestFinished, test, vi } from 'vitest'
 vi.mock('ci-info', () => ({ isCI: false }))
 
 const { checkForUpdate, isNewerVersion, notifyUpdate, renderNotification } =
-  await import('../src/internal.js')
+  await import('./internal.js')
 
 const execFileAsync = promisify(execFile)
 const defaultRegistry = 'https://registry.npmjs.org/'
@@ -104,7 +104,7 @@ const versionComparisons = [
 ]
 
 test('exposes only the notifier as public API', async () => {
-  const publicApi = await import('../src/index.js')
+  const publicApi = await import('./index.js')
   expect(Object.keys(publicApi)).toEqual(['notifyUpdate'])
 })
 
@@ -252,7 +252,7 @@ test(
     delete environment.npm_lifecycle_event
 
     const notifierUrl = pathToFileURL(
-      join(import.meta.dirname, '../src/index.js')
+      join(import.meta.dirname, './index.js')
     ).href
     await execFileAsync(
       process.execPath,
@@ -383,7 +383,7 @@ test('does nothing when running in CI', async () => {
     vi.resetModules()
   })
 
-  const ciNotifier = await import('../src/internal.js')
+  const ciNotifier = await import('./internal.js')
 
   enableNotifier()
 

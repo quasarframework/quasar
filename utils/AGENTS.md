@@ -5,6 +5,7 @@ Supplements the repo-root `AGENTS.md`. Covers the small packages under
 
 - Bundled runtime dependencies of the CLIs (`cli`, `create-quasar`,
   `app-vite`) — behavior changes ripple into those.
-- Each package has its own `test` script (vitest or plain node). Run from
+- Each package has its own `test` script (vitest; `*.test.js` colocated
+  next to sources). Run from
   its folder, or all via root `pnpm --filter './utils/**' test`.
   CI: `.github/workflows/utils-tests.yml`.

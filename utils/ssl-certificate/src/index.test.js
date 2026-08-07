@@ -1,10 +1,9 @@
-import assert from 'node:assert/strict'
 import { X509Certificate } from 'node:crypto'
 import { chmodSync, rmSync, statSync, utimesSync, writeFileSync } from 'node:fs'
-import { afterEach, describe, test } from 'node:test'
 import { setTimeout as delay } from 'node:timers/promises'
+import { afterEach, describe, expect, test } from 'vitest'
 
-import { generateCertificate, getCertificate } from '../src/index.js'
+import { generateCertificate, getCertificate } from './index.js'
 
 const certPath = new URL('../ssl-server.pem', import.meta.url)
 const callbacks = {
@@ -26,23 +25,21 @@ describe('@quasar/ssl-certificate', () => {
     )
 
     if (process.platform !== 'win32') {
-      assert.equal(statSync(certPath).mode & 0o777, 0o600)
+      expect(statSync(certPath).mode & 0o777).toBe(0o600)
     }
 
-    assert.equal(certificate.ca, false)
-    assert.deepEqual(certificate.keyUsage, ['1.3.6.1.5.5.7.3.1'])
-    assert.match(certificate.subjectAltName, /DNS:localhost(?:,|$)/)
-    assert.match(certificate.subjectAltName, /IP Address:127\.0\.0\.1(?:,|$)/)
-    assert.match(
-      certificate.subjectAltName,
+    expect(certificate.ca).toBe(false)
+    expect(certificate.keyUsage).toEqual(['1.3.6.1.5.5.7.3.1'])
+    expect(certificate.subjectAltName).toMatch(/DNS:localhost(?:,|$)/)
+    expect(certificate.subjectAltName).toMatch(/IP Address:127\.0\.0\.1(?:,|$)/)
+    expect(certificate.subjectAltName).toMatch(
       /IP Address:0:0:0:0:0:0:0:1(?:,|$)/
     )
-    assert.doesNotMatch(certificate.subjectAltName, /\[::1\]|fe80::1/)
+    expect(certificate.subjectAltName).not.toMatch(/\[::1\]|fe80::1/)
   })
 
-  test(
+  test.skipIf(process.platform === 'win32')(
     'restricts an existing cached certificate before reading it',
-    { skip: process.platform === 'win32' },
     async () => {
       writeFileSync(certPath, 'cached certificate', {
         encoding: 'utf8',
@@ -50,14 +47,14 @@ describe('@quasar/ssl-certificate', () => {
       })
       chmodSync(certPath, 0o644)
 
-      assert.equal(await getCertificate(callbacks), 'cached certificate')
-      assert.equal(statSync(certPath).mode & 0o777, 0o600)
+      expect(await getCertificate(callbacks)).toBe('cached certificate')
+      expect(statSync(certPath).mode & 0o777).toBe(0o600)
 
       const repairedCtime = statSync(certPath).ctimeMs
       await delay(10)
 
-      assert.equal(await getCertificate(callbacks), 'cached certificate')
-      assert.equal(statSync(certPath).ctimeMs, repairedCtime)
+      expect(await getCertificate(callbacks)).toBe('cached certificate')
+      expect(statSync(certPath).ctimeMs).toBe(repairedCtime)
     }
   )
 
@@ -72,7 +69,7 @@ describe('@quasar/ssl-certificate', () => {
     chmodSync(certPath, 0o600)
 
     const content = await getCertificate(callbacks)
-    assert.notEqual(content, 'expired certificate')
-    assert.match(content, /-----BEGIN CERTIFICATE-----/)
+    expect(content).not.toBe('expired certificate')
+    expect(content).toMatch(/-----BEGIN CERTIFICATE-----/)
   })
 })
