@@ -27,8 +27,10 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  # skip releases of packages nothing tests (icongenie); the tag
-  # prefixes are v-anchored so a prefix cannot match unrelated tag names
+  # only packages that actually get GitHub releases pass the gate:
+  # utils/* never do (no release notes/drafts by policy) and icongenie
+  # has no tests; the prefixes are v-anchored so one cannot match
+  # unrelated tag names
   gate:
     if: >-
       ${{
@@ -40,10 +42,6 @@ jobs:
         || startsWith(github.event.release.tag_name, '@quasar/app-vite-v')
         || startsWith(github.event.release.tag_name, '@quasar/vite-plugin-v')
         || startsWith(github.event.release.tag_name, '@quasar/cli-v')
-        || startsWith(github.event.release.tag_name, '@quasar/art-v')
-        || startsWith(github.event.release.tag_name, '@quasar/render-ssr-error-v')
-        || startsWith(github.event.release.tag_name, '@quasar/ssl-certificate-v')
-        || startsWith(github.event.release.tag_name, '@quasar/update-notifier-v')
       }}
 
     runs-on: ubuntu-latest
