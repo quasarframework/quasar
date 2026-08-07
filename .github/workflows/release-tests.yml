@@ -1,4 +1,4 @@
-name: release tests
+name: Release tests
 
 # Full-repo test sweep on release: the regular "<package> tests"
 # workflows are PR-path-scoped to their own package, so cross-package
