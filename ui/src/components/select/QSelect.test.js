@@ -1391,6 +1391,28 @@ describe('[QSelect API]', () => {
         expect(input.attributes('aria-autocomplete')).toBe('list')
         expect(input.attributes('readonly')).toBeUndefined()
       })
+
+      test('preventing keydown cancels the internal keyboard handling', async () => {
+        const defaultWrapper = mountSelect({ useInput: true })
+
+        await defaultWrapper.get('input').trigger('keydown', { keyCode: 13 })
+        await flushPromises()
+
+        expect(defaultWrapper.findComponent({ name: 'QPortal' }).exists()).toBe(
+          true
+        )
+
+        const wrapper = mountSelect({
+          useInput: true,
+          onKeydown: evt => evt.preventDefault()
+        })
+
+        await wrapper.get('input').trigger('keydown', { keyCode: 13 })
+        await flushPromises()
+
+        expect(wrapper.emitted('keydown')).toHaveLength(1)
+        expect(wrapper.findComponent({ name: 'QPortal' }).exists()).toBe(false)
+      })
     })
 
     describe('[(prop)maxlength]', () => {
