@@ -1,6 +1,6 @@
 ---
 name: release-notes
-description: Generate Quasar-style release notes for a monorepo package (covering every commit since its last released tag), then — on a single confirmation — bump its version, commit and draft the GitHub release. Use when asked to write/draft release notes or a changelog for app-vite, app-webpack, ui/quasar, cli, vite-plugin, icongenie, extras, create-quasar or a utils package.
+description: Generate Quasar-style release notes for a monorepo package (covering every commit since its last released tag), then — on a single confirmation — bump its version, commit and draft the GitHub release. Use when asked to write/draft release notes or a changelog for app-vite, ui/quasar, cli, vite-plugin, icongenie, extras, create-quasar or a utils package.
 argument-hint: <package>
 ---
 
@@ -31,7 +31,6 @@ tag or push.
 | ------------- | ------------------- | ----------------------- |
 | ui            | quasar              | `quasar-v`              |
 | app-vite      | @quasar/app-vite    | `@quasar/app-vite-v`    |
-| app-webpack   | @quasar/app-webpack | `@quasar/app-webpack-v` |
 | cli           | @quasar/cli         | `@quasar/cli-v`         |
 | vite-plugin   | @quasar/vite-plugin | `@quasar/vite-plugin-v` |
 | icongenie     | @quasar/icongenie   | `@quasar/icongenie-v`   |
@@ -41,15 +40,18 @@ tag or push.
 
 Only `<prefix>vX.Y.Z` tags are current (ignore legacy schemes without
 the `-v` separator). Untagged packages use `<npm name>-v` as their
-prefix wherever a tag name is needed.
+prefix wherever a tag name is needed. app-webpack is sunset (lives on
+its own branch, not on dev) — not handled here.
 
 ## 3. Find the range
 
 - Base = the last PUBLISHED release; drafts and prereleases are never
   the base:
-  `gh release list --repo quasarframework/quasar --limit 100
+  `gh release list --repo quasarframework/quasar --limit 300
 --json tagName,isPrerelease,isDraft
 --jq '[.[] | select((.isPrerelease or .isDraft) | not) | select(.tagName | startswith("<prefix>"))][0].tagName'`
+  A rarely-released package's last release can sit far down the list —
+  on no match, raise the limit before concluding it has no releases.
   Note any prefix-matching DRAFT for steps 7/8.
 - Resolve the tag to its commit (URL-encode — tag names contain `/`):
   `gh api "repos/quasarframework/quasar/commits/$(jq -rn --arg t '<tag>' '$t|@uri')" --jq .sha`
@@ -57,10 +59,19 @@ prefix wherever a tag name is needed.
   STOP only if the SHA is missing locally (`git cat-file -e`) — local
   commits are behind. Local tags NEWER than the latest release: a
   step-7 concern.
+- Compare the package.json `"version"` against the base release's —
+  a mismatch means an already-bumped version: a step-7 concern.
 - Untagged package: base = the last commit bumping `"version"` in its
-  `package.json` (`git log -L` on that line); say so in the summary.
+  `package.json`
+  (`git log -1 -S '"version": "<current>"' -- <pkg>/package.json`,
+  with `<current>` read from the file); say so in the summary.
 - Range: `<sha>..HEAD`, paths limited to the package dir. Read FULL
   commit bodies (`--format='%h %s%n%b'`); drop `Co-Authored-By` noise.
+- Classify by the files a commit actually changed INSIDE the package
+  dir (`git diff-tree --no-commit-id --name-only -r <sha> -- <dir>/`),
+  never by its subject alone: cross-package commits routinely carry
+  another package's headline (a "fix(app-vite): [security]" may only
+  bump an in-range dep here) or touch nothing but tests/agent guides.
 - An EMPTY range -> "nothing new since <tag>", STOP (no notes, no
   version, no ask). ONLY internal commits (test/ci/chore/formatting)
   -> list them, state there is nothing release-worthy, stop unless the
@@ -70,7 +81,8 @@ prefix wherever a tag name is needed.
 
 Fetch the package's 1–2 latest release bodies for tone:
 `gh release view "<tag>" --repo quasarframework/quasar --json body -q .body`.
-If `gh` is unavailable, the rules below encode the house style.
+Untagged packages have no releases to fetch — skip; if `gh` is
+unavailable, likewise: the rules below encode the house style.
 
 ## 5. Write the notes
 
@@ -81,6 +93,9 @@ Structure:
   docs), then the Donations footer.
 - Small releases (≲4 bullets total): a single `## Changes` section
   with slightly more prose per bullet, then the Donations footer.
+- cli notes open with this line before the first section, verbatim:
+  `*This is the optional globally-installed part of the Quasar CLI*`
+  No other package has an intro line.
 
 Bullet style:
 
@@ -151,11 +166,12 @@ Bump + commit:
 Draft release — never a duplicate:
 
 - `utils/*` packages and create-quasar get NO draft (no GitHub
-  releases for them): their continuation ends at the bump + commit —
-  say so when asking.
-- Release label: ONLY the ui package is marked "Latest"
-  (`--latest`); every other package passes `--latest=false` (label
-  "None"). Apply on BOTH create and edit.
+  releases for them): they skip this whole section — say so when
+  asking. The handoff below still applies, minus its item 4.
+- Release label: ONLY the ui package is marked "Latest". GitHub does
+  NOT persist a latest flag on drafts (it only applies at publish), so
+  don't pass `--latest` flags when creating/editing the draft — the
+  label is enforced at publish time by the handoff below.
 - If a release for the tag already exists (`gh release view "<tag>"
 --repo quasarframework/quasar --json isDraft` — finds drafts too):
   PUBLISHED -> stop, report the anomaly; DRAFT -> update it in place
@@ -165,4 +181,18 @@ Draft release — never a duplicate:
 --draft --title "<tag>" --notes-file <file>` — tag and title are
   the full tag name; the body is the notes WITHOUT the leading tag
   line. A draft creates no tag (it is cut from dev HEAD at publish
-  time) — remind the user to push the bump commit before publishing.
+  time).
+
+End the continuation with this handoff checklist for the user:
+
+1. `pnpm publish` from the package dir (prepublish hooks run
+   builds/tests and may adjust files).
+2. If the publish left changes in the worktree, fold them into the
+   bump commit BEFORE pushing (amend — it stays a single commit;
+   never amend after the push).
+3. Push dev.
+4. If a draft was created, give its link and how to publish it:
+   `gh release edit "<tag>" --draft=false --latest=false` for any
+   package except ui (publishing from the GitHub UI pre-selects
+   "Set as the latest release" — uncheck it there); plain UI publish
+   or `--latest` for ui.
