@@ -36,7 +36,7 @@
     "markdown-it": "^15.0.0",
     "markdown-it-container": "^4.0.0",
     "tinyglobby": "^0.2.17",
-    "tokenx": "^2.0.0",
+    "tokenx": "^2.1.0",
     "toml": "^5.0.0",
     "vitest": "^4.1.10",
     "workbox-build": "^7.4.1"
