@@ -29,6 +29,10 @@ There are currently two types of QVirtualScroll: "list" (using QItems) and "tabl
 There is a maximum height of the scrolling container, imposed by each browser. In IE11 this is around 1,000,000px, while in the rest of the browsers it's much more, but still limited.
 :::
 
+::: tip SSR
+On SSR, the initial window of items (sized by `virtual-scroll-slice-size`, since the viewport cannot be measured on the server) is rendered into the server payload; the real viewport re-slices after hydration. Your item template therefore runs on the server too, so keep it SSR-safe — the same requirement any server-rendered content has. This also applies to QTable's `virtual-scroll` mode.
+:::
+
 Scroll the examples below to see QVirtualScroll in action.
 
 ### Basic

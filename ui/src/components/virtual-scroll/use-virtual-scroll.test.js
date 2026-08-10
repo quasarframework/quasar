@@ -136,7 +136,9 @@ describe('[useVirtualScroll API]', () => {
         const virtualScroll = mountVirtualScroll()
 
         expect(virtualScroll).toStrictEqual({
-          virtualScrollSliceRange: expect.$ref({ from: 0, to: 0 }),
+          // seeded with the initial window (default slice sizing)
+          // from the very first render — SSR payloads include it
+          virtualScrollSliceRange: expect.$ref({ from: 0, to: 12 }),
           virtualScrollSliceSizeComputed: expect.$ref(expect.any(Object)),
 
           setVirtualScrollSize: expect.any(Function),
@@ -217,9 +219,11 @@ describe('[useVirtualScroll API]', () => {
           wrapper.get('.q-virtual-scroll__content').attributes('tabindex')
         ).toBe('-1')
 
-        // nothing is rendered yet, so the whole list is padding
+        // the seeded initial window is rendered from the very first
+        // pass; only the tail is padding
+        expect(wrapper.findAll('.my-item')).toHaveLength(12)
         expect(paddings[0].$style('height')).toBe('0px')
-        expect(paddings[1].$style('height')).toBe(`${100 * 24}px`)
+        expect(paddings[1].$style('height')).toBe(`${88 * 24}px`)
       })
 
       test.each([
@@ -367,9 +371,10 @@ describe('[useVirtualScroll API]', () => {
         )
 
         expect(() => virtualScroll.scrollTo(10)).not.toThrow()
+        // the seeded initial window remains untouched
         expect(virtualScroll.virtualScrollSliceRange.value).toStrictEqual({
           from: 0,
-          to: 0
+          to: 12
         })
       })
 
@@ -416,18 +421,24 @@ describe('[useVirtualScroll API]', () => {
         const virtualScroll = mountVirtualScroll({ length: 100 })
         const cancel = vi.spyOn(virtualScroll.onVirtualScrollEvt, 'cancel')
 
+        // scroll deep into the list; the slice must not move until
+        // the debounced handler actually runs
+        wrapper.get('.scroll-target').element.scrollTop = 1000
+
         virtualScroll.onVirtualScrollEvt()
         virtualScroll.onVirtualScrollEvt()
 
         expect(virtualScroll.virtualScrollSliceRange.value).toStrictEqual({
           from: 0,
-          to: 0
+          to: 12
         })
 
         vi.advanceTimersByTime(35)
         await nextTick()
 
-        expect(virtualScroll.virtualScrollSliceRange.value.to).toBe(12)
+        expect(
+          virtualScroll.virtualScrollSliceRange.value.from
+        ).toBeGreaterThan(0)
 
         wrapper.unmount()
         wrapper = void 0

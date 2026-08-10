@@ -8,15 +8,20 @@ const fixturesPath =
   'src/components/virtual-scroll/QVirtualScroll.hydration.fixtures.js'
 
 describe('QVirtualScroll SSR hydration', () => {
-  test('hydrates cleanly', async () => {
+  test('hydrates cleanly with the initial window server-rendered', async () => {
     const result = await hydrate(fixturesPath, 'basic', basic)
 
     expect(result.consoleOutput).toEqual([])
+    // the initial window is in the server payload, the tail is not
+    expect(result.serverHtml).toContain('Item #0')
+    expect(result.serverHtml).not.toContain('Item #49')
   })
 
   test('hydrates cleanly in horizontal mode', async () => {
     const result = await hydrate(fixturesPath, 'horizontal', horizontal)
 
     expect(result.consoleOutput).toEqual([])
+    expect(result.serverHtml).toContain('Item #0')
+    expect(result.serverHtml).not.toContain('Item #49')
   })
 })

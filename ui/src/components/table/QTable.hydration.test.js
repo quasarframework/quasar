@@ -17,5 +17,9 @@ describe('QTable SSR hydration', () => {
     const result = await hydrate(fixturesPath, 'virtualScroll', virtualScroll)
 
     expect(result.consoleOutput).toEqual([])
+    // the initial window of rows is in the server payload, the tail
+    // is not
+    expect(result.serverHtml).toContain('Row #0')
+    expect(result.serverHtml).not.toContain('Row #39')
   })
 })
