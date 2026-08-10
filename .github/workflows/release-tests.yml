@@ -116,6 +116,7 @@ jobs:
     needs: build-ui
     permissions:
       contents: read
+      actions: read # requested by the called workflow's tests job
     uses: ./.github/workflows/docs-tests.yml
 
   utils-tests:

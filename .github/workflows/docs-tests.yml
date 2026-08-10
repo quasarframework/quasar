@@ -40,6 +40,7 @@ jobs:
   tests:
     permissions:
       contents: read # to fetch code (actions/checkout)
+      actions: read # to correctly identify workflow run
 
     runs-on: ubuntu-latest
 
@@ -94,3 +95,20 @@ jobs:
 
       - name: Run tests
         run: pnpm --filter quasar.dev test
+
+      # Upload required artifacts to be used in tests-report.yml
+
+      - name: Upload test results
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: test-results
+          path: docs/test-results
+
+      - name: Upload GitHub Actions event data
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: event-data
+          path: ${{ github.event_path }}
+          overwrite: true

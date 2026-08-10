@@ -1,9 +1,10 @@
-name: ui test results
+name: test results
 
 on:
   workflow_run:
     workflows:
       - ui tests
+      - docs tests
     types:
       - completed
 
@@ -12,7 +13,7 @@ jobs:
     name: Test Results
     runs-on: ubuntu-latest
     # PR runs only (like ui-types-report): a workflow_dispatch-triggered
-    # "UI tests" run has no PR to report against, so the report skips
+    # test run has no PR to report against, so the report skips
     if: >-
       ${{
         github.event.workflow_run.event == 'pull_request' &&
@@ -77,4 +78,6 @@ jobs:
           event_file: event-data/event.json
           event_name: ${{ github.event.workflow_run.event }}
           files: 'test-results/*.xml'
-          check_name: 'UI Tests Results'
+          # keep the historical ui check name (referenced by habit and
+          # any required-check config); new packages get "<name> Results"
+          check_name: ${{ github.event.workflow_run.name == 'ui tests' && 'UI Tests Results' || 'Docs Tests Results' }}

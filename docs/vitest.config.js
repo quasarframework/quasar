@@ -2,6 +2,17 @@ import { join } from 'node:path'
 import vue from '@vitejs/plugin-vue'
 import { defineConfig } from 'vitest/config'
 
+function getReporterConfig() {
+  if (process.env.GITHUB_ACTIONS) {
+    return {
+      outputFile: 'test-results/unit-report.xml',
+      reporters: 'junit'
+    }
+  }
+
+  return {}
+}
+
 export default defineConfig({
   // SFC support for the component render tests (node-side SSR
   // rendering through test/render.js — no browser needed)
@@ -13,6 +24,7 @@ export default defineConfig({
   },
 
   test: {
+    ...getReporterConfig(),
     globalSetup: './vitest.global-setup.js',
     include: ['build/**/*.test.js', 'src/**/*.test.js']
   }

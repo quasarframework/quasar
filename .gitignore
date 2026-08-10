@@ -5,6 +5,8 @@ debug.log
 dist/
 node_modules/
 .quasar/
+# junit reports written by the test suites on CI
+test-results/
 quasar.config.*.temporary.compiled*
 src-capacitor/
 src-cordova/
