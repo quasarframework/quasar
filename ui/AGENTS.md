@@ -55,3 +55,6 @@ server-rendered vs PWA-shell boot modes (see `test/hydration-pwa/`).
 and fails on hydration console output — playground pages must keep
 their server-rendered data deterministic (no `Math.random()`/`uid()`/
 live clocks in SSR markup; client-only data goes in `onMounted`).
+Set `E2E_SERVER_URL` to audit an already-running `dev:ssr` session
+instead of booting one. `pnpm test` runs all four suites concurrently
+on dev machines (serially on CI) via `test/parallel.js`.

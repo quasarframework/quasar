@@ -3,7 +3,7 @@ import { globSync } from 'tinyglobby'
 import { chromium } from 'playwright'
 import { afterAll, beforeAll, describe, expect, test } from 'vitest'
 
-import { getFreePort, startSsrDevServer } from './dev-server.js'
+import { resolveServer } from './dev-server.js'
 
 const playgroundPagesDir = normalize(
   join(import.meta.dirname, '../../playground/src/pages')
@@ -31,9 +31,7 @@ let baseUrl, stopServer, browser, context
 const attempts = new Map()
 
 beforeAll(async () => {
-  const port = await getFreePort()
-  baseUrl = `http://localhost:${port}`
-  stopServer = await startSsrDevServer(port)
+  ;({ baseUrl, stop: stopServer } = await resolveServer())
   browser = await chromium.launch()
   context = await browser.newContext()
 })
