@@ -48,3 +48,8 @@ rendered by the built server bundle AND by ui/src — keep `dist` fresh
 and fixtures deterministic. The harness contract (takeover rule,
 `quasarOptions`, `setupApp`/router) is documented in
 `test/hydration/hydrate.js`.
+
+`pnpm test:e2e:ssr` SSR-loads every playground route in a real browser
+and fails on hydration console output — playground pages must keep
+their server-rendered data deterministic (no `Math.random()`/`uid()`/
+live clocks in SSR markup; client-only data goes in `onMounted`).
