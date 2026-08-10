@@ -24,8 +24,9 @@ const repoDir = join(uiDir, '..')
 // by default) and excluded from the published package via "files"
 export const stampFile = join(uiDir, 'dist/build-stamp.json')
 
-// MUST mirror the ui-dist cache key of the CI workflows
-// (the hashFiles(...) input list in .github/workflows) — keep in sync
+// MUST mirror the ui-dist cache key of the CI workflows (the
+// hashFiles(...) input list in .github/workflows) — enforced by
+// assertWorkflowsMirrorInputs() on every staleness check and build
 const inputGroups = {
   'ui/src': join(uiDir, 'src'),
   'ui/lang': join(uiDir, 'lang'),
@@ -67,7 +68,58 @@ function computeInputHashes() {
   return result
 }
 
+// The workflows' ui-dist cache keys and this stamp assert the same
+// freshness contract from the same input list; a one-sided edit means
+// either silent staleness or permanent cache misses, so the mirror is
+// enforced instead of trusted. Throws on drift — and when NO key is
+// found at all, so a key-format change cannot silently retire the
+// check itself.
+function assertWorkflowsMirrorInputs() {
+  const workflowsDir = join(repoDir, '.github/workflows')
+  if (!existsSync(workflowsDir)) return // outside the monorepo checkout
+
+  const expected = Object.keys(inputGroups).sort().join(', ')
+  const keyRE = /key: ui-dist-.*?hashFiles\(([^)]+)\)/g
+  let found = 0
+
+  for (const entry of readdirSync(workflowsDir)) {
+    if (!entry.endsWith('.yml')) continue
+
+    const content = readFileSync(join(workflowsDir, entry), 'utf8')
+    for (const match of content.matchAll(keyRE)) {
+      found++
+      const list = match[1]
+        .split(',')
+        .map(item =>
+          item
+            .trim()
+            .replaceAll("'", '')
+            .replace(/\/\*\*$/, '')
+        )
+        .sort()
+        .join(', ')
+
+      if (list !== expected) {
+        throw new Error(
+          `.github/workflows/${entry} hashes a different ui-dist input ` +
+            `list (${list}) than ui/build/build-stamp.js (${expected}) — ` +
+            'the freshness contract must stay mirrored on both sides'
+        )
+      }
+    }
+  }
+
+  if (found === 0) {
+    throw new Error(
+      'no ui-dist cache key found in .github/workflows — if the key ' +
+        'format changed, update assertWorkflowsMirrorInputs() in ' +
+        'ui/build/build-stamp.js to keep the mirror check alive'
+    )
+  }
+}
+
 export function writeBuildStamp() {
+  assertWorkflowsMirrorInputs()
   writeFileSync(stampFile, JSON.stringify(computeInputHashes(), null, 2) + '\n')
 }
 
@@ -95,6 +147,8 @@ export function ensureFreshBuild() {
 // Returns null when dist matches the inputs it was built from,
 // otherwise a human-readable reason
 export function getBuildStaleness() {
+  assertWorkflowsMirrorInputs()
+
   if (!existsSync(stampFile)) {
     return 'ui/dist carries no build stamp (partial or pre-stamp build)'
   }
