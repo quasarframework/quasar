@@ -48,6 +48,9 @@ and fixtures deterministic. The harness contract (takeover rule,
 `quasarOptions`, `setupApp`/router) is documented in
 `test/hydration/hydrate.js`.
 
+`pnpm test:hydration:pwa` covers the `__QUASAR_SSR_PWA__` gate — the
+server-rendered vs PWA-shell boot modes (see `test/hydration-pwa/`).
+
 `pnpm test:e2e:ssr` SSR-loads every playground route in a real browser
 and fails on hydration console output — playground pages must keep
 their server-rendered data deterministic (no `Math.random()`/`uid()`/
