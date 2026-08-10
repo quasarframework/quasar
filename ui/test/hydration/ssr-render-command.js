@@ -50,7 +50,16 @@ export async function ssrRender(_ctx, fixturesPath, exportName, userAgent) {
 
   const html = await renderToString(app, ssrContext)
 
-  // what a real SSR webserver renders into the <body> tag — plugins
-  // like Dark read it back on the client instead of the config
-  return { html, bodyClasses: ssrContext._meta.bodyClasses.trim() }
+  // what a real SSR webserver renders into the <html>/<body> tags —
+  // plugins like Dark read it back on the client instead of the
+  // config, and the client-side plugin installs must converge to the
+  // same state (asserted by hydrate())
+  return {
+    html,
+    meta: {
+      htmlAttrs: ssrContext._meta.htmlAttrs.trim(),
+      bodyClasses: ssrContext._meta.bodyClasses.trim(),
+      bodyAttrs: ssrContext._meta.bodyAttrs.trim()
+    }
+  }
 }

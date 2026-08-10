@@ -2,6 +2,7 @@ import { createSSRApp, nextTick } from 'vue'
 import { commands } from 'vitest/browser'
 
 import Quasar from 'quasar/src/vue-plugin.js'
+import { isRuntimeSsrPreHydration } from 'quasar/src/plugins/platform/Platform.js'
 
 const mountedList = []
 
@@ -23,11 +24,12 @@ const mountedList = []
  * automatically; the test must pass them along here so the browser
  * side matches.
  *
- * One takeover() per test FILE, as its last act: it flips the
- * module-level isRuntimeSsrPreHydration state and platform values for
- * the whole graph, exactly like in a real app — later hydrations in
- * the same file would no longer start from the pre-hydration state.
- * (Files are isolated from each other by the browser runner.)
+ * One takeover() per test FILE, as its last act (enforced below): it
+ * flips the module-level isRuntimeSsrPreHydration state and platform
+ * values for the whole graph, exactly like in a real app — later
+ * hydrations in the same file would no longer start from the
+ * pre-hydration state. (Files are isolated from each other by the
+ * browser runner.)
  */
 export async function hydrate(
   fixturesPath,
@@ -35,17 +37,40 @@ export async function hydrate(
   fixture,
   { quasarOptions, setupApp } = {}
 ) {
-  const { html, bodyClasses } = await commands.ssrRender(
+  if (isRuntimeSsrPreHydration.value === false) {
+    throw new Error(
+      'hydrate() called after the client takeover — takeover() must be ' +
+        'the LAST act of a test file, since it permanently flips the ' +
+        "module graph out of its pre-hydration state (see this harness' " +
+        'contract in its doc block)'
+    )
+  }
+
+  const { html, meta } = await commands.ssrRender(
     fixturesPath,
     exportName,
     navigator.userAgent
   )
 
-  // like a real SSR page: the server-emitted <body> classes are in
-  // place before the client app boots — the Dark plugin reads its
-  // state from them (not from the config) on ssr-client builds
+  // like a real SSR page: the server-emitted <html> attributes and
+  // <body> classes/attributes are in place before the client app
+  // boots — the Dark plugin reads its state from the body classes
+  // (not from the config) on ssr-client builds
+  const htmlAttrs = parseAttrs(meta.htmlAttrs)
+  const bodyAttrs = parseAttrs(meta.bodyAttrs)
   const previousBodyClassName = document.body.className
-  document.body.className = bodyClasses
+  const previousAttrs = [
+    ...htmlAttrs.map(([name]) => [document.documentElement, name]),
+    ...bodyAttrs.map(([name]) => [document.body, name])
+  ].map(([el, name]) => [el, name, el.getAttribute(name)])
+
+  document.body.className = meta.bodyClasses
+  for (const [name, value] of htmlAttrs) {
+    document.documentElement.setAttribute(name, value)
+  }
+  for (const [name, value] of bodyAttrs) {
+    document.body.setAttribute(name, value)
+  }
 
   const host = document.createElement('div')
   host.innerHTML = html
@@ -81,19 +106,66 @@ export async function hydrate(
     Object.assign(console, original)
   }
 
-  mountedList.push({ app, host, previousBodyClassName })
+  // the client plugin installs must CONVERGE to the server-emitted
+  // document state — a divergence is the FOUC class of SSR bug (wrong
+  // body classes / html attributes until some later correction).
+  // within-iframe is exempt BY DESIGN: the server can never know
+  // iframe-ness (Platform's ssrClient pins it false) so the client
+  // always corrects it — and the browser-mode runner puts every test
+  // in an iframe, so it shows up here universally
+  const expectedBodyClasses = sortedClasses(meta.bodyClasses)
+  const actualBodyClasses = sortedClasses(
+    document.body.className.replace(/\bwithin-iframe\b/, '')
+  )
+  if (actualBodyClasses !== expectedBodyClasses) {
+    throw new Error(
+      `the client-side body classes ("${actualBodyClasses}") diverge ` +
+        `from the server-emitted ones ("${expectedBodyClasses}")`
+    )
+  }
+  for (const [name, value] of htmlAttrs) {
+    const actual = document.documentElement.getAttribute(name)
+    if (actual !== value) {
+      throw new Error(
+        `the client-side <html> ${name} attribute ("${actual}") diverges ` +
+          `from the server-emitted one ("${value}")`
+      )
+    }
+  }
+
+  mountedList.push({ app, host, previousBodyClassName, previousAttrs })
 
   return {
     host,
     vm,
     serverHtml,
-    bodyClasses,
+    meta,
     consoleOutput,
     takeover: async () => {
       vm.$q.onSSRHydrated()
       await nextTick()
     }
   }
+}
+
+// "lang=he dir=rtl" / "data-server-rendered" -> [name, value] pairs
+function parseAttrs(str) {
+  if (str.length === 0) return []
+
+  return str.split(/\s+/).map(pair => {
+    const eq = pair.indexOf('=')
+    return eq === -1
+      ? [pair, '']
+      : [pair.slice(0, eq), pair.slice(eq + 1).replaceAll('"', '')]
+  })
+}
+
+function sortedClasses(className) {
+  return className
+    .split(/\s+/)
+    .filter(cls => cls.length !== 0)
+    .sort()
+    .join(' ')
 }
 
 export function cleanupHydrated() {
@@ -107,5 +179,9 @@ export function cleanupHydrated() {
   if (entries.length !== 0) {
     // the state from before the test's first hydrate()
     document.body.className = entries[0].previousBodyClassName
+    for (const [el, name, value] of entries[0].previousAttrs) {
+      if (value === null) el.removeAttribute(name)
+      else el.setAttribute(name, value)
+    }
   }
 }

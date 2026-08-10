@@ -21,4 +21,14 @@ describe('hydration harness self-test', () => {
     // Vue recovers from the mismatch by patching in the client render
     expect(host.textContent).toBe('client text')
   })
+
+  // must stay the LAST test in this file: it performs the takeover
+  test('rejects hydrating after the client takeover', async () => {
+    const result = await hydrate(fixturesPath, 'mismatch', mismatch)
+    await result.takeover()
+
+    await expect(hydrate(fixturesPath, 'mismatch', mismatch)).rejects.toThrow(
+      'after the client takeover'
+    )
+  })
 })
