@@ -190,7 +190,7 @@ export default /*#__PURE__*/ createDirective(
               ? binding.value.model
               : binding.value
 
-          el.classList.toggle('q-morph--invisible', !(name === model))
+          el.classList.toggle('q-morph--invisible', name !== model)
         },
 
         mounted(el, binding) {
