@@ -42,11 +42,15 @@ export async function ssrRender(_ctx, fixturesPath, exportName, userAgent) {
   }
 
   const app = createSSRApp(fixture)
-  app.use(Quasar, {}, ssrContext)
+  app.use(Quasar, fixturesModule.quasarOptions, ssrContext)
 
   if (fixturesModule.setupApp !== void 0) {
     await fixturesModule.setupApp(app)
   }
 
-  return await renderToString(app, ssrContext)
+  const html = await renderToString(app, ssrContext)
+
+  // what a real SSR webserver renders into the <body> tag — plugins
+  // like Dark read it back on the client instead of the config
+  return { html, bodyClasses: ssrContext._meta.bodyClasses.trim() }
 }

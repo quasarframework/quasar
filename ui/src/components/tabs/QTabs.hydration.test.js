@@ -8,18 +8,15 @@ const fixturesPath = 'src/components/tabs/QTabs.hydration.fixtures.js'
 
 describe('QTabs SSR hydration', () => {
   test('hydrates cleanly', async () => {
-    const result = await hydrate(fixturesPath, 'basic', basic, setupApp)
+    const result = await hydrate(fixturesPath, 'basic', basic, { setupApp })
 
     expect(result.consoleOutput).toEqual([])
   })
 
   test('hydrates cleanly with a QRouteTab', async () => {
-    const result = await hydrate(
-      fixturesPath,
-      'withRouteTab',
-      withRouteTab,
+    const result = await hydrate(fixturesPath, 'withRouteTab', withRouteTab, {
       setupApp
-    )
+    })
 
     expect(result.consoleOutput).toEqual([])
     expect(result.host.textContent).toContain('Route tab')

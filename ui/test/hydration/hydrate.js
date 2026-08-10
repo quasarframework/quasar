@@ -14,10 +14,14 @@ const mountedList = []
  *
  * `fixturesPath`/`exportName` locate the fixture for the Node side
  * (which can only receive serializable values); `fixture` is the same
- * export imported by the test for the browser side. When the fixtures
- * module exports `setupApp(app)` (e.g. to install a router — see
- * ./router.js), the Node side applies it automatically and the test
- * must pass it along here so the browser side matches.
+ * export imported by the test for the browser side.
+ *
+ * A fixtures module may also export `quasarOptions` (Quasar install
+ * options: config/lang/iconSet — e.g. `{ config: { dark: true } }` or
+ * an RTL lang pack) and `setupApp(app)` (further app setup, e.g.
+ * installing the router from ./router.js). The Node side applies both
+ * automatically; the test must pass them along here so the browser
+ * side matches.
  *
  * One takeover() per test FILE, as its last act: it flips the
  * module-level isRuntimeSsrPreHydration state and platform values for
@@ -25,12 +29,23 @@ const mountedList = []
  * the same file would no longer start from the pre-hydration state.
  * (Files are isolated from each other by the browser runner.)
  */
-export async function hydrate(fixturesPath, exportName, fixture, setupApp) {
-  const html = await commands.ssrRender(
+export async function hydrate(
+  fixturesPath,
+  exportName,
+  fixture,
+  { quasarOptions, setupApp } = {}
+) {
+  const { html, bodyClasses } = await commands.ssrRender(
     fixturesPath,
     exportName,
     navigator.userAgent
   )
+
+  // like a real SSR page: the server-emitted <body> classes are in
+  // place before the client app boots — the Dark plugin reads its
+  // state from them (not from the config) on ssr-client builds
+  const previousBodyClassName = document.body.className
+  document.body.className = bodyClasses
 
   const host = document.createElement('div')
   host.innerHTML = html
@@ -40,7 +55,7 @@ export async function hydrate(fixturesPath, exportName, fixture, setupApp) {
   const serverHtml = host.innerHTML
 
   const app = createSSRApp(fixture)
-  app.use(Quasar)
+  app.use(Quasar, quasarOptions)
 
   if (setupApp !== void 0) {
     await setupApp(app)
@@ -66,12 +81,13 @@ export async function hydrate(fixturesPath, exportName, fixture, setupApp) {
     Object.assign(console, original)
   }
 
-  mountedList.push({ app, host })
+  mountedList.push({ app, host, previousBodyClassName })
 
   return {
     host,
     vm,
     serverHtml,
+    bodyClasses,
     consoleOutput,
     takeover: async () => {
       vm.$q.onSSRHydrated()
@@ -81,8 +97,15 @@ export async function hydrate(fixturesPath, exportName, fixture, setupApp) {
 }
 
 export function cleanupHydrated() {
-  for (const { app, host } of mountedList.splice(0)) {
+  const entries = mountedList.splice(0)
+
+  for (const { app, host } of entries) {
     app.unmount()
     host.remove()
+  }
+
+  if (entries.length !== 0) {
+    // the state from before the test's first hydrate()
+    document.body.className = entries[0].previousBodyClassName
   }
 }

@@ -42,11 +42,9 @@ If the Specs script itself changes, also run the extra validation from
 
 ## Hydration tests
 
-SSR hydration round-trips (`pnpm test:hydration`) are separate from the
-Specs workflow: colocated `src/**/*.hydration.test.js` files with a
-sibling `*.hydration.fixtures.js` module rendered on both the server
-(built `dist` server bundle — keep it fresh) and the client (ui/src
-with ssr-client flags). Fixtures must render deterministically; the
-harness lives in `test/hydration/hydrate.js` (see its takeover rule).
-Router-dependent fixtures export `setupApp(app)` installing the
-memory-history router from `test/hydration/router.js` (see tabs).
+`pnpm test:hydration` (separate from the Specs workflow): colocated
+`src/**/*.hydration.test.js` + sibling `*.hydration.fixtures.js`,
+rendered by the built server bundle AND by ui/src — keep `dist` fresh
+and fixtures deterministic. The harness contract (takeover rule,
+`quasarOptions`, `setupApp`/router) is documented in
+`test/hydration/hydrate.js`.
