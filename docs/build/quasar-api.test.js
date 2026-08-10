@@ -7,12 +7,20 @@ import { quasarApiVitePlugin } from './quasar-api.js'
 const plugin = quasarApiVitePlugin()
 
 test('resolves only the quasar:api virtual id', () => {
-  expect(plugin.resolveId('quasar:api')).toBe('\0quasar:api')
-  expect(plugin.resolveId('quasar:other')).toBeUndefined()
+  // the rust-side filter gates the handler in production — a wrong
+  // filter means the handler never runs at all
+  expect(plugin.resolveId.filter.id.test('quasar:api')).toBe(true)
+  expect(plugin.resolveId.filter.id.test('quasar:api-list')).toBe(false)
+
+  expect(plugin.resolveId.handler('quasar:api')).toBe('\0quasar:api')
+  expect(plugin.resolveId.handler('quasar:other')).toBeUndefined()
 })
 
 test('serves a lazy loader for every published API file', () => {
-  const content = plugin.load('\0quasar:api')
+  expect(plugin.load.filter.id.test('\0quasar:api')).toBe(true)
+  expect(plugin.load.filter.id.test('quasar:api')).toBe(false)
+
+  const content = plugin.load.handler('\0quasar:api')
 
   expect(apiList.length).toBeGreaterThan(0)
   for (const entry of apiList) {
@@ -21,5 +29,5 @@ test('serves a lazy loader for every published API file', () => {
     )
   }
 
-  expect(plugin.load('other')).toBeUndefined()
+  expect(plugin.load.handler('other')).toBeUndefined()
 })

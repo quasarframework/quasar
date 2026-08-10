@@ -23,17 +23,29 @@ test('is a prod-only plugin', () => {
 test('resolves only the examples virtual ids', () => {
   const plugin = examplesVitePlugin(true)
 
-  expect(plugin.resolveId(`examples:runtime:${sampleId}`)).toBe(
+  // the rust-side filter gates the handler in production — a wrong
+  // filter means the handler never runs at all
+  expect(plugin.resolveId.filter.id.test(`examples:runtime:${sampleId}`)).toBe(
+    true
+  )
+  expect(plugin.resolveId.filter.id.test('something-else')).toBe(false)
+
+  expect(plugin.resolveId.handler(`examples:runtime:${sampleId}`)).toBe(
     `\0examples:runtime:${sampleId}`
   )
-  expect(plugin.resolveId('something-else')).toBeUndefined()
+  expect(plugin.resolveId.handler('something-else')).toBeUndefined()
 })
 
 test('emits an export per example file, raw for the source variant', () => {
   const plugin = examplesVitePlugin(true)
 
-  const runtime = plugin.load(`\0examples:runtime:${sampleId}`)
-  const source = plugin.load(`\0examples:source:${sampleId}`)
+  expect(plugin.load.filter.id.test(`\0examples:runtime:${sampleId}`)).toBe(
+    true
+  )
+  expect(plugin.load.filter.id.test(`examples:runtime:${sampleId}`)).toBe(false)
+
+  const runtime = plugin.load.handler(`\0examples:runtime:${sampleId}`)
+  const source = plugin.load.handler(`\0examples:source:${sampleId}`)
 
   expect(sampleFiles.length).toBeGreaterThan(0)
   for (const entry of sampleFiles) {

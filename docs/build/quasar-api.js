@@ -27,12 +27,22 @@ export function quasarApiVitePlugin() {
   return {
     name: 'docs:quasar:api',
 
-    resolveId(id) {
-      if (id === 'quasar:api') return '\0quasar:api'
+    resolveId: {
+      // rust-side filter: other import specifiers never cross into JS
+      filter: { id: /^quasar:api$/ },
+
+      handler(id) {
+        if (id === 'quasar:api') return '\0quasar:api'
+      }
     },
 
-    load(id) {
-      if (id === '\0quasar:api') return content
+    load: {
+      // oxlint-disable-next-line no-control-regex
+      filter: { id: /^\0quasar:api$/ },
+
+      handler(id) {
+        if (id === '\0quasar:api') return content
+      }
     }
   }
 }
