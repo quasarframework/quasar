@@ -242,6 +242,7 @@
         "utils/**",
         "vite-plugin/src/**",
         "vite-plugin/build/**",
+        "docs/*.js",
         "docs/build/**",
         "docs/src-ssr/**"
       ],
@@ -249,7 +250,7 @@
     },
 
     {
-      "files": ["ui/test/**", "vite-plugin/test/**"],
+      "files": ["ui/test/**", "vite-plugin/test/**", "docs/test/**"],
       "env": { "node": true, "browser": true }
     },
 

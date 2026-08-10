@@ -43,6 +43,11 @@ jobs:
 
     runs-on: ubuntu-latest
 
+    # the in-test deadlines are far shorter; this only catches hangs
+    # (the e2e-ssr suite boots a dev server; test:build does a full
+    # SSG build)
+    timeout-minutes: 45
+
     name: Tests for quasar.dev
     steps:
       - name: Checkout code
@@ -74,6 +79,18 @@ jobs:
       - name: Build the UI package
         if: steps.ui-build-cache.outputs.cache-hit != 'true'
         run: pnpm --filter quasar build
+
+      # Playwright validates browser revisions by directory, so restoring
+      # a stale cache just triggers a fresh download of the right one
+      - name: Setup Playwright browser cache
+        uses: actions/cache@v5
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
+          restore-keys: playwright-${{ runner.os }}-
+
+      - name: Install Playwright browser
+        run: pnpm --filter quasar.dev exec playwright install --with-deps chromium
 
       - name: Run tests
         run: pnpm --filter quasar.dev test

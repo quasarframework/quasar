@@ -50,9 +50,13 @@ export default defineConfig(ctx => ({
 
   devServer: {
     port: 9090,
-    open: {
-      app: { name: 'google chrome' }
-    }
+    // the e2e-ssr sweep boots this app headlessly and opts out
+    open:
+      process.env.QUASAR_DOCS_NO_OPEN === '1'
+        ? false
+        : {
+            app: { name: 'google chrome' }
+          }
   },
 
   framework: {
