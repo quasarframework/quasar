@@ -28,7 +28,13 @@ export async function startSsrDevServer(port, timeout = 210_000) {
   const child = spawn(
     'pnpm',
     ['exec', 'quasar', 'dev', '-m', 'ssr', '-p', String(port)],
-    { cwd: playgroundDir, stdio: ['ignore', 'pipe', 'pipe'], detached: true }
+    {
+      cwd: playgroundDir,
+      stdio: ['ignore', 'pipe', 'pipe'],
+      detached: true,
+      // the playground's devServer.open would pop a browser per run
+      env: { ...process.env, QUASAR_PLAYGROUND_NO_OPEN: '1' }
+    }
   )
 
   let outputTail = ''

@@ -16,6 +16,8 @@ on:
       # JSON API files, validated by the specs tooling
       - 'ui/src/**/*.json'
       - 'ui/src/css/**'
+      # the SSR hydration sweep loads every playground page
+      - 'ui/playground/src/**'
       - 'ui/package.json'
       - 'ui/playground/package.json'
       # root dependency changes affect every package
@@ -32,6 +34,8 @@ on:
       # JSON API files, validated by the specs tooling
       - 'ui/src/**/*.json'
       - 'ui/src/css/**'
+      # the SSR hydration sweep loads every playground page
+      - 'ui/playground/src/**'
       - 'ui/package.json'
       - 'ui/playground/package.json'
       # root dependency changes affect every package
@@ -99,6 +103,10 @@ jobs:
       actions: read # to correctly identify workflow run
 
     runs-on: ubuntu-latest
+
+    # the in-test deadlines are far shorter; this only catches hangs
+    # (the e2e-ssr suite boots a dev server)
+    timeout-minutes: 30
 
     defaults:
       run:

@@ -116,6 +116,38 @@ function assertWorkflowsMirrorInputs() {
         'ui/build/build-stamp.js to keep the mirror check alive'
     )
   }
+
+  // third copy of the contract: the cache-seed workflow's push paths
+  // ("exactly the inputs of the shared cache key"). Drift here is
+  // fail-safe (the seed just stops running -> PRs rebuild), but it
+  // silently degrades the cache, so it is enforced too.
+  const seedFile = join(workflowsDir, 'ui-build-cache.yml')
+  if (existsSync(seedFile)) {
+    const seedMatch = readFileSync(seedFile, 'utf8').match(
+      /paths:\n((?:\s+- '[^']+'\n)+)/
+    )
+    if (seedMatch === null) {
+      throw new Error(
+        'no push paths block found in ui-build-cache.yml — update ' +
+          'assertWorkflowsMirrorInputs() in ui/build/build-stamp.js to ' +
+          'keep the seed-trigger mirror check alive'
+      )
+    }
+
+    const seedList = [...seedMatch[1].matchAll(/- '([^']+)'/g)]
+      .map(match => match[1].replace(/\/\*\*$/, ''))
+      .sort()
+      .join(', ')
+
+    if (seedList !== expected) {
+      throw new Error(
+        `.github/workflows/ui-build-cache.yml triggers on a different ` +
+          `input list (${seedList}) than ui/build/build-stamp.js ` +
+          `(${expected}) — the cache seed must fire on exactly the ` +
+          'inputs the key hashes'
+      )
+    }
+  }
 }
 
 export function writeBuildStamp() {

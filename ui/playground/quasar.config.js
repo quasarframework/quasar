@@ -98,9 +98,13 @@ export default defineConfig(ctx => ({
 
   devServer: {
     https: false,
-    open: {
-      app: { name: 'google chrome' }
-    }
+    // the e2e-ssr sweep boots this app headlessly and opts out
+    open:
+      process.env.QUASAR_PLAYGROUND_NO_OPEN === '1'
+        ? false
+        : {
+            app: { name: 'google chrome' }
+          }
   },
 
   ssr: {
