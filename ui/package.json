@@ -79,6 +79,8 @@
     "test": "node test/parallel.js",
     "pretest:e2e:ssr": "node build/ensure-fresh-build.js && playwright install chromium",
     "test:e2e:ssr": "vitest run -c test/vitest-e2e-ssr.config.js",
+    "pretest:umd": "node build/ensure-fresh-build.js && playwright install chromium",
+    "test:umd": "vitest run -c test/vitest-umd.config.js",
     "pretest:unit": "node build/ensure-fresh-build.js && playwright install chromium",
     "test:unit": "vitest run -c test/vitest.config.js",
     "pretest:hydration": "node build/ensure-fresh-build.js && playwright install chromium",

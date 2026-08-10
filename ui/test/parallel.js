@@ -13,7 +13,8 @@ const scripts = [
   'test:unit',
   'test:hydration',
   'test:hydration:pwa',
-  'test:e2e:ssr'
+  'test:e2e:ssr',
+  'test:umd'
 ]
 
 function prep(cmd, args) {
