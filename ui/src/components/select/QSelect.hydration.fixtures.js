@@ -30,3 +30,24 @@ export const multipleChips = {
       'onUpdate:modelValue': () => {}
     })
 }
+
+export const states = {
+  render: () =>
+    h('div', [
+      h(QSelect, {
+        modelValue: 'a',
+        options: ['a'],
+        label: 'Disabled',
+        disable: true,
+        'onUpdate:modelValue': () => {}
+      }),
+      h(QSelect, {
+        modelValue: 'a',
+        options: ['a'],
+        label: 'Dense filled',
+        dense: true,
+        filled: true,
+        'onUpdate:modelValue': () => {}
+      })
+    ])
+}

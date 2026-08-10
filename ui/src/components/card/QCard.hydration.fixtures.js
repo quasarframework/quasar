@@ -13,3 +13,8 @@ export const basic = {
       h(QCardActions, {}, () => h('div', 'Actions'))
     ])
 }
+
+export const darkCard = {
+  render: () =>
+    h(QCard, { dark: true }, () => [h(QCardSection, {}, () => 'Dark prop')])
+}

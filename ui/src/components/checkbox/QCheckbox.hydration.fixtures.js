@@ -14,3 +14,26 @@ export const basic = {
       'onUpdate:modelValue': () => {}
     })
 }
+
+export const states = {
+  render: () =>
+    h('div', [
+      h(QCheckbox, {
+        modelValue: true,
+        label: 'Disabled',
+        disable: true,
+        'onUpdate:modelValue': () => {}
+      }),
+      h(QCheckbox, {
+        modelValue: null,
+        label: 'Indeterminate',
+        'onUpdate:modelValue': () => {}
+      }),
+      h(QCheckbox, {
+        modelValue: false,
+        label: 'Dense',
+        dense: true,
+        'onUpdate:modelValue': () => {}
+      })
+    ])
+}

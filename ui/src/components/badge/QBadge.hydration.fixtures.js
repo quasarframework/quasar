@@ -9,3 +9,12 @@ import { QBadge } from 'quasar'
 export const basic = {
   render: () => h(QBadge, { color: 'primary', label: 'Badge' })
 }
+
+export const states = {
+  render: () =>
+    h('div', { class: 'relative-position' }, [
+      h(QBadge, { label: 'Outline', outline: true, color: 'primary' }),
+      h(QBadge, { label: 'Rounded', rounded: true, color: 'primary' }),
+      h(QBadge, { label: 'Floating', floating: true, color: 'primary' })
+    ])
+}

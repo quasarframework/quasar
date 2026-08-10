@@ -9,3 +9,12 @@ import { QChip } from 'quasar'
 export const basic = {
   render: () => h(QChip, { icon: 'event', label: 'Chip' })
 }
+
+export const states = {
+  render: () =>
+    h('div', [
+      h(QChip, { label: 'Outline', outline: true }),
+      h(QChip, { label: 'Square dense', square: true, dense: true }),
+      h(QChip, { label: 'Removable', removable: true })
+    ])
+}

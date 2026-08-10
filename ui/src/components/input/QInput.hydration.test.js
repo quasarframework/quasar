@@ -2,9 +2,14 @@ import { describe, expect, test } from 'vitest'
 
 import { hydrate } from 'testing/hydration/hydrate.js'
 
-import { autogrow, basic, decorated } from './QInput.hydration.fixtures.js'
+import {
+  autogrow,
+  basic,
+  decorated,
+  errorState
+} from './QInput.hydration.fixtures.js'
 
-const fixturesPath = 'src/components/input/QInput.hydration.fixtures.js'
+const fixturesPath = import.meta.url
 
 describe('QInput SSR hydration', () => {
   test('hydrates cleanly', async () => {
@@ -25,5 +30,12 @@ describe('QInput SSR hydration', () => {
     const result = await hydrate(fixturesPath, 'autogrow', autogrow)
 
     expect(result.consoleOutput).toEqual([])
+  })
+
+  test('hydrates cleanly across errorState', async () => {
+    const result = await hydrate(fixturesPath, 'errorState', errorState)
+
+    expect(result.consoleOutput).toEqual([])
+    expect(result.serverHtml).toContain('This field is required')
   })
 })

@@ -42,3 +42,14 @@ export const autogrow = {
       'onUpdate:modelValue': () => {}
     })
 }
+
+export const errorState = {
+  render: () =>
+    h(QInput, {
+      modelValue: '',
+      label: 'Required field',
+      error: true,
+      errorMessage: 'This field is required',
+      'onUpdate:modelValue': () => {}
+    })
+}

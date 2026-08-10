@@ -14,3 +14,21 @@ export const basic = {
       'onUpdate:modelValue': () => {}
     })
 }
+
+export const states = {
+  render: () =>
+    h('div', [
+      h(QToggle, {
+        modelValue: true,
+        label: 'Disabled',
+        disable: true,
+        'onUpdate:modelValue': () => {}
+      }),
+      h(QToggle, {
+        modelValue: false,
+        label: 'Dense',
+        dense: true,
+        'onUpdate:modelValue': () => {}
+      })
+    ])
+}
