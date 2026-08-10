@@ -97,7 +97,7 @@ export default {
       const { $q, ssrContext } = opts
       const cls = getBodyClasses($q.platform, $q.config)
 
-      if ($q.config.screen?.bodyClass === true) {
+      if ($q.config.screen?.bodyClasses === true) {
         cls.push('screen--xs')
       }
 
