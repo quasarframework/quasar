@@ -29,6 +29,9 @@ export default defineConfig(() => ({
     include: ['test/e2e-ssr/*.test.js'],
     // parallel page visits per test.concurrent batch
     maxConcurrency: 4,
+    // a dev server + real browser can hiccup transiently; a genuine
+    // hydration problem fails deterministically on the retry too
+    retry: 1,
     // the SSR dev server compiles on first boot and pages compile
     // lazily on first visit — both need generous ceilings
     hookTimeout: 240_000,

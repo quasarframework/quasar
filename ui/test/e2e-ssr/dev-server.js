@@ -21,14 +21,22 @@ export function getFreePort() {
 /**
  * Boots `quasar dev -m ssr` for the playground and resolves when it
  * serves. Returns a stop() that kills the whole process group (the CLI
- * spawns its own children).
+ * spawns its own children). Boot failures carry the tail of the
+ * server's own output — without it, a CI flake is undebuggable.
  */
 export async function startSsrDevServer(port, timeout = 210_000) {
   const child = spawn(
     'pnpm',
     ['exec', 'quasar', 'dev', '-m', 'ssr', '-p', String(port)],
-    { cwd: playgroundDir, stdio: 'ignore', detached: true }
+    { cwd: playgroundDir, stdio: ['ignore', 'pipe', 'pipe'], detached: true }
   )
+
+  let outputTail = ''
+  const collect = chunk => {
+    outputTail = (outputTail + chunk).slice(-8192)
+  }
+  child.stdout.on('data', collect)
+  child.stderr.on('data', collect)
 
   let exited = false
   child.on('exit', () => {
@@ -43,15 +51,18 @@ export async function startSsrDevServer(port, timeout = 210_000) {
     }
   }
 
+  const bootError = reason =>
+    new Error(`${reason}\n--- server output tail ---\n${outputTail}`)
+
   const deadline = Date.now() + timeout
 
   for (;;) {
     if (exited) {
-      throw new Error('The SSR dev server exited before becoming ready')
+      throw bootError('The SSR dev server exited before becoming ready')
     }
     if (Date.now() > deadline) {
       stop()
-      throw new Error(`The SSR dev server did not serve within ${timeout}ms`)
+      throw bootError(`The SSR dev server did not serve within ${timeout}ms`)
     }
 
     try {

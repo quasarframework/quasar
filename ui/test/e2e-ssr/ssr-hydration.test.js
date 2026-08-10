@@ -25,6 +25,11 @@ const hydrationRE = /hydrat/i
 
 let baseUrl, stopServer, browser, context
 
+// per-route invocation counts: the config's retry re-runs a failed
+// test body, so >1 attempts on a passing run means the retry masked a
+// nondeterministic failure — report-worthy, never routine noise
+const attempts = new Map()
+
 beforeAll(async () => {
   const port = await getFreePort()
   baseUrl = `http://localhost:${port}`
@@ -37,6 +42,22 @@ afterAll(async () => {
   await context?.close()
   await browser?.close()
   stopServer?.()
+
+  const flaky = [...attempts]
+    .filter(([, count]) => count > 1)
+    .map(([route, count]) => `${route} (${count} attempts)`)
+
+  if (flaky.length !== 0) {
+    const message =
+      'SSR hydration sweep needed retries — intermittent ' +
+      `nondeterminism to investigate: ${flaky.join(', ')}`
+
+    console.error(`\nFLAKY: ${message}\n`)
+
+    if (process.env.GITHUB_ACTIONS) {
+      console.log(`::warning title=Flaky SSR hydration sweep::${message}`)
+    }
+  }
 })
 
 async function auditRoute(route) {
@@ -74,6 +95,8 @@ async function auditRoute(route) {
 describe(`playground SSR hydration sweep (${routes.length} routes)`, () => {
   for (const route of routes) {
     test.concurrent(`${route} hydrates without console output`, async () => {
+      attempts.set(route, (attempts.get(route) ?? 0) + 1)
+
       const messages = await auditRoute(route)
 
       expect(messages).toEqual([])
