@@ -2,7 +2,6 @@ import {
   computed,
   h,
   onActivated,
-  onBeforeMount,
   onBeforeUnmount,
   onDeactivated,
   onMounted,
@@ -174,9 +173,11 @@ export default /*#__PURE__*/ createComponent({
       return hMergeSlot(slots.after, child)
     }
 
-    onBeforeMount(() => {
-      localResetVirtualScroll()
-    })
+    // directly in setup (not onBeforeMount, which never runs during
+    // SSR) so the server renders the same padding sizes the client
+    // computes before hydrating — else every SSR usage logs a
+    // hydration style mismatch on the padding elements
+    localResetVirtualScroll()
 
     onMounted(() => {
       configureScrollTarget()
