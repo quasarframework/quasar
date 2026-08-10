@@ -404,12 +404,30 @@ importers:
       '@quasar/extras':
         specifier: workspace:*
         version: link:../extras
+      '@quasar/vite-plugin':
+        specifier: workspace:*
+        version: link:../vite-plugin
+      '@vitejs/plugin-vue':
+        specifier: ^6.0.8
+        version: 6.0.8(vite@8.2.1(@types/node@26.1.2)(jiti@2.7.0)(sass-embedded@1.100.0)(sass@1.100.0)(terser@5.48.0)(yaml@2.9.0))(vue@3.5.41(typescript@6.0.3))
+      '@vitest/browser-playwright':
+        specifier: ^4.1.10
+        version: 4.1.10(playwright@1.62.1)(vite@8.2.1(@types/node@26.1.2)(jiti@2.7.0)(sass-embedded@1.100.0)(sass@1.100.0)(terser@5.48.0)(yaml@2.9.0))(vitest@4.1.10)
+      '@vitest/ui':
+        specifier: ^4.1.10
+        version: 4.1.10(vitest@4.1.10)
       '@vue/test-utils':
         specifier: ^2.4.10
         version: 2.4.11(@vue/compiler-dom@3.5.41)(@vue/server-renderer@3.5.41)(vue@3.5.41(typescript@6.0.3))
+      acorn:
+        specifier: ^8.18.0
+        version: 8.18.0
       cli-highlight:
         specifier: ^2.1.11
         version: 2.1.11
+      clipboardy:
+        specifier: ^5.3.2
+        version: 5.3.2
       cross-env:
         specifier: ^10.1.0
         version: 10.1.0
@@ -428,12 +446,18 @@ importers:
       open:
         specifier: ^11.0.0
         version: 11.0.0
+      playwright:
+        specifier: ^1.57.0
+        version: 1.62.1
       postcss:
         specifier: ^8.5.26
         version: 8.5.26
       postcss-rtlcss:
         specifier: ^6.0.0
         version: 6.0.0(postcss@8.5.26)
+      prompts:
+        specifier: ^2.4.2
+        version: 2.4.2
       rolldown:
         specifier: ^1.2.3
         version: 1.2.3
@@ -446,9 +470,18 @@ importers:
       tinyglobby:
         specifier: ^0.2.17
         version: 0.2.17
+      vite:
+        specifier: ^8.2.1
+        version: 8.2.1(@types/node@26.1.2)(jiti@2.7.0)(sass-embedded@1.100.0)(sass@1.100.0)(terser@5.48.0)(yaml@2.9.0)
+      vitest:
+        specifier: ^4.1.10
+        version: 4.1.10(@types/node@26.1.2)(@vitest/browser-playwright@4.1.10)(@vitest/ui@4.1.10)(jsdom@29.1.1(@noble/hashes@2.3.0))(vite@8.2.1(@types/node@26.1.2)(jiti@2.7.0)(sass-embedded@1.100.0)(sass@1.100.0)(terser@5.48.0)(yaml@2.9.0))
       vue:
         specifier: ^3.5.41
         version: 3.5.41(typescript@6.0.3)
+      vue-router:
+        specifier: ^5.2.0
+        version: 5.2.0(@vue/compiler-sfc@3.5.41)(pinia@4.0.2(@vue/devtools-api@8.1.5)(typescript@6.0.3)(vue@3.5.41(typescript@6.0.3)))(rolldown@1.2.3)(rollup@4.62.2)(vite@8.2.1(@types/node@26.1.2)(jiti@2.7.0)(sass-embedded@1.100.0)(sass@1.100.0)(terser@5.48.0)(yaml@2.9.0))(vue@3.5.41(typescript@6.0.3))
       webpack-merge:
         specifier: ^6.0.1
         version: 6.0.1
@@ -474,58 +507,6 @@ importers:
       postcss:
         specifier: ^8.5.26
         version: 8.5.26
-
-  ui/testing:
-    dependencies:
-      clipboardy:
-        specifier: ^5.3.2
-        version: 5.3.2
-    devDependencies:
-      '@quasar/extras':
-        specifier: workspace:*
-        version: link:../../extras
-      '@quasar/vite-plugin':
-        specifier: workspace:*
-        version: link:../../vite-plugin
-      '@vitejs/plugin-vue':
-        specifier: ^6.0.8
-        version: 6.0.8(vite@8.2.1(@types/node@26.1.2)(jiti@2.7.0)(sass-embedded@1.100.0)(sass@1.100.0)(terser@5.48.0)(yaml@2.9.0))(vue@3.5.41(typescript@6.0.3))
-      '@vitest/browser-playwright':
-        specifier: ^4.1.10
-        version: 4.1.10(playwright@1.62.1)(vite@8.2.1(@types/node@26.1.2)(jiti@2.7.0)(sass-embedded@1.100.0)(sass@1.100.0)(terser@5.48.0)(yaml@2.9.0))(vitest@4.1.10)
-      '@vitest/ui':
-        specifier: ^4.1.10
-        version: 4.1.10(vitest@4.1.10)
-      '@vue/test-utils':
-        specifier: ^2.4.10
-        version: 2.4.11(@vue/compiler-dom@3.5.41)(@vue/server-renderer@3.5.41)(vue@3.5.41(typescript@6.0.3))
-      acorn:
-        specifier: ^8.18.0
-        version: 8.18.0
-      fs-extra:
-        specifier: ^11.4.0
-        version: 11.4.0
-      playwright:
-        specifier: ^1.57.0
-        version: 1.62.1
-      prompts:
-        specifier: ^2.4.2
-        version: 2.4.2
-      tinyglobby:
-        specifier: ^0.2.17
-        version: 0.2.17
-      vite:
-        specifier: ^8.2.1
-        version: 8.2.1(@types/node@26.1.2)(jiti@2.7.0)(sass-embedded@1.100.0)(sass@1.100.0)(terser@5.48.0)(yaml@2.9.0)
-      vitest:
-        specifier: ^4.1.10
-        version: 4.1.10(@types/node@26.1.2)(@vitest/browser-playwright@4.1.10)(@vitest/ui@4.1.10)(jsdom@29.1.1(@noble/hashes@2.3.0))(vite@8.2.1(@types/node@26.1.2)(jiti@2.7.0)(sass-embedded@1.100.0)(sass@1.100.0)(terser@5.48.0)(yaml@2.9.0))
-      vue:
-        specifier: ^3.5.41
-        version: 3.5.41(typescript@6.0.3)
-      vue-router:
-        specifier: ^5.2.0
-        version: 5.2.0(@vue/compiler-sfc@3.5.41)(pinia@4.0.2(@vue/devtools-api@8.1.5)(typescript@6.0.3)(vue@3.5.41(typescript@6.0.3)))(rolldown@1.2.3)(rollup@4.62.2)(vite@8.2.1(@types/node@26.1.2)(jiti@2.7.0)(sass-embedded@1.100.0)(sass@1.100.0)(terser@5.48.0)(yaml@2.9.0))(vue@3.5.41(typescript@6.0.3))
 
   utils/art:
     devDependencies:

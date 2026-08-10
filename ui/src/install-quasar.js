@@ -20,7 +20,7 @@ import {
 
 /**
  * If the list below changes, make sure
- * to also edit /ui/testing/specs/generators/generator.plugin.js
+ * to also edit /ui/test/specs/generators/generator.plugin.js
  * on the "autoInstalledPlugins" array
  */
 const autoInstalledPlugins = [

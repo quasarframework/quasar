@@ -4,7 +4,7 @@ import { globSync } from 'tinyglobby'
 const rootFolder = normalize(join(import.meta.dirname, '../..'))
 
 export function getTargetList(argv) {
-  const exceptionFileRE = /test|index\.js$|__/
+  const exceptionFileRE = /test|index\.js$|__|\.fixtures\.js$/
   const targetList = argv.target
     ? [
         `src/**/${argv.target}.js`,

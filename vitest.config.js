@@ -10,18 +10,18 @@ export default {
       './cli/vitest.config.js',
       './create-quasar/vitest.config.js',
       './docs/vitest.config.js',
-      './ui/testing/vitest.config.js',
+      './ui/test/vitest.config.js',
       './utils/*/vitest.config.js',
 
       // the vite-plugin configs resolve their include/setup paths
       // against /vite-plugin (their package scripts' cwd), so they
       // need their project root pinned there
       {
-        extends: './vite-plugin/testing/usage/vitest.config.js',
+        extends: './vite-plugin/test/usage/vitest.config.js',
         test: { name: 'vite-plugin-usage', root: './vite-plugin' }
       },
       {
-        extends: './vite-plugin/testing/runtime/vitest.config.js',
+        extends: './vite-plugin/test/runtime/vitest.config.js',
         test: { name: 'vite-plugin-runtime', root: './vite-plugin' }
       }
     ]

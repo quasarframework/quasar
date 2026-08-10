@@ -7,5 +7,5 @@ Supplements the repo-root `AGENTS.md`. Run all commands from
   node-only) and the `test:runtime*` variants (browser runtime; their
   `pretest:*` hooks install Playwright Chromium automatically).
 - Values the tests pin from fixture/source files live only in
-  `testing/fixture-values.js`; the playground fixtures carry breadcrumb
+  `test/fixture-values.js`; the playground fixtures carry breadcrumb
   comments pointing back.

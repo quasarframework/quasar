@@ -1,6 +1,7 @@
 import { join } from 'node:path'
 
 import { defineConfig } from 'vite'
+import { configDefaults } from 'vitest/config'
 import vue from '@vitejs/plugin-vue'
 import { playwright } from '@vitest/browser-playwright'
 
@@ -21,6 +22,10 @@ function getReporterConfig() {
 }
 
 export default defineConfig(() => ({
+  // the package root, so the config behaves the same from the /ui
+  // scripts and from the workspace-root IDE projects config
+  root: join(rootFolder, '..'),
+
   plugins: [
     vue({
       template: { transformAssetUrls }
@@ -38,6 +43,8 @@ export default defineConfig(() => ({
       // mount()/shallowMount() attach to the document by default
       // (needed for computed styles and layout in a real browser)
       '@vue/test-utils': resolve('runtime/test-utils.js'),
+      // "testing" (not "test": Node claims that as the node:test
+      // builtin) maps to this /ui/test directory
       testing: resolve('.'),
       quasar: resolve('..')
     }
@@ -60,7 +67,10 @@ export default defineConfig(() => ({
     css: {
       include: [/.+/]
     },
-    include: ['../src/**/*.test.js'],
-    setupFiles: ['./vitest.setup.js']
+    include: ['src/**/*.test.js'],
+    // hydration round-trip tests run under vitest-hydration.config.js
+    // (ssr-client compile flags + the ssrRender command)
+    exclude: [...configDefaults.exclude, 'src/**/*.hydration.test.js'],
+    setupFiles: ['./test/vitest.setup.js']
   }
 }))

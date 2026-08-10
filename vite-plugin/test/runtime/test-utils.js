@@ -11,9 +11,9 @@
 import {
   mount as vtuMount,
   shallowMount as vtuShallowMount
-} from '../node_modules/@vue/test-utils/dist/vue-test-utils.esm-bundler.mjs'
+} from '../../node_modules/@vue/test-utils/dist/vue-test-utils.esm-bundler.mjs'
 
-export * from '../node_modules/@vue/test-utils/dist/vue-test-utils.esm-bundler.mjs'
+export * from '../../node_modules/@vue/test-utils/dist/vue-test-utils.esm-bundler.mjs'
 
 const containers = new Set()
 

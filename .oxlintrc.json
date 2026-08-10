@@ -249,7 +249,7 @@
     },
 
     {
-      "files": ["**/testing/**"],
+      "files": ["ui/test/**", "vite-plugin/test/**"],
       "env": { "node": true, "browser": true }
     },
 

@@ -51,7 +51,7 @@ const apiValueRegex = {
 }
 
 const topSections = {
-  // also update /ui/testing/generators/generator.plugin.js on the rootProps
+  // also update /ui/test/specs/generators/generator.plugin.js on the rootProps
   plugin: {
     rootProps: [], // computed after this declaration
     rootValidations: {
@@ -68,7 +68,7 @@ const topSections = {
     }
   },
 
-  // also update: /ui/testing/generators/generator.component.js on the rootProps
+  // also update: /ui/test/specs/generators/generator.component.js on the rootProps
   component: {
     rootProps: [], // computed after this declaration
     rootValidations: {
@@ -84,7 +84,7 @@ const topSections = {
     }
   },
 
-  // also update /ui/testing/generators/generator.directive.js on the rootProps
+  // also update /ui/test/specs/generators/generator.directive.js on the rootProps
   directive: {
     rootProps: [], // computed after this declaration
     rootValidations: {
@@ -541,7 +541,7 @@ nativeTypes.forEach(name => {
 })
 
 /**
- * Also update /ui/testing/specs/specs.utils.js on the "typeMap" object
+ * Also update /ui/test/specs/specs.utils.js on the "typeMap" object
  */
 const typeList = [
   'Number',

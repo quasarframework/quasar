@@ -115,7 +115,7 @@ if (missingTestFileList.length !== 0) {
       '\n       $ pnpm test:specs --target <target_file>' +
       '\n  ...or add the source file' +
       suffix +
-      ' to testing/specs/ignoredTestFiles.conf\n'
+      ' to test/specs/ignoredTestFiles.conf\n'
   )
 
   process.exit(1)

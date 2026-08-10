@@ -63,7 +63,7 @@ export const createConfig = ({
       css: {
         include: [/.+/]
       },
-      include: ['./testing/runtime/tests/*.test.{js,ts}'],
+      include: ['./test/runtime/tests/*.test.{js,ts}'],
       exclude: [
         // without dev treeshaking, "quasar" imports intentionally stay
         // on the aliased dev bundle instead of being mapped to per-file
@@ -78,7 +78,7 @@ export const createConfig = ({
           ? '**/tests/default-variables.test.js'
           : '**/tests/sass-transform.test.js'
       ],
-      setupFiles: ['./testing/runtime/vitest.setup.js']
+      setupFiles: ['./test/runtime/vitest.setup.js']
     }
   }))
 

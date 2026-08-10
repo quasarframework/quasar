@@ -7,7 +7,6 @@ packages:
   - extras
   - ui
   - ui/playground
-  - ui/testing
   - create-quasar
   - cli
   - utils/art
