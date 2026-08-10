@@ -48,3 +48,5 @@ sibling `*.hydration.fixtures.js` module rendered on both the server
 (built `dist` server bundle — keep it fresh) and the client (ui/src
 with ssr-client flags). Fixtures must render deterministically; the
 harness lives in `test/hydration/hydrate.js` (see its takeover rule).
+Router-dependent fixtures export `setupApp(app)` installing the
+memory-history router from `test/hydration/router.js` (see tabs).

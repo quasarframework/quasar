@@ -14,7 +14,10 @@ const mountedList = []
  *
  * `fixturesPath`/`exportName` locate the fixture for the Node side
  * (which can only receive serializable values); `fixture` is the same
- * export imported by the test for the browser side.
+ * export imported by the test for the browser side. When the fixtures
+ * module exports `setupApp(app)` (e.g. to install a router — see
+ * ./router.js), the Node side applies it automatically and the test
+ * must pass it along here so the browser side matches.
  *
  * One takeover() per test FILE, as its last act: it flips the
  * module-level isRuntimeSsrPreHydration state and platform values for
@@ -22,7 +25,7 @@ const mountedList = []
  * the same file would no longer start from the pre-hydration state.
  * (Files are isolated from each other by the browser runner.)
  */
-export async function hydrate(fixturesPath, exportName, fixture) {
+export async function hydrate(fixturesPath, exportName, fixture, setupApp) {
   const html = await commands.ssrRender(
     fixturesPath,
     exportName,
@@ -38,6 +41,10 @@ export async function hydrate(fixturesPath, exportName, fixture) {
 
   const app = createSSRApp(fixture)
   app.use(Quasar)
+
+  if (setupApp !== void 0) {
+    await setupApp(app)
+  }
 
   const consoleOutput = []
   const original = { error: console.error, warn: console.warn }

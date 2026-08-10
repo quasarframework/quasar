@@ -44,5 +44,9 @@ export async function ssrRender(_ctx, fixturesPath, exportName, userAgent) {
   const app = createSSRApp(fixture)
   app.use(Quasar, {}, ssrContext)
 
+  if (fixturesModule.setupApp !== void 0) {
+    await fixturesModule.setupApp(app)
+  }
+
   return await renderToString(app, ssrContext)
 }
