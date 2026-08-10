@@ -38,13 +38,8 @@ Notes on the environment:
 
 ### Steps for a new test file
 
-1. Ensure that the UI has been built:
-
-```bash
-$ pnpm build
-```
-
-2. Use the Specs script to generate the draft of the new testing file:
+1. Use the Specs script to generate the draft of the new testing file
+   (a missing or stale `dist` self-heals through the build stamp):
 
 ```bash
 $ pnpm test:specs --target <target_file>
@@ -57,16 +52,16 @@ $ pnpm test:specs --target <target_file>
 #   $ pnpm test:specs -t composable
 ```
 
-3. Edit the file, gradually removing the `.todo` suffix from the `test()` calls. Do not leave any `.todo()` or `.skip()` modifiers for all describe/test calls.
+2. Edit the file, gradually removing the `.todo` suffix from the `test()` calls. Do not leave any `.todo()` or `.skip()` modifiers for all describe/test calls.
 
-4. Should you want to discard a `describe()` or `test()` section, just delete it then call the Specs script again and add an ignore statement:
+3. Should you want to discard a `describe()` or `test()` section, just delete it then call the Specs script again and add an ignore statement:
 
 ```bash
 $ pnpm test:specs --target <target_file>
 # ...then select to ignore the missing tests
 ```
 
-5. You might want to also start Vitest to verify what you are writing in the test file:
+4. You might want to also start Vitest to verify what you are writing in the test file:
 
 ```bash
 # withOUT Vitest UI:
@@ -79,7 +74,7 @@ $ pnpm test:watch "QList"
 $ pnpm test:watch:ui
 ```
 
-6. When you are done with the test file, verify that the contents of the test file is OK:
+5. When you are done with the test file, verify that the contents of the test file is OK:
 
 ```bash
 $ pnpm test:specs --target <target_file>
@@ -92,13 +87,8 @@ $ pnpm test:specs --target <target_file>
 
 So you've added a new prop/method/...etc to a Component/Directive/...etc and you've edited its JSON file (if it has one). This should make the Specs script to output an error that some tests are missing for the respective test file.
 
-1. Ensure that the UI has been built:
-
-```bash
-$ pnpm build
-```
-
-2. Run the Specs script so it can generate the missing pieces for you:
+1. Run the Specs script so it can generate the missing pieces for you
+   (a missing or stale `dist` self-heals through the build stamp):
 
 ```bash
 $ pnpm test:specs --target <target_file>
@@ -107,9 +97,9 @@ $ pnpm test:specs --target <target_file>
 # (and you can handle each of the issues separately)
 ```
 
-3. Edit the file, gradually removing the `.todo` suffix from the `test()` calls. Do not leave any `.todo()` or `.skip()` modifiers for all describe/test calls after you finish.
+2. Edit the file, gradually removing the `.todo` suffix from the `test()` calls. Do not leave any `.todo()` or `.skip()` modifiers for all describe/test calls after you finish.
 
-4. You might want to also start Vitest to verify what you are writing in the test file:
+3. You might want to also start Vitest to verify what you are writing in the test file:
 
 ```bash
 # withOUT Vitest UI:
@@ -119,7 +109,7 @@ $ pnpm test:watch
 $ pnpm test:watch:ui
 ```
 
-5. After you're done with the test file, verify that the contents of the test file is OK:
+4. After you're done with the test file, verify that the contents of the test file is OK:
 
 ```bash
 $ pnpm test:specs --target <target_file>
@@ -132,13 +122,9 @@ $ pnpm test:specs --target <target_file>
 
 So you've changed a prop/method/...etc on a Component/Directive/...etc and you've edited its JSON file (if it has one). Now the Specs script will not output any error since no tests are missing in the respective test file. But you can re-generate the test file section(s) where changes need to be made by targeting them:
 
-1. Ensure that the UI has been built:
-
-```bash
-$ pnpm build
-```
-
-2. Run the Specs script so it can generate the missing pieces for you for each of the sections:
+1. Run the Specs script so it can generate the missing pieces for you for
+   each of the sections (your JSON edit staled the build stamp, so the
+   `dist` API self-heals with a rebuild first):
 
 ```bash
 $ pnpm test:specs --target <target_file> --generate <json_root_prop>.<json_subprop>
@@ -173,9 +159,9 @@ $ pnpm test:specs -t set-css-var -g classes.myClassName
 $ pnpm test:specs -t global-nodes -g functions.createGlobalNode
 ```
 
-3. The content that gets outputted to the terminal is automatically copied to the clipboard. Should you need just a part of it, just copy that part only. Remember to remove the `.todo` modifier from the `test()` calls at the end.
+2. The content that gets outputted to the terminal is automatically copied to the clipboard. Should you need just a part of it, just copy that part only. Remember to remove the `.todo` modifier from the `test()` calls at the end.
 
-4. You might want to also start Vitest to verify what you are writing in the test file:
+3. You might want to also start Vitest to verify what you are writing in the test file:
 
 ```bash
 # withOUT Vitest UI:
@@ -185,7 +171,7 @@ $ pnpm test:watch
 $ pnpm test:watch:ui
 ```
 
-5. After you're done with the test file, verify that the contents of the test file is OK:
+4. After you're done with the test file, verify that the contents of the test file is OK:
 
 ```bash
 $ pnpm test:specs --target <target_file>
@@ -228,10 +214,7 @@ Important reading list:
 If you change the specs script code, then you need to test it:
 
 ```bash
-# we first build the UI:
-$ pnpm build
-
-# then we do a dry-run test:
+# a dry-run test (dist self-heals through the build stamp):
 $ pnpm test:specs --dry-run
 # ...it should not output any errors
 

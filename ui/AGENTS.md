@@ -7,23 +7,22 @@ Supplements the repo-root `AGENTS.md`. Run all commands from `/ui`, not
 
 Read `test/README.md` before creating or editing `src/**/*.test.js`.
 
-1. Build first: `pnpm build`.
-2. `pnpm test:specs --target <source_file>` (no extension); use a subpath
+1. `pnpm test:specs --target <source_file>` (no extension); use a subpath
    relative to `/ui/src` when a filename is ambiguous (`utils/date/date`,
    not `date`).
-3. Accept every required case the Specs script offers; never skip or
+2. Accept every required case the Specs script offers; never skip or
    ignore one merely to pass validation.
-4. Replace every generated `test.todo()` with a real behavioral test; no
+3. Replace every generated `test.todo()` with a real behavioral test; no
    `.todo()`/`.skip()` may remain on any `describe()`/`test()`.
-5. Preserve the generated `describe()` statements and identifiers; align
+4. Preserve the generated `describe()` statements and identifiers; align
    failing files with the exact hierarchy the script reports.
-6. Rerun the same target until the script reports success.
-7. Focused Vitest file while developing; root `pnpm test` after editing
+5. Rerun the same target until the script reports success.
+6. Focused Vitest file while developing; root `pnpm test` after editing
    any test file.
 
 If the Specs script itself changes, also run the extra validation from
-`test/README.md`: build the UI, `pnpm test:specs --dry-run`,
-`pnpm test:specs:ci`, then root `pnpm test`.
+`test/README.md`: `pnpm test:specs --dry-run`, `pnpm test:specs:ci`,
+then root `pnpm test`.
 
 ### Test design
 
