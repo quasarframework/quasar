@@ -3,7 +3,12 @@ import { describe, expect, test } from 'vitest'
 import { isRuntimeSsrPreHydration } from 'quasar/src/plugins/platform/Platform.js'
 import { hydrate } from 'testing/hydration/hydrate.js'
 
-import { basic, setupApp, withTo } from './QBtn.hydration.fixtures.js'
+import {
+  basic,
+  setupApp,
+  stateVariants,
+  withTo
+} from './QBtn.hydration.fixtures.js'
 
 const fixturesPath = 'src/components/btn/QBtn.hydration.fixtures.js'
 
@@ -14,6 +19,14 @@ describe('QBtn SSR hydration', () => {
     expect(result.consoleOutput).toEqual([])
     // it server-rendered as an actual link
     expect(result.serverHtml).toContain('href="/target"')
+  })
+
+  test('hydrates cleanly across state variants', async () => {
+    const result = await hydrate(fixturesPath, 'stateVariants', stateVariants, {
+      setupApp
+    })
+
+    expect(result.consoleOutput).toEqual([])
   })
 
   // keep last: takeover flips the graph out of its pre-hydration state

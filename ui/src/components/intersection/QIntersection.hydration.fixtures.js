@@ -12,3 +12,12 @@ export const basic = {
       h('div', 'Observed content')
     )
 }
+
+// ssrPrerender makes the SERVER render the content, and the client
+// must keep it in place until hydration completes
+export const ssrPrerendered = {
+  render: () =>
+    h(QIntersection, { ssrPrerender: true, style: 'height: 50px' }, () =>
+      h('div', 'Prerendered content')
+    )
+}

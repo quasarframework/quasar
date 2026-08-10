@@ -24,3 +24,11 @@ export const withTo = {
       h('div', 'Content')
     )
 }
+
+// expanded from the start, so the content is in the server payload
+export const defaultOpened = {
+  render: () =>
+    h(QExpansionItem, { label: 'Opened expansion', defaultOpened: true }, () =>
+      h('div', 'Opened content')
+    )
+}

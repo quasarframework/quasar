@@ -6,15 +6,15 @@ import { QTable, QTd, QTh, QTr } from 'quasar'
 // built server bundle, client via ui/src) — see
 // /ui/test/hydration/hydrate.js. Must render deterministically.
 
+const columns = [{ name: 'name', label: 'Name', field: 'name', align: 'left' }]
+
 export const basic = {
   render: () =>
     h(
       QTable,
       {
         rowKey: 'name',
-        columns: [
-          { name: 'name', label: 'Name', field: 'name', align: 'left' }
-        ],
+        columns,
         rows: [{ name: 'Alpha' }, { name: 'Beta' }],
         flat: true
       },
@@ -41,4 +41,19 @@ export const basic = {
           )
       }
     )
+}
+
+// virtual-scroll mode delegates to QVirtualScroll internally — the
+// padding sizes must match across the two render passes
+export const virtualScroll = {
+  render: () =>
+    h(QTable, {
+      rowKey: 'name',
+      columns,
+      rows: Array.from({ length: 40 }, (_, i) => ({ name: `Row #${i}` })),
+      virtualScroll: true,
+      rowsPerPageOptions: [0],
+      style: 'height: 200px',
+      flat: true
+    })
 }

@@ -14,3 +14,31 @@ export const basic = {
       'onUpdate:modelValue': () => {}
     })
 }
+
+export const decorated = {
+  render: () =>
+    h(QInput, {
+      modelValue: 'text',
+      label: 'Label',
+      filled: true,
+      clearable: true,
+      counter: true,
+      maxlength: 20,
+      prefix: '$',
+      suffix: '.00',
+      hint: 'A hint',
+      'onUpdate:modelValue': () => {}
+    })
+}
+
+// autogrow computes its height imperatively after mount — the
+// server/pre-hydration markup must agree before that kicks in
+export const autogrow = {
+  render: () =>
+    h(QInput, {
+      modelValue: 'line one\nline two',
+      type: 'textarea',
+      autogrow: true,
+      'onUpdate:modelValue': () => {}
+    })
+}

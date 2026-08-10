@@ -15,3 +15,18 @@ export const basic = {
       'onUpdate:modelValue': () => {}
     })
 }
+
+// the selected chips derive from the model, so the server renders
+// them into the field control already
+export const multipleChips = {
+  render: () =>
+    h(QSelect, {
+      modelValue: ['a', 'b'],
+      options: ['a', 'b', 'c'],
+      label: 'Select',
+      multiple: true,
+      useChips: true,
+      filled: true,
+      'onUpdate:modelValue': () => {}
+    })
+}

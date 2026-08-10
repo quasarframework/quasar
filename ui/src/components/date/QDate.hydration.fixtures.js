@@ -14,3 +14,14 @@ export const basic = {
       'onUpdate:modelValue': () => {}
     })
 }
+
+// no model: the calendar shows the CURRENT month, where the
+// today-highlight is gated behind useHydration on purpose — this
+// exercises that gate (only flake window: a run crossing midnight)
+export const currentMonth = {
+  render: () =>
+    h(QDate, {
+      modelValue: null,
+      'onUpdate:modelValue': () => {}
+    })
+}

@@ -13,3 +13,14 @@ export const basic = {
       'onUpdate:modelValue': () => {}
     })
 }
+
+// the contenteditable attribute is env-gated (off on the server and
+// until hydration completes) — readonly must not disturb that parity
+export const readonly = {
+  render: () =>
+    h(QEditor, {
+      modelValue: '<p>readonly content</p>',
+      readonly: true,
+      'onUpdate:modelValue': () => {}
+    })
+}

@@ -17,6 +17,17 @@ export const basic = {
   render: () => h(QBtn, { label: 'Hydrate me', icon: 'home' })
 }
 
+export const stateVariants = {
+  render: () =>
+    h('div', [
+      h(QBtn, { label: 'Loading', loading: true }),
+      h(QBtn, { label: 'Disabled', disable: true }),
+      h(QBtn, { icon: 'add', round: true }),
+      h(QBtn, { label: 'Flat dense', flat: true, dense: true }),
+      h(QBtn, { icon: 'navigation', fab: true })
+    ])
+}
+
 // QBtn deliberately has NO active-route styling
 // (useRouterLinkNonMatchingProps) — active-link class parity is
 // covered by the QItem/QBreadcrumbs fixtures instead
