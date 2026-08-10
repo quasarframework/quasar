@@ -18,28 +18,28 @@ const routes = [
   )
 ]
 
-const WORKERS = 4
-
 // Vue only reports hydration mismatches in dev builds, through
 // console warnings/errors — the exact channel the component-level
 // hydration suite watches (/ui/test/hydration/hydrate.js)
 const hydrationRE = /hydrat/i
 
-let baseUrl, stopServer, browser
+let baseUrl, stopServer, browser, context
 
 beforeAll(async () => {
   const port = await getFreePort()
   baseUrl = `http://localhost:${port}`
   stopServer = await startSsrDevServer(port)
   browser = await chromium.launch()
+  context = await browser.newContext()
 })
 
 afterAll(async () => {
+  await context?.close()
   await browser?.close()
   stopServer?.()
 })
 
-async function auditRoute(context, route) {
+async function auditRoute(route) {
   const page = await context.newPage()
   const messages = []
 
@@ -68,29 +68,15 @@ async function auditRoute(context, route) {
   return messages
 }
 
-describe('playground SSR hydration sweep', () => {
-  test(`every route (${routes.length}) hydrates without console output`, async () => {
-    const context = await browser.newContext()
-    const queue = [...routes]
-    const offenders = []
+// one test per route, concurrent up to the config's maxConcurrency —
+// granular reporting (and junit entries) at the same wall-clock cost
+// as a manual worker pool
+describe(`playground SSR hydration sweep (${routes.length} routes)`, () => {
+  for (const route of routes) {
+    test.concurrent(`${route} hydrates without console output`, async () => {
+      const messages = await auditRoute(route)
 
-    await Promise.all(
-      Array.from({ length: WORKERS }, async () => {
-        for (;;) {
-          const route = queue.shift()
-          if (route === void 0) return
-
-          const messages = await auditRoute(context, route)
-          if (messages.length !== 0) {
-            offenders.push({ route, messages })
-          }
-        }
-      })
-    )
-
-    await context.close()
-
-    offenders.sort((a, b) => a.route.localeCompare(b.route))
-    expect(offenders).toEqual([])
-  })
+      expect(messages).toEqual([])
+    })
+  }
 })

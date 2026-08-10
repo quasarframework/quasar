@@ -12,7 +12,9 @@ function getReporterConfig() {
     }
   }
 
-  return {}
+  // verbose streams each route's result as it lands — the default
+  // reporter only moves a live counter for this single-file suite
+  return { reporters: 'verbose' }
 }
 
 // Node-side e2e: boots the playground in SSR dev mode and crawls every
@@ -25,9 +27,11 @@ export default defineConfig(() => ({
   test: {
     ...getReporterConfig(),
     include: ['test/e2e-ssr/*.test.js'],
+    // parallel page visits per test.concurrent batch
+    maxConcurrency: 4,
     // the SSR dev server compiles on first boot and pages compile
     // lazily on first visit — both need generous ceilings
     hookTimeout: 240_000,
-    testTimeout: 600_000
+    testTimeout: 120_000
   }
 }))
