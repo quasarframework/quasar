@@ -6,7 +6,13 @@ import { quasarApiVitePlugin } from './build/quasar-api.js'
 import { codeSplitting, examplesVitePlugin } from './build/prod-chunks.js'
 
 export default defineConfig(ctx => ({
-  boot: [{ path: 'gdpr', server: false }],
+  boot: [
+    { path: 'gdpr', server: false },
+    // the e2e sweep's hydration-complete signal; never shipped
+    ...(ctx.dev && ctx.mode.ssr
+      ? [{ path: 'ssr-hydrated', server: false }]
+      : [])
+  ],
 
   css: ['app.sass' /* '~virtual:shiki-tokens.css' */],
 

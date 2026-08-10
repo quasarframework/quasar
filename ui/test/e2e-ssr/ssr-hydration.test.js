@@ -23,6 +23,11 @@ const routes = [
 // hydration suite watches (/ui/test/hydration/hydrate.js)
 const hydrationRE = /hydrat/i
 
+// match only the message's first line: stack traces of UNRELATED
+// runtime errors (e.g. a page logging a failed fetch) always contain
+// vue's internal "at hydrate (...)" frame and would false-positive
+const isHydrationMessage = text => hydrationRE.test(text.split('\n', 1)[0])
+
 let baseUrl, stopServer, browser, context
 
 // per-route invocation counts: the config's retry re-runs a failed
@@ -75,21 +80,30 @@ async function auditRoute(route) {
   page.on('console', msg => {
     if (
       ['warning', 'error'].includes(msg.type()) &&
-      hydrationRE.test(msg.text())
+      isHydrationMessage(msg.text())
     ) {
       messages.push(msg.text())
     }
   })
   page.on('pageerror', err => {
-    if (hydrationRE.test(err.message)) {
+    if (isHydrationMessage(err.message)) {
       messages.push(err.message)
     }
   })
 
   try {
     await page.goto(baseUrl + route, { waitUntil: 'load', timeout: 60_000 })
-    // hydration runs right after the entry boots; give it a beat
-    await page.waitForTimeout(400)
+    // positive completion signal instead of a timing guess: the
+    // playground's ssr-client boot flips this from $q.onSSRHydrated,
+    // which the CLI client entry calls right after the hydrating
+    // mount returns — every mismatch is reported by then, and CDP
+    // delivers those earlier console events over the same ordered
+    // connection before this poll can resolve
+    await page.waitForFunction(
+      () => window.__E2E_SSR_HYDRATED__ === true,
+      null,
+      { timeout: 30_000 }
+    )
   } finally {
     await page.close()
   }
