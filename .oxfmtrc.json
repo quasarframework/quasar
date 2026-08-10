@@ -19,7 +19,7 @@
     "utils/render-ssr-error/compiled-assets/",
     "**/*/typed-router.d.ts",
 
-    "docs/build/md/__tests__/snapshots/"
+    "docs/build/md/snapshots/"
   ],
 
   "printWidth": 80,
