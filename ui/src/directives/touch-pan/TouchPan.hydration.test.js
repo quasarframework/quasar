@@ -4,7 +4,7 @@ import { hydrate } from 'testing/hydration/hydrate.js'
 
 import { basic } from './TouchPan.hydration.fixtures.js'
 
-const fixturesPath = 'src/directives/touch-pan/TouchPan.hydration.fixtures.js'
+const fixturesPath = import.meta.url
 
 describe('TouchPan directive SSR hydration', () => {
   test('hydrates cleanly', async () => {

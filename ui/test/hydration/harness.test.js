@@ -4,7 +4,7 @@ import { hydrate } from './hydrate.js'
 
 import { mismatch } from './harness.fixtures.js'
 
-const fixturesPath = 'test/hydration/harness.fixtures.js'
+const fixturesPath = import.meta.url
 
 describe('hydration harness self-test', () => {
   test('surfaces Vue hydration mismatch warnings', async () => {

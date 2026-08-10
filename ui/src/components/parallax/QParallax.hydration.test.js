@@ -4,7 +4,7 @@ import { hydrate } from 'testing/hydration/hydrate.js'
 
 import { basic } from './QParallax.hydration.fixtures.js'
 
-const fixturesPath = 'src/components/parallax/QParallax.hydration.fixtures.js'
+const fixturesPath = import.meta.url
 
 describe('QParallax SSR hydration', () => {
   test('hydrates cleanly', async () => {

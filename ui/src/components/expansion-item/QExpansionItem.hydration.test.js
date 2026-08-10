@@ -9,8 +9,7 @@ import {
   withTo
 } from './QExpansionItem.hydration.fixtures.js'
 
-const fixturesPath =
-  'src/components/expansion-item/QExpansionItem.hydration.fixtures.js'
+const fixturesPath = import.meta.url
 
 describe('QExpansionItem SSR hydration', () => {
   test('hydrates cleanly', async () => {

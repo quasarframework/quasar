@@ -4,8 +4,7 @@ import { hydrate } from 'testing/hydration/hydrate.js'
 
 import { basic } from './QTabPanels.hydration.fixtures.js'
 
-const fixturesPath =
-  'src/components/tab-panels/QTabPanels.hydration.fixtures.js'
+const fixturesPath = import.meta.url
 
 describe('QTabPanels SSR hydration', () => {
   test('hydrates cleanly', async () => {

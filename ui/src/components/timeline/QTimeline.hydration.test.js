@@ -4,7 +4,7 @@ import { hydrate } from 'testing/hydration/hydrate.js'
 
 import { basic } from './QTimeline.hydration.fixtures.js'
 
-const fixturesPath = 'src/components/timeline/QTimeline.hydration.fixtures.js'
+const fixturesPath = import.meta.url
 
 describe('QTimeline SSR hydration', () => {
   test('hydrates cleanly', async () => {

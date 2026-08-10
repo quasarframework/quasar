@@ -28,7 +28,7 @@ import {
   QSpinnerTail
 } from './QSpinner.hydration.fixtures.js'
 
-const fixturesPath = 'src/components/spinner/QSpinner.hydration.fixtures.js'
+const fixturesPath = import.meta.url
 
 const fixtures = {
   QSpinner,

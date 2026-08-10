@@ -4,7 +4,7 @@ import { hydrate } from 'testing/hydration/hydrate.js'
 
 import { group } from './Morph.hydration.fixtures.js'
 
-const fixturesPath = 'src/directives/morph/Morph.hydration.fixtures.js'
+const fixturesPath = import.meta.url
 
 describe('Morph directive SSR hydration', () => {
   test('hydrates a morph group cleanly', async () => {

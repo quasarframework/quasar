@@ -4,8 +4,7 @@ import { hydrate } from 'testing/hydration/hydrate.js'
 
 import { basic, ssrPrerendered } from './QIntersection.hydration.fixtures.js'
 
-const fixturesPath =
-  'src/components/intersection/QIntersection.hydration.fixtures.js'
+const fixturesPath = import.meta.url
 
 describe('QIntersection SSR hydration', () => {
   test('hydrates cleanly', async () => {

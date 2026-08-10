@@ -27,6 +27,12 @@ export default defineConfig(() => ({
   // scripts and from the workspace-root IDE projects config
   root: join(rootFolder, '..'),
 
+  // suites may run concurrently (test/parallel.js) and each compiles
+  // ui/src with different flags — a per-suite dep cache makes their
+  // isolation explicit instead of relying on vite's hash-keyed
+  // subdirectories inside a shared node_modules/.vite
+  cacheDir: join(rootFolder, '../node_modules/.vite-hydration-tests'),
+
   plugins: [
     vue({
       template: { transformAssetUrls }

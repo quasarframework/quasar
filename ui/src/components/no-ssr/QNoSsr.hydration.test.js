@@ -4,7 +4,7 @@ import { hydrate } from 'testing/hydration/hydrate.js'
 
 import { basic } from './QNoSsr.hydration.fixtures.js'
 
-const fixturesPath = 'src/components/no-ssr/QNoSsr.hydration.fixtures.js'
+const fixturesPath = import.meta.url
 
 describe('QNoSsr SSR hydration', () => {
   test('hydrates the placeholder cleanly, then swaps in the client content', async () => {

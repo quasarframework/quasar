@@ -4,7 +4,7 @@ import { hydrate } from 'testing/hydration/hydrate.js'
 
 import { basic, setupApp, withTo } from './QItem.hydration.fixtures.js'
 
-const fixturesPath = 'src/components/item/QItem.hydration.fixtures.js'
+const fixturesPath = import.meta.url
 
 describe('QItem SSR hydration', () => {
   test('hydrates cleanly', async () => {

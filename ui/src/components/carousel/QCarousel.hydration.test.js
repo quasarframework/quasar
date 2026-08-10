@@ -4,7 +4,7 @@ import { hydrate } from 'testing/hydration/hydrate.js'
 
 import { basic } from './QCarousel.hydration.fixtures.js'
 
-const fixturesPath = 'src/components/carousel/QCarousel.hydration.fixtures.js'
+const fixturesPath = import.meta.url
 
 describe('QCarousel SSR hydration', () => {
   test('hydrates cleanly', async () => {

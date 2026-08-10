@@ -4,8 +4,7 @@ import { hydrate } from 'testing/hydration/hydrate.js'
 
 import { basic } from './QSlideItem.hydration.fixtures.js'
 
-const fixturesPath =
-  'src/components/slide-item/QSlideItem.hydration.fixtures.js'
+const fixturesPath = import.meta.url
 
 describe('QSlideItem SSR hydration', () => {
   test('hydrates cleanly', async () => {

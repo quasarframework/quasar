@@ -4,8 +4,7 @@ import { hydrate } from 'testing/hydration/hydrate.js'
 
 import { basic, horizontal } from './QVirtualScroll.hydration.fixtures.js'
 
-const fixturesPath =
-  'src/components/virtual-scroll/QVirtualScroll.hydration.fixtures.js'
+const fixturesPath = import.meta.url
 
 describe('QVirtualScroll SSR hydration', () => {
   test('hydrates cleanly with the initial window server-rendered', async () => {

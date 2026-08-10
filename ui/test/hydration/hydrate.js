@@ -31,12 +31,28 @@ const mountedList = []
  * pre-hydration state. (Files are isolated from each other by the
  * browser runner.)
  */
+// tests pass their own import.meta.url: the colocated fixtures
+// sibling is derived from it (X.hydration.test.js ->
+// X.hydration.fixtures.js), which cannot drift the way a hand-typed
+// path can. Plain root-relative paths stay supported for tests
+// borrowing another file's fixtures.
+function resolveFixturesPath(fixturesPath) {
+  if (!/^(https?|file):/.test(fixturesPath)) return fixturesPath
+
+  return new URL(fixturesPath).pathname
+    .replace(/^\/@fs/, '') // vite's filesystem-serving prefix, if any
+    .replace(/^\/([A-Za-z]:\/)/, '$1') // "/C:/..." -> "C:/..." (Windows)
+    .replace(/\.test\.js$/, '.fixtures.js')
+}
+
 export async function hydrate(
   fixturesPath,
   exportName,
   fixture,
   { quasarOptions, setupApp } = {}
 ) {
+  fixturesPath = resolveFixturesPath(fixturesPath)
+
   if (isRuntimeSsrPreHydration.value === false) {
     throw new Error(
       'hydrate() called after the client takeover — takeover() must be ' +

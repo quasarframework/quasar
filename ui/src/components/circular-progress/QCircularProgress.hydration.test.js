@@ -4,8 +4,7 @@ import { hydrate } from 'testing/hydration/hydrate.js'
 
 import { basic } from './QCircularProgress.hydration.fixtures.js'
 
-const fixturesPath =
-  'src/components/circular-progress/QCircularProgress.hydration.fixtures.js'
+const fixturesPath = import.meta.url
 
 describe('QCircularProgress SSR hydration', () => {
   test('hydrates cleanly', async () => {

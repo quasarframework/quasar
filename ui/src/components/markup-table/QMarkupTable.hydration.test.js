@@ -4,8 +4,7 @@ import { hydrate } from 'testing/hydration/hydrate.js'
 
 import { basic } from './QMarkupTable.hydration.fixtures.js'
 
-const fixturesPath =
-  'src/components/markup-table/QMarkupTable.hydration.fixtures.js'
+const fixturesPath = import.meta.url
 
 describe('QMarkupTable SSR hydration', () => {
   test('hydrates cleanly', async () => {

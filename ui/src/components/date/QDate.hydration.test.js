@@ -4,7 +4,7 @@ import { hydrate } from 'testing/hydration/hydrate.js'
 
 import { basic, currentMonth } from './QDate.hydration.fixtures.js'
 
-const fixturesPath = 'src/components/date/QDate.hydration.fixtures.js'
+const fixturesPath = import.meta.url
 
 describe('QDate SSR hydration', () => {
   test('hydrates cleanly', async () => {

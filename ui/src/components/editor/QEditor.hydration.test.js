@@ -4,7 +4,7 @@ import { hydrate } from 'testing/hydration/hydrate.js'
 
 import { basic, readonly } from './QEditor.hydration.fixtures.js'
 
-const fixturesPath = 'src/components/editor/QEditor.hydration.fixtures.js'
+const fixturesPath = import.meta.url
 
 describe('QEditor SSR hydration', () => {
   test('hydrates cleanly', async () => {

@@ -4,8 +4,7 @@ import { hydrate } from 'testing/hydration/hydrate.js'
 
 import { basic } from './ClosePopup.hydration.fixtures.js'
 
-const fixturesPath =
-  'src/directives/close-popup/ClosePopup.hydration.fixtures.js'
+const fixturesPath = import.meta.url
 
 describe('ClosePopup directive SSR hydration', () => {
   test('hydrates cleanly', async () => {

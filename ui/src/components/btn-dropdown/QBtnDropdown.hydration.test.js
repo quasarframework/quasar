@@ -4,8 +4,7 @@ import { hydrate } from 'testing/hydration/hydrate.js'
 
 import { basic } from './QBtnDropdown.hydration.fixtures.js'
 
-const fixturesPath =
-  'src/components/btn-dropdown/QBtnDropdown.hydration.fixtures.js'
+const fixturesPath = import.meta.url
 
 describe('QBtnDropdown SSR hydration', () => {
   test('hydrates cleanly', async () => {

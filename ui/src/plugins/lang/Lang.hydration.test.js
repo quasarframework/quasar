@@ -4,7 +4,7 @@ import { hydrate } from 'testing/hydration/hydrate.js'
 
 import { quasarOptions, rtlPagination } from './Lang.hydration.fixtures.js'
 
-const fixturesPath = 'src/plugins/lang/Lang.hydration.fixtures.js'
+const fixturesPath = import.meta.url
 
 describe('Lang plugin SSR hydration', () => {
   test('an RTL language hydrates cleanly', async () => {

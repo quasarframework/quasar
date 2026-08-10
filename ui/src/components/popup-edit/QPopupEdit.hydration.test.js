@@ -4,8 +4,7 @@ import { hydrate } from 'testing/hydration/hydrate.js'
 
 import { basic } from './QPopupEdit.hydration.fixtures.js'
 
-const fixturesPath =
-  'src/components/popup-edit/QPopupEdit.hydration.fixtures.js'
+const fixturesPath = import.meta.url
 
 describe('QPopupEdit SSR hydration', () => {
   test('hydrates cleanly', async () => {

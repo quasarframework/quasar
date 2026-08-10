@@ -4,7 +4,7 @@ import { hydrate } from 'testing/hydration/hydrate.js'
 
 import { basic } from './QVideo.hydration.fixtures.js'
 
-const fixturesPath = 'src/components/video/QVideo.hydration.fixtures.js'
+const fixturesPath = import.meta.url
 
 describe('QVideo SSR hydration', () => {
   test('hydrates cleanly', async () => {

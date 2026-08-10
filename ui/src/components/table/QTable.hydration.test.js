@@ -4,7 +4,7 @@ import { hydrate } from 'testing/hydration/hydrate.js'
 
 import { basic, virtualScroll } from './QTable.hydration.fixtures.js'
 
-const fixturesPath = 'src/components/table/QTable.hydration.fixtures.js'
+const fixturesPath = import.meta.url
 
 describe('QTable SSR hydration', () => {
   test('hydrates cleanly', async () => {

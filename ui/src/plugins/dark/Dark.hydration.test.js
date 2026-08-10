@@ -4,7 +4,7 @@ import { hydrate } from 'testing/hydration/hydrate.js'
 
 import { darkCard, quasarOptions } from './Dark.hydration.fixtures.js'
 
-const fixturesPath = 'src/plugins/dark/Dark.hydration.fixtures.js'
+const fixturesPath = import.meta.url
 
 describe('Dark plugin SSR hydration', () => {
   test('dark mode reaches the server render and hydrates cleanly', async () => {

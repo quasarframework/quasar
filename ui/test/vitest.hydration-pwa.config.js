@@ -27,6 +27,12 @@ export default defineConfig(() => ({
   // scripts and from the workspace-root IDE projects config
   root: join(rootFolder, '..'),
 
+  // suites may run concurrently (test/parallel.js) and each compiles
+  // ui/src with different flags — a per-suite dep cache makes their
+  // isolation explicit instead of relying on vite's hash-keyed
+  // subdirectories inside a shared node_modules/.vite
+  cacheDir: join(rootFolder, '../node_modules/.vite-hydration-pwa-tests'),
+
   // the SSR+PWA client build: pre-hydration is gated on the
   // data-server-rendered body attribute instead of unconditional
   // (the plugin respects an externally-defined PWA flag, exactly

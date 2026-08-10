@@ -4,7 +4,7 @@ import { hydrate } from 'testing/hydration/hydrate.js'
 
 import { basic } from './QIcon.hydration.fixtures.js'
 
-const fixturesPath = 'src/components/icon/QIcon.hydration.fixtures.js'
+const fixturesPath = import.meta.url
 
 describe('QIcon SSR hydration', () => {
   test('hydrates cleanly', async () => {

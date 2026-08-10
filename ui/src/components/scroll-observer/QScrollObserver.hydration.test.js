@@ -4,8 +4,7 @@ import { hydrate } from 'testing/hydration/hydrate.js'
 
 import { basic } from './QScrollObserver.hydration.fixtures.js'
 
-const fixturesPath =
-  'src/components/scroll-observer/QScrollObserver.hydration.fixtures.js'
+const fixturesPath = import.meta.url
 
 describe('QScrollObserver SSR hydration', () => {
   test('hydrates cleanly', async () => {

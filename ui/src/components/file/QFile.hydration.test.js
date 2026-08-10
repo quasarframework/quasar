@@ -4,7 +4,7 @@ import { hydrate } from 'testing/hydration/hydrate.js'
 
 import { basic } from './QFile.hydration.fixtures.js'
 
-const fixturesPath = 'src/components/file/QFile.hydration.fixtures.js'
+const fixturesPath = import.meta.url
 
 describe('QFile SSR hydration', () => {
   test('hydrates cleanly', async () => {

@@ -4,7 +4,7 @@ import { hydrate } from 'testing/hydration/hydrate.js'
 
 import { basic } from './QDialog.hydration.fixtures.js'
 
-const fixturesPath = 'src/components/dialog/QDialog.hydration.fixtures.js'
+const fixturesPath = import.meta.url
 
 describe('QDialog SSR hydration', () => {
   test('hydrates cleanly', async () => {

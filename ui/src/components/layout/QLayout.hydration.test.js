@@ -8,7 +8,7 @@ import {
   drawerShowIfAbove
 } from './QLayout.hydration.fixtures.js'
 
-const fixturesPath = 'src/components/layout/QLayout.hydration.fixtures.js'
+const fixturesPath = import.meta.url
 
 describe('QLayout SSR hydration', () => {
   test('hydrates cleanly', async () => {

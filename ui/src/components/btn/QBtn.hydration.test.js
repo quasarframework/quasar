@@ -10,7 +10,7 @@ import {
   withTo
 } from './QBtn.hydration.fixtures.js'
 
-const fixturesPath = 'src/components/btn/QBtn.hydration.fixtures.js'
+const fixturesPath = import.meta.url
 
 describe('QBtn SSR hydration', () => {
   test('hydrates cleanly as a router link', async () => {

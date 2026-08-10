@@ -1,4 +1,4 @@
-import { join, normalize } from 'node:path'
+import { isAbsolute, join, normalize } from 'node:path'
 import { pathToFileURL } from 'node:url'
 
 import { createSSRApp } from 'vue'
@@ -19,7 +19,11 @@ const rootFolder = normalize(join(import.meta.dirname, '../..'))
  * resolves its "quasar" import to the built server bundle here.
  */
 export async function ssrRender(_ctx, fixturesPath, exportName, userAgent) {
-  const absolutePath = normalize(join(rootFolder, fixturesPath))
+  // absolute when hydrate() derived it from the test file's own
+  // import.meta.url, root-relative when hand-written
+  const absolutePath = isAbsolute(fixturesPath)
+    ? normalize(fixturesPath)
+    : normalize(join(rootFolder, fixturesPath))
 
   if (!absolutePath.startsWith(rootFolder)) {
     throw new Error(

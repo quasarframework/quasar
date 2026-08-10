@@ -4,7 +4,7 @@ import { hydrate } from 'testing/hydration/hydrate.js'
 
 import { basic } from './QField.hydration.fixtures.js'
 
-const fixturesPath = 'src/components/field/QField.hydration.fixtures.js'
+const fixturesPath = import.meta.url
 
 describe('QField SSR hydration', () => {
   test('hydrates cleanly', async () => {

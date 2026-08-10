@@ -4,8 +4,7 @@ import { hydrate } from 'testing/hydration/hydrate.js'
 
 import { basic } from './Intersection.hydration.fixtures.js'
 
-const fixturesPath =
-  'src/directives/intersection/Intersection.hydration.fixtures.js'
+const fixturesPath = import.meta.url
 
 describe('Intersection directive SSR hydration', () => {
   test('hydrates cleanly', async () => {

@@ -4,8 +4,7 @@ import { hydrate } from 'testing/hydration/hydrate.js'
 
 import { basic } from './QInnerLoading.hydration.fixtures.js'
 
-const fixturesPath =
-  'src/components/inner-loading/QInnerLoading.hydration.fixtures.js'
+const fixturesPath = import.meta.url
 
 describe('QInnerLoading SSR hydration', () => {
   test('hydrates cleanly', async () => {
