@@ -52,6 +52,10 @@ export default defineConfig(() => ({
 
   test: {
     ...getReporterConfig(),
+    name: 'ui',
+    // dist freshness for run paths without the pretest hooks
+    // (the workspace-root IDE projects config)
+    globalSetup: './test/global-setup.js',
     globals: true,
     browser: {
       provider: playwright(),
@@ -68,7 +72,7 @@ export default defineConfig(() => ({
       include: [/.+/]
     },
     include: ['src/**/*.test.js'],
-    // hydration round-trip tests run under vitest-hydration.config.js
+    // hydration round-trip tests run under vitest.hydration.config.js
     // (ssr-client compile flags + the ssrRender command)
     exclude: [...configDefaults.exclude, 'src/**/*.hydration.test.js'],
     setupFiles: ['./test/vitest.setup.js']

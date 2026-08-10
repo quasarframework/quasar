@@ -52,6 +52,10 @@ export default defineConfig(() => ({
 
   test: {
     ...getReporterConfig(),
+    name: 'ui-hydration',
+    // dist freshness for run paths without the pretest hooks
+    // (the workspace-root IDE projects config)
+    globalSetup: './test/global-setup.js',
     globals: true,
     browser: {
       provider: playwright(),
