@@ -14,7 +14,13 @@
 import { LocalStorage } from 'quasar'
 import { nextTick, onMounted, ref } from 'vue'
 
-const storage = ref(LocalStorage.getAll())
+// filled on the client only: the server has no Web Storage, so
+// server-rendering its content would always mismatch on hydration
+const storage = ref({})
+
+onMounted(() => {
+  storage.value = LocalStorage.getAll()
+})
 
 function toggle(key) {
   if (LocalStorage.has(key)) {

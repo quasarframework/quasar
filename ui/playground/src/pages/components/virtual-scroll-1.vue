@@ -185,7 +185,8 @@ for (let i = 0; i < maxSize; i++) {
   fullList.push({
     label: 'Option ' + (i + 1),
     html: 'Option <em class="text-h6">' + (i + 1) + '</em>',
-    value: Math.trunc(1 + Math.random() * 99)
+    // deterministic: server-rendered, hydration must match
+    value: 1 + ((i * 37) % 99)
   })
 }
 

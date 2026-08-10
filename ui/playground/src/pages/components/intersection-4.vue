@@ -59,15 +59,12 @@
 import { computed, ref } from 'vue'
 
 const start = new Date(2020, 1, 1).getTime()
-const randomDate = () => {
-  const end = Date.now()
 
-  return new Date(start + Math.random() * (end - start))
-}
-
+// deterministic dates: this list is server-rendered (sorted), so the
+// client hydration must produce the exact same order
 const initialItems = Array.from({ length: 50 }, (_, id) => ({
   id,
-  date: randomDate()
+  date: new Date(start + ((id * 37) % 50) * 86_400_000)
 }))
 
 const items = ref(initialItems)

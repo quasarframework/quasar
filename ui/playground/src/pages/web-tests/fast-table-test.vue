@@ -26,10 +26,18 @@
 </template>
 
 <script setup>
-import { clone, uid } from 'quasar'
+import { clone } from 'quasar'
 import { computed, ref } from 'vue'
 
-const rand = () => Math.floor((Math.random() % 450) * 450)
+// deterministic values: this data is server-rendered, so the
+// client hydration must produce the exact same output
+let randSeed = 1
+const rand = () => {
+  randSeed = (randSeed * 16_807) % 2_147_483_647
+  return Math.floor((randSeed / 2_147_483_647) * 450)
+}
+let rowId = 0
+const nextRowName = () => `row-${++rowId}`
 
 const selectionToggle = ref(false)
 const loading = ref(false)
@@ -198,7 +206,7 @@ const xxl = computed(() => {
   const rows = clone(data.value)
   for (let i = 0; i < 500; i++) {
     rows.push({
-      name: uid(),
+      name: nextRowName(),
       calories: rand(),
       fat: rand(),
       carbs: rand(),

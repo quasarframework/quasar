@@ -193,7 +193,20 @@ const logNames = ref([
   'NO KeepAlive - Composition API'
 ])
 
+// the rendered log only records events after mount: the children's
+// creation events also fire during the server render and during
+// hydration, where recording them would desync the two passes
+const ready = ref(false)
+
+onMounted(() => {
+  ready.value = true
+})
+
 function log(i, text) {
+  if (ready.value === false) {
+    return
+  }
+
   logs.value[i].push(text)
 }
 </script>

@@ -68,10 +68,21 @@ import { ref } from 'vue'
 
 const $q = useQuasar()
 
-const cookies = ref($q.cookies.getAll())
+// sorted keys: the server-side header map and the client's
+// document.cookie enumerate in different orders, and this table is
+// server-rendered
+function getSortedCookies() {
+  return Object.fromEntries(
+    Object.entries($q.cookies.getAll()).toSorted((a, b) =>
+      a[0].localeCompare(b[0])
+    )
+  )
+}
+
+const cookies = ref(getSortedCookies())
 
 function refresh() {
-  cookies.value = $q.cookies.getAll()
+  cookies.value = getSortedCookies()
 }
 function add(name) {
   $q.cookies.set(name, 'val')
@@ -86,5 +97,9 @@ if (import.meta.env.QUASAR_SERVER) {
   console.log('setting ssr_cookie')
   $q.cookies.set('ssr_cookie', 'yes')
   $q.cookies.set('ssr_cookie-second', 'yes')
+  // the ref above captured getAll() BEFORE these were set; without a
+  // refresh the server renders fewer rows than the hydrating client
+  // (which sees them through the Set-Cookie response headers)
+  refresh()
 }
 </script>

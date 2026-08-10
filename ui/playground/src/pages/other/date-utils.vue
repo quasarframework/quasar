@@ -149,7 +149,7 @@
 
 <script setup>
 import { date as dateUtils } from 'quasar'
-import { computed, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 
 const {
   startOfDate: qStartOfDate,
@@ -169,11 +169,10 @@ const buildSeed = [
   { month: 2, date: 29, year: 2021 }
 ]
 
-const buildDateSeed = buildSeed.map(entry => ({
-  source: JSON.stringify(entry),
-  build: format(buildDate(entry)),
-  buildUTC: formatUTC(buildDate(entry, true))
-}))
+// computed on the client only: buildDate() fills the unspecified
+// units from the CURRENT time, so server-rendering its output would
+// always mismatch on hydration
+const buildDateSeed = ref([])
 
 const adjustSeed = [
   [{ month: 2, date: 28, year: 2020 }, { year: 2018 }],
@@ -186,17 +185,29 @@ const adjustSeed = [
   ]
 ]
 
-const adjustDateSeed = adjustSeed.map(entry => {
-  const build = buildDate(entry[0])
-  return {
-    source: JSON.stringify(entry[0]),
-    change: JSON.stringify(entry[1]),
-    build: format(build),
-    result: format(adjustDate(build, entry[1]))
-  }
-})
+const adjustDateSeed = ref([])
 
-const date = ref(format(new Date()))
+const date = ref('')
+
+onMounted(() => {
+  buildDateSeed.value = buildSeed.map(entry => ({
+    source: JSON.stringify(entry),
+    build: format(buildDate(entry)),
+    buildUTC: formatUTC(buildDate(entry, true))
+  }))
+
+  adjustDateSeed.value = adjustSeed.map(entry => {
+    const build = buildDate(entry[0])
+    return {
+      source: JSON.stringify(entry[0]),
+      change: JSON.stringify(entry[1]),
+      build: format(build),
+      result: format(adjustDate(build, entry[1]))
+    }
+  })
+
+  date.value = format(new Date())
+})
 const userMask = ref('YYYY-MM-DDTHH:mm:ss.SSSZ Do Mo w wo DDDo DDD')
 
 const startOfDate = computed(() => {

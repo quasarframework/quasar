@@ -1015,7 +1015,6 @@ import {
   onMounted,
   ref
 } from 'vue'
-import { uid } from 'quasar'
 
 const KeepAliveTest = {
   name: 'KeepAliveTest',
@@ -1026,7 +1025,8 @@ const KeepAliveTest = {
 
   setup(props) {
     const counter = ref(0)
-    const id = uid()
+    // deterministic (server-rendered): uid() differs per render pass
+    const id = `ka-${props.name}`
 
     function log(what) {
       console.log(`[KeepAliveTest > ${props.name} / ${id}] ${what}`)

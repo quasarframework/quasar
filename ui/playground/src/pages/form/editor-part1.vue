@@ -263,10 +263,10 @@ const outline = ref(false)
 const rounded = ref(false)
 const modelWithPlaceHolder = ref('')
 const model = ref(
-  'Editor in <a href="https://quasar.dev">Quasar</a></div><div>Second line'
+  '<div>Editor in <a href="https://quasar.dev">Quasar</a></div><div>Second line</div>'
 )
 const modelScroll = ref(
-  'Editor in <a href="https://quasar.dev">Quasar</a></div><div style="height: 500px; background: yellow">Spacer 1</div><div style="height: 500px; background: yellow">Spacer 2</div><div>Second line'
+  '<div>Editor in <a href="https://quasar.dev">Quasar</a></div><div style="height: 500px; background: yellow">Spacer 1</div><div style="height: 500px; background: yellow">Spacer 2</div><div>Second line</div>'
 )
 
 const editor = ref(null)
