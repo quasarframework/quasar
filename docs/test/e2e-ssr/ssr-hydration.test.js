@@ -45,6 +45,16 @@ beforeAll(async () => {
   context = await browser.newContext()
   // for the page-interaction tests (copyHeading writes the anchor url)
   await context.grantPermissions(['clipboard-read', 'clipboard-write'])
+
+  // the sweep audits hydration, not CDN availability: external
+  // resources (sponsor avatars, cdn images, embeds) tie the 'load'
+  // event to the network and make heavy routes time out
+  // intermittently — only the dev server's own responses may gate it
+  const serverHost = new URL(baseUrl).hostname
+  await context.route(
+    url => url.hostname !== serverHost,
+    route => route.abort()
+  )
 })
 
 afterAll(async () => {

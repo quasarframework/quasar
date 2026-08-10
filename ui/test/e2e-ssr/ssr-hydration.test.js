@@ -34,6 +34,16 @@ beforeAll(async () => {
   ;({ baseUrl, stop: stopServer } = await resolveServer())
   browser = await chromium.launch()
   context = await browser.newContext()
+
+  // the sweep audits hydration, not CDN availability: external
+  // resources (cdn images, video embeds) tie the 'load' event to the
+  // network and made image/video-heavy routes time out intermittently
+  // — only the dev server's own responses may gate it
+  const serverHost = new URL(baseUrl).hostname
+  await context.route(
+    url => url.hostname !== serverHost,
+    route => route.abort()
+  )
 })
 
 afterAll(async () => {
