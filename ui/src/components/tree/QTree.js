@@ -2,8 +2,9 @@ import {
   computed,
   getCurrentInstance,
   h,
+  inject,
   nextTick,
-  onBeforeUpdate,
+  provide,
   ref,
   vShow,
   watch,
@@ -25,6 +26,27 @@ import { shouldIgnoreKey } from '../../utils/private.keyboard/key-composition.js
 import { injectProp } from '../../utils/private.inject-obj-prop/inject-obj-prop.js'
 
 const tickStrategyOptions = ['none', 'strict', 'leaf', 'leaf-filtered']
+
+const treeCtxKey = Symbol('QTree')
+
+// one instance per node so that a state change re-renders only the
+// affected nodes; all of the logic lives in QTree's setup and comes
+// in through the injected context
+const QTreeNode = createComponent({
+  name: 'QTreeNode',
+
+  props: {
+    node: {
+      type: Object,
+      required: true
+    }
+  },
+
+  setup(props) {
+    const ctx = inject(treeCtxKey)
+    return () => ctx.renderNode(props.node)
+  }
+})
 
 function getNodeMedia(node) {
   if (node.icon !== void 0) {
@@ -133,13 +155,9 @@ export default /*#__PURE__*/ createComponent({
     // alive (v-show) so collapsing/expanding it again can still animate
     const revealedKeys = new Set()
 
-    let blurTargets = {},
+    // populated/cleaned through the per-node ref callbacks
+    const blurTargets = {},
       headerTargets = {}
-
-    onBeforeUpdate(() => {
-      blurTargets = {}
-      headerTargets = {}
-    })
 
     const classes = computed(
       () =>
@@ -227,6 +245,7 @@ export default /*#__PURE__*/ createComponent({
             !node.disabled &&
             (selectable || (expandable && (isParent || localLazy === true))),
           children: [],
+          hasVisibleChildren: false,
           matchesFilter: props.filter
             ? computedFilterMethod.value(node, props.filter)
             : true,
@@ -313,6 +332,10 @@ export default /*#__PURE__*/ createComponent({
               }
             }
           }
+
+          m.hasVisibleChildren = props.filter
+            ? m.children.some(c => c.matchesFilter === true)
+            : true
         }
 
         return m
@@ -321,6 +344,75 @@ export default /*#__PURE__*/ createComponent({
       props.nodes.forEach(node => travel(node, null))
       return acc
     })
+
+    // every meta field a node's rendering may read; deliberately excludes
+    // the graph pointers (parent/children), whose identity changes on every
+    // meta rebuild -- event handlers resolve fresh meta through meta.value
+    // instead of trusting a render-time object
+    const metaRenderProps = [
+      'isParent',
+      'lazy',
+      'disabled',
+      'link',
+      'matchesFilter',
+      'selected',
+      'selectable',
+      'expanded',
+      'expandable',
+      'noTick',
+      'tickable',
+      'tickStrategy',
+      'hasTicking',
+      'strictTicking',
+      'leafFilteredTicking',
+      'leafTicking',
+      'ticked',
+      'indeterminate',
+      'indeterminateNextState',
+      'hasVisibleChildren'
+    ]
+
+    function sameMeta(a, b) {
+      return metaRenderProps.every(prop => a[prop] === b[prop])
+    }
+
+    const metaRefs = new Map(),
+      visibilityRefs = new Map()
+
+    // a per-node view of meta that keeps its object identity across
+    // rebuilds while nothing render-relevant changed, so only the
+    // affected QTreeNode instances re-render on a state change
+    function getMetaRef(key) {
+      let target = metaRefs.get(key)
+
+      if (target === void 0) {
+        let prev
+        target = computed(() => {
+          const next = meta.value[key]
+          if (prev !== void 0 && next !== void 0 && sameMeta(prev, next)) {
+            return prev
+          }
+          prev = next
+          return next
+        })
+        metaRefs.set(key, target)
+      }
+
+      return target
+    }
+
+    // boolean-level indirection so that a parent filtering its children
+    // list does not re-render when something else about a child changes
+    function getVisibilityRef(key) {
+      let target = visibilityRefs.get(key)
+
+      if (target === void 0) {
+        target = computed(() => getMetaRef(key).value?.matchesFilter === true)
+        visibilityRefs.set(key, target)
+      }
+
+      return target
+    }
 
     const focusableKeys = computed(() => {
       const acc = []
@@ -581,9 +673,9 @@ export default /*#__PURE__*/ createComponent({
     function getChildren(nodes) {
       return (
         props.filter
-          ? nodes.filter(n => meta.value[n[props.nodeKey]].matchesFilter)
+          ? nodes.filter(n => getVisibilityRef(n[props.nodeKey]).value === true)
           : nodes
-      ).map(child => getNode(child))
+      ).map(child => h(QTreeNode, { key: child[props.nodeKey], node: child }))
     }
 
     function onShow() {
@@ -594,12 +686,14 @@ export default /*#__PURE__*/ createComponent({
       emit('afterHide')
     }
 
-    function getNode(node) {
+    function renderNode(node) {
       const key = node[props.nodeKey],
-        m = meta.value[key],
+        m = getMetaRef(key).value,
         header = node.header
           ? slots[`header-${node.header}`] || slots['default-header']
           : slots['default-header']
+
+      if (m === void 0) return null
 
       if (m.expanded === true) {
         revealedKeys.add(key)
@@ -618,11 +712,7 @@ export default /*#__PURE__*/ createComponent({
           : []
 
       const isParent =
-        (m.isParent === true &&
-          (props.filter
-            ? m.children.some(c => c.matchesFilter === true)
-            : true)) ||
-        (m.lazy && m.lazy !== 'loaded')
+        m.hasVisibleChildren === true || (m.lazy && m.lazy !== 'loaded')
 
       let body = node.body
         ? slots[`body-${node.body}`] || slots['default-body']
@@ -657,7 +747,8 @@ export default /*#__PURE__*/ createComponent({
                 (m.selected === true ? ' q-tree__node--selected' : '') +
                 (m.disabled === true ? ' q-tree__node--disabled' : ''),
               ref: el => {
-                headerTargets[m.key] = el
+                if (el !== null) headerTargets[key] = el
+                else delete headerTargets[key]
               },
               tabindex: m.link === true && m.key === tabStopKey ? 0 : -1,
               'aria-expanded': isParent
@@ -682,17 +773,17 @@ export default /*#__PURE__*/ createComponent({
               role: 'treeitem',
               onFocus() {
                 if (m.link === true) {
-                  focusedKey = m.key
-                  moveTabStop(m.key)
+                  focusedKey = key
+                  moveTabStop(key)
                 }
               },
               onClick: e => {
-                onClick(node, m, e)
+                onClick(node, key, e)
               },
               onKeydown(e) {
                 if (shouldIgnoreKey(e) !== true) {
                   if (e.keyCode === 13) {
-                    onClick(node, m, e, true)
+                    onClick(node, key, e, true)
                   } else if (e.keyCode === 32) {
                     if (
                       m.hasTicking === true &&
@@ -700,11 +791,11 @@ export default /*#__PURE__*/ createComponent({
                       m.tickable === true
                     ) {
                       stopAndPrevent(e)
-                      onTickedClick(m, m.ticked !== true)
+                      onTickedClick(key, m.ticked !== true)
                     } else {
-                      onExpandClick(node, m, e, true)
+                      onExpandClick(node, key, e, true)
                     }
-                  } else if (onNavigationKey(m, e.keyCode)) {
+                  } else if (onNavigationKey(key, e.keyCode)) {
                     stopAndPrevent(e)
                   }
                 }
@@ -715,7 +806,8 @@ export default /*#__PURE__*/ createComponent({
                 class: 'q-focus-helper',
                 tabindex: -1,
                 ref: el => {
-                  blurTargets[m.key] = el
+                  if (el !== null) blurTargets[key] = el
+                  else delete blurTargets[key]
                 }
               }),
 
@@ -731,7 +823,7 @@ export default /*#__PURE__*/ createComponent({
                         (m.expanded === true ? ' q-tree__arrow--rotate' : ''),
                       name: computedIcon.value,
                       onClick(e) {
-                        onExpandClick(node, m, e)
+                        onExpandClick(node, key, e)
                       }
                     })
                   : null,
@@ -750,7 +842,7 @@ export default /*#__PURE__*/ createComponent({
                     tabindex: -1,
                     'aria-hidden': 'true',
                     'onUpdate:modelValue': v => {
-                      onTickedClick(m, v)
+                      onTickedClick(key, v)
                     }
                   })
                 : null,
@@ -866,9 +958,15 @@ export default /*#__PURE__*/ createComponent({
       }
     }
 
-    function onNavigationKey(localMeta, keyCode) {
+    // handlers receive keys and resolve meta at event time: render-time
+    // meta objects are kept identity-stable across rebuilds, so their
+    // parent/children pointers cannot be trusted after a rebuild
+    function onNavigationKey(key, keyCode) {
+      const localMeta = meta.value[key]
+      if (localMeta === void 0) return false
+
       const keys = focusableKeys.value,
-        index = keys.indexOf(localMeta.key)
+        index = keys.indexOf(key)
 
       if (keyCode === 36) {
         focusNode(keys[0])
@@ -910,30 +1008,27 @@ export default /*#__PURE__*/ createComponent({
       return false
     }
 
-    function onClick(node, localMeta, e, keyboard) {
+    function onClick(node, key, e, keyboard) {
+      const localMeta = meta.value[key]
+      if (localMeta === void 0) return
+
       if (localMeta.link === true) {
-        focusedKey = localMeta.key
-        moveTabStop(localMeta.key)
+        focusedKey = key
+        moveTabStop(key)
       }
 
       if (keyboard !== true && localMeta.selectable !== false) {
-        blur(localMeta.key)
+        blur(key)
       }
 
       if (hasSelection.value && localMeta.selectable) {
         if (!props.noSelectionUnset) {
-          emit(
-            'update:selected',
-            localMeta.key !== props.selected ? localMeta.key : null
-          )
-        } else if (localMeta.key !== props.selected) {
-          emit(
-            'update:selected',
-            localMeta.key === void 0 ? null : localMeta.key
-          )
+          emit('update:selected', key !== props.selected ? key : null)
+        } else if (key !== props.selected) {
+          emit('update:selected', key === void 0 ? null : key)
         }
       } else {
-        onExpandClick(node, localMeta, e, keyboard)
+        onExpandClick(node, key, e, keyboard)
       }
 
       if (typeof node.handler === 'function') {
@@ -941,22 +1036,28 @@ export default /*#__PURE__*/ createComponent({
       }
     }
 
-    function onExpandClick(node, localMeta, e, keyboard) {
+    function onExpandClick(node, key, e, keyboard) {
+      const localMeta = meta.value[key]
+      if (localMeta === void 0) return
+
       if (localMeta.link === true) {
-        focusedKey = localMeta.key
-        moveTabStop(localMeta.key)
+        focusedKey = key
+        moveTabStop(key)
       }
 
       if (e !== void 0) {
         stopAndPrevent(e)
       }
       if (keyboard !== true && localMeta.selectable !== false) {
-        blur(localMeta.key)
+        blur(key)
       }
-      setExpanded(localMeta.key, !localMeta.expanded, node, localMeta)
+      setExpanded(key, !localMeta.expanded, node, localMeta)
     }
 
-    function onTickedClick(localMeta, state) {
+    function onTickedClick(key, state) {
+      const localMeta = meta.value[key]
+      if (localMeta === void 0) return
+
       if (localMeta.indeterminate === true) {
         state = localMeta.indeterminateNextState
       }
@@ -991,6 +1092,8 @@ export default /*#__PURE__*/ createComponent({
     }
 
     if (props.defaultExpandAll) expandAll()
+
+    provide(treeCtxKey, { renderNode })
 
     // expose public methods
     Object.assign(proxy, {

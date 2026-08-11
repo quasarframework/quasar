@@ -941,6 +941,46 @@ describe('[QTree API]', () => {
       expect(wrapper.findAll('.q-tree__node-collapsible')).toHaveLength(1)
     })
 
+    test('re-renders only the nodes a state change affects', async () => {
+      const renders = {}
+
+      const wrapper = mountTree(
+        {
+          tickStrategy: 'leaf',
+          ticked: [],
+          'onUpdate:ticked': () => {},
+          defaultExpandAll: true
+        },
+        {
+          slots: {
+            // the header slot runs once per node render
+            'default-header': scope => {
+              renders[scope.key] = (renders[scope.key] || 0) + 1
+              return scope.node.label
+            }
+          }
+        }
+      )
+
+      expect(renders).toStrictEqual({
+        fruits: 1,
+        apple: 1,
+        banana: 1,
+        bread: 1
+      })
+
+      await wrapper.setProps({ ticked: ['apple'] })
+
+      // apple got ticked and fruits became indeterminate;
+      // banana and bread must not have re-rendered
+      expect(renders).toStrictEqual({
+        fruits: 2,
+        apple: 2,
+        banana: 1,
+        bread: 1
+      })
+    })
+
     test('drops the collapsible of collapsed nodes with no-transition', async () => {
       const wrapper = mountTree({ noTransition: true })
 
