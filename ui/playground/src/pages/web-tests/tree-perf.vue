@@ -11,13 +11,18 @@
       common accessible) configuration.
     </p>
 
-    <div class="q-mb-md">
+    <div class="q-mb-md row items-center">
       <q-option-group
         v-model="sizeKey"
         :options="sizeOptions"
         :disable="running"
         type="radio"
         inline
+      />
+      <q-toggle
+        v-model="virtualMode"
+        :disable="running"
+        label="virtual scroll"
       />
     </div>
 
@@ -95,6 +100,8 @@
         :filter="filter"
         :no-transition="treeConfig.noTransition"
         :default-expand-all="treeConfig.defaultExpandAll"
+        :virtual-scroll="virtualMode"
+        :style="virtualMode ? 'height: 100%' : void 0"
         @update:selected="v => (selected = v)"
         @after-show="onAnimationEnd"
         @after-hide="onAnimationEnd"
@@ -151,6 +158,7 @@ const results = ref([])
 
 const containerRef = ref(null)
 const treeRef = ref(null)
+const virtualMode = ref(false)
 const treeShown = ref(false)
 const treeConfig = shallowRef({})
 const nodes = shallowRef([])
@@ -224,7 +232,7 @@ function record(label, samples, dom) {
   const frames = samples.map(s => s.frame).filter(f => f !== null)
 
   results.value.push({
-    label,
+    label: virtualMode.value === true ? `${label} [virtual]` : label,
     nodes: nodeCount.value,
     dom,
     jsMedian: median(samples.map(s => s.js)),
@@ -306,17 +314,22 @@ async function runAll() {
 
   try {
     await benchMount('mount, collapsed', {}, 3)
-    await benchMount(
-      'mount, collapsed, no-transition',
-      { noTransition: true },
-      3
-    )
+    // transition variants do not apply to virtual mode (no transitions)
+    if (virtualMode.value === false) {
+      await benchMount(
+        'mount, collapsed, no-transition',
+        { noTransition: true },
+        3
+      )
+    }
     await benchMount('mount, expand-all', { defaultExpandAll: true }, 3)
-    await benchMount(
-      'mount, expand-all, no-transition',
-      { defaultExpandAll: true, noTransition: true },
-      3
-    )
+    if (virtualMode.value === false) {
+      await benchMount(
+        'mount, expand-all, no-transition',
+        { defaultExpandAll: true, noTransition: true },
+        3
+      )
+    }
 
     // interactions run on a fully expanded tree with default transitions
     await unmountTree()
@@ -353,21 +366,24 @@ async function runAll() {
     })
 
     // end-to-end animated expand/collapse: state change until the
-    // after-show/after-hide event, with the default 300ms duration
-    await unmountTree()
-    treeConfig.value = { defaultExpandAll: true, animated: true }
-    treeShown.value = true
-    await afterTick()
+    // after-show/after-hide event, with the default 300ms duration;
+    // virtual mode has no transitions, so nothing to measure there
+    if (virtualMode.value === false) {
+      await unmountTree()
+      treeConfig.value = { defaultExpandAll: true, animated: true }
+      treeShown.value = true
+      await afterTick()
 
-    let animExpanded = true
-    await benchAction('animated expand/collapse (to event, 300ms)', 4, () => {
-      animExpanded = !animExpanded
-      const settled = new Promise(resolve => {
-        animationResolve = resolve
+      let animExpanded = true
+      await benchAction('animated expand/collapse (to event, 300ms)', 4, () => {
+        animExpanded = !animExpanded
+        const settled = new Promise(resolve => {
+          animationResolve = resolve
+        })
+        treeRef.value.setExpanded('N1', animExpanded)
+        return settled
       })
-      treeRef.value.setExpanded('N1', animExpanded)
-      return settled
-    })
+    }
 
     status.value =
       'done' +

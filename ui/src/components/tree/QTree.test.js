@@ -82,6 +82,45 @@ function getTickboxes(wrapper) {
   return wrapper.findAll('.q-tree__tickbox')
 }
 
+function getBigNodes(count = 60) {
+  return Array.from({ length: count }, (_, index) => ({
+    id: `n${index}`,
+    label: `Node ${index}`
+  }))
+}
+
+// virtual scroll needs real layout: an attached wrapper whose root is a
+// fixed-height scrolling container
+function mountVirtualTree(props, options) {
+  props ||= {}
+  options ||= {}
+
+  return mount(QTree, {
+    attachTo: document.body,
+    props: {
+      nodes: getBigNodes(),
+      nodeKey: 'id',
+      virtualScroll: true,
+      ...props
+    },
+    attrs: { style: 'height: 210px' },
+    ...options
+  })
+}
+
+function getRows(wrapper) {
+  return wrapper.findAll('.q-tree__vnode')
+}
+
+// the virtual slice settles through a debounced scroll handler plus a
+// requestAnimationFrame chain
+async function settleVirtualScroll() {
+  await new Promise(resolve => {
+    setTimeout(resolve, 80)
+  })
+  await flushPromises()
+}
+
 describe('[QTree API]', () => {
   describe('[Props]', () => {
     describe('[(prop)nodes]', () => {
@@ -554,6 +593,329 @@ describe('[QTree API]', () => {
         expect(wrapper.text()).toBe(propVal)
       })
     })
+
+    describe('[(prop)virtual-scroll]', () => {
+      test('type Boolean has effect', async () => {
+        const nodes = getBigNodes()
+        const wrapper = mountVirtualTree({ nodes, virtualScroll: false })
+
+        // without it every node renders in the nested layout
+        expect(getNodeHeaders(wrapper)).toHaveLength(nodes.length)
+        expect(getRows(wrapper)).toHaveLength(0)
+        expect(wrapper.find('.q-virtual-scroll__padding').exists()).toBe(false)
+
+        await wrapper.setProps({ virtualScroll: true })
+        await settleVirtualScroll()
+
+        // with it only the rows around the viewport render as flat
+        // siblings, the rest is padding
+        expect(wrapper.classes()).toContain('q-tree--virtual')
+        const rows = getRows(wrapper)
+        expect(rows.length).toBeGreaterThan(0)
+        expect(rows.length).toBeLessThan(nodes.length)
+        expect(wrapper.findAll('.q-virtual-scroll__padding')).toHaveLength(2)
+
+        wrapper.unmount()
+      })
+    })
+
+    describe('[(prop)virtual-scroll-target]', () => {
+      test('type Element has effect', async () => {
+        const container = document.createElement('div')
+        container.style.cssText = 'height: 210px; overflow: auto'
+        document.body.append(container)
+
+        const wrapper = mountVirtualTree(
+          { virtualScrollTarget: container },
+          { attachTo: container, attrs: {} }
+        )
+        await flushPromises()
+
+        // the tree itself is no longer the scrolling element
+        expect(wrapper.classes()).not.toContain('scroll')
+
+        const firstLabel = getLabels(wrapper)[0]
+
+        container.scrollTop = container.scrollHeight
+        container.dispatchEvent(new Event('scroll'))
+        await settleVirtualScroll()
+
+        // scrolling the target moved the rendered slice
+        expect(getLabels(wrapper)[0]).not.toBe(firstLabel)
+
+        wrapper.unmount()
+        container.remove()
+      })
+
+      test('type String has effect', async () => {
+        const container = document.createElement('div')
+        container.id = 'tree-scroll-target'
+        container.style.cssText = 'height: 210px; overflow: auto'
+        document.body.append(container)
+
+        const wrapper = mountVirtualTree(
+          { virtualScrollTarget: '#tree-scroll-target' },
+          { attachTo: container, attrs: {} }
+        )
+        await flushPromises()
+
+        expect(wrapper.classes()).not.toContain('scroll')
+
+        const firstLabel = getLabels(wrapper)[0]
+
+        container.scrollTop = container.scrollHeight
+        container.dispatchEvent(new Event('scroll'))
+        await settleVirtualScroll()
+
+        expect(getLabels(wrapper)[0]).not.toBe(firstLabel)
+
+        wrapper.unmount()
+        container.remove()
+      })
+    })
+
+    describe('[(prop)virtual-scroll-item-size]', () => {
+      test('type Number has effect', async () => {
+        // a bigger estimated row size means fewer rows are needed to
+        // cover the viewport
+        const propVal = 105
+        const wrapper = mountVirtualTree()
+        await settleVirtualScroll()
+
+        const defaultCount = getRows(wrapper).length
+
+        await wrapper.setProps({ virtualScrollItemSize: propVal })
+        await settleVirtualScroll()
+
+        expect(getRows(wrapper).length).toBeLessThan(defaultCount)
+
+        wrapper.unmount()
+      })
+
+      test('type String has effect', async () => {
+        const propVal = '105'
+        const wrapper = mountVirtualTree()
+        await settleVirtualScroll()
+
+        const defaultCount = getRows(wrapper).length
+
+        await wrapper.setProps({ virtualScrollItemSize: propVal })
+        await settleVirtualScroll()
+
+        expect(getRows(wrapper).length).toBeLessThan(defaultCount)
+
+        wrapper.unmount()
+      })
+    })
+
+    describe('[(prop)virtual-scroll-slice-size]', () => {
+      test('type Number has effect', async () => {
+        const propVal = 30
+        const base = mountVirtualTree()
+        await settleVirtualScroll()
+
+        const defaultCount = getRows(base).length
+        base.unmount()
+
+        const wrapper = mountVirtualTree({ virtualScrollSliceSize: propVal })
+        await settleVirtualScroll()
+
+        // the minimum slice guarantees at least this many rendered rows
+        expect(getRows(wrapper).length).toBeGreaterThanOrEqual(propVal)
+        expect(getRows(wrapper).length).toBeGreaterThan(defaultCount)
+
+        wrapper.unmount()
+      })
+
+      test('type String has effect', async () => {
+        const propVal = '30'
+        const base = mountVirtualTree()
+        await settleVirtualScroll()
+
+        const defaultCount = getRows(base).length
+        base.unmount()
+
+        const wrapper = mountVirtualTree({ virtualScrollSliceSize: propVal })
+        await settleVirtualScroll()
+
+        expect(getRows(wrapper).length).toBeGreaterThanOrEqual(Number(propVal))
+        expect(getRows(wrapper).length).toBeGreaterThan(defaultCount)
+
+        wrapper.unmount()
+      })
+
+      test('type null has effect', async () => {
+        const base = mountVirtualTree()
+        await settleVirtualScroll()
+
+        const defaultCount = getRows(base).length
+        base.unmount()
+
+        const wrapper = mountVirtualTree({ virtualScrollSliceSize: null })
+        await settleVirtualScroll()
+
+        // null keeps the built-in minimum
+        expect(getRows(wrapper).length).toBe(defaultCount)
+
+        wrapper.unmount()
+      })
+    })
+
+    describe('[(prop)virtual-scroll-slice-ratio-before]', () => {
+      test('type Number has effect', async () => {
+        const propVal = 5
+        const base = mountVirtualTree()
+        await settleVirtualScroll()
+
+        const defaultCount = getRows(base).length
+        base.unmount()
+
+        const wrapper = mountVirtualTree({
+          virtualScrollSliceRatioBefore: propVal
+        })
+        await settleVirtualScroll()
+
+        // a bigger before-buffer means more rendered rows
+        expect(getRows(wrapper).length).toBeGreaterThan(defaultCount)
+
+        wrapper.unmount()
+      })
+
+      test('type String has effect', async () => {
+        const propVal = '5'
+        const base = mountVirtualTree()
+        await settleVirtualScroll()
+
+        const defaultCount = getRows(base).length
+        base.unmount()
+
+        const wrapper = mountVirtualTree({
+          virtualScrollSliceRatioBefore: propVal
+        })
+        await settleVirtualScroll()
+
+        expect(getRows(wrapper).length).toBeGreaterThan(defaultCount)
+
+        wrapper.unmount()
+      })
+    })
+
+    describe('[(prop)virtual-scroll-slice-ratio-after]', () => {
+      test('type Number has effect', async () => {
+        const propVal = 5
+        const base = mountVirtualTree()
+        await settleVirtualScroll()
+
+        const defaultCount = getRows(base).length
+        base.unmount()
+
+        const wrapper = mountVirtualTree({
+          virtualScrollSliceRatioAfter: propVal
+        })
+        await settleVirtualScroll()
+
+        // a bigger after-buffer means more rendered rows
+        expect(getRows(wrapper).length).toBeGreaterThan(defaultCount)
+
+        wrapper.unmount()
+      })
+
+      test('type String has effect', async () => {
+        const propVal = '5'
+        const base = mountVirtualTree()
+        await settleVirtualScroll()
+
+        const defaultCount = getRows(base).length
+        base.unmount()
+
+        const wrapper = mountVirtualTree({
+          virtualScrollSliceRatioAfter: propVal
+        })
+        await settleVirtualScroll()
+
+        expect(getRows(wrapper).length).toBeGreaterThan(defaultCount)
+
+        wrapper.unmount()
+      })
+    })
+
+    describe('[(prop)virtual-scroll-sticky-size-start]', () => {
+      test('type Number has effect', async () => {
+        // sticky space shrinks the effective viewport, so fewer rows
+        // are needed to cover it
+        const propVal = 140
+        const base = mountVirtualTree()
+        await settleVirtualScroll()
+
+        const defaultCount = getRows(base).length
+        base.unmount()
+
+        const wrapper = mountVirtualTree({
+          virtualScrollStickySizeStart: propVal
+        })
+        await settleVirtualScroll()
+
+        expect(getRows(wrapper).length).toBeLessThan(defaultCount)
+
+        wrapper.unmount()
+      })
+
+      test('type String has effect', async () => {
+        const propVal = '140'
+        const base = mountVirtualTree()
+        await settleVirtualScroll()
+
+        const defaultCount = getRows(base).length
+        base.unmount()
+
+        const wrapper = mountVirtualTree({
+          virtualScrollStickySizeStart: propVal
+        })
+        await settleVirtualScroll()
+
+        expect(getRows(wrapper).length).toBeLessThan(defaultCount)
+
+        wrapper.unmount()
+      })
+    })
+
+    describe('[(prop)virtual-scroll-sticky-size-end]', () => {
+      test('type Number has effect', async () => {
+        const propVal = 140
+        const base = mountVirtualTree()
+        await settleVirtualScroll()
+
+        const defaultCount = getRows(base).length
+        base.unmount()
+
+        const wrapper = mountVirtualTree({
+          virtualScrollStickySizeEnd: propVal
+        })
+        await settleVirtualScroll()
+
+        expect(getRows(wrapper).length).toBeLessThan(defaultCount)
+
+        wrapper.unmount()
+      })
+
+      test('type String has effect', async () => {
+        const propVal = '140'
+        const base = mountVirtualTree()
+        await settleVirtualScroll()
+
+        const defaultCount = getRows(base).length
+        base.unmount()
+
+        const wrapper = mountVirtualTree({
+          virtualScrollStickySizeEnd: propVal
+        })
+        await settleVirtualScroll()
+
+        expect(getRows(wrapper).length).toBeLessThan(defaultCount)
+
+        wrapper.unmount()
+      })
+    })
   })
 
   describe('[Slots]', () => {
@@ -796,6 +1158,33 @@ describe('[QTree API]', () => {
         expect(eventList.afterHide[0]).toHaveLength(0)
       })
     })
+
+    describe('[(event)virtual-scroll]', () => {
+      test('is emitting', async () => {
+        const wrapper = mountVirtualTree({ onVirtualScroll: () => {} })
+        await settleVirtualScroll()
+
+        wrapper.element.scrollTop = wrapper.element.scrollHeight
+        wrapper.element.dispatchEvent(new Event('scroll'))
+        await settleVirtualScroll()
+
+        const eventList = wrapper.emitted()
+        expect(eventList).toHaveProperty('virtualScroll')
+
+        const [details] = eventList.virtualScroll.at(-1)
+        expect(details).toStrictEqual({
+          index: expect.any(Number),
+          from: expect.any(Number),
+          to: expect.any(Number),
+          direction: expect.$any(['increase', 'decrease']),
+          ref: expect.any(Object)
+        })
+        // the scroll to the end reached the last row
+        expect(details.to).toBe(getBigNodes().length - 1)
+
+        wrapper.unmount()
+      })
+    })
   })
 
   describe('[Methods]', () => {
@@ -920,6 +1309,26 @@ describe('[QTree API]', () => {
         expect(wrapper.vm.getTickedNodes().map(node => node.id)).toStrictEqual([
           'banana'
         ])
+      })
+    })
+
+    describe('[(method)scrollTo]', () => {
+      test('should be callable', async () => {
+        const nodes = getBigNodes()
+        const lastNode = nodes.at(-1)
+        const wrapper = mountVirtualTree({ nodes })
+        await settleVirtualScroll()
+
+        // the last row is way outside the rendered slice
+        expect(getHeader(wrapper, lastNode.label)).toBeUndefined()
+
+        expect(wrapper.vm.scrollTo(lastNode.id, 'start')).toBeUndefined()
+        await settleVirtualScroll()
+
+        expect(wrapper.element.scrollTop).toBeGreaterThan(0)
+        expect(getHeader(wrapper, lastNode.label)).toBeDefined()
+
+        wrapper.unmount()
       })
     })
   })
@@ -1254,6 +1663,85 @@ describe('[QTree API]', () => {
 
       expect(wrapper.find('.q-tree__node-collapsible').exists()).toBe(false)
     })
+
+    test('virtual scroll renders the visible nodes as flat rows', async () => {
+      const wrapper = mountVirtualTree({
+        nodes: getNodes(),
+        expanded: ['fruits']
+      })
+      await flushPromises()
+
+      expect(getLabels(wrapper)).toStrictEqual([
+        'Fruits',
+        'Apple',
+        'Banana',
+        'Bread'
+      ])
+
+      // rows are siblings inside the virtual list, nothing is nested
+      const rows = getRows(wrapper)
+      expect(rows).toHaveLength(4)
+      expect(wrapper.find('.q-tree__children').exists()).toBe(false)
+
+      // child rows draw guide spacers: the connector line continues
+      // while siblings follow and ends on the last one
+      const appleGuides = rows[1].findAll('.q-tree__vguide')
+      const bananaGuides = rows[2].findAll('.q-tree__vguide')
+
+      expect(rows[0].findAll('.q-tree__vguide')).toHaveLength(0)
+      expect(appleGuides).toHaveLength(1)
+      expect(appleGuides[0].classes()).toContain('q-tree__vguide--connector')
+      expect(appleGuides[0].classes()).toContain('q-tree__vguide--line')
+      expect(bananaGuides[0].classes()).toContain('q-tree__vguide--connector')
+      expect(bananaGuides[0].classes()).not.toContain('q-tree__vguide--line')
+
+      wrapper.unmount()
+    })
+
+    test('virtual scroll toggles expansion with no transition', async () => {
+      const wrapper = mountVirtualTree({ nodes: getNodes() })
+      await settleVirtualScroll()
+
+      expect(getLabels(wrapper)).toStrictEqual(['Fruits', 'Bread'])
+      expect(wrapper.findComponent({ name: 'QSlideTransition' }).exists()).toBe(
+        false
+      )
+
+      wrapper.vm.setExpanded('fruits', true)
+      await settleVirtualScroll()
+
+      expect(getLabels(wrapper)).toStrictEqual([
+        'Fruits',
+        'Apple',
+        'Banana',
+        'Bread'
+      ])
+
+      wrapper.vm.setExpanded('fruits', false)
+      await settleVirtualScroll()
+
+      expect(getLabels(wrapper)).toStrictEqual(['Fruits', 'Bread'])
+
+      wrapper.unmount()
+    })
+
+    test('virtual scroll applies filtering to the rows', async () => {
+      const wrapper = mountVirtualTree({
+        nodes: getNodes(),
+        expanded: ['fruits'],
+        filter: 'apple'
+      })
+      await flushPromises()
+
+      expect(getLabels(wrapper)).toStrictEqual(['Fruits', 'Apple'])
+
+      await wrapper.setProps({ filter: 'nothing-matches-this' })
+      await flushPromises()
+
+      expect(wrapper.text()).toBe('No matching nodes found')
+
+      wrapper.unmount()
+    })
   })
 
   describe('[Accessibility]', () => {
@@ -1569,6 +2057,85 @@ describe('[QTree API]', () => {
       await keydown(fruits, 39)
 
       expect(fruits.attributes('aria-expanded')).toBe('true')
+    })
+
+    test('virtual scroll rows expose the aria hierarchy', async () => {
+      const wrapper = mountVirtualTree({
+        nodes: getNodes(),
+        expanded: ['fruits'],
+        selected: null
+      })
+      await flushPromises()
+
+      expect(wrapper.find('[role="tree"]').exists()).toBe(true)
+
+      const hierarchy = getNodeHeaders(wrapper).map(header => [
+        header.attributes('aria-level'),
+        header.attributes('aria-posinset'),
+        header.attributes('aria-setsize')
+      ])
+
+      expect(hierarchy).toStrictEqual([
+        ['1', '1', '2'], // Fruits
+        ['2', '1', '2'], // Apple
+        ['2', '2', '2'], // Banana
+        ['1', '2', '2'] // Bread
+      ])
+
+      wrapper.unmount()
+    })
+
+    test('virtual scroll keeps the single Tab stop inside the rendered slice', async () => {
+      const nodes = getBigNodes()
+      const wrapper = mountVirtualTree({ nodes, selected: null })
+      await settleVirtualScroll()
+
+      const getTabStops = () =>
+        getNodeHeaders(wrapper).filter(
+          header => header.attributes('tabindex') === '0'
+        )
+
+      const stops = getTabStops()
+      expect(stops).toHaveLength(1)
+      expect(stops[0].get('.q-tree__node-header-content').text()).toBe(
+        nodes[0].label
+      )
+
+      // once the preferred Tab stop row leaves the slice, the stop
+      // falls back to a rendered row and stays unique
+      wrapper.element.scrollTop = wrapper.element.scrollHeight
+      wrapper.element.dispatchEvent(new Event('scroll'))
+      await settleVirtualScroll()
+
+      const movedStops = getTabStops()
+      expect(movedStops).toHaveLength(1)
+      expect(movedStops[0].get('.q-tree__node-header-content').text()).not.toBe(
+        nodes[0].label
+      )
+
+      wrapper.unmount()
+    })
+
+    test('virtual scroll keyboard navigation reaches rows outside the slice', async () => {
+      const nodes = getBigNodes()
+      const lastNode = nodes.at(-1)
+      const wrapper = mountVirtualTree({ nodes, selected: null })
+      await settleVirtualScroll()
+
+      expect(getHeader(wrapper, lastNode.label)).toBeUndefined()
+
+      const first = getNodeHeaders(wrapper)[0]
+      first.element.focus()
+      await keydown(first, 35) // End
+
+      await settleVirtualScroll()
+      await settleVirtualScroll()
+
+      const last = getHeader(wrapper, lastNode.label)
+      expect(last).toBeDefined()
+      expect(document.activeElement).toBe(last.element)
+
+      wrapper.unmount()
     })
   })
 })

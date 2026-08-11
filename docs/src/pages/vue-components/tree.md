@@ -47,6 +47,20 @@ When using relatively large data, for performance we recommend using the `no-tra
 <q-tree no-transition ...
 ```
 
+For trees where a huge number of nodes can be visible at the same time (e.g. many thousands of expanded nodes), see the Virtual scroll section below — it keeps the DOM cost constant no matter how much of the tree is expanded.
+
+### Virtual scroll <q-badge label="v2.25+" />
+
+The `virtual-scroll` Boolean prop renders the visible nodes as a flat virtualized list: only the rows around the scrolling viewport (plus a configurable buffer — see the `virtual-scroll-*` props) exist in the DOM, so rendering cost stays constant regardless of how many nodes are expanded. The example below runs a fully expanded tree of 4,680 nodes; even the largest trees mount, expand-all and filter in milliseconds in this mode.
+
+Things to be aware of in this mode:
+
+- The tree itself becomes the scrolling container, so give it a height (through CSS) — or point `virtual-scroll-target` to a scrolling ancestor instead.
+- Expanding and collapsing are instant: there is no slide transition, so the `duration` and `no-transition` props and the `@after-show`/`@after-hide` events do not apply.
+- The `scrollTo` method scrolls any visible node's row into view; keyboard navigation does this automatically.
+
+<DocExample title="Virtual scroll" file="VirtualScroll" />
+
 ### Integrated example
 
 <DocExample title="With QSplitter and QTabPanels" file="Splitter" />

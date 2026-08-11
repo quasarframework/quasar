@@ -133,6 +133,68 @@
       "addedIn": "v2.9.2"
     },
 
+    "virtual-scroll": {
+      "type": "Boolean",
+      "desc": "Render the visible nodes as a flat virtualized list, keeping only the rows around the scrolling viewport in the DOM; Recommended for big trees; The tree itself becomes the scrolling container (give it a height through CSS) unless 'virtual-scroll-target' is used; Expanding/collapsing is instant in this mode (no slide transition, so 'duration', 'no-transition' and the '@after-show'/'@after-hide' events do not apply)",
+      "category": "virtual-scroll|behavior",
+      "addedIn": "v2.25"
+    },
+
+    "virtual-scroll-target": {
+      "extends": "scroll-target",
+      "desc": "CSS selector or DOM element to be used as the scrolling container (instead of the tree itself) when 'virtual-scroll' is set",
+      "category": "virtual-scroll|behavior",
+      "addedIn": "v2.25"
+    },
+
+    "virtual-scroll-item-size": {
+      "type": ["Number", "String"],
+      "desc": "Default size in pixels of a row; This value is used for rendering the initial list; Try to use a value close to the minimum size of a row; Defaults to 35 (23 for dense mode)",
+      "category": "virtual-scroll",
+      "addedIn": "v2.25"
+    },
+
+    "virtual-scroll-slice-size": {
+      "type": ["Number", "String", "null"],
+      "desc": "Minimum number of rows to render in the virtual list",
+      "default": "10",
+      "examples": ["60", "'60'"],
+      "category": "virtual-scroll",
+      "addedIn": "v2.25"
+    },
+
+    "virtual-scroll-slice-ratio-before": {
+      "type": ["Number", "String"],
+      "desc": "Ratio of number of rows in visible zone to render before it",
+      "default": "1",
+      "category": "virtual-scroll",
+      "addedIn": "v2.25"
+    },
+
+    "virtual-scroll-slice-ratio-after": {
+      "type": ["Number", "String"],
+      "desc": "Ratio of number of rows in visible zone to render after it",
+      "default": "1",
+      "category": "virtual-scroll",
+      "addedIn": "v2.25"
+    },
+
+    "virtual-scroll-sticky-size-start": {
+      "type": ["Number", "String"],
+      "desc": "Size in pixels of the sticky part (if using one) at the start of the scrolling container; A correct value will improve scroll precision",
+      "default": "0",
+      "category": "virtual-scroll",
+      "addedIn": "v2.25"
+    },
+
+    "virtual-scroll-sticky-size-end": {
+      "type": ["Number", "String"],
+      "desc": "Size in pixels of the sticky part (if using one) at the end of the scrolling container; A correct value will improve scroll precision",
+      "default": "0",
+      "category": "virtual-scroll",
+      "addedIn": "v2.25"
+    },
+
     "filter": {
       "type": "String",
       "desc": "The text value to be used for filtering nodes",
@@ -423,10 +485,76 @@
 
     "after-hide": {
       "extends": "after-hide"
+    },
+
+    "virtual-scroll": {
+      "desc": "Emitted when the virtual scroll occurs (only when 'virtual-scroll' is set)",
+      "params": {
+        "details": {
+          "type": "Object",
+          "desc": "Object of properties on the new scroll position",
+          "definition": {
+            "index": {
+              "type": "Number",
+              "required": true,
+              "desc": "Index of the row that was scrolled into view (0 based)"
+            },
+            "from": {
+              "type": "Number",
+              "required": true,
+              "desc": "The index of the first rendered row (0 based)"
+            },
+            "to": {
+              "type": "Number",
+              "required": true,
+              "desc": "The index of the last rendered row (0 based)"
+            },
+            "direction": {
+              "type": "String",
+              "required": true,
+              "desc": "Direction of change",
+              "values": ["'increase'", "'decrease'"]
+            },
+            "ref": {
+              "type": "Component",
+              "tsType": "QTree",
+              "required": true,
+              "desc": "Vue reference to the QTree"
+            }
+          }
+        }
+      },
+      "addedIn": "v2.25"
     }
   },
 
   "methods": {
+    "scrollTo": {
+      "desc": "(Only when 'virtual-scroll' is set) Scroll the tree to the row of the node with the given key (if the node is currently visible -- its ancestors are expanded and it passes filtering)",
+      "params": {
+        "key": {
+          "type": "Any",
+          "required": true,
+          "desc": "The key of a node",
+          "examples": ["'Node 1'"]
+        },
+        "edge": {
+          "type": "String",
+          "desc": "The edge to align to if the row is not visible already (by default it aligns to end if scrolling towards the end and to start otherwise); If the '-force' version is used then it always aligns",
+          "values": [
+            "'start'",
+            "'center'",
+            "'end'",
+            "'start-force'",
+            "'center-force'",
+            "'end-force'"
+          ]
+        }
+      },
+      "returns": null,
+      "addedIn": "v2.25"
+    },
+
     "getNodeByKey": {
       "desc": "Get the node with the given key",
       "params": {

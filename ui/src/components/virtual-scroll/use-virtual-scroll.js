@@ -761,7 +761,7 @@ export function useVirtualScroll({
     }
   }
 
-  function padVirtualScroll(tag, content) {
+  function padVirtualScroll(tag, content, contentAttrs) {
     const paddingSize = props.virtualScrollHorizontal ? 'width' : 'height'
     const style = {
       ['--q-virtual-scroll-item-' + paddingSize]:
@@ -775,7 +775,8 @@ export function useVirtualScroll({
             {
               class: 'q-virtual-scroll__padding',
               key: 'before',
-              ref: beforeRef
+              ref: beforeRef,
+              'aria-hidden': 'true'
             },
             [
               h('tr', [
@@ -793,6 +794,7 @@ export function useVirtualScroll({
             class: 'q-virtual-scroll__padding',
             key: 'before',
             ref: beforeRef,
+            'aria-hidden': 'true',
             style: {
               [paddingSize]: `${virtualScrollPaddingBefore.value}px`,
               ...style
@@ -805,7 +807,8 @@ export function useVirtualScroll({
           class: 'q-virtual-scroll__content',
           key: 'content',
           ref: contentRef,
-          tabindex: -1
+          tabindex: -1,
+          ...contentAttrs
         },
         content.flat()
       ),
@@ -816,7 +819,8 @@ export function useVirtualScroll({
             {
               class: 'q-virtual-scroll__padding',
               key: 'after',
-              ref: afterRef
+              ref: afterRef,
+              'aria-hidden': 'true'
             },
             [
               h('tr', [
@@ -834,6 +838,7 @@ export function useVirtualScroll({
             class: 'q-virtual-scroll__padding',
             key: 'after',
             ref: afterRef,
+            'aria-hidden': 'true',
             style: {
               [paddingSize]: `${virtualScrollPaddingAfter.value}px`,
               ...style

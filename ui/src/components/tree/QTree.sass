@@ -127,8 +127,66 @@
   &--no-connectors
     .q-tree__node:after,
     .q-tree__node-header:before,
-    .q-tree__node-body:after
+    .q-tree__node-body:after,
+    .q-tree__vguide:before,
+    .q-tree__vguide:after
       display: none !important
+
+  // virtual scroll layout: rows are flat siblings, nesting is drawn
+  // through per-row guide spacers; paddings mirror the nested layout's
+  // content offsets
+  &__vnode
+    padding-bottom: 3px
+
+  &__vguide
+    position: relative
+    flex: 0 0 25px
+    width: 25px
+
+    // the ancestor's sibling line running through this row
+    &--line:before
+      content: ''
+      position: absolute
+      top: 0
+      bottom: -3px // bridge the row's bottom padding
+      left: 12px
+      border-left: 1px solid currentColor
+
+    // the elbow into this row's header
+    &--connector:after
+      content: ''
+      position: absolute
+      top: 0
+      bottom: 50%
+      left: 12px
+      right: -18px
+      border-left: 1px solid currentColor
+      border-bottom: 1px solid currentColor
+
+  &__vnode--parent .q-tree__vguide--connector:after
+    right: -2px
+
+  &--virtual
+    .q-tree__node-header
+      flex: 1 1 0%
+      min-width: 0
+      &:before
+        display: none
+
+    .q-tree__node-body
+      flex: 1 1 0%
+      min-width: 0
+
+    .q-tree__vnode--parent .q-tree__node-header
+      padding-left: 6px
+    .q-tree__vnode--parent .q-tree__node-body
+      padding-left: 27px
+    .q-tree__vnode--child .q-tree__node-header
+      padding-left: 26px
+    .q-tree__vnode--root.q-tree__vnode--parent .q-tree__node-header
+      padding-left: 4px
+    .q-tree__vnode--root.q-tree__vnode--child .q-tree__node-header
+      padding-left: 24px
 
   &--dense
     > .q-tree__node--child > .q-tree__node-header
@@ -175,6 +233,33 @@
 
       &__children
         padding-left: 16px
+
+      &__vnode
+        padding-bottom: 0
+
+      &__vguide
+        flex: 0 0 16px
+        width: 16px
+
+        &--line:before
+          left: 8px
+          bottom: 0
+
+        &--connector:after
+          left: 8px
+          right: -13px
+
+      &__vnode--parent .q-tree__vguide--connector:after
+        right: 0
+
+    &.q-tree--virtual
+      .q-tree__vnode--child .q-tree__node-header
+        padding-left: 18px
+      .q-tree__vnode--parent .q-tree__node-header,
+      .q-tree__vnode--root .q-tree__node-header
+        padding-left: 1px
+      .q-tree__vnode--parent .q-tree__node-body
+        padding-left: 20px
 
 [dir=rtl]
   .q-tree__arrow

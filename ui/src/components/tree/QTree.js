@@ -4,6 +4,10 @@ import {
   h,
   inject,
   nextTick,
+  onActivated,
+  onBeforeUnmount,
+  onDeactivated,
+  onMounted,
   provide,
   ref,
   vShow,
@@ -16,12 +20,18 @@ import QCheckbox from '../checkbox/QCheckbox.js'
 import QSlideTransition from '../slide-transition/QSlideTransition.js'
 import QSpinner from '../spinner/QSpinner.js'
 
+import {
+  useVirtualScroll,
+  useVirtualScrollProps
+} from '../virtual-scroll/use-virtual-scroll.js'
+
 import useDark, {
   useDarkProps
 } from '../../composables/private.use-dark/use-dark.js'
 
 import { createComponent } from '../../utils/private.create/create.js'
-import { stopAndPrevent } from '../../utils/event/event.js'
+import { listenOpts, stopAndPrevent } from '../../utils/event/event.js'
+import { getScrollTarget, scrollTargetProp } from '../../utils/scroll/scroll.js'
 import { shouldIgnoreKey } from '../../utils/private.keyboard/key-composition.js'
 import { injectProp } from '../../utils/private.inject-obj-prop/inject-obj-prop.js'
 
@@ -100,6 +110,31 @@ function useKeyedFlags(read) {
   }
 }
 
+// the indentation guides of one virtual row: one spacer per ancestor
+// level, carrying the ancestor's continuation line when it has
+// siblings below; the last spacer holds the connector elbow (header
+// strip only -- the body strip just continues the lines)
+function getVirtualGuides(row, elbow) {
+  if (row.depth === 0) return []
+
+  const guides = row.lines.map(line =>
+    h('div', {
+      class: 'q-tree__vguide' + (line ? ' q-tree__vguide--line' : '')
+    })
+  )
+
+  guides.push(
+    h('div', {
+      class:
+        'q-tree__vguide' +
+        (elbow ? ' q-tree__vguide--connector' : '') +
+        (row.cont ? ' q-tree__vguide--line' : '')
+    })
+  )
+
+  return guides
+}
+
 function getNodeMedia(node) {
   if (node.icon !== void 0) {
     return h(QIcon, {
@@ -169,6 +204,23 @@ export default /*#__PURE__*/ createComponent({
     duration: {},
     noConnectors: Boolean,
     noTransition: Boolean,
+
+    virtualScroll: Boolean,
+    virtualScrollTarget: scrollTargetProp,
+    // override of useVirtualScrollProps > virtualScrollItemSize (no default)
+    virtualScrollItemSize: useVirtualScrollProps.virtualScrollItemSize.type,
+    virtualScrollSliceSize: useVirtualScrollProps.virtualScrollSliceSize,
+    virtualScrollSliceRatioBefore:
+      useVirtualScrollProps.virtualScrollSliceRatioBefore,
+    virtualScrollSliceRatioAfter:
+      useVirtualScrollProps.virtualScrollSliceRatioAfter,
+    virtualScrollStickySizeStart:
+      useVirtualScrollProps.virtualScrollStickySizeStart,
+    virtualScrollStickySizeEnd:
+      useVirtualScrollProps.virtualScrollStickySizeEnd,
+    // the useVirtualScroll composable only emits when the listener is
+    // declared as a prop (see useVirtualScrollProps)
+    onVirtualScroll: Function,
 
     noNodesLabel: String,
     noResultsLabel: String
@@ -644,6 +696,145 @@ export default /*#__PURE__*/ createComponent({
       { flush: 'post' }
     )
 
+    // ---- virtual scroll (opt-in) --------------------------------------
+    // the visible tree flattened into rows; depends only on the model,
+    // expansion and filtering, so ticking/selection do not rebuild it;
+    // lines[i] tells whether the ancestor at depth i+1 still has siblings
+    // below (whether its guide line continues through this row)
+    const virtualRows = computed(() => {
+      const rows = [],
+        { map, rootKeys } = structure.value,
+        matches = filterMatches.value,
+        expanded = expandedKeys.value
+
+      const travel = (keys, depth, lines, parentDisabled) => {
+        const visibleKeys =
+          matches === null ? keys : keys.filter(key => matches.visible.has(key))
+        const lastIndex = visibleKeys.length - 1
+
+        visibleKeys.forEach((key, index) => {
+          const rec = map.get(key),
+            cont = index < lastIndex
+
+          rows.push({
+            key,
+            node: rec.node,
+            depth,
+            lines,
+            cont,
+            posinset: index + 1,
+            setsize: lastIndex + 1,
+            parentDisabled
+          })
+
+          if (rec.isParent && expanded.has(key)) {
+            travel(
+              rec.childKeys,
+              depth + 1,
+              // level-0 guides are not drawn (no connectors before root)
+              depth === 0 ? lines : [...lines, cont],
+              parentDisabled || rec.disabled === true
+            )
+          }
+        })
+      }
+
+      travel(rootKeys, 0, [], false)
+      return rows
+    })
+
+    const virtualScrollLength = computed(() =>
+      props.virtualScroll ? virtualRows.value.length : 0
+    )
+
+    const virtualScrollItemSizeComputed = computed(() =>
+      props.virtualScrollItemSize === void 0
+        ? props.dense
+          ? 23
+          : 35
+        : props.virtualScrollItemSize
+    )
+
+    const rootRef = ref(null)
+    let localScrollTarget
+
+    function getVirtualScrollEl() {
+      return rootRef.value
+    }
+
+    function getVirtualScrollTarget() {
+      return localScrollTarget
+    }
+
+    const {
+      virtualScrollSliceRange,
+      localResetVirtualScroll,
+      padVirtualScroll,
+      onVirtualScrollEvt,
+      scrollTo: virtualScrollTo
+    } = useVirtualScroll({
+      virtualScrollLength,
+      getVirtualScrollTarget,
+      getVirtualScrollEl,
+      virtualScrollItemSizeComputed
+    })
+
+    function configureScrollTarget() {
+      if (props.virtualScroll && rootRef.value !== null) {
+        localScrollTarget = getScrollTarget(
+          rootRef.value,
+          props.virtualScrollTarget
+        )
+        localScrollTarget.addEventListener(
+          'scroll',
+          onVirtualScrollEvt,
+          listenOpts.passive
+        )
+      }
+    }
+
+    function unconfigureScrollTarget() {
+      if (localScrollTarget !== void 0) {
+        localScrollTarget.removeEventListener(
+          'scroll',
+          onVirtualScrollEvt,
+          listenOpts.passive
+        )
+        localScrollTarget = void 0
+      }
+    }
+
+    watch(virtualScrollLength, () => {
+      if (props.virtualScroll) {
+        localResetVirtualScroll()
+      }
+    })
+
+    watch(
+      () => props.virtualScroll,
+      val => {
+        unconfigureScrollTarget()
+        if (val) {
+          localResetVirtualScroll()
+          // the scroll container renders on the upcoming update
+          nextTick(configureScrollTarget)
+        }
+      }
+    )
+
+    watch(
+      () => props.virtualScrollTarget,
+      () => {
+        unconfigureScrollTarget()
+        configureScrollTarget()
+      }
+    )
+
+    onMounted(configureScrollTarget)
+    onActivated(configureScrollTarget)
+    onDeactivated(unconfigureScrollTarget)
+    onBeforeUnmount(unconfigureScrollTarget)
+
     const focusableKeys = computed(() => {
       const acc = [],
         { map, rootKeys } = structure.value,
@@ -924,6 +1115,137 @@ export default /*#__PURE__*/ createComponent({
       emit('afterHide')
     }
 
+    // shared by the nested layout (renderNode) and the virtual scroll
+    // rows (renderVirtualRow); extraAttrs carries the flat-layout aria
+    // hierarchy attributes
+    function renderNodeHeader(
+      node,
+      m,
+      key,
+      isParent,
+      slotScope,
+      headerSlot,
+      extraAttrs
+    ) {
+      return h(
+        'div',
+        {
+          class:
+            'q-tree__node-header relative-position row no-wrap items-center' +
+            (m.link ? ' q-tree__node--link q-hoverable q-focusable' : '') +
+            (m.selected ? ' q-tree__node--selected' : '') +
+            (m.disabled === true ? ' q-tree__node--disabled' : ''),
+          ref: el => {
+            if (el !== null) headerTargets[key] = el
+            else delete headerTargets[key]
+          },
+          tabindex: m.link && key === tabStopKey ? 0 : -1,
+          'aria-expanded': isParent ? (m.expanded ? 'true' : 'false') : null,
+          'aria-selected': m.selectable
+            ? m.selected
+              ? 'true'
+              : 'false'
+            : null,
+          'aria-checked':
+            m.hasTicking && m.noTick !== true
+              ? m.indeterminate === true
+                ? 'mixed'
+                : m.ticked
+                  ? 'true'
+                  : 'false'
+              : null,
+          'aria-disabled': m.disabled === true ? 'true' : null,
+          role: 'treeitem',
+          ...extraAttrs,
+          onFocus() {
+            if (m.link) {
+              focusedKey = key
+              moveTabStop(key)
+            }
+          },
+          onClick: e => {
+            onClick(node, key, e)
+          },
+          onKeydown(e) {
+            if (shouldIgnoreKey(e) !== true) {
+              if (e.keyCode === 13) {
+                onClick(node, key, e, true)
+              } else if (e.keyCode === 32) {
+                if (m.hasTicking && m.noTick !== true && m.tickable) {
+                  stopAndPrevent(e)
+                  onTickedClick(key, !m.ticked)
+                } else {
+                  onExpandClick(node, key, e, true)
+                }
+              } else if (onNavigationKey(key, e.keyCode)) {
+                stopAndPrevent(e)
+              }
+            }
+          }
+        },
+        [
+          h('div', {
+            class: 'q-focus-helper',
+            tabindex: -1,
+            ref: el => {
+              if (el !== null) blurTargets[key] = el
+              else delete blurTargets[key]
+            }
+          }),
+
+          m.lazy === 'loading'
+            ? h(QSpinner, {
+                class: 'q-tree__spinner',
+                color: computedControlColor.value
+              })
+            : isParent
+              ? h(QIcon, {
+                  class:
+                    'q-tree__arrow' +
+                    (m.expanded ? ' q-tree__arrow--rotate' : ''),
+                  name: computedIcon.value,
+                  onClick(e) {
+                    onExpandClick(node, key, e)
+                  }
+                })
+              : null,
+
+          m.hasTicking && m.noTick !== true
+            ? h(QCheckbox, {
+                class: 'q-tree__tickbox',
+                modelValue: m.indeterminate === true ? null : m.ticked,
+                color: computedControlColor.value,
+                dark: isDark.value,
+                dense: true,
+                keepColor: true,
+                disable: !m.tickable,
+                // a pointer affordance only -- keyboard ticking goes
+                // through the header (Space), which carries aria-checked
+                tabindex: -1,
+                'aria-hidden': 'true',
+                'onUpdate:modelValue': v => {
+                  onTickedClick(key, v)
+                }
+              })
+            : null,
+
+          h(
+            'div',
+            {
+              class:
+                'q-tree__node-header-content col row no-wrap items-center' +
+                (m.selected ? selectedColorClass.value : textColorClass.value)
+            },
+            [
+              headerSlot
+                ? headerSlot(slotScope)
+                : [getNodeMedia(node), h('div', node[props.labelKey])]
+            ]
+          )
+        ]
+      )
+    }
+
     function renderNode(node) {
       const key = node[props.nodeKey],
         m = getMetaRef(key).value,
@@ -972,128 +1294,7 @@ export default /*#__PURE__*/ createComponent({
             ` q-tree__node--${isParent ? 'parent' : 'child'}`
         },
         [
-          h(
-            'div',
-            {
-              class:
-                'q-tree__node-header relative-position row no-wrap items-center' +
-                (m.link ? ' q-tree__node--link q-hoverable q-focusable' : '') +
-                (m.selected ? ' q-tree__node--selected' : '') +
-                (m.disabled === true ? ' q-tree__node--disabled' : ''),
-              ref: el => {
-                if (el !== null) headerTargets[key] = el
-                else delete headerTargets[key]
-              },
-              tabindex: m.link && m.key === tabStopKey ? 0 : -1,
-              'aria-expanded': isParent
-                ? m.expanded
-                  ? 'true'
-                  : 'false'
-                : null,
-              'aria-selected': m.selectable
-                ? m.selected
-                  ? 'true'
-                  : 'false'
-                : null,
-              'aria-checked':
-                m.hasTicking && m.noTick !== true
-                  ? m.indeterminate === true
-                    ? 'mixed'
-                    : m.ticked
-                      ? 'true'
-                      : 'false'
-                  : null,
-              'aria-disabled': m.disabled === true ? 'true' : null,
-              role: 'treeitem',
-              onFocus() {
-                if (m.link) {
-                  focusedKey = key
-                  moveTabStop(key)
-                }
-              },
-              onClick: e => {
-                onClick(node, key, e)
-              },
-              onKeydown(e) {
-                if (shouldIgnoreKey(e) !== true) {
-                  if (e.keyCode === 13) {
-                    onClick(node, key, e, true)
-                  } else if (e.keyCode === 32) {
-                    if (m.hasTicking && m.noTick !== true && m.tickable) {
-                      stopAndPrevent(e)
-                      onTickedClick(key, !m.ticked)
-                    } else {
-                      onExpandClick(node, key, e, true)
-                    }
-                  } else if (onNavigationKey(key, e.keyCode)) {
-                    stopAndPrevent(e)
-                  }
-                }
-              }
-            },
-            [
-              h('div', {
-                class: 'q-focus-helper',
-                tabindex: -1,
-                ref: el => {
-                  if (el !== null) blurTargets[key] = el
-                  else delete blurTargets[key]
-                }
-              }),
-
-              m.lazy === 'loading'
-                ? h(QSpinner, {
-                    class: 'q-tree__spinner',
-                    color: computedControlColor.value
-                  })
-                : isParent
-                  ? h(QIcon, {
-                      class:
-                        'q-tree__arrow' +
-                        (m.expanded ? ' q-tree__arrow--rotate' : ''),
-                      name: computedIcon.value,
-                      onClick(e) {
-                        onExpandClick(node, key, e)
-                      }
-                    })
-                  : null,
-
-              m.hasTicking && m.noTick !== true
-                ? h(QCheckbox, {
-                    class: 'q-tree__tickbox',
-                    modelValue: m.indeterminate === true ? null : m.ticked,
-                    color: computedControlColor.value,
-                    dark: isDark.value,
-                    dense: true,
-                    keepColor: true,
-                    disable: !m.tickable,
-                    // a pointer affordance only -- keyboard ticking goes
-                    // through the header (Space), which carries aria-checked
-                    tabindex: -1,
-                    'aria-hidden': 'true',
-                    'onUpdate:modelValue': v => {
-                      onTickedClick(key, v)
-                    }
-                  })
-                : null,
-
-              h(
-                'div',
-                {
-                  class:
-                    'q-tree__node-header-content col row no-wrap items-center' +
-                    (m.selected
-                      ? selectedColorClass.value
-                      : textColorClass.value)
-                },
-                [
-                  header
-                    ? header(slotScope)
-                    : [getNodeMedia(node), h('div', node[props.labelKey])]
-                ]
-              )
-            ]
-          ),
+          renderNodeHeader(node, m, key, isParent, slotScope, header),
 
           isParent
             ? props.noTransition
@@ -1164,6 +1365,126 @@ export default /*#__PURE__*/ createComponent({
       )
     }
 
+    function renderVirtualRow(row) {
+      const { key, node, depth } = row,
+        m = getMetaRef(key).value
+
+      if (m === void 0) return null
+
+      const isParent = m.hasVisibleChildren || (m.lazy && m.lazy !== 'loaded'),
+        headerSlot = node.header
+          ? slots[`header-${node.header}`] || slots['default-header']
+          : slots['default-header']
+
+      let body = node.body
+        ? slots[`body-${node.body}`] || slots['default-body']
+        : slots['default-body']
+
+      const slotScope =
+        headerSlot !== void 0 || body !== void 0
+          ? getSlotScope(node, m, key)
+          : null
+
+      // a leaf renders its body always, a parent only while expanded
+      // (matching the collapsible placement of the nested layout)
+      body =
+        body !== void 0 && (!m.isParent || m.expanded)
+          ? h(
+              'div',
+              { class: 'q-tree__vnode-body row no-wrap items-stretch' },
+              [
+                ...getVirtualGuides(row, false),
+                h('div', { class: 'q-tree__node-body relative-position' }, [
+                  h('div', { class: textColorClass.value }, [body(slotScope)])
+                ])
+              ]
+            )
+          : null
+
+      return h(
+        'div',
+        {
+          key,
+          class:
+            'q-tree__vnode' +
+            ` q-tree__vnode--${isParent ? 'parent' : 'child'}` +
+            (depth === 0 ? ' q-tree__vnode--root' : '') +
+            (m.disabled === true || row.parentDisabled
+              ? ' q-tree__node--disabled'
+              : '')
+        },
+        [
+          h(
+            'div',
+            { class: 'q-tree__vnode-header row no-wrap items-stretch' },
+            [
+              ...getVirtualGuides(row, true),
+              renderNodeHeader(node, m, key, isParent, slotScope, headerSlot, {
+                'aria-level': depth + 1,
+                'aria-setsize': row.setsize,
+                'aria-posinset': row.posinset
+              })
+            ]
+          ),
+
+          body
+        ]
+      )
+    }
+
+    function renderVirtual() {
+      const rows = virtualRows.value
+      let children
+
+      if (rows.length === 0) {
+        children = props.filter
+          ? props.noResultsLabel || $q.lang.tree.noResults
+          : props.noNodesLabel || $q.lang.tree.noNodes
+      } else {
+        const { from, to } = virtualScrollSliceRange.value
+        const slice = rows.slice(from, to)
+
+        // the roving Tab stop must sit on a rendered row; fall back to
+        // the first focusable one in the slice when the preferred row
+        // is scrolled out of it
+        let tabKey = getTabKey()
+
+        if (tabKey === void 0 || !slice.some(row => row.key === tabKey)) {
+          const fallback = slice.find(row => getMeta(row.key).link)
+          if (fallback !== void 0) tabKey = fallback.key
+        }
+
+        moveTabStop(tabKey)
+
+        children = padVirtualScroll('div', slice.map(renderVirtualRow), {
+          role: 'tree'
+        })
+      }
+
+      return h(
+        'div',
+        {
+          class:
+            classes.value +
+            ' q-tree--virtual q-virtual-scroll q-virtual-scroll--vertical' +
+            (props.virtualScrollTarget === void 0 ? ' scroll' : ''),
+          ref: rootRef
+        },
+        children
+      )
+    }
+
+    // (virtual scroll only) scroll a node's row into view
+    function scrollTo(key, edge) {
+      if (props.virtualScroll) {
+        const index = virtualRows.value.findIndex(row => row.key === key)
+
+        if (index !== -1) {
+          virtualScrollTo(index, edge)
+        }
+      }
+    }
+
     function blur(key) {
       blurTargets[key]?.focus({ preventScroll: true })
     }
@@ -1172,7 +1493,27 @@ export default /*#__PURE__*/ createComponent({
       if (key !== void 0) {
         focusedKey = key
         moveTabStop(key)
-        headerTargets[key]?.focus()
+
+        const target = headerTargets[key]
+
+        if (target !== void 0) {
+          target.focus()
+        } else if (props.virtualScroll) {
+          // scroll the row into the rendered slice, then focus it once
+          // the slice update has been painted
+          const index = virtualRows.value.findIndex(row => row.key === key)
+
+          if (index !== -1) {
+            virtualScrollTo(index)
+            nextTick(() => {
+              requestAnimationFrame(() => {
+                requestAnimationFrame(() => {
+                  headerTargets[key]?.focus()
+                })
+              })
+            })
+          }
+        }
       }
     }
 
@@ -1339,6 +1680,13 @@ export default /*#__PURE__*/ createComponent({
 
     if (props.defaultExpandAll) expandAll()
 
+    // directly in setup (not on mount) so the server renders the same
+    // initial padding the client computes before hydrating (see
+    // QVirtualScroll)
+    if (props.virtualScroll) {
+      localResetVirtualScroll()
+    }
+
     provide(treeCtxKey, { renderNode })
 
     // expose public methods
@@ -1351,10 +1699,15 @@ export default /*#__PURE__*/ createComponent({
       expandAll,
       setExpanded,
       isTicked,
-      setTicked
+      setTicked,
+      scrollTo
     })
 
     return () => {
+      if (props.virtualScroll) {
+        return renderVirtual()
+      }
+
       // through moveTabStop() so that when the Tab stop moves to/from a
       // node that does not re-render in this pass, its DOM attribute is
       // still corrected -- a stale one would leave two Tab stops behind
