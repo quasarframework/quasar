@@ -295,4 +295,117 @@ describe('[QOptionGroup API]', () => {
       })
     })
   })
+
+  describe('[Accessibility]', () => {
+    const navOptions = [
+      { label: 'First option', value: 'first' },
+      { label: 'Second option', value: 'second', disable: true },
+      { label: 'Third option', value: 'third' }
+    ]
+
+    function mountNavGroup(props) {
+      return mount(QOptionGroup, {
+        attachTo: document.body,
+        props: {
+          modelValue: navOptions[0].value,
+          options: navOptions,
+          ...props
+        }
+      })
+    }
+
+    function getTabindexes(wrapper) {
+      return wrapper
+        .findAll('.q-radio')
+        .map(radio => radio.attributes('tabindex'))
+    }
+
+    test('the radio group has a single tab stop (roving tabindex)', async () => {
+      const wrapper = mountNavGroup()
+
+      // the checked radio is the tab stop
+      expect(getTabindexes(wrapper)).toStrictEqual(['0', '-1', '-1'])
+
+      await wrapper.setProps({ modelValue: navOptions[2].value })
+      expect(getTabindexes(wrapper)).toStrictEqual(['-1', '-1', '0'])
+
+      // without an (enabled) checked radio,
+      // the first enabled one is the tab stop
+      await wrapper.setProps({ modelValue: null })
+      expect(getTabindexes(wrapper)).toStrictEqual(['0', '-1', '-1'])
+
+      await wrapper.setProps({ modelValue: navOptions[1].value })
+      expect(getTabindexes(wrapper)).toStrictEqual(['0', '-1', '-1'])
+    })
+
+    test('arrow keys move focus and selection, wrapping and skipping disabled radios', async () => {
+      const wrapper = mountNavGroup()
+      const radios = wrapper.findAll('.q-radio')
+
+      radios[0].element.focus()
+
+      // ArrowDown skips the disabled radio
+      await radios[0].trigger('keydown', { keyCode: 40 })
+      expect(document.activeElement).toBe(radios[2].element)
+      expect(wrapper.emitted('update:modelValue')).toStrictEqual([
+        [navOptions[2].value]
+      ])
+
+      // ArrowRight wraps around
+      await wrapper.setProps({ modelValue: navOptions[2].value })
+      await radios[2].trigger('keydown', { keyCode: 39 })
+      expect(document.activeElement).toBe(radios[0].element)
+      expect(wrapper.emitted('update:modelValue')[1]).toStrictEqual([
+        navOptions[0].value
+      ])
+
+      // ArrowUp wraps around backwards
+      await wrapper.setProps({ modelValue: navOptions[0].value })
+      await radios[0].trigger('keydown', { keyCode: 38 })
+      expect(document.activeElement).toBe(radios[2].element)
+      expect(wrapper.emitted('update:modelValue')[2]).toStrictEqual([
+        navOptions[2].value
+      ])
+    })
+
+    test('horizontal arrow keys are reversed in RTL', async () => {
+      const wrapper = mountNavGroup()
+      const radios = wrapper.findAll('.q-radio')
+
+      wrapper.vm.$q.lang.rtl = true
+
+      try {
+        radios[0].element.focus()
+
+        // ArrowLeft moves to the next radio in RTL
+        await radios[0].trigger('keydown', { keyCode: 37 })
+        expect(document.activeElement).toBe(radios[2].element)
+        expect(wrapper.emitted('update:modelValue')).toStrictEqual([
+          [navOptions[2].value]
+        ])
+      } finally {
+        wrapper.vm.$q.lang.rtl = false
+      }
+    })
+
+    test('checkboxes and toggles each remain their own tab stop', async () => {
+      for (const type of ['checkbox', 'toggle']) {
+        const wrapper = mount(QOptionGroup, {
+          attachTo: document.body,
+          props: { modelValue: [], options, type }
+        })
+        const controls = wrapper.findAll(`.q-${type}`)
+
+        expect(
+          controls.map(control => control.attributes('tabindex'))
+        ).toStrictEqual(['0', '0'])
+
+        // arrow keys are left alone
+        controls[0].element.focus()
+        await controls[0].trigger('keydown', { keyCode: 40 })
+        expect(document.activeElement).toBe(controls[0].element)
+        expect(wrapper.emitted('update:modelValue')).toBeUndefined()
+      }
+    })
+  })
 })

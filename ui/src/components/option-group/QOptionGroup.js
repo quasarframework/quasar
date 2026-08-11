@@ -1,10 +1,11 @@
-import { computed, getCurrentInstance, h } from 'vue'
+import { computed, getCurrentInstance, h, ref, toRaw } from 'vue'
 
 import QRadio from '../radio/QRadio.js'
 import QCheckbox from '../checkbox/QCheckbox.js'
 import QToggle from '../toggle/QToggle.js'
 
 import { createComponent } from '../../utils/private.create/create.js'
+import { stopAndPrevent } from '../../utils/event/event.js'
 
 import useDark, {
   useDarkProps
@@ -85,6 +86,8 @@ export default /*#__PURE__*/ createComponent({
     const isDark = useDark(props, $q)
     const component = computed(() => components[props.type])
 
+    const rootRef = ref(null)
+
     const getOptionValue = computed(() =>
       getPropValueFn(props.optionValue, 'value')
     )
@@ -111,6 +114,19 @@ export default /*#__PURE__*/ createComponent({
       }))
     )
 
+    // the single tab stop of the radiogroup (roving tabindex):
+    // the checked radio, or the first enabled one when there is
+    // no (enabled) checked radio
+    const tabStopIndex = computed(() => {
+      const model = toRaw(props.modelValue)
+      const list = innerOptions.value
+      const index = list.findIndex(
+        opt => !opt.disable && toRaw(opt.val) === model
+      )
+
+      return index !== -1 ? index : list.findIndex(opt => !opt.disable)
+    })
+
     const classes = computed(
       () =>
         'q-option-group q-gutter-x-sm' +
@@ -135,12 +151,56 @@ export default /*#__PURE__*/ createComponent({
       emit('update:modelValue', value)
     }
 
+    // WAI-ARIA radiogroup pattern: arrow keys move focus inside
+    // the group (wrapping, skipping disabled radios) and also
+    // select the newly focused radio
+    function onKeydown(e) {
+      const dirKey =
+        e.keyCode === 37 /* ArrowLeft */ || e.keyCode === 38 /* ArrowUp */
+          ? -1
+          : e.keyCode === 39 /* ArrowRight */ ||
+              e.keyCode === 40 /* ArrowDown */
+            ? 1
+            : 0
+
+      if (dirKey === 0) return
+
+      const radioEls = rootRef.value.getElementsByClassName('q-radio')
+      const startIndex = Array.prototype.indexOf.call(radioEls, e.target)
+      if (startIndex === -1) return
+
+      stopAndPrevent(e)
+
+      const dir =
+        (e.keyCode === 37 || e.keyCode === 39) && $q.lang.rtl === true
+          ? -dirKey
+          : dirKey
+
+      const list = innerOptions.value
+      const len = list.length
+
+      let index = startIndex
+      do {
+        index = (index + dir + len) % len
+      } while (index !== startIndex && list[index].disable)
+
+      if (index !== startIndex) {
+        radioEls[index].focus()
+
+        if (toRaw(list[index].val) !== toRaw(props.modelValue)) {
+          emit('update:modelValue', list[index].val)
+        }
+      }
+    }
+
     return () =>
       h(
         'div',
         {
+          ref: rootRef,
           class: classes.value,
-          ...attrs.value
+          ...attrs.value,
+          onKeydown: props.type === 'radio' ? onKeydown : void 0
         },
         props.options.map((opt, i) => {
           // TODO: (Qv3) Make the 'opt' a separate property instead of
@@ -160,7 +220,13 @@ export default /*#__PURE__*/ createComponent({
                 label: child === void 0 ? getOptionLabel.value(opt) : null,
                 modelValue: props.modelValue,
                 'onUpdate:modelValue': onUpdateModelValue,
-                ...innerOptions.value[i]
+                ...innerOptions.value[i],
+                tabindex:
+                  props.type === 'radio'
+                    ? i === tabStopIndex.value
+                      ? 0
+                      : -1
+                    : void 0
               },
               child
             )
