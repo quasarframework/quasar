@@ -639,4 +639,43 @@ describe('[QStepper API]', () => {
       })
     })
   })
+
+  describe('[Accessibility]', () => {
+    test.each([
+      ['horizontal', {}],
+      ['vertical', { vertical: true }]
+    ])('renders no tabs-pattern roles (%s mode)', (_, props) => {
+      const wrapper = mountStepper(props)
+
+      expect(wrapper.findAll('[role="tablist"]')).toHaveLength(0)
+      expect(wrapper.findAll('[role="tabpanel"]')).toHaveLength(0)
+    })
+
+    test('each step is a group labeled with its title', () => {
+      const wrapper = mountStepper()
+      const step = wrapper.get('.q-stepper__step')
+
+      expect(step.attributes('role')).toBe('group')
+      expect(step.attributes('aria-label')).toBe('STEP-A')
+    })
+
+    test.each([
+      ['with', { headerNav: true }],
+      ['without', {}]
+    ])(
+      'the active header conveys aria-current="step" (%s header navigation)',
+      async (_, props) => {
+        const wrapper = mountStepper(props)
+        const headers = getHeaders(wrapper)
+
+        expect(headers[0].attributes('aria-current')).toBe('step')
+        expect(headers[1].attributes('aria-current')).toBeUndefined()
+
+        await wrapper.setProps({ modelValue: 'step-b' })
+
+        expect(headers[0].attributes('aria-current')).toBeUndefined()
+        expect(headers[1].attributes('aria-current')).toBe('step')
+      }
+    )
+  })
 })

@@ -50,6 +50,10 @@ If the QStep content also has images and you want to use swipe actions to naviga
 
 <DocExample title="Linear header navigation" file="LinearNavigation" />
 
+### Accessibility <q-badge label="v2.25+" />
+
+The active step's header carries `aria-current="step"` so screen readers announce the user's position in the process, and each step's content renders as a `group` labeled with the step's `title`. Navigable headers (see the `header-nav` prop) are exposed as buttons.
+
 ### Header options
 
 <DocExample title="Signaling step error" file="StepError" />

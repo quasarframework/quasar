@@ -24,6 +24,7 @@ import useFullscreen, {
 import { createComponent } from '../../utils/private.create/create.js'
 import { isNumber } from '../../utils/is/is.js'
 import { hDir, hMergeSlot } from '../../utils/private.render/render.js'
+import { stopAndPrevent } from '../../utils/event/event.js'
 
 const navigationPositionOptions = ['top', 'right', 'bottom', 'left']
 const controlTypeOptions = ['regular', 'flat', 'outline', 'push', 'unelevated']
@@ -197,7 +198,63 @@ export default /*#__PURE__*/ createComponent({
       if (timer !== null) clearTimeout(timer)
     })
 
+    // WAI-ARIA tabbed carousel pattern: arrow keys move both focus and
+    // selection inside the navigation tablist, wrapping around; Home/End
+    // jump to the first/last slide
+    function onNavigationKeydown(e) {
+      if (e.altKey || e.metaKey) return
+
+      const list = getEnabledPanels()
+      const len = list.length
+      if (len === 0) return
+
+      let target
+
+      if (e.keyCode === 36) {
+        // Home
+        target = 0
+      } else if (e.keyCode === 35) {
+        // End
+        target = len - 1
+      } else {
+        const dirPrev =
+          e.keyCode === (props.vertical ? 38 /* ArrowUp */ : 37) /* ArrowLeft */
+        const dirNext =
+          e.keyCode ===
+          (props.vertical ? 40 /* ArrowDown */ : 39) /* ArrowRight */
+
+        if (!dirPrev && !dirNext) return
+
+        const dir =
+          (dirNext ? 1 : -1) *
+          (!props.vertical && $q.lang.rtl === true ? -1 : 1)
+        const index = list.findIndex(
+          panel => panel.props.name === props.modelValue
+        )
+
+        target =
+          index === -1 ? (dir === 1 ? 0 : len - 1) : (index + dir + len) % len
+      }
+
+      stopAndPrevent(e)
+
+      const { name } = list[target].props
+      if (name !== props.modelValue) goToPanel(name)
+
+      // selection follows focus
+      e.currentTarget.children[target]?.focus()
+    }
+
     function getNavigationContainer(type, mapping) {
+      const panelList = getEnabledPanels()
+
+      // the single Tab stop of the tablist (roving tabindex):
+      // the active element, or the first one when none is active
+      const activeIndex = panelList.findIndex(
+        panel => panel.props.name === props.modelValue
+      )
+      const tabStopIndex = activeIndex === -1 ? 0 : activeIndex
+
       return h(
         'div',
         {
@@ -210,9 +267,14 @@ export default /*#__PURE__*/ createComponent({
           h(
             'div',
             {
-              class: 'q-carousel__navigation-inner flex flex-center no-wrap'
+              class: 'q-carousel__navigation-inner flex flex-center no-wrap',
+              role: 'tablist',
+              'aria-orientation': props.vertical ? 'vertical' : 'horizontal',
+              onKeydown: onNavigationKeydown
             },
-            getEnabledPanels().map(mapping)
+            panelList.map((panel, index) =>
+              mapping(panel, index, index === tabStopIndex)
+            )
           )
         ]
       )
@@ -235,9 +297,9 @@ export default /*#__PURE__*/ createComponent({
 
         const maxIndex = panelsLen - 1
         node.push(
-          getNavigationContainer('buttons', (panel, index) => {
+          getNavigationContainer('buttons', (panel, index, isTabStop) => {
             const name = panel.props.name
-            const active = panelIndex.value === index
+            const active = name === props.modelValue
 
             return fn({
               index,
@@ -247,7 +309,11 @@ export default /*#__PURE__*/ createComponent({
               btnProps: {
                 icon: active ? navActiveIcon.value : navIcon.value,
                 size: 'sm',
-                ...controlProps.value
+                ...controlProps.value,
+                role: 'tab',
+                'aria-selected': active ? 'true' : 'false',
+                'aria-label': String(name),
+                tabindex: isTabStop ? 0 : -1
               },
               onClick: () => {
                 goToPanel(name)
@@ -260,15 +326,20 @@ export default /*#__PURE__*/ createComponent({
           props.controlColor !== void 0 ? ` text-${props.controlColor}` : ''
 
         node.push(
-          getNavigationContainer('thumbnails', panel => {
+          getNavigationContainer('thumbnails', (panel, _, isTabStop) => {
             const slide = panel.props
+            const active = slide.name === props.modelValue
 
             return h('img', {
               key: 'tmb#' + slide.name,
               class:
-                `q-carousel__thumbnail q-carousel__thumbnail--${slide.name === props.modelValue ? '' : 'in'}active` +
+                `q-carousel__thumbnail q-carousel__thumbnail--${active ? '' : 'in'}active` +
                 color,
               src: slide.imgSrc || slide['img-src'],
+              role: 'tab',
+              'aria-selected': active ? 'true' : 'false',
+              'aria-label': String(slide.name),
+              tabindex: isTabStop ? 0 : -1,
               onClick: () => {
                 goToPanel(slide.name)
               }

@@ -146,14 +146,16 @@ export default /*#__PURE__*/ createComponent({
     }
 
     return () => {
-      const data = { class: classes.value }
+      const data = {
+        class: classes.value,
+        'aria-current': isActive.value ? 'step' : void 0
+      }
 
       if (headerNav.value) {
         data.onClick = onActivate
         data.onKeydown = preventSpace
         data.onKeyup = onKeyup
         data.role = 'button'
-        data['aria-current'] = isActive.value ? 'step' : void 0
 
         Object.assign(
           data,

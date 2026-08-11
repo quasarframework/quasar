@@ -142,7 +142,10 @@ export default /*#__PURE__*/ createComponent({
         {
           ref: rootRef,
           class: 'q-stepper__step',
-          role: 'tabpanel',
+          // steppers are not a WAI-ARIA tabs pattern (the active step is
+          // conveyed through aria-current on the header instead)
+          role: 'group',
+          'aria-label': props.title,
           ...scrollEvent.value
         },
         $stepper.value.vertical

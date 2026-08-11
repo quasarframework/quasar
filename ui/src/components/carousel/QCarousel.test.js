@@ -868,4 +868,141 @@ describe('[QCarousel API]', () => {
       })
     })
   })
+
+  describe('[Accessibility]', () => {
+    function getTabs(wrapper) {
+      return wrapper.findAll('.q-carousel__navigation-inner [role="tab"]')
+    }
+
+    test('the navigation dots form a tablist with a single Tab stop', async () => {
+      const wrapper = mountCarousel({ navigation: true })
+      const tablist = wrapper.get('.q-carousel__navigation-inner')
+
+      expect(tablist.attributes('role')).toBe('tablist')
+      expect(tablist.attributes('aria-orientation')).toBe('horizontal')
+
+      const dots = getTabs(wrapper)
+      expect(dots).toHaveLength(3)
+      expect(dots[0].attributes('aria-label')).toBe('slide-a')
+      expect(dots.map(dot => dot.attributes('aria-selected'))).toStrictEqual([
+        'true',
+        'false',
+        'false'
+      ])
+      expect(dots.map(dot => dot.attributes('tabindex'))).toStrictEqual([
+        '0',
+        '-1',
+        '-1'
+      ])
+
+      await wrapper.setProps({ modelValue: 'slide-b' })
+      expect(
+        getTabs(wrapper).map(dot => dot.attributes('tabindex'))
+      ).toStrictEqual(['-1', '0', '-1'])
+    })
+
+    test('arrow keys move focus and selection, wrapping around', async () => {
+      const wrapper = mountCarousel({ navigation: true })
+      const dots = getTabs(wrapper)
+
+      dots[0].element.focus()
+
+      // ArrowRight selects and focuses the next dot
+      await dots[0].trigger('keydown', { keyCode: 39 })
+      expect(document.activeElement).toBe(dots[1].element)
+      expect(wrapper.emitted('update:modelValue')).toStrictEqual([['slide-b']])
+
+      // ArrowLeft wraps around backwards
+      await wrapper.setProps({ modelValue: 'slide-a' })
+      await dots[0].trigger('keydown', { keyCode: 37 })
+      expect(document.activeElement).toBe(dots[2].element)
+      expect(wrapper.emitted('update:modelValue')[1]).toStrictEqual(['slide-c'])
+    })
+
+    test('horizontal arrow keys are reversed in RTL', async () => {
+      const wrapper = mountCarousel({ navigation: true })
+      const dots = getTabs(wrapper)
+
+      wrapper.vm.$q.lang.rtl = true
+
+      try {
+        dots[0].element.focus()
+
+        // ArrowLeft moves to the next dot in RTL
+        await dots[0].trigger('keydown', { keyCode: 37 })
+        expect(document.activeElement).toBe(dots[1].element)
+        expect(wrapper.emitted('update:modelValue')).toStrictEqual([
+          ['slide-b']
+        ])
+      } finally {
+        wrapper.vm.$q.lang.rtl = false
+      }
+    })
+
+    test('vertical carousels navigate with the up / down arrow keys', async () => {
+      const wrapper = mountCarousel({ navigation: true, vertical: true })
+      const dots = getTabs(wrapper)
+
+      expect(
+        wrapper
+          .get('.q-carousel__navigation-inner')
+          .attributes('aria-orientation')
+      ).toBe('vertical')
+
+      dots[0].element.focus()
+
+      // horizontal arrow keys are left alone
+      await dots[0].trigger('keydown', { keyCode: 39 })
+      expect(wrapper.emitted('update:modelValue')).toBeUndefined()
+
+      await dots[0].trigger('keydown', { keyCode: 40 })
+      expect(document.activeElement).toBe(dots[1].element)
+      expect(wrapper.emitted('update:modelValue')).toStrictEqual([['slide-b']])
+    })
+
+    test('Home and End move focus and selection to the first / last slide', async () => {
+      const wrapper = mountCarousel({ navigation: true })
+      const dots = getTabs(wrapper)
+
+      dots[0].element.focus()
+
+      await dots[0].trigger('keydown', { keyCode: 35 })
+      expect(document.activeElement).toBe(dots[2].element)
+      expect(wrapper.emitted('update:modelValue')).toStrictEqual([['slide-c']])
+
+      // Home on the already selected slide only moves focus
+      await wrapper.setProps({ modelValue: 'slide-a' })
+      await dots[2].trigger('keydown', { keyCode: 36 })
+      expect(document.activeElement).toBe(dots[0].element)
+      expect(wrapper.emitted('update:modelValue')).toHaveLength(1)
+    })
+
+    test('thumbnails form a keyboard-navigable tablist too', async () => {
+      const wrapper = mountCarousel({ thumbnails: true }, [
+        ['slide-a', createCounter('SlideA'), { imgSrc: 'img-a.png' }],
+        ['slide-b', createCounter('SlideB'), { imgSrc: 'img-b.png' }]
+      ])
+
+      expect(
+        wrapper.get('.q-carousel__navigation-inner').attributes('role')
+      ).toBe('tablist')
+
+      const thumbnails = getTabs(wrapper)
+      expect(thumbnails).toHaveLength(2)
+      expect(thumbnails[0].element.tagName).toBe('IMG')
+      expect(thumbnails[0].attributes('aria-label')).toBe('slide-a')
+      expect(
+        thumbnails.map(thumbnail => thumbnail.attributes('aria-selected'))
+      ).toStrictEqual(['true', 'false'])
+      expect(
+        thumbnails.map(thumbnail => thumbnail.attributes('tabindex'))
+      ).toStrictEqual(['0', '-1'])
+
+      thumbnails[0].element.focus()
+
+      await thumbnails[0].trigger('keydown', { keyCode: 39 })
+      expect(document.activeElement).toBe(thumbnails[1].element)
+      expect(wrapper.emitted('update:modelValue')).toStrictEqual([['slide-b']])
+    })
+  })
 })

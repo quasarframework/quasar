@@ -61,6 +61,12 @@ For a full list of properties of the `navigation-icon` slot, please consult the 
 
 <DocExample title="Custom navigation" file="CustomNavigation" />
 
+### Keyboard navigation <q-badge label="v2.25+" />
+
+The navigation buttons (and the thumbnails, when using the `thumbnails` prop) follow the [WAI-ARIA carousel pattern](https://www.w3.org/WAI/ARIA/apg/patterns/carousel/) with a tabbed interface: they form a single Tab stop, while the arrow keys move focus within them and also select the newly focused slide, wrapping around at either end. Horizontal carousels use `Arrow Left` and `Arrow Right` (reversed in RTL mode); vertical ones use `Arrow Up` and `Arrow Down`. `Home` or `End` jumps to the first or last slide.
+
+Each navigation element gets its slide's `name` as the accessible label — pick meaningful slide names, or supply your own labels through the `navigation-icon` slot (spread its `btnProps`, which include the ARIA attributes, then override what you need).
+
 ### Auto padding
 
 Below is an example with which you can play with different QCarousel settings so you can see the padding (or lack of) in action:
