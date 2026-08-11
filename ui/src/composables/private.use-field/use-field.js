@@ -214,12 +214,24 @@ export default function useField(state) {
       : void 0
   )
 
+  // render-path only - never call it from a computed: it reads slot
+  // presence, which is not reactive and must not be cached
   function getErrorAriaAttrs(controlAttrs) {
     if (hasError.value !== true) return {}
 
     const acc = { 'aria-invalid': 'true' }
 
-    if (errorMessageId.value !== void 0) {
+    if (
+      errorMessageId.value !== void 0 &&
+      // getBottom() skips the messages element (the id owner) when
+      // hideBottomSpace is set with no counter and no message content
+      // (keep in sync) - the references must not point to a missing id
+      (!props.hideBottomSpace ||
+        props.counter ||
+        slots.counter !== void 0 ||
+        errorMessage.value !== null ||
+        slots.error !== void 0)
+    ) {
       acc['aria-errormessage'] =
         controlAttrs?.['aria-errormessage'] !== void 0
           ? controlAttrs['aria-errormessage']

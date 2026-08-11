@@ -168,8 +168,6 @@ export default /*#__PURE__*/ createComponent({
         readonly: props.readonly
       }
 
-      Object.assign(acc, state.getErrorAriaAttrs(acc))
-
       if (!isTextarea.value) {
         acc.type = props.type
       }
@@ -523,17 +521,23 @@ export default /*#__PURE__*/ createComponent({
           fieldValueIsFilled(props.displayValue)
       ),
 
-      getControl: () =>
-        h(isTextarea.value ? 'textarea' : 'input', {
+      getControl: () => {
+        const controlAttrs = inputAttrs.value
+
+        return h(isTextarea.value ? 'textarea' : 'input', {
           ref: inputRef,
           class: ['q-field__native q-placeholder', props.inputClass],
           style: props.inputStyle,
-          ...inputAttrs.value,
+          ...controlAttrs,
+          // render-path merge: getErrorAriaAttrs() reads slot presence,
+          // which is not reactive, so a computed must not cache it
+          ...state.getErrorAriaAttrs(controlAttrs),
           ...onEvents.value,
           ...(props.type !== 'file'
             ? { value: getCurValue() }
             : formDomProps.value)
-        }),
+        })
+      },
 
       getShadowControl: () =>
         h(

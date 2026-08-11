@@ -1293,6 +1293,30 @@ describe('[QInput API]', () => {
       expect(noError.get('input').attributes('aria-invalid')).toBeUndefined()
     })
 
+    test('drops the error message references when no message renders', () => {
+      // hide-bottom-space with no counter and no message content skips
+      // the messages element entirely, so the ARIA references must not
+      // point to a missing id
+      const wrapper = mountInput({ error: true, hideBottomSpace: true })
+      const input = wrapper.get('input')
+
+      expect(wrapper.find('.q-field__messages').exists()).toBe(false)
+      expect(input.attributes('aria-invalid')).toBe('true')
+      expect(input.attributes('aria-errormessage')).toBeUndefined()
+      expect(input.attributes('aria-describedby')).toBeUndefined()
+
+      const withMessage = mountInput({
+        error: true,
+        hideBottomSpace: true,
+        errorMessage: 'Required'
+      })
+      const messageId = withMessage.get('.q-field__messages').attributes('id')
+
+      expect(withMessage.get('input').attributes('aria-errormessage')).toBe(
+        messageId
+      )
+    })
+
     test('links the native control to the error message', () => {
       const wrapper = mountInput({ error: true, errorMessage: 'Required' })
 
