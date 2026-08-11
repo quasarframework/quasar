@@ -47,8 +47,9 @@ _The schedule may change based on unforeseen and/or out of the ordinary circumst
 - ✌️ (DONE) Release of a new major version of `@quasar/app-vite` (v3): [Announcement](https://github.com/quasarframework/quasar/discussions/18295)
 - ✌️ (DONE) New Quasar CLI mode: SSG in `@quasar/app-vite` (v3.1): [Announcement](https://github.com/quasarframework/quasar/discussions/18354)
 - ✌️ (DONE) Release of `@quasar/icongenie` v6. An important update to handle all edge cases and add support for more iPhones & iPads.
+- ✌️ (DONE) Revamp Quasar testing. Full testing for all Quasar packages.
 
-### Q3-Q4 2026
+### Q4 2026
 
 - Plans for Quasar v3. We will need your input on some of the decisions that we will be taking for the new major version.
 - ✌️ (DONE) Critical CSS path for SSR & SSG dev modes (avoids FOUC on development)

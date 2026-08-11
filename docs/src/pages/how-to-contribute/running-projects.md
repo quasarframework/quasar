@@ -1,31 +1,37 @@
 ---
-title: Active Project, Goals and Maintainers
-desc: Quasar's active projects, goals and maintainers.
+title: Active Projects and Goals
+desc: Quasar's active project areas and where new maintainers are needed.
 ---
 
-## List of Projects with Active Maintainer
+## Active Project Areas
 
-| Project                 | Responsibility                                                                           | Maintainer   | Repo, Links                                                                                                                                         |
-| ----------------------- | ---------------------------------------------------------------------------------------- | ------------ | --------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Core UI, CLI, IconGenie | Ultimate responsibility of the Quasar, Quasar Core                                       | Razvan       | [Main repo](https://github.com/quasarframework/quasar)                                                                                              |
-| Media                   | Quasar is well known in JavaScript / Vue.js / backend / mobile and desktop dev community | Scott        | [Facebook](https://www.facebook.com/QuasarFramework), [Medium](https://medium.com/quasar-framework), [Twitter](https://twitter.com/quasarframework) |
-| UI App Ext              | Create and maintain UI extensions                                                        | Jeff         |                                                                                                                                                     |
-| Quasar ESLint plugin    | Plugin for ESLint with Quasar upgrade support warnings                                   | Jeff         | [repo](https://github.com/quasarframework/eslint-plugin-quasar)                                                                                     |
-| TypeScript support      | Full TypeScript support for Quasar                                                       | Yusuf, Paolo | [Main repo](https://github.com/quasarframework/quasar)                                                                                              |
-| Quasar Testing AE       | Maintenance and enhancements                                                             | Paolo        | [repo](https://github.com/quasarframework/quasar-testing)                                                                                           |
-| Apollo Client AE        | Creator and maintainer                                                                   | Scott        | [repo](https://github.com/quasarframework/app-extension-apollo)                                                                                     |
+These are the areas the Quasar core team and project maintainers actively develop and support:
 
-## List of Projects Where New Maintainer is Needed
+| Project area                      | Responsibility                                                                             | Repo, Links                                                             |
+| --------------------------------- | ------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------- |
+| Quasar UI                         | The `quasar` UI library - components, directives, plugins, composables, TypeScript support | [Main repo](https://github.com/quasarframework/quasar) (`/ui`)          |
+| CLIs                              | `@quasar/cli`, `@quasar/app-vite`, `@quasar/app-webpack`, `create-quasar`                  | [Main repo](https://github.com/quasarframework/quasar)                  |
+| Vite plugin                       | `@quasar/vite-plugin` for vanilla Vite apps                                                | [Main repo](https://github.com/quasarframework/quasar) (`/vite-plugin`) |
+| Icon Genie & Extras               | `@quasar/icongenie`, `@quasar/extras`                                                      | [Main repo](https://github.com/quasarframework/quasar)                  |
+| Documentation                     | This very website                                                                          | [Main repo](https://github.com/quasarframework/quasar) (`/docs`)        |
+| Testing App Extensions            | `@quasar/testing-*` harnesses for unit and e2e testing                                     | [quasar-testing](https://github.com/quasarframework/quasar-testing)     |
+| Official App Extensions & UI kits | `@quasar/apollo`, `@quasar/qcalendar`, `@quasar/qmarkdown` and friends                     | [Discover App Extensions](/app-extensions/discover)                     |
 
-These projects are an inevitable part of the Quasar Framework, but to keep on our promise "to raise the bar for web development as a whole" we are looking for an active maintainer.
+## Where a New Maintainer Is Needed
 
-If you are interested, read [The Role of the Project Maintainer](/how-to-contribute/project-maintainer) and let Razvan know via [Discord chat](https://chat.quasar.dev/).
+These project areas are an inevitable part of the Quasar Framework, but to keep our promise "to raise the bar for web development as a whole" we are looking for active maintainers for them.
 
-We can promise you that your Javascript and Vue.js skills will reach the stars!
+If you are interested, read [The Role of the Project Maintainer](/how-to-contribute/project-maintainer) and let the core team know via the [Discord chat](https://chat.quasar.dev/).
 
-| Project        | Required Skills              | Links                                                                   |
-| -------------- | ---------------------------- | ----------------------------------------------------------------------- |
-| Cordova mode   | Apache Cordova               | [app-vite](https://github.com/quasarframework/quasar/tree/dev/app-vite) |
-| Capacitor mode | Capacitor                    | [app-vite](https://github.com/quasarframework/quasar/tree/dev/app-vite) |
-| Electron mode  | Maintenance and enhancements | [app-vite](https://github.com/quasarframework/quasar/tree/dev/app-vite) |
-| BEX            | Browser Extension            | [app-vite](https://github.com/quasarframework/quasar/tree/dev/app-vite) |
+We can promise you that your JavaScript and Vue.js skills will reach the stars!
+
+| Project area   | Required Skills                | Links                                                                   |
+| -------------- | ------------------------------ | ----------------------------------------------------------------------- |
+| SPA mode       | Vue, Vite                      | [app-vite](https://github.com/quasarframework/quasar/tree/dev/app-vite) |
+| SSR mode       | Server-side rendering, Node.js | [app-vite](https://github.com/quasarframework/quasar/tree/dev/app-vite) |
+| SSG mode       | Static site generation         | [app-vite](https://github.com/quasarframework/quasar/tree/dev/app-vite) |
+| PWA mode       | Service Workers, Workbox       | [app-vite](https://github.com/quasarframework/quasar/tree/dev/app-vite) |
+| Cordova mode   | Apache Cordova                 | [app-vite](https://github.com/quasarframework/quasar/tree/dev/app-vite) |
+| Capacitor mode | Capacitor                      | [app-vite](https://github.com/quasarframework/quasar/tree/dev/app-vite) |
+| Electron mode  | Electron                       | [app-vite](https://github.com/quasarframework/quasar/tree/dev/app-vite) |
+| BEX mode       | Browser Extensions             | [app-vite](https://github.com/quasarframework/quasar/tree/dev/app-vite) |

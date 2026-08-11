@@ -12,22 +12,21 @@ desc: Quasar commit conventions
 This rule applies to ALL [Quasar repositories](https://github.com/quasarframework).
 :::
 
-Well-cared log is a beautiful and useful thing. `git blame`, `revert`, `rebase`, `log`, `shortlog` and other subcommands come to life. Reviewing others’ commits and pull requests becomes something worth doing, and suddenly can be done independently. Understanding why something happened months or years ago becomes not only possible but efficient.
+A well-cared log is a beautiful and useful thing. `git blame`, `revert`, `rebase`, `log`, `shortlog` and other subcommands come to life. Reviewing others' commits and pull requests becomes something worth doing, and suddenly can be done independently. Understanding why something happened months or years ago becomes not only possible but efficient.
 
 ## The Rules of a Great Git Commit Message
 
 1. Separate subject from body with a blank line
 2. Limit the subject line to 70 characters
-3. Capitalize the subject line
-4. Do not end the subject line with a period
-5. Use the imperative mood in the subject line
-6. Wrap the body at 80 characters
-7. Use the body to explain what and why vs. how
+3. Do not end the subject line with a period
+4. Use the imperative mood in the subject line
+5. Wrap the body at 80 characters
+6. Use the body to explain what and why vs. how
 
 ## Format of a Commit Message
 
 ```
-type(<scope>): <Subject> #<github-ref-id>
+<type>(<scope>): <subject> (fix #<github-ref-id>)
 
 <body>
 
@@ -37,20 +36,16 @@ type(<scope>): <Subject> #<github-ref-id>
 ### Example of a Commit Message
 
 ```
-fix(ui): Ensure Range headers adhere more closely to RFC 2616 #2310
+fix(ui): QVirtualScroll SSR-rendered padding mismatching the client's (fix #12345)
 
-To add new dependency use `range-parser`to compute the range.
-It is more well-tested in the wild.
-
-BREAKING CHANGE:
-port-runner command line option has changed to runner-port.
-To migrate your project, change all the commands,
-where you use --port-runner to --runner-port.
+The initial window rendered on the server used the default size for every
+entry, while the client recomputed it from the actual viewport, producing
+a hydration mismatch. Compute the initial window identically on both sides.
 ```
 
 ## Message Subject (First Line)
 
-The first line cannot be longer than 70 characters, the second line is always blank. The type and scope should always be lowercase as shown below.
+The first line cannot be longer than 70 characters, the second line is always blank. The type and scope should always be lowercase. Start the subject in lowercase too - words are only capitalized when they are proper names (`QVirtualScroll`, `Screen` plugin, `SSR`, `Electron`, ...).
 
 **Allowed `<type>` values:**
 
@@ -68,18 +63,20 @@ The first line cannot be longer than 70 characters, the second line is always bl
 
 **Example `<scope>` values:**
 
-- Directory/package related: ui, cli, app-vite, etc.
+- Directory/package related: ui, cli, app-vite, docs, etc.
 - Feature related: api, TouchSwipe, QTime, etc.
 
 ::: tip
-The `<scope>` can contain more values separated by ampersand(`&`). Example: `feat(app-vite&app-webpack): Add Capacitor mode`.
+The `<scope>` can contain more values separated by ampersand(`&`). Example: `feat(app-vite&app-webpack): add Capacitor mode`.
 
-The `<scope>` can be empty (e.g. if the change is global), in which case the parentheses are omitted. Example: `style: Use semicolons`
+The `<scope>` can be empty (e.g. if the change is global), in which case the parentheses are omitted. Example: `style: use semicolons`
 :::
+
+If the commit resolves a reported issue, append `(fix #xxxx)` (#xxxx is the issue id) to the subject - it links the issue and produces a better release log.
 
 ## Message Body
 
-- uses the imperative, present tense: “change” not “changed” nor “changes”
+- uses the imperative, present tense: "change" not "changed" nor "changes"
 - includes motivation for the change and contrasts with previous behavior
 
 ## Message Footer
@@ -89,35 +86,16 @@ The `<scope>` can be empty (e.g. if the change is global), in which case the par
 All breaking changes have to be mentioned as a breaking change block in the footer, which should start with the word BREAKING CHANGE: with a space or two newlines. The rest of the commit message is then the description of the change, justification and migration notes.
 
 ```
-BREAKING CHANGE: isolate scope bindings definition has changed and
-    the inject option for the directive controller injection was removed.
+BREAKING CHANGE: the `port-runner` command line option has changed
+    to `runner-port`.
 
-    To migrate the code follow the example below:
-
-    Before:
-
-    scope: {
-      myAttr: 'attribute',
-      myBind: 'bind',
-      myExpression: 'expression',
-      myEval: 'evaluate',
-      myAccessor: 'accessor'
-    }
-
-    After:
-
-    scope: {
-      myAttr: '@',
-      myBind: '@',
-      myExpression: '&',
-      // myEval - usually not useful, but in cases where the expression is assignable, you can use '='
-      myAccessor: '=' // in directive's template change myAccessor() to myAccessor
-    }
+    To migrate your project, change all the commands where you use
+    `--port-runner` to `--runner-port`.
 ```
 
 ### Referencing Issues
 
-Closed issues should be listed on a separate line in the footer prefixed with "Closes" keyword like this:
+Closed issues should be listed on a separate line in the footer prefixed with the "Closes" keyword like this:
 
 `Closes #234`
 
