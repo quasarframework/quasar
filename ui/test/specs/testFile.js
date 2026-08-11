@@ -169,7 +169,9 @@ function getTestFileMisconfiguration({ ctx, generator, json, testFile, opts }) {
 
   const categoryList = [
     ...identifiersKeys.map(key => identifiers[key].categoryId),
-    '[Generic]'
+    // free-form categories: not generated, but accepted by validation
+    '[Generic]',
+    '[Accessibility]'
   ]
 
   const categoryTestIdMap = identifiersKeys.reduce((acc, key) => {

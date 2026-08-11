@@ -83,6 +83,18 @@ $ pnpm test:specs --target <target_file>
 
 ...and that all the tests are passing!
 
+### Free-form categories
+
+Besides the generated categories (`[Props]`, `[Slots]`, `[Events]`,
+`[Methods]`, ...), validation also accepts two hand-written ones:
+
+- `[Generic]` — behavioral coverage that does not map to a specific API
+  entry (it is also the fallback the script generates for API-less files)
+- `[Accessibility]` — keyboard interaction and ARIA semantics coverage
+
+Their contents are free-form (any describe/test structure), but they must
+not be left empty.
+
 ### Steps for adding new sections to a test file
 
 So you've added a new prop/method/...etc to a Component/Directive/...etc and you've edited its JSON file (if it has one). This should make the Specs script to output an error that some tests are missing for the respective test file.
