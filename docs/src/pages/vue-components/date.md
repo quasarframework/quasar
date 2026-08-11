@@ -27,6 +27,8 @@ Notice that the actual date(s) of the model are all in String format.
 
 <DocExample title="Basic" file="Basic" overflow />
 
+The calendar days form a single Tab stop: use the <kbd>Arrow</kbd> keys to move between days (crossing into the adjacent month at the edges), <kbd>Home</kbd> / <kbd>End</kbd> to jump to the start/end of the week, and <kbd>PageUp</kbd> / <kbd>PageDown</kbd> to switch to the previous/next month (with <kbd>Shift</kbd>: year). Each day announces its full date to screen readers, along with its selection state and whether it is today.
+
 ::: tip
 For landscape mode, you can use it along with `$q.screen` to make QDate responsive. Example: `:landscape="$q.screen.gt.xs"`. More info: [Quasar Screen Plugin](/options/screen-plugin).
 :::

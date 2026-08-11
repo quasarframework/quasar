@@ -1144,5 +1144,97 @@ describe('[QDate API]', () => {
       expect(march.text()).toBe(langEn.date.monthsShort[2])
       expect(march.attributes('aria-label')).toBe(langEn.date.months[2])
     })
+
+    test('the day grid exposes a single Tab stop, on the selected day', () => {
+      const wrapper = mountDate()
+
+      const stops = wrapper
+        .findAll('.q-date__calendar-days .q-btn')
+        .filter(btn => btn.attributes('tabindex') === '0')
+
+      expect(stops).toHaveLength(1)
+      expect(stops[0].text()).toBe('23')
+      expect(getDayBtn(wrapper, 10).attributes('tabindex')).toBe('-1')
+    })
+
+    test('arrow keys move the day focus without selecting', async () => {
+      const wrapper = mountDate()
+
+      await getDayBtn(wrapper, 23).trigger('keydown', { keyCode: 39 })
+
+      expect(getDayBtn(wrapper, 24).attributes('tabindex')).toBe('0')
+      expect(getDayBtn(wrapper, 23).attributes('tabindex')).toBe('-1')
+
+      await getDayBtn(wrapper, 24).trigger('keydown', { keyCode: 38 })
+
+      expect(getDayBtn(wrapper, 17).attributes('tabindex')).toBe('0')
+      expect(wrapper.emitted('update:modelValue')).toBeUndefined()
+    })
+
+    test('Home/End jump to the edges of the week row', async () => {
+      const wrapper = mountDate()
+
+      // 1995/02 renders 3 leading fill days, so the 19th-25th form a week
+      await getDayBtn(wrapper, 23).trigger('keydown', { keyCode: 36 })
+      expect(getDayBtn(wrapper, 19).attributes('tabindex')).toBe('0')
+
+      await getDayBtn(wrapper, 19).trigger('keydown', { keyCode: 35 })
+      expect(getDayBtn(wrapper, 25).attributes('tabindex')).toBe('0')
+    })
+
+    test('arrows cross month boundaries and keep the grid focusable', async () => {
+      const wrapper = mountDate()
+
+      await getDayBtn(wrapper, 1).trigger('keydown', { keyCode: 37 })
+      await flushPromises()
+      await nextTick()
+
+      expect(getNavButton(wrapper, 'month').text()).toBe(langEn.date.months[0])
+      expect(getDayBtn(wrapper, 31).attributes('tabindex')).toBe('0')
+    })
+
+    test('PageUp/PageDown navigate by month, with Shift by year', async () => {
+      const wrapper = mountDate()
+
+      await getDayBtn(wrapper, 23).trigger('keydown', { keyCode: 34 })
+      await flushPromises()
+      await nextTick()
+
+      expect(getNavButton(wrapper, 'month').text()).toBe(langEn.date.months[2])
+      expect(getDayBtn(wrapper, 23).attributes('tabindex')).toBe('0')
+
+      await getDayBtn(wrapper, 23).trigger('keydown', {
+        keyCode: 33,
+        shiftKey: true
+      })
+      await flushPromises()
+      await nextTick()
+
+      expect(getNavButton(wrapper, 'year').text()).toBe('1994')
+    })
+
+    test('navigation boundaries stop keyboard month crossing', async () => {
+      const wrapper = mountDate({ navigationMinYearMonth: '1995/02' })
+
+      await getDayBtn(wrapper, 1).trigger('keydown', { keyCode: 37 })
+      await flushPromises()
+      await nextTick()
+
+      expect(getNavButton(wrapper, 'month').text()).toBe(langEn.date.months[1])
+    })
+
+    test('day focus moves only through selectable days', async () => {
+      const wrapper = mountDate({
+        options: ['1995/02/10', '1995/02/20']
+      })
+
+      // the model day is not selectable, so the Tab stop falls back
+      // to the first selectable day
+      expect(getDayBtn(wrapper, 10).attributes('tabindex')).toBe('0')
+
+      await getDayBtn(wrapper, 10).trigger('keydown', { keyCode: 39 })
+
+      expect(getDayBtn(wrapper, 20).attributes('tabindex')).toBe('0')
+    })
   })
 })

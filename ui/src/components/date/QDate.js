@@ -143,8 +143,15 @@ export default /*#__PURE__*/ createComponent({
     const injectFormInput = useFormInject(formAttrs)
 
     const blurTargetRef = ref(null)
+    const roverRef = ref(null)
     const innerMask = ref(getMask())
     const innerLocale = ref(getLocale())
+
+    // roving tabindex for the calendar days: the day that currently
+    // owns the grid's single Tab stop, and the day to focus after a
+    // keyboard-initiated month/year jump re-renders the view
+    const focusedDay = ref(null)
+    let pendingFocusDay = null
 
     const mask = computed(() => getMask())
     const locale = computed(() => getLocale())
@@ -794,6 +801,31 @@ export default /*#__PURE__*/ createComponent({
       return res
     })
 
+    const keyboardDays = computed(() =>
+      days.value.filter(day => day.in === true).map(day => day.i)
+    )
+
+    const firstDayOffset = computed(() =>
+      days.value.findIndex(day => day.fill !== true)
+    )
+
+    const roverDay = computed(() => {
+      const list = keyboardDays.value
+      if (list.length === 0) return null
+
+      if (focusedDay.value !== null && list.includes(focusedDay.value)) {
+        return focusedDay.value
+      }
+
+      const target =
+        days.value.find(
+          day =>
+            day.in === true && (day.selected === true || day.rangeFrom === true)
+        ) ?? days.value.find(day => day.in === true && day.today === true)
+
+      return target !== void 0 ? target.i : list[0]
+    })
+
     const attributes = computed(() =>
       props.disable ? { 'aria-disabled': 'true' } : {}
     )
@@ -838,6 +870,34 @@ export default /*#__PURE__*/ createComponent({
       updateValue(innerMask.value, val, 'locale')
       innerLocale.value = val
     })
+
+    watch(
+      viewMonthHash,
+      () => {
+        if (pendingFocusDay !== null) {
+          // a keyboard jump landed here; <= 0 counts back from the
+          // end of the month, positive values clamp to its length
+          const target =
+            pendingFocusDay <= 0
+              ? daysInMonth.value + pendingFocusDay
+              : Math.min(pendingFocusDay, daysInMonth.value)
+          const dir = pendingFocusDay <= 0 ? -1 : 1
+
+          pendingFocusDay = null
+
+          const day =
+            seekDay(Math.max(1, target), dir) ??
+            seekDay(Math.max(1, target), -dir)
+          if (day !== null) {
+            setRover(day)
+          }
+        } else {
+          // the displayed month changed through other means
+          focusedDay.value = null
+        }
+      },
+      { flush: 'post' }
+    )
 
     function setLastValue(v) {
       lastEmitValue = JSON.stringify(v)
@@ -1475,7 +1535,14 @@ export default /*#__PURE__*/ createComponent({
                                   color: day.color,
                                   textColor: day.textColor,
                                   label: day.i,
-                                  tabindex: tabindex.value,
+                                  tabindex:
+                                    day.i === roverDay.value
+                                      ? tabindex.value
+                                      : -1,
+                                  ref:
+                                    day.i === roverDay.value
+                                      ? roverRef
+                                      : void 0,
                                   'aria-label': `${day.i} ${innerLocale.value.months[viewModel.value.month - 1]} ${viewModel.value.year}`,
                                   'aria-pressed':
                                     day.selected === true ||
@@ -1490,6 +1557,12 @@ export default /*#__PURE__*/ createComponent({
                                     },
                                     onMouseover: () => {
                                       onDayMouseover(day.i)
+                                    },
+                                    onFocus: () => {
+                                      onDayFocus(day.i)
+                                    },
+                                    onKeydown: e => {
+                                      onDayKeydown(e, day.i)
                                     }
                                   })
                                 },
@@ -1749,6 +1822,106 @@ export default /*#__PURE__*/ createComponent({
           finalHash: getDayHash(final)
         })
       }
+    }
+
+    function onDayFocus(dayIndex) {
+      focusedDay.value = dayIndex
+      // keyboard parity for the range selection preview
+      onDayMouseover(dayIndex)
+    }
+
+    // nearest selectable day at/after `from`, walking in `dir`
+    // within the displayed month; null if it walks off the month
+    function seekDay(from, dir) {
+      let target = from
+      while (target >= 1 && target <= daysInMonth.value) {
+        if (keyboardDays.value.includes(target)) return target
+        target += dir
+      }
+      return null
+    }
+
+    function setRover(day) {
+      focusedDay.value = day
+      nextTick(() => {
+        roverRef.value?.$el?.focus()
+      })
+    }
+
+    function crossMonth(dir, day) {
+      if (navBoundaries.value.month[dir === -1 ? 'prev' : 'next']) {
+        pendingFocusDay = day
+        goToMonth(dir)
+      }
+    }
+
+    function onDayKeydown(e, dayIndex) {
+      const { keyCode } = e
+
+      if (keyCode === 33 /* PgUp */ || keyCode === 34 /* PgDown */) {
+        stopAndPrevent(e)
+        const dir = keyCode === 33 ? -1 : 1
+
+        if (e.shiftKey) {
+          if (navBoundaries.value.year[dir === -1 ? 'prev' : 'next']) {
+            pendingFocusDay = dayIndex
+            goToYear(dir)
+          }
+        } else {
+          crossMonth(dir, dayIndex)
+        }
+        return
+      }
+
+      if (keyCode < 35 || keyCode > 40) return
+
+      stopAndPrevent(e)
+
+      if (keyCode === 36 /* Home */ || keyCode === 35 /* End */) {
+        const weekPos = (firstDayOffset.value + dayIndex - 1) % 7
+        let target, dir
+
+        if (keyCode === 36) {
+          target = dayIndex - weekPos
+          dir = 1 // snap forward, back toward the origin day
+        } else {
+          target = dayIndex + 6 - weekPos
+          dir = -1
+        }
+
+        const day = seekDay(
+          Math.min(Math.max(target, 1), daysInMonth.value),
+          dir
+        )
+        if (day !== null) {
+          setRover(day)
+        }
+        return
+      }
+
+      let dir, target
+
+      if (keyCode === 38 /* Up */ || keyCode === 40 /* Down */) {
+        dir = keyCode === 38 ? -1 : 1
+        target = dayIndex + 7 * dir
+      } else {
+        // Left/Right follow the visual direction
+        dir = (keyCode === 37 ? -1 : 1) * ($q.lang.rtl === true ? -1 : 1)
+        target = dayIndex + dir
+      }
+
+      if (target >= 1 && target <= daysInMonth.value) {
+        const day = seekDay(target, dir)
+        if (day !== null) {
+          setRover(day)
+          return
+        }
+        // no selectable day left in that direction within this month
+        target = dir === 1 ? daysInMonth.value + 1 : 0
+      }
+
+      // <= 0 counts back from the end of the previous month
+      crossMonth(dir, target <= 0 ? target : target - daysInMonth.value)
     }
 
     // expose public methods
