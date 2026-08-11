@@ -66,17 +66,20 @@
         "ariaInvalid": {
           "type": "String",
           "desc": "Value for the control's 'aria-invalid' attribute when the field has an error",
-          "examples": ["'true'"]
+          "examples": ["'true'"],
+          "addedIn": "v2.25"
         },
         "ariaDescribedby": {
           "type": "String",
           "desc": "Element id for the field error message; Use it for the control's 'aria-describedby' attribute when rendering a custom control",
-          "examples": ["'qf_363270c0-7a83-62b1-8dcf-6dfd64ee38fa_error'"]
+          "examples": ["'qf_363270c0-7a83-62b1-8dcf-6dfd64ee38fa_error'"],
+          "addedIn": "v2.25"
         },
         "ariaErrormessage": {
           "type": "String",
           "desc": "Element id for the field error message; Use it for the control's 'aria-errormessage' attribute when rendering a custom control",
-          "examples": ["'qf_363270c0-7a83-62b1-8dcf-6dfd64ee38fa_error'"]
+          "examples": ["'qf_363270c0-7a83-62b1-8dcf-6dfd64ee38fa_error'"],
+          "addedIn": "v2.25"
         }
       }
     },
