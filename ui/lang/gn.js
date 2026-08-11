@@ -35,7 +35,11 @@ export default {
     nextYear: 'Año oúvo',
     today: "Ko'ẽ",
     prevRangeYears: range => `Opa uvicha ${range} ary`,
-    nextRangeYears: range => `Yvypóra ${range} ary`
+    nextRangeYears: range => `Yvypóra ${range} ary`,
+    hour: 'Aravo',
+    minute: "Aravo'i",
+    second: "Aravo'ive",
+    now: 'Aravo ag̃agua'
   },
   table: {
     noData: "Ni peteĨ mba'e",

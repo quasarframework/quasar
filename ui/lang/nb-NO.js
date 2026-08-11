@@ -35,7 +35,11 @@ export default {
     nextYear: 'Neste år',
     today: 'I dag',
     prevRangeYears: range => `Forrige ${range} år`,
-    nextRangeYears: range => `Neste ${range} år`
+    nextRangeYears: range => `Neste ${range} år`,
+    hour: 'Time',
+    minute: 'Minutt',
+    second: 'Sekund',
+    now: 'Nåværende tid'
   },
   table: {
     noData: 'Ingen data tilgjengelig',

@@ -62,6 +62,23 @@ function preventSpace(e) {
   if (e.keyCode === 32) stopAndPrevent(e)
 }
 
+function getLinkKeydown(step, edge) {
+  return e => {
+    const { keyCode } = e
+
+    if (keyCode === 32) {
+      // activation happens on keyup; only prevent page scroll here
+      stopAndPrevent(e)
+    } else if (keyCode >= 37 && keyCode <= 40) {
+      stopAndPrevent(e)
+      step(keyCode === 38 /* Up */ || keyCode === 39 /* Right */ ? 1 : -1)
+    } else if (keyCode === 35 /* End */ || keyCode === 36 /* Home */) {
+      stopAndPrevent(e)
+      edge(keyCode === 35)
+    }
+  }
+}
+
 function getWheelDist(a, b, threshold) {
   const diff = Math.abs(a - b)
   return Math.min(diff, threshold - diff)
@@ -572,39 +589,130 @@ export default /*#__PURE__*/ createComponent({
       }
     }
 
+    function stepHour(payload) {
+      if (validHours.value !== null) {
+        const values = computedFormat24h.value
+          ? validHours.value.values
+          : validHours.value[isAM.value ? 'am' : 'pm'].values
+
+        if (values.length === 0) return
+
+        if (innerModel.value.hour === null) {
+          setHour(values[0])
+        } else {
+          const index =
+            (values.length + values.indexOf(innerModel.value.hour) + payload) %
+            values.length
+
+          setHour(values[index])
+        }
+      } else {
+        const wrap = computedFormat24h.value ? 24 : 12,
+          offset = !computedFormat24h.value && !isAM.value ? 12 : 0,
+          val =
+            innerModel.value.hour === null ? -payload : innerModel.value.hour
+
+        setHour(offset + ((24 + val + payload) % wrap))
+      }
+    }
+
+    function stepMinute(payload) {
+      if (validMinutes.value !== null) {
+        const values = validMinutes.value.values
+
+        if (values.length === 0) return
+
+        if (innerModel.value.minute === null) {
+          setMinute(values[0])
+        } else {
+          const index =
+            (values.length +
+              values.indexOf(innerModel.value.minute) +
+              payload) %
+            values.length
+
+          setMinute(values[index])
+        }
+      } else {
+        const val =
+          innerModel.value.minute === null ? -payload : innerModel.value.minute
+        setMinute((60 + val + payload) % 60)
+      }
+    }
+
+    function stepSecond(payload) {
+      if (validSeconds.value !== null) {
+        const values = validSeconds.value.values
+
+        if (values.length === 0) return
+
+        if (innerModel.value.second === null) {
+          setSecond(values[0])
+        } else {
+          const index =
+            (values.length +
+              values.indexOf(innerModel.value.second) +
+              payload) %
+            values.length
+
+          setSecond(values[index])
+        }
+      } else {
+        const val =
+          innerModel.value.second === null ? -payload : innerModel.value.second
+        setSecond((60 + val + payload) % 60)
+      }
+    }
+
+    function edgeHour(toEnd) {
+      if (validHours.value !== null) {
+        const values = computedFormat24h.value
+          ? validHours.value.values
+          : validHours.value[isAM.value ? 'am' : 'pm'].values
+
+        if (values.length !== 0) {
+          setHour(toEnd ? values.at(-1) : values[0])
+        }
+      } else if (computedFormat24h.value) {
+        setHour(toEnd ? 23 : 0)
+      } else {
+        // displayed range is 1-12; displayed 12 is hour 0 (AM) / 12 (PM)
+        setHour(toEnd ? (isAM.value ? 0 : 12) : isAM.value ? 1 : 13)
+      }
+    }
+
+    function edgeMinute(toEnd) {
+      if (validMinutes.value !== null) {
+        const values = validMinutes.value.values
+
+        if (values.length !== 0) {
+          setMinute(toEnd ? values.at(-1) : values[0])
+        }
+      } else {
+        setMinute(toEnd ? 59 : 0)
+      }
+    }
+
+    function edgeSecond(toEnd) {
+      if (validSeconds.value !== null) {
+        const values = validSeconds.value.values
+
+        if (values.length !== 0) {
+          setSecond(toEnd ? values.at(-1) : values[0])
+        }
+      } else {
+        setSecond(toEnd ? 59 : 0)
+      }
+    }
+
+    const onKeydownHour = getLinkKeydown(stepHour, edgeHour)
+    const onKeydownMinute = getLinkKeydown(stepMinute, edgeMinute)
+    const onKeydownSecond = getLinkKeydown(stepSecond, edgeSecond)
+
     function onKeyupHour(e) {
       if ([13, 32].includes(e.keyCode)) {
         view.value = 'hour'
         stopAndPrevent(e)
-      } else if ([37, 39].includes(e.keyCode)) {
-        const payload = e.keyCode === 37 ? -1 : 1
-
-        if (validHours.value !== null) {
-          const values = computedFormat24h.value
-            ? validHours.value.values
-            : validHours.value[isAM.value ? 'am' : 'pm'].values
-
-          if (values.length === 0) return
-
-          if (innerModel.value.hour === null) {
-            setHour(values[0])
-          } else {
-            const index =
-              (values.length +
-                values.indexOf(innerModel.value.hour) +
-                payload) %
-              values.length
-
-            setHour(values[index])
-          }
-        } else {
-          const wrap = computedFormat24h.value ? 24 : 12,
-            offset = !computedFormat24h.value && !isAM.value ? 12 : 0,
-            val =
-              innerModel.value.hour === null ? -payload : innerModel.value.hour
-
-          setHour(offset + ((24 + val + payload) % wrap))
-        }
       }
     }
 
@@ -612,32 +720,6 @@ export default /*#__PURE__*/ createComponent({
       if ([13, 32].includes(e.keyCode)) {
         view.value = 'minute'
         stopAndPrevent(e)
-      } else if ([37, 39].includes(e.keyCode)) {
-        const payload = e.keyCode === 37 ? -1 : 1
-
-        if (validMinutes.value !== null) {
-          const values = validMinutes.value.values
-
-          if (values.length === 0) return
-
-          if (innerModel.value.minute === null) {
-            setMinute(values[0])
-          } else {
-            const index =
-              (values.length +
-                values.indexOf(innerModel.value.minute) +
-                payload) %
-              values.length
-
-            setMinute(values[index])
-          }
-        } else {
-          const val =
-            innerModel.value.minute === null
-              ? -payload
-              : innerModel.value.minute
-          setMinute((60 + val + payload) % 60)
-        }
       }
     }
 
@@ -645,32 +727,6 @@ export default /*#__PURE__*/ createComponent({
       if ([13, 32].includes(e.keyCode)) {
         view.value = 'second'
         stopAndPrevent(e)
-      } else if ([37, 39].includes(e.keyCode)) {
-        const payload = e.keyCode === 37 ? -1 : 1
-
-        if (validSeconds.value !== null) {
-          const values = validSeconds.value.values
-
-          if (values.length === 0) return
-
-          if (innerModel.value.second === null) {
-            setSecond(values[0])
-          } else {
-            const index =
-              (values.length +
-                values.indexOf(innerModel.value.second) +
-                payload) %
-              values.length
-
-            setSecond(values[index])
-          }
-        } else {
-          const val =
-            innerModel.value.second === null
-              ? -payload
-              : innerModel.value.second
-          setSecond((60 + val + payload) % 60)
-        }
       }
     }
 
@@ -817,10 +873,16 @@ export default /*#__PURE__*/ createComponent({
                 ? 'q-time__link--active'
                 : 'cursor-pointer'),
             tabindex: tabindex.value,
-            role: 'button',
-            'aria-pressed': view.value === 'hour' ? 'true' : 'false',
+            role: 'spinbutton',
+            'aria-label': locale.value.hour,
+            'aria-valuemin': computedFormat24h.value ? 0 : 1,
+            'aria-valuemax': computedFormat24h.value ? 23 : 12,
+            'aria-valuenow':
+              innerModel.value.hour !== null
+                ? Number(stringModel.value.hour)
+                : void 0,
             onClick: setView.hour,
-            onKeydown: preventSpace,
+            onKeydown: onKeydownHour,
             onKeyup: onKeyupHour
           },
           stringModel.value.hour
@@ -838,9 +900,12 @@ export default /*#__PURE__*/ createComponent({
                     ? 'q-time__link--active'
                     : 'cursor-pointer'),
                 tabindex: tabindex.value,
-                role: 'button',
-                'aria-pressed': view.value === 'minute' ? 'true' : 'false',
-                onKeydown: preventSpace,
+                role: 'spinbutton',
+                'aria-label': locale.value.minute,
+                'aria-valuemin': 0,
+                'aria-valuemax': 59,
+                'aria-valuenow': innerModel.value.minute ?? void 0,
+                onKeydown: onKeydownMinute,
                 onKeyup: onKeyupMinute,
                 onClick: setView.minute
               }
@@ -863,9 +928,12 @@ export default /*#__PURE__*/ createComponent({
                       ? 'q-time__link--active'
                       : 'cursor-pointer'),
                   tabindex: tabindex.value,
-                  role: 'button',
-                  'aria-pressed': view.value === 'second' ? 'true' : 'false',
-                  onKeydown: preventSpace,
+                  role: 'spinbutton',
+                  'aria-label': locale.value.second,
+                  'aria-valuemin': 0,
+                  'aria-valuemax': 59,
+                  'aria-valuenow': innerModel.value.second ?? void 0,
+                  onKeydown: onKeydownSecond,
                   onKeyup: onKeyupSecond,
                   onClick: setView.second
                 }
@@ -958,7 +1026,10 @@ export default /*#__PURE__*/ createComponent({
                 'div',
                 {
                   key: 'clock' + view.value,
-                  class: 'q-time__container-parent absolute-full'
+                  class: 'q-time__container-parent absolute-full',
+                  // pointer-only visualization; the header spinbuttons
+                  // are the accessible path to the same values
+                  'aria-hidden': 'true'
                 },
                 [
                   h(
@@ -1027,6 +1098,7 @@ export default /*#__PURE__*/ createComponent({
                 color: props.color,
                 textColor: props.textColor,
                 tabindex: tabindex.value,
+                'aria-label': locale.value.now,
                 onClick: setNow
               })
             : null

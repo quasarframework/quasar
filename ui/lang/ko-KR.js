@@ -34,7 +34,11 @@ export default {
     nextYear: '내년',
     today: '오늘',
     prevRangeYears: range => `이전 ${range} 년`,
-    nextRangeYears: range => `다음 ${range} 년`
+    nextRangeYears: range => `다음 ${range} 년`,
+    hour: '시',
+    minute: '분',
+    second: '초',
+    now: '현재 시각'
   },
   table: {
     noData: '데이터가 없습니다.',

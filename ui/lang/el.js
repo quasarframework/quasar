@@ -35,7 +35,11 @@ export default {
     nextYear: 'Προσεχές έτος',
     today: 'Σήμερα',
     prevRangeYears: range => `Προηγούμενο ${range} χρόνια`,
-    nextRangeYears: range => `Επόμενο ${range} χρόνια`
+    nextRangeYears: range => `Επόμενο ${range} χρόνια`,
+    hour: 'Ώρα',
+    minute: 'Λεπτό',
+    second: 'Δευτερόλεπτο',
+    now: 'Τρέχουσα ώρα'
   },
   table: {
     noData: 'Χωρίς δεδομένα',

@@ -37,7 +37,11 @@ export default {
     nextYear: 'Nächst Joer',
     today: 'Haut',
     prevRangeYears: range => `Prévisch ${range} Joren`,
-    nextRangeYears: range => `Nächst ${range} Joren`
+    nextRangeYears: range => `Nächst ${range} Joren`,
+    hour: 'Stonn',
+    minute: 'Minutt',
+    second: 'Sekonn',
+    now: 'Aktuell Zäit'
   },
   table: {
     noData: 'Keng Donnéen do',

@@ -38,7 +38,11 @@ export default {
     nextYear: 'Järgmisel aastal',
     today: 'Täna',
     prevRangeYears: range => `Eelmine ${range} aastad`,
-    nextRangeYears: range => `Järgmine ${range} aastat`
+    nextRangeYears: range => `Järgmine ${range} aastat`,
+    hour: 'Tund',
+    minute: 'Minut',
+    second: 'Sekund',
+    now: 'Praegune aeg'
   },
   table: {
     noData: 'Andmeid ei ole',

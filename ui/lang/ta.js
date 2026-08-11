@@ -35,7 +35,11 @@ export default {
     nextYear: 'அடுத்த வருடம்',
     today: 'இன்று',
     prevRangeYears: range => `முந்தைய ${range} ஆண்டுகள்`,
-    nextRangeYears: range => `அடுத்து ${range} ஆண்டுகள்`
+    nextRangeYears: range => `அடுத்து ${range} ஆண்டுகள்`,
+    hour: 'மணி',
+    minute: 'நிமிடம்',
+    second: 'வினாடி',
+    now: 'தற்போதைய நேரம்'
   },
   table: {
     noData: 'தரவு எதுவும் கிடைக்கவில்லை',

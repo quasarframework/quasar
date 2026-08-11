@@ -35,7 +35,11 @@ export default {
     nextYear: 'Tahun berikutnya',
     today: 'Hari ini',
     prevRangeYears: range => `Sebelumnya ${range} tahun`,
-    nextRangeYears: range => `Berikutnya ${range} tahun`
+    nextRangeYears: range => `Berikutnya ${range} tahun`,
+    hour: 'Jam',
+    minute: 'Menit',
+    second: 'Detik',
+    now: 'Waktu saat ini'
   },
   table: {
     noData: 'Tidak ada data tersedia',

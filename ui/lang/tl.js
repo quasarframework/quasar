@@ -35,7 +35,11 @@ export default {
     nextYear: 'Susunod na taon',
     today: 'Ngayon',
     prevRangeYears: range => `Nakaraang ${range} taon`,
-    nextRangeYears: range => `Susunod na ${range} taon`
+    nextRangeYears: range => `Susunod na ${range} taon`,
+    hour: 'Oras',
+    minute: 'Minuto',
+    second: 'Segundo',
+    now: 'Kasalukuyang oras'
   },
   table: {
     noData: 'Walang available na data',

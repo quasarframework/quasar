@@ -43,7 +43,11 @@ export default {
     nextYear: 'كېيىنىكى يىل',
     today: 'بۈگۈن',
     prevRangeYears: range => `ئالدىنقى ${range} يىل`,
-    nextRangeYears: range => ` كىيىنكىسى ${range} يىل`
+    nextRangeYears: range => ` كىيىنكىسى ${range} يىل`,
+    hour: 'سائەت',
+    minute: 'مىنۇت',
+    second: 'سېكۇنت',
+    now: 'ھازىرقى ۋاقىت'
   },
   table: {
     noData: 'ئۇچۇر يوق',

@@ -121,6 +121,17 @@ export interface QuasarLanguage {
     firstDayOfWeek: number;
     format24h: boolean;
     pluralDay: string;
+    prevMonth?: string;
+    nextMonth?: string;
+    prevYear?: string;
+    nextYear?: string;
+    today?: string;
+    prevRangeYears?: (range: number) => string;
+    nextRangeYears?: (range: number) => string;
+    hour?: string;
+    minute?: string;
+    second?: string;
+    now?: string;
     headerTitle?: (
       date: Date,
       model: { year: number; month: number; day: number }

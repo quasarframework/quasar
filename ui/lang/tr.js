@@ -35,7 +35,11 @@ export default {
     nextYear: 'Sonraki yıl',
     today: 'Bugün',
     prevRangeYears: range => `Önceki ${range} yıl`,
-    nextRangeYears: range => `Sonraki ${range} yıl`
+    nextRangeYears: range => `Sonraki ${range} yıl`,
+    hour: 'Saat',
+    minute: 'Dakika',
+    second: 'Saniye',
+    now: 'Şu anki saat'
   },
   table: {
     noData: 'Veri yok',

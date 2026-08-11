@@ -49,7 +49,11 @@ export default {
     nextYear: 'اگلے سال',
     today: 'آج',
     prevRangeYears: range => `پچھلا ${range} سال`,
-    nextRangeYears: range => `اگلا ${range} سال`
+    nextRangeYears: range => `اگلا ${range} سال`,
+    hour: 'گھنٹہ',
+    minute: 'منٹ',
+    second: 'سیکنڈ',
+    now: 'موجودہ وقت'
   },
   table: {
     noData: 'کوئی ڈیٹا دستیاب نہیں',

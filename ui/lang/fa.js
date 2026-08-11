@@ -44,7 +44,11 @@ export default {
     nextYear: 'سال دیگر',
     today: 'امروز',
     prevRangeYears: range => `قبلی ${range} سال`,
-    nextRangeYears: range => `بعد ${range} سالها`
+    nextRangeYears: range => `بعد ${range} سالها`,
+    hour: 'ساعت',
+    minute: 'دقیقه',
+    second: 'ثانیه',
+    now: 'زمان کنونی'
   },
   table: {
     noData: 'اطلاعاتی موجود نیست',

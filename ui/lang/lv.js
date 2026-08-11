@@ -37,7 +37,11 @@ export default {
     nextYear: 'Nākamgad',
     today: 'Šodien',
     prevRangeYears: range => `Iepriekšējie ${range} gadi`,
-    nextRangeYears: range => `Nākamais ${range} gadi`
+    nextRangeYears: range => `Nākamais ${range} gadi`,
+    hour: 'Stunda',
+    minute: 'Minūte',
+    second: 'Sekunde',
+    now: 'Pašreizējais laiks'
   },
   table: {
     noData: 'Nav datu',

@@ -45,7 +45,11 @@ export default {
     nextYear: 'Келесі жыл',
     today: 'Бүгін',
     prevRangeYears: range => `Алдыңғы ${range} жыл`,
-    nextRangeYears: range => `Келесі ${range} жыл`
+    nextRangeYears: range => `Келесі ${range} жыл`,
+    hour: 'Сағат',
+    minute: 'Минут',
+    second: 'Секунд',
+    now: 'Ағымдағы уақыт'
   },
   table: {
     noData: 'Мәлімет жоқ',

@@ -35,7 +35,11 @@ export default {
     nextYear: 'Anul viitor',
     today: 'Astăzi',
     prevRangeYears: range => `Anterior ${range} ani`,
-    nextRangeYears: range => `Următorul ${range} ani`
+    nextRangeYears: range => `Următorul ${range} ani`,
+    hour: 'Oră',
+    minute: 'Minut',
+    second: 'Secundă',
+    now: 'Ora curentă'
   },
   table: {
     noData: 'Nu sunt date disponibile',

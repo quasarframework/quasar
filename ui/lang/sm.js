@@ -37,7 +37,11 @@ export default {
     nextYear: 'I Le Vafuapalo',
     today: 'Le asō',
     prevRangeYears: range => `Talu ai ${range} tausaga`,
-    nextRangeYears: range => `Le isi ${range} tausaga`
+    nextRangeYears: range => `Le isi ${range} tausaga`,
+    hour: 'Itula',
+    minute: 'Minute',
+    second: 'Sekone',
+    now: 'Taimi nei'
   },
   table: {
     noData: "Lēai ni fa'amatalaga o maua",

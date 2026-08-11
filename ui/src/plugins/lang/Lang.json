@@ -146,7 +146,7 @@
         },
         "date": {
           "type": "Object",
-          "desc": "QDate labels",
+          "desc": "QDate/QTime labels",
           "definition": {
             "days": {
               "type": "Array",
@@ -187,6 +187,83 @@
               "type": "String",
               "desc": "Label",
               "examples": ["'days'"]
+            },
+            "prevMonth": {
+              "type": "String",
+              "desc": "Aria-label for the QDate previous month button",
+              "examples": ["'Previous month'"]
+            },
+            "nextMonth": {
+              "type": "String",
+              "desc": "Aria-label for the QDate next month button",
+              "examples": ["'Next month'"]
+            },
+            "prevYear": {
+              "type": "String",
+              "desc": "Aria-label for the QDate previous year button",
+              "examples": ["'Previous year'"]
+            },
+            "nextYear": {
+              "type": "String",
+              "desc": "Aria-label for the QDate next year button",
+              "examples": ["'Next year'"]
+            },
+            "today": {
+              "type": "String",
+              "desc": "Aria-label for the QDate today button",
+              "examples": ["'Today'"]
+            },
+            "prevRangeYears": {
+              "type": "Function",
+              "desc": "Aria-label for the QDate previous years range button",
+              "params": {
+                "range": {
+                  "type": "Number",
+                  "desc": "Number of years in the range",
+                  "examples": ["20"]
+                }
+              },
+              "returns": {
+                "type": "String",
+                "desc": "The label"
+              },
+              "examples": ["range => `Previous ${ range } years`"]
+            },
+            "nextRangeYears": {
+              "type": "Function",
+              "desc": "Aria-label for the QDate next years range button",
+              "params": {
+                "range": {
+                  "type": "Number",
+                  "desc": "Number of years in the range",
+                  "examples": ["20"]
+                }
+              },
+              "returns": {
+                "type": "String",
+                "desc": "The label"
+              },
+              "examples": ["range => `Next ${ range } years`"]
+            },
+            "hour": {
+              "type": "String",
+              "desc": "Aria-label for the QTime hour control",
+              "examples": ["'Hour'"]
+            },
+            "minute": {
+              "type": "String",
+              "desc": "Aria-label for the QTime minute control",
+              "examples": ["'Minute'"]
+            },
+            "second": {
+              "type": "String",
+              "desc": "Aria-label for the QTime second control",
+              "examples": ["'Second'"]
+            },
+            "now": {
+              "type": "String",
+              "desc": "Aria-label for the QTime 'now' button",
+              "examples": ["'Current time'"]
             }
           }
         },
@@ -669,7 +746,7 @@
             },
             "date": {
               "type": "Object",
-              "desc": "QDate labels",
+              "desc": "QDate/QTime labels",
               "required": true,
               "definition": {
                 "days": {
@@ -720,6 +797,83 @@
                   "desc": "Label",
                   "required": true,
                   "examples": ["'days'"]
+                },
+                "prevMonth": {
+                  "type": "String",
+                  "desc": "Aria-label for the QDate previous month button",
+                  "examples": ["'Previous month'"]
+                },
+                "nextMonth": {
+                  "type": "String",
+                  "desc": "Aria-label for the QDate next month button",
+                  "examples": ["'Next month'"]
+                },
+                "prevYear": {
+                  "type": "String",
+                  "desc": "Aria-label for the QDate previous year button",
+                  "examples": ["'Previous year'"]
+                },
+                "nextYear": {
+                  "type": "String",
+                  "desc": "Aria-label for the QDate next year button",
+                  "examples": ["'Next year'"]
+                },
+                "today": {
+                  "type": "String",
+                  "desc": "Aria-label for the QDate today button",
+                  "examples": ["'Today'"]
+                },
+                "prevRangeYears": {
+                  "type": "Function",
+                  "desc": "Aria-label for the QDate previous years range button",
+                  "params": {
+                    "range": {
+                      "type": "Number",
+                      "desc": "Number of years in the range",
+                      "examples": ["20"]
+                    }
+                  },
+                  "returns": {
+                    "type": "String",
+                    "desc": "The label"
+                  },
+                  "examples": ["range => `Previous ${ range } years`"]
+                },
+                "nextRangeYears": {
+                  "type": "Function",
+                  "desc": "Aria-label for the QDate next years range button",
+                  "params": {
+                    "range": {
+                      "type": "Number",
+                      "desc": "Number of years in the range",
+                      "examples": ["20"]
+                    }
+                  },
+                  "returns": {
+                    "type": "String",
+                    "desc": "The label"
+                  },
+                  "examples": ["range => `Next ${ range } years`"]
+                },
+                "hour": {
+                  "type": "String",
+                  "desc": "Aria-label for the QTime hour control",
+                  "examples": ["'Hour'"]
+                },
+                "minute": {
+                  "type": "String",
+                  "desc": "Aria-label for the QTime minute control",
+                  "examples": ["'Minute'"]
+                },
+                "second": {
+                  "type": "String",
+                  "desc": "Aria-label for the QTime second control",
+                  "examples": ["'Second'"]
+                },
+                "now": {
+                  "type": "String",
+                  "desc": "Aria-label for the QTime 'now' button",
+                  "examples": ["'Current time'"]
                 }
               }
             },

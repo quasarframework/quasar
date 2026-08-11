@@ -35,7 +35,11 @@ export default {
     nextYear: 'Следната година',
     today: 'Денес',
     prevRangeYears: range => `Претходно ${range} години`,
-    nextRangeYears: range => `Следно ${range} години`
+    nextRangeYears: range => `Следно ${range} години`,
+    hour: 'Час',
+    minute: 'Минута',
+    second: 'Секунда',
+    now: 'Тековно време'
   },
   table: {
     noData: 'Нема достапни податоци',

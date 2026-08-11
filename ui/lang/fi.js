@@ -40,7 +40,11 @@ export default {
     nextYear: 'Ensi vuonna',
     today: 'Tänään',
     prevRangeYears: range => `Edellinen ${range} vuotta`,
-    nextRangeYears: range => `Seuraava ${range} vuotta`
+    nextRangeYears: range => `Seuraava ${range} vuotta`,
+    hour: 'Tunti',
+    minute: 'Minuutti',
+    second: 'Sekunti',
+    now: 'Nykyinen aika'
   },
   table: {
     noData: 'Ei tietoja',

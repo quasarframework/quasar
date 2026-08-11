@@ -37,7 +37,11 @@ export default {
     nextYear: 'Viti i ardhshëm',
     today: 'Sot',
     prevRangeYears: range => `Vitet e mëparshme ${range}`,
-    nextRangeYears: range => `Vitet e ardhshme ${range}`
+    nextRangeYears: range => `Vitet e ardhshme ${range}`,
+    hour: 'Ora',
+    minute: 'Minuta',
+    second: 'Sekonda',
+    now: 'Koha aktuale'
   },
   table: {
     noData: 'Nuk ka të dhëna',

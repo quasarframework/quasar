@@ -47,7 +47,11 @@ export default {
     nextYear: 'Следующий год',
     today: 'Сегодня',
     prevRangeYears: range => `Предыдущий ${range} Годы`,
-    nextRangeYears: range => `Далее ${range} годы`
+    nextRangeYears: range => `Далее ${range} годы`,
+    hour: 'Час',
+    minute: 'Минута',
+    second: 'Секунда',
+    now: 'Текущее время'
   },
   table: {
     noData: 'Нет данных',

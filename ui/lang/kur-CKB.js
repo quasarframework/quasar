@@ -41,7 +41,11 @@ export default {
     nextYear: 'ساڵی داهاتوو',
     today: 'ئه‌م ڕوژیە',
     prevRangeYears: range => `پێشوو ${range} ساڵ`,
-    nextRangeYears: range => `nدواتر ${range} ساڵ`
+    nextRangeYears: range => `nدواتر ${range} ساڵ`,
+    hour: 'کاتژمێر',
+    minute: 'خولەک',
+    second: 'چرکە',
+    now: 'کاتی ئێستا'
   },
   table: {
     noData: 'هیچ داتەیەک نییە',

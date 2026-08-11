@@ -38,7 +38,11 @@ export default {
     nextYear: 'পরের বছর',
     today: 'আজ',
     prevRangeYears: range => `পূর্ববর্তী ${range} বছর`,
-    nextRangeYears: range => `পরবর্তী ${range} বছর`
+    nextRangeYears: range => `পরবর্তী ${range} বছর`,
+    hour: 'ঘণ্টা',
+    minute: 'মিনিট',
+    second: 'সেকেন্ড',
+    now: 'বর্তমান সময়'
   },
   table: {
     noData: 'কোন তথ্য নেই',

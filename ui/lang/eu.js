@@ -37,7 +37,11 @@ export default {
     nextYear: 'Datorren urtean',
     today: 'Gaur',
     prevRangeYears: range => `Aurrekoa ${range} urteak`,
-    nextRangeYears: range => `Hurrengoa ${range} urte`
+    nextRangeYears: range => `Hurrengoa ${range} urte`,
+    hour: 'Ordua',
+    minute: 'Minutua',
+    second: 'Segundoa',
+    now: 'Uneko ordua'
   },
   table: {
     noData: 'Daturik ez',

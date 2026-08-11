@@ -38,7 +38,11 @@ export default {
     nextYear: 'နောက်နှစ်',
     today: 'ဒီနေ့',
     prevRangeYears: range => `ယခင် ${range} နှစ် များ`,
-    nextRangeYears: range => `နောက် ${range} နှစ် များ`
+    nextRangeYears: range => `နောက် ${range} နှစ် များ`,
+    hour: 'နာရီ',
+    minute: 'မိနစ်',
+    second: 'စက္ကန့်',
+    now: 'လက်ရှိအချိန်'
   },
   table: {
     noData: 'အချက်အလတ်မရှိပါ',

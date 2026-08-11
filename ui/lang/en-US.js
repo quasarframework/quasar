@@ -35,7 +35,11 @@ export default {
     nextYear: 'Next year',
     today: 'Today',
     prevRangeYears: range => `Previous ${range} years`,
-    nextRangeYears: range => `Next ${range} years`
+    nextRangeYears: range => `Next ${range} years`,
+    hour: 'Hour',
+    minute: 'Minute',
+    second: 'Second',
+    now: 'Current time'
   },
   table: {
     noData: 'No data available',

@@ -2,6 +2,7 @@ import { mount } from '@vue/test-utils'
 import { describe, expect, test } from 'vitest'
 import { nextTick } from 'vue'
 
+import langEn from '../../../lang/en-US.js'
 import QTime from './QTime.js'
 
 function mountTime(props = {}) {
@@ -42,11 +43,11 @@ function getDisabledPositions(wrapper) {
 }
 
 /**
- * The left/right arrow keys are the only pointer-free way of setting
+ * The arrow keys are the simplest pointer-free way of setting
  * the hour and the minute, as the clock needs DOM measurements.
  */
 async function pressArrowRight(link) {
-  await link.trigger('keyup', { keyCode: 39 })
+  await link.trigger('keydown', { keyCode: 39 })
 }
 
 describe('[QTime API]', () => {
@@ -614,6 +615,127 @@ describe('[QTime API]', () => {
         expect(getHourLink(wrapper).text()).not.toBe('--')
         expect(getMinuteLink(wrapper).text()).not.toBe('--')
       })
+    })
+  })
+
+  describe('[Accessibility]', () => {
+    test('the header units implement the WAI-ARIA spinbutton semantics', () => {
+      const wrapper = mountTime({
+        modelValue: '15:30:20',
+        format24h: true,
+        withSeconds: true
+      })
+
+      const hour = getHourLink(wrapper).attributes()
+      expect(hour.role).toBe('spinbutton')
+      expect(hour.tabindex).toBe('0')
+      expect(hour['aria-label']).toBe(langEn.date.hour)
+      expect(hour['aria-valuemin']).toBe('0')
+      expect(hour['aria-valuemax']).toBe('23')
+      expect(hour['aria-valuenow']).toBe('15')
+
+      const minute = getMinuteLink(wrapper).attributes()
+      expect(minute.role).toBe('spinbutton')
+      expect(minute['aria-label']).toBe(langEn.date.minute)
+      expect(minute['aria-valuemin']).toBe('0')
+      expect(minute['aria-valuemax']).toBe('59')
+      expect(minute['aria-valuenow']).toBe('30')
+
+      const second = getSecondLink(wrapper).attributes()
+      expect(second.role).toBe('spinbutton')
+      expect(second['aria-label']).toBe(langEn.date.second)
+      expect(second['aria-valuemin']).toBe('0')
+      expect(second['aria-valuemax']).toBe('59')
+      expect(second['aria-valuenow']).toBe('20')
+    })
+
+    test('a 12h hour unit exposes the displayed 1-12 range', () => {
+      const wrapper = mountTime({ modelValue: '15:30', format24h: false })
+      const attrs = getHourLink(wrapper).attributes()
+
+      expect(attrs['aria-valuemin']).toBe('1')
+      expect(attrs['aria-valuemax']).toBe('12')
+      expect(attrs['aria-valuenow']).toBe('3')
+
+      const [am, pm] = getAmPmLinks(wrapper)
+      expect(am.attributes('aria-pressed')).toBe('false')
+      expect(pm.attributes('aria-pressed')).toBe('true')
+    })
+
+    test('an unset unit omits aria-valuenow', () => {
+      const wrapper = mountTime({ modelValue: null })
+
+      expect(getHourLink(wrapper).attributes('aria-valuenow')).toBeUndefined()
+    })
+
+    test.each([
+      ['ArrowUp', 38, '11:30'],
+      ['ArrowRight', 39, '11:30'],
+      ['ArrowDown', 40, '09:30'],
+      ['ArrowLeft', 37, '09:30'],
+      ['Home', 36, '00:30'],
+      ['End', 35, '23:30']
+    ])('%s key adjusts the focused unit', async (_, keyCode, expected) => {
+      const wrapper = mountTime({ format24h: true })
+
+      await getHourLink(wrapper).trigger('keydown', { keyCode })
+
+      expect(wrapper.emitted('update:modelValue')[0][0]).toBe(expected)
+    })
+
+    test('Home/End jump to the first/last valid value of restricted options', async () => {
+      const wrapper = mountTime({ format24h: true, hourOptions: [9, 10, 11] })
+      const hour = getHourLink(wrapper)
+
+      await hour.trigger('keydown', { keyCode: 35 })
+      expect(wrapper.emitted('update:modelValue')[0][0]).toBe('11:30')
+
+      await hour.trigger('keydown', { keyCode: 36 })
+      expect(wrapper.emitted('update:modelValue')[1][0]).toBe('09:30')
+    })
+
+    test('Home/End map the displayed 12h edges onto the current meridiem', async () => {
+      const wrapper = mountTime({ modelValue: '15:30', format24h: false })
+      const hour = getHourLink(wrapper)
+
+      await hour.trigger('keydown', { keyCode: 36 })
+      expect(wrapper.emitted('update:modelValue')[0][0]).toBe('13:30')
+
+      await hour.trigger('keydown', { keyCode: 35 })
+      expect(wrapper.emitted('update:modelValue')[1][0]).toBe('12:30')
+    })
+
+    test('Enter activates the focused unit view', async () => {
+      const wrapper = mountTime()
+      const minute = getMinuteLink(wrapper)
+
+      expect(minute.classes()).not.toContain('q-time__link--active')
+
+      await minute.trigger('keyup', { keyCode: 13 })
+
+      expect(minute.classes()).toContain('q-time__link--active')
+    })
+
+    test('the clock face is hidden from assistive technology', () => {
+      const wrapper = mountTime()
+
+      expect(
+        wrapper.get('.q-time__container-parent').attributes('aria-hidden')
+      ).toBe('true')
+    })
+
+    test('the now button has an accessible name', () => {
+      const wrapper = mountTime({ nowBtn: true })
+
+      expect(wrapper.get('.q-time__now-button').attributes('aria-label')).toBe(
+        langEn.date.now
+      )
+    })
+
+    test('a readonly picker takes the units out of the Tab order', () => {
+      const wrapper = mountTime({ readonly: true })
+
+      expect(getHourLink(wrapper).attributes('tabindex')).toBe('-1')
     })
   })
 })

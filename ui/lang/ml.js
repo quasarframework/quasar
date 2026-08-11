@@ -35,7 +35,11 @@ export default {
     nextYear: 'അടുത്ത വർഷം',
     today: 'ഇന്നേദിവസം',
     prevRangeYears: range => `മുമ്പത്തെ ${range} വർഷം`,
-    nextRangeYears: range => `അടുത്തത് ${range} വർഷം`
+    nextRangeYears: range => `അടുത്തത് ${range} വർഷം`,
+    hour: 'മണിക്കൂർ',
+    minute: 'മിനിറ്റ്',
+    second: 'സെക്കൻഡ്',
+    now: 'നിലവിലെ സമയം'
   },
   table: {
     noData: 'ഡാറ്റ ലഭ്യമല്ല',

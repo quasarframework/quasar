@@ -35,7 +35,11 @@ export default {
     nextYear: 'Venontjare',
     today: 'Hodiaŭ',
     prevRangeYears: range => `Antaŭ ${range} jaroj`,
-    nextRangeYears: range => `Post ${range} jaroj`
+    nextRangeYears: range => `Post ${range} jaroj`,
+    hour: 'Horo',
+    minute: 'Minuto',
+    second: 'Sekundo',
+    now: 'Nuna tempo'
   },
   table: {
     noData: 'Neniu datumo afiŝenda',

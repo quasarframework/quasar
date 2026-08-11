@@ -39,7 +39,11 @@ export default {
     nextYear: 'Keyingi yil',
     today: 'Bugun',
     prevRangeYears: range => `Oldingi ${range} Yillar`,
-    nextRangeYears: range => `Keyingi ${range} Yillar`
+    nextRangeYears: range => `Keyingi ${range} Yillar`,
+    hour: 'Soat',
+    minute: 'Daqiqa',
+    second: 'Soniya',
+    now: 'Joriy vaqt'
   },
   table: {
     noData: "Ma'lumotlar topilmadi",

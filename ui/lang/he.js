@@ -39,7 +39,11 @@ export default {
     nextYear: 'שנה הבאה',
     today: 'הַיוֹם',
     prevRangeYears: range => `קודם ${range} שנים`,
-    nextRangeYears: range => `הבא ${range} שנים`
+    nextRangeYears: range => `הבא ${range} שנים`,
+    hour: 'שעה',
+    minute: 'דקה',
+    second: 'שנייה',
+    now: 'הזמן הנוכחי'
   },
   table: {
     noData: 'לא נמצאו נתונים',

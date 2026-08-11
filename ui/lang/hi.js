@@ -33,7 +33,11 @@ export default {
     nextYear: 'अगला साल',
     today: 'आज',
     prevRangeYears: range => `पिछला ${range} साल`,
-    nextRangeYears: range => `अगला ${range} साल`
+    nextRangeYears: range => `अगला ${range} साल`,
+    hour: 'घंटा',
+    minute: 'मिनट',
+    second: 'सेकंड',
+    now: 'वर्तमान समय'
   },
   table: {
     noData: 'कोई डेटा उपलब्ध नहीं है',

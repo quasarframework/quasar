@@ -37,7 +37,11 @@ export default {
     nextYear: 'Năm sau',
     today: 'Hôm nay',
     prevRangeYears: range => `Trước ${range} năm`,
-    nextRangeYears: range => `Tiếp theo ${range} năm`
+    nextRangeYears: range => `Tiếp theo ${range} năm`,
+    hour: 'Giờ',
+    minute: 'Phút',
+    second: 'Giây',
+    now: 'Thời gian hiện tại'
   },
   table: {
     noData: 'Không có dữ liệu',

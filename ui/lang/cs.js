@@ -35,7 +35,11 @@ export default {
     nextYear: 'Příští rok',
     today: 'Dnes',
     prevRangeYears: range => `Předchozí ${range} roky`,
-    nextRangeYears: range => `Další ${range} roky`
+    nextRangeYears: range => `Další ${range} roky`,
+    hour: 'Hodina',
+    minute: 'Minuta',
+    second: 'Sekunda',
+    now: 'Aktuální čas'
   },
   table: {
     noData: 'Žádná data k dispozici',

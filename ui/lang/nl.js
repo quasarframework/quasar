@@ -37,7 +37,11 @@ export default {
     nextYear: 'Volgend jaar',
     today: 'Vandaag',
     prevRangeYears: range => `Vorige ${range} jaren`,
-    nextRangeYears: range => `Volgende ${range} jaren`
+    nextRangeYears: range => `Volgende ${range} jaren`,
+    hour: 'Uur',
+    minute: 'Minuut',
+    second: 'Seconde',
+    now: 'Huidige tijd'
   },
   table: {
     noData: 'Geen gegevens beschikbaar',

@@ -37,7 +37,11 @@ export default {
     nextYear: 'Á næsta ári',
     today: 'Í dag',
     prevRangeYears: range => `Fyrri ${range} ár`,
-    nextRangeYears: range => `Næst ${range} ár`
+    nextRangeYears: range => `Næst ${range} ár`,
+    hour: 'Klukkustund',
+    minute: 'Mínúta',
+    second: 'Sekúnda',
+    now: 'Núverandi tími'
   },
   table: {
     noData: 'Engin gögn tiltæk',

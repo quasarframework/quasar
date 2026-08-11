@@ -37,7 +37,11 @@ export default {
     nextYear: 'Nächst Joer',
     today: 'Haut',
     prevRangeYears: range => `Vireg ${range} Joer`,
-    nextRangeYears: range => `Nächst ${range} Joer`
+    nextRangeYears: range => `Nächst ${range} Joer`,
+    hour: 'Stonn',
+    minute: 'Minutt',
+    second: 'Sekonn',
+    now: 'Aktuell Zäit'
   },
   table: {
     noData: 'Keng Donnéeë verfügbar',

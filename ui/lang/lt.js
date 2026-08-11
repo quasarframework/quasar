@@ -48,7 +48,11 @@ export default {
     nextYear: 'Kitais metais',
     today: 'Šiandien',
     prevRangeYears: range => `Ankstesnis ${range} metai`,
-    nextRangeYears: range => `Kitas ${range} metai`
+    nextRangeYears: range => `Kitas ${range} metai`,
+    hour: 'Valanda',
+    minute: 'Minutė',
+    second: 'Sekundė',
+    now: 'Dabartinis laikas'
   },
   table: {
     noData: 'Nėra duomenų',

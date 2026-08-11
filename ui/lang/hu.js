@@ -35,7 +35,11 @@ export default {
     nextYear: 'Jövőre',
     today: 'Ma',
     prevRangeYears: range => `Előző ${range} évek`,
-    nextRangeYears: range => `Következő ${range} évek`
+    nextRangeYears: range => `Következő ${range} évek`,
+    hour: 'Óra',
+    minute: 'Perc',
+    second: 'Másodperc',
+    now: 'Jelenlegi idő'
   },
   table: {
     noData: 'Nincs elérhető adat',

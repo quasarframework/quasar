@@ -35,7 +35,11 @@ export default {
     nextYear: 'Кейинги йил',
     today: 'Бугун',
     prevRangeYears: range => `Олдинги ${range} Йиллар`,
-    nextRangeYears: range => `Кейинги ${range} Йиллар`
+    nextRangeYears: range => `Кейинги ${range} Йиллар`,
+    hour: 'Соат',
+    minute: 'Дақиқа',
+    second: 'Сония',
+    now: 'Жорий вақт'
   },
   table: {
     noData: 'Маълумот топилмади',

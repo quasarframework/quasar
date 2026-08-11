@@ -45,7 +45,11 @@ export default {
     nextYear: 'Наступного року',
     today: 'Сьогодні',
     prevRangeYears: range => `Попередній ${range} роки`,
-    nextRangeYears: range => `Далі ${range} роки`
+    nextRangeYears: range => `Далі ${range} роки`,
+    hour: 'Година',
+    minute: 'Хвилина',
+    second: 'Секунда',
+    now: 'Поточний час'
   },
   table: {
     noData: 'Немає даних',

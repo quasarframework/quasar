@@ -44,7 +44,11 @@ export default {
     nextYear: '下一年',
     today: '今天',
     prevRangeYears: range => `以前${range}年`,
-    nextRangeYears: range => `接下来${range}年`
+    nextRangeYears: range => `接下来${range}年`,
+    hour: '小時',
+    minute: '分鐘',
+    second: '秒',
+    now: '目前時間'
   },
   table: {
     noData: '沒有資料',
