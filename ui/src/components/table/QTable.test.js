@@ -2806,4 +2806,48 @@ describe('[QTable API]', () => {
       })
     })
   })
+
+  describe('[Accessibility]', () => {
+    function getRowsPerPageParts(wrapper) {
+      const target = wrapper.get(
+        '.q-table__select input[role="combobox"]'
+      ).element
+
+      return {
+        target,
+        visibleLabel: target
+          .closest('.q-table__control')
+          .querySelector('span.q-table__bottom-item').textContent
+      }
+    }
+
+    test('names the rows-per-page selection after its visible label', () => {
+      const { target, visibleLabel } = getRowsPerPageParts(mountTable())
+
+      expect(visibleLabel).not.toBe('')
+      expect(target.getAttribute('aria-label')).toBe(visibleLabel)
+    })
+
+    test('names the rows-per-page selection after a custom rows-per-page-label', () => {
+      const { target, visibleLabel } = getRowsPerPageParts(
+        mountTable({ rowsPerPageLabel: 'Desserts per page:' })
+      )
+
+      expect(visibleLabel).toBe('Desserts per page:')
+      expect(target.getAttribute('aria-label')).toBe(visibleLabel)
+    })
+
+    test('labels the pagination navigation buttons', () => {
+      const wrapper = mountTable() // 7 rows / 5 per page -> 2 pages
+
+      const labels = wrapper
+        .findAll('.q-table__bottom button')
+        .map(btn => btn.attributes('aria-label'))
+
+      expect(labels.length).toBeGreaterThan(0)
+      for (const label of labels) {
+        expect(label).toBeTruthy()
+      }
+    })
+  })
 })

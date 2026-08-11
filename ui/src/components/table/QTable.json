@@ -497,7 +497,7 @@
 
     "rows-per-page-label": {
       "type": "String",
-      "desc": "Text to override default rows per page label at bottom of table",
+      "desc": "Text to override default rows per page label at bottom of table; also used as the 'aria-label' of the rows per page selection field",
       "examples": ["'Records per page:'"],
       "category": "pagination"
     },

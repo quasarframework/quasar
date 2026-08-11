@@ -913,15 +913,17 @@ export default /*#__PURE__*/ createComponent({
       child.push(h('div', { class: 'q-table__separator col' }))
 
       if (hasOpts) {
+        const recordsPerPageLabel =
+          props.rowsPerPageLabel || $q.lang.table.recordsPerPage
+
         child.push(
           h('div', { class: 'q-table__control' }, [
-            h('span', { class: 'q-table__bottom-item' }, [
-              props.rowsPerPageLabel || $q.lang.table.recordsPerPage
-            ]),
+            h('span', { class: 'q-table__bottom-item' }, [recordsPerPageLabel]),
             h(QSelect, {
               class: 'q-table__select inline q-table__bottom-item',
               color: props.color,
               modelValue: rowsPerPage,
+              'aria-label': recordsPerPageLabel,
               options: computedRowsPerPageOptions.value,
               displayValue:
                 rowsPerPage === 0 ? $q.lang.table.allRows : rowsPerPage,

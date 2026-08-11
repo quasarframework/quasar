@@ -1646,30 +1646,26 @@ export default /*#__PURE__*/ createComponent({
         }
         // there can be only one (when dialog is opened the control in dialog should be target)
         else if (state.editable.value) {
-          const attrs = isTarget ? comboboxAttrs.value : void 0
+          const attrs = isTarget
+            ? { ...comboboxAttrs.value, ...state.splitAttrs.attributes.value }
+            : void 0
 
           const data = {
             ref: isTarget ? targetRef : void 0,
             key: 'd_t',
             class: 'q-select__focus-target',
-            id: isTarget ? state.targetUid.value : void 0,
             value: ariaCurrentValue.value,
             readonly: true,
             'data-autofocus': fromDialog === true || props.autofocus || void 0,
             ...attrs,
+            id: isTarget ? state.targetUid.value : void 0,
             onKeydown: onTargetKeydown,
             onKeyup: onTargetKeyup,
             onKeypress: onTargetKeypress
           }
 
           if (isTarget) {
-            Object.assign(
-              data,
-              state.getErrorAriaAttrs({
-                ...state.splitAttrs.attributes.value,
-                ...data
-              })
-            )
+            Object.assign(data, state.getErrorAriaAttrs(data))
           }
 
           child.push(h('input', data))

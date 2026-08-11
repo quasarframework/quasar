@@ -2887,5 +2887,22 @@ describe('[QSelect API]', () => {
         `external-help ${messageId}`
       )
     })
+
+    test.each([
+      ['focus target', false],
+      ['use-input control', true]
+    ])(
+      'applies a fall-through aria-label to the %s, overriding the label prop',
+      (_, useInput) => {
+        const wrapper = mountSelect(
+          { useInput, label: 'Car' },
+          { attrs: { 'aria-label': 'Preferred car' } }
+        )
+
+        expect(
+          wrapper.get('input[role="combobox"]').attributes('aria-label')
+        ).toBe('Preferred car')
+      }
+    )
   })
 })
