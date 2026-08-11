@@ -103,17 +103,23 @@ export default /*#__PURE__*/ createComponent({
       maxFiles: props.maxFiles
     }))
 
-    const inputAttrs = computed(() => ({
-      tabindex: -1,
-      type: 'file',
-      title: '', // try to remove default tooltip,
-      accept: props.accept,
-      capture: props.capture,
-      name: nameProp.value,
-      ...attrs,
-      id: state.targetUid.value,
-      disabled: !state.editable.value
-    }))
+    const inputAttrs = computed(() => {
+      const acc = {
+        tabindex: -1,
+        type: 'file',
+        title: '', // try to remove default tooltip,
+        accept: props.accept,
+        capture: props.capture,
+        name: nameProp.value,
+        ...attrs,
+        id: state.targetUid.value,
+        disabled: !state.editable.value
+      }
+
+      Object.assign(acc, state.getErrorAriaAttrs(acc))
+
+      return acc
+    })
 
     const fieldClass = computed(
       () => 'q-file q-field--auto-height' + (dnd.value ? ' q-file--dnd' : '')

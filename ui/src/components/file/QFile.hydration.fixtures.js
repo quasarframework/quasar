@@ -14,3 +14,14 @@ export const basic = {
       'onUpdate:modelValue': () => {}
     })
 }
+
+export const errorState = {
+  render: () =>
+    h(QFile, {
+      modelValue: null,
+      label: 'Required file',
+      error: true,
+      errorMessage: 'Please attach a file',
+      'onUpdate:modelValue': () => {}
+    })
+}

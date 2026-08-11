@@ -285,6 +285,16 @@ describe('[QFile API]', () => {
 
         expect(explicitFalse.find('.q-field__bottom').exists()).toBe(true)
       })
+
+      test('marks the native control invalid for assistive tech', () => {
+        const wrapper = mountFile({ error: true })
+
+        expect(getInput(wrapper).attributes('aria-invalid')).toBe('true')
+
+        const noError = mountFile()
+
+        expect(getInput(noError).attributes('aria-invalid')).toBeUndefined()
+      })
     })
 
     describe('[(prop)error-message]', () => {
@@ -294,6 +304,42 @@ describe('[QFile API]', () => {
 
         expect(wrapper.get('.q-field__messages [role="alert"]').text()).toBe(
           propVal
+        )
+      })
+
+      test('links the native control to the message for assistive tech', () => {
+        const wrapper = mountFile({
+          error: true,
+          errorMessage: 'Please attach a file'
+        })
+
+        const input = getInput(wrapper)
+        const messageId = wrapper.get('.q-field__messages').attributes('id')
+
+        expect(messageId).toBeTruthy()
+        expect(input.attributes('aria-errormessage')).toBe(messageId)
+        expect(input.attributes('aria-describedby')).toBe(messageId)
+      })
+
+      test('preserves externally supplied ARIA references', () => {
+        const wrapper = mountFile(
+          { error: true, errorMessage: 'Please attach a file' },
+          {
+            attrs: {
+              'aria-describedby': 'external-help',
+              // ARIA defines aria-errormessage as a single id reference,
+              // so an explicit value is kept instead of being concatenated
+              'aria-errormessage': 'external-error'
+            }
+          }
+        )
+
+        const input = getInput(wrapper)
+        const messageId = wrapper.get('.q-field__messages').attributes('id')
+
+        expect(input.attributes('aria-errormessage')).toBe('external-error')
+        expect(input.attributes('aria-describedby')).toBe(
+          `external-help ${messageId}`
         )
       })
     })
