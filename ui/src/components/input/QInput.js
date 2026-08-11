@@ -168,6 +168,8 @@ export default /*#__PURE__*/ createComponent({
         readonly: props.readonly
       }
 
+      Object.assign(acc, state.getErrorAriaAttrs(acc))
+
       if (!isTextarea.value) {
         acc.type = props.type
       }

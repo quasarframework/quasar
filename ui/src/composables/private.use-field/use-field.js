@@ -208,6 +208,38 @@ export default function useField(state) {
   const { isDirtyModel, hasRules, hasError, errorMessage, resetValidation } =
     useValidate(state.focused, state.innerLoading)
 
+  const errorMessageId = computed(() =>
+    hasError.value && state.targetUid.value
+      ? `${state.targetUid.value}_error`
+      : void 0
+  )
+
+  function getErrorAriaAttrs(controlAttrs) {
+    if (hasError.value !== true) return {}
+
+    const acc = { 'aria-invalid': 'true' }
+
+    if (errorMessageId.value !== void 0) {
+      acc['aria-errormessage'] =
+        controlAttrs?.['aria-errormessage'] !== void 0
+          ? controlAttrs['aria-errormessage']
+          : errorMessageId.value
+      acc['aria-describedby'] =
+        controlAttrs?.['aria-describedby'] !== void 0
+          ? `${controlAttrs['aria-describedby']} ${errorMessageId.value}`
+          : errorMessageId.value
+    }
+
+    return acc
+  }
+
+  Object.assign(state, {
+    hasError,
+    errorMessage,
+    errorMessageId,
+    getErrorAriaAttrs
+  })
+
   const floatingLabel =
     state.floatingLabel !== void 0
       ? computed(
@@ -295,7 +327,10 @@ export default function useField(state) {
         focused: state.focused.value,
         floatingLabel: floatingLabel.value,
         modelValue: props.modelValue,
-        emitValue: state.emitValue
+        emitValue: state.emitValue,
+        ariaInvalid: hasError.value === true ? 'true' : void 0,
+        ariaDescribedby: errorMessageId.value,
+        ariaErrormessage: errorMessageId.value
       },
       'field',
       () => state.rootRef.value
@@ -606,6 +641,7 @@ export default function useField(state) {
       'div',
       {
         key,
+        id: hasError.value === true ? errorMessageId.value : void 0,
         class: 'q-field__messages col'
       },
       msg

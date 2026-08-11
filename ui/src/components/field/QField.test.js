@@ -770,7 +770,11 @@ describe('[QField API]', () => {
           focused: false,
           floatingLabel: true,
           modelValue: 'some-value',
-          emitValue: expect.any(Function)
+          emitValue: expect.any(Function),
+          // populated only while the field is in error state
+          ariaInvalid: void 0,
+          ariaDescribedby: void 0,
+          ariaErrormessage: void 0
         })
 
         // the field element is resolved on access, so it points at the root

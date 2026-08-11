@@ -1087,6 +1087,10 @@ export default /*#__PURE__*/ createComponent({
         ...inputControlEvents.value
       }
 
+      if (isTarget) {
+        Object.assign(data, state.getErrorAriaAttrs(data))
+      }
+
       if (!fromDialog && hasDialog) {
         if (Array.isArray(data.class)) {
           data.class = [...data.class, 'no-pointer-events']
@@ -1644,22 +1648,31 @@ export default /*#__PURE__*/ createComponent({
         else if (state.editable.value) {
           const attrs = isTarget ? comboboxAttrs.value : void 0
 
-          child.push(
-            h('input', {
-              ref: isTarget ? targetRef : void 0,
-              key: 'd_t',
-              class: 'q-select__focus-target',
-              id: isTarget ? state.targetUid.value : void 0,
-              value: ariaCurrentValue.value,
-              readonly: true,
-              'data-autofocus':
-                fromDialog === true || props.autofocus || void 0,
-              ...attrs,
-              onKeydown: onTargetKeydown,
-              onKeyup: onTargetKeyup,
-              onKeypress: onTargetKeypress
-            })
-          )
+          const data = {
+            ref: isTarget ? targetRef : void 0,
+            key: 'd_t',
+            class: 'q-select__focus-target',
+            id: isTarget ? state.targetUid.value : void 0,
+            value: ariaCurrentValue.value,
+            readonly: true,
+            'data-autofocus': fromDialog === true || props.autofocus || void 0,
+            ...attrs,
+            onKeydown: onTargetKeydown,
+            onKeyup: onTargetKeyup,
+            onKeypress: onTargetKeypress
+          }
+
+          if (isTarget) {
+            Object.assign(
+              data,
+              state.getErrorAriaAttrs({
+                ...state.splitAttrs.attributes.value,
+                ...data
+              })
+            )
+          }
+
+          child.push(h('input', data))
 
           if (
             isTarget &&
