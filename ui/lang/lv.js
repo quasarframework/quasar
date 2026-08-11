@@ -63,6 +63,7 @@ export default {
     last: 'Pēdējā lapa'
   },
   editor: {
+    toolbar: 'Redaktora rīkjosla',
     url: 'URL',
     bold: 'Trekns',
     italic: 'Kursīvs',

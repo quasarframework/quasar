@@ -64,6 +64,7 @@ export default {
     last: 'അവസാന പേജ്'
   },
   editor: {
+    toolbar: 'എഡിറ്റർ ടൂൾബാർ',
     url: 'യുആർഎൽ',
     bold: 'ബോൾഡ്',
     italic: 'ഇറ്റാലിക്',

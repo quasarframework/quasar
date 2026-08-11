@@ -64,6 +64,7 @@ export default {
     last: 'Viimeinen sivu'
   },
   editor: {
+    toolbar: 'Editorin työkalupalkki',
     url: 'URL',
     bold: 'Lihavoitu',
     italic: 'Kursivoitu',

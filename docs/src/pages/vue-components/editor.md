@@ -121,6 +121,28 @@ User can pick only one option from each dropdown.
 />
 ```
 
+## Accessibility
+
+### Keyboard navigation <q-badge label="v2.25+" />
+
+Following the [WAI-ARIA toolbar pattern](https://www.w3.org/WAI/ARIA/apg/patterns/toolbar/), the toolbar is a single Tab stop: pressing <kbd>Tab</kbd> moves focus into the toolbar (onto the last used button, or the first enabled one) and a second press moves it on to the editing area, rather than walking through every button. Within the toolbar, <kbd>Arrow Left</kbd> and <kbd>Arrow Right</kbd> move focus between the buttons (wrapping at either end and following the text direction in RTL), while <kbd>Home</kbd> and <kbd>End</kbd> jump to the first or last one. Content rendered through custom toolbar slots keeps its own Tab stops.
+
+The commands wired to the current toolbar also respond to their <kbd>CTRL</kbd> key combinations (shown in the button tooltips) while editing — <kbd>CTRL + B</kbd> for bold, for example.
+
+### Labeling <q-badge label="v2.25+" />
+
+The editing area is exposed as a multiline `textbox` and the toolbar carries a localized `aria-label` from the [Quasar Language Pack](/options/quasar-language-packs). Attributes passed to QEditor itself (such as `aria-label`, `aria-labelledby` or `aria-describedby`) are applied to the editing area, so you can — and should — give it an accessible name:
+
+```html
+<q-editor v-model="model" aria-label="Post body" />
+```
+
+### Help dialog <q-badge label="v2.25+" />
+
+Some WYSIWYG editors offer a dialog listing the available keyboard commands. QEditor does not ship one built in, but a custom toolbar slot gets you there:
+
+<DocExample title="Help dialog" file="HelpDialog" />
+
 ## Caveats
 
 ### Autocorrect & spellcheck

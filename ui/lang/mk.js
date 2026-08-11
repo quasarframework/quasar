@@ -61,6 +61,7 @@ export default {
     last: 'Последна страница'
   },
   editor: {
+    toolbar: 'Лента со алатки на уредувачот',
     url: 'URL',
     bold: 'Задебелено',
     italic: 'Курзив',

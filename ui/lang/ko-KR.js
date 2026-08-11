@@ -58,6 +58,7 @@ export default {
     last: '마지막 페이지'
   },
   editor: {
+    toolbar: '편집기 도구 모음',
     url: 'URL',
     bold: '굵게',
     italic: '기울이기',

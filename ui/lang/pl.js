@@ -63,6 +63,7 @@ export default {
     last: 'Ostatnia strona'
   },
   editor: {
+    toolbar: 'Pasek narzędzi edytora',
     url: 'URL',
     bold: 'Pogrubienie',
     italic: 'Kursywa',

@@ -61,6 +61,7 @@ export default {
     last: 'Siste side'
   },
   editor: {
+    toolbar: 'Editorens verktøylinje',
     url: 'URL',
     bold: 'Fet',
     italic: 'Kursiv',

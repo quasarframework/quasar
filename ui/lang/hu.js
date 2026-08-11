@@ -61,6 +61,7 @@ export default {
     last: 'Utolsó oldal'
   },
   editor: {
+    toolbar: 'Szerkesztő eszköztára',
     url: 'URL',
     bold: 'Félkövér',
     italic: 'Dőlt',

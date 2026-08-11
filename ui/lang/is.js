@@ -63,6 +63,7 @@ export default {
     last: 'Síðasta blaðsíða'
   },
   editor: {
+    toolbar: 'Tækjastika ritils',
     url: 'Slóð',
     bold: 'Feitletra',
     italic: 'Skáletra',

@@ -61,6 +61,7 @@ export default {
     last: 'Sidste side'
   },
   editor: {
+    toolbar: 'Editorens værktøjslinje',
     url: 'URL',
     bold: 'Fed',
     italic: 'Kursiv',

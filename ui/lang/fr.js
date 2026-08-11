@@ -70,6 +70,7 @@ export default {
     last: 'Dernière page'
   },
   editor: {
+    toolbar: "Barre d'outils de l'éditeur",
     url: 'URL',
     bold: 'Gras',
     italic: 'Italique',

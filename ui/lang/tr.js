@@ -58,6 +58,7 @@ export default {
     last: 'Son Sayfa'
   },
   editor: {
+    toolbar: 'Düzenleyici araç çubuğu',
     url: 'URL',
     bold: 'Kalın',
     italic: 'Eğik',

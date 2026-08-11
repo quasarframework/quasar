@@ -61,6 +61,7 @@ export default {
     last: 'Halaman terakhir'
   },
   editor: {
+    toolbar: 'Bilah alat penyunting',
     url: 'URL',
     bold: 'Tebal',
     italic: 'Miring',

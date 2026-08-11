@@ -74,6 +74,7 @@ export default {
     last: 'Остання сторінка'
   },
   editor: {
+    toolbar: 'Панель інструментів редактора',
     url: 'URL',
     bold: 'Напівжирний',
     italic: 'Курсив',

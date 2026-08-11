@@ -61,6 +61,7 @@ export default {
     last: 'கடைசி பக்கம்'
   },
   editor: {
+    toolbar: 'திருத்தி கருவிப்பட்டை',
     url: 'URL',
     bold: 'தடித்த',
     italic: 'சாய்ந்த',

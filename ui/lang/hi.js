@@ -59,6 +59,7 @@ export default {
     last: 'अंतिम पृष्ठ'
   },
   editor: {
+    toolbar: 'संपादक टूलबार',
     url: 'URL',
     bold: 'बोल्ड',
     italic: 'इटैलिक',

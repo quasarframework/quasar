@@ -61,6 +61,7 @@ export default {
     last: 'Последња страна'
   },
   editor: {
+    toolbar: 'Трака са алаткама уређивача',
     url: 'УРЛ',
     bold: 'Подебљано',
     italic: 'Накошено',

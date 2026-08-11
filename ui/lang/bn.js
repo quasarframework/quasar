@@ -64,6 +64,7 @@ export default {
     last: 'শেষ পৃষ্ঠা'
   },
   editor: {
+    toolbar: 'সম্পাদকের টুলবার',
     url: 'ইউ আর এল',
     bold: 'মোটা',
     italic: 'বাঁকা',

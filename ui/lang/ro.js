@@ -61,6 +61,7 @@ export default {
     last: 'Ultima pagină'
   },
   editor: {
+    toolbar: 'Bara de instrumente a editorului',
     url: 'URL',
     bold: 'Îngroșat',
     italic: 'Înclinat',

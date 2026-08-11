@@ -141,6 +141,8 @@ export interface QuasarLanguage {
     selectedRecords: (rows: number) => string;
     pagination: (start: number, end: number, total: number) => string;
   };
-  editor: StringDictionary<QuasarLanguageEditorLabel>;
+  editor: StringDictionary<QuasarLanguageEditorLabel> & {
+    toolbar?: string;
+  };
   tree: StringDictionary<QuasarLanguageTreeLabel>;
 }

@@ -61,6 +61,7 @@ export default {
     last: 'Huling pahina'
   },
   editor: {
+    toolbar: 'Toolbar ng editor',
     url: 'URL',
     bold: 'Matapang',
     italic: 'Italic',

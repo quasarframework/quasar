@@ -63,6 +63,7 @@ export default {
     last: 'Itulau mulimuli'
   },
   editor: {
+    toolbar: 'Laina meafaigaluega',
     url: 'Tuātusi initaneti',
     bold: "Fa'aolaola",
     italic: "Fa'api'o",

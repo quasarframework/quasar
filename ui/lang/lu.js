@@ -63,6 +63,7 @@ export default {
     last: 'Lescht Säit'
   },
   editor: {
+    toolbar: 'Toolbar vum Editeur',
     url: 'URL',
     bold: 'Fett',
     italic: 'Kursiv',

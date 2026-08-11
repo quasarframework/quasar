@@ -63,6 +63,7 @@ export default {
     last: 'Letzte Seite'
   },
   editor: {
+    toolbar: 'Symbolleiste des Editors',
     url: 'URL',
     bold: 'Fett',
     italic: 'Kursiv',

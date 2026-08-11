@@ -61,6 +61,7 @@ export default {
     last: 'Sista sidan'
   },
   editor: {
+    toolbar: 'Redigerarens verktygsfält',
     url: 'URL',
     bold: 'Fet',
     italic: 'Kursiv',

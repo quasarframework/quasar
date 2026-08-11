@@ -66,6 +66,7 @@ export default {
     last: 'Сўнгги саҳифа'
   },
   editor: {
+    toolbar: 'Муҳаррир асбоблар панели',
     url: 'УРЛ',
     bold: 'Қалин',
     italic: 'Курсив',

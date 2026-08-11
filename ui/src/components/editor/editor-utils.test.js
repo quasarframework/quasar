@@ -49,6 +49,7 @@ function createEVm($q, { props = {}, buttons = [], ...overrides } = {}) {
 
     isViewingSource: ref(false),
     editLinkUrl: ref('https://quasar.dev'),
+    toolbarTabStop: ref(null),
     toolbarBackgroundClass: computed(() => ' bg-grey-3'),
     buttonProps: computed(() => ({ type: 'a', flat: true, dense: true })),
     contentRef: ref(null),

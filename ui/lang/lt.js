@@ -78,6 +78,7 @@ export default {
     last: 'Paskutinis puslapis'
   },
   editor: {
+    toolbar: 'Redaktoriaus įrankių juosta',
     url: 'URL',
     bold: 'Paryškintasis',
     italic: 'Kursyvas',

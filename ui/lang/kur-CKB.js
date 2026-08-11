@@ -67,6 +67,7 @@ export default {
     last: 'پەڕەی کۆتایی'
   },
   editor: {
+    toolbar: 'شریتی ئامرازەکانی دەستکاریکەر',
     url: 'لینک',
     bold: 'تۆخ',
     italic: 'لار',

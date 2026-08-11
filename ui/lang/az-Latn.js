@@ -63,6 +63,7 @@ export default {
     last: 'Son səhifə'
   },
   editor: {
+    toolbar: 'Redaktor alətlər paneli',
     url: 'URL',
     bold: 'Bold',
     italic: 'Italic',

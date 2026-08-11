@@ -64,6 +64,7 @@ export default {
     last: 'Ultima pagina'
   },
   editor: {
+    toolbar: "Barra degli strumenti dell'editor",
     url: 'URL',
     bold: 'Grassetto',
     italic: 'Corsivo',

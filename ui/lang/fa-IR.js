@@ -68,6 +68,7 @@ export default {
     last: 'صفحه آخر'
   },
   editor: {
+    toolbar: 'نوار ابزار ویرایشگر',
     url: 'آدرس',
     bold: 'ضخیم',
     italic: 'کج',

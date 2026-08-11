@@ -66,6 +66,7 @@ export default {
     last: 'ئاخىرقى بەت'
   },
   editor: {
+    toolbar: 'تەھرىرلىگۈچ قورال ستونى',
     url: 'URL',
     bold: 'توم',
     italic: 'يانتۇ',

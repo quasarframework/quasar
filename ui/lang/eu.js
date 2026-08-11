@@ -62,6 +62,7 @@ export default {
     last: 'Azken orria'
   },
   editor: {
+    toolbar: 'Editorearen tresna-barra',
     url: 'URL',
     bold: 'Lodia',
     italic: 'Italikoa',

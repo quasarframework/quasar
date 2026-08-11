@@ -63,6 +63,7 @@ export default {
     last: 'Última pàgina'
   },
   editor: {
+    toolbar: "Barra d'eines de l'editor",
     url: 'URL',
     bold: 'Negreta',
     italic: 'Cursiva',

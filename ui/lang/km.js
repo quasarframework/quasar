@@ -60,6 +60,7 @@ export default {
     last: 'ទំព័រចុងក្រោយ'
   },
   editor: {
+    toolbar: 'របារឧបករណ៍កម្មវិធីនិពន្ធ',
     url: 'URL',
     bold: 'ដិត',
     italic: 'ទ្រេត',

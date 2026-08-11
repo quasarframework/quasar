@@ -63,6 +63,7 @@ export default {
     last: '最後のページ'
   },
   editor: {
+    toolbar: 'エディタツールバー',
     url: 'URL', // 'URL',
     bold: '太字', // 'Bold',
     italic: '斜体', // 'Italic',

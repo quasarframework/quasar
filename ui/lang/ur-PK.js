@@ -73,6 +73,7 @@ export default {
     last: 'وروستۍ پاڼه'
   },
   editor: {
+    toolbar: 'ایڈیٹر ٹول بار',
     url: 'یو آر ایل',
     bold: 'موٹا',
     italic: 'ترچھا',

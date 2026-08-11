@@ -63,6 +63,7 @@ export default {
     last: 'Trang cuối cùng'
   },
   editor: {
+    toolbar: 'Thanh công cụ soạn thảo',
     url: 'URL',
     bold: 'Đậm',
     italic: 'Nghiêng',

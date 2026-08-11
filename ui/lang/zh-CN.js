@@ -67,6 +67,7 @@ export default {
     last: '最后一页'
   },
   editor: {
+    toolbar: '编辑器工具栏',
     url: 'URL',
     bold: '粗体',
     italic: '斜体',

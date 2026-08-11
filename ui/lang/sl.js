@@ -63,6 +63,7 @@ export default {
     last: 'Zadnja stran'
   },
   editor: {
+    toolbar: 'Orodna vrstica urejevalnika',
     url: 'URL',
     bold: 'Krepko',
     italic: 'Ležeče',

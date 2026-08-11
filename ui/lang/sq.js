@@ -63,6 +63,7 @@ export default {
     last: 'Faqja e fundit'
   },
   editor: {
+    toolbar: 'Shiriti i veglave të redaktuesit',
     url: 'URL',
     bold: 'Trash',
     italic: 'Pjerrët',

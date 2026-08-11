@@ -68,6 +68,7 @@ export default {
     last: '最後一頁'
   },
   editor: {
+    toolbar: '編輯器工具列',
     url: '網址',
     bold: '粗體',
     italic: '斜體',

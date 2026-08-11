@@ -23,7 +23,15 @@ function getGroup(children) {
   return h('div', { class: 'q-editor__toolbar-group' }, children)
 }
 
-function getBtn(eVm, btn, clickHandler, active = false) {
+function isBtnDisabled(eVm, btn) {
+  return btn.disable
+    ? typeof btn.disable === 'function'
+      ? btn.disable(eVm)
+      : true
+    : false
+}
+
+function getBtn(eVm, btn, clickHandler, active, tabAttrs) {
   const toggled =
       active ||
       (btn.type === 'toggle'
@@ -59,13 +67,12 @@ function getBtn(eVm, btn, clickHandler, active = false) {
           ? null
           : btn.textColor || eVm.props.toolbarTextColor,
       label: btn.label,
-      'aria-label': btn.label === null ? btn.tip : void 0,
-      disable: btn.disable
-        ? typeof btn.disable === 'function'
-          ? btn.disable(eVm)
-          : true
-        : false,
+      // icon-only buttons (no label) need an accessible name
+      'aria-label':
+        btn.label === void 0 || btn.label === null ? btn.tip : void 0,
+      disable: isBtnDisabled(eVm, btn),
       size: 'sm',
+      ...tabAttrs,
       onClick(e) {
         clickHandler?.()
         run(e, btn, eVm)
@@ -75,7 +82,7 @@ function getBtn(eVm, btn, clickHandler, active = false) {
   )
 }
 
-function getDropdown(eVm, btn) {
+function getDropdown(eVm, btn, tabAttrs) {
   const onlyIcons = btn.list === 'only-icons'
   let label = btn.label,
     icon = btn.icon !== null ? btn.icon : void 0,
@@ -187,12 +194,19 @@ function getDropdown(eVm, btn) {
       textColor:
         highlight && !eVm.props.toolbarPush ? null : eVm.props.toolbarTextColor,
       label: btn.fixedLabel ? btn.label : label,
+      // fixedLabel dropdowns without a label render icon-only;
+      // name them after the currently active option, if any
+      toggleAriaLabel:
+        btn.fixedLabel && (btn.label === void 0 || btn.label === null)
+          ? label
+          : void 0,
       icon: btn.fixedIcon ? (btn.icon !== null ? btn.icon : void 0) : icon,
       contentClass,
       onShow: evt => eVm.emit('dropdownShow', evt),
       onHide: evt => eVm.emit('dropdownHide', evt),
       onBeforeShow: evt => eVm.emit('dropdownBeforeShow', evt),
-      onBeforeHide: evt => eVm.emit('dropdownBeforeHide', evt)
+      onBeforeHide: evt => eVm.emit('dropdownBeforeHide', evt),
+      ...tabAttrs
     },
     () => Items
   )
@@ -202,29 +216,67 @@ function getDropdown(eVm, btn) {
 
 export function getToolbar(eVm) {
   if (eVm.caret) {
-    return eVm.buttons.value
-      .filter(
-        f => !eVm.isViewingSource.value || f.find(fb => fb.cmd === 'viewsource')
-      )
-      .map(group =>
-        getGroup(
-          group.map(btn => {
-            if (eVm.isViewingSource.value && btn.cmd !== 'viewsource') {
-              return false
-            }
+    const skipsToken = btn =>
+      (eVm.isViewingSource.value && btn.cmd !== 'viewsource') ||
+      btn.type === 'slot'
 
-            if (btn.type === 'slot') {
-              return hSlot(eVm.slots[btn.slot])
-            }
+    const groups = eVm.buttons.value.filter(
+      f => !eVm.isViewingSource.value || f.find(fb => fb.cmd === 'viewsource')
+    )
 
-            if (btn.type === 'dropdown') {
-              return getDropdown(eVm, btn)
-            }
+    // The toolbar acts as a single Tab stop (roving tabindex): only one
+    // control keeps tabindex 0 -- the last one focused, falling back to
+    // the first enabled one. Slot tokens stay out of the scheme (they
+    // remain their own Tab stops). Flat indices follow render order.
+    const disabledList = []
+    groups.forEach(group => {
+      group.forEach(btn => {
+        if (skipsToken(btn)) return
 
-            return getBtn(eVm, btn)
-          })
+        disabledList.push(
+          btn.type === 'dropdown'
+            ? eVm.buttonProps.value.disable
+            : isBtnDisabled(eVm, btn)
         )
+      })
+    })
+
+    let tabStop = eVm.toolbarTabStop.value
+    if (
+      tabStop === null ||
+      tabStop >= disabledList.length ||
+      disabledList[tabStop]
+    ) {
+      tabStop = disabledList.indexOf(false)
+    }
+
+    let flatIndex = -1
+
+    return groups.map(group =>
+      getGroup(
+        group.map(btn => {
+          if (eVm.isViewingSource.value && btn.cmd !== 'viewsource') {
+            return false
+          }
+
+          if (btn.type === 'slot') {
+            return hSlot(eVm.slots[btn.slot])
+          }
+
+          flatIndex++
+          const tabAttrs = {
+            'data-tbi': flatIndex,
+            tabindex: flatIndex === tabStop ? 0 : -1
+          }
+
+          if (btn.type === 'dropdown') {
+            return getDropdown(eVm, btn, tabAttrs)
+          }
+
+          return getBtn(eVm, btn, void 0, false, tabAttrs)
+        })
       )
+    )
   }
 }
 

@@ -61,6 +61,7 @@ export default {
     last: 'Τελευταία σελίδα'
   },
   editor: {
+    toolbar: 'Γραμμή εργαλείων επεξεργαστή',
     url: 'Διεύθυνση URL', // Needs Translation
     bold: 'Έντονα',
     italic: 'Πλάγια',

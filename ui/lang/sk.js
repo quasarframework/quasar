@@ -68,6 +68,7 @@ export default {
     last: 'Posledná stránka'
   },
   editor: {
+    toolbar: 'Panel nástrojov editora',
     url: 'URL',
     bold: 'Tučné',
     italic: 'Kurzíva',

@@ -74,6 +74,7 @@ export default {
     last: 'Соңғы бет'
   },
   editor: {
+    toolbar: 'Редактордың құралдар тақтасы',
     url: 'URL',
     bold: 'Қалың',
     italic: 'Курсив',

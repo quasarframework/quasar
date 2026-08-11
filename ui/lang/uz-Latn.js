@@ -70,6 +70,7 @@ export default {
     last: "So'nggi sahifa"
   },
   editor: {
+    toolbar: 'Muharrir asboblar paneli',
     url: 'URL',
     bold: 'Qalin',
     italic: 'Kursiv',

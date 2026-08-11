@@ -65,6 +65,7 @@ export default {
     last: 'העמוד האחרון'
   },
   editor: {
+    toolbar: 'סרגל הכלים של העורך',
     url: 'כתובת אתר',
     bold: 'בולט',
     italic: 'נטוי',

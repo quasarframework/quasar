@@ -80,6 +80,7 @@ describe('[Lang API]', () => {
             prev: expect.any(String)
           },
           editor: {
+            toolbar: expect.any(String),
             url: expect.any(String),
             bold: expect.any(String),
             italic: expect.any(String),
@@ -246,6 +247,7 @@ describe('[Lang API]', () => {
               prev: expect.any(String)
             },
             editor: {
+              toolbar: 'Editor toolbar',
               url: 'URL',
               bold: 'Bold',
               italic: 'Italic',

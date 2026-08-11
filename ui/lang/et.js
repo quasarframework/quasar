@@ -62,6 +62,7 @@ export default {
     last: 'Viimane leht'
   },
   editor: {
+    toolbar: 'Redaktori tööriistariba',
     url: 'URL',
     bold: 'Rasvane',
     italic: 'Kaldkiri',

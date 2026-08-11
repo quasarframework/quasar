@@ -63,6 +63,7 @@ export default {
     last: 'နောက်ဆုံးစာမျက်နှာ'
   },
   editor: {
+    toolbar: 'အယ်ဒီတာ ကိရိယာဘား',
     url: 'URL',
     bold: 'အထူ',
     italic: 'အစောင်း',

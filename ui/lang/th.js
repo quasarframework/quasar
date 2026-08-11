@@ -60,6 +60,7 @@ export default {
     last: 'หน้าสุดท้าย'
   },
   editor: {
+    toolbar: 'แถบเครื่องมือตัวแก้ไข',
     url: 'URL',
     bold: 'ตัวหนา',
     italic: 'ตัวเอียง',

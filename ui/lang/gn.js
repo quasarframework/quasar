@@ -61,6 +61,7 @@ export default {
     last: 'Kuatia última'
   },
   editor: {
+    toolbar: 'Barra de herramientas del editor',
     url: 'URL',
     bold: 'Negrita',
     italic: 'Kursíva',

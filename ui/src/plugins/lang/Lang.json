@@ -357,6 +357,11 @@
           "type": "Object",
           "desc": "QEditor labels",
           "definition": {
+            "toolbar": {
+              "type": "String",
+              "desc": "Accessible name (aria-label) of the toolbar",
+              "examples": ["'Editor toolbar'"]
+            },
             "url": {
               "type": "String",
               "desc": "Label",
@@ -977,6 +982,11 @@
               "desc": "QEditor labels",
               "required": true,
               "definition": {
+                "toolbar": {
+                  "type": "String",
+                  "desc": "Accessible name (aria-label) of the toolbar",
+                  "examples": ["'Editor toolbar'"]
+                },
                 "url": {
                   "type": "String",
                   "desc": "Label",

@@ -63,6 +63,7 @@ export default {
     last: 'Posljednja stranica'
   },
   editor: {
+    toolbar: 'Alatna traka uređivača',
     url: 'URL',
     bold: 'Podebljano',
     italic: 'Nakošeno',

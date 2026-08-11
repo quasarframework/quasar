@@ -2,6 +2,8 @@ import { flushPromises, mount } from '@vue/test-utils'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import { nextTick } from 'vue'
 
+import langEn from '../../../lang/en-US.js'
+
 import QEditor from './QEditor.js'
 
 /**
@@ -227,7 +229,7 @@ describe('[QEditor API]', () => {
         await wrapper.setProps({ disable: true })
 
         expect(wrapper.classes()).toContain('disabled')
-        expect(wrapper.attributes('aria-disabled')).toBe('true')
+        expect(getContent(wrapper).attributes('aria-disabled')).toBe('true')
         expect(getContent(wrapper).attributes('contenteditable')).toBe('false')
       })
     })
@@ -597,6 +599,7 @@ describe('[QEditor API]', () => {
         await wrapper.setProps({ placeholder: propVal })
 
         expect(getContent(wrapper).attributes('placeholder')).toBe(propVal)
+        expect(getContent(wrapper).attributes('aria-placeholder')).toBe(propVal)
       })
     })
   })
@@ -890,6 +893,175 @@ describe('[QEditor API]', () => {
         expect(wrapper.vm.caret.el).toBe(getContent(wrapper).element)
         expect(wrapper.vm.caret.can('link')).toBeTypeOf('boolean')
       })
+    })
+  })
+
+  describe('[Accessibility]', () => {
+    test('content region is a multiline textbox', () => {
+      const wrapper = mountEditor()
+      const content = getContent(wrapper)
+
+      expect(content.attributes('role')).toBe('textbox')
+      expect(content.attributes('aria-multiline')).toBe('true')
+      expect(content.attributes('aria-readonly')).toBeUndefined()
+    })
+
+    test('readonly content region is announced as such', () => {
+      const wrapper = mountEditor({ readonly: true })
+
+      expect(getContent(wrapper).attributes('aria-readonly')).toBe('true')
+    })
+
+    test('fall-through attributes land on the textbox, class/style on the root', () => {
+      const wrapper = mountEditor(
+        {},
+        {
+          attrs: {
+            'aria-label': 'Post body',
+            class: 'my-editor',
+            style: 'margin: 7px'
+          }
+        }
+      )
+      const content = getContent(wrapper)
+
+      expect(content.attributes('aria-label')).toBe('Post body')
+      expect(wrapper.attributes('aria-label')).toBeUndefined()
+      expect(wrapper.classes()).toContain('my-editor')
+      expect(wrapper.attributes('style')).toContain('margin: 7px')
+    })
+
+    test('icon-only toolbar buttons use their tooltip as aria-label', async () => {
+      const wrapper = mountEditor({
+        toolbar: [['bold', 'italic', 'underline']]
+      })
+      await flushToolbar()
+
+      expect(
+        getToolbarButtons(wrapper).map(btn => btn.attributes('aria-label'))
+      ).toEqual([
+        langEn.editor.bold,
+        langEn.editor.italic,
+        langEn.editor.underline
+      ])
+    })
+
+    test('toolbar buttons with a visible label do not get an aria-label', async () => {
+      const wrapper = mountEditor({
+        toolbar: [['save']],
+        definitions: {
+          save: { tip: 'Save your work', label: 'Save', handler: () => {} }
+        }
+      })
+      await flushToolbar()
+
+      const btn = getToolbarButtons(wrapper)[0]
+      expect(btn.text()).toContain('Save')
+      expect(btn.attributes('aria-label')).toBeUndefined()
+    })
+
+    test('toolbar is a labelled single Tab stop (roving tabindex)', async () => {
+      const wrapper = mountEditor({
+        toolbar: [
+          ['bold', 'italic'],
+          ['undo', 'redo']
+        ]
+      })
+      await flushToolbar()
+
+      const toolbar = getToolbar(wrapper)
+      expect(toolbar.attributes('role')).toBe('toolbar')
+      expect(toolbar.attributes('aria-label')).toBe(langEn.editor.toolbar)
+
+      expect(
+        getToolbarButtons(wrapper).map(btn => btn.attributes('tabindex'))
+      ).toEqual(['0', '-1', '-1', '-1'])
+    })
+
+    test('arrow keys move focus between toolbar controls', async () => {
+      const wrapper = mountEditor(
+        { toolbar: [['bold', 'italic'], [fontDropdown]] },
+        { attachTo: document.body }
+      )
+      await flushToolbar()
+
+      const [boldEl, italicEl, dropdownEl] = getToolbarButtons(wrapper).map(
+        btn => btn.element
+      )
+
+      function pressKey(keyCode, shiftKey = false) {
+        document.activeElement.dispatchEvent(
+          new KeyboardEvent('keydown', { keyCode, shiftKey, bubbles: true })
+        )
+      }
+
+      boldEl.focus()
+
+      pressKey(39) // ArrowRight
+      expect(document.activeElement).toBe(italicEl)
+
+      pressKey(39) // ArrowRight
+      expect(document.activeElement).toBe(dropdownEl)
+
+      // wraps around past the last control
+      pressKey(39) // ArrowRight
+      expect(document.activeElement).toBe(boldEl)
+
+      pressKey(37) // ArrowLeft
+      expect(document.activeElement).toBe(dropdownEl)
+
+      pressKey(36) // Home
+      expect(document.activeElement).toBe(boldEl)
+
+      pressKey(35) // End
+      expect(document.activeElement).toBe(dropdownEl)
+    })
+
+    test('the last focused control keeps the Tab stop', async () => {
+      const wrapper = mountEditor(
+        { toolbar: [['bold', 'italic', 'underline']] },
+        { attachTo: document.body }
+      )
+      await flushToolbar()
+
+      getToolbarButtons(wrapper)[1].element.focus()
+      await flushToolbar()
+      await nextTick()
+
+      expect(
+        getToolbarButtons(wrapper).map(btn => btn.attributes('tabindex'))
+      ).toEqual(['-1', '0', '-1'])
+    })
+
+    test('icon-only dropdowns are named after their active option', async () => {
+      const wrapper = mountEditor(
+        {
+          modelValue: '<div style="text-align: center">Hello</div>',
+          toolbar: [
+            [
+              {
+                icon: 'format_align_left',
+                fixedLabel: true,
+                fixedIcon: true,
+                list: 'only-icons',
+                options: ['left', 'center', 'right', 'justify']
+              }
+            ]
+          ]
+        },
+        { attachTo: document.body }
+      )
+
+      selectContent(wrapper)
+      wrapper.vm.refreshToolbar()
+      await flushToolbar()
+      await nextTick()
+
+      expect(
+        wrapper
+          .get('.q-editor__toolbar .q-btn-dropdown')
+          .attributes('aria-label')
+      ).toBe(langEn.editor.center)
     })
   })
 })

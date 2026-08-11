@@ -66,6 +66,7 @@ export default {
     last: 'الصفحة الأخيرة'
   },
   editor: {
+    toolbar: 'شريط أدوات المحرر',
     url: 'رابط',
     bold: 'عريض',
     italic: 'مائل',

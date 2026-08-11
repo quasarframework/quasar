@@ -64,6 +64,7 @@ export default {
     last: 'Lasta paĝo'
   },
   editor: {
+    toolbar: 'Ilobreto de la redaktilo',
     url: 'URL',
     bold: 'Grasa',
     italic: 'Kursiva',

@@ -63,6 +63,7 @@ export default {
     last: 'Laatste pagina'
   },
   editor: {
+    toolbar: 'Werkbalk van de editor',
     url: 'URL',
     bold: 'Vet',
     italic: 'Cursief',
