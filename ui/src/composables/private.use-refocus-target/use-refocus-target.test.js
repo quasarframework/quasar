@@ -75,6 +75,17 @@ describe('[useRefocusTarget API]', () => {
         expect(rootFocus).not.toHaveBeenCalled()
         expect(targetFocus).not.toHaveBeenCalled()
 
+        // an aria-hidden control must never receive focus
+        root.setAttribute('aria-hidden', 'true')
+
+        result.refocusTarget({ type: 'click', target: root })
+        result.refocusTarget({ type: 'keydown' })
+
+        expect(rootFocus).not.toHaveBeenCalled()
+        expect(targetFocus).not.toHaveBeenCalled()
+
+        root.removeAttribute('aria-hidden')
+
         props.disable = true
         await nextTick()
 

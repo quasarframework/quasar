@@ -1796,8 +1796,8 @@ describe('[QTree API]', () => {
   describe('[Accessibility]', () => {
     // binding a selection makes leaf nodes focusable "links" too,
     // like in real keyboard-accessible usage
-    function mountNavTree(props) {
-      return mountTree({ selected: null, ...props })
+    function mountNavTree(props, options) {
+      return mountTree({ selected: null, ...props }, options)
     }
 
     function keydown(header, keyCode) {
@@ -2016,6 +2016,37 @@ describe('[QTree API]', () => {
         expect(tickbox.attributes('tabindex')).toBe('-1')
         expect(tickbox.attributes('aria-hidden')).toBe('true')
       }
+    })
+
+    test('keeps focus out of the aria-hidden tickbox on mouse ticking', async () => {
+      const wrapper = mountNavTree(
+        {
+          tickStrategy: 'strict',
+          ticked: [],
+          'onUpdate:ticked': () => {}
+        },
+        { attachTo: document.body }
+      )
+
+      const header = getHeader(wrapper, 'Bread')
+      const tickbox = header.get('.q-tree__tickbox')
+      const event = new MouseEvent('mousedown', {
+        cancelable: true,
+        bubbles: true
+      })
+
+      tickbox.element.dispatchEvent(event)
+
+      // the browser's focus-on-mousedown must be suppressed
+      expect(event.defaultPrevented).toBe(true)
+
+      await tickbox.trigger('click')
+
+      expect(wrapper.emitted('update:ticked')).toStrictEqual([[['bread']]])
+      expect(tickbox.element.contains(document.activeElement)).toBe(false)
+      // the roving tab stop still moves to the ticked node
+      expect(header.attributes('tabindex')).toBe('0')
+      expect(header.element.contains(document.activeElement)).toBe(true)
     })
 
     test('does not trap Tab on a tickbox', () => {

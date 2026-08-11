@@ -1223,6 +1223,17 @@ export default /*#__PURE__*/ createComponent({
                 // through the header (Space), which carries aria-checked
                 tabindex: -1,
                 'aria-hidden': 'true',
+                // being aria-hidden, it must never hold focus (browsers
+                // refuse to hide a focused element from AT and warn);
+                // park focus on the node instead, like header clicks do
+                onMousedown(e) {
+                  e.preventDefault()
+                  if (m.link) {
+                    focusedKey = key
+                    moveTabStop(key)
+                    blur(key)
+                  }
+                },
                 'onUpdate:modelValue': v => {
                   onTickedClick(key, v)
                 }

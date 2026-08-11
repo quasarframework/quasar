@@ -18,6 +18,10 @@ export default function useRefocusTarget(props, rootRef) {
 
     if (e?.qAvoidFocus === true) return
 
+    // never move focus into an aria-hidden control -- browsers
+    // refuse to hide a focused element from AT and warn about it
+    if (root?.getAttribute('aria-hidden') === 'true') return
+
     if (e?.type.indexOf('key') === 0) {
       if (
         document.activeElement !== root &&
