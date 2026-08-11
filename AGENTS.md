@@ -23,9 +23,9 @@ acts on. Exception: procedures that must be followed exactly (e.g.
   already in the worktree.
 - Follow existing code/test patterns. Any user-observable change (options,
   defaults, requirements, behavior, performance, setup) is incomplete until
-  related tests, types, API JSON and the covering `docs/src/pages` pages
-  (search there for the option/feature name) are updated in the same
-  change set.
+  related tests, types, API JSON and the covering `docs/src/pages` pages —
+  including their `docs/src/examples` components — (search there for the
+  option/feature name) are updated in the same change set.
 
 ## Code style
 
