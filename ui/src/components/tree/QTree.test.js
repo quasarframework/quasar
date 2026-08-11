@@ -981,6 +981,47 @@ describe('[QTree API]', () => {
       })
     })
 
+    test('survives swapping the nodes model back and forth', async () => {
+      const wrapper = mountTree({
+        tickStrategy: 'strict',
+        ticked: ['apple'],
+        'onUpdate:ticked': () => {},
+        defaultExpandAll: true
+      })
+
+      expect(getLabels(wrapper)).toStrictEqual([
+        'Fruits',
+        'Apple',
+        'Banana',
+        'Bread'
+      ])
+
+      await wrapper.setProps({ nodes: [{ id: 'swap', label: 'Swap' }] })
+      await nextTick()
+
+      expect(getLabels(wrapper)).toStrictEqual(['Swap'])
+
+      await wrapper.setProps({ nodes: getNodes() })
+      await nextTick()
+
+      wrapper.vm.setExpanded('fruits', true)
+      await nextTick()
+
+      // per-key state got dropped with the old model and must be
+      // re-derived correctly for the returning keys
+      expect(getLabels(wrapper)).toStrictEqual([
+        'Fruits',
+        'Apple',
+        'Banana',
+        'Bread'
+      ])
+      expect(wrapper.vm.isTicked('apple')).toBe(true)
+      expect(wrapper.vm.isTicked('banana')).toBe(false)
+      expect(
+        getHeaderByLabel(wrapper, 'Apple').attributes('aria-checked')
+      ).toBe('true')
+    })
+
     test('drops the collapsible of collapsed nodes with no-transition', async () => {
       const wrapper = mountTree({ noTransition: true })
 

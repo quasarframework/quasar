@@ -90,6 +90,12 @@ function useKeyedFlags(read) {
       }
 
       return target.value
+    },
+
+    prune(keep) {
+      flags.forEach((_, key) => {
+        if (keep.has(key) === false) flags.delete(key)
+      })
     }
   }
 }
@@ -616,6 +622,35 @@ export default /*#__PURE__*/ createComponent({
 
       return target
     }
+
+    // drop the per-key artifacts of keys that left the nodes model, so a
+    // long-lived tree swapping datasets does not accumulate stale entries;
+    // post flush -- by then the obsolete QTreeNode instances have unmounted
+    // and everything here is recreated on demand if a key ever returns
+    watch(
+      structure,
+      ({ map }) => {
+        const prune = target => {
+          target.forEach((_, key) => {
+            if (map.has(key) === false) target.delete(key)
+          })
+        }
+
+        prune(gatedTickableRefs)
+        prune(tickAggRefs)
+        prune(metaRefs)
+        prune(visibilityRefs)
+
+        tickedFlags.prune(map)
+        expandedFlags.prune(map)
+        selectedFlags.prune(map)
+
+        revealedKeys.forEach(key => {
+          if (map.has(key) === false) revealedKeys.delete(key)
+        })
+      },
+      { flush: 'post' }
+    )
 
     const focusableKeys = computed(() => {
       const acc = [],
