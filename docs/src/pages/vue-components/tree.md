@@ -39,7 +39,9 @@ When a tree node has focus:
 
 ### Perf considerations <q-badge label="v2.9.2+" />
 
-When using relatively large data, for performance we recommend using the `no-transition` Boolean prop which will account for a significant runtime speed improvement.
+Starting with Quasar v2.25, a collapsed node's children are not rendered until the node gets expanded for the first time (afterwards they are kept in the DOM — hidden — so that collapsing/expanding can still animate). Initial rendering cost thus scales with the number of _visible_ nodes, not with the total tree size. If your code queried the DOM for the children of never-expanded nodes, it needs to expand those nodes first.
+
+When using relatively large data, for performance we recommend using the `no-transition` Boolean prop which will account for a significant runtime speed improvement (on older Quasar versions it is the only way to avoid rendering collapsed content; on v2.25+ it additionally drops the kept-alive DOM of previously expanded nodes).
 
 ```html
 <q-tree no-transition ...

@@ -37,8 +37,9 @@ function getNodeHeaders(wrapper) {
 }
 
 /**
- * The children of a collapsed node stay in the DOM (hidden through
- * v-show), so only the visible ones are of interest here.
+ * The children of a collapsed node that was expanded before stay in
+ * the DOM (hidden through v-show), so only the visible ones are of
+ * interest here.
  *
  * The inline display is all that needs looking at, and it avoids
  * getComputedStyle, which is painfully slow with the whole stylesheet.
@@ -912,6 +913,51 @@ describe('[QTree API]', () => {
           'banana'
         ])
       })
+    })
+  })
+
+  describe('[Generic]', () => {
+    test('renders a collapsed subtree only after its first expansion', async () => {
+      const wrapper = mountTree()
+
+      // never-expanded nodes have no collapsible content in the DOM
+      expect(wrapper.find('.q-tree__node-collapsible').exists()).toBe(false)
+
+      wrapper.vm.setExpanded('fruits', true)
+      await nextTick()
+
+      expect(getLabels(wrapper)).toStrictEqual([
+        'Fruits',
+        'Apple',
+        'Banana',
+        'Bread'
+      ])
+
+      wrapper.vm.setExpanded('fruits', false)
+      await nextTick()
+
+      expect(getLabels(wrapper)).toStrictEqual(['Fruits', 'Bread'])
+      // once revealed it is kept alive (v-show) so collapsing can animate
+      expect(wrapper.findAll('.q-tree__node-collapsible')).toHaveLength(1)
+    })
+
+    test('drops the collapsible of collapsed nodes with no-transition', async () => {
+      const wrapper = mountTree({ noTransition: true })
+
+      wrapper.vm.setExpanded('fruits', true)
+      await nextTick()
+
+      expect(getLabels(wrapper)).toStrictEqual([
+        'Fruits',
+        'Apple',
+        'Banana',
+        'Bread'
+      ])
+
+      wrapper.vm.setExpanded('fruits', false)
+      await nextTick()
+
+      expect(wrapper.find('.q-tree__node-collapsible').exists()).toBe(false)
     })
   })
 

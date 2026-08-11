@@ -118,7 +118,20 @@ export default /*#__PURE__*/ createComponent({
     const lazy = ref({})
     const innerTicked = ref(props.ticked || [])
     const innerExpanded = ref(props.expanded || [])
-    const focusedKey = ref(null)
+
+    const tickedKeys = computed(() => new Set(innerTicked.value))
+    const expandedKeys = computed(() => new Set(innerExpanded.value))
+
+    // the roving Tab stop is tracked outside of reactivity and applied
+    // to the DOM directly, so moving focus around does not re-render
+    // the whole tree; renders re-derive it through getTabKey()
+    let focusedKey = null,
+      tabStopKey = null
+
+    // nodes whose children have been rendered at least once; a collapsed
+    // subtree stays unmounted until its first expansion, then it is kept
+    // alive (v-show) so collapsing/expanding it again can still animate
+    const revealedKeys = new Set()
 
     let blurTargets = {},
       headerTargets = {}
@@ -220,7 +233,7 @@ export default /*#__PURE__*/ createComponent({
 
           selected: key === props.selected && selectable,
           selectable,
-          expanded: isParent ? innerExpanded.value.includes(key) : false,
+          expanded: isParent ? expandedKeys.value.has(key) : false,
           expandable,
           noTick:
             node.noTick === true ||
@@ -232,10 +245,10 @@ export default /*#__PURE__*/ createComponent({
           leafFilteredTicking,
           leafTicking,
           ticked: strictTicking
-            ? innerTicked.value.includes(key)
+            ? tickedKeys.value.has(key)
             : isParent
               ? false
-              : innerTicked.value.includes(key)
+              : tickedKeys.value.has(key)
         }
 
         acc[key] = m
@@ -332,14 +345,24 @@ export default /*#__PURE__*/ createComponent({
       return acc
     })
 
-    const tabKey = computed(() => {
+    function getTabKey() {
       const keys = focusableKeys.value
 
-      if (keys.includes(focusedKey.value)) return focusedKey.value
+      if (focusedKey !== null && keys.includes(focusedKey)) return focusedKey
 
       const selected = keys.find(key => meta.value[key].selected === true)
       return selected !== void 0 ? selected : keys[0]
-    })
+    }
+
+    function moveTabStop(key) {
+      if (key === tabStopKey) return
+
+      if (tabStopKey !== null && tabStopKey !== void 0) {
+        headerTargets[tabStopKey]?.setAttribute('tabindex', -1)
+      }
+      headerTargets[key]?.setAttribute('tabindex', 0)
+      tabStopKey = key
+    }
 
     watch(
       () => props.ticked,
@@ -578,10 +601,28 @@ export default /*#__PURE__*/ createComponent({
           ? slots[`header-${node.header}`] || slots['default-header']
           : slots['default-header']
 
-      const children =
-        m.isParent === true ? getChildren(node[props.childrenKey]) : []
+      if (m.expanded === true) {
+        revealedKeys.add(key)
+      }
 
-      const isParent = children.length !== 0 || (m.lazy && m.lazy !== 'loaded')
+      // an expanded node needs its collapsible rendered; a revealed one
+      // keeps it (hidden through v-show) so it can still animate -- unless
+      // transitions are off, where collapsed content renders as null
+      const showCollapsible =
+        m.expanded === true ||
+        (props.noTransition !== true && revealedKeys.has(key))
+
+      const children =
+        m.isParent === true && showCollapsible === true
+          ? getChildren(node[props.childrenKey])
+          : []
+
+      const isParent =
+        (m.isParent === true &&
+          (props.filter
+            ? m.children.some(c => c.matchesFilter === true)
+            : true)) ||
+        (m.lazy && m.lazy !== 'loaded')
 
       let body = node.body
         ? slots[`body-${node.body}`] || slots['default-body']
@@ -618,7 +659,7 @@ export default /*#__PURE__*/ createComponent({
               ref: el => {
                 headerTargets[m.key] = el
               },
-              tabindex: m.link === true && m.key === tabKey.value ? 0 : -1,
+              tabindex: m.link === true && m.key === tabStopKey ? 0 : -1,
               'aria-expanded': isParent
                 ? m.expanded
                   ? 'true'
@@ -640,7 +681,10 @@ export default /*#__PURE__*/ createComponent({
               'aria-disabled': m.disabled === true ? 'true' : null,
               role: 'treeitem',
               onFocus() {
-                if (m.link === true) focusedKey.value = m.key
+                if (m.link === true) {
+                  focusedKey = m.key
+                  moveTabStop(m.key)
+                }
               },
               onClick: e => {
                 onClick(node, m, e)
@@ -763,32 +807,35 @@ export default /*#__PURE__*/ createComponent({
                     onHide
                   },
                   () =>
-                    withDirectives(
-                      h(
-                        'div',
-                        {
-                          class:
-                            'q-tree__node-collapsible' + textColorClass.value,
-                          key: `${key}__q`
-                        },
-                        [
-                          body,
+                    showCollapsible === true
+                      ? withDirectives(
                           h(
                             'div',
                             {
                               class:
-                                'q-tree__children' +
-                                (m.disabled === true
-                                  ? ' q-tree__node--disabled'
-                                  : ''),
-                              role: 'group'
+                                'q-tree__node-collapsible' +
+                                textColorClass.value,
+                              key: `${key}__q`
                             },
-                            children
-                          )
-                        ]
-                      ),
-                      [[vShow, m.expanded]]
-                    )
+                            [
+                              body,
+                              h(
+                                'div',
+                                {
+                                  class:
+                                    'q-tree__children' +
+                                    (m.disabled === true
+                                      ? ' q-tree__node--disabled'
+                                      : ''),
+                                  role: 'group'
+                                },
+                                children
+                              )
+                            ]
+                          ),
+                          [[vShow, m.expanded]]
+                        )
+                      : null
                 )
             : body
         ]
@@ -801,7 +848,8 @@ export default /*#__PURE__*/ createComponent({
 
     function focusNode(key) {
       if (key !== void 0) {
-        focusedKey.value = key
+        focusedKey = key
+        moveTabStop(key)
         headerTargets[key]?.focus()
       }
     }
@@ -863,7 +911,10 @@ export default /*#__PURE__*/ createComponent({
     }
 
     function onClick(node, localMeta, e, keyboard) {
-      if (localMeta.link === true) focusedKey.value = localMeta.key
+      if (localMeta.link === true) {
+        focusedKey = localMeta.key
+        moveTabStop(localMeta.key)
+      }
 
       if (keyboard !== true && localMeta.selectable !== false) {
         blur(localMeta.key)
@@ -891,7 +942,10 @@ export default /*#__PURE__*/ createComponent({
     }
 
     function onExpandClick(node, localMeta, e, keyboard) {
-      if (localMeta.link === true) focusedKey.value = localMeta.key
+      if (localMeta.link === true) {
+        focusedKey = localMeta.key
+        moveTabStop(localMeta.key)
+      }
 
       if (e !== void 0) {
         stopAndPrevent(e)
@@ -952,6 +1006,8 @@ export default /*#__PURE__*/ createComponent({
     })
 
     return () => {
+      tabStopKey = getTabKey()
+
       const children = getChildren(props.nodes)
 
       return h(
