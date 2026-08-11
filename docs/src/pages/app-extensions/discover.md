@@ -24,14 +24,14 @@ Below is a list of official app-extensions created by members of the Quasar team
 
 ### Components
 
-| Alias                                                                             | Description                                                                                                               |
-| --------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------- |
-| [@quasar/qmediaplayer](https://github.com/quasarframework/quasar-ui-qmediaplayer) | HTML5 video and audio player                                                                                              |
-| [@quasar/qflashcard](https://github.com/quasarframework/quasar-ui-qflashcard)     | Show some information and reveal more with CSS Transition Mashups                                                         |
-| [@quasar/qoverlay](https://github.com/quasarframework/quasar-ui-qoverlay)         | Overlays simplified. Add any component on top of the overlay                                                              |
-| [@quasar/qactivity](https://github.com/quasarframework/quasar-ui-qactivity)       | Create activity timelines                                                                                                 |
-| [@quasar/qmarkdown](https://github.com/quasarframework/quasar-ui-qmarkdown)       | Markdown for your pages                                                                                                   |
-| [@quasar/qcalendar](https://github.com/quasarframework/quasar-ui-qcalendar)       | Calendar for Quasar                                                                                                       |
-| [@quasar/qscroller](https://github.com/quasarframework/quasar-ui-qscroller)       | Many scrolling components, including QScroller, QTimeScroller, QDateScroller, QDateTimeScroller and scrolling time ranges |
-| [@quasar/qwindow](https://github.com/quasarframework/quasar-ui-qwindow)           | Floating, movable, resizable interactive windows for Quasar                                                               |
-| [@quasar/qiconpicker](https://github.com/quasarframework/quasar-ui-qiconpicker)   | Icon Picker for your Quasar apps                                                                                          |
+| Alias                                                                             | Description                                                               |
+| --------------------------------------------------------------------------------- | ------------------------------------------------------------------------- |
+| [@quasar/qmediaplayer](https://github.com/quasarframework/quasar-ui-qmediaplayer) | Refined HTML5 audio and video controls for Vue and Quasar applications    |
+| [@quasar/qflashcard](https://github.com/quasarframework/quasar-ui-qflashcard)     | CSS transition flashcards for revealing additional content                |
+| [@quasar/qoverlay](https://github.com/quasarframework/quasar-ui-qoverlay)         | Fullscreen and component-scoped overlays for Vue and Quasar applications  |
+| [@quasar/qactivity](https://github.com/quasarframework/quasar-ui-qactivity)       | Compact activity lists and timelines for Quasar applications              |
+| [@quasar/qmarkdown](https://github.com/quasarframework/quasar-ui-qmarkdown)       | Render and customize Markdown content in Quasar applications              |
+| [@quasar/qcalendar](https://github.com/quasarframework/quasar-ui-qcalendar)       | Configurable calendars, schedulers, agendas, resources and task views     |
+| [@quasar/qscroller](https://github.com/quasarframework/quasar-ui-qscroller)       | String, time, date, date-time and range scrollers for Quasar applications |
+| [@quasar/qwindow](https://github.com/quasarframework/quasar-ui-qwindow)           | Floating, movable and resizable window panels for Quasar applications     |
+| [@quasar/qiconpicker](https://github.com/quasarframework/quasar-ui-qiconpicker)   | An icon picker for Vue and Quasar applications                            |
