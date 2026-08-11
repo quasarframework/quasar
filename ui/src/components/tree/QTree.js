@@ -62,13 +62,13 @@ function useKeyedFlags(read) {
       const next = new Set(val)
 
       current.forEach(key => {
-        if (next.has(key) === false) {
+        if (!next.has(key)) {
           const target = flags.get(key)
           if (target !== void 0) target.value = false
         }
       })
       next.forEach(key => {
-        if (current.has(key) === false) {
+        if (!current.has(key)) {
           const target = flags.get(key)
           if (target !== void 0) target.value = true
         }
@@ -94,7 +94,7 @@ function useKeyedFlags(read) {
 
     prune(keep) {
       flags.forEach((_, key) => {
-        if (keep.has(key) === false) flags.delete(key)
+        if (!keep.has(key)) flags.delete(key)
       })
     }
   }
@@ -344,15 +344,15 @@ export default /*#__PURE__*/ createComponent({
         // the user-supplied filterMethod may return any truthy value
         let matches = Boolean(computedFilterMethod.value(node, props.filter))
 
-        if (matches === true) own.add(key)
+        if (matches) own.add(key)
 
         if (Array.isArray(node[props.childrenKey])) {
           node[props.childrenKey].forEach(child => {
-            if (travel(child) === true) matches = true
+            if (travel(child)) matches = true
           })
         }
 
-        if (matches === true) visible.add(key)
+        if (matches) visible.add(key)
         return matches
       }
 
@@ -367,12 +367,10 @@ export default /*#__PURE__*/ createComponent({
 
     function linkOf(rec) {
       const selectable =
-        !rec.disabled && hasSelection.value && rec.selectableBase === true
+        !rec.disabled && hasSelection.value && rec.selectableBase
       return (
         !rec.disabled &&
-        (selectable ||
-          (rec.expandable === true &&
-            (rec.isParent === true || rec.lazy === true)))
+        (selectable || (rec.expandable && (rec.isParent || rec.lazy === true)))
       )
     }
 
@@ -398,12 +396,12 @@ export default /*#__PURE__*/ createComponent({
         target = computed(() => {
           const rec = structure.value.map.get(key)
 
-          if (rec === void 0 || rec.tickableBase !== true) return false
+          if (rec === void 0 || !rec.tickableBase) return false
 
           return (
-            rec.leafTicking !== true ||
+            !rec.leafTicking ||
             rec.parentKey === null ||
-            getGatedTickableRef(rec.parentKey).value === true
+            getGatedTickableRef(rec.parentKey).value
           )
         })
         gatedTickableRefs.set(key, target)
@@ -429,52 +427,49 @@ export default /*#__PURE__*/ createComponent({
           let noTick = rec.noTickBase,
             tickable = getGatedTickableRef(key).value,
             ticked =
-              rec.strictTicking || rec.isParent !== true
-                ? tickedFlags.has(key)
-                : false,
+              rec.strictTicking || !rec.isParent ? tickedFlags.has(key) : false,
             indeterminate,
             indeterminateNextState
 
-          if (rec.isParent === true) {
+          if (rec.isParent) {
             const childAggs = rec.childKeys.map(k => getTickAggRef(k).value)
             const matches = filterMatches.value
             const visible = matches === null || matches.visible.has(key)
 
             if (
               matches !== null &&
-              matches.own.has(key) === true &&
+              matches.own.has(key) &&
               noTick !== true &&
               rec.disabled !== true &&
-              tickable === true &&
-              rec.leafFilteredTicking === true &&
+              tickable &&
+              rec.leafFilteredTicking &&
               rec.childKeys.every(
                 (k, i) =>
-                  matches.visible.has(k) !== true ||
+                  !matches.visible.has(k) ||
                   childAggs[i].noTick === true ||
-                  childAggs[i].tickable !== true
+                  !childAggs[i].tickable
               )
             ) {
               tickable = false
             }
 
-            if (visible === true) {
+            if (visible) {
               if (
                 noTick !== true &&
-                rec.strictTicking !== true &&
+                !rec.strictTicking &&
                 childAggs.every(a => a.noTick)
               ) {
                 noTick = true
               }
 
-              if (rec.leafTicking === true) {
+              if (rec.leafTicking) {
                 ticked = false
                 indeterminate = childAggs.some(a => a.indeterminate === true)
-                tickable = tickable === true && childAggs.some(a => a.tickable)
+                tickable &&= childAggs.some(a => a.tickable)
 
-                if (indeterminate !== true) {
+                if (!indeterminate) {
                   const sel = childAggs.reduce(
-                    (localAcc, a) =>
-                      a.ticked === true ? localAcc + 1 : localAcc,
+                    (localAcc, a) => (a.ticked ? localAcc + 1 : localAcc),
                     0
                   )
 
@@ -485,9 +480,9 @@ export default /*#__PURE__*/ createComponent({
                   }
                 }
 
-                if (indeterminate === true) {
+                if (indeterminate) {
                   indeterminateNextState = childAggs.every(
-                    a => a.tickable !== true || a.ticked !== true
+                    a => !a.tickable || !a.ticked
                   )
                 }
               }
@@ -542,19 +537,16 @@ export default /*#__PURE__*/ createComponent({
           const agg = getTickAggRef(key).value,
             matches = filterMatches.value,
             selectable =
-              !rec.disabled &&
-              hasSelection.value &&
-              rec.selectableBase === true,
+              !rec.disabled && hasSelection.value && rec.selectableBase,
             link =
               !rec.disabled &&
               (selectable ||
-                (rec.expandable === true &&
-                  (rec.isParent === true || rec.lazy === true))),
+                (rec.expandable && (rec.isParent || rec.lazy === true))),
             matchesFilter = matches === null || matches.visible.has(key),
             selected = selectedFlags.has(key) && selectable,
-            expanded = rec.isParent === true ? expandedFlags.has(key) : false,
+            expanded = rec.isParent ? expandedFlags.has(key) : false,
             hasVisibleChildren =
-              rec.isParent === true &&
+              rec.isParent &&
               (matches === null ||
                 rec.childKeys.some(k => matches.visible.has(k)))
 
@@ -632,7 +624,7 @@ export default /*#__PURE__*/ createComponent({
       ({ map }) => {
         const prune = target => {
           target.forEach((_, key) => {
-            if (map.has(key) === false) target.delete(key)
+            if (!map.has(key)) target.delete(key)
           })
         }
 
@@ -646,7 +638,7 @@ export default /*#__PURE__*/ createComponent({
         selectedFlags.prune(map)
 
         revealedKeys.forEach(key => {
-          if (map.has(key) === false) revealedKeys.delete(key)
+          if (!map.has(key)) revealedKeys.delete(key)
         })
       },
       { flush: 'post' }
@@ -658,13 +650,13 @@ export default /*#__PURE__*/ createComponent({
         matches = filterMatches.value
 
       const travel = key => {
-        if (matches !== null && matches.visible.has(key) !== true) return
+        if (matches !== null && !matches.visible.has(key)) return
 
         const rec = map.get(key)
 
-        if (linkOf(rec) === true) acc.push(key)
+        if (linkOf(rec)) acc.push(key)
 
-        if (rec.isParent === true && expandedKeys.value.has(key) === true) {
+        if (rec.isParent && expandedKeys.value.has(key)) {
           rec.childKeys.forEach(travel)
         }
       }
@@ -808,7 +800,7 @@ export default /*#__PURE__*/ createComponent({
             }
           }
         })
-      } else if (m.isParent === true && m.expandable === true) {
+      } else if (m.isParent && m.expandable) {
         localSetExpanded(key, state)
       }
     }
@@ -828,7 +820,7 @@ export default /*#__PURE__*/ createComponent({
 
           if (rec.parentKey !== null) {
             map.get(rec.parentKey).childKeys.forEach(k => {
-              if (k !== key && map.get(k).expandable === true) {
+              if (k !== key && map.get(k).expandable) {
                 collapse.push(k)
               }
             })
@@ -919,7 +911,7 @@ export default /*#__PURE__*/ createComponent({
     function getChildren(nodes) {
       return (
         props.filter
-          ? nodes.filter(n => getVisibilityRef(n[props.nodeKey]).value === true)
+          ? nodes.filter(n => getVisibilityRef(n[props.nodeKey]).value)
           : nodes
       ).map(child => h(QTreeNode, { key: child[props.nodeKey], node: child }))
     }
@@ -941,7 +933,7 @@ export default /*#__PURE__*/ createComponent({
 
       if (m === void 0) return null
 
-      if (m.expanded === true) {
+      if (m.expanded) {
         revealedKeys.add(key)
       }
 
@@ -949,16 +941,14 @@ export default /*#__PURE__*/ createComponent({
       // keeps it (hidden through v-show) so it can still animate -- unless
       // transitions are off, where collapsed content renders as null
       const showCollapsible =
-        m.expanded === true ||
-        (props.noTransition !== true && revealedKeys.has(key))
+        m.expanded || (props.noTransition !== true && revealedKeys.has(key))
 
       const children =
-        m.isParent === true && showCollapsible === true
+        m.isParent && showCollapsible
           ? getChildren(node[props.childrenKey])
           : []
 
-      const isParent =
-        m.hasVisibleChildren === true || (m.lazy && m.lazy !== 'loaded')
+      const isParent = m.hasVisibleChildren || (m.lazy && m.lazy !== 'loaded')
 
       let body = node.body
         ? slots[`body-${node.body}`] || slots['default-body']
@@ -987,16 +977,14 @@ export default /*#__PURE__*/ createComponent({
             {
               class:
                 'q-tree__node-header relative-position row no-wrap items-center' +
-                (m.link === true
-                  ? ' q-tree__node--link q-hoverable q-focusable'
-                  : '') +
-                (m.selected === true ? ' q-tree__node--selected' : '') +
+                (m.link ? ' q-tree__node--link q-hoverable q-focusable' : '') +
+                (m.selected ? ' q-tree__node--selected' : '') +
                 (m.disabled === true ? ' q-tree__node--disabled' : ''),
               ref: el => {
                 if (el !== null) headerTargets[key] = el
                 else delete headerTargets[key]
               },
-              tabindex: m.link === true && m.key === tabStopKey ? 0 : -1,
+              tabindex: m.link && m.key === tabStopKey ? 0 : -1,
               'aria-expanded': isParent
                 ? m.expanded
                   ? 'true'
@@ -1008,17 +996,17 @@ export default /*#__PURE__*/ createComponent({
                   : 'false'
                 : null,
               'aria-checked':
-                m.hasTicking === true && m.noTick !== true
+                m.hasTicking && m.noTick !== true
                   ? m.indeterminate === true
                     ? 'mixed'
-                    : m.ticked === true
+                    : m.ticked
                       ? 'true'
                       : 'false'
                   : null,
               'aria-disabled': m.disabled === true ? 'true' : null,
               role: 'treeitem',
               onFocus() {
-                if (m.link === true) {
+                if (m.link) {
                   focusedKey = key
                   moveTabStop(key)
                 }
@@ -1031,13 +1019,9 @@ export default /*#__PURE__*/ createComponent({
                   if (e.keyCode === 13) {
                     onClick(node, key, e, true)
                   } else if (e.keyCode === 32) {
-                    if (
-                      m.hasTicking === true &&
-                      m.noTick !== true &&
-                      m.tickable === true
-                    ) {
+                    if (m.hasTicking && m.noTick !== true && m.tickable) {
                       stopAndPrevent(e)
-                      onTickedClick(key, m.ticked !== true)
+                      onTickedClick(key, !m.ticked)
                     } else {
                       onExpandClick(node, key, e, true)
                     }
@@ -1066,7 +1050,7 @@ export default /*#__PURE__*/ createComponent({
                   ? h(QIcon, {
                       class:
                         'q-tree__arrow' +
-                        (m.expanded === true ? ' q-tree__arrow--rotate' : ''),
+                        (m.expanded ? ' q-tree__arrow--rotate' : ''),
                       name: computedIcon.value,
                       onClick(e) {
                         onExpandClick(node, key, e)
@@ -1074,7 +1058,7 @@ export default /*#__PURE__*/ createComponent({
                     })
                   : null,
 
-              m.hasTicking === true && m.noTick !== true
+              m.hasTicking && m.noTick !== true
                 ? h(QCheckbox, {
                     class: 'q-tree__tickbox',
                     modelValue: m.indeterminate === true ? null : m.ticked,
@@ -1082,7 +1066,7 @@ export default /*#__PURE__*/ createComponent({
                     dark: isDark.value,
                     dense: true,
                     keepColor: true,
-                    disable: m.tickable !== true,
+                    disable: !m.tickable,
                     // a pointer affordance only -- keyboard ticking goes
                     // through the header (Space), which carries aria-checked
                     tabindex: -1,
@@ -1098,7 +1082,7 @@ export default /*#__PURE__*/ createComponent({
                 {
                   class:
                     'q-tree__node-header-content col row no-wrap items-center' +
-                    (m.selected === true
+                    (m.selected
                       ? selectedColorClass.value
                       : textColorClass.value)
                 },
@@ -1113,7 +1097,7 @@ export default /*#__PURE__*/ createComponent({
 
           isParent
             ? props.noTransition
-              ? m.expanded === true
+              ? m.expanded
                 ? h(
                     'div',
                     {
@@ -1145,7 +1129,7 @@ export default /*#__PURE__*/ createComponent({
                     onHide
                   },
                   () =>
-                    showCollapsible === true
+                    showCollapsible
                       ? withDirectives(
                           h(
                             'div',
@@ -1196,16 +1180,13 @@ export default /*#__PURE__*/ createComponent({
       const { map } = structure.value
 
       for (const childKey of childKeys) {
-        if (isNodeVisible(childKey) !== true) continue
+        if (!isNodeVisible(childKey)) continue
 
         const rec = map.get(childKey)
 
-        if (linkOf(rec) === true) return childKey
+        if (linkOf(rec)) return childKey
 
-        if (
-          rec.isParent === true &&
-          expandedKeys.value.has(childKey) === true
-        ) {
+        if (rec.isParent && expandedKeys.value.has(childKey)) {
           const key = getFirstFocusableChild(rec.childKeys)
           if (key !== void 0) return key
         }
@@ -1239,9 +1220,9 @@ export default /*#__PURE__*/ createComponent({
         return true
       }
       if (keyCode === 39) {
-        if (localMeta.isParent !== true && !localMeta.lazy) return true
+        if (!localMeta.isParent && !localMeta.lazy) return true
 
-        if (localMeta.expanded !== true) {
+        if (!localMeta.expanded) {
           setExpanded(key, true)
         } else {
           focusNode(
@@ -1251,13 +1232,13 @@ export default /*#__PURE__*/ createComponent({
         return true
       }
       if (keyCode === 37) {
-        if (localMeta.expanded === true) {
+        if (localMeta.expanded) {
           setExpanded(key, false)
         } else {
           const { map } = structure.value
           let parentKey = map.get(key).parentKey
 
-          while (parentKey !== null && linkOf(map.get(parentKey)) !== true) {
+          while (parentKey !== null && !linkOf(map.get(parentKey))) {
             parentKey = map.get(parentKey).parentKey
           }
 
@@ -1273,12 +1254,12 @@ export default /*#__PURE__*/ createComponent({
       const localMeta = getMeta(key)
       if (localMeta === void 0) return
 
-      if (localMeta.link === true) {
+      if (localMeta.link) {
         focusedKey = key
         moveTabStop(key)
       }
 
-      if (keyboard !== true && localMeta.selectable !== false) {
+      if (keyboard !== true && localMeta.selectable) {
         blur(key)
       }
 
@@ -1301,7 +1282,7 @@ export default /*#__PURE__*/ createComponent({
       const localMeta = getMeta(key)
       if (localMeta === void 0) return
 
-      if (localMeta.link === true) {
+      if (localMeta.link) {
         focusedKey = key
         moveTabStop(key)
       }
@@ -1309,7 +1290,7 @@ export default /*#__PURE__*/ createComponent({
       if (e !== void 0) {
         stopAndPrevent(e)
       }
-      if (keyboard !== true && localMeta.selectable !== false) {
+      if (keyboard !== true && localMeta.selectable) {
         blur(key)
       }
       setExpanded(key, !localMeta.expanded, node, localMeta)
@@ -1335,18 +1316,17 @@ export default /*#__PURE__*/ createComponent({
             if (
               state !== true &&
               nodeMeta.noTick !== true &&
-              nodeMeta.tickable === true
+              nodeMeta.tickable
             ) {
               keys.push(travelKey)
             }
-            if (nodeMeta.leafTicking === true) {
+            if (nodeMeta.leafTicking) {
               map.get(travelKey).childKeys.forEach(travel)
             }
           } else if (
             nodeMeta.noTick !== true &&
-            nodeMeta.tickable === true &&
-            (nodeMeta.leafFilteredTicking !== true ||
-              nodeMeta.matchesFilter === true)
+            nodeMeta.tickable &&
+            (!nodeMeta.leafFilteredTicking || nodeMeta.matchesFilter)
           ) {
             keys.push(travelKey)
           }

@@ -19,8 +19,7 @@ export default /*#__PURE__*/ createComponent({
     let animating = false,
       doneFn,
       element
-    let timer = null,
-      timerFallback = null,
+    let timerFallback = null,
       animListener,
       lastEvent
 
@@ -28,11 +27,6 @@ export default /*#__PURE__*/ createComponent({
       doneFn?.()
       doneFn = null
       animating = false
-
-      if (timer !== null) {
-        clearTimeout(timer)
-        timer = null
-      }
 
       if (timerFallback !== null) {
         clearTimeout(timerFallback)
@@ -52,6 +46,11 @@ export default /*#__PURE__*/ createComponent({
 
       animating = true
       doneFn = done
+
+      // the read forces a style flush, so the height target applied right
+      // after transitions from the starting height instead of snapping;
+      // it also happens to be the content height (the "show" target)
+      return el.scrollHeight
     }
 
     function end(el, event) {
@@ -66,38 +65,62 @@ export default /*#__PURE__*/ createComponent({
       let pos = 0
       element = el
 
-      // if animationg overflowY is already 'hidden'
-      if (animating) {
+      const wasAnimating = animating
+
+      if (wasAnimating) {
         cleanup()
-        pos = el.offsetHeight === el.scrollHeight ? 0 : void 0
       } else {
         lastEvent = 'hide'
+      }
+
+      // nothing to animate: settle immediately, with no layout read
+      // and no timers
+      if (props.duration <= 0) {
+        doneFn = done
+        end(el, 'show')
+        return
+      }
+
+      if (wasAnimating) {
+        pos = el.offsetHeight === el.scrollHeight ? 0 : void 0
+      } else {
+        // if animating, overflowY is already 'hidden'
         el.style.overflowY = 'hidden'
       }
 
-      begin(el, pos, done)
+      const target = begin(el, pos, done)
 
-      timer = setTimeout(() => {
-        timer = null
-        el.style.height = `${el.scrollHeight}px`
-        animListener = evt => {
-          if (Object(evt) !== evt || evt.target === el) {
-            end(el, 'show')
-          }
+      el.style.height = `${target}px`
+      animListener = evt => {
+        if (Object(evt) !== evt || evt.target === el) {
+          end(el, 'show')
         }
-        el.addEventListener('transitionend', animListener)
-        timerFallback = setTimeout(animListener, props.duration * 1.1)
-      }, 100)
+      }
+      el.addEventListener('transitionend', animListener)
+      timerFallback = setTimeout(animListener, props.duration * 1.1)
     }
 
     function onLeave(el, done) {
       let pos
       element = el
 
-      if (animating) {
+      const wasAnimating = animating
+
+      if (wasAnimating) {
         cleanup()
       } else {
         lastEvent = 'show'
+      }
+
+      // nothing to animate: settle immediately, with no layout read
+      // and no timers
+      if (props.duration <= 0) {
+        doneFn = done
+        end(el, 'hide')
+        return
+      }
+
+      if (wasAnimating === false) {
         // we need to set overflowY 'hidden' before calculating the height
         // or else we get small differences
         el.style.overflowY = 'hidden'
@@ -106,17 +129,14 @@ export default /*#__PURE__*/ createComponent({
 
       begin(el, pos, done)
 
-      timer = setTimeout(() => {
-        timer = null
-        el.style.height = 0
-        animListener = evt => {
-          if (Object(evt) !== evt || evt.target === el) {
-            end(el, 'hide')
-          }
+      el.style.height = 0
+      animListener = evt => {
+        if (Object(evt) !== evt || evt.target === el) {
+          end(el, 'hide')
         }
-        el.addEventListener('transitionend', animListener)
-        timerFallback = setTimeout(animListener, props.duration * 1.1)
-      }, 100)
+      }
+      el.addEventListener('transitionend', animListener)
+      timerFallback = setTimeout(animListener, props.duration * 1.1)
     }
 
     onBeforeUnmount(() => {
