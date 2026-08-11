@@ -352,4 +352,20 @@ describe('[QTabPanels API]', () => {
       })
     })
   })
+
+  describe('[Accessibility]', () => {
+    test.each([
+      ['plain', {}],
+      ['keep-alive', { keepAlive: true }]
+    ])(
+      'the active panel is the one and only tabpanel element (%s mode)',
+      (_, props) => {
+        const wrapper = mountPanels(props)
+        const panels = wrapper.findAll('[role="tabpanel"]')
+
+        expect(panels).toHaveLength(1)
+        expect(panels[0].classes()).toContain('q-tab-panel')
+      }
+    )
+  })
 })

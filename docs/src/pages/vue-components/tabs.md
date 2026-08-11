@@ -47,6 +47,10 @@ QRouteTab won't and cannot work with the UMD version if you don't also install V
 
 Use the arrow keys to move focus between tabs. Horizontal tabs use `Arrow Left` and `Arrow Right`; vertical tabs use `Arrow Up` and `Arrow Down`. Navigation wraps at either end, and `Home` or `End` moves focus to the first or last tab. Press `Space` or `Enter` to activate the focused tab.
 
+Following the [WAI-ARIA tabs pattern](https://www.w3.org/WAI/ARIA/apg/patterns/tabs/), the tab list is a single Tab stop: pressing `Tab` moves focus into the tab list (onto the active tab, or the first enabled one when no tab is active) and out of it, rather than walking through each tab. Moving focus with the arrow keys does not change the selection.
+
+See [QTabPanels' accessibility section](/vue-components/tab-panels#accessibility) for how to link the tabs to their panels through ARIA attributes.
+
 ### Outside, inside and visible on mobile arrows
 
 <DocExample title="Outside, inside and visible on mobile arrows" file="ArrowsModifiers" />

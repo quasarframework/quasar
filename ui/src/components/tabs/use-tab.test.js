@@ -19,7 +19,7 @@ function createTabs({ currentModel = null, tabProps = {} } = {}) {
     currentModel: ref(currentModel),
     tabProps: computed(() => tabProps),
     hasFocus: ref(false),
-    hasActiveTab: ref(false),
+    tabStopName: ref(null),
     avoidRouteWatcher: false,
     updateModel: vi.fn(),
     registerTab: vi.fn(),
@@ -317,9 +317,9 @@ describe('[useTab API]', () => {
         expect(wrapper.attributes('tabindex')).toBe('3')
       })
 
-      test('drops the inactive tabs out of the tab order once one is active', () => {
+      test('keeps only the QTabs-designated Tab stop in the tab order', () => {
         const $tabs = createTabs({ currentModel: 'one' })
-        $tabs.hasActiveTab.value = true
+        $tabs.tabStopName.value = 'one'
 
         mountTab({ props: { name: 'two' }, $tabs })
         expect(wrapper.attributes('tabindex')).toBe('-1')
@@ -327,6 +327,13 @@ describe('[useTab API]', () => {
         wrapper.unmount()
 
         mountTab({ props: { name: 'one' }, $tabs })
+        expect(wrapper.attributes('tabindex')).toBe('0')
+      })
+
+      test('keeps every enabled tab in the tab order while there is no designated Tab stop', () => {
+        // no tabStopName (e.g. on SSR, before the tabs get registered)
+        mountTab({ props: { name: 'two' } })
+
         expect(wrapper.attributes('tabindex')).toBe('0')
       })
     })

@@ -130,15 +130,25 @@ export default /*#__PURE__*/ createComponent({
       noCaps: props.noCaps
     }))
 
-    const hasActiveTab = computed(() => {
+    // the single Tab stop of the tablist (roving tabindex): the active
+    // tab, or the first enabled one when no tab is active (or when the
+    // active one is disabled); null while the tabs are not yet registered
+    // (SSR / before mount), when each enabled tab acts as its own Tab stop
+    const tabStopName = computed(() => {
       const len = tabDataListLen.value
       const val = currentModel.value
+      let firstEnabled = null
 
       for (let i = 0; i < len; i++) {
-        if (tabDataList[i].name.value === val) return true
+        const tab = tabDataList[i]
+
+        if (!tab.disable.value) {
+          if (tab.name.value === val) return val
+          if (firstEnabled === null) firstEnabled = tab.name.value
+        }
       }
 
-      return false
+      return firstEnabled
     })
 
     const alignClass = computed(() => {
@@ -651,7 +661,7 @@ export default /*#__PURE__*/ createComponent({
       currentModel,
       tabProps,
       hasFocus,
-      hasActiveTab,
+      tabStopName,
 
       registerTab,
       unregisterTab,

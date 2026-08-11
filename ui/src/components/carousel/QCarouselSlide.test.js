@@ -70,4 +70,14 @@ describe('[QCarouselSlide API]', () => {
       })
     })
   })
+
+  describe('[Accessibility]', () => {
+    test('the active slide is the one and only tabpanel element', () => {
+      const wrapper = mountCarousel('first')
+      const panels = wrapper.findAll('[role="tabpanel"]')
+
+      expect(panels).toHaveLength(1)
+      expect(panels[0].classes()).toContain('q-carousel__slide')
+    })
+  })
 })

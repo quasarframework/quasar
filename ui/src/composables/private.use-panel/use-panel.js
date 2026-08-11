@@ -24,14 +24,9 @@ export const usePanelChildProps = {
 const PanelWrapper = {
   setup(_, { slots }) {
     return () =>
-      h(
-        'div',
-        {
-          class: 'q-panel scroll',
-          role: 'tabpanel'
-        },
-        hSlot(slots.default)
-      )
+      // the ARIA role belongs to the panel component inside
+      // (QTabPanel/QStep/QCarouselSlide), not to this wrapper
+      h('div', { class: 'q-panel scroll' }, hSlot(slots.default))
   }
 }
 
@@ -272,8 +267,7 @@ export default function usePanel() {
             {
               class: 'q-panel scroll',
               style: transitionStyle.value,
-              key: contentKey.value,
-              role: 'tabpanel'
+              key: contentKey.value
             },
             [panel]
           )

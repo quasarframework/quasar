@@ -41,6 +41,29 @@ Do not be mistaken by the "QTabPanels" component name. Panels do not require QTa
 
 <DocExample title="Basic" file="Basic" />
 
+### Accessibility <q-badge label="v2.25+" />
+
+Each QTabPanel renders with the `tabpanel` ARIA role and is focusable (`tabindex="0"`), so keyboard and screen reader users can reach the panel content even when nothing inside it is focusable. Should your panel start with its own focusable content, you can remove the extra Tab stop with `tabindex="-1"`.
+
+Since QTabPanels does not require a QTabs (and can be placed anywhere relative to one), the two components cannot wire the ARIA relationship between a tab and its panel for you. When pairing them, supply the attributes yourself:
+
+```html
+<q-tabs v-model="tab">
+  <q-tab
+    name="mails"
+    id="mails-tab"
+    aria-controls="mails-panel"
+    label="Mails"
+  />
+</q-tabs>
+
+<q-tab-panels v-model="tab">
+  <q-tab-panel name="mails" id="mails-panel" aria-labelledby="mails-tab">
+    ...
+  </q-tab-panel>
+</q-tab-panels>
+```
+
 ### With QTabs
 
 ::: tip

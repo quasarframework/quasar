@@ -23,7 +23,8 @@ export default /*#__PURE__*/ createComponent({
         'div',
         {
           class: 'q-carousel__slide',
-          style: style.value
+          style: style.value,
+          role: 'tabpanel'
         },
         hSlot(slots.default)
       )

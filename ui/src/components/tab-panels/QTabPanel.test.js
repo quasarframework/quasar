@@ -61,4 +61,26 @@ describe('[QTabPanel API]', () => {
       })
     })
   })
+
+  describe('[Accessibility]', () => {
+    test('renders as a focusable tabpanel', () => {
+      const wrapper = mount(QTabPanel, {
+        props: { name: 'panel' },
+        slots: { default: () => 'content' }
+      })
+
+      expect(wrapper.attributes('role')).toBe('tabpanel')
+      expect(wrapper.attributes('tabindex')).toBe('0')
+    })
+
+    test('the ARIA attributes can be overridden and extended', () => {
+      const wrapper = mount(QTabPanel, {
+        props: { name: 'panel' },
+        attrs: { tabindex: '-1', 'aria-labelledby': 'my-tab' }
+      })
+
+      expect(wrapper.attributes('tabindex')).toBe('-1')
+      expect(wrapper.attributes('aria-labelledby')).toBe('my-tab')
+    })
+  })
 })

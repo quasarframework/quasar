@@ -12,6 +12,16 @@ export default /*#__PURE__*/ createComponent({
 
   setup(_, { slots }) {
     return () =>
-      h('div', { class: 'q-tab-panel', role: 'tabpanel' }, hSlot(slots.default))
+      h(
+        'div',
+        {
+          class: 'q-tab-panel',
+          role: 'tabpanel',
+          // per the WAI-ARIA tabs pattern, so that keyboard users can
+          // reach the panel content even when nothing in it is focusable
+          tabindex: 0
+        },
+        hSlot(slots.default)
+      )
   }
 })

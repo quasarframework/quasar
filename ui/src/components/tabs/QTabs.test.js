@@ -489,4 +489,144 @@ describe('[QTabs API]', () => {
       })
     })
   })
+
+  describe('[Accessibility]', () => {
+    const navTabList = [
+      { name: 'one', label: 'One' },
+      { name: 'two', label: 'Two', disable: true },
+      { name: 'three', label: 'Three' }
+    ]
+
+    async function mountNavTabs(props = {}) {
+      const wrapper = mount(QTabs, {
+        attachTo: document.body,
+        props: {
+          modelValue: null,
+          'onUpdate:modelValue': () => {},
+          ...props
+        },
+        slots: {
+          default: () => navTabList.map(tabProps => h(QTab, tabProps))
+        }
+      })
+
+      // the Tab stop is designated only after the tabs register themselves
+      await waitForContainerMeasurement()
+
+      return wrapper
+    }
+
+    function getTabindexes(wrapper) {
+      return getTabs(wrapper).map(tab => tab.attributes('tabindex'))
+    }
+
+    test('renders as a tablist', async () => {
+      const wrapper = await mountNavTabs()
+
+      expect(wrapper.attributes('role')).toBe('tablist')
+      expect(wrapper.attributes('aria-orientation')).toBe('horizontal')
+
+      await wrapper.setProps({ vertical: true })
+      expect(wrapper.attributes('aria-orientation')).toBe('vertical')
+    })
+
+    test('the tablist has a single Tab stop (roving tabindex)', async () => {
+      const wrapper = await mountNavTabs({ modelValue: 'three' })
+
+      // the active tab is the Tab stop
+      expect(getTabindexes(wrapper)).toStrictEqual(['-1', '-1', '0'])
+
+      // without an (enabled) active tab, the first enabled one is the Tab stop
+      await wrapper.setProps({ modelValue: null })
+      expect(getTabindexes(wrapper)).toStrictEqual(['0', '-1', '-1'])
+
+      await wrapper.setProps({ modelValue: 'unknown' })
+      expect(getTabindexes(wrapper)).toStrictEqual(['0', '-1', '-1'])
+
+      await wrapper.setProps({ modelValue: 'two' })
+      expect(getTabindexes(wrapper)).toStrictEqual(['0', '-1', '-1'])
+    })
+
+    test('removes the tabs from the Tab order while focus is inside the tablist', async () => {
+      const wrapper = await mountNavTabs({ modelValue: 'one' })
+
+      await getTabs(wrapper)[0].trigger('focusin')
+
+      expect(getTabindexes(wrapper)).toStrictEqual(['-1', '-1', '-1'])
+    })
+
+    test('arrow keys move focus, wrapping and skipping disabled tabs', async () => {
+      const wrapper = await mountNavTabs({ modelValue: 'one' })
+      const tabs = getTabs(wrapper)
+
+      tabs[0].element.focus()
+
+      // ArrowRight skips the disabled tab
+      await tabs[0].trigger('keydown', { keyCode: 39 })
+      expect(document.activeElement).toBe(tabs[2].element)
+
+      // ArrowRight wraps around
+      await tabs[2].trigger('keydown', { keyCode: 39 })
+      expect(document.activeElement).toBe(tabs[0].element)
+
+      // ArrowLeft wraps around backwards
+      await tabs[0].trigger('keydown', { keyCode: 37 })
+      expect(document.activeElement).toBe(tabs[2].element)
+
+      // moving focus does not change the selection
+      expect(wrapper.emitted('update:modelValue')).toBeUndefined()
+    })
+
+    test('vertical tablists navigate with the up / down arrow keys', async () => {
+      const wrapper = await mountNavTabs({
+        modelValue: 'one',
+        vertical: true
+      })
+      const tabs = getTabs(wrapper)
+
+      tabs[0].element.focus()
+
+      // ArrowDown skips the disabled tab
+      await tabs[0].trigger('keydown', { keyCode: 40 })
+      expect(document.activeElement).toBe(tabs[2].element)
+
+      // ArrowUp moves backwards
+      await tabs[2].trigger('keydown', { keyCode: 38 })
+      expect(document.activeElement).toBe(tabs[0].element)
+
+      // horizontal arrow keys are left alone
+      await tabs[0].trigger('keydown', { keyCode: 39 })
+      expect(document.activeElement).toBe(tabs[0].element)
+    })
+
+    test('horizontal arrow keys are reversed in RTL', async () => {
+      const wrapper = await mountNavTabs({ modelValue: 'one' })
+      const tabs = getTabs(wrapper)
+
+      wrapper.vm.$q.lang.rtl = true
+
+      try {
+        tabs[0].element.focus()
+
+        // ArrowLeft moves to the next tab in RTL
+        await tabs[0].trigger('keydown', { keyCode: 37 })
+        expect(document.activeElement).toBe(tabs[2].element)
+      } finally {
+        wrapper.vm.$q.lang.rtl = false
+      }
+    })
+
+    test('Home and End move focus to the first / last enabled tab', async () => {
+      const wrapper = await mountNavTabs({ modelValue: 'three' })
+      const tabs = getTabs(wrapper)
+
+      tabs[2].element.focus()
+
+      await tabs[2].trigger('keydown', { keyCode: 36 })
+      expect(document.activeElement).toBe(tabs[0].element)
+
+      await tabs[0].trigger('keydown', { keyCode: 35 })
+      expect(document.activeElement).toBe(tabs[2].element)
+    })
+  })
 })

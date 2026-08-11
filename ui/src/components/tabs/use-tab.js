@@ -111,13 +111,12 @@ export default function useTab(props, slots, emit, routeData) {
       (props.contentClass !== void 0 ? ` ${props.contentClass}` : '')
   )
 
-  const tabIndex = computed(() =>
-    props.disable ||
-    $tabs.hasFocus.value ||
-    (!isActive.value && $tabs.hasActiveTab.value)
-      ? -1
-      : props.tabindex || 0
-  )
+  const tabIndex = computed(() => {
+    if (props.disable || $tabs.hasFocus.value) return -1
+
+    const tabStop = $tabs.tabStopName.value
+    return tabStop === null || tabStop === props.name ? props.tabindex || 0 : -1
+  })
 
   function onClick(e, keyboard) {
     if (!keyboard && !e?.qAvoidFocus) {
@@ -256,6 +255,7 @@ export default function useTab(props, slots, emit, routeData) {
 
   const tabData = {
     name: computed(() => props.name),
+    disable: computed(() => props.disable),
     rootRef,
     tabIndicatorRef,
     routeData
