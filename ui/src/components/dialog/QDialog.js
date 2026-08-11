@@ -99,6 +99,7 @@ export default /*#__PURE__*/ createComponent({
   setup(props, { slots, emit, attrs }) {
     const vm = getCurrentInstance()
 
+    const rootElRef = ref(null)
     const innerRef = ref(null)
     const showing = ref(false)
     const animating = ref(false)
@@ -422,7 +423,12 @@ export default /*#__PURE__*/ createComponent({
       // private but needed by QSelect
       __updateRefocusTarget(target) {
         refocusTarget = target || null
-      }
+      },
+
+      // private but needed by usePortal: while aria-modal is set,
+      // assistive tech ignores content outside this element, so menu
+      // portals anchored inside the dialog must render within it
+      __getAriaModalEl: () => (useBackdrop.value ? rootElRef.value : null)
     })
 
     onBeforeUnmount(cleanup)
@@ -431,6 +437,7 @@ export default /*#__PURE__*/ createComponent({
       return h(
         'div',
         {
+          ref: rootElRef,
           role: 'dialog',
           'aria-modal': useBackdrop.value ? 'true' : 'false',
           ...attrs,

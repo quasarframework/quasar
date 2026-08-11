@@ -4,6 +4,7 @@ import { defineComponent, h } from 'vue'
 
 import { getRouter } from 'testing/runtime/router.js'
 import { validatePosition } from '../../utils/private.position-engine/position-engine.js'
+import QDialog from '../dialog/QDialog.js'
 import QMenu from './QMenu.js'
 
 let activeWrapper
@@ -1170,6 +1171,55 @@ describe('[QMenu API]', () => {
         expect(menu.vm.contentEl).toBeInstanceOf(Element)
         expect(menu.vm.contentEl).toBe(getMenu())
       })
+    })
+  })
+
+  describe('[Accessibility]', () => {
+    async function mountMenuInDialog(dialogProps) {
+      activeWrapper = mount(
+        defineComponent({
+          setup() {
+            return () =>
+              h(QDialog, { modelValue: true, ...dialogProps }, () =>
+                h('div', { class: 'my-anchor', tabindex: 0 }, [
+                  h(QMenu, {}, () => 'Menu content')
+                ])
+              )
+          }
+        }),
+        { attachTo: document.body }
+      )
+
+      await flushPromises()
+      await vi.runAllTimersAsync()
+
+      await showMenu(activeWrapper)
+
+      return activeWrapper
+    }
+
+    test('renders inside the aria-modal dialog holding its anchor', async () => {
+      await mountMenuInDialog()
+
+      const dialogEl = document.querySelector('[role="dialog"]')
+
+      // an aria-modal dialog makes assistive tech ignore everything
+      // outside of the dialog's element, so the menu must be inside
+      expect(dialogEl.getAttribute('aria-modal')).toBe('true')
+      expect(dialogEl.contains(getMenu())).toBe(true)
+
+      // the dialog's root element is no-pointer-events
+      expect(getComputedStyle(getMenu()).pointerEvents).not.toBe('none')
+    })
+
+    test('renders outside of a seamless dialog', async () => {
+      await mountMenuInDialog({ seamless: true })
+
+      const dialogEl = document.querySelector('[role="dialog"]')
+
+      expect(dialogEl.getAttribute('aria-modal')).toBe('false')
+      expect(getMenu()).not.toBeNull()
+      expect(dialogEl.contains(getMenu())).toBe(false)
     })
   })
 })

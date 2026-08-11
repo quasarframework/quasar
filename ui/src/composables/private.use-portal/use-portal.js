@@ -46,6 +46,24 @@ function isOnGlobalDialog(vm) {
   return false
 }
 
+// When anchored inside a dialog with aria-modal="true", assistive
+// tech ignores anything rendered outside the dialog's element, so
+// such portals must render within it to stay in the a11y tree
+function getAriaModalEl(vm) {
+  let node = vm.parent
+
+  while (node !== void 0 && node !== null) {
+    if (node.type.name === 'QDialog') {
+      const el = node.proxy?.__getAriaModalEl?.()
+      if (el !== null && el !== void 0) return el
+    }
+
+    node = node.parent
+  }
+
+  return null
+}
+
 // Warning!
 // You MUST specify "inheritAttrs: false" in your component
 
@@ -82,7 +100,14 @@ export default function usePortal(vm, innerRef, renderPortalContent, type) {
 
     if (!portalIsActive.value) {
       if (!onGlobalDialog && portalEl === null) {
-        portalEl = createGlobalNode(false, type)
+        const modalEl = type === 'menu' ? getAriaModalEl(vm) : null
+
+        portalEl = createGlobalNode(false, type, modalEl)
+
+        if (modalEl !== null) {
+          // the dialog's root element has no-pointer-events
+          portalEl.classList.add('all-pointer-events')
+        }
       }
 
       portalIsActive.value = true

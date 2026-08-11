@@ -6,7 +6,7 @@ const portalTypeList = []
 let portalIndex = 1
 let target = __QUASAR_SSR_SERVER__ ? void 0 : document.body
 
-export function createGlobalNode(id, portalType) {
+export function createGlobalNode(id, portalType, parentEl) {
   const el = document.createElement('div')
 
   el.id =
@@ -19,7 +19,7 @@ export function createGlobalNode(id, portalType) {
     }
   }
 
-  target.append(el)
+  ;(parentEl || target).append(el)
   nodesList.push(el)
   portalTypeList.push(portalType)
 
