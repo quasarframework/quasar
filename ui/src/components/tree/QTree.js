@@ -1375,7 +1375,10 @@ export default /*#__PURE__*/ createComponent({
     })
 
     return () => {
-      tabStopKey = getTabKey()
+      // through moveTabStop() so that when the Tab stop moves to/from a
+      // node that does not re-render in this pass, its DOM attribute is
+      // still corrected -- a stale one would leave two Tab stops behind
+      moveTabStop(getTabKey())
 
       const children = getChildren(props.nodes)
 

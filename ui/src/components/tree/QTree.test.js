@@ -66,6 +66,14 @@ function getHeaderByLabel(wrapper, label) {
   return getNodeHeaders(wrapper).find(header => header.text() === label)
 }
 
+// parent headers also contain the arrow icon's ligature text,
+// so an exact header.text() match only works for leaves
+function getHeader(wrapper, label) {
+  return getNodeHeaders(wrapper).find(
+    header => header.get('.q-tree__node-header-content').text() === label
+  )
+}
+
 function getArrow(wrapper) {
   return wrapper.get('.q-tree__arrow')
 }
@@ -1022,6 +1030,212 @@ describe('[QTree API]', () => {
       ).toBe('true')
     })
 
+    test('re-renders only the nodes a selection or expansion affects', async () => {
+      const renders = {}
+
+      const wrapper = mountTree(
+        {
+          selected: null,
+          'onUpdate:selected': () => {},
+          defaultExpandAll: true
+        },
+        {
+          slots: {
+            'default-header': scope => {
+              renders[scope.key] = (renders[scope.key] || 0) + 1
+              return scope.node.label
+            }
+          }
+        }
+      )
+
+      const reset = () => {
+        Object.keys(renders).forEach(key => {
+          renders[key] = 0
+        })
+      }
+
+      reset()
+      await wrapper.setProps({ selected: 'apple' })
+
+      expect(renders).toStrictEqual({
+        fruits: 0,
+        apple: 1,
+        banana: 0,
+        bread: 0
+      })
+
+      await wrapper.setProps({ selected: 'bread' })
+
+      expect(renders).toStrictEqual({
+        fruits: 0,
+        apple: 2,
+        banana: 0,
+        bread: 1
+      })
+
+      reset()
+      wrapper.vm.setExpanded('fruits', false)
+      await nextTick()
+
+      expect(renders).toStrictEqual({
+        fruits: 1,
+        apple: 0,
+        banana: 0,
+        bread: 0
+      })
+    })
+
+    test('reveals never-expanded subtrees through expandAll()', async () => {
+      const wrapper = mountTree()
+
+      expect(wrapper.find('.q-tree__node-collapsible').exists()).toBe(false)
+
+      wrapper.vm.expandAll()
+      await nextTick()
+
+      expect(getLabels(wrapper)).toStrictEqual([
+        'Fruits',
+        'Apple',
+        'Banana',
+        'Bread'
+      ])
+    })
+
+    test('recovers when a lazy load fails', async () => {
+      const wrapper = mountTree({
+        nodes: [{ id: 'lazy', label: 'Lazy', lazy: true }],
+        onLazyLoad: () => {}
+      })
+
+      wrapper.vm.setExpanded('lazy', true)
+      await nextTick()
+
+      const [details] = wrapper.emitted('lazyLoad')[0]
+      details.fail()
+      await flushPromises()
+
+      expect(wrapper.find('.q-tree__spinner').exists()).toBe(false)
+      expect(wrapper.vm.isExpanded('lazy')).toBe(false)
+      expect(getLabels(wrapper)).toStrictEqual(['Lazy'])
+
+      // the node can be tried again
+      wrapper.vm.setExpanded('lazy', true)
+      await nextTick()
+
+      expect(wrapper.emitted('lazyLoad')).toHaveLength(2)
+    })
+
+    test('honors a per-node tick strategy override', () => {
+      const nodes = getNodes()
+      nodes[0].tickStrategy = 'leaf'
+
+      const wrapper = mountTree({
+        nodes,
+        defaultExpandAll: true,
+        ticked: ['apple'],
+        'onUpdate:ticked': () => {}
+      })
+
+      // the overriding subtree gets (inherited) ticking, the rest does not
+      expect(getTickboxes(wrapper)).toHaveLength(3)
+      expect(
+        getHeader(wrapper, 'Bread').find('.q-tree__tickbox').exists()
+      ).toBe(false)
+      expect(getHeader(wrapper, 'Fruits').attributes('aria-checked')).toBe(
+        'mixed'
+      )
+    })
+
+    test('drives the leaf tick aggregation through a full cycle', async () => {
+      const wrapper = mountTree({
+        tickStrategy: 'leaf',
+        ticked: [],
+        'onUpdate:ticked': () => {},
+        defaultExpandAll: true
+      })
+
+      // ticking the parent ticks all of its leaves
+      await getHeader(wrapper, 'Fruits')
+        .get('.q-tree__tickbox')
+        .trigger('click')
+
+      expect(wrapper.emitted('update:ticked').at(-1)).toStrictEqual([
+        ['apple', 'banana']
+      ])
+
+      await wrapper.setProps({ ticked: ['apple', 'banana'] })
+
+      expect(getHeader(wrapper, 'Fruits').attributes('aria-checked')).toBe(
+        'true'
+      )
+
+      // unticking one leaf turns the parent indeterminate
+      await wrapper.setProps({ ticked: ['apple'] })
+
+      expect(getHeader(wrapper, 'Fruits').attributes('aria-checked')).toBe(
+        'mixed'
+      )
+
+      // ticking the indeterminate parent (with a leaf still ticked)
+      // unticks the whole subtree
+      await getHeader(wrapper, 'Fruits')
+        .get('.q-tree__tickbox')
+        .trigger('click')
+
+      expect(wrapper.emitted('update:ticked').at(-1)).toStrictEqual([[]])
+    })
+
+    test('locks the subtree of an untickable parent in leaf mode', () => {
+      const nodes = getNodes()
+      nodes[0].tickable = false
+
+      const wrapper = mountTree({
+        nodes,
+        tickStrategy: 'leaf',
+        defaultExpandAll: true
+      })
+
+      // the parent's lock cascades to its children; the outside leaf is free
+      expect(
+        wrapper
+          .findAllComponents({ name: 'QCheckbox' })
+          .map(box => box.props('disable'))
+      ).toStrictEqual([true, true, true, false])
+
+      // strict ticking is not gated by the parent
+      const strictWrapper = mountTree({
+        nodes,
+        tickStrategy: 'strict',
+        defaultExpandAll: true
+      })
+
+      expect(
+        strictWrapper
+          .findAllComponents({ name: 'QCheckbox' })
+          .map(box => box.props('disable'))
+      ).toStrictEqual([true, false, false, false])
+    })
+
+    test('hides the tickbox of a parent whose children are all no-tick', () => {
+      const nodes = getNodes()
+      nodes[0].children.forEach(child => {
+        child.noTick = true
+      })
+
+      const wrapper = mountTree({
+        nodes,
+        tickStrategy: 'leaf',
+        defaultExpandAll: true
+      })
+
+      // fruits aggregates to no-tick; only the outside leaf keeps a tickbox
+      expect(getTickboxes(wrapper)).toHaveLength(1)
+      expect(
+        getHeader(wrapper, 'Bread').find('.q-tree__tickbox').exists()
+      ).toBe(true)
+    })
+
     test('drops the collapsible of collapsed nodes with no-transition', async () => {
       const wrapper = mountTree({ noTransition: true })
 
@@ -1047,14 +1261,6 @@ describe('[QTree API]', () => {
     // like in real keyboard-accessible usage
     function mountNavTree(props) {
       return mountTree({ selected: null, ...props })
-    }
-
-    // parent headers also contain the arrow icon's ligature text,
-    // so an exact header.text() match only works for leaves
-    function getHeader(wrapper, label) {
-      return getNodeHeaders(wrapper).find(
-        header => header.get('.q-tree__node-header-content').text() === label
-      )
     }
 
     function keydown(header, keyCode) {
@@ -1166,6 +1372,104 @@ describe('[QTree API]', () => {
         'Banana',
         'Bread'
       ])
+    })
+
+    test('starts the Tab stop on the selected node', () => {
+      const wrapper = mountNavTree({ selected: 'bread' })
+
+      expect(getHeader(wrapper, 'Bread').attributes('tabindex')).toBe('0')
+      expect(getHeader(wrapper, 'Fruits').attributes('tabindex')).toBe('-1')
+    })
+
+    test('moves the Tab stop off a node that becomes unreachable', async () => {
+      const wrapper = mountNavTree({ defaultExpandAll: true })
+
+      const apple = getHeader(wrapper, 'Apple')
+      await apple.trigger('focus')
+
+      expect(apple.attributes('tabindex')).toBe('0')
+
+      wrapper.vm.setExpanded('fruits', false)
+      await nextTick()
+
+      // the hidden node loses the Tab stop, a reachable one takes it
+      expect(apple.attributes('tabindex')).toBe('-1')
+      expect(getHeader(wrapper, 'Fruits').attributes('tabindex')).toBe('0')
+
+      wrapper.vm.setExpanded('fruits', true)
+      await nextTick()
+
+      // there is never more than one Tab stop
+      const stops = getNodeHeaders(wrapper).filter(
+        header => header.attributes('tabindex') === '0'
+      )
+      expect(stops).toHaveLength(1)
+    })
+
+    test('skips disabled nodes entirely', async () => {
+      const nodes = getNodes()
+      nodes[0].children[0].disabled = true
+
+      const wrapper = mountNavTree({ nodes, defaultExpandAll: true })
+
+      const apple = getHeader(wrapper, 'Apple')
+      expect(apple.attributes('aria-disabled')).toBe('true')
+      expect(apple.attributes('tabindex')).toBe('-1')
+
+      await keydown(getHeader(wrapper, 'Fruits'), 40)
+
+      expect(document.activeElement).toBe(getHeader(wrapper, 'Banana').element)
+    })
+
+    test('navigates only through the filtered nodes', async () => {
+      const wrapper = mountNavTree({ defaultExpandAll: true, filter: 'an' })
+
+      // only Banana matches; Fruits stays visible as its ancestor
+      expect(getLabels(wrapper)).toStrictEqual(['Fruits', 'Banana'])
+
+      await keydown(getHeader(wrapper, 'Fruits'), 40)
+
+      expect(document.activeElement).toBe(getHeader(wrapper, 'Banana').element)
+    })
+
+    test('selects a node with Enter', async () => {
+      const wrapper = mountNavTree()
+
+      await keydown(getHeader(wrapper, 'Bread'), 13)
+
+      expect(wrapper.emitted('update:selected')).toStrictEqual([['bread']])
+    })
+
+    test('falls back to expansion on Space when the tickbox is disabled', async () => {
+      const nodes = getNodes()
+      nodes[0].tickable = false
+
+      const wrapper = mountNavTree({
+        nodes,
+        tickStrategy: 'strict',
+        ticked: [],
+        'onUpdate:ticked': () => {}
+      })
+
+      await keydown(getHeader(wrapper, 'Fruits'), 32)
+
+      expect(wrapper.emitted('update:ticked')).toBeUndefined()
+      expect(getLabels(wrapper)).toStrictEqual([
+        'Fruits',
+        'Apple',
+        'Banana',
+        'Bread'
+      ])
+    })
+
+    test('exposes the expansion state of an unloaded lazy node', () => {
+      const wrapper = mountNavTree({
+        nodes: [{ id: 'lazy', label: 'Lazy', lazy: true }]
+      })
+
+      expect(getHeader(wrapper, 'Lazy').attributes('aria-expanded')).toBe(
+        'false'
+      )
     })
 
     test('keeps the tickboxes out of the Tab order', () => {
