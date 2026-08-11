@@ -780,28 +780,6 @@ describe('[QField API]', () => {
         // the field element is resolved on access, so it points at the root
         expect(slotScope.field).toBe(wrapper.element)
       })
-
-      test('exposes the error ARIA values while in error state', () => {
-        let slotScope
-        const wrapper = mountField(
-          { error: true, errorMessage: 'Choose a value' },
-          {
-            slots: {
-              control: scope => {
-                slotScope = scope
-                return 'some-slot-content'
-              }
-            }
-          }
-        )
-
-        const messageId = wrapper.get('.q-field__messages').attributes('id')
-
-        expect(messageId).toBeTruthy()
-        expect(slotScope.ariaInvalid).toBe('true')
-        expect(slotScope.ariaDescribedby).toBe(messageId)
-        expect(slotScope.ariaErrormessage).toBe(messageId)
-      })
     })
   })
 
@@ -965,6 +943,30 @@ describe('[QField API]', () => {
 
         expect(wrapper.vm.hasError).toBe(true)
       })
+    })
+  })
+
+  describe('[Accessibility]', () => {
+    test('exposes the error ARIA values to the control slot', () => {
+      let slotScope
+      const wrapper = mountField(
+        { error: true, errorMessage: 'Choose a value' },
+        {
+          slots: {
+            control: scope => {
+              slotScope = scope
+              return 'some-slot-content'
+            }
+          }
+        }
+      )
+
+      const messageId = wrapper.get('.q-field__messages').attributes('id')
+
+      expect(messageId).toBeTruthy()
+      expect(slotScope.ariaInvalid).toBe('true')
+      expect(slotScope.ariaDescribedby).toBe(messageId)
+      expect(slotScope.ariaErrormessage).toBe(messageId)
     })
   })
 })
