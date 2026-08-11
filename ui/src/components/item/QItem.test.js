@@ -366,4 +366,36 @@ describe('[QItem API]', () => {
       })
     })
   })
+
+  describe('[Accessibility]', () => {
+    test('a non-interactive item carries no pointer listeners', async () => {
+      const wrapper = mount(QItem)
+      const target = wrapper.get('.q-item')
+
+      // WCAG checkers flag click listeners on non-focusable elements,
+      // so a plain (non-clickable) item must not react to activation
+      await target.trigger('click')
+      await target.trigger('keydown', { keyCode: 13 })
+      await target.trigger('keyup', { keyCode: 13 })
+
+      expect(wrapper.emitted('click')).toBeUndefined()
+      expect(target.attributes('tabindex')).toBeUndefined()
+
+      // bubbled key events still reach the "keyup" emit contract
+      expect(wrapper.emitted('keyup')).toHaveLength(1)
+    })
+
+    test('a clickable item activates through the keyboard', async () => {
+      const wrapper = mount(QItem, {
+        props: { clickable: true },
+        attachTo: document.body
+      })
+      const target = wrapper.get('.q-item')
+
+      target.element.focus()
+      await target.trigger('keyup', { keyCode: 13 })
+
+      expect(wrapper.emitted('click')).toHaveLength(1)
+    })
+  })
 })

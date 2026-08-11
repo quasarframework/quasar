@@ -148,12 +148,17 @@ export default /*#__PURE__*/ createComponent({
           : isClickable.value
             ? 'button'
             : 'listitem',
-        onClick,
-        onKeydown,
+        // bound regardless of clickability: bubbled key events from
+        // inner content emit "keyup" as part of the public contract
         onKeyup
       }
 
       if (isClickable.value) {
+        // pointer listeners on a non-interactive element would flag
+        // WCAG keyboard-accessibility checks, so bind them only when
+        // the item is truly interactive
+        data.onClick = onClick
+        data.onKeydown = onKeydown
         data.tabindex = props.tabindex || '0'
         Object.assign(data, linkAttrs.value)
       } else if (isActionable.value) {
