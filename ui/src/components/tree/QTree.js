@@ -48,6 +48,52 @@ const QTreeNode = createComponent({
   }
 })
 
+// per-key membership flags kept in sync through a diff: a change
+// triggers only the refs of the keys that actually flipped, so
+// invalidation reaches only the affected nodes instead of sweeping
+// the whole computed graph
+function useKeyedFlags(read) {
+  const flags = new Map()
+  let current = new Set(read())
+
+  watch(
+    read,
+    val => {
+      const next = new Set(val)
+
+      current.forEach(key => {
+        if (next.has(key) === false) {
+          const target = flags.get(key)
+          if (target !== void 0) target.value = false
+        }
+      })
+      next.forEach(key => {
+        if (current.has(key) === false) {
+          const target = flags.get(key)
+          if (target !== void 0) target.value = true
+        }
+      })
+
+      current = next
+    },
+    { flush: 'sync' }
+  )
+
+  return {
+    // reactive per-key read
+    has(key) {
+      let target = flags.get(key)
+
+      if (target === void 0) {
+        target = ref(current.has(key))
+        flags.set(key, target)
+      }
+
+      return target.value
+    }
+  }
+}
+
 function getNodeMedia(node) {
   if (node.icon !== void 0) {
     return h(QIcon, {
@@ -141,7 +187,6 @@ export default /*#__PURE__*/ createComponent({
     const innerTicked = ref(props.ticked || [])
     const innerExpanded = ref(props.expanded || [])
 
-    const tickedKeys = computed(() => new Set(innerTicked.value))
     const expandedKeys = computed(() => new Set(innerExpanded.value))
 
     // the roving Tab stop is tracked outside of reactivity and applied
@@ -167,7 +212,18 @@ export default /*#__PURE__*/ createComponent({
         (props.color !== void 0 ? ` text-${props.color}` : '')
     )
 
-    const hasSelection = computed(() => props.selected !== void 0)
+    // a manual ref instead of a computed: its value only changes when
+    // selection gets bound/unbound, so the per-node computeds reading it
+    // are not flagged for re-validation on every selection change (the
+    // watch below only fires when the boolean actually flips)
+    const hasSelection = ref(props.selected !== void 0)
+    watch(
+      () => props.selected !== void 0,
+      val => {
+        hasSelection.value = val
+      },
+      { flush: 'sync' }
+    )
 
     const computedIcon = computed(() => props.icon || $q.iconSet.tree.icon)
     const computedControlColor = computed(
@@ -195,210 +251,357 @@ export default /*#__PURE__*/ createComponent({
           }
     )
 
-    const meta = computed(() => {
-      const acc = {}
+    // ---- incremental node state ---------------------------------------
+    // instead of one monolithic O(N) meta rebuild on every state change,
+    // node state is layered so each layer recomputes only on its own
+    // triggers:
+    //   structure     -- per-node facts read from the nodes model; rebuilds
+    //                    only when the model (or lazy status) changes
+    //   filterMatches -- own/bubbled filter matches; rebuilds per filter
+    //                    change, untouched by ticking/expansion/selection
+    //   per-key computeds -- the top-down tickable gate, the bottom-up tick
+    //                    aggregation and the render snapshot, each keeping
+    //                    its previous value's identity when nothing changed
+    //                    so invalidation waves die out at unchanged nodes
 
-      const travel = (node, parent) => {
+    const structure = computed(() => {
+      const map = new Map(),
+        rootKeys = []
+
+      const travel = (node, parentKey, parentRec) => {
         const tickStrategy =
           node.tickStrategy ||
-          (parent ? parent.tickStrategy : props.tickStrategy)
+          (parentRec !== null ? parentRec.tickStrategy : props.tickStrategy)
         const key = node[props.nodeKey],
-          isParent =
-            node[props.childrenKey] &&
-            Array.isArray(node[props.childrenKey]) &&
-            node[props.childrenKey].length !== 0,
-          selectable =
-            !node.disabled && hasSelection.value && node.selectable !== false,
-          expandable = !node.disabled && node.expandable !== false,
-          hasTicking = tickStrategy !== 'none',
-          strictTicking = tickStrategy === 'strict',
-          leafFilteredTicking = tickStrategy === 'leaf-filtered',
-          leafTicking =
-            tickStrategy === 'leaf' || tickStrategy === 'leaf-filtered'
-
-        let tickable = !node.disabled && node.tickable !== false
-        if (
-          leafTicking &&
-          tickable === true &&
-          parent &&
-          parent.tickable !== true
-        ) {
-          tickable = false
-        }
+          children = node[props.childrenKey],
+          isParent = Array.isArray(children) && children.length !== 0,
+          strictTicking = tickStrategy === 'strict'
 
         let localLazy = node.lazy
         if (
           localLazy === true &&
           lazy.value[key] !== void 0 &&
-          Array.isArray(node[props.childrenKey])
+          Array.isArray(children)
         ) {
           localLazy = lazy.value[key]
         }
 
-        const m = {
+        const rec = {
           key,
-          parent,
+          node,
+          parentKey,
+          childKeys: [],
           isParent,
           lazy: localLazy,
           disabled: node.disabled,
-          link:
-            !node.disabled &&
-            (selectable || (expandable && (isParent || localLazy === true))),
-          children: [],
-          hasVisibleChildren: false,
-          matchesFilter: props.filter
-            ? computedFilterMethod.value(node, props.filter)
-            : true,
-
-          selected: key === props.selected && selectable,
-          selectable,
-          expanded: isParent ? expandedKeys.value.has(key) : false,
-          expandable,
-          noTick:
+          expandable: !node.disabled && node.expandable !== false,
+          selectableBase: node.selectable !== false,
+          tickableBase: !node.disabled && node.tickable !== false,
+          noTickBase:
             node.noTick === true ||
             (!strictTicking && localLazy && localLazy !== 'loaded'),
-          tickable,
           tickStrategy,
-          hasTicking,
+          hasTicking: tickStrategy !== 'none',
           strictTicking,
-          leafFilteredTicking,
-          leafTicking,
-          ticked: strictTicking
-            ? tickedKeys.value.has(key)
-            : isParent
-              ? false
-              : tickedKeys.value.has(key)
+          leafFilteredTicking: tickStrategy === 'leaf-filtered',
+          leafTicking:
+            tickStrategy === 'leaf' || tickStrategy === 'leaf-filtered'
         }
 
-        acc[key] = m
+        map.set(key, rec)
 
         if (isParent) {
-          m.children = node[props.childrenKey].map(n => travel(n, m))
-
-          if (props.filter) {
-            if (m.matchesFilter !== true) {
-              m.matchesFilter = m.children.some(n => n.matchesFilter)
-            } else if (
-              m.noTick !== true &&
-              m.disabled !== true &&
-              m.tickable === true &&
-              leafFilteredTicking &&
-              m.children.every(
-                n =>
-                  n.matchesFilter !== true ||
-                  n.noTick === true ||
-                  n.tickable !== true
-              )
-            ) {
-              m.tickable = false
-            }
-          }
-
-          if (m.matchesFilter === true) {
-            if (
-              m.noTick !== true &&
-              strictTicking !== true &&
-              m.children.every(n => n.noTick)
-            ) {
-              m.noTick = true
-            }
-
-            if (leafTicking) {
-              m.ticked = false
-              m.indeterminate = m.children.some(
-                entry => entry.indeterminate === true
-              )
-              m.tickable =
-                m.tickable === true && m.children.some(entry => entry.tickable)
-
-              if (m.indeterminate !== true) {
-                const sel = m.children.reduce(
-                  (localAcc, entry) =>
-                    entry.ticked === true ? localAcc + 1 : localAcc,
-                  0
-                )
-
-                if (sel === m.children.length) {
-                  m.ticked = true
-                } else if (sel > 0) {
-                  m.indeterminate = true
-                }
-              }
-
-              if (m.indeterminate === true) {
-                m.indeterminateNextState = m.children.every(
-                  entry => entry.tickable !== true || entry.ticked !== true
-                )
-              }
-            }
-          }
-
-          m.hasVisibleChildren = props.filter
-            ? m.children.some(c => c.matchesFilter === true)
-            : true
+          children.forEach(child => {
+            rec.childKeys.push(travel(child, key, rec).key)
+          })
         }
 
-        return m
+        return rec
       }
 
-      props.nodes.forEach(node => travel(node, null))
-      return acc
+      props.nodes.forEach(node => {
+        rootKeys.push(travel(node, null, null).key)
+      })
+
+      return { map, rootKeys }
     })
 
-    // every meta field a node's rendering may read; deliberately excludes
-    // the graph pointers (parent/children), whose identity changes on every
-    // meta rebuild -- event handlers resolve fresh meta through meta.value
-    // instead of trusting a render-time object
-    const metaRenderProps = [
-      'isParent',
-      'lazy',
-      'disabled',
-      'link',
-      'matchesFilter',
-      'selected',
-      'selectable',
-      'expanded',
-      'expandable',
-      'noTick',
-      'tickable',
-      'tickStrategy',
-      'hasTicking',
-      'strictTicking',
-      'leafFilteredTicking',
-      'leafTicking',
-      'ticked',
-      'indeterminate',
-      'indeterminateNextState',
-      'hasVisibleChildren'
-    ]
+    // own = the node's own label matched; visible = own or any descendant
+    const filterMatches = computed(() => {
+      if (!props.filter) return null
 
-    function sameMeta(a, b) {
-      return metaRenderProps.every(prop => a[prop] === b[prop])
+      const own = new Set(),
+        visible = new Set()
+
+      const travel = node => {
+        const key = node[props.nodeKey]
+        // the user-supplied filterMethod may return any truthy value
+        let matches = Boolean(computedFilterMethod.value(node, props.filter))
+
+        if (matches === true) own.add(key)
+
+        if (Array.isArray(node[props.childrenKey])) {
+          node[props.childrenKey].forEach(child => {
+            if (travel(child) === true) matches = true
+          })
+        }
+
+        if (matches === true) visible.add(key)
+        return matches
+      }
+
+      props.nodes.forEach(travel)
+      return { own, visible }
+    })
+
+    function isNodeVisible(key) {
+      const matches = filterMatches.value
+      return matches === null || matches.visible.has(key)
     }
 
-    const metaRefs = new Map(),
+    function linkOf(rec) {
+      const selectable =
+        !rec.disabled && hasSelection.value && rec.selectableBase === true
+      return (
+        !rec.disabled &&
+        (selectable ||
+          (rec.expandable === true &&
+            (rec.isParent === true || rec.lazy === true)))
+      )
+    }
+
+    const gatedTickableRefs = new Map(),
+      tickAggRefs = new Map(),
+      metaRefs = new Map(),
       visibilityRefs = new Map()
 
-    // a per-node view of meta that keeps its object identity across
-    // rebuilds while nothing render-relevant changed, so only the
-    // affected QTreeNode instances re-render on a state change
-    function getMetaRef(key) {
-      let target = metaRefs.get(key)
+    const tickedFlags = useKeyedFlags(() => innerTicked.value)
+    const expandedFlags = useKeyedFlags(() => innerExpanded.value)
+    const selectedFlags = useKeyedFlags(() =>
+      props.selected !== void 0 && props.selected !== null
+        ? [props.selected]
+        : []
+    )
+
+    // the "pre-aggregation" tickable state: in leaf modes an untickable
+    // parent locks its whole subtree (top-down recursion)
+    function getGatedTickableRef(key) {
+      let target = gatedTickableRefs.get(key)
+
+      if (target === void 0) {
+        target = computed(() => {
+          const rec = structure.value.map.get(key)
+
+          if (rec === void 0 || rec.tickableBase !== true) return false
+
+          return (
+            rec.leafTicking !== true ||
+            rec.parentKey === null ||
+            getGatedTickableRef(rec.parentKey).value === true
+          )
+        })
+        gatedTickableRefs.set(key, target)
+      }
+
+      return target
+    }
+
+    // bottom-up ticking aggregation (leaf strategies derive a parent's
+    // ticked/indeterminate/tickable/noTick state from its children)
+    function getTickAggRef(key) {
+      let target = tickAggRefs.get(key)
 
       if (target === void 0) {
         let prev
         target = computed(() => {
-          const next = meta.value[key]
-          if (prev !== void 0 && next !== void 0 && sameMeta(prev, next)) {
+          const rec = structure.value.map.get(key)
+          if (rec === void 0) {
+            prev = void 0
+            return void 0
+          }
+
+          let noTick = rec.noTickBase,
+            tickable = getGatedTickableRef(key).value,
+            ticked =
+              rec.strictTicking || rec.isParent !== true
+                ? tickedFlags.has(key)
+                : false,
+            indeterminate,
+            indeterminateNextState
+
+          if (rec.isParent === true) {
+            const childAggs = rec.childKeys.map(k => getTickAggRef(k).value)
+            const matches = filterMatches.value
+            const visible = matches === null || matches.visible.has(key)
+
+            if (
+              matches !== null &&
+              matches.own.has(key) === true &&
+              noTick !== true &&
+              rec.disabled !== true &&
+              tickable === true &&
+              rec.leafFilteredTicking === true &&
+              rec.childKeys.every(
+                (k, i) =>
+                  matches.visible.has(k) !== true ||
+                  childAggs[i].noTick === true ||
+                  childAggs[i].tickable !== true
+              )
+            ) {
+              tickable = false
+            }
+
+            if (visible === true) {
+              if (
+                noTick !== true &&
+                rec.strictTicking !== true &&
+                childAggs.every(a => a.noTick)
+              ) {
+                noTick = true
+              }
+
+              if (rec.leafTicking === true) {
+                ticked = false
+                indeterminate = childAggs.some(a => a.indeterminate === true)
+                tickable = tickable === true && childAggs.some(a => a.tickable)
+
+                if (indeterminate !== true) {
+                  const sel = childAggs.reduce(
+                    (localAcc, a) =>
+                      a.ticked === true ? localAcc + 1 : localAcc,
+                    0
+                  )
+
+                  if (sel === childAggs.length) {
+                    ticked = true
+                  } else if (sel > 0) {
+                    indeterminate = true
+                  }
+                }
+
+                if (indeterminate === true) {
+                  indeterminateNextState = childAggs.every(
+                    a => a.tickable !== true || a.ticked !== true
+                  )
+                }
+              }
+            }
+          }
+
+          if (
+            prev !== void 0 &&
+            prev.noTick === noTick &&
+            prev.tickable === tickable &&
+            prev.ticked === ticked &&
+            prev.indeterminate === indeterminate &&
+            prev.indeterminateNextState === indeterminateNextState
+          ) {
             return prev
           }
-          prev = next
-          return next
+
+          prev = {
+            noTick,
+            tickable,
+            ticked,
+            indeterminate,
+            indeterminateNextState
+          }
+          return prev
+        })
+        tickAggRefs.set(key, target)
+      }
+
+      return target
+    }
+
+    // a per-node snapshot (flat scalars only, no graph pointers -- graph
+    // walks go through structure.value) that keeps its object identity
+    // while nothing render-relevant changed, so only the affected
+    // QTreeNode instances re-render; the static fields are covered by the
+    // rec/agg identity checks and the dynamic ones are compared BEFORE
+    // allocating, so a sweeping recompute (e.g. a selection change)
+    // allocates nothing on the unchanged nodes
+    function getMetaRef(key) {
+      let target = metaRefs.get(key)
+
+      if (target === void 0) {
+        let prev, prevRec, prevAgg
+        target = computed(() => {
+          const rec = structure.value.map.get(key)
+          if (rec === void 0) {
+            prev = prevRec = prevAgg = void 0
+            return void 0
+          }
+
+          const agg = getTickAggRef(key).value,
+            matches = filterMatches.value,
+            selectable =
+              !rec.disabled &&
+              hasSelection.value &&
+              rec.selectableBase === true,
+            link =
+              !rec.disabled &&
+              (selectable ||
+                (rec.expandable === true &&
+                  (rec.isParent === true || rec.lazy === true))),
+            matchesFilter = matches === null || matches.visible.has(key),
+            selected = selectedFlags.has(key) && selectable,
+            expanded = rec.isParent === true ? expandedFlags.has(key) : false,
+            hasVisibleChildren =
+              rec.isParent === true &&
+              (matches === null ||
+                rec.childKeys.some(k => matches.visible.has(k)))
+
+          if (
+            prev !== void 0 &&
+            prevRec === rec &&
+            prevAgg === agg &&
+            prev.link === link &&
+            prev.matchesFilter === matchesFilter &&
+            prev.selected === selected &&
+            prev.selectable === selectable &&
+            prev.expanded === expanded &&
+            prev.hasVisibleChildren === hasVisibleChildren
+          ) {
+            return prev
+          }
+
+          prevRec = rec
+          prevAgg = agg
+          prev = {
+            key,
+            isParent: rec.isParent,
+            lazy: rec.lazy,
+            disabled: rec.disabled,
+            link,
+            matchesFilter,
+            selected,
+            selectable,
+            expanded,
+            expandable: rec.expandable,
+            noTick: agg.noTick,
+            tickable: agg.tickable,
+            tickStrategy: rec.tickStrategy,
+            hasTicking: rec.hasTicking,
+            strictTicking: rec.strictTicking,
+            leafFilteredTicking: rec.leafFilteredTicking,
+            leafTicking: rec.leafTicking,
+            ticked: agg.ticked,
+            indeterminate: agg.indeterminate,
+            indeterminateNextState: agg.indeterminateNextState,
+            hasVisibleChildren
+          }
+          return prev
         })
         metaRefs.set(key, target)
       }
 
       return target
+    }
+
+    // the always-current equivalent of the old meta.value[key] lookup
+    function getMeta(key) {
+      return getMetaRef(key).value
     }
 
     // boolean-level indirection so that a parent filtering its children
@@ -407,7 +610,7 @@ export default /*#__PURE__*/ createComponent({
       let target = visibilityRefs.get(key)
 
       if (target === void 0) {
-        target = computed(() => getMetaRef(key).value?.matchesFilter === true)
+        target = computed(() => isNodeVisible(key))
         visibilityRefs.set(key, target)
       }
 
@@ -415,25 +618,23 @@ export default /*#__PURE__*/ createComponent({
     }
 
     const focusableKeys = computed(() => {
-      const acc = []
+      const acc = [],
+        { map, rootKeys } = structure.value,
+        matches = filterMatches.value
 
-      function travel(nodes) {
-        nodes.forEach(node => {
-          const localMeta = meta.value[node[props.nodeKey]]
+      const travel = key => {
+        if (matches !== null && matches.visible.has(key) !== true) return
 
-          if (props.filter && localMeta.matchesFilter !== true) return
-          if (localMeta.link === true) acc.push(localMeta.key)
+        const rec = map.get(key)
 
-          if (
-            localMeta.expanded === true &&
-            Array.isArray(node[props.childrenKey])
-          ) {
-            travel(node[props.childrenKey])
-          }
-        })
+        if (linkOf(rec) === true) acc.push(key)
+
+        if (rec.isParent === true && expandedKeys.value.has(key) === true) {
+          rec.childKeys.forEach(travel)
+        }
       }
 
-      travel(props.nodes)
+      rootKeys.forEach(travel)
       return acc
     })
 
@@ -442,8 +643,16 @@ export default /*#__PURE__*/ createComponent({
 
       if (focusedKey !== null && keys.includes(focusedKey)) return focusedKey
 
-      const selected = keys.find(key => meta.value[key].selected === true)
-      return selected !== void 0 ? selected : keys[0]
+      if (
+        props.selected !== void 0 &&
+        props.selected !== null &&
+        keys.includes(props.selected) &&
+        getMeta(props.selected)?.selected === true
+      ) {
+        return props.selected
+      }
+
+      return keys[0]
     }
 
     function moveTabStop(key) {
@@ -498,7 +707,7 @@ export default /*#__PURE__*/ createComponent({
     }
 
     function isExpanded(key) {
-      return key && meta.value[key] ? meta.value[key].expanded : false
+      return key ? getMeta(key)?.expanded === true : false
     }
 
     function collapseAll() {
@@ -536,7 +745,7 @@ export default /*#__PURE__*/ createComponent({
       key,
       state,
       node = getNodeByKey(key),
-      m = meta.value[key]
+      m = getMeta(key)
     ) {
       if (m.lazy && m.lazy !== 'loaded') {
         if (m.lazy === 'loading') return
@@ -552,8 +761,7 @@ export default /*#__PURE__*/ createComponent({
             lazy.value[key] = 'loaded'
             node[props.childrenKey] = Array.isArray(children) ? children : []
             nextTick(() => {
-              const localMeta = meta.value[key]
-              if (localMeta?.isParent === true) {
+              if (getMeta(key)?.isParent === true) {
                 localSetExpanded(key, true)
               }
             })
@@ -577,17 +785,20 @@ export default /*#__PURE__*/ createComponent({
       if (shouldEmit) target = [...target]
 
       if (state) {
-        if (props.accordion && meta.value[key]) {
+        const rec = props.accordion ? structure.value.map.get(key) : void 0
+
+        if (rec !== void 0) {
+          const { map } = structure.value
           const collapse = []
-          if (meta.value[key].parent) {
-            meta.value[key].parent.children.forEach(m => {
-              if (m.key !== key && m.expandable === true) {
-                collapse.push(m.key)
+
+          if (rec.parentKey !== null) {
+            map.get(rec.parentKey).childKeys.forEach(k => {
+              if (k !== key && map.get(k).expandable === true) {
+                collapse.push(k)
               }
             })
           } else {
-            props.nodes.forEach(node => {
-              const k = node[props.nodeKey]
+            structure.value.rootKeys.forEach(k => {
               if (k !== key) {
                 collapse.push(k)
               }
@@ -614,7 +825,7 @@ export default /*#__PURE__*/ createComponent({
     }
 
     function isTicked(key) {
-      return key && meta.value[key] ? meta.value[key].ticked : false
+      return key ? getMeta(key)?.ticked === true : false
     }
 
     function setTicked(keys, state) {
@@ -946,23 +1157,31 @@ export default /*#__PURE__*/ createComponent({
       }
     }
 
-    function getFirstFocusableChild(children) {
-      for (const child of children) {
-        if (props.filter && child.matchesFilter !== true) continue
-        if (child.link === true) return child.key
+    function getFirstFocusableChild(childKeys) {
+      const { map } = structure.value
 
-        if (child.expanded === true) {
-          const key = getFirstFocusableChild(child.children)
+      for (const childKey of childKeys) {
+        if (isNodeVisible(childKey) !== true) continue
+
+        const rec = map.get(childKey)
+
+        if (linkOf(rec) === true) return childKey
+
+        if (
+          rec.isParent === true &&
+          expandedKeys.value.has(childKey) === true
+        ) {
+          const key = getFirstFocusableChild(rec.childKeys)
           if (key !== void 0) return key
         }
       }
     }
 
-    // handlers receive keys and resolve meta at event time: render-time
-    // meta objects are kept identity-stable across rebuilds, so their
-    // parent/children pointers cannot be trusted after a rebuild
+    // handlers receive keys and resolve current state at event time:
+    // render-time meta snapshots carry no graph pointers, so graph walks
+    // go through structure.value
     function onNavigationKey(key, keyCode) {
-      const localMeta = meta.value[key]
+      const localMeta = getMeta(key)
       if (localMeta === void 0) return false
 
       const keys = focusableKeys.value,
@@ -988,19 +1207,26 @@ export default /*#__PURE__*/ createComponent({
         if (localMeta.isParent !== true && !localMeta.lazy) return true
 
         if (localMeta.expanded !== true) {
-          setExpanded(localMeta.key, true)
+          setExpanded(key, true)
         } else {
-          focusNode(getFirstFocusableChild(localMeta.children))
+          focusNode(
+            getFirstFocusableChild(structure.value.map.get(key).childKeys)
+          )
         }
         return true
       }
       if (keyCode === 37) {
         if (localMeta.expanded === true) {
-          setExpanded(localMeta.key, false)
+          setExpanded(key, false)
         } else {
-          let parent = localMeta.parent
-          while (parent !== null && parent.link !== true) parent = parent.parent
-          focusNode(parent?.key)
+          const { map } = structure.value
+          let parentKey = map.get(key).parentKey
+
+          while (parentKey !== null && linkOf(map.get(parentKey)) !== true) {
+            parentKey = map.get(parentKey).parentKey
+          }
+
+          focusNode(parentKey === null ? void 0 : parentKey)
         }
         return true
       }
@@ -1009,7 +1235,7 @@ export default /*#__PURE__*/ createComponent({
     }
 
     function onClick(node, key, e, keyboard) {
-      const localMeta = meta.value[key]
+      const localMeta = getMeta(key)
       if (localMeta === void 0) return
 
       if (localMeta.link === true) {
@@ -1037,7 +1263,7 @@ export default /*#__PURE__*/ createComponent({
     }
 
     function onExpandClick(node, key, e, keyboard) {
-      const localMeta = meta.value[key]
+      const localMeta = getMeta(key)
       if (localMeta === void 0) return
 
       if (localMeta.link === true) {
@@ -1055,27 +1281,31 @@ export default /*#__PURE__*/ createComponent({
     }
 
     function onTickedClick(key, state) {
-      const localMeta = meta.value[key]
+      const localMeta = getMeta(key)
       if (localMeta === void 0) return
 
       if (localMeta.indeterminate === true) {
         state = localMeta.indeterminateNextState
       }
       if (localMeta.strictTicking) {
-        setTicked([localMeta.key], state)
+        setTicked([key], state)
       } else if (localMeta.leafTicking) {
         const keys = []
-        const travel = nodeMeta => {
+        const { map } = structure.value
+
+        const travel = travelKey => {
+          const nodeMeta = getMeta(travelKey)
+
           if (nodeMeta.isParent) {
             if (
               state !== true &&
               nodeMeta.noTick !== true &&
               nodeMeta.tickable === true
             ) {
-              keys.push(nodeMeta.key)
+              keys.push(travelKey)
             }
             if (nodeMeta.leafTicking === true) {
-              nodeMeta.children.forEach(travel)
+              map.get(travelKey).childKeys.forEach(travel)
             }
           } else if (
             nodeMeta.noTick !== true &&
@@ -1083,10 +1313,11 @@ export default /*#__PURE__*/ createComponent({
             (nodeMeta.leafFilteredTicking !== true ||
               nodeMeta.matchesFilter === true)
           ) {
-            keys.push(nodeMeta.key)
+            keys.push(travelKey)
           }
         }
-        travel(localMeta)
+
+        travel(key)
         setTicked(keys, state)
       }
     }
