@@ -85,7 +85,7 @@
 
     "persistent": {
       "type": "Boolean",
-      "desc": "Prevents drawer from auto-closing when app's route changes; Also, an app route change won't hide it",
+      "desc": "Prevents drawer from auto-closing when app's route changes or when ESC key is pressed while in a dismissible state (below breakpoint or shown in overlay mode)",
       "category": "behavior"
     },
 
@@ -125,6 +125,11 @@
   },
 
   "events": {
+    "escape-key": {
+      "addedIn": "v2.25",
+      "desc": "Emitted when ESC key is pressed while the drawer is in a dismissible state (below breakpoint or shown in overlay mode); Does not get emitted if the drawer is 'persistent'"
+    },
+
     "on-layout": {
       "desc": "Emitted when drawer toggles between occupying space on page or not",
       "params": {

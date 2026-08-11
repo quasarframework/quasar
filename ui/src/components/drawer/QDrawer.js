@@ -26,6 +26,10 @@ import TouchPan from '../../directives/touch-pan/TouchPan.js'
 
 import { createComponent } from '../../utils/private.create/create.js'
 import { between } from '../../utils/format/format.js'
+import {
+  addEscapeKey,
+  removeEscapeKey
+} from '../../utils/private.keyboard/escape-key.js'
 import { hDir, hSlot } from '../../utils/private.render/render.js'
 import {
   emptyRenderFn,
@@ -90,7 +94,7 @@ export default /*#__PURE__*/ createComponent({
     noSwipeBackdrop: Boolean
   },
 
-  emits: [...useModelToggleEmits, 'onLayout', 'miniState'],
+  emits: [...useModelToggleEmits, 'onLayout', 'miniState', 'escapeKey'],
 
   setup(props, { slots, emit, attrs }) {
     const vm = getCurrentInstance()
@@ -201,6 +205,28 @@ export default /*#__PURE__*/ createComponent({
       hide,
       hideOnRouteChange
     )
+
+    // In its modal state (below breakpoint or shown overlay) the drawer is
+    // dismissed through pointer-only paths (backdrop click, swipe); WCAG
+    // asks for a keyboard path as well, so ESCAPE closes it -- under the
+    // same conditions, non-persistent only (mobile keeps the back button
+    // through the History plugin)
+    const escapeState = computed(() => showing.value && hideOnRouteChange.value)
+
+    function onEscapeKey(evt) {
+      emit('escapeKey')
+      hide(evt)
+    }
+
+    function applyEscapeKey(val) {
+      // never double-registers: remove first, then add back if needed
+      removeEscapeKey(onEscapeKey)
+      if (val) {
+        addEscapeKey(onEscapeKey)
+      }
+    }
+
+    watch(escapeState, applyEscapeKey)
 
     const instance = {
       belowBreakpoint,
@@ -614,6 +640,8 @@ export default /*#__PURE__*/ createComponent({
       emit('onLayout', onLayout.value)
       emit('miniState', isMini.value)
 
+      applyEscapeKey(escapeState.value)
+
       lastDesktopState = props.showIfAbove
 
       const fn = () => {
@@ -642,6 +670,7 @@ export default /*#__PURE__*/ createComponent({
 
     onBeforeUnmount(() => {
       layoutTotalWidthWatcher?.()
+      removeEscapeKey(onEscapeKey)
 
       if (timerMini !== null) {
         clearTimeout(timerMini)

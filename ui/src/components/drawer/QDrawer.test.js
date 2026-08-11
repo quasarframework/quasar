@@ -89,6 +89,12 @@ async function mountReadyDrawer(drawerProps, slots, mountOptions) {
   return wrapper
 }
 
+async function pressEscapeKey() {
+  window.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 27 }))
+  window.dispatchEvent(new KeyboardEvent('keyup', { keyCode: 27 }))
+  await settle()
+}
+
 describe('[QDrawer API]', () => {
   describe('[Props]', () => {
     describe('[(prop)model-value]', () => {
@@ -696,6 +702,29 @@ describe('[QDrawer API]', () => {
       })
     })
 
+    describe('[(event)escape-key]', () => {
+      test('is emitting', async () => {
+        const wrapper = await mountReadyDrawer({ modelValue: true })
+
+        // crossing below the breakpoint auto-hides the drawer,
+        // so it gets shown again as a mobile (dismissible) drawer
+        await setLayoutWidth(wrapper, 500)
+        getDrawerComponent(wrapper).vm.show(false)
+        await settle()
+
+        expect(getDrawer(wrapper).$style('transform')).toBe('translateX(0px)')
+
+        await pressEscapeKey()
+
+        const eventList = getDrawerComponent(wrapper).emitted()
+        expect(eventList).toHaveProperty('escapeKey')
+        expect(eventList.escapeKey).toHaveLength(1)
+        expect(getDrawer(wrapper).$style('transform')).toBe(
+          'translateX(-300px)'
+        )
+      })
+    })
+
     describe('[(event)mini-state]', () => {
       test('is emitting', async () => {
         const wrapper = await mountReadyDrawer({ modelValue: true })
@@ -764,6 +793,48 @@ describe('[QDrawer API]', () => {
           'translateX(-300px)'
         )
       })
+    })
+  })
+
+  describe('[Accessibility]', () => {
+    // the swipe and backdrop-click dismissals are pointer-only, so the
+    // drawer's modal states need ESCAPE as their keyboard path
+    test('ESCAPE closes a shown overlay drawer', async () => {
+      const wrapper = await mountReadyDrawer({
+        modelValue: true,
+        overlay: true
+      })
+      await setLayoutWidth(wrapper, 1200)
+
+      await pressEscapeKey()
+
+      expect(getDrawer(wrapper).$style('transform')).toBe('translateX(-300px)')
+    })
+
+    test('ESCAPE leaves a persistent drawer open', async () => {
+      const wrapper = await mountReadyDrawer({
+        modelValue: true,
+        persistent: true
+      })
+      await setLayoutWidth(wrapper, 500)
+      getDrawerComponent(wrapper).vm.show(false)
+      await settle()
+
+      await pressEscapeKey()
+
+      expect(getDrawerComponent(wrapper).emitted('escapeKey')).toBeUndefined()
+      expect(getDrawer(wrapper).$style('transform')).toBe('translateX(0px)')
+    })
+
+    test('ESCAPE leaves an in-layout drawer alone', async () => {
+      const wrapper = await mountReadyDrawer({ modelValue: true })
+      await setLayoutWidth(wrapper, 1200)
+
+      await pressEscapeKey()
+
+      // above its breakpoint and not in overlay mode the drawer is part
+      // of the page layout -- not a modal surface to be dismissed
+      expect(getDrawer(wrapper).$style('transform')).toBe('translateX(0px)')
     })
   })
 })
