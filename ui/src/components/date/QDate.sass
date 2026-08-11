@@ -31,6 +31,10 @@
     transition: opacity .3s ease-out
     &--active, &:hover, &:focus
       opacity: 1
+    &:focus-visible
+      opacity: 1
+      outline: 2px solid currentColor
+      outline-offset: 2px
 
   &__header-subtitle
     font-size: $date-header-subtitle-font-size

@@ -29,6 +29,7 @@ import useDatetime, {
 import { createComponent } from '../../utils/private.create/create.js'
 import { hSlot } from '../../utils/private.render/render.js'
 import { __splitDate, formatDate, getDateDiff } from '../../utils/date/date.js'
+import { stopAndPrevent } from '../../utils/event/event.js'
 import { pad } from '../../utils/format/format.js'
 import {
   jalaaliMonthLength,
@@ -45,6 +46,10 @@ const lineStr = ' \u2014 '
 
 function getMonthHash(date) {
   return date.year + '/' + pad(date.month)
+}
+
+function preventSpace(e) {
+  if (e.keyCode === 32) stopAndPrevent(e)
 }
 
 function getShortDate(date) {
@@ -1215,13 +1220,17 @@ export default /*#__PURE__*/ createComponent({
                           ? 'q-date__header-link--active'
                           : 'cursor-pointer'),
                       tabindex: tabindex.value,
+                      role: 'button',
+                      'aria-pressed': view.value === 'Years' ? 'true' : 'false',
                       ...getCache('vY', {
                         onClick() {
                           view.value = 'Years'
                         },
+                        onKeydown: preventSpace,
                         onKeyup(e) {
-                          if (e.keyCode === 13) {
+                          if ([13, 32].includes(e.keyCode)) {
                             view.value = 'Years'
+                            stopAndPrevent(e)
                           }
                         }
                       })
@@ -1260,13 +1269,18 @@ export default /*#__PURE__*/ createComponent({
                               ? 'q-date__header-link--active'
                               : 'cursor-pointer'),
                           tabindex: tabindex.value,
+                          role: 'button',
+                          'aria-pressed':
+                            view.value === 'Calendar' ? 'true' : 'false',
                           ...getCache('vC', {
                             onClick() {
                               view.value = 'Calendar'
                             },
+                            onKeydown: preventSpace,
                             onKeyup(e) {
-                              if (e.keyCode === 13) {
+                              if ([13, 32].includes(e.keyCode)) {
                                 view.value = 'Calendar'
+                                stopAndPrevent(e)
                               }
                             }
                           })
@@ -1462,6 +1476,14 @@ export default /*#__PURE__*/ createComponent({
                                   textColor: day.textColor,
                                   label: day.i,
                                   tabindex: tabindex.value,
+                                  'aria-label': `${day.i} ${innerLocale.value.months[viewModel.value.month - 1]} ${viewModel.value.year}`,
+                                  'aria-pressed':
+                                    day.selected === true ||
+                                    day.range !== void 0
+                                      ? 'true'
+                                      : 'false',
+                                  'aria-current':
+                                    day.today === true ? 'date' : void 0,
                                   ...getCache('day#' + day.i, {
                                     onClick: () => {
                                       onDayClick(day.i)
@@ -1513,6 +1535,7 @@ export default /*#__PURE__*/ createComponent({
                     : null,
                 flat: !active,
                 label: month,
+                'aria-label': innerLocale.value.months[i],
                 unelevated: active,
                 color: active ? computedColor.value : null,
                 textColor: active ? computedTextColor.value : null,

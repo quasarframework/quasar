@@ -2,6 +2,7 @@ import { flushPromises, mount } from '@vue/test-utils'
 import { describe, expect, test } from 'vitest'
 import { nextTick } from 'vue'
 
+import langEn from '../../../lang/en-US.js'
 import QDate from './QDate.js'
 
 // a Wednesday-starting month with 28 days, so that the calendar
@@ -1078,6 +1079,70 @@ describe('[QDate API]', () => {
 
         expect(wrapper.find('.q-date__edit-range').exists()).toBe(false)
       })
+    })
+  })
+
+  describe('[Accessibility]', () => {
+    test('day buttons expose their full date and selection state', () => {
+      const wrapper = mountDate()
+
+      // the fixture model is 1995/02/23
+      const selected = getDayBtn(wrapper, 23).attributes()
+      expect(selected['aria-label']).toBe(`23 ${langEn.date.months[1]} 1995`)
+      expect(selected['aria-pressed']).toBe('true')
+
+      const plain = getDayBtn(wrapper, 10).attributes()
+      expect(plain['aria-label']).toBe(`10 ${langEn.date.months[1]} 1995`)
+      expect(plain['aria-pressed']).toBe('false')
+    })
+
+    test('days spanned by a range are announced as selected', () => {
+      const wrapper = mountDate({
+        range: true,
+        modelValue: { from: '1995/02/10', to: '1995/02/12' }
+      })
+
+      expect(getDayBtn(wrapper, 11).attributes('aria-pressed')).toBe('true')
+      expect(getDayBtn(wrapper, 13).attributes('aria-pressed')).toBe('false')
+    })
+
+    test('today carries aria-current="date"', async () => {
+      const now = new Date()
+      const wrapper = mountDate({ modelValue: getTodayString() })
+
+      // the "today" marker only shows up after hydration
+      await flushPromises()
+
+      const day = now.getDate()
+      expect(getDayBtn(wrapper, day).attributes('aria-current')).toBe('date')
+      expect(
+        getDayBtn(wrapper, day === 1 ? 2 : 1).attributes('aria-current')
+      ).toBeUndefined()
+    })
+
+    test('the header view switchers are buttons operable with Space', async () => {
+      const wrapper = mountDate()
+      const subtitle = getSubtitle(wrapper)
+      const title = getTitle(wrapper)
+
+      expect(subtitle.attributes('role')).toBe('button')
+      expect(subtitle.attributes('tabindex')).toBe('0')
+      expect(subtitle.attributes('aria-pressed')).toBe('false')
+      expect(title.attributes('role')).toBe('button')
+      expect(title.attributes('aria-pressed')).toBe('true')
+
+      await subtitle.trigger('keyup', { keyCode: 32 })
+
+      expect(wrapper.find('.q-date__view.q-date__years').exists()).toBe(true)
+      expect(getSubtitle(wrapper).attributes('aria-pressed')).toBe('true')
+    })
+
+    test('months view buttons are named with the full month name', () => {
+      const wrapper = mountDate({ defaultView: 'Months' })
+      const march = wrapper.findAll('.q-date__months-item .q-btn')[2]
+
+      expect(march.text()).toBe(langEn.date.monthsShort[2])
+      expect(march.attributes('aria-label')).toBe(langEn.date.months[2])
     })
   })
 })
