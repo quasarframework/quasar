@@ -37,17 +37,19 @@ When a tree node has focus:
 
 <DocExample title="Force dark mode" file="Dark" />
 
-### Perf considerations <q-badge label="v2.9.2+" />
+### Perf considerations <q-badge label="v2.25+" />
 
-Starting with Quasar v2.25, a collapsed node's children are not rendered until the node gets expanded for the first time (afterwards they are kept in the DOM — hidden — so that collapsing/expanding can still animate). Initial rendering cost thus scales with the number of _visible_ nodes, not with the total tree size. If your code queried the DOM for the children of never-expanded nodes, it needs to expand those nodes first.
+Starting with Quasar v2.25, QTree only pays for what is on screen: a collapsed node's children are not rendered until the node gets expanded for the first time (afterwards they are kept in the DOM — hidden — so that collapsing/expanding can still animate), and a state change (expanding, ticking, selecting, filtering, keyboard navigation) re-renders only the affected nodes. Rendering cost thus scales with the number of _visible_ nodes, not with the total tree size — most trees need no tuning at all. If your code queried the DOM for the children of never-expanded nodes, it needs to expand those nodes first.
 
-When using relatively large data, for performance we recommend using the `no-transition` Boolean prop which will account for a significant runtime speed improvement (on older Quasar versions it is the only way to avoid rendering collapsed content; on v2.25+ it additionally drops the kept-alive DOM of previously expanded nodes).
+When a lot of nodes are visible at the same time, the sheer amount of DOM becomes the bottleneck. There are two remedies, in increasing order of effect:
+
+1. The `no-transition` Boolean prop turns off the expand/collapse animation, which also allows QTree to drop collapsed subtrees from the DOM instead of keeping them alive for animating (on older Quasar versions it is the only way to avoid rendering collapsed content altogether). Recommended when using relatively large data.
 
 ```html
 <q-tree no-transition ...
 ```
 
-For trees where a huge number of nodes can be visible at the same time (e.g. many thousands of expanded nodes), see the Virtual scroll section below — it keeps the DOM cost constant no matter how much of the tree is expanded.
+2. The `virtual-scroll` Boolean prop (see the Virtual scroll section below) keeps only the rows around the scrolling viewport in the DOM. This is the mode for really big trees: mounting, expanding all nodes and filtering stay at a constant cost no matter how much of the tree is expanded.
 
 ### Virtual scroll <q-badge label="v2.25+" />
 

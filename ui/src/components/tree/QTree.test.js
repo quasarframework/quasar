@@ -1725,6 +1725,55 @@ describe('[QTree API]', () => {
       wrapper.unmount()
     })
 
+    test('virtual scroll lazy-loads children on expansion', async () => {
+      const wrapper = mountVirtualTree({
+        nodes: [{ id: 'root', label: 'Root', lazy: true }],
+        onLazyLoad: ({ done }) => {
+          done([{ id: 'kid', label: 'Kid' }])
+        }
+      })
+      await settleVirtualScroll()
+
+      // the unloaded lazy node presents as an expandable parent row
+      expect(getHeader(wrapper, 'Root').attributes('aria-expanded')).toBe(
+        'false'
+      )
+
+      wrapper.vm.setExpanded('root', true)
+      await settleVirtualScroll()
+
+      expect(getLabels(wrapper)).toStrictEqual(['Root', 'Kid'])
+      expect(getHeader(wrapper, 'Root').attributes('aria-expanded')).toBe(
+        'true'
+      )
+
+      wrapper.unmount()
+    })
+
+    test('virtual scroll keeps accordion mode working', async () => {
+      const wrapper = mountVirtualTree({
+        nodes: [
+          { id: 'a', label: 'A', children: [{ id: 'a1', label: 'A1' }] },
+          { id: 'b', label: 'B', children: [{ id: 'b1', label: 'B1' }] }
+        ],
+        accordion: true
+      })
+      await settleVirtualScroll()
+
+      wrapper.vm.setExpanded('a', true)
+      await settleVirtualScroll()
+
+      expect(getLabels(wrapper)).toStrictEqual(['A', 'A1', 'B'])
+
+      // expanding a sibling collapses the previously expanded one
+      wrapper.vm.setExpanded('b', true)
+      await settleVirtualScroll()
+
+      expect(getLabels(wrapper)).toStrictEqual(['A', 'B', 'B1'])
+
+      wrapper.unmount()
+    })
+
     test('virtual scroll applies filtering to the rows', async () => {
       const wrapper = mountVirtualTree({
         nodes: getNodes(),
