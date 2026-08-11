@@ -737,5 +737,50 @@ describe('[QTime API]', () => {
 
       expect(getHourLink(wrapper).attributes('tabindex')).toBe('-1')
     })
+
+    test('typed digits set the focused unit, accumulating multi-digit values', async () => {
+      const wrapper = mountTime({ format24h: true })
+      const minute = getMinuteLink(wrapper)
+
+      await minute.trigger('keydown', { keyCode: 53 }) // '5'
+      expect(wrapper.emitted('update:modelValue')[0][0]).toBe('10:05')
+
+      await minute.trigger('keydown', { keyCode: 57 }) // '9' accumulates to 59
+      expect(wrapper.emitted('update:modelValue')[1][0]).toBe('10:59')
+
+      await minute.trigger('keydown', { keyCode: 99 }) // numpad '3': 593 is invalid, restarts at 3
+      expect(wrapper.emitted('update:modelValue')[2][0]).toBe('10:03')
+    })
+
+    test('typed digits respect the 12h meridiem', async () => {
+      const wrapper = mountTime({ modelValue: '15:30', format24h: false })
+      const hour = getHourLink(wrapper)
+
+      await hour.trigger('keydown', { keyCode: 55 }) // '7' means 7 PM
+      expect(wrapper.emitted('update:modelValue')[0][0]).toBe('19:30')
+
+      // '0' alone is not a valid 12h hour; it only starts a new entry
+      await hour.trigger('keydown', { keyCode: 48 })
+      expect(wrapper.emitted('update:modelValue')).toHaveLength(1)
+
+      await hour.trigger('keydown', { keyCode: 57 }) // '09' means 9 PM
+      expect(wrapper.emitted('update:modelValue')[1][0]).toBe('21:30')
+    })
+
+    test('typed digits honor restricted options', async () => {
+      const wrapper = mountTime({
+        modelValue: '09:30',
+        format24h: true,
+        hourOptions: [10, 11]
+      })
+      const hour = getHourLink(wrapper)
+
+      await hour.trigger('keydown', { keyCode: 53 }) // '5' is not selectable
+      expect(wrapper.emitted('update:modelValue')).toBeUndefined()
+
+      await hour.trigger('keydown', { keyCode: 49 }) // '1' is not selectable either...
+      await hour.trigger('keydown', { keyCode: 48 }) // ...but completes to a selectable 10
+      expect(wrapper.emitted('update:modelValue')[0][0]).toBe('10:30')
+    })
   })
 })

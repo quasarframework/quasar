@@ -33,7 +33,7 @@ For landscape mode, you can use it along with `$q.screen` to make QTime responsi
 
 ### Keyboard navigation
 
-The hour, minute, second, and AM/PM controls can be activated with <kbd>Space</kbd> or <kbd>Enter</kbd>. The hour, minute and second controls are exposed as spinbuttons: when one has focus, use the <kbd>Arrow</kbd> keys to adjust its value and <kbd>Home</kbd> / <kbd>End</kbd> to jump to the first/last valid value. Their screen reader labels come from the `date.hour`/`date.minute`/`date.second` keys of the [Quasar Language Pack](/options/quasar-language-packs).
+The hour, minute, second, and AM/PM controls can be activated with <kbd>Space</kbd> or <kbd>Enter</kbd>. The hour, minute and second controls are exposed as spinbuttons: when one has focus, use the <kbd>Arrow</kbd> keys to adjust its value, <kbd>Home</kbd> / <kbd>End</kbd> to jump to the first/last valid value, or type digits to enter a value directly (e.g. <kbd>1</kbd> <kbd>5</kbd> sets 15). Their screen reader labels come from the `date.hour`/`date.minute`/`date.second` keys of the [Quasar Language Pack](/options/quasar-language-packs).
 
 ### Functionality
 

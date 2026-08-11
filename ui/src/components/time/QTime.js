@@ -62,7 +62,7 @@ function preventSpace(e) {
   if (e.keyCode === 32) stopAndPrevent(e)
 }
 
-function getLinkKeydown(step, edge) {
+function getLinkKeydown(step, edge, digit) {
   return e => {
     const { keyCode } = e
 
@@ -75,6 +75,13 @@ function getLinkKeydown(step, edge) {
     } else if (keyCode === 35 /* End */ || keyCode === 36 /* Home */) {
       stopAndPrevent(e)
       edge(keyCode === 35)
+    } else if (keyCode >= 48 && keyCode <= 57) {
+      stopAndPrevent(e)
+      digit(keyCode - 48)
+    } else if (keyCode >= 96 && keyCode <= 105) {
+      // numpad digits
+      stopAndPrevent(e)
+      digit(keyCode - 96)
     }
   }
 }
@@ -705,9 +712,69 @@ export default /*#__PURE__*/ createComponent({
       }
     }
 
-    const onKeydownHour = getLinkKeydown(stepHour, edgeHour)
-    const onKeydownMinute = getLinkKeydown(stepMinute, edgeMinute)
-    const onKeydownSecond = getLinkKeydown(stepSecond, edgeSecond)
+    // pending multi-digit keyboard entry for the focused unit
+    let digitBuffer = { unit: null, value: 0, time: 0 }
+
+    function enterDigit(unit, digit, min, max, apply) {
+      const time = Date.now()
+      const acc =
+        digitBuffer.unit === unit && time - digitBuffer.time < 1500
+          ? digitBuffer.value * 10 + digit
+          : digit
+
+      // an out-of-range accumulation restarts the entry from the fresh digit
+      const val = acc >= min && acc <= max ? acc : digit
+
+      digitBuffer = { unit, value: val, time }
+
+      if (val >= min && val <= max) {
+        apply(val)
+      }
+    }
+
+    function digitHour(digit) {
+      enterDigit(
+        'hour',
+        digit,
+        computedFormat24h.value ? 0 : 1,
+        computedFormat24h.value ? 23 : 12,
+        val => {
+          const hour = computedFormat24h.value
+            ? val
+            : val === 12
+              ? isAM.value
+                ? 0
+                : 12
+              : isAM.value
+                ? val
+                : val + 12
+
+          if (hourInSelection.value === null || hourInSelection.value(hour)) {
+            setHour(hour)
+          }
+        }
+      )
+    }
+
+    function digitMinute(digit) {
+      enterDigit('minute', digit, 0, 59, val => {
+        if (minuteInSelection.value === null || minuteInSelection.value(val)) {
+          setMinute(val)
+        }
+      })
+    }
+
+    function digitSecond(digit) {
+      enterDigit('second', digit, 0, 59, val => {
+        if (secondInSelection.value === null || secondInSelection.value(val)) {
+          setSecond(val)
+        }
+      })
+    }
+
+    const onKeydownHour = getLinkKeydown(stepHour, edgeHour, digitHour)
+    const onKeydownMinute = getLinkKeydown(stepMinute, edgeMinute, digitMinute)
+    const onKeydownSecond = getLinkKeydown(stepSecond, edgeSecond, digitSecond)
 
     function onKeyupHour(e) {
       if ([13, 32].includes(e.keyCode)) {
