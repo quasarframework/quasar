@@ -219,14 +219,14 @@ export default /*#__PURE__*/ createComponent({
     }
 
     function applyEscapeKey(val) {
-      // never double-registers: remove first, then add back if needed
-      removeEscapeKey(onEscapeKey)
+      // a watcher only fires on value changes, so add/remove
+      // strictly alternate and can never double-register
       if (val) {
         addEscapeKey(onEscapeKey)
+      } else {
+        removeEscapeKey(onEscapeKey)
       }
     }
-
-    watch(escapeState, applyEscapeKey)
 
     const instance = {
       belowBreakpoint,
@@ -640,7 +640,9 @@ export default /*#__PURE__*/ createComponent({
       emit('onLayout', onLayout.value)
       emit('miniState', isMini.value)
 
-      applyEscapeKey(escapeState.value)
+      // registered on mount so that it stays a client-only concern
+      // (a drawer can start out already shown below its breakpoint)
+      watch(escapeState, applyEscapeKey, { immediate: true })
 
       lastDesktopState = props.showIfAbove
 
