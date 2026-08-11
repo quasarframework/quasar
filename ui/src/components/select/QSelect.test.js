@@ -393,6 +393,23 @@ describe('[QSelect API]', () => {
         expect(explicitFalse.classes()).not.toContain('q-field--error')
         expect(explicitFalse.find('.q-field__bottom').exists()).toBe(true)
       })
+
+      test.each([
+        ['focus target', false],
+        ['use-input control', true]
+      ])('marks the %s invalid for assistive tech', (_, useInput) => {
+        const wrapper = mountSelect({ useInput, error: true })
+
+        expect(
+          wrapper.get('input[role="combobox"]').attributes('aria-invalid')
+        ).toBe('true')
+
+        const noError = mountSelect({ useInput })
+
+        expect(
+          noError.get('input[role="combobox"]').attributes('aria-invalid')
+        ).toBeUndefined()
+      })
     })
 
     describe('[(prop)error-message]', () => {
@@ -402,6 +419,46 @@ describe('[QSelect API]', () => {
 
         expect(wrapper.get('.q-field__messages [role="alert"]').text()).toBe(
           propVal
+        )
+      })
+
+      test.each([
+        ['focus target', false],
+        ['use-input control', true]
+      ])('links the %s to the message for assistive tech', (_, useInput) => {
+        const wrapper = mountSelect({
+          useInput,
+          error: true,
+          errorMessage: 'Please select a car'
+        })
+
+        const input = wrapper.get('input[role="combobox"]')
+        const messageId = wrapper.get('.q-field__messages').attributes('id')
+
+        expect(messageId).toBeTruthy()
+        expect(input.attributes('aria-errormessage')).toBe(messageId)
+        expect(input.attributes('aria-describedby')).toBe(messageId)
+      })
+
+      test('preserves externally supplied ARIA references', () => {
+        const wrapper = mountSelect(
+          { error: true, errorMessage: 'Please select a car' },
+          {
+            attrs: {
+              'aria-describedby': 'external-help',
+              // ARIA defines aria-errormessage as a single id reference,
+              // so an explicit value is kept instead of being concatenated
+              'aria-errormessage': 'external-error'
+            }
+          }
+        )
+
+        const input = wrapper.get('input[role="combobox"]')
+        const messageId = wrapper.get('.q-field__messages').attributes('id')
+
+        expect(input.attributes('aria-errormessage')).toBe('external-error')
+        expect(input.attributes('aria-describedby')).toBe(
+          `external-help ${messageId}`
         )
       })
     })

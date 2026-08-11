@@ -182,6 +182,16 @@ describe('[QInput API]', () => {
         expect(explicitFalse.classes()).not.toContain('q-field--error')
         expect(explicitFalse.find('.q-field__bottom').exists()).toBe(true)
       })
+
+      test('marks the native control invalid for assistive tech', () => {
+        const wrapper = mountInput({ error: true })
+
+        expect(wrapper.get('input').attributes('aria-invalid')).toBe('true')
+
+        const noError = mountInput()
+
+        expect(noError.get('input').attributes('aria-invalid')).toBeUndefined()
+      })
     })
 
     describe('[(prop)error-message]', () => {
@@ -191,6 +201,39 @@ describe('[QInput API]', () => {
 
         expect(wrapper.get('.q-field__messages [role="alert"]').text()).toBe(
           propVal
+        )
+      })
+
+      test('links the native control to the message for assistive tech', () => {
+        const wrapper = mountInput({ error: true, errorMessage: 'Required' })
+
+        const input = wrapper.get('input')
+        const messageId = wrapper.get('.q-field__messages').attributes('id')
+
+        expect(messageId).toBeTruthy()
+        expect(input.attributes('aria-errormessage')).toBe(messageId)
+        expect(input.attributes('aria-describedby')).toBe(messageId)
+      })
+
+      test('preserves externally supplied ARIA references', () => {
+        const wrapper = mountInput(
+          { error: true, errorMessage: 'Required' },
+          {
+            attrs: {
+              'aria-describedby': 'external-help',
+              // ARIA defines aria-errormessage as a single id reference,
+              // so an explicit value is kept instead of being concatenated
+              'aria-errormessage': 'external-error'
+            }
+          }
+        )
+
+        const input = wrapper.get('input')
+        const messageId = wrapper.get('.q-field__messages').attributes('id')
+
+        expect(input.attributes('aria-errormessage')).toBe('external-error')
+        expect(input.attributes('aria-describedby')).toBe(
+          `external-help ${messageId}`
         )
       })
     })
