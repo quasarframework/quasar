@@ -90,12 +90,14 @@
         :nodes="nodes"
         node-key="id"
         tick-strategy="leaf"
-        :duration="0"
+        :duration="treeConfig.animated === true ? void 0 : 0"
         :selected="selected"
         :filter="filter"
         :no-transition="treeConfig.noTransition"
         :default-expand-all="treeConfig.defaultExpandAll"
         @update:selected="v => (selected = v)"
+        @after-show="onAnimationEnd"
+        @after-hide="onAnimationEnd"
       />
     </div>
   </div>
@@ -273,6 +275,15 @@ async function benchAction(label, reps, action) {
   record(label, samples, domElementCount())
 }
 
+let animationResolve = null
+
+function onAnimationEnd() {
+  if (animationResolve !== null) {
+    animationResolve()
+    animationResolve = null
+  }
+}
+
 function pressArrowDown() {
   const event = new KeyboardEvent('keydown', {
     bubbles: true,
@@ -301,6 +312,11 @@ async function runAll() {
       3
     )
     await benchMount('mount, expand-all', { defaultExpandAll: true }, 3)
+    await benchMount(
+      'mount, expand-all, no-transition',
+      { defaultExpandAll: true, noTransition: true },
+      3
+    )
 
     // interactions run on a fully expanded tree with default transitions
     await unmountTree()
@@ -334,6 +350,23 @@ async function runAll() {
     let filterIndex = 0
     await benchAction('filter keystroke', 8, () => {
       filter.value = filterInputs[filterIndex++ % filterInputs.length]
+    })
+
+    // end-to-end animated expand/collapse: state change until the
+    // after-show/after-hide event, with the default 300ms duration
+    await unmountTree()
+    treeConfig.value = { defaultExpandAll: true, animated: true }
+    treeShown.value = true
+    await afterTick()
+
+    let animExpanded = true
+    await benchAction('animated expand/collapse (to event, 300ms)', 4, () => {
+      animExpanded = !animExpanded
+      const settled = new Promise(resolve => {
+        animationResolve = resolve
+      })
+      treeRef.value.setExpanded('N1', animExpanded)
+      return settled
     })
 
     status.value =
