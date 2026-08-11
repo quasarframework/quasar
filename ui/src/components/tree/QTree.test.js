@@ -914,4 +914,147 @@ describe('[QTree API]', () => {
       })
     })
   })
+
+  describe('[Accessibility]', () => {
+    // binding a selection makes leaf nodes focusable "links" too,
+    // like in real keyboard-accessible usage
+    function mountNavTree(props) {
+      return mountTree({ selected: null, ...props })
+    }
+
+    // parent headers also contain the arrow icon's ligature text,
+    // so an exact header.text() match only works for leaves
+    function getHeader(wrapper, label) {
+      return getNodeHeaders(wrapper).find(
+        header => header.get('.q-tree__node-header-content').text() === label
+      )
+    }
+
+    function keydown(header, keyCode) {
+      return header.trigger('keydown', { keyCode })
+    }
+
+    test('keeps a single roving Tab stop', async () => {
+      const wrapper = mountNavTree()
+
+      const fruits = getHeader(wrapper, 'Fruits')
+      const bread = getHeader(wrapper, 'Bread')
+
+      expect(fruits.attributes('tabindex')).toBe('0')
+      expect(bread.attributes('tabindex')).toBe('-1')
+
+      await bread.trigger('focus')
+
+      expect(fruits.attributes('tabindex')).toBe('-1')
+      expect(bread.attributes('tabindex')).toBe('0')
+    })
+
+    test('steps through the nodes with ArrowDown/ArrowUp', async () => {
+      const wrapper = mountNavTree({ defaultExpandAll: true })
+
+      await keydown(getHeader(wrapper, 'Fruits'), 40)
+      expect(document.activeElement).toBe(getHeader(wrapper, 'Apple').element)
+
+      await keydown(getHeader(wrapper, 'Apple'), 40)
+      expect(document.activeElement).toBe(getHeader(wrapper, 'Banana').element)
+
+      await keydown(getHeader(wrapper, 'Banana'), 38)
+      expect(document.activeElement).toBe(getHeader(wrapper, 'Apple').element)
+    })
+
+    test('skips the children of collapsed nodes', async () => {
+      const wrapper = mountNavTree()
+
+      await keydown(getHeader(wrapper, 'Fruits'), 40)
+
+      expect(document.activeElement).toBe(getHeader(wrapper, 'Bread').element)
+    })
+
+    test('jumps to the boundary nodes with Home/End', async () => {
+      const wrapper = mountNavTree({ defaultExpandAll: true })
+
+      await keydown(getHeader(wrapper, 'Apple'), 35)
+      expect(document.activeElement).toBe(getHeader(wrapper, 'Bread').element)
+
+      await keydown(getHeader(wrapper, 'Bread'), 36)
+      expect(document.activeElement).toBe(getHeader(wrapper, 'Fruits').element)
+    })
+
+    test('expands a collapsed parent node with ArrowRight', async () => {
+      const wrapper = mountNavTree()
+
+      expect(getLabels(wrapper)).toStrictEqual(['Fruits', 'Bread'])
+
+      const fruits = getHeader(wrapper, 'Fruits')
+      fruits.element.focus()
+      await keydown(fruits, 39)
+
+      expect(getLabels(wrapper)).toStrictEqual([
+        'Fruits',
+        'Apple',
+        'Banana',
+        'Bread'
+      ])
+      // focus stays put; a second ArrowRight moves into the children
+      expect(document.activeElement).toBe(fruits.element)
+    })
+
+    test('moves into an expanded parent node with ArrowRight', async () => {
+      const wrapper = mountNavTree({ defaultExpandAll: true })
+
+      await keydown(getHeader(wrapper, 'Fruits'), 39)
+
+      expect(document.activeElement).toBe(getHeader(wrapper, 'Apple').element)
+    })
+
+    test('leaves leaf nodes unaffected by ArrowRight', async () => {
+      const wrapper = mountNavTree()
+
+      const bread = getHeader(wrapper, 'Bread')
+      bread.element.focus()
+      await keydown(bread, 39)
+
+      expect(getLabels(wrapper)).toStrictEqual(['Fruits', 'Bread'])
+      expect(document.activeElement).toBe(bread.element)
+    })
+
+    test('collapses an expanded parent node with ArrowLeft', async () => {
+      const wrapper = mountNavTree({ defaultExpandAll: true })
+
+      await keydown(getHeader(wrapper, 'Fruits'), 37)
+
+      expect(getLabels(wrapper)).toStrictEqual(['Fruits', 'Bread'])
+    })
+
+    test('moves to the parent node with ArrowLeft on a child', async () => {
+      const wrapper = mountNavTree({ defaultExpandAll: true })
+
+      await keydown(getHeader(wrapper, 'Apple'), 37)
+
+      expect(document.activeElement).toBe(getHeader(wrapper, 'Fruits').element)
+      // the parent is left expanded; another ArrowLeft collapses it
+      expect(getLabels(wrapper)).toStrictEqual([
+        'Fruits',
+        'Apple',
+        'Banana',
+        'Bread'
+      ])
+    })
+
+    test('exposes the expansion and selection state', async () => {
+      const wrapper = mountNavTree()
+
+      const fruits = getHeader(wrapper, 'Fruits')
+      const bread = getHeader(wrapper, 'Bread')
+
+      expect(fruits.attributes('aria-expanded')).toBe('false')
+      expect(fruits.attributes('aria-selected')).toBe('false')
+      expect(bread.attributes('aria-expanded')).toBeUndefined()
+      expect(bread.attributes('aria-selected')).toBe('false')
+
+      await keydown(fruits, 39)
+
+      expect(fruits.attributes('aria-expanded')).toBe('true')
+    })
+  })
 })
