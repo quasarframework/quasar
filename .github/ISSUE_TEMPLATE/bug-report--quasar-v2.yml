@@ -43,7 +43,6 @@ body:
           - [Codepen](https://codepen.quasar.dev)
           - [jsFiddle](https://jsfiddle.quasar.dev)
           - [StackBlitz - app-vite](https://stackblitz-vite.quasar.dev)
-          - [StackBlitz - app-webpack](https://stackblitz-webpack.quasar.dev)
           - [Codesandbox](https://codesandbox.quasar.dev)
         _You can provide a GitHub repo only as a last resort. Keep in mind that it will be prioritized less as it makes the reproduction process slower._
       placeholder: https://codepen.io/rstoenescu/pen/xxEvBLR - DO NOT use this example value or a random URL
@@ -68,7 +67,6 @@ body:
       description: Choose the Quasar flavour you are using. _The names between parentheses indicate the package names if applicable._
       options:
         - Quasar CLI with Vite (@quasar/cli | @quasar/app-vite)
-        - Quasar CLI with Webpack (@quasar/cli | @quasar/app-webpack)
         - UMD
         - Vite Plugin (@quasar/vite-plugin)
         - Vue CLI Plugin (vue-cli-plugin-quasar)

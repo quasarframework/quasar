@@ -10,7 +10,7 @@ These are the areas the Quasar core team and project maintainers actively develo
 | Project area                      | Responsibility                                                                             | Repo, Links                                                             |
 | --------------------------------- | ------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------- |
 | Quasar UI                         | The `quasar` UI library - components, directives, plugins, composables, TypeScript support | [Main repo](https://github.com/quasarframework/quasar) (`/ui`)          |
-| CLIs                              | `@quasar/cli`, `@quasar/app-vite`, `@quasar/app-webpack`, `create-quasar`                  | [Main repo](https://github.com/quasarframework/quasar)                  |
+| CLIs                              | `@quasar/cli`, `@quasar/app-vite`, `create-quasar`                                         | [Main repo](https://github.com/quasarframework/quasar)                  |
 | Vite plugin                       | `@quasar/vite-plugin` for vanilla Vite apps                                                | [Main repo](https://github.com/quasarframework/quasar) (`/vite-plugin`) |
 | Icon Genie & Extras               | `@quasar/icongenie`, `@quasar/extras`                                                      | [Main repo](https://github.com/quasarframework/quasar)                  |
 | Documentation                     | This very website                                                                          | [Main repo](https://github.com/quasarframework/quasar) (`/docs`)        |
