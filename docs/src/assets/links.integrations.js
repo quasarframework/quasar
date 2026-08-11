@@ -89,12 +89,12 @@ export const ecosystemParts = [
       {
         label: 'QMarkdown',
         icon: mdiLanguageMarkdown,
-        path: 'https://github.com/quasarframework/app-extension-qmarkdown'
+        path: 'https://github.com/quasarframework/quasar-ui-qmarkdown'
       },
       {
         label: 'QMediaPlayer',
         icon: mdiTelevisionPlay,
-        path: 'https://github.com/quasarframework/app-extension-qmediaplayer'
+        path: 'https://github.com/quasarframework/quasar-ui-qmediaplayer'
       },
       {
         label: 'All AEs',
