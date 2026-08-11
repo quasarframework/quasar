@@ -256,29 +256,29 @@ Notice the infinite scroll in place which renders additional options as the user
 
 When QSelect is focused:
 
-- pressing <kbd>ENTER</kbd>, <kbd>ARROW DOWN</kbd> (or <kbd>SPACE</kbd> if `use-input` is not set) will open the list of options
+- pressing <kbd>Enter</kbd>, <kbd>Arrow Down</kbd> (or <kbd>Space</kbd> if `use-input` is not set) will open the list of options
 - if `use-chips` is set:
-  - pressing <kbd>SHIFT</kbd> + <kbd>TAB</kbd> will navigate backwards through the QChips (if a QChip is selected <kbd>TAB</kbd> will navigate forward through the QChips)
-  - pressing <kbd>ENTER</kbd> when a QChip is selected will remove that option from the selection
-  - pressing <kbd>BACKSPACE</kbd> will remove the last option from the selection (when `use-input` is set the input should be empty)
-- pressing <kbd>BACKSPACE</kbd> when `clearable` is set then:
+  - pressing <kbd>Shift</kbd> + <kbd>Tab</kbd> will navigate backwards through the QChips (if a QChip is selected <kbd>Tab</kbd> will navigate forward through the QChips)
+  - pressing <kbd>Enter</kbd> when a QChip is selected will remove that option from the selection
+  - pressing <kbd>Backspace</kbd> will remove the last option from the selection (when `use-input` is set the input should be empty)
+- pressing <kbd>Backspace</kbd> when `clearable` is set then:
   - it clears the model (with `null` value) for single selection
   - it removes the last added value for multiple selection
-- pressing <kbd>TAB</kbd> (or <kbd>SHIFT</kbd> + <kbd>TAB</kbd> if `use-chips` is not set or the first QChip is selected) will navigate to the next or previous focusable element on page
+- pressing <kbd>Tab</kbd> (or <kbd>Shift</kbd> + <kbd>Tab</kbd> if `use-chips` is not set or the first QChip is selected) will navigate to the next or previous focusable element on page
 - typing text (<kbd>0</kbd> - <kbd>9</kbd> or <kbd>A</kbd> - <kbd>Z</kbd>) if `use-input` is not set will:
   - create a search buffer (will be reset when a new key is not typed for 1.5 seconds) that will be used to search in the options labels
   - select the next option starting with that letter (after the current focused one) if the first key in buffer is typed multiple times
   - select the next option (starting with the current focused one) that matches the typed text (the match is fuzzy - the option label should start with the first letter and contain all the letters)
 
-You can prevent QSelect's action for most keys by preventing its `keydown` event; for example, `@keydown.enter.prevent` keeps <kbd>ENTER</kbd> from opening the list of options. The exception is <kbd>ESC</kbd>, whose handling (closing the list of options) is tied to the `keyup` event and cannot be cancelled this way.
+You can prevent QSelect's action for most keys by preventing its `keydown` event; for example, `@keydown.enter.prevent` keeps <kbd>Enter</kbd> from opening the list of options. The exception is <kbd>Esc</kbd>, whose handling (closing the list of options) is tied to the `keyup` event and cannot be cancelled this way.
 
 When the list of options is opened:
 
-- pressing <kbd>ARROW UP</kbd> or <kbd>ARROW DOWN</kbd> will navigate up or down in the list of options
-- pressing <kbd>PAGE UP</kbd> or <kbd>PAGE DOWN</kbd> will navigate one page up or down in the list of options
-- pressing <kbd>HOME</kbd> or <kbd>END</kbd> will navigate to the start or end of the list of options (only if you are not using `use-input`, or the input is empty)
+- pressing <kbd>Arrow Up</kbd> or <kbd>Arrow Down</kbd> will navigate up or down in the list of options
+- pressing <kbd>Page Up</kbd> or <kbd>Page Down</kbd> will navigate one page up or down in the list of options
+- pressing <kbd>Home</kbd> or <kbd>End</kbd> will navigate to the start or end of the list of options (only if you are not using `use-input`, or the input is empty)
 - when navigating using arrow keys, navigation will wrap when reaching the start or end of the list
-- pressing <kbd>ENTER</kbd> (or <kbd>SPACE</kbd> when `use-input` is not set, or <kbd>TAB</kbd> when `multiple` and `disable-tab-selection` are not set) when an option is selected in the list will:
+- pressing <kbd>Enter</kbd> (or <kbd>Space</kbd> when `use-input` is not set, or <kbd>Tab</kbd> when `multiple` and `disable-tab-selection` are not set) when an option is selected in the list will:
   - select the option and close the list of options if `multiple` and `disable-tab-selection` are not set
   - toggle the option if `multiple` is set
 

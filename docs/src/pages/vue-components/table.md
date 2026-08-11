@@ -409,6 +409,6 @@ You could also make use of the `filteredSortedRows` internal computed property o
 
 ## Keyboard navigation
 
-Below is an example of keyboard navigation in the table using selected row. Use `ArrowUp`, `ArrowDown`, `PageUp`, `PageDown`, `Home` and `End` keys to navigate.
+Below is an example of keyboard navigation in the table using selected row. Use <kbd>Arrow Up</kbd>, <kbd>Arrow Down</kbd>, <kbd>Page Up</kbd>, <kbd>Page Down</kbd>, <kbd>Home</kbd> and <kbd>End</kbd> keys to navigate.
 
 <DocExample title="Keyboard navigation" file="KeyboardNavigation" />

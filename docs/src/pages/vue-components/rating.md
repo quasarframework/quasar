@@ -21,9 +21,9 @@ Quasar Rating is a Component which allows users to rate items, usually known as 
 
 QRating uses radio-group keyboard behavior:
 
-- `Space` or `Enter` update the model.
-- `Arrow Right` and `Arrow Down` move focus to the next value (Space/Enter required to be pressed to update the model).
-- `Arrow Left` and `Arrow Up` move focus to the previous value (Space/Enter required to be pressed to update the model).
+- <kbd>Space</kbd> or <kbd>Enter</kbd> update the model.
+- <kbd>Arrow Right</kbd> and <kbd>Arrow Down</kbd> move focus to the next value (<kbd>Space</kbd>/<kbd>Enter</kbd> required to be pressed to update the model).
+- <kbd>Arrow Left</kbd> and <kbd>Arrow Up</kbd> move focus to the previous value (<kbd>Space</kbd>/<kbd>Enter</kbd> required to be pressed to update the model).
 
 ### Icons
 

@@ -19,11 +19,11 @@ Quasar Tree represents a highly configurable component that displays hierarchica
 
 When a tree node has focus:
 
-- `Arrow Up` and `Arrow Down` move focus through the visible nodes.
-- `Arrow Right` expands a collapsed parent or moves focus to its first visible child.
-- `Arrow Left` collapses an expanded parent or moves focus to its parent.
-- `Home` and `End` move focus to the first and last visible nodes.
-- `Enter` performs the node's default action; `Space` toggles its expansion — or its checkbox, on tickable nodes (when using a `tick-strategy`).
+- <kbd>Arrow Up</kbd> and <kbd>Arrow Down</kbd> move focus through the visible nodes.
+- <kbd>Arrow Right</kbd> expands a collapsed parent or moves focus to its first visible child.
+- <kbd>Arrow Left</kbd> collapses an expanded parent or moves focus to its parent.
+- <kbd>Home</kbd> and <kbd>End</kbd> move focus to the first and last visible nodes.
+- <kbd>Enter</kbd> performs the node's default action; <kbd>Space</kbd> toggles its expansion — or its checkbox, on tickable nodes (when using a `tick-strategy`).
 
 ### No connector lines
 

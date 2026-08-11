@@ -33,7 +33,7 @@ For landscape mode, you can use it along with `$q.screen` to make QTime responsi
 
 ### Keyboard navigation
 
-The hour, minute, second, and AM/PM controls can be activated with `Space` or `Enter`. When an hour, minute, or second control has focus, use `Arrow Left` and `Arrow Right` to adjust its value.
+The hour, minute, second, and AM/PM controls can be activated with <kbd>Space</kbd> or <kbd>Enter</kbd>. When an hour, minute, or second control has focus, use <kbd>Arrow Left</kbd> and <kbd>Arrow Right</kbd> to adjust its value.
 
 ### Functionality
 

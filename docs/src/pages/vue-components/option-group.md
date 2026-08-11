@@ -70,7 +70,7 @@ By default, QOptionGroup looks at `label`, `value`, `disable` props of each opti
 
 ### Keyboard navigation <q-badge label="v2.25+" />
 
-When `type` is `radio` (the default), QOptionGroup follows the [WAI-ARIA radio group pattern](https://www.w3.org/WAI/ARIA/apg/patterns/radio/): the whole group is a single Tab stop (pressing `Tab` moves focus into the group — onto the selected radio — and out of it), while the arrow keys move focus within the group, selecting the newly focused radio, wrapping around and skipping disabled options.
+When `type` is `radio` (the default), QOptionGroup follows the [WAI-ARIA radio group pattern](https://www.w3.org/WAI/ARIA/apg/patterns/radio/): the whole group is a single Tab stop (pressing <kbd>Tab</kbd> moves focus into the group — onto the selected radio — and out of it), while the arrow keys move focus within the group, selecting the newly focused radio, wrapping around and skipping disabled options.
 
 Standalone QRadio components (used without QOptionGroup) have no knowledge of their siblings, so they cannot offer arrow key navigation — each is its own Tab stop.
 

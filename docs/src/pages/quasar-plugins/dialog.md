@@ -78,7 +78,7 @@ You can also supply native HTML attributes to the inner QInput or QOptionGroup c
 
 ### User input validation
 
-There is a basic validation system that you can use so that the user won't be able to submit the dialog (click/tap on "OK" or press <kbd>ENTER</kbd>) until the expected values are filled in.
+There is a basic validation system that you can use so that the user won't be able to submit the dialog (click/tap on "OK" or press <kbd>Enter</kbd>) until the expected values are filled in.
 
 <DocExample title="Prompt with validation" file="ValidationPrompt" />
 
