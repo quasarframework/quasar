@@ -449,6 +449,28 @@ describe('[QSplitter API]', () => {
       expect(wrapper.emitted('update:modelValue')).toStrictEqual([[70], [200]])
     })
 
+    test('Enter collapses the primary panel, then restores it', async () => {
+      const wrapper = mountSplitter() // model 20, default limits [ 10, 90 ]
+      const separator = getSeparator(wrapper)
+
+      await separator.trigger('keydown', { keyCode: 13 })
+
+      expect(wrapper.emitted('update:modelValue')).toStrictEqual([[10]])
+
+      await wrapper.setProps({ modelValue: 10 })
+      await separator.trigger('keydown', { keyCode: 13 })
+
+      expect(wrapper.emitted('update:modelValue')).toStrictEqual([[10], [20]])
+    })
+
+    test('Enter does nothing when collapsed without a stored position', async () => {
+      const wrapper = mountSplitter({ modelValue: 10 })
+
+      await getSeparator(wrapper).trigger('keydown', { keyCode: 13 })
+
+      expect(wrapper.emitted('update:modelValue')).toBeUndefined()
+    })
+
     test('does not emit when the splitter is already at the limit', async () => {
       const wrapper = mountSplitter({ modelValue: 90 })
 

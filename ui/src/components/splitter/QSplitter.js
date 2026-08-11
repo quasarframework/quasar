@@ -183,6 +183,8 @@ export default /*#__PURE__*/ createComponent({
       return acc
     })
 
+    let __restoreValue = null
+
     function onSeparatorKeydown(evt) {
       const { keyCode } = evt
       // 37 ArrowLeft, 39 ArrowRight (vertical splitter)
@@ -190,6 +192,7 @@ export default /*#__PURE__*/ createComponent({
       const arrowKeys = props.horizontal ? [38, 40] : [37, 39]
 
       if (
+        keyCode !== 13 /* Enter */ &&
         keyCode !== 36 /* Home */ &&
         keyCode !== 35 /* End */ &&
         !arrowKeys.includes(keyCode)
@@ -207,7 +210,16 @@ export default /*#__PURE__*/ createComponent({
 
       let val
 
-      if (keyCode === 36) {
+      if (keyCode === 13) {
+        // collapse the model-controlled panel to its minimum limit,
+        // or restore its pre-collapse position
+        if (props.modelValue !== limits[0]) {
+          __restoreValue = props.modelValue
+          val = limits[0]
+        } else {
+          val = __restoreValue !== null ? __restoreValue : props.modelValue
+        }
+      } else if (keyCode === 36) {
         val = limits[0]
       } else if (keyCode === 35) {
         val = limits[1]
