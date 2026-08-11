@@ -38,6 +38,10 @@ then root `pnpm test`.
   matchers (`$objectValues()`, `$arrayValues()`); if a recurring form has
   no matcher, add a reusable one to `test/vitest.setup.js` instead of
   repeating implementation-specific assertions.
+- Keyboard-interaction and ARIA coverage goes in a top-level
+  `[Accessibility]` describe, not under the prop describes; `[Generic]`
+  is the catch-all for other non-API behavior. These two are the only
+  valid hand-written categories (see `test/README.md`).
 
 ## Hydration tests
 
