@@ -54,6 +54,11 @@ import {
   validatePosition
 } from '../../utils/private.position-engine/position-engine.js'
 
+const tabbableSelector =
+  'a[href], button:not([disabled]), input:not([disabled]),' +
+  ' select:not([disabled]), textarea:not([disabled]),' +
+  ' [tabindex]:not([tabindex^="-"])'
+
 export default /*#__PURE__*/ createComponent({
   name: 'QMenu',
 
@@ -381,6 +386,51 @@ export default /*#__PURE__*/ createComponent({
       }
     }
 
+    function onPortalKeydown(evt) {
+      if (
+        evt.keyCode !== 9 || // TAB key
+        evt.defaultPrevented ||
+        !handlesFocus.value ||
+        innerRef.value === null
+      ) {
+        return
+      }
+
+      const inner = innerRef.value
+      const tabbables = inner.querySelectorAll(tabbableSelector)
+      const edge =
+        tabbables.length === 0
+          ? null
+          : tabbables[evt.shiftKey ? 0 : tabbables.length - 1]
+
+      if (
+        edge !== null &&
+        document.activeElement !== edge &&
+        !(evt.shiftKey && document.activeElement === inner)
+      ) {
+        // focus stays inside the popup
+        return
+      }
+
+      // Focus is about to leave the popup, which is rendered in a portal,
+      // so the default TAB action would drop focus out of the page (WAI-ARIA
+      // instead expects the popup to close and focus to move on). Hand focus
+      // back to the anchor control synchronously — before the default TAB
+      // action runs — so the sequence continues from there, and keep our
+      // focusout recapture from interfering with the handoff.
+      removeFocusout(onFocusout)
+
+      if (refocusTarget !== null && refocusTarget.isConnected) {
+        const target =
+          refocusTarget.closest('[tabindex]:not([tabindex^="-"])') ||
+          refocusTarget
+        target.focus({ preventScroll: true })
+      }
+
+      refocusTarget = null
+      hide(evt)
+    }
+
     function updatePosition() {
       setPosition({
         targetEl: innerRef.value,
@@ -406,6 +456,9 @@ export default /*#__PURE__*/ createComponent({
                 ...attrs,
                 ref: innerRef,
                 tabindex: -1,
+                // chains the consumer's own keydown listener, if any
+                // oxlint-disable-next-line unicorn/prefer-spread
+                onKeydown: [].concat(attrs.onKeydown || [], onPortalKeydown),
                 class: [
                   'q-menu q-position-engine scroll' + menuClass.value,
                   attrs.class

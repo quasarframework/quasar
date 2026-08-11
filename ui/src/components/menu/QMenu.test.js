@@ -1221,5 +1221,99 @@ describe('[QMenu API]', () => {
       expect(getMenu()).not.toBeNull()
       expect(dialogEl.contains(getMenu())).toBe(false)
     })
+
+    // the popup renders through a portal, so letting TAB run its default
+    // course would drop focus out of the page instead of continuing the
+    // page's sequence -- WAI-ARIA expects the popup to close instead
+    describe('TAB moving out of the popup', () => {
+      function mountMenuWithButtons(props) {
+        return mountMenu(props, {
+          default: () => [
+            h('button', { class: 'first-action' }, 'first'),
+            h('button', { class: 'last-action' }, 'last')
+          ]
+        })
+      }
+
+      async function pressTabKey(el, shiftKey) {
+        el.dispatchEvent(
+          new KeyboardEvent('keydown', {
+            keyCode: 9,
+            shiftKey: shiftKey === true,
+            bubbles: true
+          })
+        )
+        await flushPromises()
+        await vi.runAllTimersAsync()
+      }
+
+      test('closes it and hands focus back to the anchor', async () => {
+        const wrapper = mountMenuWithButtons()
+        const anchorEl = getAnchor(wrapper).element
+
+        anchorEl.focus()
+        await showMenu(wrapper)
+
+        const lastEl = document.querySelector('.last-action')
+        lastEl.focus()
+        await pressTabKey(lastEl)
+
+        expect(getMenu()).toBeNull()
+        expect(document.activeElement).toBe(anchorEl)
+      })
+
+      test('closes it on Shift+TAB from the first tabbable', async () => {
+        const wrapper = mountMenuWithButtons()
+        const anchorEl = getAnchor(wrapper).element
+
+        anchorEl.focus()
+        await showMenu(wrapper)
+
+        const firstEl = document.querySelector('.first-action')
+        firstEl.focus()
+        await pressTabKey(firstEl, true)
+
+        expect(getMenu()).toBeNull()
+        expect(document.activeElement).toBe(anchorEl)
+      })
+
+      test('keeps it open while focus stays inside', async () => {
+        const wrapper = mountMenuWithButtons()
+
+        getAnchor(wrapper).element.focus()
+        await showMenu(wrapper)
+
+        const firstEl = document.querySelector('.first-action')
+        firstEl.focus()
+        await pressTabKey(firstEl)
+
+        expect(getMenu()).not.toBeNull()
+      })
+
+      test('closes a popup holding no tabbable element', async () => {
+        const wrapper = mountMenu()
+        const anchorEl = getAnchor(wrapper).element
+
+        anchorEl.focus()
+        await showMenu(wrapper)
+
+        // the popup itself receives focus when it holds nothing focusable
+        expect(document.activeElement).toBe(getMenu())
+        await pressTabKey(getMenu())
+
+        expect(getMenu()).toBeNull()
+        expect(document.activeElement).toBe(anchorEl)
+      })
+
+      test('leaves a persistent popup alone', async () => {
+        const wrapper = mountMenu({ persistent: true })
+
+        getAnchor(wrapper).element.focus()
+        await showMenu(wrapper)
+        await pressTabKey(getMenu())
+
+        expect(getMenu()).not.toBeNull()
+      })
+    })
   })
 })
