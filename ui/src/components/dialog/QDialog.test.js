@@ -1104,4 +1104,25 @@ describe('[QDialog API]', () => {
       })
     })
   })
+
+  describe('[Generic]', () => {
+    test('applies dynamic class changes to the inner root element', async () => {
+      wrapper = mount(QDialog, {
+        props: { modelValue: true, class: 'my-class-a' },
+        slots: { default: () => 'content' }
+      })
+      await flushPromises()
+
+      const root = wrapper.findComponent({ name: 'QPortal' }).get('.q-dialog')
+
+      expect(root.classes()).toContain('my-class-a')
+
+      // attrs is not reactive, so the class must reach the element
+      // through the render path - a computed would go stale here
+      await wrapper.setProps({ class: 'my-class-b' })
+
+      expect(root.classes()).toContain('my-class-b')
+      expect(root.classes()).not.toContain('my-class-a')
+    })
+  })
 })

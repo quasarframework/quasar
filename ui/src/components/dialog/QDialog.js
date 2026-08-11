@@ -167,11 +167,11 @@ export default /*#__PURE__*/ createComponent({
       props.autoClose ? { onClick: onAutoClose } : {}
     )
 
-    const rootClasses = computed(() => [
-      'q-dialog fullscreen no-pointer-events ' +
-        `q-dialog--${useBackdrop.value ? 'modal' : 'seamless'}`,
-      attrs.class
-    ])
+    const rootClasses = computed(
+      () =>
+        'q-dialog fullscreen no-pointer-events ' +
+        `q-dialog--${useBackdrop.value ? 'modal' : 'seamless'}`
+    )
 
     watch(
       () => props.maximized,
@@ -441,7 +441,9 @@ export default /*#__PURE__*/ createComponent({
           role: 'dialog',
           'aria-modal': useBackdrop.value ? 'true' : 'false',
           ...attrs,
-          class: rootClasses.value
+          // render-path merge: attrs is not reactive, so a computed
+          // must not cache attrs.class (dynamic changes would go stale)
+          class: [rootClasses.value, attrs.class]
         },
         [
           h(

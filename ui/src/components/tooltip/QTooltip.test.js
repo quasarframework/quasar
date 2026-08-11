@@ -573,4 +573,24 @@ describe('[QTooltip API]', () => {
       })
     })
   })
+
+  describe('[Accessibility]', () => {
+    test('applies a dynamic id to the tooltip and its aria wiring', async () => {
+      const wrapper = mountTooltip({ id: 'tip-a' })
+      await showTooltip(wrapper)
+
+      expect(getTooltip().id).toBe('tip-a')
+      expect(getAnchor(wrapper).attributes('aria-describedby')).toBe('tip-a')
+
+      await hideTooltip(wrapper)
+
+      // attrs is not reactive, so the id must be resolved on demand -
+      // a computed would keep serving the value cached at first show
+      await wrapper.setProps({ tooltipProps: { id: 'tip-b' } })
+      await showTooltip(wrapper)
+
+      expect(getTooltip().id).toBe('tip-b')
+      expect(getAnchor(wrapper).attributes('aria-describedby')).toBe('tip-b')
+    })
+  })
 })

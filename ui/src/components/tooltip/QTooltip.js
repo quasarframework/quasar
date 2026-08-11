@@ -122,7 +122,11 @@ export default /*#__PURE__*/ createComponent({
     const innerRef = ref(null)
     const showing = ref(false)
     const targetUid = useId()
-    const tooltipId = computed(() => attrs.id || targetUid.value)
+    // attrs is not reactive, so the custom id must be resolved on
+    // demand (render/show path) instead of through a cached computed
+    function getTooltipId() {
+      return attrs.id || targetUid.value
+    }
 
     const anchorOrigin = computed(() =>
       parsePosition(props.anchor, $q.lang.rtl)
@@ -391,7 +395,7 @@ export default /*#__PURE__*/ createComponent({
 
     function addAriaDescription() {
       const el = anchorEl.value,
-        id = tooltipId.value
+        id = getTooltipId()
 
       if (el === null || id === void 0) return
 
@@ -439,7 +443,7 @@ export default /*#__PURE__*/ createComponent({
             'div',
             {
               ...attrs,
-              id: tooltipId.value,
+              id: getTooltipId(),
               ref: innerRef,
               class: [
                 'q-tooltip q-tooltip--style q-position-engine no-pointer-events',
