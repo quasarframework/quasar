@@ -407,11 +407,11 @@
     },
 
     "before-options": {
-      "desc": "Template slot for the elements that should be rendered before the list of options"
+      "desc": "Template slot for the elements that should be rendered before the list of options; the ARIA combobox pattern keeps keyboard focus on the field while the popup is open, so interactive elements placed here are not keyboard/screen-reader accessible - prefer modeling such actions as regular options or placing them outside of the popup"
     },
 
     "after-options": {
-      "desc": "Template slot for the elements that should be rendered after the list of options"
+      "desc": "Template slot for the elements that should be rendered after the list of options; the ARIA combobox pattern keeps keyboard focus on the field while the popup is open, so interactive elements placed here are not keyboard/screen-reader accessible - prefer modeling such actions as regular options or placing them outside of the popup"
     },
 
     "no-option": {

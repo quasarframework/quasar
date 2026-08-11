@@ -1,6 +1,8 @@
 import { enableAutoUnmount, flushPromises, mount } from '@vue/test-utils'
 import { afterEach, describe, expect, test, vi } from 'vitest'
+import { defineComponent, h } from 'vue'
 
+import QDialog from '../dialog/QDialog.js'
 import QMenu from '../menu/QMenu.js'
 import QSelect from './QSelect.js'
 
@@ -2904,5 +2906,97 @@ describe('[QSelect API]', () => {
         ).toBe('Preferred car')
       }
     )
+
+    test('references the listbox only while it exists, with the listbox wrapping only the options', async () => {
+      const wrapper = mountSelect(
+        {},
+        {
+          slots: {
+            'before-options': () =>
+              h('div', { class: 'before-opts' }, 'Select all'),
+            'after-options': () => h('div', { class: 'after-opts' }, 'Footer')
+          }
+        }
+      )
+      const target = wrapper.get('input[role="combobox"]')
+
+      expect(target.attributes('aria-expanded')).toBe('false')
+      expect(target.attributes('aria-controls')).toBeUndefined()
+
+      const portal = await openPopup(wrapper)
+      const listbox = portal.get('[role="listbox"]')
+
+      expect(target.attributes('aria-expanded')).toBe('true')
+      expect(target.attributes('aria-controls')).toBe(listbox.attributes('id'))
+
+      // the listbox contains all the options...
+      expect(listbox.findAll('[role="option"]').length).toBe(
+        stringOptions.length
+      )
+
+      // ...while slot content and the virtual scroll padding are
+      // rendered in the popup, but outside of the listbox
+      expect(listbox.find('.before-opts').exists()).toBe(false)
+      expect(listbox.find('.after-opts').exists()).toBe(false)
+      expect(listbox.find('.q-virtual-scroll__padding').exists()).toBe(false)
+      expect(portal.find('.before-opts').exists()).toBe(true)
+      expect(portal.find('.after-opts').exists()).toBe(true)
+    })
+
+    test('sizes the option set from all options, not the rendered slice', async () => {
+      const total = 100
+      const wrapper = mountSelect({ options: getOptions(total) })
+      const portal = await openPopup(wrapper)
+      const options = portal.findAll('[role="option"]')
+
+      expect(options.length).toBeGreaterThan(0)
+      expect(options.length).toBeLessThan(total)
+
+      options.forEach((opt, i) => {
+        expect(opt.attributes('aria-setsize')).toBe(String(total))
+        expect(opt.attributes('aria-posinset')).toBe(String(i + 1))
+      })
+    })
+
+    test.each([
+      ['ArrowDown', 40],
+      ['ArrowUp', 38]
+    ])('opens the popup on %s', async (_, keyCode) => {
+      const wrapper = mountSelect()
+      const target = wrapper.get('.q-select__focus-target')
+
+      await target.trigger('keydown', { keyCode })
+      await flushPromises()
+
+      expect(target.attributes('aria-expanded')).toBe('true')
+    })
+
+    test('keeps the popup inside a modal dialog for assistive tech', async () => {
+      const wrapper = mount(
+        defineComponent({
+          setup() {
+            return () =>
+              h(QDialog, { modelValue: true }, () =>
+                h(QSelect, { modelValue: null, options: stringOptions })
+              )
+          }
+        }),
+        { attachTo: document.body }
+      )
+
+      await flushPromises()
+
+      wrapper.findComponent(QSelect).vm.showPopup()
+      await flushPromises()
+
+      const dialogEl = document.querySelector('[role="dialog"]')
+      const listboxEl = document.querySelector('[role="listbox"]')
+
+      expect(dialogEl.getAttribute('aria-modal')).toBe('true')
+      expect(listboxEl).not.toBeNull()
+      // an aria-modal dialog makes assistive tech ignore everything
+      // outside of the dialog's element, listbox included (#17078)
+      expect(dialogEl.contains(listboxEl)).toBe(true)
+    })
   })
 })

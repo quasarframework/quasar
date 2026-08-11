@@ -157,6 +157,10 @@ All the attributes set on QSelect that are not in the list of props in the API w
 
 More information: [native input attributes](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input).
 
+::: tip Accessibility
+Attributes are applied to the focusable control even without `use-input`. This is particularly useful for `aria-label` or `aria-labelledby`, which set the accessible name that screen readers announce for the select (taking precedence over the name derived from the `label` prop).
+:::
+
 <DocExample title="Filtering options" file="InputFilterOptions" />
 
 <DocExample title="Basic filtering" file="BasicFiltering" />

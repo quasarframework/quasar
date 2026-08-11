@@ -324,8 +324,13 @@ export default /*#__PURE__*/ createComponent({
         'aria-label': props.label,
         'aria-readonly': props.readonly ? 'true' : 'false',
         'aria-autocomplete': props.useInput ? 'list' : 'none',
-        'aria-expanded': menu.value ? 'true' : 'false',
-        'aria-controls': `${state.targetUid.value}_lb`
+        'aria-expanded': menu.value ? 'true' : 'false'
+      }
+
+      // the listbox only exists while the popup is shown with options
+      // in it, and aria-controls must not reference a missing id
+      if (menu.value && !noOptions.value) {
+        attrs['aria-controls'] = `${state.targetUid.value}_lb`
       }
 
       if (optionIndex.value >= 0) {
@@ -376,6 +381,10 @@ export default /*#__PURE__*/ createComponent({
           dark: isOptionsDark.value,
           role: 'option',
           'aria-selected': active ? 'true' : 'false',
+          // virtual scroll renders only a slice of the options,
+          // so screen readers need the real set size and position
+          'aria-setsize': virtualScrollLength.value,
+          'aria-posinset': index + 1,
           id: `${state.targetUid.value}_${index}`,
           onClick: () => {
             toggleOption(opt)
@@ -791,8 +800,12 @@ export default /*#__PURE__*/ createComponent({
         return
       }
 
-      // down
-      if (e.keyCode === 40 && !state.innerLoading.value && !menu.value) {
+      // up, down (open the popup when closed)
+      if (
+        (e.keyCode === 40 || e.keyCode === 38) &&
+        !state.innerLoading.value &&
+        !menu.value
+      ) {
         stopAndPrevent(e)
         showPopup()
         return
@@ -1055,7 +1068,14 @@ export default /*#__PURE__*/ createComponent({
                   )
               )
 
-      let options = padVirtualScroll('div', optionScope.value.map(fn))
+      // the listbox role wraps only the options (through the virtual
+      // scroll content element); slot content and the aria-hidden
+      // virtual scroll padding are not valid children of a listbox
+      let options = padVirtualScroll(
+        'div',
+        optionScope.value.map(fn),
+        listboxAttrs.value
+      )
 
       if (slots['before-options'] !== void 0) {
         options = [slots['before-options'](), ...options].flat()
@@ -1276,7 +1296,6 @@ export default /*#__PURE__*/ createComponent({
           transitionHide: props.transitionHide,
           transitionDuration: props.transitionDuration,
           separateClosePopup: true,
-          ...listboxAttrs.value,
           onScrollPassive: onVirtualScrollEvt,
           onBeforeShow: onControlPopupShow,
           onBeforeHide: onMenuBeforeHide,
@@ -1347,7 +1366,6 @@ export default /*#__PURE__*/ createComponent({
               ref: menuContentRef,
               class: menuContentClass.value + ' scroll',
               style: props.popupContentStyle,
-              ...listboxAttrs.value,
               onClick: prevent,
               onScrollPassive: onVirtualScrollEvt
             },
