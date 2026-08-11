@@ -183,6 +183,11 @@
     "loading": {
       "desc": "Override the default QSpinner when in 'loading' state",
       "addedIn": "v2.8"
+    },
+
+    "toggle": {
+      "desc": "Additional content rendered inside the dropdown toggle, next to the arrow icon; With the 'split' prop it is the only way to reach the toggle button (e.g. to attach a QTooltip to it); Does not replace the arrow icon - use the 'dropdown-icon' prop for that",
+      "addedIn": "v2.25"
     }
   },
 

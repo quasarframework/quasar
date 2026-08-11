@@ -5,6 +5,7 @@ import { h } from 'vue'
 import { alignMap } from 'quasar/src/composables/private.use-align/use-align.js'
 import { getRouter } from 'testing/runtime/router.js'
 import QBtnDropdown from './QBtnDropdown.js'
+import QTooltip from '../tooltip/QTooltip.js'
 
 let activeWrapper
 
@@ -745,6 +746,15 @@ describe('[QBtnDropdown API]', () => {
 
         expect(getMenu()).not.toBeNull()
       })
+
+      test('keeps the menu anchored to the whole component', async () => {
+        await mountPositionedBtnDropdown({ split: true, label: 'Split' })
+
+        // "fit" sizes the menu to its anchor: the full 100px wide
+        // component, not the narrower toggle button hosting it
+        expect(getMenu().style.minWidth).toBe('100px')
+        expect(getMenu().style.top).toBe('150px')
+      })
     })
 
     describe('[(prop)dropdown-icon]', () => {
@@ -1268,6 +1278,45 @@ describe('[QBtnDropdown API]', () => {
         expect(wrapper.find('.q-spinner').exists()).toBe(false)
       })
     })
+
+    describe('[(slot)toggle]', () => {
+      test('renders the content', () => {
+        const slotContent = 'some-slot-content'
+        const wrapper = mountBtnDropdown({}, { toggle: () => slotContent })
+
+        // rendered next to the arrow icon, which it does not replace
+        expect(getContent(wrapper).text()).toContain(slotContent)
+        expect(getArrowIcon(wrapper).exists()).toBe(true)
+      })
+
+      test('renders the content inside the toggle button when split', () => {
+        const slotContent = 'some-slot-content'
+        const wrapper = mountBtnDropdown(
+          { split: true },
+          { toggle: () => slotContent }
+        )
+
+        expect(getArrowBtn(wrapper).text()).toContain(slotContent)
+        expect(getMainBtn(wrapper).text()).not.toContain(slotContent)
+      })
+
+      test('anchors slotted QTooltip to the toggle button alone when split', async () => {
+        const wrapper = mountBtnDropdown(
+          { split: true, label: 'Main' },
+          { toggle: () => h(QTooltip, () => 'toggle help') }
+        )
+
+        await getMainBtn(wrapper).trigger('mouseenter')
+        await settle()
+
+        expect(document.querySelector('.q-tooltip')).toBeNull()
+
+        await getArrowBtn(wrapper).trigger('mouseenter')
+        await settle()
+
+        expect(document.querySelector('.q-tooltip')).not.toBeNull()
+      })
+    })
   })
 
   describe('[Events]', () => {
@@ -1433,11 +1482,18 @@ describe('[QBtnDropdown API]', () => {
       // means role="menu") must not be claimed by default
       expect(toggle.attributes('aria-haspopup')).toBeUndefined()
       expect(toggle.attributes('aria-expanded')).toBe('false')
+      // the menu does not exist in the DOM while hidden, and
+      // aria-controls must not reference a missing id
+      expect(toggle.attributes('aria-controls')).toBeUndefined()
 
       await showMenu(wrapper)
 
       expect(toggle.attributes('aria-expanded')).toBe('true')
       expect(toggle.attributes('aria-controls')).toBe(getMenu().id)
+
+      await hideMenu(wrapper)
+
+      expect(toggle.attributes('aria-controls')).toBeUndefined()
     })
   })
 })
