@@ -253,10 +253,12 @@
         right: 0
 
     &.q-tree--virtual
+      // root leaves keep the child indent here: in the nested dense
+      // layout the child padding outranks the root reset, aligning
+      // root leaves with root parents
       .q-tree__vnode--child .q-tree__node-header
         padding-left: 18px
-      .q-tree__vnode--parent .q-tree__node-header,
-      .q-tree__vnode--root .q-tree__node-header
+      .q-tree__vnode--parent .q-tree__node-header
         padding-left: 1px
       .q-tree__vnode--parent .q-tree__node-body
         padding-left: 20px
