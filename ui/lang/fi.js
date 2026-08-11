@@ -63,6 +63,10 @@ export default {
     next: 'Seuraava sivu',
     last: 'Viimeinen sivu'
   },
+  carousel: {
+    prevSlide: 'Edellinen dia',
+    nextSlide: 'Seuraava dia'
+  },
   editor: {
     toolbar: 'Editorin työkalupalkki',
     url: 'URL',

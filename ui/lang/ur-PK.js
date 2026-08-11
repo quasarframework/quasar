@@ -72,6 +72,10 @@ export default {
     next: 'بل مخ',
     last: 'وروستۍ پاڼه'
   },
+  carousel: {
+    prevSlide: 'پچھلی سلائیڈ',
+    nextSlide: 'اگلی سلائیڈ'
+  },
   editor: {
     toolbar: 'ایڈیٹر ٹول بار',
     url: 'یو آر ایل',

@@ -60,6 +60,10 @@ export default {
     next: 'Nästa sida',
     last: 'Sista sidan'
   },
+  carousel: {
+    prevSlide: 'Föregående bild',
+    nextSlide: 'Nästa bild'
+  },
   editor: {
     toolbar: 'Redigerarens verktygsfält',
     url: 'URL',

@@ -63,6 +63,10 @@ export default {
     next: 'അടുത്ത പേജ്',
     last: 'അവസാന പേജ്'
   },
+  carousel: {
+    prevSlide: 'മുൻ സ്ലൈഡ്',
+    nextSlide: 'അടുത്ത സ്ലൈഡ്'
+  },
   editor: {
     toolbar: 'എഡിറ്റർ ടൂൾബാർ',
     url: 'യുആർഎൽ',

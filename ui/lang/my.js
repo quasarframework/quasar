@@ -62,6 +62,10 @@ export default {
     next: 'နောက်စာမျက်နှာ',
     last: 'နောက်ဆုံးစာမျက်နှာ'
   },
+  carousel: {
+    prevSlide: 'ယခင်ဆလိုက်',
+    nextSlide: 'နောက်ဆလိုက်'
+  },
   editor: {
     toolbar: 'အယ်ဒီတာ ကိရိယာဘား',
     url: 'URL',

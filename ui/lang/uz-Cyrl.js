@@ -65,6 +65,10 @@ export default {
     next: 'Кейинги саҳифа',
     last: 'Сўнгги саҳифа'
   },
+  carousel: {
+    prevSlide: 'Олдинги слайд',
+    nextSlide: 'Кейинги слайд'
+  },
   editor: {
     toolbar: 'Муҳаррир асбоблар панели',
     url: 'УРЛ',

@@ -60,6 +60,10 @@ export default {
     next: 'Næste side',
     last: 'Sidste side'
   },
+  carousel: {
+    prevSlide: 'Forrige dias',
+    nextSlide: 'Næste dias'
+  },
   editor: {
     toolbar: 'Editorens værktøjslinje',
     url: 'URL',

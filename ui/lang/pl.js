@@ -62,6 +62,10 @@ export default {
     next: 'Następna strona',
     last: 'Ostatnia strona'
   },
+  carousel: {
+    prevSlide: 'Poprzedni slajd',
+    nextSlide: 'Następny slajd'
+  },
   editor: {
     toolbar: 'Pasek narzędzi edytora',
     url: 'URL',

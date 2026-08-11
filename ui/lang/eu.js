@@ -61,6 +61,10 @@ export default {
     next: 'Hurrengo orria',
     last: 'Azken orria'
   },
+  carousel: {
+    prevSlide: 'Aurreko diapositiba',
+    nextSlide: 'Hurrengo diapositiba'
+  },
   editor: {
     toolbar: 'Editorearen tresna-barra',
     url: 'URL',

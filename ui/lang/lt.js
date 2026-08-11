@@ -77,6 +77,10 @@ export default {
     next: 'Kitas puslapis',
     last: 'Paskutinis puslapis'
   },
+  carousel: {
+    prevSlide: 'Ankstesnė skaidrė',
+    nextSlide: 'Kita skaidrė'
+  },
   editor: {
     toolbar: 'Redaktoriaus įrankių juosta',
     url: 'URL',

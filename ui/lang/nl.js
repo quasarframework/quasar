@@ -62,6 +62,10 @@ export default {
     next: 'Volgende pagina',
     last: 'Laatste pagina'
   },
+  carousel: {
+    prevSlide: 'Vorige dia',
+    nextSlide: 'Volgende dia'
+  },
   editor: {
     toolbar: 'Werkbalk van de editor',
     url: 'URL',

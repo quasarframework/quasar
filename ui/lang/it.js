@@ -63,6 +63,10 @@ export default {
     next: 'Pagina successiva',
     last: 'Ultima pagina'
   },
+  carousel: {
+    prevSlide: 'Diapositiva precedente',
+    nextSlide: 'Diapositiva successiva'
+  },
   editor: {
     toolbar: "Barra degli strumenti dell'editor",
     url: 'URL',

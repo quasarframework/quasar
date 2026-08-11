@@ -60,6 +60,10 @@ export default {
     next: 'Halaman seterusnya',
     last: 'Halaman terakhir'
   },
+  carousel: {
+    prevSlide: 'Slaid sebelumnya',
+    nextSlide: 'Slaid seterusnya'
+  },
   editor: {
     toolbar: 'Bar alat penyunting',
     url: 'URL',

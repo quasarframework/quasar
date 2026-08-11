@@ -62,6 +62,10 @@ export default {
     next: 'Nächste Seite',
     last: 'Letzte Seite'
   },
+  carousel: {
+    prevSlide: 'Vorherige Folie',
+    nextSlide: 'Nächste Folie'
+  },
   editor: {
     toolbar: 'Symbolleiste des Editors',
     url: 'URL',

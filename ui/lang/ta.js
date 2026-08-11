@@ -60,6 +60,10 @@ export default {
     next: 'அடுத்த பக்கம்',
     last: 'கடைசி பக்கம்'
   },
+  carousel: {
+    prevSlide: 'முந்தைய ஸ்லைடு',
+    nextSlide: 'அடுத்த ஸ்லைடு'
+  },
   editor: {
     toolbar: 'திருத்தி கருவிப்பட்டை',
     url: 'URL',

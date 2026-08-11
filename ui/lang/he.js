@@ -64,6 +64,10 @@ export default {
     next: 'העמוד הבא',
     last: 'העמוד האחרון'
   },
+  carousel: {
+    prevSlide: 'השקופית הקודמת',
+    nextSlide: 'השקופית הבאה'
+  },
   editor: {
     toolbar: 'סרגל הכלים של העורך',
     url: 'כתובת אתר',

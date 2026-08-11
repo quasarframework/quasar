@@ -67,6 +67,10 @@ export default {
     next: '下一頁',
     last: '最後一頁'
   },
+  carousel: {
+    prevSlide: '上一張投影片',
+    nextSlide: '下一張投影片'
+  },
   editor: {
     toolbar: '編輯器工具列',
     url: '網址',

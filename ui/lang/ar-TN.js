@@ -65,6 +65,10 @@ export default {
     next: 'الصفحة التالية',
     last: 'الصفحة الأخيرة'
   },
+  carousel: {
+    prevSlide: 'الشريحة السابقة',
+    nextSlide: 'الشريحة التالية'
+  },
   editor: {
     toolbar: 'شريط أدوات المحرر',
     url: 'رابط',

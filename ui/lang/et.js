@@ -61,6 +61,10 @@ export default {
     next: 'Järgmine leht',
     last: 'Viimane leht'
   },
+  carousel: {
+    prevSlide: 'Eelmine slaid',
+    nextSlide: 'Järgmine slaid'
+  },
   editor: {
     toolbar: 'Redaktori tööriistariba',
     url: 'URL',

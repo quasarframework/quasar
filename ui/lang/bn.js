@@ -63,6 +63,10 @@ export default {
     next: 'পরবর্তী পৃষ্ঠা',
     last: 'শেষ পৃষ্ঠা'
   },
+  carousel: {
+    prevSlide: 'পূর্ববর্তী স্লাইড',
+    nextSlide: 'পরবর্তী স্লাইড'
+  },
   editor: {
     toolbar: 'সম্পাদকের টুলবার',
     url: 'ইউ আর এল',

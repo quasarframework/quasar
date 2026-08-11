@@ -141,6 +141,10 @@ export interface QuasarLanguage {
     selectedRecords: (rows: number) => string;
     pagination: (start: number, end: number, total: number) => string;
   };
+  carousel?: {
+    prevSlide?: string;
+    nextSlide?: string;
+  };
   editor: StringDictionary<QuasarLanguageEditorLabel> & {
     toolbar?: string;
   };

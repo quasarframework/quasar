@@ -62,6 +62,10 @@ export default {
     next: 'Isi Itulau',
     last: 'Itulau mulimuli'
   },
+  carousel: {
+    prevSlide: "Fa'aaliga muamua",
+    nextSlide: "Isi fa'aaliga"
+  },
   editor: {
     toolbar: 'Laina meafaigaluega',
     url: 'Tuātusi initaneti',

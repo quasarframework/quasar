@@ -66,6 +66,10 @@ export default {
     next: '下一页',
     last: '最后一页'
   },
+  carousel: {
+    prevSlide: '上一张幻灯片',
+    nextSlide: '下一张幻灯片'
+  },
   editor: {
     toolbar: '编辑器工具栏',
     url: 'URL',

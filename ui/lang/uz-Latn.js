@@ -69,6 +69,10 @@ export default {
     next: 'Keyingi sahifa',
     last: "So'nggi sahifa"
   },
+  carousel: {
+    prevSlide: 'Oldingi slayd',
+    nextSlide: 'Keyingi slayd'
+  },
   editor: {
     toolbar: 'Muharrir asboblar paneli',
     url: 'URL',

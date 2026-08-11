@@ -76,6 +76,10 @@ export default {
     next: 'Další stránka',
     last: 'Poslední stránka'
   },
+  carousel: {
+    prevSlide: 'Předchozí snímek',
+    nextSlide: 'Další snímek'
+  },
   editor: {
     toolbar: 'Panel nástrojů editoru',
     url: 'URL',

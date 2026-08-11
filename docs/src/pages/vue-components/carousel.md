@@ -65,7 +65,7 @@ For a full list of properties of the `navigation-icon` slot, please consult the 
 
 The navigation buttons (and the thumbnails, when using the `thumbnails` prop) follow the [WAI-ARIA carousel pattern](https://www.w3.org/WAI/ARIA/apg/patterns/carousel/) with a tabbed interface: they form a single Tab stop, while the arrow keys move focus within them and also select the newly focused slide, wrapping around at either end. Horizontal carousels use <kbd>Arrow Left</kbd> and <kbd>Arrow Right</kbd> (reversed in RTL mode); vertical ones use <kbd>Arrow Up</kbd> and <kbd>Arrow Down</kbd>. <kbd>Home</kbd> or <kbd>End</kbd> jumps to the first or last slide.
 
-Each navigation element gets its slide's `name` as the accessible label — pick meaningful slide names, or supply your own labels through the `navigation-icon` slot (spread its `btnProps`, which include the ARIA attributes, then override what you need).
+Each navigation element gets its slide's `name` as the accessible label — pick meaningful slide names, or supply your own labels through the `navigation-icon` slot (spread its `btnProps`, which include the ARIA attributes, then override what you need). The previous/next arrows (`arrows` prop) carry localized accessible names from the [Quasar Language Pack](/options/quasar-language-packs) (`carousel.prevSlide` / `carousel.nextSlide`).
 
 ### Auto padding
 

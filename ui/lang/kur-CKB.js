@@ -66,6 +66,10 @@ export default {
     next: 'پەڕەی داهاتوو',
     last: 'پەڕەی کۆتایی'
   },
+  carousel: {
+    prevSlide: 'سلایدی پێشوو',
+    nextSlide: 'سلایدی داهاتوو'
+  },
   editor: {
     toolbar: 'شریتی ئامرازەکانی دەستکاریکەر',
     url: 'لینک',

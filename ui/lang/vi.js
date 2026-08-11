@@ -62,6 +62,10 @@ export default {
     next: 'Trang tiếp theo',
     last: 'Trang cuối cùng'
   },
+  carousel: {
+    prevSlide: 'Trang chiếu trước',
+    nextSlide: 'Trang chiếu tiếp theo'
+  },
   editor: {
     toolbar: 'Thanh công cụ soạn thảo',
     url: 'URL',

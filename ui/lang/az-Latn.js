@@ -62,6 +62,10 @@ export default {
     next: 'Növbəti səhifə',
     last: 'Son səhifə'
   },
+  carousel: {
+    prevSlide: 'Əvvəlki slayd',
+    nextSlide: 'Növbəti slayd'
+  },
   editor: {
     toolbar: 'Redaktor alətlər paneli',
     url: 'URL',

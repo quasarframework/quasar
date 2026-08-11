@@ -67,6 +67,10 @@ export default {
     next: 'صفحه بعدی',
     last: 'صفحه آخر'
   },
+  carousel: {
+    prevSlide: 'اسلاید قبلی',
+    nextSlide: 'اسلاید بعدی'
+  },
   editor: {
     toolbar: 'نوار ابزار ویرایشگر',
     url: 'آدرس',

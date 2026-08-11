@@ -59,6 +59,10 @@ export default {
     next: 'ទំព័របន្ទាប់',
     last: 'ទំព័រចុងក្រោយ'
   },
+  carousel: {
+    prevSlide: 'ស្លាយមុន',
+    nextSlide: 'ស្លាយបន្ទាប់'
+  },
   editor: {
     toolbar: 'របារឧបករណ៍កម្មវិធីនិពន្ធ',
     url: 'URL',

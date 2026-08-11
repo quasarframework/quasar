@@ -75,6 +75,10 @@ export default {
     next: 'Следующая страница',
     last: 'Последняя страница'
   },
+  carousel: {
+    prevSlide: 'Предыдущий слайд',
+    nextSlide: 'Следующий слайд'
+  },
   editor: {
     toolbar: 'Панель инструментов редактора',
     url: 'URL',

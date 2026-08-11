@@ -58,6 +58,10 @@ export default {
     next: 'अगला पृष्ठ',
     last: 'अंतिम पृष्ठ'
   },
+  carousel: {
+    prevSlide: 'पिछली स्लाइड',
+    nextSlide: 'अगली स्लाइड'
+  },
   editor: {
     toolbar: 'संपादक टूलबार',
     url: 'URL',

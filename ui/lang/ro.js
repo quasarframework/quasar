@@ -60,6 +60,10 @@ export default {
     next: 'Pagina următoare',
     last: 'Ultima pagină'
   },
+  carousel: {
+    prevSlide: 'Diapozitivul anterior',
+    nextSlide: 'Diapozitivul următor'
+  },
   editor: {
     toolbar: 'Bara de instrumente a editorului',
     url: 'URL',

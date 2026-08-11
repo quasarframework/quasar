@@ -60,6 +60,10 @@ export default {
     next: 'Susunod na pahina',
     last: 'Huling pahina'
   },
+  carousel: {
+    prevSlide: 'Nakaraang slide',
+    nextSlide: 'Susunod na slide'
+  },
   editor: {
     toolbar: 'Toolbar ng editor',
     url: 'URL',

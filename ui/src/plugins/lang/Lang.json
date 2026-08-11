@@ -353,6 +353,22 @@
             }
           }
         },
+        "carousel": {
+          "type": "Object",
+          "desc": "QCarousel labels",
+          "definition": {
+            "prevSlide": {
+              "type": "String",
+              "desc": "Accessible name (aria-label) of the previous-slide arrow",
+              "examples": ["'Previous slide'"]
+            },
+            "nextSlide": {
+              "type": "String",
+              "desc": "Accessible name (aria-label) of the next-slide arrow",
+              "examples": ["'Next slide'"]
+            }
+          }
+        },
         "editor": {
           "type": "Object",
           "desc": "QEditor labels",
@@ -974,6 +990,22 @@
                   "desc": "Label",
                   "required": true,
                   "examples": ["'Columns'"]
+                }
+              }
+            },
+            "carousel": {
+              "type": "Object",
+              "desc": "QCarousel labels",
+              "definition": {
+                "prevSlide": {
+                  "type": "String",
+                  "desc": "Accessible name (aria-label) of the previous-slide arrow",
+                  "examples": ["'Previous slide'"]
+                },
+                "nextSlide": {
+                  "type": "String",
+                  "desc": "Accessible name (aria-label) of the next-slide arrow",
+                  "examples": ["'Next slide'"]
                 }
               }
             },

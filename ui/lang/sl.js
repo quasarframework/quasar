@@ -62,6 +62,10 @@ export default {
     next: 'Naslednja stran',
     last: 'Zadnja stran'
   },
+  carousel: {
+    prevSlide: 'Prejšnji diapozitiv',
+    nextSlide: 'Naslednji diapozitiv'
+  },
   editor: {
     toolbar: 'Orodna vrstica urejevalnika',
     url: 'URL',

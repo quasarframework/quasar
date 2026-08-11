@@ -62,6 +62,10 @@ export default {
     next: 'Nächst Säit',
     last: 'Lescht Säit'
   },
+  carousel: {
+    prevSlide: 'Virescht Folie',
+    nextSlide: 'Nächst Folie'
+  },
   editor: {
     toolbar: 'Toolbar vum Editeur',
     url: 'URL',

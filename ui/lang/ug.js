@@ -65,6 +65,10 @@ export default {
     next: 'كېيىنكى بەت',
     last: 'ئاخىرقى بەت'
   },
+  carousel: {
+    prevSlide: 'ئالدىنقى سلايت',
+    nextSlide: 'كېيىنكى سلايت'
+  },
   editor: {
     toolbar: 'تەھرىرلىگۈچ قورال ستونى',
     url: 'URL',

@@ -60,6 +60,10 @@ export default {
     next: 'Következő oldal',
     last: 'Utolsó oldal'
   },
+  carousel: {
+    prevSlide: 'Előző dia',
+    nextSlide: 'Következő dia'
+  },
   editor: {
     toolbar: 'Szerkesztő eszköztára',
     url: 'URL',

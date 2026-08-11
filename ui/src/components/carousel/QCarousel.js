@@ -360,6 +360,8 @@ export default /*#__PURE__*/ createComponent({
               [
                 h(QBtn, {
                   icon: arrowIcons.value[0],
+                  // third-party language packs may lack the carousel section
+                  'aria-label': $q.lang.carousel?.prevSlide,
                   ...controlProps.value,
                   onClick: previousPanel
                 })
@@ -381,6 +383,7 @@ export default /*#__PURE__*/ createComponent({
               [
                 h(QBtn, {
                   icon: arrowIcons.value[1],
+                  'aria-label': $q.lang.carousel?.nextSlide,
                   ...controlProps.value,
                   onClick: nextPanel
                 })

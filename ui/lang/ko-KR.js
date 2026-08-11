@@ -57,6 +57,10 @@ export default {
     next: '다음 페이지',
     last: '마지막 페이지'
   },
+  carousel: {
+    prevSlide: '이전 슬라이드',
+    nextSlide: '다음 슬라이드'
+  },
   editor: {
     toolbar: '편집기 도구 모음',
     url: 'URL',

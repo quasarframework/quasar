@@ -62,6 +62,10 @@ export default {
     next: 'Faqja tjetër',
     last: 'Faqja e fundit'
   },
+  carousel: {
+    prevSlide: 'Diapozitivi i mëparshëm',
+    nextSlide: 'Diapozitivi tjetër'
+  },
   editor: {
     toolbar: 'Shiriti i veglave të redaktuesit',
     url: 'URL',

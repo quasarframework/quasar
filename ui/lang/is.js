@@ -62,6 +62,10 @@ export default {
     next: 'Næsta blaðsíða',
     last: 'Síðasta blaðsíða'
   },
+  carousel: {
+    prevSlide: 'Fyrri glæra',
+    nextSlide: 'Næsta glæra'
+  },
   editor: {
     toolbar: 'Tækjastika ritils',
     url: 'Slóð',

@@ -2,6 +2,8 @@ import { mount } from '@vue/test-utils'
 import { afterEach, describe, expect, test, vi } from 'vitest'
 import { defineComponent, h } from 'vue'
 
+import langEn from '../../../lang/en-US.js'
+
 import QCarousel from './QCarousel.js'
 import QCarouselSlide from './QCarouselSlide.js'
 
@@ -1003,6 +1005,20 @@ describe('[QCarousel API]', () => {
       await thumbnails[0].trigger('keydown', { keyCode: 39 })
       expect(document.activeElement).toBe(thumbnails[1].element)
       expect(wrapper.emitted('update:modelValue')).toStrictEqual([['slide-b']])
+    })
+
+    test('names the icon-only navigation arrows', () => {
+      const wrapper = mountCarousel({
+        modelValue: 'slide-b',
+        arrows: true
+      })
+
+      expect(
+        wrapper.get('.q-carousel__prev-arrow .q-btn').attributes('aria-label')
+      ).toBe(langEn.carousel.prevSlide)
+      expect(
+        wrapper.get('.q-carousel__next-arrow .q-btn').attributes('aria-label')
+      ).toBe(langEn.carousel.nextSlide)
     })
   })
 })

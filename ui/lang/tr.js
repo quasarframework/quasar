@@ -57,6 +57,10 @@ export default {
     next: 'Sonraki Sayfa',
     last: 'Son Sayfa'
   },
+  carousel: {
+    prevSlide: 'Önceki slayt',
+    nextSlide: 'Sonraki slayt'
+  },
   editor: {
     toolbar: 'Düzenleyici araç çubuğu',
     url: 'URL',

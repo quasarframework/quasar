@@ -62,6 +62,10 @@ export default {
     next: 'Nākamā lapa',
     last: 'Pēdējā lapa'
   },
+  carousel: {
+    prevSlide: 'Iepriekšējais slaids',
+    nextSlide: 'Nākamais slaids'
+  },
   editor: {
     toolbar: 'Redaktora rīkjosla',
     url: 'URL',

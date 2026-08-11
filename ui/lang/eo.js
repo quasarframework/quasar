@@ -63,6 +63,10 @@ export default {
     next: 'Sekva paĝo',
     last: 'Lasta paĝo'
   },
+  carousel: {
+    prevSlide: 'Antaŭa lumbildo',
+    nextSlide: 'Sekva lumbildo'
+  },
   editor: {
     toolbar: 'Ilobreto de la redaktilo',
     url: 'URL',

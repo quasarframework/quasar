@@ -73,6 +73,10 @@ export default {
     next: 'Келесі бет',
     last: 'Соңғы бет'
   },
+  carousel: {
+    prevSlide: 'Алдыңғы слайд',
+    nextSlide: 'Келесі слайд'
+  },
   editor: {
     toolbar: 'Редактордың құралдар тақтасы',
     url: 'URL',

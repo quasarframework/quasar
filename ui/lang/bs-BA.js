@@ -62,6 +62,10 @@ export default {
     next: 'Sljedeća stranica',
     last: 'Zadnja stranica'
   },
+  carousel: {
+    prevSlide: 'Prethodni slajd',
+    nextSlide: 'Sljedeći slajd'
+  },
   editor: {
     toolbar: 'Traka s alatima uređivača',
     url: 'URL',

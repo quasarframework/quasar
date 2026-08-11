@@ -60,6 +60,10 @@ export default {
     next: 'Kuatia ohasáva',
     last: 'Kuatia última'
   },
+  carousel: {
+    prevSlide: 'Diapositiva anterior',
+    nextSlide: 'Diapositiva siguiente'
+  },
   editor: {
     toolbar: 'Barra de herramientas del editor',
     url: 'URL',

@@ -60,6 +60,10 @@ export default {
     next: 'Επόμενη σελίδα',
     last: 'Τελευταία σελίδα'
   },
+  carousel: {
+    prevSlide: 'Προηγούμενη διαφάνεια',
+    nextSlide: 'Επόμενη διαφάνεια'
+  },
   editor: {
     toolbar: 'Γραμμή εργαλείων επεξεργαστή',
     url: 'Διεύθυνση URL', // Needs Translation

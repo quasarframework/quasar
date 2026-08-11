@@ -79,6 +79,10 @@ describe('[Lang API]', () => {
             next: expect.any(String),
             prev: expect.any(String)
           },
+          carousel: {
+            prevSlide: expect.any(String),
+            nextSlide: expect.any(String)
+          },
           editor: {
             toolbar: expect.any(String),
             url: expect.any(String),
@@ -245,6 +249,10 @@ describe('[Lang API]', () => {
               last: expect.any(String),
               next: expect.any(String),
               prev: expect.any(String)
+            },
+            carousel: {
+              prevSlide: 'Previous slide',
+              nextSlide: 'Next slide'
             },
             editor: {
               toolbar: 'Editor toolbar',

@@ -59,6 +59,10 @@ export default {
     next: 'หน้าถัดไป',
     last: 'หน้าสุดท้าย'
   },
+  carousel: {
+    prevSlide: 'สไลด์ก่อนหน้า',
+    nextSlide: 'สไลด์ถัดไป'
+  },
   editor: {
     toolbar: 'แถบเครื่องมือตัวแก้ไข',
     url: 'URL',

@@ -62,6 +62,10 @@ export default {
     next: '次のページ',
     last: '最後のページ'
   },
+  carousel: {
+    prevSlide: '前のスライド',
+    nextSlide: '次のスライド'
+  },
   editor: {
     toolbar: 'エディタツールバー',
     url: 'URL', // 'URL',

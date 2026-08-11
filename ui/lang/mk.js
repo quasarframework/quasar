@@ -60,6 +60,10 @@ export default {
     next: 'Следната страница',
     last: 'Последна страница'
   },
+  carousel: {
+    prevSlide: 'Претходен слајд',
+    nextSlide: 'Следен слајд'
+  },
   editor: {
     toolbar: 'Лента со алатки на уредувачот',
     url: 'URL',
