@@ -55,7 +55,7 @@
           class="q-ml-sm q-px-md"
         >
           <q-menu anchor="top end" self="top end">
-            <q-list class="text-grey-8" style="min-width: 100px">
+            <q-list role="menu" class="text-grey-8" style="min-width: 100px">
               <q-item aria-hidden="true">
                 <q-item-section
                   class="text-uppercase text-grey-7"

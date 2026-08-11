@@ -29,7 +29,7 @@
           </q-btn>
           <q-btn round flat icon="more_vert">
             <q-menu auto-close :offset="[110, 0]">
-              <q-list style="min-width: 150px">
+              <q-list role="menu" style="min-width: 150px">
                 <q-item clickable>
                   <q-item-section>Contact data</q-item-section>
                 </q-item>
@@ -70,7 +70,7 @@
           <q-btn round flat icon="message" />
           <q-btn round flat icon="more_vert">
             <q-menu auto-close :offset="[110, 8]">
-              <q-list style="min-width: 150px">
+              <q-list role="menu" style="min-width: 150px">
                 <q-item clickable>
                   <q-item-section>New group</q-item-section>
                 </q-item>

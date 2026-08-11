@@ -1,5 +1,7 @@
 <template>
-  <q-list class="doc-page__toc">
+  <!-- every entry is interactive, so a "list" role would own no
+       listitem children (invalid ARIA) - the items stand on their own -->
+  <q-list class="doc-page__toc" role="none">
     <q-item
       v-for="tocItem in docStore.state.value.toc"
       :key="tocItem.id"

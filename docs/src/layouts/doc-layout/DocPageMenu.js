@@ -155,8 +155,12 @@ export default {
     }
 
     return () =>
-      h(QList, { ref: rootRef, class: 'doc-page-menu', dense: true }, () =>
-        Menu.map(item => getDrawerMenu(item, '/' + item.path, 0))
+      // every entry is interactive, so a "list" role would own no
+      // listitem children (invalid ARIA) - the items stand on their own
+      h(
+        QList,
+        { ref: rootRef, class: 'doc-page-menu', dense: true, role: 'none' },
+        () => Menu.map(item => getDrawerMenu(item, '/' + item.path, 0))
       )
   }
 }

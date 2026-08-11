@@ -12,7 +12,10 @@
       <kbd class="q-ml-sm"><q-icon :name="mdiKeyboardEsc" /></kbd>
     </div>
 
-    <q-list padding>
+    <!-- every entry is interactive, so a "list" role would own no
+         listitem children (invalid ARIA); behaviorally this is a
+         listbox - proper combobox/option wiring is a follow-up -->
+    <q-list padding role="none">
       <result-entry
         v-for="entry in props.results.entries"
         :key="entry.id"

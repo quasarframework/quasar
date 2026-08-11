@@ -107,7 +107,7 @@
               />
             </div>
             <q-menu auto-close>
-              <q-list dense style="min-width: 100px">
+              <q-list role="menu" dense style="min-width: 100px">
                 <q-item clickable class="GL__menu-link">
                   <q-item-section>New repository</q-item-section>
                 </q-item>
@@ -136,7 +136,7 @@
             <q-icon name="arrow_drop_down" size="16px" />
 
             <q-menu auto-close>
-              <q-list dense>
+              <q-list role="menu" dense>
                 <q-item class="GL__menu-link-signed-in">
                   <q-item-section>
                     <div>Signed in as <strong>Mary</strong></div>

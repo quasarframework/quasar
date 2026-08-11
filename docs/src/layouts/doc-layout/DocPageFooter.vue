@@ -2,7 +2,9 @@
   <div class="doc-page-footer doc-brand">
     <template v-if="fullscreen">
       <nav class="doc-page-footer__nav" v-once>
-        <q-list v-for="entry in links" :key="entry.name" role="list">
+        <!-- link columns: a "list" role may only own listitem children
+             (invalid ARIA around links), so the links stand on their own -->
+        <q-list v-for="entry in links" :key="entry.name" role="none">
           <q-item-label
             class="doc-page-footer__title doc-page-footer__margin row items-end text-weight-bold letter-spacing-225 q-mb-md"
             >{{ entry.name }}</q-item-label
