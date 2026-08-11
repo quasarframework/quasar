@@ -1,6 +1,6 @@
 <template>
   <div class="q-pa-md">
-    <q-stepper v-model="step" ref="stepper" animated active-color="purple">
+    <q-stepper v-model="step" ref="stepperRef" animated active-color="purple">
       <q-step :name="1" prefix="1" title="Select campaign settings">
         For each ad campaign that you create, you can control how much you're
         willing to spend on clicks and conversions, which networks and
@@ -29,7 +29,7 @@
       <template v-slot:navigation>
         <q-stepper-navigation>
           <q-btn
-            @click="$refs.stepper.next()"
+            @click="$refs.stepperRef.next()"
             color="deep-orange"
             :label="step === 3 ? 'Finish' : 'Continue'"
           />
@@ -37,7 +37,7 @@
             v-if="step > 1"
             flat
             color="deep-orange"
-            @click="$refs.stepper.previous()"
+            @click="$refs.stepperRef.previous()"
             label="Back"
             class="q-ml-sm"
           />
@@ -47,14 +47,8 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    return {
-      step: ref(1)
-    }
-  }
-}
+const step = ref(1)
 </script>

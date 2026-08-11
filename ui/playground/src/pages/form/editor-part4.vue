@@ -87,34 +87,35 @@
     />
   </div>
 </template>
-<script>
-export default {
-  data() {
-    return {
-      qeditor:
-        '<pre>Check out the two different types of dropdowns' +
-        ' in each of the "Align" buttons.</pre> '
-    }
-  },
-  methods: {
-    dropdownBeforeShow(evt) {
-      console.log('dropdownBeforeShow', evt)
-    },
-    dropdownBeforeHide(evt) {
-      console.log('dropdownBeforeHide', evt)
-    },
-    dropdownShow(evt) {
-      console.log('dropdownShow', evt)
-    },
-    dropdownHide(evt) {
-      console.log('dropdownHide', evt)
-    },
-    linkShow() {
-      console.log('linkShow')
-    },
-    linkHide() {
-      console.log('linkHide')
-    }
-  }
+<script setup>
+import { ref } from 'vue'
+
+const qeditor = ref(
+  '<pre>Check out the two different types of dropdowns' +
+    ' in each of the "Align" buttons.</pre> '
+)
+
+function dropdownBeforeShow(evt) {
+  console.log('dropdownBeforeShow', evt)
+}
+
+function dropdownBeforeHide(evt) {
+  console.log('dropdownBeforeHide', evt)
+}
+
+function dropdownShow(evt) {
+  console.log('dropdownShow', evt)
+}
+
+function dropdownHide(evt) {
+  console.log('dropdownHide', evt)
+}
+
+function linkShow() {
+  console.log('linkShow')
+}
+
+function linkHide() {
+  console.log('linkHide')
 }
 </script>

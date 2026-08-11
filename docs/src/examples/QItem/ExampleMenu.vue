@@ -78,16 +78,10 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    return {
-      link: ref('inbox')
-    }
-  }
-}
+const link = ref('inbox')
 </script>
 
 <style lang="sass">

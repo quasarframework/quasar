@@ -13,12 +13,24 @@
 
 If you have found a potential security threat, vulnerability or exploit in Quasar
 or one of its upstream dependencies, please DON’T create a pull-request, DON’T
-file an issue on GitHub, DON’T mention it on Discord and DON’T create a forum thread.
+file a public issue on GitHub, DON’T mention it on Discord and DON’T create a
+forum thread.
 
-DO reach out to the team by sending an email to security@quasar.dev - we
-will investigate and work with you to triage this issue and help you to report it
-if appropriate. At the current time we do not have the financial ability to reward
-bounties, but in extreme cases will at our discretion consider a reward.
+DO [report it privately](https://github.com/quasarframework/quasar/security/advisories/new)
+through GitHub’s private vulnerability reporting (the “Report a vulnerability”
+button on this repository’s Security tab) — the report is visible only to you and
+the Quasar team, and we will work with you there to triage the issue, prepare a
+fix and, where appropriate, publish a security advisory crediting your finding.
+At the current time we do not have the financial ability to reward bounties, but
+in extreme cases will at our discretion consider a reward.
+
+Official App Extensions and UI kits (`@quasar/testing-*`, `@quasar/apollo`,
+`@quasar/qcalendar`, …) each live in their own repository under the
+[quasarframework organization](https://github.com/quasarframework) — please
+report through the Security tab of that specific repository instead. See
+[Report a vulnerability](https://quasar.dev/security/report-a-vulnerability)
+for the full guidance; when in doubt, report it on this repository and we will
+route it to the right maintainers.
 
 ## Security Audit
 

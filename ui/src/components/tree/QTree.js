@@ -43,7 +43,7 @@ function getNodeMedia(node) {
   }
 }
 
-export default createComponent({
+export default /*#__PURE__*/ createComponent({
   name: 'QTree',
 
   props: {
@@ -118,11 +118,14 @@ export default createComponent({
     const lazy = ref({})
     const innerTicked = ref(props.ticked || [])
     const innerExpanded = ref(props.expanded || [])
+    const focusedKey = ref(null)
 
-    let blurTargets = {}
+    let blurTargets = {},
+      headerTargets = {}
 
     onBeforeUpdate(() => {
       blurTargets = {}
+      headerTargets = {}
     })
 
     const classes = computed(
@@ -306,6 +309,38 @@ export default createComponent({
       return acc
     })
 
+    const focusableKeys = computed(() => {
+      const acc = []
+
+      function travel(nodes) {
+        nodes.forEach(node => {
+          const localMeta = meta.value[node[props.nodeKey]]
+
+          if (props.filter && localMeta.matchesFilter !== true) return
+          if (localMeta.link === true) acc.push(localMeta.key)
+
+          if (
+            localMeta.expanded === true &&
+            Array.isArray(node[props.childrenKey])
+          ) {
+            travel(node[props.childrenKey])
+          }
+        })
+      }
+
+      travel(props.nodes)
+      return acc
+    })
+
+    const tabKey = computed(() => {
+      const keys = focusableKeys.value
+
+      if (keys.includes(focusedKey.value)) return focusedKey.value
+
+      const selected = keys.find(key => meta.value[key].selected === true)
+      return selected !== void 0 ? selected : keys[0]
+    })
+
     watch(
       () => props.ticked,
       val => {
@@ -479,7 +514,11 @@ export default createComponent({
           )
         : target.filter(k => !keys.includes(k))
 
-      if (shouldEmit) emit('update:ticked', target)
+      if (shouldEmit) {
+        emit('update:ticked', target)
+      } else {
+        innerTicked.value = target
+      }
     }
 
     function getSlotScope(node, localMeta, key) {
@@ -576,18 +615,36 @@ export default createComponent({
                   : '') +
                 (m.selected === true ? ' q-tree__node--selected' : '') +
                 (m.disabled === true ? ' q-tree__node--disabled' : ''),
-              tabindex: m.link === true ? 0 : -1,
-              ariaExpanded: children.length !== 0 ? m.expanded : null,
+              ref: el => {
+                headerTargets[m.key] = el
+              },
+              tabindex: m.link === true && m.key === tabKey.value ? 0 : -1,
+              'aria-expanded': isParent
+                ? m.expanded
+                  ? 'true'
+                  : 'false'
+                : null,
+              'aria-selected': m.selectable
+                ? m.selected
+                  ? 'true'
+                  : 'false'
+                : null,
+              'aria-disabled': m.disabled === true ? 'true' : null,
               role: 'treeitem',
+              onFocus() {
+                if (m.link === true) focusedKey.value = m.key
+              },
               onClick: e => {
                 onClick(node, m, e)
               },
-              onKeypress(e) {
+              onKeydown(e) {
                 if (shouldIgnoreKey(e) !== true) {
                   if (e.keyCode === 13) {
                     onClick(node, m, e, true)
                   } else if (e.keyCode === 32) {
                     onExpandClick(node, m, e, true)
+                  } else if (onNavigationKey(m, e.keyCode)) {
+                    stopAndPrevent(e)
                   }
                 }
               }
@@ -719,10 +776,75 @@ export default createComponent({
     }
 
     function blur(key) {
-      blurTargets[key]?.focus()
+      blurTargets[key]?.focus({ preventScroll: true })
+    }
+
+    function focusNode(key) {
+      if (key !== void 0) {
+        focusedKey.value = key
+        headerTargets[key]?.focus()
+      }
+    }
+
+    function getFirstFocusableChild(children) {
+      for (const child of children) {
+        if (props.filter && child.matchesFilter !== true) continue
+        if (child.link === true) return child.key
+
+        if (child.expanded === true) {
+          const key = getFirstFocusableChild(child.children)
+          if (key !== void 0) return key
+        }
+      }
+    }
+
+    function onNavigationKey(localMeta, keyCode) {
+      const keys = focusableKeys.value,
+        index = keys.indexOf(localMeta.key)
+
+      if (keyCode === 36) {
+        focusNode(keys[0])
+        return true
+      }
+      if (keyCode === 35) {
+        focusNode(keys.at(-1))
+        return true
+      }
+      if (keyCode === 38) {
+        focusNode(keys[index - 1])
+        return true
+      }
+      if (keyCode === 40) {
+        focusNode(keys[index + 1])
+        return true
+      }
+      if (keyCode === 39) {
+        if (localMeta.isParent !== true && !localMeta.lazy) return true
+
+        if (localMeta.expanded !== true) {
+          setExpanded(localMeta.key, true)
+        } else {
+          focusNode(getFirstFocusableChild(localMeta.children))
+        }
+        return true
+      }
+      if (keyCode === 37) {
+        if (localMeta.expanded === true) {
+          setExpanded(localMeta.key, false)
+        } else {
+          let parent = localMeta.parent
+          while (parent !== null && parent.link !== true) parent = parent.parent
+          focusNode(parent?.key)
+        }
+        return true
+      }
+
+      return false
     }
 
     function onClick(node, localMeta, e, keyboard) {
+      if (localMeta.link === true) focusedKey.value = localMeta.key
+
       if (keyboard !== true && localMeta.selectable !== false) {
         blur(localMeta.key)
       }
@@ -749,6 +871,8 @@ export default createComponent({
     }
 
     function onExpandClick(node, localMeta, e, keyboard) {
+      if (localMeta.link === true) focusedKey.value = localMeta.key
+
       if (e !== void 0) {
         stopAndPrevent(e)
       }

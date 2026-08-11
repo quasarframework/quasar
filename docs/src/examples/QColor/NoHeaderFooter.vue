@@ -7,16 +7,10 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    return {
-      hex: ref('#FF00FF')
-    }
-  }
-}
+const hex = ref('#FF00FF')
 </script>
 
 <style lang="sass" scoped>

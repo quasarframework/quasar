@@ -1,6 +1,6 @@
 {
   "name": "@quasar/app-vite",
-  "version": "3.0.0-rc.2",
+  "version": "3.5.0",
   "description": "Quasar Framework App CLI with Vite",
   "keywords": [
     "cli",
@@ -38,6 +38,7 @@
     "assets",
     "bin",
     "lib",
+    "!lib/**/*.test.js",
     "templates",
     "types"
   ],
@@ -96,60 +97,77 @@
     "access": "public"
   },
   "scripts": {
-    "dev": "pnpm --filter app-vite-playground-js dev",
-    "dev:ts": "pnpm --filter app-vite-playground-ts dev",
-    "build": "pnpm --filter app-vite-playground-js build",
-    "build:ts": "pnpm --filter app-vite-playground-ts build"
+    "dev": "node ../ui/build/ensure-fresh-build.js && pnpm --filter app-vite-playground-js dev",
+    "dev:ts": "node ../ui/build/ensure-fresh-build.js && pnpm --filter app-vite-playground-ts dev",
+    "build": "node ../ui/build/ensure-fresh-build.js && pnpm --filter app-vite-playground-js build",
+    "build:ts": "node ../ui/build/ensure-fresh-build.js && pnpm --filter app-vite-playground-ts build",
+    "test": "pnpm test:unit && pnpm test:e2e && pnpm test:e2e:ae",
+    "test:unit": "vitest run",
+    "test:e2e": "vitest run -c vitest-e2e.config.js",
+    "test:e2e:ae": "vitest run -c vitest-e2e-ae.config.js",
+    "test:e2e:spa": "vitest run -c vitest-e2e.config.js -t SPA",
+    "test:e2e:ssr": "vitest run -c vitest-e2e.config.js -t SSR",
+    "test:e2e:ssg": "vitest run -c vitest-e2e.config.js -t SSG",
+    "test:e2e:pwa": "vitest run -c vitest-e2e.config.js -t PWA",
+    "test:e2e:bex": "vitest run -c vitest-e2e.config.js -t BEX",
+    "test:e2e:electron": "vitest run -c vitest-e2e.config.js -t Electron",
+    "test:e2e:capacitor": "vitest run -c vitest-e2e.config.js -t Capacitor",
+    "test:e2e:cordova": "vitest run -c vitest-e2e.config.js -t Cordova",
+    "prepublishOnly": "pnpm test"
   },
   "dependencies": {
-    "@clack/prompts": "^1.5.0",
+    "@clack/prompts": "^1.7.0",
     "@quasar/art": "workspace:^",
     "@quasar/render-ssr-error": "workspace:^",
     "@quasar/ssl-certificate": "workspace:^",
     "@quasar/vite-plugin": "workspace:^",
-    "@types/chrome": "^0.1.42",
+    "@types/chrome": "^0.2.2",
     "@types/cordova": "^11.0.3",
-    "@vitejs/plugin-vue": "^6.0.6",
+    "@vitejs/plugin-vue": "^6.0.8",
     "chokidar": "^5.0.0",
     "ci-info": "^4.4.0",
     "confbox": "^0.2.4",
     "cross-spawn": "^7.0.6",
-    "dot-prop": "10.1.0",
+    "dot-prop": "10.2.0",
     "dotenv-expand": "^13.0.0",
     "elementtree": "0.1.7",
     "fflate": "^0.8.2",
-    "fs-extra": "^11.3.5",
+    "fs-extra": "^11.4.0",
     "html-minifier-terser": "^7.2.0",
     "jiti": "^2.7.0",
     "kolorist": "^1.8.0",
     "mlly": "^1.8.2",
     "open": "^11.0.0",
-    "rolldown": "^1.1.1",
+    "picomatch": "^4.0.5",
+    "rolldown": "^1.2.3",
     "sass-embedded": "^1.100.0",
-    "semver": "^7.8.4",
-    "serialize-javascript": "^7.0.5",
+    "semver": "^7.8.5",
+    "serialize-javascript": "^7.0.7",
     "serve-static": "^2.2.1",
     "tinyglobby": "^0.2.17",
     "ts-essentials": "^10.2.0",
-    "vite": "^8.0.16",
+    "vite": "^8.2.1",
     "webpack-merge": "^6.0.1"
   },
   "devDependencies": {
-    "@capacitor/cli": "^8.0.0",
+    "@capacitor/cli": "^8.5.0",
     "@quasar/extras": "workspace:*",
-    "pinia": "^3.0.4",
+    "pinia": "^4.0.2",
     "quasar": "workspace:^",
-    "vue": "^3.5.38",
-    "vue-router": "^5.1.0"
+    "vite-plugin-vue-devtools": "^8.2.1",
+    "vitest": "^4.1.10",
+    "vue": "^3.5.41",
+    "vue-router": "^5.2.0"
   },
   "peerDependencies": {
     "@capacitor/cli": ">= 5",
     "@electron/packager": ">= 19",
     "builder-util": ">= 26",
     "electron-builder": ">= 22",
-    "pinia": "^2.0.0 || ^3.0.0",
-    "quasar": "^2.16.0",
+    "pinia": "^2.0.0 || ^3.0.0 || ^4.0.0",
+    "quasar": "^2.24.0",
     "typescript": ">= 5",
+    "vite-plugin-vue-devtools": ">= 8",
     "vue": "^3.2.29",
     "vue-router": ">= 5",
     "workbox-build": ">= 7"
@@ -174,6 +192,9 @@
       "optional": true
     },
     "workbox-build": {
+      "optional": true
+    },
+    "vite-plugin-vue-devtools": {
       "optional": true
     }
   },

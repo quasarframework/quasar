@@ -121,7 +121,9 @@
   </div>
 </template>
 
-<script>
+<script setup>
+import { computed, nextTick, ref, watch } from 'vue'
+
 import '@quasar/extras/animate/fadeIn.css'
 import '@quasar/extras/animate/fadeOut.css'
 import '@quasar/extras/animate/bounceInLeft.css'
@@ -134,68 +136,60 @@ function generateOptions(name) {
   }
 }
 
-const enter = ['fadeIn', 'bounceInLeft']
-const leave = ['fadeOut', 'bounceOutRight']
+const enterAnimations = ['fadeIn', 'bounceInLeft']
+const leaveAnimations = ['fadeOut', 'bounceOutRight']
 
-export default {
-  data() {
-    return {
-      enterSelectOptions: enter.map(generateOptions),
-      leaveSelectOptions: leave.map(generateOptions),
-      durationOptions: ['faster', 'fast', 'default', 'slow', 'slower'],
-      delayOptions: ['default', '1s', '2s', '3s', '4s', '5s'],
-      repeatOptions: ['default', '1', '2', '3', 'infinite'],
-      enter: 'bounceInLeft',
-      leave: 'bounceOutRight',
-      duration: 'default',
-      delay: 'default',
-      repeat: 'default',
-      show: true,
-      showContinuous: true,
-      loremipsum:
-        'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
-    }
-  },
-  watch: {
-    // v-if hack to trigger animation
-    show() {
-      this.showContinuous = false
+const enterSelectOptions = ref(enterAnimations.map(generateOptions))
+const leaveSelectOptions = ref(leaveAnimations.map(generateOptions))
+const durationOptions = ref(['faster', 'fast', 'default', 'slow', 'slower'])
+const delayOptions = ref(['default', '1s', '2s', '3s', '4s', '5s'])
+const repeatOptions = ref(['default', '1', '2', '3', 'infinite'])
+const enter = ref('bounceInLeft')
+const leave = ref('bounceOutRight')
+const duration = ref('default')
+const delay = ref('default')
+const repeat = ref('default')
+const show = ref(true)
+const showContinuous = ref(true)
+const loremipsum = ref(
+  'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
+)
 
-      this.$nextTick(() => {
-        this.showContinuous = true
-      })
-    }
-  },
-  computed: {
-    baseClasses() {
-      let classes = 'animated'
+// v-if hack to trigger animation
+watch(show, () => {
+  showContinuous.value = false
 
-      if (this.duration !== 'default') {
-        classes += ` ${this.duration}`
-      }
+  nextTick(() => {
+    showContinuous.value = true
+  })
+})
 
-      if (this.delay !== 'default') {
-        classes += ` delay-${this.delay}`
-      }
+const baseClasses = computed(() => {
+  let classes = 'animated'
 
-      return classes
-    },
-    enterClass() {
-      return `${this.baseClasses} ${this.enter}`
-    },
-    leaveClass() {
-      return `${this.baseClasses} ${this.leave}`
-    },
-    continuousClasses() {
-      let classes = this.baseClasses
-
-      if (this.repeat !== 'default') {
-        classes +=
-          this.repeat === 'infinite' ? ' infinite' : ` repeat-${this.repeat}`
-      }
-
-      return `${classes} ${this.enter}`
-    }
+  if (duration.value !== 'default') {
+    classes += ` ${duration.value}`
   }
-}
+
+  if (delay.value !== 'default') {
+    classes += ` delay-${delay.value}`
+  }
+
+  return classes
+})
+
+const enterClass = computed(() => `${baseClasses.value} ${enter.value}`)
+
+const leaveClass = computed(() => `${baseClasses.value} ${leave.value}`)
+
+const continuousClasses = computed(() => {
+  let classes = baseClasses.value
+
+  if (repeat.value !== 'default') {
+    classes +=
+      repeat.value === 'infinite' ? ' infinite' : ` repeat-${repeat.value}`
+  }
+
+  return `${classes} ${enter.value}`
+})
 </script>

@@ -22,7 +22,7 @@ import {
  * const wrapper = mount(QDialog, { ... })
  * const teleportedWrapper = wrapper.findComponent({ name: 'QPortal' })
  */
-const QPortal = createComponent({
+const QPortal = /*#__PURE__*/ createComponent({
   name: 'QPortal',
   setup(_, { slots }) {
     return () => slots.default()

@@ -106,7 +106,7 @@ export namespace date {
     unit?: DateUnitOptions
   ): boolean;
 
-  function daysInMonth(date: DateInput): number;
+  function daysInMonth(date: DateInput, utc?: boolean): number;
 
   function formatDate(
     date: DateInput | undefined,

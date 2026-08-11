@@ -1409,7 +1409,7 @@
         },
         "ssrContent": {
           "type": "Object",
-          "desc": "Required for SSR only",
+          "desc": "Required for SSR/SSG only",
           "__exemption": ["examples"]
         }
       },

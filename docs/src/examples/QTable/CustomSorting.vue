@@ -13,7 +13,7 @@
   </div>
 </template>
 
-<script>
+<script setup>
 const columns = [
   // #region
   {
@@ -158,35 +158,26 @@ const rows = [
   // #endregion
 ]
 
-export default {
-  setup() {
-    return {
-      columns,
-      rows,
+function customSort(rowsList, sortBy, descending) {
+  const data = [...rowsList]
 
-      customSort(rowsList, sortBy, descending) {
-        const data = [...rowsList]
+  if (sortBy) {
+    data.sort((a, b) => {
+      const x = descending ? b : a
+      const y = descending ? a : b
 
-        if (sortBy) {
-          data.sort((a, b) => {
-            const x = descending ? b : a
-            const y = descending ? a : b
-
-            return sortBy === 'name'
-              ? // string sort
-                x[sortBy] > y[sortBy]
-                ? 1
-                : x[sortBy] < y[sortBy]
-                  ? -1
-                  : 0
-              : // numeric sort
-                Number.parseFloat(x[sortBy]) - Number.parseFloat(y[sortBy])
-          })
-        }
-
-        return data
-      }
-    }
+      return sortBy === 'name'
+        ? // string sort
+          x[sortBy] > y[sortBy]
+          ? 1
+          : x[sortBy] < y[sortBy]
+            ? -1
+            : 0
+        : // numeric sort
+          Number.parseFloat(x[sortBy]) - Number.parseFloat(y[sortBy])
+    })
   }
+
+  return data
 }
 </script>

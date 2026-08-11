@@ -1,7 +1,5 @@
-import { dirname } from 'node:path'
-
-import imagemin from 'imagemin'
-import pngquant from 'imagemin-pngquant'
+import { writeFile } from 'node:fs/promises'
+import sharp from 'sharp'
 import {
   BEZIER,
   BICUBIC,
@@ -45,17 +43,14 @@ export function getPngCompression(quality) {
     return () => {}
   }
 
-  const plugins = [
-    pngquant({
-      quality: [0.6, 0.8],
-      speed: 12 - quality // 1 - 11
-    })
-  ]
+  const options = {
+    palette: true,
+    quality: 58 + quality * 2, // 60 - 80
+    effort: Math.min(quality, 10)
+  }
 
-  return function minifyFile(filename) {
-    return imagemin([filename], {
-      destination: dirname(filename),
-      plugins
-    })
+  return async function minifyFile(filename) {
+    const content = await sharp(filename).png(options).toBuffer()
+    await writeFile(filename, content)
   }
 }

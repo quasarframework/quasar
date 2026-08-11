@@ -80,7 +80,6 @@ The following properties are available to the Platform object. It's not an exhau
 | `Platform.is.desktop`             | Boolean | Is the code running on a desktop browser?                                       |
 | `Platform.is.bex`                 | Boolean | Is the code running in a browser extension?                                     |
 | `Platform.is.android`             | Boolean | Is the app running on an Android device?                                        |
-| `Platform.is.blackberry`          | Boolean | Is the app running on a Blackberry device?                                      |
 | `Platform.is.cros`                | Boolean | Is the app running on device with the Chrome OS operating system?               |
 | `Platform.is.ios`                 | Boolean | Is the app running on an iOS device?                                            |
 | `Platform.is.ipad`                | Boolean | Is the app running on an iPad?                                                  |
@@ -91,7 +90,6 @@ The following properties are available to the Platform object. It's not an exhau
 | `Platform.is.mac`                 | Boolean | Is the code running on a device with the MacOS operating system?                |
 | `Platform.is.win`                 | Boolean | Is the code running on a device with the Windows operating system?              |
 | `Platform.is.winphone`            | Boolean | Is the code running on a Windows Phone device?                                  |
-| `Platform.is.playbook`            | Boolean | Is the code running on a Blackberry Playbook device?                            |
 | `Platform.is.silk`                | Boolean | Is the code running the Kindle Silk browser?                                    |
 | `Platform.is.chrome`              | Boolean | Is the code running inside the Google Chrome browser?                           |
 | `Platform.is.firefox`             | Boolean | Is the code running inside the Firefox browser?                                 |
@@ -108,9 +106,9 @@ The following properties are available to the Platform object. It's not an exhau
 Running on mobile means you can have this code running on a mobile device (phone or tablet) but with a browser, not within a Cordova wrapper.
 :::
 
-## Note about SSR
+## Note about SSR/SSG
 
-When building for SSR, use only the `$q.platform` form. Alternatively, when on server-side, this is one more example of how you can use it:
+When building for SSR/SSG, use only the `$q.platform` form. Alternatively, when on server-side, this is one more example of how you can use it:
 
 ```js
 import { Platform } from 'quasar'

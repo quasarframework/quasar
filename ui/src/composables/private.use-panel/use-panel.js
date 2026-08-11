@@ -90,7 +90,8 @@ export default function usePanel() {
   function onSwipe(evt) {
     const dir = props.vertical ? 'up' : 'left'
     goToPanelByOffset(
-      (proxy.$q.lang.rtl ? -1 : 1) * (evt.direction === dir ? 1 : -1)
+      (!props.vertical && proxy.$q.lang.rtl ? -1 : 1) *
+        (evt.direction === dir ? 1 : -1)
     )
   }
 
@@ -108,11 +109,15 @@ export default function usePanel() {
   ])
 
   const transitionPrev = computed(
-    () => props.transitionPrev || `slide-${props.vertical ? 'down' : 'right'}`
+    () =>
+      props.transitionPrev ||
+      `slide-${props.vertical ? 'down' : proxy.$q.lang.rtl ? 'left' : 'right'}`
   )
 
   const transitionNext = computed(
-    () => props.transitionNext || `slide-${props.vertical ? 'up' : 'left'}`
+    () =>
+      props.transitionNext ||
+      `slide-${props.vertical ? 'up' : proxy.$q.lang.rtl ? 'right' : 'left'}`
   )
 
   const transitionStyle = computed(
@@ -197,7 +202,7 @@ export default function usePanel() {
   function goToPanelByOffset(direction, startIndex = panelIndex.value) {
     let index = startIndex + direction
 
-    while (index !== -1 && index < panels.length) {
+    while (index >= 0 && index < panels.length) {
       const opt = panels[index]
 
       if (
@@ -212,7 +217,7 @@ export default function usePanel() {
         // oxlint-disable-next-line no-loop-func
         setTimeout(() => {
           forcedPanelTransition = false
-        })
+        }, 0)
 
         return
       }

@@ -45,6 +45,7 @@ import {
   removeClickOutside
 } from '../../utils/private.click-outside/click-outside.js'
 import { addFocusFn } from '../../utils/private.focus/focus-manager.js'
+import { focusIsInDetachedFullscreen } from '../../utils/private.focus/detached-fullscreen.js'
 
 import {
   parsePosition,
@@ -53,7 +54,7 @@ import {
   validatePosition
 } from '../../utils/private.position-engine/position-engine.js'
 
-export default createComponent({
+export default /*#__PURE__*/ createComponent({
   name: 'QMenu',
 
   inheritAttrs: false,
@@ -137,6 +138,7 @@ export default createComponent({
       canShow,
       handleShow,
       handleHide,
+      handleRouteChange,
       hideOnRouteChange,
       processOnMount: true
     })
@@ -297,13 +299,15 @@ export default createComponent({
           // menu was not closed from a mouse or touch clickOutside
           !evt.qClickOutside)
       ) {
-        ;(
+        const target =
           (evt?.type.indexOf('key') === 0
             ? refocusTarget.closest('[tabindex]:not([tabindex^="-"])')
             : void 0) || refocusTarget
-        ).focus()
 
         refocusTarget = null
+        addFocusFn(() => {
+          if (target.isConnected) target.focus({ preventScroll: true })
+        })
       }
 
       // should removeTimeout() if this gets removed
@@ -311,6 +315,10 @@ export default createComponent({
         hidePortal(true) // done hiding, now destroy
         emit('hide', evt)
       }, props.transitionDuration)
+    }
+
+    function handleRouteChange() {
+      refocusTarget = null
     }
 
     function anchorCleanup(hiding) {
@@ -359,7 +367,8 @@ export default createComponent({
       if (
         handlesFocus.value &&
         !props.noFocus &&
-        !childHasFocus(innerRef.value, evt.target)
+        !childHasFocus(innerRef.value, evt.target) &&
+        !focusIsInDetachedFullscreen(innerRef.value, evt.target)
       ) {
         focus()
       }

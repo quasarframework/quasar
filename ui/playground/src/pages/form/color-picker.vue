@@ -245,63 +245,56 @@
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      dark: null,
-      bordered: false,
-      flat: false,
-      square: false,
-      disable: false,
-      readonly: false,
+<script setup>
+import { useQuasar } from 'quasar'
+import { computed, ref } from 'vue'
 
-      hex: '#FF00FF',
-      hexa: '#FF00FFCC',
-      rgb: 'rgb(0,0,0)',
-      rgba: 'rgba(255,0,255,1)',
+const $q = useQuasar()
 
-      nullHex: null,
-      nullHexa: null,
-      nullRgb: null,
-      nullRgba: null,
+const dark = ref(null)
+const bordered = ref(false)
+const flat = ref(false)
+const square = ref(false)
+const disable = ref(false)
+const readonly = ref(false)
 
-      customPalette: [
-        '#ff0000',
-        '#ffff00',
-        '#0000f5',
-        'rgb(255,0,0)',
-        'rgb(255,255,0)',
-        'rgb(0,0,245)',
-        'rgba(255,0,0,0.5)'
-      ],
+const hex = ref('#FF00FF')
+const hexa = ref('#FF00FFCC')
+const rgb = ref('rgb(0,0,0)')
+const rgba = ref('rgba(255,0,255,1)')
 
-      inputModelHex: '#FF00FF'
-    }
-  },
+const nullHex = ref(null)
+const nullHexa = ref(null)
+const nullRgb = ref(null)
+const nullRgba = ref(null)
 
-  computed: {
-    props() {
-      return {
-        dark: this.dark,
-        bordered: this.bordered,
-        flat: this.flat,
-        square: this.square,
-        disable: this.disable,
-        readonly: this.readonly
-      }
-    }
-  },
+const customPalette = ref([
+  '#ff0000',
+  '#ffff00',
+  '#0000f5',
+  'rgb(255,0,0)',
+  'rgb(255,255,0)',
+  'rgb(0,0,245)',
+  'rgba(255,0,0,0.5)'
+])
 
-  methods: {
-    setNull() {
-      this.nullHex = this.nullHexa = this.nullRgb = this.nullRgba = null
-    },
+const inputModelHex = ref('#FF00FF')
 
-    onChange(val) {
-      console.log('@change', JSON.stringify(val))
-      this.$q.notify('@change ' + JSON.stringify(val))
-    }
-  }
+const props = computed(() => ({
+  dark: dark.value,
+  bordered: bordered.value,
+  flat: flat.value,
+  square: square.value,
+  disable: disable.value,
+  readonly: readonly.value
+}))
+
+function setNull() {
+  nullHex.value = nullHexa.value = nullRgb.value = nullRgba.value = null
+}
+
+function onChange(val) {
+  console.log('@change', JSON.stringify(val))
+  $q.notify('@change ' + JSON.stringify(val))
 }
 </script>

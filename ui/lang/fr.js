@@ -56,7 +56,7 @@ export default {
         : 'Aucune ligne sélectionnée.',
     recordsPerPage: 'Lignes par page :',
     allRows: 'Tous',
-    pagination: (start, end, total) => start + ' - ' + end + ' sur ' + total,
+    pagination: (start, end, total) => start + '-' + end + ' sur ' + total,
     columns: 'Colonnes'
   },
   pagination: {
@@ -111,7 +111,7 @@ export default {
     viewSource: 'Voir la source'
   },
   tree: {
-    noData: 'Aucun nœud à afficher',
+    noNodes: 'Aucun nœud à afficher',
     noResults: 'Aucun nœud trouvé'
   }
 }

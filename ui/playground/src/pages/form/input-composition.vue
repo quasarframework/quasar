@@ -25,55 +25,49 @@
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      text: '',
-      log: []
-    }
-  },
+<script setup>
+import { ref } from 'vue'
 
-  methods: {
-    addLog(evt) {
-      const evtDump = {
-        key: evt.key,
-        code: evt.code,
-        charCode: evt.charCode,
-        keyCode: evt.keyCode,
-        which: evt.which,
+const text = ref('')
+const log = ref([])
 
-        ctrlKey: evt.ctrlKey,
-        shiftKey: evt.shiftKey,
-        altKey: evt.altKey,
-        metaKey: evt.metaKey,
-        repeat: evt.repeat,
-        detail: evt.detail,
-        isTrusted: evt.isTrusted,
-        isComposing: evt.isComposing,
-        composed: evt.composed
-      }
+function addLog(evt) {
+  const evtDump = {
+    key: evt.key,
+    code: evt.code,
+    charCode: evt.charCode,
+    keyCode: evt.keyCode,
+    which: evt.which,
 
-      const filtered = this.log.filter(r => r[0] === evt.type)
+    ctrlKey: evt.ctrlKey,
+    shiftKey: evt.shiftKey,
+    altKey: evt.altKey,
+    metaKey: evt.metaKey,
+    repeat: evt.repeat,
+    detail: evt.detail,
+    isTrusted: evt.isTrusted,
+    isComposing: evt.isComposing,
+    composed: evt.composed
+  }
 
-      if (filtered.length !== 0) {
-        const old = filtered[0]
+  const filtered = log.value.filter(r => r[0] === evt.type)
 
-        if (JSON.stringify(old[2]) === JSON.stringify(evtDump)) {
-          old[1]++
+  if (filtered.length !== 0) {
+    const old = filtered[0]
 
-          this.log = [...this.log]
+    if (JSON.stringify(old[2]) === JSON.stringify(evtDump)) {
+      old[1]++
 
-          return
-        }
-      }
+      log.value = [...log.value]
 
-      this.log.unshift([evt.type, 1, evtDump])
-    },
-
-    resetLog() {
-      this.log = []
+      return
     }
   }
+
+  log.value.unshift([evt.type, 1, evtDump])
+}
+
+function resetLog() {
+  log.value = []
 }
 </script>

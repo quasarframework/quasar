@@ -28,17 +28,11 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    return {
-      first: ref(true),
-      second: ref(true),
-      third: ref(false),
-      fourth: ref(true)
-    }
-  }
-}
+const first = ref(true)
+const second = ref(true)
+const third = ref(false)
+const fourth = ref(true)
 </script>

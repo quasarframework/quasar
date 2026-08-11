@@ -51,11 +51,6 @@
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {}
-  },
-  methods: {}
-}
+<script setup>
+// no script logic needed for this page
 </script>

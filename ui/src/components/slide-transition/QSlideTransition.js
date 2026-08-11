@@ -2,7 +2,7 @@ import { Transition, h, onBeforeUnmount } from 'vue'
 
 import { createComponent } from '../../utils/private.create/create.js'
 
-export default createComponent({
+export default /*#__PURE__*/ createComponent({
   name: 'QSlideTransition',
 
   props: {
@@ -81,8 +81,6 @@ export default createComponent({
         timer = null
         el.style.height = `${el.scrollHeight}px`
         animListener = evt => {
-          timerFallback = null
-
           if (Object(evt) !== evt || evt.target === el) {
             end(el, 'show')
           }
@@ -112,8 +110,6 @@ export default createComponent({
         timer = null
         el.style.height = 0
         animListener = evt => {
-          timerFallback = null
-
           if (Object(evt) !== evt || evt.target === el) {
             end(el, 'hide')
           }

@@ -9,7 +9,7 @@ import useDark, {
 import { createComponent } from '../../utils/private.create/create.js'
 import { hDir, hMergeSlot, hSlot } from '../../utils/private.render/render.js'
 
-export default createComponent({
+export default /*#__PURE__*/ createComponent({
   name: 'QSplitter',
 
   props: {

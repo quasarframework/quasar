@@ -57,27 +57,25 @@
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      modelX: {
-        min: 5,
-        max: 25
-      },
+<script setup>
+import { useQuasar } from 'quasar'
+import { ref } from 'vue'
 
-      modelXSimple: 5
-    }
-  },
-  methods: {
-    onXInput(val) {
-      console.log('@update:model-value', val)
-    },
+const $q = useQuasar()
 
-    onXChange(val) {
-      console.log('@change', val)
-      this.$q.notify('@change ' + JSON.stringify(val))
-    }
-  }
+const modelX = ref({
+  min: 5,
+  max: 25
+})
+
+const modelXSimple = ref(5)
+
+function onXInput(val) {
+  console.log('@update:model-value', val)
+}
+
+function onXChange(val) {
+  console.log('@change', val)
+  $q.notify('@change ' + JSON.stringify(val))
 }
 </script>

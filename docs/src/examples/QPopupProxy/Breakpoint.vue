@@ -12,15 +12,9 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    return {
-      input: ref(''),
-      date: ref('2018/11/03')
-    }
-  }
-}
+const input = ref('')
+const date = ref('2018/11/03')
 </script>

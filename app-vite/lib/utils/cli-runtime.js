@@ -1,10 +1,9 @@
 import { join, normalize } from 'node:path'
 
-import cliPkg from '../../package.json' with { type: 'json' }
+export { default as cliPkg } from '../../package.json' with { type: 'json' }
 
-const cliDir = normalize(join(import.meta.dirname, '../..'))
-function resolveToCliDir(dir) {
+export const cliDir = normalize(join(import.meta.dirname, '../..'))
+
+export function resolveToCliDir(dir) {
   return join(cliDir, dir)
 }
-
-export { cliPkg, cliDir, resolveToCliDir }

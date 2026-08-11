@@ -6,14 +6,7 @@ import type {
 } from "node:https";
 
 import type { SsrDriverTypes } from "./driver.d.ts";
-import type { QSsrContext } from "./context.d.ts";
-
-export interface RenderParams extends Pick<
-  QSsrContext,
-  "req" | "res" | "url" | "originalUrl"
-> {}
-
-export interface RenderVueParams extends RenderParams, Record<string, any> {}
+import type { RenderVueParams } from "./ssrcontext.d.ts";
 
 export type HttpRedirectStatusCode = 301 | 302 | 303 | 307 | 308;
 

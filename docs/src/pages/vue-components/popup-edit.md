@@ -46,9 +46,10 @@ You can also add two buttons with the `buttons` prop, "Cancel" and "Set" (the de
 
 The default slot's parameters are:
 
+<!-- prettier-ignore -->
 ```js
 {
-  ;(initialValue, value, validate, set, cancel, updatePosition)
+  initialValue, value, validate, set, cancel, updatePosition
 }
 ```
 

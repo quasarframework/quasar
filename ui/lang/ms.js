@@ -22,7 +22,7 @@ export default {
     days: 'Ahad_Isnin_Selasa_Rabu_Khamis_Jummat_Sabtu'.split('_'),
     daysShort: 'Aha_Isn_Sel_Rab_Kha_Jum_Sab'.split('_'),
     months:
-      'Januari_Februari_Mac_April_Mei_Jun_Julai_Ogos_Oktober_November_Disember'.split(
+      'Januari_Februari_Mac_April_Mei_Jun_Julai_Ogos_September_Oktober_November_Disember'.split(
         '_'
       ),
     monthsShort: 'Jan_Feb_Mac_Apr_Mei_Jun_Jul_Ogos_Sep_Okt_Nov_Dis'.split('_'),
@@ -47,7 +47,7 @@ export default {
         : (rows === 0 ? 'tiada' : '1') + ' rekod terpilih.',
     recordsPerPage: 'Rekod per halaman:',
     allRows: 'Semua',
-    pagination: (start, end, total) => start + ' - ' + end + ' dari ' + total,
+    pagination: (start, end, total) => start + '-' + end + ' dari ' + total,
     columns: 'Kolum'
   },
   pagination: {

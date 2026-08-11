@@ -100,6 +100,9 @@ print({ key: '  @quasar/cli', value: green(process.env.QUASAR_CLI_VERSION) })
 print({ key: '  @quasar/icongenie', value: getSpawnOutput('icongenie') })
 print({ key: '  cordova', value: getSpawnOutput('cordova') })
 
+// this section heading is pinned by info.test.js AND by the global
+// CLI's e2e suite (cli/test/e2e/project.test.js) as the marker that
+// the local CLI answered instead of the global fallback
 print({ key: 'Important local packages', section: true })
 
 ;[

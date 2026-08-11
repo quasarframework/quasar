@@ -29,6 +29,7 @@ Same as the `ctx` from the `/quasar.config` file.
     publicDir: '...absolute path of it',
     pwaDir: '...absolute path of it',
     ssrDir: '...absolute path of it',
+    ssgDir: '...absolute path of it',
     cordovaDir: '...absolute path of it',
     capacitorDir: '...absolute path of it',
     electronDir: '...absolute path of it',
@@ -42,6 +43,7 @@ Same as the `ctx` from the `/quasar.config` file.
       public: (...paths) => theAbsolutePathToPublicDir,
       pwa: (...paths) => theAbsolutePathToAppSrcPwaDir,
       ssr: (...paths) => theAbsolutePathToAppSrcSsrDir,
+      ssg: (...paths) => theAbsolutePathToAppSrcSsgDir,
       cordova: (...paths) => theAbsolutePathToAppSrcCordovaDir,
       capacitor: (...paths) => theAbsolutePathToAppSrcCapacitorDir,
       electron: (...paths) => theAbsolutePathToAppSrcElectronDir,
@@ -57,7 +59,7 @@ Contains the `ext-id` (String) of this App Extension.
 
 ### api.prompts
 
-Is an Object which has the answers to the prompts when this App Extension gets installed. For more info on prompts, check out [Prompts API](/app-extensions/development-guide/prompts-api).
+An object containing the answers returned by the prompts script when this App Extension was installed. For more information, see the [Prompts API](/app-extensions/development-guide/prompts-api).
 
 ### api.resolve
 
@@ -78,6 +80,9 @@ api.resolve.pwa('some-file.js')
 
 // resolves to root/src-ssr of app
 api.resolve.ssr('some-file.js')
+
+// resolves to root/src-ssg of app
+api.resolve.ssg('some-file.js')
 
 // resolves to root/src-cordova of app
 api.resolve.cordova('config.xml')
@@ -132,9 +137,9 @@ await api.hasTypescript()
 
 ```js
 /**
- * @return {Promise<string|undefined>} 'pinia' | 'vuex' | undefined
+ * @return {'pinia'|undefined}
  */
-await api.getStorePackageName()
+api.getStorePackageName()
 ```
 
 ### api.getNodePackagerName

@@ -8,7 +8,7 @@ import clone from '../../utils/clone/clone.js'
 import { isDeepEqual } from '../../utils/is/is.js'
 import { injectProp } from '../../utils/private.inject-obj-prop/inject-obj-prop.js'
 
-export default createComponent({
+export default /*#__PURE__*/ createComponent({
   name: 'QPopupEdit',
 
   props: {

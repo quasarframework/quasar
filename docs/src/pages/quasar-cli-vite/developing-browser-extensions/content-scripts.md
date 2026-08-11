@@ -23,6 +23,8 @@ Your `/src-bex/manifest.json` is the central point that defines your BEX. This i
 ]
 ```
 
+The generated BEX template uses `<all_urls>` because its example content script is designed to run on arbitrary pages. Keep broad access only when that is a real requirement of your extension. It increases the extension's authority and the permission warning shown to users.
+
 ::: warning For TS devs
 Your background and content scripts have the `.ts` extension. Use that extension in the manifest.json file as well! Examples: "background.ts", "my-content-script.ts". While the browser vendors do support only the `.js` extension, Quasar CLI will convert the file extensions automatically.
 :::
@@ -36,7 +38,20 @@ setup () {
   const $q = useQuasar()
 
   async function myButtonClickHandler () {
-    await $q.bex.send('highlight.content', { selector: '.some-class' })
+    const contentPort = $q.bex.portList.find(portName =>
+      portName.startsWith('content@my-content-script-')
+    )
+
+    if (contentPort === void 0) {
+      $q.notify({ type: 'negative', message: 'Content script is not connected' })
+      return
+    }
+
+    await $q.bex.send({
+      event: 'highlight.content',
+      to: contentPort,
+      payload: { selector: '.some-class' }
+    })
     $q.notify('Text has been highlighted')
   }
 
@@ -64,7 +79,15 @@ import { createBridge } from '#q-app/bex/content'
 const bridge = createBridge({ debug: false })
 
 bridge.on('highlight.content', ({ payload }) => {
-  const el = document.querySelector(data.selector)
+  if (typeof payload?.selector !== 'string') return
+
+  let el
+  try {
+    el = document.querySelector(payload.selector)
+  } catch {
+    return
+  }
+
   if (el !== null) {
     el.classList.add('bex-highlight')
   }
@@ -80,6 +103,6 @@ bridge
   })
 ```
 
-Content scripts live in an [isolated world](https://developer.chrome.com/extensions/content_scripts#isolated_world), allowing a content script to makes changes to its JavaScript environment without conflicting with the page or additional content scripts.
+Content scripts live in an [isolated world](https://developer.chrome.com/docs/extensions/develop/concepts/content-scripts#isolated_world), allowing a content script to change its JavaScript environment without conflicting with the page or other content scripts.
 
 Isolated worlds do not allow for content scripts, the extension, and the web page to access any variables or functions created by the others. This also gives content scripts the ability to enable functionality that should not be accessible to the web page.

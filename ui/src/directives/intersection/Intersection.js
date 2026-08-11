@@ -13,8 +13,8 @@ function update(el, ctx, value) {
 
   if (typeof value === 'function') {
     handler = value
+    changed = ctx.cfg !== defaultCfg
     cfg = defaultCfg
-    changed = ctx.cfg === void 0
   } else {
     handler = value.handler
     cfg = { ...defaultCfg, ...value.cfg }
@@ -25,42 +25,42 @@ function update(el, ctx, value) {
     ctx.handler = handler
   }
 
-  if (changed) {
-    ctx.cfg = cfg
-    ctx.observer?.unobserve(el)
+  if (!changed) return
 
-    ctx.observer = new IntersectionObserver(([entry]) => {
-      if (typeof ctx.handler === 'function') {
-        // if observed element is part of a vue transition
-        // then we need to be careful...
-        if (entry.rootBounds === null && document.body.contains(el)) {
-          ctx.observer.unobserve(el)
-          ctx.observer.observe(el)
-          return
-        }
+  ctx.cfg = cfg
+  ctx.observer?.disconnect()
 
-        const res = ctx.handler(entry, ctx.observer)
-
-        if (res === false || (ctx.once && entry.isIntersecting)) {
-          destroy(el)
-        }
+  ctx.observer = new IntersectionObserver(([entry]) => {
+    if (typeof ctx.handler === 'function') {
+      // if observed element is part of a vue transition
+      // then we need to be careful...
+      if (entry.rootBounds === null && document.body.contains(el)) {
+        ctx.observer.unobserve(el)
+        ctx.observer.observe(el)
+        return
       }
-    }, cfg)
 
-    ctx.observer.observe(el)
-  }
+      const res = ctx.handler(entry, ctx.observer)
+
+      if (res === false || (ctx.once && entry.isIntersecting)) {
+        destroy(el)
+      }
+    }
+  }, cfg)
+
+  ctx.observer.observe(el)
 }
 
 function destroy(el) {
   const ctx = el.__qvisible
 
   if (ctx !== void 0) {
-    ctx.observer?.unobserve(el)
+    ctx.observer?.disconnect()
     delete el.__qvisible
   }
 }
 
-export default createDirective(
+export default /*#__PURE__*/ createDirective(
   __QUASAR_SSR_SERVER__
     ? { name: 'intersection', getSSRProps }
     : {

@@ -37,22 +37,15 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    return {
-      password: ref(''),
-      isPwd: ref(true),
-
-      email: ref(''),
-      search: ref(''),
-      tel: ref(''),
-      url: ref(''),
-      time: ref(''),
-      date: ref('')
-    }
-  }
-}
+const password = ref('')
+const isPwd = ref(true)
+const email = ref('')
+const search = ref('')
+const tel = ref('')
+const url = ref('')
+const time = ref('')
+const date = ref('')
 </script>

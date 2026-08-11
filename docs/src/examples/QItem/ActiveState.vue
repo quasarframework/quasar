@@ -35,14 +35,8 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    return {
-      active: ref(true)
-    }
-  }
-}
+const active = ref(true)
 </script>

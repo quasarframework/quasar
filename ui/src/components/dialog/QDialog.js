@@ -33,6 +33,7 @@ import {
   removeFocusout
 } from '../../utils/private.focus/focusout.js'
 import { addFocusFn } from '../../utils/private.focus/focus-manager.js'
+import { focusIsInDetachedFullscreen } from '../../utils/private.focus/detached-fullscreen.js'
 
 let maximizedModals = 0
 
@@ -52,7 +53,7 @@ const defaultTransitions = {
   left: ['slide-right', 'slide-left']
 }
 
-export default createComponent({
+export default /*#__PURE__*/ createComponent({
   name: 'QDialog',
 
   inheritAttrs: false,
@@ -138,6 +139,7 @@ export default createComponent({
       hideOnRouteChange,
       handleShow,
       handleHide,
+      handleRouteChange,
       processOnMount: true
     })
 
@@ -253,13 +255,15 @@ export default createComponent({
       hidePortal()
 
       if (refocusTarget !== null) {
-        ;(
+        const target =
           (evt?.type.indexOf('key') === 0
             ? refocusTarget.closest('[tabindex]:not([tabindex^="-"])')
             : void 0) || refocusTarget
-        ).focus()
 
         refocusTarget = null
+        addFocusFn(() => {
+          if (target.isConnected) target.focus({ preventScroll: true })
+        })
       }
 
       // should removeTimeout() if this gets removed
@@ -268,6 +272,10 @@ export default createComponent({
         animating.value = false
         emit('hide', evt)
       }, props.transitionDuration)
+    }
+
+    function handleRouteChange() {
+      refocusTarget = null
     }
 
     function focus(selector) {
@@ -399,7 +407,8 @@ export default createComponent({
       if (
         !props.allowFocusOutside &&
         portalIsAccessible.value &&
-        !childHasFocus(innerRef.value, evt.target)
+        !childHasFocus(innerRef.value, evt.target) &&
+        !focusIsInDetachedFullscreen(innerRef.value, evt.target)
       ) {
         focus('[tabindex]:not([tabindex="-1"])')
       }
@@ -440,7 +449,6 @@ export default createComponent({
                     class: 'q-dialog__backdrop fixed-full',
                     style: backdropStyle.value,
                     'aria-hidden': 'true',
-                    tabindex: -1,
                     onClick: onBackdropClick
                   })
                 : null

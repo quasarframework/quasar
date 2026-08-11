@@ -48,15 +48,9 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    return {
-      inception: ref(false),
-      secondDialog: ref(false)
-    }
-  }
-}
+const inception = ref(false)
+const secondDialog = ref(false)
 </script>

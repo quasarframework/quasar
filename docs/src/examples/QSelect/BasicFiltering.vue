@@ -23,28 +23,18 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
 const stringOptions = ['Google', 'Facebook', 'Twitter', 'Apple', 'Oracle']
 
-export default {
-  setup() {
-    const options = ref(stringOptions)
+const model = ref(null)
+const options = ref(stringOptions)
 
-    return {
-      model: ref(null),
-      options,
-
-      filterFn(val, update, abort) {
-        update(() => {
-          const needle = val.toLowerCase()
-          options.value = stringOptions.filter(v =>
-            v.toLowerCase().includes(needle)
-          )
-        })
-      }
-    }
-  }
+function filterFn(val, update, abort) {
+  update(() => {
+    const needle = val.toLowerCase()
+    options.value = stringOptions.filter(v => v.toLowerCase().includes(needle))
+  })
 }
 </script>

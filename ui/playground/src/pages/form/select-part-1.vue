@@ -518,7 +518,9 @@
   </div>
 </template>
 
-<script>
+<script setup>
+import { computed, ref } from 'vue'
+
 const heavyList = []
 for (let i = 0; i <= 100_000; i++) {
   heavyList.push({
@@ -529,181 +531,166 @@ for (let i = 0; i <= 100_000; i++) {
 
 Object.freeze(heavyList)
 
-export default {
-  created() {
-    // setInterval(() => {
-    //   console.log(document.activeElement)
-    // }, 3000)
+// previously in created():
+// setInterval(() => {
+//   console.log(document.activeElement)
+// }, 3000)
+
+const dispValSelection = ref([])
+const dispValOptions = ref(['Option 1', 'Option 2', 'Option 3'])
+
+const type = ref('filled')
+const readonly = ref(false)
+const disable = ref(false)
+const dense = ref(false)
+const dark = ref(null)
+const optionsDark = ref(false)
+const optionsDense = ref(false)
+const optionsCover = ref(false)
+
+const stringSingle = ref('Facebook')
+const stringMultiple = ref(['Facebook', 'Twitter'])
+const stringOptions = ref(['Google', 'Facebook', 'Twitter', 'Apple', 'Oracle'])
+
+const objectSingle = ref({
+  label: 'Facebook',
+  value: 'Facebook',
+  description: 'Social media',
+  icon: 'bluetooth'
+})
+const objectMultiple = ref([
+  {
+    label: 'Google',
+    value: 'Google',
+    description: 'Search engine',
+    icon: 'mail'
   },
-  data() {
-    return {
-      dispValSelection: [],
-      dispValOptions: ['Option 1', 'Option 2', 'Option 3'],
-
-      type: 'filled',
-      readonly: false,
-      disable: false,
-      dense: false,
-      dark: null,
-      optionsDark: false,
-      optionsDense: false,
-      optionsCover: false,
-
-      stringSingle: 'Facebook',
-      stringMultiple: ['Facebook', 'Twitter'],
-      stringOptions: ['Google', 'Facebook', 'Twitter', 'Apple', 'Oracle'],
-
-      objectSingle: {
-        label: 'Facebook',
-        value: 'Facebook',
-        description: 'Social media',
-        icon: 'bluetooth'
-      },
-      objectMultiple: [
-        {
-          label: 'Google',
-          value: 'Google',
-          description: 'Search engine',
-          icon: 'mail'
-        },
-        {
-          label: 'Facebook',
-          value: 'Facebook',
-          description: 'Social media',
-          icon: 'bluetooth'
-        }
-      ],
-      objectOptions: [
-        {
-          label: 'Google',
-          value: 'Google',
-          description: 'Search engine',
-          icon: 'mail'
-        },
-        {
-          label: 'Facebook',
-          value: 'Facebook',
-          description: 'Social media',
-          icon: 'bluetooth'
-        },
-        {
-          label: 'Twitter',
-          value: 'Twitter',
-          description: 'Quick updates',
-          icon: 'map'
-        },
-        {
-          label: 'Apple',
-          value: 'Apple',
-          description: 'iStuff',
-          icon: 'golf_course'
-        },
-        {
-          label: 'Oracle',
-          value: 'Oracle',
-          disable: true,
-          description: 'Databases',
-          icon: 'casino'
-        },
-        {
-          label:
-            '<span class="text-primary">Safe</span> option with <b>HTML</b>',
-          value: 'safe_option_with_html',
-          description: 'It does not come from user',
-          icon: 'golf_course',
-          html: true
-        },
-        {
-          label:
-            '<span class="text-negative">Unsafe</span> option with <b>HTML</b>',
-          value: 'unsafe_option_with_html',
-          description: 'It comes from user - you should sanitize',
-          icon: 'golf_course'
-        }
-      ],
-
-      objectNullOptions: [
-        {
-          label: 'Borg - null',
-          value: null,
-          description: 'I am null',
-          icon: 'warning'
-        },
-        {
-          label: 'Google',
-          value: 'Google',
-          description: 'Search engine',
-          icon: 'mail'
-        },
-        {
-          label: 'Facebook',
-          value: 'Facebook',
-          description: 'Social media',
-          icon: 'bluetooth'
-        }
-      ],
-
-      stringNullSingle: null,
-      stringNullMultiple: null,
-      objectNullSingle: null,
-      objectNullMultiple: null,
-
-      stringEmitNullSingle: null,
-      stringEmitNullMultiple: [null],
-
-      stringEmitSingle: 'Facebook',
-      stringEmitMultiple: ['Facebook'],
-      objectEmitSingle: 'Facebook',
-      objectEmitMultiple: ['Facebook'],
-
-      heavyModel: [],
-      heavyList,
-
-      bogusModel: 'bogus',
-      bogusMultiModel: ['bogus', 'gigi']
-    }
-  },
-
-  methods: {
-    resetNull() {
-      this.stringNullSingle = null
-      this.stringNullMultiple = null
-      this.stringEmitNullSingle = null
-      this.stringEmitNullMultiple = [null]
-      this.objectNullSingle = null
-      this.objectNullMultiple = null
-    },
-
-    resetBogus() {
-      this.bogusModel = 'bogus'
-      this.bogusMultiModel = ['bogus', 'gigi']
-    }
-  },
-
-  computed: {
-    props() {
-      return {
-        [this.type]: true,
-        readonly: this.readonly,
-        disable: this.disable,
-        dense: this.dense,
-        dark: this.dark,
-        optionsDense: this.optionsDense,
-        optionsDark: this.optionsDark,
-        optionsCover: this.optionsCover,
-        clearable: true
-      }
-    },
-
-    dispVal() {
-      if (this.dispValSelection.length === 1) {
-        return '1 option selected'
-      }
-
-      return this.dispValSelection.length + ' options selected'
-    }
+  {
+    label: 'Facebook',
+    value: 'Facebook',
+    description: 'Social media',
+    icon: 'bluetooth'
   }
+])
+const objectOptions = ref([
+  {
+    label: 'Google',
+    value: 'Google',
+    description: 'Search engine',
+    icon: 'mail'
+  },
+  {
+    label: 'Facebook',
+    value: 'Facebook',
+    description: 'Social media',
+    icon: 'bluetooth'
+  },
+  {
+    label: 'Twitter',
+    value: 'Twitter',
+    description: 'Quick updates',
+    icon: 'map'
+  },
+  {
+    label: 'Apple',
+    value: 'Apple',
+    description: 'iStuff',
+    icon: 'golf_course'
+  },
+  {
+    label: 'Oracle',
+    value: 'Oracle',
+    disable: true,
+    description: 'Databases',
+    icon: 'casino'
+  },
+  {
+    label: '<span class="text-primary">Safe</span> option with <b>HTML</b>',
+    value: 'safe_option_with_html',
+    description: 'It does not come from user',
+    icon: 'golf_course',
+    html: true
+  },
+  {
+    label: '<span class="text-negative">Unsafe</span> option with <b>HTML</b>',
+    value: 'unsafe_option_with_html',
+    description: 'It comes from user - you should sanitize',
+    icon: 'golf_course'
+  }
+])
+
+const objectNullOptions = ref([
+  {
+    label: 'Borg - null',
+    value: null,
+    description: 'I am null',
+    icon: 'warning'
+  },
+  {
+    label: 'Google',
+    value: 'Google',
+    description: 'Search engine',
+    icon: 'mail'
+  },
+  {
+    label: 'Facebook',
+    value: 'Facebook',
+    description: 'Social media',
+    icon: 'bluetooth'
+  }
+])
+
+const stringNullSingle = ref(null)
+const stringNullMultiple = ref(null)
+const objectNullSingle = ref(null)
+const objectNullMultiple = ref(null)
+
+const stringEmitNullSingle = ref(null)
+const stringEmitNullMultiple = ref([null])
+
+const stringEmitSingle = ref('Facebook')
+const stringEmitMultiple = ref(['Facebook'])
+const objectEmitSingle = ref('Facebook')
+const objectEmitMultiple = ref(['Facebook'])
+
+const heavyModel = ref([])
+
+const bogusModel = ref('bogus')
+const bogusMultiModel = ref(['bogus', 'gigi'])
+
+function resetNull() {
+  stringNullSingle.value = null
+  stringNullMultiple.value = null
+  stringEmitNullSingle.value = null
+  stringEmitNullMultiple.value = [null]
+  objectNullSingle.value = null
+  objectNullMultiple.value = null
 }
+
+function resetBogus() {
+  bogusModel.value = 'bogus'
+  bogusMultiModel.value = ['bogus', 'gigi']
+}
+
+const props = computed(() => ({
+  [type.value]: true,
+  readonly: readonly.value,
+  disable: disable.value,
+  dense: dense.value,
+  dark: dark.value,
+  optionsDense: optionsDense.value,
+  optionsDark: optionsDark.value,
+  optionsCover: optionsCover.value,
+  clearable: true
+}))
+
+const dispVal = computed(() => {
+  if (dispValSelection.value.length === 1) {
+    return '1 option selected'
+  }
+
+  return dispValSelection.value.length + ' options selected'
+})
 </script>
 
 <style lang="sass">

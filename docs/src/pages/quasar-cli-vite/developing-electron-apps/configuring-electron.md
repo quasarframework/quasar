@@ -5,9 +5,7 @@ related:
   - /quasar-cli-vite/quasar-config-file
 ---
 
-We'll be using Quasar CLI to develop and build an Electron App. The difference between building a SPA, PWA, Mobile App or an Electron App is simply determined by the "mode" parameter in "quasar dev" and "quasar build" commands.
-
-But first, let's learn how we can configure the Electron build.
+Electron mode is selected with the `--mode electron` option for `quasar dev` and `quasar build`. Its main process, preload scripts, packaging, and publishing behavior are configured in `quasar.config`.
 
 ## quasar.config file
 
@@ -22,7 +20,7 @@ sourceFiles: {
 ```ts /quasar.config file > electron
 electron: {
   /**
-   * The list of content scripts (js/ts) that you want embedded.
+   * The list of preload scripts (js/ts) that you want compiled.
    * Each entry in the list should be a filename (WITHOUT its extension) from /src-electron/
    *
    * @default [ 'electron-preload' ]
@@ -42,7 +40,16 @@ electron: {
     | Promise<void | { [index in string]: any }>;
 
   /**
-   * Extend the Rolldown config that is used for the electron-main thread.
+   * Run after production dependencies are installed in UnPackaged and
+   * before the selected Electron bundler runs.
+   */
+  beforePackaging?: (context: {
+    readonly appPaths: QuasarAppPaths;
+    readonly unpackagedDir: string;
+  }) => void | Promise<void>;
+
+  /**
+   * Extend the Rolldown config that is used for the Electron main process.
    *
    * Can be async. Can directly modify the "config" parameter or
    * return a new one that will be merged with the default one.
@@ -52,7 +59,7 @@ electron: {
   ) => void | RolldownOptions | Promise<void | RolldownOptions>;
 
   /**
-   * Extend the Rolldown config that is used for the electron-preload thread.
+   * Extend the Rolldown config that is used for Electron preload scripts.
    *
    * Can be async. Can directly modify the "config" parameter or
    * return a new one that will be merged with the default one.
@@ -62,22 +69,11 @@ electron: {
   ) => void | RolldownOptions | Promise<void | RolldownOptions>;
 
   /**
-   * You have to choose to use either packager or builder.
-   * They are both excellent open-source projects,
-   *  however they serve slightly different needs.
-   * With packager you will be able to build unsigned projects
-   *  for all major platforms from one machine.
-   * Although this is great, if you just want something quick and dirty,
-   *  there is more platform granularity (and general polish) in builder.
-   * Cross-compiling your binaries from one computer doesn’t really work with builder,
-   *  or we haven’t found the recipe yet.
+   * Choose either packager or builder. Packager creates an application
+   * bundle; builder can also create installers, sign, and publish artifacts.
    */
-  // This property definition is here merely to avoid duplicating the TSDoc
-  // It should not be optional, as TS cannot infer the discriminated union based on the absence of a field
-  // Futhermore, making it optional here won't change the exported interface which is the union
-  // of the two derivate interfaces where `bundler` is set without optionality
   bundler?: "packager" | "builder";
-  packager?: ElectronPackager.Options;
+  packager?: Omit<ElectronPackager.Options, "dir" | "out">;
   builder?: ElectronBuilder.Configuration;
 
   /**
@@ -96,11 +92,11 @@ electron: {
 }
 ```
 
-The "packager" prop refers to [@electron/packager options](https://electron.github.io/packager/main/). The `dir` and `out` properties are overwritten by Quasar CLI to ensure the best results.
+The `packager` property accepts [@electron/packager options](https://electron.github.io/packager/main/), except `dir` and `out`, which Quasar controls.
 
-The "builder" prop refers to [electron-builder options](https://www.electron.build/configuration).
+The `builder` property accepts [electron-builder options](https://www.electron.build/configuration).
 
-Should you want to tamper with the "Renderer" thread (UI in /src) Vite config:
+To extend the renderer process (the UI in `/src`) Vite configuration:
 
 ```js /quasar.config file
 export default defineConfig(ctx => {
@@ -117,14 +113,14 @@ export default defineConfig(ctx => {
 })
 ```
 
-## Packager vs. Builder
+## Packager vs Builder
 
-You have to choose to use either packager or builder. They are both excellent open-source projects, however they serve slightly different needs. With packager you will be able to build unsigned projects for all major platforms from one machine (with restrictions). Although this is great, if you just want something quick and dirty, there is more platform granularity (and general polish) in builder. Cross-compiling your binaries from one computer doesn't really work with builder (or we haven't found the recipe yet...)
+`@electron/packager` creates an application bundle and is the Quasar default. `electron-builder` adds installer targets, code-signing integration, and publishing. Both tools have target-specific host restrictions; code signing and native dependencies often require building on the target operating system.
 
 ## Dependencies optimization
 
-By default, all `dependencies` from your root `package.json` file get installed and embedded into the production executable.
+The production package uses the `dependencies` from `/src-electron/package.json`. They are installed in `/dist/electron/UnPackaged` before packaging.
 
-This means that it will also include your UI-only deps, which are already bundled in the UI files (so it will duplicate them). From our CLI perspective, we don't have any generic way of telling whether a dependency is UI only or if it's used by the main/preload scripts, so we cannot reliably auto-remove them.
+Keep renderer-only dependencies in the root package and Electron runtime dependencies in `/src-electron/package.json`. Preload imports are bundled, but a sandboxed preload cannot use arbitrary Node.js APIs or native modules; move privileged work to the main process and expose a narrow IPC API.
 
-However, you can do this by using quasar.conf > electron > extendElectronPackageJson(pkgJson) and overwriting or tampering with the `dependencies` key from your `package.json` file. If you leave only the main & preload threads depdendencies then this will lead to a smaller production executable file.
+Use `electron.extendElectronPackageJson(pkgJson)` only when the generated production manifest needs additional adjustment. Removing a dependency required by externalized main-process code will make the packaged application fail at runtime.

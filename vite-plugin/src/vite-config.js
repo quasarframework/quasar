@@ -7,7 +7,34 @@ const { version } = JSON.parse(
   readFileSync(join(quasarPath, 'package.json'), 'utf8')
 )
 
-export function getViteConfig(runMode, viteMode, externalViteCfg) {
+const frameworkCssSpecifier = 'quasar/src/css/index.sass'
+
+/**
+ * Mirrors Vite's alias matching: a string find matches the exact id or
+ * a "find/" prefix of it; a regex find matches when it tests true.
+ */
+function userAliasCoversFrameworkCss(aliasCfg) {
+  if (!aliasCfg) return false
+
+  const findList = Array.isArray(aliasCfg)
+    ? aliasCfg.map(entry => entry.find)
+    : Object.keys(aliasCfg)
+
+  return findList.some(find =>
+    typeof find === 'string'
+      ? frameworkCssSpecifier === find ||
+        frameworkCssSpecifier.startsWith(find.endsWith('/') ? find : find + '/')
+      : find.test(frameworkCssSpecifier)
+  )
+}
+
+export function getViteConfig(
+  runMode,
+  viteMode,
+  externalViteCfg,
+  sassVariables
+) {
+  const aliasList = []
   const viteCfg = {
     define: {
       __QUASAR_VERSION__: `'${version}'`,
@@ -40,6 +67,26 @@ export function getViteConfig(runMode, viteMode, externalViteCfg) {
     viteCfg.define.__QUASAR_SSR_PWA__ = false
   }
 
+  // Without a custom variables file, compiling the framework css from
+  // source yields the same result that already ships prebuilt, so skip
+  // that sass compilation (~110ms per build / cold dev server) entirely.
+  // A user-configured additionalData could inject variable overrides,
+  // and a user alias covering the quasar package redirects it (e.g. to
+  // a repo checkout) - in both cases the compilation from source must
+  // be kept.
+  const userPreprocessorOptions = externalViteCfg.css?.preprocessorOptions
+  if (
+    typeof sassVariables !== 'string' &&
+    userPreprocessorOptions?.sass?.additionalData === void 0 &&
+    userPreprocessorOptions?.scss?.additionalData === void 0 &&
+    !userAliasCoversFrameworkCss(externalViteCfg.resolve?.alias)
+  ) {
+    aliasList.push({
+      find: /^quasar\/src\/css\/index\.sass$/,
+      replacement: 'quasar/dist/quasar.css'
+    })
+  }
+
   if (runMode === 'ssr-server') {
     Object.assign(viteCfg.define, {
       __QUASAR_SSR__: true,
@@ -49,11 +96,10 @@ export function getViteConfig(runMode, viteMode, externalViteCfg) {
     // Alias "quasar" package to its dev file (which has flags)
     // to reduce the number of HTTP requests while in DEV mode
     if (viteMode !== 'production') {
-      viteCfg.resolve = {
-        alias: [
-          { find: /^quasar$/, replacement: 'quasar/dist/quasar.client.js' }
-        ]
-      }
+      aliasList.push({
+        find: /^quasar$/,
+        replacement: 'quasar/dist/quasar.client.js'
+      })
     } else {
       viteCfg.optimizeDeps = {
         exclude: ['quasar']
@@ -66,6 +112,10 @@ export function getViteConfig(runMode, viteMode, externalViteCfg) {
         __QUASAR_SSR_CLIENT__: true
       })
     }
+  }
+
+  if (aliasList.length !== 0) {
+    viteCfg.resolve = { alias: aliasList }
   }
 
   return viteCfg

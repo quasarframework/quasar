@@ -45,14 +45,8 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    return {
-      tab: ref('images')
-    }
-  }
-}
+const tab = ref('images')
 </script>

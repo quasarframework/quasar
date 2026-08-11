@@ -8,7 +8,7 @@ import { hSlot } from '../../utils/private.render/render.js'
 
 const roleAttrExceptions = ['ul', 'ol']
 
-export default createComponent({
+export default /*#__PURE__*/ createComponent({
   name: 'QList',
 
   props: {

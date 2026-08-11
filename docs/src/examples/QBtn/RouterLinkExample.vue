@@ -46,13 +46,13 @@
   </div>
 </template>
 
-<script>
+<script setup>
 function linkClick(e, go) {
   e.preventDefault() // we choose when we navigate
 
-  // console.log('triggering navigation in 3s')
+  console.log('triggering navigation in 3s')
   setTimeout(() => {
-    // console.log('navigating as promised 3s ago')
+    console.log('navigating as promised 3s ago')
     go()
   }, 3000)
 }
@@ -73,14 +73,5 @@ function buttonProps({ href, route, isActive, isExactActive }) {
   }
 
   return props
-}
-
-export default {
-  setup() {
-    return {
-      linkClick,
-      buttonProps
-    }
-  }
 }
 </script>

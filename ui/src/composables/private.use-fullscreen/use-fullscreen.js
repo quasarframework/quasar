@@ -1,16 +1,29 @@
 import {
   getCurrentInstance,
+  onActivated,
   onBeforeMount,
   onBeforeUnmount,
+  onDeactivated,
   onMounted,
   ref,
   watch
 } from 'vue'
 
 import History from '../../plugins/private.history/History.js'
-import { vmHasRouter } from '../../utils/private.vm/vm.js'
+import { vmHasRouter, vmIsDestroyed } from '../../utils/private.vm/vm.js'
+import useTick from '../use-tick/use-tick.js'
+import useAnimationFrame from '../use-animation-frame/use-animation-frame.js'
+import {
+  getHorizontalScrollPosition,
+  getVerticalScrollPosition
+} from '../../utils/scroll/scroll.js'
+import {
+  addDetachedFullscreen,
+  removeDetachedFullscreen
+} from '../../utils/private.focus/detached-fullscreen.js'
 
 let counter = 0
+let restoreState = null
 
 export const useFullscreenProps = {
   fullscreen: Boolean,
@@ -24,7 +37,10 @@ export default function useFullscreen() {
   const { props, emit, proxy } = vm
 
   let historyEntry, fullscreenFillerNode
+
   const inFullscreen = ref(false)
+  const { registerTick, removeTick } = useTick()
+  const { registerAnimationFrame, removeAnimationFrame } = useAnimationFrame()
 
   if (vmHasRouter(vm)) {
     watch(
@@ -56,11 +72,24 @@ export default function useFullscreen() {
   }
 
   function setFullscreen() {
-    if (inFullscreen.value) return
+    if (vmIsDestroyed(vm) || inFullscreen.value) return
+
+    removeAnimationFrame()
+    removeTick()
+
+    if (counter === 0) {
+      restoreState = {
+        left: getHorizontalScrollPosition(window),
+        top: getVerticalScrollPosition(window),
+        width: window.innerWidth,
+        height: window.innerHeight
+      }
+    }
 
     inFullscreen.value = true
     proxy.$el.replaceWith(fullscreenFillerNode)
     document.body.append(proxy.$el)
+    addDetachedFullscreen(fullscreenFillerNode, proxy)
 
     counter++
     if (counter === 1) {
@@ -73,7 +102,7 @@ export default function useFullscreen() {
     History.add(historyEntry)
   }
 
-  function exitFullscreen() {
+  function exitFullscreenImpl(shouldRestoreElement) {
     if (!inFullscreen.value) return
 
     if (historyEntry !== void 0) {
@@ -81,20 +110,50 @@ export default function useFullscreen() {
       historyEntry = void 0
     }
 
-    fullscreenFillerNode.replaceWith(proxy.$el)
+    removeDetachedFullscreen(fullscreenFillerNode)
+
+    if (shouldRestoreElement === true) {
+      fullscreenFillerNode.replaceWith(proxy.$el)
+    } else {
+      fullscreenFillerNode.remove()
+    }
+
     inFullscreen.value = false
 
     counter = Math.max(0, counter - 1)
+    if (counter !== 0) return
 
-    if (counter === 0) {
-      document.body.classList.remove('q-body--fullscreen-mixin')
+    document.body.classList.remove('q-body--fullscreen-mixin')
 
-      if (proxy.$el.scrollIntoView !== void 0) {
-        setTimeout(() => {
+    if (restoreState === null) return
+
+    const { left, top, width, height } = restoreState
+    restoreState = null
+
+    if (vmIsDestroyed(vm)) return
+
+    registerTick(() => {
+      if (counter !== 0) return
+      registerAnimationFrame(() => {
+        if (counter !== 0) return
+
+        if (window.innerWidth !== width || window.innerHeight !== height) {
+          /**
+           * If user has resized the window while in fullscreen mode,
+           * we cannot restore the scroll position because it will be wrong.
+           * So we just scroll the element into view instead,
+           * which is the best we can do.
+           */
           proxy.$el.scrollIntoView()
-        })
-      }
-    }
+        } else {
+          window.scrollTo(left, top)
+        }
+      })
+    })
+  }
+
+  function exitFullscreen() {
+    exitFullscreenImpl(true)
   }
 
   onBeforeMount(() => {
@@ -105,6 +164,14 @@ export default function useFullscreen() {
     if (props.fullscreen) setFullscreen()
   })
 
+  onDeactivated(() => {
+    // A direct child of KeepAlive has already been moved to its storage
+    // container at this point. Its filler must not move it back into the DOM.
+    exitFullscreenImpl(proxy.$el.isConnected)
+  })
+  onActivated(() => {
+    if (props.fullscreen) setFullscreen()
+  })
   onBeforeUnmount(exitFullscreen)
 
   // expose public methods

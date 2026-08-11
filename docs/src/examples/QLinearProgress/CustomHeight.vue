@@ -27,12 +27,6 @@
   </div>
 </template>
 
-<script>
-export default {
-  setup() {
-    return {
-      progress: 0.4
-    }
-  }
-}
+<script setup>
+const progress = 0.4
 </script>

@@ -17,31 +17,19 @@ RTL is referring to "right to left" UI for languages that need it.
 - If you are already running "quasar dev" command, restart it.
 
 ```js /postcss.config.js
-import autoprefixer from 'autoprefixer'
 import rtlcss from 'postcss-rtlcss'
+import { Mode } from 'postcss-rtlcss/options'
 
 export default {
   plugins: [
-    // https://github.com/postcss/autoprefixer
-    autoprefixer({
-      overrideBrowserslist: [
-        'last 4 Chrome versions',
-        'last 4 Firefox versions',
-        'last 4 Edge versions',
-        'last 4 Safari versions',
-        'last 4 Android versions',
-        'last 4 ChromeAndroid versions',
-        'last 4 FirefoxAndroid versions',
-        'last 4 iOS versions'
-      ]
-    }),
+    // ...,
 
     // https://github.com/elchininet/postcss-rtlcss
     // If you want to support RTL css, then
     // 1. yarn/pnpm/bun/npm install postcss-rtlcss
     // 2. optionally set quasar.config.js > framework > lang to an RTL language
     // 3. uncomment the following line (and its import statement above):
-    rtlcss()
+    rtlcss({ mode: Mode.Override })
   ]
 }
 ```
@@ -68,9 +56,7 @@ import rtlcss from 'postcss-rtlcss'
 
 export default {
   plugins: [
-    rtlcss({
-      /* opts */
-    }) // <<<< in "plugins"
+    rtlcss({/* opts */}) // <<<< in "plugins"
   ]
 }
 ```

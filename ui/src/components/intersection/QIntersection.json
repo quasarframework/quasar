@@ -18,7 +18,7 @@
 
     "ssr-prerender": {
       "type": "Boolean",
-      "desc": "Pre-render content on server side if using SSR (use it to pre-render above the fold content)",
+      "desc": "Pre-render content on server side if using SSR/SSG (use it to pre-render above the fold content)",
       "category": "behavior"
     },
 

@@ -2,7 +2,6 @@ import {
   computed,
   h,
   onActivated,
-  onBeforeMount,
   onBeforeUnmount,
   onDeactivated,
   onMounted,
@@ -31,7 +30,7 @@ const comps = {
 
 const typeOptions = ['list', 'table', '__qtable']
 
-export default createComponent({
+export default /*#__PURE__*/ createComponent({
   name: 'QVirtualScroll',
 
   props: {
@@ -127,7 +126,10 @@ export default createComponent({
     )
 
     function getVirtualScrollEl() {
-      return rootRef.value.$el || rootRef.value
+      // nothing gets rendered without the default scoped slot,
+      // which leaves us without a root element
+      const el = rootRef.value
+      return el === null ? null : el.$el || el
     }
 
     function getVirtualScrollTarget() {
@@ -135,10 +137,10 @@ export default createComponent({
     }
 
     function configureScrollTarget() {
-      localScrollTarget = getScrollTarget(
-        getVirtualScrollEl(),
-        props.scrollTarget
-      )
+      const el = getVirtualScrollEl()
+      if (el === null) return
+
+      localScrollTarget = getScrollTarget(el, props.scrollTarget)
       localScrollTarget.addEventListener(
         'scroll',
         onVirtualScrollEvt,
@@ -171,9 +173,11 @@ export default createComponent({
       return hMergeSlot(slots.after, child)
     }
 
-    onBeforeMount(() => {
-      localResetVirtualScroll()
-    })
+    // directly in setup (not onBeforeMount, which never runs during
+    // SSR) so the server renders the same padding sizes the client
+    // computes before hydrating — else every SSR usage logs a
+    // hydration style mismatch on the padding elements
+    localResetVirtualScroll()
 
     onMounted(() => {
       configureScrollTarget()

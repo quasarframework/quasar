@@ -55,4 +55,4 @@ function createUidFn() {
   }
 }
 
-export default createUidFn()
+export default /*#__PURE__*/ createUidFn()

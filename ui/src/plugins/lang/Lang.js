@@ -1,5 +1,6 @@
 import { createReactivePlugin } from '../../utils/private.create/create.js'
 
+// oxlint-disable-next-line unicorn/prefer-export-from
 import defaultLang from '../../../lang/en-US.js'
 
 function getLocale() {
@@ -24,7 +25,7 @@ function getLocale() {
   }
 }
 
-const Plugin = createReactivePlugin(
+const Plugin = /*#__PURE__*/ createReactivePlugin(
   {
     __qLang: {}
   },
@@ -98,7 +99,7 @@ const Plugin = createReactivePlugin(
 
         $q.lang.set(initialLang)
 
-        // one-time SSR server operation
+        // one-time SSR/SSG server operation
         if (
           this.props === void 0 ||
           this.props.isoName !== initialLang.isoName

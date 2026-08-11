@@ -22,14 +22,8 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    return {
-      value: ref(true)
-    }
-  }
-}
+const value = ref(true)
 </script>

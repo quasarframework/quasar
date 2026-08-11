@@ -25,62 +25,54 @@
   </div>
 </template>
 
-<script>
+<script setup>
+import { computed, ref } from 'vue'
+
 const editorDefault = 'The <b>bold</b> bacon!<br/>1<br/>2<br/>3<br/>4<br/>5'
 
-export default {
-  data() {
-    return {
-      editor: editorDefault,
-      toolbar: [
-        ['bold', 'italic', 'underline', 'link'],
-        ['left', 'center', 'right'],
-        ['p', 'h6', 'code']
-      ]
-    }
+const editor = ref(editorDefault)
+const toolbar = ref([
+  ['bold', 'italic', 'underline', 'link'],
+  ['left', 'center', 'right'],
+  ['p', 'h6', 'code']
+])
+
+const localStatusTextEditor = computed({
+  get() {
+    return removeTags(editor.value)
   },
-
-  computed: {
-    localStatusTextEditor: {
-      get() {
-        return this.removeTags(this.editor)
-      },
-      set(val) {
-        this.editor = this.addTags(val)
-      }
-    }
-  },
-
-  methods: {
-    reset() {
-      this.editor = editorDefault
-    },
-
-    setModel() {
-      this.localStatusTextEditor =
-        'Some <i>model</i>. Lorem ipsum <a href="https://google.com">dolor</a> lorem ipsum dolor.'
-    },
-
-    removeTags(text) {
-      return text.length > 25
-        ? text.replaceAll(/<b>/, '').replaceAll(/<\/b>/, '')
-        : text
-    },
-
-    addTags(text) {
-      return text
-        .replaceAll(/<b>/, '')
-        .replaceAll(/<\/b>/, '')
-        .replaceAll(/bacon/, '<i>bacon</i>')
-    },
-
-    onBlur() {
-      console.log('onBlur')
-    },
-
-    onFocus() {
-      console.log('onFocus')
-    }
+  set(val) {
+    editor.value = addTags(val)
   }
+})
+
+function reset() {
+  editor.value = editorDefault
+}
+
+function setModel() {
+  localStatusTextEditor.value =
+    'Some <i>model</i>. Lorem ipsum <a href="https://google.com">dolor</a> lorem ipsum dolor.'
+}
+
+function removeTags(text) {
+  return text.length > 25
+    ? text.replaceAll('<b>', '').replaceAll('</b>', '')
+    : text
+}
+
+function addTags(text) {
+  return text
+    .replaceAll('<b>', '')
+    .replaceAll('</b>', '')
+    .replaceAll('bacon', '<i>bacon</i>')
+}
+
+function onBlur() {
+  console.log('onBlur')
+}
+
+function onFocus() {
+  console.log('onFocus')
 }
 </script>

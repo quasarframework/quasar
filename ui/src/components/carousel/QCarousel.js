@@ -28,7 +28,7 @@ import { hDir, hMergeSlot } from '../../utils/private.render/render.js'
 const navigationPositionOptions = ['top', 'right', 'bottom', 'left']
 const controlTypeOptions = ['regular', 'flat', 'outline', 'push', 'unelevated']
 
-export default createComponent({
+export default /*#__PURE__*/ createComponent({
   name: 'QCarousel',
 
   props: {
@@ -89,6 +89,7 @@ export default createComponent({
 
     const {
       updatePanelsList,
+      updatePanelIndex,
       getPanelContent,
       panelDirectives,
       goToPanel,
@@ -171,20 +172,21 @@ export default createComponent({
     )
 
     function startTimer() {
-      const duration = isNumber(props.autoplay)
-        ? Math.abs(props.autoplay)
-        : 5000
+      // a negative value means "walk backwards",
+      // so the sign picks the direction while its
+      // absolute value is the interval
+      const interval = isNumber(props.autoplay) ? props.autoplay : 5000
 
       if (timer !== null) clearTimeout(timer)
       timer = setTimeout(() => {
         timer = null
 
-        if (duration >= 0) {
+        if (interval >= 0) {
           nextPanel()
         } else {
           previousPanel()
         }
-      }, duration)
+      }, Math.abs(interval))
     }
 
     onMounted(() => {
@@ -322,6 +324,7 @@ export default createComponent({
 
     return () => {
       panelsLen = updatePanelsList(slots)
+      updatePanelIndex()
 
       return h(
         'div',

@@ -8,7 +8,7 @@ import {
   pageContainerKey
 } from '../../utils/private.symbols/symbols.js'
 
-export default createComponent({
+export default /*#__PURE__*/ createComponent({
   name: 'QPageContainer',
 
   setup(_, { slots }) {

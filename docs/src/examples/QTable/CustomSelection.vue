@@ -18,9 +18,9 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { useQuasar } from 'quasar'
-import { ref } from 'vue'
+import { ref, useTemplateRef } from 'vue'
 
 const columns = [
   // #region
@@ -166,78 +166,65 @@ const rows = [
   // #endregion
 ]
 
-export default {
-  setup() {
-    const $q = useQuasar()
+const $q = useQuasar()
 
-    const selected = ref([])
-    const lastIndex = ref(null)
-    const tableRef = ref(null)
+const selected = ref([])
+const lastIndex = ref(null)
+const tableRef = useTemplateRef('tableRef')
 
-    return {
-      selected,
-      lastIndex,
-      tableRef,
+function getSelectedString() {
+  return selected.value.length === 0
+    ? ''
+    : `${selected.value.length} record${selected.value.length > 1 ? 's' : ''} selected of ${rows.length}`
+}
 
-      columns,
-      rows,
+function onSelection({ rows: rowsList, added, evt }) {
+  if (rowsList.length === 0 || tableRef.value === void 0) return
 
-      getSelectedString() {
-        return selected.value.length === 0
-          ? ''
-          : `${selected.value.length} record${selected.value.length > 1 ? 's' : ''} selected of ${rows.length}`
-      },
+  const row = rowsList[0]
+  const filteredSortedRows = tableRef.value.filteredSortedRows
+  const rowIndex = filteredSortedRows.indexOf(row)
+  const localLastIndex = lastIndex.value
 
-      onSelection({ rows: rowsList, added, evt }) {
-        if (rowsList.length === 0 || tableRef.value === void 0) return
+  lastIndex.value = rowIndex
+  document.getSelection().removeAllRanges()
 
-        const row = rowsList[0]
-        const filteredSortedRows = tableRef.value.filteredSortedRows
-        const rowIndex = filteredSortedRows.indexOf(row)
-        const localLastIndex = lastIndex.value
+  if ($q.platform.is.mobile) {
+    evt = { ctrlKey: true }
+  } else if (
+    evt !== Object(evt) ||
+    (evt.shiftKey !== true && evt.ctrlKey !== true)
+  ) {
+    selected.value = added ? rowsList : []
+    return
+  }
 
-        lastIndex.value = rowIndex
-        document.getSelection().removeAllRanges()
-
-        if ($q.platform.is.mobile) {
-          evt = { ctrlKey: true }
-        } else if (
-          evt !== Object(evt) ||
-          (evt.shiftKey !== true && evt.ctrlKey !== true)
-        ) {
-          selected.value = added ? rowsList : []
-          return
-        }
-
-        const operateSelection = added
-          ? selRow => {
-              const selectedIndex = selected.value.indexOf(selRow)
-              if (selectedIndex === -1) {
-                selected.value.push(selRow)
-              }
-            }
-          : selRow => {
-              const selectedIndex = selected.value.indexOf(selRow)
-              if (selectedIndex !== -1) {
-                selected.value = [
-                  ...selected.value.slice(0, selectedIndex),
-                  ...selected.value.slice(selectedIndex + 1)
-                ]
-              }
-            }
-
-        if (localLastIndex === null || evt.shiftKey !== true) {
-          operateSelection(row)
-          return
-        }
-
-        const from = localLastIndex < rowIndex ? localLastIndex : rowIndex
-        const to = localLastIndex < rowIndex ? rowIndex : localLastIndex
-        for (let i = from; i <= to; i += 1) {
-          operateSelection(filteredSortedRows[i])
+  const operateSelection = added
+    ? selRow => {
+        const selectedIndex = selected.value.indexOf(selRow)
+        if (selectedIndex === -1) {
+          selected.value.push(selRow)
         }
       }
-    }
+    : selRow => {
+        const selectedIndex = selected.value.indexOf(selRow)
+        if (selectedIndex !== -1) {
+          selected.value = [
+            ...selected.value.slice(0, selectedIndex),
+            ...selected.value.slice(selectedIndex + 1)
+          ]
+        }
+      }
+
+  if (localLastIndex === null || evt.shiftKey !== true) {
+    operateSelection(row)
+    return
+  }
+
+  const from = localLastIndex < rowIndex ? localLastIndex : rowIndex
+  const to = localLastIndex < rowIndex ? rowIndex : localLastIndex
+  for (let i = from; i <= to; i += 1) {
+    operateSelection(filteredSortedRows[i])
   }
 }
 </script>

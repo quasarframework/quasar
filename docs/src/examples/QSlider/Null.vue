@@ -21,19 +21,13 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    return {
-      basicModel: ref(null),
-      limitModel: ref(null),
+const basicModel = ref(null)
+const limitModel = ref(null)
 
-      getNullLabel(val) {
-        return val === null ? 'null' : val
-      }
-    }
-  }
+function getNullLabel(val) {
+  return val === null ? 'null' : val
 }
 </script>

@@ -8,30 +8,25 @@
   </div>
 </template>
 
-<script>
-import { copyToClipboard } from 'quasar'
+<script setup>
+import { copyToClipboard, useQuasar } from 'quasar'
+import { ref } from 'vue'
 
-export default {
-  data() {
-    return {
-      copyText: 'Fill me',
-      pasteText: 'Hit btn above then paste here'
-    }
-  },
+const $q = useQuasar()
 
-  methods: {
-    copy() {
-      copyToClipboard(this.copyText)
-        .then(() => {
-          this.$q.notify('Copied to clipboard')
-        })
-        .catch(() => {
-          this.$q.notify({
-            color: 'negative',
-            message: 'Failed to copy to clipboard'
-          })
-        })
-    }
-  }
+const copyText = ref('Fill me')
+const pasteText = ref('Hit btn above then paste here')
+
+function copy() {
+  copyToClipboard(copyText.value)
+    .then(() => {
+      $q.notify('Copied to clipboard')
+    })
+    .catch(() => {
+      $q.notify({
+        color: 'negative',
+        message: 'Failed to copy to clipboard'
+      })
+    })
 }
 </script>

@@ -25,6 +25,10 @@ export interface QuasarAppPathsResolve {
    */
   readonly ssr: (dir: string) => string;
   /**
+   * Resolve an absolute path to the /src-ssg directory
+   */
+  readonly ssg: (dir: string) => string;
+  /**
    * Resolve an absolute path to the /src-cordova directory
    */
   readonly cordova: (dir: string) => string;
@@ -74,6 +78,10 @@ export interface QuasarAppPaths {
    * Absolute path to the /src-ssr directory
    */
   readonly ssrDir: string;
+  /**
+   * Absolute path to the /src-ssg directory
+   */
+  readonly ssgDir: string;
   /**
    * Absolute path to the /src-cordova directory
    */

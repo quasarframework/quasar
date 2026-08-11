@@ -501,7 +501,7 @@ export function useVirtualScroll({
 
       setTimeout(() => {
         contentEl?.removeEventListener('focusout', onBlurRefocusFn)
-      })
+      }, 0)
     }
 
     setOverflowAnchor(contentEl, toIndex - from)
@@ -626,7 +626,7 @@ export function useVirtualScroll({
         size,
         diff
 
-      for (let i = 0; i < childrenLength; ) {
+      for (let i = 0; i < childrenLength;) {
         size = sizeFn(children[i])
         i++
 
@@ -651,7 +651,9 @@ export function useVirtualScroll({
   }
 
   function onBlurRefocusFn() {
-    contentRef.value?.focus()
+    // the content el is taller than the scrollport, so a plain focus()
+    // would align its top edge with the scrollport's one
+    contentRef.value?.focus({ preventScroll: true })
   }
 
   function localResetVirtualScroll(toIndex, fullReset) {
@@ -857,6 +859,27 @@ export function useVirtualScroll({
   }
 
   setVirtualScrollSize()
+
+  // seed the slice with the initial window so the very first render
+  // pass already shows content: in the SSR payload, on the hydrating
+  // client (which must render the exact same thing) and on the SPA
+  // first paint. Derived from props alone — no DOM measurements — so
+  // all of those passes agree; the first real measurement re-slices
+  // after mount/hydration. The item size can be absent here (e.g.
+  // QSelect defines no default), hence the finite check.
+  {
+    const to = Math.min(
+      virtualScrollLength.value,
+      virtualScrollSliceSizeComputed.value.total
+    )
+    const defaultSize = Number(virtualScrollItemSizeComputed.value)
+
+    virtualScrollSliceRange.value = { from: 0, to }
+    virtualScrollPaddingAfter.value = Number.isFinite(defaultSize)
+      ? Math.max(0, (virtualScrollLength.value - to) * defaultSize)
+      : 0
+  }
+
   const onVirtualScrollEvt = debounce(
     localOnVirtualScrollEvt,
     $q.platform.is.ios ? 120 : 35

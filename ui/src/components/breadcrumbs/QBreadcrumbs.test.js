@@ -33,21 +33,16 @@ describe('[QBreadcrumbs API]', () => {
         const propVal = 'red'
         const wrapper = mount(BasicBreadcrumbs)
 
-        expect(
-          wrapper
-            .get('div > .flex.items-center:not(.q-breadcrumbs--last)')
-            .classes()
-        ).not.toContain('text-red')
+        // the wrapper div of a non-last breadcrumb element
+        const activeSelector =
+          '.flex.items-center:not(.q-breadcrumbs--last):has(> .q-breadcrumbs__el)'
+
+        expect(wrapper.get(activeSelector).classes()).not.toContain('text-red')
 
         await wrapper.setProps({ activeColor: propVal })
         await flushPromises()
 
-        console.log('gigi')
-        expect(
-          wrapper
-            .get('div > .flex.items-center:not(.q-breadcrumbs--last)')
-            .classes()
-        ).toContain('text-red')
+        expect(wrapper.get(activeSelector).classes()).toContain('text-red')
       })
     })
 

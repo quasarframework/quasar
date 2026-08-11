@@ -16,7 +16,7 @@ Notice that your scaffolded project folder contains a `/quasar.config` file. So 
 - [CSS animations](/options/animations) that you wish to use
 - [Boot Files](/quasar-cli-vite/boot-files) list (that determines order of execution too) -- which are files in `/src/boot` that tell how your app is initialized before mounting the root Vue component
 - Global CSS/Sass/... files to be included in the bundle
-- SPA, PWA, Electron, Capacitor, Cordova, SSR, BEX (browser extensions) configuration
+- SPA, PWA, Electron, Capacitor, Cordova, SSR, SSG, BEX (browser extensions) configuration
 - Extend the under the hood tools, like the generated Vite config
 - ...and many many more that you'll discover along the way
 
@@ -353,29 +353,48 @@ animations?: QuasarAnimationsConfiguration | 'all';
 
 ### devServer
 
-More info: [Vite server options](https://vitejs.dev/config/#server-options)
+More info: [Vite server options](https://vite.dev/config/server-options)
 
 ```ts
-import { ServerOptions as ViteServerOptions } from "vite";
-import { Options as OpenOptions } from "open";
+import type { ServerOptions as ViteServerOptions } from "vite";
+import type { Options as OpenOptions } from "open";
+import type { VitePluginVueDevToolsOptions } from "vite-plugin-vue-devtools";
+
 type DevServerOptions = Omit<ViteServerOptions, "open" | "https"> & {
-  open?: Omit<OpenOptions, "wait"> | boolean;
   https?: ViteServerOptions["https"] | boolean;
+
+  /**
+   * Automatically open the browser window when the dev server starts.
+   * If a string is provided, it will be used as the URL to open.
+   * If an object is provided, it will be passed to the `open` package.
+   *
+   * @default false
+   */
+  open?: Omit<OpenOptions, "wait"> | boolean;
+
+  /**
+   * Automatically open remote Vue DevTools in development mode.
+   * Overrides the `--devtools` param in the `quasar dev` command
+   * when explicitly specified.
+   *
+   * @default false
+   */
+  vueDevtools?: boolean | VitePluginVueDevToolsOptions;
 };
 
 /**
- * Vite "server" options.
+ * Vite server options.
  * Some properties are overwritten based on the Quasar mode you're using in order
  * to ensure a correct config.
- * Note: if you're proxying the development server (i.e. using a cloud IDE),
- * set the `public` setting to your public application URL.
+ * If a reverse proxy or cloud IDE changes the public origin, configure
+ * `origin` and the HMR WebSocket options for the externally visible URL.
  */
 devServer?: DevServerOptions;
 ```
 
 Apart from these options, Quasar CLI tampers with some and you will experience them differently than on a Vite app:
 
-Using `open` prop to open with a specific browser and not with the default browser of your OS (check [supported values](https://github.com/sindresorhus/open#options)). The `options` param described in previous link is what you should configure quasar.config file > devSever > open with. Some examples:
+Use the `open` property to select a browser instead of using the operating system default (see the [`open` options](https://github.com/sindresorhus/open#options)). Configure those options under `quasar.config > devServer > open`. For example:
 
 ```js /quasar.config file
 // opens Google Chrome
@@ -408,7 +427,7 @@ devServer: {
 }
 ```
 
-You can also configure automatically opening remote Vue Devtools:
+You can also open remote Vue DevTools automatically:
 
 ```js /quasar.config file
 devServer: {
@@ -422,7 +441,7 @@ devServer: {
 import { Plugin, UserConfig as ViteUserConfig } from 'vite'
 import { Options as VuePluginOptions } from '@vitejs/plugin-vue'
 import { CompilerOptions, TypeAcquisition } from 'typescript'
-import { QuasarHookParams } from './conf'
+import { QuasarHookParams, QuasarPublishParams } from './conf'
 import type { Options as VueRouterVitePluginOptions } from 'vue-router/dist/unplugin/options.d.mts'
 
 interface HtmlMinifierOptions {
@@ -549,11 +568,6 @@ interface QuasarStaticBuildConfiguration {
   vueRouterBase?: string
 
   /**
-   * Automatically open remote Vue Devtools when running in development mode.
-   */
-  vueDevtools?: boolean
-
-  /**
    * Should the Vue Options API be available? If all your components only use Composition API
    * it would make sense performance-wise to disable Vue Options API for a compile speedup.
    *
@@ -563,12 +577,25 @@ interface QuasarStaticBuildConfiguration {
 
   /**
    * Folder where Quasar CLI should generate the distributables.
-   * Relative path to project root directory.
+   * Relative paths are resolved from the project root directory.
+   * Quasar CLI recursively removes this directory before a build.
+   * Filesystem roots, the user home directory and the project root are rejected.
    *
    * @default 'dist/{ctx.modeName}' For all modes except Cordova.
    * @default 'src-cordova/www' For Cordova mode.
    */
   distDir?: string
+
+  /**
+   * Added in @quasar/app-vite v3.2.1
+   *
+   * Allow `distDir` to resolve outside the project root directory.
+   * This does not allow Quasar CLI to remove a filesystem root,
+   * the user home directory or the project root.
+   *
+   * @default false
+   */
+  allowOutsideProjectDistDir?: boolean
 
   /**
    * Extend the Vite config generated by Quasar CLI.
@@ -779,7 +806,7 @@ interface QuasarStaticBuildConfiguration {
     clientPrefix?: string | string[]
     /**
      * Setting this prefix will filter out env files variables and Node.js process.env
-     * variables that are exposed to the backend code (like the SSR server-side).
+     * variables that are exposed to the backend code (like the SSR/SSG server-side).
      *
      * Avoid setting it to 'QUASAR_' so it won't conflict with
      * Quasar's own environment variables.
@@ -804,7 +831,7 @@ interface QuasarStaticBuildConfiguration {
     file?: string | string[]
     /**
      * Filter the env files variables & Node.js process.env variables
-     * that are exposed to the app code. This does not affects props
+     * that are exposed to the app code. This does not affect properties
      * assigned directly to the quasar.config > build > define prop.
      */
     filter?: (
@@ -845,34 +872,34 @@ interface QuasarStaticBuildConfiguration {
    * like starting some backend or any other service that the app relies on.
    * Can use async/await or directly return a Promise.
    */
-  beforeDev?: (params: QuasarHookParams) => void
+  beforeDev?: (params: QuasarHookParams) => void | Promise<void>
   /**
    * Run hook after Quasar dev server is started (`quasar dev`).
    * At this point, the dev server has been started and is available should you wish to do something with it.
    * Can use async/await or directly return a Promise.
    */
-  afterDev?: (params: QuasarHookParams) => void
+  afterDev?: (params: QuasarHookParams) => void | Promise<void>
   /**
    * Run hook before Quasar builds app for production (`quasar build`).
    * At this point, the distributables folder hasn’t been created yet.
    * Can use async/await or directly return a Promise.
    */
-  beforeBuild?: (params: QuasarHookParams) => void
+  beforeBuild?: (params: QuasarHookParams) => void | Promise<void>
   /**
    * Run hook after Quasar built app for production (`quasar build`).
    * At this point, the distributables folder has been created and is available
    *  should you wish to do something with it.
    * Can use async/await or directly return a Promise.
    */
-  afterBuild?: (params: QuasarHookParams) => void
+  afterBuild?: (params: QuasarHookParams) => void | Promise<void>
   /**
    * Run hook if publishing was requested (`quasar build -P`),
    *  after Quasar built app for production and the afterBuild hook (if specified) was executed.
    * Can use async/await or directly return a Promise.
-   * `opts` is Object of form `{arg, distDir}`,
-   * where “arg” is the argument supplied (if any) to -P parameter.
+   *
+   * @param params {@link QuasarPublishParams}
    */
-  onPublish?: (ops: { arg: string; distDir: string }) => void
+  onPublish?: (params: QuasarPublishParams) => void | Promise<void>
 }
 
 /**
@@ -917,7 +944,7 @@ interface QuasarDynamicBuildConfiguration {
 
 See these references for more info:
 
-- [Vite server options](https://vitejs.dev/config/#server-options)
+- [Vite server options](https://vite.dev/config/server-options)
 - [Vite Vue Plugin options](/quasar-cli-vite/handling-vite#vite-vue-plugin-options)
 - [Adding Vite plugins](/quasar-cli-vite/handling-vite#adding-vite-plugins)
 - [Folder Aliases](/quasar-cli-vite/handling-vite#folder-aliases)
@@ -1008,6 +1035,7 @@ Then, as an example:
 | capacitor | Object | Quasar CLI Capacitor specific [config](/quasar-cli-vite/developing-capacitor-apps/configuring-capacitor). |
 | pwa       | Object | PWA specific [config](/quasar-cli-vite/developing-pwa/configuring-pwa).                                   |
 | ssr       | Object | SSR specific [config](/quasar-cli-vite/developing-ssr/configuring-ssr).                                   |
+| ssg       | Object | SSG specific [config](/quasar-cli-vite/developing-ssg/configuring-ssg).                                   |
 | electron  | Object | Electron specific [config](/quasar-cli-vite/developing-electron-apps/configuring-electron).               |
 | bex       | Object | BEX specific [config](/quasar-cli-vite/developing-browser-extensions/configuring-bex).                    |
 

@@ -351,102 +351,100 @@
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      model: null,
-      options: ['Option 1', 'Option 2', 'Option 3'],
+<script setup>
+import { useQuasar } from 'quasar'
+import { ref } from 'vue'
 
-      dialog1: false,
-      dialog2: false,
-      dialog3: false,
-      dialog4: false,
+const $q = useQuasar()
 
-      dlgInDlg1: false,
-      dlgInDlg2: false
+const fullscreen = ref(null)
+const dlgInDlg1Target = ref(null)
+const dlgInDlg2Target = ref(null)
+
+const model = ref(null)
+const options = ref(['Option 1', 'Option 2', 'Option 3'])
+
+const dialog1 = ref(false)
+const dialog2 = ref(false)
+const dialog3 = ref(false)
+const dialog4 = ref(false)
+
+const dlgInDlg1 = ref(false)
+const dlgInDlg2 = ref(false)
+
+function fullscreenEl(el = fullscreen.value.$el) {
+  $q.fullscreen
+    .exit()
+    .catch(() => {})
+    .then(() => {
+      setTimeout(() => {
+        // oxlint-disable-next-line promise/no-nesting
+        $q.fullscreen.request(el).catch(() => {})
+      }, 0)
+    })
+}
+
+function fullscreenNone() {
+  $q.fullscreen.exit()
+}
+
+function showSimpleDialog() {
+  $q.dialog({
+    title: 'Confirmation required',
+    message: 'Are you sure?',
+    cancel: {
+      flat: true,
+      noCaps: true,
+      label: 'Cancel'
+    },
+    ok: {
+      noCaps: true,
+      color: 'negative',
+      label: 'Confirm'
+    },
+    persistent: true
+  }).onOk(() => {
+    // do something
+  })
+}
+
+function showBottomSheet() {
+  $q.bottomSheet({
+    message: 'Bottom Sheet message',
+    actions: [
+      {
+        label: 'Fullscreen All',
+        img: 'https://cdn.quasar.dev/img/logo_drive_128px.png',
+        id: 'fullscreen all'
+      },
+      {
+        label: 'Fullscreen None',
+        img: 'https://cdn.quasar.dev/img/logo_keep_128px.png',
+        id: 'fullscreen none'
+      }
+    ]
+  }).onOk(action => {
+    if (action.id === 'fullscreen all') {
+      showBottomSheet()
+      fullscreenEl()
+    } else if (action.id === 'fullscreen none') {
+      showBottomSheet()
+      fullscreenNone()
     }
-  },
-  methods: {
-    fullscreenEl(el = this.$refs.fullscreen.$el) {
-      this.$q.fullscreen
-        .exit()
-        .catch(() => {})
-        .then(() => {
-          setTimeout(() => {
-            // oxlint-disable-next-line promise/no-nesting
-            this.$q.fullscreen.request(el).catch(() => {})
-          })
-        })
-    },
+  })
+}
 
-    fullscreenNone() {
-      this.$q.fullscreen.exit()
-    },
+function dlgInDlg1Fullscreen() {
+  dlgInDlg1Target.value.$el.requestFullscreen()
+}
 
-    showSimpleDialog() {
-      this.$q
-        .dialog({
-          title: 'Confirmation required',
-          message: 'Are you sure?',
-          cancel: {
-            flat: true,
-            noCaps: true,
-            label: 'Cancel'
-          },
-          ok: {
-            noCaps: true,
-            color: 'negative',
-            label: 'Confirm'
-          },
-          persistent: true
-        })
-        .onOk(() => {
-          // do something
-        })
-    },
+function dlgInDlg2Fullscreen() {
+  dlgInDlg2Target.value.$el.requestFullscreen()
+}
 
-    showBottomSheet() {
-      this.$q
-        .bottomSheet({
-          message: 'Bottom Sheet message',
-          actions: [
-            {
-              label: 'Fullscreen All',
-              img: 'https://cdn.quasar.dev/img/logo_drive_128px.png',
-              id: 'fullscreen all'
-            },
-            {
-              label: 'Fullscreen None',
-              img: 'https://cdn.quasar.dev/img/logo_keep_128px.png',
-              id: 'fullscreen none'
-            }
-          ]
-        })
-        .onOk(action => {
-          if (action.id === 'fullscreen all') {
-            this.showBottomSheet()
-            this.fullscreenEl()
-          } else if (action.id === 'fullscreen none') {
-            this.showBottomSheet()
-            this.fullscreenNone()
-          }
-        })
-    },
-
-    dlgInDlg1Fullscreen() {
-      this.$refs.dlgInDlg1Target.$el.requestFullscreen()
-    },
-
-    dlgInDlg2Fullscreen() {
-      this.$refs.dlgInDlg2Target.$el.requestFullscreen()
-    },
-
-    showNotif() {
-      this.$q.notify({
-        message: 'Notification message'
-      })
-    }
-  }
+function showNotif() {
+  $q.notify({
+    message: 'Notification message'
+  })
 }
 </script>

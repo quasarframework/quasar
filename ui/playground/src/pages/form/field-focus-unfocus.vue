@@ -15,9 +15,9 @@
           filled
           ref="select"
           v-model="value"
-          @add="resetInputText"
+          @add="() => resetInputText('select')"
           @filter="onFilterOptions"
-          :options="options"
+          :options="filteredOptions"
           stack-label
           use-input
           input-debounce="0"
@@ -126,11 +126,11 @@
 
         <q-select
           filled
-          ref="select"
+          ref="select2"
           v-model="value"
-          @add="resetInputText"
+          @add="() => resetInputText('select2')"
           @filter="onFilterOptions"
-          :options="options"
+          :options="filteredOptions"
           stack-label
           use-input
           input-debounce="0"
@@ -264,64 +264,66 @@
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      password: '',
-      isPwd: true,
+<script setup>
+import { ref } from 'vue'
 
-      email: '',
-      search: '',
-      tel: '',
-      url: '',
-      time: '',
-      date: '',
-      value: [],
-      options: [
-        {
-          label: 'Google',
-          value: '1'
-        },
-        {
-          label: 'Facebook',
-          value: '2'
-        },
-        {
-          label: 'Twitter',
-          value: '3'
-        },
-        {
-          label: 'Apple',
-          value: '4'
-        },
-        {
-          label: 'Oracle',
-          value: '5'
-        }
-      ]
-    }
+const options = [
+  {
+    label: 'Google',
+    value: '1'
   },
-  methods: {
-    onFilterOptions(val, update) {
-      if (val === '') {
-        update(() => {
-          this.filteredOptions = this.options
-        })
-        return
-      }
-
-      update(() => {
-        const needle = val.toLowerCase()
-        this.filteredOptions = this.options.filter(v =>
-          v.label.toLowerCase().includes(needle)
-        )
-      })
-    },
-    resetInputText() {
-      this.$refs.select.updateInputValue('')
-    }
+  {
+    label: 'Facebook',
+    value: '2'
+  },
+  {
+    label: 'Twitter',
+    value: '3'
+  },
+  {
+    label: 'Apple',
+    value: '4'
+  },
+  {
+    label: 'Oracle',
+    value: '5'
   }
+]
+
+const password = ref('')
+const isPwd = ref(true)
+
+const email = ref('')
+const search = ref('')
+const tel = ref('')
+const url = ref('')
+const time = ref('')
+const date = ref('')
+const value = ref([])
+const filteredOptions = ref(options)
+
+const select = ref(null)
+const select2 = ref(null)
+const selectRefs = { select, select2 }
+
+function onFilterOptions(val, update) {
+  if (val === '') {
+    update(() => {
+      filteredOptions.value = options
+    })
+    return
+  }
+
+  update(() => {
+    const needle = val.toLowerCase()
+    filteredOptions.value = options.filter(v =>
+      v.label.toLowerCase().includes(needle)
+    )
+  })
+}
+
+function resetInputText(refName) {
+  selectRefs[refName].value.updateInputValue('')
 }
 </script>
 

@@ -95,8 +95,6 @@ export const injectDevMiddleware = defineSsrInjectDevMiddleware(
  */
 export const listen = defineSsrListen(
   async ({ app, devHttpsOptions, port }) => {
-    if (import.meta.env.QUASAR_PROD && !import.meta.env.DOCS_PREVIEW) return
-
     const opts = {
       fetch: app.fetch,
       port
@@ -120,11 +118,9 @@ export const listen = defineSsrListen(
     }
 
     const { serve } = await import('@hono/node-server')
-    if (import.meta.env.DOCS_PREVIEW) {
-      console.log(
-        `\nRunning preview at http${devHttpsOptions ? 's' : ''}://localhost:${port}`
-      )
-    }
+    console.log(
+      `\nRunning preview at http${devHttpsOptions ? 's' : ''}://localhost:${port}`
+    )
 
     return serve(opts)
   }
@@ -154,7 +150,7 @@ const maxAge = import.meta.env.QUASAR_DEV ? 0 : 1000 * 60 * 60 * 24 * 30
  * Can return an async function: return async ({ urlPath = '/', pathToServe = '.', opts = {} }) => {
  */
 export const serveStaticContent = defineSsrServeStaticContent(
-  async ({ app, resolve }) => {
+  async ({ app, resolve, publicPath }) => {
     const { lstatSync } = await import('node:fs')
     const { serveStatic } = await import('@hono/node-server/serve-static')
 
@@ -177,6 +173,10 @@ export const serveStaticContent = defineSsrServeStaticContent(
           c.header('Cache-Control', `public, max-age=${cacheAge}`)
           await next()
         })
+      }
+
+      if (publicPath !== '/') {
+        serveOpts.rewriteRequestPath = p => p.replace(publicPath, '/')
       }
 
       app.use(

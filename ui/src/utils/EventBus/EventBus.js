@@ -5,7 +5,8 @@
 
 export default class EventBus {
   constructor() {
-    this.__stack = {}
+    // Event names can match properties inherited from Object.prototype.
+    this.__stack = Object.create(null)
   }
 
   on(name, callback, ctx) {
@@ -18,7 +19,10 @@ export default class EventBus {
   }
 
   once(name, callback, ctx) {
+    let fired = false
     const listener = (...args) => {
+      if (fired === true) return
+      fired = true
       this.off(name, listener)
       callback.apply(ctx, args)
     }

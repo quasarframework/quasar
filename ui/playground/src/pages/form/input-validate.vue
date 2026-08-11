@@ -300,95 +300,124 @@
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    const n = 13
+<script setup>
+import { computed, ref } from 'vue'
 
-    const data = {
-      model: null,
-      n,
-      type: 'filled',
-      modelExternal: '',
-      error: false,
-      errorMessage: 'First error',
-      stringSingle: null,
-      stringOptions: ['Google', 'Facebook', 'Twitter', 'Apple', 'Oracle'],
-      num: 0,
-      date: '',
-      time: '',
+const n = 13
 
-      test1: 11,
-      test2: 11,
+const model = ref(null)
+const type = ref('filled')
+const modelExternal = ref('')
+const error = ref(false)
+const errorMessage = ref('First error')
+const stringSingle = ref(null)
+const stringOptions = ref(['Google', 'Facebook', 'Twitter', 'Apple', 'Oracle'])
+const num = ref(0)
+const date = ref('')
+const time = ref('')
 
-      testRule20: false
-    }
+const test1 = ref(11)
+const test2 = ref(11)
 
-    for (let i = 1; i <= n; i++) {
-      data['model' + i] = ''
-    }
+const testRule20 = ref(false)
 
-    return data
-  },
+const model1 = ref('')
+const model2 = ref('')
+const model3 = ref('')
+const model4 = ref('')
+const model5 = ref('')
+const model6 = ref('')
+const model7 = ref('')
+const model8 = ref('')
+const model9 = ref('')
+const model10 = ref('')
+const model11 = ref('')
+const model12 = ref('')
+const model13 = ref('')
 
-  computed: {
-    testRule() {
-      return this.testRule20 === true
-        ? [val => val >= 20 || 'Select at least 20']
-        : [val => val >= 10 || 'Select at least 10']
-    }
-  },
+const input1 = ref(null)
+const input2 = ref(null)
+const input3 = ref(null)
+const input4 = ref(null)
+const input5 = ref(null)
+const input6 = ref(null)
+const input7 = ref(null)
+const input8 = ref(null)
+const input9 = ref(null)
+const input10 = ref(null)
+const input11 = ref(null)
+const input12 = ref(null)
+const input13 = ref(null)
 
-  methods: {
-    reset() {
-      for (let i = 1; i <= this.n; i++) {
-        this.$refs['input' + i].resetValidation()
-      }
-    },
+const inputRefs = [
+  input1,
+  input2,
+  input3,
+  input4,
+  input5,
+  input6,
+  input7,
+  input8,
+  input9,
+  input10,
+  input11,
+  input12,
+  input13
+]
 
-    asyncRule(val) {
-      return new Promise((resolve, reject) => {
-        setTimeout(() => {
-          resolve(Boolean(val) || '* Required')
-        }, 1000)
-      })
-    },
+const testRule = computed(() =>
+  testRule20.value === true
+    ? [val => val >= 20 || 'Select at least 20']
+    : [val => val >= 10 || 'Select at least 10']
+)
 
-    secondAsyncRule(val) {
-      return new Promise((resolve, reject) => {
-        setTimeout(() => {
-          resolve((val && val.length > 2) || 'Min 3 characters')
-        }, 1000)
-      })
-    },
-
-    callRule1(val) {
-      console.log('call 1')
-      return false
-    },
-
-    callRule2(val) {
-      console.log('call 2')
-    },
-
-    asyncCallRule1(val) {
-      console.log('call async 1')
-      return new Promise((resolve, reject) => {
-        setTimeout(() => {
-          reject(new Error('some err'))
-          // resolve(!!val || '* Required 1')
-        }, 1000)
-      })
-    },
-
-    asyncCallRule2(val) {
-      console.log('call async 2')
-      return new Promise((resolve, reject) => {
-        setTimeout(() => {
-          resolve(Boolean(val) || '* Required 2')
-        }, 1000)
-      })
-    }
+function reset() {
+  for (let i = 1; i <= n; i++) {
+    inputRefs[i - 1].value.resetValidation()
   }
+}
+
+function asyncRule(val) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve(Boolean(val) || '* Required')
+    }, 1000)
+  })
+}
+
+function secondAsyncRule(val) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve((val && val.length > 2) || 'Min 3 characters')
+    }, 1000)
+  })
+}
+
+function callRule1(val) {
+  console.log('call 1')
+  return false
+}
+
+function callRule2(val) {
+  console.log('call 2')
+}
+
+function asyncCallRule1(val) {
+  console.log('call async 1')
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      reject(new Error('some err'))
+      // resolve(!!val || '* Required 1')
+    }, 1000)
+  })
+}
+
+function asyncCallRule2(val) {
+  console.log('call async 2')
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve(Boolean(val) || '* Required 2')
+    }, 1000)
+  })
 }
 </script>

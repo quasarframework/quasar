@@ -55,15 +55,9 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    return {
-      dialog: ref(false),
-      maximizedToggle: ref(true)
-    }
-  }
-}
+const dialog = ref(false)
+const maximizedToggle = ref(true)
 </script>

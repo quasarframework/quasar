@@ -498,9 +498,9 @@
           :dark="dark"
           :dense="dense"
         >
-          <template v-slot:control="{ value, emitValue }">
+          <template v-slot:control="{ modelValue, emitValue }">
             <q-checkbox
-              :model-value="value"
+              :model-value="modelValue"
               @update:model-value="emitValue"
               color="orange"
               :dark="dark"
@@ -565,50 +565,42 @@
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    const trueVal = [true],
-      falseVal = [false]
+<script setup>
+import { ref, watch } from 'vue'
 
-    return {
-      val: true,
-      ind: false,
-      checked: true,
-      orderModel: 'bogus',
-      group: ['op2'],
-      selection: ['one', 'two', 'three'],
-      dark: null,
-      dense: false,
-      keepColor: false,
-      indModel: null,
-      customChecked: 'Custom Not Active',
-      trueVal,
-      falseVal,
-      modelArr: falseVal,
-      modelArrComplex: [falseVal, trueVal]
-    }
-  },
-  watch: {
-    group(val, old) {
-      console.log(
-        `Changed from ${JSON.stringify(old)} to ${JSON.stringify(val)}`
-      )
-    }
-  },
-  methods: {
-    onChange(val) {
-      console.log('@change', JSON.stringify(val))
-    },
-    onInput(val) {
-      console.log('@update:model-value', JSON.stringify(val))
-    },
-    onFocus() {
-      console.log('focused')
-    },
-    onBlur() {
-      console.log('blur')
-    }
-  }
+const trueValInit = [true],
+  falseValInit = [false]
+
+const val = ref(true)
+const ind = ref(false)
+const checked = ref(true)
+const orderModel = ref('bogus')
+const group = ref(['op2'])
+const selection = ref(['one', 'two', 'three'])
+const dark = ref(null)
+const dense = ref(false)
+const keepColor = ref(false)
+const indModel = ref(null)
+const customChecked = ref('Custom Not Active')
+const trueVal = ref(trueValInit)
+const falseVal = ref(falseValInit)
+const modelArr = ref(falseValInit)
+const modelArrComplex = ref([falseValInit, trueValInit])
+
+watch(group, (value, old) => {
+  console.log(`Changed from ${JSON.stringify(old)} to ${JSON.stringify(value)}`)
+})
+
+function onChange(value) {
+  console.log('@change', JSON.stringify(value))
+}
+function onInput(value) {
+  console.log('@update:model-value', JSON.stringify(value))
+}
+function onFocus() {
+  console.log('focused')
+}
+function onBlur() {
+  console.log('blur')
 }
 </script>

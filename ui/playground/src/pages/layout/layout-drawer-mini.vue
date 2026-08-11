@@ -75,25 +75,17 @@
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      miniState: true,
-      miniToOverlay: true,
-      width: 1030,
-      contentSize: 30,
-      noMiniAnimation: false
-    }
-  },
+<script setup>
+import { computed, ref } from 'vue'
 
-  computed: {
-    containerStyle() {
-      return {
-        height: '800px',
-        width: this.width + 'px'
-      }
-    }
-  }
-}
+const miniState = ref(true)
+const miniToOverlay = ref(true)
+const width = ref(1030)
+const contentSize = ref(30)
+const noMiniAnimation = ref(false)
+
+const containerStyle = computed(() => ({
+  height: '800px',
+  width: width.value + 'px'
+}))
 </script>

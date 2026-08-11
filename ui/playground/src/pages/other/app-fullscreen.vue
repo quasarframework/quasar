@@ -41,35 +41,35 @@
   </div>
 </template>
 
-<script>
-import { AppFullscreen } from 'quasar'
+<script setup>
+import { AppFullscreen, useQuasar } from 'quasar'
+import { watch } from 'vue'
 
-export default {
-  watch: {
-    '$q.fullscreen.activeEl'(val) {
-      console.log('watcher $q.fullscreen.activeEl', val, AppFullscreen.activeEl)
-    },
+const $q = useQuasar()
 
-    '$q.fullscreen.isActive'(val) {
-      console.log('watcher $q.fullscreen.isActive', val, AppFullscreen.isActive)
-    }
-  },
-
-  methods: {
-    toggleFullscreen() {
-      AppFullscreen.toggle()
-        .then(() => {
-          setTimeout(() => {
-            console.log(
-              'setTimeout AppFullscreen.isActive',
-              AppFullscreen.isActive
-            )
-          }, 1000)
-        })
-        .catch(err => {
-          console.error(err)
-        })
-    }
+watch(
+  () => $q.fullscreen.activeEl,
+  val => {
+    console.log('watcher $q.fullscreen.activeEl', val, AppFullscreen.activeEl)
   }
+)
+
+watch(
+  () => $q.fullscreen.isActive,
+  val => {
+    console.log('watcher $q.fullscreen.isActive', val, AppFullscreen.isActive)
+  }
+)
+
+function toggleFullscreen() {
+  AppFullscreen.toggle()
+    .then(() => {
+      setTimeout(() => {
+        console.log('setTimeout AppFullscreen.isActive', AppFullscreen.isActive)
+      }, 1000)
+    })
+    .catch(err => {
+      console.error(err)
+    })
 }
 </script>

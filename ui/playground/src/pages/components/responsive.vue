@@ -150,47 +150,41 @@
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      position: 'top',
-      reverse: false,
-      size: 20,
+<script setup>
+import { computed, ref } from 'vue'
 
-      timeouts: []
-    }
-  },
-  computed: {
-    computedSize() {
-      return this.size + 'px'
-    }
-  },
-  methods: {
-    trigger() {
-      this.$refs.bar.start()
+const bar = ref(null)
 
-      setTimeout(
-        () => {
-          if (this.$refs.bar) {
-            this.$refs.bar.stop()
-          }
-        },
-        Math.random() * 3000 + 1000
-      )
+const position = ref('top')
+const reverse = ref(false)
+const size = ref(20)
+
+const timeouts = ref([])
+
+const computedSize = computed(() => size.value + 'px')
+
+function trigger() {
+  bar.value.start()
+
+  setTimeout(
+    () => {
+      if (bar.value) {
+        bar.value.stop()
+      }
     },
+    Math.random() * 3000 + 1000
+  )
+}
 
-    start(speed) {
-      this.$refs.bar.start(speed)
-    },
+function start(speed) {
+  bar.value.start(speed)
+}
 
-    increment() {
-      this.$refs.bar.increment(Math.random() * 20)
-    },
+function increment() {
+  bar.value.increment(Math.random() * 20)
+}
 
-    stop() {
-      this.$refs.bar.stop()
-    }
-  }
+function stop() {
+  bar.value.stop()
 }
 </script>

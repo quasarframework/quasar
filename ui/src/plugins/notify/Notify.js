@@ -201,7 +201,7 @@ function addNotification(config, $q, originalApi) {
       notif.group = [
         notif.message,
         notif.caption,
-        notif.multiline,
+        notif.multiLine,
         ...notif.actions.map(props => `${props.label}*${props.icon}`)
       ].join('|')
     }

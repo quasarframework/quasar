@@ -691,138 +691,146 @@
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      dark: null,
-      dense: false,
-      vertical: false,
+<script setup>
+import { computed, ref, watch } from 'vue'
 
-      defaultLabels: true,
-      labelLeftTemplate: 'Current left value: {model}',
-      labelRightTemplate: 'Current right value: {model}',
+const dark = ref(null)
+const dense = ref(false)
+const vertical = ref(false)
 
-      nullMin: {
-        min: null,
-        max: 20
-      },
+const defaultLabels = ref(true)
+const labelLeftTemplate = ref('Current left value: {model}')
+const labelRightTemplate = ref('Current right value: {model}')
 
-      nullMax: {
-        min: 20,
-        max: null
-      },
+const nullMin = ref({
+  min: null,
+  max: 20
+})
 
-      nullMinMax: {
-        min: null,
-        max: null
-      },
+const nullMax = ref({
+  min: 20,
+  max: null
+})
 
-      standalone: {
-        min: 10,
-        max: 35
-      },
+const nullMinMax = ref({
+  min: null,
+  max: null
+})
 
-      nullInnerMinMax: {
-        min: null,
-        max: null
-      },
-      innerMinMax: {
-        min: 20,
-        max: 25
-      },
+const standalone = ref({
+  min: 10,
+  max: 35
+})
 
-      stepZero: {
-        min: 34.05,
-        max: 64.023
-      },
+const nullInnerMinMax = ref({
+  min: null,
+  max: null
+})
+const innerMinMax = ref({
+  min: 20,
+  max: 25
+})
 
-      precision: {
-        min: 0.2,
-        max: 0.7
-      },
+const stepZero = ref({
+  min: 34.05,
+  max: 64.023
+})
 
-      step: {
-        min: 10,
-        max: 20
-      },
+const precision = ref({
+  min: 0.2,
+  max: 0.7
+})
 
-      label: {
-        min: -12,
-        max: 8
-      },
+const step = ref({
+  min: 10,
+  max: 20
+})
 
-      snap: {
-        min: 2,
-        max: 6
-      },
+const label = ref({
+  min: -12,
+  max: 8
+})
 
-      marker: {
-        min: 6,
-        max: 8
-      },
+const snap = ref({
+  min: 2,
+  max: 6
+})
 
-      range: {
-        min: 20,
-        max: 65
-      },
+const marker = ref({
+  min: 6,
+  max: 8
+})
 
-      rangeSnap: {
-        min: 35,
-        max: 60
-      },
+const range = ref({
+  min: 20,
+  max: 65
+})
 
-      onlyRange: {
-        min: 10,
-        max: 35
-      }
-    }
-  },
-  computed: {
-    labelLeftValue() {
-      return this.defaultLabels === true
-        ? () => void 0
-        : model => this.labelLeftTemplate.split('{model}').join(model)
-    },
+const rangeSnap = ref({
+  min: 35,
+  max: 60
+})
 
-    labelRightValue() {
-      return this.defaultLabels === true
-        ? () => void 0
-        : model => this.labelRightTemplate.split('{model}').join(model)
-    }
-  },
-  watch: {
-    'standalone.min'(val, old) {
-      console.log(
-        `Changed [min] from ${JSON.stringify(old)} to ${JSON.stringify(val)}`
-      )
-    },
-    'standalone.max'(val, old) {
-      console.log(
-        `Changed [max] from ${JSON.stringify(old)} to ${JSON.stringify(val)}`
-      )
-    },
-    'range.min'(val, old) {
-      console.log(
-        `Changed [min] from ${JSON.stringify(old)} to ${JSON.stringify(val)}`
-      )
-    },
-    'range.max'(val, old) {
-      console.log(
-        `Changed [max] from ${JSON.stringify(old)} to ${JSON.stringify(val)}`
-      )
-    }
-  },
-  methods: {
-    onChange(val) {
-      console.log('@change', JSON.stringify(val))
-    },
-    onInput(val) {
-      console.log('@update:model-value', JSON.stringify(val))
-    },
-    getNullLabel(val) {
-      return val === null ? 'null' : val
-    }
+const onlyRange = ref({
+  min: 10,
+  max: 35
+})
+
+const labelLeftValue = computed(() =>
+  defaultLabels.value === true
+    ? () => void 0
+    : model => labelLeftTemplate.value.split('{model}').join(model)
+)
+
+const labelRightValue = computed(() =>
+  defaultLabels.value === true
+    ? () => void 0
+    : model => labelRightTemplate.value.split('{model}').join(model)
+)
+
+watch(
+  () => standalone.value.min,
+  (val, old) => {
+    console.log(
+      `Changed [min] from ${JSON.stringify(old)} to ${JSON.stringify(val)}`
+    )
   }
+)
+
+watch(
+  () => standalone.value.max,
+  (val, old) => {
+    console.log(
+      `Changed [max] from ${JSON.stringify(old)} to ${JSON.stringify(val)}`
+    )
+  }
+)
+
+watch(
+  () => range.value.min,
+  (val, old) => {
+    console.log(
+      `Changed [min] from ${JSON.stringify(old)} to ${JSON.stringify(val)}`
+    )
+  }
+)
+
+watch(
+  () => range.value.max,
+  (val, old) => {
+    console.log(
+      `Changed [max] from ${JSON.stringify(old)} to ${JSON.stringify(val)}`
+    )
+  }
+)
+
+function onChange(val) {
+  console.log('@change', JSON.stringify(val))
+}
+function onInput(val) {
+  console.log('@update:model-value', JSON.stringify(val))
+}
+function getNullLabel(val) {
+  return val === null ? 'null' : val
 }
 </script>

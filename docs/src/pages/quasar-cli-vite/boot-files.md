@@ -7,7 +7,7 @@ related:
 
 A common use case for Quasar applications is to **run code before the root Vue app instance is instantiated**, like injecting and initializing your own dependencies (examples: Vue components, libraries...) or simply configuring some startup code of your app.
 
-Since you won't have access to any `/main.js` file (so that Quasar CLI can seamlessly initialize and build same codebase for SPA/PWA/SSR/Cordova/Electron) Quasar provides an elegant solution to that problem by allowing users to define so-called boot files.
+Since you won't have access to any `/main.js` file (so that Quasar CLI can seamlessly initialize and build same codebase for SPA/PWA/SSR/SSG/Cordova/Electron) Quasar provides an elegant solution to that problem by allowing users to define so-called boot files.
 
 In earlier Quasar versions, to run code before the root Vue instance was instantiated, you could alter the `/src/main.js` file and add any code you needed to execute.
 
@@ -24,7 +24,7 @@ A boot file is a simple JavaScript file which can optionally export a function. 
 | `app`        | Vue app instance                                                                                                  |
 | `router`     | Instance of Vue Router from 'src/router/index.js'                                                                 |
 | `store`      | Instance of Pinia - **store only will be passed if your project uses Pinia (you have src/stores)**                |
-| `ssrContext` | Available only on server-side, if building for SSR. [More info](/quasar-cli-vite/developing-ssr/ssr-context)      |
+| `ssrContext` | Available only on server-side, if building for SSR/SSG. [More info](/quasar-cli-vite/developing-ssr/ssr-context)  |
 | `urlPath`    | The pathname (path + search) part of the URL. It also contains the hash on client-side.                           |
 | `publicPath` | The configured public path.                                                                                       |
 | `redirect`   | Function to call to redirect to another URL. Accepts String (full URL) or a Vue Router location String or Object. |
@@ -128,17 +128,11 @@ You can also return a Promise:
 ```js
 // import something here
 
-export default defineBoot(
-  (
-    {
-      /* app, router, store */
-    }
-  ) => {
-    return new Promise((resolve, reject) => {
-      // do something
-    })
-  }
-)
+export default defineBoot(({/* app, router, store */}) => {
+  return new Promise((resolve, reject) => {
+    // do something
+  })
+})
 ```
 
 ::: tip
@@ -159,7 +153,7 @@ boot: [
 ]
 ```
 
-When building a SSR app, you may want some boot files to run only on the server or only on the client, in which case you can do so like below:
+When building a SSR/SSG app, you may want some boot files to run only on the server or only on the client, in which case you can do so like below:
 
 ```js
 boot: [
@@ -218,7 +212,7 @@ readonly redirect: (
   url: string | RouteLocationRaw,
   /**
    * HTTP status code to use for the redirection.
-   * Only used in SSR mode.
+   * Only used in SSR mode (but NOT SSG).
    *
    * @default 302
    */

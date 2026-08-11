@@ -18,7 +18,10 @@ export default function debounce(fn, wait = 250, immediate) {
   }
 
   debounced.cancel = () => {
-    if (timer !== null) clearTimeout(timer)
+    if (timer !== null) {
+      clearTimeout(timer)
+      timer = null
+    }
   }
 
   return debounced

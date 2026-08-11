@@ -18,17 +18,11 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    return {
-      rangeSnap: ref({
-        min: 35,
-        max: 60
-      })
-    }
-  }
-}
+const rangeSnap = ref({
+  min: 35,
+  max: 60
+})
 </script>

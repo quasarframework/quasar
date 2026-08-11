@@ -216,44 +216,40 @@
   </div>
 </template>
 
-<script>
+<script setup>
+import { useQuasar } from 'quasar'
+import { ref } from 'vue'
 import { mdiMenu } from '@quasar/extras/mdi-v7'
 
-export default {
-  created() {
-    this.mdiMenu = mdiMenu
-  },
+const $q = useQuasar()
 
-  data() {
-    return {
-      toggle: true,
-      toggleDisabled: true
-    }
-  },
-  methods: {
-    alert() {
-      this.$q.dialog({
-        title: 'FAB',
-        message: 'Good job! Keep it going.'
-      })
-    },
-    notify(icon) {
-      this.$q.notify({
-        icon,
-        message: 'So you want your ' + icon + 's, huh?'
-      })
-    },
-    openFab() {
-      setTimeout(() => {
-        this.$refs.tooltip1.show()
-        this.$refs.tooltip2.show()
-      }, 300)
-    },
-    closeFab() {
-      this.$refs.tooltip1.hide()
-      this.$refs.tooltip2.hide()
-    }
-  }
+const toggle = ref(true)
+const toggleDisabled = ref(true)
+
+const tooltip1 = ref(null)
+const tooltip2 = ref(null)
+
+function alert() {
+  $q.dialog({
+    title: 'FAB',
+    message: 'Good job! Keep it going.'
+  })
+}
+function notify(icon) {
+  $q.notify({
+    icon,
+    message: 'So you want your ' + icon + 's, huh?'
+  })
+}
+function openFab() {
+  setTimeout(() => {
+    tooltip1.value.show()
+    tooltip2.value.show()
+  }, 300)
+}
+function closeFab() {
+  tooltip1.value.hide()
+  tooltip2.value.hide()
 }
 </script>
 

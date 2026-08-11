@@ -17,6 +17,8 @@ const extraEnvParams = isCI
  Returns nothing, takes onFail
  */
 export async function spawnSync(cmd, params, opts) {
+  opts ??= {}
+
   const targetFolder = opts?.cwd
     ? ` in /${relative(process.cwd(), opts.cwd)}`
     : ''
@@ -33,11 +35,13 @@ export async function spawnSync(cmd, params, opts) {
 
   if (runner.error || runner.status || runner.status === null) {
     const errorMessage =
-      runner.status === null || runner.error?.code === 'ENOENT'
+      runner.error?.code === 'ENOENT'
         ? `Command "${cmd}" not found! Please install it globally.`
-        : runner.status
-          ? `Command "${cmd} ${params.join(' ')}" failed with exit code: ${runner.status}`
-          : `Command "${cmd} ${params.join(' ')}" failed!`
+        : runner.signal
+          ? `Command "${cmd} ${params.join(' ')}" was terminated by signal: ${runner.signal}`
+          : runner.status
+            ? `Command "${cmd} ${params.join(' ')}" failed with exit code: ${runner.status}`
+            : `Command "${cmd} ${params.join(' ')}" failed!`
 
     const msg = `⚠️  ⚠️  ⚠️  ${errorMessage} ⚠️  ⚠️  ⚠️ `
 

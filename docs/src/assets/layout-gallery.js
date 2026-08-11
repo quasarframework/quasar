@@ -11,7 +11,7 @@ const list = [
 
 export default list.map(layout => ({
   ...layout,
-  screenshot: `https://cdn.quasar.dev/img/layout-gallery/screenshot-${layout.path}.png`,
+  screenshot: `/layout-gallery/${layout.path}.png`,
   demoLink: `/layout/gallery/${layout.path}`,
   sourceLink: `https://github.com/quasarframework/quasar/blob/${import.meta.env.DOCS_BRANCH}/docs/src/layouts/gallery/${layout.path}.vue`
 }))

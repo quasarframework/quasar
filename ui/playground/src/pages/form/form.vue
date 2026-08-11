@@ -33,7 +33,7 @@
       :class="dark ? 'bg-grey-8' : void 0"
     >
       <div class="q-col-gutter-md">
-        <custom-input
+        <CustomInput
           v-if="customInput"
           filled
           v-model="customValue"
@@ -50,7 +50,7 @@
         <my-comp />
 
         <q-select
-          ref="title"
+          ref="titleRef"
           name="title"
           v-model="title"
           :options="titles"
@@ -65,7 +65,7 @@
         />
 
         <q-input
-          ref="name"
+          ref="nameRef"
           :dark="dark"
           filled
           v-model="name"
@@ -79,7 +79,7 @@
         />
 
         <q-input
-          ref="age"
+          ref="ageRef"
           :dark="dark"
           filled
           type="number"
@@ -95,7 +95,7 @@
         />
 
         <q-input
-          ref="age"
+          ref="ageRef"
           :dark="dark"
           filled
           type="number"
@@ -205,143 +205,134 @@
   </div>
 </template>
 
-<script>
-import { h } from 'vue'
-import { QCard, QCardSection, QField, QFormChildMixin } from 'quasar'
+<script setup>
+import { computed, h, ref } from 'vue'
+import { QCard, QCardSection, QField, QFormChildMixin, useQuasar } from 'quasar'
 
-export default {
-  components: {
-    customInput: {
-      props: ['modelValue'],
-      render() {
-        return h(
-          QField,
-          {
-            modelValue: this.modelValue,
-            stackLabel: true
-          },
-          {
-            control: () => this.modelValue || 'null'
-          }
-        )
-      }
-    },
-
-    myComp: {
-      mixins: [QFormChildMixin],
-
-      render() {
-        return h('div', {}, [
-          h(
-            QCard,
-            {
-              class: 'text-subtitle2',
-              bordered: true,
-              flat: true
-            },
-            () => h(QCardSection, () => ['a custom component'])
-          )
-        ])
+const CustomInput = {
+  props: ['modelValue'],
+  render() {
+    return h(
+      QField,
+      {
+        modelValue: this.modelValue,
+        stackLabel: true
       },
-
-      methods: {
-        validate() {
-          console.log('called my-comp.validate()')
-          return true
-        }
+      {
+        control: () => this.modelValue || 'null'
       }
-    }
-  },
-  data() {
-    return {
-      loading: false,
-      native: null,
-      name: null,
-      age: null,
-      modelAsync: null,
+    )
+  }
+}
 
-      accept: false,
+const MyComp = {
+  mixins: [QFormChildMixin],
 
-      titleIsDisabled: false,
-
-      show: true,
-      autofocus: true,
-      autofocusEls: [
-        { value: 0, label: 'Native input' },
-        { value: 1, label: 'Name' },
-        { value: 2, label: 'Age' },
-        { value: 3, label: 'Toggle' },
-        { value: 4, label: 'Title' }
-      ],
-      autofocusEl: 1,
-
-      dark: null,
-      greedy: false,
-
-      titles: ['Mr.', 'Ms.'],
-
-      title: null,
-      user: null,
-      pwd: null,
-      customValue: '',
-      customInput: true,
-
-      nativeSubmit: false
-    }
-  },
-
-  computed: {
-    formListeners() {
-      const listeners = {
-        reset: this.onReset
-      }
-
-      if (this.nativeSubmit !== true) {
-        listeners.submit = this.onSubmit
-      }
-
-      return listeners
-    }
+  render() {
+    return h('div', {}, [
+      h(
+        QCard,
+        {
+          class: 'text-subtitle2',
+          bordered: true,
+          flat: true
+        },
+        () => h(QCardSection, () => ['a custom component'])
+      )
+    ])
   },
 
   methods: {
-    asyncRule(val) {
-      return new Promise((resolve, reject) => {
-        setTimeout(() => {
-          resolve(Boolean(val) || '* Required')
-        }, 1000)
-      })
-    },
-
-    onSubmit(evt) {
-      this.$q.notify('submit')
-      console.log('@submit')
-
-      // evt.target.submit()
-    },
-
-    onReset() {
-      this.native = null
-      this.name = null
-      this.age = null
-      this.modelAsync = null
-      this.accept = false
-
-      console.log('@reset')
-    },
-
-    onValidationSuccess() {
-      console.log('@validation-success')
-    },
-
-    onValidationError() {
-      console.log('@validation-error')
-    },
-
-    onClick() {
-      this.$q.notify('click')
-      console.log('cliiick')
+    validate() {
+      console.log('called my-comp.validate()')
+      return true
     }
   }
+}
+
+const $q = useQuasar()
+
+const loading = ref(false)
+const native = ref(null)
+const name = ref(null)
+const age = ref(null)
+const modelAsync = ref(null)
+
+const accept = ref(false)
+
+const titleIsDisabled = ref(false)
+
+const show = ref(true)
+const autofocus = ref(true)
+const autofocusEls = ref([
+  { value: 0, label: 'Native input' },
+  { value: 1, label: 'Name' },
+  { value: 2, label: 'Age' },
+  { value: 3, label: 'Toggle' },
+  { value: 4, label: 'Title' }
+])
+const autofocusEl = ref(1)
+
+const dark = ref(null)
+const greedy = ref(false)
+
+const titles = ref(['Mr.', 'Ms.'])
+
+const title = ref(null)
+const user = ref(null)
+const pwd = ref(null)
+const customValue = ref('')
+const customInput = ref(true)
+
+const nativeSubmit = ref(false)
+
+const formListeners = computed(() => {
+  const listeners = {
+    reset: onReset
+  }
+
+  if (nativeSubmit.value !== true) {
+    listeners.submit = onSubmit
+  }
+
+  return listeners
+})
+
+function asyncRule(val) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve(Boolean(val) || '* Required')
+    }, 1000)
+  })
+}
+
+function onSubmit(evt) {
+  $q.notify('submit')
+  console.log('@submit')
+
+  // evt.target.submit()
+}
+
+function onReset() {
+  native.value = null
+  name.value = null
+  age.value = null
+  modelAsync.value = null
+  accept.value = false
+
+  console.log('@reset')
+}
+
+function onValidationSuccess() {
+  console.log('@validation-success')
+}
+
+function onValidationError() {
+  console.log('@validation-error')
+}
+
+function onClick() {
+  $q.notify('click')
+  console.log('cliiick')
 }
 </script>

@@ -83,17 +83,11 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    return {
-      qeditor: ref(
-        '<pre>Check out the two different types of dropdowns' +
-          ' in each of the "Align" buttons.</pre> '
-      )
-    }
-  }
-}
+const qeditor = ref(
+  '<pre>Check out the two different types of dropdowns' +
+    ' in each of the "Align" buttons.</pre> '
+)
 </script>

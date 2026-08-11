@@ -1,0 +1,45 @@
+{
+  "name": "@quasar/update-notifier",
+  "version": "1.0.0",
+  "description": "Update notifier for Quasar CLI(s)",
+  "homepage": "https://quasar.dev",
+  "bugs": "https://github.com/quasarframework/quasar/issues",
+  "license": "MIT",
+  "author": {
+    "name": "Razvan Stoenescu",
+    "email": "razvan.stoenescu@gmail.com",
+    "url": "https://github.com/quasarframework"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/quasarframework/quasar"
+  },
+  "funding": {
+    "type": "github",
+    "url": "https://donate.quasar.dev"
+  },
+  "files": [
+    "src",
+    "!src/**/*.test.js"
+  ],
+  "type": "module",
+  "main": "src/index.js",
+  "module": "src/index.js",
+  "exports": "./src/index.js",
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "test": "vitest run",
+    "prepublishOnly": "pnpm test"
+  },
+  "dependencies": {
+    "ci-info": "^4.4.0"
+  },
+  "devDependencies": {
+    "vitest": "^4.1.10"
+  },
+  "engines": {
+    "node": ">= 20"
+  }
+}

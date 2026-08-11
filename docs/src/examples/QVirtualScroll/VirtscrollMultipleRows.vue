@@ -50,8 +50,8 @@
   </div>
 </template>
 
-<script>
-import { onMounted, ref } from 'vue'
+<script setup>
+import { onMounted, ref, useTemplateRef } from 'vue'
 
 const columns = [
   // #region
@@ -210,24 +210,10 @@ for (let i = 0; i < 1000; i++) {
   rows.push(...seed.map((r, j) => ({ ...r, index: i * seedSize + j + 1 })))
 }
 
-export default {
-  setup() {
-    const tableRef = ref(null)
+const tableRef = useTemplateRef('tableRef')
+const pagination = { rowsPerPage: 0 }
 
-    onMounted(() => {
-      tableRef.value.scrollTo(5000)
-    })
-
-    return {
-      tableRef,
-
-      columns,
-      rows,
-
-      pagination: {
-        rowsPerPage: 0
-      }
-    }
-  }
-}
+onMounted(() => {
+  tableRef.value.scrollTo(5000)
+})
 </script>

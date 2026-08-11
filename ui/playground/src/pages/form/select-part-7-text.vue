@@ -21,7 +21,7 @@
         fill-input
         hide-selected
         @filter="filterOptions"
-        @update:model-value-value="
+        @update:model-value="
           val => {
             model = val
           }
@@ -37,35 +37,29 @@
   </div>
 </template>
 
-<script>
+<script setup>
+import { ref } from 'vue'
+
 const prefixes = ['Item', 'Option', 'Address', 'Selection']
 const options = Array.from(
   { length: 200 },
   (item, i) => `${prefixes[Math.floor(Math.random() * prefixes.length)]} ${i}`
 ).sort(() => Math.random() * 2 - 1)
 
-export default {
-  data: function data() {
-    return {
-      model: '',
-      filteredOptions: [...options],
-      behavior: void 0
-    }
-  },
+const model = ref('')
+const filteredOptions = ref([...options])
+const behavior = ref(void 0)
 
-  methods: {
-    filterOptions(val, update) {
-      update(() => {
-        if (val === '') {
-          this.filteredOptions = [...options]
-        } else {
-          const needle = val.toLocaleLowerCase()
-          this.filteredOptions = options.filter(v =>
-            v.toLocaleLowerCase().includes(needle)
-          )
-        }
-      })
+function filterOptions(val, update) {
+  update(() => {
+    if (val === '') {
+      filteredOptions.value = [...options]
+    } else {
+      const needle = val.toLocaleLowerCase()
+      filteredOptions.value = options.filter(v =>
+        v.toLocaleLowerCase().includes(needle)
+      )
     }
-  }
+  })
 }
 </script>

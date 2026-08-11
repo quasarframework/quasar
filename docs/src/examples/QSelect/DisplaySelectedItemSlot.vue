@@ -58,49 +58,43 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    return {
-      model: ref({
-        label: 'Google',
-        value: 'goog',
-        icon: 'mail'
-      }),
+const model = ref({
+  label: 'Google',
+  value: 'goog',
+  icon: 'mail'
+})
 
-      options: [
-        {
-          label: 'Google',
-          value: 'goog',
-          icon: 'mail'
-        },
-        // #region
-        {
-          label: 'Facebook',
-          value: 'fb',
-          icon: 'bluetooth'
-        },
-        {
-          label: 'Twitter',
-          value: 'twt',
-          icon: 'map'
-        },
-        {
-          label: 'Apple',
-          value: 'app',
-          icon: 'golf_course'
-        },
-        // #endregion
-        {
-          label: 'Oracle',
-          value: 'ora',
-          disable: true,
-          icon: 'casino'
-        }
-      ]
-    }
+const options = [
+  {
+    label: 'Google',
+    value: 'goog',
+    icon: 'mail'
+  },
+  // #region
+  {
+    label: 'Facebook',
+    value: 'fb',
+    icon: 'bluetooth'
+  },
+  {
+    label: 'Twitter',
+    value: 'twt',
+    icon: 'map'
+  },
+  {
+    label: 'Apple',
+    value: 'app',
+    icon: 'golf_course'
+  },
+  // #endregion
+  {
+    label: 'Oracle',
+    value: 'ora',
+    disable: true,
+    icon: 'casino'
   }
-}
+]
 </script>

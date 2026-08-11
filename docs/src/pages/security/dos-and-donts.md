@@ -105,7 +105,7 @@ build: {
     clientPrefix?: string | string[];
     /**
      * Setting this prefix will filter out env files variables and Node.js process.env
-     * variables that are exposed to the backend code (like the SSR server-side).
+     * variables that are exposed to the backend code (like the SSR/SSG server-side).
      *
      * Avoid setting it to 'QUASAR_' so it won't conflict with
      * Quasar's own environment variables.
@@ -217,7 +217,7 @@ Electron is a very special case, because XSS and remote code injection can actua
 
 - **DON'T** disable `websecurity`
 - **DON'T** enable remote code execution
-- **DO** read our guidelines for enhanced [Electron Safety](/quasar-cli/developing-electron-apps/electron-security-concerns).
+- **DO** read our guidelines for enhanced [Electron Safety](/quasar-cli-vite/developing-electron-apps/electron-security-concerns).
 
 ### SSR
 

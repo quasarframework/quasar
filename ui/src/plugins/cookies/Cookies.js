@@ -20,7 +20,11 @@ function read(string) {
   // Replace server-side written pluses with spaces.
   // If we can't decode the cookie, ignore it, it's unusable.
   // If we can't parse the cookie, ignore it, it's unusable.
-  string = decodeURIComponent(string.replaceAll('+', ' '))
+  try {
+    string = decodeURIComponent(string.replaceAll('+', ' '))
+  } catch {
+    return
+  }
 
   try {
     const parsed = JSON.parse(string)
@@ -56,7 +60,12 @@ function parseExpireToSeconds(str) {
     totalSeconds += value * numberUnitMultiplierMap[unit]
   }
 
-  return hasMatch ? totalSeconds : void 0
+  if (hasMatch) return totalSeconds
+
+  const timestamp = Date.parse(str)
+  return Number.isNaN(timestamp)
+    ? void 0
+    : Math.round((timestamp - Date.now()) / 1000)
 }
 
 // oxlint-disable-next-line default-param-last
@@ -69,9 +78,12 @@ function set(key, val, opts = {}, ssr) {
     if (Number.isFinite(opts.expires)) {
       maxAge = Math.round(opts.expires * 86_400) // 86400 seconds in a day
     } else if (opts.expires instanceof Date) {
-      maxAge = Math.round((opts.expires.getTime() - Date.now()) / 1000)
+      const timestamp = opts.expires.getTime()
+      if (Number.isFinite(timestamp)) {
+        maxAge = Math.round((timestamp - Date.now()) / 1000)
+      }
     }
-    // String check (eg. "15m", "1h" -> must return seconds)
+    // String check (eg. "15m", "1h", or a date string)
     else if (typeof opts.expires === 'string') {
       maxAge = parseExpireToSeconds(opts.expires)
     }
@@ -104,13 +116,11 @@ function set(key, val, opts = {}, ssr) {
     let all = ssr.req.headers.cookie || ''
 
     if (maxAge !== void 0 && isDeletion) {
-      const localVal = get(key, ssr)
-      if (localVal !== void 0) {
-        all = all
-          .replace(`${key}=${localVal}; `, '')
-          .replace(`; ${key}=${localVal}`, '')
-          .replace(`${key}=${localVal}`, '')
-      }
+      const encodedKey = encodeURIComponent(key)
+      all = all
+        .split('; ')
+        .filter(entry => entry.split('=', 1)[0] !== encodedKey)
+        .join('; ')
     } else {
       all = all ? `${keyValue}; ${all}` : keyValue
     }
@@ -135,13 +145,19 @@ function get(key, ssr) {
 
   for (; i < l; i++) {
     parts = cookies[i].split('=')
-    name = decodeURIComponent(parts.shift())
+
+    try {
+      name = decodeURIComponent(parts.shift())
+    } catch {
+      continue
+    }
+
     cookie = parts.join('=')
 
     if (!key) {
       result[name] = cookie
     } else if (key === name) {
-      result = read(cookie)
+      result = read(cookie) ?? null
       break
     }
   }

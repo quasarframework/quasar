@@ -38,7 +38,7 @@ const createBgNode = () =>
     ]
   )
 
-export default createComponent({
+export default /*#__PURE__*/ createComponent({
   name: 'QCheckbox',
 
   props: useCheckboxProps,

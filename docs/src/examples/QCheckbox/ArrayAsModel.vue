@@ -18,14 +18,8 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    return {
-      selection: ref(['teal', 'red'])
-    }
-  }
-}
+const selection = ref(['teal', 'red'])
 </script>

@@ -110,30 +110,24 @@
   outline: 2px solid
 </style>
 
-<script>
-export default {
-  data() {
-    return {
-      multiAppend: null,
-      fileS: null,
-      fileM: null,
+<script setup>
+import { ref } from 'vue'
 
-      showFileInput: false
-    }
-  },
+const multiAppend = ref(null)
+const fileS = ref(null)
+const fileM = ref(null)
 
-  methods: {
-    testMove() {
-      if (!Array.isArray(this.fileM) || this.fileM.length === 0) {
-        return
-      }
+const showFileInput = ref(false)
 
-      this.fileS = this.fileM.splice(0, 1)[0]
-    },
-
-    onRejected(files) {
-      console.log('@rejected', files)
-    }
+function testMove() {
+  if (!Array.isArray(fileM.value) || fileM.value.length === 0) {
+    return
   }
+
+  fileS.value = fileM.value.splice(0, 1)[0]
+}
+
+function onRejected(files) {
+  console.log('@rejected', files)
 }
 </script>

@@ -74,20 +74,14 @@
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      gigi: false,
-      mobileData: false,
-      bluetooth: true
-    }
-  },
+<script setup>
+import { ref } from 'vue'
 
-  methods: {
-    log(e) {
-      console.log('@click', e)
-    }
-  }
+const gigi = ref(false)
+const mobileData = ref(false)
+const bluetooth = ref(true)
+
+function log(e) {
+  console.log('@click', e)
 }
 </script>

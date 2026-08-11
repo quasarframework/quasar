@@ -7,30 +7,24 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { QSpinnerGears, useQuasar } from 'quasar'
 
-export default {
-  setup() {
-    const $q = useQuasar()
+const $q = useQuasar()
 
-    return {
-      showDefault() {
-        $q.notify({
-          spinner: true,
-          message: 'Please wait...',
-          timeout: 2000
-        })
-      },
+function showDefault() {
+  $q.notify({
+    spinner: true,
+    message: 'Please wait...',
+    timeout: 2000
+  })
+}
 
-      showCustom() {
-        $q.notify({
-          spinner: QSpinnerGears,
-          message: 'Working...',
-          timeout: 2000
-        })
-      }
-    }
-  }
+function showCustom() {
+  $q.notify({
+    spinner: QSpinnerGears,
+    message: 'Working...',
+    timeout: 2000
+  })
 }
 </script>

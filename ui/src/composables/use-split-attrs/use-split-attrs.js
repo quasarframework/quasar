@@ -3,7 +3,8 @@ import { getCurrentInstance, onBeforeUpdate, ref } from 'vue'
 const listenerRE = /^on[A-Z]/
 
 export default function useSplitAttrs() {
-  const { attrs, vnode } = getCurrentInstance()
+  const vm = getCurrentInstance()
+  const { attrs } = vm
 
   const acc = {
     listeners: ref({}),
@@ -20,9 +21,9 @@ export default function useSplitAttrs() {
       }
     }
 
-    for (const key in vnode.props) {
+    for (const key in vm.vnode.props) {
       if (listenerRE.test(key)) {
-        listeners[key] = vnode.props[key]
+        listeners[key] = vm.vnode.props[key]
       }
     }
 

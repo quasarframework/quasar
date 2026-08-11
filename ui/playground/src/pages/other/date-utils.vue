@@ -147,156 +147,146 @@
   </div>
 </template>
 
-<script>
-import { date } from 'quasar'
+<script setup>
+import { date as dateUtils } from 'quasar'
+import { computed, onMounted, ref } from 'vue'
 
 const {
-  startOfDate,
-  endOfDate,
+  startOfDate: qStartOfDate,
+  endOfDate: qEndOfDate,
   formatDate,
   extractDate,
   adjustDate,
   buildDate
-} = date
+} = dateUtils
 const format = d => formatDate(d, 'YYYY-MM-DDTHH:mm:ss.SSSZ')
 const formatUTC = d => d.toISOString().replace(/Z$/, '+00:00')
 
-export default {
-  created() {
-    const buildSeed = [
-      { year: 2021, date: 31, month: 7 },
-      { year: 2021, month: 7, date: 31 },
-      { month: 2, date: 29, year: 2020 },
-      { month: 2, date: 29, year: 2021 }
-    ]
+const buildSeed = [
+  { year: 2021, date: 31, month: 7 },
+  { year: 2021, month: 7, date: 31 },
+  { month: 2, date: 29, year: 2020 },
+  { month: 2, date: 29, year: 2021 }
+]
 
-    this.buildDateSeed = buildSeed.map(entry => ({
-      source: JSON.stringify(entry),
-      build: format(buildDate(entry)),
-      buildUTC: formatUTC(buildDate(entry, true))
-    }))
+// computed on the client only: buildDate() fills the unspecified
+// units from the CURRENT time, so server-rendering its output would
+// always mismatch on hydration
+const buildDateSeed = ref([])
 
-    const adjustSeed = [
-      [{ month: 2, date: 28, year: 2020 }, { year: 2018 }],
-      [{ month: 2, date: 29, year: 2020 }, { year: 2021 }],
-      [{ month: 7, date: 31, year: 2020 }, { month: 5 }],
-      [{ month: 7, date: 31, year: 2020 }, { month: 6 }],
-      [
-        { month: 7, date: 31, year: 2020 },
-        { month: 2, date: 22, year: 1986 }
-      ]
-    ]
+const adjustSeed = [
+  [{ month: 2, date: 28, year: 2020 }, { year: 2018 }],
+  [{ month: 2, date: 29, year: 2020 }, { year: 2021 }],
+  [{ month: 7, date: 31, year: 2020 }, { month: 5 }],
+  [{ month: 7, date: 31, year: 2020 }, { month: 6 }],
+  [
+    { month: 7, date: 31, year: 2020 },
+    { month: 2, date: 22, year: 1986 }
+  ]
+]
 
-    this.adjustDateSeed = adjustSeed.map(entry => {
-      const build = buildDate(entry[0])
-      return {
-        source: JSON.stringify(entry[0]),
-        change: JSON.stringify(entry[1]),
-        build: format(build),
-        result: format(adjustDate(build, entry[1]))
-      }
-    })
-  },
+const adjustDateSeed = ref([])
 
-  data() {
+const date = ref('')
+
+onMounted(() => {
+  buildDateSeed.value = buildSeed.map(entry => ({
+    source: JSON.stringify(entry),
+    build: format(buildDate(entry)),
+    buildUTC: formatUTC(buildDate(entry, true))
+  }))
+
+  adjustDateSeed.value = adjustSeed.map(entry => {
+    const build = buildDate(entry[0])
     return {
-      date: format(new Date()),
-      userMask: 'YYYY-MM-DDTHH:mm:ss.SSSZ Do Mo w wo DDDo DDD'
+      source: JSON.stringify(entry[0]),
+      change: JSON.stringify(entry[1]),
+      build: format(build),
+      result: format(adjustDate(build, entry[1]))
     }
-  },
-  computed: {
-    startOfDate() {
-      if (Number.isNaN(new Date(this.date).valueOf()) === true) {
-        return {}
-      }
-      return {
-        year: format(startOfDate(this.date, 'year')),
-        month: format(startOfDate(this.date, 'month')),
-        day: format(startOfDate(this.date, 'day')),
-        hour: format(startOfDate(this.date, 'hour')),
-        minute: format(startOfDate(this.date, 'minute')),
-        second: format(startOfDate(this.date, 'second'))
-      }
-    },
+  })
 
-    startOfDateUTC() {
-      if (Number.isNaN(new Date(this.date).valueOf()) === true) {
-        return {}
-      }
-      return {
-        year: formatUTC(startOfDate(this.date, 'year', true)),
-        month: formatUTC(startOfDate(this.date, 'month', true)),
-        day: formatUTC(startOfDate(this.date, 'day', true)),
-        hour: formatUTC(startOfDate(this.date, 'hour', true)),
-        minute: formatUTC(startOfDate(this.date, 'minute', true)),
-        second: formatUTC(startOfDate(this.date, 'second', true))
-      }
-    },
+  date.value = format(new Date())
+})
+const userMask = ref('YYYY-MM-DDTHH:mm:ss.SSSZ Do Mo w wo DDDo DDD')
 
-    endOfDate() {
-      if (Number.isNaN(new Date(this.date).valueOf()) === true) {
-        return {}
-      }
-      return {
-        year: format(endOfDate(this.date, 'year')),
-        month: format(endOfDate(this.date, 'month')),
-        day: format(endOfDate(this.date, 'day')),
-        hour: format(endOfDate(this.date, 'hour')),
-        minute: format(endOfDate(this.date, 'minute')),
-        second: format(endOfDate(this.date, 'second'))
-      }
-    },
-
-    endOfDateUTC() {
-      if (Number.isNaN(new Date(this.date).valueOf()) === true) {
-        return {}
-      }
-      return {
-        year: formatUTC(endOfDate(this.date, 'year', true)),
-        month: formatUTC(endOfDate(this.date, 'month', true)),
-        day: formatUTC(endOfDate(this.date, 'day', true)),
-        hour: formatUTC(endOfDate(this.date, 'hour', true)),
-        minute: formatUTC(endOfDate(this.date, 'minute', true)),
-        second: formatUTC(endOfDate(this.date, 'second', true))
-      }
-    },
-
-    testEncode() {
-      return formatDate(this.date, this.userMask)
-    },
-
-    testDecode() {
-      return formatDate(
-        extractDate(this.testEncode, this.userMask),
-        this.userMask
-      )
-    },
-
-    testPassed() {
-      return this.testEncode === this.testDecode
-    }
-  },
-
-  methods: {
-    highlight(text, original) {
-      if (typeof text !== 'string' || typeof original !== 'string') {
-        return text
-      }
-
-      let common = '',
-        i = 0
-
-      while (
-        text[i] === original[i] &&
-        i < text.length &&
-        i < original.length
-      ) {
-        common += text[i]
-        i += 1
-      }
-
-      return `<span class="bg-yellow">${common}</span>${text.slice(common.length)}`
-    }
+const startOfDate = computed(() => {
+  if (Number.isNaN(new Date(date.value).valueOf()) === true) {
+    return {}
   }
+  return {
+    year: format(qStartOfDate(date.value, 'year')),
+    month: format(qStartOfDate(date.value, 'month')),
+    day: format(qStartOfDate(date.value, 'day')),
+    hour: format(qStartOfDate(date.value, 'hour')),
+    minute: format(qStartOfDate(date.value, 'minute')),
+    second: format(qStartOfDate(date.value, 'second'))
+  }
+})
+
+const startOfDateUTC = computed(() => {
+  if (Number.isNaN(new Date(date.value).valueOf()) === true) {
+    return {}
+  }
+  return {
+    year: formatUTC(qStartOfDate(date.value, 'year', true)),
+    month: formatUTC(qStartOfDate(date.value, 'month', true)),
+    day: formatUTC(qStartOfDate(date.value, 'day', true)),
+    hour: formatUTC(qStartOfDate(date.value, 'hour', true)),
+    minute: formatUTC(qStartOfDate(date.value, 'minute', true)),
+    second: formatUTC(qStartOfDate(date.value, 'second', true))
+  }
+})
+
+const endOfDate = computed(() => {
+  if (Number.isNaN(new Date(date.value).valueOf()) === true) {
+    return {}
+  }
+  return {
+    year: format(qEndOfDate(date.value, 'year')),
+    month: format(qEndOfDate(date.value, 'month')),
+    day: format(qEndOfDate(date.value, 'day')),
+    hour: format(qEndOfDate(date.value, 'hour')),
+    minute: format(qEndOfDate(date.value, 'minute')),
+    second: format(qEndOfDate(date.value, 'second'))
+  }
+})
+
+const endOfDateUTC = computed(() => {
+  if (Number.isNaN(new Date(date.value).valueOf()) === true) {
+    return {}
+  }
+  return {
+    year: formatUTC(qEndOfDate(date.value, 'year', true)),
+    month: formatUTC(qEndOfDate(date.value, 'month', true)),
+    day: formatUTC(qEndOfDate(date.value, 'day', true)),
+    hour: formatUTC(qEndOfDate(date.value, 'hour', true)),
+    minute: formatUTC(qEndOfDate(date.value, 'minute', true)),
+    second: formatUTC(qEndOfDate(date.value, 'second', true))
+  }
+})
+
+const testEncode = computed(() => formatDate(date.value, userMask.value))
+
+const testDecode = computed(() =>
+  formatDate(extractDate(testEncode.value, userMask.value), userMask.value)
+)
+
+const testPassed = computed(() => testEncode.value === testDecode.value)
+
+function highlight(text, original) {
+  if (typeof text !== 'string' || typeof original !== 'string') {
+    return text
+  }
+
+  let common = '',
+    i = 0
+
+  while (text[i] === original[i] && i < text.length && i < original.length) {
+    common += text[i]
+    i += 1
+  }
+
+  return `<span class="bg-yellow">${common}</span>${text.slice(common.length)}`
 }
 </script>

@@ -8,7 +8,7 @@
       </q-toolbar>
       <q-toolbar class="col-4 bg-primary text-white">
         <q-space />
-        <q-tabs v-model="tab" inverted color="red-8" class="col-shrink">
+        <q-tabs v-model="tab" active-color="red-8" class="col-shrink">
           <q-tab name="tab1" label="T e s t 1" />
           <q-tab name="tab2" label="T e s t 2" />
           <q-tab name="tab3" label="T e s t 3" />
@@ -21,12 +21,8 @@
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      tab: 'tab1'
-    }
-  }
-}
+<script setup>
+import { ref } from 'vue'
+
+const tab = ref('tab1')
 </script>

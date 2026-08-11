@@ -603,106 +603,100 @@
   height: 0px
 </style>
 
-<script>
-import { setCssVar } from 'quasar'
+<script setup>
+import { setCssVar, useQuasar } from 'quasar'
+import { computed, ref, watch } from 'vue'
 
-export default {
-  created() {
-    this.selectOptions = ['Google', 'Facebook', 'Tesla']
-  },
-  data() {
-    const v = 'lHh LpR fFf'
-    return {
-      mainColor: '#027be3',
-      extraRow: true,
+const $q = useQuasar()
 
-      toggle: false,
-      header: true,
-      footer: true,
-      left: true, // this.$q.screen.width > 1023,
-      right: this.$q.screen.width > 1023,
+const selectOptions = ['Google', 'Facebook', 'Tesla']
 
-      headerReveal: false,
-      footerReveal: false,
-      leftOverlay: false,
-      rightOverlay: false,
-      leftBehavior: 'default',
-      rightBehavior: 'default',
-      leftBreakpoint: 992,
-      rightBreakpoint: 992,
-      leftMini: false,
-      leftMiniToOverlay: false,
-      rightMini: false,
-      rightMiniToOverlay: false,
+const initialView = 'lHh LpR fFf'
 
-      bordered: false,
-      elevated: false,
-      whiteLayout: false,
+const mainColor = ref('#027be3')
+const extraRow = ref(true)
 
-      scrolling: true,
+const toggle = ref(false)
+const header = ref(true)
+const footer = ref(true)
+const left = ref(true) // $q.screen.width > 1023
+const right = ref($q.screen.width > 1023)
 
-      topleft: v[0],
-      topcenter: v[1],
-      topright: v[2],
-      middleleft: v[4],
-      middlecenter: v[5],
-      middleright: v[6],
-      bottomleft: v[8],
-      bottomcenter: v[9],
-      bottomright: v[10],
-      drawerBehaviorOptions: [
-        { label: 'Behave Normal', value: 'default' },
-        { label: 'Behave Mobile', value: 'mobile' },
-        { label: 'Behave Desktop', value: 'desktop' }
-      ],
+const headerReveal = ref(false)
+const footerReveal = ref(false)
+const leftOverlay = ref(false)
+const rightOverlay = ref(false)
+const leftBehavior = ref('default')
+const rightBehavior = ref('default')
+const leftBreakpoint = ref(992)
+const rightBreakpoint = ref(992)
+const leftMini = ref(false)
+const leftMiniToOverlay = ref(false)
+const rightMini = ref(false)
+const rightMiniToOverlay = ref(false)
 
-      showConfig: true,
-      inp: '',
-      slider: 1,
-      select: null
-    }
-  },
-  computed: {
-    view() {
-      const top = `${this.topleft}${this.topcenter}${this.topright}`,
-        middle = `${this.middleleft}${this.middlecenter}${this.middleright}`,
-        bottom = `${this.bottomleft}${this.bottomcenter}${this.bottomright}`
+const bordered = ref(false)
+const elevated = ref(false)
+const whiteLayout = ref(false)
 
-      return `${top} ${middle} ${bottom}`
-    },
-    marginalClass() {
-      return this.whiteLayout ? 'bg-white text-black' : 'bg-primary text-white'
-    }
-  },
-  watch: {
-    mainColor(v) {
-      setCssVar('primary', v)
-    }
-  },
-  methods: {
-    drawerOnLayout(v) {
-      console.log('drawer on layout:', v)
-    },
-    onScroll(data) {
-      // console.log('scroll', data)
-    },
-    goMini() {
-      console.log('goMini')
-      this.rightMini = true
-    },
-    goNormal(e) {
-      if (this.rightMini) {
-        console.log('goNormal')
-        this.rightMini = false
-        e.preventDefault()
-        e.stopPropagation()
-      } else {
-        console.log('goNormal abort')
-      }
-    },
-    onMiniState(val) {
-      console.log('left drawer @mini-state ->', val)
-    }
+const scrolling = ref(true)
+
+const topleft = ref(initialView[0])
+const topcenter = ref(initialView[1])
+const topright = ref(initialView[2])
+const middleleft = ref(initialView[4])
+const middlecenter = ref(initialView[5])
+const middleright = ref(initialView[6])
+const bottomleft = ref(initialView[8])
+const bottomcenter = ref(initialView[9])
+const bottomright = ref(initialView[10])
+const drawerBehaviorOptions = ref([
+  { label: 'Behave Normal', value: 'default' },
+  { label: 'Behave Mobile', value: 'mobile' },
+  { label: 'Behave Desktop', value: 'desktop' }
+])
+
+const showConfig = ref(true)
+const inp = ref('')
+const slider = ref(1)
+const select = ref(null)
+
+const view = computed(() => {
+  const top = `${topleft.value}${topcenter.value}${topright.value}`,
+    middle = `${middleleft.value}${middlecenter.value}${middleright.value}`,
+    bottom = `${bottomleft.value}${bottomcenter.value}${bottomright.value}`
+
+  return `${top} ${middle} ${bottom}`
+})
+const marginalClass = computed(() =>
+  whiteLayout.value ? 'bg-white text-black' : 'bg-primary text-white'
+)
+
+watch(mainColor, v => {
+  setCssVar('primary', v)
+})
+
+function drawerOnLayout(v) {
+  console.log('drawer on layout:', v)
+}
+function onScroll(data) {
+  // console.log('scroll', data)
+}
+function goMini() {
+  console.log('goMini')
+  rightMini.value = true
+}
+function goNormal(e) {
+  if (rightMini.value) {
+    console.log('goNormal')
+    rightMini.value = false
+    e.preventDefault()
+    e.stopPropagation()
+  } else {
+    console.log('goNormal abort')
   }
+}
+function onMiniState(val) {
+  console.log('left drawer @mini-state ->', val)
 }
 </script>

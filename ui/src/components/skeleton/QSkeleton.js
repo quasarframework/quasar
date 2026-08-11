@@ -34,7 +34,7 @@ export const skeletonAnimations = [
   'none'
 ]
 
-export default createComponent({
+export default /*#__PURE__*/ createComponent({
   name: 'QSkeleton',
 
   props: {

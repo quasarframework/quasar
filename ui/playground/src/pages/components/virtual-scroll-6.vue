@@ -103,7 +103,9 @@
   bottom: 0
 </style>
 
-<script>
+<script setup>
+import { onMounted, ref } from 'vue'
+
 const heavyList = [],
   columns = [],
   listSize = 10_000,
@@ -126,7 +128,7 @@ for (let i = 0; i <= listSize; i++) {
       const width = getRandomInt(100, 150),
         height = getRandomInt(150, 350)
       row[columns[j]] = {
-        src: 'https://www.fillmurray.com/' + width + '/' + height + '?ver=' + j,
+        src: 'https://picsum.photos/' + width + '/' + height + '?ver=' + j,
         width,
         height
       }
@@ -135,26 +137,20 @@ for (let i = 0; i <= listSize; i++) {
   heavyList.push(row)
 }
 Object.freeze(heavyList)
-export default {
-  data() {
-    return {
-      heavyList,
-      columns,
-      listSize,
-      listIndex: 8200,
-      setSize: false
-    }
-  },
-  methods: {
-    onIndexChange(index) {
-      this.$refs.virtualListRef.scrollTo(index)
-    },
-    onVirtualScroll({ index }) {
-      this.listIndex = index
-    }
-  },
-  mounted() {
-    this.$refs.virtualListRef.scrollTo(this.listIndex)
-  }
+const listIndex = ref(8200)
+const setSize = ref(false)
+
+const virtualListRef = ref(null)
+
+function onIndexChange(index) {
+  virtualListRef.value.scrollTo(index)
 }
+
+function onVirtualScroll({ index }) {
+  listIndex.value = index
+}
+
+onMounted(() => {
+  virtualListRef.value.scrollTo(listIndex.value)
+})
 </script>

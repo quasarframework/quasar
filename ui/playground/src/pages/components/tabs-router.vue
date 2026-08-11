@@ -107,42 +107,36 @@
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      clickCounter: 0
-    }
-  },
+<script setup>
+import { ref } from 'vue'
 
-  methods: {
-    navDelay(e, go) {
-      e.preventDefault() // we cancel the default navigation
+const clickCounter = ref(0)
 
-      // console.log('triggering navigation in 2s')
-      setTimeout(() => {
-        // console.log('navigating as promised 2s ago')
-        go()
-      }, 2000)
-    },
+function navDelay(e, go) {
+  e.preventDefault() // we cancel the default navigation
 
-    navCancel(e) {
-      e.preventDefault() // we cancel the default navigation
-    },
+  // console.log('triggering navigation in 2s')
+  setTimeout(() => {
+    // console.log('navigating as promised 2s ago')
+    go()
+  }, 2000)
+}
 
-    navRedirect(e, go) {
-      e.preventDefault() // we cancel the default navigation
-      go({
-        to: { query: { tab: '2', noScroll: true } }
-      })
-    },
+function navCancel(e) {
+  e.preventDefault() // we cancel the default navigation
+}
 
-    navPass() {},
+function navRedirect(e, go) {
+  e.preventDefault() // we cancel the default navigation
+  go({
+    to: { query: { tab: '2', noScroll: true } }
+  })
+}
 
-    onClick() {
-      this.clickCounter += 1
-    }
-  }
+function navPass() {}
+
+function onClick() {
+  clickCounter.value += 1
 }
 </script>
 

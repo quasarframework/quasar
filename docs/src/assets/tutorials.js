@@ -36,7 +36,7 @@ export default {
     },
 
     {
-      t: 'Fullstack - Facebook Clone com Quasar (VueJS) e Node.JS',
+      t: 'Fullstack - Facebook Clone com Quasar (Vue.js) e Node.JS',
       d: 'Nesse curso eu irei abordar a criação de uma aplicação completa com Frontend e BackendEsse curso é indicado para todos que desejam aprender Quasar Framework, mas que sentem um novo curso, sentem muita dificuldade no aprendizado.Não se preocupe, no curso nós utilizaremos uma...',
       u: 'https://click.linksynergy.com/link?id=V56OaeB17aU&offerid=1597309.391977338745591199968672&type=2&murl=https%3a%2f%2fwww.udemy.com%2fcourse%2ffullstack-dev2dev%2f',
       i: 'https://img-c.udemycdn.com/course/480x270/3791258_ab22_2.jpg'
@@ -46,7 +46,7 @@ export default {
       t: 'Chinese quasar-v2 tutorial',
       d: 'Quasar introductory tutorial includes ts+vue3+quasar2+pinia (quasar 中文入门教程)',
       u: 'https://www.bilibili.com/video/BV1pA4y197Zc/',
-      i: 'https://cdn.quasar.dev/logo-v2/svg/logo-vertical.svg'
+      i: '/logo/logo-vertical.svg'
     }
   ],
 
@@ -74,7 +74,7 @@ export default {
 
     {
       t: 'Vue - The Complete Guide (incl. Router & Composition API)',
-      d: 'Join this bestselling Vue course to learn how to use the latest version of VueJS to build amazing, modern web apps!No matter at which metric you look at (Google Trends, Github Stars, Tweets...) - VueJS is the shooting star in the world of JavaScript frameworks - it simply is amazing!This bestselling...',
+      d: 'Join this bestselling Vue course to learn how to use the latest version of Vue.js to build amazing, modern web apps!No matter at which metric you look at (Google Trends, GitHub Stars, Tweets...) - Vue.js is the shooting star in the world of JavaScript frameworks - it simply is amazing!This bestselling...',
       u: 'https://click.linksynergy.com/link?id=V56OaeB17aU&offerid=1597309.39197538950655834924301&type=2&murl=https%3a%2f%2fwww.udemy.com%2fcourse%2fvuejs-2-the-complete-guide%2f',
       i: 'https://img-c.udemycdn.com/course/480x270/995016_ebf4_3.jpg'
     },
@@ -108,8 +108,8 @@ export default {
     },
 
     {
-      t: 'VueJS La Guía Completa: Vue3, Supabase, Pinia, Vuex',
-      d: '¡Bienvenido al curso de VueJS! En este curso, aprenderás a utilizar el popular framework de JavaScript para construir aplicaciones web modernas y atractivas.Con VueJS, podrás crear interfaces de usuario interactivas y rápidas, y podrás hacer cambios dinámicos en tu aplicación sin necesidad...',
+      t: 'Vue.js La Guía Completa: Vue3, Supabase, Pinia, Vuex',
+      d: '¡Bienvenido al curso de Vue.js! En este curso, aprenderás a utilizar el popular framework de JavaScript para construir aplicaciones web modernas y atractivas.Con Vue.js, podrás crear interfaces de usuario interactivas y rápidas, y podrás hacer cambios dinámicos en tu aplicación sin necesidad...',
       u: 'https://click.linksynergy.com/link?id=V56OaeB17aU&offerid=1597309.391972810954503759491115&type=2&murl=https%3a%2f%2fwww.udemy.com%2fcourse%2fvuejs2023%2f',
       i: 'https://img-c.udemycdn.com/course/480x270/4826292_5c49_4.jpg'
     },
@@ -123,7 +123,7 @@ export default {
 
     {
       t: 'Vue Js 3 - Corso Base - Un Framework Potente 2023',
-      d: 'Informazioni sul corsoVueJS è tra i migliori nel mondo dei framework JavaScript - semplicemente è incredibile!I framework di Frontend sono estremamente popolari perché ci forniscono questa esperienza utente reattiva e straordinaria che conosciamo dalle app per dispositivi mobili, ma ora...',
+      d: 'Informazioni sul corso Vue.js è tra i migliori nel mondo dei framework JavaScript - semplicemente è incredibile!I framework di Frontend sono estremamente popolari perché ci forniscono questa esperienza utente reattiva e straordinaria che conosciamo dalle app per dispositivi mobili, ma ora...',
       u: 'https://click.linksynergy.com/link?id=V56OaeB17aU&offerid=1597309.3919714888631403733819365&type=2&murl=https%3a%2f%2fwww.udemy.com%2fcourse%2fvue-js-corso-completo-un-framework-potente-ita-2019%2f',
       i: 'https://img-c.udemycdn.com/course/480x270/2215040_d840_5.jpg'
     },

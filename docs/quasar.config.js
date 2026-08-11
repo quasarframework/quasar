@@ -6,7 +6,13 @@ import { quasarApiVitePlugin } from './build/quasar-api.js'
 import { codeSplitting, examplesVitePlugin } from './build/prod-chunks.js'
 
 export default defineConfig(ctx => ({
-  boot: [{ path: 'gdpr', server: false }],
+  boot: [
+    { path: 'gdpr', server: false },
+    // the e2e sweep's hydration-complete signal; never shipped
+    ...(ctx.dev && ctx.mode.ssr
+      ? [{ path: 'ssr-hydrated', server: false }]
+      : [])
+  ],
 
   css: ['app.sass' /* '~virtual:shiki-tokens.css' */],
 
@@ -50,9 +56,13 @@ export default defineConfig(ctx => ({
 
   devServer: {
     port: 9090,
-    open: {
-      app: { name: 'google chrome' }
-    }
+    // the e2e-ssr sweep boots this app headlessly and opts out
+    open:
+      process.env.QUASAR_DOCS_NO_OPEN === '1'
+        ? false
+        : {
+            app: { name: 'google chrome' }
+          }
   },
 
   framework: {
@@ -90,9 +100,19 @@ export default defineConfig(ctx => ({
   animations: ['fadeIn', 'fadeOut'],
 
   ssr: {
-    pwa: ctx.prod && !import.meta.env.DOCS_PREVIEW,
-    middlewares: ['render'],
-    prodScriptNamedExport: 'renderSsrContext'
+    middlewares: ['render']
+  },
+
+  ssg: {
+    pwa: ctx.prod,
+    error404HtmlFilename: false,
+    extendSSGManifestJson(ssrManifest) {
+      for (const key in ssrManifest) {
+        ssrManifest[key] = ssrManifest[key].filter(
+          entry => entry !== '/assets/vendor.css'
+        )
+      }
+    }
   },
 
   pwa: {
@@ -100,18 +120,57 @@ export default defineConfig(ctx => ({
     injectPWAMetaTags: false,
     swFilename: 'service-worker.js',
 
-    extendPWAGenerateSWOptions(cfg) {
-      Object.assign(cfg, {
+    async extendPWAGenerateSWOptions() {
+      return {
         cleanupOutdatedCaches: true,
         skipWaiting: true,
         clientsClaim: true,
+        navigateFallbackDenylist: [/\.md$/],
         runtimeCaching: [
           {
             urlPattern: /^https:\/\/cdn/,
             handler: 'StaleWhileRevalidate'
+          },
+          {
+            urlPattern: /\.md$/,
+            handler: 'NetworkOnly',
+            options: {
+              cacheName: 'markdown-network-only'
+            }
           }
+        ],
+        additionalManifestEntries: [
+          ...(await getSponsors()),
+          ...(await getTeam())
         ]
-      })
+      }
     }
   }
 }))
+
+async function getSponsors() {
+  const {
+    sponsors: { platinum, gold, silver }
+  } = await import('./src/assets/sponsors.js')
+
+  const list = [...platinum, ...gold, ...silver].map(({ src }) => src)
+  return [
+    ...list.map(src => ({
+      url: `https://cdn.quasar.dev/logo-sponsors-v2/light/${src}`,
+      revision: null
+    })),
+    ...list.map(src => ({
+      url: `https://cdn.quasar.dev/logo-sponsors-v2/dark/${src}`,
+      revision: null
+    }))
+  ]
+}
+
+async function getTeam() {
+  const { coreTeam, honorableTeamMentions } =
+    await import('./src/assets/team.js')
+  return [...coreTeam, ...honorableTeamMentions].map(({ avatar }) => ({
+    url: `https://cdn.quasar.dev/team/${avatar}`,
+    revision: null
+  }))
+}

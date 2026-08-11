@@ -1,6 +1,6 @@
 {
   "name": "@quasar/ssl-certificate",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "SSL Certificate for localhost - used by Quasar CLI(s)",
   "homepage": "https://quasar.dev",
   "bugs": "https://github.com/quasarframework/quasar/issues",
@@ -18,15 +18,26 @@
     "type": "github",
     "url": "https://donate.quasar.dev"
   },
+  "files": [
+    "src",
+    "!src/**/*.test.js"
+  ],
   "type": "module",
   "main": "src/index.js",
   "module": "src/index.js",
   "publishConfig": {
     "access": "public"
   },
+  "scripts": {
+    "test": "vitest run",
+    "prepublishOnly": "pnpm test"
+  },
   "dependencies": {
-    "fs-extra": "^11.3.5",
+    "fs-extra": "^11.4.0",
     "selfsigned": "^5.5.0"
+  },
+  "devDependencies": {
+    "vitest": "^4.1.10"
   },
   "engines": {
     "node": ">= 16"

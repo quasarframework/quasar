@@ -143,14 +143,6 @@ function injectSsrRuntimeInterpolation(html) {
     })
 }
 
-function injectVueDevtools(html, { host, port }, nonce = '') {
-  const scripts =
-    `<script${nonce}>window.__VUE_DEVTOOLS_HOST__='${host}';window.__VUE_DEVTOOLS_PORT__='${port}';</script>` +
-    `\n<script src="http://${host}:${port}"></script>`
-
-  return html.replace(headEndRE, (_, tag) => `${scripts}${tag}`)
-}
-
 const templareErrorHtmlPage = `
   <!doctype html>
   <html>
@@ -193,14 +185,11 @@ async function transformHtml(template, htmlVariables, quasarConf) {
     return handleTemplateError(quasarConf.ctx.prod)
   }
 
-  // should be dev only
-  if (quasarConf.metaConf.vueDevtools) {
-    html = injectVueDevtools(html, quasarConf.metaConf.vueDevtools)
-  }
+  const isNonSSR = !quasarConf.ctx.mode.ssr && !quasarConf.ctx.mode.ssg
 
   html = html.replace(
     entryPointMarkup,
-    (quasarConf.ctx.mode.ssr ? entryPointMarkup : attachMarkup) +
+    (isNonSSR ? attachMarkup : entryPointMarkup) +
       quasarConf.metaConf.entryScript.tag
   )
 
@@ -210,7 +199,7 @@ async function transformHtml(template, htmlVariables, quasarConf) {
     html = injectPublicPath(html, '/')
   }
 
-  if (!quasarConf.ctx.mode.ssr && quasarConf.build.minify) {
+  if (isNonSSR && quasarConf.build.minify) {
     html = await minify(html, quasarConf.build.htmlMinifyOptions)
   }
 
@@ -218,13 +207,13 @@ async function transformHtml(template, htmlVariables, quasarConf) {
 }
 
 /**
- * Used by production SSR only.
+ * Used by production SSR+PWA and Hybrid SSG+CSR only.
  * Gets index.html generated content as param.
  */
-export async function transformProdSsrPwaOfflineHtml(html, quasarConf) {
+export async function transformProdHtmlShell(html, quasarConf) {
   html = html.replace(entryPointMarkup, attachMarkup)
 
-  if (quasarConf.build.minify !== false) {
+  if (quasarConf.build.minify) {
     html = await minify(html, quasarConf.build.htmlMinifyOptions)
   }
 
@@ -239,7 +228,7 @@ export async function transformProdSsrPwaOfflineHtml(html, quasarConf) {
  * html = await vite.transformIndexHtml(html)
  * html = html.replace('<!-- quasar:entry-point -->', '<div id="q-app">...</div>')
  */
-export function getDevSsrTemplateFn(template, htmlVariables, quasarConf) {
+export function getDevSsrTemplateFn(template, htmlVariables) {
   let html = renderTemplate(template, htmlVariables, templateCompileOpts)
   if (html === templateRenderError) {
     return () => handleTemplateError(false)
@@ -250,20 +239,10 @@ export function getDevSsrTemplateFn(template, htmlVariables, quasarConf) {
   html = injectPublicPath(html, '/')
   html = injectSsrRuntimeInterpolation(html)
 
-  if (quasarConf.metaConf.vueDevtools) {
-    html = injectVueDevtools(
-      html,
-      quasarConf.metaConf.vueDevtools,
-      "{{ ssrContext.nonce ? ' nonce=\"' + ssrContext.nonce + '\"' : '' }}"
-    )
-  }
-
-  html = html.replace(
-    entryPointMarkup,
-    `${entryPointMarkup}${quasarConf.metaConf.entryScript.tag}`
-  )
-
-  return compileTemplateToFn(html, ssrTemplateCompileOpts)
+  const renderTemplateFn = compileTemplateToFn(html, ssrTemplateCompileOpts)
+  return renderTemplateFn === templateRenderError
+    ? () => handleTemplateError(false)
+    : renderTemplateFn
 }
 
 /**
@@ -296,4 +275,28 @@ export async function getProdSsrRenderTemplateFileContent(
   }
 
   return compileTemplateToFile(html, ssrTemplateCompileOpts)
+}
+
+export function fastExtractPath(url) {
+  let endIdx = url.length
+
+  const hashIdx = url.indexOf('#')
+  const queryIdx = url.indexOf('?')
+  if (hashIdx !== -1) endIdx = hashIdx
+  if (queryIdx !== -1 && queryIdx < endIdx) endIdx = queryIdx
+
+  const cleanInput = url.slice(0, endIdx)
+
+  if (cleanInput.startsWith('http://') || cleanInput.startsWith('https://')) {
+    const protocolEnd = cleanInput.indexOf('://') + 3
+    const pathStart = cleanInput.indexOf('/', protocolEnd)
+    return pathStart === -1 ? '/' : cleanInput.slice(pathStart)
+  }
+
+  if (cleanInput.startsWith('//')) {
+    const pathStart = cleanInput.indexOf('/', 2)
+    return pathStart === -1 ? '/' : cleanInput.slice(pathStart)
+  }
+
+  return cleanInput.startsWith('/') ? cleanInput : '/' + cleanInput
 }

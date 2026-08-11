@@ -36,10 +36,10 @@
       </q-slide-item>
 
       <q-slide-item @left="onLeft" @right="onRight">
-        <template v-slot:top>
+        <template v-slot:left>
           <div>Left</div>
         </template>
-        <template v-slot:bottom>
+        <template v-slot:right>
           <div>Right content.. long</div>
         </template>
 
@@ -356,77 +356,76 @@
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      slot1Active: true,
-      slot2Active: false,
+<script setup>
+import { useQuasar } from 'quasar'
+import { computed, ref } from 'vue'
 
-      leftSlideRatio: 0
-    }
-  },
+const $q = useQuasar()
 
-  computed: {
-    leftColor() {
-      return this.leftSlideRatio >= 1
-        ? 'red'
-        : 'orange-' + (2 + Math.round(Math.min(6, this.leftSlideRatio * 6)))
-    },
+const slot1Active = ref(true)
+const slot2Active = ref(false)
 
-    leftMessage() {
-      return this.leftSlideRatio >= 1
-        ? 'Will perform action'
-        : 'Move right to perform action'
-    }
-  },
+const leftSlideRatio = ref(0)
 
-  methods: {
-    onLeft({ reset }) {
-      console.log('Left action!')
-      this.finalize(reset)
-    },
-    onRight({ reset }) {
-      console.log('Right action!')
-      this.finalize(reset)
-    },
-    onTop({ reset }) {
-      console.log('Top-side action!')
-      this.finalize(reset)
-    },
-    onBottom({ reset }) {
-      console.log('Bottom-side action!')
-      this.finalize(reset)
-    },
-    finalize(reset) {
-      console.log('Resetting in 1 second')
-      setTimeout(() => {
-        reset()
-      }, 1000)
-    },
+const leftColor = computed(() =>
+  leftSlideRatio.value >= 1
+    ? 'red'
+    : 'orange-' + (2 + Math.round(Math.min(6, leftSlideRatio.value * 6)))
+)
 
-    onSlide({ side, ratio, isReset }) {
-      if (side === 'left') {
-        setTimeout(
-          () => {
-            this.leftSlideRatio = ratio
-          },
-          isReset ? 200 : void 0
-        )
-      }
-    },
+const leftMessage = computed(() =>
+  leftSlideRatio.value >= 1
+    ? 'Will perform action'
+    : 'Move right to perform action'
+)
 
-    onClickItem() {
-      if (this.$q.platform.is.desktop) {
-        console.log('clicked on item')
-      } else {
-        this.$q.notify('clicked on item')
-      }
-    },
+function onLeft({ reset }) {
+  console.log('Left action!')
+  finalize(reset)
+}
 
-    onClick() {
-      console.log('clicked on test btn')
-    }
+function onRight({ reset }) {
+  console.log('Right action!')
+  finalize(reset)
+}
+
+function onTop({ reset }) {
+  console.log('Top-side action!')
+  finalize(reset)
+}
+
+function onBottom({ reset }) {
+  console.log('Bottom-side action!')
+  finalize(reset)
+}
+
+function finalize(reset) {
+  console.log('Resetting in 1 second')
+  setTimeout(() => {
+    reset()
+  }, 1000)
+}
+
+function onSlide({ side, ratio, isReset }) {
+  if (side === 'left') {
+    setTimeout(
+      () => {
+        leftSlideRatio.value = ratio
+      },
+      isReset ? 200 : void 0
+    )
   }
+}
+
+function onClickItem() {
+  if ($q.platform.is.desktop) {
+    console.log('clicked on item')
+  } else {
+    $q.notify('clicked on item')
+  }
+}
+
+function onClick() {
+  console.log('clicked on test btn')
 }
 </script>

@@ -56,7 +56,7 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { computed, ref } from 'vue'
 
 const columns = [
@@ -203,26 +203,15 @@ const rows = [
   // #endregion
 ]
 
-export default {
-  setup() {
-    const pagination = ref({
-      sortBy: 'desc',
-      descending: false,
-      page: 2,
-      rowsPerPage: 3
-      // rowsNumber: xx if getting data from a server
-    })
+const pagination = ref({
+  sortBy: 'desc',
+  descending: false,
+  page: 2,
+  rowsPerPage: 3
+  // rowsNumber: xx if getting data from a server
+})
 
-    return {
-      pagination,
-
-      columns,
-      rows,
-
-      pagesNumber: computed(() =>
-        Math.ceil(rows.length / pagination.value.rowsPerPage)
-      )
-    }
-  }
-}
+const pagesNumber = computed(() =>
+  Math.ceil(rows.length / pagination.value.rowsPerPage)
+)
 </script>

@@ -15,14 +15,14 @@ register(import.meta.env.QUASAR_SERVICE_WORKER_FILE, {
         {
           label: 'Refresh',
           color: 'yellow',
-          handler: () => {
+          handler() {
             window.location.reload()
           }
         },
         {
           label: 'Dismiss',
           color: 'white',
-          handler: () => {}
+          handler() {}
         }
       ]
     })

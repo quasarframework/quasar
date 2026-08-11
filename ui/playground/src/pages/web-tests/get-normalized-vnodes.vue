@@ -34,19 +34,13 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    return {
-      step1: ref(null),
-      step2: ref(null),
-      steps: [
-        { label: 'Step 1', value: 'STEP001' },
-        { label: 'Step 2', value: 'STEP002' }
-      ]
-    }
-  }
-}
+const step1 = ref(null)
+const step2 = ref(null)
+const steps = [
+  { label: 'Step 1', value: 'STEP001' },
+  { label: 'Step 2', value: 'STEP002' }
+]
 </script>

@@ -50,12 +50,6 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { fabApple } from '@quasar/extras/fontawesome-v7'
-
-export default {
-  setup() {
-    return { fabApple }
-  }
-}
 </script>

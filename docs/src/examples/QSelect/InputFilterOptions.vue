@@ -39,38 +39,28 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
 const stringOptions = ['Google', 'Facebook', 'Twitter', 'Apple', 'Oracle']
 
-export default {
-  setup() {
-    const options = ref(stringOptions)
+const model = ref(null)
+const options = ref(stringOptions)
 
-    return {
-      model: ref(null),
-      options,
+function filterFn(val, update) {
+  if (val === '') {
+    update(() => {
+      options.value = stringOptions
 
-      filterFn(val, update) {
-        if (val === '') {
-          update(() => {
-            options.value = stringOptions
-
-            // here you have access to "ref" which
-            // is the Vue reference of the QSelect
-          })
-          return
-        }
-
-        update(() => {
-          const needle = val.toLowerCase()
-          options.value = stringOptions.filter(v =>
-            v.toLowerCase().includes(needle)
-          )
-        })
-      }
-    }
+      // here you have access to "ref" which
+      // is the Vue reference of the QSelect
+    })
+    return
   }
+
+  update(() => {
+    const needle = val.toLowerCase()
+    options.value = stringOptions.filter(v => v.toLowerCase().includes(needle))
+  })
 }
 </script>

@@ -57,7 +57,7 @@
   </div>
 </template>
 
-<script>
+<script setup>
 const contacts = [
   {
     id: 1,
@@ -101,13 +101,4 @@ const offline = [
     avatar: 'avatar6.jpg'
   }
 ]
-
-export default {
-  setup() {
-    return {
-      contacts,
-      offline
-    }
-  }
-}
 </script>

@@ -118,8 +118,8 @@
   </div>
 </template>
 
-<script>
-import { defineComponent, h } from 'vue'
+<script setup>
+import { defineComponent, h, provide, ref } from 'vue'
 
 const TestComponent = defineComponent({
   inject: {
@@ -133,19 +133,7 @@ const TestComponent = defineComponent({
   }
 })
 
-export default {
-  provide: {
-    providedTest: 'Provide/Inject works!'
-  },
+provide('providedTest', 'Provide/Inject works!')
 
-  components: {
-    TestComponent
-  },
-
-  data() {
-    return {
-      alert: false
-    }
-  }
-}
+const alert = ref(false)
 </script>

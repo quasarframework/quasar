@@ -37,42 +37,33 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { onBeforeUnmount, ref } from 'vue'
 
-export default {
-  setup() {
-    const progress = ref([
-      { loading: false, percentage: 0 },
-      { loading: false, percentage: 0 },
-      { loading: false, percentage: 0 }
-    ])
+const progress = ref([
+  { loading: false, percentage: 0 },
+  { loading: false, percentage: 0 },
+  { loading: false, percentage: 0 }
+])
 
-    const intervals = [null, null, null]
+const intervals = [null, null, null]
 
-    function startComputing(id) {
-      progress.value[id].loading = true
-      progress.value[id].percentage = 0
+function startComputing(id) {
+  progress.value[id].loading = true
+  progress.value[id].percentage = 0
 
-      intervals[id] = setInterval(() => {
-        progress.value[id].percentage += Math.floor(Math.random() * 8 + 10)
-        if (progress.value[id].percentage >= 100) {
-          clearInterval(intervals[id])
-          progress.value[id].loading = false
-        }
-      }, 700)
+  intervals[id] = setInterval(() => {
+    progress.value[id].percentage += Math.floor(Math.random() * 8 + 10)
+    if (progress.value[id].percentage >= 100) {
+      clearInterval(intervals[id])
+      progress.value[id].loading = false
     }
-
-    onBeforeUnmount(() => {
-      intervals.forEach(val => {
-        clearInterval(val)
-      })
-    })
-
-    return {
-      progress,
-      startComputing
-    }
-  }
+  }, 700)
 }
+
+onBeforeUnmount(() => {
+  intervals.forEach(val => {
+    clearInterval(val)
+  })
+})
 </script>

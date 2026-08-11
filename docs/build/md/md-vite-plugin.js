@@ -1,14 +1,17 @@
 import mdParse from './md-parse.js'
 
-const mdRE = /.md$/
+const mdRE = /\.md$/
 
 export function mdVitePlugin(isProd) {
   return {
     name: 'quasar:docs:md',
     enforce: 'pre',
 
-    transform(code, id) {
-      if (mdRE.test(id)) {
+    transform: {
+      // rust-side filter: non-.md modules never cross into JS
+      filter: { id: mdRE },
+
+      handler(code, id) {
         try {
           return mdParse(code, id, isProd)
         } catch (err) {

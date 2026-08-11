@@ -10,7 +10,7 @@ import { isObject } from '../../utils/is/is.js'
 
 const barRef = ref(null)
 
-const Plugin = createReactivePlugin(
+const Plugin = /*#__PURE__*/ createReactivePlugin(
   {
     isActive: false
   },

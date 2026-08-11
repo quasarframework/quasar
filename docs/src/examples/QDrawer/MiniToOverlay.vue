@@ -83,15 +83,9 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    return {
-      drawer: ref(false),
-      miniState: ref(true)
-    }
-  }
-}
+const drawer = ref(false)
+const miniState = ref(true)
 </script>

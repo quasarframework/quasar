@@ -11,7 +11,7 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { computed, nextTick, ref } from 'vue'
 
 const allOptions = []
@@ -22,41 +22,27 @@ for (let i = 0; i <= 100_000; i++) {
 const pageSize = 50
 const lastPage = Math.ceil(allOptions.length / pageSize)
 
-export default {
-  setup() {
-    const loading = ref(false)
-    const nextPage = ref(2)
-    const options = computed(() =>
-      allOptions.slice(0, pageSize * (nextPage.value - 1))
-    )
+const model = ref(null)
+const loading = ref(false)
 
-    return {
-      model: ref(null),
-      loading,
+const nextPage = ref(2)
+const options = computed(() =>
+  allOptions.slice(0, pageSize * (nextPage.value - 1))
+)
 
-      nextPage,
-      options,
+function onScroll({ to, ref: compRef }) {
+  const lastIndex = options.value.length - 1
 
-      onScroll({ to, ref: compRef }) {
-        const lastIndex = options.value.length - 1
+  if (loading.value !== true && nextPage.value < lastPage && to === lastIndex) {
+    loading.value = true
 
-        if (
-          loading.value !== true &&
-          nextPage.value < lastPage &&
-          to === lastIndex
-        ) {
-          loading.value = true
-
-          setTimeout(() => {
-            nextPage.value++
-            nextTick(() => {
-              compRef.refresh()
-              loading.value = false
-            })
-          }, 500)
-        }
-      }
-    }
+    setTimeout(() => {
+      nextPage.value++
+      nextTick(() => {
+        compRef.refresh()
+        loading.value = false
+      })
+    }, 500)
   }
 }
 </script>

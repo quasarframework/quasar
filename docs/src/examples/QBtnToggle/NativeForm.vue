@@ -50,41 +50,27 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    const genre = ref(null)
-    const submitted = ref(false)
-    const submitEmpty = ref(false)
-    const submitResult = ref([])
+const genre = ref(null)
+const submitted = ref(false)
+const submitEmpty = ref(false)
+const submitResult = ref([])
 
-    function onSubmit(evt) {
-      const formData = new FormData(evt.target)
-      const data = []
+function onSubmit(evt) {
+  const formData = new FormData(evt.target)
+  const data = []
 
-      for (const [name, value] of formData.entries()) {
-        data.push({
-          name,
-          value
-        })
-      }
-
-      submitResult.value = data
-      submitEmpty.value = data.length === 0
-      submitted.value = true
-    }
-
-    return {
-      genre,
-
-      submitted,
-      submitEmpty,
-      submitResult,
-
-      onSubmit
-    }
+  for (const [name, value] of formData.entries()) {
+    data.push({
+      name,
+      value
+    })
   }
+
+  submitResult.value = data
+  submitEmpty.value = data.length === 0
+  submitted.value = true
 }
 </script>

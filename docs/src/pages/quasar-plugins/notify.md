@@ -177,9 +177,9 @@ quasar new boot notify-defaults [--format ts]
 Add the created notify-defaults.js file to the boot array in the `/quasar.config` file:
 
 ```js
-import { defineBoot } from '#q-app'
+import { defineConfig } from '#q-app'
 
-export default defineBoot(ctx => {
+export default defineConfig(ctx => {
   return {
     // ...
     boot: ['notify-defaults']

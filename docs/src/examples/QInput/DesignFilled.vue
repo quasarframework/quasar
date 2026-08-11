@@ -166,16 +166,10 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    return {
-      text: ref(''),
-      ph: ref(''),
-      dense: ref(false)
-    }
-  }
-}
+const text = ref('')
+const ph = ref('')
+const dense = ref(false)
 </script>

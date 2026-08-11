@@ -4,6 +4,48 @@ import extend from '../../utils/extend/extend.js'
 let updateId = null,
   currentClientMeta
 
+const encodeHtmlChars = {
+  '&': '&amp;',
+  '<': '&lt;',
+  '>': '&gt;',
+  '"': '&quot;',
+  "'": '&#39;'
+}
+
+const encodeJsonChars = {
+  '<': String.raw`\u003C`,
+  '>': String.raw`\u003E`,
+  '&': String.raw`\u0026`,
+  '\u2028': String.raw`\u2028`,
+  '\u2029': String.raw`\u2029`
+}
+
+const validAttrName = /^[^\s"'>/=]+$/
+
+function isValidAttrName(name) {
+  return (
+    validAttrName.test(name) && name.includes(String.fromCodePoint(0)) === false
+  )
+}
+
+function encodeHtml(value) {
+  return String(value).replaceAll(/[&<>"']/g, char => encodeHtmlChars[char])
+}
+
+function encodeJson(value) {
+  return JSON.stringify(value).replaceAll(
+    /[<>&\u2028\u2029]/g,
+    char => encodeJsonChars[char]
+  )
+}
+
+function protectRawText(value, tagName) {
+  return String(value).replaceAll(
+    new RegExp(`</${tagName}`, 'gi'),
+    `<\\/${tagName}`
+  )
+}
+
 export const clientList = []
 
 function normalize(meta) {
@@ -148,15 +190,17 @@ function apply({ add, remove }) {
 
 function getAttr(seed) {
   return att => {
+    if (isValidAttrName(att) === false) return
+
     const val = seed[att]
-    return att + (val !== true && val !== void 0 ? `="${val}"` : '')
+    return att + (val !== true && val !== void 0 ? `="${encodeHtml(val)}"` : '')
   }
 }
 
 function getHead(meta) {
   let output = ''
   if (meta.title) {
-    output += `<title>${meta.title}</title>`
+    output += `<title>${encodeHtml(meta.title)}</title>`
   }
   ;['meta', 'link', 'script'].forEach(type => {
     const metaType = meta[type]
@@ -165,10 +209,12 @@ function getHead(meta) {
       const attrs = Object.keys(metaType[att])
         .filter(item => item !== 'innerHTML')
         .map(getAttr(metaType[att]))
+        .filter(Boolean)
 
-      output += `<${type} ${attrs.join(' ')} data-qmeta="${att}">`
+      output += `<${type} ${attrs.join(' ')} data-qmeta="${encodeHtml(att)}">`
       if (type === 'script') {
-        output += (metaType[att].innerHTML || '') + '</script>'
+        output +=
+          protectRawText(metaType[att].innerHTML || '', 'script') + '</script>'
       }
     }
   })
@@ -195,7 +241,9 @@ function injectServerMeta(ssrContext) {
   normalize(data)
 
   const nonce =
-    ssrContext.nonce !== void 0 ? ` nonce="${ssrContext.nonce}"` : ''
+    ssrContext.nonce !== void 0
+      ? ` nonce="${encodeHtml(ssrContext.nonce)}"`
+      : ''
 
   const ctx = ssrContext._meta
 
@@ -204,7 +252,7 @@ function injectServerMeta(ssrContext) {
   if (htmlAttr.length !== 0) {
     ctx.htmlAttrs +=
       (ctx.htmlAttrs.length !== 0 ? ' ' : '') +
-      htmlAttr.map(getAttr(data.htmlAttr)).join(' ')
+      htmlAttr.map(getAttr(data.htmlAttr)).filter(Boolean).join(' ')
   }
 
   ctx.headTags += getHead(data)
@@ -214,17 +262,17 @@ function injectServerMeta(ssrContext) {
   if (bodyAttr.length !== 0) {
     ctx.bodyAttrs +=
       (ctx.bodyAttrs.length !== 0 ? ' ' : '') +
-      bodyAttr.map(getAttr(data.bodyAttr)).join(' ')
+      bodyAttr.map(getAttr(data.bodyAttr)).filter(Boolean).join(' ')
   }
 
   ctx.bodyTags +=
     Object.keys(data.noscript)
       .map(
         name =>
-          `<noscript data-qmeta="${name}">${data.noscript[name]}</noscript>`
+          `<noscript data-qmeta="${encodeHtml(name)}">${protectRawText(data.noscript[name], 'noscript')}</noscript>`
       )
       .join('') +
-    `<script${nonce} id="qmeta-init">window.__Q_META__=${delete data.noscript && JSON.stringify(data)}</script>`
+    `<script${nonce} id="qmeta-init">window.__Q_META__=${delete data.noscript && encodeJson(data)}</script>`
 }
 
 function updateClientMeta() {

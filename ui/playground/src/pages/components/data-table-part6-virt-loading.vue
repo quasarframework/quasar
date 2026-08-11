@@ -48,7 +48,9 @@
   </div>
 </template>
 
-<script>
+<script setup>
+import { computed, nextTick, ref } from 'vue'
+
 const seed = [
   {
     name: 'Frozen Yogurt',
@@ -104,58 +106,48 @@ const seed = [
 
 const seedSize = seed.length
 
-const data = []
+const allData = []
 for (let i = 0; i < 1000; i++) {
-  data.push(...seed.map((r, j) => ({ ...r, index: i * seedSize + j + 1 })))
+  allData.push(...seed.map((r, j) => ({ ...r, index: i * seedSize + j + 1 })))
 }
-Object.freeze(data)
+Object.freeze(allData)
 
-const expanded = data.map(r => r.index)
+const initialExpanded = allData.map(r => r.index)
 
 const pageSize = 50
-const nextPage = 2
-const lastPage = Math.ceil(data.length / pageSize)
+const initialNextPage = 2
+const lastPage = Math.ceil(allData.length / pageSize)
 
-export default {
-  data() {
-    return {
-      pagination: {
-        rowsPerPage: 0,
-        rowsNumber: data.length
-      },
-      columns: [
-        { name: 'index', label: '#', field: 'index' },
-        { name: 'name', label: 'Dessert', field: 'name' },
-        {
-          name: 'calories',
-          align: 'center',
-          label: 'Calories',
-          field: 'calories',
-          sortable: true
-        }
-      ],
-      nextPage,
-      expanded
-    }
-  },
+const pagination = ref({
+  rowsPerPage: 0,
+  rowsNumber: allData.length
+})
+const columns = ref([
+  { name: 'index', label: '#', field: 'index' },
+  { name: 'name', label: 'Dessert', field: 'name' },
+  {
+    name: 'calories',
+    align: 'center',
+    label: 'Calories',
+    field: 'calories',
+    sortable: true
+  }
+])
+const nextPage = ref(initialNextPage)
+const expanded = ref(initialExpanded)
 
-  computed: {
-    data() {
-      return Object.freeze(data.slice(0, pageSize * (this.nextPage - 1)))
-    }
-  },
+const data = computed(() =>
+  Object.freeze(allData.slice(0, pageSize * (nextPage.value - 1)))
+)
 
-  methods: {
-    onScroll(evt) {
-      const lastIndex = this.data.length - 1
+function onScroll(evt) {
+  const lastIndex = data.value.length - 1
 
-      if (this.nextPage < lastPage && evt.to === lastIndex) {
-        this.nextPage++
-        this.$nextTick(() => {
-          evt.ref.refresh()
-        })
-      }
-    }
+  if (nextPage.value < lastPage && evt.to === lastIndex) {
+    nextPage.value++
+    nextTick(() => {
+      evt.ref.refresh()
+    })
   }
 }
 </script>

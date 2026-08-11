@@ -1,0 +1,173 @@
+name: ui tests
+
+on:
+  workflow_dispatch:
+  # the release-tests workflow reruns this suite at the released tag
+  workflow_call:
+  # direct pushes are the norm in this repo — they get the same
+  # path-scoped coverage as PRs (rapid push trains collapse through the
+  # per-ref concurrency group)
+  push:
+    branches:
+      - 'dev'
+    paths:
+      - '.github/workflows/ui-tests.yml'
+      - 'ui/**/*.js'
+      # JSON API files, validated by the specs tooling
+      - 'ui/src/**/*.json'
+      - 'ui/src/css/**'
+      # the SSR hydration sweep loads every playground page
+      - 'ui/playground/src/**'
+      - 'ui/package.json'
+      - 'ui/playground/package.json'
+      # root dependency changes affect every package
+      - 'package.json'
+      - 'pnpm-lock.yaml'
+      - 'pnpm-workspace.yaml'
+  pull_request:
+    types: [opened, synchronize]
+    branches:
+      - 'dev'
+    paths:
+      - '.github/workflows/ui-tests.yml'
+      - 'ui/**/*.js'
+      # JSON API files, validated by the specs tooling
+      - 'ui/src/**/*.json'
+      - 'ui/src/css/**'
+      # the SSR hydration sweep loads every playground page
+      - 'ui/playground/src/**'
+      - 'ui/package.json'
+      - 'ui/playground/package.json'
+      # root dependency changes affect every package
+      - 'package.json'
+      - 'pnpm-lock.yaml'
+      - 'pnpm-workspace.yaml'
+
+# literal prefix instead of github.workflow: when called from another
+# workflow, github.workflow resolves to the CALLER's name, which would
+# collide with the other suites called from the same run
+concurrency:
+  group: ui-tests-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    permissions:
+      contents: read # to fetch code (actions/checkout)
+
+    runs-on: ubuntu-latest
+
+    name: Build the UI package
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v5
+
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm i
+
+      # exact input-hash key on purpose (NO restore-keys): a stale dist
+      # must never be served — either the inputs are identical or we build
+      - name: Restore UI build cache
+        id: ui-build-cache
+        uses: actions/cache@v5
+        with:
+          path: ui/dist
+          key: ui-dist-${{ runner.os }}-${{ hashFiles('ui/src/**', 'ui/lang/**', 'ui/icon-set/**', 'ui/build/**', 'ui/package.json', 'pnpm-lock.yaml') }}
+
+      - name: Build the UI package
+        if: steps.ui-build-cache.outputs.cache-hit != 'true'
+        working-directory: ui
+        run: pnpm build
+
+      - name: Upload UI build artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: ui-build
+          path: ui/dist
+
+  tests:
+    # If the build pipeline doesn't succeed, we don't need to run tests at all
+    needs: build
+
+    permissions:
+      contents: read # to fetch code (actions/checkout)
+      actions: read # to correctly identify workflow run
+
+    runs-on: ubuntu-latest
+
+    # the in-test deadlines are far shorter; this only catches hangs
+    # (the e2e-ssr suite boots a dev server)
+    timeout-minutes: 30
+
+    defaults:
+      run:
+        working-directory: ui
+
+    name: Tests
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v5
+
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm i
+
+      # Playwright validates browser revisions by directory, so restoring
+      # a stale cache just triggers a fresh download of the right one
+      - name: Setup Playwright browser cache
+        uses: actions/cache@v5
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
+          restore-keys: playwright-${{ runner.os }}-
+
+      - name: Install Playwright browser
+        run: pnpm exec playwright install --with-deps chromium
+
+      - name: Download UI build artifact
+        uses: actions/download-artifact@v8
+        with:
+          name: ui-build
+          path: ui/dist
+
+      # validates the generated Specs against the JSON API files —
+      # fast, so it runs before the browser suite for fail-fast ordering
+      - name: Check the test Specs
+        run: pnpm test:specs:ci
+
+      - name: Run tests
+        run: pnpm test
+
+      # Upload required artifacts to be used in tests-report.yml
+
+      - name: Upload test results
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: test-results
+          path: ui/test-results
+
+      - name: Upload GitHub Actions event data
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: event-data
+          path: ${{ github.event_path }}
+          overwrite: true

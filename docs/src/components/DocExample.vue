@@ -114,7 +114,7 @@
 </template>
 
 <script setup>
-import { computed, inject, markRaw, onMounted, ref } from 'vue'
+import { computed, inject, markRaw, onMounted, ref, useTemplateRef } from 'vue'
 import { openURL } from 'quasar'
 
 import { fabCodepen, fabGithub } from '@quasar/extras/fontawesome-v7'
@@ -137,7 +137,7 @@ const props = defineProps({
 const docStore = useDocStore()
 const examples = inject('_q_ex')
 
-const codepenRef = ref(null)
+const codepenRef = useTemplateRef('codepenRef')
 const component = ref(null)
 const currentTab = ref('Template')
 const expanded = ref(false)
@@ -192,7 +192,7 @@ function parseComponent(code) {
   if (script) {
     tabs.push({
       codepen: 'js',
-      name: 'Script',
+      name: 'Script setup',
       content: script.content,
       lang: 'js'
     })
@@ -216,7 +216,7 @@ function parseComponent(code) {
 
   if (tabs.length > 1) {
     tabs.push({
-      name: 'All',
+      name: 'All (SFC)',
       content: code,
       lang: 'html'
     })

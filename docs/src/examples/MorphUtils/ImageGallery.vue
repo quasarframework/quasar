@@ -15,11 +15,7 @@
       <q-img
         v-for="(src, index) in images"
         :key="index"
-        :ref="
-          el => {
-            thumbRef[index] = el
-          }
-        "
+        ref="thumbRefs"
         class="image-gallery__image"
         :style="index === indexZoomed ? 'opacity: 0.3' : void 0"
         :src="src"
@@ -41,111 +37,91 @@
   </div>
 </template>
 
-<script>
-import { onBeforeUpdate, ref } from 'vue'
+<script setup>
+import { ref, useTemplateRef } from 'vue'
 import { morph } from 'quasar'
 
-export default {
-  setup() {
-    const thumbRef = ref([])
-    const fullRef = ref(null)
+const thumbRefs = useTemplateRef('thumbRefs')
+const fullRef = useTemplateRef('fullRef')
 
-    const indexZoomed = ref(void 0)
-    const images = ref(
-      Array.from(
-        { length: 24 },
-        (_, i) => 'https://picsum.photos/id/' + i + '/500/300'
-      )
-    )
-    const imgLoaded = {
-      promise: Promise.resolve(),
-      resolve: () => {},
-      reject: () => {}
-    }
+const indexZoomed = ref(void 0)
+const images = ref(
+  Array.from(
+    { length: 24 },
+    (_, i) => 'https://picsum.photos/id/' + i + '/500/300'
+  )
+)
+const imgLoaded = {
+  promise: Promise.resolve(),
+  resolve: () => {},
+  reject: () => {}
+}
 
-    function imgLoadedResolve() {
-      imgLoaded.resolve()
-    }
+function imgLoadedResolve() {
+  imgLoaded.resolve()
+}
 
-    function imgLoadedReject() {
-      imgLoaded.reject()
-    }
+function imgLoadedReject() {
+  imgLoaded.reject()
+}
 
-    function zoomImage(index) {
-      const indexZoomedState = indexZoomed.value
-      let cancel = void 0
+function zoomImage(index) {
+  const indexZoomedState = indexZoomed.value
+  let cancel = void 0
 
-      imgLoaded.reject()
+  imgLoaded.reject()
 
-      const zoom = () => {
-        if (index !== void 0 && index !== indexZoomedState) {
-          imgLoaded.promise = new Promise((resolve, reject) => {
-            imgLoaded.resolve = () => {
-              imgLoaded.resolve = () => {}
-              imgLoaded.reject = () => {}
+  const zoom = () => {
+    if (index !== void 0 && index !== indexZoomedState) {
+      imgLoaded.promise = new Promise((resolve, reject) => {
+        imgLoaded.resolve = () => {
+          imgLoaded.resolve = () => {}
+          imgLoaded.reject = () => {}
 
-              resolve()
-            }
-            imgLoaded.reject = () => {
-              imgLoaded.resolve = () => {}
-              imgLoaded.reject = () => {}
-
-              reject(new Error('Error loading image'))
-            }
-          })
-
-          cancel = morph({
-            from: thumbRef.value[index].$el,
-            to: fullRef.value.$el,
-            onToggle: () => {
-              indexZoomed.value = index
-            },
-            waitFor: imgLoaded.promise,
-            duration: 400,
-            hideFromClone: true,
-            onEnd: end => {
-              if (end === 'from' && indexZoomed.value === index) {
-                indexZoomed.value = void 0
-              }
-            }
-          })
+          resolve()
         }
-      }
+        imgLoaded.reject = () => {
+          imgLoaded.resolve = () => {}
+          imgLoaded.reject = () => {}
 
-      if (
-        indexZoomedState !== void 0 &&
-        (cancel === void 0 || cancel() === false)
-      ) {
-        morph({
-          from: fullRef.value.$el,
-          to: thumbRef.value[indexZoomedState].$el,
-          onToggle: () => {
+          reject(new Error('Error loading image'))
+        }
+      })
+
+      cancel = morph({
+        from: thumbRefs.value[index].$el,
+        to: fullRef.value.$el,
+        onToggle: () => {
+          indexZoomed.value = index
+        },
+        waitFor: imgLoaded.promise,
+        duration: 400,
+        hideFromClone: true,
+        onEnd: end => {
+          if (end === 'from' && indexZoomed.value === index) {
             indexZoomed.value = void 0
-          },
-          duration: 200,
-          keepToClone: true,
-          onEnd: zoom
-        })
-      } else {
-        zoom()
-      }
+          }
+        }
+      })
     }
+  }
 
-    // Make sure to reset the dynamic refs before each update.
-    onBeforeUpdate(() => {
-      thumbRef.value = []
+  if (
+    indexZoomedState !== void 0 &&
+    (cancel === void 0 || cancel() === false)
+  ) {
+    morph({
+      from: fullRef.value.$el,
+      to: thumbRefs.value[indexZoomedState].$el,
+      onToggle: () => {
+        indexZoomed.value = void 0
+      },
+      duration: 200,
+      keepToClone: true,
+      onEnd: zoom
     })
-
-    return {
-      thumbRef,
-      fullRef,
-      indexZoomed,
-      images,
-      zoomImage,
-
-      imgLoadedResolve,
-      imgLoadedReject
-    }
+  } else {
+    zoom()
   }
 }
 </script>

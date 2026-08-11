@@ -36,7 +36,7 @@ import createStore from '@/../<%= quasarConf.sourceFiles.store %>'
 import createRouter from '@/../<%= quasarConf.sourceFiles.router %>'
 
 <% if (quasarConf.metaConf.needsAppMountHook) { %>
-import { defineComponent, h, onMounted<%= quasarConf.ctx.mode.ssr && quasarConf.ssr.manualPostHydrationTrigger !== true ? ', getCurrentInstance' : '' %> } from 'vue'
+import { defineComponent, h, onMounted<%= (quasarConf.ctx.mode.ssr && quasarConf.ssr.manualPostHydrationTrigger !== true) || (quasarConf.ctx.mode.ssg && quasarConf.ssg.manualPostHydrationTrigger !== true) ? ', getCurrentInstance' : '' %> } from 'vue'
 
 const RootComponent = defineComponent({
   name: 'AppWrapper',
@@ -46,9 +46,9 @@ const RootComponent = defineComponent({
       SplashScreen.hide()
       <% } %>
 
-      <% if (quasarConf.ctx.mode.ssr && quasarConf.ssr.manualPostHydrationTrigger !== true) { %>
+      <% if ((quasarConf.ctx.mode.ssr && quasarConf.ssr.manualPostHydrationTrigger !== true) || (quasarConf.ctx.mode.ssg && quasarConf.ssg.manualPostHydrationTrigger !== true)) { %>
       const { proxy: { $q } } = getCurrentInstance()
-      $q.onSSRHydrated !== void 0 && $q.onSSRHydrated()
+      $q.onSSRHydrated?.()
       <% } %>
     })
 
@@ -57,65 +57,64 @@ const RootComponent = defineComponent({
 })
 <% } %>
 
-<% if (quasarConf.ctx.mode.ssr && quasarConf.ctx.mode.pwa) { %>
-export const ssrIsRunningOnClientPWA = typeof window !== 'undefined' &&
+<% if (quasarConf.ctx.mode.ssr || quasarConf.ctx.mode.ssg) { %>
+export const isClientSideRenderedPage = typeof window !== 'undefined' &&
   document.body.getAttribute('data-server-rendered') === null
 <% } %>
 
-export default async function (createAppFn, quasarUserOptions<%= quasarConf.ctx.mode.ssr ? ', ssrContext' : '' %>) {
-  <% if (quasarConf.ctx.mode.bex) { %>
+export default async function (createAppFn, quasarUserOptions<%= (quasarConf.ctx.mode.ssr || quasarConf.ctx.mode.ssg) ? ', ssrContext' : '' %>) {
+<% if (quasarConf.ctx.mode.bex) { %>
     await bex.promise
     delete bex.promise
-  <% } %>
+<% } %>
 
   // Create the app instance.
   // Here we inject into it the Quasar UI, the router & possibly the store.
   const app = createAppFn(RootComponent)
 
-  <% if (quasarConf.metaConf.debugging) { %>
+<% if (quasarConf.metaConf.debugging) { %>
   app.config.performance = true
-  <% } %>
+<% } %>
 
-  app.use(Quasar, quasarUserOptions<%= quasarConf.ctx.mode.ssr ? ', ssrContext' : '' %>)
+  app.use(Quasar, quasarUserOptions<%= (quasarConf.ctx.mode.ssr || quasarConf.ctx.mode.ssg) ? ', ssrContext' : '' %>)
 
-  <% if (quasarConf.ctx.mode.bex) { %>
+<% if (quasarConf.ctx.mode.bex) { %>
     app.config.globalProperties.$q.bex = bex.bridge
-  <% } else if (quasarConf.ctx.mode.capacitor) { %>
+<% } else if (quasarConf.ctx.mode.capacitor) { %>
     app.config.globalProperties.$q.capacitor = window.Capacitor
-  <% } %>
+<% } %>
 
-  <% if (quasarConf.metaConf.hasStore) { %>
+<% if (quasarConf.metaConf.hasStore) { %>
     const store = typeof createStore === 'function'
-      ? await createStore({<%= quasarConf.ctx.mode.ssr ? 'ssrContext' : '' %>})
+      ? await createStore({<%= (quasarConf.ctx.mode.ssr || quasarConf.ctx.mode.ssg) ? 'ssrContext' : '' %>})
       : createStore
 
-    <% if (quasarConf.metaConf.storePackage === 'pinia') { %>
-      app.use(store)
+    app.use(store)
 
-      <% if (quasarConf.ctx.mode.ssr && quasarConf.ssr.manualStoreHydration !== true) { %>
-        // prime the store with server-initialized state.
-        // the state is determined during SSR and inlined in the page markup.
-        if (typeof window !== 'undefined' && <% if (quasarConf.ctx.mode.pwa) { %>ssrIsRunningOnClientPWA !== true && <% } %>window.__INITIAL_STATE__ !== void 0) {
-          store.state.value = window.__INITIAL_STATE__
-          // for security reasons, we'll delete this
-          delete window.__INITIAL_STATE__
-        }
-      <% } %>
+    <% if (
+        (quasarConf.ctx.mode.ssr && !quasarConf.ssr.manualStoreHydration) ||
+        (quasarConf.ctx.mode.ssg && !quasarConf.ssg.manualStoreHydration)
+      ) { %>
+      // prime the store with server-initialized state.
+      // the state is determined during SSR and inlined in the page markup.
+      if (typeof window !== 'undefined' && !isClientSideRenderedPage && window.__INITIAL_STATE__ !== void 0) {
+        store.state.value = window.__INITIAL_STATE__
+        // for security reasons, we'll delete this
+        delete window.__INITIAL_STATE__
+      }
     <% } %>
-  <% } %>
+<% } %>
 
   const router = markRaw(
     typeof createRouter === 'function'
-      ? await createRouter({<%= quasarConf.ctx.mode.ssr ? 'ssrContext' + (quasarConf.metaConf.hasStore ? ',' : '') : '' %><%= quasarConf.metaConf.hasStore ? 'store' : '' %>})
+      ? await createRouter({<%= (quasarConf.ctx.mode.ssr || quasarConf.ctx.mode.ssg) ? 'ssrContext' + (quasarConf.metaConf.hasStore ? ',' : '') : '' %><%= quasarConf.metaConf.hasStore ? 'store' : '' %>})
       : createRouter
   )
 
-  <% if (quasarConf.metaConf.hasStore) { %>
-    // make router instance available in store
-    <% if (quasarConf.metaConf.storePackage === 'pinia') { %>
-      store.use(({ store }) => { store.router = router })
-    <% } %>
-  <% } %>
+<% if (quasarConf.metaConf.hasStore) { %>
+  // make router instance available in store
+  store.use(({ store }) => { store.router = router })
+<% } %>
 
   // Expose the app, the router and the store.
   // Note that we are not mounting the app here, since bootstrapping will be

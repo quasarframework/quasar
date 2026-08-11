@@ -41,35 +41,33 @@
   </q-layout>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      menu: false,
-      viewport: null
-    }
-  },
+<script setup>
+import { onBeforeUnmount, onMounted, ref } from 'vue'
 
-  mounted() {
-    if (typeof window !== 'undefined' && window.visualViewport !== void 0) {
-      const keys = [
-        'width',
-        'height',
-        'scale',
-        'offsetLeft',
-        'offsetTop',
-        'pageLeft',
-        'pageTop'
-      ]
+const menu = ref(false)
+const viewport = ref(null)
 
-      this.timer = setInterval(() => {
-        this.viewport = keys.map(k => k + ': ' + window.visualViewport[k])
-      }, 500)
-    }
-  },
+let timer
 
-  beforeUnmount() {
-    clearInterval(this.timer)
+onMounted(() => {
+  if (typeof window !== 'undefined' && window.visualViewport !== void 0) {
+    const keys = [
+      'width',
+      'height',
+      'scale',
+      'offsetLeft',
+      'offsetTop',
+      'pageLeft',
+      'pageTop'
+    ]
+
+    timer = setInterval(() => {
+      viewport.value = keys.map(k => k + ': ' + window.visualViewport[k])
+    }, 500)
   }
-}
+})
+
+onBeforeUnmount(() => {
+  clearInterval(timer)
+})
 </script>

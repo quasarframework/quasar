@@ -24,15 +24,9 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    return {
-      model: ref('Twitter'),
-      options: ['Google', 'Facebook', 'Twitter', 'Apple', 'Oracle']
-    }
-  }
-}
+const model = ref('Twitter')
+const options = ['Google', 'Facebook', 'Twitter', 'Apple', 'Oracle']
 </script>

@@ -32,15 +32,9 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    return {
-      mobileData: ref(true),
-      bluetooth: ref(false)
-    }
-  }
-}
+const mobileData = ref(true)
+const bluetooth = ref(false)
 </script>

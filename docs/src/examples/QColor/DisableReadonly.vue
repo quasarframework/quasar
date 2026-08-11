@@ -8,16 +8,10 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    return {
-      color: ref('#ff00ff')
-    }
-  }
-}
+const color = ref('#ff00ff')
 </script>
 
 <style lang="sass" scoped>

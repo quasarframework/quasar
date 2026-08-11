@@ -5,7 +5,7 @@ import QIcon from '../icon/QIcon.js'
 import { createComponent } from '../../utils/private.create/create.js'
 import { hSlot, hUniqueSlot } from '../../utils/private.render/render.js'
 
-export default createComponent({
+export default /*#__PURE__*/ createComponent({
   name: 'QTh',
 
   props: {
@@ -25,6 +25,14 @@ export default createComponent({
       emit('click', evt)
     }
 
+    const onKeyup = (evt, col) => {
+      if (evt.key === 'Enter' || evt.key === ' ') {
+        props.props.sort(col)
+        onClick(evt)
+        evt.preventDefault()
+      }
+    }
+
     return () => {
       if (props.props === void 0) {
         return h(
@@ -40,7 +48,7 @@ export default createComponent({
       let col, child
       const name = vm.vnode.key
 
-      if (name) {
+      if (name !== null) {
         col = props.props.colsMap[name]
         if (col === void 0) return
       } else {
@@ -68,6 +76,17 @@ export default createComponent({
         onClick: evt => {
           if (col.sortable) props.props.sort(col)
           onClick(evt)
+        }
+      }
+
+      if (col.sortable) {
+        data.tabindex = 0
+        data['aria-sort'] = col.__ariaSort
+        data.onKeydown = evt => {
+          if (evt.key === ' ') evt.preventDefault()
+        }
+        data.onKeyup = evt => {
+          onKeyup(evt, col)
         }
       }
 

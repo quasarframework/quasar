@@ -42,11 +42,6 @@ export default {
     prevRangeYears: range => `Edellinen ${range} vuotta`,
     nextRangeYears: range => `Seuraava ${range} vuotta`
   },
-  pullToRefresh: {
-    pull: 'Vedä alas päivittääksesi',
-    release: 'Vapauta päivittääksesi',
-    refresh: 'Päivitetään...'
-  },
   table: {
     noData: 'Ei tietoja',
     noResults: 'Ei tuloksia',
@@ -55,7 +50,7 @@ export default {
       rows === 1 ? '1 rivi valittu.' : rows + ' riviä valittu.',
     recordsPerPage: 'Rivejä sivulla:',
     allRows: 'Kaikki',
-    pagination: (start, end, total) => start + ' - ' + end + ' / ' + total,
+    pagination: (start, end, total) => start + '-' + end + ' / ' + total,
     columns: 'Sarakkeet'
   },
   pagination: {

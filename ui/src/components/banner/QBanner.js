@@ -7,7 +7,7 @@ import useDark, {
 
 import { hSlot } from '../../utils/private.render/render.js'
 
-export default createComponent({
+export default /*#__PURE__*/ createComponent({
   name: 'QBanner',
 
   props: {

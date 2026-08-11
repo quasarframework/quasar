@@ -398,9 +398,9 @@
           :dark="dark"
           :dense="dense"
         >
-          <template v-slot:control="{ value, emitValue }">
+          <template v-slot:control="{ modelValue, emitValue }">
             <q-toggle
-              :model-value="value"
+              :model-value="modelValue"
               @update:model-value="emitValue"
               color="orange"
               :dark="dark"
@@ -469,49 +469,35 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { mdiEye, mdiEyeOff } from '@quasar/extras/mdi-v7'
+import { ref, watch } from 'vue'
 
-export default {
-  created() {
-    this.mdiEye = mdiEye
-    this.mdiEyeOff = mdiEyeOff
-  },
-  data() {
-    return {
-      checked: true,
-      group: ['op3'],
-      selection: ['two'],
-      indModel: null,
-      dark: null,
-      dense: false,
-      keepColor: false
-    }
-  },
-  watch: {
-    checked(val, old) {
-      console.log(
-        `Changed from ${JSON.stringify(old)} to ${JSON.stringify(val)}`
-      )
-    },
-    group(val, old) {
-      console.log(
-        `Changed from ${JSON.stringify(old)} to ${JSON.stringify(val)}`
-      )
-    },
-    selection(val, old) {
-      console.log(
-        `Changed from ${JSON.stringify(old)} to ${JSON.stringify(val)}`
-      )
-    }
-  },
-  methods: {
-    onChange(val) {
-      console.log('@change', JSON.stringify(val))
-    },
-    onInput(val) {
-      console.log('@update:model-value', JSON.stringify(val))
-    }
-  }
+const checked = ref(true)
+const group = ref(['op3'])
+const selection = ref(['two'])
+const indModel = ref(null)
+const dark = ref(null)
+const dense = ref(false)
+const keepColor = ref(false)
+
+watch(checked, (val, old) => {
+  console.log(`Changed from ${JSON.stringify(old)} to ${JSON.stringify(val)}`)
+})
+
+watch(group, (val, old) => {
+  console.log(`Changed from ${JSON.stringify(old)} to ${JSON.stringify(val)}`)
+})
+
+watch(selection, (val, old) => {
+  console.log(`Changed from ${JSON.stringify(old)} to ${JSON.stringify(val)}`)
+})
+
+function onChange(val) {
+  console.log('@change', JSON.stringify(val))
+}
+
+function onInput(val) {
+  console.log('@update:model-value', JSON.stringify(val))
 }
 </script>

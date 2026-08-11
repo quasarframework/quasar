@@ -33,51 +33,46 @@
   </div>
 </template>
 
-<script>
+<script setup>
+import { useQuasar } from 'quasar'
+import { computed } from 'vue'
+
 const breakpoints = ['xs', 'sm', 'md', 'lg', 'xl']
 const breakpointsLen = breakpoints.length
 
-export default {
-  data() {
-    return {
-      breakpoints
-    }
-  },
+const $q = useQuasar()
 
-  computed: {
-    w() {
-      const { screen } = this.$q
+const w = computed(() => {
+  const { screen } = $q
 
-      for (let i = 0; i < breakpointsLen; i++) {
-        const bp = breakpoints[i]
+  for (let i = 0; i < breakpointsLen; i++) {
+    const bp = breakpoints[i]
 
-        if (screen[bp] === true) {
-          return bp
-        }
-      }
-
-      return '???'
-    },
-
-    wNext() {
-      const { screen } = this.$q
-
-      for (let i = 0; i < breakpointsLen; i++) {
-        const bp = breakpoints[i]
-
-        if (screen[bp] === true) {
-          return i < breakpointsLen - 1 ? breakpoints[i + 1] : '???'
-        }
-      }
-
-      return '???'
-    },
-
-    color() {
-      const index = breakpoints.indexOf(this.w)
-
-      return index === -1 ? 'red-6' : `yellow-${1 + 2 * index}`
+    if (screen[bp] === true) {
+      return bp
     }
   }
-}
+
+  return '???'
+})
+
+const wNext = computed(() => {
+  const { screen } = $q
+
+  for (let i = 0; i < breakpointsLen; i++) {
+    const bp = breakpoints[i]
+
+    if (screen[bp] === true) {
+      return i < breakpointsLen - 1 ? breakpoints[i + 1] : '???'
+    }
+  }
+
+  return '???'
+})
+
+const color = computed(() => {
+  const index = breakpoints.indexOf(w.value)
+
+  return index === -1 ? 'red-6' : `yellow-${1 + 2 * index}`
+})
 </script>

@@ -188,50 +188,44 @@
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      expModelOpen1: true,
-      expModelClosed1: false,
-      expModelOpen2: true,
-      expModelClosed2: false,
-      changingGroup: 'group1',
+<script setup>
+import { computed, nextTick, ref } from 'vue'
 
-      showHideSequence: 'htshs',
-      seqModelExpansionItem: true,
-      seqModelDialog: true,
+const expModelOpen1 = ref(true)
+const expModelClosed1 = ref(false)
+const expModelOpen2 = ref(true)
+const expModelClosed2 = ref(false)
+const changingGroup = ref('group1')
 
-      lorem: 'Lorem ipsum dolor sit amet...'
+const showHideSequence = ref('htshs')
+const seqModelExpansionItem = ref(true)
+const seqModelDialog = ref(true)
+
+const lorem = ref('Lorem ipsum dolor sit amet...')
+
+const showHideSequenceArr = computed(() =>
+  [...showHideSequence.value.toLowerCase()].filter(v =>
+    ['s', 'h', 't'].includes(v)
+  )
+)
+const showHideSequenceEndStatus = computed(() => {
+  const filtered = showHideSequenceArr.value.filter(v => v !== 't'),
+    len = filtered.length
+  return len === 0 ? 'N/A' : filtered[len - 1] === 's' ? 'opened' : 'closed'
+})
+
+function runSequence(target, seq = showHideSequenceArr.value) {
+  const len = seq.length
+
+  for (let i = 0; i < len; i++) {
+    if (seq[i] === 't') {
+      nextTick(() => {
+        runSequence(target, seq.slice(i + 1))
+      })
+
+      return
     }
-  },
-  computed: {
-    showHideSequenceArr() {
-      return [...this.showHideSequence.toLowerCase()].filter(v =>
-        ['s', 'h', 't'].includes(v)
-      )
-    },
-    showHideSequenceEndStatus() {
-      const filtered = this.showHideSequenceArr.filter(v => v !== 't'),
-        len = filtered.length
-      return len === 0 ? 'N/A' : filtered[len - 1] === 's' ? 'opened' : 'closed'
-    }
-  },
-  methods: {
-    runSequence(ref, seq = this.showHideSequenceArr) {
-      const len = seq.length
-
-      for (let i = 0; i < len; i++) {
-        if (seq[i] === 't') {
-          this.$nextTick(() => {
-            this.runSequence(ref, seq.slice(i + 1))
-          })
-
-          return
-        }
-        ref[seq[i] === 's' ? 'show' : 'hide']()
-      }
-    }
+    target[seq[i] === 's' ? 'show' : 'hide']()
   }
 }
 </script>

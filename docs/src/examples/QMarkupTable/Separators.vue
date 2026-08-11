@@ -66,20 +66,14 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    return {
-      separator: ref('vertical'),
-      separatorOptions: [
-        { label: 'Horizontal', value: 'horizontal' },
-        { label: 'Vertical', value: 'vertical' },
-        { label: 'Cell', value: 'cell' },
-        { label: 'None', value: 'none' }
-      ]
-    }
-  }
-}
+const separator = ref('vertical')
+const separatorOptions = [
+  { label: 'Horizontal', value: 'horizontal' },
+  { label: 'Vertical', value: 'vertical' },
+  { label: 'Cell', value: 'cell' },
+  { label: 'None', value: 'none' }
+]
 </script>

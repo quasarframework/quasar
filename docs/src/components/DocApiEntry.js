@@ -69,6 +69,10 @@ function getStringType(type) {
   return Array.isArray(type) ? type.join(' | ') : type
 }
 
+// exported for DocApiEntry.test.js — these formatters shape the API
+// signatures rendered on every component page
+export { getEventParams, getMethodParams, getMethodReturnValue, getStringType }
+
 const NAME_PROP_COLOR = ['orange-8', 'brand-primary', 'green-5', 'purple-5']
 const NAME_PROP_COLOR_LEN = NAME_PROP_COLOR.length
 

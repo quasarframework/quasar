@@ -53,7 +53,7 @@
 
     <div
       v-else
-      class="q-py-xl text-size-16 row items-center justify-center q-gutter-lg relative-position"
+      class="q-py-xl text-size-14 row items-center justify-center q-gutter-lg relative-position"
     >
       <transition-group name="page-all-transition">
         <DocCardLink
@@ -67,11 +67,13 @@
             <div class="page-all__card-img">
               <q-img v-if="entry.img" :src="entry.img" />
             </div>
-            <q-card-section class="text-brand-primary text-weight-bold">
+            <q-card-section
+              class="text-size-14 text-brand-primary text-weight-bold"
+            >
               {{ entry.name }}
             </q-card-section>
             <q-card-section
-              class="page-all__card-description text-dark q-pt-none"
+              class="text-size-12 page-all__card-description text-dark q-pt-none"
             >
               {{ entry.description }}
             </q-card-section>
@@ -83,7 +85,8 @@
 </template>
 
 <script setup>
-import { ref, watch } from 'vue'
+import { ref, useTemplateRef, watch } from 'vue'
+import { useRoute } from 'vue-router'
 
 import { quasarElements } from '@/assets/links.components.js'
 
@@ -100,9 +103,15 @@ const filterChips = [
   { label: 'Scroll', value: 'scroll' },
   { label: 'Tables', value: 'table' },
   { label: 'Other Components', value: 'other' },
-  { label: 'Directives', value: 'directive' },
-  { label: 'Plugins', value: 'plugin' },
-  { label: 'Utils', value: 'util' }
+  {
+    label: 'All Components',
+    value: 'vue-components',
+    category: 'vue-components'
+  },
+  { label: 'Directives', value: 'directive', category: 'vue-directives' },
+  { label: 'Plugins', value: 'plugin', category: 'quasar-plugins' },
+  { label: 'Composables', value: 'composable', category: 'vue-composables' },
+  { label: 'Utils', value: 'util', category: 'quasar-utils' }
 ].map((entry, index) => ({
   ...entry,
   onClick: () => {
@@ -112,47 +121,12 @@ const filterChips = [
 
 const chipColor = ref(filterChips.map(_ => 'brand-primary'))
 
-const inputRef = ref(null)
+const inputRef = useTemplateRef('inputRef')
 const filterTag = ref(null)
 
 const searchTerms = ref('')
 const searchResults = ref(quasarElements)
 const noResultsLabel = ref(false)
-
-let searchTimer
-watch([searchTerms, filterTag], () => {
-  clearTimeout(searchTimer)
-  searchTimer = setTimeout(() => {
-    const terms = searchTerms.value.trim().toLowerCase()
-    const tag = filterTag.value
-
-    if (terms === '' && tag === null) {
-      searchResults.value = quasarElements
-    }
-
-    // allow to search for direct components name (example: qbtn)
-    const needle =
-      terms.length !== 1 && terms.startsWith('q') ? terms.slice(1) : terms
-
-    const results = quasarElements.filter(
-      entry =>
-        (tag === null || entry.tag === tag) && entry.haystack.includes(needle)
-    )
-
-    if (results.length === 0) {
-      const tagLabel =
-        tag !== null
-          ? filterChips.find(entry => entry.value === tag).label
-          : null
-
-      noResultsLabel.value = `Nothing matches ${tagLabel !== null ? `the "${tagLabel}" tag and ` : ''}"${terms}" search terms.`
-    } else {
-      noResultsLabel.value = false
-    }
-
-    searchResults.value = results
-  }, 300)
-})
 
 let lastIndex = null
 
@@ -174,6 +148,58 @@ function setFilterTag(filterChipValue, index) {
     chipColor.value[index] = 'brand-accent'
   }
 }
+
+const route = useRoute()
+const initialCategory = route.query.initial || null
+if (
+  initialCategory &&
+  filterChips.some(entry => entry.category === initialCategory)
+) {
+  const chipIndex = filterChips.findIndex(
+    entry => entry.category === initialCategory
+  )
+  if (chipIndex !== -1) {
+    setFilterTag(filterChips[chipIndex].value, chipIndex)
+    filterResults()
+  }
+}
+
+function filterResults() {
+  const terms = searchTerms.value.trim().toLowerCase()
+  const tag = filterTag.value
+
+  if (terms === '' && tag === null) {
+    searchResults.value = quasarElements
+    return
+  }
+
+  // allow to search for direct components name (example: qbtn)
+  const needle =
+    terms.length !== 1 && terms.startsWith('q') ? terms.slice(1) : terms
+
+  const results = quasarElements.filter(
+    entry =>
+      (tag === null || entry.tag === tag || entry.category === tag) &&
+      (needle === '' || entry.haystack.includes(needle))
+  )
+
+  if (results.length === 0) {
+    const tagLabel =
+      tag !== null ? filterChips.find(entry => entry.value === tag).label : null
+
+    noResultsLabel.value = `Nothing matches ${tagLabel !== null ? `the "${tagLabel}" tag and ` : ''}"${terms}" search terms.`
+  } else {
+    noResultsLabel.value = false
+  }
+
+  searchResults.value = results
+}
+
+let searchTimer
+watch([searchTerms, filterTag], () => {
+  clearTimeout(searchTimer)
+  searchTimer = setTimeout(filterResults, 300)
+})
 
 function clearSearchTerms() {
   searchTerms.value = ''

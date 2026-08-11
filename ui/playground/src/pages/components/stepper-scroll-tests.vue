@@ -323,21 +323,17 @@
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      step1: 1,
-      step2: 1,
-      step3: 1,
-      step4: 1,
-      inputTextModel: 'Text',
-      inputEmptyModel: null,
-      inputNumModel: 1,
-      selectModel: 'Opt 1',
-      options: ['Opt 1', 'Opt 2', 'Opt 3'],
-      autofocus: true
-    }
-  }
-}
+<script setup>
+import { ref } from 'vue'
+
+const step1 = ref(1)
+const step2 = ref(1)
+const step3 = ref(1)
+const step4 = ref(1)
+const inputTextModel = ref('Text')
+const inputEmptyModel = ref(null)
+const inputNumModel = ref(1)
+const selectModel = ref('Opt 1')
+const options = ref(['Opt 1', 'Opt 2', 'Opt 3'])
+const autofocus = ref(true)
 </script>

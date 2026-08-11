@@ -16,6 +16,11 @@ import type {
 } from "./ssr/index.d.ts";
 
 import type {
+  SsgGetPagesCallback,
+  SsgRenderPreloadTagCallback
+} from "./ssg/index.d.ts";
+
+import type {
   IndexAPICallback,
   InstallAPICallback,
   PromptsAPICallback,
@@ -103,6 +108,22 @@ export function defineSsrServeStaticContent(
 export function defineSsrRenderPreloadTag(
   callback: SsrRenderPreloadTagCallback
 ): SsrRenderPreloadTagCallback;
+
+/**
+ * Define the SSG render preload tag function.
+ * @param callback {@link SsgRenderPreloadTagCallback}
+ */
+export function defineSsgRenderPreloadTag(
+  callback: SsgRenderPreloadTagCallback
+): SsgRenderPreloadTagCallback;
+
+/**
+ * Define the SSG get pages function.
+ * @param callback {@link SsgGetPagesCallback}
+ */
+export function defineSsgGetPages(
+  callback: SsgGetPagesCallback
+): SsgGetPagesCallback;
 
 /**
  * Define the index script function.

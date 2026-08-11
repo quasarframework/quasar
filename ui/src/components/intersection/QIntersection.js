@@ -7,7 +7,7 @@ import Intersection from '../../directives/intersection/Intersection.js'
 import { createComponent } from '../../utils/private.create/create.js'
 import { hDir, hSlot } from '../../utils/private.render/render.js'
 
-export default createComponent({
+export default /*#__PURE__*/ createComponent({
   name: 'QIntersection',
 
   props: {

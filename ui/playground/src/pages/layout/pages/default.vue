@@ -71,17 +71,12 @@
   padding-top: calc(2.5rem + 50px)
 </style>
 
-<script>
-export default {
-  created() {
-    this.selectOptions = ['Google', 'Facebook', 'Tesla']
-  },
-  data() {
-    return {
-      extra: true,
-      dialog: false,
-      select: null
-    }
-  }
-}
+<script setup>
+import { ref } from 'vue'
+
+const selectOptions = ['Google', 'Facebook', 'Tesla']
+
+const extra = ref(true)
+const dialog = ref(false)
+const select = ref(null)
 </script>

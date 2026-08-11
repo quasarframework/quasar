@@ -11,7 +11,7 @@ If you are a more advanced Vue developer, we invite you to start off by [decidin
 
 ## Prerequisites
 
-Make sure that you have Node.js >=22 (or any newer **LTS Node.js version**) and PNPM v11+ or Yarn v1 classic or or NPM or Bun installed on your machine. Again, please do not use non LTS versions of Node.js.
+Make sure that you have Node.js >=22 (or any newer **LTS Node.js version**) and PNPM v11+ or Yarn v1 classic or NPM or Bun installed on your machine. Again, please do not use non-LTS versions of Node.js.
 
 ## Step 1: Create a Project
 
@@ -98,6 +98,6 @@ If you are new to Quasar and a...
 
 **(Beginner Vue) JavaScript Dev** - We highly recommend [learning Vue](/start/how-to-use-vue).
 
-**Intermediate Vue Dev** - We recommend getting accustomed to [Quasar's Directory Structure](/quasar-cli/directory-structure) and its different build modes, [starting with SSR](/quasar-cli/developing-ssr/introduction) (the project you built is an SPA).
+**Intermediate Vue Dev** - We recommend getting accustomed to [Quasar's Directory Structure](/quasar-cli-vite/directory-structure) and its different build modes, [starting with SSR](/quasar-cli-vite/developing-ssr/introduction) (the project you built is an SPA).
 
-**Advanced Vue Dev** - You might want to use Quasar in different scenarios outside of Quasar's own CLI, then check out the different [Quasar Flavours](/start/pick-quasar-flavour). Or, if you wish to stick with the Quasar CLI, check out the different build modes, [starting with SSR](/quasar-cli/developing-ssr/introduction) and please be sure not to miss out on [App Extensions](/app-extensions/introduction).
+**Advanced Vue Dev** - You might want to use Quasar in different scenarios outside of Quasar's own CLI, then check out the different [Quasar Flavours](/start/pick-quasar-flavour). Or, if you wish to stick with the Quasar CLI, check out the different build modes, [starting with SSR](/quasar-cli-vite/developing-ssr/introduction) and please be sure not to miss out on [App Extensions](/app-extensions/introduction).

@@ -62,32 +62,44 @@
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      cookies: this.$q.cookies.getAll()
-    }
-  },
-  methods: {
-    refresh() {
-      this.cookies = this.$q.cookies.getAll()
-    },
-    add(name) {
-      this.$q.cookies.set(name, 'val')
-      this.refresh()
-    },
-    del(name) {
-      this.$q.cookies.remove(name)
-      this.refresh()
-    }
-  },
-  created() {
-    if (this.$isServer) {
-      console.log('setting ssr_cookie')
-      this.$q.cookies.set('ssr_cookie', 'yes')
-      this.$q.cookies.set('ssr_cookie-second', 'yes')
-    }
-  }
+<script setup>
+import { useQuasar } from 'quasar'
+import { ref } from 'vue'
+
+const $q = useQuasar()
+
+// sorted keys: the server-side header map and the client's
+// document.cookie enumerate in different orders, and this table is
+// server-rendered
+function getSortedCookies() {
+  return Object.fromEntries(
+    Object.entries($q.cookies.getAll()).toSorted((a, b) =>
+      a[0].localeCompare(b[0])
+    )
+  )
+}
+
+const cookies = ref(getSortedCookies())
+
+function refresh() {
+  cookies.value = getSortedCookies()
+}
+function add(name) {
+  $q.cookies.set(name, 'val')
+  refresh()
+}
+function del(name) {
+  $q.cookies.remove(name)
+  refresh()
+}
+
+if (import.meta.env.QUASAR_SERVER) {
+  console.log('setting ssr_cookie')
+  $q.cookies.set('ssr_cookie', 'yes')
+  $q.cookies.set('ssr_cookie-second', 'yes')
+  // the ref above captured getAll() BEFORE these were set; without a
+  // refresh the server renders fewer rows than the hydrating client
+  // (which sees them through the Set-Cookie response headers)
+  refresh()
 }
 </script>

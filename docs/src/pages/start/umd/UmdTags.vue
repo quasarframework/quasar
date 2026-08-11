@@ -239,8 +239,7 @@ const head = computed(() => {
     .filter(key => css[key])
     .map(key => cssMap[key])
 
-  cssAcc.unshift(googleSymbolsFonts.value)
-  cssAcc.unshift(googleFonts.value)
+  cssAcc.unshift(googleFonts.value, googleSymbolsFonts.value)
   cssAcc.push(`cdn.jsdelivr.net/npm/quasar@${version}/dist/quasar.rtl.prod.css`)
 
   return cssAcc

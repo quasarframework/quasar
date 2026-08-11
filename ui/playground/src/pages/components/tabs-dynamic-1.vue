@@ -130,8 +130,10 @@
   </q-card>
 </template>
 
-<script>
-const allTabs = [
+<script setup>
+import { computed, ref } from 'vue'
+
+const tabList = [
   { name: 'mails', icon: 'mail', label: 'Mails' },
   { name: 'alarms', icon: 'alarm', label: 'Alarms' },
   { name: 'movies', icon: 'movie', label: 'Movies' },
@@ -140,42 +142,32 @@ const allTabs = [
   { name: 'addressbook', icon: 'people', label: 'Address Book' }
 ]
 
-export default {
-  data() {
-    return {
-      tab: 'mails',
-      width: 300,
-      mobileArrows: false,
-      outsideArrows: false,
-      tabs: allTabs.slice(0, 1)
-    }
-  },
+const tab = ref('mails')
+const width = ref(300)
+const mobileArrows = ref(false)
+const outsideArrows = ref(false)
+const tabs = ref(tabList.slice(0, 1))
 
-  computed: {
-    allTabs() {
-      return allTabs.map(tab => ({
-        tab,
-        selected: this.tabs.includes(tab)
-      }))
-    }
-  },
+const allTabs = computed(() =>
+  tabList.map(t => ({
+    tab: t,
+    selected: tabs.value.includes(t)
+  }))
+)
 
-  methods: {
-    setTabSelected(tab, status) {
-      if (status === true) {
-        this.tabs.push(tab)
-      } else {
-        const index = this.tabs.indexOf(tab)
+function setTabSelected(t, status) {
+  if (status === true) {
+    tabs.value.push(t)
+  } else {
+    const index = tabs.value.indexOf(t)
 
-        if (index !== -1) {
-          this.tabs.splice(index, 1)
-        }
-      }
-    },
-
-    toggleAll() {
-      this.tabs = this.tabs.length !== 0 ? [] : this.allTabs.map(t => t.tab)
+    if (index !== -1) {
+      tabs.value.splice(index, 1)
     }
   }
+}
+
+function toggleAll() {
+  tabs.value = tabs.value.length !== 0 ? [] : allTabs.value.map(t => t.tab)
 }
 </script>

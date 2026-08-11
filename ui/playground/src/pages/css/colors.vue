@@ -92,8 +92,9 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { clone, setCssVar } from 'quasar'
+import { onBeforeMount, ref } from 'vue'
 
 const mainColors = [
   'primary',
@@ -106,70 +107,64 @@ const mainColors = [
   'black'
 ]
 const mainLightColors = ['white']
-let mainColorValuesOrig
+let origColorValues
 
-export default {
-  data() {
-    return {
-      mainColors,
-      mainLightColors,
-      mainColorValues: {},
-      mainColorValuesOrig: {},
-      currentColor: null,
-      colors: [
-        'red',
-        'pink',
-        'purple',
-        'deep-purple',
-        'indigo',
-        'blue',
-        'light-blue',
-        'cyan',
-        'teal',
-        'green',
-        'light-green',
-        'lime',
-        'yellow',
-        'amber',
-        'orange',
-        'deep-orange',
-        'brown',
-        'grey',
-        'blue-grey'
-      ]
-    }
-  },
-  methods: {
-    selectColor(color) {
-      setTimeout(() => {
-        this.currentColor = color
-      }, 300)
-    },
-    setColor(color, value) {
-      this.mainColorValues[color] = value
-      setCssVar(color, value)
-    },
-    undoColor(color) {
-      const value = this.mainColorValuesOrig[color]
-      this.mainColorValues[color] = value
-      setCssVar(color, value)
-    }
-  },
-  beforeMount() {
-    const style = getComputedStyle(document.body)
-    const mainColorValues = [...mainColors, ...mainLightColors]
-      .filter(c => !['white', 'black'].includes(c))
-      .reduce((acc, color) => {
-        acc[color] = style.getPropertyValue(`--q-color-${color}`).trim() || null
-        return acc
-      }, {})
-    if (!mainColorValuesOrig) {
-      mainColorValuesOrig = clone(mainColorValues)
-    }
-    this.mainColorValues = mainColorValues
-    this.mainColorValuesOrig = mainColorValuesOrig
-  }
+const mainColorValues = ref({})
+const mainColorValuesOrig = ref({})
+const currentColor = ref(null)
+const colors = ref([
+  'red',
+  'pink',
+  'purple',
+  'deep-purple',
+  'indigo',
+  'blue',
+  'light-blue',
+  'cyan',
+  'teal',
+  'green',
+  'light-green',
+  'lime',
+  'yellow',
+  'amber',
+  'orange',
+  'deep-orange',
+  'brown',
+  'grey',
+  'blue-grey'
+])
+
+function selectColor(color) {
+  setTimeout(() => {
+    currentColor.value = color
+  }, 300)
 }
+
+function setColor(color, value) {
+  mainColorValues.value[color] = value
+  setCssVar(color, value)
+}
+
+function undoColor(color) {
+  const value = mainColorValuesOrig.value[color]
+  mainColorValues.value[color] = value
+  setCssVar(color, value)
+}
+
+onBeforeMount(() => {
+  const style = getComputedStyle(document.body)
+  const colorValues = [...mainColors, ...mainLightColors]
+    .filter(c => !['white', 'black'].includes(c))
+    .reduce((acc, color) => {
+      acc[color] = style.getPropertyValue(`--q-color-${color}`).trim() || null
+      return acc
+    }, {})
+  if (!origColorValues) {
+    origColorValues = clone(colorValues)
+  }
+  mainColorValues.value = colorValues
+  mainColorValuesOrig.value = origColorValues
+})
 </script>
 
 <style lang="sass">

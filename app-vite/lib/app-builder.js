@@ -12,32 +12,49 @@ export class AppBuilder extends AppTool {
     this.quasarConf = quasarConf
   }
 
+  /** async */
   readFile(filename) {
     const target = isAbsolute(filename)
       ? filename
       : join(this.quasarConf.build.distDir, filename)
 
-    return fse.readFileSync(target, 'utf8')
+    return fse.readFile(target, 'utf8')
   }
 
-  writeFile(filename, content) {
+  async writeFile(filename, content, noOverwrite) {
     const target = isAbsolute(filename)
       ? filename
       : join(this.quasarConf.build.distDir, filename)
 
     fse.ensureDirSync(dirname(target))
-    fse.writeFileSync(target, content, 'utf8')
-  }
 
-  copyFiles(patterns, targetFolder = this.quasarConf.build.distDir) {
-    patterns.forEach(entry => {
-      const from = this.ctx.appPaths.resolve.app(entry.from)
-      if (fse.existsSync(from)) {
-        fse.copySync(from, join(targetFolder, entry.to, basename(from)))
+    try {
+      await fse.writeFile(
+        target,
+        content,
+        noOverwrite === true
+          ? { encoding: 'utf8', flag: 'wx' }
+          : { encoding: 'utf8' }
+      )
+    } catch (err) {
+      if (noOverwrite === true && err.code === 'EEXIST') {
+        return true
       }
-    })
+
+      throw err
+    }
   }
 
+  async copyFiles(patterns, targetFolder = this.quasarConf.build.distDir) {
+    for (const entry of patterns) {
+      const from = this.ctx.appPaths.resolve.app(entry.from)
+      if (await fse.pathExists(from)) {
+        await fse.copy(from, join(targetFolder, entry.to, basename(from)))
+      }
+    }
+  }
+
+  /** async */
   moveFile(source, destination) {
     const input = isAbsolute(source)
       ? source
@@ -47,15 +64,16 @@ export class AppBuilder extends AppTool {
       ? destination
       : join(this.quasarConf.build.distDir, destination)
 
-    fse.moveSync(input, output)
+    return fse.move(input, output)
   }
 
+  /** async */
   removeFile(filename) {
     const target = isAbsolute(filename)
       ? filename
       : join(this.quasarConf.build.distDir, filename)
 
-    fse.removeSync(target)
+    return fse.remove(target)
   }
 
   printSummary(folder, showGzipped) {

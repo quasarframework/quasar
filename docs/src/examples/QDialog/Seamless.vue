@@ -23,14 +23,8 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    return {
-      seamless: ref(false)
-    }
-  }
-}
+const seamless = ref(false)
 </script>

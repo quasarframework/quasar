@@ -17,6 +17,10 @@ const routeMap = {
 const routes = [
   // legacy redirects
   {
+    path: '/quasar-cli-vite/quasar-config-js',
+    redirect: '/quasar-cli-vite/quasar-config-file'
+  },
+  {
     path: '/quasar-cli-vite/handling-process-env',
     redirect: '/quasar-cli-vite/handling-import-meta-env'
   },
@@ -37,15 +41,22 @@ const routes = [
     path: '/quasar-cli-vite/routing',
     redirect: '/quasar-cli-vite/page-routing-with-vue-router'
   },
+  {
+    path: '/quasar-cli-vite/ajax-requests',
+    redirect: '/quasar-cli-vite/fetching-data'
+  },
 
   // shortcuts
   { path: '/start', redirect: '/start/quick-start' },
-  { path: '/vue-components', redirect: '/components' },
-  { path: '/vue-directives', redirect: '/components' },
-  { path: '/quasar-plugins', redirect: '/components' },
-  { path: '/plugins', redirect: '/components' },
-  { path: '/quasar-utils', redirect: '/components' },
-  { path: '/utils', redirect: '/components' },
+  { path: '/vue-components', redirect: '/components?initial=vue-components' },
+  { path: '/vue-directives', redirect: '/components?initial=vue-directives' },
+  { path: '/directives', redirect: '/components?initial=vue-directives' },
+  { path: '/quasar-plugins', redirect: '/components?initial=quasar-plugins' },
+  { path: '/plugins', redirect: '/components?initial=quasar-plugins' },
+  { path: '/vue-composables', redirect: '/components?initial=vue-composables' },
+  { path: '/composables', redirect: '/components?initial=vue-composables' },
+  { path: '/quasar-utils', redirect: '/components?initial=quasar-utils' },
+  { path: '/utils', redirect: '/components?initial=quasar-utils' },
 
   // docs
   {

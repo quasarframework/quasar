@@ -57,24 +57,17 @@
   </q-layout>
 </template>
 
-<script>
+<script setup>
 const heavyList = []
 
 for (let i = 0; i < 100_000; i++) {
   heavyList.push({
     label: 'Option ' + (i + 1),
     html: 'Option <em class="text-h6">' + (i + 1) + '</em>',
-    value: Math.trunc(1 + Math.random() * 99)
+    // deterministic: server-rendered, hydration must match
+    value: 1 + ((i * 37) % 99)
   })
 }
 
 Object.freeze(heavyList)
-
-export default {
-  data() {
-    return {
-      heavyList
-    }
-  }
-}
 </script>

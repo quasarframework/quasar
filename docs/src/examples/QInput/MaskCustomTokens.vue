@@ -15,22 +15,16 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    return {
-      id: ref(null),
-      customTokens: {
-        C: {
-          pattern: '[0-4a-eA-E]',
-          negate: '[^0-4a-eA-E]',
-          transform: v => v.toLocaleUpperCase()
-        },
-        X: { pattern: '[5-8]', negate: '[^5-8]' }
-      }
-    }
-  }
+const id = ref(null)
+const customTokens = {
+  C: {
+    pattern: '[0-4a-eA-E]',
+    negate: '[^0-4a-eA-E]',
+    transform: v => v.toLocaleUpperCase()
+  },
+  X: { pattern: '[5-8]', negate: '[^5-8]' }
 }
 </script>

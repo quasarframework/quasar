@@ -18,17 +18,11 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    return {
-      model: ref({
-        min: -12,
-        max: 8
-      })
-    }
-  }
-}
+const model = ref({
+  min: -12,
+  max: 8
+})
 </script>

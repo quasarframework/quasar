@@ -16,12 +16,21 @@ export class EntryFilesGenerator {
       'quasar-user-options.js'
     ]
 
+    if (ctx.mode.ssr || ctx.mode.ssg) {
+      regularFiles.push('ssr-nonce.js')
+    }
+
     if (ctx.mode.ssr) {
       templateFiles.push(
         'server-entry.js',
         'ssr-middlewares.js',
         `ssr-${ctx.dev ? 'dev' : 'prod'}-webserver.js`
       )
+    } else if (ctx.mode.ssg) {
+      templateFiles.push('server-entry.js')
+      if (ctx.prod) {
+        templateFiles.push('ssg-script.js')
+      }
     } else if (ctx.mode.bex) {
       regularFiles.push('bex-app.js')
     }

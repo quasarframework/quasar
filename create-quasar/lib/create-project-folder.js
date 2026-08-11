@@ -64,6 +64,12 @@ export async function createProjectFolder(scope) {
     existsSync(scope.projectFolder) &&
     readdirSync(scope.projectFolder).length !== 0
   ) {
+    if (scope.defaults) {
+      utils.cancelScaffolding({
+        message: `Target directory "${scope.projectFolderName}" is not empty. Use --overwrite to remove existing files and continue.`
+      })
+    }
+
     const val = await utils.prompts.confirm({
       message:
         (scope.projectFolderName === '.'
@@ -99,18 +105,22 @@ export async function createProjectFolder(scope) {
       })
   })
 
+  const pkgManager = scope.install || scope.packageManagerList[0]
+
   if (scope.install !== false) {
     const hasInstalled = await utils.installDeps(scope)
     if (hasInstalled) {
       scope.meta.hasInstalledDeps = true
 
       if (scope.preset.linting) {
-        await utils.lintFolder(scope)
+        const hadLintError = await utils.lintFolder(scope)
+        if (hadLintError) {
+          scope.meta.lintCmd = `${pkgManager} run lint`
+        }
       }
     }
   }
 
-  const pkgManager = scope.install || scope.packageManagerList[0]
   if (!scope.meta.hasInstalledDeps) {
     scope.meta.installDepsCmd = `${pkgManager} install`
 
@@ -129,7 +139,7 @@ export async function createProjectFolder(scope) {
 
   utils.prompts.note(
     'Documentation → https://quasar.dev' +
-      '\nGithub → https://github.quasar.dev' +
+      '\nGitHub → https://github.quasar.dev' +
       '\nDiscussions → https://forum.quasar.dev' +
       '\nDiscord → https://chat.quasar.dev' +
       '\nDonations → https://donate.quasar.dev',

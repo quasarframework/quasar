@@ -4,7 +4,7 @@
   "private": true,
   "description": "A Quasar App Extension Playground",
   <% if (scope.author) { %>
-  "author": "<%= scope.author %>",
+  "author": <%= JSON.stringify(scope.author) %>,
   <% } %>
   "type": "module",
   "scripts": {
@@ -15,7 +15,7 @@
     "cycle": "quasar ext uninvoke <%= scope.aeShortName %> && quasar ext invoke <%= scope.aeShortName %>"
   },
   "dependencies": {
-    "@quasar/extras": "^2.0.0",
+    "@quasar/extras": "^2.0.3",
     "quasar": "catalog:",
     "vue": "catalog:",
     "vue-router": "^5.0.6"

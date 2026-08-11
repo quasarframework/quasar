@@ -24,13 +24,13 @@
   </div>
 </template>
 
-<script>
+<script setup>
 function onDelayedClick(e, go) {
   e.preventDefault() // mandatory; we choose when we navigate
 
-  // console.log('triggering navigation in 2s')
+  console.log('triggering navigation in 2s')
   setTimeout(() => {
-    // console.log('navigating as promised 2s ago')
+    console.log('navigating as promised 2s ago')
     go()
   }, 2000)
 }
@@ -55,11 +55,5 @@ function onRedirectedClick(e, go) {
     .catch(_vueRouterError => {
       /* ...will not reach here unless returnRouterError === true */
     })
-}
-
-export default {
-  setup() {
-    return { onDelayedClick, onCancelledClick, onRedirectedClick }
-  }
 }
 </script>

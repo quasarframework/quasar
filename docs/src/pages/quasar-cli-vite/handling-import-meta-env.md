@@ -12,7 +12,7 @@ Using `import.meta.env` can help you in many ways:
 ::: tip Terminology on client vs backend code
 We will be using `client code` and `backend code` on this page:
 
-- The backend code refers to the /quasar.config file and the code that your client users don't have access to, like the SSR Webserver or SSR Server code.
+- The backend code refers to the /quasar.config file and the code that your client users don't have access to, like the SSR Webserver or SSR/SSG Server code.
 - The client code refers to code that is being shipped to your client, like /src, /src-pwa, /src-electron, SSR Client etc.
 
 :::
@@ -32,7 +32,7 @@ We will be using `client code` and `backend code` on this page:
 
 ## Usage
 
-### Javascript / Typescript
+### JavaScript / TypeScript
 
 ```js Basic example
 if (import.meta.env.QUASAR_DEV) {
@@ -439,13 +439,13 @@ console.log(
   import.meta.env.DOTENV_BOOL, // undefined
   import.meta.env.DOTENV_STR, // undefined
   import.meta.env.DOTENV_NUMBER, // undefined
-  import.meta.env.DOTENV_NULL // undefined
+  import.meta.env.DOTENV_NULL, // undefined
   import.meta.env.DOTENV_ARR, // undefined
   import.meta.env.DOTENV_OBJ, // undefined
 );
 <<| js From dotenv (backend code) |>>
 /**
- * /quasar.config file, /src-ssr
+ * /quasar.config file, /src-ssr, /src-ssg
  */
 console.log(
   import.meta.env.QCLI_DOTENV_BOOL, // true
@@ -535,7 +535,7 @@ For cases where the auto-type inference and declaration does not work for your s
 build: {
   env: {
     /**
-     * Ignore auto-infering and declaring type for these variables;
+     * Ignore automatically inferring and declaring types for these variables.
      * Variables can come from process.env (terminal variables) or
      * dotenv files or quasar.config > build > define/defineEnv.
      *
@@ -551,13 +551,13 @@ build: {
 
 ## More on dotenv files
 
-A `.env` file (pronounced "dotenv") is a simple text file used to store environment variables for a software project. Instead of hardcoding sensitive information or configuration settings directly into the source code, you can place them in this file.
+A `.env` file (pronounced "dotenv") is a simple text file used to supply environment-specific configuration to a project. It is not a secret store: the file is plain text, and variables exposed to client code are embedded in the generated application where users can read them.
 
 The variables defined get transformed to `import.meta.env.<VAR_NAME>` and replaced at build time.
 
 ### Why Use a .env File?
 
-- Security: It keeps sensitive data, like database passwords, API keys, and secret tokens—safe. Because .env files are kept out of version control (like GitHub), your secrets aren't exposed to the public or everyone on your team.
+- Separation: It keeps environment-specific values out of source modules. Sensitive backend values still require appropriate access controls in development, CI, deployment, logs, and build artifacts.
 - Portability: It allows your application to behave differently depending on the environment (development, testing, or production) without changing the code. You just swap out the .env file for each environment.
 - Simplicity: It centralizes configuration into one easy-to-read file.
 
@@ -567,10 +567,12 @@ These files will be automatically detected and used (the order matters):
 
 ```
 .env        # loaded in all cases
-.env.local  # loaded in dev only, ignored by git
+.env.local  # loaded outside CI, ignored by git
 ```
 
-...where "ignored by git" assumes a default project folder created after releasing this package, otherwise add `.env.local` to your `/.gitignore` file.
+This means `.env.local` is used for both development and production builds run on your local machine, but is skipped when Quasar CLI detects a CI environment. The `.env.local` values take precedence over values from `.env`, while terminal variables take precedence over both.
+
+The "ignored by git" comment assumes a project created with a current Quasar template. Otherwise, add `.env.local` to your `/.gitignore` file.
 
 You can configure Quasar CLI to take into account even more files, as you'll learn in the next sections.
 
@@ -592,7 +594,11 @@ NODE_ENV=development
 
 ### Exposing to client code
 
-For security purposes and exposing variables with clear intent only, Quasar CLI filters out variables names not starting with the `QCLI_` prefix for the code exposed to the client-side, while leaving all of them for backend code (example: SSR server-side code that the clients cannot view it directly). This prefix can be changed through the /quasar.config file.
+::: danger
+Never put a secret in a variable exposed to client code. Prefix filtering controls which variables are embedded; it does not encrypt or hide them. API keys used by client applications must be designed as public identifiers and restricted by the provider where possible.
+:::
+
+For security and to make client exposure explicit, Quasar CLI excludes variables that do not start with the `QCLI_` prefix from client-side code. Backend code, such as the SSR server or SSG renderer script, receives all variables by default. You can change both prefixes through the /quasar.config file.
 
 ```bash
 # NOT exposed to client code, but exposed to backend;
@@ -651,7 +657,7 @@ build: {
     clientPrefix?: string | string[];
     /**
      * Setting this prefix will filter out env files variables and Node.js process.env
-     * variables that are exposed to the backend code (like the SSR server-side).
+     * variables that are exposed to the backend code (like the SSR/SSG server-side).
      *
      * Avoid setting it to 'QUASAR_' so it won't conflict with
      * Quasar's own environment variables.
@@ -676,7 +682,7 @@ build: {
     file?: string | string[];
     /**
      * Filter the env files variables & Node.js process.env variables
-     * that are exposed to the app code. This does not affects props
+     * that are exposed to the app code. This does not affect properties
      * assigned directly to the quasar.config > build > define prop.
      */
     filter?: (
@@ -685,7 +691,7 @@ build: {
     ) => Record<string, string>;
 
     /**
-     * Ignore auto-infering and declaring type for these variables;
+     * Ignore automatically inferring and declaring types for these variables.
      * Variables can come from process.env (terminal variables) or
      * dotenv files or quasar.config > build > define/defineEnv.
      *

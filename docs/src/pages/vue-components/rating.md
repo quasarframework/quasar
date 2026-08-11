@@ -17,6 +17,14 @@ Quasar Rating is a Component which allows users to rate items, usually known as 
 
 <DocExample title="Custom number of choices" file="Max" />
 
+### Keyboard navigation
+
+QRating uses radio-group keyboard behavior:
+
+- `Space` or `Enter` update the model.
+- `Arrow Right` and `Arrow Down` move focus to the next value (Space/Enter required to be pressed to update the model).
+- `Arrow Left` and `Arrow Up` move focus to the previous value (Space/Enter required to be pressed to update the model).
+
 ### Icons
 
 <DocExample title="Image icons" file="Images" />

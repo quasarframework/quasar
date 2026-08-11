@@ -23,16 +23,10 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    return {
-      myListRef: ref(null)
-    }
-  }
-}
+const myListRef = ref(null)
 </script>
 
 <style lang="sass" scoped>

@@ -20,7 +20,7 @@
 
         <q-toolbar-title>
           <q-avatar>
-            <img src="https://cdn.quasar.dev/logo-v2/svg/logo-mono-white.svg" />
+            <img src="/logo/logo-mono-white.svg" />
           </q-avatar>
           Layout Builder
         </q-toolbar-title>
@@ -53,7 +53,7 @@
           :contracted="isContracted"
           color="secondary"
           v-model="step"
-          ref="stepper"
+          ref="stepperRef"
           style="max-width: 600px"
         >
           <q-step
@@ -387,7 +387,7 @@
                   <q-btn
                     class="full-width"
                     color="brand-primary"
-                    @click="$refs.stepper.next()"
+                    @click="$refs.stepperRef.next()"
                     label="Continue"
                   />
                 </div>
@@ -634,7 +634,7 @@ const layoutExport = computed(() => {
           }
         <q-toolbar-title>
           <q-avatar>
-            <img src="https://cdn.quasar.dev/logo-v2/svg/logo-mono-white.svg">
+            <img src="/logo/logo-mono-white.svg">
           </q-avatar>
           Title
         </q-toolbar-title>${
@@ -687,7 +687,7 @@ const layoutExport = computed(() => {
       <q-toolbar>
         <q-toolbar-title>
           <q-avatar>
-            <img src="https://cdn.quasar.dev/logo-v2/svg/logo-mono-white.svg">
+            <img src="/logo/logo-mono-white.svg">
           </q-avatar>
           <div>Title</div>
         </q-toolbar-title>

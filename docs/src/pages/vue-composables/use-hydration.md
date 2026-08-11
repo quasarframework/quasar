@@ -7,7 +7,7 @@ related:
   - /vue-components/no-ssr
 ---
 
-The useHydration composable is useful when you build for SSR (but can be used for non SSR builds as well). It is a lower level util of the [QNoSsr](/vue-components/no-ssr) component.
+The useHydration composable is useful when you build for SSR or SSG (but can be used for non SSR/SSG builds as well). It is a lower level util of the [QNoSsr](/vue-components/no-ssr) component.
 
 ## Syntax
 

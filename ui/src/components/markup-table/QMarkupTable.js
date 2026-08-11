@@ -9,7 +9,7 @@ import { hSlot } from '../../utils/private.render/render.js'
 
 const separatorValues = ['horizontal', 'vertical', 'cell', 'none']
 
-export default createComponent({
+export default /*#__PURE__*/ createComponent({
   name: 'QMarkupTable',
 
   props: {

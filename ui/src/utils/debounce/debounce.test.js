@@ -176,6 +176,17 @@ describe('[debounce API]', () => {
 
         expect(callback).not.toHaveBeenCalled()
       })
+      test('cancel() re-arms the leading edge in immediate mode', () => {
+        const callback = vi.fn()
+        const fn = debounce(callback, 100, true)
+
+        fn()
+        expect(callback).toHaveBeenCalledTimes(1)
+
+        fn.cancel()
+        fn()
+        expect(callback).toHaveBeenCalledTimes(2)
+      })
     })
   })
 })

@@ -17,43 +17,35 @@
   </div>
 </template>
 
-<script>
-import { ref } from 'vue'
+<script setup>
+import { ref, useTemplateRef } from 'vue'
 
-export default {
-  setup() {
-    const inputRef = ref(null)
+const inputRef = useTemplateRef('inputRef')
+const model = ref('')
 
-    return {
-      model: ref(''),
-      inputRef,
+function myRule(val) {
+  // simulating a delay
 
-      myRule(val) {
-        // simulating a delay
+  return new Promise(resolve => {
+    setTimeout(() => {
+      // call
+      //  resolve(true)
+      //     --> content is valid
+      //  resolve(false)
+      //     --> content is NOT valid, no error message
+      //  resolve(error_message)
+      //     --> content is NOT valid, we have error message
+      resolve(Boolean(val) || '* Required')
 
-        return new Promise(resolve => {
-          setTimeout(() => {
-            // call
-            //  resolve(true)
-            //     --> content is valid
-            //  resolve(false)
-            //     --> content is NOT valid, no error message
-            //  resolve(error_message)
-            //     --> content is NOT valid, we have error message
-            resolve(Boolean(val) || '* Required')
+      // calling reject(...) will also mark the input
+      // as having an error, but there will not be any
+      // error message displayed below the input
+      // (only in browser console)
+    }, 1000)
+  })
+}
 
-            // calling reject(...) will also mark the input
-            // as having an error, but there will not be any
-            // error message displayed below the input
-            // (only in browser console)
-          }, 1000)
-        })
-      },
-
-      reset() {
-        inputRef.value.resetValidation()
-      }
-    }
-  }
+function reset() {
+  inputRef.value.resetValidation()
 }
 </script>

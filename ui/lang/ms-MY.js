@@ -1,6 +1,6 @@
 export default {
   isoName: 'ms-MY',
-  nativeName: 'Malaysia',
+  nativeName: 'Bahasa Melayu (Malaysia)',
   label: {
     clear: 'Semula',
     ok: 'OK',
@@ -27,12 +27,12 @@ export default {
       ),
     monthsShort: 'Jan_Feb_Mac_Apr_Mei_Jun_Jul_Ogo_Sep_Okt_Nov_Dis'.split('_'),
     headerTitle: date =>
-      new Intl.DateTimeFormat('my', {
+      new Intl.DateTimeFormat('ms-MY', {
         weekday: 'short',
         month: 'short',
         day: 'numeric'
       }).format(date),
-    firstDayOfWeek: 0, // 0-6, 0 - Sunday, 1 Monday, ...
+    firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
     format24h: false,
     pluralDay: 'hari',
     prevMonth: 'Bulan sebelumnya',
@@ -53,7 +53,7 @@ export default {
         : (rows === 0 ? 'tiada' : '1') + ' rekod terpilih.',
     recordsPerPage: 'Rekod setiap halaman:',
     allRows: 'Semua',
-    pagination: (start, end, total) => start + ' - ' + end + ' / ' + total,
+    pagination: (start, end, total) => start + '-' + end + ' / ' + total,
     columns: 'Senaraikan'
   },
   pagination: {

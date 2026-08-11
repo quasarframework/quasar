@@ -14,7 +14,7 @@ import { stopAndPrevent } from '../../utils/event/event.js'
 
 const getNodeData = () => ({})
 
-export default createComponent({
+export default /*#__PURE__*/ createComponent({
   name: 'QSlider',
 
   props: {

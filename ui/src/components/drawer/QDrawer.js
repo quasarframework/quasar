@@ -40,7 +40,7 @@ function updateLocal(prop, val) {
   }
 }
 
-export default createComponent({
+export default /*#__PURE__*/ createComponent({
   name: 'QDrawer',
 
   inheritAttrs: false,
@@ -217,7 +217,7 @@ export default createComponent({
     const flagPanning = ref(false)
     const flagMiniAnimate = ref(false)
     const flagContentPosition = ref(
-      // starting with "hidden" for SSR
+      // starting with "hidden" for SSR/SSG
       size.value * stateDirection.value
     )
 
@@ -521,7 +521,7 @@ export default createComponent({
     function onOpenPan(evt) {
       // some browsers might capture and trigger this
       // even if Drawer has just been opened (but animation is still pending)
-      if (!showing.value) return
+      if (showing.value) return
 
       const width = size.value,
         position = between(evt.distance.x, 0, width)

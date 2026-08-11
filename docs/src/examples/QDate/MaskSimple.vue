@@ -26,15 +26,9 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    return {
-      model1: ref('2019-02-15'),
-      model2: ref('03-21-2019')
-    }
-  }
-}
+const model1 = ref('2019-02-15')
+const model2 = ref('03-21-2019')
 </script>

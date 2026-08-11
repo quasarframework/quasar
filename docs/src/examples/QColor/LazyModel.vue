@@ -16,14 +16,8 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    return {
-      hex: ref('#112e1b')
-    }
-  }
-}
+const hex = ref('#112e1b')
 </script>

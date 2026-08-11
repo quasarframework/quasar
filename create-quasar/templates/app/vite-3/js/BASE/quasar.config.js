@@ -48,7 +48,6 @@ export default defineConfig((<% if (scope.preset.i18n) { %>ctx<% } else { %>/* c
 
       vueRouterMode: 'hash', // available values: 'hash', 'history'
       // vueRouterBase,
-      // vueDevtools,
 
       // publicPath: '/',
       // define: {},
@@ -71,7 +70,7 @@ export default defineConfig((<% if (scope.preset.i18n) { %>ctx<% } else { %>/* c
           // you need to set `runtimeOnly: false`
           // runtimeOnly: false,
 
-          ssr: ctx.modeName === 'ssr',
+          ssr: ctx.mode.ssr || ctx.mode.ssg,
 
           // you need to set i18n resource including paths !
           include: [ ctx.appPaths.resolve.app('src/i18n') ]
@@ -96,6 +95,7 @@ export default defineConfig((<% if (scope.preset.i18n) { %>ctx<% } else { %>/* c
 
     // https://v2.quasar.dev/quasar-cli-vite/quasar-config-file#devserver
     devServer: {
+      // vueDevtools: true,
       // https: true,
       open: true // opens browser window automatically
     },
@@ -137,26 +137,57 @@ export default defineConfig((<% if (scope.preset.i18n) { %>ctx<% } else { %>/* c
 
     // https://v2.quasar.dev/quasar-cli-vite/developing-ssr/configuring-ssr
     ssr: {
-      prodPort: 3000, // The default port that the production server should use
-                      // (gets superseded if process.env.PORT is specified at runtime)
-
+      /**
+       * The default port that the production server should use
+       * (gets superseded if process.env.PORT is specified at runtime)
+       */
+      prodPort: 3000,
       middlewares: [
-        'render' // keep this as last one
+        "render" // keep this as last one
       ],
 
+      // clientSideRenderingRoutes: [],
+      // noPreloadTagRoutes: [],
+      // manualStoreSerialization: true,
+      // manualStoreSsrContextInjection: true,
+      // manualStoreHydration: true,
+      // manualPostHydrationTrigger: true,
+      // prodScriptNamedExport: false,
+
       // extendSSRPackageJson (pkgJson) {},
+      // extendSSRManifestJson (json) {},
       // extendSSRWebserverConf (rolldownConf) {},
+
+      // pwa: true,
+      // pwaOfflineHtmlFilename: 'offline.html', // do NOT use index.html as name!
+      // extendSSRGenerateSWOptions (cfg) {},
+      // extendSSRInjectManifestOptions (cfg) {},
+    },
+
+    // https://v2.quasar.dev/quasar-cli-vite/developing-ssg/configuring-ssg
+    ssg: {
+      // onSsgRendererError: 'abort',
+      // ssgRendererConcurrency: 1,
+      // ssgRendererRetryCount: 0,
+      // ssgRendererRetryDelay: 1000,
+      // ssgRendererDirectoryIndexes: true,
+      // error404HtmlFilename: '404.html',
+      // clientSideRenderingHtmlFilename: 'csr.html',
+      // clientSideRenderingRoutes: [],
+      // noPreloadTagRoutes: []
+
+      // extendSSGRendererConf (rolldownConf) {},
+      // extendSSGManifestJson (json) {},
 
       // manualStoreSerialization: true,
       // manualStoreSsrContextInjection: true,
       // manualStoreHydration: true,
       // manualPostHydrationTrigger: true,
 
-      pwa: false
-      // pwaOfflineHtmlFilename: 'offline.html', // do NOT use index.html as name!
-
-      // extendSSRGenerateSWOptions (cfg) {},
-      // extendSSRInjectManifestOptions (cfg) {}
+      // pwa: true,
+      // pwaOfflineHtmlFilename: 'offline.html',
+      // extendSSGGenerateSWOptions (cfg) {},
+      // extendSSGInjectManifestOptions (cfg) {},
     },
 
     // https://v2.quasar.dev/quasar-cli-vite/developing-pwa/configuring-pwa

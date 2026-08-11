@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 18.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 width="319px" height="454px" viewBox="35 -63 319 454" enable-background="new 35 -63 319 377" xml:space="preserve">
+<rect x="35" y="-39" fill="#232447" width="319" height="45"/>
+<rect x="35" y="-27.5" fill="#4e9bd4" width="52.9" height="22"/>
+<rect x="98.1" y="-27.5" fill="#4e9bd4" width="26.9" height="22"/>
+<rect x="135.8" y="-27.5" fill="#4e9bd4" width="96.2" height="22"/>
+<text transform="matrix(1 0 0 1 43 -44)" fill="#34495e" font-family="'Source Sans Pro'" font-size="16">justify-start</text>
+<rect x="35" y="35" fill="#232447" width="319" height="45"/>
+<rect x="157" y="46.5" fill="#4e9bd4" width="52.9" height="22"/>
+<rect x="220.1" y="46.5" fill="#4e9bd4" width="26.9" height="22"/>
+<rect x="257.8" y="46.5" fill="#4e9bd4" width="96.2" height="22"/>
+<text transform="matrix(1 0 0 1 43 30)" fill="#34495e" font-family="'Source Sans Pro'" font-size="16">justify-end</text>
+<rect x="35" y="110" fill="#232447" width="319" height="45"/>
+<rect x="94.4" y="121.5" fill="#4e9bd4" width="52.9" height="22"/>
+<rect x="157.5" y="121.5" fill="#4e9bd4" width="26.9" height="22"/>
+<rect x="195.2" y="121.5" fill="#4e9bd4" width="96.2" height="22"/>
+<text transform="matrix(1 0 0 1 43 105)" fill="#34495e" font-family="'Source Sans Pro'" font-size="16">justify-center</text>
+<rect x="35" y="185" fill="#232447" width="319" height="45"/>
+<rect x="35" y="196.5" fill="#4e9bd4" width="52.9" height="22"/>
+<rect x="162.2" y="196.5" fill="#4e9bd4" width="26.9" height="22"/>
+<rect x="257.8" y="196.5" fill="#4e9bd4" width="96.2" height="22"/>
+<text transform="matrix(1 0 0 1 43.6836 180)" fill="#34495e" font-family="'Source Sans Pro'" font-size="16">justify-between</text>
+<rect x="35" y="261" fill="#232447" width="319" height="45"/>
+<rect x="58" y="272.5" fill="#4e9bd4" width="52.9" height="22"/>
+<rect x="158.5" y="272.5" fill="#4e9bd4" width="26.9" height="22"/>
+<rect x="236.1" y="272.5" fill="#4e9bd4" width="96.2" height="22"/>
+<text transform="matrix(1 0 0 1 44.0254 256)" fill="#34495e" font-family="'Source Sans Pro'" font-size="16">justify-around</text>
+<rect x="35" y="338" fill="#232447" width="319" height="45"/>
+<rect x="68" y="349" fill="#4e9bd4" width="52.9" height="22"/>
+<rect x="158.5" y="349" fill="#4e9bd4" width="26.9" height="22"/>
+<rect x="226.1" y="349" fill="#4e9bd4" width="96.2" height="22"/>
+<text transform="matrix(1 0 0 1 44.0254 333)" fill="#34495e" font-family="'Source Sans Pro'" font-size="16">justify-evenly</text>
+</svg>

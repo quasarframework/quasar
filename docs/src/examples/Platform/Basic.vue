@@ -34,19 +34,12 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { useQuasar } from 'quasar'
 import { computed } from 'vue'
 
-export default {
-  setup() {
-    const $q = useQuasar()
-
-    return {
-      touch: computed(() => ($q.platform.has.touch ? 'has' : 'does not have'))
-    }
-  }
-}
+const $q = useQuasar()
+const touch = computed(() => ($q.platform.has.touch ? 'has' : 'does not have'))
 </script>
 
 <style lang="sass">

@@ -33,17 +33,11 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    return {
-      left: ref(true),
-      right: ref(false),
-      left2: ref(true),
-      right2: ref(false)
-    }
-  }
-}
+const left = ref(true)
+const right = ref(false)
+const left2 = ref(true)
+const right2 = ref(false)
 </script>

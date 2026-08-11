@@ -65,12 +65,6 @@
   </div>
 </template>
 
-<script>
-export default {
-  setup() {
-    return {
-      value: 81
-    }
-  }
-}
+<script setup>
+const value = 81
 </script>

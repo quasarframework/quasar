@@ -111,23 +111,12 @@
   </q-layout>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  name: 'MyLayout',
+const leftDrawerOpen = ref(false)
 
-  setup() {
-    const leftDrawerOpen = ref(false)
-
-    function toggleLeftDrawer() {
-      leftDrawerOpen.value = !leftDrawerOpen.value
-    }
-
-    return {
-      leftDrawerOpen,
-      toggleLeftDrawer
-    }
-  }
+function toggleLeftDrawer() {
+  leftDrawerOpen.value = !leftDrawerOpen.value
 }
 </script>

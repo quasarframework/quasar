@@ -375,10 +375,10 @@
             :dense="dense"
             class="col"
           >
-            <template v-slot:control="{ id, value, emitValue }">
+            <template v-slot:control="{ id, modelValue, emitValue }">
               <q-radio
                 :for="id"
-                :model-value="value"
+                :model-value="modelValue"
                 val="opt1"
                 @update:model-value="emitValue"
                 color="orange"
@@ -396,9 +396,9 @@
             :dense="dense"
             class="col"
           >
-            <template v-slot:control="{ value, emitValue }">
+            <template v-slot:control="{ modelValue, emitValue }">
               <q-radio
-                :model-value="value"
+                :model-value="modelValue"
                 val="opt2"
                 @update:model-value="emitValue"
                 color="orange"
@@ -471,42 +471,32 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { mdiCheckboxMarkedCircleOutline } from '@quasar/extras/mdi-v7'
+import { ref, watch } from 'vue'
 
-export default {
-  created() {
-    this.mdiCheckboxMarkedCircleOutline = mdiCheckboxMarkedCircleOutline
-  },
-  data() {
-    return {
-      option: 'opt1',
-      group: 'op3',
-      dark: null,
-      dense: false,
-      keepColor: false
-    }
-  },
-  watch: {
-    option(val, old) {
-      console.log(
-        `Changed from ${JSON.stringify(old)} to ${JSON.stringify(val)}`
-      )
-    },
-    group(val, old) {
-      console.log(
-        `Changed from ${JSON.stringify(old)} to ${JSON.stringify(val)}`
-      )
-    }
-  },
-  methods: {
-    onChange(val) {
-      console.log('@change', JSON.stringify(val))
-    },
-    onInput(val) {
-      console.log('@update:model-value', JSON.stringify(val))
-    }
-  }
+// mdiCheckboxMarkedCircleOutline is auto-exposed to the template
+// as a top-level import (previously assigned on the instance in created())
+
+const option = ref('opt1')
+const group = ref('op3')
+const dark = ref(null)
+const dense = ref(false)
+const keepColor = ref(false)
+
+watch(option, (val, old) => {
+  console.log(`Changed from ${JSON.stringify(old)} to ${JSON.stringify(val)}`)
+})
+
+watch(group, (val, old) => {
+  console.log(`Changed from ${JSON.stringify(old)} to ${JSON.stringify(val)}`)
+})
+
+function onChange(val) {
+  console.log('@change', JSON.stringify(val))
+}
+function onInput(val) {
+  console.log('@update:model-value', JSON.stringify(val))
 }
 </script>
 

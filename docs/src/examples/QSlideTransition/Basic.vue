@@ -10,14 +10,8 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    return {
-      visible: ref(true)
-    }
-  }
-}
+const visible = ref(true)
 </script>

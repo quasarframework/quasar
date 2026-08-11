@@ -46,7 +46,7 @@ function promisify(target, fn) {
   }
 }
 
-const Plugin = createReactivePlugin(
+const Plugin = /*#__PURE__*/ createReactivePlugin(
   {
     isActive: false,
     activeEl: null

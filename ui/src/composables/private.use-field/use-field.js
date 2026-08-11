@@ -24,6 +24,7 @@ import useValidate, {
 } from '../private.use-validate/use-validate.js'
 
 import { hSlot } from '../../utils/private.render/render.js'
+import { injectProp } from '../../utils/private.inject-obj-prop/inject-obj-prop.js'
 import { prevent, stopAndPrevent } from '../../utils/event/event.js'
 import {
   addFocusFn,
@@ -316,17 +317,25 @@ export default function useField(state) {
         : '')
   )
 
-  const controlSlotScope = computed(() => ({
-    id: state.targetUid.value,
-    editable: state.editable.value,
-    focused: state.focused.value,
-    floatingLabel: floatingLabel.value,
-    modelValue: props.modelValue,
-    emitValue: state.emitValue,
-    ariaInvalid: hasError.value === true ? 'true' : void 0,
-    ariaDescribedby: errorMessageId.value,
-    ariaErrormessage: errorMessageId.value
-  }))
+  const controlSlotScope = computed(() =>
+    // "field" is resolved on access, as the root element is only
+    // available after the first render
+    injectProp(
+      {
+        id: state.targetUid.value,
+        editable: state.editable.value,
+        focused: state.focused.value,
+        floatingLabel: floatingLabel.value,
+        modelValue: props.modelValue,
+        emitValue: state.emitValue,
+        ariaInvalid: hasError.value === true ? 'true' : void 0,
+        ariaDescribedby: errorMessageId.value,
+        ariaErrormessage: errorMessageId.value
+      },
+      'field',
+      () => state.rootRef.value
+    )
+  )
 
   const attributes = computed(() => {
     const acc = {}
@@ -402,7 +411,7 @@ export default function useField(state) {
       }
 
       then?.()
-    })
+    }, 0)
   }
 
   function clearValue(e) {
@@ -422,6 +431,8 @@ export default function useField(state) {
       // appear for another selection
       state.inputRef.value.value = null
     }
+
+    state.onClear?.()
 
     emit('update:modelValue', null)
     if (state.changeEvent) emit('change', null)

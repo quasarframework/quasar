@@ -29,7 +29,7 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
 const options = [
@@ -43,13 +43,6 @@ const options = [
   }
 ]
 
-export default {
-  setup() {
-    return {
-      model: ref(options[0]),
-      displayHtml: ref(false),
-      options
-    }
-  }
-}
+const model = ref(options[0])
+const displayHtml = ref(false)
 </script>

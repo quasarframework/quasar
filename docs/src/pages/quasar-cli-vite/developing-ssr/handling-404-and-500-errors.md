@@ -87,7 +87,7 @@ We'll discuss some architectural decisions that you need to be aware of. Choose 
 
 If you define an equivalent 404 route on your Vue Router `/src/router/routes.js` file (like below), then the `if(err.routeNotFound)` part from the example above will NEVER be `true` since Vue Router already handled it.
 
-```js
+```js /src/router/routes file
 // Example of route for catching 404 with Vue Router
 { path: '/:catchAll(.*)*', component: () => import('@/pages/Error404.vue') }
 ```
@@ -100,7 +100,7 @@ However, if we want to show a nice page instead, either create a function to ret
 
 1. Add a specific route in `/src/router/routes.js`, like:
 
-```js
+```js /src/router/routes file
 { path: 'error500', component: () => import('@/pages/Error500.vue') }
 ```
 

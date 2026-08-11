@@ -29,7 +29,7 @@ import useDatetime, {
 import { createComponent } from '../../utils/private.create/create.js'
 import { hSlot } from '../../utils/private.render/render.js'
 import { __splitDate, formatDate } from '../../utils/date/date.js'
-import { position } from '../../utils/event/event.js'
+import { position, stopAndPrevent } from '../../utils/event/event.js'
 import { pad } from '../../utils/format/format.js'
 import { vmIsDestroyed } from '../../utils/private.vm/vm.js'
 
@@ -58,6 +58,10 @@ function getCurrentTime() {
   }
 }
 
+function preventSpace(e) {
+  if (e.keyCode === 32) stopAndPrevent(e)
+}
+
 function getWheelDist(a, b, threshold) {
   const diff = Math.abs(a - b)
   return Math.min(diff, threshold - diff)
@@ -77,7 +81,7 @@ function getValidValues(start, count, testFn) {
   }
 }
 
-export default createComponent({
+export default /*#__PURE__*/ createComponent({
   name: 'QTime',
 
   props: {
@@ -87,6 +91,7 @@ export default createComponent({
 
     modelValue: {
       required: true,
+      default: null,
       validator: val => typeof val === 'string' || val === null
     },
 
@@ -536,11 +541,17 @@ export default createComponent({
     }
 
     function setAmOnKey(e) {
-      if (e.keyCode === 13) setAm()
+      if ([13, 32].includes(e.keyCode)) {
+        setAm()
+        stopAndPrevent(e)
+      }
     }
 
     function setPmOnKey(e) {
-      if (e.keyCode === 13) setPm()
+      if ([13, 32].includes(e.keyCode)) {
+        setPm()
+        stopAndPrevent(e)
+      }
     }
 
     function onClick(evt) {
@@ -562,9 +573,9 @@ export default createComponent({
     }
 
     function onKeyupHour(e) {
-      if (e.keyCode === 13) {
-        // ENTER
+      if ([13, 32].includes(e.keyCode)) {
         view.value = 'hour'
+        stopAndPrevent(e)
       } else if ([37, 39].includes(e.keyCode)) {
         const payload = e.keyCode === 37 ? -1 : 1
 
@@ -598,9 +609,9 @@ export default createComponent({
     }
 
     function onKeyupMinute(e) {
-      if (e.keyCode === 13) {
-        // ENTER
+      if ([13, 32].includes(e.keyCode)) {
         view.value = 'minute'
+        stopAndPrevent(e)
       } else if ([37, 39].includes(e.keyCode)) {
         const payload = e.keyCode === 37 ? -1 : 1
 
@@ -631,9 +642,9 @@ export default createComponent({
     }
 
     function onKeyupSecond(e) {
-      if (e.keyCode === 13) {
-        // ENTER
+      if ([13, 32].includes(e.keyCode)) {
         view.value = 'second'
+        stopAndPrevent(e)
       } else if ([37, 39].includes(e.keyCode)) {
         const payload = e.keyCode === 37 ? -1 : 1
 
@@ -642,7 +653,7 @@ export default createComponent({
 
           if (values.length === 0) return
 
-          if (innerModel.value.seconds === null) {
+          if (innerModel.value.second === null) {
             setSecond(values[0])
           } else {
             const index =
@@ -806,7 +817,10 @@ export default createComponent({
                 ? 'q-time__link--active'
                 : 'cursor-pointer'),
             tabindex: tabindex.value,
+            role: 'button',
+            'aria-pressed': view.value === 'hour' ? 'true' : 'false',
             onClick: setView.hour,
+            onKeydown: preventSpace,
             onKeyup: onKeyupHour
           },
           stringModel.value.hour
@@ -824,6 +838,9 @@ export default createComponent({
                     ? 'q-time__link--active'
                     : 'cursor-pointer'),
                 tabindex: tabindex.value,
+                role: 'button',
+                'aria-pressed': view.value === 'minute' ? 'true' : 'false',
+                onKeydown: preventSpace,
                 onKeyup: onKeyupMinute,
                 onClick: setView.minute
               }
@@ -846,6 +863,9 @@ export default createComponent({
                       ? 'q-time__link--active'
                       : 'cursor-pointer'),
                   tabindex: tabindex.value,
+                  role: 'button',
+                  'aria-pressed': view.value === 'second' ? 'true' : 'false',
+                  onKeydown: preventSpace,
                   onKeyup: onKeyupSecond,
                   onClick: setView.second
                 }
@@ -881,7 +901,10 @@ export default createComponent({
                     'q-time__link ' +
                     (isAM.value ? 'q-time__link--active' : 'cursor-pointer'),
                   tabindex: tabindex.value,
+                  role: 'button',
+                  'aria-pressed': isAM.value ? 'true' : 'false',
                   onClick: setAm,
+                  onKeydown: preventSpace,
                   onKeyup: setAmOnKey
                 },
                 'AM'
@@ -894,7 +917,10 @@ export default createComponent({
                     'q-time__link ' +
                     (isAM.value ? 'cursor-pointer' : 'q-time__link--active'),
                   tabindex: tabindex.value,
+                  role: 'button',
+                  'aria-pressed': isAM.value ? 'false' : 'true',
                   onClick: setPm,
+                  onKeydown: preventSpace,
                   onKeyup: setPmOnKey
                 },
                 'PM'

@@ -249,7 +249,7 @@ describe('[colors API]', () => {
         ['yellow', { r: 255, g: 255, b: 0 }, 0.9278],
         ['cyan', { r: 0, g: 255, b: 255 }, 0.7874],
         ['magenta', { r: 255, g: 0, b: 255 }, 0.2848],
-        ['gray', { r: 128, g: 128, b: 128 }, 0.215_859_375]
+        ['gray', { r: 128, g: 128, b: 128 }, 0.215859375]
       ])('luminosity(%s)', (_, value, expected) => {
         expect(colors.luminosity(value)).toBeCloseTo(expected)
       })

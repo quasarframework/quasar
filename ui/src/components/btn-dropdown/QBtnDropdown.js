@@ -25,7 +25,7 @@ export function passBtnProps(props) {
   }, {})
 }
 
-export default createComponent({
+export default /*#__PURE__*/ createComponent({
   name: 'QBtnDropdown',
 
   props: {

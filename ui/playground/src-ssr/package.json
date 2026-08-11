@@ -4,7 +4,7 @@
   "private": true,
   "description": "Quasar SSR server folder",
   "dependencies": {
-    "@hono/node-server": "^2.0.0",
-    "hono": "^4.12.12"
+    "@hono/node-server": "^2.1.0",
+    "hono": "^4.13.0"
   }
 }

@@ -41,18 +41,12 @@
   </div>
 </template>
 
-<script>
-export default {
-  setup() {
-    return {
-      onMainClick() {
-        // console.log('Clicked on main button')
-      },
+<script setup>
+function onMainClick() {
+  console.log('Clicked on main button')
+}
 
-      onItemClick() {
-        // console.log('Clicked on an Item')
-      }
-    }
-  }
+function onItemClick() {
+  console.log('Clicked on an Item')
 }
 </script>

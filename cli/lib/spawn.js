@@ -19,6 +19,8 @@ const extraEnvParams = isCI
  Returns nothing, takes onFail
  */
 export async function spawnSync(cmd, params, opts, onFail) {
+  opts ??= {}
+
   const targetFolder = opts?.cwd ? ` in ${opts.cwd}` : ''
 
   const message = `Running "${cmd} ${params.join(' ')}"${targetFolder}`
@@ -34,11 +36,13 @@ export async function spawnSync(cmd, params, opts, onFail) {
 
   if (runner.error || runner.status || runner.status === null) {
     const errorMessage =
-      runner.status === null || runner.error?.code === 'ENOENT'
+      runner.error?.code === 'ENOENT'
         ? `Command "${cmd}" not found! Please install it globally.`
-        : runner.status
-          ? `Command "${cmd} ${params.join(' ')}" failed with exit code: ${runner.status}`
-          : `Command "${cmd} ${params.join(' ')}" failed!`
+        : runner.signal
+          ? `Command "${cmd} ${params.join(' ')}" was terminated by signal: ${runner.signal}`
+          : runner.status
+            ? `Command "${cmd} ${params.join(' ')}" failed with exit code: ${runner.status}`
+            : `Command "${cmd} ${params.join(' ')}" failed!`
 
     const msg = `⚠️  ⚠️  ⚠️  ${errorMessage} ⚠️  ⚠️  ⚠️ `
 
@@ -64,6 +68,8 @@ export async function spawnSync(cmd, params, opts, onFail) {
  Returns pid, takes onClose
  */
 export function spawn(cmd, params, opts, onClose) {
+  opts ??= {}
+
   if (!cmd) {
     fatal('Command name was not available. Please run again.')
   }

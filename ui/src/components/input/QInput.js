@@ -25,10 +25,13 @@ import useKeyComposition from '../../composables/private.use-key-composition/use
 
 import { createComponent } from '../../utils/private.create/create.js'
 import { stop } from '../../utils/event/event.js'
-import { addFocusFn } from '../../utils/private.focus/focus-manager.js'
+import {
+  addFocusFn,
+  removeFocusFn
+} from '../../utils/private.focus/focus-manager.js'
 import { injectProp } from '../../utils/private.inject-obj-prop/inject-obj-prop.js'
 
-export default createComponent({
+export default /*#__PURE__*/ createComponent({
   name: 'QInput',
 
   inheritAttrs: false,
@@ -40,8 +43,9 @@ export default createComponent({
 
     // override of useFieldProps > modelValue
     modelValue: __QUASAR_SSR_SERVER__
-      ? {} // SSR does not know about FileList
+      ? {} // SSR/SSG does not know about FileList
       : [String, Number, FileList],
+    modelModifiers: Object,
 
     shadowText: String,
 
@@ -93,7 +97,18 @@ export default createComponent({
     const formDomProps = useFileFormDomProps(props, /* type guard */ true)
     const hasValue = computed(() => fieldValueIsFilled(innerValue.value))
 
-    const onComposition = useKeyComposition(onInput)
+    const onKeyComposition = useKeyComposition(onInput)
+
+    function onComposition(e) {
+      if (hasMask.value && e.type === 'compositionstart') {
+        // A mask must not rewrite the value while an IME owns the composition.
+        // Keep unmasked controls on the shared detection path for keyboard compatibility.
+        e.target.qComposing = true
+        return
+      }
+
+      onKeyComposition(e)
+    }
 
     const state = useFieldState({ changeEvent: true })
 
@@ -181,6 +196,13 @@ export default createComponent({
     watch(
       () => props.modelValue,
       v => {
+        if (emitTimer !== null) {
+          cancelPendingValueEmission()
+          typedNumber = false
+          stopValueWatcher = false
+          delete temp.value
+        }
+
         if (hasMask.value) {
           if (stopValueWatcher) {
             stopValueWatcher = false
@@ -197,6 +219,14 @@ export default createComponent({
             } else {
               delete temp.value
             }
+          }
+
+          if (
+            props.modelModifiers?.trim === true &&
+            Object.hasOwn(temp, 'value') &&
+            (typeof temp.value !== 'string' || temp.value.trim() !== v)
+          ) {
+            delete temp.value
           }
         }
 
@@ -226,17 +256,27 @@ export default createComponent({
       }
     )
 
+    function focusHandler() {
+      const el = document.activeElement
+      if (
+        inputRef.value !== null &&
+        inputRef.value !== el &&
+        (el === null || el.id !== state.targetUid.value)
+      ) {
+        inputRef.value.focus({ preventScroll: true })
+      }
+    }
+
     function focus() {
-      addFocusFn(() => {
-        const el = document.activeElement
-        if (
-          inputRef.value !== null &&
-          inputRef.value !== el &&
-          (el === null || el.id !== state.targetUid.value)
-        ) {
-          inputRef.value.focus({ preventScroll: true })
-        }
-      })
+      addFocusFn(focusHandler)
+    }
+
+    function blur() {
+      removeFocusFn(focusHandler)
+      const el = document.activeElement
+      if (el !== null && state.rootRef.value.contains(el)) {
+        el.blur()
+      }
     }
 
     function select() {
@@ -270,6 +310,10 @@ export default createComponent({
       if (hasMask.value) {
         updateMaskValue(val, false, e.inputType)
       } else {
+        if (props.modelModifiers?.trim === true) {
+          temp.value = val
+        }
+
         emitValue(val)
 
         if (isTypeText.value && e.target === document.activeElement) {
@@ -302,7 +346,11 @@ export default createComponent({
       emitValueFn = () => {
         emitTimer = null
 
-        if (props.type !== 'number' && Object.hasOwn(temp, 'value')) {
+        if (
+          props.type !== 'number' &&
+          (props.modelModifiers?.trim !== true || hasMask.value) &&
+          Object.hasOwn(temp, 'value')
+        ) {
           delete temp.value
         }
 
@@ -332,6 +380,22 @@ export default createComponent({
       } else {
         emitValueFn()
       }
+    }
+
+    function cancelPendingValueEmission() {
+      if (emitTimer !== null) {
+        clearTimeout(emitTimer)
+        emitTimer = null
+      }
+
+      emitValueFn = void 0
+    }
+
+    function onClear() {
+      cancelPendingValueEmission()
+      typedNumber = false
+      stopValueWatcher = false
+      delete temp.value
     }
 
     // textarea only
@@ -407,7 +471,7 @@ export default createComponent({
             inputRef.value.value =
               innerValue.value !== void 0 ? innerValue.value : ''
           }
-        })
+        }, 0)
       }
     }
 
@@ -447,13 +511,15 @@ export default createComponent({
       inputRef,
 
       emitValue,
+      onClear,
 
       hasValue,
 
       floatingLabel: computed(
         () =>
           (hasValue.value &&
-            (props.type !== 'number' || Number.isFinite(innerValue.value))) ||
+            (props.type !== 'number' ||
+              Number.isFinite(Number(innerValue.value)))) ||
           fieldValueIsFilled(props.displayValue)
       ),
 
@@ -489,6 +555,7 @@ export default createComponent({
     // expose public methods
     Object.assign(proxy, {
       focus,
+      blur,
       select,
       getNativeElement: () => inputRef.value // deprecated
     })

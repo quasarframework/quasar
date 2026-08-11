@@ -1,7 +1,4 @@
-import { join } from 'node:path'
-import { readFileSync } from 'node:fs'
-
-import { quasarPath } from './quasar-path.js'
+import { loadAutoImportData } from './auto-import-data.js'
 import {
   importTransformation,
   mapQuasarImports,
@@ -14,9 +11,7 @@ function useTransformState() {
     return transformState
   }
 
-  const autoImportData = JSON.parse(
-    readFileSync(join(quasarPath, 'dist/transforms/auto-import.json'), 'utf8')
-  )
+  const autoImportData = loadAutoImportData()
 
   const compRegex = {
     kebab: new RegExp(

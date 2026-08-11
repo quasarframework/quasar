@@ -5,7 +5,7 @@ import useHydration from '../../composables/use-hydration/use-hydration.js'
 import { createComponent } from '../../utils/private.create/create.js'
 import { hSlot } from '../../utils/private.render/render.js'
 
-export default createComponent({
+export default /*#__PURE__*/ createComponent({
   name: 'QNoSsr',
 
   props: {

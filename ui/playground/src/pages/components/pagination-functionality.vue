@@ -16,7 +16,6 @@
       </p>
 
       <q-pagination
-        @change="onChange"
         @update:model-value="onInput"
         v-model="page"
         :min="min"
@@ -29,7 +28,6 @@
       />
 
       <q-pagination
-        @change="onChange"
         @update:model-value="onInput"
         v-model="page"
         :min="min"
@@ -45,7 +43,6 @@
       />
 
       <q-pagination
-        @change="onChange"
         @update:model-value="onInput"
         v-model="page"
         :min="min"
@@ -63,7 +60,6 @@
       <p class="caption">Inline</p>
       <q-pagination
         class="inline"
-        @change="onChange"
         @update:model-value="onInput"
         v-model="page"
         :min="min"
@@ -76,7 +72,6 @@
       />
       <q-pagination
         class="inline"
-        @change="onChange"
         @update:model-value="onInput"
         v-model="page"
         :min="min"
@@ -90,7 +85,6 @@
 
       <p class="caption">Disabled State</p>
       <q-pagination
-        @change="onChange"
         @update:model-value="onInput"
         v-model="page"
         disable
@@ -105,11 +99,9 @@
 
       <p class="caption">Page buttons</p>
       <q-pagination
-        @change="onChange"
         @update:model-value="onInput"
         v-model="page"
         color="red"
-        type="select"
         :min="min"
         :max="max"
         :boundary-links="boundaryLinks"
@@ -124,11 +116,9 @@
 
       <p class="caption">Page buttons - disabled</p>
       <q-pagination
-        @change="onChange"
         @update:model-value="onInput"
         v-model="page"
         color="red"
-        type="select"
         disable
         :min="min"
         :max="max"
@@ -227,59 +217,50 @@
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      inputType: false,
-      page: 1,
-      min: 1,
-      max: 17,
-      boundaryLinks: null,
-      boundaryNumbers: true,
-      directionLinks: true,
-      useToFn: false,
-      ellipses: null,
-      maxPages: 5,
-      options: [
-        { label: 'Yes', value: true },
-        { label: 'No', value: false },
-        { label: 'Default', value: null }
-      ],
-      inputClass: 'text-orange-10',
-      inputStyle: 'color: purple'
+<script setup>
+import { computed, ref, watch } from 'vue'
+import { useRoute } from 'vue-router'
+
+const route = useRoute()
+
+const inputType = ref(false)
+const page = ref(1)
+const min = ref(1)
+const max = ref(17)
+const boundaryLinks = ref(null)
+const boundaryNumbers = ref(true)
+const directionLinks = ref(true)
+const useToFn = ref(false)
+const ellipses = ref(null)
+const maxPages = ref(5)
+const options = ref([
+  { label: 'Yes', value: true },
+  { label: 'No', value: false },
+  { label: 'Default', value: null }
+])
+const inputClass = ref('text-orange-10')
+const inputStyle = ref('color: purple')
+
+watch(
+  route,
+  ({ query }) => {
+    const newPage = Number.parseInt(query.page, 10)
+
+    if (Number.isNaN(newPage) !== true) {
+      page.value = Math.max(min.value, Math.min(max.value, newPage))
     }
   },
+  { immediate: true }
+)
 
-  watch: {
-    $route: {
-      handler({ query }) {
-        const page = Number.parseInt(query.page, 10)
-
-        if (Number.isNaN(page) !== true) {
-          this.page = Math.max(this.min, Math.min(this.max, page))
-        }
-      },
-      immediate: true
-    }
-  },
-
-  computed: {
-    // oxlint-disable-next-line vue/return-in-computed-property
-    toFn() {
-      if (this.useToFn && !this.inputType) {
-        return page => ({ query: { page } })
-      }
-    }
-  },
-
-  methods: {
-    onChange(val) {
-      console.log('@change', JSON.stringify(val))
-    },
-    onInput(val) {
-      console.log('@update:model-value', JSON.stringify(val))
-    }
+// oxlint-disable-next-line vue/return-in-computed-property
+const toFn = computed(() => {
+  if (useToFn.value && !inputType.value) {
+    return pageNumber => ({ query: { page: pageNumber } })
   }
+})
+
+function onInput(val) {
+  console.log('@update:model-value', JSON.stringify(val))
 }
 </script>

@@ -14,6 +14,13 @@ import {
 import { quasarViteIndexHtmlTransformPlugin } from './plugins/vite.html.js'
 import { quasarViteStripFilenameHashesPlugin } from './plugins/vite.strip-filename-hashes.js'
 
+const compileIdToRunModeMap = {
+  'vite-ssr-client': 'ssr-client',
+  'vite-ssr-server': 'ssr-server',
+  'vite-ssg-client': 'ssr-client',
+  'vite-ssg-server': 'ssr-server'
+}
+
 async function parseVitePlugins(entries, appDir, compileId) {
   const acc = []
   let showTip = false
@@ -40,7 +47,7 @@ async function parseVitePlugins(entries, appDir, compileId) {
     const [name, pluginOpts = {}, runOpts = { client: true, server: true }] =
       entry
 
-    if (compileId === 'vite-ssr-server') {
+    if (compileId === 'vite-ssr-server' || compileId === 'vite-ssg-server') {
       // if it's configured to not run on server, then skip it
       if (runOpts.server === false) continue
     } else if (runOpts.client === false) {
@@ -107,12 +114,6 @@ async function parseVitePlugins(entries, appDir, compileId) {
   return acc
 }
 
-function getQuasarVitePluginRunMode(compileId) {
-  if (compileId === 'vite-ssr-client') return 'ssr-client'
-  if (compileId === 'vite-ssr-server') return 'ssr-server'
-  return 'web-client'
-}
-
 /**
  * Warning!
  *
@@ -134,7 +135,7 @@ export async function createViteConfig(
 
   // protect against Vite mutating its own options and triggering endless cfg diff loop
   const vueVitePluginOptions = merge(
-    compileId === 'vite-ssr-server'
+    compileId === 'vite-ssr-server' || compileId === 'vite-ssg-server'
       ? { ssr: true, template: { ssr: true } }
       : {},
     build.viteVuePluginOptions
@@ -190,7 +191,7 @@ export async function createViteConfig(
 
     build: {
       target:
-        compileId === 'vite-ssr-server'
+        compileId === 'vite-ssr-server' || compileId === 'vite-ssg-server'
           ? build.target.node
           : build.target.browser,
       emptyOutDir: false,
@@ -204,8 +205,8 @@ export async function createViteConfig(
 
     plugins: [
       vueVitePlugin(vueVitePluginOptions),
-      quasarVitePlugin({
-        runMode: getQuasarVitePluginRunMode(compileId),
+      ...quasarVitePlugin({
+        runMode: compileIdToRunModeMap[compileId] || 'web-client',
         autoImportComponentCase: quasarConf.framework.autoImportComponentCase,
         autoImportVueExtensions: quasarConf.framework.autoImportVueExtensions,
         autoImportScriptExtensions:
@@ -229,27 +230,44 @@ export async function createViteConfig(
     )
   }
 
-  if (compileId !== 'vite-ssr-server') {
+  if (compileId !== 'vite-ssr-server' && compileId !== 'vite-ssg-server') {
+    viteConf.plugins.unshift(quasarViteIndexHtmlTransformPlugin(quasarConf))
+
     if (ctx.prod && quasarConf.build.useFilenameHashes !== true) {
       viteConf.plugins.push(quasarViteStripFilenameHashesPlugin())
-    }
-
-    if (compileId !== 'vite-ssr-client' || quasarConf.ctx.prod) {
-      viteConf.plugins.unshift(quasarViteIndexHtmlTransformPlugin(quasarConf))
     }
   }
 
   if (ctx.dev) {
-    const warmup =
-      compileId !== 'vite-ssr-server'
-        ? {
+    if (compileId !== 'vite-ssr-server' && compileId !== 'vite-ssg-server') {
+      if (quasarConf.metaConf.vueDevtoolsOptions) {
+        const vitePluginVueDevtools =
+          await ctx.cacheProxy.getModule('vueDevtools')
+
+        viteConf.plugins.push(
+          vitePluginVueDevtools({
+            // protect against the Vite plugin mutating its own options
+            // and triggering endless cfg diff loop
+            ...quasarConf.metaConf.vueDevtoolsOptions
+          })
+        )
+      }
+
+      // also protects against Vite (or a Vite plugin) mutating the original
+      // and triggering endless cfg diff loop
+      viteConf.server = merge(
+        {
+          warmup: {
             clientFiles: [quasarConf.metaConf.entryScript.absolutePath]
           }
-        : {}
-
-    // protect against Vite (or a Vite plugin) mutating the original
-    // and triggering endless cfg diff loop
-    viteConf.server = merge({ warmup }, quasarConf.devServer)
+        },
+        quasarConf.devServer
+      )
+    } else {
+      // protect against Vite (or a Vite plugin) mutating the original
+      // and triggering endless cfg diff loop
+      viteConf.server = merge({}, quasarConf.devServer)
+    }
   } else {
     viteConf.build.outDir = build.distDir
   }

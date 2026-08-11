@@ -27,7 +27,7 @@ function getPropValueFn(userPropName, defaultPropName) {
   return opt => opt[propName]
 }
 
-export default createComponent({
+export default /*#__PURE__*/ createComponent({
   name: 'QOptionGroup',
 
   props: {

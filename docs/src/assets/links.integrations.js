@@ -22,7 +22,7 @@ import {
 } from '@quasar/extras/mdi-v7'
 
 export const platformIcons = [
-  'img:https://cdn.quasar.dev/img/custom-svg-icons/chrome.svg',
+  'img:/svg/chrome.svg',
   mdiAppleSafari,
   mdiFirefox,
   mdiMicrosoftEdge,
@@ -44,6 +44,12 @@ export const buildTargets = [
     name: 'Server Side Rendering',
     icon: mdiServer,
     path: '/quasar-cli-vite/developing-ssr/introduction'
+  },
+  {
+    label: 'SSG',
+    name: 'Static Site Generation',
+    icon: mdiFileDownload,
+    path: '/quasar-cli-vite/developing-ssg/introduction'
   },
   {
     label: 'PWA',
@@ -109,12 +115,7 @@ export const ecosystemParts = [
       {
         label: 'Apollo GraphQL',
         icon: mdiGraphql,
-        path: 'https://github.com/quasarframework/app-extension-apollo/tree/v2'
-      },
-      {
-        label: 'SSG Mode',
-        icon: mdiFileDownload,
-        path: 'https://github.com/freddy38510/quasar-app-extension-ssg'
+        path: 'https://github.com/quasarframework/app-extension-apollo'
       },
       {
         label: 'All AEs',

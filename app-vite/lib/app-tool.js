@@ -1,13 +1,8 @@
-import { join } from 'node:path'
-import fse from 'fs-extra'
-
 import { build as viteBuild } from 'vite'
 import { rolldown, watch as rolldownWatch } from 'rolldown'
 
-import { progress } from './utils/logger.js'
-
-const cordovaWWW = join('src-cordova', 'www')
-const capacitorWWW = join('src-capacitor', 'www')
+import { fatal, progress } from './utils/logger.js'
+import { removeBuildArtifacts } from './utils/remove-build-artifacts.js'
 
 export class AppTool {
   argv
@@ -82,19 +77,18 @@ export class AppTool {
     done()
   }
 
-  cleanArtifacts(dir = this.quasarConf.build.distDir) {
-    if (dir.endsWith(cordovaWWW)) {
-      fse.emptyDirSync(dir)
-    } else if (dir.endsWith(capacitorWWW)) {
-      const { appPaths } = this.ctx
-
-      fse.emptyDirSync(dir)
-      fse.copySync(
-        appPaths.resolve.cli('templates/capacitor/common/www'),
-        appPaths.resolve.capacitor('www')
-      )
-    } else {
-      fse.removeSync(dir)
+  cleanArtifacts(
+    dir = this.quasarConf.build.distDir,
+    allowOutsideProject = this.quasarConf.build.allowOutsideProjectDistDir
+  ) {
+    try {
+      removeBuildArtifacts({
+        targetDir: dir,
+        projectDir: this.ctx.appPaths.appDir,
+        allowOutsideProject
+      })
+    } catch (err) {
+      fatal(err.message, 'FAIL')
     }
   }
 }

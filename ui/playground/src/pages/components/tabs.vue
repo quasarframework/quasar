@@ -1005,7 +1005,7 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import {
   h,
   onActivated,
@@ -1015,160 +1015,148 @@ import {
   onMounted,
   ref
 } from 'vue'
-import { uid } from 'quasar'
 
-export default {
-  components: {
-    KeepAliveTest: {
-      name: 'KeepAliveTest',
+const KeepAliveTest = {
+  name: 'KeepAliveTest',
 
-      props: {
-        name: String
-      },
-
-      setup(props) {
-        const counter = ref(0)
-        const id = uid()
-
-        function log(what) {
-          console.log(`[KeepAliveTest > ${props.name} / ${id}] ${what}`)
-        }
-
-        log('created')
-
-        onBeforeMount(() => {
-          log('onBeforeMount')
-        })
-
-        onMounted(() => {
-          log('onMounted')
-        })
-
-        onBeforeUnmount(() => {
-          log('onBeforeUnmount')
-        })
-
-        onActivated(() => {
-          log('onActivated')
-        })
-
-        onDeactivated(() => {
-          log('onDeactivated')
-        })
-
-        function onClick() {
-          counter.value += 1
-        }
-
-        return () =>
-          h(
-            'div',
-            {
-              class: 'q-pa-sm bg-grey-2 cursor-pointer',
-              onClick
-            },
-            `${props.name} - clicked ${counter.value} times [${id}]`
-          )
-      }
-    }
+  props: {
+    name: String
   },
 
-  data() {
-    return {
-      text: '',
-      gigi: '',
-      dense: false,
-      tab: 'one',
-      tabModel: null,
-      vtab: 'one',
-      panelTest: false,
-      some: false,
-      exact: true,
-      loose: true,
-      useR1: true,
-      useR1Q1Disabled: true
+  setup(props) {
+    const counter = ref(0)
+    // deterministic (server-rendered): uid() differs per render pass
+    const id = `ka-${props.name}`
+
+    function log(what) {
+      console.log(`[KeepAliveTest > ${props.name} / ${id}] ${what}`)
     }
-  },
 
-  created() {
-    this.controlRoutes = [
-      { to: '/components/tabs/r', label: 'r' },
-      { to: '/components/tabs/r?q=2', label: 'r q=2' },
-      { to: '/components/tabs/r/1', label: 'r.1' },
-      { to: '/components/tabs/r/1?a=1', label: 'r.1 a=1' },
-      { to: '/components/tabs/r/1/1', label: 'r.1.1' },
-      { to: '/components/tabs/r/1?q=1', label: 'r.1 q=1' },
-      { to: '/components/tabs/r/1/1?a=1', label: 'r.1.1 a=1' },
-      { to: '/components/tabs/r/1/2', label: 'r.1.2' },
-      { to: '/components/tabs/r/1/3', label: 'r.1.3 => r' },
-      { to: '/components/tabs/r/1/4', label: 'r.1.4 => r.1.1' },
-      { to: '/components/tabs/r/2', label: 'r.2' },
-      { to: '/components/tabs/r/3', label: 'r.3' }
-    ]
+    log('created')
 
-    this.tabRoutes = [
-      { to: { name: 'r' }, label: 'r' },
-      { to: { name: 'r.1' }, label: 'r.1' },
-      { to: { name: 'r.1', query: { q: '1' } }, label: 'r.1 q=1' },
-      { to: { name: 'r.1', query: { q: '1', m: '3' } }, label: 'r.1 q=1 m=3' },
-      { to: { name: 'r', query: { q: '1' } }, label: 'r q=1' },
-      { to: { name: 'r.1.1' }, label: 'r.1.1' },
-      { to: { name: 'r.1.2' }, label: 'r.1.2' },
-      { to: { name: 'r.1.3' }, label: 'r.1.3 => r' },
-      { to: { name: 'r.1.4' }, label: 'r.1.4 => r.1.1' },
-      { to: '/components/tabs/r/2#999', label: 'r/2#999' },
-      { to: '/components/tabs/r/2#123', label: 'r/2#123' },
-      { to: { name: 'r.2' }, label: 'r.2' },
-      { to: { name: 'r.2', query: { y: '1' } }, label: 'r.2 y=1' },
-      { to: { name: 'r.2.2' }, label: 'r.2.2' },
-      { to: { name: 'r.3' }, label: 'r.3' },
-      { to: '/components/tabs/t/2/b', label: 't/2/b (not in list)' }
-    ]
-  },
+    onBeforeMount(() => {
+      log('onBeforeMount')
+    })
 
-  methods: {
-    onChangeTab1(val) {
-      if (val === 'two') {
-        console.log('@onChangeTab1', val, '-> setting to one')
-        this.tabModel = 'one'
-      } else if (val !== 'three') {
-        console.log('@onChangeTab1', val, '-> setting to', val)
-        this.tabModel = val
-      } else {
-        console.log('@onChangeTab1', val, 'doing nothing')
-      }
-    },
+    onMounted(() => {
+      log('onMounted')
+    })
 
-    onChangeTab2(val) {
-      if (val === 'one') {
-        console.log('@onChangeTab2', val, '-> setting to two')
-        this.tabModel = 'two'
-      } else if (val !== 'four') {
-        console.log('@onChangeTab2', val, '-> setting to', val)
-        this.tabModel = val
-      } else {
-        console.log('@onChangeTab2', val, 'doing nothing')
-      }
-    },
+    onBeforeUnmount(() => {
+      log('onBeforeUnmount')
+    })
 
-    routeNavDelay(e, go) {
-      e.preventDefault()
-      setTimeout(go, 2000)
-    },
+    onActivated(() => {
+      log('onActivated')
+    })
 
-    routeNavPass() {},
+    onDeactivated(() => {
+      log('onDeactivated')
+    })
 
-    routeNavCancel(e) {
-      e.preventDefault()
-    },
-
-    routeNavChange(e, go) {
-      e.preventDefault()
-      go({
-        to: { name: 'r.1.1' }
-      })
+    function onClick() {
+      counter.value += 1
     }
+
+    return () =>
+      h(
+        'div',
+        {
+          class: 'q-pa-sm bg-grey-2 cursor-pointer',
+          onClick
+        },
+        `${props.name} - clicked ${counter.value} times [${id}]`
+      )
   }
+}
+
+const text = ref('')
+const gigi = ref('')
+const dense = ref(false)
+const tab = ref('one')
+const tabModel = ref(null)
+const vtab = ref('one')
+const panelTest = ref(false)
+const some = ref(false)
+const exact = ref(true)
+const loose = ref(true)
+const useR1 = ref(true)
+const useR1Q1Disabled = ref(true)
+
+const controlRoutes = [
+  { to: '/components/tabs/r', label: 'r' },
+  { to: '/components/tabs/r?q=2', label: 'r q=2' },
+  { to: '/components/tabs/r/1', label: 'r.1' },
+  { to: '/components/tabs/r/1?a=1', label: 'r.1 a=1' },
+  { to: '/components/tabs/r/1/1', label: 'r.1.1' },
+  { to: '/components/tabs/r/1?q=1', label: 'r.1 q=1' },
+  { to: '/components/tabs/r/1/1?a=1', label: 'r.1.1 a=1' },
+  { to: '/components/tabs/r/1/2', label: 'r.1.2' },
+  { to: '/components/tabs/r/1/3', label: 'r.1.3 => r' },
+  { to: '/components/tabs/r/1/4', label: 'r.1.4 => r.1.1' },
+  { to: '/components/tabs/r/2', label: 'r.2' },
+  { to: '/components/tabs/r/3', label: 'r.3' }
+]
+
+const tabRoutes = [
+  { to: { name: 'r' }, label: 'r' },
+  { to: { name: 'r.1' }, label: 'r.1' },
+  { to: { name: 'r.1', query: { q: '1' } }, label: 'r.1 q=1' },
+  { to: { name: 'r.1', query: { q: '1', m: '3' } }, label: 'r.1 q=1 m=3' },
+  { to: { name: 'r', query: { q: '1' } }, label: 'r q=1' },
+  { to: { name: 'r.1.1' }, label: 'r.1.1' },
+  { to: { name: 'r.1.2' }, label: 'r.1.2' },
+  { to: { name: 'r.1.3' }, label: 'r.1.3 => r' },
+  { to: { name: 'r.1.4' }, label: 'r.1.4 => r.1.1' },
+  { to: '/components/tabs/r/2#999', label: 'r/2#999' },
+  { to: '/components/tabs/r/2#123', label: 'r/2#123' },
+  { to: { name: 'r.2' }, label: 'r.2' },
+  { to: { name: 'r.2', query: { y: '1' } }, label: 'r.2 y=1' },
+  { to: { name: 'r.2.2' }, label: 'r.2.2' },
+  { to: { name: 'r.3' }, label: 'r.3' },
+  { to: '/components/tabs/t/2/b', label: 't/2/b (not in list)' }
+]
+
+function onChangeTab1(val) {
+  if (val === 'two') {
+    console.log('@onChangeTab1', val, '-> setting to one')
+    tabModel.value = 'one'
+  } else if (val !== 'three') {
+    console.log('@onChangeTab1', val, '-> setting to', val)
+    tabModel.value = val
+  } else {
+    console.log('@onChangeTab1', val, 'doing nothing')
+  }
+}
+
+function onChangeTab2(val) {
+  if (val === 'one') {
+    console.log('@onChangeTab2', val, '-> setting to two')
+    tabModel.value = 'two'
+  } else if (val !== 'four') {
+    console.log('@onChangeTab2', val, '-> setting to', val)
+    tabModel.value = val
+  } else {
+    console.log('@onChangeTab2', val, 'doing nothing')
+  }
+}
+
+function routeNavDelay(e, go) {
+  e.preventDefault()
+  setTimeout(go, 2000)
+}
+
+function routeNavPass() {}
+
+function routeNavCancel(e) {
+  e.preventDefault()
+}
+
+function routeNavChange(e, go) {
+  e.preventDefault()
+  go({
+    to: { name: 'r.1.1' }
+  })
 }
 </script>
 

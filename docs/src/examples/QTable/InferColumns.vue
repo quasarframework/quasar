@@ -4,7 +4,7 @@
   </div>
 </template>
 
-<script>
+<script setup>
 const rows = [
   // #region
   {
@@ -109,9 +109,4 @@ const rows = [
   }
   // #endregion
 ]
-export default {
-  setup() {
-    return { rows }
-  }
-}
 </script>

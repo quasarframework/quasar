@@ -1,8 +1,3 @@
-/**
- * Ignored specs:
- * [(prop)backdrop-filter]
- */
-
 import { flushPromises, mount } from '@vue/test-utils'
 import {
   afterEach,
@@ -14,9 +9,26 @@ import {
   vi
 } from 'vitest'
 
+import { defineComponent, h } from 'vue'
+
 import QDialog from './QDialog.js'
+import useFullscreen, {
+  useFullscreenProps
+} from '../../composables/private.use-fullscreen/use-fullscreen.js'
 import { getRouter } from 'testing/runtime/router.js'
 import DialogWrapper from './test/DialogWrapper.vue'
+
+const FullscreenChild = defineComponent({
+  name: 'FullscreenChild',
+  props: useFullscreenProps,
+
+  setup() {
+    useFullscreen()
+
+    return () =>
+      h('section', null, [h('input', { 'data-test': 'fullscreen-input' })])
+  }
+})
 
 let wrapper = null
 
@@ -351,39 +363,38 @@ describe('[QDialog API]', () => {
       })
     })
 
-    /**
-     * Commented because jsdom doesn't understand backdrop-filter
-     *
-        describe('[(prop)backdrop-filter]', () => {
-          test('type String has effect', async () => {
-            const propVal = 'blur(4px)'
-            wrapper = mount(QDialog, {
-              props: {
-                modelValue: true,
-                backdropFilter: propVal
-              }
-            })
-
-            await flushPromises()
-            await vi.runAllTimers()
-
-            expect(
-              wrapper.findComponent({ name: 'QPortal' })
-                .get('.q-dialog__backdrop')
-                .$style('backdrop-filter')
-            ).toBe(propVal)
-
-            await wrapper.setProps({ backdropFilter: void 0 })
-            await flushPromises()
-
-            expect(
-              wrapper.findComponent({ name: 'QPortal' })
-                .get('.q-dialog__backdrop')
-                .$style('backdrop-filter')
-            ).toBeUndefined()
-          })
+    describe('[(prop)backdrop-filter]', () => {
+      test('type String has effect', async () => {
+        const propVal = 'blur(4px)'
+        wrapper = mount(QDialog, {
+          props: {
+            modelValue: true,
+            backdropFilter: propVal
+          }
         })
-    */
+
+        await flushPromises()
+        await vi.runAllTimers()
+
+        expect(
+          wrapper
+            .findComponent({ name: 'QPortal' })
+            .get('.q-dialog__backdrop')
+            .$style('backdrop-filter')
+        ).toBe(propVal)
+
+        await wrapper.setProps({ backdropFilter: void 0 })
+        await flushPromises()
+
+        // the inline style entry is removed, so the browser reports an empty value
+        expect(
+          wrapper
+            .findComponent({ name: 'QPortal' })
+            .get('.q-dialog__backdrop')
+            .$style('backdrop-filter')
+        ).toBe('')
+      })
+    })
 
     describe('[(prop)maximized]', () => {
       test('type Boolean has effect', async () => {
@@ -572,6 +583,29 @@ describe('[QDialog API]', () => {
 
         expect(document.activeElement).not.toBe(el)
       })
+
+      test('refocuses without scrolling the target into view', async () => {
+        const el = createFocusEl()
+
+        el.focus()
+
+        const focusSpy = vi.spyOn(el, 'focus')
+
+        wrapper = mount(QDialog)
+
+        wrapper.findComponent({ name: 'QDialog' }).vm.show()
+
+        await flushPromises()
+        await vi.runAllTimers()
+
+        wrapper.findComponent({ name: 'QDialog' }).vm.hide()
+
+        await flushPromises()
+        await vi.runAllTimers()
+
+        expect(document.activeElement).toBe(el)
+        expect(focusSpy).toHaveBeenCalledWith({ preventScroll: true })
+      })
     })
 
     describe('[(prop)no-focus]', () => {
@@ -674,6 +708,42 @@ describe('[QDialog API]', () => {
         await vi.runAllTimers()
 
         expect(document.activeElement).toBe(el)
+      })
+
+      test('keeps trapping while a fullscreen child is detached', async () => {
+        const outsideEl = createFocusEl()
+
+        wrapper = mount(QDialog, {
+          props: {
+            modelValue: true,
+            allowFocusOutside: false
+          },
+          slots: { default: () => h(FullscreenChild, { fullscreen: true }) }
+        })
+
+        await flushPromises()
+        await vi.runAllTimers()
+
+        const el = document.body.querySelector('[data-test="fullscreen-input"]')
+
+        // useFullscreen() has moved the child out of the dialog
+        expect(el.closest('.q-dialog__inner')).toBeNull()
+
+        el.focus()
+
+        await flushPromises()
+        await vi.runAllTimers()
+
+        // ...yet it still belongs to the dialog, so it keeps the focus
+        expect(document.activeElement).toBe(el)
+
+        outsideEl.focus()
+
+        await flushPromises()
+        await vi.runAllTimers()
+
+        // ...while focus that is genuinely outside is still pulled back
+        expect(document.activeElement).not.toBe(outsideEl)
       })
     })
   })

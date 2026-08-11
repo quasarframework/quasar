@@ -8,7 +8,7 @@ import useRouterLink, {
   useRouterLinkProps
 } from '../../composables/private.use-router-link/use-router-link.js'
 
-export default createComponent({
+export default /*#__PURE__*/ createComponent({
   name: 'QBreadcrumbsEl',
 
   props: {

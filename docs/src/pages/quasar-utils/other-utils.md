@@ -147,6 +147,8 @@ The following is a helper to run multiple Promises sequentially. **Optionally, o
  * @param {*} opts - Optional options Object
  *                   Object form: { threadsNumber?: number, abortOnFail?: boolean }
  *                   Default: { threadsNumber: 1, abortOnFail: true }
+ *                   threadsNumber must be a positive integer; invalid values
+ *                       fall back to 1
  *                   When configuring threadsNumber AND using http requests, be
  *                       aware of the maximum threads that the hosting browser
  *                       supports (usually 5); any number of threads above that
@@ -335,12 +337,7 @@ When configuring threadsNumber (`opts > threadsNumber`) AND using http requests,
 ```js
 import { runSequentialPromises } from 'quasar'
 
-runSequentialPromises(
-  [
-    /* ... */
-  ],
-  { threadsNumber: 3 }
-)
+runSequentialPromises([/* ... */], { threadsNumber: 3 })
   .then(resultAggregator => {
     resultAggregator.forEach(result => {
       console.log(result.value)

@@ -46,4 +46,4 @@ export const supportedLangs = [
   ...Object.keys(langAlias)
 ]
 
-export const langMatch = supportedLangs.join('|')
+export const langMatch = [...supportedLangs, 'text'].join('|')

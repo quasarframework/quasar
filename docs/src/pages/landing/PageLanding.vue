@@ -5,7 +5,7 @@
     <div>
       <div class="column items-center intro-section letter-spacing-300">
         <q-img
-          src="https://cdn.quasar.dev/logo-v2/svg/logo-vertical-dark.svg"
+          src="/logo/logo-vertical-dark.svg"
           loading="eager"
           width="250px"
           height="255px"
@@ -80,10 +80,7 @@
 
       <div class="showcase-section">
         <div class="column items-center">
-          <q-icon
-            size="xl"
-            name="img:https://cdn.quasar.dev/img/custom-svg-icons/astronaut.svg"
-          />
+          <q-icon size="xl" name="img:/svg/astronaut.svg" />
           <h2 class="heading heading--large q-my-lg"
             >What our community thinks of Quasar</h2
           >
@@ -124,10 +121,7 @@
       </div>
 
       <div class="text-center sponsors-section" id="sponsors-section">
-        <q-icon
-          size="xl"
-          name="img:https://cdn.quasar.dev/img/custom-svg-icons/medal.svg"
-        />
+        <q-icon size="xl" name="img:/svg/medal.svg" />
         <h2 class="heading heading--large">Our Sponsors</h2>
         <div class="heading heading--small"
           >Every space odyssey has its patrons</div
@@ -138,15 +132,9 @@
       </div>
 
       <div class="text-center social-channels-call-to-action">
-        <q-img
-          src="https://cdn.quasar.dev/img/landing-page/planet.png"
-          height="600px"
-        >
+        <q-img src="/landing/planet.png" height="600px">
           <div class="bg-transparent absolute-bottom">
-            <q-icon
-              size="xl"
-              name="img:https://cdn.quasar.dev/img/custom-svg-icons/satellite.svg"
-            />
+            <q-icon size="xl" name="img:/svg/satellite.svg" />
             <div class="heading heading--large">Don't miss the news</div>
             <div class="heading heading--small"
               >Follow our social pages to stay up to date</div
@@ -191,21 +179,21 @@ useMeta({
 
 const whyQuasar = [
   {
-    icon: 'img:https://cdn.quasar.dev/img/custom-svg-icons/components.svg',
+    icon: 'img:/svg/components.svg',
     title: 'Top Class Components',
     body: 'A library of more than 70 high performance customizable Material Design web components for all your needs',
     btnLabel: 'Browse components',
     btnLink: '/components'
   },
   {
-    icon: 'img:https://cdn.quasar.dev/img/custom-svg-icons/source.svg',
+    icon: 'img:/svg/source.svg',
     title: 'One codebase many integrations',
     body: 'Keep your favorite technology, we provide all the needed integrations out of the box.',
     btnLabel: 'Discover Integrations',
     btnLink: '/integrations'
   },
   {
-    icon: 'img:https://cdn.quasar.dev/img/custom-svg-icons/documentation.svg',
+    icon: 'img:/svg/documentation.svg',
     title: 'Great documentation',
     body: 'All the details you deserve to start working properly. Every star-pilot needs a good manual.',
     btnLabel: 'Get Started',
@@ -259,7 +247,7 @@ $support-quasar-background-padding: 35vw
     position: relative
 
     &:before
-      background-image: url(https://cdn.quasar.dev/img/landing-page/astronaut-left-hand.png), url(https://cdn.quasar.dev/img/landing-page/astronaut-right-hand.png)
+      background-image: url(/landing/astronaut-left-hand.png), url(/landing/astronaut-right-hand.png)
       background-size: 47%, 47%
       background-position: left bottom, calc(100% + 25px) calc(100% - #{math.div($support-quasar-background-padding, 3)})
       background-repeat: no-repeat, no-repeat

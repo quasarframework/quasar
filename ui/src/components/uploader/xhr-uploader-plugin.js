@@ -31,6 +31,7 @@ function injectPlugin({ props, emit, helpers }) {
   const xhrs = ref([])
   const promises = ref([])
   const workingThreads = ref(0)
+  const abortedPromises = new WeakSet()
 
   const xhrProps = computed(() => ({
     url: getFn(props.url),
@@ -46,14 +47,17 @@ function injectPlugin({ props, emit, helpers }) {
   const isUploading = computed(() => workingThreads.value > 0)
   const isBusy = computed(() => promises.value.length !== 0)
 
-  let abortPromises
+  const getLiveFiles = files =>
+    files.filter(file => helpers.files.value.includes(file))
 
   function abort() {
     xhrs.value.forEach(x => {
       x.abort()
     })
 
-    if (promises.value.length !== 0) abortPromises = true
+    promises.value.forEach(promise => {
+      abortedPromises.add(promise)
+    })
   }
 
   function upload() {
@@ -72,54 +76,90 @@ function injectPlugin({ props, emit, helpers }) {
   function runFactory(files) {
     workingThreads.value++
 
+    const failed = (err, promise) => {
+      if (promise !== void 0) {
+        promises.value = promises.value.filter(p => p !== promise)
+      }
+
+      // only touch the files & report back if there is still someone listening
+      if (helpers.isAlive()) {
+        const liveFiles = getLiveFiles(files)
+
+        if (liveFiles.length !== 0) {
+          helpers.queuedFiles.value.push(...liveFiles)
+          liveFiles.forEach(f => {
+            helpers.updateFileStatus(f, 'failed')
+          })
+
+          emit('factoryFailed', err, liveFiles)
+        }
+      }
+
+      // ...but the thread must be released either way, otherwise a
+      // deactivated (keep-alive) uploader comes back stuck on "uploading"
+      workingThreads.value--
+    }
+
     if (typeof props.factory !== 'function') {
-      performUpload(files, {})
+      startUpload({})
       return
     }
 
-    const res = props.factory(files)
+    let res
+    try {
+      res = props.factory(files)
+    } catch (err) {
+      failed(err)
+      return
+    }
 
-    if (!res) {
-      emit(
-        'factoryFailed',
-        new Error('QUploader: factory() does not return properly'),
-        files
-      )
-      workingThreads.value--
+    if (Object(res) !== res) {
+      failed(new Error('QUploader: factory() does not return properly'))
     } else if (
       typeof res.catch === 'function' &&
       typeof res.then === 'function'
     ) {
       promises.value.push(res)
 
-      const failed = err => {
-        if (helpers.isAlive()) {
-          promises.value = promises.value.filter(p => p !== res)
-
-          if (promises.value.length === 0) abortPromises = false
-
-          helpers.queuedFiles.value.push(...files)
-          files.forEach(f => {
-            helpers.updateFileStatus(f, 'failed')
-          })
-
-          emit('factoryFailed', err, files)
-          workingThreads.value--
-        }
-      }
-
       res
         .then(factory => {
-          if (abortPromises) {
-            failed(new Error('Aborted'))
-          } else if (helpers.isAlive()) {
+          if (abortedPromises.has(res)) {
+            failed(new Error('Aborted'), res)
+          } else if (Object(factory) !== factory) {
+            failed(
+              new Error('QUploader: factory() does not return properly'),
+              res
+            )
+          } else {
             promises.value = promises.value.filter(p => p !== res)
-            performUpload(files, factory)
+
+            if (helpers.isAlive()) {
+              startUpload(factory)
+            } else {
+              workingThreads.value--
+            }
           }
         })
-        .catch(failed)
+        .catch(err => {
+          failed(err, res)
+        })
     } else {
-      performUpload(files, res || {})
+      startUpload(res)
+    }
+
+    function startUpload(factory) {
+      const liveFiles = getLiveFiles(files)
+
+      if (liveFiles.length === 0) {
+        workingThreads.value--
+        return
+      }
+
+      try {
+        performUpload(liveFiles, factory)
+      } catch (err) {
+        failed(err)
+      }
     }
   }
 
@@ -136,6 +176,11 @@ function injectPlugin({ props, emit, helpers }) {
 
     if (!url) {
       console.error('q-uploader: invalid or no URL specified')
+      helpers.queuedFiles.value.push(...files)
+      files.forEach(f => {
+        helpers.updateFileStatus(f, 'failed')
+      })
+      emit('failed', { files, xhr })
       workingThreads.value--
       return
     }
@@ -166,7 +211,7 @@ function injectPlugin({ props, emit, helpers }) {
         let size = localUploadedSize - uploadIndexSize
         for (let i = uploadIndex; size > 0 && i < files.length; i++) {
           const file = files[i],
-            uploaded = size > file.size
+            uploaded = size >= file.size
 
           if (uploaded) {
             size -= file.size
@@ -186,19 +231,33 @@ function injectPlugin({ props, emit, helpers }) {
       if (xhr.readyState < 4) return
 
       if (xhr.status && xhr.status < 400) {
-        helpers.uploadedFiles.value.push(...files)
-        files.forEach(f => {
-          helpers.updateFileStatus(f, 'uploaded')
-        })
-        emit('uploaded', { files, xhr })
+        const liveFiles = getLiveFiles(files)
+        const liveUploadSize = liveFiles.reduce(
+          (total, file) => total + file.size,
+          0
+        )
+
+        helpers.uploadedSize.value += liveUploadSize - localUploadedSize
+
+        if (liveFiles.length !== 0) {
+          helpers.uploadedFiles.value.push(...liveFiles)
+          liveFiles.forEach(f => {
+            helpers.updateFileStatus(f, 'uploaded')
+          })
+          emit('uploaded', { files: liveFiles, xhr })
+        }
       } else {
         aborted = true
         helpers.uploadedSize.value -= localUploadedSize
-        helpers.queuedFiles.value.push(...files)
-        files.forEach(f => {
-          helpers.updateFileStatus(f, 'failed')
-        })
-        emit('failed', { files, xhr })
+
+        const liveFiles = getLiveFiles(files)
+        if (liveFiles.length !== 0) {
+          helpers.queuedFiles.value.push(...liveFiles)
+          liveFiles.forEach(f => {
+            helpers.updateFileStatus(f, 'failed')
+          })
+          emit('failed', { files: liveFiles, xhr })
+        }
       }
 
       workingThreads.value--

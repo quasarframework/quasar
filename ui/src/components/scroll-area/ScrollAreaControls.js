@@ -6,7 +6,7 @@ import { createComponent } from '../../utils/private.create/create.js'
  * We are using a sub-component to avoid unnecessary re-renders
  * of the QScrollArea content when the scrollbars are interacted with.
  */
-export default createComponent({
+export default /*#__PURE__*/ createComponent({
   props: ['store', 'barStyle', 'verticalBarStyle', 'horizontalBarStyle'],
 
   setup(props) {

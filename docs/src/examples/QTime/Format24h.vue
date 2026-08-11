@@ -4,14 +4,8 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    return {
-      time: ref('19:42')
-    }
-  }
-}
+const time = ref('19:42')
 </script>

@@ -63,7 +63,8 @@
   </div>
 </template>
 
-<script>
+<script setup>
+import { ref } from 'vue'
 import {
   QSpinner,
   QSpinnerAudio,
@@ -90,7 +91,9 @@ import {
   QSpinnerTail
 } from 'quasar'
 
-export default {
+// runtime registration is required for the dynamic
+// `<component :is="`q-spinner-${spinner}`">` string resolution
+defineOptions({
   components: {
     QSpinner,
     QSpinnerAudio,
@@ -115,69 +118,65 @@ export default {
     QSpinnerRadio,
     QSpinnerRings,
     QSpinnerTail
-  },
-
-  data() {
-    return {
-      size: 36,
-      color: 'primary',
-      spinners: [
-        'audio',
-        'ball',
-        'bars',
-        'box',
-        'clock',
-        'comment',
-        'cube',
-        'dots',
-        'facebook',
-        'gears',
-        'grid',
-        'hearts',
-        'hourglass',
-        'infinity',
-        'ios',
-        'orbit',
-        'oval',
-        'pie',
-        'puff',
-        'radio',
-        'rings',
-        'tail'
-      ],
-      colorOptions: [
-        {
-          label: 'Black',
-          color: 'black',
-          value: 'black'
-        },
-        {
-          label: 'Primary',
-          color: 'primary',
-          value: 'primary'
-        },
-        {
-          label: 'Secondary',
-          color: 'secondary',
-          value: 'secondary'
-        },
-        {
-          label: 'Red',
-          color: 'red',
-          value: 'red'
-        },
-        {
-          label: 'Green',
-          color: 'green',
-          value: 'green'
-        },
-        {
-          label: 'Blue',
-          color: 'blue',
-          value: 'blue'
-        }
-      ]
-    }
   }
-}
+})
+
+const size = ref(36)
+const color = ref('primary')
+const spinners = ref([
+  'audio',
+  'ball',
+  'bars',
+  'box',
+  'clock',
+  'comment',
+  'cube',
+  'dots',
+  'facebook',
+  'gears',
+  'grid',
+  'hearts',
+  'hourglass',
+  'infinity',
+  'ios',
+  'orbit',
+  'oval',
+  'pie',
+  'puff',
+  'radio',
+  'rings',
+  'tail'
+])
+const colorOptions = ref([
+  {
+    label: 'Black',
+    color: 'black',
+    value: 'black'
+  },
+  {
+    label: 'Primary',
+    color: 'primary',
+    value: 'primary'
+  },
+  {
+    label: 'Secondary',
+    color: 'secondary',
+    value: 'secondary'
+  },
+  {
+    label: 'Red',
+    color: 'red',
+    value: 'red'
+  },
+  {
+    label: 'Green',
+    color: 'green',
+    value: 'green'
+  },
+  {
+    label: 'Blue',
+    color: 'blue',
+    value: 'blue'
+  }
+])
 </script>

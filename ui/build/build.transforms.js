@@ -2,7 +2,13 @@
 // and by @quasar/app-* auto-import feature
 
 import path from 'node:path'
+import { readFileSync } from 'node:fs'
 import { globSync } from 'tinyglobby'
+
+// single source of truth for the sass variables parsing logic;
+// the plugin uses the same parser at runtime as a fallback for
+// custom variables files and older Quasar versions
+import { parseVariablesFile } from '../../vite-plugin/src/sass-variables-graph.js'
 
 import {
   filterOutPrivateFiles,
@@ -28,8 +34,8 @@ function lowerCamelCase(name) {
 
 function addComponents(map, autoImport) {
   globSync('src/components/*/Q*.js', { cwd: rootFolder, absolute: true })
-    .filter(filterOutPrivateFiles)
     .map(relative)
+    .filter(filterOutPrivateFiles)
     .forEach(file => {
       const name = getWithoutExtension(path.basename(file)),
         kebab = kebabCase(name)
@@ -45,8 +51,8 @@ function addComponents(map, autoImport) {
 
 function addDirectives(map, autoImport) {
   globSync('src/directives/*/*.js', { cwd: rootFolder, absolute: true })
-    .filter(filterOutPrivateFiles)
     .map(relative)
+    .filter(filterOutPrivateFiles)
     .forEach(file => {
       const name = getWithoutExtension(path.basename(file)),
         kebab = 'v-' + kebabCase(name)
@@ -60,8 +66,8 @@ function addDirectives(map, autoImport) {
 
 function addPlugins(map) {
   globSync('src/plugins/*/*.js', { cwd: rootFolder, absolute: true })
-    .filter(filterOutPrivateFiles)
     .map(relative)
+    .filter(filterOutPrivateFiles)
     .forEach(file => {
       const name = getWithoutExtension(path.basename(file))
       map[name] = file
@@ -70,8 +76,8 @@ function addPlugins(map) {
 
 function addComposables(map) {
   globSync('src/composables/*/*.js', { cwd: rootFolder, absolute: true })
-    .filter(filterOutPrivateFiles)
     .map(relative)
+    .filter(filterOutPrivateFiles)
     .forEach(file => {
       const name = getWithoutExtension(path.basename(file))
       map[lowerCamelCase(name)] = file
@@ -80,8 +86,8 @@ function addComposables(map) {
 
 function addUtils(map) {
   globSync('src/utils/*/*.js', { cwd: rootFolder, absolute: true })
-    .filter(filterOutPrivateFiles)
     .map(relative)
+    .filter(filterOutPrivateFiles)
     .forEach(file => {
       const name = getWithoutExtension(path.basename(file))
       map[name === 'open-url' ? 'openURL' : lowerCamelCase(name)] = file
@@ -135,4 +141,28 @@ export function generate({ compact = false } = {}) {
     resolveToRoot('dist/transforms/auto-import.json'),
     getAutoImportFile(autoImport, encodeFn)
   )
+
+  writeFile(
+    resolveToRoot('dist/transforms/sass-variables.json'),
+    getSassVariablesFile(encodeFn)
+  )
+}
+
+function getSassVariablesFile(encodeFn) {
+  const parsed = parseVariablesFile(
+    readFileSync(resolveToRoot('src/css/variables.sass'), 'utf8')
+  )
+
+  if (parsed === null) {
+    throw new Error(
+      'src/css/variables.sass must contain only variable declarations' +
+        ' and "@use sass:*" statements (required by the targeted sass' +
+        ' variables injection of @quasar/vite-plugin)'
+    )
+  }
+
+  return encodeFn({
+    uses: parsed.uses,
+    declarations: parsed.decls
+  })
 }

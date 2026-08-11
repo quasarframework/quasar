@@ -5,20 +5,24 @@ import {
   copyModeWorkspace,
   ensureModeDeps,
   ensureModePackageJsonAndWorkspace,
-  isModeInstalled
+  isModeInstalled,
+  resolveSsrWebserver
 } from '../modes-utils.js'
 
 /**
  * @param {{
  *   ctx: import('../../../types/configuration/context').InternalQuasarContext,
- *   silent: boolean
+ *   silent: boolean,
+ *   webserver?: string
  * }} options
  */
-export async function addMode({ ctx, silent }) {
+export async function addMode({ ctx, silent, webserver }) {
   const { appPaths, cacheProxy } = ctx
 
   if (isModeInstalled(appPaths, 'ssr')) {
-    const forceInstall = await ensureModePackageJsonAndWorkspace('ssr', ctx)
+    const forceInstall = await ensureModePackageJsonAndWorkspace('ssr', ctx, {
+      webserver
+    })
     await ensureModeDeps('ssr', ctx, forceInstall)
 
     if (silent !== true) {
@@ -30,22 +34,13 @@ export async function addMode({ ctx, silent }) {
 
   const promptSession = await createPromptSession('Installing SSR Mode...')
 
-  const answer = await promptSession.prompt({
-    webserver: () =>
-      promptSession.select({
-        message: 'What production web server should Quasar use?',
-        options: [
-          /**
-           * Also update lib/modes-utils.js options if you
-           * change these here.
-           */
-          { value: 'hono', label: 'Hono' },
-          { value: 'fastify', label: 'Fastify' },
-          { value: 'express', label: 'Express' },
-          { value: 'koa', label: 'Koa' }
-        ]
-      })
-  })
+  const answer = {
+    webserver: await resolveSsrWebserver({
+      promptSession,
+      webserver,
+      message: 'What production web server should Quasar use?'
+    })
+  }
 
   const copyTask = promptSession.taskLog({ title: 'Creating /src-ssr...' })
 

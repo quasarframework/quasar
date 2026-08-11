@@ -19,7 +19,7 @@
       </template>
     </q-select>
 
-    <DocApi v-if="item" ref="apiRef" :key="item" :file="item" page-link />
+    <DocApi v-if="item" :key="item" :file="item" page-link />
   </div>
 </template>
 

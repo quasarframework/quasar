@@ -23,7 +23,7 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
 const columns = [
@@ -48,7 +48,7 @@ const columns = [
   // #endregion
 ]
 
-const rows = [
+const rows = ref([
   // #region
   {
     id: 1,
@@ -83,14 +83,5 @@ const rows = [
     sodium: 413
   }
   // #endregion
-]
-
-export default {
-  setup() {
-    return {
-      columns,
-      rows: ref(rows)
-    }
-  }
-}
+])
 </script>

@@ -40,24 +40,16 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    const number = ref(110)
+const number = ref(110)
 
-    return {
-      number,
+function increment() {
+  number.value++
+}
 
-      increment() {
-        number.value++
-      },
-
-      decrement() {
-        number.value--
-      }
-    }
-  }
+function decrement() {
+  number.value--
 }
 </script>

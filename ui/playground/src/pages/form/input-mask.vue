@@ -169,91 +169,80 @@
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      maskedOrNot: true,
-      maskedOrNotValue: '##/##/####',
-      text1: '12/12/2023',
-      id: null,
-      text2: '',
-      text3: '',
-      text4: '',
-      text5: '',
-      text6: '',
-      text7: '',
-      text8: '',
-      text9: '',
-      text10: 'KK-A4-76-1A',
-      variableMaskValue1: '',
-      variableMaskValue2: '',
-      variableMaskValue3: '',
+<script setup>
+import { computed, ref } from 'vue'
 
-      // mask: '(###) ###S - (###)',
-      mask: '#.##',
-      textMask: 123.45,
+const maskedOrNot = ref(true)
+const maskedOrNotValue = ref('##/##/####')
+const text1 = ref('12/12/2023')
+const id = ref(null)
+const text2 = ref('')
+const text3 = ref('')
+const text4 = ref('')
+const text5 = ref('')
+const text6 = ref('')
+const text7 = ref('')
+const text8 = ref('')
+const text9 = ref('')
+const text10 = ref('KK-A4-76-1A')
+const variableMaskValue1 = ref('')
+const variableMaskValue2 = ref('')
+const variableMaskValue3 = ref('')
 
-      fillRight: true,
-      fillMask: true,
-      fillUnmask: false,
-      fillMaskText: '0',
+// mask: '(###) ###S - (###)',
+const mask = ref('#.##')
+const textMask = ref(123.45)
 
-      customTokens: {
-        C: {
-          pattern: '[0-4a-eA-E]',
-          negate: '[^0-4a-eA-E]',
-          transform: v => v.toLocaleUpperCase()
-        },
-        X: { pattern: '[5-8]', negate: '[^5-8]' }
-      }
-    }
+const fillRight = ref(true)
+const fillMask = ref(true)
+const fillUnmask = ref(false)
+const fillMaskText = ref('0')
+
+const customTokens = ref({
+  C: {
+    pattern: '[0-4a-eA-E]',
+    negate: '[^0-4a-eA-E]',
+    transform: v => v.toLocaleUpperCase()
   },
+  X: { pattern: '[5-8]', negate: '[^5-8]' }
+})
 
-  computed: {
-    fillMaskComp() {
-      return this.fillMask ? this.fillMaskText : false
-    },
+const fillMaskComp = computed(() =>
+  fillMask.value ? fillMaskText.value : false
+)
 
-    variableMask1() {
-      if (
-        this.variableMaskValue1[1] === '8' ||
-        (this.variableMaskValue1[1] === '.' &&
-          this.variableMaskValue1[2] === '8')
-      ) {
-        return '#.###.###'
-      }
-
-      return '###.#.###'
-    },
-
-    variableMask2() {
-      if (
-        this.variableMaskValue2[1] === '8' ||
-        (this.variableMaskValue2[1] === '.' &&
-          this.variableMaskValue2[2] === '8')
-      ) {
-        return '#.###.###'
-      }
-      return '###.#.###'
-    },
-
-    variableMask3() {
-      if (
-        this.variableMaskValue3[1] === '8' ||
-        (this.variableMaskValue3[1] === '.' &&
-          this.variableMaskValue3[2] === '8')
-      ) {
-        return '#.###.###'
-      }
-      return '###.#.###'
-    }
-  },
-
-  methods: {
-    toggleMask() {
-      this.maskedOrNotValue = this.maskedOrNotValue ? '' : '##/##/####'
-    }
+const variableMask1 = computed(() => {
+  if (
+    variableMaskValue1.value[1] === '8' ||
+    (variableMaskValue1.value[1] === '.' && variableMaskValue1.value[2] === '8')
+  ) {
+    return '#.###.###'
   }
+
+  return '###.#.###'
+})
+
+const variableMask2 = computed(() => {
+  if (
+    variableMaskValue2.value[1] === '8' ||
+    (variableMaskValue2.value[1] === '.' && variableMaskValue2.value[2] === '8')
+  ) {
+    return '#.###.###'
+  }
+  return '###.#.###'
+})
+
+const variableMask3 = computed(() => {
+  if (
+    variableMaskValue3.value[1] === '8' ||
+    (variableMaskValue3.value[1] === '.' && variableMaskValue3.value[2] === '8')
+  ) {
+    return '#.###.###'
+  }
+  return '###.#.###'
+})
+
+function toggleMask() {
+  maskedOrNotValue.value = maskedOrNotValue.value ? '' : '##/##/####'
 }
 </script>

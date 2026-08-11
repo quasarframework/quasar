@@ -121,7 +121,7 @@ export default function useTab(props, slots, emit, routeData) {
 
   function onClick(e, keyboard) {
     if (!keyboard && !e?.qAvoidFocus) {
-      blurTargetRef.value?.focus()
+      blurTargetRef.value?.focus({ preventScroll: true })
     }
 
     if (props.disable) {

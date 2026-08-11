@@ -1,4 +1,4 @@
-import { join } from 'node:path'
+import { join, relative } from 'node:path'
 import fse from 'fs-extra'
 import { watch as chokidarWatch } from 'chokidar'
 import { createServer } from 'vite'
@@ -23,7 +23,10 @@ export class QuasarModeDevserver extends AppDevserver {
       this.clientServer?.ws.send({ type: 'custom', event: 'qbex:hmr:reload' })
     }, 200)
 
-    this.registerDiff('distDir', quasarConf => [quasarConf.build.distDir])
+    this.registerDiff('distDir', quasarConf => [
+      quasarConf.build.distDir,
+      quasarConf.build.allowOutsideProjectDistDir
+    ])
 
     this.registerDiff('bexManifest', quasarConf => [
       quasarConf.sourceFiles.bexManifestFile,
@@ -46,6 +49,10 @@ export class QuasarModeDevserver extends AppDevserver {
 
   run(quasarConf, __isRetry) {
     const { diff, queue } = super.run(quasarConf, __isRetry)
+
+    if (diff('vueDevtools', quasarConf)) {
+      return queue(() => this.installVueDevtools(quasarConf))
+    }
 
     if (diff('distDir', quasarConf)) {
       return queue(() => this.#onDistDir(quasarConf))
@@ -86,7 +93,10 @@ export class QuasarModeDevserver extends AppDevserver {
       this.#scriptWatcherList.length = 0
     })
 
-    this.cleanArtifacts(quasarConf.build.distDir)
+    this.cleanArtifacts(
+      quasarConf.build.distDir,
+      quasarConf.build.allowOutsideProjectDistDir
+    )
 
     // ensure we have a stub www/index.html file otherwise the browser
     // will complain about it not being found
@@ -199,7 +209,7 @@ export class QuasarModeDevserver extends AppDevserver {
     const watcher = chokidarWatch(folders, { ignoreInitial: true })
 
     const copy = debounce(() => {
-      copyBexAssets(quasarConf)
+      copyBexAssets(quasarConf, true)
       this.printBanner(quasarConf)
 
       if (this.ctx.target.chrome) {
@@ -209,6 +219,9 @@ export class QuasarModeDevserver extends AppDevserver {
 
     watcher.on('add', copy)
     watcher.on('change', copy)
+    watcher.on('unlink', copy)
+    watcher.on('addDir', copy)
+    watcher.on('unlinkDir', copy)
 
     return watcher
   }
@@ -239,17 +252,32 @@ export class QuasarModeDevserver extends AppDevserver {
 
   // firefox only
   #getPublicDirWatcher(quasarConf) {
-    const watcher = chokidarWatch(this.ctx.appPaths.publicDir, {
+    const { publicDir } = this.ctx.appPaths
+    const watcher = chokidarWatch(publicDir, {
       ignoreInitial: true
     })
 
-    const copy = debounce(() => {
-      fse.copySync(this.ctx.appPaths.publicDir, quasarConf.build.distDir)
-      this.printBanner(quasarConf)
-    }, 500)
+    const sync = source => {
+      const target = join(
+        quasarConf.build.distDir,
+        'www',
+        relative(publicDir, source)
+      )
 
-    watcher.on('add', copy)
-    watcher.on('change', copy)
+      if (fse.existsSync(source)) {
+        fse.copySync(source, target)
+      } else {
+        fse.removeSync(target)
+      }
+
+      this.printBanner(quasarConf)
+    }
+
+    watcher.on('add', sync)
+    watcher.on('change', sync)
+    watcher.on('unlink', sync)
+    watcher.on('addDir', sync)
+    watcher.on('unlinkDir', sync)
 
     return watcher
   }

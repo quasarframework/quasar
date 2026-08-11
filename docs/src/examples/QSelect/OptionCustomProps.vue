@@ -38,40 +38,33 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    return {
-      model: ref(null),
-
-      options: [
-        {
-          id: 'goog',
-          desc: 'Google'
-        },
-        // #region
-        {
-          id: 'fb',
-          desc: 'Facebook'
-        },
-        {
-          id: 'twt',
-          desc: 'Twitter'
-        },
-        {
-          id: 'app',
-          desc: 'Apple'
-        },
-        // #endregion
-        {
-          id: 'ora',
-          desc: 'Oracle',
-          inactive: true
-        }
-      ]
-    }
+const model = ref(null)
+const options = [
+  {
+    id: 'goog',
+    desc: 'Google'
+  },
+  // #region
+  {
+    id: 'fb',
+    desc: 'Facebook'
+  },
+  {
+    id: 'twt',
+    desc: 'Twitter'
+  },
+  {
+    id: 'app',
+    desc: 'Apple'
+  },
+  // #endregion
+  {
+    id: 'ora',
+    desc: 'Oracle',
+    inactive: true
   }
-}
+]
 </script>

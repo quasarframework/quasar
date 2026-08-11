@@ -61,7 +61,7 @@ function getCellValue(col, row) {
   return col.format !== void 0 ? col.format(val, row) : val
 }
 
-export default createComponent({
+export default /*#__PURE__*/ createComponent({
   name: 'QTable',
 
   props: {
@@ -201,15 +201,17 @@ export default createComponent({
     )
 
     watch(
-      () =>
-        props.tableStyle +
-        props.tableClass +
-        props.tableHeaderStyle +
-        props.tableHeaderClass +
-        containerClass.value,
+      [
+        () => props.tableStyle,
+        () => props.tableClass,
+        () => props.tableHeaderStyle,
+        () => props.tableHeaderClass,
+        containerClass
+      ],
       () => {
         if (hasVirtScroll.value) virtScrollRef.value?.reset()
-      }
+      },
+      { deep: true }
     )
 
     const {
@@ -410,7 +412,9 @@ export default createComponent({
         return
       }
 
-      toIndex = Number.parseInt(toIndex, 10)
+      // sanitize the same way as the virtual scroll branch does
+      // (a NaN would make an invalid selector below, which throws)
+      toIndex = Math.max(0, Number.parseInt(toIndex, 10) || 0)
       const rowEl = rootRef.value.querySelector(
         `tbody tr:nth-of-type(${toIndex + 1})`
       )
@@ -419,7 +423,10 @@ export default createComponent({
         const scrollTarget = rootRef.value.querySelector(
           '.q-table__middle.scroll'
         )
-        const offsetTop = rowEl.offsetTop - props.virtualScrollStickySizeStart
+        // the passthrough prop declaration has no default (so that the
+        // virtual scroll branch can detect a missing value), hence the fallback
+        const offsetTop =
+          rowEl.offsetTop - (props.virtualScrollStickySizeStart || 0)
         const direction =
           offsetTop < scrollTarget.scrollTop ? 'decrease' : 'increase'
 
@@ -680,8 +687,8 @@ export default createComponent({
       }
 
       if (topRight !== void 0) {
-        child.push(h('div', { class: 'q-table__separator col' }))
         child.push(
+          h('div', { class: 'q-table__separator col' }),
           h('div', { class: 'q-table__control' }, [
             topRight(marginalsScope.value)
           ])
@@ -1095,13 +1102,13 @@ export default createComponent({
 
                 if (props.onRowClick !== void 0) {
                   data.onClick = evt => {
-                    emit('RowClick', evt, scope.row, scope.pageIndex)
+                    emit('rowClick', evt, scope.row, scope.pageIndex)
                   }
                 }
 
                 if (props.onRowDblclick !== void 0) {
                   data.onDblclick = evt => {
-                    emit('RowDblclick', evt, scope.row, scope.pageIndex)
+                    emit('rowDblclick', evt, scope.row, scope.pageIndex)
                   }
                 }
 
@@ -1156,7 +1163,12 @@ export default createComponent({
       sort,
       resetVirtualScroll,
       scrollTo,
-      getCellValue
+      getCellValue: (colName, row) => {
+        const col = computedColsMap.value[colName]
+        if (col !== void 0) {
+          return getCellValue(col, row)
+        }
+      }
     })
 
     injectMultipleProps(vm.proxy, {

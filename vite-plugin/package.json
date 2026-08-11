@@ -1,6 +1,6 @@
 {
   "name": "@quasar/vite-plugin",
-  "version": "1.12.0",
+  "version": "2.0.0",
   "description": "Vite plugin for Quasar Framework",
   "keywords": [
     "quasar",
@@ -26,7 +26,6 @@
     "url": "https://donate.quasar.dev"
   },
   "files": [
-    "dist",
     "src",
     "index.d.ts"
   ],
@@ -35,8 +34,7 @@
   "exports": {
     ".": {
       "types": "./index.d.ts",
-      "import": "./src/index.js",
-      "require": "./dist/index.cjs"
+      "import": "./src/index.js"
     },
     "./*": "./*"
   },
@@ -44,32 +42,40 @@
     "access": "public"
   },
   "scripts": {
-    "dev": "cd ./playground && pnpm dev",
-    "build": "node ./build/clean.js && rolldown --config ./build/rolldown.config.js",
-    "test": "pnpm test:usage && pnpm test:runtime",
-    "test:watch": "vitest run --watch --config ./testing/runtime/vitest.config.js",
-    "test:usage": "vitest run --config ./testing/usage/vitest.config.js",
-    "test:runtime": "vitest run --config ./testing/runtime/vitest.config.js",
-    "prepublishOnly": "pnpm run build"
+    "dev": "node ../ui/build/ensure-fresh-build.js && cd ./playground && pnpm dev",
+    "test": "pnpm test:usage && pnpm test:runtime && pnpm test:runtime:fallback && pnpm test:runtime:dev && pnpm test:runtime:dev:fallback && pnpm test:runtime:default-vars",
+    "test:watch": "vitest run --watch --config ./test/runtime/vitest.config.js",
+    "test:usage": "vitest run --config ./test/usage/vitest.config.js",
+    "test:runtime": "vitest run --config ./test/runtime/vitest.config.js",
+    "test:runtime:fallback": "vitest run --config ./test/runtime/vitest-fallback.config.js",
+    "pretest:watch": "playwright install chromium",
+    "pretest:runtime": "playwright install chromium",
+    "pretest:runtime:fallback": "playwright install chromium",
+    "pretest:runtime:dev": "playwright install chromium",
+    "test:runtime:dev": "vitest run --config ./test/runtime/vitest-dev.config.js",
+    "pretest:runtime:dev:fallback": "playwright install chromium",
+    "test:runtime:dev:fallback": "vitest run --config ./test/runtime/vitest-dev-fallback.config.js",
+    "pretest:runtime:default-vars": "playwright install chromium",
+    "test:runtime:default-vars": "vitest run --config ./test/runtime/vitest-default-vars.config.js",
+    "prepublishOnly": "node ../ui/build/ensure-fresh-build.js && pnpm test"
   },
   "devDependencies": {
+    "@vitest/browser-playwright": "^4.1.10",
     "@vue/test-utils": "^2.4.10",
-    "fs-extra": "^11.3.5",
-    "jsdom": "29.1.1",
+    "playwright": "^1.57.0",
     "pug": "^3.0.4",
     "quasar": "workspace:*",
-    "rolldown": "^1.1.1",
-    "vite": "^8.0.16",
-    "vitest": "^4.1.8",
-    "vue": "^3.5.38"
+    "vite": "^8.2.1",
+    "vitest": "^4.1.10",
+    "vue": "^3.5.41"
   },
   "peerDependencies": {
-    "@vitejs/plugin-vue": "^2.0.0 || ^3.0.0 || ^4.0.0 || ^5.0.0 || ^6.0.5",
-    "quasar": "^2.16.0",
-    "vite": "^2.0.0 || ^3.0.0 || ^4.0.0 || ^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0",
+    "@vitejs/plugin-vue": "^6.0.5",
+    "quasar": "^2.24.0",
+    "vite": "^8.0.0",
     "vue": "^3.0.0"
   },
   "engines": {
-    "node": ">=20"
+    "node": "^20.19.0 || >=22.12.0"
   }
 }

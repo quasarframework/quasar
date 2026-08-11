@@ -14,9 +14,9 @@ scope:
               - l: icon.png
 ---
 
-These images are used to display the icon of the application in the desktop operating system in the tray, on the desktop, in the file-browser and in relevant stores. The `icon.ico` file is for Windows and `icon.icns` is for MacOS. If you discover any that are missing, please [open an issue](https://github.com/quasarframework/quasar/issues).
+These images represent your application in the operating system, including the desktop, file browser, taskbar or dock, tray, and relevant stores. The `icon.ico` file is for Windows, `icon.icns` is for macOS, and `icon.png` is used where a PNG is required. If you discover any that are missing, please [open an issue](https://github.com/quasarframework/quasar/issues).
 
-<img src="https://cdn.quasar.dev/img/iconfactory.png" style="float:right;max-width:15%;min-width:240px;padding-top:40px">
+<img src="/img/iconfactory.png" style="float:right;max-width:15%;min-width:240px;padding-top:40px">
 
 ## Icon Genie CLI
 

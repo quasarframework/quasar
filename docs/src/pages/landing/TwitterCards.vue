@@ -69,13 +69,13 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, useTemplateRef } from 'vue'
 import { fabTwitter } from '@quasar/extras/fontawesome-v7'
 import { mdiChevronLeft, mdiChevronRight } from '@quasar/extras/mdi-v7'
 
 const hiddenArrowClass = 'twitter-cards__arrow--hidden'
 
-const contentRef = ref(null)
+const contentRef = useTemplateRef('contentRef')
 const leftArrowClass = ref(hiddenArrowClass)
 const rightArrowClass = ref(null)
 
@@ -245,7 +245,7 @@ const tweetsList = [
   }
 ].map(entry => ({
   ...entry,
-  avatar: `https://cdn.quasar.dev/img/tweets/${entry.avatar}`,
+  avatar: `/landing/tweets/${entry.avatar}`,
   link: `https://twitter.com/${entry.handle}/status/${entry.id}`
 }))
 </script>

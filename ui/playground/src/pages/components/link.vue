@@ -52,16 +52,8 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { matAddBox } from '@quasar/extras/material-icons'
-
-export default {
-  data() {
-    return {
-      matAddBox
-    }
-  }
-}
 </script>
 
 <style lang="sass">

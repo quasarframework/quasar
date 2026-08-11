@@ -200,7 +200,7 @@
                   no-caps
                   flat
                   color="primary"
-                  @click="customComponent(false)"
+                  @click="customComponentCompositionApi(false)"
                 />
               </q-item-section>
             </q-item>
@@ -211,7 +211,7 @@
                   no-caps
                   flat
                   color="primary"
-                  @click="customComponent(true)"
+                  @click="customComponentCompositionApi(true)"
                 />
               </q-item-section>
             </q-item>
@@ -231,586 +231,584 @@
   </div>
 </template>
 
-<script>
-import { defineAsyncComponent } from 'vue'
+<script setup>
+import { defineAsyncComponent, ref } from 'vue'
 
-import { QSpinnerCube, QSpinnerGears } from 'quasar'
+import { QSpinnerCube, QSpinnerGears, useQuasar } from 'quasar'
+
+import { onBeforeRouteLeave } from 'vue-router'
 
 import DialogComponentOptionsApi from './dialog-component-options-api.js'
 import DialogComponentCompositionApi from './dialog-component-composition-api.js'
 
-export default {
-  data() {
-    return {
-      dark: null
-    }
-  },
+const $q = useQuasar()
 
-  methods: {
-    hideDialog() {
-      if (this.dialogHandler !== void 0) {
-        this.dialogHandler.hide()
-      }
-    },
+const dark = ref(null)
 
-    alert() {
-      this.dialogHandler = this.$q
-        .dialog({
-          title: 'Alert',
-          message: 'Some message',
-          dark: this.dark
-        })
-        .onOk(() => {
-          console.log('OK')
-        })
-        .onCancel(() => {
-          console.log('Cancel')
-        })
-        .onDismiss(() => {
-          this.dialogHandler = void 0
-        })
-    },
+let dialogHandler
 
-    alertCustom() {
-      this.dialogHandler = this.$q
-        .dialog({
-          title: 'Alert',
-          message: 'Some message',
-          class: 'custom-dialog',
-          dark: this.dark,
-          ok: {
-            color: 'black'
-          }
-        })
-        .onOk(() => {
-          console.log('OK')
-        })
-        .onCancel(() => {
-          console.log('Cancel')
-        })
-        .onDismiss(() => {
-          this.dialogHandler = void 0
-        })
-    },
-
-    confirm(focus) {
-      this.dialogHandler = this.$q
-        .dialog({
-          title: 'Confirm',
-          message: 'Would you like to turn on the wifi?',
-          ok: {
-            push: true,
-            textColor: this.dark ? 'primary' : 'white'
-          },
-          cancel: {
-            push: true,
-            color: 'negative'
-          },
-          focus,
-          persistent: true,
-          dark: this.dark
-        })
-        .onOk(() => {
-          console.log('>>>> OK')
-        })
-        .onOk(() => {
-          console.log('>>>> second OK catcher')
-        })
-        .onCancel(() => {
-          console.log('>>>> Cancel')
-        })
-        .onDismiss(() => {
-          this.dialogHandler = void 0
-        })
-    },
-
-    prompt() {
-      this.dialogHandler = this.$q
-        .dialog({
-          title: 'Prompt',
-          message: 'What is your name?',
-          prompt: {
-            model: '',
-            type: 'text' // optional
-          },
-          cancel: true,
-          persistent: true,
-          color: 'secondary',
-          dark: this.dark
-        })
-        .onOk(data => {
-          console.log('>>>> OK, received', data)
-        })
-        .onCancel(() => {
-          console.log('>>>> Cancel')
-        })
-        .onDismiss(() => {
-          this.dialogHandler = void 0
-        })
-    },
-
-    promptValidation() {
-      this.dialogHandler = this.$q
-        .dialog({
-          title: 'Prompt',
-          message: 'Length > 0',
-          prompt: {
-            model: '',
-            isValid: val => val.length !== 0,
-            type: 'text' // optional
-          },
-          cancel: true,
-          persistent: true,
-          color: 'secondary',
-          dark: this.dark
-        })
-        .onOk(data => {
-          console.log('>>>> OK, received', data)
-        })
-        .onCancel(() => {
-          console.log('>>>> Cancel')
-        })
-        .onDismiss(() => {
-          this.dialogHandler = void 0
-        })
-    },
-
-    radio() {
-      this.dialogHandler = this.$q
-        .dialog({
-          title: 'Options',
-          message: 'Choose your options',
-          options: {
-            type: 'radio',
-            model: 'opt1',
-            // inline: true
-            items: [
-              { label: 'Option 1', value: 'opt1', color: 'secondary' },
-              { label: 'Option 2', value: 'opt2' },
-              { label: 'Option 3', value: 'opt3' }
-            ]
-          },
-          cancel: true,
-          persistent: true,
-          dark: this.dark
-        })
-        .onOk(data => {
-          console.log('>>>> OK, received', data)
-        })
-        .onCancel(() => {
-          console.log('>>>> Cancel')
-        })
-        .onDismiss(() => {
-          this.dialogHandler = void 0
-        })
-    },
-
-    radioValidation() {
-      this.dialogHandler = this.$q
-        .dialog({
-          title: 'Options',
-          message: 'Need to select option 2',
-          options: {
-            type: 'radio',
-            model: 'opt1',
-            isValid: val => val === 'opt2',
-            // inline: true
-            items: [
-              { label: 'Option 1', value: 'opt1', color: 'secondary' },
-              { label: 'Option 2', value: 'opt2' },
-              { label: 'Option 3', value: 'opt3' }
-            ]
-          },
-          cancel: true,
-          persistent: true,
-          dark: this.dark
-        })
-        .onOk(data => {
-          console.log('>>>> OK, received', data)
-        })
-        .onCancel(() => {
-          console.log('>>>> Cancel')
-        })
-        .onDismiss(() => {
-          this.dialogHandler = void 0
-        })
-    },
-
-    checkbox() {
-      this.dialogHandler = this.$q
-        .dialog({
-          title: 'Options',
-          message: 'Choose your options',
-          options: {
-            type: 'checkbox',
-            model: [],
-            // inline: true
-            items: [
-              { label: 'Option 1', value: 'opt1', color: 'secondary' },
-              { label: 'Option 2', value: 'opt2' },
-              { label: 'Option 3', value: 'opt3' }
-            ]
-          },
-          cancel: true,
-          persistent: true,
-          dark: this.dark
-        })
-        .onOk(data => {
-          console.log('>>>> OK, received', data)
-        })
-        .onCancel(() => {
-          console.log('>>>> Cancel')
-        })
-        .onDismiss(() => {
-          this.dialogHandler = void 0
-        })
-    },
-
-    checkboxValidation() {
-      this.dialogHandler = this.$q
-        .dialog({
-          title: 'Options',
-          message: 'Need to checkmark option 1',
-          options: {
-            type: 'checkbox',
-            model: [],
-            isValid: val => val.includes('opt1'),
-            // inline: true
-            items: [
-              { label: 'Option 1', value: 'opt1', color: 'secondary' },
-              { label: 'Option 2', value: 'opt2' },
-              { label: 'Option 3', value: 'opt3' }
-            ]
-          },
-          cancel: true,
-          persistent: true,
-          dark: this.dark
-        })
-        .onOk(data => {
-          console.log('>>>> OK, received', data)
-        })
-        .onCancel(() => {
-          console.log('>>>> Cancel')
-        })
-        .onDismiss(() => {
-          this.dialogHandler = void 0
-        })
-    },
-
-    disabledButtons() {
-      this.dialogHandler = this.$q
-        .dialog({
-          title: 'Disabled buttons',
-          message: 'buttons should be disabled',
-          ok: {
-            label: 'resend',
-            unelevated: true,
-            disable: true
-          },
-          cancel: {
-            label: 'remove',
-            flat: true,
-            disable: true
-          },
-          dark: this.dark
-        })
-        .onOk(data => {
-          console.log('>>>> OK, received', data)
-        })
-        .onCancel(() => {
-          console.log('>>>> Cancel')
-        })
-        .onDismiss(() => {
-          this.dialogHandler = void 0
-        })
-    },
-
-    toggle() {
-      this.dialogHandler = this.$q
-        .dialog({
-          title: 'Options',
-          message: 'Choose your options',
-          options: {
-            type: 'toggle',
-            model: [],
-            // inline: true,
-            items: [
-              { label: 'Option 1', value: 'opt1', color: 'secondary' },
-              { label: 'Option 2', value: 'opt2' },
-              { label: 'Option 3', value: 'opt3' }
-            ]
-          },
-          cancel: true,
-          persistent: true,
-          dark: this.dark
-        })
-        .onOk(data => {
-          console.log('>>>> OK, received', data)
-        })
-        .onCancel(() => {
-          console.log('>>>> Cancel')
-        })
-        .onDismiss(() => {
-          this.dialogHandler = void 0
-        })
-    },
-
-    updateTest() {
-      const dialog = this.$q.dialog({
-        dark: true,
-        title: 'Prompt',
-        message: 'What is your name?',
-        prompt: {
-          model: '',
-          label: 'Text',
-          type: 'text' // optional
-        },
-        progress: true,
-        cancel: true,
-        persistent: true
-      })
-
-      setTimeout(() => {
-        dialog.update({
-          title: void 0,
-          message: 'New message',
-          dark: false,
-          prompt: { model: 'new value' },
-          ok: false,
-          persistent: false,
-          cancel: false
-        })
-      }, 1000)
-
-      setTimeout(() => {
-        dialog.update({
-          message:
-            'Lorem ipsum dolor amit. Lorem ipsum dolor amit. Lorem ipsum dolor amit. Lorem ipsum dolor amit. Lorem ipsum dolor amit. Lorem ipsum dolor amit. Lorem ipsum dolor amit. Lorem ipsum dolor amit. Lorem ipsum dolor amit. ',
-          prompt: void 0,
-          progress: {
-            spinner: QSpinnerGears
-          }
-        })
-      }, 2000)
-
-      setTimeout(() => {
-        dialog.update({
-          message: 'Some other message',
-          progress: {
-            color: 'amber'
-          }
-        })
-      }, 3000)
-
-      setTimeout(() => {
-        dialog.update({
-          message: 'Click/tap outside to close this dialog',
-          progress: {
-            spinner: QSpinnerCube
-          }
-        })
-      }, 4000)
-    },
-
-    progress() {
-      const dialog = this.$q.dialog({
-        message: 'Uploading... 0%',
-        progress: true,
-        persistent: true,
-        ok: false
-      })
-
-      let percentage = 0
-      const interval = setInterval(() => {
-        percentage = Math.min(100, percentage + Math.floor(Math.random() * 22))
-        dialog.update({
-          message: `Uploading... ${percentage}%`
-        })
-
-        if (percentage === 100) {
-          clearInterval(interval)
-          setTimeout(() => {
-            dialog.hide()
-          }, 300)
-        }
-      }, 500)
-    },
-
-    positioned() {
-      this.dialogHandler = this.$q
-        .dialog({
-          title: 'Positioned',
-          message: 'This dialog appears from bottom.',
-          position: 'bottom',
-          dark: this.dark
-        })
-        .onOk(() => {
-          console.log('OK')
-        })
-        .onCancel(() => {
-          console.log('Cancel')
-        })
-        .onDismiss(() => {
-          this.dialogHandler = void 0
-        })
-    },
-
-    stacked() {
-      this.dialogHandler = this.$q
-        .dialog({
-          title: 'Stacked Buttons',
-          stackButtons: true,
-          cancel: true,
-          dark: this.dark
-        })
-        .onOk(() => {
-          console.log('OK')
-        })
-        .onCancel(() => {
-          console.log('Cancel')
-        })
-        .onDismiss(() => {
-          this.dialogHandler = void 0
-        })
-    },
-
-    autoClose() {
-      let seconds = 3
-
-      this.dialogHandler = this.$q
-        .dialog({
-          title: 'Alert',
-          message: `Autoclosing in ${seconds} seconds.`,
-          dark: this.dark
-        })
-        .onOk(() => {
-          console.log('OK')
-          clearTimeout(timer)
-        })
-        .onCancel(() => {
-          console.log('Cancel')
-          clearTimeout(timer)
-        })
-        .onDismiss(() => {
-          this.dialogHandler = void 0
-        })
-
-      const timer = setInterval(() => {
-        if (this.dialogHandler !== void 0) {
-          seconds--
-          if (seconds > 0) {
-            this.dialogHandler.update({
-              message: `Autoclosing in ${seconds} second${seconds > 1 ? 's' : ''}.`
-            })
-          } else {
-            clearInterval(timer)
-            this.dialogHandler.hide()
-          }
-        } else {
-          clearInterval(timer)
-        }
-      }, 1000)
-    },
-
-    customComponentOptionsApi(async) {
-      this.dialogHandler = this.$q
-        .dialog({
-          component:
-            async !== true
-              ? DialogComponentOptionsApi
-              : defineAsyncComponent(
-                  () =>
-                    new Promise(resolve => {
-                      setTimeout(() => {
-                        resolve(import('./dialog-component-options-api.js'))
-                      }, 500)
-                    })
-                ),
-          componentProps: {
-            text: 'Works',
-            onVnodeMounted(vm) {
-              console.log(
-                `customComponentOptionsApi ${async === true ? 'ASYNC ' : ''}mounted`,
-                vm ? vm.el : null,
-                vm
-              )
-            }
-          }
-        })
-        .onOk(payload => {
-          console.log('OK', payload)
-        })
-        .onCancel(() => {
-          console.log('Cancel')
-        })
-        .onDismiss(() => {
-          this.dialogHandler = void 0
-        })
-    },
-
-    customComponentCompositionApi(async) {
-      this.dialogHandler = this.$q
-        .dialog({
-          component:
-            async !== true
-              ? DialogComponentCompositionApi
-              : defineAsyncComponent(
-                  () =>
-                    new Promise(resolve => {
-                      setTimeout(() => {
-                        resolve(import('./dialog-component-composition-api.js'))
-                      }, 500)
-                    })
-                ),
-          componentProps: {
-            text: 'Works',
-            onVnodeMounted(vm) {
-              console.log(
-                `customComponentCompositionApi ${async === true ? 'ASYNC ' : ''}mounted`,
-                vm ? vm.el : null,
-                vm
-              )
-            }
-          }
-        })
-        .onOk(payload => {
-          console.log('OK', payload)
-        })
-        .onCancel(() => {
-          console.log('Cancel')
-        })
-        .onDismiss(() => {
-          this.dialogHandler = void 0
-        })
-    },
-
-    unsafe() {
-      this.dialogHandler = this.$q
-        .dialog({
-          title: 'Alert <span class="text-red">me</span>',
-          message: 'Some <strong>unsafe</strong> <em>message</em>',
-          html: true,
-          dark: this.dark,
-          ok: {
-            color: 'black'
-          }
-        })
-        .onOk(() => {
-          console.log('OK')
-        })
-        .onCancel(() => {
-          console.log('Cancel')
-        })
-        .onDismiss(() => {
-          this.dialogHandler = void 0
-        })
-    }
-  },
-
-  beforeRouteLeave() {
-    this.hideDialog()
+function hideDialog() {
+  if (dialogHandler !== void 0) {
+    dialogHandler.hide()
   }
 }
+
+function alert() {
+  dialogHandler = $q
+    .dialog({
+      title: 'Alert',
+      message: 'Some message',
+      dark: dark.value
+    })
+    .onOk(() => {
+      console.log('OK')
+    })
+    .onCancel(() => {
+      console.log('Cancel')
+    })
+    .onDismiss(() => {
+      dialogHandler = void 0
+    })
+}
+
+function alertCustom() {
+  dialogHandler = $q
+    .dialog({
+      title: 'Alert',
+      message: 'Some message',
+      class: 'custom-dialog',
+      dark: dark.value,
+      ok: {
+        color: 'black'
+      }
+    })
+    .onOk(() => {
+      console.log('OK')
+    })
+    .onCancel(() => {
+      console.log('Cancel')
+    })
+    .onDismiss(() => {
+      dialogHandler = void 0
+    })
+}
+
+function confirm(focus) {
+  dialogHandler = $q
+    .dialog({
+      title: 'Confirm',
+      message: 'Would you like to turn on the wifi?',
+      ok: {
+        push: true,
+        textColor: dark.value ? 'primary' : 'white'
+      },
+      cancel: {
+        push: true,
+        color: 'negative'
+      },
+      focus,
+      persistent: true,
+      dark: dark.value
+    })
+    .onOk(() => {
+      console.log('>>>> OK')
+    })
+    .onOk(() => {
+      console.log('>>>> second OK catcher')
+    })
+    .onCancel(() => {
+      console.log('>>>> Cancel')
+    })
+    .onDismiss(() => {
+      dialogHandler = void 0
+    })
+}
+
+function prompt() {
+  dialogHandler = $q
+    .dialog({
+      title: 'Prompt',
+      message: 'What is your name?',
+      prompt: {
+        model: '',
+        type: 'text' // optional
+      },
+      cancel: true,
+      persistent: true,
+      color: 'secondary',
+      dark: dark.value
+    })
+    .onOk(data => {
+      console.log('>>>> OK, received', data)
+    })
+    .onCancel(() => {
+      console.log('>>>> Cancel')
+    })
+    .onDismiss(() => {
+      dialogHandler = void 0
+    })
+}
+
+function promptValidation() {
+  dialogHandler = $q
+    .dialog({
+      title: 'Prompt',
+      message: 'Length > 0',
+      prompt: {
+        model: '',
+        isValid: val => val.length !== 0,
+        type: 'text' // optional
+      },
+      cancel: true,
+      persistent: true,
+      color: 'secondary',
+      dark: dark.value
+    })
+    .onOk(data => {
+      console.log('>>>> OK, received', data)
+    })
+    .onCancel(() => {
+      console.log('>>>> Cancel')
+    })
+    .onDismiss(() => {
+      dialogHandler = void 0
+    })
+}
+
+function radio() {
+  dialogHandler = $q
+    .dialog({
+      title: 'Options',
+      message: 'Choose your options',
+      options: {
+        type: 'radio',
+        model: 'opt1',
+        // inline: true
+        items: [
+          { label: 'Option 1', value: 'opt1', color: 'secondary' },
+          { label: 'Option 2', value: 'opt2' },
+          { label: 'Option 3', value: 'opt3' }
+        ]
+      },
+      cancel: true,
+      persistent: true,
+      dark: dark.value
+    })
+    .onOk(data => {
+      console.log('>>>> OK, received', data)
+    })
+    .onCancel(() => {
+      console.log('>>>> Cancel')
+    })
+    .onDismiss(() => {
+      dialogHandler = void 0
+    })
+}
+
+function radioValidation() {
+  dialogHandler = $q
+    .dialog({
+      title: 'Options',
+      message: 'Need to select option 2',
+      options: {
+        type: 'radio',
+        model: 'opt1',
+        isValid: val => val === 'opt2',
+        // inline: true
+        items: [
+          { label: 'Option 1', value: 'opt1', color: 'secondary' },
+          { label: 'Option 2', value: 'opt2' },
+          { label: 'Option 3', value: 'opt3' }
+        ]
+      },
+      cancel: true,
+      persistent: true,
+      dark: dark.value
+    })
+    .onOk(data => {
+      console.log('>>>> OK, received', data)
+    })
+    .onCancel(() => {
+      console.log('>>>> Cancel')
+    })
+    .onDismiss(() => {
+      dialogHandler = void 0
+    })
+}
+
+function checkbox() {
+  dialogHandler = $q
+    .dialog({
+      title: 'Options',
+      message: 'Choose your options',
+      options: {
+        type: 'checkbox',
+        model: [],
+        // inline: true
+        items: [
+          { label: 'Option 1', value: 'opt1', color: 'secondary' },
+          { label: 'Option 2', value: 'opt2' },
+          { label: 'Option 3', value: 'opt3' }
+        ]
+      },
+      cancel: true,
+      persistent: true,
+      dark: dark.value
+    })
+    .onOk(data => {
+      console.log('>>>> OK, received', data)
+    })
+    .onCancel(() => {
+      console.log('>>>> Cancel')
+    })
+    .onDismiss(() => {
+      dialogHandler = void 0
+    })
+}
+
+function checkboxValidation() {
+  dialogHandler = $q
+    .dialog({
+      title: 'Options',
+      message: 'Need to checkmark option 1',
+      options: {
+        type: 'checkbox',
+        model: [],
+        isValid: val => val.includes('opt1'),
+        // inline: true
+        items: [
+          { label: 'Option 1', value: 'opt1', color: 'secondary' },
+          { label: 'Option 2', value: 'opt2' },
+          { label: 'Option 3', value: 'opt3' }
+        ]
+      },
+      cancel: true,
+      persistent: true,
+      dark: dark.value
+    })
+    .onOk(data => {
+      console.log('>>>> OK, received', data)
+    })
+    .onCancel(() => {
+      console.log('>>>> Cancel')
+    })
+    .onDismiss(() => {
+      dialogHandler = void 0
+    })
+}
+
+function disabledButtons() {
+  dialogHandler = $q
+    .dialog({
+      title: 'Disabled buttons',
+      message: 'buttons should be disabled',
+      ok: {
+        label: 'resend',
+        unelevated: true,
+        disable: true
+      },
+      cancel: {
+        label: 'remove',
+        flat: true,
+        disable: true
+      },
+      dark: dark.value
+    })
+    .onOk(data => {
+      console.log('>>>> OK, received', data)
+    })
+    .onCancel(() => {
+      console.log('>>>> Cancel')
+    })
+    .onDismiss(() => {
+      dialogHandler = void 0
+    })
+}
+
+function toggle() {
+  dialogHandler = $q
+    .dialog({
+      title: 'Options',
+      message: 'Choose your options',
+      options: {
+        type: 'toggle',
+        model: [],
+        // inline: true,
+        items: [
+          { label: 'Option 1', value: 'opt1', color: 'secondary' },
+          { label: 'Option 2', value: 'opt2' },
+          { label: 'Option 3', value: 'opt3' }
+        ]
+      },
+      cancel: true,
+      persistent: true,
+      dark: dark.value
+    })
+    .onOk(data => {
+      console.log('>>>> OK, received', data)
+    })
+    .onCancel(() => {
+      console.log('>>>> Cancel')
+    })
+    .onDismiss(() => {
+      dialogHandler = void 0
+    })
+}
+
+function updateTest() {
+  const dialog = $q.dialog({
+    dark: true,
+    title: 'Prompt',
+    message: 'What is your name?',
+    prompt: {
+      model: '',
+      label: 'Text',
+      type: 'text' // optional
+    },
+    progress: true,
+    cancel: true,
+    persistent: true
+  })
+
+  setTimeout(() => {
+    dialog.update({
+      title: void 0,
+      message: 'New message',
+      dark: false,
+      prompt: { model: 'new value' },
+      ok: false,
+      persistent: false,
+      cancel: false
+    })
+  }, 1000)
+
+  setTimeout(() => {
+    dialog.update({
+      message:
+        'Lorem ipsum dolor amit. Lorem ipsum dolor amit. Lorem ipsum dolor amit. Lorem ipsum dolor amit. Lorem ipsum dolor amit. Lorem ipsum dolor amit. Lorem ipsum dolor amit. Lorem ipsum dolor amit. Lorem ipsum dolor amit. ',
+      prompt: void 0,
+      progress: {
+        spinner: QSpinnerGears
+      }
+    })
+  }, 2000)
+
+  setTimeout(() => {
+    dialog.update({
+      message: 'Some other message',
+      progress: {
+        color: 'amber'
+      }
+    })
+  }, 3000)
+
+  setTimeout(() => {
+    dialog.update({
+      message: 'Click/tap outside to close this dialog',
+      progress: {
+        spinner: QSpinnerCube
+      }
+    })
+  }, 4000)
+}
+
+function progress() {
+  const dialog = $q.dialog({
+    message: 'Uploading... 0%',
+    progress: true,
+    persistent: true,
+    ok: false
+  })
+
+  let percentage = 0
+  const interval = setInterval(() => {
+    percentage = Math.min(100, percentage + Math.floor(Math.random() * 22))
+    dialog.update({
+      message: `Uploading... ${percentage}%`
+    })
+
+    if (percentage === 100) {
+      clearInterval(interval)
+      setTimeout(() => {
+        dialog.hide()
+      }, 300)
+    }
+  }, 500)
+}
+
+function positioned() {
+  dialogHandler = $q
+    .dialog({
+      title: 'Positioned',
+      message: 'This dialog appears from bottom.',
+      position: 'bottom',
+      dark: dark.value
+    })
+    .onOk(() => {
+      console.log('OK')
+    })
+    .onCancel(() => {
+      console.log('Cancel')
+    })
+    .onDismiss(() => {
+      dialogHandler = void 0
+    })
+}
+
+function stacked() {
+  dialogHandler = $q
+    .dialog({
+      title: 'Stacked Buttons',
+      stackButtons: true,
+      cancel: true,
+      dark: dark.value
+    })
+    .onOk(() => {
+      console.log('OK')
+    })
+    .onCancel(() => {
+      console.log('Cancel')
+    })
+    .onDismiss(() => {
+      dialogHandler = void 0
+    })
+}
+
+function autoClose() {
+  let seconds = 3
+
+  dialogHandler = $q
+    .dialog({
+      title: 'Alert',
+      message: `Autoclosing in ${seconds} seconds.`,
+      dark: dark.value
+    })
+    .onOk(() => {
+      console.log('OK')
+      clearTimeout(timer)
+    })
+    .onCancel(() => {
+      console.log('Cancel')
+      clearTimeout(timer)
+    })
+    .onDismiss(() => {
+      dialogHandler = void 0
+    })
+
+  const timer = setInterval(() => {
+    if (dialogHandler !== void 0) {
+      seconds--
+      if (seconds > 0) {
+        dialogHandler.update({
+          message: `Autoclosing in ${seconds} second${seconds > 1 ? 's' : ''}.`
+        })
+      } else {
+        clearInterval(timer)
+        dialogHandler.hide()
+      }
+    } else {
+      clearInterval(timer)
+    }
+  }, 1000)
+}
+
+function customComponentOptionsApi(async) {
+  dialogHandler = $q
+    .dialog({
+      component:
+        async !== true
+          ? DialogComponentOptionsApi
+          : defineAsyncComponent(
+              () =>
+                new Promise(resolve => {
+                  setTimeout(() => {
+                    resolve(import('./dialog-component-options-api.js'))
+                  }, 500)
+                })
+            ),
+      componentProps: {
+        text: 'Works',
+        onVnodeMounted(vm) {
+          console.log(
+            `customComponentOptionsApi ${async === true ? 'ASYNC ' : ''}mounted`,
+            vm ? vm.el : null,
+            vm
+          )
+        }
+      }
+    })
+    .onOk(payload => {
+      console.log('OK', payload)
+    })
+    .onCancel(() => {
+      console.log('Cancel')
+    })
+    .onDismiss(() => {
+      dialogHandler = void 0
+    })
+}
+
+function customComponentCompositionApi(async) {
+  dialogHandler = $q
+    .dialog({
+      component:
+        async !== true
+          ? DialogComponentCompositionApi
+          : defineAsyncComponent(
+              () =>
+                new Promise(resolve => {
+                  setTimeout(() => {
+                    resolve(import('./dialog-component-composition-api.js'))
+                  }, 500)
+                })
+            ),
+      componentProps: {
+        text: 'Works',
+        onVnodeMounted(vm) {
+          console.log(
+            `customComponentCompositionApi ${async === true ? 'ASYNC ' : ''}mounted`,
+            vm ? vm.el : null,
+            vm
+          )
+        }
+      }
+    })
+    .onOk(payload => {
+      console.log('OK', payload)
+    })
+    .onCancel(() => {
+      console.log('Cancel')
+    })
+    .onDismiss(() => {
+      dialogHandler = void 0
+    })
+}
+
+function unsafe() {
+  dialogHandler = $q
+    .dialog({
+      title: 'Alert <span class="text-red">me</span>',
+      message: 'Some <strong>unsafe</strong> <em>message</em>',
+      html: true,
+      dark: dark.value,
+      ok: {
+        color: 'black'
+      }
+    })
+    .onOk(() => {
+      console.log('OK')
+    })
+    .onCancel(() => {
+      console.log('Cancel')
+    })
+    .onDismiss(() => {
+      dialogHandler = void 0
+    })
+}
+
+onBeforeRouteLeave(() => {
+  hideDialog()
+})
 </script>
 
 <style lang="sass">

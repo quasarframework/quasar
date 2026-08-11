@@ -6,6 +6,7 @@
     "**/.quasar/",
 
     "app-vite/templates/",
+    "app-vite/playground-*/src-*/",
     "app-vite/types/client/",
     "app-vite/types/globals.d.ts",
 
@@ -102,6 +103,8 @@
     "prefer-named-capture-group": "off",
     "vue/require-prop-types": "off",
     "vue/next-tick-style": ["error", "callback"],
+    "unicorn/max-nested-calls": "off",
+    "vue/require-default-prop": "off",
 
     /** Performance rule overrides */
     "no-await-in-loop": "off",
@@ -173,6 +176,7 @@
     "unicorn/prefer-query-selector": "off",
     "require-unicode-regexp": "off",
     "unicorn/no-negated-condition": "off",
+    "unicorn/prefer-number-coercion": "off",
 
     /** Nursery rule overrides */
     "no-undef": "error"
@@ -196,7 +200,9 @@
       "rules": {
         "import/first": "off",
         "node/no-process-env": "off",
-        "node/callback-return": "off"
+        "node/callback-return": "off",
+        "node/no-sync": "off",
+        "node/no-top-level-await": "off"
       }
     },
 
@@ -236,6 +242,7 @@
         "utils/**",
         "vite-plugin/src/**",
         "vite-plugin/build/**",
+        "docs/*.js",
         "docs/build/**",
         "docs/src-ssr/**"
       ],
@@ -243,7 +250,7 @@
     },
 
     {
-      "files": ["**/testing/**"],
+      "files": ["ui/test/**", "vite-plugin/test/**", "docs/test/**"],
       "env": { "node": true, "browser": true }
     },
 
@@ -288,7 +295,8 @@
     {
       "files": ["**/*.vue"],
       "rules": {
-        "unicorn/prefer-top-level-await": "off"
+        "unicorn/prefer-top-level-await": "off",
+        "unicorn/consistent-function-scoping": "off"
       }
     }
   ]

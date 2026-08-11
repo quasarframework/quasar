@@ -31,7 +31,12 @@
               buttons
               v-slot="scope"
             >
-              <q-input type="number" v-model="scope.value" dense autofocus />
+              <q-input
+                type="number"
+                v-model.number="scope.value"
+                dense
+                autofocus
+              />
             </q-popup-edit>
           </q-td>
           <q-td key="fat" :props="props">
@@ -51,7 +56,7 @@
             >
               <q-input
                 type="number"
-                v-model="scope.value"
+                v-model.number="scope.value"
                 dense
                 autofocus
                 hint="Use buttons to close"
@@ -68,7 +73,7 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
 const columns = [
@@ -116,7 +121,7 @@ const columns = [
   // #endregion
 ]
 
-const rows = [
+const rows = ref([
   // #region
   {
     name: 'Frozen Yogurt',
@@ -219,14 +224,5 @@ const rows = [
     iron: '6%'
   }
   // #endregion
-]
-
-export default {
-  setup() {
-    return {
-      columns,
-      rows: ref(rows)
-    }
-  }
-}
+])
 </script>

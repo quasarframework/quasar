@@ -118,7 +118,10 @@
   </div>
 </template>
 
-<script>
+<script setup>
+import { useQuasar } from 'quasar'
+import { computed, ref, watch } from 'vue'
+
 import smallTree from '@/mock-data/tree/smallTree.json'
 
 const findNode = (key, nodes) => {
@@ -131,110 +134,107 @@ const findNode = (key, nodes) => {
   }
 }
 
-export default {
-  computed: {
-    color() {
-      return this.dark ? 'red' : 'secondary'
-    }
-  },
-  watch: {
-    selectableNodes(v) {
-      this.selected = v ? this.selected || null : void 0
-    },
-    async isBigTree(v) {
-      if (v) {
-        console.log('Loading big tree...')
-        const json = await import('@/mock-data/tree/bigTree.json')
-        this.nodes = json.default
-        console.log('Big tree loaded')
-        return
-      }
-      this.nodes = smallTree
-    }
-  },
-  data() {
-    /*
-    let children = []
-    for (let i = 0; i < 500; i += 1) {
-      children.push({
-        key: 'KEY: Node 1.1.1.1.' + (i + 1),
-        label: 'Node 1.1.1.1.' + (i + 1)
-      })
-    }
-    */
-    // Patch the smallTree's node 1.3 as we can't save function to JSON
-    findNode('KEY: Node 1.3 - tap on me!', smallTree).handler = () =>
-      this.$q.notify('Tapped on node 1.3')
+const $q = useQuasar()
 
-    return {
-      noConnectors: false,
-      noTransition: false,
-      selected: null,
-      noSelectionUnset: false,
-      tickStrategy: 'leaf',
-      ticked: [
-        'KEY: Node 2.2',
-        'KEY: Node child - 1 - disabled',
-        'KEY: Node child - 3 - disabled',
-        'KEY: Node child - 1 - enabled - untickable',
-        'KEY: Node child - 4 - enabled - untickable'
-      ],
-      expanded: [
-        'KEY: Node 2.1.4 - Disabled',
-        'KEY: Node 2.1.3 - freeze exp / tickable',
-        'KEY: Node parent - untickable ticked child',
-        'KEY: Node parent - untickable unticked child',
-        'KEY: Node parent - all untickable ticked children',
-        'KEY: Node parent - all untickable unticked children',
-        'KEY: Node parent - all untickable mix ticked children',
-        'KEY: Node child - 5 - disabled'
-      ],
-      selectableNodes: true,
-      dark: null,
-      dense: false,
-      accordion: false,
-      filter: '',
-      defaultExpandAll: false,
-      isBigTree: false,
-      nodes: smallTree
-    }
-  },
-  methods: {
-    getNodeByKey() {
-      console.log(this.$refs.tree.getNodeByKey('Node 2.1.1'))
-    },
-    expandAll() {
-      this.$refs.tree.expandAll()
-    },
-    collapseAll() {
-      this.$refs.tree.collapseAll()
-    },
-    onLazyLoad({ node, key, done, fail }) {
-      // call fail() if any error occurs
+/*
+let children = []
+for (let i = 0; i < 500; i += 1) {
+  children.push({
+    key: 'KEY: Node 1.1.1.1.' + (i + 1),
+    label: 'Node 1.1.1.1.' + (i + 1)
+  })
+}
+*/
+// Patch the smallTree's node 1.3 as we can't save function to JSON
+findNode('KEY: Node 1.3 - tap on me!', smallTree).handler = () =>
+  $q.notify('Tapped on node 1.3')
 
-      setTimeout(() => {
-        if (key.includes('Lazy load empty')) {
-          done([])
-          return
-        }
+const noConnectors = ref(false)
+const noTransition = ref(false)
+const selected = ref(null)
+const noSelectionUnset = ref(false)
+const tickStrategy = ref('leaf')
+const ticked = ref([
+  'KEY: Node 2.2',
+  'KEY: Node child - 1 - disabled',
+  'KEY: Node child - 3 - disabled',
+  'KEY: Node child - 1 - enabled - untickable',
+  'KEY: Node child - 4 - enabled - untickable'
+])
+const expanded = ref([
+  'KEY: Node 2.1.4 - Disabled',
+  'KEY: Node 2.1.3 - freeze exp / tickable',
+  'KEY: Node parent - untickable ticked child',
+  'KEY: Node parent - untickable unticked child',
+  'KEY: Node parent - all untickable ticked children',
+  'KEY: Node parent - all untickable unticked children',
+  'KEY: Node parent - all untickable mix ticked children',
+  'KEY: Node child - 5 - disabled'
+])
+const selectableNodes = ref(true)
+const dark = ref(null)
+const dense = ref(false)
+const accordion = ref(false)
+const filter = ref('')
+const defaultExpandAll = ref(false)
+const isBigTree = ref(false)
+const nodes = ref(smallTree)
 
-        const label = node.label.replace(' - Lazy load', '')
+const tree = ref(null)
 
-        done([
-          { label: `${label}.1`, key: `${label}.1` },
-          { label: `${label}.2`, key: `${label}.2` },
-          { label: `${label}.3`, key: `${label}.3`, lazy: true },
-          {
-            label: `${label}.4`,
-            key: `${label}.4`,
-            subnodes: [
-              { label: `${label}.4.1`, key: `${label}.4.1`, lazy: true },
-              { label: `${label}.4.2`, key: `${label}.4.2`, lazy: true }
-            ]
-          }
-        ])
-      }, 1000)
-    }
+const color = computed(() => (dark.value ? 'red' : 'secondary'))
+
+watch(selectableNodes, v => {
+  selected.value = v ? selected.value || null : void 0
+})
+
+watch(isBigTree, async v => {
+  if (v) {
+    console.log('Loading big tree...')
+    const json = await import('@/mock-data/tree/bigTree.json')
+    nodes.value = json.default
+    console.log('Big tree loaded')
+    return
   }
+  nodes.value = smallTree
+})
+
+function getNodeByKey() {
+  console.log(tree.value.getNodeByKey('Node 2.1.1'))
+}
+
+function expandAll() {
+  tree.value.expandAll()
+}
+
+function collapseAll() {
+  tree.value.collapseAll()
+}
+
+function onLazyLoad({ node, key, done, fail }) {
+  // call fail() if any error occurs
+
+  setTimeout(() => {
+    if (key.includes('Lazy load empty')) {
+      done([])
+      return
+    }
+
+    const label = node.label.replace(' - Lazy load', '')
+
+    done([
+      { label: `${label}.1`, key: `${label}.1` },
+      { label: `${label}.2`, key: `${label}.2` },
+      { label: `${label}.3`, key: `${label}.3`, lazy: true },
+      {
+        label: `${label}.4`,
+        key: `${label}.4`,
+        subnodes: [
+          { label: `${label}.4.1`, key: `${label}.4.1`, lazy: true },
+          { label: `${label}.4.2`, key: `${label}.4.2`, lazy: true }
+        ]
+      }
+    ])
+  }, 1000)
 }
 </script>

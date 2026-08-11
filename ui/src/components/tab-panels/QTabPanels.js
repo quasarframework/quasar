@@ -11,7 +11,7 @@ import usePanel, {
 import { createComponent } from '../../utils/private.create/create.js'
 import { hDir } from '../../utils/private.render/render.js'
 
-export default createComponent({
+export default /*#__PURE__*/ createComponent({
   name: 'QTabPanels',
 
   props: {

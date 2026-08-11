@@ -25,8 +25,15 @@ sourceFiles: {
 ```ts /quasar.config file > bex
 bex: {
   /**
+   * Minify the browser extension build.
+   *
+   * @default false
+   */
+  minify?: boolean;
+
+  /**
    * The list of extra scripts (js/ts) not in your bex manifest that you want to
-   * compile and use in your browser extension. Maybe dynamic use them?
+   * compile and use dynamically in your browser extension.
    *
    * Each entry in the list should be a relative filename to /src-bex/
    *
@@ -140,9 +147,39 @@ When you first add the BEX mode, you will notice that the manifest file contains
 Your background and content scripts have the `.ts` extension. Use that extension in the manifest.json file as well! Examples: "background.ts", "my-content-script.ts". While the browser vendors do support only the `.js` extension, Quasar CLI will convert the file extensions automatically.
 :::
 
+### Least-privilege example
+
+The starter manifest requests broad access because it demonstrates a content script that can operate on arbitrary pages. The browser store does not itself require access to all sites; the extension's functionality determines whether that access is necessary.
+
+When an extension supports only known sites, narrow its permissions and match patterns. Also expose only the packaged resources that web pages must be able to load:
+
+```json /src-bex/manifest.json
+{
+  "all": {
+    "permissions": ["storage"],
+    "host_permissions": ["https://*.example.com/*"],
+    "web_accessible_resources": [
+      {
+        "resources": ["assets/*.png"],
+        "matches": ["https://*.example.com/*"]
+      }
+    ],
+    "content_scripts": [
+      {
+        "matches": ["https://*.example.com/*"],
+        "css": ["assets/content.css"],
+        "js": ["my-content-script.ts"]
+      }
+    ]
+  }
+}
+```
+
+Replace `example.com` with the narrowest origins your extension needs. Keep `<all_urls>`, `*://*/*`, the `tabs` permission, or broad web-accessible resources only when the corresponding feature genuinely requires them. Broader access increases both the extension's authority and the permission warning presented to users.
+
 ## Background And Content Scripts
 
-Behind every BEX is a [content script](https://developer.chrome.com/extensions/content_scripts) and a background script (manifest v2) / service-worker (manifest v3+). It's a good idea to understand what each of these are before writing your first BEX.
+A BEX can use [content scripts](https://developer.chrome.com/docs/extensions/develop/concepts/content-scripts) and a background page or service worker. Which background mechanism is available depends on the browser and manifest version.
 
 In summary:
 
@@ -182,9 +219,11 @@ Should you need other scripts to be dynamically loaded or compiled for your BEX,
 
 ```js /quasar.config file
 bex: {
+  minify: true,
+
   /**
    * The list of extra scripts (js/ts) not in your bex manifest that you want to
-   * compile and use in your browser extension. Maybe dynamic use them?
+   * compile and use dynamically in your browser extension.
    *
    * Each entry in the list should be a relative filename to /src-bex/
    *

@@ -47,6 +47,8 @@ The `assets` array can contain custom definitions for **extra assets**, should y
 
 In 99% of the cases you won't need to specify the `assets` array, but Icon Genie is designed to be very flexible, so it includes this feature too.
 
+Asset `folder` and `name` values are resolved relative to the Quasar project folder. They cannot target a location outside the project folder, either directly or through a symbolic link.
+
 Some examples for `assets` from which you can extract the syntax for every type of possible asset that Icon Genie can generate:
 
 ```json

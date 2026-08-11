@@ -23,6 +23,7 @@ There are four ways of using Quasar. Pick the one that suits you best:
 | Include Quasar from public CDN                                                                 | **Yes**    | -                      | -                          |
 | Build SPA, PWA                                                                                 | **Yes**    | **Yes**                | **Yes**                    |
 | Build SSR (+ optional PWA client takeover)                                                     | -          | **Yes**                | -                          |
+| Build SSG (+ optional PWA client takeover; + optional partial CSR)                             | -          | **Yes**                | -                          |
 | Build Mobile Apps via Cordova or Capacitor                                                     | **Yes**    | **Yes**                | Yes(\*)                    |
 | Develop Mobile Apps with HMR directly on your phone.                                           | -          | **Yes**                | Yes(\*)                    |
 | Build Desktop Apps via Electron                                                                | -          | **Yes**                | Yes(\*)                    |
@@ -33,7 +34,7 @@ There are four ways of using Quasar. Pick the one that suits you best:
 | Generating your own website/app RTL equivalent CSS rules automatically by Quasar               | -          | **Yes**                | -                          |
 | **Ensure everything "simply works" out of the box**, using latest and greatest Quasar specs.   | -          | **Yes**                | -                          |
 | **Tight integration between build modes**, taking full advantage of all Quasar's capabilities. | -          | **Yes**                | -                          |
-| One codebase to create SPA, PWA, SSR, Mobile Apps, Electron Apps and Browser Extensions        | -          | **Yes**                | -                          |
+| One codebase to create SPA, PWA, SSR, SSG, Mobile Apps, Electron Apps and Browser Extensions   | -          | **Yes**                | -                          |
 | Tree Shaking                                                                                   | -          | **Yes**                | **Yes**                    |
 | SFC (Single File Component - for Vue) support                                                  | -          | **Yes**                | **Yes**                    |
 | Advanced configuration through dynamic quasar.config file                                      | -          | **Yes**                | -                          |

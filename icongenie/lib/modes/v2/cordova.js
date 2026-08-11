@@ -15,23 +15,24 @@ function getAndroidSplashscreens(entries) {
   const list = []
 
   entries.forEach(entry => {
-    list.push({
-      generator: 'splashscreen',
-      name: `splash-land-${entry[0]}.png`,
-      folder: 'src-cordova/res/screen/android',
-      sizes: [[entry[1], entry[2]]],
-      platform: 'cordova-android',
-      density: `land-${entry[0]}`
-    })
-
-    list.push({
-      generator: 'splashscreen',
-      name: `splash-port-${entry[0]}.png`,
-      folder: 'src-cordova/res/screen/android',
-      sizes: [[entry[2], entry[1]]],
-      platform: 'cordova-android',
-      density: `port-${entry[0]}`
-    })
+    list.push(
+      {
+        generator: 'splashscreen',
+        name: `splash-land-${entry[0]}.png`,
+        folder: 'src-cordova/res/screen/android',
+        sizes: [[entry[1], entry[2]]],
+        platform: 'cordova-android',
+        density: `land-${entry[0]}`
+      },
+      {
+        generator: 'splashscreen',
+        name: `splash-port-${entry[0]}.png`,
+        folder: 'src-cordova/res/screen/android',
+        sizes: [[entry[2], entry[1]]],
+        platform: 'cordova-android',
+        density: `port-${entry[0]}`
+      }
+    )
   })
 
   return list

@@ -1,0 +1,127 @@
+name: cli tests
+
+on:
+  workflow_dispatch:
+  # the release-tests workflow reruns this suite at the released tag
+  workflow_call:
+  # direct pushes are the norm in this repo — they get the same
+  # path-scoped coverage as PRs (rapid push trains collapse through the
+  # per-ref concurrency group)
+  push:
+    branches:
+      - 'dev'
+    paths:
+      - '.github/workflows/cli-tests.yml'
+      - 'cli/**'
+      # root dependency changes affect every package
+      - 'package.json'
+      - 'pnpm-lock.yaml'
+      - 'pnpm-workspace.yaml'
+  pull_request:
+    types: [opened, synchronize]
+    branches:
+      - 'dev'
+    paths:
+      - '.github/workflows/cli-tests.yml'
+      - 'cli/**'
+      # root dependency changes affect every package
+      - 'package.json'
+      - 'pnpm-lock.yaml'
+      - 'pnpm-workspace.yaml'
+
+# literal prefix instead of github.workflow: when called from another
+# workflow, github.workflow resolves to the CALLER's name, which would
+# collide with the other suites called from the same run
+concurrency:
+  group: cli-tests-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  unit-tests:
+    permissions:
+      contents: read # to fetch code (actions/checkout)
+
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: cli
+
+    name: Unit tests for @quasar/cli
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v5
+
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm i
+
+      - name: Run unit tests
+        run: pnpm test:unit
+
+  e2e-tests:
+    needs: unit-tests
+
+    permissions:
+      contents: read # to fetch code (actions/checkout)
+
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: cli
+
+    name: E2E tests for @quasar/cli
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v5
+
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm i
+
+      - name: Get pnpm store directory
+        id: pnpm-cache
+        run: |
+          echo "PNPM_CACHE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
+      - name: Setup pnpm cache
+        uses: actions/cache@v5
+        with:
+          path: ${{ steps.pnpm-cache.outputs.PNPM_CACHE_PATH }}
+          key: pnpm-cache-cli-e2e
+
+      # the e2e publishes the monorepo's ui package to its local
+      # registry, which needs the build output (same cache key as the
+      # build-ui jobs of the other workflows)
+      - name: Restore UI build cache
+        id: ui-build-cache
+        uses: actions/cache@v5
+        with:
+          path: ui/dist
+          key: ui-dist-${{ runner.os }}-${{ hashFiles('ui/src/**', 'ui/lang/**', 'ui/icon-set/**', 'ui/build/**', 'ui/package.json', 'pnpm-lock.yaml') }}
+
+      - name: Build the UI package
+        if: steps.ui-build-cache.outputs.cache-hit != 'true'
+        working-directory: ui
+        run: pnpm build
+
+      # boots ad-hoc servers and scaffolds a real project
+      # (with dependency install) to test local CLI deferral & upgrade
+      - name: Run e2e tests
+        run: pnpm test:e2e

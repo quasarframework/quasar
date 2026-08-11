@@ -2,10 +2,14 @@ import { dim, gray, green, underline } from 'kolorist'
 import { join } from 'node:path'
 
 import { cliPkg } from '../utils/cli-runtime.js'
+import { fatal } from '../utils/logger.js'
 import { getIPs } from '../utils/net.js'
 
-function getPackager(argv, cmd) {
-  if (argv.ide || (argv.mode === 'capacitor' && cmd === 'dev')) {
+export function getPackager(argv, cmd) {
+  if (
+    argv.ide ||
+    (cmd === 'dev' && ['capacitor', 'cordova'].includes(argv.mode))
+  ) {
     return 'IDE (manual)'
   }
 
@@ -21,6 +25,16 @@ function getCompilationTarget(target) {
 }
 
 export async function displayBanner({ argv, ctx, cmd, details }) {
+  // an unresolvable quasar/vite package would otherwise surface as a
+  // cryptic TypeError below
+  if (ctx.pkg.quasarPkg === void 0 || ctx.pkg.vitePkg === void 0) {
+    fatal(
+      'The project dependencies are not installed. Please run your package' +
+        ' manager\'s install command ("pnpm install" / "npm install" / ...)' +
+        ' first.'
+    )
+  }
+
   let banner = ''
 
   if (details?.buildOutputFolder) {
@@ -28,15 +42,11 @@ export async function displayBanner({ argv, ctx, cmd, details }) {
   }
 
   banner += `
- ${cmd === 'dev' ? 'Dev mode...............' : 'Build mode.............'} ${green(argv.mode)}
+ ${cmd === 'dev' ? 'Dev mode...............' : 'Build mode.............'} ${green(argv.mode.toUpperCase())}
  Pkg quasar............. ${green('v' + ctx.pkg.quasarPkg.version)}
  Pkg @quasar/app-vite... ${green('v' + cliPkg.version)}
  Pkg vite............... ${green('v' + ctx.pkg.vitePkg.version)}
  Debugging.............. ${cmd === 'dev' || argv.debug ? green('enabled') : gray('no')}`
-
-  if (cmd === 'build') {
-    banner += `\n Publishing............. ${argv.publish !== void 0 ? green('yes') : gray('no')}`
-  }
 
   if (['cordova', 'capacitor'].includes(argv.mode)) {
     const packaging = argv['skip-pkg']
@@ -51,7 +61,7 @@ export async function displayBanner({ argv, ctx, cmd, details }) {
 
   if (details?.target) {
     banner += `\n Browser target......... ${getCompilationTarget(details.target.browser)}`
-    if (['electron', 'ssr'].includes(argv.mode)) {
+    if (['electron', 'ssr', 'ssg'].includes(argv.mode)) {
       banner += `\n Node target............ ${getCompilationTarget(details.target.node)}`
     }
   }
@@ -111,6 +121,17 @@ export async function displayBanner({ argv, ctx, cmd, details }) {
       be added for deployment environments.
       If you're using Vue Router "history" mode, don't forget to
       specify the "--history" parameter: "quasar serve --history"`
+    } else if (argv.mode === 'ssg') {
+      banner += `
+
+ Tip: Built files are meant to be served over an HTTP server
+      Opening index.html over file:// won't work
+
+ Tip: You can use "quasar serve" command to create a web server,
+      both for testing or production. Type "quasar serve -h" for
+      parameters.
+      Vue Router is set to "history" mode, so don't forget to
+      specify the "--history" parameter: "quasar serve --history"`
     }
   }
 
@@ -134,7 +155,7 @@ function capitalize(str) {
   return str.at(0).toUpperCase() + str.slice(1)
 }
 
-export function printDevRunningBanner(quasarConf) {
+export function printDevRunningBanner(quasarConf, { electronPid } = {}) {
   const { ctx } = quasarConf
 
   const banner = [
@@ -142,7 +163,9 @@ export function printDevRunningBanner(quasarConf) {
     ` ${greenBanner} App dir................ ${green(ctx.appPaths.appDir)}`
   ]
 
-  if (ctx.mode.bex !== true) {
+  // BEX loads as an unpacked extension and Electron inside its own
+  // window — a browsable App URL would serve no purpose for either
+  if (ctx.mode.bex !== true && ctx.mode.electron !== true) {
     const urlList =
       quasarConf.devServer.host === '0.0.0.0'
         ? getIPList()
@@ -154,15 +177,21 @@ export function printDevRunningBanner(quasarConf) {
   }
 
   banner.push(
-    ` ${greenBanner} Dev mode............... ${green(ctx.modeName + (ctx.mode.ssr && ctx.mode.pwa ? ' + pwa' : ''))}`,
+    ` ${greenBanner} Dev mode............... ${green(ctx.modeName.toUpperCase() + ((ctx.mode.ssr || ctx.mode.ssg) && ctx.mode.pwa ? ' + PWA' : ''))}`,
     ` ${greenBanner} Pkg quasar............. ${green('v' + ctx.pkg.quasarPkg.version)}`,
     ` ${greenBanner} Pkg @quasar/app-vite... ${green('v' + cliPkg.version)}`,
     ` ${greenBanner} Browser target......... ${getCompilationTarget(quasarConf.build.target.browser)}`
   )
 
-  if (['electron', 'ssr'].includes(ctx.modeName)) {
+  if (['electron', 'ssr', 'ssg'].includes(ctx.modeName)) {
     banner.push(
       ` ${greenBanner} Node target............ ${getCompilationTarget(quasarConf.build.target.node)}`
+    )
+  }
+
+  if (electronPid !== void 0) {
+    banner.push(
+      ` ${greenBanner} Electron PID........... ${green(String(electronPid))}`
     )
   }
 

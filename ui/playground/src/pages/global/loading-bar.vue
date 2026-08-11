@@ -27,8 +27,9 @@
   </div>
 </template>
 
-<script>
-import { LoadingBar } from 'quasar'
+<script setup>
+import { LoadingBar, useQuasar } from 'quasar'
+import { computed } from 'vue'
 
 function sendXhr(url) {
   const xhr = new XMLHttpRequest()
@@ -36,50 +37,46 @@ function sendXhr(url) {
   xhr.send(null)
 }
 
-export default {
-  computed: {
-    loadingState() {
-      return LoadingBar.isActive === true ? 'active' : 'idle'
-    }
-  },
+const $q = useQuasar()
 
-  methods: {
-    add(withQ) {
-      if (withQ) {
-        this.$q.loadingBar.start()
-      } else {
-        LoadingBar.start()
-      }
-    },
+const loadingState = computed(() =>
+  LoadingBar.isActive === true ? 'active' : 'idle'
+)
 
-    remove(withQ) {
-      if (withQ) {
-        this.$q.loadingBar.stop()
-      } else {
-        LoadingBar.stop()
-      }
-    },
-
-    changeDefaults(withQ) {
-      if (withQ) {
-        this.$q.loadingBar.setDefaults({
-          position: 'bottom',
-          color: 'purple'
-        })
-      } else {
-        LoadingBar.setDefaults({
-          position: 'top',
-          size: '15px',
-          color: 'teal'
-        })
-      }
-    },
-
-    triggerXhr() {
-      sendXhr(
-        `https://deelay.me/${Math.ceil(5000 + Math.random() * 20_000)}/server`
-      )
-    }
+function add(withQ) {
+  if (withQ) {
+    $q.loadingBar.start()
+  } else {
+    LoadingBar.start()
   }
+}
+
+function remove(withQ) {
+  if (withQ) {
+    $q.loadingBar.stop()
+  } else {
+    LoadingBar.stop()
+  }
+}
+
+function changeDefaults(withQ) {
+  if (withQ) {
+    $q.loadingBar.setDefaults({
+      position: 'bottom',
+      color: 'purple'
+    })
+  } else {
+    LoadingBar.setDefaults({
+      position: 'top',
+      size: '15px',
+      color: 'teal'
+    })
+  }
+}
+
+function triggerXhr() {
+  sendXhr(
+    `https://deelay.me/${Math.ceil(5000 + Math.random() * 20_000)}/server`
+  )
 }
 </script>

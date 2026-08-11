@@ -1,13 +1,14 @@
+import { h } from 'vue'
 import { afterEach, describe, expect, test } from 'vitest'
 import { config, mount } from '@vue/test-utils'
 
-// jsdom hack
+// deterministic Fullscreen API mock (the real one rejects without a user gesture);
 // this import should always sit before the AppFullscreen one
 import { createMockedEl } from './test/mock-fullscreen.js'
 
 import AppFullscreen from './AppFullscreen.js'
 
-const mountPlugin = () => mount({ template: '<div />' })
+const mountPlugin = () => mount({ render: () => h('div') })
 
 // We override Quasar install so it installs this plugin
 const quasarVuePlugin = config.global.plugins.find(

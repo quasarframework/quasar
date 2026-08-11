@@ -45,7 +45,15 @@ function getHeadersData(req) {
   return Object.keys(req.headers).reduce((acc, name) => {
     acc[name] = req.headers[name]
     return acc
-  }, {})
+  }, Object.create(null))
+}
+
+function decodeCookieValue(value) {
+  try {
+    return decodeURIComponent(value)
+  } catch {
+    return value
+  }
 }
 
 /**
@@ -54,18 +62,17 @@ function getHeadersData(req) {
 function getCookiesData(req) {
   const { cookie } = req.headers
   if (cookie === void 0) return {}
-  return cookie.split('; ').reduce((acc, entry) => {
-    const parts = entry.split('=')
-    acc[parts.shift().trim()] = decodeURIComponent(parts.join('='))
-    return acc
-  }, {})
-}
 
-function getEnvironmentVariablesData() {
-  return Object.keys(process.env).reduce((acc, name) => {
-    acc[name] = process.env[name]
+  return cookie.split(';').reduce((acc, entry) => {
+    const parts = entry.split('=')
+    const name = parts.shift().trim()
+
+    if (name !== '') {
+      acc[name] = decodeCookieValue(parts.join('=').trim())
+    }
+
     return acc
-  }, {})
+  }, Object.create(null))
 }
 
 /**
@@ -75,7 +82,6 @@ export function getEnv(req) {
   return {
     Request: getRequestData(req),
     Headers: getHeadersData(req),
-    Cookies: getCookiesData(req),
-    'Shell environment variables': getEnvironmentVariablesData()
+    Cookies: getCookiesData(req)
   }
 }

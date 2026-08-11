@@ -751,7 +751,10 @@
   </q-layout>
 </template>
 
-<script>
+<script setup>
+import { useQuasar } from 'quasar'
+import { computed, nextTick, ref } from 'vue'
+
 const stringOptions = ['Google', 'Facebook', 'Twitter', 'Apple', 'Oracle'],
   heavyList = []
 
@@ -767,338 +770,330 @@ for (let i = 0; i <= 100_000; i++) {
 Object.freeze(heavyList)
 
 const pageSize = 50
-const nextPage = 2
 const lastPage = Math.ceil(heavyList.length / pageSize)
 
-export default {
-  data() {
-    return {
-      type: 'filled',
-      readonly: false,
-      disable: false,
-      dense: false,
-      dark: null,
-      optionsDark: false,
-      optionsDense: false,
-      optionsCover: false,
+const $q = useQuasar()
 
-      simpleFilter: null,
-      simpleFilterOptions: null,
+const type = ref('filled')
+const readonly = ref(false)
+const disable = ref(false)
+const dense = ref(false)
+const dark = ref(null)
+const optionsDark = ref(false)
+const optionsDense = ref(false)
+const optionsCover = ref(false)
 
-      multipleFilter: null,
-      multipleFilterOptions: null,
+const simpleFilter = ref(null)
+const simpleFilterOptions = ref(null)
 
-      createInput: null,
-      createSingleInput: null,
-      createInputOptions: null,
+const multipleFilter = ref(null)
+const multipleFilterOptions = ref(null)
 
-      simpleFilterInput: null,
-      simpleFilterInputOptions: null,
+const createInput = ref(null)
+const createSingleInput = ref(null)
+const createInputOptions = ref(null)
 
-      multipleFilterInput: null,
-      multipleFilterInputOptions: null,
+const simpleFilterInput = ref(null)
+const simpleFilterInputOptions = ref(null)
 
-      minFilterInput: null,
-      minFilterInputOptions: null,
+const multipleFilterInput = ref(null)
+const multipleFilterInputOptions = ref(null)
 
-      chipFilterInput: null,
-      chipFilterInputOptions: null,
+const minFilterInput = ref(null)
+const minFilterInputOptions = ref(null)
 
-      delayedFilterInput: null,
-      delayedFilterInputOptions: null,
+const chipFilterInput = ref(null)
+const chipFilterInputOptions = ref(null)
 
-      modelAdd: null,
+const delayedFilterInput = ref(null)
+const delayedFilterInputOptions = ref(null)
 
-      stringSingle: 'Facebook',
-      stringMultiple: ['Facebook', 'Twitter'],
-      stringOptions,
+const modelAdd = ref(null)
 
-      objectSingle: {
-        label: 'Facebook',
-        value: 'Facebook',
-        description: 'Social media',
-        icon: 'bluetooth'
-      },
-      objectMultiple: [
-        {
-          label: 'Google',
-          value: 'Google',
-          description: 'Search engine',
-          icon: 'mail'
-        },
-        {
-          label: 'Facebook',
-          value: 'Facebook',
-          description: 'Social media',
-          icon: 'bluetooth'
-        }
-      ],
-      objectOptions: [
-        {
-          label: 'Google',
-          value: 'Google',
-          description: 'Search engine',
-          icon: 'mail'
-        },
-        {
-          label: 'Facebook',
-          value: 'Facebook',
-          description: 'Social media',
-          icon: 'bluetooth'
-        },
-        {
-          label: 'Twitter',
-          value: 'Twitter',
-          description: 'Quick updates',
-          icon: 'map'
-        },
-        {
-          label: 'Apple',
-          value: 'Apple',
-          description: 'iStuff',
-          icon: 'golf_course'
-        },
-        {
-          label: 'Oracle',
-          value: 'Oracle',
-          disable: true,
-          description: 'Databases',
-          icon: 'casino'
-        }
-      ],
+const stringSingle = ref('Facebook')
+const stringMultiple = ref(['Facebook', 'Twitter'])
 
-      heavyModel: [],
-      heavyModelSingle: null,
-      heavyFilterInputOptions: null,
-
-      nextPage,
-
-      forceMenu: null
-    }
+const objectSingle = ref({
+  label: 'Facebook',
+  value: 'Facebook',
+  description: 'Social media',
+  icon: 'bluetooth'
+})
+const objectMultiple = ref([
+  {
+    label: 'Google',
+    value: 'Google',
+    description: 'Search engine',
+    icon: 'mail'
   },
-
-  methods: {
-    setGoogle() {
-      this.simpleFilter =
-        this.simpleFilterInput =
-        this.minFilterInput =
-        this.chipFilterInput =
-        this.delayedFilterInput =
-          'Google'
-    },
-
-    setNull() {
-      this.simpleFilter =
-        this.simpleFilterInput =
-        this.minFilterInput =
-        this.chipFilterInput =
-        this.delayedFilterInput =
-          null
-    },
-
-    createInputNewValue(val, done) {
-      console.log('createInputValue', val)
-      if (val.length !== 0) {
-        done(val)
-      }
-    },
-
-    createInputFn(val, update) {
-      setTimeout(() => {
-        update(() => {
-          if (val === '') {
-            this.createInputOptions = stringOptions
-          } else {
-            const needle = val.toLowerCase()
-            this.createInputOptions = stringOptions.filter(v =>
-              v.toLowerCase().includes(needle)
-            )
-          }
-        })
-      }, 500)
-    },
-
-    simpleFilterFn(val, update) {
-      if (this.simpleFilterOptions !== null) {
-        update()
-        return
-      }
-
-      update(() => {
-        this.simpleFilterOptions = stringOptions
-      })
-    },
-
-    simpleFilterInputFn(val, update) {
-      if (val === '') {
-        update(() => {
-          this.simpleFilterInputOptions = stringOptions
-        })
-        return
-      }
-
-      update(() => {
-        const needle = val.toLowerCase()
-        this.simpleFilterInputOptions = stringOptions.filter(v =>
-          v.toLowerCase().includes(needle)
-        )
-      })
-    },
-
-    multipleFilterFn(val, update) {
-      if (this.multipleFilterOptions !== null) {
-        update()
-        return
-      }
-
-      update(() => {
-        this.multipleFilterOptions = stringOptions
-      })
-    },
-
-    multipleFilterInputFn(val, update) {
-      if (val === '') {
-        update(() => {
-          this.multipleFilterInputOptions = stringOptions
-        })
-        return
-      }
-
-      update(() => {
-        const needle = val.toLowerCase()
-        this.multipleFilterInputOptions = stringOptions.filter(v =>
-          v.toLowerCase().includes(needle)
-        )
-      })
-    },
-
-    minFilterInputFn(val, update, abort) {
-      if (val.length < 2) {
-        abort()
-        return
-      }
-
-      update(() => {
-        const needle = val.toLowerCase()
-        this.minFilterInputOptions = stringOptions.filter(v =>
-          v.toLowerCase().includes(needle)
-        )
-      })
-    },
-
-    chipFilterInputFn(val, update) {
-      update(() => {
-        if (val === '') {
-          this.chipFilterInputOptions = stringOptions
-        } else {
-          const needle = val.toLowerCase()
-          this.chipFilterInputOptions = stringOptions.filter(v =>
-            v.toLowerCase().includes(needle)
-          )
-        }
-      })
-    },
-
-    delayedFilterInputFn(val, update, abort) {
-      // call abort() at any time if you can't retrieve data somehow
-
-      console.log('DEV delayedFilterInputFn')
-      setTimeout(() => {
-        update(() => {
-          if (val === '') {
-            this.delayedFilterInputOptions = stringOptions
-          } else {
-            const needle = val.toLowerCase()
-            this.delayedFilterInputOptions = stringOptions.filter(v =>
-              v.toLowerCase().includes(needle)
-            )
-          }
-        })
-      }, 2500)
-    },
-
-    heavyFilterInputFn(val, update) {
-      console.log(val)
-      if (val === '') {
-        update(() => {
-          this.heavyFilterInputOptions = Object.freeze(heavyList)
-        })
-        return
-      }
-
-      update(() => {
-        const needle = val.toLowerCase()
-        this.heavyFilterInputOptions = Object.freeze(
-          heavyList.filter(v => v.label.toLowerCase().includes(needle))
-        )
-      })
-    },
-
-    delayedAbort() {
-      console.log('delayed filter aborted')
-    },
-
-    prefilter(ref) {
-      this.$refs[ref].updateInputValue('Opt 123')
-      this.$refs[ref].showPopup()
-    },
-
-    onSubmit() {
-      this.$q.notify('submitted')
-    },
-
-    onBlur(e) {
-      console.log('@blur', e)
-    },
-    onFocus(e) {
-      console.log('@focus', e)
-    },
-
-    onScroll(evt) {
-      const lastIndex = this.heavyListDynamic.length - 1
-
-      if (this.nextPage < lastPage && evt.to === lastIndex) {
-        this.nextPage++
-        this.$nextTick(() => {
-          evt.ref.refresh()
-        })
-      }
-    }
+  {
+    label: 'Facebook',
+    value: 'Facebook',
+    description: 'Social media',
+    icon: 'bluetooth'
+  }
+])
+const objectOptions = ref([
+  {
+    label: 'Google',
+    value: 'Google',
+    description: 'Search engine',
+    icon: 'mail'
   },
+  {
+    label: 'Facebook',
+    value: 'Facebook',
+    description: 'Social media',
+    icon: 'bluetooth'
+  },
+  {
+    label: 'Twitter',
+    value: 'Twitter',
+    description: 'Quick updates',
+    icon: 'map'
+  },
+  {
+    label: 'Apple',
+    value: 'Apple',
+    description: 'iStuff',
+    icon: 'golf_course'
+  },
+  {
+    label: 'Oracle',
+    value: 'Oracle',
+    disable: true,
+    description: 'Databases',
+    icon: 'casino'
+  }
+])
 
-  computed: {
-    props() {
-      return {
-        [this.type]: true,
-        readonly: this.readonly,
-        disable: this.disable,
-        dense: this.dense,
-        dark: this.dark,
-        optionsDense: this.optionsDense,
-        optionsDark: this.optionsDark,
-        optionsCover: this.optionsCover,
-        behavior:
-          this.forceMenu === null
-            ? 'default'
-            : this.forceMenu === true
-              ? 'menu'
-              : 'dialog'
-      }
-    },
+const heavyModel = ref([])
+const heavyModelSingle = ref(null)
+const heavyFilterInputOptions = ref(null)
 
-    forceMenuLabel() {
-      if (this.forceMenu === true) {
-        return 'Force menu'
-      }
+const nextPage = ref(2)
 
-      return this.forceMenu === false ? 'Force dialog' : 'Based on platform'
-    },
+const forceMenu = ref(null)
 
-    heavyListDynamic() {
-      return Object.freeze(heavyList.slice(0, pageSize * (this.nextPage - 1)))
-    }
+const prefilter1 = ref(null)
+const prefilter2 = ref(null)
+const selectRefs = { prefilter1, prefilter2 }
+
+function setGoogle() {
+  simpleFilter.value =
+    simpleFilterInput.value =
+    minFilterInput.value =
+    chipFilterInput.value =
+    delayedFilterInput.value =
+      'Google'
+}
+
+function setNull() {
+  simpleFilter.value =
+    simpleFilterInput.value =
+    minFilterInput.value =
+    chipFilterInput.value =
+    delayedFilterInput.value =
+      null
+}
+
+function createInputNewValue(val, done) {
+  console.log('createInputValue', val)
+  if (val.length !== 0) {
+    done(val)
   }
 }
+
+function createInputFn(val, update) {
+  setTimeout(() => {
+    update(() => {
+      if (val === '') {
+        createInputOptions.value = stringOptions
+      } else {
+        const needle = val.toLowerCase()
+        createInputOptions.value = stringOptions.filter(v =>
+          v.toLowerCase().includes(needle)
+        )
+      }
+    })
+  }, 500)
+}
+
+function simpleFilterFn(val, update) {
+  if (simpleFilterOptions.value !== null) {
+    update()
+    return
+  }
+
+  update(() => {
+    simpleFilterOptions.value = stringOptions
+  })
+}
+
+function simpleFilterInputFn(val, update) {
+  if (val === '') {
+    update(() => {
+      simpleFilterInputOptions.value = stringOptions
+    })
+    return
+  }
+
+  update(() => {
+    const needle = val.toLowerCase()
+    simpleFilterInputOptions.value = stringOptions.filter(v =>
+      v.toLowerCase().includes(needle)
+    )
+  })
+}
+
+function multipleFilterFn(val, update) {
+  if (multipleFilterOptions.value !== null) {
+    update()
+    return
+  }
+
+  update(() => {
+    multipleFilterOptions.value = stringOptions
+  })
+}
+
+function multipleFilterInputFn(val, update) {
+  if (val === '') {
+    update(() => {
+      multipleFilterInputOptions.value = stringOptions
+    })
+    return
+  }
+
+  update(() => {
+    const needle = val.toLowerCase()
+    multipleFilterInputOptions.value = stringOptions.filter(v =>
+      v.toLowerCase().includes(needle)
+    )
+  })
+}
+
+function minFilterInputFn(val, update, abort) {
+  if (val.length < 2) {
+    abort()
+    return
+  }
+
+  update(() => {
+    const needle = val.toLowerCase()
+    minFilterInputOptions.value = stringOptions.filter(v =>
+      v.toLowerCase().includes(needle)
+    )
+  })
+}
+
+function chipFilterInputFn(val, update) {
+  update(() => {
+    if (val === '') {
+      chipFilterInputOptions.value = stringOptions
+    } else {
+      const needle = val.toLowerCase()
+      chipFilterInputOptions.value = stringOptions.filter(v =>
+        v.toLowerCase().includes(needle)
+      )
+    }
+  })
+}
+
+function delayedFilterInputFn(val, update, abort) {
+  // call abort() at any time if you can't retrieve data somehow
+
+  console.log('DEV delayedFilterInputFn')
+  setTimeout(() => {
+    update(() => {
+      if (val === '') {
+        delayedFilterInputOptions.value = stringOptions
+      } else {
+        const needle = val.toLowerCase()
+        delayedFilterInputOptions.value = stringOptions.filter(v =>
+          v.toLowerCase().includes(needle)
+        )
+      }
+    })
+  }, 2500)
+}
+
+function heavyFilterInputFn(val, update) {
+  console.log(val)
+  if (val === '') {
+    update(() => {
+      heavyFilterInputOptions.value = Object.freeze(heavyList)
+    })
+    return
+  }
+
+  update(() => {
+    const needle = val.toLowerCase()
+    heavyFilterInputOptions.value = Object.freeze(
+      heavyList.filter(v => v.label.toLowerCase().includes(needle))
+    )
+  })
+}
+
+function delayedAbort() {
+  console.log('delayed filter aborted')
+}
+
+function prefilter(refName) {
+  selectRefs[refName].value.updateInputValue('Opt 123')
+  selectRefs[refName].value.showPopup()
+}
+
+function onSubmit() {
+  $q.notify('submitted')
+}
+
+function onBlur(e) {
+  console.log('@blur', e)
+}
+function onFocus(e) {
+  console.log('@focus', e)
+}
+
+function onScroll(evt) {
+  const lastIndex = heavyListDynamic.value.length - 1
+
+  if (nextPage.value < lastPage && evt.to === lastIndex) {
+    nextPage.value++
+    nextTick(() => {
+      evt.ref.refresh()
+    })
+  }
+}
+
+const props = computed(() => ({
+  [type.value]: true,
+  readonly: readonly.value,
+  disable: disable.value,
+  dense: dense.value,
+  dark: dark.value,
+  optionsDense: optionsDense.value,
+  optionsDark: optionsDark.value,
+  optionsCover: optionsCover.value,
+  behavior:
+    forceMenu.value === null
+      ? 'default'
+      : forceMenu.value === true
+        ? 'menu'
+        : 'dialog'
+}))
+
+const forceMenuLabel = computed(() => {
+  if (forceMenu.value === true) {
+    return 'Force menu'
+  }
+
+  return forceMenu.value === false ? 'Force dialog' : 'Based on platform'
+})
+
+const heavyListDynamic = computed(() =>
+  Object.freeze(heavyList.slice(0, pageSize * (nextPage.value - 1)))
+)
 </script>
 
 <style lang="sass">

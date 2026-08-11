@@ -26,6 +26,7 @@ import {
   setVerticalScrollPosition
 } from '../../utils/scroll/scroll.js'
 import { hMergeSlot } from '../../utils/private.render/render.js'
+import { rtlHasScrollBug } from '../../utils/private.rtl/rtl.js'
 import debounce from '../../utils/debounce/debounce.js'
 
 const axisList = ['vertical', 'horizontal']
@@ -46,7 +47,16 @@ const panOpts = {
 
 const getMinThumbSize = size => (size >= 250 ? 50 : Math.ceil(size / 5))
 
-export default createComponent({
+function isValidAxis(axis, methodName) {
+  if (axisList.includes(axis)) return true
+
+  console.error(
+    `[QScrollArea]: wrong first param of ${methodName} (vertical/horizontal)`
+  )
+  return false
+}
+
+export default /*#__PURE__*/ createComponent({
   name: 'QScrollArea',
 
   props: {
@@ -62,11 +72,11 @@ export default createComponent({
 
     verticalOffset: {
       type: Array,
-      default: [0, 0]
+      default: () => [0, 0]
     },
     horizontalOffset: {
       type: Array,
-      default: [0, 0]
+      default: () => [0, 0]
     },
 
     contentStyle: [Array, String, Object],
@@ -200,7 +210,11 @@ export default createComponent({
       if (diff <= 0) {
         return 0
       }
-      const p = between(Math.abs(scroll.horizontal.position.value) / diff, 0, 1)
+      const p = between(
+        getHorizontalLogicalPosition(scroll.horizontal.position.value) / diff,
+        0,
+        1
+      )
       return Math.round(p * 10_000) / 10_000
     })
     scroll.horizontal.thumbHidden = computed(
@@ -212,7 +226,7 @@ export default createComponent({
     )
     scroll.horizontal.thumbStart = computed(
       () =>
-        props.horizontalOffset[0] +
+        props.horizontalOffset[proxy.$q.lang.rtl ? 1 : 0] +
         scroll.horizontal.percentage.value *
           (container.horizontalInner.value - scroll.horizontal.thumbSize.value)
     )
@@ -282,12 +296,7 @@ export default createComponent({
     }, 0)
 
     function localSetScrollPosition(axis, offset, duration) {
-      if (!axisList.includes(axis)) {
-        console.error(
-          '[QScrollArea]: wrong first param of setScrollPosition (vertical/horizontal)'
-        )
-        return
-      }
+      if (!isValidAxis(axis, 'setScrollPosition')) return
 
       const fn =
         axis === 'vertical'
@@ -347,7 +356,10 @@ export default createComponent({
       if (e.isFirst) {
         if (data.thumbHidden.value) return
 
-        panRefPos = data.position.value
+        panRefPos =
+          axis === 'horizontal'
+            ? getHorizontalLogicalPosition(data.position.value)
+            : data.position.value
         panning.value = true
       } else if (!panning.value) {
         return
@@ -361,22 +373,31 @@ export default createComponent({
         (data.size.value - container[axis].value) /
         (container[axis + 'Inner'].value - data.thumbSize.value)
       const distance = e.distance[dProp.dist]
-      const pos =
-        panRefPos + (e.direction === dProp.dir ? 1 : -1) * distance * multiplier
+      const direction =
+        (e.direction === dProp.dir ? 1 : -1) *
+        (axis === 'horizontal' && proxy.$q.lang.rtl ? -1 : 1)
+      const pos = panRefPos + direction * distance * multiplier
 
-      setScroll(pos, axis)
+      setScroll(
+        axis === 'horizontal' ? getHorizontalNativePosition(pos) : pos,
+        axis
+      )
     }
 
     function onMousedown(evt, axis) {
       const data = scroll[axis]
 
       if (!data.thumbHidden.value) {
+        const isHorizontalRtl = axis === 'horizontal' && proxy.$q.lang.rtl
         const startOffset =
           axis === 'vertical'
             ? props.verticalOffset[0]
-            : props.horizontalOffset[0]
+            : props.horizontalOffset[isHorizontalRtl ? 1 : 0]
 
-        const offset = evt[dirProps[axis].offset] - startOffset
+        const pointerOffset = isHorizontalRtl
+          ? container.horizontal.value - evt.offsetX
+          : evt[dirProps[axis].offset]
+        const offset = pointerOffset - startOffset
         const thumbStart = data.thumbStart.value - startOffset
 
         if (offset < thumbStart || offset > thumbStart + data.thumbSize.value) {
@@ -388,7 +409,13 @@ export default createComponent({
             1
           )
           setScroll(
-            percentage * Math.max(0, data.size.value - container[axis].value),
+            isHorizontalRtl
+              ? getHorizontalNativePosition(
+                  percentage *
+                    Math.max(0, data.size.value - container[axis].value)
+                )
+              : percentage *
+                  Math.max(0, data.size.value - container[axis].value),
             axis
           )
         }
@@ -414,6 +441,28 @@ export default createComponent({
 
     function setScroll(offset, axis) {
       targetRef.value[dirProps[axis].scroll] = offset
+    }
+
+    function getHorizontalLogicalPosition(position, rtl = proxy.$q.lang.rtl) {
+      if (!rtl) return position
+
+      return rtlHasScrollBug
+        ? Math.max(
+            0,
+            scroll.horizontal.size.value - container.horizontal.value
+          ) - position
+        : -position
+    }
+
+    function getHorizontalNativePosition(position, rtl = proxy.$q.lang.rtl) {
+      if (!rtl) return position
+
+      return rtlHasScrollBug
+        ? Math.max(
+            0,
+            scroll.horizontal.size.value - container.horizontal.value
+          ) - position
+        : -position
     }
 
     let mouseEventTimer = null
@@ -446,11 +495,17 @@ export default createComponent({
 
     watch(
       () => proxy.$q.lang.rtl,
-      rtl => {
+      (rtl, oldRtl) => {
         if (targetRef.value !== null) {
           setHorizontalScrollPosition(
             targetRef.value,
-            Math.abs(scroll.horizontal.position.value) * (rtl ? -1 : 1)
+            getHorizontalNativePosition(
+              getHorizontalLogicalPosition(
+                scroll.horizontal.position.value,
+                oldRtl
+              ),
+              rtl
+            )
           )
         }
       }
@@ -490,11 +545,14 @@ export default createComponent({
       }),
       setScrollPosition: localSetScrollPosition,
       setScrollPercentage(axis, percentage, duration) {
+        if (!isValidAxis(axis, 'setScrollPercentage')) return
+
+        const offset =
+          percentage * (scroll[axis].size.value - container[axis].value)
+
         localSetScrollPosition(
           axis,
-          percentage *
-            (scroll[axis].size.value - container[axis].value) *
-            (axis === 'horizontal' && proxy.$q.lang.rtl ? -1 : 1),
+          axis === 'horizontal' ? getHorizontalNativePosition(offset) : offset,
           duration
         )
       }

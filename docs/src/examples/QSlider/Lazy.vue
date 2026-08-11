@@ -18,14 +18,8 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    return {
-      lazy: ref(6)
-    }
-  }
-}
+const lazy = ref(6)
 </script>

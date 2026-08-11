@@ -43,13 +43,6 @@ function parseRank(rank) {
   return rank - 1
 }
 
-const createFolder = folder => {
-  const dir = join(thisFolder, '../..', folder)
-  if (!fs.existsSync(dir)) {
-    fs.mkdirSync(dir)
-  }
-}
-
 const createIndex = data => ({
   menu: [],
   [levelName + 1]: null,
@@ -264,8 +257,6 @@ function processPage(page, entries) {
 
 const run = () => {
   const start = Date.now()
-
-  createFolder('dist')
 
   const entries = []
 

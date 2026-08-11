@@ -182,7 +182,8 @@ function moveSelection(evt, op) {
     } while (el && (el.nodeType === 3 || el.tagName.toUpperCase() !== 'A'))
 
     if (!el || el.nodeType === 3) {
-      focus(filterRef.value.$el)
+      filterRef.value.focus()
+      filterRef.value.$el.scrollIntoView(false)
     } else if (el.tagName.toUpperCase() === 'A') {
       focus(el)
     }

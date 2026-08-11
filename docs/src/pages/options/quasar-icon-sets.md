@@ -98,7 +98,7 @@ app.use(Quasar, {
 })
 ```
 
-### Dynamic (on non-SSR)
+### Dynamic (on non-SSR/SSG)
 
 Quasar CLI: If your desired Quasar Icon Set must be dynamically selected (example: depends on a cookie), then you need to create a boot file: `quasar new boot quasar-icon-set [--format ts]`. This will create `/src/boot/quasar-icon-set.js` file. Edit it to:
 
@@ -135,9 +135,9 @@ Then register this boot file into the `/quasar.config` file:
 boot: ['quasar-icon-set']
 ```
 
-### Dynamic (on SSR)
+### Dynamic (on SSR/SSG)
 
-When dealing with SSR, we can't use singleton objects because that would pollute sessions. As a result, as opposed to the dynamical example above (read it first!), you must also specify the `ssrContext` from your boot file:
+When dealing with SSR/SSG, we can't use singleton objects because that would pollute sessions. As a result, as opposed to the dynamical example above (read it first!), you must also specify the `ssrContext` from your boot file:
 
 ```tabs /src/boot/quasar-icon-set.js
 <<| js With @quasar/app-vite |>>
@@ -199,7 +199,7 @@ methods: {
 }
 ```
 
-If you want to do this outside of a .vue file (and you are NOT on SSR mode) then you can
+If you want to do this outside of a .vue file (and you are NOT on SSR/SSG mode) then you can
 
 ```js /src/boot/some-boot-file.js
 import { defineBoot } from '#q-app'
@@ -236,7 +236,7 @@ methods: {
 }
 ```
 
-If you want to do this outside of a .vue file (and you are NOT on SSR mode) then you can
+If you want to do this outside of a .vue file (and you are NOT on SSR/SSG mode) then you can
 
 ```js /src/boot/some-boot-file.js
 import { IconSet } from 'quasar'

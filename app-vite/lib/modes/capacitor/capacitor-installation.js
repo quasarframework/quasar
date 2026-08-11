@@ -8,17 +8,31 @@ import {
   copyModeWorkspace,
   ensureModeDeps,
   ensureModePackageJsonAndWorkspace,
-  isModeInstalled
+  isModeInstalled,
+  resolvePromptAnswer
 } from '../modes-utils.js'
+
+const defaultAppId = 'org.capacitor.quasar.app'
+
+const validateAppName = val => {
+  if (!val) {
+    return 'The app display name cannot be empty'
+  }
+  if (/^[0-9]/.test(val)) {
+    return 'The app display name cannot start with a number'
+  }
+}
 
 /**
  * @param {{
  *   ctx: import('../../../types/configuration/context').InternalQuasarContext,
  *   silent: boolean,
- *   target: 'android' | 'ios' | undefined
+ *   target: 'android' | 'ios' | undefined,
+ *   appId?: string,
+ *   appName?: string
  * }} options
  */
-export async function addMode({ ctx, silent, target }) {
+export async function addMode({ ctx, silent, target, appId, appName }) {
   const {
     appPaths,
     cacheProxy,
@@ -46,29 +60,40 @@ export async function addMode({ ctx, silent, target }) {
     'Installing Capacitor Mode...'
   )
 
-  const answer = await promptSession.prompt({
-    appId: () =>
-      promptSession.text({
-        message: 'What is the Capacitor app id?',
-        placeholder: 'org.capacitor.quasar.app',
-        validate: val => {
-          if (!val) return 'Please fill in a value'
-        }
-      }),
-    appName: () =>
-      promptSession.text({
-        message: 'What is the Capacitor app display name?',
-        initialValue: appPkg.productName || appPkg.name || 'Quasar App',
-        validate: val => {
-          if (!val) {
-            return 'Please fill in a value'
+  const defaultAppName = appPkg.productName || appPkg.name || 'Quasar App'
+
+  const answer = {
+    appId: await resolvePromptAnswer({
+      promptSession,
+      value: appId,
+      validate: val => {
+        if (!val) return 'The app id cannot be empty'
+      },
+      fallback: defaultAppId,
+      fallbackNote: `Using "${defaultAppId}" as the app id.`,
+      question: () =>
+        promptSession.text({
+          message: 'What is the Capacitor app id?',
+          placeholder: defaultAppId,
+          validate: val => {
+            if (!val) return 'Please fill in a value'
           }
-          if (/^[0-9]/.test(val)) {
-            return 'Display name cannot start with a number'
-          }
-        }
-      })
-  })
+        })
+    }),
+    appName: await resolvePromptAnswer({
+      promptSession,
+      value: appName,
+      validate: validateAppName,
+      fallback: defaultAppName,
+      fallbackNote: `Using "${defaultAppName}" as the app display name.`,
+      question: () =>
+        promptSession.text({
+          message: 'What is the Capacitor app display name?',
+          initialValue: defaultAppName,
+          validate: validateAppName
+        })
+    })
+  }
 
   const copyTask = promptSession.taskLog({
     title: 'Creating /src-capacitor...'

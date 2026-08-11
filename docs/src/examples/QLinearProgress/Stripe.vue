@@ -13,13 +13,7 @@
   </div>
 </template>
 
-<script>
-export default {
-  setup() {
-    return {
-      progress1: 0.4,
-      progress2: 0.725
-    }
-  }
-}
+<script setup>
+const progress1 = 0.4
+const progress2 = 0.725
 </script>

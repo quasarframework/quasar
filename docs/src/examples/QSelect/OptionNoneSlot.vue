@@ -14,15 +14,9 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    return {
-      model: ref(null),
-      options: []
-    }
-  }
-}
+const model = ref(null)
+const options = []
 </script>

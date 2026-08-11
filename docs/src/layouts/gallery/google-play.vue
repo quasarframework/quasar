@@ -186,40 +186,25 @@
   </q-layout>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  name: 'GooglePlayLayout',
+const leftDrawerOpen = ref(false)
+const search = ref('')
 
-  setup() {
-    const leftDrawerOpen = ref(false)
-    const search = ref('')
-    const storage = ref(0.26)
+const links1 = [
+  { text: 'Account' },
+  { text: 'Payment methods' },
+  { text: 'My subscriptions' },
+  { text: 'Redeem' },
+  { text: 'Buy gift card' },
+  { text: 'My wishlist' },
+  { text: 'My Play activity' },
+  { text: 'Parent guide' }
+]
 
-    function toggleLeftDrawer() {
-      leftDrawerOpen.value = !leftDrawerOpen.value
-    }
-
-    return {
-      leftDrawerOpen,
-      search,
-      storage,
-
-      links1: [
-        { text: 'Account' },
-        { text: 'Payment methods' },
-        { text: 'My subscriptions' },
-        { text: 'Redeem' },
-        { text: 'Buy gift card' },
-        { text: 'My wishlist' },
-        { text: 'My Play activity' },
-        { text: 'Parent guide' }
-      ],
-
-      toggleLeftDrawer
-    }
-  }
+function toggleLeftDrawer() {
+  leftDrawerOpen.value = !leftDrawerOpen.value
 }
 </script>
 

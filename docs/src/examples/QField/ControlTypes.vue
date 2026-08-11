@@ -102,23 +102,15 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    return {
-      slider: ref(50),
-      range: ref({
-        min: 10,
-        max: 30
-      }),
-
-      knob: ref(50),
-
-      time: ref(''),
-      date: ref('')
-    }
-  }
-}
+const slider = ref(50)
+const range = ref({
+  min: 10,
+  max: 30
+})
+const knob = ref(50)
+const time = ref('')
+const date = ref('')
 </script>

@@ -66,7 +66,7 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
 const columns = [
@@ -88,7 +88,7 @@ const columns = [
   { name: 'fat', label: 'Fat (g)', field: 'fat' }
 ]
 
-const rows = [
+const rows = ref([
   // #region
   {
     name: 'Frozen Yogurt',
@@ -161,14 +161,5 @@ const rows = [
     fat: 26
   }
   // #endregion
-]
-
-export default {
-  setup() {
-    return {
-      rows: ref(rows),
-      columns
-    }
-  }
-}
+])
 </script>

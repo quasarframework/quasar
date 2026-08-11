@@ -7,7 +7,7 @@
         </template>
       </q-input>
 
-      <q-input outlined v-model="number" type="number" prefix="$">
+      <q-input outlined v-model.number="number" type="number" prefix="$">
         <template v-slot:append>
           <q-avatar>
             <img src="https://cdn.quasar.dev/logo-v2/svg/logo.svg" />
@@ -30,16 +30,10 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    return {
-      email: ref(''),
-      number: ref(null),
-      text: ref('')
-    }
-  }
-}
+const email = ref('')
+const number = ref(null)
+const text = ref('')
 </script>

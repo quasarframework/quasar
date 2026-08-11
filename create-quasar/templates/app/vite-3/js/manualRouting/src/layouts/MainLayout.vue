@@ -33,7 +33,7 @@
 
         <EssentialLink
           v-for="link in linksList"
-          :key="link.title"
+          :key="link.label"
           v-bind="link"
         />
       </q-list>
@@ -57,7 +57,7 @@ const linksList = [
     link: 'https://quasar.dev'
   },
   {
-    label: 'Github',
+    label: 'GitHub',
     caption: 'github.com/quasarframework',
     icon: 'code',
     link: 'https://github.com/quasarframework'

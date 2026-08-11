@@ -93,7 +93,11 @@ export function getRenderer(getPlugin, expose) {
     file.__uploaded = status === 'uploaded' ? file.size : uploadedSize
 
     file.__progress =
-      status === 'uploaded' ? 1 : Math.min(0.9999, file.__uploaded / file.size)
+      status === 'uploaded'
+        ? 1
+        : file.size === 0
+          ? 0
+          : Math.min(0.9999, file.__uploaded / file.size)
 
     file.__progressLabel = getProgressLabel(file.__progress)
     proxy.$forceUpdate()
@@ -216,7 +220,9 @@ export function getRenderer(getPlugin, expose) {
 
   function removeUploadedFiles() {
     if (!props.disable) {
-      batchRemoveFiles(['uploaded'], () => {
+      batchRemoveFiles(['uploaded'], ({ size }) => {
+        state.uploadedSize.value -= size
+        uploadSize.value -= size
         state.uploadedFiles.value = []
       })
     }
@@ -258,12 +264,14 @@ export function getRenderer(getPlugin, expose) {
   function removeFile(file) {
     if (props.disable) return
 
+    const isUploading = file.__status === 'uploading'
+
     if (file.__status === 'uploaded') {
+      state.uploadedSize.value -= file.size
+      uploadSize.value -= file.size
       state.uploadedFiles.value = state.uploadedFiles.value.filter(
         f => f.__key !== file.__key
       )
-    } else if (file.__status === 'uploading') {
-      file.__abort()
     } else {
       uploadSize.value -= file.size
     }
@@ -281,6 +289,11 @@ export function getRenderer(getPlugin, expose) {
     state.queuedFiles.value = state.queuedFiles.value.filter(
       f => f.__key !== file.__key
     )
+
+    if (isUploading) {
+      file.__abort()
+    }
+
     emit('removed', [file])
   }
 

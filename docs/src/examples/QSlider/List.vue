@@ -51,16 +51,10 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    return {
-      volume: ref(6),
-      brightness: ref(3),
-      mic: ref(8)
-    }
-  }
-}
+const volume = ref(6)
+const brightness = ref(3)
+const mic = ref(8)
 </script>

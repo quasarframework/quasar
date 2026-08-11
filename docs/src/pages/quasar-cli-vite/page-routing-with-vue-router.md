@@ -64,7 +64,7 @@ export default defineRouter(({ store /*, ssrContext */ }) => {
 ```
 
 ::: tip
-If you are developing a SSR app, then you can check out the [ssrContext](/quasar-cli-vite/developing-ssr/ssr-context) Object that gets supplied server-side.
+If you are developing a SSR/SSG app, then you can check out the [ssrContext](/quasar-cli-vite/developing-ssr/ssr-context) Object that gets supplied server-side.
 :::
 
 ## Filename-Based Routing <q-badge label="Vue Router v5+" />

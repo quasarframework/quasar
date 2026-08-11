@@ -993,129 +993,125 @@
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      alert: true,
-      persistent: false,
-      confirm: false,
-      prompt: false,
-      icon: false,
-      bar: false,
-      bar2: false,
-      toolbar: false,
-      scroll: false,
-      scroll2: false,
-      scroll3: false,
-      maximized: false,
-      positioned: false,
-      maxiPositioned: false,
-      seamless: false,
-      layout: false,
-      inception: false,
-      nonStandard: false,
-      complexCard: false,
-      sliders: false,
-      layoutBottom: false,
+<script setup>
+import { useQuasar } from 'quasar'
+import { computed, ref } from 'vue'
 
-      maximizedToggle: true,
-      preventCloseToggle: false,
+const $q = useQuasar()
 
-      testDialog: {
-        seamless: false,
-        persistent: false,
-        noBackdropDismiss: false,
-        noShake: false
-      },
+const alert = ref(true)
+const persistent = ref(false)
+const confirm = ref(false)
+const prompt = ref(false)
+const icon = ref(false)
+const bar = ref(false)
+const bar2 = ref(false)
+const toolbar = ref(false)
+const scroll = ref(false)
+const scroll2 = ref(false)
+const scroll3 = ref(false)
+const maximized = ref(false)
+const positioned = ref(false)
+const maxiPositioned = ref(false)
+const seamless = ref(false)
+const layout = ref(false)
+const inception = ref(false)
+const nonStandard = ref(false)
+const complexCard = ref(false)
+const sliders = ref(false)
+const layoutBottom = ref(false)
 
-      address: '',
-      text1: '',
-      text2: '',
-      text3: '',
+const maximizedToggle = ref(true)
+const preventCloseToggle = ref(false)
 
-      moreContent: true,
-      drawer: false,
-      drawerR: false,
+const testDialog = ref({
+  seamless: false,
+  persistent: false,
+  noBackdropDismiss: false,
+  noShake: false
+})
 
-      slide: 1,
-      lorem:
-        'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Natus, ratione eum minus fuga, quasi dicta facilis corporis magnam, suscipit at quo nostrum!',
+const address = ref('')
+const text1 = ref('')
+const text2 = ref('')
+const text3 = ref('')
 
-      stars: 3,
+const moreContent = ref(true)
+const drawer = ref(false)
+const drawerR = ref(false)
 
-      slideVol: 39,
-      slideAlarm: 56,
-      slideVibration: 63,
+const slide = ref(1)
+const lorem = ref(
+  'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Natus, ratione eum minus fuga, quasi dicta facilis corporis magnam, suscipit at quo nostrum!'
+)
 
-      date: '2018/03/14',
-      color: '#f46234',
+const stars = ref(3)
 
-      select: 'ten',
-      selectMultiple: [],
-      selectOptions: [
-        'one',
-        'two',
-        'three',
-        'four',
-        'five',
-        'six',
-        'seven',
-        'eight',
-        'nine',
-        'ten'
-      ],
-      selectOptionsFiltered: [],
+const slideVol = ref(39)
+const slideAlarm = ref(56)
+const slideVibration = ref(63)
 
-      closePopupTest: false,
-      closePopupBtn: false,
+const date = ref('2018/03/14')
+const color = ref('#f46234')
 
-      iOSTestTop: false,
-      iOSTestBottom: false,
-      iOSTestNormal: false,
-      iOSTest2: false,
-      iOStext: ''
-    }
-  },
+const select = ref('ten')
+const selectMultiple = ref([])
+const selectOptions = ref([
+  'one',
+  'two',
+  'three',
+  'four',
+  'five',
+  'six',
+  'seven',
+  'eight',
+  'nine',
+  'ten'
+])
+const selectOptionsFiltered = ref([])
 
-  computed: {
-    contentSize() {
-      return this.moreContent ? 150 : 5
-    }
-  },
+const closePopupTest = ref(false)
+const closePopupBtn = ref(false)
 
-  methods: {
-    openSpecialPosition(position) {
-      this.$q.dialog({
-        title: 'Positioned',
-        message: `This dialog appears from ${position}.`,
-        position
-      })
-    },
+const iOSTestTop = ref(false)
+const iOSTestBottom = ref(false)
+const iOSTestNormal = ref(false)
+const iOSTest2 = ref(false)
+const iOStext = ref('')
 
-    closePopupBtnHandler() {
-      console.log('closePopupBtnHandler')
-    },
+const dialog1 = ref(null)
 
-    filterFn(val, update) {
-      if (val === '') {
-        update(() => {
-          this.selectOptionsFiltered = this.selectOptions
-        })
-        return
-      }
+const contentSize = computed(() => (moreContent.value ? 150 : 5))
 
-      update(() => {
-        const needle = val.toLowerCase()
-        this.selectOptionsFiltered = this.selectOptions.filter(v =>
-          v.toLowerCase().includes(needle)
-        )
-      })
-    },
+function openSpecialPosition(position) {
+  $q.dialog({
+    title: 'Positioned',
+    message: `This dialog appears from ${position}.`,
+    position
+  })
+}
 
-    printContentEl() {
-      console.log(this.$refs.dialog1.contentEl)
-    }
+function closePopupBtnHandler() {
+  console.log('closePopupBtnHandler')
+}
+
+function filterFn(val, update) {
+  if (val === '') {
+    update(() => {
+      selectOptionsFiltered.value = selectOptions.value
+    })
+    return
   }
+
+  update(() => {
+    const needle = val.toLowerCase()
+    selectOptionsFiltered.value = selectOptions.value.filter(v =>
+      v.toLowerCase().includes(needle)
+    )
+  })
+}
+
+function printContentEl() {
+  console.log(dialog1.value.contentEl)
 }
 </script>

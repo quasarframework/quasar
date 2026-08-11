@@ -126,7 +126,6 @@
     <div class="q-my-md">Using .q-carousel--padding:</div>
     <q-carousel
       v-bind="props"
-      ref="carousel"
       swipeable
       animated
       :padding="false"
@@ -432,7 +431,7 @@
       <template v-slot:control>
         <q-carousel-control position="bottom" :offset="[0, 0]">
           <q-linear-progress
-            :value="(slide2 - 1) / 11"
+            :value="slide2 / 11"
             height="6px"
             stripe
             color="amber"
@@ -443,45 +442,45 @@
   </div>
 </template>
 
-<script>
-export default {
-  data: () => ({
-    controlType: 'flat',
-    fullscreen: false,
-    full: false,
-    slide: 0,
-    slide2: 1,
-    slide3: 1,
-    slide4: 'first',
-    autoplay: true,
-    arrows: true,
-    padding: true,
-    vertical: false,
-    navigationPosition: void 0,
-    navigationPositions: [void 0, 'top', 'bottom', 'left', 'right'],
-    lorem:
-      'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Natus, ratione eum minus fuga, quasi dicta facilis corporis magnam, suscipit at quo nostrum!',
-    colors: ['primary', 'secondary', 'yellow', 'red', 'orange', 'grey-2'],
-    modal: false
-  }),
+<script setup>
+import { computed, ref } from 'vue'
 
-  computed: {
-    props() {
-      return {
-        controlType: this.controlType,
-        vertical: this.vertical,
-        arrows: this.arrows,
-        padding: this.padding,
-        navigationPosition: this.navigationPosition
-      }
-    }
-  },
+const controlType = ref('flat')
+const fullscreen = ref(false)
+const full = ref(false)
+const slide = ref(0)
+const slide2 = ref(1)
+const slide3 = ref(1)
+const slide4 = ref('first')
+const autoplay = ref(true)
+const arrows = ref(true)
+const padding = ref(true)
+const vertical = ref(false)
+const navigationPosition = ref(void 0)
+const navigationPositions = ref([void 0, 'top', 'bottom', 'left', 'right'])
+const lorem = ref(
+  'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Natus, ratione eum minus fuga, quasi dicta facilis corporis magnam, suscipit at quo nostrum!'
+)
+const colors = ref([
+  'primary',
+  'secondary',
+  'yellow',
+  'red',
+  'orange',
+  'grey-2'
+])
+const modal = ref(false)
 
-  methods: {
-    onFullscreen(v) {
-      console.log('fullscreen-toggle', v)
-    }
-  }
+const props = computed(() => ({
+  controlType: controlType.value,
+  vertical: vertical.value,
+  arrows: arrows.value,
+  padding: padding.value,
+  navigationPosition: navigationPosition.value
+}))
+
+function onFullscreen(v) {
+  console.log('fullscreen-toggle', v)
 }
 </script>
 

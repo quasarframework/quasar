@@ -256,16 +256,11 @@
   </div>
 </template>
 
-<script>
+<script setup>
+import { ref } from 'vue'
 import { ionAirplane } from '@quasar/extras/ionicons-v8'
 
-export default {
-  data() {
-    return {
-      layout: 'dense',
-      side: 'right',
-      svgIcon: ionAirplane
-    }
-  }
-}
+const layout = ref('dense')
+const side = ref('right')
+const svgIcon = ref(ionAirplane)
 </script>

@@ -284,34 +284,6 @@ export default import.meta.env.DEV
         Cookies: {
           gdpr: 'true',
           theme: 'dark'
-        },
-        'Shell environment variables': {
-          TERM_PROGRAM: 'Apple_Terminal',
-          SHELL: '/bin/zsh',
-          TERM: 'xterm-256color',
-          TMPDIR: '/var/folders/9t/22rcrvfx00lcxhzb5vrkxtym0000gn/T/',
-          TERM_PROGRAM_VERSION: '447',
-          TERM_SESSION_ID: 'A5FF6720-6F8C-4150-8C6E-521CE0FCFF40',
-          USER: 'razvan',
-          SSH_AUTH_SOCK: '/private/tmp/com.apple.launchd.s04cP01wXO/Listeners',
-          PATH: '/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin',
-          __CFBundleIdentifier: 'com.apple.Terminal',
-          PWD: '/qaz-v-js',
-          XPC_FLAGS: '0x0',
-          XPC_SERVICE_NAME: '0',
-          SHLVL: '1',
-          HOME: '/Users/razvan',
-          LOGNAME: 'razvan',
-          OLDPWD: '/qaz-v-js',
-          HOMEBREW_PREFIX: '/opt/homebrew',
-          HOMEBREW_CELLAR: '/opt/homebrew/Cellar',
-          HOMEBREW_REPOSITORY: '/opt/homebrew',
-          MANPATH: '/opt/homebrew/share/man::',
-          INFOPATH: '/opt/homebrew/share/info:',
-          LC_CTYPE: 'utf8',
-          __CF_USER_TEXT_ENCODING: '0x1F5:0x0:0x0',
-          QUASAR_CLI_VERSION: '2.0.1',
-          NODE_ENV: 'development'
         }
       }
     }

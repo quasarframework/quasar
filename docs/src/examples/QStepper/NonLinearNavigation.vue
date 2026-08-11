@@ -9,7 +9,7 @@
       class="q-mb-md"
     />
 
-    <q-stepper v-model="step" header-nav ref="stepper" color="primary" animated>
+    <q-stepper v-model="step" header-nav color="primary" animated>
       <q-step
         :name="1"
         title="Select campaign settings"
@@ -86,29 +86,18 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    const step = ref(1)
-    const done1 = ref(false)
-    const done2 = ref(false)
-    const done3 = ref(false)
+const step = ref(1)
+const done1 = ref(false)
+const done2 = ref(false)
+const done3 = ref(false)
 
-    return {
-      step,
-      done1,
-      done2,
-      done3,
-
-      reset() {
-        done1.value = false
-        done2.value = false
-        done3.value = false
-        step.value = 1
-      }
-    }
-  }
+function reset() {
+  done1.value = false
+  done2.value = false
+  done3.value = false
+  step.value = 1
 }
 </script>

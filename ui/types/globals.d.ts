@@ -1,5 +1,5 @@
 import { QuasarIconSet } from "./icon-set";
-import { HasBex, HasCapacitor, HasCordova, HasSsr } from "./feature-flag";
+import { HasBex, HasCapacitor, HasCordova, HasSsrOrSsg } from "./feature-flag";
 import { QuasarLanguage } from "./lang";
 
 // We cannot reference directly Capacitor/Cordova types
@@ -27,7 +27,7 @@ export interface GlobalQuasarLanguage extends QuasarLanguageInstance {
 export interface GlobalQuasarLanguageSingleton
   extends
     Pick<GlobalQuasarLanguage, "isoName" | "nativeName" | "getLocale">,
-    HasSsr<
+    HasSsrOrSsg<
       { set(lang: QuasarLanguage, ssrContext: any): void },
       { set(lang: QuasarLanguage): void }
     > {
@@ -41,7 +41,7 @@ export interface GlobalQuasarIconSet extends QuasarIconSet {
 export interface GlobalQuasarIconSetSingleton
   extends
     QuasarIconSet,
-    HasSsr<
+    HasSsrOrSsg<
       // QSsrContext interface depends on q/app, making it available into UI package adds complexity without any real benefit
       { set(iconSet: QuasarIconSet, ssrContext: any): void },
       { set(iconSet: QuasarIconSet): void }
@@ -72,7 +72,7 @@ export interface QVueGlobals
     HasCapacitor<{ capacitor: any }>,
     HasBex<{ bex: GlobalsTypesHolder["bex"] }>,
     HasCordova<{ cordova: GlobalsTypesHolder["cordova"] }>,
-    HasSsr<
+    HasSsrOrSsg<
       { iconMapFn?: GlobalQuasarIconMapFn; onSSRHydrated?: () => void },
       { iconMapFn: GlobalQuasarIconMapFn }
     >,

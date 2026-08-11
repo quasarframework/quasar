@@ -3,7 +3,7 @@ title: Electron with TypeScript
 desc: (@quasar/app-vite) How to use TypeScript with Electron in Quasar
 ---
 
-In order to support Electron with TypeScript, you will need to rename the extension for your files in /src-electron from `.js` to `.ts` and make the necessary TS code changes.
+When Electron mode is added to a TypeScript Quasar project, Quasar creates TypeScript main and preload sources automatically. To convert an existing JavaScript Electron workspace, rename the files under `/src-electron` from `.js` to `.ts` and address any TypeScript errors. The default source configuration omits extensions, so it resolves either form.
 
 ::: tip
 `@electron/packager` and `electron-builder` export their configuration types from their own packages.
@@ -30,7 +30,7 @@ async function createWindow() {
    * Initial window options
    */
   const mainWindow = new BrowserWindow({
-    icon: resolveElectronAssetsPath('icons/icon.png'), // linux
+    icon: resolveElectronAssetsPath('icons/icon.png'), // Windows and Linux
     width: 1000,
     height: 600,
     useContentSize: true,
@@ -58,9 +58,8 @@ async function createWindow() {
   }
 }
 
-void app.whenReady().then(async () => {
-  await registerQuasarRuntime()
-
+void app.whenReady().then(() => {
+  registerQuasarRuntime()
   void createWindow()
 
   app.on('activate', () => {
@@ -80,14 +79,17 @@ app.on('window-all-closed', () => {
 ```js /src-electron/electron-preload.ts
 /**
  * This file is used specifically for security reasons.
- * Here you can access Node.js stuff and inject functionality into
- * the renderer thread (accessible there through the "window" object)
+ * Here you can securely expose privileged APIs into the renderer process
+ * by leveraging Electron's contextBridge functionality and communicating
+ * with the main process through Electron's inter-process communication (IPC).
  *
  * WARNING!
- * If you import anything from node_modules, then make sure that the package is specified
- * in /src-electron/package.json > dependencies and NOT in devDependencies
+ * The preload script sandboxing offers limited access to a full Node.js environment.
+ * Do NOT attempt to import packages from node_modules or use Node.js APIs directly in this file.
+ * Instead, use IPC to communicate with the main process and access packages and Node.js
+ * functionality there.
  *
- * Example (injects window.myAPI.doAThing() into renderer thread):
+ * Example of exposing window.myAPI.doAThing() to the renderer process:
  *
  *   import { contextBridge } from 'electron'
  *
@@ -95,17 +97,8 @@ app.on('window-all-closed', () => {
  *     doAThing: () => {}
  *   })
  *
- * WARNING!
- * If accessing Node functionality (like importing @electron/remote) then in your
- * electron-main.ts you will need to set the following when you instantiate BrowserWindow:
- *
- * mainWindow = new BrowserWindow({
- *   // ...
- *   webPreferences: {
- *     // ...
- *     sandbox: false // <-- to be able to import @electron/remote in preload script
- *   }
- * }
+ * Preload script documentation:
+ * https://www.electronjs.org/docs/latest/tutorial/tutorial-preload
  */
 import { contextBridge } from 'electron'
 import { quasarRuntime } from '#q-app/electron/preload'

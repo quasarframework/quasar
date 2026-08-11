@@ -20,23 +20,15 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    const items = ref([{}, {}, {}, {}, {}, {}, {}, {}, {}])
+const items = ref([{}, {}, {}, {}, {}, {}, {}, {}, {}])
 
-    return {
-      items,
-
-      refresh(done) {
-        setTimeout(() => {
-          items.value.push({}, {}, {}, {}, {}, {}, {})
-          done()
-        }, 1000)
-      }
-    }
-  }
+function refresh(done) {
+  setTimeout(() => {
+    items.value.push({}, {}, {}, {}, {}, {}, {})
+    done()
+  }, 1000)
 }
 </script>

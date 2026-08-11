@@ -1,5 +1,6 @@
 interface NativeMobileWrapperConfiguration {
   iosStatusBarPadding?: boolean;
+  androidStatusBarPadding?: boolean;
   backButton?: boolean;
   backButtonExit?: boolean | "*" | string[];
 }

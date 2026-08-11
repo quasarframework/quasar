@@ -150,7 +150,7 @@
 </template>
 
 <script setup>
-import { computed, onMounted, ref, watch } from 'vue'
+import { computed, onMounted, ref, useTemplateRef, watch } from 'vue'
 import { mdiClose, mdiMagnify } from '@quasar/extras/mdi-v7'
 
 import DocCardTitle from './DocCardTitle.vue'
@@ -353,7 +353,7 @@ function getApiCount(parsedApi, tabs, innerTabs) {
   return acc
 }
 
-const inputRef = ref(null)
+const inputRef = useTemplateRef('inputRef')
 
 const loading = ref(true)
 const nameBanner = ref(`Loading ${props.file} API...`)

@@ -20,7 +20,7 @@
         />
 
         <q-select
-          ref="search"
+          ref="searchRef"
           dark
           dense
           standout
@@ -190,8 +190,8 @@
   </q-layout>
 </template>
 
-<script>
-import { ref } from 'vue'
+<script setup>
+import { ref, useTemplateRef } from 'vue'
 import { fabGithub } from '@quasar/extras/fontawesome-v7'
 
 const stringOptions = [
@@ -199,61 +199,44 @@ const stringOptions = [
   'quasarframework/quasar-awesome'
 ]
 
-export default {
-  name: 'MyLayout',
+const text = ref('')
+const options = ref(null)
+const filteredOptions = ref([])
+const searchRef = useTemplateRef('searchRef')
 
-  setup() {
-    const text = ref('')
-    const options = ref(null)
-    const filteredOptions = ref([])
-    const search = ref(null) // $refs.search
-
-    function filter(val, update) {
-      if (options.value === null) {
-        // load data
-        setTimeout(() => {
-          options.value = stringOptions
-          search.value.filter('')
-        }, 2000)
-        update()
-        return
-      }
-
-      if (val === '') {
-        update(() => {
-          filteredOptions.value = options.value.map(op => ({ label: op }))
-        })
-        return
-      }
-
-      update(() => {
-        filteredOptions.value = [
-          {
-            label: val,
-            type: 'In this repository'
-          },
-          {
-            label: val,
-            type: 'All GitHub'
-          },
-          ...options.value
-            .filter(op => op.toLowerCase().includes(val.toLowerCase()))
-            .map(op => ({ label: op }))
-        ]
-      })
-    }
-
-    return {
-      fabGithub,
-
-      text,
-      options,
-      filteredOptions,
-      search,
-
-      filter
-    }
+function filter(val, update) {
+  if (options.value === null) {
+    // load data
+    setTimeout(() => {
+      options.value = stringOptions
+      searchRef.value.filter('')
+    }, 2000)
+    update()
+    return
   }
+
+  if (val === '') {
+    update(() => {
+      filteredOptions.value = options.value.map(op => ({ label: op }))
+    })
+    return
+  }
+
+  update(() => {
+    filteredOptions.value = [
+      {
+        label: val,
+        type: 'In this repository'
+      },
+      {
+        label: val,
+        type: 'All GitHub'
+      },
+      ...options.value
+        .filter(op => op.toLowerCase().includes(val.toLowerCase()))
+        .map(op => ({ label: op }))
+    ]
+  })
 }
 </script>
 

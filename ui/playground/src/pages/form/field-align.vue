@@ -501,75 +501,65 @@
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      type: 'outlined',
-      dark: null,
-      dense: false,
-      disable: false,
-      readonly: false,
-      prefSuf: true,
-      placeholder: false,
-      hideHint: false,
-      hideBottomSpace: false,
-      square: false,
-      autogrow: false,
+<script setup>
+import { computed, ref, watch } from 'vue'
 
-      prefix: '$',
-      suffix: 'TSP',
+const type = ref('outlined')
+const dark = ref(null)
+const dense = ref(false)
+const disable = ref(false)
+const readonly = ref(false)
+const prefSuf = ref(true)
+const placeholder = ref(false)
+const hideHint = ref(false)
+const hideBottomSpace = ref(false)
+const square = ref(false)
+const autogrow = ref(false)
 
-      textColor: null,
-      bgColor: null,
+const prefix = ref('$')
+const suffix = ref('TSP')
 
-      fontSize: 14,
+const textColor = ref(null)
+const bgColor = ref(null)
 
-      text: '$$TSP',
-      options: ['$$TSP', '$$$$$'],
+const fontSize = ref(14)
 
-      longLabel: 'A long label - 1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ'
-    }
-  },
+const text = ref('$$TSP')
+const options = ref(['$$TSP', '$$$$$'])
 
-  watch: {
-    prefSuf(v) {
-      if (v) {
-        this.prefix = '$'
-        this.suffix = 'TSP'
-      } else {
-        this.prefix = this.suffix = null
-      }
-    }
-  },
+const longLabel = ref('A long label - 1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ')
 
-  computed: {
-    props() {
-      return {
-        [this.type]: true,
-        type: 'text' + (this.autogrow === true ? 'area' : ''),
-        autogrow: this.autogrow,
-        hideBottomSpace: this.hideBottomSpace,
-        dark: this.dark,
-        hideHint: this.hideHint,
-        disable: this.disable,
-        readonly: this.readonly,
-        prefix: this.prefix,
-        suffix: this.suffix,
-        placeholder: this.placeholder === true ? 'Placeholder text' : null,
-        dense: this.dense,
-        square: this.square,
-        style: { fontSize: `${this.fontSize}px` },
-        color:
-          typeof this.textColor === 'string' && this.textColor.length !== 0
-            ? this.textColor
-            : null,
-        bgColor:
-          typeof this.bgColor === 'string' && this.bgColor.length !== 0
-            ? this.bgColor
-            : null
-      }
-    }
+watch(prefSuf, v => {
+  if (v) {
+    prefix.value = '$'
+    suffix.value = 'TSP'
+  } else {
+    prefix.value = suffix.value = null
   }
-}
+})
+
+const props = computed(() => ({
+  [type.value]: true,
+  type: 'text' + (autogrow.value === true ? 'area' : ''),
+  autogrow: autogrow.value,
+  hideBottomSpace: hideBottomSpace.value,
+  dark: dark.value,
+  hideHint: hideHint.value,
+  disable: disable.value,
+  readonly: readonly.value,
+  prefix: prefix.value,
+  suffix: suffix.value,
+  placeholder: placeholder.value === true ? 'Placeholder text' : null,
+  dense: dense.value,
+  square: square.value,
+  style: { fontSize: `${fontSize.value}px` },
+  color:
+    typeof textColor.value === 'string' && textColor.value.length !== 0
+      ? textColor.value
+      : null,
+  bgColor:
+    typeof bgColor.value === 'string' && bgColor.value.length !== 0
+      ? bgColor.value
+      : null
+}))
 </script>

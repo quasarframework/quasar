@@ -28,7 +28,13 @@
   </div>
 </template>
 
-<script>
+<script setup>
+import { useQuasar } from 'quasar'
+import { ref } from 'vue'
+import { onBeforeRouteLeave } from 'vue-router'
+
+const $q = useQuasar()
+
 const actions = [
   {
     label: 'Drive',
@@ -43,7 +49,7 @@ const actions = [
   {
     label: 'Google Hangouts',
     img: 'https://cdn.quasar.dev/img/logo_hangouts_128px.png',
-    id: 'calendar'
+    id: 'hangouts'
   },
   {
     label: 'Calendar',
@@ -70,64 +76,58 @@ const actions = [
   }
 ]
 
-export default {
-  data() {
-    return {
-      dark: null
-    }
-  },
+const dark = ref(null)
 
-  methods: {
-    hideBottomSheet() {
-      if (this.bottomSheetHandler !== void 0) {
-        this.bottomSheetHandler.hide()
-      }
-    },
+let bottomSheetHandler
 
-    show(grid) {
-      this.bottomSheetHandler = this.$q
-        .bottomSheet({
-          message: 'Bottom Sheet message',
-          grid,
-          actions,
-          dark: this.dark
-        })
-        .onOk(action => {
-          console.log('Action chosen:', action.id)
-        })
-        .onCancel(() => {
-          console.log('Dismissed')
-        })
-        .onDismiss(() => {
-          this.bottomSheetHandler = void 0
-        })
-    },
-
-    showCustom(grid) {
-      this.bottomSheetHandler = this.$q
-        .bottomSheet({
-          message: 'Bottom Sheet message',
-          grid,
-          actions,
-          class: 'custom-bottom-sheet',
-          dark: this.dark
-        })
-        .onOk(action => {
-          console.log('Action chosen:', action.id)
-        })
-        .onCancel(() => {
-          console.log('Dismissed')
-        })
-        .onDismiss(() => {
-          this.bottomSheetHandler = void 0
-        })
-    }
-  },
-
-  beforeRouteLeave() {
-    this.hideBottomSheet()
+function hideBottomSheet() {
+  if (bottomSheetHandler !== void 0) {
+    bottomSheetHandler.hide()
   }
 }
+
+function show(grid) {
+  bottomSheetHandler = $q
+    .bottomSheet({
+      message: 'Bottom Sheet message',
+      grid,
+      actions,
+      dark: dark.value
+    })
+    .onOk(action => {
+      console.log('Action chosen:', action.id)
+    })
+    .onCancel(() => {
+      console.log('Dismissed')
+    })
+    .onDismiss(() => {
+      bottomSheetHandler = void 0
+    })
+}
+
+function showCustom(grid) {
+  bottomSheetHandler = $q
+    .bottomSheet({
+      message: 'Bottom Sheet message',
+      grid,
+      actions,
+      class: 'custom-bottom-sheet',
+      dark: dark.value
+    })
+    .onOk(action => {
+      console.log('Action chosen:', action.id)
+    })
+    .onCancel(() => {
+      console.log('Dismissed')
+    })
+    .onDismiss(() => {
+      bottomSheetHandler = void 0
+    })
+}
+
+onBeforeRouteLeave(() => {
+  hideBottomSheet()
+})
 </script>
 
 <style lang="sass">

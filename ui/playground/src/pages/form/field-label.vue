@@ -328,21 +328,16 @@
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      model1: null,
-      model2: 1.3,
-      model3: 'aaa',
-      model4: '111',
-      model5: 10,
-      modelD: '2023-03-25',
-      modelDi: '25/03/2023'
-    }
-  },
-  methods: {}
-}
+<script setup>
+import { ref } from 'vue'
+
+const model1 = ref(null)
+const model2 = ref(1.3)
+const model3 = ref('aaa')
+const model4 = ref('111')
+const model5 = ref(10)
+const modelD = ref('2023-03-25')
+const modelDi = ref('25/03/2023')
 </script>
 
 <style lang="sass">

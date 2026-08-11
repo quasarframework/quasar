@@ -24,15 +24,9 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    return {
-      mobileData: ref(false),
-      bluetooth: ref(false)
-    }
-  }
-}
+const mobileData = ref(false)
+const bluetooth = ref(false)
 </script>

@@ -505,56 +505,47 @@
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      dark: null,
-      dense: false,
-      vertical: false,
+<script setup>
+import { computed, ref, watch } from 'vue'
 
-      defaultLabels: true,
-      labelTemplate: 'Current value: {model}',
+const dark = ref(null)
+const dense = ref(false)
+const vertical = ref(false)
 
-      nullValue: null,
-      nullValueMin: null,
-      standalone: 20,
-      nullInnerMinMax: null,
-      innerMinMax: 25,
-      stepZero: 30.05,
-      precision: 0.4,
-      step: 30,
-      label: 5,
-      snap: 2,
-      marker: 6
-    }
-  },
-  computed: {
-    labelValue() {
-      return this.defaultLabels === true
-        ? () => void 0
-        : model => this.labelTemplate.split('{model}').join(model)
-    }
-  },
-  watch: {
-    standalone(val, old) {
-      console.log(
-        `Changed from ${JSON.stringify(old)} to ${JSON.stringify(val)}`
-      )
-    },
-    step(val, old) {
-      console.log(
-        `Changed from ${JSON.stringify(old)} to ${JSON.stringify(val)}`
-      )
-    }
-  },
-  methods: {
-    onChange(val) {
-      console.log('@change', JSON.stringify(val))
-    },
-    onInput(val) {
-      console.log('@update:model-value', JSON.stringify(val))
-    }
-  }
+const defaultLabels = ref(true)
+const labelTemplate = ref('Current value: {model}')
+
+const nullValue = ref(null)
+const nullValueMin = ref(null)
+const standalone = ref(20)
+const nullInnerMinMax = ref(null)
+const innerMinMax = ref(25)
+const stepZero = ref(30.05)
+const precision = ref(0.4)
+const step = ref(30)
+const label = ref(5)
+const snap = ref(2)
+const marker = ref(6)
+
+const labelValue = computed(() =>
+  defaultLabels.value === true
+    ? () => void 0
+    : model => labelTemplate.value.split('{model}').join(model)
+)
+
+watch(standalone, (val, old) => {
+  console.log(`Changed from ${JSON.stringify(old)} to ${JSON.stringify(val)}`)
+})
+
+watch(step, (val, old) => {
+  console.log(`Changed from ${JSON.stringify(old)} to ${JSON.stringify(val)}`)
+})
+
+function onChange(val) {
+  console.log('@change', JSON.stringify(val))
+}
+
+function onInput(val) {
+  console.log('@update:model-value', JSON.stringify(val))
 }
 </script>

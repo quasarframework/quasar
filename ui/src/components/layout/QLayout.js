@@ -21,7 +21,7 @@ import { layoutKey } from '../../utils/private.symbols/symbols.js'
 
 const viewRE = /^(h|l)h(h|r) lpr (f|l)f(f|r)$/
 
-export default createComponent({
+export default /*#__PURE__*/ createComponent({
   name: 'QLayout',
 
   props: {

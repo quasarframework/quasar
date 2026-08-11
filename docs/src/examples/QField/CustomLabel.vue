@@ -57,15 +57,9 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    return {
-      email: ref('john.doe'),
-      number: ref(123)
-    }
-  }
-}
+const email = ref('john.doe')
+const number = ref(123)
 </script>

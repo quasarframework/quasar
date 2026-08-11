@@ -53,6 +53,7 @@ export function getAppPaths({ ctx, defineHiddenProp } = {}) {
   const srcDir = resolve(appDir, 'src')
   const pwaDir = resolve(appDir, 'src-pwa')
   const ssrDir = resolve(appDir, 'src-ssr')
+  const ssgDir = resolve(appDir, 'src-ssg')
   const cordovaDir = resolve(appDir, 'src-cordova')
   const capacitorDir = resolve(appDir, 'src-capacitor')
   const electronDir = resolve(appDir, 'src-electron')
@@ -67,6 +68,7 @@ export function getAppPaths({ ctx, defineHiddenProp } = {}) {
     publicDir,
     pwaDir,
     ssrDir,
+    ssgDir,
     cordovaDir,
     capacitorDir,
     electronDir,
@@ -83,6 +85,7 @@ export function getAppPaths({ ctx, defineHiddenProp } = {}) {
       public: dir => join(publicDir, dir),
       pwa: dir => join(pwaDir, dir),
       ssr: dir => join(ssrDir, dir),
+      ssg: dir => join(ssgDir, dir),
       cordova: dir => join(cordovaDir, dir),
       capacitor: dir => join(capacitorDir, dir),
       electron: dir => join(electronDir, dir),

@@ -53,12 +53,12 @@ export class QuasarModeBuilder extends AppBuilder {
      */
     if (this.quasarConf.ctx.prod) {
       const indexHtmlFile = join(viteConfig.build.outDir, 'index.html')
-      let html = this.readFile(indexHtmlFile)
+      let html = await this.readFile(indexHtmlFile)
       html = html.replace(
         /(<head[^>]*)(>)/i,
         (_, start, end) => `${start}${end}<script src="cordova.js"></script>`
       )
-      this.writeFile(indexHtmlFile, html)
+      await this.writeFile(indexHtmlFile, html)
     }
 
     this.printSummary(viteConfig.build.outDir)
@@ -80,7 +80,9 @@ export class QuasarModeBuilder extends AppBuilder {
     const outputTargetList =
       ensureArray(
         this.quasarConf.cordova.getCordovaBuildOutputFolder?.(cordovaContext)
-      ) || cordovaOutputFolders[target]
+      ) ||
+      cordovaOutputFolders[target] ||
+      []
 
     // Remove old build output
     outputTargetList.forEach(outputFile => {

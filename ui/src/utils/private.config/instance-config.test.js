@@ -1,5 +1,6 @@
 import { describe, expect, test } from 'vitest'
 import { config, mount } from '@vue/test-utils'
+import { h } from 'vue'
 
 import {
   freezeGlobalConfig,
@@ -15,7 +16,7 @@ const { install } = quasarVuePlugin
 
 function mountWithConfig(mountConfig) {
   quasarVuePlugin.install = app => install(app, { config: mountConfig })
-  mount({ template: '<div />' })
+  mount({ render: () => h('div') })
 }
 
 describe('[instanceConfig API]', () => {

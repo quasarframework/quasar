@@ -69,31 +69,21 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    const loading = ref([false, false, false, false, false, false])
+const loading = ref([false, false, false, false, false, false])
 
-    const progress = ref(false)
+const progress = ref(false)
 
-    function simulateProgress(number) {
-      // we set loading state
-      loading.value[number] = true
+function simulateProgress(number) {
+  // we set loading state
+  loading.value[number] = true
 
-      // simulate a delay
-      setTimeout(() => {
-        // we're done, we reset loading state
-        loading.value[number] = false
-      }, 3000)
-    }
-
-    return {
-      loading,
-      progress,
-      simulateProgress
-    }
-  }
+  // simulate a delay
+  setTimeout(() => {
+    // we're done, we reset loading state
+    loading.value[number] = false
+  }, 3000)
 }
 </script>

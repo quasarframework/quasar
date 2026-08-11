@@ -6,7 +6,7 @@ import {
   uploaderKey
 } from '../../utils/private.symbols/symbols.js'
 
-export default createComponent({
+export default /*#__PURE__*/ createComponent({
   name: 'QUploaderAddTrigger',
 
   setup() {

@@ -31,15 +31,9 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    return {
-      dialog: ref(false),
-      cancelEnabled: ref(false)
-    }
-  }
-}
+const dialog = ref(false)
+const cancelEnabled = ref(false)
 </script>

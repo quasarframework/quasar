@@ -56,34 +56,24 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    const itemsRef = ref([{}, {}, {}, {}, {}, {}, {}])
-    const itemsId = ref([{}, {}, {}, {}, {}, {}, {}])
-    const scrollTargetRef = ref(null)
+const itemsRef = ref([{}, {}, {}, {}, {}, {}, {}])
+const itemsId = ref([{}, {}, {}, {}, {}, {}, {}])
+const scrollTargetRef = ref(null)
 
-    return {
-      itemsRef,
-      itemsId,
-      scrollTargetRef,
+function onLoadRef(index, done) {
+  setTimeout(() => {
+    itemsRef.value.push({}, {}, {}, {}, {}, {}, {})
+    done()
+  }, 2000)
+}
 
-      onLoadRef(index, done) {
-        setTimeout(() => {
-          itemsRef.value.push({}, {}, {}, {}, {}, {}, {})
-          done()
-        }, 2000)
-      },
-
-      onLoadId(index, done) {
-        setTimeout(() => {
-          itemsId.value.push({}, {}, {}, {}, {}, {}, {})
-          done()
-        }, 2000)
-      }
-    }
-  }
+function onLoadId(index, done) {
+  setTimeout(() => {
+    itemsId.value.push({}, {}, {}, {}, {}, {}, {})
+    done()
+  }, 2000)
 }
 </script>

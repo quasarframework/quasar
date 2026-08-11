@@ -94,8 +94,8 @@
   </div>
 </template>
 
-<script>
-import { watchEffect } from 'vue'
+<script setup>
+import { computed, onBeforeUnmount, ref, watchEffect } from 'vue'
 import { LoadingBar } from 'quasar'
 
 function sendXhr(url) {
@@ -110,80 +110,70 @@ function sendXhr(url) {
   // }, 500)
 }
 
-export default {
-  created() {
-    LoadingBar.setDefaults({
-      hijackFilter(url) {
-        const res = /\/server/.test(url) && !/\/other-server/.test(url)
+const position = ref('top')
+const reverse = ref(false)
+const size = ref(20)
 
-        console.log(url, res)
-        return res
-      }
-    })
+const timeouts = ref([])
 
-    watchEffect(() => {
-      if (this.watchUrl) {
-        sendXhr(this.url)
-      }
-    })
-  },
-  beforeUnmount() {
-    LoadingBar.setDefaults({ hijackFilter: void 0 })
-  },
-  data() {
-    return {
-      position: 'top',
-      reverse: false,
-      size: 20,
+const watchUrl = ref(false)
+const url = ref('https://deelay.me/2000/server')
 
-      timeouts: [],
+const bar = ref(null)
 
-      watchUrl: false,
-      url: 'https://deelay.me/2000/server'
-    }
-  },
-  computed: {
-    computedSize() {
-      return this.size + 'px'
-    },
+LoadingBar.setDefaults({
+  hijackFilter(hijackUrl) {
+    const res = /\/server/.test(hijackUrl) && !/\/other-server/.test(hijackUrl)
 
-    loadingState() {
-      return LoadingBar.isActive ? 'active' : 'idle'
-    }
-  },
-  methods: {
-    trigger() {
-      this.$refs.bar.start()
-
-      setTimeout(
-        () => {
-          if (this.$refs.bar) {
-            this.$refs.bar.stop()
-          }
-        },
-        Math.random() * 3000 + 1000
-      )
-    },
-
-    start(speed) {
-      this.$refs.bar.start(speed)
-    },
-
-    increment() {
-      this.$refs.bar.increment(Math.random() * 20)
-    },
-
-    stop() {
-      this.$refs.bar.stop()
-    },
-
-    triggerXhr1() {
-      sendXhr('https://deelay.me/5000/server')
-    },
-
-    triggerXhr2() {
-      sendXhr('https://deelay.me/2000/second-server')
-    }
+    console.log(hijackUrl, res)
+    return res
   }
+})
+
+watchEffect(() => {
+  if (watchUrl.value) {
+    sendXhr(url.value)
+  }
+})
+
+onBeforeUnmount(() => {
+  LoadingBar.setDefaults({ hijackFilter: void 0 })
+})
+
+const computedSize = computed(() => size.value + 'px')
+
+const loadingState = computed(() => (LoadingBar.isActive ? 'active' : 'idle'))
+
+function trigger() {
+  bar.value.start()
+
+  setTimeout(
+    () => {
+      if (bar.value) {
+        bar.value.stop()
+      }
+    },
+    Math.random() * 3000 + 1000
+  )
+}
+
+function start(speed) {
+  bar.value.start(speed)
+}
+
+function increment() {
+  bar.value.increment(Math.random() * 20)
+}
+
+function stop() {
+  bar.value.stop()
+}
+
+function triggerXhr1() {
+  sendXhr('https://deelay.me/5000/server')
+}
+
+function triggerXhr2() {
+  sendXhr('https://deelay.me/2000/second-server')
 }
 </script>

@@ -31,6 +31,10 @@ Notice that the model is a String only.
 For landscape mode, you can use it along with `$q.screen` to make QTime responsive. Example: `:landscape="$q.screen.gt.xs"`. More info: [Quasar Screen Plugin](/options/screen-plugin).
 :::
 
+### Keyboard navigation
+
+The hour, minute, second, and AM/PM controls can be activated with `Space` or `Enter`. When an hour, minute, or second control has focus, use `Arrow Left` and `Arrow Right` to adjust its value.
+
 ### Functionality
 
 The 24 hour format is applied depending on the [Quasar Language Pack](/options/quasar-language-packs) that you've set, but you can also force it, like in the example below.
@@ -49,8 +53,10 @@ The default model mask is `HH:mm` (or `HH:mm:ss` when using `with-seconds` prop)
 
 The `mask` prop tokens can be found at [Quasar Utils > Date utils](/quasar-utils/date-utils#format-for-display).
 
-::: warning Note on SSR
+::: warning Note on SSR/SSG
 Using `x` or `X` (timestamps) in the mask may cause hydration errors on the client, because decoding the model String must be done with `new Date()` which takes into account the local timezone. As a result, if the server is in a different timezone than the client, then the rendered output of the server will differ than the one on the client so hydration will fail.
+
+If the mask contains date tokens, set `default-date` explicitly when using SSR or SSG. The runtime default is the current local date, which can differ between the server and browser.
 :::
 
 ::: danger Note on persian calendar

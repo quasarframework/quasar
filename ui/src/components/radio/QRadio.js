@@ -45,7 +45,7 @@ function onKeydown(e) {
   }
 }
 
-export default createComponent({
+export default /*#__PURE__*/ createComponent({
   name: 'QRadio',
 
   props: {
@@ -171,6 +171,9 @@ export default createComponent({
             ]
           : [svg]
 
+      // the native input carries the value for a form submission (when a name
+      // is supplied), but it is also what makes a wrapping <label> forward its
+      // clicks to us, so it must be rendered even without a name
       if (!props.disable) {
         injectFormInput(
           content,

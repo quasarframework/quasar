@@ -866,157 +866,142 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { event } from 'quasar'
+import { computed, ref, watch } from 'vue'
 
 const { stopAndPrevent } = event
 
-export default {
-  data() {
-    return {
-      dark: null,
-      dense: false,
-      disable: false,
-      readonly: false,
-      prefSuf: false,
-      placeholder: false,
-      hideHint: false,
-      bottomSlots: true,
-      hideBottomSpace: false,
-      square: false,
+const dark = ref(null)
+const dense = ref(false)
+const disable = ref(false)
+const readonly = ref(false)
+const prefSuf = ref(false)
+const placeholder = ref(false)
+const hideHint = ref(false)
+const bottomSlots = ref(true)
+const hideBottomSpace = ref(false)
+const square = ref(false)
 
-      fontSize: 14,
+const fontSize = ref(14)
 
-      textarea: false,
-      autogrow: false,
-      rows: '6',
+const textarea = ref(false)
+const autogrow = ref(false)
+const rows = ref('6')
 
-      text: '',
-      undef: void 0,
-      events: '',
-      debounced: '',
+const text = ref('')
+const undef = ref(void 0)
+const events = ref('')
+const debounced = ref('')
 
-      textFill: '',
-      textFillCancelled: false,
+const textFill = ref('')
+const textFillCancelled = ref(false)
 
-      pass: '',
-      password: true,
+const pass = ref('')
+const password = ref(true)
 
-      invalid: '123',
-      number: 1.1,
-      email: 'a',
-      date: null,
+const invalid = ref('123')
+const number = ref(1.1)
+const email = ref('a')
+const date = ref(null)
 
-      prefix: null,
-      suffix: null,
+const prefix = ref(null)
+const suffix = ref(null)
 
-      file: null,
+const file = ref(null)
 
-      showFileInput: false
+const showFileInput = ref(false)
+
+watch(prefSuf, v => {
+  if (v) {
+    prefix.value = '$'
+    suffix.value = 'TSP'
+  } else {
+    prefix.value = suffix.value = null
+  }
+})
+
+const type = computed(() => 'text' + (textarea.value ? 'area' : ''))
+
+const props = computed(() => {
+  const acc = {
+    hideBottomSpace: hideBottomSpace.value,
+    dark: dark.value,
+    type: type.value,
+    autogrow: autogrow.value,
+    hideHint: hideHint.value,
+    disable: disable.value,
+    readonly: readonly.value,
+    prefix: prefix.value,
+    suffix: suffix.value,
+    placeholder: placeholder.value === true ? 'Placeholder text' : null,
+    dense: dense.value,
+    clearable: true,
+    square: square.value,
+    style: { fontSize: `${fontSize.value}px` }
+  }
+
+  if (rows.value !== '') {
+    acc.rows = rows.value
+  }
+
+  return acc
+})
+
+const length = computed(() => text.value.length)
+
+const textFillValue = computed(() => {
+  if (textFillCancelled.value === true) {
+    return ''
+  }
+
+  const t =
+      textarea.value === true || autogrow.value === true
+        ? '$ | Filled\nfilled\n@ #'
+        : '$ | Filled filled @ #',
+    empty = typeof textFill.value !== 'string' || textFill.value.length === 0
+
+  if (empty === true) {
+    return t.split('\n')[0]
+  } else if (t.indexOf(textFill.value) !== 0) {
+    return ''
+  }
+
+  return t.split(textFill.value).slice(1).join(textFill.value).split('\n')[0]
+})
+
+function onBlur(e) {
+  console.log('@blur', e)
+}
+function onFocus(e) {
+  console.log('@focus', e)
+}
+function onInput(val) {
+  console.log('@update:model-value', JSON.stringify(val))
+}
+function onChange(val) {
+  console.log('@change', JSON.stringify(val))
+}
+function log(what) {
+  console.log('LOG:', what)
+}
+
+function onTextFillEvent(e) {
+  if (e === void 0) {
+    return
+  }
+
+  if (e.keyCode === 27) {
+    if (textFillCancelled.value !== true) {
+      textFillCancelled.value = true
     }
-  },
-  watch: {
-    prefSuf(v) {
-      if (v) {
-        this.prefix = '$'
-        this.suffix = 'TSP'
-      } else {
-        this.prefix = this.suffix = null
-      }
+  } else if (e.keyCode === 9) {
+    if (textFillCancelled.value !== true && textFillValue.value.length !== 0) {
+      stopAndPrevent(e)
+      textFill.value += textFillValue.value
     }
-  },
-  computed: {
-    type() {
-      return 'text' + (this.textarea ? 'area' : '')
-    },
-
-    props() {
-      const props = {
-        hideBottomSpace: this.hideBottomSpace,
-        dark: this.dark,
-        type: this.type,
-        autogrow: this.autogrow,
-        hideHint: this.hideHint,
-        disable: this.disable,
-        readonly: this.readonly,
-        prefix: this.prefix,
-        suffix: this.suffix,
-        placeholder: this.placeholder === true ? 'Placeholder text' : null,
-        dense: this.dense,
-        clearable: true,
-        square: this.square,
-        style: { fontSize: `${this.fontSize}px` }
-      }
-
-      if (this.rows !== '') {
-        props.rows = this.rows
-      }
-
-      return props
-    },
-
-    length() {
-      return this.text.length
-    },
-
-    textFillValue() {
-      if (this.textFillCancelled === true) {
-        return ''
-      }
-
-      const t =
-          this.textarea === true || this.autogrow === true
-            ? '$ | Filled\nfilled\n@ #'
-            : '$ | Filled filled @ #',
-        empty = typeof this.textFill !== 'string' || this.textFill.length === 0
-
-      if (empty === true) {
-        return t.split('\n')[0]
-      } else if (t.indexOf(this.textFill) !== 0) {
-        return ''
-      }
-
-      return t.split(this.textFill).slice(1).join(this.textFill).split('\n')[0]
-    }
-  },
-  methods: {
-    onBlur(e) {
-      console.log('@blur', e)
-    },
-    onFocus(e) {
-      console.log('@focus', e)
-    },
-    onInput(val) {
-      console.log('@update:model-value', JSON.stringify(val))
-    },
-    onChange(val) {
-      console.log('@change', JSON.stringify(val))
-    },
-    log(what) {
-      console.log('LOG:', what)
-    },
-
-    onTextFillEvent(e) {
-      if (e === void 0) {
-        return
-      }
-
-      if (e.keyCode === 27) {
-        if (this.textFillCancelled !== true) {
-          this.textFillCancelled = true
-        }
-      } else if (e.keyCode === 9) {
-        if (
-          this.textFillCancelled !== true &&
-          this.textFillValue.length !== 0
-        ) {
-          stopAndPrevent(e)
-          this.textFill += this.textFillValue
-        }
-      } else if (this.textFillCancelled === true) {
-        this.textFillCancelled = false
-      }
-    }
+  } else if (textFillCancelled.value === true) {
+    textFillCancelled.value = false
   }
 }
 </script>

@@ -133,8 +133,8 @@ const docStore = useDocStore()
 const logo = computed(() => {
   const opt = docStore.$q.dark.isActive ? '-dark' : ''
   return {
-    img: `https://cdn.quasar.dev/logo-v2/svg/logo${opt}.svg`,
-    text: `https://cdn.quasar.dev/logo-v2/svg/logotype${opt}.svg`
+    img: `/logo/logo${opt}.svg`,
+    text: `/logo/logotype${opt}.svg`
   }
 })
 

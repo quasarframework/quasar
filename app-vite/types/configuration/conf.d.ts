@@ -1,6 +1,7 @@
 import type { DeepNonNullable, DeepRequired } from "ts-essentials";
 import type { Options as OpenOptions } from "open";
 import type { ServerOptions as ViteServerOptions } from "vite";
+import type { VitePluginVueDevToolsOptions } from "vite-plugin-vue-devtools";
 
 import type {
   QuasarAnimations,
@@ -16,14 +17,32 @@ import type { QuasarElectronConfiguration } from "./electron-conf.d.ts";
 import type { QuasarFrameworkConfiguration } from "./framework-conf.d.ts";
 import type { QuasarPwaConfiguration } from "./pwa-conf.d.ts";
 import type { QuasarSsrConfiguration } from "./ssr-conf.d.ts";
+import type { QuasarSsgConfiguration } from "./ssg-conf.d.ts";
 import type { QuasarMobileConfiguration } from "./mobile-conf.d.ts";
 import type { QuasarBexConfiguration } from "./bex-conf.d.ts";
 
 import type { QuasarContext } from "./context.d.ts";
 
 type DevServerOptions = Omit<ViteServerOptions, "open" | "https"> & {
-  open?: Omit<OpenOptions, "wait"> | boolean;
   https?: ViteServerOptions["https"] | boolean;
+
+  /**
+   * Automatically open the browser window when the dev server starts.
+   * If a string is provided, it will be used as the URL to open.
+   * If an object is provided, it will be passed to the `open` package.
+   *
+   * @default false
+   */
+  open?: Omit<OpenOptions, "wait"> | boolean;
+
+  /**
+   * Automatically open remote Vue DevTools in development mode.
+   * Overrides the `--devtools` param in the `quasar dev` command
+   * when explicitly specified.
+   *
+   * @default false
+   */
+  vueDevtools?: boolean | VitePluginVueDevToolsOptions;
 };
 
 /**
@@ -93,11 +112,11 @@ interface BaseQuasarConfiguration {
    */
   animations?: "all" | QuasarAnimations[];
   /**
-   * Vite server [options](https://vitejs.dev/config/#server-options).
+   * Vite server [options](https://vite.dev/config/server-options).
    * Some properties are overwritten based on the Quasar mode you're using in order
    * to ensure a correct config.
-   * Note: if you're proxying the development server (i.e. using a cloud IDE),
-   * set the `public` setting to your public application URL.
+   * If a reverse proxy or cloud IDE changes the public origin, configure
+   * `origin` and the HMR WebSocket options for the externally visible URL.
    *
    * @type options {@link DevServerOptions}
    */
@@ -118,6 +137,13 @@ export interface QuasarHookParams {
   quasarConf: QuasarConf;
 }
 
+export interface QuasarPublishParams extends QuasarHookParams {
+  /** Argument supplied to the `--publish`/`-P` parameter. */
+  arg: string;
+  /** Folder where the distributables were built. */
+  distDir: string;
+}
+
 export interface QuasarConf
   extends BaseQuasarConfiguration, QuasarMobileConfiguration {
   /**
@@ -130,6 +156,11 @@ export interface QuasarConf
    * @type options {@link QuasarSsrConfiguration}
    */
   ssr?: QuasarSsrConfiguration;
+  /**
+   * SSG specific [config](https://v2.quasar.dev/quasar-cli-vite/developing-ssg/configuring-ssg).
+   * @type options {@link QuasarSsgConfiguration}
+   */
+  ssg?: QuasarSsgConfiguration;
   /**
    * Capacitor specific [config](https://v2.quasar.dev/quasar-cli-vite/developing-capacitor-apps/configuring-capacitor).
    * @type options {@link QuasarCapacitorConfiguration}
@@ -155,7 +186,6 @@ export interface QuasarConf
 interface QuasarMetaConf {
   debugging: boolean;
   needsAppMountHook: boolean;
-  vueDevtools: boolean | Record<string, any>;
   versions: {
     capacitor?: number;
     capacitorPluginApp?: number | true;

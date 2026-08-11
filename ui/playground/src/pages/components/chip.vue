@@ -570,41 +570,34 @@
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      selected1: false,
-      selected2: false,
-      selected3: false,
-      selected4: false,
-      selected5: false,
+<script setup>
+import { computed, ref } from 'vue'
 
-      close1: true,
-      close2: true,
-      close3: true,
-      close4: true,
-      close5: true,
+const selected1 = ref(false)
+const selected2 = ref(false)
+const selected3 = ref(false)
+const selected4 = ref(false)
+const selected5 = ref(false)
 
-      size: void 0
-    }
-  },
-  computed: {
-    chipProps() {
-      return {
-        size: this.size ? this.size + 'px' : void 0
-      }
-    }
-  },
-  methods: {
-    resetRemovable() {
-      for (let i = 1; i <= 5; i++) {
-        this['close' + i] = true
-      }
-    },
-    clickable() {
-      console.log('@click')
-    }
+const close1 = ref(true)
+const close2 = ref(true)
+const close3 = ref(true)
+const close4 = ref(true)
+const close5 = ref(true)
+
+const size = ref(void 0)
+
+const chipProps = computed(() => ({
+  size: size.value ? size.value + 'px' : void 0
+}))
+
+function resetRemovable() {
+  for (const close of [close1, close2, close3, close4, close5]) {
+    close.value = true
   }
+}
+
+function clickable() {
+  console.log('@click')
 }
 </script>

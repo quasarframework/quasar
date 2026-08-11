@@ -1,5 +1,6 @@
 import { Notify } from 'quasar'
-import { slugify } from '../../build/utils.js'
+
+export { slugify } from '../../build/utils.js'
 
 export function copyToClipboard(text) {
   const textArea = document.createElement('textarea')
@@ -42,5 +43,3 @@ export function copyHeading(id) {
     timeout: 2000
   })
 }
-
-export { slugify }

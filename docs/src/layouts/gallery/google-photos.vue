@@ -274,54 +274,40 @@
   </q-layout>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  name: 'GooglePhotosLayout',
+const leftDrawerOpen = ref(false)
+const search = ref('')
+const storage = ref(0.26)
 
-  setup() {
-    const leftDrawerOpen = ref(false)
-    const search = ref('')
-    const storage = ref(0.26)
+const links1 = [
+  { icon: 'photo', text: 'Photos' },
+  { icon: 'photo_album', text: 'Albums' },
+  { icon: 'assistant', text: 'Assistant' },
+  { icon: 'people', text: 'Sharing' },
+  { icon: 'book', text: 'Photo books' }
+]
+const links2 = [
+  { icon: 'archive', text: 'Archive' },
+  { icon: 'delete', text: 'Trash' }
+]
+const links3 = [
+  { icon: 'settings', text: 'Settings' },
+  { icon: 'help', text: 'Help & Feedback' },
+  { icon: 'get_app', text: 'App Downloads' }
+]
+const createMenu = [
+  { icon: 'photo_album', text: 'Album' },
+  { icon: 'people', text: 'Shared Album' },
+  { icon: 'movie', text: 'Movie' },
+  { icon: 'library_books', text: 'Animation' },
+  { icon: 'dashboard', text: 'Collage' },
+  { icon: 'book', text: 'Photo book' }
+]
 
-    function toggleLeftDrawer() {
-      leftDrawerOpen.value = !leftDrawerOpen.value
-    }
-
-    return {
-      leftDrawerOpen,
-      search,
-      storage,
-
-      links1: [
-        { icon: 'photo', text: 'Photos' },
-        { icon: 'photo_album', text: 'Albums' },
-        { icon: 'assistant', text: 'Assistant' },
-        { icon: 'people', text: 'Sharing' },
-        { icon: 'book', text: 'Photo books' }
-      ],
-      links2: [
-        { icon: 'archive', text: 'Archive' },
-        { icon: 'delete', text: 'Trash' }
-      ],
-      links3: [
-        { icon: 'settings', text: 'Settings' },
-        { icon: 'help', text: 'Help & Feedback' },
-        { icon: 'get_app', text: 'App Downloads' }
-      ],
-      createMenu: [
-        { icon: 'photo_album', text: 'Album' },
-        { icon: 'people', text: 'Shared Album' },
-        { icon: 'movie', text: 'Movie' },
-        { icon: 'library_books', text: 'Animation' },
-        { icon: 'dashboard', text: 'Collage' },
-        { icon: 'book', text: 'Photo book' }
-      ],
-
-      toggleLeftDrawer
-    }
-  }
+function toggleLeftDrawer() {
+  leftDrawerOpen.value = !leftDrawerOpen.value
 }
 </script>
 

@@ -1,6 +1,6 @@
 {
   "name": "create-quasar",
-  "version": "4.0.3",
+  "version": "5.0.12",
   "description": "Scaffolds Quasar Apps & App Extensions",
   "homepage": "https://quasar.dev",
   "bugs": "https://github.com/quasarframework/quasar/issues",
@@ -21,20 +21,34 @@
   "bin": {
     "create-quasar": "bin/create-quasar.js"
   },
+  "files": [
+    "bin",
+    "lib",
+    "templates"
+  ],
   "type": "module",
   "main": "bin/create-quasar.js",
   "scripts": {
-    "test": "node bin/create-quasar.js"
+    "test": "pnpm test:unit && pnpm test:e2e",
+    "test:unit": "vitest run",
+    "test:e2e": "pnpm test:e2e:app && pnpm test:e2e:ae",
+    "test:e2e:app": "vitest run --config ./vitest-e2e.config.js test/e2e/app",
+    "test:e2e:ae": "vitest run --config ./vitest-e2e.config.js test/e2e/ae",
+    "prepublishOnly": "pnpm test:unit && E2E_INSTALL=pnpm E2E_SCRIPT=js E2E_LINTER=oxlint pnpm test:e2e:app && E2E_SCRIPT=js E2E_LINT=true pnpm test:e2e:ae"
   },
   "dependencies": {
-    "@clack/prompts": "^1.5.0",
+    "@clack/prompts": "^1.7.0",
     "@quasar/art": "workspace:^",
+    "@quasar/update-notifier": "workspace:^",
     "ci-info": "^4.4.0",
     "cross-spawn": "^7.0.6",
-    "fs-extra": "^11.3.5",
+    "fs-extra": "^11.4.0",
     "kolorist": "^1.8.0",
-    "tinyglobby": "^0.2.17",
-    "update-notifier": "^7.3.1"
+    "tinyglobby": "^0.2.17"
+  },
+  "devDependencies": {
+    "verdaccio": "^6.9.2",
+    "vitest": "^4.1.10"
   },
   "engines": {
     "node": ">=20"

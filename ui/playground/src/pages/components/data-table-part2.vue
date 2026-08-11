@@ -76,8 +76,7 @@
       :loading="loading"
       row-key="name"
       color="primary"
-      no-top
-      no-bottom
+      hide-bottom
     />
 
     <h4>Custom top</h4>
@@ -401,10 +400,11 @@
   </div>
 </template>
 
-<script>
-import { extend } from 'quasar'
+<script setup>
+import { extend, useQuasar } from 'quasar'
+import { onMounted, ref } from 'vue'
 
-const data = [
+const rawData = [
   {
     name: 'Frozen Yogurt',
     calories: 159,
@@ -507,145 +507,147 @@ const data = [
   }
 ]
 
-export default {
-  data() {
-    return {
-      dense: false,
-      filter: '',
-      filterDyn: '',
-      serverPagination: {
-        page: 1,
-        rowsNumber: 10
-      },
-      serverData: [],
-      loading: false,
-      loadingDyn: false,
-      visibleColumns: [
-        'desc',
-        'fat',
-        'carbs',
-        'protein',
-        'sodium',
-        'calcium',
-        'iron'
-      ],
-      selected: [],
+const $q = useQuasar()
 
-      columns: [
-        {
-          name: 'desc',
-          required: true,
-          label: 'Dessert (100g serving)',
-          align: 'left',
-          field: 'name',
-          sortable: true
-        },
-        {
-          name: 'calories',
-          label: 'Calories',
-          field: 'calories',
-          sortable: true
-        },
-        { name: 'fat', label: 'Fat (g)', field: 'fat', sortable: true },
-        { name: 'carbs', label: 'Carbs (g)', field: 'carbs' },
-        { name: 'protein', label: 'Protein (g)', field: 'protein' },
-        { name: 'sodium', label: 'Sodium (mg)', field: 'sodium' },
-        {
-          name: 'calcium',
-          label: 'Calcium (%)',
-          field: 'calcium',
-          sortable: true,
-          sort: (a, b) => Number.parseInt(a, 10) - Number.parseInt(b, 10)
-        },
-        {
-          name: 'iron',
-          label: 'Iron (%)',
-          field: 'iron',
-          sortable: true,
-          sort: (a, b) => Number.parseInt(a, 10) - Number.parseInt(b, 10)
-        }
-      ],
-      data: [...data],
-      dataDyn: [...data]
-    }
-  },
-  methods: {
-    getRowKey(row) {
-      return row.name
-    },
+const dense = ref(false)
+const filter = ref('')
+const filterDyn = ref('')
+const serverPagination = ref({
+  page: 1,
+  rowsNumber: 10
+})
+const serverData = ref([])
+const loading = ref(false)
+const loadingDyn = ref(false)
+const visibleColumns = ref([
+  'desc',
+  'fat',
+  'carbs',
+  'protein',
+  'sodium',
+  'calcium',
+  'iron'
+])
+const selected = ref([])
 
-    request(props) {
-      // this.loading = true
-      // console.log('REQUEST', props)
-      // setTimeout(() => {
-      //   this.serverPagination = props.pagination
-      //   const
-      //     table = this.$refs.server,
-      //     { page, rowsPerPage, sortBy, descending } = props.pagination
-      //   let rows = this.data.slice()
-      //   if (props.filter) {
-      //     console.log('filter hit')
-      //     rows = table.computedFilterMethod(rows, props.filter)
-      //   }
-      //   if (sortBy) {
-      //     rows = table.computedSortMethod(rows, sortBy, descending)
-      //   }
-      //   this.serverPagination.rowsNumber = rows.length
-      //   if (rowsPerPage) {
-      //     rows = rows.slice((page - 1) * rowsPerPage, page * rowsPerPage)
-      //   }
-      //   this.serverData = rows
-      //   this.loading = false
-      // }, 1500)
-    },
-    moveRowUp(name) {
-      const rowIndex = this.data.findIndex(t => t.name === name)
-      if (rowIndex !== -1 && rowIndex > 0) {
-        this.data.splice(rowIndex - 1, 0, this.data.splice(rowIndex, 1)[0])
-      }
-    },
-    moveRowDown(name) {
-      const rowIndex = this.data.findIndex(t => t.name === name)
-      if (rowIndex !== -1 && rowIndex < this.data.length - 1) {
-        this.data.splice(rowIndex + 1, 0, this.data.splice(rowIndex, 1)[0])
-      }
-    },
-    addRow() {
-      this.loadingDyn = true
-      setTimeout(() => {
-        const addPoint = Math.floor(Math.random() * (this.dataDyn.length + 1)),
-          row = data[Math.floor(Math.random() * data.length)]
-        if (!row.__count) {
-          row.__count = 0
-        }
-        row.__count += 1
-        const addRow = extend({}, row, { name: `${row.name} (${row.__count})` })
-        this.dataDyn = [
-          ...this.dataDyn.slice(0, addPoint),
-          addRow,
-          ...this.dataDyn.slice(addPoint)
-        ]
-        this.loadingDyn = false
-      }, 500)
-    },
-    removeRow() {
-      this.loadingDyn = true
-      setTimeout(() => {
-        const removePoint = Math.floor(Math.random() * this.dataDyn.length)
-        this.dataDyn = [
-          ...this.dataDyn.slice(0, removePoint),
-          ...this.dataDyn.slice(removePoint + 1)
-        ]
-        this.loadingDyn = false
-      }, 500)
-    }
+const columns = ref([
+  {
+    name: 'desc',
+    required: true,
+    label: 'Dessert (100g serving)',
+    align: 'left',
+    field: 'name',
+    sortable: true
   },
-  mounted() {
-    const table = this.$refs.server
-    this.request({
-      pagination: table.computedPagination,
-      filter: this.filter
-    })
+  {
+    name: 'calories',
+    label: 'Calories',
+    field: 'calories',
+    sortable: true
+  },
+  { name: 'fat', label: 'Fat (g)', field: 'fat', sortable: true },
+  { name: 'carbs', label: 'Carbs (g)', field: 'carbs' },
+  { name: 'protein', label: 'Protein (g)', field: 'protein' },
+  { name: 'sodium', label: 'Sodium (mg)', field: 'sodium' },
+  {
+    name: 'calcium',
+    label: 'Calcium (%)',
+    field: 'calcium',
+    sortable: true,
+    sort: (a, b) => Number.parseInt(a, 10) - Number.parseInt(b, 10)
+  },
+  {
+    name: 'iron',
+    label: 'Iron (%)',
+    field: 'iron',
+    sortable: true,
+    sort: (a, b) => Number.parseInt(a, 10) - Number.parseInt(b, 10)
+  }
+])
+const data = ref([...rawData])
+const dataDyn = ref([...rawData])
+
+const server = ref(null)
+
+function getRowKey(row) {
+  return row.name
+}
+
+function request(props) {
+  // loading.value = true
+  // console.log('REQUEST', props)
+  // setTimeout(() => {
+  //   serverPagination.value = props.pagination
+  //   const
+  //     table = server.value,
+  //     { page, rowsPerPage, sortBy, descending } = props.pagination
+  //   let rows = data.value.slice()
+  //   if (props.filter) {
+  //     console.log('filter hit')
+  //     rows = table.computedFilterMethod(rows, props.filter)
+  //   }
+  //   if (sortBy) {
+  //     rows = table.computedSortMethod(rows, sortBy, descending)
+  //   }
+  //   serverPagination.value.rowsNumber = rows.length
+  //   if (rowsPerPage) {
+  //     rows = rows.slice((page - 1) * rowsPerPage, page * rowsPerPage)
+  //   }
+  //   serverData.value = rows
+  //   loading.value = false
+  // }, 1500)
+}
+
+function moveRowUp(name) {
+  const rowIndex = data.value.findIndex(t => t.name === name)
+  if (rowIndex !== -1 && rowIndex > 0) {
+    data.value.splice(rowIndex - 1, 0, data.value.splice(rowIndex, 1)[0])
   }
 }
+
+function moveRowDown(name) {
+  const rowIndex = data.value.findIndex(t => t.name === name)
+  if (rowIndex !== -1 && rowIndex < data.value.length - 1) {
+    data.value.splice(rowIndex + 1, 0, data.value.splice(rowIndex, 1)[0])
+  }
+}
+
+function addRow() {
+  loadingDyn.value = true
+  setTimeout(() => {
+    const addPoint = Math.floor(Math.random() * (dataDyn.value.length + 1)),
+      row = rawData[Math.floor(Math.random() * rawData.length)]
+    if (!row.__count) {
+      row.__count = 0
+    }
+    row.__count += 1
+    const newRow = extend({}, row, { name: `${row.name} (${row.__count})` })
+    dataDyn.value = [
+      ...dataDyn.value.slice(0, addPoint),
+      newRow,
+      ...dataDyn.value.slice(addPoint)
+    ]
+    loadingDyn.value = false
+  }, 500)
+}
+
+function removeRow() {
+  loadingDyn.value = true
+  setTimeout(() => {
+    const removePoint = Math.floor(Math.random() * dataDyn.value.length)
+    dataDyn.value = [
+      ...dataDyn.value.slice(0, removePoint),
+      ...dataDyn.value.slice(removePoint + 1)
+    ]
+    loadingDyn.value = false
+  }, 500)
+}
+
+onMounted(() => {
+  const table = server.value
+  request({
+    pagination: table.computedPagination,
+    filter: filter.value
+  })
+})
 </script>

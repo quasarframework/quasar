@@ -1,0 +1,89 @@
+name: vite-plugin tests
+
+on:
+  workflow_dispatch:
+  # the release-tests workflow reruns this suite at the released tag
+  workflow_call:
+  # direct pushes are the norm in this repo — they get the same
+  # path-scoped coverage as PRs (rapid push trains collapse through the
+  # per-ref concurrency group)
+  push:
+    branches:
+      - 'dev'
+    paths:
+      - '.github/workflows/vite-plugin-tests.yml'
+      - 'vite-plugin/**'
+      # root dependency changes affect every package
+      - 'package.json'
+      - 'pnpm-lock.yaml'
+      - 'pnpm-workspace.yaml'
+  pull_request:
+    types: [opened, synchronize]
+    branches:
+      - 'dev'
+    paths:
+      - '.github/workflows/vite-plugin-tests.yml'
+      - 'vite-plugin/**'
+      # root dependency changes affect every package
+      - 'package.json'
+      - 'pnpm-lock.yaml'
+      - 'pnpm-workspace.yaml'
+
+# literal prefix instead of github.workflow: when called from another
+# workflow, github.workflow resolves to the CALLER's name, which would
+# collide with the other suites called from the same run
+concurrency:
+  group: vite-plugin-tests-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  tests:
+    permissions:
+      contents: read # to fetch code (actions/checkout)
+
+    runs-on: ubuntu-latest
+
+    name: Tests for @quasar/vite-plugin
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v5
+
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm i
+
+      # exact input-hash key on purpose (NO restore-keys): a stale dist
+      # must never be served — either the inputs are identical or we build
+      - name: Restore UI build cache
+        id: ui-build-cache
+        uses: actions/cache@v5
+        with:
+          path: ui/dist
+          key: ui-dist-${{ runner.os }}-${{ hashFiles('ui/src/**', 'ui/lang/**', 'ui/icon-set/**', 'ui/build/**', 'ui/package.json', 'pnpm-lock.yaml') }}
+
+      - name: Build the UI package
+        if: steps.ui-build-cache.outputs.cache-hit != 'true'
+        run: pnpm build
+
+      # Playwright validates browser revisions by directory, so restoring
+      # a stale cache just triggers a fresh download of the right one
+      - name: Setup Playwright browser cache
+        uses: actions/cache@v5
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
+          restore-keys: playwright-${{ runner.os }}-
+
+      - name: Install Playwright browser
+        run: pnpm --filter @quasar/vite-plugin exec playwright install --with-deps chromium
+
+      - name: Run tests
+        run: pnpm --filter @quasar/vite-plugin test

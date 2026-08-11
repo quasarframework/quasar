@@ -193,17 +193,15 @@
           stripe
           color="warning"
         />
+        <div>Reverse:</div>
+        <q-linear-progress
+          :dark="dark"
+          class="q-my-sm"
+          :value="progress"
+          stripe
+          reverse
+        />
       </div>
-
-      <h5>Stripe and Animate</h5>
-      <q-linear-progress
-        :dark="dark"
-        class="q-my-sm"
-        :value="progress"
-        stripe
-        animate
-        color="secondary"
-      />
 
       <h5>Buffering</h5>
       <div class="group">
@@ -228,7 +226,6 @@
           class="q-my-sm"
           :value="progressBuffer"
           stripe
-          animate
           color="secondary"
           :buffer="buffer"
         />
@@ -253,7 +250,6 @@
           class="q-my-sm"
           :value="progressBuffer"
           stripe
-          animate
           color="secondary"
           :buffer="buffer"
           fill-color="yellow"
@@ -286,7 +282,6 @@
           class="q-my-sm"
           :value="progressBuffer"
           stripe
-          animate
           color="secondary"
           :buffer="buffer"
         />
@@ -314,7 +309,6 @@
           class="q-my-sm"
           :value="progressBuffer"
           stripe
-          animate
           color="secondary"
           :buffer="buffer"
           fill-color="yellow"
@@ -349,6 +343,14 @@
           indeterminate
           color="dark"
         />
+        <div>Reverse:</div>
+        <q-linear-progress
+          :dark="dark"
+          class="q-my-sm"
+          indeterminate
+          color="positive"
+          reverse
+        />
       </div>
 
       <h5>Query State</h5>
@@ -368,6 +370,14 @@
           color="negative"
         />
         <q-linear-progress :dark="dark" class="q-my-sm" query color="dark" />
+        <div>Reverse:</div>
+        <q-linear-progress
+          :dark="dark"
+          class="q-my-sm"
+          query
+          color="positive"
+          reverse
+        />
       </div>
 
       <h5>Specific Height</h5>
@@ -377,7 +387,6 @@
           class="q-my-sm"
           :value="progress"
           stripe
-          animate
           size="45px"
         />
       </div>
@@ -403,24 +412,19 @@
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      dark: null,
-      progress: 0.67,
-      progressBuffer: 0.41,
-      buffer: 0.67
-    }
-  },
-  methods: {
-    randomize() {
-      this.progress = Math.random()
-    },
-    randomizeBuffer() {
-      this.progressBuffer = Math.random() * 0.51
-      this.buffer = this.progressBuffer + Math.random() * 0.47
-    }
-  }
+<script setup>
+import { ref } from 'vue'
+
+const dark = ref(null)
+const progress = ref(0.67)
+const progressBuffer = ref(0.41)
+const buffer = ref(0.67)
+
+function randomize() {
+  progress.value = Math.random()
+}
+function randomizeBuffer() {
+  progressBuffer.value = Math.random() * 0.51
+  buffer.value = progressBuffer.value + Math.random() * 0.47
 }
 </script>

@@ -1,6 +1,12 @@
 <template>
   <div class="q-pa-md">
-    <q-stepper v-model="step" ref="stepper" color="primary" header-nav animated>
+    <q-stepper
+      v-model="step"
+      ref="stepperRef"
+      color="primary"
+      header-nav
+      animated
+    >
       <q-step
         :name="1"
         title="Select campaign settings"
@@ -36,7 +42,7 @@
       <template v-slot:navigation>
         <q-stepper-navigation>
           <q-btn
-            @click="$refs.stepper.next()"
+            @click="$refs.stepperRef.next()"
             color="primary"
             :label="step === 3 ? 'Finish' : 'Continue'"
           />
@@ -44,7 +50,7 @@
             v-if="step > 1"
             flat
             color="primary"
-            @click="$refs.stepper.previous()"
+            @click="$refs.stepperRef.previous()"
             label="Back"
             class="q-ml-sm"
           />
@@ -54,14 +60,8 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    return {
-      step: ref(2)
-    }
-  }
-}
+const step = ref(2)
 </script>

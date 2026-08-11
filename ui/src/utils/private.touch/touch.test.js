@@ -1,12 +1,13 @@
 import { describe, expect, test } from 'vitest'
 import { mount } from '@vue/test-utils'
+import { h } from 'vue'
 
 import { getModifierDirections, shouldStart } from './touch.js'
 
 async function createEvent(nodeName) {
   let evt
   const wrapper = mount(
-    { template: `<${nodeName} />` },
+    { render: () => h(nodeName) },
     {
       props: {
         onClick: localEvt => {

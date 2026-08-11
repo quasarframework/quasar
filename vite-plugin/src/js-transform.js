@@ -1,5 +1,6 @@
 import { readFileSync } from 'node:fs'
 import { join } from 'node:path'
+import { parseAst } from 'vite'
 
 import { quasarPath } from './quasar-path.js'
 
@@ -16,7 +17,89 @@ export function loadQuasarImportMap() {
   }
 }
 
-const importQuasarRegex = /import\s*\{([\w,\s]+)\}\s*from\s*(['"])quasar\2;?/g
+const importQuasarRegex = /import\s*\{([^}]*)\}\s*from\s*(['"])quasar\2;?/g
+const stripCommentsRegex = /\/\*[\s\S]*?\*\/|\/\/.*/g
+
+/**
+ * Textual pre-filter for imports (or exports) from the "quasar" package
+ * that survived the transformations — static, re-export or dynamic form.
+ * Can false-positive on string content (e.g. documentation snippets),
+ * so a match must be confirmed by hasResidualQuasarImports().
+ */
+export const residualQuasarImportRegex =
+  /from\s*(['"])quasar\1|import\s*\(\s*(['"])quasar\2\s*\)/
+
+const dynamicResidualRegex = /import\s*\(\s*(['"])quasar\1\s*\)/
+
+const staticQuasarImportNodeTypes = new Set([
+  'ImportDeclaration',
+  'ExportNamedDeclaration',
+  'ExportAllDeclaration'
+])
+
+function containsQuasarDynamicImport(node) {
+  if (Array.isArray(node)) {
+    return node.some(containsQuasarDynamicImport)
+  }
+  if (node === null || typeof node !== 'object') {
+    return false
+  }
+
+  if (
+    node.type === 'ImportExpression' &&
+    node.source?.type === 'Literal' &&
+    node.source.value === 'quasar'
+  ) {
+    return true
+  }
+
+  for (const key in node) {
+    if (key === 'type' || key === 'start' || key === 'end') continue
+    if (containsQuasarDynamicImport(node[key])) return true
+  }
+
+  return false
+}
+
+/**
+ * Exact detection of an import (or export) from the "quasar" package
+ * that survived the transformations; in a production build it resolves
+ * to the full Quasar bundle, which silently bloats the app since the
+ * bundle is not imported through per-file paths anymore.
+ * The AST parse only runs when the cheap textual pre-filter matches,
+ * and weeds out its false positives (import statements appearing within
+ * string content, like documentation code snippets).
+ */
+export function hasResidualQuasarImports(code) {
+  if (!residualQuasarImportRegex.test(code)) {
+    return false
+  }
+
+  let ast
+  try {
+    ast = parseAst(code)
+  } catch {
+    // unparsable code; trust the textual match
+    return true
+  }
+
+  // static imports and re-exports are always top-level
+  for (const node of ast.body) {
+    if (
+      staticQuasarImportNodeTypes.has(node.type) &&
+      node.source?.value === 'quasar'
+    ) {
+      return true
+    }
+  }
+
+  // dynamic import("quasar") can appear anywhere, but the full AST
+  // walk is only worth it when its textual form is present at all
+  return (
+    dynamicResidualRegex.test(code) &&
+    containsQuasarDynamicImport(ast.body) === true
+  )
+}
 
 export function importTransformation(importName) {
   const file = quasarImportMap[importName]
@@ -26,33 +109,51 @@ export function importTransformation(importName) {
   return 'quasar/' + file
 }
 
+function countNewlines(str) {
+  let acc = 0
+  let index = -1
+
+  while ((index = str.indexOf('\n', index + 1)) !== -1) {
+    acc++
+  }
+
+  return acc
+}
+
 /**
  * Transforms JS code where importing from 'quasar' package
  * Example:
  *       import { QBtn } from 'quasar'
  *    -> import QBtn from 'quasar/src/components/QBtn.js'
+ *
+ * The replacement spans the same number of lines as the original
+ * statement, so positions in the rest of the file remain valid
+ * without requiring a source map.
  */
 export function mapQuasarImports(code, importMap = {}) {
-  return code.replace(importQuasarRegex, (_, match) =>
-    match
-      .split(',')
-      .map(identifier => {
-        const data = identifier.split(' as ')
-        const importName = data[0].trim()
+  return code.replace(
+    importQuasarRegex,
+    (fullMatch, match) =>
+      match
+        .replace(stripCommentsRegex, '')
+        .split(',')
+        .map(identifier => {
+          const data = identifier.split(' as ')
+          const importName = data[0].trim()
 
-        // might be an empty entry like below
-        // (notice useQuasar is followed by a comma)
-        // import { QTable, useQuasar, } from 'quasar'
-        if (importName === '') {
-          return ''
-        }
+          // might be an empty entry like below
+          // (notice useQuasar is followed by a comma)
+          // import { QTable, useQuasar, } from 'quasar'
+          if (importName === '') {
+            return ''
+          }
 
-        const importAs = data[1] !== void 0 ? data[1].trim() : importName
+          const importAs = data[1] !== void 0 ? data[1].trim() : importName
 
-        importMap[importName] = importAs
-        return `import ${importAs} from '${importTransformation(importName)}';`
-      })
-      .join('')
+          importMap[importName] = importAs
+          return `import ${importAs} from '${importTransformation(importName)}';`
+        })
+        .join('') + '\n'.repeat(countNewlines(fullMatch))
   )
 }
 
@@ -63,29 +164,35 @@ export function mapQuasarImports(code, importMap = {}) {
  *    -> add to importMap & importList & remove original import statement
  *    (removing original is required so that the end file will have
  *     only one import from Quasar statement)
+ *
+ * The removal keeps the original statement's newlines in place, so
+ * positions in the rest of the file remain valid without a source map.
  */
 export function removeQuasarImports(code, importMap, importSet, reverseMap) {
-  return code.replace(importQuasarRegex, (_, match) => {
-    match.split(',').forEach(identifier => {
-      const data = identifier.split(' as ')
-      const importName = data[0].trim()
+  return code.replace(importQuasarRegex, (fullMatch, match) => {
+    match
+      .replace(stripCommentsRegex, '')
+      .split(',')
+      .forEach(identifier => {
+        const data = identifier.split(' as ')
+        const importName = data[0].trim()
 
-      // might be an empty entry like below
-      // (notice useQuasar is followed by a comma)
-      // import { QTable, useQuasar, } from 'quasar'
-      if (importName !== '') {
-        const importAs = data[1] !== void 0 ? data[1].trim() : importName
+        // might be an empty entry like below
+        // (notice useQuasar is followed by a comma)
+        // import { QTable, useQuasar, } from 'quasar'
+        if (importName !== '') {
+          const importAs = data[1] !== void 0 ? data[1].trim() : importName
 
-        importSet.add(
-          importName + (importAs !== importName ? ` as ${importAs}` : '')
-        )
-        importMap[importName] = importAs
-        reverseMap[importName.replaceAll('-', '_')] = importAs
-      }
-    })
+          importSet.add(
+            importName + (importAs !== importName ? ` as ${importAs}` : '')
+          )
+          importMap[importName] = importAs
+          reverseMap[importName.replaceAll('-', '_')] = importAs
+        }
+      })
 
     // we registered the original import and we
     // remove this one to avoid duplicate imports from Quasar
-    return ''
+    return '\n'.repeat(countNewlines(fullMatch))
   })
 }

@@ -73,7 +73,11 @@ function getChanges(evt, ctx, isFinal) {
 
   let synthetic = false
 
-  if (dir === void 0 && !isFinal) {
+  if (
+    dir === void 0 &&
+    /* can also be undefined */
+    isFinal === false
+  ) {
     if (ctx.event.isFirst || ctx.event.lastDir === void 0) {
       return {}
     }
@@ -125,7 +129,7 @@ function removeChildrenNoPointerEvents() {
 
 let uid = 0
 
-export default createDirective(
+export default /*#__PURE__*/ createDirective(
   __QUASAR_SSR_SERVER__
     ? { name: 'touch-pan', getSSRProps }
     : {
@@ -280,13 +284,19 @@ export default createDirective(
                   document.body.classList.remove('non-selectable')
 
                   if (isMouseEvt) {
+                    // The class must NOT be kept around after the gesture ended
+                    // (#18496): while it's set, nothing in the page can be
+                    // hit-tested, so a mousedown that follows shortly after
+                    // resolves to the document element instead of the element
+                    // the user actually pressed on. The "click" that the browser
+                    // emits after the gesture (#6597) is still swallowed, as its
+                    // target was already computed out of the mousedown/mouseup
+                    // targets, the latter one being hit-tested while the class
+                    // was still set.
+                    removeChildrenNoPointerEvents()
+
                     if (withDelayedFn !== void 0) {
-                      setTimeout(() => {
-                        removeChildrenNoPointerEvents()
-                        withDelayedFn()
-                      }, 50)
-                    } else {
-                      removeChildrenNoPointerEvents()
+                      setTimeout(withDelayedFn, 50)
                     }
                   } else if (withDelayedFn !== void 0) {
                     withDelayedFn()
@@ -422,7 +432,7 @@ export default createDirective(
 
           if (ctx !== void 0) {
             if (bindings.oldValue !== bindings.value) {
-              if (typeof value !== 'function') ctx.end()
+              if (typeof bindings.value !== 'function') ctx.end()
               ctx.handler = bindings.value
             }
 

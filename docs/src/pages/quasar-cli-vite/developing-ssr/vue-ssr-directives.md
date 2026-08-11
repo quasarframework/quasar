@@ -1,6 +1,6 @@
 ---
-title: Vue SSR Directives
-desc: (@quasar/app-vite) Managing the Vue directives for SSR in a Quasar app.
+title: Vue SSR/SSG Directives
+desc: (@quasar/app-vite) Managing the Vue directives for SSR/SSG in a Quasar app.
 ---
 
 ::: warning
@@ -22,7 +22,7 @@ Server-side builds require all Vue directives to also specify a getSSRProps() me
 
 The following is taken from [Vue.js docs](https://vuejs.org/guide/scaling-up/ssr.html#custom-directives):
 
-> Since most custom directives involve direct DOM manipulation, they are ignored during SSR. However, if you want to specify how a custom directive should be rendered (i.e. what attributes it should add to the rendered element), you can use the getSSRProps directive hook:
+> Since most custom directives involve direct DOM manipulation, they are ignored during SSR/SSG. However, if you want to specify how a custom directive should be rendered (i.e. what attributes it should add to the rendered element), you can use the getSSRProps directive hook:
 
 ```js
 const myDirective = {

@@ -22,20 +22,14 @@
   </div>
 </template>
 
-<script>
-export default {
-  setup() {
-    return {
-      skeletonAnimations: [
-        'wave',
-        'pulse',
-        'pulse-x',
-        'pulse-y',
-        'fade',
-        'blink',
-        'none'
-      ]
-    }
-  }
-}
+<script setup>
+const skeletonAnimations = [
+  'wave',
+  'pulse',
+  'pulse-x',
+  'pulse-y',
+  'fade',
+  'blink',
+  'none'
+]
 </script>

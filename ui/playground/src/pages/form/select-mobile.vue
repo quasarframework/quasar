@@ -9,15 +9,15 @@
       label="Example Selector"
       multiple
       clearable
-      fullscreen
+      behavior="dialog"
       @clear="onClear"
       @update:modelValue="onUpdateModelValue"
     />
   </div>
 </template>
 
-<script>
-import { defineComponent, ref, watch } from 'vue'
+<script setup>
+import { ref, watch } from 'vue'
 
 function onUpdateModelValue(val) {
   console.log(`onUpdateModelValue: ${val}`)
@@ -27,22 +27,12 @@ function onClear(val) {
   console.log(`onClear: ${val}`)
 }
 
-export default defineComponent({
-  name: 'PageIndex',
-  setup() {
-    const model = ref([])
-    const options = [1, 2, 3, 4, 5]
+defineOptions({ name: 'PageIndex' })
 
-    watch(model, val => {
-      console.log(`Model changed: ${model.value}`)
-    })
+const model = ref([])
+const options = [1, 2, 3, 4, 5]
 
-    return {
-      model,
-      options,
-      onClear,
-      onUpdateModelValue
-    }
-  }
+watch(model, val => {
+  console.log(`Model changed: ${model.value}`)
 })
 </script>

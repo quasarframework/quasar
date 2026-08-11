@@ -1,0 +1,7 @@
+{
+  "name": "quasar-app-extension-qe2e",
+  "version": "0.0.1",
+  "private": true,
+  "description": "App Extension fixture for the app-vite test suites",
+  "type": "module"
+}

@@ -21,8 +21,8 @@ const { showCliBanner } = await import('@quasar/art')
 
 const { runningPackageManager } = await import('../lib/running-pm.js')
 if (!runningPackageManager) {
-  const { default: updateNotifier } = await import('update-notifier')
-  updateNotifier({ pkg: cliPkg }).notify()
+  const { notifyUpdate } = await import('@quasar/update-notifier')
+  notifyUpdate(cliPkg)
 }
 
 showCliBanner()
@@ -45,7 +45,7 @@ function showHelp(warn) {
     $ ${createCommand} [dir] [options]
 
     # examples:
-    $ ${createCommand} my-app --template app --engine vite-3 --defaults
+    $ ${createCommand} my-app --template app --defaults
     $ ${createCommand} my-ae --template ae --preset prompts --preset oxlint --defaults
 
   Options
@@ -66,10 +66,6 @@ function showHelp(warn) {
                       --install npm
                       --install bun
 
-    --engine, -e    (ONLY for template "app") Quasar App Local CLI to use
-                      Please note that these do NOT refer to the version of
-                      Vite, but rather to the @quasar/app-vite version to use:
-                        vite-3 or vite-2
     --product       (ONLY for template "app") Product name for the app
 
     --defaults, -d  Use default values for the remaining non-specified options
@@ -115,7 +111,6 @@ async function getArgv() {
         'no-git': { type: 'boolean' },
         overwrite: { type: 'boolean', short: 'o' },
         template: { type: 'string', short: 't' },
-        engine: { type: 'string', short: 'e' },
         preset: { type: 'string', short: 'p', multiple: true },
         linter: { type: 'string', short: 'l' },
         name: { type: 'string' },
@@ -152,7 +147,7 @@ async function getArgv() {
 
   const { default: utils } = await import('../lib/utils.js')
   if (scope.defaults) {
-    if (scope.overwrite === void 0) scope.overwrite = true
+    if (scope.overwrite === void 0) scope.overwrite = false
     if (!scope.template) {
       scope.template = utils.definitions.template.default
     }
@@ -166,11 +161,6 @@ async function getArgv() {
 
   if (template) {
     if (template === 'ae') {
-      if (scope.engine) {
-        return argvError(
-          'The --engine option is not applicable for template "ae". Please remove it.'
-        )
-      }
       if (scope.product) {
         return argvError(
           'The --product option is not applicable for template "ae". Please remove it.'
@@ -220,11 +210,10 @@ async function getArgv() {
         }
       }
     } else if (template === 'app') {
-      if (scope.defaults) {
-        if (scope.install === void 0) scope.install = 'pnpm'
-        if (!scope.engine) scope.engine = utils.definitions.engine.default
+      if (scope.defaults && scope.install === void 0) {
+        scope.install = 'pnpm'
       }
-      const { engine, install } = scope
+      const { install } = scope
 
       if (install) {
         if (runningPackageManager) {
@@ -248,83 +237,54 @@ async function getArgv() {
         }
       }
 
-      if (engine) {
-        if (scope.defaults && !scope.product) {
+      if (scope.defaults) {
+        if (!scope.product) {
           scope.product = utils.definitions.product.default
         }
 
-        if (engine === 'vite-3') {
-          if (scope.defaults && !scope.preset) {
-            scope.preset = ['sass', 'oxlint']
-          }
-          const { preset } = scope
+        if (!scope.preset) {
+          scope.preset = ['sass', 'oxlint']
+        }
+      }
 
-          if (preset) {
-            const opts = [
-              'typescript',
-              'sass',
-              'oxlint',
-              'eslint',
-              'fbr',
-              'i18n',
-              'pinia'
-            ]
+      const { preset } = scope
 
-            if (preset.some(p => !opts.includes(p))) {
-              return argvError(
-                'Invalid preset specified: ' +
-                  preset.join(', ') +
-                  '. Allowed values are "typescript", "sass", "oxlint", "eslint", "fbr", "i18n", "pinia".'
-              )
-            }
+      if (preset) {
+        const opts = [
+          'typescript',
+          'sass',
+          'oxlint',
+          'eslint',
+          'fbr',
+          'i18n',
+          'pinia'
+        ]
 
-            const hasOxlint = preset.includes('oxlint')
-            const hasEslint = preset.includes('eslint')
-
-            if (hasOxlint && hasEslint) {
-              return argvError(
-                'Invalid presets specified: oxlint and eslint cannot be used together. Please choose one of them.'
-              )
-            }
-
-            if (hasOxlint) {
-              scope.preset = preset.filter(p => p !== 'oxlint')
-              scope.preset.push('linting')
-              scope.linter = 'oxlint'
-            } else if (hasEslint) {
-              scope.preset = preset.filter(p => p !== 'eslint')
-              scope.preset.push('linting')
-              scope.linter = 'eslint'
-            }
-          }
-        } else if (engine === 'vite-2') {
-          if (scope.defaults && !scope.preset) {
-            scope.preset = ['sass', 'eslint']
-          }
-          const { preset } = scope
-
-          if (preset) {
-            const opts = ['typescript', 'sass', 'eslint', 'i18n', 'pinia']
-            if (preset.some(p => !opts.includes(p))) {
-              return argvError(
-                'Invalid preset specified: ' +
-                  preset.join(', ') +
-                  '. Allowed values are "typescript", "sass", "eslint", "i18n", "pinia".'
-              )
-            }
-
-            if (preset.includes('eslint')) {
-              scope.preset = preset.filter(p => p !== 'eslint')
-              scope.preset.push('linting')
-              scope.linter = 'eslint'
-            }
-          }
-        } else {
+        if (preset.some(p => !opts.includes(p))) {
           return argvError(
-            'Invalid engine specified: ' +
-              engine +
-              '. Allowed values are "vite-3" and "vite-2".'
+            'Invalid preset specified: ' +
+              preset.join(', ') +
+              '. Allowed values are "typescript", "sass", "oxlint", "eslint", "fbr", "i18n", "pinia".'
           )
+        }
+
+        const hasOxlint = preset.includes('oxlint')
+        const hasEslint = preset.includes('eslint')
+
+        if (hasOxlint && hasEslint) {
+          return argvError(
+            'Invalid presets specified: oxlint and eslint cannot be used together. Please choose one of them.'
+          )
+        }
+
+        if (hasOxlint) {
+          scope.preset = preset.filter(p => p !== 'oxlint')
+          scope.preset.push('linting')
+          scope.linter = 'oxlint'
+        } else if (hasEslint) {
+          scope.preset = preset.filter(p => p !== 'eslint')
+          scope.preset.push('linting')
+          scope.linter = 'eslint'
         }
       }
     } else {

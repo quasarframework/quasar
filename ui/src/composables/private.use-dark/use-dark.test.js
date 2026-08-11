@@ -6,8 +6,7 @@ describe('[useDark API]', () => {
   describe('[Variables]', () => {
     describe('[(variable)useDarkProps]', () => {
       test('is defined correctly', () => {
-        expect(useDarkProps).toBeTypeOf('object')
-        expect(Object.keys(useDarkProps)).not.toHaveLength(0)
+        expect(useDarkProps).$props()
       })
     })
   })

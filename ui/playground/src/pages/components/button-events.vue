@@ -85,19 +85,12 @@
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {}
-  },
-  methods: {
-    onClick() {
-      console.log('click')
-    },
+<script setup>
+function onClick() {
+  console.log('click')
+}
 
-    onMouse(which) {
-      console.log('@mouse' + which)
-    }
-  }
+function onMouse(which) {
+  console.log('@mouse' + which)
 }
 </script>

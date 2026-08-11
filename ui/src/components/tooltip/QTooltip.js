@@ -22,10 +22,15 @@ import useTransition, {
 } from '../../composables/private.use-transition/use-transition.js'
 import useTick from '../../composables/use-tick/use-tick.js'
 import useTimeout from '../../composables/use-timeout/use-timeout.js'
+import useId from '../../composables/use-id/use-id.js'
 
 import { createComponent } from '../../utils/private.create/create.js'
 import { getScrollTarget, scrollTargetProp } from '../../utils/scroll/scroll.js'
 import { addEvt, cleanEvt, stopAndPrevent } from '../../utils/event/event.js'
+import {
+  addEscapeKey,
+  removeEscapeKey
+} from '../../utils/private.keyboard/escape-key.js'
 import { clearSelection } from '../../utils/private.selection/selection.js'
 import { hSlot } from '../../utils/private.render/render.js'
 import {
@@ -39,7 +44,9 @@ import {
   validatePosition
 } from '../../utils/private.position-engine/position-engine.js'
 
-export default createComponent({
+let nonSelectableCount = 0
+
+export default /*#__PURE__*/ createComponent({
   name: 'QTooltip',
 
   inheritAttrs: false,
@@ -101,7 +108,11 @@ export default createComponent({
   emits: [...useModelToggleEmits],
 
   setup(props, { slots, emit, attrs }) {
-    let unwatchPosition, observer
+    let unwatchPosition,
+      observer,
+      removeNonSelectableTimer,
+      hasNonSelectable = false,
+      describedBy
 
     const vm = getCurrentInstance()
     const {
@@ -110,6 +121,8 @@ export default createComponent({
 
     const innerRef = ref(null)
     const showing = ref(false)
+    const targetUid = useId()
+    const tooltipId = computed(() => attrs.id || targetUid.value)
 
     const anchorOrigin = computed(() =>
       parsePosition(props.anchor, $q.lang.rtl)
@@ -137,7 +150,7 @@ export default createComponent({
       processOnMount: true
     })
 
-    Object.assign(anchorEvents, { delayShow, delayHide })
+    Object.assign(anchorEvents, { delayShow, delayHide, onFocusin })
 
     const { showPortal, hidePortal, renderPortal } = usePortal(
       vm,
@@ -182,13 +195,35 @@ export default createComponent({
       onBeforeUnmount(() => {
         removeClickOutside(clickOutsideProps)
       })
+    } else {
+      // dismiss with the ESC key (WCAG 1.4.13) without moving focus;
+      // uses the shared escape stack so only the top-most popup reacts
+      watch(
+        () =>
+          // trigger only if it doesn't have external model
+          // or else only if the model can be updated (otherwise respect the external model)
+          (props.modelValue === null || props['onUpdate:modelValue']) &&
+          showing.value === true &&
+          props.persistent !== true,
+        val => {
+          const fn = val === true ? addEscapeKey : removeEscapeKey
+          fn(onEscapeKey)
+        }
+      )
     }
 
     function handleShow(evt) {
       showPortal()
+      addAriaDescription()
 
       // should removeTick() if this gets removed
       registerTick(() => {
+        observer?.disconnect()
+        if (innerRef.value === null) {
+          observer = void 0
+          return
+        }
+
         observer = new MutationObserver(() => updatePosition())
         observer.observe(innerRef.value, {
           attributes: false,
@@ -248,7 +283,10 @@ export default createComponent({
       }
 
       unconfigureScrollTarget()
+      removeEscapeKey(onEscapeKey)
       cleanEvt(anchorEvents, 'tooltipTemp')
+      removeAriaDescription()
+      setNonSelectable(false)
     }
 
     function updatePosition() {
@@ -265,8 +303,13 @@ export default createComponent({
 
     function delayShow(evt) {
       if ($q.platform.is.mobile) {
+        if (removeNonSelectableTimer !== void 0) {
+          clearTimeout(removeNonSelectableTimer)
+          removeNonSelectableTimer = void 0
+        }
+
         clearSelection()
-        document.body.classList.add('non-selectable')
+        setNonSelectable(true)
 
         const target = anchorEl.value
         const evts = ['touchmove', 'touchcancel', 'touchend', 'click'].map(
@@ -286,8 +329,9 @@ export default createComponent({
         cleanEvt(anchorEvents, 'tooltipTemp')
         clearSelection()
         // delay needed otherwise selection still occurs
-        setTimeout(() => {
-          document.body.classList.remove('non-selectable')
+        removeNonSelectableTimer = setTimeout(() => {
+          removeNonSelectableTimer = void 0
+          setNonSelectable(false)
         }, 10)
       }
 
@@ -297,6 +341,26 @@ export default createComponent({
       }, props.hideDelay)
     }
 
+    function onFocusin(evt) {
+      const el = evt.target
+      if (!el) return
+
+      // only react to keyboard focus, not to focus coming from a pointer,
+      // so the tooltip doesn't pop up when the target is clicked;
+      // guard the call for engines that don't support :focus-visible
+      try {
+        if (el.matches(':focus-visible') === false) return
+      } catch {}
+
+      delayShow(evt)
+    }
+
+    // trigger only if it doesn't have external model
+    // or else only if the model can be updated (otherwise respect the external model)
+    function onEscapeKey(evt) {
+      hide(evt)
+    }
+
     function configureAnchorEl() {
       if (props.noParentEvent || anchorEl.value === null) return
 
@@ -304,10 +368,57 @@ export default createComponent({
         ? [[anchorEl.value, 'touchstart', 'delayShow', 'passive']]
         : [
             [anchorEl.value, 'mouseenter', 'delayShow', 'passive'],
-            [anchorEl.value, 'mouseleave', 'delayHide', 'passive']
+            [anchorEl.value, 'mouseleave', 'delayHide', 'passive'],
+            [anchorEl.value, 'focusin', 'onFocusin', 'passive'],
+            [anchorEl.value, 'focusout', 'delayHide', 'passive']
           ]
 
       addEvt(anchorEvents, 'anchor', evts)
+    }
+
+    function setNonSelectable(state) {
+      if (hasNonSelectable === state) return
+
+      hasNonSelectable = state
+      nonSelectableCount += state ? 1 : -1
+      document.body.classList.toggle('non-selectable', nonSelectableCount > 0)
+
+      if (!state && removeNonSelectableTimer !== void 0) {
+        clearTimeout(removeNonSelectableTimer)
+        removeNonSelectableTimer = void 0
+      }
+    }
+
+    function addAriaDescription() {
+      const el = anchorEl.value,
+        id = tooltipId.value
+
+      if (el === null || id === void 0) return
+
+      const ids = (el.getAttribute('aria-describedby') || '')
+        .split(/\s+/)
+        .filter(Boolean)
+
+      describedBy = { el, id, added: !ids.includes(id) }
+
+      if (describedBy.added) {
+        ids.push(id)
+        el.setAttribute('aria-describedby', ids.join(' '))
+      }
+    }
+
+    function removeAriaDescription() {
+      if (describedBy?.added === true) {
+        const { el, id } = describedBy,
+          value = (el.getAttribute('aria-describedby') || '')
+            .split(/\s+/)
+            .filter(entry => entry !== '' && entry !== id)
+
+        if (value.length === 0) el.removeAttribute('aria-describedby')
+        else el.setAttribute('aria-describedby', value.join(' '))
+      }
+
+      describedBy = void 0
     }
 
     function configureScrollTarget() {
@@ -328,6 +439,7 @@ export default createComponent({
             'div',
             {
               ...attrs,
+              id: tooltipId.value,
               ref: innerRef,
               class: [
                 'q-tooltip q-tooltip--style q-position-engine no-pointer-events',

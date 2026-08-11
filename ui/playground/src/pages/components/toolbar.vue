@@ -207,12 +207,8 @@
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      model: null
-    }
-  }
-}
+<script setup>
+import { ref } from 'vue'
+
+const model = ref(null)
 </script>

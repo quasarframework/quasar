@@ -178,7 +178,7 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { useQuasar } from 'quasar'
 import { computed, ref } from 'vue'
 
@@ -217,47 +217,27 @@ const conversations = [
   }
 ]
 
-export default {
-  name: 'WhatsappLayout',
+const $q = useQuasar()
 
-  setup() {
-    const $q = useQuasar()
+const leftDrawerOpen = ref(false)
+const search = ref('')
+const message = ref('')
+const currentConversationIndex = ref(0)
 
-    const leftDrawerOpen = ref(false)
-    const search = ref('')
-    const message = ref('')
-    const currentConversationIndex = ref(0)
+const currentConversation = computed(
+  () => conversations[currentConversationIndex.value]
+)
 
-    const currentConversation = computed(
-      () => conversations[currentConversationIndex.value]
-    )
+const style = computed(() => ({
+  height: $q.screen.height + 'px'
+}))
 
-    const style = computed(() => ({
-      height: $q.screen.height + 'px'
-    }))
+function toggleLeftDrawer() {
+  leftDrawerOpen.value = !leftDrawerOpen.value
+}
 
-    function toggleLeftDrawer() {
-      leftDrawerOpen.value = !leftDrawerOpen.value
-    }
-
-    function setCurrentConversation(index) {
-      currentConversationIndex.value = index
-    }
-
-    return {
-      leftDrawerOpen,
-      search,
-      message,
-      currentConversationIndex,
-      conversations,
-
-      currentConversation,
-      setCurrentConversation,
-      style,
-
-      toggleLeftDrawer
-    }
-  }
+function setCurrentConversation(index) {
+  currentConversationIndex.value = index
 }
 </script>
 

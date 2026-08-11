@@ -20,54 +20,42 @@
   </div>
 </template>
 
-<script>
-import { ref } from 'vue'
+<script setup>
+import { ref, useTemplateRef } from 'vue'
 
-export default {
-  setup() {
-    const filter = ref('')
-    const filterRef = ref(null)
+const filter = ref('')
+const filterRef = useTemplateRef('filterRef')
 
-    return {
-      filter,
-      filterRef,
-
-      simple: [
-        {
-          label: 'Satisfied customers',
-          children: [
-            {
-              label: 'Good food',
-              children: [
-                { label: 'Quality ingredients' },
-                { label: 'Good recipe' }
-              ]
-            },
-            {
-              label: 'Good service (disabled node)',
-              disabled: true,
-              children: [
-                { label: 'Prompt attention' },
-                { label: 'Professional waiter' }
-              ]
-            },
-            {
-              label: 'Pleasant surroundings',
-              children: [
-                { label: 'Happy atmosphere' },
-                { label: 'Good table presentation' },
-                { label: 'Pleasing decor' }
-              ]
-            }
-          ]
-        }
-      ],
-
-      resetFilter() {
-        filter.value = ''
-        filterRef.value.focus()
+const simple = [
+  {
+    label: 'Satisfied customers',
+    children: [
+      {
+        label: 'Good food',
+        children: [{ label: 'Quality ingredients' }, { label: 'Good recipe' }]
+      },
+      {
+        label: 'Good service (disabled node)',
+        disabled: true,
+        children: [
+          { label: 'Prompt attention' },
+          { label: 'Professional waiter' }
+        ]
+      },
+      {
+        label: 'Pleasant surroundings',
+        children: [
+          { label: 'Happy atmosphere' },
+          { label: 'Good table presentation' },
+          { label: 'Pleasing decor' }
+        ]
       }
-    }
+    ]
   }
+]
+
+function resetFilter() {
+  filter.value = ''
+  filterRef.value.focus()
 }
 </script>

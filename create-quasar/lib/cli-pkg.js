@@ -1,3 +1,1 @@
-import cliPkg from '../package.json' with { type: 'json' }
-
-export { cliPkg }
+export { default as cliPkg } from '../package.json' with { type: 'json' }

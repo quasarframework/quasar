@@ -18,6 +18,19 @@ html, body
   margin: 0
   box-sizing: border-box
 
+body.q-ios-padding
+  --q-safe-area-inset-top: #{$ios-statusbar-height}
+  --q-safe-area-inset-bottom: 0px
+
+@supports (padding-top: env(safe-area-inset-top))
+  body.q-ios-padding
+    --q-safe-area-inset-top: env(safe-area-inset-top, 0px)
+    --q-safe-area-inset-bottom: env(safe-area-inset-bottom, 0px)
+
+body.q-safe-area-padding
+  --q-safe-area-inset-top: var(--safe-area-inset-top, env(safe-area-inset-top, 0px))
+  --q-safe-area-inset-bottom: var(--safe-area-inset-bottom, env(safe-area-inset-bottom, 0px))
+
 article,
 aside,
 details,

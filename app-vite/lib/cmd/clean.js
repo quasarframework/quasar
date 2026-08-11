@@ -52,7 +52,9 @@ if (cleanAll || argv.entry) {
 }
 
 if (cleanAll || argv.cache) {
-  fse.removeSync(appPaths.cacheDir)
+  // remove ALL cache dirs (there is one per runType-mode-target combo;
+  // appPaths.cacheDir would only point to the mode-less one)
+  fse.removeSync(appPaths.resolve.app('node_modules/.q-cache'))
   log('Cleaned dev/build cache')
 }
 

@@ -34,12 +34,25 @@ export class AppDevserver extends AppTool {
       quasarConf.sourceFiles,
       quasarConf.preFetch,
       quasarConf.build.publicPath,
-      quasarConf.ssr.pwa,
-      quasarConf.ssr.middlewares,
-      quasarConf.ssr.manualStoreSsrContextInjection,
-      quasarConf.ssr.manualStoreSerialization,
-      quasarConf.ssr.manualStoreHydration,
-      quasarConf.ssr.manualPostHydrationTrigger
+      quasarConf.build.vueRouterMode,
+      ...(quasarConf.ctx.ssr
+        ? [
+            quasarConf.ssr.pwa,
+            quasarConf.ssr.middlewares,
+            quasarConf.ssr.manualStoreSsrContextInjection,
+            quasarConf.ssr.manualStoreSerialization,
+            quasarConf.ssr.manualStoreHydration,
+            quasarConf.ssr.manualPostHydrationTrigger
+          ]
+        : quasarConf.ctx.ssg
+          ? [
+              quasarConf.ssg.pwa,
+              quasarConf.ssg.manualStoreSsrContextInjection,
+              quasarConf.ssg.manualStoreSerialization,
+              quasarConf.ssg.manualStoreHydration,
+              quasarConf.ssg.manualPostHydrationTrigger
+            ]
+          : [])
     ])
 
     this.registerDiff('types', quasarConf => [
@@ -64,8 +77,13 @@ export class AppDevserver extends AppTool {
       quasarConf.metaConf.backendEnvDefineList
     ])
 
+    this.registerDiff('vueDevtools', quasarConf => [
+      quasarConf.metaConf.vueDevtoolsOptions
+    ])
+
     this.registerDiff('vite', quasarConf => [
       quasarConf.devServer,
+      quasarConf.metaConf.vueDevtoolsOptions,
       quasarConf.build,
       quasarConf.framework.autoImportComponentCase,
       quasarConf.framework.autoImportVueExtensions,
@@ -99,7 +117,7 @@ export class AppDevserver extends AppTool {
     ])
 
     /**
-     * Warning! Used by both PWA and SSR,
+     * Warning! Used by PWA, SSR and SSG,
      * so be careful when changing.
      */
     this.registerDiff('pwaManifest', quasarConf => [
@@ -111,25 +129,28 @@ export class AppDevserver extends AppTool {
     ])
 
     /**
-     * Warning! Used by both PWA and SSR,
+     * Warning! Used by PWA, SSR and SSG,
      * so be careful when changing.
      */
     this.registerDiff('pwaServiceWorker', quasarConf => [
       quasarConf.pwa.workboxMode,
       quasarConf.pwa.swFilename,
       quasarConf.build,
+      quasarConf.ctx.ssr && quasarConf.ssr.pwaOfflineHtmlFilename,
+      quasarConf.ctx.ssg && quasarConf.ssg.pwaOfflineHtmlFilename,
       quasarConf.pwa.workboxMode === 'GenerateSW'
         ? [
             quasarConf.pwa.extendPWAGenerateSWOptions,
-            quasarConf.ssr.extendSSRGenerateSWOptions
+            quasarConf.ctx.ssr && quasarConf.ssr.extendSSRGenerateSWOptions,
+            quasarConf.ctx.ssg && quasarConf.ssg.extendSSGGenerateSWOptions
           ]
         : [
             quasarConf.pwa.extendPWAInjectManifestOptions,
-            quasarConf.ssr.extendSSRInjectManifestOptions,
             quasarConf.pwa.extendPWACustomSWConf,
             quasarConf.sourceFiles.pwaServiceWorker,
-            quasarConf.ssr.pwaOfflineHtmlFilename,
-            quasarConf.metaConf.clientEnvDefineList
+            quasarConf.metaConf.clientEnvDefineList,
+            quasarConf.ctx.ssr && quasarConf.ssr.extendSSRInjectManifestOptions,
+            quasarConf.ctx.ssg && quasarConf.ssg.extendSSGInjectManifestOptions
           ]
     ])
   }
@@ -232,7 +253,23 @@ export class AppDevserver extends AppTool {
     return Promise.all(watcherList.map(watcher => watcher.close()))
   }
 
-  printBanner(quasarConf) {
-    printDevRunningBanner(quasarConf)
+  async installVueDevtools(quasarConf) {
+    if (
+      quasarConf.metaConf.vueDevtoolsOptions &&
+      quasarConf.ctx.pkg.appPkg.devDependencies?.[
+        'vite-plugin-vue-devtools'
+      ] === void 0
+    ) {
+      const { cacheProxy } = quasarConf.ctx
+
+      const nodePackager = await cacheProxy.getModule('nodePackager')
+      await nodePackager.installPackage('vite-plugin-vue-devtools', {
+        isDevDependency: true
+      })
+    }
+  }
+
+  printBanner(quasarConf, opts) {
+    printDevRunningBanner(quasarConf, opts)
   }
 }

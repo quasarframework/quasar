@@ -17,7 +17,7 @@
   </div>
 </template>
 
-<script>
+<script setup>
 const columns = [
   // #region
   {
@@ -162,20 +162,11 @@ const rows = [
   // #endregion
 ]
 
-export default {
-  setup() {
-    return {
-      columns,
-      rows,
+function rowClassFn(row) {
+  return row.calories % 2 === 0 ? 'bg-brown' : 'bg-primary'
+}
 
-      rowClassFn(row) {
-        return row.calories % 2 === 0 ? 'bg-brown' : 'bg-primary'
-      },
-
-      rowStyleFn(row) {
-        return row.calories % 2 === 0 ? 'color:#ccc' : 'color:#fff'
-      }
-    }
-  }
+function rowStyleFn(row) {
+  return row.calories % 2 === 0 ? 'color:#ccc' : 'color:#fff'
 }
 </script>

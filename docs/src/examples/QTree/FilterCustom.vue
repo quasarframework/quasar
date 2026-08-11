@@ -27,64 +27,51 @@
   </div>
 </template>
 
-<script>
-import { ref } from 'vue'
+<script setup>
+import { ref, useTemplateRef } from 'vue'
 
-export default {
-  setup() {
-    const filter = ref('de')
-    const filterRef = ref(null)
-
-    return {
-      filter,
-      filterRef,
-      expanded: ref(['Good service (disabled node) (*)']),
-
-      simple: [
-        {
-          label: 'Satisfied customers',
-          children: [
-            {
-              label: 'Good food',
-              children: [
-                { label: 'Quality ingredients' },
-                { label: 'Good recipe' }
-              ]
-            },
-            {
-              label: 'Good service (disabled node) (*)',
-              disabled: true,
-              children: [
-                { label: 'Prompt attention' },
-                { label: 'Professional waiter' }
-              ]
-            },
-            {
-              label: 'Pleasant surroundings',
-              children: [
-                { label: 'Happy atmosphere (*)' },
-                { label: 'Good table presentation' },
-                { label: 'Pleasing decor (*)' }
-              ]
-            }
-          ]
-        }
-      ],
-
-      myFilterMethod(node, filterStr) {
-        const filt = filterStr.toLowerCase()
-        return (
-          node.label &&
-          node.label.toLowerCase().includes(filt) &&
-          node.label.toLowerCase().includes('(*)')
-        )
+const filter = ref('de')
+const filterRef = useTemplateRef('filterRef')
+const expanded = ref(['Good service (disabled node) (*)'])
+const simple = [
+  {
+    label: 'Satisfied customers',
+    children: [
+      {
+        label: 'Good food',
+        children: [{ label: 'Quality ingredients' }, { label: 'Good recipe' }]
       },
-
-      resetFilter() {
-        filter.value = ''
-        filterRef.value.focus()
+      {
+        label: 'Good service (disabled node) (*)',
+        disabled: true,
+        children: [
+          { label: 'Prompt attention' },
+          { label: 'Professional waiter' }
+        ]
+      },
+      {
+        label: 'Pleasant surroundings',
+        children: [
+          { label: 'Happy atmosphere (*)' },
+          { label: 'Good table presentation' },
+          { label: 'Pleasing decor (*)' }
+        ]
       }
-    }
+    ]
   }
+]
+
+function myFilterMethod(node, filterStr) {
+  const filt = filterStr.toLowerCase()
+  return (
+    node.label &&
+    node.label.toLowerCase().includes(filt) &&
+    node.label.toLowerCase().includes('(*)')
+  )
+}
+
+function resetFilter() {
+  filter.value = ''
+  filterRef.value.focus()
 }
 </script>

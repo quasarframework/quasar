@@ -12,7 +12,7 @@ export function humanStorageSize(bytes, decimals = 1) {
 }
 
 export function capitalize(str) {
-  return str.at(0).toUpperCase() + str.slice(1)
+  return str.charAt(0).toUpperCase() + str.slice(1)
 }
 
 export function between(v, min, max) {

@@ -25,7 +25,7 @@ const slotsDef = [
   ['bottom', 'end', 'center', 'height']
 ]
 
-export default createComponent({
+export default /*#__PURE__*/ createComponent({
   name: 'QSlideItem',
 
   props: {
@@ -105,10 +105,11 @@ export default createComponent({
           node.style.transform = `translate${pan.axis}(${pan.dir * 100}%)`
 
           if (timer !== null) clearTimeout(timer)
+          const showing = pan.showing
           timer = setTimeout(() => {
             timer = null
-            emit(pan.showing, { reset })
-            emit('action', { side: pan.showing, reset })
+            emit(showing, { reset })
+            emit('action', { side: showing, reset })
           }, 230)
         } else {
           node.style.transform = 'translate(0,0)'

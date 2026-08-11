@@ -11,7 +11,7 @@ function plurals(n, opts) {
 
 export default {
   isoName: 'lt',
-  nativeName: 'Lithuanian',
+  nativeName: 'Lietuvių',
   label: {
     clear: 'Išvalyti',
     ok: 'Gerai',
@@ -64,7 +64,7 @@ export default {
         : 'Nepasirinktas joks įrašas.',
     recordsPerPage: 'Puslapyje:',
     allRows: 'Visi',
-    pagination: (start, end, total) => start + ' - ' + end + ' iš ' + total,
+    pagination: (start, end, total) => start + '-' + end + ' iš ' + total,
     columns: 'Stulpeliai'
   },
   pagination: {

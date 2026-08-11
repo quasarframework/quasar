@@ -58,18 +58,14 @@
   </q-page>
 </template>
 
-<script>
-export default {
-  data() {
-    return {}
-  },
-  created() {
-    console.log('A created')
-  },
-  beforeUnmount() {
-    console.log('A beforeUnmount')
-  }
-}
+<script setup>
+import { onBeforeUnmount } from 'vue'
+
+console.log('A created')
+
+onBeforeUnmount(() => {
+  console.log('A beforeUnmount')
+})
 </script>
 
 <style lang="sass">

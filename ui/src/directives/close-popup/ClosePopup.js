@@ -20,7 +20,7 @@ function getDepth(value) {
   return Number.parseInt(value, 10) || 0
 }
 
-export default createDirective(
+export default /*#__PURE__*/ createDirective(
   __QUASAR_SSR_SERVER__
     ? { name: 'close-popup', getSSRProps }
     : {
@@ -38,7 +38,7 @@ export default createDirective(
                   if (proxy !== void 0) {
                     closePortals(proxy, evt, ctx.depth)
                   }
-                })
+                }, 0)
               }
             },
 

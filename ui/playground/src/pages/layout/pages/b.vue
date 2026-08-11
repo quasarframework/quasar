@@ -16,16 +16,12 @@
   </q-page>
 </template>
 
-<script>
-export default {
-  data() {
-    return {}
-  },
-  created() {
-    console.log('B created')
-  },
-  beforeUnmount() {
-    console.log('B beforeUnmount')
-  }
-}
+<script setup>
+import { onBeforeUnmount } from 'vue'
+
+console.log('B created')
+
+onBeforeUnmount(() => {
+  console.log('B beforeUnmount')
+})
 </script>

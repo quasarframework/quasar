@@ -24,7 +24,7 @@
   </div>
 </template>
 
-<script>
+<script setup>
 const maxSize = 10_000
 const heavyList = []
 
@@ -34,25 +34,17 @@ for (let i = 0; i < maxSize; i++) {
   })
 }
 
-export default {
-  setup() {
-    return {
-      heavyList,
+const thumbStyle = {
+  borderRadius: '8px',
+  backgroundColor: '#027be3',
+  width: '8px',
+  opacity: 0.75
+}
 
-      thumbStyle: {
-        borderRadius: '8px',
-        backgroundColor: '#027be3',
-        width: '8px',
-        opacity: 0.75
-      },
-
-      barStyle: {
-        borderRadius: '14px',
-        backgroundColor: '#027be3',
-        width: '14px',
-        opacity: 0.2
-      }
-    }
-  }
+const barStyle = {
+  borderRadius: '14px',
+  backgroundColor: '#027be3',
+  width: '14px',
+  opacity: 0.2
 }
 </script>

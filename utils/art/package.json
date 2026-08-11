@@ -29,10 +29,11 @@
   },
   "scripts": {
     "build": "node scripts/build.js",
-    "test": "node scripts/test.js && FORCE_COLOR=0 node scripts/test.js",
-    "prepublishOnly": "pnpm run build"
+    "test": "vitest run",
+    "prepublishOnly": "pnpm run build && pnpm test"
   },
   "devDependencies": {
-    "gradient-string": "^3.0.0"
+    "gradient-string": "^3.0.0",
+    "vitest": "^4.1.10"
   }
 }

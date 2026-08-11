@@ -21,17 +21,10 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    return {
-      single: ref(null),
-      multiple: ref(null),
-
-      options: ['Google', 'Facebook', 'Twitter', 'Apple', 'Oracle']
-    }
-  }
-}
+const single = ref(null)
+const multiple = ref(null)
+const options = ['Google', 'Facebook', 'Twitter', 'Apple', 'Oracle']
 </script>

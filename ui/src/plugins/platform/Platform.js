@@ -4,10 +4,10 @@ import { reactive, ref } from 'vue'
 import { injectProp } from '../../utils/private.inject-obj-prop/inject-obj-prop.js'
 
 /**
- * __ QUASAR_SSR __            -> runs on SSR on client or server
- * __ QUASAR_SSR_SERVER __     -> runs on SSR on server
- * __ QUASAR_SSR_CLIENT __     -> runs on SSR on client
- * __ QUASAR_SSR_PWA __        -> built with SSR+PWA; may run on SSR on client or on PWA client
+ * __ QUASAR_SSR __            -> runs on SSR/SSG on client or server
+ * __ QUASAR_SSR_SERVER __     -> runs on SSR/SSG on server
+ * __ QUASAR_SSR_CLIENT __     -> runs on SSR/SSG on client
+ * __ QUASAR_SSR_PWA __        -> built with SSR/SSG + PWA; may run on SSR/SSG on client or on PWA client
  *                              (needs runtime detection)
  */
 
@@ -20,22 +20,83 @@ export const isRuntimeSsrPreHydration = __QUASAR_SSR_SERVER__
 
 let preHydrationBrowser
 
+// Long User-Agent values are not useful for platform detection and can make
+// complex browser expressions prohibitively expensive.
+const maxUserAgentLength = 512
+
+function normalizeUserAgent(userAgent) {
+  return typeof userAgent === 'string'
+    ? userAgent.slice(0, maxUserAgentLength).toLowerCase()
+    : ''
+}
+
+const safariVersionRE = /(?:^|\s)version\/([\w.]+)/
+const applewebkitRE = /(?:^|\s)applewebkit\/[\w.]+/
+const safariAgentRE = /(?:^|\s)safari\/[\w.]+/
+function getSafariMatch(userAgent) {
+  const versionMatch = safariVersionRE.exec(userAgent)
+  return versionMatch !== null &&
+    applewebkitRE.test(userAgent) &&
+    safariAgentRE.test(userAgent)
+    ? {
+        browser: 'safari',
+        version: versionMatch[1]
+      }
+    : null
+}
+
+const operaAgentRE = /(?:^|\s)opera\/([\w.]+)/
+const operaVersionRE = /(?:^|\s)version\/([\w.]+)/
+function getOperaMatch(userAgent) {
+  const operaMatch = operaAgentRE.exec(userAgent)
+  if (operaMatch === null) return null
+
+  const versionMatch = operaVersionRE.exec(userAgent)
+
+  return {
+    browser: 'opera',
+    version: versionMatch?.[1] || operaMatch[1]
+  }
+}
+
+const edgeRE = /(edg|edge|edga|edgios)\/([\w.]+)/
+const oprRE = /(opr)[\/]([\w.]+)/
+const vivaldiRE = /(vivaldi)[\/]([\w.]+)/
+const chromeRE = /(chrome|crios)[\/]([\w.]+)/
+const firefoxRE = /(firefox|fxios)[\/]([\w.]+)/
+const webkitRE = /(webkit)[\/]([\w.]+)/
 function getMatch(userAgent, platformMatch) {
-  const match =
-    /(edg|edge|edga|edgios)\/([\w.]+)/.exec(userAgent) ||
-    /(opr)[\/]([\w.]+)/.exec(userAgent) ||
-    /(vivaldi)[\/]([\w.]+)/.exec(userAgent) ||
-    /(chrome|crios)[\/]([\w.]+)/.exec(userAgent) ||
-    /(version)(applewebkit)[\/]([\w.]+).*(safari)[\/]([\w.]+)/.exec(
-      userAgent
-    ) ||
-    /(webkit)[\/]([\w.]+).*(version)[\/]([\w.]+).*(safari)[\/]([\w.]+)/.exec(
-      userAgent
-    ) ||
-    /(firefox|fxios)[\/]([\w.]+)/.exec(userAgent) ||
-    /(webkit)[\/]([\w.]+)/.exec(userAgent) ||
-    /(opera)(?:.*version|)[\/]([\w.]+)/.exec(userAgent) ||
-    []
+  let match =
+    edgeRE.exec(userAgent) ||
+    oprRE.exec(userAgent) ||
+    vivaldiRE.exec(userAgent) ||
+    chromeRE.exec(userAgent)
+
+  if (match === null) {
+    const safariMatch = getSafariMatch(userAgent)
+
+    if (safariMatch !== null) {
+      return {
+        ...safariMatch,
+        platform: platformMatch[0] || ''
+      }
+    }
+
+    match = firefoxRE.exec(userAgent) || webkitRE.exec(userAgent)
+
+    if (match === null) {
+      const operaMatch = getOperaMatch(userAgent)
+
+      if (operaMatch !== null) {
+        return {
+          ...operaMatch,
+          platform: platformMatch[0] || ''
+        }
+      }
+
+      match = []
+    }
+  }
 
   return {
     browser: match[5] || match[3] || match[1] || '',
@@ -44,24 +105,30 @@ function getMatch(userAgent, platformMatch) {
   }
 }
 
+const ipadRE = /(ipad)/
+const ipodRE = /(ipod)/
+const iphoneRE = /(iphone)/
+const windowsPhoneRE = /(windows phone)/
+const kindleRE = /(kindle)/
+const silkRE = /(silk)/
+const androidRE = /(android)/
+const winRE = /(win)/ // "windows" is too generic and can be used in other platforms' UA
+const macRE = /(mac)/
+const linuxRE = /(linux)/
+const crosRE = /(cros)/
 function getPlatformMatch(userAgent) {
   return (
-    /(ipad)/.exec(userAgent) ||
-    /(ipod)/.exec(userAgent) ||
-    /(windows phone)/.exec(userAgent) ||
-    /(iphone)/.exec(userAgent) ||
-    /(kindle)/.exec(userAgent) ||
-    /(silk)/.exec(userAgent) ||
-    /(android)/.exec(userAgent) ||
-    /(win)/.exec(userAgent) ||
-    /(mac)/.exec(userAgent) ||
-    /(linux)/.exec(userAgent) ||
-    /(cros)/.exec(userAgent) ||
-    // TODO: Remove BlackBerry detection. BlackBerry OS, BlackBerry 10, and BlackBerry PlayBook OS
-    // is officially dead as of January 4, 2022 (https://www.blackberry.com/us/en/support/devices/end-of-life)
-    /(playbook)/.exec(userAgent) ||
-    /(bb)/.exec(userAgent) ||
-    /(blackberry)/.exec(userAgent) ||
+    ipadRE.exec(userAgent) ||
+    ipodRE.exec(userAgent) ||
+    windowsPhoneRE.exec(userAgent) ||
+    iphoneRE.exec(userAgent) ||
+    kindleRE.exec(userAgent) ||
+    silkRE.exec(userAgent) ||
+    androidRE.exec(userAgent) ||
+    winRE.exec(userAgent) ||
+    macRE.exec(userAgent) ||
+    linuxRE.exec(userAgent) ||
+    crosRE.exec(userAgent) ||
     []
   )
 }
@@ -71,7 +138,7 @@ const hasTouch = __QUASAR_SSR_SERVER__
   : 'ontouchstart' in window || window.navigator.maxTouchPoints > 0
 
 function getPlatform(UA) {
-  const userAgent = UA.toLowerCase()
+  const userAgent = normalizeUserAgent(UA)
   const platformMatch = getPlatformMatch(userAgent)
   const matched = getMatch(userAgent, platformMatch)
   const browser = {
@@ -107,8 +174,6 @@ function getPlatform(UA) {
     ipod: false,
     kindle: false,
     winphone: false,
-    blackberry: false,
-    playbook: false,
     silk: false
   }
 
@@ -122,18 +187,20 @@ function getPlatform(UA) {
     browser[matched.platform] = true
   }
 
+  if (browser['windows phone']) {
+    browser.winphone = true
+    delete browser['windows phone']
+  }
+
   const knownMobiles =
     browser.android ||
     browser.ios ||
-    browser.bb ||
-    browser.blackberry ||
     browser.ipad ||
     browser.iphone ||
     browser.ipod ||
     browser.kindle ||
-    browser.playbook ||
     browser.silk ||
-    browser['windows phone']
+    browser.winphone
 
   // These are all considered mobile platforms, meaning they run a mobile browser
   if (knownMobiles === true || userAgent.includes('mobile')) {
@@ -144,11 +211,6 @@ function getPlatform(UA) {
   // (browser.cros || browser.mac || browser.linux || browser.win)
   else {
     browser.desktop = true
-  }
-
-  if (browser['windows phone']) {
-    browser.winphone = true
-    delete browser['windows phone']
   }
 
   if (browser.edga || browser.edgios || browser.edg) {
@@ -195,13 +257,7 @@ function getPlatform(UA) {
 
   // Some browsers are marked as Safari but are not
   if (browser.safari) {
-    if (browser.blackberry || browser.bb) {
-      matched.browser = 'blackberry'
-      browser.blackberry = true
-    } else if (browser.playbook) {
-      matched.browser = 'playbook'
-      browser.playbook = true
-    } else if (browser.android) {
+    if (browser.android) {
       matched.browser = 'android'
       browser.android = true
     } else if (browser.kindle) {

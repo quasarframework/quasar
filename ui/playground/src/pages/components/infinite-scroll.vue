@@ -102,50 +102,44 @@
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      itemsReverse: [{}, {}, {}, {}, {}],
-      itemsRef: [{}, {}, {}, {}, {}],
-      itemsId: [{}, {}, {}, {}, {}],
-      disable: false,
-      container: false,
-      reverse: false,
-      active: true
-    }
-  },
-  computed: {
-    styles() {
-      return this.container
-        ? 'height: 300px; border: 1px solid black; overflow: auto;'
-        : ''
-    }
-  },
-  methods: {
-    loadReverse(index, done) {
-      console.log('load reverse called', index)
-      setTimeout(() => {
-        this.itemsReverse.splice(0, 0, {}, {}, {}, {}, {}, {}, {})
-        done()
-      }, 2500)
-    },
+<script setup>
+import { computed, ref } from 'vue'
 
-    loadRef(index, done) {
-      console.log('load ref called', index)
-      setTimeout(() => {
-        this.itemsRef.push({}, {}, {}, {}, {}, {}, {})
-        done()
-      }, 2500)
-    },
+const itemsReverse = ref([{}, {}, {}, {}, {}])
+const itemsRef = ref([{}, {}, {}, {}, {}])
+const itemsId = ref([{}, {}, {}, {}, {}])
+const disable = ref(false)
+const container = ref(false)
+const reverse = ref(false)
+const active = ref(true)
 
-    loadId(index, done) {
-      console.log('load id called', index)
-      setTimeout(() => {
-        this.itemsId.push({}, {}, {}, {}, {}, {}, {})
-        done()
-      }, 2500)
-    }
-  }
+const styles = computed(() =>
+  container.value
+    ? 'height: 300px; border: 1px solid black; overflow: auto;'
+    : ''
+)
+
+function loadReverse(index, done) {
+  console.log('load reverse called', index)
+  setTimeout(() => {
+    itemsReverse.value.splice(0, 0, {}, {}, {}, {}, {}, {}, {})
+    done()
+  }, 2500)
+}
+
+function loadRef(index, done) {
+  console.log('load ref called', index)
+  setTimeout(() => {
+    itemsRef.value.push({}, {}, {}, {}, {}, {}, {})
+    done()
+  }, 2500)
+}
+
+function loadId(index, done) {
+  console.log('load id called', index)
+  setTimeout(() => {
+    itemsId.value.push({}, {}, {}, {}, {}, {}, {})
+    done()
+  }, 2500)
 }
 </script>

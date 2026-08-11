@@ -139,44 +139,36 @@
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      show: false,
-      toggle: false,
-      forceMenu: false,
-      forceA: false,
-      model: null,
-      options: ['Google', 'Facebook', 'Twitter', 'Apple', 'Oracle'],
-      text: ''
-    }
-  },
+<script setup>
+import { computed, ref } from 'vue'
 
-  computed: {
-    behavior() {
-      return this.forceMenu === null
-        ? 'default'
-        : this.forceMenu === true
-          ? 'menu'
-          : 'dialog'
-    },
+const show = ref(false)
+const toggle = ref(false)
+const forceMenu = ref(false)
+const forceA = ref(false)
+const model = ref(null)
+const options = ref(['Google', 'Facebook', 'Twitter', 'Apple', 'Oracle'])
+const text = ref('')
 
-    forceMenuLabel() {
-      if (this.forceMenu === true) {
-        return 'Force menu'
-      }
+const behavior = computed(() =>
+  forceMenu.value === null
+    ? 'default'
+    : forceMenu.value === true
+      ? 'menu'
+      : 'dialog'
+)
 
-      return this.forceMenu === false ? 'Force dialog' : 'Based on platform'
-    },
-
-    btnType() {
-      return this.forceA === true ? 'a' : 'button'
-    },
-
-    forceALabel() {
-      return this.forceA === true ? 'Force A' : 'Force Button'
-    }
+const forceMenuLabel = computed(() => {
+  if (forceMenu.value === true) {
+    return 'Force menu'
   }
-}
+
+  return forceMenu.value === false ? 'Force dialog' : 'Based on platform'
+})
+
+const btnType = computed(() => (forceA.value === true ? 'a' : 'button'))
+
+const forceALabel = computed(() =>
+  forceA.value === true ? 'Force A' : 'Force Button'
+)
 </script>

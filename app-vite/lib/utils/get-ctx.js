@@ -1,5 +1,7 @@
 import { getAppPaths } from './get-app-paths.js'
 import { getPkg } from './get-pkg.js'
+import { createCacheProxy } from '../cache/create-cache-proxy.js'
+import { createAppExt } from '../app-extension/create-app-ext.js'
 import {
   dot,
   error,
@@ -12,8 +14,6 @@ import {
   warn,
   warning
 } from './logger.js'
-import { createCacheProxy } from '../cache/create-cache-proxy.js'
-import { createAppExt } from '../app-extension/create-app-ext.js'
 
 const publicLogger = Object.freeze({
   dot,
@@ -44,7 +44,16 @@ export function getCtx(opts = {}) {
   const ctx = {
     dev: Boolean(opts.dev),
     prod: Boolean(opts.prod),
-    mode: {},
+    mode: {
+      spa: false,
+      ssr: false,
+      ssg: false,
+      pwa: false,
+      capacitor: false,
+      cordova: false,
+      electron: false,
+      bex: false
+    },
     modeName: opts.mode,
     target: {},
     targetName: opts.target,

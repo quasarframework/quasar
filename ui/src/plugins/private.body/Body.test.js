@@ -1,9 +1,35 @@
+import { h } from 'vue'
 import { describe, expect, test } from 'vitest'
 import { mount } from '@vue/test-utils'
 
-import Body from './Body.js'
+import Body, { getBodyClasses } from './Body.js'
 
-const mountPlugin = () => mount({ template: '<div />' })
+const mountPlugin = () => mount({ render: () => h('div') })
+
+function getNativeMobilePlatform(
+  is,
+  config = {},
+  nativeMobileWrapper = 'capacitor'
+) {
+  return getBodyClasses(
+    {
+      is: {
+        desktop: false,
+        mobile: true,
+        ios: false,
+        android: false,
+        nativeMobile: true,
+        nativeMobileWrapper,
+        electron: false,
+        bex: false,
+        ...is
+      },
+      has: { touch: true },
+      within: { iframe: false }
+    },
+    config
+  )
+}
 
 describe('[Body API]', () => {
   describe('[Functions]', () => {
@@ -17,9 +43,42 @@ describe('[Body API]', () => {
       test('sets body classes', () => {
         mountPlugin()
 
+        // the really detected platform: desktop headless Chromium
+        // (no touch support) running the tests within an iframe
         expect(document.body.getAttribute('class')).toBe(
-          'desktop touch body--light'
+          'desktop no-touch within-iframe body--light'
         )
+      })
+    })
+
+    describe('[(function)getBodyClasses]', () => {
+      test.each(['capacitor', 'cordova'])(
+        'enables safe area padding for Android %s apps',
+        nativeMobileWrapper => {
+          expect(
+            getNativeMobilePlatform(
+              { android: true },
+              { [nativeMobileWrapper]: {} },
+              nativeMobileWrapper
+            )
+          ).toContain('q-safe-area-padding')
+        }
+      )
+
+      test('allows Android native mobile safe area padding to be disabled', () => {
+        const classes = getNativeMobilePlatform(
+          { android: true },
+          { capacitor: { androidStatusBarPadding: false } }
+        )
+
+        expect(classes).not.toContain('q-safe-area-padding')
+      })
+
+      test('preserves the existing iOS padding class', () => {
+        const classes = getNativeMobilePlatform({ ios: true })
+
+        expect(classes).toContain('q-ios-padding')
+        expect(classes).not.toContain('q-safe-area-padding')
       })
     })
   })

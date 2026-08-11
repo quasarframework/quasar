@@ -1,17 +1,17 @@
 ---
 title: Types of BEX
-desc: (@quasar/app-vite) How to configure each type of Browser Extensions in Quasar.
+desc: (@quasar/app-vite) How to configure each type of Browser Extension in Quasar.
 ---
 
-As already discussed, Quasar can handle the various places where a browser extension can live, namely New Tab, Web Page, Dev Tools Options or Popup. You don't need a separate Quasar App for each of these. You can do some handy work with the router.
+One Quasar App can provide a new-tab page, options page, popup, developer-tools page, or UI injected into a web page. Use routes to select the UI for each extension entry point.
 
 ## New Tab
 
-This is the default way in which a BEX will run. It is accessed by clicking on the BEX icon in your browser. The Quasar App will run in that new (blank) tab.
+A new-tab extension replaces the browser's new-tab page. Configure the appropriate manifest override to point to `www/index.html`; clicking the extension icon instead uses the manifest's `action` or `browser_action` configuration.
 
-## Dev Tools, Options and Popup
+## Developer tools, options, and popup
 
-These all follow the same pattern, set up a route and configure the `manifest.json` file to look at that route when it's trying to show either one of the types. For instance:
+These entry points follow the same pattern: create a route and configure `manifest.json` to open it. Hash-mode routes work from an extension URL without server-side rewrite rules:
 
 ```js routes.js:
 const routes = [
@@ -21,7 +21,7 @@ const routes = [
 ]
 ```
 
-You could configure your `manifest.json` file with the following so the options page is loaded from that route:
+Then reference the routes from the manifest:
 
 ```tabs /src-bex/manifest.json
 <<| json Manifest v3 |>>
@@ -29,20 +29,20 @@ You could configure your `manifest.json` file with the following so the options 
   "manifest_version": 3,
 
   "action": {
-    "default_popup": "www/index.html#/popup" // Popup Page
+    "default_popup": "www/index.html#/popup"
   },
-  "options_page": "www/index.html#/options", // Options Page
-  "devtools_page": "www/index.html#/devtools" // Dev Tools
+  "options_page": "www/index.html#/options",
+  "devtools_page": "www/index.html#/devtools"
 }
 <<| json Manifest v2 |>>
 {
   "manifest_version": 2,
 
-  "options_page": "www/index.html#/options", // Options Page
+  "options_page": "www/index.html#/options",
   "browser_action": {
-    "default_popup": "www/index.html#/popup" // Popup Page
+    "default_popup": "www/index.html#/popup"
   },
-  "devtools_page": "www/index.html#/devtools" // Dev Tools
+  "devtools_page": "www/index.html#/devtools"
 }
 ```
 
@@ -74,13 +74,12 @@ const bridge = createBridge({ debug: false })
  * When the drawer is toggled set the iFrame height to take the whole page.
  * Reset when the drawer is closed.
  */
-bridge.on('wb.drawer.toggle', ({ data, respond }) => {
-  if (data.open) {
+bridge.on('wb.drawer.toggle', ({ payload }) => {
+  if (payload.open) {
     setIFrameHeight('100%')
   } else {
     resetIFrameHeight()
   }
-  respond()
 })
 
 const iFrame = document.createElement('iframe')
@@ -159,8 +158,20 @@ setup () {
   const drawerIsOpen = ref(true)
 
   async function drawerToggled () {
-    await $q.bex.send('wb.drawer.toggle', {
-      open: drawerIsOpen.value // So it knows to make it bigger / smaller
+    const contentPort = $q.bex.portList.find(portName =>
+      portName.startsWith('content@my-content-script-')
+    )
+
+    if (contentPort === void 0) {
+      return
+    }
+
+    await $q.bex.send({
+      event: 'wb.drawer.toggle',
+      to: contentPort,
+      payload: {
+        open: drawerIsOpen.value
+      }
     })
 
     // Only set this once the promise has resolved so we can see the entire slide animation.

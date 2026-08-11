@@ -304,7 +304,7 @@ export default function useSlider({
   }
 
   const markerStep = computed(() =>
-    isNumber(props.markers) ? props.markers : keyStep.value
+    isNumber(props.markers) && props.markers > 0 ? props.markers : keyStep.value
   )
 
   const markerTicks = computed(() => {
@@ -596,10 +596,14 @@ export default function useSlider({
             ]
           )
         )
+      }
 
-        if (props.name !== void 0 && !props.disable) {
-          injectFormInput(thumbContent, 'push')
-        }
+      if (
+        thumb.injectFormInput !== false &&
+        props.name !== void 0 &&
+        !props.disable
+      ) {
+        injectFormInput(thumbContent, 'push')
       }
 
       return h(

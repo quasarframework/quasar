@@ -159,20 +159,39 @@ function updateValue(ctx, value) {
   }
 }
 
-export default createDirective(
+export default /*#__PURE__*/ createDirective(
   __QUASAR_SSR_SERVER__
     ? {
         name: 'morph',
         getSSRProps: binding => {
           const name = binding.arg ? binding.arg.split(':')[0] : false
+          const model =
+            Object(binding.value) === binding.value
+              ? binding.value.model
+              : binding.value
 
           return {
-            class: name === binding.value ? '' : 'q-morph--invisible'
+            class: name === model ? '' : 'q-morph--invisible'
           }
         }
       }
     : {
         name: 'morph',
+
+        // the initial visibility class as early as possible (mirrors
+        // getSSRProps); its presence alone also makes Vue skip the
+        // hydration prop-mismatch check for the element (vuejs/core
+        // #11189), which would otherwise report the server-rendered
+        // q-morph--invisible class as a false-positive mismatch
+        created(el, binding) {
+          const name = binding.arg ? binding.arg.split(':')[0] : false
+          const model =
+            Object(binding.value) === binding.value
+              ? binding.value.model
+              : binding.value
+
+          el.classList.toggle('q-morph--invisible', name !== model)
+        },
 
         mounted(el, binding) {
           const ctx = {

@@ -63,18 +63,12 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    return {
-      alert: ref(false),
-      confirm: ref(false),
-      prompt: ref(false),
+const alert = ref(false)
+const confirm = ref(false)
+const prompt = ref(false)
 
-      address: ref('')
-    }
-  }
-}
+const address = ref('')
 </script>

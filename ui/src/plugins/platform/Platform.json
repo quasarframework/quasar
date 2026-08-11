@@ -158,14 +158,6 @@
           "type": "Boolean",
           "desc": "Whether the operating system is Windows Phone"
         },
-        "blackberry": {
-          "type": "Boolean",
-          "desc": "Whether the device is a Blackberry"
-        },
-        "playbook": {
-          "type": "Boolean",
-          "desc": "Whether the device is a Blackberry Playbook"
-        },
         "silk": {
           "type": "Boolean",
           "desc": "Whether the browser is Amazon Silk"
@@ -207,7 +199,7 @@
 
   "methods": {
     "parseSSR": {
-      "desc": "For SSR usage only, and only on the global import (not on $q.platform)",
+      "desc": "For SSR/SSG usage only, and only on the global import (not on $q.platform)",
       "params": {
         "ssrContext": {
           "type": "Object",
@@ -218,7 +210,7 @@
       "returns": {
         "type": "Object",
         "tsType": "Platform",
-        "desc": "Platform object (like $q.platform) for SSR usage purposes"
+        "desc": "Platform object (like $q.platform) for SSR/SSG usage purposes"
       }
     }
   }

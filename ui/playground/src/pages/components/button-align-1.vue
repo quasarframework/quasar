@@ -646,44 +646,40 @@
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      props: [
-        {},
-        { push: true },
-        { outline: true },
-        { unelevated: true },
-        { flat: true },
-        { rounded: true },
-        { rounded: true, push: true },
-        { rounded: true, outline: true },
-        { rounded: true, unelevated: true },
-        { rounded: true, flat: true }
-      ],
-      loading: false,
-      percentage: 0
-    }
-  },
+<script setup>
+import { onBeforeUnmount, ref } from 'vue'
 
-  methods: {
-    startProgress() {
-      this.percentage = 0
-      this.loading = true
-      this.interval = setInterval(() => {
-        this.percentage += Math.floor(Math.random() * 8 + 2)
-        if (this.percentage >= 100) {
-          this.percentage = 0
-          clearInterval(this.interval)
-          this.loading = false
-        }
-      }, 700)
-    }
-  },
+const props = ref([
+  {},
+  { push: true },
+  { outline: true },
+  { unelevated: true },
+  { flat: true },
+  { rounded: true },
+  { rounded: true, push: true },
+  { rounded: true, outline: true },
+  { rounded: true, unelevated: true },
+  { rounded: true, flat: true }
+])
+const loading = ref(false)
+const percentage = ref(0)
 
-  beforeUnmount() {
-    clearInterval(this.interval)
-  }
+let interval = null
+
+function startProgress() {
+  percentage.value = 0
+  loading.value = true
+  interval = setInterval(() => {
+    percentage.value += Math.floor(Math.random() * 8 + 2)
+    if (percentage.value >= 100) {
+      percentage.value = 0
+      clearInterval(interval)
+      loading.value = false
+    }
+  }, 700)
 }
+
+onBeforeUnmount(() => {
+  clearInterval(interval)
+})
 </script>

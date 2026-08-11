@@ -17,6 +17,7 @@ const quasarCordovaConfig = {
     if (quasarConf.ctx.dev) {
       cfg.plugins.unshift(quasarVitePluginDevCordovaPlatformInject(quasarConf))
     } else {
+      cfg.build.emptyOutDir = true
       cfg.build.outDir = quasarConf.ctx.appPaths.resolve.cordova('www')
     }
 

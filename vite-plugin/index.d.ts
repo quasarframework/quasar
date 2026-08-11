@@ -49,6 +49,16 @@ export interface QuasarPluginOpts {
    * @default false
    */
   devTreeshaking?: boolean;
+
+  /**
+   * Auto import - resolve Quasar components and directives at template
+   * compile time, through the Vue compiler AST. Generates exact source
+   * maps and skips post-processing of the compiled template code.
+   * Set to false to use the regex-based transformation of the compiled
+   * render code instead.
+   * @default true
+   */
+  astAutoImport?: boolean;
 }
 
 export function quasar(opts?: QuasarPluginOpts): Plugin;

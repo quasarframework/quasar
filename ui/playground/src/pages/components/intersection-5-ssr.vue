@@ -31,36 +31,34 @@
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      visible: this.$route.query.visible !== 'false',
-      once: this.$route.query.once === 'true',
-      transition: 'scale'
-    }
-  },
+<script setup>
+import { ref, watch } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 
-  watch: {
-    visible(val) {
-      if (import.meta.env.QUASAR_MODE === 'ssr') {
-        this.$router.replace({
-          name: this.$route.name,
-          query: { ...this.$route.query, visible: String(val) }
-        })
-      }
-    },
+const route = useRoute()
+const router = useRouter()
 
-    once(val) {
-      if (import.meta.env.QUASAR_MODE === 'ssr') {
-        this.$router.replace({
-          name: this.$route.name,
-          query: { ...this.$route.query, once: String(val) }
-        })
-      }
-    }
+const visible = ref(route.query.visible !== 'false')
+const once = ref(route.query.once === 'true')
+const transition = ref('scale')
+
+watch(visible, val => {
+  if (import.meta.env.QUASAR_MODE === 'ssr') {
+    router.replace({
+      name: route.name,
+      query: { ...route.query, visible: String(val) }
+    })
   }
-}
+})
+
+watch(once, val => {
+  if (import.meta.env.QUASAR_MODE === 'ssr') {
+    router.replace({
+      name: route.name,
+      query: { ...route.query, once: String(val) }
+    })
+  }
+})
 </script>
 
 <style lang="sass">

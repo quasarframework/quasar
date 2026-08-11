@@ -95,36 +95,30 @@
   </div>
 </template>
 
-<script>
-export default {
-  setup() {
-    return {
-      messages: [
-        {
-          avatar: 'https://cdn.quasar.dev/img/avatar3.jpg',
-          text: [
-            '> message 1 should support markdown',
-            '> message 2  should support markdown',
-            '> message 3 should support markdown'
-          ],
-          action: {
-            icon: 'check',
-            color: 'positive',
-            name: 'check me'
-          },
-          stamp: '14 minutes ago',
-          status: 'sent',
-          name: 'ping',
-          bgColor: 'primary',
-          textColor: 'white'
-        }
-      ],
-
-      someAction(something) {
-        console.log(something)
-      }
-    }
+<script setup>
+const messages = [
+  {
+    avatar: 'https://cdn.quasar.dev/img/avatar3.jpg',
+    text: [
+      '> message 1 should support markdown',
+      '> message 2  should support markdown',
+      '> message 3 should support markdown'
+    ],
+    action: {
+      icon: 'check',
+      color: 'positive',
+      name: 'check me'
+    },
+    stamp: '14 minutes ago',
+    status: 'sent',
+    name: 'ping',
+    bgColor: 'primary',
+    textColor: 'white'
   }
+]
+
+function someAction(something) {
+  console.log(something)
 }
 </script>
 

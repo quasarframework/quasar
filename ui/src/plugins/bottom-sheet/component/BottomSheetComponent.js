@@ -16,7 +16,7 @@ import useDark, {
   useDarkProps
 } from '../../../composables/private.use-dark/use-dark.js'
 
-export default createComponent({
+export default /*#__PURE__*/ createComponent({
   name: 'BottomSheetComponent',
 
   props: {
@@ -71,7 +71,7 @@ export default createComponent({
               {
                 class: [
                   'q-bottom-sheet__item q-hoverable q-focusable cursor-pointer relative-position',
-                  action.class
+                  action.classes
                 ],
                 style: action.style,
                 tabindex: 0,

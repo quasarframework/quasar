@@ -3,6 +3,7 @@
     "**/node_modules/",
     "**/dist/",
     "**/templates/",
+    "app-vite/playground-*/src-*/",
     "**/quasar.config.*.temporary.compiled*",
     "**/.quasar/",
 
@@ -16,7 +17,9 @@
     "!create-quasar/templates/**/create-quasar-script.js",
 
     "utils/render-ssr-error/compiled-assets/",
-    "**/*/typed-router.d.ts"
+    "**/*/typed-router.d.ts",
+
+    "docs/build/md/snapshots/"
   ],
 
   "printWidth": 80,

@@ -73,6 +73,8 @@ When clicking on title then the QDate's view is changed to the calendar and when
 
 When model is unfilled (like `null`, `void 0` / `undefined`) QDate still has to show the calendar for a month of a year. You can use `default-year-month` prop for this, otherwise the current month of the year will be shown:
 
+When server-side rendering an unfilled QDate in SSR or SSG modes, set `default-year-month` explicitly. Otherwise, a server and browser in different time zones can select different initial months during hydration.
+
 <DocExample title="Default year month" file="DefaultYearMonth" overflow />
 
 The default view can be changed.
@@ -95,7 +97,7 @@ The default model mask is `YYYY/MM/DD`, however you can use custom ones too.
 
 The `mask` prop tokens can be found at [Quasar Utils > Date utils](/quasar-utils/date-utils#format-for-display).
 
-::: warning Note on SSR
+::: warning Note on SSR/SSG
 Using `x` or `X` (timestamps) in the mask may cause hydration errors on the client, because decoding the model String must be done with `new Date()` which takes into account the local timezone. As a result, if the server is in a different timezone than the client, then the rendered output of the server will differ than the one on the client so hydration will fail.
 :::
 
@@ -200,5 +202,7 @@ When using the persian calendar, the mask for QDate is forced to `YYYY/MM/DD`.
 ### Native form submit
 
 When dealing with a native form which has an `action` and a `method` (eg. when using Quasar with ASP.NET controllers), you need to specify the `name` property on QDate, otherwise formData will not contain it (if it should):
+
+The browser converts the model to a String. When using `multiple` or `range`, use your own hidden inputs if the server requires individual dates or structured range data.
 
 <DocExample title="Native form" file="NativeForm" />

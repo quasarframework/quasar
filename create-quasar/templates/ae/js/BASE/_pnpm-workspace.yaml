@@ -8,10 +8,10 @@ linkWorkspacePackages: true
 publishBranch: dev
 
 catalog:
-  "@quasar/app-vite": "^3.0.0-rc.2"
-  "@quasar/extras": "^2.0.0"
-  "quasar": "^2.20.0"
-  "vue": "^3.5.22"
+  "@quasar/app-vite": "^3.5.0"
+  "@quasar/extras": "^2.0.3"
+  "quasar": "^2.24.0"
+  "vue": "^3.5.39"
 
 allowBuilds:
   '@parcel/watcher': true

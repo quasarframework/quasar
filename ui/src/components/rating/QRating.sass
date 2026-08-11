@@ -9,6 +9,10 @@
     & + &
       margin-left: 2px
 
+    [dir=rtl] & + &
+      margin-left: 0 #{"/* rtl:ignore */"}
+      margin-right: 2px #{"/* rtl:ignore */"}
+
   &__icon
     color: currentColor
     text-shadow: $rating-shadow

@@ -9,7 +9,7 @@ related:
 **Better SEO for your website!** The Meta plugin can dynamically change page title, manage `<meta>` tags, manage `<html>` and `<body>` DOM element attributes, add/remove/change `<style>` and `<script>` tags in the head of your document (useful for CDN stylesheets or for json-ld markup, for example), or manage `<noscript>` tags.
 
 ::: tip
-Take full advantage of this feature by using it with **Quasar CLI**, especially **for the SSR (Server-Side Rendering) builds**. It may make sense to use it for SPA (Single Page Applications) too, however the meta information in this case will be added at runtime and not supplied directly by the webserver (as on SSR builds). Modern web-crawlers like the [Googlebot](https://developers.google.com/search/docs/guides/javascript-seo-basics) may render dynamic pages and extract out the dynamically set meta information.
+Take full advantage of this feature by using it with **Quasar CLI**, especially **for the SSR (Server-Side Rendering) and SSG builds**. It may make sense to use it for SPA (Single Page Applications) too, however the meta information in this case will be added at runtime and not supplied directly by the webserver (as on SSR/SSG builds). Modern web-crawlers like the [Googlebot](https://developers.google.com/search/docs/guides/javascript-seo-basics) may render dynamic pages and extract out the dynamically set meta information.
 :::
 
 <DocInstall plugins="Meta" />
@@ -43,7 +43,7 @@ const metaData = {
       'http-equiv': 'Content-Type',
       content: 'text/html; charset=UTF-8'
     },
-    // note: for Open Graph type metadata you will need to use SSR, to ensure page is rendered by the server
+    // note: for Open Graph type metadata you will need to use SSR/SSG, to ensure page is rendered by the server
     ogTitle: {
       property: 'og:title',
       // optional; similar to titleTemplate, but allows templating with other meta properties
@@ -95,6 +95,10 @@ export default {
 }
 ```
 
+::: warning Raw content
+The `innerHTML` property of a script entry and the content of a `noscript` entry are inserted as raw HTML. Never pass untrusted or unsanitized content to these properties. Prefer regular meta properties such as `content` for dynamic user-provided text.
+:::
+
 If you depend on the state of the component to compute the meta Object, then you can supply a Function instead of the Object itself. For more information, check the "Reactive" section on this page.
 
 ### Options API
@@ -116,7 +120,7 @@ const metaData = {
       'http-equiv': 'Content-Type',
       content: 'text/html; charset=UTF-8'
     },
-    // note: for Open Graph type metadata you will need to use SSR, to ensure page is rendered by the server
+    // note: for Open Graph type metadata you will need to use SSR/SSG, to ensure page is rendered by the server
     ogTitle: {
       property: 'og:title',
       // optional; similar to titleTemplate, but allows templating with other meta properties
@@ -284,5 +288,5 @@ export default {
 Before you deploy, you really should make sure that your work on the meta tags is compliant. Although you could just copy and paste your link into a Discord chat, a Facebook post or a Tweet, we recommend verifying with [https://metatags.io/](https://metatags.io/).
 
 ::: warning Important!
-**This test will only work for SSR builds** because SSR directly supplies the rendered HTML when accessing the webserver (as opposed to SPA or PWA which supplies an empty page then loads the code that renders the page on client's browser). Services like above (metatags.io) expect the page to be already rendered when fetching it (it does not run the JS to render it themselves).
+**This test will only work for SSR/SSG builds** because SSR/SSG directly supplies the rendered HTML when accessing the webserver (as opposed to SPA or PWA which supplies an empty page then loads the code that renders the page on client's browser). Services like above (metatags.io) expect the page to be already rendered when fetching it (it does not run the JS to render it themselves).
 :::

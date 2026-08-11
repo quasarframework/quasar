@@ -1,0 +1,322 @@
+name: create-quasar tests
+
+on:
+  workflow_dispatch:
+  # the release-tests workflow reruns this suite at the released tag
+  workflow_call:
+  # direct pushes are the norm in this repo — they get the same
+  # path-scoped coverage as PRs (rapid push trains collapse through the
+  # per-ref concurrency group)
+  push:
+    branches:
+      - 'dev'
+    paths:
+      - '.github/workflows/create-quasar-tests.yml'
+      - 'create-quasar/**'
+      # root dependency changes affect every package
+      - 'package.json'
+      - 'pnpm-lock.yaml'
+      - 'pnpm-workspace.yaml'
+  pull_request:
+    types: [opened, synchronize]
+    branches:
+      - 'dev'
+    paths:
+      - '.github/workflows/create-quasar-tests.yml'
+      - 'create-quasar/**'
+      # root dependency changes affect every package
+      - 'package.json'
+      - 'pnpm-lock.yaml'
+      - 'pnpm-workspace.yaml'
+
+# literal prefix instead of github.workflow: when called from another
+# workflow, github.workflow resolves to the CALLER's name, which would
+# collide with the other suites called from the same run
+concurrency:
+  group: create-quasar-tests-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  unit-tests:
+    permissions:
+      contents: read # to fetch code (actions/checkout)
+      pull-requests: read # to list the changed files
+
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: create-quasar
+
+    # the expensive e2e matrix only runs when the scaffolding itself may
+    # have changed; PRs merely touching the root dependency files stop
+    # after the unit tests
+    outputs:
+      e2e: ${{ steps.scope.outputs.e2e }}
+
+    name: Unit tests for create-quasar
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v5
+
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm i
+
+      - name: Run unit tests
+        run: pnpm test:unit
+
+      # changed files come from the API per event kind; anything
+      # uncertain (unknown event, API failure, a possibly-truncated
+      # compare listing) falls back to running the matrix
+      - name: Determine whether the e2e matrix should run
+        id: scope
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            FILES=$(gh api "repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/files" --paginate --jq '.[].filename' || echo __ALL__)
+          elif [ "${{ github.event_name }}" = "push" ]; then
+            FILES=$(gh api "repos/${{ github.repository }}/compare/${{ github.event.before }}...${{ github.event.after }}" --jq '.files[].filename' || echo __ALL__)
+            # the compare endpoint caps the file listing at 300
+            if [ "$(printf '%s\n' "$FILES" | wc -l)" -ge 300 ]; then
+              FILES=__ALL__
+            fi
+          else
+            FILES=__ALL__
+          fi
+
+          if [ "$FILES" = "__ALL__" ] || printf '%s\n' "$FILES" \
+            | grep -qE '^(create-quasar/|\.github/workflows/create-quasar-tests\.yml)'; then
+            echo "e2e=true" >> $GITHUB_OUTPUT
+          else
+            echo "e2e=false" >> $GITHUB_OUTPUT
+          fi
+
+  # the e2e publishes the monorepo's ui package to its local registry,
+  # which needs the build output (same pattern as app-vite-tests.yml)
+  build-ui:
+    permissions:
+      contents: read # to fetch code (actions/checkout)
+
+    runs-on: ubuntu-latest
+
+    name: Build the UI package (for the e2e tests)
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v5
+
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm i
+
+      # exact input-hash key on purpose (NO restore-keys): a stale dist
+      # must never be served — either the inputs are identical or we build
+      - name: Restore UI build cache
+        id: ui-build-cache
+        uses: actions/cache@v5
+        with:
+          path: ui/dist
+          key: ui-dist-${{ runner.os }}-${{ hashFiles('ui/src/**', 'ui/lang/**', 'ui/icon-set/**', 'ui/build/**', 'ui/package.json', 'pnpm-lock.yaml') }}
+
+      - name: Build the UI package
+        if: steps.ui-build-cache.outputs.cache-hit != 'true'
+        working-directory: ui
+        run: pnpm build
+
+      - name: Upload UI build artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: ui-build-create-quasar
+          path: ui/dist
+
+  test-app:
+    needs: [unit-tests, build-ui]
+    if: ${{ needs.unit-tests.outputs.e2e == 'true' }}
+
+    permissions:
+      contents: read # to fetch code (actions/checkout)
+
+    runs-on: ubuntu-latest
+
+    env:
+      # See https://github.com/yarnpkg/yarn/issues/9015
+      SKIP_YARN_COREPACK_CHECK: 1
+
+    defaults:
+      run:
+        working-directory: create-quasar
+
+    strategy:
+      fail-fast: false
+      matrix:
+        install: [pnpm, npm, yarn]
+        script: [js, ts]
+        engine: [vite-3]
+        linter: [oxlint, eslint]
+        fbr: [true, false]
+        allPresets: [true, false]
+
+    name: app-${{ matrix.script }}-${{ matrix.install }}-${{ matrix.engine }}-${{ matrix.linter }}${{ matrix.fbr == true && '-fbr' || '' }}${{ matrix.allPresets == true && '-allPresets' || '' }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v5
+
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm i
+
+      - name: Download UI build artifact
+        uses: actions/download-artifact@v8
+        with:
+          name: ui-build-create-quasar
+          path: ui/dist
+
+      # pnpm
+      - name: Get pnpm store directory
+        if: ${{ matrix.install == 'pnpm' }}
+        id: pnpm-cache
+        run: |
+          echo "PNPM_CACHE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
+      - name: Setup pnpm cache
+        if: ${{ matrix.install == 'pnpm' }}
+        uses: actions/cache@v5
+        with:
+          path: ${{ steps.pnpm-cache.outputs.PNPM_CACHE_PATH }}
+          key: pnpm-cache-app-${{ matrix.script }}-${{ matrix.engine }}-${{ matrix.linter }}
+          restore-keys: |
+            pnpm-cache-app-${{ matrix.script }}-${{ matrix.engine }}-
+            pnpm-cache-app-
+
+      # yarn
+      - name: Get yarn cache directory
+        if: ${{ matrix.install == 'yarn' }}
+        id: yarn-cache
+        run: |
+          echo "YARN_CACHE_PATH=$(yarn cache dir)" >> $GITHUB_OUTPUT
+      - name: Setup yarn cache
+        if: ${{ matrix.install == 'yarn' }}
+        uses: actions/cache@v5
+        with:
+          path: ${{ steps.yarn-cache.outputs.YARN_CACHE_PATH }}
+          key: yarn-cache-app-${{ matrix.script }}-${{ matrix.engine }}-${{ matrix.linter }}
+          restore-keys: |
+            yarn-cache-app-${{ matrix.script }}-${{ matrix.engine }}-
+            yarn-cache-app-
+
+      # npm
+      - name: Get npm cache directory
+        if: ${{ matrix.install == 'npm' }}
+        id: npm-cache
+        run: |
+          echo "NPM_CACHE_PATH=$(npm config get cache)" >> $GITHUB_OUTPUT
+      - name: Setup npm cache
+        if: ${{ matrix.install == 'npm' }}
+        uses: actions/cache@v5
+        with:
+          path: ${{ steps.npm-cache.outputs.NPM_CACHE_PATH }}
+          key: npm-cache-app-${{ matrix.script }}-${{ matrix.engine }}-${{ matrix.linter }}
+          restore-keys: |
+            npm-cache-app-${{ matrix.script }}-${{ matrix.engine }}-
+            npm-cache-app-
+
+      # scaffolds the project (with dependency install), then lints it,
+      # builds it and boots the dev server
+      - name: Test the project creation
+        env:
+          E2E_INSTALL: ${{ matrix.install }}
+          E2E_SCRIPT: ${{ matrix.script }}
+          E2E_LINTER: ${{ matrix.linter }}
+          E2E_FBR: ${{ matrix.fbr }}
+          E2E_ALL_PRESETS: ${{ matrix.allPresets }}
+        run: pnpm test:e2e:app
+
+  test-ae:
+    needs: [unit-tests, build-ui]
+    if: ${{ needs.unit-tests.outputs.e2e == 'true' }}
+
+    permissions:
+      contents: read # to fetch code (actions/checkout)
+
+    runs-on: ubuntu-latest
+
+    env:
+      # See https://github.com/yarnpkg/yarn/issues/9015
+      SKIP_YARN_COREPACK_CHECK: 1
+
+    defaults:
+      run:
+        working-directory: create-quasar
+
+    strategy:
+      fail-fast: false
+      matrix:
+        script: [js, ts]
+        lint: [true, false]
+
+    name: ae-${{ matrix.script }}${{ matrix.lint == true && '-lint' || '' }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v5
+
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm i
+
+      - name: Download UI build artifact
+        uses: actions/download-artifact@v8
+        with:
+          name: ui-build-create-quasar
+          path: ui/dist
+
+      - name: Get pnpm store directory
+        id: pnpm-cache
+        run: |
+          echo "PNPM_CACHE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
+      - name: Setup pnpm cache
+        uses: actions/cache@v5
+        with:
+          path: ${{ steps.pnpm-cache.outputs.PNPM_CACHE_PATH }}
+          key: pnpm-cache-ae-${{ matrix.script }}-${{ matrix.lint }}
+
+      # scaffolds the App Extension (with dependency install), then
+      # lints it and boots the playground dev server
+      - name: Test the project creation
+        env:
+          E2E_SCRIPT: ${{ matrix.script }}
+          E2E_LINT: ${{ matrix.lint }}
+        run: pnpm test:e2e:ae

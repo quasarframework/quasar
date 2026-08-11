@@ -20,24 +20,24 @@
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      text: '',
-      index: 1
-    }
-  },
-  watch: {
-    $route() {
-      this.index += 1
-    }
-  },
-  methods: {
-    focus(index) {
-      const el = this.$refs[`focus_${index}`]
-      el?.focus()
-    }
-  }
+<script setup>
+import { ref, watch } from 'vue'
+import { useRoute } from 'vue-router'
+
+const route = useRoute()
+
+const text = ref('')
+const index = ref(1)
+
+const focus_1 = ref(null)
+const focus_2 = ref(null)
+
+watch(route, () => {
+  index.value += 1
+})
+
+function focus(target) {
+  const el = { focus_1, focus_2 }[`focus_${target}`]?.value
+  el?.focus()
 }
 </script>

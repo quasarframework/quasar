@@ -52,52 +52,44 @@
     <div>
       <div class="row q-col-gutter-sm">
         <div class="col-12">
-          <q-input inverted v-model="model" float-label="col-12" />
+          <q-input filled v-model="model" label="col-12" />
+        </div>
+        <div class="col-xs-12 col-sm-6">
+          <q-input filled v-model="model" label="col-xs-12 col-sm-6 TOP LEFT" />
         </div>
         <div class="col-xs-12 col-sm-6">
           <q-input
-            inverted
+            filled
             v-model="model"
-            float-label="col-xs-12 col-sm-6 TOP LEFT"
+            label="col-xs-12 col-sm-6 TOP RIGHT"
           />
         </div>
         <div class="col-xs-12 col-sm-6">
           <q-input
-            inverted
+            filled
             v-model="model"
-            float-label="col-xs-12 col-sm-6 TOP RIGHT"
+            label="col-xs-12 col-sm-6 BOTTOM LEFT"
           />
         </div>
         <div class="col-xs-12 col-sm-6">
           <q-input
-            inverted
+            filled
             v-model="model"
-            float-label="col-xs-12 col-sm-6 BOTTOM LEFT"
-          />
-        </div>
-        <div class="col-xs-12 col-sm-6">
-          <q-input
-            inverted
-            v-model="model"
-            float-label="col-xs-12 col-sm-6 BOTTOM RIGHT"
+            label="col-xs-12 col-sm-6 BOTTOM RIGHT"
           />
         </div>
         <div class="col-12">
-          <q-input inverted v-model="model" float-label="col-12" />
+          <q-input filled v-model="model" label="col-12" />
         </div>
       </div>
     </div>
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      model: 'some text'
-    }
-  }
-}
+<script setup>
+import { ref } from 'vue'
+
+const model = ref('some text')
 </script>
 
 <style lang="sass">

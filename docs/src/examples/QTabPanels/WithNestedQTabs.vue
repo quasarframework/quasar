@@ -108,16 +108,10 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    return {
-      tab: ref('mails'),
-      innerTab: ref('innerMails'),
-      splitterModel: ref(20)
-    }
-  }
-}
+const tab = ref('mails')
+const innerTab = ref('innerMails')
+const splitterModel = ref(20)
 </script>

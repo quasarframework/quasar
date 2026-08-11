@@ -17,7 +17,8 @@ function readJson(file) {
   }
 }
 
-function getAppExtJson({ file, json, onListUpdate }) {
+// exported for testing purposes only
+export function getAppExtJson({ file, json, onListUpdate }) {
   const fileExists = Object.keys(json).length !== 0
 
   function save() {
@@ -32,6 +33,10 @@ function getAppExtJson({ file, json, onListUpdate }) {
   const acc = {
     has(extId) {
       return json[extId] !== void 0
+    },
+
+    get(extId) {
+      return json[extId] === void 0 ? void 0 : structuredClone(json[extId])
     },
 
     set(extId, opts) {

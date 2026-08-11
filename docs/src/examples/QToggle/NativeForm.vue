@@ -81,43 +81,33 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    const submitted = ref(false)
-    const submitEmpty = ref(false)
-    const submitResult = ref([])
+const submitted = ref(false)
+const submitEmpty = ref(false)
+const submitResult = ref([])
 
-    return {
-      activateMusic: ref(false),
-      activateLights: ref(null),
+const activateMusic = ref(false)
+const activateLights = ref(null)
 
-      genreRock: ref('rock'),
-      genreFunk: ref(false),
-      genrePop: ref('pop'),
+const genreRock = ref('rock')
+const genreFunk = ref(false)
+const genrePop = ref('pop')
 
-      submitted,
-      submitEmpty,
-      submitResult,
+function onSubmit(evt) {
+  const formData = new FormData(evt.target)
+  const data = []
 
-      onSubmit(evt) {
-        const formData = new FormData(evt.target)
-        const data = []
-
-        for (const [name, value] of formData.entries()) {
-          data.push({
-            name,
-            value
-          })
-        }
-
-        submitted.value = true
-        submitResult.value = data
-        submitEmpty.value = data.length === 0
-      }
-    }
+  for (const [name, value] of formData.entries()) {
+    data.push({
+      name,
+      value
+    })
   }
+
+  submitted.value = true
+  submitResult.value = data
+  submitEmpty.value = data.length === 0
 }
 </script>

@@ -14,7 +14,7 @@ The PreFetch is a feature (**only available when using Quasar CLI**) which allow
 
 All the above will run before the actual route component is rendered.
 
-**It is designed to work with all Quasar modes** (SPA, PWA, SSR, Cordova, Electron), but it is especially useful for SSR builds.
+**It is designed to work with all Quasar modes** (SPA, PWA, SSR, SSG, Cordova, Electron), but it is especially useful for SSR builds.
 
 ## Installation
 
@@ -113,13 +113,13 @@ Example below is when using Pinia:
     }) {
       // fetch data, validate route and optionally redirect to some other route...
 
-      // ssrContext is available only server-side in SSR mode
+      // ssrContext is available only server-side in SSR/SSG mode
 
       // No access to "this" here
 
       // Return a Promise if you are running an async job
       // Example:
-      const myStore = useMyStore() // useMyStore(store) for SSR
+      const myStore = useMyStore() // useMyStore(store) for SSR/SSG
       return myStore.fetchItem(currentRoute.params.id) // assumes it is async
     }
   })
@@ -170,7 +170,7 @@ Alternatively, with Composition API and `<script>`:
 ```
 
 ::: tip
-If you are developing a SSR app, then you can check out the [ssrContext](/quasar-cli-vite/developing-ssr/ssr-context) Object that gets supplied server-side.
+If you are developing a SSR/SSG app, then you can check out the [ssrContext](/quasar-cli-vite/developing-ssr/ssr-context) Object that gets supplied server-side.
 :::
 
 ```js
@@ -206,7 +206,7 @@ Below is an example of redirecting the user under some circumstances, like when 
 import { useMyStore } from '@/stores/myStore'
 
 preFetch ({ store, redirect }) {
-  const myStore = useMyStore() // useMyStore(store) for SSR
+  const myStore = useMyStore() // useMyStore(store) for SSR/SSG
   if (!myStore.isAuthenticated) {
     redirect({ path: '/login' })
     return
@@ -221,7 +221,7 @@ readonly redirect: (
   url: string | RouteLocationRaw,
   /**
    * HTTP status code to use for the redirection.
-   * Only used in SSR mode.
+   * Only used in SSR mode (but NOT SSG mode).
    *
    * @default 302
    */
@@ -278,7 +278,7 @@ redirect('/#/one') // WRONG!
 The `preFetch` hook runs only once, when the app boots up, so you can use this opportunity to initialize the Pinia store(s) here.
 
 ```tabs
-<<| js Pinia on Non SSR |>>
+<<| js Pinia on Non SSR/SSG |>>
 // App.vue - handling Pinia stores
 // example with a store named "myStore"
 // placed in /src/stores/myStore.js|ts
@@ -292,7 +292,7 @@ export default {
     // do something with myStore
   }
 }
-<<| js Pinia on SSR |>>
+<<| js Pinia on SSR/SSG |>>
 // App.vue - handling Pinia stores
 // example with a store named "myStore"
 // placed in /src/stores/myStore.js|ts
@@ -324,11 +324,7 @@ There's also the possibility to use Quasar [Loading](/quasar-plugins/loading) pl
 import { Loading } from 'quasar'
 
 defineOptions({
-  preFetch(
-    {
-      /* ... */
-    }
-  ) {
+  preFetch({/* ... */}) {
     Loading.show()
 
     return new Promise(resolve => {

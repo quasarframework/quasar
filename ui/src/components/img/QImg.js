@@ -22,7 +22,7 @@ import useTimeout from '../../composables/use-timeout/use-timeout.js'
 
 const defaultRatio = 1.7778 /* 16/9 */
 
-export default createComponent({
+export default /*#__PURE__*/ createComponent({
   name: 'QImg',
 
   props: {

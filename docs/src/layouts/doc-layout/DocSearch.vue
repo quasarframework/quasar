@@ -1,6 +1,5 @@
 <template>
   <div
-    ref="rootRef"
     class="doc-search z-max self-center"
     :class="classes"
     @click.prevent="onClick"
@@ -48,7 +47,15 @@
 
 <script setup>
 import { LoadingBar, useQuasar } from 'quasar'
-import { computed, markRaw, onBeforeUnmount, onMounted, ref, watch } from 'vue'
+import {
+  computed,
+  markRaw,
+  onBeforeUnmount,
+  onMounted,
+  ref,
+  useTemplateRef,
+  watch
+} from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
 import AppSearchResults from './search/SearchResults.vue'
@@ -59,8 +66,7 @@ const $q = useQuasar()
 const $route = useRoute()
 const $router = useRouter()
 
-const rootRef = ref(null)
-const inputRef = ref(null)
+const inputRef = useTemplateRef('inputRef')
 
 const terms = ref('')
 const results = ref(null)

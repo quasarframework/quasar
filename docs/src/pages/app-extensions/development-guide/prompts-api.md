@@ -15,7 +15,7 @@ import { definePromptsScript } from '#q-app'
 export default definePromptsScript(async (/* api */) => {
   /**
    * Use @clack/prompts, inquirer or whatever you want
-   * (and make sure to PNPM install the package in /ae)
+   * (run `pnpm add @clack/prompts` from /ae first)
    * to prompt the user, then return the answers object
    */
 
@@ -43,6 +43,7 @@ Same as the `ctx` from the `/quasar.config` file.
     publicDir: '...absolute path of it',
     pwaDir: '...absolute path of it',
     ssrDir: '...absolute path of it',
+    ssgDir: '...absolute path of it',
     cordovaDir: '...absolute path of it',
     capacitorDir: '...absolute path of it',
     electronDir: '...absolute path of it',
@@ -56,6 +57,7 @@ Same as the `ctx` from the `/quasar.config` file.
       public: (...paths) => theAbsolutePathToPublicDir,
       pwa: (...paths) => theAbsolutePathToAppSrcPwaDir,
       ssr: (...paths) => theAbsolutePathToAppSrcSsrDir,
+      ssg: (...paths) => theAbsolutePathToAppSrcSsgDir,
       cordova: (...paths) => theAbsolutePathToAppSrcCordovaDir,
       capacitor: (...paths) => theAbsolutePathToAppSrcCapacitorDir,
       electron: (...paths) => theAbsolutePathToAppSrcElectronDir,
@@ -88,6 +90,9 @@ api.resolve.pwa('some-file.js')
 
 // resolves to root/src-ssr of app
 api.resolve.ssr('some-file.js')
+
+// resolves to root/src-ssg of app
+api.resolve.ssg('some-file.js')
 
 // resolves to root/src-cordova of app
 api.resolve.cordova('config.xml')
@@ -142,9 +147,9 @@ await api.hasTypescript()
 
 ```js
 /**
- * @return {Promise<string|undefined>} 'pinia' | 'vuex' | undefined
+ * @return {'pinia'|undefined}
  */
-await api.getStorePackageName()
+api.getStorePackageName()
 ```
 
 ### api.getNodePackagerName
@@ -173,7 +178,7 @@ api.compatibleWith(packageName, '3.x')
 ```
 
 ```js A more complex example:
-api.compatibleWith('@quasar/app-vite', '^3.0.0-rc.1')
+api.compatibleWith('@quasar/app-vite', '^3.0.0')
 ```
 
 ### api.hasPackage

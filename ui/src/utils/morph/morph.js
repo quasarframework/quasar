@@ -897,10 +897,13 @@ export default function morph(_options) {
               }
             }
           `
-        const keyframesFrom =
-          options.hideFromClone === true || elSharedSize === true
-            ? ''
-            : `
+        const hasFromKeyframes =
+          options.hideFromClone !== true && elSharedSize !== true
+        const hasToKeyframes = options.keepToClone !== true
+
+        const keyframesFrom = !hasFromKeyframes
+          ? ''
+          : `
             @keyframes ${qAnimId}-from {
               0% {
                 margin: ${elFromParentHeightDiff < 0 ? elFromParentHeightDiff / 2 : 0}px ${elFromParentWidthDiff < 0 ? elFromParentWidthDiff / 2 : 0}px;
@@ -927,10 +930,9 @@ export default function morph(_options) {
             width: 0;
             height: 0;
           `
-        const keyframesTo =
-          options.keepToClone === true
-            ? ''
-            : `
+        const keyframesTo = !hasToKeyframes
+          ? ''
+          : `
             @keyframes ${qAnimId}-to {
               0% {
                 ${keyframeToStart}
@@ -983,12 +985,20 @@ export default function morph(_options) {
 
         let animationDirection = 'normal'
 
-        elFromClone.style.animation = `${options.duration}ms ${options.easing} ${options.delay}ms ${animationDirection} ${options.fill} ${qAnimId}-from`
+        // only point an element at keyframes that were actually generated
+        const getAnimation = suffix =>
+          `${options.duration}ms ${options.easing} ${options.delay}ms ${animationDirection} ${options.fill} ${qAnimId}${suffix}`
+
+        elFromClone.style.animation = hasFromKeyframes
+          ? getAnimation('-from')
+          : 'none'
         if (elFromTween !== void 0) {
-          elFromTween.style.animation = `${options.duration}ms ${options.easing} ${options.delay}ms ${animationDirection} ${options.fill} ${qAnimId}-from-tween`
+          elFromTween.style.animation = getAnimation('-from-tween')
         }
-        elToClone.style.animation = `${options.duration}ms ${options.easing} ${options.delay}ms ${animationDirection} ${options.fill} ${qAnimId}-to`
-        elTo.style.animation = `${options.duration}ms ${options.easing} ${options.delay}ms ${animationDirection} ${options.fill} ${qAnimId}`
+        elToClone.style.animation = hasToKeyframes
+          ? getAnimation('-to')
+          : 'none'
+        elTo.style.animation = getAnimation('')
 
         const cleanup = evt => {
           if (evt === Object(evt) && evt.animationName !== qAnimId) return
@@ -1034,7 +1044,9 @@ export default function morph(_options) {
             animationDirection === 'normal' ? 'reverse' : 'normal'
 
           elFromClone.style.animationDirection = animationDirection
-          elFromTween.style.animationDirection = animationDirection
+          if (elFromTween !== void 0) {
+            elFromTween.style.animationDirection = animationDirection
+          }
           elToClone.style.animationDirection = animationDirection
           elTo.style.animationDirection = animationDirection
 

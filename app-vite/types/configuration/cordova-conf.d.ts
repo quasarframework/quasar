@@ -3,6 +3,7 @@ export type QuasarCordovaTargets =
   | "ios"
   | "blackberry10"
   | "browser"
+  | "electron"
   | "osx"
   | "ubuntu"
   | "webos"
@@ -20,15 +21,15 @@ export interface QuasarCordovaConfiguration {
    * will be executed after the UI has compiled.
    *
    * @param context.debug - True if in debug mode
-   * @param context.target - The target platform (ios/android)
+   * @param context.target - The target platform
    * @returns Array of strings (command parameters)
    *
    * @default: [ 'build', '--debug'/'--release', '--device', 'ios'/'android' ]
-   * @example: ({ isDebug, target }) => [ 'build', `--${isDebug ? 'debug' : 'release'}`, '--device', 'target' ]
+   * @example: ({ debug, target }) => [ 'build', `--${debug ? 'debug' : 'release'}`, '--device', target ]
    */
   getCordovaBuildParams?: (context: {
     readonly debug: boolean;
-    readonly target: "ios" | "android";
+    readonly target: QuasarCordovaTargets;
   }) => string[];
 
   /**
@@ -38,24 +39,24 @@ export interface QuasarCordovaConfiguration {
    * to the /dist folder.
    *
    * @param context.debug - True if in debug mode
-   * @param context.target - The target platform (ios/android)
+   * @param context.target - The target platform
    * @returns string | string[] | undefined - (relative path(s) from /src-cordova)
    *
    * @default ios: platforms/ios/build/... and android: platforms/android/app/build/outputs
    * @example:
-   *    ({ isDebug, target }) => {
+   *    ({ debug, target }) => {
    *       return target === 'ios'
-   *          ? `platforms/ios/build/${isDebug ? 'Debug' : 'Release'}-iphoneos
+   *          ? `platforms/ios/build/${debug ? 'Debug' : 'Release'}-iphoneos`
    *          : 'platforms/android/app/build/outputs'
    *    }
    * @example: (when interested in only one platform, leaving the other to the default value)
-   *    ({ isDebug, target }) => {
+   *    ({ debug, target }) => {
    *       if (target === 'ios') {
-   *          return `platforms/ios/build/${isDebug ? 'Debug' : 'Release'}-iphoneos`
+   *          return `platforms/ios/build/${debug ? 'Debug' : 'Release'}-iphoneos`
    *       }
    *    }
    * @example: ()
-   *    ({ isDebug, target }) => {
+   *    ({ debug, target }) => {
    *       if (target === 'ios') {
    *          // try these two folders
    *          return [ 'platforms/ios/build/device', 'platforms/ios/build/emulator' ]
@@ -64,6 +65,6 @@ export interface QuasarCordovaConfiguration {
    */
   getCordovaBuildOutputFolder?: (context: {
     readonly debug: boolean;
-    readonly target: "ios" | "android";
+    readonly target: QuasarCordovaTargets;
   }) => string | string[] | undefined;
 }

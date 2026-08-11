@@ -205,42 +205,34 @@
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      halfModel: 3.4,
-      ratingModel: 4,
-      moodModel: 2,
-      ratingIcons: [
-        'sentiment_very_dissatisfied',
-        'sentiment_dissatisfied',
-        'sentiment_satisfied',
-        'sentiment_very_satisfied'
-      ],
-      ratingColors: [
-        'light-green-3',
-        'light-green-6',
-        'green',
-        'green-9',
-        'green-10'
-      ]
-    }
-  },
-  watch: {
-    ratingModel(val, old) {
-      console.log(
-        `Changed from ${JSON.stringify(old)} to ${JSON.stringify(val)}`
-      )
-    }
-  },
-  methods: {
-    onChange(val) {
-      console.log('@change', JSON.stringify(val))
-    },
-    onInput(val) {
-      console.log('@update:model-value', JSON.stringify(val))
-    }
-  }
+<script setup>
+import { ref, watch } from 'vue'
+
+const halfModel = ref(3.4)
+const ratingModel = ref(4)
+const moodModel = ref(2)
+const ratingIcons = ref([
+  'sentiment_very_dissatisfied',
+  'sentiment_dissatisfied',
+  'sentiment_satisfied',
+  'sentiment_very_satisfied'
+])
+const ratingColors = ref([
+  'light-green-3',
+  'light-green-6',
+  'green',
+  'green-9',
+  'green-10'
+])
+
+watch(ratingModel, (val, old) => {
+  console.log(`Changed from ${JSON.stringify(old)} to ${JSON.stringify(val)}`)
+})
+
+function onChange(val) {
+  console.log('@change', JSON.stringify(val))
+}
+function onInput(val) {
+  console.log('@update:model-value', JSON.stringify(val))
 }
 </script>

@@ -41,14 +41,13 @@ export default {
     noData: 'Ingen data tilgjengelig',
     noResults: 'Ingen treff i data funnet',
     loading: 'Laster...',
-    row: 'rad',
     selectedRecords: rows =>
-      rows > 0
-        ? rows + ' row' + (rows === 1 ? '' : 's') + ' valgt.'
-        : 'Ingen valgte rader.',
+      rows === 1
+        ? '1 rad valgt.'
+        : (rows === 0 ? 'Ingen' : rows) + ' rader valgt.',
     recordsPerPage: 'Rader pr side:',
     allRows: 'Alle',
-    pagination: (start, end, total) => start + ' - ' + end + ' av ' + total,
+    pagination: (start, end, total) => start + '-' + end + ' av ' + total,
     columns: 'Kolonner'
   },
   pagination: {
@@ -75,7 +74,7 @@ export default {
     right: 'Høyrestill',
     justify: 'Tilpasset bredde',
     print: 'Skriv ut',
-    outdent: 'Midre innrykk',
+    outdent: 'Mindre innrykk',
     indent: 'Større innrykk',
     removeFormat: 'Fjern formatering',
     formatting: 'Formatering',
@@ -98,7 +97,7 @@ export default {
     size4: 'Medium-stor',
     size5: 'Stor',
     size6: 'Veldig stor',
-    size7: 'Maximum',
+    size7: 'Maksimal',
     defaultFont: 'Normal font',
     viewSource: 'Se kilde'
   },

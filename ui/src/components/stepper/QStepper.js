@@ -25,7 +25,7 @@ function camelizeProps(props) {
   return acc
 }
 
-export default createComponent({
+export default /*#__PURE__*/ createComponent({
   name: 'QStepper',
 
   props: {

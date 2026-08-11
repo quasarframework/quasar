@@ -38,14 +38,8 @@
   </div>
 </template>
 
-<script>
-export default {
-  setup() {
-    return {
-      onClick() {
-        // console.log('Clicked on a fab action')
-      }
-    }
-  }
+<script setup>
+function onClick() {
+  console.log('Clicked on a fab action')
 }
 </script>

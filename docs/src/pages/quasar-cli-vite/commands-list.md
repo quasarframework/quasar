@@ -39,9 +39,6 @@ $ quasar -h
     info, i       Display info about your machine and your App
     help, h       Displays this message
 
-  If the specified command is not found, then "quasar run"
-  will be executed with the provided arguments.
-
   Commands supplied by @quasar/cli global installation:
 
     upgrade       Check (and optionally) upgrade Quasar packages
@@ -103,11 +100,17 @@ If you're using a code editor terminal instead of the real one, you run `quasar 
 
 ## Info
 
-The Quasar CLI is equipped with a stable combination of multiple NPM build packages (Vite, Vue, etc) which gets updated frequently after heavy testing.
+The Quasar CLI uses a tested combination of build packages such as Vite and Vue, which are updated regularly.
 
 In order for you to see what versions of Node, Quasar CLI, Quasar, Vue (and many others) you are using, issue this command in a Quasar project folder: `quasar info`.
 
 ## Dev
+
+The Quasar development server allows you to develop your App by compiling and maintaining code in-memory. A web server will serve your App while offering hot-reload out of the box. Running in-memory offers faster rebuilds when you change your code.
+
+> Hot Reload is much more than just refreshing your browser when code changes. It skips the refresh and updates your code on the fly, while maintaining your App's state (like your Vue's model data). Please note that there are cases when this is impossible, so the dev webserver will simply refresh your browser. (Always ensure you are running only one instance of Quasar CLI at a time, otherwise Hot-Reload and other stuff will break!)
+
+Based on what you want to develop, you can start the development server by using "quasar dev" command as follows:
 
 ```
 $ quasar dev -h
@@ -131,13 +134,13 @@ $ quasar dev -h
     # passing extra parameters and/or options to
     # underlying "cordova" or "electron" executables:
     $ quasar dev -m cordova -T ios -- some params --and options --here
-    $ quasar dev -m electron -- --no-sandbox --disable-setuid-sandbox
+    $ quasar dev -m electron -- --force-device-scale-factor=1
     # when on Windows and using Powershell:
     $ quasar dev -m cordova -T ios '--' some params --and options --here
-    $ quasar dev -m electron '--' --no-sandbox --disable-setuid-sandbox
+    $ quasar dev -m electron '--' --force-device-scale-factor=1
 
   Options
-    --mode, -m       App mode [spa|ssr|pwa|cordova|capacitor|electron|bex] (default: spa)
+    --mode, -m       App mode [spa|ssr|ssg|pwa|cordova|capacitor|electron|bex] (default: spa)
     --port, -p       A port number on which to start the application
     --hostname, -H   A hostname to use for serving the application
     --devtools, -d   Open remote Vue Devtools
@@ -151,53 +154,6 @@ $ quasar dev -h
     Only for BEX mode:
     --target, -T     Browser family target [chrome|firefox]
                        (default: chrome)
-```
-
-The Quasar development server allows you to develop your App by compiling and maintaining code in-memory. A web server will serve your App while offering hot-reload out of the box. Running in-memory offers faster rebuilds when you change your code.
-
-> Hot Reload is much more than just refreshing your browser when code changes. It skips the refresh and updates your code on the fly, while maintaining your App's state (like your Vue's model data). Please note that there are cases when this is impossible, so the dev webserver will simply refresh your browser. (Always ensure you are running only one instance of Quasar CLI at a time, otherwise Hot-Reload and other stuff will break!)
-
-Based on what you want to develop, you can start the development server by using "quasar dev" command as follows:
-
-```
-$ quasar dev -h
-
-  Description
-    Starts the app in development mode (HMR, error reporting, etc)
-
-  Usage
-    $ quasar dev
-    $ quasar dev -p <port number>
-
-    $ quasar dev -m ssr
-
-    # alias for "quasar dev -m capacitor -T ios"
-    $ quasar dev -m ios
-
-    # alias for "quasar dev -m capacitor -T android"
-    $ quasar dev -m android
-
-    # passing extra parameters and/or options to
-    # underlying "cordova" or "electron" executables:
-    $ quasar dev -m cordova -T ios -- some params --and options --here
-    $ quasar dev -m electron -- --no-sandbox --disable-setuid-sandbox
-    # when on Windows and using Powershell:
-    $ quasar dev -m cordova -T ios '--' some params --and options --here
-    $ quasar dev -m electron '--' --no-sandbox --disable-setuid-sandbox
-
-  Options
-    --mode, -m       App mode [spa|ssr|pwa|cordova|capacitor|electron|bex] (default: spa)
-    --port, -p       A port number on which to start the application
-    --hostname, -H   A hostname to use for serving the application
-    --target, -T     App target
-                       - Capacitor & Cordova: [android|ios]
-                       - Bex: [chrome|firefox]
-    --devtools, -d   Open remote Vue Devtools
-    --no-color       Disable colored output
-    --help, -h       Displays this message
-
-    Only for Capacitor & Cordova modes:
-    --ide, -i        (prod only) Open IDE to build the app instead of using CLI tools
 ```
 
 If you wish to change the hostname or port serving your App you have 3 options:
@@ -216,11 +172,6 @@ If you wish to change the hostname or port serving your App you have 3 options:
   HOSTNAME=1.1.1.14 quasar dev
   ```
 
-If there appears to be an issue with hot reload, you can try two fixes:
-
-- Change the permissions for the project folder with: `sudo chown -R username: .`
-- or run the dev server with root privileges: `sudo quasar dev`
-
 ## Build
 
 ```
@@ -237,12 +188,12 @@ $ quasar build -h
 
     # passing extra parameters and/or options to
     # underlying "cordova" executable:
-    $ quasar build -m electron -- some params --and options --here
-    # when on Windows and using Powershell:
-    $ quasar build -m electron '--' some params --and options --here
+    $ quasar build -m cordova -T ios -- some params --and options --here
+    # when on Windows and using PowerShell:
+    $ quasar build -m cordova -T ios '--' some params --and options --here
 
   Options
-    --mode, -m      App mode [spa|ssr|pwa|cordova|capacitor|electron|bex] (default: spa)
+    --mode, -m      App mode [spa|ssr|ssg|pwa|cordova|capacitor|electron|bex] (default: spa)
     --target, -T    App target
                       - Cordova (default: all installed)
                         [android|ios]
@@ -261,8 +212,8 @@ $ quasar build -h
     --skip-pkg, -s  Build only UI (skips creating Cordova/Capacitor/Electron executables or BEX zip file)
                       - Cordova (it only fills in /src-cordova/www folder with the UI code)
                       - Capacitor (it only fills in /src-capacitor/www folder with the UI code)
-                      - Electron (it only creates the /dist/electron/UnPackaged folder)
-                      - BEX (it only creates the /dist/bex-* folder)
+                      - Electron (it only creates the unpackaged app folder)
+                      - BEX (it only creates the unpackaged extension folder)
     --no-summary    Don't output build summary at the end of the process
     --no-color      Disable colored output
     --help, -h      Displays this message
@@ -313,7 +264,7 @@ quasar build -m electron
 # passing extra parameters and/or options to
 # underlying "cordova" executable:
 quasar build -m cordova -T ios -- some params --and options --here
-# when on Windows and using Powershell:
+# when on Windows and using PowerShell:
 quasar build -m cordova -T ios '--' some params --and options --here
 
 # Create a production build with ability to debug it
@@ -400,25 +351,50 @@ $ quasar mode -h
     Add/Remove support for PWA / BEX / Cordova / Capacitor / Electron modes.
 
   Usage
-    $ quasar mode [add|remove] [pwa|ssr|bex|cordova|capacitor|electron] [--yes]
+    $ quasar mode [add|remove] [pwa|ssr|ssg|bex|cordova|capacitor|electron] [--yes]
+
+    # add SSR mode non-interactively:
+    $ quasar mode add ssr --webserver hono
 
     # determine what modes are currently installed:
     $ quasar mode
 
   Options
-    --yes, -y     Skips the "Are you sure?" question
-                  when removing a Quasar mode
-    --no-color    Disable colored output
-    --help, -h    Displays this message
+    --yes, -y      Skips the "Are you sure?" question
+                   when removing a Quasar mode
+    --no-color     Disable colored output
+    --help, -h     Displays this message
+
+    The mode-specific options below make "quasar mode add" fully
+    non-interactive. Without them, an interactive terminal gets a
+    prompt while CI/non-interactive runs pick the listed default.
+
+    ONLY when adding SSR mode:
+    --webserver, -w  The production webserver to scaffold for
+                       [hono|fastify|express|koa] (default: hono)
+
+    ONLY when adding SSG mode:
+    --filename-based-routing  Scaffold for filename-based routing
+                                (default: not using it)
+
+    ONLY when adding Cordova or Capacitor mode:
+    --app-id       The application id to scaffold with
+                     (default: org.cordova.quasar.app /
+                      org.capacitor.quasar.app)
+
+    ONLY when adding Capacitor mode:
+    --app-name     The application display name to scaffold with
+                     (default: package.json > productName or name)
 ```
 
-When you initialize a project with the CLI, you can build SPA (Single Page Website/Application), SSR (Server-side Render Website/Application with optional PWA client takeover), PWA (Progressive Web App), Mobile App (through Cordova), and/or Electron Apps. When you develop for SSR, PWA, Cordova or Electron, you need these modes installed. If you issue "quasar dev" or "quasar build" they will automatically be installed.
+When you initialize a project with the CLI, you can build SPA (Single Page Website/Application), SSR (Server-side Render Website/Application with optional PWA client takeover), SSG (Static Site Generator with optional PWA client takeover), PWA (Progressive Web App), Mobile App (through Cordova), and/or Electron Apps. When you develop for SSR, SSG, PWA, Cordova or Electron, you need these modes installed. If you issue "quasar dev" or "quasar build" they will automatically be installed.
 
 These modes will add a "src-\*" folder into your project with very specific code for it:
 
 | Folder       | Mode     | Description                                                                                                                                                                                                                                                           |
 | ------------ | -------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | src-ssr      | ssr      | Contains the production Node.js server files.                                                                                                                                                                                                                         |
+| src-ssg      | ssg      | Contains the ssg-renderer script file.                                                                                                                                                                                                                                |
 | src-pwa      | pwa      | Contains the Service Worker file that you can tweak.                                                                                                                                                                                                                  |
 | src-cordova  | cordova  | Is a Cordova project folder that will be using your 'src' as content. Tweak Cordova config, add/remove platforms, splash screens, Cordova plugins and so on from this folder. Do NOT touch "src-cordova/www" folder though as it will get overwritten at every build. |
 | src-electron | electron | Has code for the main Electron thread. The renderer thread will be your app in 'src'.                                                                                                                                                                                 |
@@ -549,11 +525,12 @@ $ quasar inspect -h
 
   Options
     --cmd, -c        Quasar command [dev|build] (default: dev)
-    --mode, -m       App mode [spa|ssr|pwa|bex|cordova|capacitor|electron] (default: spa)
+    --mode, -m       App mode [spa|ssr|ssg|pwa|bex|cordova|capacitor|electron] (default: spa)
     --depth, -d      Number of levels deep (default: 2)
     --path, -p       Path of config in dot notation
                         Examples:
-                          -p module.rules
+                          -p build.outDir
+                          -p server.port
                           -p plugins
     --thread, -t     Display only one specific app mode config thread
     --no-color       Disable colored output
@@ -667,8 +644,12 @@ $ quasar serve -h
       app.get('/proxy/:path', (c) => {
         return proxy('http://some.api.com/' + c.req.param('path'))
       })
-    }
+}
 ```
+
+::: warning
+`quasar serve` binds to `0.0.0.0` by default, which can make it reachable from other devices on the network. Use `--hostname localhost` for local-only testing. Enable `--cors` or a proxy only when required, and do not use this convenience server to expose sensitive files or services.
+:::
 
 ### Custom Node.js server
 

@@ -2,9 +2,10 @@ import type { App } from "vue";
 import type { RouteLocationRaw, Router } from "vue-router";
 
 import type { HasSsrParam, HttpRedirectStatusCode } from "./ssr/index.d.ts";
+import type { HasSsgParam } from "./ssg/index.d.ts";
 import type { HasStoreParam } from "./store.d.ts";
 
-interface BootFileParams extends HasSsrParam, HasStoreParam {
+interface BootFileParams extends HasSsrParam, HasSsgParam, HasStoreParam {
   readonly app: App;
   readonly router: Router;
   readonly urlPath: string;

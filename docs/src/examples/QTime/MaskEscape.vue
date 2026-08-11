@@ -13,14 +13,8 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    return {
-      model: ref('10h and 20 minutes (AM)')
-    }
-  }
-}
+const model = ref('10h and 20 minutes (AM)')
 </script>

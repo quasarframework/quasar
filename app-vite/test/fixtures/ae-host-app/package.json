@@ -1,0 +1,14 @@
+{
+  "name": "ae-host-app",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Host app fixture for the AE-lifecycle e2e suite",
+  "type": "module",
+  "dependencies": {
+    "@quasar/extras": "^2.0.0",
+    "quasar": "^2.24.0"
+  },
+  "devDependencies": {
+    "@quasar/app-vite": "^3.5.0"
+  }
+}

@@ -55,7 +55,7 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
 const menuList = [
@@ -99,12 +99,5 @@ const menuList = [
   // #endregion
 ]
 
-export default {
-  setup() {
-    return {
-      drawer: ref(false),
-      menuList
-    }
-  }
-}
+const drawer = ref(false)
 </script>

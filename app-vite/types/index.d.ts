@@ -6,6 +6,7 @@ import "./globals";
 
 export * from "./bex/index";
 export * from "./ssr/index";
+export * from "./ssg/index";
 
 export * from "./store";
 export * from "./prefetch";

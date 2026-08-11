@@ -753,64 +753,63 @@
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    const list = []
-    for (let i = 0; i < 26 * 30; i += 1) {
-      const c = String.fromCodePoint(97 + (i % 26))
-      const v = `${c}${c}${c}${c}${c}#${i}`
-      list.push({ label: v, value: v })
-    }
-    return {
-      gigi: '',
-      fit: false,
-      cover: false,
-      toggle: true,
-      anchorOrigin: { vertical: 'bottom', horizontal: 'left' },
-      selfOrigin: { vertical: 'top', horizontal: 'left' },
-      terms: '',
-      modelDate: null,
-      model: 30,
-      menuModelTouch: false,
-      min: 0,
-      max: 50,
-      list,
+<script setup>
+import { useQuasar } from 'quasar'
+import { computed, ref } from 'vue'
 
-      selectModelS: null,
-      selectModelM: null,
-      selectOptions: list,
+const $q = useQuasar()
 
-      vIfTest: true,
-      touchPosition: true,
-      contextMenu: true,
-      targetEl: '#target-img-1',
+const initialList = []
+for (let i = 0; i < 26 * 30; i += 1) {
+  const c = String.fromCodePoint(97 + (i % 26))
+  const v = `${c}${c}${c}${c}${c}#${i}`
+  initialList.push({ label: v, value: v })
+}
 
-      dialog: false,
-      dialog2: false,
+const gigi = ref('')
+const fit = ref(false)
+const cover = ref(false)
+const toggle = ref(true)
+const anchorOrigin = ref({ vertical: 'bottom', horizontal: 'left' })
+const selfOrigin = ref({ vertical: 'top', horizontal: 'left' })
+const terms = ref('')
+const modelDate = ref(null)
+const model = ref(30)
+const menuModelTouch = ref(false)
+const min = ref(0)
+const max = ref(50)
+const list = ref(initialList)
 
-      mobileData: true,
-      bluetooth: false
-    }
-  },
-  computed: {
-    anchor() {
-      return `${this.anchorOrigin.vertical} ${this.anchorOrigin.horizontal}`
-    },
-    self() {
-      return `${this.selfOrigin.vertical} ${this.selfOrigin.horizontal}`
-    }
-  },
-  methods: {
-    showNotify() {
-      this.$q.notify(
-        (this.$q.platform.is.desktop ? 'Clicked' : 'Tapped') +
-          ' on a QMenu item'
-      )
-    },
-    log(msg) {
-      console.log(msg)
-    }
-  }
+const selectModelS = ref(null)
+const selectModelM = ref(null)
+const selectOptions = ref(initialList)
+
+const vIfTest = ref(true)
+const touchPosition = ref(true)
+const contextMenu = ref(true)
+const targetEl = ref('#target-img-1')
+
+const dialog = ref(false)
+const dialog2 = ref(false)
+
+const mobileData = ref(true)
+const bluetooth = ref(false)
+
+const anchor = computed(
+  () => `${anchorOrigin.value.vertical} ${anchorOrigin.value.horizontal}`
+)
+
+const self = computed(
+  () => `${selfOrigin.value.vertical} ${selfOrigin.value.horizontal}`
+)
+
+function showNotify() {
+  $q.notify(
+    ($q.platform.is.desktop ? 'Clicked' : 'Tapped') + ' on a QMenu item'
+  )
+}
+
+function log(msg) {
+  console.log(msg)
 }
 </script>

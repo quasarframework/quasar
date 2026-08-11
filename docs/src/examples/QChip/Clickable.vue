@@ -39,14 +39,8 @@
   </div>
 </template>
 
-<script>
-export default {
-  setup() {
-    return {
-      onClick() {
-        // console.log('Clicked on a QChip')
-      }
-    }
-  }
+<script setup>
+function onClick() {
+  console.log('Clicked on a QChip')
 }
 </script>

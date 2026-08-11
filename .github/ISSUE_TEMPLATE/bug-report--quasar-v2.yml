@@ -126,7 +126,7 @@ body:
     attributes:
       label: Quasar info output
       description: |
-        Please run [`quasar info` command](https://quasar.dev/quasar-cli/commands-list#info), then copy and paste the output.
+        Please run [`quasar info` command](https://quasar.dev/quasar-cli-vite/commands-list#info), then copy and paste the output.
         _This will be automatically formatted into code, so no need for backticks._
       render: Shell
     # TODO: Validate the format by using GitHub Actions, Probot, etc.

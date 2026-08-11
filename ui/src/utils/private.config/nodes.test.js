@@ -99,6 +99,21 @@ describe('[nodes API]', () => {
           expect(node.parentElement).toBe(newTargetEl)
         })
       })
+      test('removeGlobalNode ignores an untracked element', () => {
+        const tracked = createGlobalNode('tracked-node')
+        const stray = document.createElement('div')
+
+        removeGlobalNode(stray) // untracked -> must not evict a tracked node
+
+        const newTarget = document.createElement('div')
+        document.body.append(newTarget)
+        changeGlobalNodesTarget(newTarget)
+        expect(tracked.parentElement).toBe(newTarget)
+
+        removeGlobalNode(tracked)
+        changeGlobalNodesTarget(document.body)
+        newTarget.remove()
+      })
     })
   })
 })

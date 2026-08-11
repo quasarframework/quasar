@@ -13,7 +13,7 @@ const NAMED_MASKS = {
 }
 
 const { tokenMap: DEFAULT_TOKEN_MAP, tokenKeys: DEFAULT_TOKEN_MAP_KEYS } =
-  getTokenMap({
+  /*#__PURE__*/ getTokenMap({
     '#': { pattern: '[\\d]', negate: '[^\\d]' },
 
     S: { pattern: '[a-zA-Z]', negate: '[^a-zA-Z]' },
@@ -68,7 +68,9 @@ function getTokenRegexMask(keys) {
 }
 
 const escRegex = /[.*+?^${}()|[\]\\]/g
-const DEFAULT_TOKEN_REGEX_MASK = getTokenRegexMask(DEFAULT_TOKEN_MAP_KEYS)
+const DEFAULT_TOKEN_REGEX_MASK = /*#__PURE__*/ getTokenRegexMask(
+  DEFAULT_TOKEN_MAP_KEYS
+)
 const MARKER = String.fromCodePoint(1)
 
 export const useMaskProps = {
@@ -146,6 +148,14 @@ export default function useMask(props, emit, emitValue, inputRef) {
     () => {
       if (hasMask.value) updateMaskValue(innerValue.value)
     }
+  )
+
+  watch(
+    () => props.maskTokens,
+    () => {
+      if (hasMask.value) updateMaskValue(innerValue.value, true)
+    },
+    { deep: true }
   )
 
   function getInitialMaskedValue() {
@@ -311,8 +321,8 @@ export default function useMask(props, emit, emitValue, inputRef) {
 
   function updateMaskValue(rawVal, updateMaskInternalsFlag, inputType) {
     const inp = inputRef.value,
-      end = inp.selectionEnd,
-      endReverse = inp.value.length - end,
+      end = inp?.selectionEnd ?? 0,
+      endReverse = inp === null ? 0 : inp.value.length - end,
       unmasked = unmaskValue(rawVal)
 
     // Update here so unmask uses the original fillChar
@@ -323,11 +333,11 @@ export default function useMask(props, emit, emitValue, inputRef) {
       changed = innerValue.value !== masked
 
     // We want to avoid "flickering" so we set value immediately
-    if (inp.value !== masked) inp.value = masked
+    if (inp !== null && inp.value !== masked) inp.value = masked
 
     if (changed) innerValue.value = masked
 
-    if (document.activeElement === inp) {
+    if (inp !== null && document.activeElement === inp) {
       nextTick(() => {
         if (masked === maskReplaced) {
           const cursor = props.reverseFillMask ? maskReplaced.length : 0

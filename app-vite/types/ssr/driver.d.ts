@@ -1,3 +1,5 @@
+import type { IncomingMessage, ServerResponse } from "node:http";
+
 /**
  * This interface MUST be augmented by users to inject their own server types.
  *
@@ -16,9 +18,14 @@ export interface SsrDriver extends Record<string, unknown> {}
 /**
  * @private
  */
+type Fallback<T, Default> = unknown extends T ? Default : T;
+
+/**
+ * @private
+ */
 export interface SsrDriverTypes {
   app: SsrDriver["app"];
   listenResult: SsrDriver["listenResult"];
-  request: SsrDriver["request"];
-  response: SsrDriver["response"];
+  request: Fallback<SsrDriver["request"], IncomingMessage>;
+  response: Fallback<SsrDriver["response"], ServerResponse>;
 }

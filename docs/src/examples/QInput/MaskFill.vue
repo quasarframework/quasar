@@ -31,16 +31,10 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    return {
-      id: ref(null),
-      phone: ref(null),
-      card: ref(null)
-    }
-  }
-}
+const id = ref(null)
+const phone = ref(null)
+const card = ref(null)
 </script>

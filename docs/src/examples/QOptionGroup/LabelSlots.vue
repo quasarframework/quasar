@@ -18,34 +18,27 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    return {
-      group: ref(['op1']),
-
-      options: [
-        {
-          value: 'op1',
-          label: 'Good food',
-          icon: 'restaurant_menu'
-        },
-        {
-          value: 'op2',
-          label: 'Good service',
-          icon: 'room_service',
-          color: 'teal'
-        },
-        {
-          value: 'op3',
-          label: 'Pleasant surroundings',
-          icon: 'photo',
-          color: 'teal'
-        }
-      ]
-    }
+const group = ref(['op1'])
+const options = [
+  {
+    value: 'op1',
+    label: 'Good food',
+    icon: 'restaurant_menu'
+  },
+  {
+    value: 'op2',
+    label: 'Good service',
+    icon: 'room_service',
+    color: 'teal'
+  },
+  {
+    value: 'op3',
+    label: 'Pleasant surroundings',
+    icon: 'photo',
+    color: 'teal'
   }
-}
+]
 </script>

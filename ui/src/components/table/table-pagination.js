@@ -64,8 +64,11 @@ export function useTablePaginationState(vm, getCellValue) {
   function requestServerInteraction(prop = {}) {
     nextTick(() => {
       emit('request', {
-        pagination: prop.pagination || computedPagination.value,
-        filter: prop.filter || props.filter,
+        pagination:
+          prop.pagination === void 0
+            ? computedPagination.value
+            : prop.pagination,
+        filter: prop.filter === void 0 ? props.filter : prop.filter,
         getCellValue
       })
     })

@@ -107,16 +107,10 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    return {
-      firstModel: ref(2),
-      secondModel: ref(3),
-      thirdModel: ref(3.5)
-    }
-  }
-}
+const firstModel = ref(2)
+const secondModel = ref(3)
+const thirdModel = ref(3.5)
 </script>

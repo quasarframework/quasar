@@ -9,7 +9,7 @@
       class="q-mb-md"
     />
 
-    <q-stepper v-model="step" header-nav ref="stepper" color="primary" animated>
+    <q-stepper v-model="step" header-nav color="primary" animated>
       <q-step
         :name="1"
         title="Select campaign settings"
@@ -93,14 +93,8 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    return {
-      step: ref(1)
-    }
-  }
-}
+const step = ref(1)
 </script>

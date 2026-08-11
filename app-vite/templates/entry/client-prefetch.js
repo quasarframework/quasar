@@ -14,7 +14,7 @@
 import { LoadingBar } from 'quasar'
 <% } %>
 
-<% if (!quasarConf.ctx.mode.ssr || quasarConf.ctx.mode.pwa) { %>
+<% if ((!quasarConf.ctx.mode.ssr && !quasarConf.ctx.mode.ssg) || quasarConf.ctx.mode.pwa) { %>
 import App from '@/../<%= quasarConf.sourceFiles.rootComponent %>'
 let appPrefetch = typeof App.preFetch === 'function'
   ? App.preFetch
@@ -48,7 +48,7 @@ function getMatchedComponents (to, router) {
   }))
 }
 
-export function addPreFetchHooks ({ router<%= quasarConf.ctx.mode.ssr && quasarConf.ctx.mode.pwa ? ', ssrIsRunningOnClientPWA' : '' %><%= quasarConf.metaConf.hasStore ? ', store' : '' %>, publicPath }) {
+export function addPreFetchHooks ({ router<%= (quasarConf.ctx.mode.ssr || quasarConf.ctx.mode.ssg) ? ', isClientSideRenderedPage' : '' %><%= quasarConf.metaConf.hasStore ? ', store' : '' %>, publicPath }) {
   // Add router hook for handling preFetch.
   // Doing it after initial route is resolved so that we don't double-fetch
   // the data that we already have. Using router.beforeResolve() so that all
@@ -75,21 +75,21 @@ export function addPreFetchHooks ({ router<%= quasarConf.ctx.mode.ssr && quasarC
       ))
       .map(m => m.c.__c !== void 0 ? m.c.__c.preFetch : m.c.preFetch)
 
-    <% if (!quasarConf.ctx.mode.ssr || quasarConf.ctx.mode.pwa) { %>
-    if (<%= quasarConf.ctx.mode.ssr && quasarConf.ctx.mode.pwa ? 'ssrIsRunningOnClientPWA && ' : '' %>appPrefetch !== false) {
+<% if ((!quasarConf.ctx.mode.ssr && !quasarConf.ctx.mode.ssg) || quasarConf.ctx.mode.pwa) { %>
+    if (<%= (quasarConf.ctx.mode.ssr || quasarConf.ctx.mode.ssg) ? 'isClientSideRenderedPage && ' : '' %>appPrefetch !== false) {
       preFetchList.unshift(appPrefetch)
       appPrefetch = false
     }
-    <% } %>
+<% } %>
 
     if (preFetchList.length === 0) return
 
     let redirectArg = null
     const redirect = url => { redirectArg = url }
 
-    <% if (quasarConf.metaConf.hasLoadingBarPlugin) { %>
+<% if (quasarConf.metaConf.hasLoadingBarPlugin) { %>
     LoadingBar.start()
-    <% } %>
+<% } %>
 
     for (let i = 0; redirectArg === null && i < preFetchList.length; i++) {
       try {
@@ -102,18 +102,18 @@ export function addPreFetchHooks ({ router<%= quasarConf.ctx.mode.ssr && quasarC
           publicPath
         })
       } catch (e) {
-        <% if (quasarConf.metaConf.hasLoadingBarPlugin) { %>
+<% if (quasarConf.metaConf.hasLoadingBarPlugin) { %>
         LoadingBar.stop()
-        <% } %>
+<% } %>
         if (redirectArg !== null) return redirectArg
         console.error(e)
         return
       }
     }
 
-    <% if (quasarConf.metaConf.hasLoadingBarPlugin) { %>
+<% if (quasarConf.metaConf.hasLoadingBarPlugin) { %>
     LoadingBar.stop()
-    <% } %>
+<% } %>
 
     if (redirectArg !== null) return redirectArg
   })

@@ -8,7 +8,7 @@
     "register-service-worker": "^1.7.2"
   },
   "devDependencies": {
-    "workbox-build": "^7.0.0",
+    "workbox-build": "^7.4.1",
     "workbox-cacheable-response": "^7.0.0",
     "workbox-core": "^7.0.0",
     "workbox-expiration": "^7.0.0",

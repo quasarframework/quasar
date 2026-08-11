@@ -6,14 +6,8 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    return {
-      model: ref({ from: '2020/07/08', to: '2020/07/17' })
-    }
-  }
-}
+const model = ref({ from: '2020/07/08', to: '2020/07/17' })
 </script>

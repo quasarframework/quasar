@@ -35,17 +35,10 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    return {
-      modelSingle: ref('Apple'),
-      modelMultiple: ref(['Facebook']),
-
-      options: ['Google', 'Facebook', 'Twitter', 'Apple', 'Oracle']
-    }
-  }
-}
+const modelSingle = ref('Apple')
+const modelMultiple = ref(['Facebook'])
+const options = ['Google', 'Facebook', 'Twitter', 'Apple', 'Oracle']
 </script>

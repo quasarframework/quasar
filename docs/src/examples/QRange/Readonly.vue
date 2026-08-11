@@ -4,17 +4,11 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    return {
-      standard: ref({
-        min: 10,
-        max: 35
-      })
-    }
-  }
-}
+const standard = ref({
+  min: 10,
+  max: 35
+})
 </script>

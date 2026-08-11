@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, test, vi } from 'vitest'
 import { flushPromises, mount } from '@vue/test-utils'
-import { defineComponent } from 'vue'
+import { defineComponent, h } from 'vue'
 
 import useTick from './use-tick.js'
 
@@ -21,7 +21,7 @@ describe('[useTick API]', () => {
 
         wrapper = mount(
           defineComponent({
-            template: '<div />',
+            render: () => h('div'),
             setup() {
               const { registerTick } = useTick()
 
@@ -41,7 +41,7 @@ describe('[useTick API]', () => {
 
         wrapper = mount(
           defineComponent({
-            template: '<div />',
+            render: () => h('div'),
             setup() {
               const { registerTick, removeTick } = useTick()
 
@@ -63,7 +63,7 @@ describe('[useTick API]', () => {
 
         wrapper = mount(
           defineComponent({
-            template: '<div />',
+            render: () => h('div'),
             setup() {
               const { registerTick } = useTick()
 
@@ -89,7 +89,7 @@ describe('[useTick API]', () => {
 
         wrapper = mount(
           defineComponent({
-            template: '<div />',
+            render: () => h('div'),
             setup() {
               const { registerTick } = useTick()
               return { registerTick }

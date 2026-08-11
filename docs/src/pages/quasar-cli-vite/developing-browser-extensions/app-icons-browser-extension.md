@@ -1,5 +1,5 @@
 ---
-title: App Icons for (BEX)
+title: App Icons for BEX
 desc: (@quasar/app-vite) How to manage the app icons for a Quasar Browser Extension (BEX).
 scope:
   tree:
@@ -15,9 +15,9 @@ scope:
             e: Installation and web store
 ---
 
-This build target includes the icons required for browser extensions. You need all of them - and if you discover one that is new or missing, please [open an issue](https://github.com/quasarframework/quasar/issues).
+This build target includes three icon sizes used by the extension pages, browser extension manager, and extension stores. If you discover one that is new or missing, please [open an issue](https://github.com/quasarframework/quasar/issues).
 
-<img src="https://cdn.quasar.dev/img/iconfactory.png" style="float:right;max-width:15%;min-width:240px;padding-top:40px">
+<img src="/img/iconfactory.png" style="float:right;max-width:15%;min-width:240px;padding-top:40px">
 
 ## Icon Genie CLI
 

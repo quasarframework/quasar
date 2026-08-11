@@ -4,8 +4,13 @@ import QIcon from '../icon/QIcon.js'
 import Ripple from '../../directives/ripple/Ripple.js'
 
 import { createComponent } from '../../utils/private.create/create.js'
+import { stopAndPrevent } from '../../utils/event/event.js'
 
-export default createComponent({
+function preventSpace(e) {
+  if (e.keyCode === 32) stopAndPrevent(e)
+}
+
+export default /*#__PURE__*/ createComponent({
   name: 'StepHeader',
 
   props: {
@@ -129,13 +134,14 @@ export default createComponent({
     const ripple = computed(() => props.stepper.headerNav && headerNav.value)
 
     function onActivate() {
-      blurRef.value?.focus()
+      blurRef.value?.focus({ preventScroll: true })
       if (!isActive.value) props.goToPanel(props.step.name)
     }
 
     function onKeyup(e) {
-      if (e.keyCode === 13 && !isActive.value) {
-        props.goToPanel(props.step.name)
+      if ([13, 32].includes(e.keyCode)) {
+        if (!isActive.value) props.goToPanel(props.step.name)
+        stopAndPrevent(e)
       }
     }
 
@@ -144,7 +150,10 @@ export default createComponent({
 
       if (headerNav.value) {
         data.onClick = onActivate
+        data.onKeydown = preventSpace
         data.onKeyup = onKeyup
+        data.role = 'button'
+        data['aria-current'] = isActive.value ? 'step' : void 0
 
         Object.assign(
           data,

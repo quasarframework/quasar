@@ -14,6 +14,7 @@ import useDark, {
   useDarkProps
 } from '../../composables/private.use-dark/use-dark.js'
 import useRenderCache from '../../composables/use-render-cache/use-render-cache.js'
+import useHydration from '../../composables/use-hydration/use-hydration.js'
 import {
   useFormAttrs,
   useFormInject,
@@ -50,7 +51,7 @@ function getShortDate(date) {
   return { year: date.year, month: date.month, day: date.day }
 }
 
-export default createComponent({
+export default /*#__PURE__*/ createComponent({
   name: 'QDate',
 
   props: {
@@ -60,6 +61,7 @@ export default createComponent({
 
     modelValue: {
       required: true,
+      default: null,
       validator: val =>
         typeof val === 'string' ||
         Array.isArray(val) ||
@@ -124,6 +126,7 @@ export default createComponent({
 
     const isDark = useDark(props, $q)
     const { getCache } = useRenderCache()
+    const { isHydrated } = useHydration()
     const { tabindex, headerClass, getLocale, getCurrentDate } = useDatetime(
       props,
       $q
@@ -591,7 +594,15 @@ export default createComponent({
 
         for (let i = 1; i <= daysInMonth.value; i++) {
           const dayHash = viewMonthHash.value + '/' + pad(i)
-          map[i] = fn(dayHash) && evtColor.value(dayHash)
+
+          if (fn(dayHash)) {
+            // the color is optional (the CSS supplies a default one),
+            // so we store the resulting class instead of the color
+            const color = evtColor.value(dayHash)
+            map[i] = 'q-date__event' + (color ? ` bg-${color}` : '')
+          } else {
+            map[i] = false
+          }
         }
       }
 
@@ -736,6 +747,7 @@ export default createComponent({
       }
 
       if (
+        isHydrated.value &&
         viewModel.value.year === today.value.year &&
         viewModel.value.month === today.value.month
       ) {
@@ -798,7 +810,7 @@ export default createComponent({
         blurTargetRef.value !== null &&
         proxy.$el.contains(document.activeElement)
       ) {
-        blurTargetRef.value.focus()
+        blurTargetRef.value.focus({ preventScroll: true })
       }
     })
 
@@ -1460,10 +1472,7 @@ export default createComponent({
                                   })
                                 },
                                 day.event
-                                  ? () =>
-                                      h('div', {
-                                        class: 'q-date__event bg-' + day.event
-                                      })
+                                  ? () => h('div', { class: day.event })
                                   : null
                               )
                             : h('div', String(day.i))
@@ -1478,7 +1487,8 @@ export default createComponent({
       ],
 
       Months() {
-        const currentYear = viewModel.value.year === today.value.year
+        const currentYear =
+          isHydrated.value && viewModel.value.year === today.value.year
         const isDisabled = month =>
           (minNav.value !== null &&
             viewModel.value.year === minNav.value.year &&
@@ -1565,7 +1575,10 @@ export default createComponent({
               [
                 h(QBtn, {
                   key: 'yr' + i,
-                  class: today.value.year === i ? 'q-date__today' : null,
+                  class:
+                    isHydrated.value && today.value.year === i
+                      ? 'q-date__today'
+                      : null,
                   flat: !active,
                   label: i,
                   dense: true,

@@ -35,8 +35,8 @@
   </div>
 </template>
 
-<script>
-import { computed, nextTick, ref, toRaw } from 'vue'
+<script setup>
+import { computed, nextTick, ref, toRaw, useTemplateRef } from 'vue'
 
 const columns = [
   // #region
@@ -522,133 +522,118 @@ const rows = [
   // #endregion
 ]
 
-export default {
-  setup() {
-    const tableRef = ref(null)
+const tableRef = useTemplateRef('tableRef')
 
-    const navigationActive = ref(false)
-    const pagination = ref({})
-    const selected = ref([])
+const navigationActive = ref(false)
+const pagination = ref({})
+const selected = ref([])
+const filter = ref('')
 
-    return {
-      tableRef,
+const tableClass = computed(() =>
+  navigationActive.value ? 'shadow-8 no-outline' : null
+)
 
-      navigationActive,
-      filter: ref(''),
-      selected,
-      pagination,
+function activateNavigation() {
+  navigationActive.value = true
+}
 
-      columns,
-      rows,
+function deactivateNavigation() {
+  navigationActive.value = false
+}
 
-      tableClass: computed(() =>
-        navigationActive.value ? 'shadow-8 no-outline' : null
-      ),
+function onKey(evt) {
+  if (
+    !navigationActive.value ||
+    ![33, 34, 35, 36, 38, 40].includes(evt.keyCode) ||
+    !tableRef.value
+  ) {
+    return
+  }
 
-      activateNavigation() {
-        navigationActive.value = true
-      },
+  evt.preventDefault()
 
-      deactivateNavigation() {
-        navigationActive.value = false
-      },
+  const { computedRowsNumber, computedRows } = tableRef.value
 
-      onKey(evt) {
-        if (
-          !navigationActive.value ||
-          ![33, 34, 35, 36, 38, 40].includes(evt.keyCode) ||
-          tableRef.value === null
-        ) {
-          return
-        }
+  if (computedRows.length === 0) return
 
-        evt.preventDefault()
+  const currentIndex =
+    selected.value.length !== 0
+      ? computedRows.indexOf(toRaw(selected.value[0]))
+      : -1
+  const currentPage = pagination.value.page
+  const rowsPerPage =
+    pagination.value.rowsPerPage === 0
+      ? computedRowsNumber
+      : pagination.value.rowsPerPage
+  const lastIndex = computedRows.length - 1
+  const lastPage = Math.ceil(computedRowsNumber / rowsPerPage)
 
-        const { computedRowsNumber, computedRows } = tableRef.value
+  let index = currentIndex
+  let page = currentPage
 
-        if (computedRows.length === 0) return
-
-        const currentIndex =
-          selected.value.length !== 0
-            ? computedRows.indexOf(toRaw(selected.value[0]))
-            : -1
-        const currentPage = pagination.value.page
-        const rowsPerPage =
-          pagination.value.rowsPerPage === 0
-            ? computedRowsNumber
-            : pagination.value.rowsPerPage
-        const lastIndex = computedRows.length - 1
-        const lastPage = Math.ceil(computedRowsNumber / rowsPerPage)
-
-        let index = currentIndex
-        let page = currentPage
-
-        switch (evt.keyCode) {
-          case 36: {
-            // Home
-            page = 1
-            index = 0
-            break
-          }
-          case 35: {
-            // End
-            page = lastPage
-            index = rowsPerPage - 1
-            break
-          }
-          case 33: {
-            // PageUp
-            page = currentPage <= 1 ? lastPage : currentPage - 1
-            if (index < 0) {
-              index = 0
-            }
-            break
-          }
-          case 34: {
-            // PageDown
-            page = currentPage >= lastPage ? 1 : currentPage + 1
-            if (index < 0) {
-              index = rowsPerPage - 1
-            }
-            break
-          }
-          case 38: {
-            // ArrowUp
-            if (currentIndex <= 0) {
-              page = currentPage <= 1 ? lastPage : currentPage - 1
-              index = rowsPerPage - 1
-            } else {
-              index = currentIndex - 1
-            }
-            break
-          }
-          case 40: {
-            // ArrowDown
-            if (currentIndex >= lastIndex) {
-              page = currentPage >= lastPage ? 1 : currentPage + 1
-              index = 0
-            } else {
-              index = currentIndex + 1
-            }
-            break
-          }
-        }
-
-        if (page !== pagination.value.page) {
-          pagination.value.page = page
-
-          nextTick(() => {
-            const { computedRows: computedRowsList } = tableRef.value
-            selected.value = [
-              computedRowsList[Math.min(index, computedRowsList.length - 1)]
-            ]
-            tableRef.value.$el.focus()
-          })
-        } else {
-          selected.value = [computedRows[index]]
-        }
-      }
+  switch (evt.keyCode) {
+    case 36: {
+      // Home
+      page = 1
+      index = 0
+      break
     }
+    case 35: {
+      // End
+      page = lastPage
+      index = rowsPerPage - 1
+      break
+    }
+    case 33: {
+      // PageUp
+      page = currentPage <= 1 ? lastPage : currentPage - 1
+      if (index < 0) {
+        index = 0
+      }
+      break
+    }
+    case 34: {
+      // PageDown
+      page = currentPage >= lastPage ? 1 : currentPage + 1
+      if (index < 0) {
+        index = rowsPerPage - 1
+      }
+      break
+    }
+    case 38: {
+      // ArrowUp
+      if (currentIndex <= 0) {
+        page = currentPage <= 1 ? lastPage : currentPage - 1
+        index = rowsPerPage - 1
+      } else {
+        index = currentIndex - 1
+      }
+      break
+    }
+    case 40: {
+      // ArrowDown
+      if (currentIndex >= lastIndex) {
+        page = currentPage >= lastPage ? 1 : currentPage + 1
+        index = 0
+      } else {
+        index = currentIndex + 1
+      }
+      break
+    }
+  }
+
+  if (page !== pagination.value.page) {
+    pagination.value.page = page
+
+    nextTick(() => {
+      const { computedRows: computedRowsList } = tableRef.value
+      selected.value = [
+        computedRowsList[Math.min(index, computedRowsList.length - 1)]
+      ]
+      tableRef.value.$el.focus()
+    })
+  } else {
+    selected.value = [computedRows[index]]
   }
 }
 </script>

@@ -73,16 +73,10 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    return {
-      text: ref(''),
-      readonly: ref(false),
-      disable: ref(false)
-    }
-  }
-}
+const text = ref('')
+const readonly = ref(false)
+const disable = ref(false)
 </script>

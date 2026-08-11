@@ -54,7 +54,7 @@
   </div>
 </template>
 
-<script>
+<script setup>
 const columns = [
   // #region
   {
@@ -199,13 +199,5 @@ const rows = [
   // #endregion
 ]
 
-export default {
-  setup() {
-    return {
-      onRowClick: row => alert(`${row.name} clicked`),
-      columns,
-      rows
-    }
-  }
-}
+const onRowClick = row => alert(`${row.name} clicked`)
 </script>

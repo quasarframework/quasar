@@ -83,7 +83,9 @@ export function getStack(err, projectRootFolder) {
     const { fileName, sourceCode } = getSource(entry)
 
     return {
-      fileName: relative(projectRootFolder, fileName),
+      // stack frames without a file (native, eval'd or async glue code)
+      // yield a null fileName — rendering the error must survive them
+      fileName: fileName ? relative(projectRootFolder, fileName) : fileName,
       sourceCode,
       functionName: entry.getTypeName() || entry.getFunctionName(),
       methodName: `${entry.isConstructor() ? 'new ' : ''}${entry.getMethodName() || '<anonymous>'}`,

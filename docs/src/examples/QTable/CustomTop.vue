@@ -42,7 +42,7 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
 const columns = [
@@ -189,55 +189,39 @@ const originalRows = [
   // #endregion
 ]
 
-export default {
-  setup() {
-    const loading = ref(false)
-    const filter = ref('')
-    const rowCount = ref(10)
-    const rows = ref([...originalRows])
+const loading = ref(false)
+const filter = ref('')
+const rowCount = ref(10)
+const rows = ref([...originalRows])
 
-    return {
-      columns,
-      rows,
+// emulate fetching data from server
+function addRow() {
+  loading.value = true
+  setTimeout(() => {
+    const index = Math.floor(Math.random() * (rows.value.length + 1)),
+      row = originalRows[Math.floor(Math.random() * originalRows.length)]
 
-      loading,
-      filter,
-      rowCount,
-
-      // emulate fetching data from server
-      addRow() {
-        loading.value = true
-        setTimeout(() => {
-          const index = Math.floor(Math.random() * (rows.value.length + 1)),
-            row = originalRows[Math.floor(Math.random() * originalRows.length)]
-
-          if (rows.value.length === 0) {
-            rowCount.value = 0
-          }
-
-          row.id = ++rowCount.value
-          const newRow = { ...row } // extend({}, row, { name: `${row.name} (${row.__count})` })
-          rows.value = [
-            ...rows.value.slice(0, index),
-            newRow,
-            ...rows.value.slice(index)
-          ]
-          loading.value = false
-        }, 500)
-      },
-
-      removeRow() {
-        loading.value = true
-        setTimeout(() => {
-          const index = Math.floor(Math.random() * rows.value.length)
-          rows.value = [
-            ...rows.value.slice(0, index),
-            ...rows.value.slice(index + 1)
-          ]
-          loading.value = false
-        }, 500)
-      }
+    if (rows.value.length === 0) {
+      rowCount.value = 0
     }
-  }
+
+    row.id = ++rowCount.value
+    const newRow = { ...row } // extend({}, row, { name: `${row.name} (${row.__count})` })
+    rows.value = [
+      ...rows.value.slice(0, index),
+      newRow,
+      ...rows.value.slice(index)
+    ]
+    loading.value = false
+  }, 500)
+}
+
+function removeRow() {
+  loading.value = true
+  setTimeout(() => {
+    const index = Math.floor(Math.random() * rows.value.length)
+    rows.value = [...rows.value.slice(0, index), ...rows.value.slice(index + 1)]
+    loading.value = false
+  }, 500)
 }
 </script>

@@ -4,16 +4,17 @@ import type {
 } from "vue-router";
 
 import type { HasSsrParam, HttpRedirectStatusCode } from "./ssr/index.d.ts";
+import type { HasSsgParam } from "./ssg/index.d.ts";
 import type { HasStoreParam } from "./store.d.ts";
 
-interface PreFetchOptions extends HasSsrParam, HasStoreParam {
+interface PreFetchOptions extends HasSsrParam, HasSsgParam, HasStoreParam {
   readonly currentRoute: RouteLocationNormalizedLoaded;
   readonly previousRoute: RouteLocationNormalizedLoaded;
   readonly redirect: (
     url: string | RouteLocationRaw,
     /**
      * HTTP status code to use for the redirection.
-     * Only used in SSR mode.
+     * Only used in SSR mode (not SSG).
      *
      * @default 302
      */

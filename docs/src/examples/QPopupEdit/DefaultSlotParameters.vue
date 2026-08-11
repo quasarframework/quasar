@@ -42,14 +42,8 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    return {
-      nickname: ref('Click me')
-    }
-  }
-}
+const nickname = ref('Click me')
 </script>

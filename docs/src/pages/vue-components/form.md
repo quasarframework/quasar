@@ -40,13 +40,13 @@ Alternatively, you can give the QForm a Vue ref name and call the `validate` and
 
 ```tabs
 <<| js Composition API |>>
-// <q-form ref="myForm">
+// <q-form ref="myFormRef">
 
 setup () {
-  const myForm = ref(null)
+  const myFormRef = useTemplateRef('myFormRef')
 
   function validate () {
-    myForm.value.validate().then(success => {
+    myFormRef.value.validate().then(success => {
       if (success) {
         // yay, models are correct
       }
@@ -59,11 +59,10 @@ setup () {
 
   // to reset validations:
   function reset () {
-    myForm.value.resetValidation()
+    myFormRef.value.resetValidation()
   }
 
   return {
-    myForm,
     // ...
   }
 }

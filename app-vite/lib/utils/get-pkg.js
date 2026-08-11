@@ -9,7 +9,7 @@ import { getPackageJson } from '../utils/get-package-json.js'
  * /src-<mode>/package.json, so that they can be injected
  * into the context and accessed via ctx.pkg
  */
-const modesList = ['bex', 'ssr', 'pwa', 'electron', 'capacitor']
+const modesList = ['bex', 'ssr', 'ssg', 'pwa', 'electron', 'capacitor']
 
 function injectPkg(acc, propName, pkgPath) {
   let pkg = {}
@@ -19,10 +19,10 @@ function injectPkg(acc, propName, pkgPath) {
     get: () => {
       if (!existsSync(pkgPath)) return {}
 
-      const { mtime } = statSync(pkgPath)
+      const { mtimeMs } = statSync(pkgPath)
 
-      if (mtime !== lastModePkgModifiedTime) {
-        lastModePkgModifiedTime = mtime
+      if (mtimeMs !== lastModePkgModifiedTime) {
+        lastModePkgModifiedTime = mtimeMs
         try {
           // This may get updated and written, so use parseJSON to preserve formatting
           pkg = parseJSON(readFileSync(pkgPath, 'utf8'))

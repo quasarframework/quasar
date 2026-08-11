@@ -81,12 +81,12 @@ body.platform-ios, body.platform-android:not(.native-mobile)
   .q-dialog__inner--minimized > div
     max-height: calc(100vh - 108px)
 
-body.q-ios-padding .q-dialog__inner
-  padding-top: $ios-statusbar-height !important
-  padding-top: env(safe-area-inset-top) !important
-  padding-bottom: env(safe-area-inset-bottom) !important
+body.q-ios-padding .q-dialog__inner,
+body.q-safe-area-padding .q-dialog__inner
+  padding-top: var(--q-safe-area-inset-top) !important
+  padding-bottom: var(--q-safe-area-inset-bottom) !important
   > div
-    max-height: calc(100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom)) !important
+    max-height: calc(100vh - var(--q-safe-area-inset-top) - var(--q-safe-area-inset-bottom)) !important
 
 @media (max-width: $breakpoint-xs-max)
   .q-dialog__inner

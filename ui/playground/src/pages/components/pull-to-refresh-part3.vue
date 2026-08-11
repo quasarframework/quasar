@@ -13,39 +13,38 @@
   </q-pull-to-refresh>
 </template>
 
-<script>
-export default {
-  name: 'Test',
-  data() {
-    return {
-      list: ['Pull down to load elements']
+<script setup>
+import { useQuasar } from 'quasar'
+import { ref } from 'vue'
+
+defineOptions({ name: 'Test' })
+
+const $q = useQuasar()
+
+const list = ref(['Pull down to load elements'])
+
+function load(done) {
+  const base = list.value.length
+  for (let i = 0; i < 10; i++) {
+    list.value.push(base + i)
+  }
+  done()
+}
+
+function preventPull(e) {
+  let parent = e.target
+
+  while (parent !== void 0 && !parent.classList.contains('scroll-y')) {
+    parent = parent.parentNode
+  }
+
+  if (parent !== void 0 && parent.scrollTop > 0) {
+    if ($q.platform.is.desktop) {
+      console.log('prevent!')
+    } else {
+      $q.notify('prevent!')
     }
-  },
-  methods: {
-    load(done) {
-      const base = this.list.length
-      for (let i = 0; i < 10; i++) {
-        this.list.push(base + i)
-      }
-      done()
-    },
-
-    preventPull(e) {
-      let parent = e.target
-
-      while (parent !== void 0 && !parent.classList.contains('scroll-y')) {
-        parent = parent.parentNode
-      }
-
-      if (parent !== void 0 && parent.scrollTop > 0) {
-        if (this.$q.platform.is.desktop) {
-          console.log('prevent!')
-        } else {
-          this.$q.notify('prevent!')
-        }
-        e.stopPropagation()
-      }
-    }
+    e.stopPropagation()
   }
 }
 </script>

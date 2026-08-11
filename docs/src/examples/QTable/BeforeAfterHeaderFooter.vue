@@ -28,7 +28,7 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
 const columns = [
@@ -175,13 +175,5 @@ const rows = [
   // #endregion
 ]
 
-export default {
-  setup() {
-    return {
-      selected: ref([]),
-      rows,
-      columns
-    }
-  }
-}
+const selected = ref([])
 </script>

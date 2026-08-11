@@ -1,6 +1,6 @@
 {
   "name": "@quasar/icongenie",
-  "version": "6.0.0",
+  "version": "6.1.4",
   "description": "A Quasar tool for generating all your Quasar App's icons and splashscreens",
   "keywords": [
     "bex",
@@ -48,23 +48,21 @@
   },
   "dependencies": {
     "@quasar/art": "^1.0.0",
+    "@quasar/update-notifier": "^1.0.0",
     "ci-info": "^4.4.0",
     "cross-spawn": "^7.0.6",
     "elementtree": "^0.1.7",
     "fs-extra": "^11.2.0",
-    "imagemin": "^9.0.1",
-    "imagemin-pngquant": "^10.0.0",
     "is-png": "^3.0.1",
     "joi": "^18.2.1",
     "kolorist": "^1.8.0",
     "png2icons": "^2.0.1",
     "potrace": "^2.1.5",
     "read-chunk": "^5.0.0",
-    "sharp": "^0.34.5",
-    "svgo": "^4.0.1",
+    "sharp": "^0.35.3",
+    "svgo": "^4.0.2",
     "tinyglobby": "^0.2.10",
-    "untildify": "^6.0.0",
-    "update-notifier": "^7.0.0"
+    "untildify": "^6.0.0"
   },
   "engines": {
     "node": ">= 22.22.0"

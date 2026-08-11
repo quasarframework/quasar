@@ -118,18 +118,14 @@
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      modelS: 1,
-      modelR: { min: -22, max: 1 },
+<script setup>
+import { ref } from 'vue'
 
-      innerMin: 3,
-      innerMax: 18,
-      min: 0,
-      max: 20
-    }
-  }
-}
+const modelS = ref(1)
+const modelR = ref({ min: -22, max: 1 })
+
+const innerMin = ref(3)
+const innerMax = ref(18)
+const min = ref(0)
+const max = ref(20)
 </script>

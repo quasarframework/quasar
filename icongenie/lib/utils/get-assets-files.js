@@ -1,8 +1,41 @@
-import { join } from 'node:path'
+import { existsSync, realpathSync } from 'node:fs'
+import { dirname, isAbsolute, relative, resolve, sep } from 'node:path'
 
 import { appDir } from './app-paths.js'
+import { fatal } from './logger.js'
 
 const tagRegex = /\{(.*?)\}/g
+const realAppDir = realpathSync(appDir)
+
+function isOutside(base, target) {
+  const path = relative(base, target)
+  return path === '..' || path.startsWith(`..${sep}`) || isAbsolute(path)
+}
+
+function getAssetPath(folder, name) {
+  const absoluteName = resolve(appDir, folder, name)
+  const relativeName = relative(appDir, absoluteName)
+
+  if (relativeName === '' || isOutside(appDir, absoluteName)) {
+    fatal(
+      `Profile asset must be inside the project folder: "${folder}/${name}"`
+    )
+  }
+
+  let existingPath = absoluteName
+
+  while (existsSync(existingPath) === false) {
+    existingPath = dirname(existingPath)
+  }
+
+  if (isOutside(realAppDir, realpathSync(existingPath))) {
+    fatal(
+      `Profile asset cannot use a symbolic link outside the project folder: "${folder}/${name}"`
+    )
+  }
+
+  return { relativeName, absoluteName }
+}
 
 export function getAssetsFiles(assets) {
   const list = []
@@ -29,10 +62,15 @@ export function getAssetsFiles(assets) {
   })
 
   return list.map(({ tag, ...asset }) => {
+    const { relativeName, absoluteName } = getAssetPath(
+      asset.folder,
+      asset.name
+    )
+
     const file = {
       ...asset,
-      relativeName: join(asset.folder, asset.name),
-      absoluteName: join(appDir, asset.folder, asset.name)
+      relativeName,
+      absoluteName
     }
 
     if (tag) {

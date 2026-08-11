@@ -127,25 +127,19 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    return {
-      firstModel: ref({
-        min: 2,
-        max: 4
-      }),
-      secondModel: ref({
-        min: 2,
-        max: 4
-      }),
-      thirdModel: ref({
-        min: 2.5,
-        max: 4.5
-      })
-    }
-  }
-}
+const firstModel = ref({
+  min: 2,
+  max: 4
+})
+const secondModel = ref({
+  min: 2,
+  max: 4
+})
+const thirdModel = ref({
+  min: 2.5,
+  max: 4.5
+})
 </script>

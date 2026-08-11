@@ -16,7 +16,7 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
 const columns = [
@@ -163,21 +163,11 @@ const rows = [
   // #endregion
 ]
 
-export default {
-  setup() {
-    const selected = ref([])
+const selected = ref([])
 
-    return {
-      selected,
-      columns,
-      rows,
-
-      getSelectedString() {
-        return selected.value.length === 0
-          ? ''
-          : `${selected.value.length} record${selected.value.length > 1 ? 's' : ''} selected of ${rows.length}`
-      }
-    }
-  }
+function getSelectedString() {
+  return selected.value.length === 0
+    ? ''
+    : `${selected.value.length} record${selected.value.length > 1 ? 's' : ''} selected of ${rows.length}`
 }
 </script>

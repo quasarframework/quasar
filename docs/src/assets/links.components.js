@@ -504,6 +504,71 @@ const plugins = [
   }
 ]
 
+const composables = [
+  {
+    name: 'useQuasar',
+    description: 'Access Quasar API (the $q object)',
+    tag: 'composable'
+  },
+  {
+    name: 'useDialogPluginComponent',
+    description: 'Access Dialog Plugin functionality',
+    tag: 'composable'
+  },
+  {
+    name: 'useFormChild',
+    description: 'Communicate with the parent QForm',
+    tag: 'composable'
+  },
+  {
+    name: 'useMeta',
+    description: 'Configure meta tags with Quasar Meta Plugin',
+    tag: 'composable'
+  },
+  {
+    name: 'useHydration',
+    description: 'Get hydration state for SSR/SSG',
+    tag: 'composable'
+  },
+  {
+    name: 'useId',
+    description: 'Generate unique IDs',
+    tag: 'composable'
+  },
+  {
+    name: 'useInterval',
+    description: 'Similar to setInterval() but with additional features',
+    tag: 'composable'
+  },
+  {
+    name: 'useRenderCache',
+    description: 'Cache rendered nodes for performance optimization',
+    tag: 'composable'
+  },
+  {
+    name: 'useTick',
+    description: 'Similar to nextTick() but with additional features',
+    tag: 'composable'
+  },
+  {
+    name: 'useTimeout',
+    description: 'Similar to setTimeout() but with additional features',
+    tag: 'composable'
+  },
+  {
+    name: 'useAnimationFrame',
+    description:
+      'Similar to requestAnimationFrame() but with additional features',
+    tag: 'composable'
+  },
+  {
+    name: 'useSplitAttrs',
+    description:
+      "Split a component's attributes into listeners and non-listeners",
+    tag: 'composable'
+  }
+]
+
 const utils = [
   {
     name: 'Date utils',
@@ -546,34 +611,48 @@ const utils = [
 const componentNameToKebabCase = componentName =>
   componentName.replaceAll(' ', '-').toLowerCase()
 
+const composableNameToKebabCase = composableName =>
+  composableName.replaceAll(/([a-z])([A-Z])/g, '$1-$2').toLowerCase()
+
 export const quasarElements = [
   ...components.map(entry => {
     const kebab = componentNameToKebabCase(entry.name)
     return {
       ...entry,
-      img: `https://cdn.quasar.dev/img/components/${kebab}.jpg`,
+      category: 'vue-components',
+      img: `/components/${kebab}.jpg`,
       to: `/vue-components/${entry.path || kebab}`
     }
   }),
 
   ...directives.map(entry => ({
     ...entry,
+    category: 'vue-directives',
     to: `/vue-directives/${entry.path || componentNameToKebabCase(entry.name)}`
   })),
 
   ...plugins.map(entry => ({
     ...entry,
+    category: 'quasar-plugins',
     to: `/quasar-plugins/${entry.path || componentNameToKebabCase(entry.name)}`
+  })),
+
+  ...composables.map(entry => ({
+    ...entry,
+    category: 'vue-composables',
+    to: `/vue-composables/${entry.path || composableNameToKebabCase(entry.name)}`
   })),
 
   ...utils.map(entry => ({
     ...entry,
+    category: 'quasar-utils',
     to: `/quasar-utils/${componentNameToKebabCase(entry.name)}`
   }))
 ].map((entry, key) => ({
   key,
   name: entry.name,
   description: entry.description,
+  category: entry.category,
   tag: entry.tag,
   img: entry.img,
   haystack:

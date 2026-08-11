@@ -7,19 +7,13 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    return {
-      hex: ref('#FF00FF'),
-      hexa: ref('#FF00FFCC'),
-      rgb: ref('rgb(0,0,0)'),
-      rgba: ref('rgba(255,0,255,0.8)')
-    }
-  }
-}
+const hex = ref('#FF00FF')
+const hexa = ref('#FF00FFCC')
+const rgb = ref('rgb(0,0,0)')
+const rgba = ref('rgba(255,0,255,0.8)')
 </script>
 
 <style lang="sass" scoped>

@@ -63,7 +63,7 @@ function getPropValueFn(userPropName, defaultPropName) {
       : opt
 }
 
-export default createComponent({
+export default /*#__PURE__*/ createComponent({
   name: 'QSelect',
 
   inheritAttrs: false,
@@ -759,7 +759,7 @@ export default createComponent({
     function onTargetKeydown(e) {
       emit('keydown', e)
 
-      if (shouldIgnoreKey(e)) return
+      if (shouldIgnoreKey(e) || e.defaultPrevented) return
 
       const newValueModeValid =
         inputValue.value.length !== 0 &&
@@ -1134,6 +1134,11 @@ export default createComponent({
 
     function setInputValue(val, emitImmediately) {
       if (inputValue.value !== val) {
+        if (inputValueTimer !== null) {
+          clearTimeout(inputValueTimer)
+          inputValueTimer = null
+        }
+
         inputValue.value = val
 
         if (

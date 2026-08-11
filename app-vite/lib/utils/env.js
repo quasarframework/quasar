@@ -15,6 +15,18 @@ export const defaultBackendAppEnvPrefix = ''
 const validEnvKeyRE = /^[a-zA-Z_$][a-zA-Z0-9_$]*$/
 const appEnvBannerPrefix = green(`Env ${dot}`)
 
+function escapeRegex(value) {
+  return value.replaceAll('$', String.raw`\$`)
+}
+
+function getEnvPrefixRE(prefix) {
+  const source = Array.isArray(prefix)
+    ? `(${prefix.map(escapeRegex).join('|')})`
+    : escapeRegex(prefix)
+
+  return new RegExp(`^${source}[a-zA-Z_$][a-zA-Z0-9_$]*$`)
+}
+
 /**
  * Filter out keys that cannot be used in JS
  * as import.meta.env.[key]
@@ -26,9 +38,7 @@ const appEnvBannerPrefix = green(`Env ${dot}`)
 const processEnv = Object.keys(process.env)
   .filter(key => validEnvKeyRE.test(key))
   .reduce((acc, key) => {
-    if (validEnvKeyRE.test(key)) {
-      acc[key] = process.env[key]
-    }
+    acc[key] = process.env[key]
     return acc
   }, {})
 
@@ -137,9 +147,7 @@ export function getQuasarConfEnv({ ctx, envCfg, useSnapshot }) {
   })
 
   const prefixLabel = Array.isArray(prefix) ? prefix.join(' | ') : prefix
-  const prefixRE = Array.isArray(prefix)
-    ? new RegExp(`^(${prefix.join('|')})[a-zA-Z_$][a-zA-Z0-9_$]*$`)
-    : new RegExp(`^${prefix}[a-zA-Z_$][a-zA-Z0-9_$]*$`)
+  const prefixRE = getEnvPrefixRE(prefix)
 
   const envDefineList = parseEnvDefineList(rawFileEnv, prefixRE)
 
@@ -194,9 +202,7 @@ export function getAppEnv({ ctx, envCfg, useSnapshot }) {
     defaultPrefix: defaultClientAppEnvPrefix,
     banner: 'App envClientPrefix'
   })
-  const clientPrefixRE = Array.isArray(clientPrefix)
-    ? new RegExp(`^(${clientPrefix.join('|')})[a-zA-Z_$][a-zA-Z0-9_$]*$`)
-    : new RegExp(`^${clientPrefix}[a-zA-Z_$][a-zA-Z0-9_$]*$`)
+  const clientPrefixRE = getEnvPrefixRE(clientPrefix)
   const clientPrefixLabel = Array.isArray(clientPrefix)
     ? clientPrefix.join(' | ')
     : clientPrefix
@@ -210,15 +216,13 @@ export function getAppEnv({ ctx, envCfg, useSnapshot }) {
     defaultPrefix: defaultBackendAppEnvPrefix,
     banner: 'App envBackendPrefix'
   })
-  const backendPrefixRE = Array.isArray(backendPrefix)
-    ? new RegExp(`^(${backendPrefix.join('|')})[a-zA-Z_$][a-zA-Z0-9_$]*$`)
-    : new RegExp(`^${backendPrefix}[a-zA-Z_$][a-zA-Z0-9_$]*$`)
+  const backendPrefixRE = getEnvPrefixRE(backendPrefix)
   const backendPrefixLabel = Array.isArray(backendPrefix)
     ? backendPrefix.join(' | ')
     : backendPrefix
 
   const backendBanner =
-    ctx.mode.ssr === true
+    ctx.mode.ssr || ctx.mode.ssg
       ? `${backendPrefix ? `Backend code prefix: ${backendPrefixLabel}` : 'No backend code prefix'}; `
       : ''
   result.backendEnvDefineList = parseEnvDefineList(rawFileEnv, backendPrefixRE)
@@ -299,13 +303,13 @@ function getFileEnvResult({ appDir, fileList, folderList }) {
 }
 
 const asIsList = ['true', 'false', 'null']
+const numericLiteralRE = /^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/
+
 function getStrDefineValue(value) {
   if (asIsList.includes(value)) return value
 
   const trimmed = value.trim()
-  return trimmed !== '' && !Number.isNaN(Number(trimmed))
-    ? value
-    : JSON.stringify(value)
+  return numericLiteralRE.test(trimmed) ? trimmed : JSON.stringify(value)
 }
 
 function parseEnvDefineList(env, regex) {

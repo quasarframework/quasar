@@ -14,14 +14,8 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    return {
-      value: ref(16)
-    }
-  }
-}
+const value = ref(16)
 </script>

@@ -20,16 +20,10 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    return {
-      smallStep: ref(0.3),
-      xsmallStep: ref(0.53),
-      zeroStep: ref(0.5)
-    }
-  }
-}
+const smallStep = ref(0.3)
+const xsmallStep = ref(0.53)
+const zeroStep = ref(0.5)
 </script>

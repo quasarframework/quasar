@@ -8,7 +8,7 @@
         @validation-success="onVal(true)"
         @validation-error="onVal(false)"
         class="q-gutter-md"
-        ref="form"
+        ref="formRef"
         greedy
       >
         <q-input
@@ -54,7 +54,7 @@
 
       <q-toggle v-model="autofocus" label="Autofocus form" />
 
-      <q-form @submit="onSubmitClear" ref="form" :autofocus="autofocus">
+      <q-form @submit="onSubmitClear" ref="clearForm" :autofocus="autofocus">
         <q-input
           dense
           filled
@@ -77,72 +77,73 @@
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      name: null,
-      age: null,
+<script setup>
+import { useQuasar } from 'quasar'
+import { ref } from 'vue'
 
-      accept: false,
+const $q = useQuasar()
 
-      form: {},
-      autofocus: false
-    }
-  },
+const name = ref(null)
+const age = ref(null)
 
-  methods: {
-    validateNameAsync(val) {
-      return new Promise(resolve => {
-        resolve((val && val.length !== 0) || 'Please type something')
-      })
-    },
+const accept = ref(false)
 
-    validateAgeRequiredAsync(val) {
-      return new Promise(resolve => {
-        resolve((val !== null && val !== '') || 'Please type your age')
-      })
-    },
+const form = ref({})
+const autofocus = ref(false)
 
-    validateAgeRangeAsync(val) {
-      return new Promise(resolve => {
-        resolve((val > 0 && val < 100) || 'Please type a real age')
-      })
-    },
+const formRef = ref(null)
+const clearForm = ref(null)
 
-    programaticSubmit() {
-      const form = this.$refs.form
-      setTimeout(() => {
-        form.submit()
-      }, 100)
-    },
-    onSubmit() {
-      this.$q.notify({
-        color: 'green-4',
-        textColor: 'white',
-        icon: 'cloud_done',
-        message: 'Submitted'
-      })
-    },
+function validateNameAsync(val) {
+  return new Promise(resolve => {
+    resolve((val && val.length !== 0) || 'Please type something')
+  })
+}
 
-    onReset() {
-      this.name = null
-      this.age = null
-      this.accept = false
-    },
+function validateAgeRequiredAsync(val) {
+  return new Promise(resolve => {
+    resolve((val !== null && val !== '') || 'Please type your age')
+  })
+}
 
-    onVal(status) {
-      console.log('VALIDATION', status)
-    },
+function validateAgeRangeAsync(val) {
+  return new Promise(resolve => {
+    resolve((val > 0 && val < 100) || 'Please type a real age')
+  })
+}
 
-    isReq(val) {
-      return Boolean(val) || 'required'
-    },
+function programaticSubmit() {
+  const formEl = formRef.value
+  setTimeout(() => {
+    formEl.submit()
+  }, 100)
+}
 
-    onSubmitClear() {
-      this.form = {}
-      this.$refs.form.reset()
-    }
-  }
+function onSubmit() {
+  $q.notify({
+    color: 'green-4',
+    textColor: 'white',
+    icon: 'cloud_done',
+    message: 'Submitted'
+  })
+}
+
+function onReset() {
+  name.value = null
+  age.value = null
+  accept.value = false
+}
+
+function onVal(status) {
+  console.log('VALIDATION', status)
+}
+
+function isReq(val) {
+  return Boolean(val) || 'required'
+}
+
+function onSubmitClear() {
+  form.value = {}
+  clearForm.value.reset()
 }
 </script>

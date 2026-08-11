@@ -1,6 +1,6 @@
 export default {
   isoName: 'az-Latn',
-  nativeName: 'Azerbaijani (latin)',
+  nativeName: 'Azərbaycanca (latın)',
   label: {
     clear: 'Təmizlə',
     ok: 'OK',
@@ -49,7 +49,7 @@ export default {
         : (rows === 0 ? 'No' : rows) + ' seçilmiş məlumat.',
     recordsPerPage: 'Hər səhifədəki məlumat:',
     allRows: 'Bütün',
-    pagination: (start, end, total) => start + ' - ' + end + ' cəmi ' + total,
+    pagination: (start, end, total) => start + '-' + end + ' cəmi ' + total,
     columns: 'Sütun'
   },
   pagination: {

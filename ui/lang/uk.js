@@ -29,7 +29,7 @@ export default {
     collapse: label => (label ? `Згорнути "${label}"` : 'Згорнути')
   },
   date: {
-    days: 'Неділя_Понеділок_Вівторок_Середа_Четвер_П`ятниця_Субота'.split('_'),
+    days: 'Неділя_Понеділок_Вівторок_Середа_Четвер_Пʼятниця_Субота'.split('_'),
     daysShort: 'Нд_Пн_Вт_Ср_Чт_Пт_Сб'.split('_'),
     months:
       'Січень_Лютий_Березень_Квітень_Травень_Червень_Липень_Серпень_Вересень_Жовтень_Листопад_Грудень'.split(
@@ -60,7 +60,7 @@ export default {
         : 'Жодного рядку не обрано.',
     recordsPerPage: 'Рядків на сторінці:',
     allRows: 'Усі',
-    pagination: (start, end, total) => start + ' - ' + end + ' з ' + total,
+    pagination: (start, end, total) => start + '-' + end + ' з ' + total,
     columns: 'Колонки'
   },
   pagination: {

@@ -7,12 +7,12 @@ packages:
   - extras
   - ui
   - ui/playground
-  - ui/testing
   - create-quasar
   - cli
   - utils/art
   - utils/render-ssr-error
   - utils/ssl-certificate
+  - utils/update-notifier
   - docs
 
 # The packages below are not included. Use their individual folders.
@@ -29,3 +29,6 @@ allowBuilds:
   lightningcss: true
   rolldown: true
   unrs-resolver: true
+
+overrides:
+  'js-yaml@3': ^3.15.1

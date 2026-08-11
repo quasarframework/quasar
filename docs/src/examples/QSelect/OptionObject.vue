@@ -8,50 +8,43 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    return {
-      model: ref(null),
-
-      options: [
-        {
-          label: 'Google',
-          value: 'Google',
-          description: 'Search engine',
-          category: '1'
-        },
-        // #region
-        {
-          label: 'Facebook',
-          value: 'Facebook',
-          description: 'Social media',
-          category: '1'
-        },
-        {
-          label: 'Twitter',
-          value: 'Twitter',
-          description: 'Quick updates',
-          category: '2'
-        },
-        {
-          label: 'Apple',
-          value: 'Apple',
-          description: 'iStuff',
-          category: '2'
-        },
-        // #endregion
-        {
-          label: 'Oracle',
-          value: 'Oracle',
-          disable: true,
-          description: 'Databases',
-          category: '3'
-        }
-      ]
-    }
+const model = ref(null)
+const options = [
+  {
+    label: 'Google',
+    value: 'Google',
+    description: 'Search engine',
+    category: '1'
+  },
+  // #region
+  {
+    label: 'Facebook',
+    value: 'Facebook',
+    description: 'Social media',
+    category: '1'
+  },
+  {
+    label: 'Twitter',
+    value: 'Twitter',
+    description: 'Quick updates',
+    category: '2'
+  },
+  {
+    label: 'Apple',
+    value: 'Apple',
+    description: 'iStuff',
+    category: '2'
+  },
+  // #endregion
+  {
+    label: 'Oracle',
+    value: 'Oracle',
+    disable: true,
+    description: 'Databases',
+    category: '3'
   }
-}
+]
 </script>

@@ -8,7 +8,7 @@ import { createComponent } from '../private.create/create.js'
 import getEmitsObject from '../private.get-emits-object/get-emits-object.js'
 import { isObject } from '../is/is.js'
 
-const coreEmitsObject = getEmitsObject(coreEmits)
+const coreEmitsObject = /*#__PURE__*/ getEmitsObject(coreEmits)
 
 export default function createUploaderComponent({
   name,

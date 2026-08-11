@@ -252,152 +252,142 @@
   </div>
 </template>
 
-<script>
+<script setup>
+import { computed, ref } from 'vue'
+
 import './touch-style.sass'
 
-export default {
-  data() {
-    return {
-      info: null,
-      panning: false,
-      clickStatus: null,
-      disable: false,
+const info = ref(null)
+const panning = ref(false)
+const clickStatus = ref(null)
+const disable = ref(false)
 
-      infoRight: null,
-      panningRight: false,
+const infoRight = ref(null)
+const panningRight = ref(false)
 
-      infoUpRight: null,
-      panningUpRight: false,
+const infoUpRight = ref(null)
+const panningUpRight = ref(false)
 
-      infoHorizontal: null,
-      panningHorizontal: false,
+const infoHorizontal = ref(null)
+const panningHorizontal = ref(false)
 
-      infoVertical: null,
-      panningVertical: false,
+const infoVertical = ref(null)
+const panningVertical = ref(false)
 
-      panTestStopPropagation: true,
-      infoTest: null,
-      panningTest: false,
+const panTestStopPropagation = ref(true)
+const infoTest = ref(null)
+const panningTest = ref(false)
 
-      infoTestCapture: null,
-      panningTestCapture: false
-    }
-  },
+const infoTestCapture = ref(null)
+const panningTestCapture = ref(false)
 
-  computed: {
-    computedHandlePan() {
-      return this.disable ? void 0 : this.handlePan
-    }
-  },
+const computedHandlePan = computed(() => (disable.value ? void 0 : handlePan))
 
-  methods: {
-    handlePan({ evt, ...info }) {
-      this.info = info
+function handlePan({ evt, ...localInfo }) {
+  info.value = localInfo
 
-      // native Javascript event
-      // console.log(evt)
+  // native Javascript event
+  // console.log(evt)
 
-      if (info.isFirst) {
-        this.panning = true
-        this.clickStatus = null
-      } else if (info.isFinal) {
-        this.panning = false
-      }
-    },
-    handlePanRight({ evt, ...info }) {
-      this.infoRight = info
+  if (localInfo.isFirst) {
+    panning.value = true
+    clickStatus.value = null
+  } else if (localInfo.isFinal) {
+    panning.value = false
+  }
+}
+function handlePanRight({ evt, ...localInfo }) {
+  infoRight.value = localInfo
 
-      // native Javascript event
-      // console.log(evt)
+  // native Javascript event
+  // console.log(evt)
 
-      if (info.isFirst) {
-        this.panningRight = true
-        this.clickStatus = null
-      } else if (info.isFinal) {
-        this.panningRight = false
-      }
-    },
-    handlePanUpRight({ evt, ...info }) {
-      this.infoUpRight = info
+  if (localInfo.isFirst) {
+    panningRight.value = true
+    clickStatus.value = null
+  } else if (localInfo.isFinal) {
+    panningRight.value = false
+  }
+}
+function handlePanUpRight({ evt, ...localInfo }) {
+  infoUpRight.value = localInfo
 
-      // native Javascript event
-      // console.log(evt)
+  // native Javascript event
+  // console.log(evt)
 
-      if (info.isFirst) {
-        this.panningUpRight = true
-        this.clickStatus = null
-      } else if (info.isFinal) {
-        this.panningUpRight = false
-      }
-    },
-    panHorizontally({ evt, ...info }) {
-      this.infoHorizontal = info
+  if (localInfo.isFirst) {
+    panningUpRight.value = true
+    clickStatus.value = null
+  } else if (localInfo.isFinal) {
+    panningUpRight.value = false
+  }
+}
+function panHorizontally({ evt, ...localInfo }) {
+  infoHorizontal.value = localInfo
 
-      // native Javascript event
-      // console.log(evt)
+  // native Javascript event
+  // console.log(evt)
 
-      if (info.isFirst) {
-        this.panningHorizontal = true
-        this.clickStatus = null
-      } else if (info.isFinal) {
-        this.panningHorizontal = false
-      }
-    },
-    panVertically({ evt, ...info }) {
-      this.infoVertical = info
+  if (localInfo.isFirst) {
+    panningHorizontal.value = true
+    clickStatus.value = null
+  } else if (localInfo.isFinal) {
+    panningHorizontal.value = false
+  }
+}
+function panVertically({ evt, ...localInfo }) {
+  infoVertical.value = localInfo
 
-      // native Javascript event
-      // console.log(evt)
+  // native Javascript event
+  // console.log(evt)
 
-      if (info.isFirst) {
-        this.panningVertical = true
-        this.clickStatus = null
-      } else if (info.isFinal) {
-        this.panningVertical = false
-      }
-    },
+  if (localInfo.isFirst) {
+    panningVertical.value = true
+    clickStatus.value = null
+  } else if (localInfo.isFinal) {
+    panningVertical.value = false
+  }
+}
 
-    handleEvt(e) {
-      if (this.panTestStopPropagation) {
-        e.stopPropagation()
-      }
-    },
-    handlePanTest({ evt, ...info }) {
-      this.infoTest = info
+function handleEvt(e) {
+  if (panTestStopPropagation.value) {
+    e.stopPropagation()
+  }
+}
+function handlePanTest({ evt, ...localInfo }) {
+  infoTest.value = localInfo
 
-      // native Javascript event
-      console.log(evt)
+  // native Javascript event
+  console.log(evt)
 
-      if (info.isFirst) {
-        this.panningTest = true
-        this.clickStatus = null
-      } else if (info.isFinal) {
-        this.panningTest = false
-      }
-    },
+  if (localInfo.isFirst) {
+    panningTest.value = true
+    clickStatus.value = null
+  } else if (localInfo.isFinal) {
+    panningTest.value = false
+  }
+}
 
-    handlePanTestCapture({ evt, ...info }) {
-      this.infoTestCapture = info
+function handlePanTestCapture({ evt, ...localInfo }) {
+  infoTestCapture.value = localInfo
 
-      // native Javascript event
-      console.log(evt)
+  // native Javascript event
+  console.log(evt)
 
-      if (info.isFirst) {
-        this.panningTestCapture = true
-        this.clickStatus = null
-      } else if (info.isFinal) {
-        this.panningTestCapture = false
-      }
-    },
+  if (localInfo.isFirst) {
+    panningTestCapture.value = true
+    clickStatus.value = null
+  } else if (localInfo.isFinal) {
+    panningTestCapture.value = false
+  }
+}
 
-    onEvt(reason, evt) {
-      console.log('@' + reason)
-      if (reason === 'click') {
-        this.clickStatus = {
-          stopped: evt.cancelBubble,
-          prevented: evt.defaultPrevented
-        }
-      }
+function onEvt(reason, evt) {
+  console.log('@' + reason)
+  if (reason === 'click') {
+    clickStatus.value = {
+      stopped: evt.cancelBubble,
+      prevented: evt.defaultPrevented
     }
   }
 }

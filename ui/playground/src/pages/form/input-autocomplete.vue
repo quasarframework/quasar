@@ -67,12 +67,8 @@
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      username: null
-    }
-  }
-}
+<script setup>
+import { ref } from 'vue'
+
+const username = ref(null)
 </script>

@@ -1,3 +1,4 @@
+import { existsSync } from 'node:fs'
 import { basename, join } from 'node:path'
 
 import {
@@ -6,6 +7,8 @@ import {
   extendRolldownConfig,
   extendViteConfig
 } from '../../config-tools.js'
+
+import { quasarRolldownVirtualEntry } from '../../plugins/rolldown.virtual-entry.js'
 
 /**
  * Warning!
@@ -45,17 +48,13 @@ async function preloadScript(quasarConf, name) {
     }
   }
 
-  cfg.input = appPaths.resolve.electron(name)
+  cfg.external = ['electron']
   cfg.resolve.modules = [
-    'node_modules',
-    appPaths.resolve.electron('node_modules')
+    appPaths.resolve.electron('node_modules'),
+    'node_modules'
   ]
 
-  cfg.external = [
-    'electron',
-    ...Object.keys(quasarConf.ctx.pkg.electronPkg.dependencies || {})
-  ]
-
+  cfg.input = appPaths.resolve.electron(name)
   cfg.output.file = quasarConf.ctx.dev
     ? appPaths.resolve.entry(`electron/${scriptName}.cjs`)
     : join(quasarConf.build.distDir, `UnPackaged/${scriptName}.cjs`)
@@ -81,13 +80,7 @@ export const quasarElectronConfig = {
   vite: async quasarConf => {
     const cfg = await createViteConfig(quasarConf, {
       compileId: 'vite-electron',
-      shippedToClient: true,
-      modeDeps: [
-        {
-          dir: 'src-electron',
-          deps: quasarConf.ctx.pkg.electronPkg.dependencies
-        }
-      ]
+      shippedToClient: true
     })
 
     cfg.optimizeDeps.exclude = ['electron']
@@ -122,19 +115,59 @@ export const quasarElectronConfig = {
       }
     }
 
-    cfg.input = quasarConf.sourceFiles.electronMain
+    if (quasarConf.ctx.dev) {
+      const inputFile = appPaths.resolve.entry('electron/q.entry.main.js')
+
+      /**
+       * macOS ignores BrowserWindow's icon for the Dock and otherwise displays
+       * Electron.app's icon in development. The runtime NativeImage API
+       * supports PNG rather than the ICNS asset used during packaging.
+       */
+      const macOSDockIconPath =
+        process.platform === 'darwin'
+          ? appPaths.resolve.electron('electron-assets/icons/icon.png')
+          : void 0
+
+      cfg.plugins ||= []
+      cfg.plugins.push(
+        /**
+         * We need to create a virtual entry file that imports the actual main file.
+         * This is for Rolldown to correctly handle the relative import paths.
+         * Related:
+         *    makeAbsoluteExternalsRelative: true,
+         *    external: [...]
+         */
+        quasarRolldownVirtualEntry({
+          inputFile,
+          targetFile: quasarConf.sourceFiles.electronMain,
+          beforeImportCode:
+            macOSDockIconPath === void 0 ||
+            existsSync(macOSDockIconPath) === false
+              ? void 0
+              : `import { app as quasarElectronApp } from 'electron'\n\nquasarElectronApp.dock.setIcon(${JSON.stringify(macOSDockIconPath)})`
+        })
+      )
+
+      cfg.input = inputFile
+      cfg.external = [
+        'electron',
+        /node_modules[\\/](?!.*@quasar[+/\\]app-vite)/
+      ]
+    } else {
+      cfg.input = quasarConf.sourceFiles.electronMain
+      cfg.external = [
+        'electron',
+        ...Object.keys(quasarConf.ctx.pkg.electronPkg.dependencies || {})
+      ]
+    }
+
     cfg.output.file = quasarConf.ctx.dev
       ? appPaths.resolve.entry('electron/electron-main.js')
       : join(quasarConf.build.distDir, 'UnPackaged/electron-main.js')
 
     cfg.resolve.modules = [
-      'node_modules',
-      appPaths.resolve.electron('node_modules')
-    ]
-
-    cfg.external = [
-      'electron',
-      ...Object.keys(quasarConf.ctx.pkg.electronPkg.dependencies || {})
+      appPaths.resolve.electron('node_modules'),
+      'node_modules'
     ]
 
     return extendRolldownConfig(

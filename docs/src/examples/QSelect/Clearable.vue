@@ -30,16 +30,9 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    return {
-      model: ref('Google'),
-
-      options: ['Google', 'Facebook', 'Twitter', 'Apple', 'Oracle']
-    }
-  }
-}
+const model = ref('Google')
+const options = ['Google', 'Facebook', 'Twitter', 'Apple', 'Oracle']
 </script>

@@ -10,36 +10,39 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { LocalStorage } from 'quasar'
+import { nextTick, onMounted, ref } from 'vue'
 
-export default {
-  data() {
-    return {
-      storage: LocalStorage.getAll()
-    }
-  },
-  methods: {
-    toggle(key) {
-      if (LocalStorage.has(key)) {
-        LocalStorage.remove(key)
-      } else {
-        LocalStorage.set(key, `${key}-value`)
-      }
-      this.update()
-    },
-    clear() {
-      LocalStorage.clear()
-      this.update()
-    },
-    update() {
-      this.storage = LocalStorage.getAll()
-    }
-  },
-  mounted() {
-    this.$nextTick(() => {
-      this.update()
-    })
+// filled on the client only: the server has no Web Storage, so
+// server-rendering its content would always mismatch on hydration
+const storage = ref({})
+
+onMounted(() => {
+  storage.value = LocalStorage.getAll()
+})
+
+function toggle(key) {
+  if (LocalStorage.has(key)) {
+    LocalStorage.remove(key)
+  } else {
+    LocalStorage.set(key, `${key}-value`)
   }
+  update()
 }
+
+function clear() {
+  LocalStorage.clear()
+  update()
+}
+
+function update() {
+  storage.value = LocalStorage.getAll()
+}
+
+onMounted(() => {
+  nextTick(() => {
+    update()
+  })
+})
 </script>

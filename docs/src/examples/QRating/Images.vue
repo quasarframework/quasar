@@ -8,14 +8,8 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    return {
-      ratingModel: ref(3)
-    }
-  }
-}
+const ratingModel = ref(3)
 </script>

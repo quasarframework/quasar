@@ -1,4 +1,3 @@
-import { styleText } from 'node:util'
 import readline from 'node:readline'
 import { isCI } from 'ci-info'
 
@@ -152,19 +151,7 @@ export async function createPromptSession(message) {
     tasks,
     taskLog,
     log: promptsLog,
-
-    note: (msg, title) => {
-      /**
-       * Bug in @clack/prompts note formatting,
-       * so we need to reset the color for each line
-       */
-      const formattedMsg = msg
-        .split('\n')
-        .map(line => styleText('reset', line))
-        .join('\n')
-
-      note(formattedMsg, title)
-    },
+    note,
 
     async prompt(questions) {
       const scope = {}

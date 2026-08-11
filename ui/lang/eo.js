@@ -50,7 +50,7 @@ export default {
         : 'Neniu elektita linio.',
     recordsPerPage: 'Linioj po paĝoj:',
     allRows: 'Ĉiuj',
-    pagination: (start, end, total) => start + ' - ' + end + ' el ' + total,
+    pagination: (start, end, total) => start + '-' + end + ' el ' + total,
     columns: 'Kolumnoj'
   },
   pagination: {
@@ -105,7 +105,7 @@ export default {
     viewSource: 'Vida Fonto'
   },
   tree: {
-    noData: 'Neniu nodo afiŝenda',
+    noNodes: 'Neniu nodo afiŝenda',
     noResults: 'Neniu nodo trovita'
   }
 }

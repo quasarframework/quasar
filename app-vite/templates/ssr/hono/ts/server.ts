@@ -180,7 +180,7 @@ const maxAge = import.meta.env.QUASAR_DEV ? 0 : 1000 * 60 * 60 * 24 * 30;
  * Can return an async function: return async ({ urlPath = '/', pathToServe = '.', opts = {} }) => {
  */
 export const serveStaticContent = defineSsrServeStaticContent(
-  ({ app, resolve }) =>
+  ({ app, resolve, publicPath }) =>
     ({ urlPath, pathToServe, opts = {} }) => {
       const pubPath = resolve.public(pathToServe);
       const isDir = lstatSync(pubPath).isDirectory();
@@ -207,6 +207,10 @@ export const serveStaticContent = defineSsrServeStaticContent(
         staticOpts.root = pubPath;
       } else {
         staticOpts.path = pubPath;
+      }
+
+      if (publicPath !== "/") {
+        staticOpts.rewriteRequestPath = p => p.replace(publicPath, "/");
       }
 
       app.use(routePath, serveStatic(staticOpts));

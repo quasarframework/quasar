@@ -32,10 +32,14 @@ import { stopAndPrevent } from '../../utils/event/event.js'
 import { hSlot } from '../../utils/private.render/render.js'
 import uid from '../../utils/uid/uid.js'
 
-const itemGroups = shallowReactive({})
+const itemGroups = /*#__PURE__*/ shallowReactive({})
+
+function preventSpace(e) {
+  if (e.keyCode === 32) stopAndPrevent(e)
+}
 const LINK_PROPS = Object.keys(useRouterLinkProps)
 
-export default createComponent({
+export default /*#__PURE__*/ createComponent({
   name: 'QExpansionItem',
 
   props: {
@@ -176,11 +180,13 @@ export default createComponent({
     }
 
     function toggleIconKeyboard(e) {
-      if (e.keyCode === 13) toggleIcon(e, true)
+      if ([13, 32].includes(e.keyCode)) toggleIcon(e, true)
     }
 
     function toggleIcon(e, keyboard) {
-      if (!keyboard && !e.qAvoidFocus) blurTargetRef.value?.focus()
+      if (!keyboard && !e.qAvoidFocus) {
+        blurTargetRef.value?.focus({ preventScroll: true })
+      }
 
       toggle(e)
       stopAndPrevent(e)
@@ -259,6 +265,7 @@ export default createComponent({
           tabindex: 0,
           ...toggleAriaAttrs.value,
           onClick: toggleIcon,
+          onKeydown: preventSpace,
           onKeyup: toggleIconKeyboard
         })
 

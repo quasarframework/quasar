@@ -154,7 +154,10 @@ describe('[QBadge API]', () => {
 
         expect(target.classes()).toContain('q-badge--rounded')
 
-        expect(target.$computedStyle('border-radius')).toBe('1em')
+        // the "1em" radius resolves against the badge's own font size
+        expect(target.$computedStyle('border-radius')).toBe(
+          target.$computedStyle('font-size')
+        )
       })
     })
   })

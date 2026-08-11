@@ -2,7 +2,7 @@
   <div class="relative-position">
     <img
       class="transition-list-box__ensure-img-loaded no-pointer-events absolute-bottom-left"
-      src="https://cdn.quasar.dev/img/parallax1.jpg"
+      src="/img/parallax1.jpg"
     />
 
     <q-btn
@@ -41,8 +41,8 @@
 <script setup>
 import { ref } from 'vue'
 
-const urlFirst = 'https://cdn.quasar.dev/img/parallax2.jpg'
-const urlSecond = 'https://cdn.quasar.dev/img/parallax1.jpg'
+const urlFirst = '/img/parallax2.jpg'
+const urlSecond = '/img/parallax1.jpg'
 
 const transitions = ref(
   [

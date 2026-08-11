@@ -65,6 +65,54 @@ If you are using webfont-based icons, make sure that you [installed the icon lib
 | line-awesome              | la[s,r,l,d,b] la-                                | "las la-atom"                            | QIcon "name" property is same as "class" attribute value in Line Awesome docs examples (where they show `<i>` tags); **@quasar/extras v1.5+** |
 | bootstrap-icons           | bi-                                              | bi-bug-fill                              | Notice the use of dash characters; **@quasar/extras v1.10+**                                                                                  |
 
+### Material Symbols variations
+
+Material Symbols does not have a separate filled font. Its Outlined, Rounded, and Sharp fonts each expose variable axes for fill (`FILL`), weight (`wght`), grade (`GRAD`), and optical size (`opsz`). The Material Symbols webfonts supplied by `@quasar/extras` include these axes.
+
+You can control them on an individual icon:
+
+```html
+<q-icon
+  name="sym_o_home"
+  style="font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24"
+/>
+```
+
+For reusable, runtime-configurable variations, scope CSS custom properties to the Material Symbols webfont classes:
+
+```css
+.q-icon.material-symbols-outlined,
+.q-icon.material-symbols-rounded,
+.q-icon.material-symbols-sharp {
+  font-variation-settings:
+    'FILL' var(--material-symbol-fill, 0),
+    'wght' var(--material-symbol-weight, 400),
+    'GRAD' var(--material-symbol-grade, 0),
+    'opsz' var(--material-symbol-optical-size, 24);
+}
+
+.q-icon.material-symbol-filled {
+  --material-symbol-fill: 1;
+}
+```
+
+```html
+<q-icon name="sym_o_home" />
+<q-icon name="sym_o_home" class="material-symbol-filled" />
+
+<q-icon
+  name="sym_r_favorite"
+  class="material-symbol-filled"
+  style="--material-symbol-weight: 600; --material-symbol-grade: 100; --material-symbol-optical-size: 48"
+/>
+```
+
+CSS custom properties allow per-icon changes, state changes, and runtime theming. Sass variables can instead be used when you only need fixed, project-wide values at build time.
+
+::: warning SVG icon sets
+Variable font axes apply only to Material Symbols webfonts. The Material Symbols SVG exports from `@quasar/extras` contain static paths and cannot be changed with `font-variation-settings`.
+:::
+
 ### Naming convention
 
 #### Material Icons (Google)
@@ -437,8 +485,8 @@ You can also make an icon point to an image URL instead of relying on any webfon
 **All icon related props of Quasar components can make use of this.**
 
 ```html
-<q-icon name="img:https://cdn.quasar.dev/logo-v2/svg/logo.svg" />
-<q-btn icon="img:https://cdn.quasar.dev/logo-v2/svg/logo.svg" ... />
+<q-icon name="img:/logo/logo.svg" />
+<q-btn icon="img:/logo/logo.svg" ... />
 
 <!-- reference from /public: -->
 <q-icon name="img:my/path/to/some.svg" />
@@ -495,9 +543,8 @@ We will use the `$q.iconMapFn` approach using `<script setup>` in the use case e
 The structure of `iconMapFn` is as follows:
 
 ```ts
-type GlobalQuasarIconMapFn = (
-  iconName: string
-) => // Map to another existing icon
+type GlobalQuasarIconMapFn = (iconName: string) =>
+  // Map to another existing icon
   | {
       icon: string // the mapped icon string, which will be handled
       // by Quasar as if the original QIcon name was this value

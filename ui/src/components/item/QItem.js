@@ -12,7 +12,7 @@ import { hUniqueSlot } from '../../utils/private.render/render.js'
 import { stopAndPrevent } from '../../utils/event/event.js'
 import { isKeyCode } from '../../utils/private.keyboard/key-composition.js'
 
-export default createComponent({
+export default /*#__PURE__*/ createComponent({
   name: 'QItem',
 
   props: {
@@ -92,9 +92,9 @@ export default createComponent({
       if (isClickable.value) {
         if (blurTargetRef.value !== null && !e.qAvoidFocus) {
           if (!e.qKeyEvent && document.activeElement === rootRef.value) {
-            blurTargetRef.value.focus()
+            blurTargetRef.value.focus({ preventScroll: true })
           } else if (document.activeElement === blurTargetRef.value) {
-            rootRef.value.focus()
+            rootRef.value.focus({ preventScroll: true })
           }
         }
 
@@ -118,6 +118,10 @@ export default createComponent({
       emit('keyup', e)
     }
 
+    function onKeydown(e) {
+      if (isClickable.value && e.keyCode === 32) stopAndPrevent(e)
+    }
+
     function getContent() {
       const child = hUniqueSlot(slots.default, [])
 
@@ -139,8 +143,13 @@ export default createComponent({
         ref: rootRef,
         class: classes.value,
         style: style.value,
-        role: 'listitem',
+        role: hasLink.value
+          ? void 0
+          : isClickable.value
+            ? 'button'
+            : 'listitem',
         onClick,
+        onKeydown,
         onKeyup
       }
 

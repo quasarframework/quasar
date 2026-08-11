@@ -83,7 +83,7 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import {
   h,
   onActivated,
@@ -91,118 +91,122 @@ import {
   onBeforeUnmount,
   onDeactivated,
   onMounted,
-  onUnmounted
+  onUnmounted,
+  ref
 } from 'vue'
 
-export default {
-  components: {
-    KeepAliveTestOpt: {
-      name: 'KeepAliveTestOptionsAPI',
+const KeepAliveTestOpt = {
+  name: 'KeepAliveTestOptionsAPI',
 
-      props: {
-        name: String
-      },
-
-      emits: ['log'],
-
-      created() {
-        this.log('created')
-      },
-
-      beforeMount() {
-        this.log('beforeMount')
-      },
-
-      mounted() {
-        this.log('mounted')
-      },
-
-      activated() {
-        this.log('activated')
-      },
-
-      deactivated() {
-        this.log('deactivated')
-      },
-
-      beforeUnmount() {
-        this.log('beforeUnmount')
-      },
-
-      unmounted() {
-        this.log('unmounted')
-      },
-
-      methods: {
-        log(what) {
-          this.$emit('log', `[${this.name}] ${what}`)
-        }
-      },
-
-      render() {
-        return h('div', ['keep alive test ' + this.name])
-      }
-    },
-
-    KeepAliveTestComp: {
-      props: {
-        name: String
-      },
-
-      emits: ['log'],
-
-      setup(props, { emit }) {
-        const log = what => {
-          emit('log', `[${props.name}] ${what}`)
-        }
-
-        log('created')
-        onBeforeMount(() => {
-          log('onBeforeMount')
-        })
-        onMounted(() => {
-          log('onMounted')
-        })
-        onActivated(() => {
-          log('onActivated')
-        })
-        onDeactivated(() => {
-          log('onDeactivated')
-        })
-        onBeforeUnmount(() => {
-          log('onBeforeUnmount')
-        })
-        onUnmounted(() => {
-          log('onUnmounted')
-        })
-
-        return () => h('div', ['keep alive test ' + props.name])
-      }
-    }
+  props: {
+    name: String
   },
 
-  data() {
-    return {
-      showFirstOpt: true,
-      showFirstComp: true,
+  emits: ['log'],
 
-      showFirstNoKeepOpt: true,
-      showFirstNoKeepComp: true,
+  created() {
+    this.log('created')
+  },
 
-      logs: Array.from({ length: 4 }, () => []),
-      logNames: [
-        'KeepAlive - Options API',
-        'KeepAlive - Composition API',
-        'NO KeepAlive - Options API',
-        'NO KeepAlive - Composition API'
-      ]
-    }
+  beforeMount() {
+    this.log('beforeMount')
+  },
+
+  mounted() {
+    this.log('mounted')
+  },
+
+  activated() {
+    this.log('activated')
+  },
+
+  deactivated() {
+    this.log('deactivated')
+  },
+
+  beforeUnmount() {
+    this.log('beforeUnmount')
+  },
+
+  unmounted() {
+    this.log('unmounted')
   },
 
   methods: {
-    log(i, text) {
-      this.logs[i].push(text)
+    log(what) {
+      this.$emit('log', `[${this.name}] ${what}`)
     }
+  },
+
+  render() {
+    return h('div', ['keep alive test ' + this.name])
   }
+}
+
+const KeepAliveTestComp = {
+  props: {
+    name: String
+  },
+
+  emits: ['log'],
+
+  setup(props, { emit }) {
+    const logEvent = what => {
+      emit('log', `[${props.name}] ${what}`)
+    }
+
+    logEvent('created')
+    onBeforeMount(() => {
+      logEvent('onBeforeMount')
+    })
+    onMounted(() => {
+      logEvent('onMounted')
+    })
+    onActivated(() => {
+      logEvent('onActivated')
+    })
+    onDeactivated(() => {
+      logEvent('onDeactivated')
+    })
+    onBeforeUnmount(() => {
+      logEvent('onBeforeUnmount')
+    })
+    onUnmounted(() => {
+      logEvent('onUnmounted')
+    })
+
+    return () => h('div', ['keep alive test ' + props.name])
+  }
+}
+
+const showFirstOpt = ref(true)
+const showFirstComp = ref(true)
+
+const showFirstNoKeepOpt = ref(true)
+const showFirstNoKeepComp = ref(true)
+
+const logs = ref(Array.from({ length: 4 }, () => []))
+const logNames = ref([
+  'KeepAlive - Options API',
+  'KeepAlive - Composition API',
+  'NO KeepAlive - Options API',
+  'NO KeepAlive - Composition API'
+])
+
+// the rendered log only records events after mount: the children's
+// creation events also fire during the server render and during
+// hydration, where recording them would desync the two passes
+const ready = ref(false)
+
+onMounted(() => {
+  ready.value = true
+})
+
+function log(i, text) {
+  if (ready.value === false) {
+    return
+  }
+
+  logs.value[i].push(text)
 }
 </script>

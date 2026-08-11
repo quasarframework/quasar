@@ -50,13 +50,13 @@ In order for creating an App Extension project folder, please first read the [De
 :::
 
 ::: tip Full Example
-To see an example of what we will build, head over to [MyStarterKit full example](https://github.com/quasarframework/app-extension-examples/tree/v3/my-starter-kit), which is a github repo with the App Extension that we are building on this page.
+To see an example of what we will build, head over to the [MyStarterKit full example](https://github.com/quasarframework/app-extension-examples/tree/v3/my-starter-kit) on GitHub.
 :::
 
 We'll be creating an example App Extension which does the following:
 
 - it prompts the user what features it wants this App Extension to install
-- renders (copies) files into the hosting folder, according to the answers he gave
+- renders (copies) files into the host app according to the user's answers
 - it extends the /quasar.config file
 - it extends the Vite configuration
 - it uses an App Extension hook (onPublish)
@@ -136,7 +136,7 @@ export default defineInstallScript(api => {
   // hard dependencies, as in a minimum version of the "quasar"
   // package or a minimum version of Quasar App CLI
   api.compatibleWith('quasar', '^2.0.0')
-  api.compatibleWith('@quasar/app-vite', '^3.0.0-rc.1')
+  api.compatibleWith('@quasar/app-vite', '^3.0.0')
 
   // We render some files into the hosting project
 
@@ -172,14 +172,14 @@ export default defineIndexScript(api => {
   // hard dependencies, as in a minimum version of the "quasar"
   // package or a minimum version of Quasar App CLI
   api.compatibleWith('quasar', '^2.0.0')
-  api.compatibleWith('@quasar/app-vite', '^3.0.0-rc.1')
+  api.compatibleWith('@quasar/app-vite', '^3.0.0')
 
   // Here we extend the /quasar.config file;
   // (extendQuasarConf() will be defined later in this tutorial, continue reading)
   api.extendQuasarConf(extendQuasarConf)
 
   // Here we register the onPublish hook,
-  // only if user answered that he wants the publishing service
+  // only if the user requested the publishing service
   if (api.prompts.publishService) {
     // onPublish() will be defined later in this tutorial, continue reading
     api.onPublish(onPublish)
@@ -236,14 +236,10 @@ function extendVite(viteConf, { isClient, isServer }, api) {
 
 ## The Uninstall script
 
-When the App Extension gets uninstall, we need to do some cleanup. But beware what you delete from the app-space! Some files might still be needed. Proceed with extreme care, if you decide to have an uninstall script.
+When the App Extension is uninstalled, we need to do some cleanup. Be careful about what you delete from the host app because some files may still be needed.
 
 ```js
 import { defineUninstallScript } from '#q-app'
-
-// we PNPM added it to our App Extension,
-// so we can import the following:
-import rimraf from 'rimraf'
 
 export default defineUninstallScript(api => {
   // Careful when you remove folders!
@@ -255,21 +251,19 @@ export default defineUninstallScript(api => {
 
   if (api.prompts.serviceA) {
     // we added it on install, so we remove it
-    rimraf.sync(api.resolve.src('services/serviceA.js'))
+    api.removePath('src/services/serviceA.js')
   }
 
   if (api.prompts.serviceB) {
     // we added it on install, so we remove it
-    rimraf.sync(api.resolve.src('services/serviceB.js'))
+    api.removePath('src/services/serviceB.js')
   }
 
   // we added it on install, so we remove it
-  rimraf.sync(api.resolve.app('some-folder'))
+  api.removePath('some-folder')
   // warning... we've added this folder, but what if the
   // developer added more files into this folder???
 })
 ```
 
-Notice that we are requesting `rimraf` npm package. This means that we pnpm added it into our App Extension project (the /ae folder). This is here as example so that you are aware that the dependencies that you use need to be supplied by your AE.
-
-Alternatively, you can use [api.removePath](/app-extensions/development-guide/uninstall-api#api-removepath).
+See [api.removePath](/app-extensions/development-guide/uninstall-api#api-removepath) for details. Only remove files that the extension owns; a user may have added content to a directory after installation.

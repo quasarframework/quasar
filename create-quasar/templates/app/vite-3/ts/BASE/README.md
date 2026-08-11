@@ -12,7 +12,7 @@ pnpm install
 ```bash
 quasar dev
 ```
-<% if (scope.preset.linter) { %>
+<% if (scope.preset.linting) { %>
 
 ### Format & Lint the files
 
@@ -36,4 +36,5 @@ quasar build
 ```
 
 ### Customize the configuration
-See [Configuring quasar.config.js](https://v2.quasar.dev/quasar-cli-vite/quasar-config-js).
+
+See [Configuring quasar.config.js](https://v2.quasar.dev/quasar-cli-vite/quasar-config-file).

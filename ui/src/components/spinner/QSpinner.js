@@ -4,7 +4,7 @@ import useSpinner, { useSpinnerProps } from './use-spinner.js'
 
 import { createComponent } from '../../utils/private.create/create.js'
 
-export default createComponent({
+export default /*#__PURE__*/ createComponent({
   name: 'QSpinner',
 
   props: {

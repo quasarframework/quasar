@@ -38,82 +38,69 @@
   </div>
 </template>
 
-<script>
-import { ref } from 'vue'
+<script setup>
+import { ref, useTemplateRef } from 'vue'
 
 function clearStack(stack) {
   stack.splice(0)
 }
 
-export default {
-  setup() {
-    const maxStack = ref(100)
-    const undoStack = ref([])
-    const redoStack = ref([])
-    const undoBlocked = ref(false)
+const maxStack = ref(100)
+const undoStack = ref([])
+const redoStack = ref([])
+const undoBlocked = ref(false)
 
-    const editorRef = ref(null)
+const editorRef = useTemplateRef('editorRef')
 
-    function checkStack(stack) {
-      if (stack.length > maxStack.value) {
-        stack.splice(maxStack.value)
-      }
-    }
-
-    return {
-      maxStack,
-      undoStack,
-      redoStack,
-      undoBlocked,
-
-      editorRef,
-
-      undo() {
-        // shift the stack
-        const data = undoStack.value.shift()
-        if (data !== void 0) {
-          // block undo from receiving its own data
-          undoBlocked.value = true
-          editorRef.value.textContent = data
-        }
-      },
-
-      redo() {
-        // shift the stack
-        const data = redoStack.value.shift()
-        if (data !== void 0) {
-          // unblock undo from receiving redo data
-          undoBlocked.value = false
-          editorRef.value.textContent = data
-        }
-      },
-
-      handler(mutationRecords) {
-        mutationRecords.forEach(record => {
-          if (record.type === 'characterData') {
-            undoStack.value.unshift(record.oldValue)
-            checkStack(undoStack.value)
-            clearStack(redoStack.value)
-          } else if (record.type === 'childList') {
-            record.removedNodes.forEach(node => {
-              if (!undoBlocked.value) {
-                // comes from redo
-                undoStack.value.unshift(node.textContent)
-              } else {
-                // comes from undo
-                redoStack.value.unshift(node.textContent)
-              }
-            })
-
-            // check stacks
-            checkStack(undoStack.value)
-            checkStack(redoStack.value)
-            undoBlocked.value = false
-          }
-        })
-      }
-    }
+function checkStack(stack) {
+  if (stack.length > maxStack.value) {
+    stack.splice(maxStack.value)
   }
+}
+
+function undo() {
+  // shift the stack
+  const data = undoStack.value.shift()
+  if (data !== void 0) {
+    // block undo from receiving its own data
+    undoBlocked.value = true
+    editorRef.value.textContent = data
+  }
+}
+
+function redo() {
+  // shift the stack
+  const data = redoStack.value.shift()
+  if (data !== void 0) {
+    // unblock undo from receiving redo data
+    undoBlocked.value = false
+    editorRef.value.textContent = data
+  }
+}
+
+function handler(mutationRecords) {
+  mutationRecords.forEach(record => {
+    if (record.type === 'characterData') {
+      undoStack.value.unshift(record.oldValue)
+      checkStack(undoStack.value)
+      clearStack(redoStack.value)
+    } else if (record.type === 'childList') {
+      record.removedNodes.forEach(node => {
+        if (!undoBlocked.value) {
+          // comes from redo
+          undoStack.value.unshift(node.textContent)
+        } else {
+          // comes from undo
+          redoStack.value.unshift(node.textContent)
+        }
+      })
+
+      // check stacks
+      checkStack(undoStack.value)
+      checkStack(redoStack.value)
+      undoBlocked.value = false
+    }
+  })
 }
 </script>
 

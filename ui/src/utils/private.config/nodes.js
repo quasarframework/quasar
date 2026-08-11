@@ -29,8 +29,10 @@ export function createGlobalNode(id, portalType) {
 export function removeGlobalNode(el) {
   const nodeIndex = nodesList.indexOf(el)
 
-  nodesList.splice(nodeIndex, 1)
-  portalTypeList.splice(nodeIndex, 1)
+  if (nodeIndex !== -1) {
+    nodesList.splice(nodeIndex, 1)
+    portalTypeList.splice(nodeIndex, 1)
+  }
 
   el.remove()
 }

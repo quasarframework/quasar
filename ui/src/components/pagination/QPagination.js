@@ -16,7 +16,7 @@ function getBool(val, otherwise) {
   return val === true || val === false ? val : otherwise
 }
 
-export default createComponent({
+export default /*#__PURE__*/ createComponent({
   name: 'QPagination',
 
   props: {
@@ -191,6 +191,7 @@ export default createComponent({
 
       round: props.round,
       rounded: props.rounded,
+      glossy: props.glossy,
 
       padding: props.padding,
 

@@ -2,21 +2,19 @@
   <div>Tab <mark>one</mark> Content</div>
 </template>
 
-<script>
-import { defineComponent } from 'vue'
+<script setup>
+import { onBeforeRouteLeave } from 'vue-router'
 
-export default defineComponent({
-  name: 'One',
+defineOptions({ name: 'One' })
 
-  props: {
-    allowRouteChange: Boolean
-  },
+const props = defineProps({
+  allowRouteChange: Boolean
+})
 
-  beforeRouteLeave() {
-    console.log(
-      this.allowRouteChange ? 'allowing navigation' : 'denying navigation'
-    )
-    return this.allowRouteChange
-  }
+onBeforeRouteLeave(() => {
+  console.log(
+    props.allowRouteChange ? 'allowing navigation' : 'denying navigation'
+  )
+  return props.allowRouteChange
 })
 </script>

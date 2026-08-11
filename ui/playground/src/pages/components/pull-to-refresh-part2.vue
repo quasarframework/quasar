@@ -24,23 +24,20 @@
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      items: [{}, {}, {}, {}, {}, {}, {}, {}, {}],
-      disable: false
-    }
-  },
+<script setup>
+import { useQuasar } from 'quasar'
+import { ref } from 'vue'
 
-  methods: {
-    refresher(done) {
-      setTimeout(() => {
-        this.items.push({})
-        this.$q.notify('Item #' + this.items.length + ' is new.')
-        done()
-      }, 2000)
-    }
-  }
+const $q = useQuasar()
+
+const items = ref([{}, {}, {}, {}, {}, {}, {}, {}, {}])
+const disable = ref(false)
+
+function refresher(done) {
+  setTimeout(() => {
+    items.value.push({})
+    $q.notify('Item #' + items.value.length + ' is new.')
+    done()
+  }, 2000)
 }
 </script>

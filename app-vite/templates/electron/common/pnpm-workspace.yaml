@@ -1,0 +1,7 @@
+# This file exists to force pnpm install deps here, regardless of upper workspaces
+# https://pnpm.io/settings
+
+# pnpm does not run dependency lifecycle scripts unless allowlisted;
+# electron's postinstall script downloads the Electron binary
+onlyBuiltDependencies:
+  - electron

@@ -11,19 +11,24 @@ const MILLISECONDS_IN_DAY = 86_400_000,
     /\[((?:[^\]\\]|\\]|\\)*)\]|do|d{1,4}|Mo|M{1,4}|m{1,2}|wo|w{1,2}|Qo|Do|DDDo|D{1,4}|YY(?:YY)?|H{1,2}|h{1,2}|s{1,2}|S{1,3}|Z{1,2}|a{1,2}|[AQExX]/g,
   reverseToken =
     /(\[[^\]]*\])|do|d{1,4}|Mo|M{1,4}|m{1,2}|wo|w{1,2}|Qo|Do|DDDo|D{1,4}|YY(?:YY)?|H{1,2}|h{1,2}|s{1,2}|S{1,3}|Z{1,2}|a{1,2}|[AQExX]|([.*+:?^,\s${}()|\\]+)/g,
-  regexStore = {}
+  escapeRegexRE = /[.*+?^${}()|[\]\\]/g,
+  regexStore = new Map()
+
+function escapeRegex(str) {
+  return str.replaceAll(escapeRegexRE, String.raw`\$&`)
+}
 
 function getRegexData(mask, dateLocale) {
-  const days = '(' + dateLocale.days.join('|') + ')',
-    key = mask + days
+  const days = '(' + dateLocale.days.map(escapeRegex).join('|') + ')',
+    daysShort = '(' + dateLocale.daysShort.map(escapeRegex).join('|') + ')',
+    months = '(' + dateLocale.months.map(escapeRegex).join('|') + ')',
+    monthsShort = '(' + dateLocale.monthsShort.map(escapeRegex).join('|') + ')'
 
-  if (regexStore[key] !== void 0) {
-    return regexStore[key]
+  const key = [mask, days, daysShort, months, monthsShort].join('|')
+
+  if (regexStore.has(key)) {
+    return regexStore.get(key)
   }
-
-  const daysShort = '(' + dateLocale.daysShort.join('|') + ')',
-    months = '(' + dateLocale.months.join('|') + ')',
-    monthsShort = '(' + dateLocale.monthsShort.join('|') + ')'
 
   const map = {}
   let index = 0
@@ -189,13 +194,14 @@ function getRegexData(mask, dateLocale) {
         if (match[0] === '[') {
           match = match.slice(1, -1)
         }
-        return match.replaceAll(/[.*+?^${}()|[\]\\]/g, String.raw`\$&`)
+
+        return escapeRegex(match)
       }
     }
   })
 
   const res = { map, regex: new RegExp('^' + regexText) }
-  regexStore[key] = res
+  regexStore.set(key, res)
 
   return res
 }
@@ -352,6 +358,10 @@ export function adjustDate(date, rawMod, utc) {
 export function extractDate(str, mask, dateLocale) {
   const d = __splitDate(str, mask, dateLocale)
 
+  if (d.dateHash === null) {
+    return new Date(Number.NaN)
+  }
+
   const date = new Date(
     d.year,
     d.month === null ? null : d.month - 1,
@@ -406,7 +416,7 @@ export function __splitDate(str, mask, dateLocale, calendar, defaultModel) {
 
   if (map.X !== void 0 || map.x !== void 0) {
     const stamp = Number.parseInt(match[map.X ?? map.x], 10)
-    if (Number.isNaN(stamp) || stamp < 0) return date
+    if (Number.isNaN(stamp)) return date
 
     const d = new Date(stamp * (map.X !== void 0 ? 1000 : 1))
 
@@ -450,9 +460,19 @@ export function __splitDate(str, mask, dateLocale, calendar, defaultModel) {
     }
 
     if (map.H !== void 0) {
-      date.hour = Number.parseInt(match[map.H], 10) % 24
+      date.hour = Number.parseInt(match[map.H], 10)
+      if (date.hour > 23) {
+        date.hour = null
+        return date
+      }
     } else if (map.h !== void 0) {
-      date.hour = Number.parseInt(match[map.h], 10) % 12
+      date.hour = Number.parseInt(match[map.h], 10)
+      if (date.hour < 1 || date.hour > 12) {
+        date.hour = null
+        return date
+      }
+
+      date.hour %= 12
       if (
         (map.A && match[map.A] === 'PM') ||
         (map.a && match[map.a] === 'pm') ||
@@ -465,11 +485,19 @@ export function __splitDate(str, mask, dateLocale, calendar, defaultModel) {
     }
 
     if (map.m !== void 0) {
-      date.minute = Number.parseInt(match[map.m], 10) % 60
+      date.minute = Number.parseInt(match[map.m], 10)
+      if (date.minute > 59) {
+        date.minute = null
+        return date
+      }
     }
 
     if (map.s !== void 0) {
-      date.second = Number.parseInt(match[map.s], 10) % 60
+      date.second = Number.parseInt(match[map.s], 10)
+      if (date.second > 59) {
+        date.second = null
+        return date
+      }
     }
 
     if (map.S !== void 0) {
@@ -480,9 +508,18 @@ export function __splitDate(str, mask, dateLocale, calendar, defaultModel) {
     if (map.Z !== void 0 || map.ZZ !== void 0) {
       tzString =
         map.Z !== void 0 ? match[map.Z].replace(':', '') : match[map.ZZ]
-      date.timezoneOffset =
-        (tzString[0] === '+' ? -1 : 1) *
-        (60 * tzString.slice(1, 3) + Number(tzString.slice(3, 5)))
+
+      if (tzString === 'Z') {
+        date.timezoneOffset = 0
+      } else {
+        const tzHours = Number(tzString.slice(1, 3)),
+          tzMinutes = Number(tzString.slice(3, 5))
+
+        if (tzHours > 23 || tzMinutes > 59) return date
+
+        date.timezoneOffset =
+          (tzString[0] === '+' ? -1 : 1) * (60 * tzHours + tzMinutes)
+      }
     }
   }
 
@@ -524,7 +561,7 @@ export function getWeekOfYear(date) {
 
   // Check if daylight-saving-time-switch occurred and correct for it
   const ds = thursday.getTimezoneOffset() - firstThursday.getTimezoneOffset()
-  thursday.setHours(thursday.getHours() - ds)
+  thursday.setMinutes(thursday.getMinutes() - ds)
 
   // Number of weeks between target Thursday and first Thursday
   const weekDiff = (thursday - firstThursday) / (MILLISECONDS_IN_DAY * 7)
@@ -545,7 +582,7 @@ export function isBetweenDates(date, from, to, opts = {}) {
     d2 = getDateIdentifier(to, opts.onlyDate),
     cur = getDateIdentifier(date, opts.onlyDate)
 
-  return (
+  return Boolean(
     (cur > d1 || (opts.inclusiveFrom && cur === d1)) &&
     (cur < d2 || (opts.inclusiveTo && cur === d2))
   )
@@ -603,7 +640,7 @@ export function endOfDate(date, unit, utc) {
     }
     case 'month': // oxlint-disable-line no-fallthrough
     case 'months': {
-      t[`${prefix}Date`](daysInMonth(t))
+      t[`${prefix}Date`](daysInMonth(t, utc))
     }
     case 'day': // oxlint-disable-line no-fallthrough
     case 'days':
@@ -790,8 +827,15 @@ export function isSameDate(date, date2, unit) {
   return true
 }
 
-export function daysInMonth(date) {
-  return new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate()
+export function daysInMonth(date, utc) {
+  const prefix = utc ? 'UTC' : '',
+    t = new Date(date)
+
+  t[`set${prefix}Date`](1)
+  t[`set${prefix}Month`](t[`get${prefix}Month`]() + 1)
+  t[`set${prefix}Date`](0)
+
+  return t[`get${prefix}Date`]()
 }
 
 function getOrdinal(n) {
@@ -1051,7 +1095,7 @@ export function formatDate(
 
   const date = new Date(val)
 
-  if (Number.isNaN(date)) return
+  if (Number.isNaN(date.getTime())) return
 
   if (mask === void 0) {
     mask = defaultMask

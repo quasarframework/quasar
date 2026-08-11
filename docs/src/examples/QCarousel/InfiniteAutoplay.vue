@@ -34,15 +34,9 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    return {
-      slide: ref(1),
-      autoplay: ref(true)
-    }
-  }
-}
+const slide = ref(1)
+const autoplay = ref(true)
 </script>

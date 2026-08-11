@@ -14,7 +14,7 @@ async function createWindow () {
    * Initial window options
    */
   const mainWindow = new BrowserWindow({
-    icon: resolveElectronAssetsPath('icons/icon.png'), // linux
+    icon: resolveElectronAssetsPath('icons/icon.png'), // Windows and Linux
     width: 1000,
     height: 600,
     useContentSize: true,
@@ -42,9 +42,8 @@ async function createWindow () {
   }
 }
 
-void app.whenReady().then(async () => {
-  await registerQuasarRuntime()
-
+void app.whenReady().then(() => {
+  registerQuasarRuntime()
   createWindow()
 
   app.on('activate', () => {

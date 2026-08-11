@@ -273,6 +273,8 @@ ssr: {
 
 Now let's see what it contains, for JS projects first and then for TypeScript. Pick the one you want to use based on the webserver of your choice:
 
+<llm-exclude reason="Mirrors the TypeScript :::details below without the type annotations. LLMs can derive the JS form from the TS version.">
+
 ::: details Javascript
 
 ```tabs /src-ssr/middlewares/render.js
@@ -570,6 +572,8 @@ export default defineSsrMiddleware(({ app, publicPath, render, serve }) => {
 ```
 
 :::
+
+</llm-exclude>
 
 ::: details TypeScript
 

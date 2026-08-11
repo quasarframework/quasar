@@ -20,19 +20,12 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    const progress = ref(0.4)
+const progress = ref(0.4)
 
-    return {
-      progress,
-      randomize() {
-        progress.value = Math.random()
-      }
-    }
-  }
+function randomize() {
+  progress.value = Math.random()
 }
 </script>

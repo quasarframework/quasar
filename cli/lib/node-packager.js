@@ -8,10 +8,65 @@ import { fatal } from './logger.js'
 import { spawnSync } from './spawn.js'
 
 const versionRegex = /^(\d+)\.[\d]+\.[\d]+-?(alpha|beta|rc)?/
+const versionPartsRegex = /^(\d+)\.(\d+)\.(\d+)(?:-(.+))?/
+
+function parseVersionParts(version) {
+  const match = version.match(versionPartsRegex)
+  if (match === null) return null
+
+  return {
+    core: [Number(match[1]), Number(match[2]), Number(match[3])],
+    prerelease: match[4] ?? null
+  }
+}
+
+function isNewerVersion(version, otherVersion) {
+  for (let i = 0; i < 3; i++) {
+    if (version.core[i] !== otherVersion.core[i]) {
+      return version.core[i] > otherVersion.core[i]
+    }
+  }
+
+  // a stable release supersedes its own pre-releases
+  if ((version.prerelease === null) !== (otherVersion.prerelease === null)) {
+    return version.prerelease === null
+  }
+
+  if (version.prerelease !== null) {
+    return (
+      version.prerelease.localeCompare(otherVersion.prerelease, 'en', {
+        numeric: true
+      }) > 0
+    )
+  }
+
+  return false
+}
+
+// The NPM registry lists versions in publish order, which does not always
+// match the version order (e.g. a patch for an older minor version can get
+// released after a newer minor version), so the highest version needs to
+// be picked explicitly.
+function getHighestVersion(versionList) {
+  let highest = null
+  let highestParts = null
+
+  for (const version of versionList) {
+    const parts = parseVersionParts(version)
+    if (parts === null) continue
+
+    if (highest === null || isNewerVersion(parts, highestParts)) {
+      highest = version
+      highestParts = parts
+    }
+  }
+
+  return highest
+}
 
 function getNpmRegistryUrl() {
   try {
-    const url = execSync('npm config get registry')
+    const url = String(execSync('npm config get registry')).trim()
     if (url) {
       return url.endsWith('/') ? url : url + '/'
     }
@@ -21,33 +76,18 @@ function getNpmRegistryUrl() {
 }
 
 async function getPackageVersionList(packageName, npmRegistryUrl) {
-  const https = await import('node:https')
-  const url = `${npmRegistryUrl}${packageName}`
+  try {
+    const url = new URL(encodeURIComponent(packageName), npmRegistryUrl)
+    const response = await fetch(url)
+    if (!response.ok) return null
 
-  return new Promise(resolve => {
-    https.get(url, async response => {
-      let data = ''
+    const json = await response.json()
+    const versionList = Object.keys(json.versions || {})
 
-      try {
-        for await (const chunk of response) {
-          data += chunk
-        }
-      } catch {
-        resolve(null)
-        return
-      }
-
-      try {
-        const json = JSON.parse(data)
-        const versionList = Object.keys(json.versions)
-
-        resolve(versionList.length !== 0 ? versionList : null)
-      } catch {
-        // oxlint-disable-next-line promise/no-multiple-resolved
-        resolve(null)
-      }
-    })
-  })
+    return versionList.length !== 0 ? versionList : null
+  } catch {
+    return null
+  }
 }
 
 // returns a Promise!
@@ -161,22 +201,22 @@ class PackageManager {
 
   async getPackageLatestVersion({
     packageName,
-    npmRegistryUrl = this.#npmRegistryUrl,
+    npmRegistryUrl = this.npmRegistryUrl,
     currentVersion = null,
     majorVersion = false,
     preReleaseVersion = false
   }) {
     const versionList = await getPackageVersionList(packageName, npmRegistryUrl)
-
-    if (versionList === null) {
-      return null
-    }
+    if (versionList === null) return null
 
     if (currentVersion === null) {
-      return versionList.at(-1)
+      return getHighestVersion(versionList)
     }
 
-    const [, major, prerelease] = currentVersion.match(versionRegex)
+    const versionMatch = currentVersion.match(versionRegex)
+    if (versionMatch === null) return null
+
+    const [, major, prerelease] = versionMatch
     const majorSyntax = majorVersion ? String.raw`(\d+)` : major
     const regex = new RegExp(
       prerelease || preReleaseVersion
@@ -185,7 +225,7 @@ class PackageManager {
     )
 
     const list = versionList.filter(version => regex.test(version))
-    return list.at(-1) || null
+    return getHighestVersion(list)
   }
 }
 
@@ -294,7 +334,9 @@ function getProjectPackageManager(folder) {
  * @returns {PackageManager}
  */
 export function getNodePackager(folder = appPaths.appDir) {
-  const projectPackageManager = getProjectPackageManager(folder)
+  // there might not be a project folder at all (e.g. outside of a project)
+  const projectPackageManager =
+    folder !== void 0 ? getProjectPackageManager(folder) : void 0
 
   // if the project folder uses a supported package manager
   // and it is installed on this machine then use it

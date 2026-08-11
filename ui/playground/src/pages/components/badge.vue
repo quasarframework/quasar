@@ -159,12 +159,8 @@
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      dense: false
-    }
-  }
-}
+<script setup>
+import { ref } from 'vue'
+
+const dense = ref(false)
 </script>

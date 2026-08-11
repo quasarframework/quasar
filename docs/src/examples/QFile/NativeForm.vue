@@ -53,41 +53,31 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    const submitted = ref(false)
-    const submitEmpty = ref(false)
-    const submitResult = ref([])
+const submitted = ref(false)
+const submitEmpty = ref(false)
+const submitResult = ref([])
 
-    return {
-      file: ref(null),
-      files: ref(null),
+const file = ref(null)
+const files = ref(null)
 
-      submitted,
-      submitEmpty,
-      submitResult,
+function onSubmit(evt) {
+  const formData = new FormData(evt.target)
+  const data = []
 
-      onSubmit(evt) {
-        const formData = new FormData(evt.target)
-        const data = []
-
-        for (const [name, value] of formData.entries()) {
-          if (value.name.length !== 0) {
-            data.push({
-              name,
-              value: value.name
-            })
-          }
-        }
-
-        submitted.value = true
-        submitResult.value = data
-        submitEmpty.value = data.length === 0
-      }
+  for (const [name, value] of formData.entries()) {
+    if (value.name.length !== 0) {
+      data.push({
+        name,
+        value: value.name
+      })
     }
   }
+
+  submitted.value = true
+  submitResult.value = data
+  submitEmpty.value = data.length === 0
 }
 </script>

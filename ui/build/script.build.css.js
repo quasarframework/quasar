@@ -1,5 +1,6 @@
 import { compileAsync } from 'sass-embedded'
 import rtl from 'postcss-rtlcss'
+import { Mode } from 'postcss-rtlcss/options'
 import postcss from 'postcss'
 import { transform } from 'lightningcss'
 
@@ -11,7 +12,7 @@ import {
   writeFile
 } from './build.utils.js'
 
-const postCssRtl = postcss([rtl({})])
+const postCssRtl = postcss([rtl({ mode: Mode.Override })])
 const sassUseRE = /@use\s+['"][^'"]+['"]/g
 
 function moveUseStatementsToTop(code) {

@@ -102,19 +102,13 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    return {
-      fab1: ref(true),
-      fab2: ref(true),
+const fab1 = ref(true)
+const fab2 = ref(true)
 
-      onClick() {
-        // console.log('Clicked on a fab action')
-      }
-    }
-  }
+function onClick() {
+  console.log('Clicked on a fab action')
 }
 </script>

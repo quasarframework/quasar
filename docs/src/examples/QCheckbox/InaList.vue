@@ -53,14 +53,8 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    return {
-      color: ref(['cyan'])
-    }
-  }
-}
+const color = ref(['cyan'])
 </script>

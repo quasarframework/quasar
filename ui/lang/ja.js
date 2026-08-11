@@ -15,8 +15,8 @@ export default {
     search: '検索', // 'Search',
     filter: 'フィルタ', // 'Filter',
     refresh: '再読込', // 'Refresh'
-    expand: label => (label ? `「${label}」を展開します。` : '拡大'),
-    collapse: label => (label ? `「${label}」を折りたたむ` : '崩壊')
+    expand: label => (label ? `「${label}」を展開します。` : '展開'),
+    collapse: label => (label ? `「${label}」を折りたたむ` : '折りたたむ')
   },
   date: {
     days: '日曜日_月曜日_火曜日_水曜日_木曜日_金曜日_土曜日'.split('_'), // 'Sunday_Monday_Tuesday_Wednesday_Thursday_Friday_Saturday'.split('_'),
@@ -49,7 +49,7 @@ export default {
     selectedRecords: rows => (rows > 0 ? rows + '行を選択中' : '行を選択'),
     recordsPerPage: 'ページあたりの行数', // 'Rows per page:',
     allRows: '全て', // 'All',
-    pagination: (start, end, total) => start + ' - ' + end + ' ／ ' + total,
+    pagination: (start, end, total) => start + '〜' + end + ' ／ ' + total,
     columns: '列' // 'Columns'
   },
   pagination: {
@@ -82,15 +82,15 @@ export default {
     formatting: '書式', // 'Formatting',
     fontSize: 'フォントサイズ', // 'Font Size',
     align: '揃え', // 'Align',
-    hr: '横線を投入', // 'Insert Horizontal Rule',
+    hr: '横線を挿入', // 'Insert Horizontal Rule',
     undo: '元に戻す', // 'Undo',
     redo: 'やり直し', // 'Redo',
-    heading1: 'ヘッダー 1', // 'Heading 1',
-    heading2: 'ヘッダー 2', // 'Heading 2',
-    heading3: 'ヘッダー 3', // 'Heading 3',
-    heading4: 'ヘッダー 4', // 'Heading 4',
-    heading5: 'ヘッダー 5', // 'Heading 5',
-    heading6: 'ヘッダー 6', // 'Heading 6',
+    heading1: '見出し 1', // 'Heading 1',
+    heading2: '見出し 2', // 'Heading 2',
+    heading3: '見出し 3', // 'Heading 3',
+    heading4: '見出し 4', // 'Heading 4',
+    heading5: '見出し 5', // 'Heading 5',
+    heading6: '見出し 6', // 'Heading 6',
     paragraph: '段落', // 'Paragraph',
     code: 'コード', // 'Code',
     size1: '小さい', // 'Very small',

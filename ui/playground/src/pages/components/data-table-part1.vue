@@ -431,13 +431,11 @@
       <q-table
         :rows="data"
         :columns="columns"
-        :title="title"
         :filter="filter"
         :loading="loading"
         row-key="name"
         color="primary"
-        no-top
-        no-bottom
+        hide-bottom
       />
 
       <h2>top-left template</h2>
@@ -821,262 +819,263 @@
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      selectionToggle: false,
-      loading: false,
-      color: 'amber',
-      visibleColumns: [
-        'desc',
-        'fat',
-        'carbs',
-        'protein',
-        'sodium',
-        'calcium',
-        'iron'
-      ],
-      separator: 'horizontal',
-      selected: [],
-      gridHeader: false,
-      gridLoading: false,
+<script setup>
+import { useQuasar } from 'quasar'
+import { computed, onMounted, ref } from 'vue'
 
-      serverPagination: {
-        page: 1,
-        rowsNumber: 10
-      },
-      serverData: [],
+const $q = useQuasar()
 
-      title: 'QDataTable',
-      filter: '',
-      columns: [
-        {
-          name: 'desc',
-          required: true,
-          label: 'Dessert (100g serving)',
-          align: 'left',
-          style: 'background: #26a69a',
-          headerStyle: 'background: #26a69a',
-          field: row => row.name,
-          format: val => `~${val}`,
-          sortable: true
-        },
-        {
-          name: 'calories',
-          align: 'center',
-          label: 'Calories',
-          field: 'calories',
-          sortable: true,
-          sort: (a, b) => Number.parseFloat(a) - Number.parseFloat(b)
-        },
-        {
-          name: 'fat',
-          label: 'Fat (g)',
-          field: 'fat',
-          sortable: true,
-          headerClasses: 'bg-primary text-white',
-          classes: 'bg-primary text-white',
-          style: 'width: 10px'
-        },
-        { name: 'carbs', label: 'Carbs (g)', field: 'carbs' },
-        { name: 'protein', label: 'Protein (g)', field: 'protein' },
-        { name: 'sodium', label: 'Sodium (mg)', field: 'sodium' },
-        {
-          name: 'calcium',
-          label: 'Calcium (%)',
-          field: 'calcium',
-          sortable: true,
-          sort: (a, b) => Number.parseInt(a, 10) - Number.parseInt(b, 10)
-        },
-        {
-          name: 'iron',
-          label: 'Iron (%)',
-          field: 'iron',
-          sortable: true,
-          sort: (a, b) => Number.parseInt(a, 10) - Number.parseInt(b, 10)
-        }
-      ],
-      data: [
-        {
-          name: '1Frozen Yogurt',
-          inp: '',
-          calories: 159,
-          fat: 6,
-          carbs: 24,
-          protein: 4,
-          sodium: 87,
-          calcium: '14%',
-          iron: '1%'
-        },
-        {
-          name: '2Ice cream sandwich',
-          inp: '',
-          calories: 237,
-          fat: 9,
-          carbs: 37,
-          protein: 4.3,
-          sodium: 129,
-          calcium: '8%',
-          iron: '1%'
-        },
-        {
-          name: '3Eclair',
-          inp: '',
-          calories: 262,
-          fat: 16,
-          carbs: 23,
-          protein: 6,
-          sodium: 337,
-          calcium: '6%',
-          iron: '7%'
-        },
-        {
-          name: '4Cupcake',
-          inp: '',
-          calories: 305,
-          fat: 3.7,
-          carbs: 67,
-          protein: 4.3,
-          sodium: 413,
-          calcium: '3%',
-          iron: '8%'
-        },
-        {
-          name: '5Gingerbread',
-          inp: '',
-          calories: 356,
-          fat: 16,
-          carbs: 49,
-          protein: 3.9,
-          sodium: 327,
-          calcium: '7%',
-          iron: '16%'
-        },
-        {
-          name: '6Jelly bean',
-          inp: '',
-          calories: 375,
-          fat: 0,
-          carbs: 94,
-          protein: 0,
-          sodium: 50,
-          calcium: '0%',
-          iron: '0%'
-        },
-        {
-          name: '7Lollipop',
-          inp: '',
-          calories: 392,
-          fat: 0.2,
-          carbs: 98,
-          protein: 0,
-          sodium: 38,
-          calcium: '0%',
-          iron: '2%'
-        },
-        {
-          name: '8Honeycomb',
-          inp: '',
-          calories: 408,
-          fat: 3.2,
-          carbs: 87,
-          protein: 6.5,
-          sodium: 562,
-          calcium: '0%',
-          iron: '45%'
-        },
-        {
-          name: '9Donut',
-          inp: '',
-          calories: 452,
-          fat: 25,
-          carbs: 51,
-          protein: 4.9,
-          sodium: 326,
-          calcium: '2%',
-          iron: '22%'
-        },
-        {
-          name: '10KitKat',
-          inp: '',
-          calories: 518,
-          fat: 26,
-          carbs: 65,
-          protein: 7,
-          sodium: 54,
-          calcium: '12%',
-          iron: '6%'
-        }
-      ]
-    }
+const selectionToggle = ref(false)
+const loading = ref(false)
+const color = ref('amber')
+const visibleColumns = ref([
+  'desc',
+  'fat',
+  'carbs',
+  'protein',
+  'sodium',
+  'calcium',
+  'iron'
+])
+const separator = ref('horizontal')
+const selected = ref([])
+const gridHeader = ref(false)
+const gridLoading = ref(false)
+
+const serverPagination = ref({
+  page: 1,
+  rowsNumber: 10
+})
+const serverData = ref([])
+
+const title = ref('QDataTable')
+const filter = ref('')
+const columns = ref([
+  {
+    name: 'desc',
+    required: true,
+    label: 'Dessert (100g serving)',
+    align: 'left',
+    style: 'background: #26a69a',
+    headerStyle: 'background: #26a69a',
+    field: row => row.name,
+    format: val => `~${val}`,
+    sortable: true
   },
-  computed: {
-    selection() {
-      return this.selectionToggle ? 'multiple' : 'single'
-    }
+  {
+    name: 'calories',
+    align: 'center',
+    label: 'Calories',
+    field: 'calories',
+    sortable: true,
+    sort: (a, b) => Number.parseFloat(a) - Number.parseFloat(b)
   },
-  methods: {
-    notifyWithProps(done, props) {
-      // Row cell event with access to props
-      this.$q.notify({
-        message:
-          'The dessert ' +
-          props.row.name +
-          ' has ' +
-          props.row.calcium +
-          ' Calcium!',
-        icon: 'restaurant'
-      })
-      // Remove button spinner after 3 seconds
-      setTimeout(() => {
-        done()
-      }, 3000)
-    },
-    request(props) {
-      this.loading = true
-      console.log('REQUEST', props)
-      setTimeout(() => {
-        this.serverPagination = props.pagination
-
-        const table = this.$refs.server,
-          { page, rowsPerPage, sortBy, descending } = props.pagination
-        let rows = [...this.data]
-
-        if (props.filter) {
-          rows = table.computedFilterMethod(rows, props.filter)
-        }
-
-        if (sortBy) {
-          rows = table.computedSortMethod(rows, sortBy, descending)
-        }
-
-        this.serverPagination.rowsNumber = rows.length
-
-        if (rowsPerPage) {
-          rows = rows.slice((page - 1) * rowsPerPage, page * rowsPerPage)
-        }
-
-        this.serverData = rows
-        this.loading = false
-      }, 2000)
-    },
-    onSelection({ added, ...rest }) {
-      console.log(added ? 'selected' : 'un-selected', rest)
-    },
-
-    onRowClick(evt, row) {
-      console.log('@row-click', evt, row)
-    }
+  {
+    name: 'fat',
+    label: 'Fat (g)',
+    field: 'fat',
+    sortable: true,
+    headerClasses: 'bg-primary text-white',
+    classes: 'bg-primary text-white',
+    style: 'width: 10px'
   },
-
-  mounted() {
-    this.request({
-      pagination: this.serverPagination,
-      filter: this.filter
-    })
+  { name: 'carbs', label: 'Carbs (g)', field: 'carbs' },
+  { name: 'protein', label: 'Protein (g)', field: 'protein' },
+  { name: 'sodium', label: 'Sodium (mg)', field: 'sodium' },
+  {
+    name: 'calcium',
+    label: 'Calcium (%)',
+    field: 'calcium',
+    sortable: true,
+    sort: (a, b) => Number.parseInt(a, 10) - Number.parseInt(b, 10)
+  },
+  {
+    name: 'iron',
+    label: 'Iron (%)',
+    field: 'iron',
+    sortable: true,
+    sort: (a, b) => Number.parseInt(a, 10) - Number.parseInt(b, 10)
   }
+])
+const data = ref([
+  {
+    name: '1Frozen Yogurt',
+    inp: '',
+    calories: 159,
+    fat: 6,
+    carbs: 24,
+    protein: 4,
+    sodium: 87,
+    calcium: '14%',
+    iron: '1%'
+  },
+  {
+    name: '2Ice cream sandwich',
+    inp: '',
+    calories: 237,
+    fat: 9,
+    carbs: 37,
+    protein: 4.3,
+    sodium: 129,
+    calcium: '8%',
+    iron: '1%'
+  },
+  {
+    name: '3Eclair',
+    inp: '',
+    calories: 262,
+    fat: 16,
+    carbs: 23,
+    protein: 6,
+    sodium: 337,
+    calcium: '6%',
+    iron: '7%'
+  },
+  {
+    name: '4Cupcake',
+    inp: '',
+    calories: 305,
+    fat: 3.7,
+    carbs: 67,
+    protein: 4.3,
+    sodium: 413,
+    calcium: '3%',
+    iron: '8%'
+  },
+  {
+    name: '5Gingerbread',
+    inp: '',
+    calories: 356,
+    fat: 16,
+    carbs: 49,
+    protein: 3.9,
+    sodium: 327,
+    calcium: '7%',
+    iron: '16%'
+  },
+  {
+    name: '6Jelly bean',
+    inp: '',
+    calories: 375,
+    fat: 0,
+    carbs: 94,
+    protein: 0,
+    sodium: 50,
+    calcium: '0%',
+    iron: '0%'
+  },
+  {
+    name: '7Lollipop',
+    inp: '',
+    calories: 392,
+    fat: 0.2,
+    carbs: 98,
+    protein: 0,
+    sodium: 38,
+    calcium: '0%',
+    iron: '2%'
+  },
+  {
+    name: '8Honeycomb',
+    inp: '',
+    calories: 408,
+    fat: 3.2,
+    carbs: 87,
+    protein: 6.5,
+    sodium: 562,
+    calcium: '0%',
+    iron: '45%'
+  },
+  {
+    name: '9Donut',
+    inp: '',
+    calories: 452,
+    fat: 25,
+    carbs: 51,
+    protein: 4.9,
+    sodium: 326,
+    calcium: '2%',
+    iron: '22%'
+  },
+  {
+    name: '10KitKat',
+    inp: '',
+    calories: 518,
+    fat: 26,
+    carbs: 65,
+    protein: 7,
+    sodium: 54,
+    calcium: '12%',
+    iron: '6%'
+  }
+])
+
+const server = ref(null)
+
+const selection = computed(() =>
+  selectionToggle.value ? 'multiple' : 'single'
+)
+
+function notifyWithProps(done, props) {
+  // Row cell event with access to props
+  $q.notify({
+    message:
+      'The dessert ' +
+      props.row.name +
+      ' has ' +
+      props.row.calcium +
+      ' Calcium!',
+    icon: 'restaurant'
+  })
+  // Remove button spinner after 3 seconds
+  setTimeout(() => {
+    done()
+  }, 3000)
 }
+
+function request(props) {
+  loading.value = true
+  console.log('REQUEST', props)
+  setTimeout(() => {
+    serverPagination.value = props.pagination
+
+    const table = server.value,
+      { page, rowsPerPage, sortBy, descending } = props.pagination
+    let rows = [...data.value]
+
+    if (props.filter) {
+      rows = table.computedFilterMethod(rows, props.filter)
+    }
+
+    if (sortBy) {
+      rows = table.computedSortMethod(rows, sortBy, descending)
+    }
+
+    serverPagination.value.rowsNumber = rows.length
+
+    if (rowsPerPage) {
+      rows = rows.slice((page - 1) * rowsPerPage, page * rowsPerPage)
+    }
+
+    serverData.value = rows
+    loading.value = false
+  }, 2000)
+}
+
+function onSelection({ added, ...rest }) {
+  console.log(added ? 'selected' : 'un-selected', rest)
+}
+
+function onRowClick(evt, row) {
+  console.log('@row-click', evt, row)
+}
+
+onMounted(() => {
+  request({
+    pagination: serverPagination.value,
+    filter: filter.value
+  })
+})
 </script>
 
 <style lang="sass">

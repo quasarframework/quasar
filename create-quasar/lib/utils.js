@@ -1,5 +1,4 @@
 import { readFileSync, writeFileSync } from 'node:fs'
-import { styleText } from 'node:util'
 import { fileURLToPath } from 'node:url'
 import { dirname, extname, join, resolve } from 'node:path'
 import { execSync as exec } from 'node:child_process'
@@ -42,18 +41,7 @@ const prompts = {
   outro,
   taskLog,
   log,
-  note: (msg, title) => {
-    /**
-     * Bug in @clack/prompts note formatting,
-     * so we need to reset the color for each line
-     */
-    const formattedMsg = msg
-      .split('\n')
-      .map(line => styleText('reset', line))
-      .join('\n')
-
-    note(formattedMsg, title)
-  },
+  note,
   box
 }
 
@@ -69,10 +57,17 @@ const TEMPLATING_FILE_EXTENSIONS = [
   '.sass'
 ]
 
-function cancelScaffolding({
-  message = 'Scaffolding cancelled',
-  exit = true
-} = {}) {
+function cancelScaffolding(opts = {}) {
+  // only the object form is valid; anything else (e.g. a plain string
+  // message) would get silently dropped by the destructuring below
+  if (typeof opts !== 'object' || opts === null) {
+    throw new TypeError(
+      'cancelScaffolding() expects an options object: { message?, exit? }'
+    )
+  }
+
+  const { message = 'Scaffolding cancelled', exit = true } = opts
+
   cancel(message)
   if (exit !== false) process.exit(exit === true ? 1 : exit)
 }
@@ -228,7 +223,6 @@ async function runCommand({
 
   const runner = spawnSync(cmd, args, {
     cwd,
-    args,
     stdio: 'inherit',
     // Force colors so the captured error formatting isn't lost
     env: { ...process.env, FORCE_COLOR: '1' }
@@ -320,7 +314,21 @@ function initializeGit(projectFolder) {
   })
 
   try {
-    exec('git init', { cwd: projectFolder })
+    let init = 'git init'
+    try {
+      exec('git config --get init.defaultBranch', {
+        stdio: 'ignore',
+        cwd: projectFolder
+      })
+    } catch {
+      // the user has no configured branch name preference, so pin the
+      // initial branch to "main" instead of the git version's own
+      // default (also silences git's branch-name advice); git < 2.28
+      // ignores the unknown config key without erroring
+      init = 'git -c init.defaultBranch=main init'
+    }
+
+    exec(init, { cwd: projectFolder })
     exec('git add -A', { cwd: projectFolder })
 
     // Provide useful feedback to the user if they have GPG signing
@@ -383,7 +391,10 @@ const definitions = {
         .replaceAll(/[^a-z0-9-~]+/g, '-'),
 
     isValid: name =>
-      /^(?:@[a-z0-9-*~][a-z0-9-*._~]*\/)?[a-z0-9-~][a-z0-9-._~]*$/.test(name)
+      name &&
+      name.length <= 214 &&
+      name !== 'node_modules' &&
+      /^(?:@[a-z0-9-~][a-z0-9-._~]*\/)?[a-z0-9-~][a-z0-9-._~]*$/.test(name)
   },
 
   product: {
@@ -392,10 +403,6 @@ const definitions = {
 
   template: {
     default: 'app'
-  },
-
-  engine: {
-    default: 'vite-3'
   }
 }
 

@@ -54,36 +54,30 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { useQuasar } from 'quasar'
 import { onBeforeUnmount } from 'vue'
 
-export default {
-  setup() {
-    const $q = useQuasar()
-    let timer
+const $q = useQuasar()
+let timer
 
-    function finalize(reset) {
-      timer = setTimeout(() => {
-        reset()
-      }, 1000)
-    }
+function finalize(reset) {
+  timer = setTimeout(() => {
+    reset()
+  }, 1000)
+}
 
-    onBeforeUnmount(() => {
-      clearTimeout(timer)
-    })
+onBeforeUnmount(() => {
+  clearTimeout(timer)
+})
 
-    return {
-      onLeft({ reset }) {
-        $q.notify('Left action triggered. Resetting in 1 second.')
-        finalize(reset)
-      },
+function onLeft({ reset }) {
+  $q.notify('Left action triggered. Resetting in 1 second.')
+  finalize(reset)
+}
 
-      onRight({ reset }) {
-        $q.notify('Right action triggered. Resetting in 1 second.')
-        finalize(reset)
-      }
-    }
-  }
+function onRight({ reset }) {
+  $q.notify('Right action triggered. Resetting in 1 second.')
+  finalize(reset)
 }
 </script>

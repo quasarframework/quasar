@@ -282,26 +282,18 @@
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      dialog: false,
-      modal: false,
-      drawer: false,
-      drawerR: true,
-      drawer2: false,
-      drawer2R: true,
-      drawer3: false,
-      drawer3R: false,
-      moreContent: true
-    }
-  },
-  computed: {
-    contentSize() {
-      return this.moreContent ? 150 : 5
-    }
-  },
-  methods: {}
-}
+<script setup>
+import { computed, ref } from 'vue'
+
+const dialog = ref(false)
+const modal = ref(false)
+const drawer = ref(false)
+const drawerR = ref(true)
+const drawer2 = ref(false)
+const drawer2R = ref(true)
+const drawer3 = ref(false)
+const drawer3R = ref(false)
+const moreContent = ref(true)
+
+const contentSize = computed(() => (moreContent.value ? 150 : 5))
 </script>

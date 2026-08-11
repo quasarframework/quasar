@@ -81,6 +81,31 @@ describe('[EventBus API]', () => {
         expect(callback2).toHaveBeenCalledWith('testing2')
       })
 
+      test.each(['__proto__', 'constructor', 'toString'])(
+        'supports the reserved event name %s',
+        name => {
+          const instance = new EventBus()
+          const callback = vi.fn()
+          const onceCallback = vi.fn()
+
+          instance.on(name, callback).once(name, onceCallback)
+          instance.emit(name, 'first')
+          instance.off(name, callback)
+          instance.emit(name, 'second')
+
+          expect(callback).toHaveBeenCalledTimes(1)
+          expect(callback).toHaveBeenCalledWith('first')
+          expect(onceCallback).toHaveBeenCalledTimes(1)
+          expect(onceCallback).toHaveBeenCalledWith('first')
+
+          instance.on(name, callback)
+          instance.off(name)
+          instance.emit(name, 'third')
+
+          expect(callback).toHaveBeenCalledTimes(1)
+        }
+      )
+
       test('arguments preservation', () => {
         const instance = new EventBus()
         const callback = vi.fn()
@@ -102,6 +127,16 @@ describe('[EventBus API]', () => {
 
         expect(callback).toHaveBeenCalledTimes(1)
         expect(callback).toHaveBeenCalledWith(1, 2, 'testing')
+      })
+      test('a once listener does not fire twice on a re-entrant emit', () => {
+        const instance = new EventBus()
+        const second = vi.fn()
+
+        instance.once('e', () => instance.emit('e')) // re-emits during dispatch
+        instance.once('e', second)
+        instance.emit('e')
+
+        expect(second).toHaveBeenCalledTimes(1)
       })
     })
   })

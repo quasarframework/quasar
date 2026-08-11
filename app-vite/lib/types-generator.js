@@ -154,45 +154,21 @@ function generateTsConfig(quasarConf, fsUtils) {
 
   if (isModeInstalled(appPaths, 'capacitor')) {
     const target = appPaths.resolve.capacitor('node_modules')
-    const { dependencies } = pkg.capacitorPkg
+    const { dependencies, devDependencies = {} } = pkg.capacitorPkg
     if (dependencies) {
       Object.keys(dependencies).forEach(dep => {
-        aliasMap[dep] = join(target, dep)
-      })
-    }
-  }
+        // Avoid user error (incorrectly declaring dependency instead of devDependency)
+        // including @types packages as these are not used directly
+        if (dep.startsWith('@types/')) return
 
-  if (isModeInstalled(appPaths, 'electron')) {
-    const target = appPaths.resolve.electron('node_modules')
-
-    // We alias `electron` itself because it's a runtime dep
-    // (and specified in devDependencies)
-    aliasMap['electron'] = join(target, 'electron')
-
-    const { dependencies } = pkg.electronPkg
-    if (dependencies) {
-      Object.keys(dependencies).forEach(dep => {
-        aliasMap[dep] = join(target, dep)
-      })
-    }
-  }
-
-  if (isModeInstalled(appPaths, 'pwa')) {
-    const target = appPaths.resolve.pwa('node_modules')
-    const { dependencies } = pkg.pwaPkg
-    if (dependencies) {
-      Object.keys(dependencies).forEach(dep => {
-        aliasMap[dep] = join(target, dep)
-      })
-    }
-  }
-
-  if (isModeInstalled(appPaths, 'bex')) {
-    const target = appPaths.resolve.bex('node_modules')
-    const { dependencies } = pkg.bexPkg
-    if (dependencies) {
-      Object.keys(dependencies).forEach(dep => {
-        aliasMap[dep] = join(target, dep)
+        // oxlint-disable-next-line unicorn/prefer-string-replace-all
+        const typesName = `@types/${dep.replace(/^@/, '').replaceAll(/\//g, '__')}`
+        aliasMap[dep] = devDependencies[typesName]
+          ? join(target, typesName)
+          : // Handle user error too (incorrectly declaring dependency instead of devDependency)
+            dependencies[typesName]
+            ? join(target, typesName)
+            : join(target, dep)
       })
     }
   }
@@ -327,7 +303,7 @@ function writeFeatureFlags(quasarConf, fsUtils) {
   }
 
   // spa does not have a feature flag, so we skip it
-  const modes = ['pwa', 'ssr', 'cordova', 'capacitor', 'electron', 'bex']
+  const modes = ['pwa', 'ssr', 'ssg', 'cordova', 'capacitor', 'electron', 'bex']
   for (const modeName of modes) {
     if (isModeInstalled(appPaths, modeName)) {
       featureFlags.add(modeName)
@@ -381,12 +357,13 @@ declare module 'pinia' {
 `
 
 const validDeclareConstKeyRE = /^[a-zA-Z_$][a-zA-Z0-9_$]*$/
+const numericLiteralRE = /^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/
 function getStrDefineType(value) {
   if (value === 'true' || value === 'false') return 'boolean'
   if (value === 'null') return 'null'
 
   const trimmed = value.trim()
-  return trimmed !== '' && !Number.isNaN(Number(trimmed)) ? 'number' : 'string'
+  return numericLiteralRE.test(trimmed) ? 'number' : 'string'
 }
 
 function getImportMetaEnvDeclaration(quasarConf) {

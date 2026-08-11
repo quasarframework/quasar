@@ -1,30 +1,37 @@
-import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
+import { h } from 'vue'
+import { afterEach, describe, expect, test, vi } from 'vitest'
+import { page } from 'vitest/browser'
 import { mount } from '@vue/test-utils'
 
 import Screen from './Screen.js'
 
-const mountPlugin = () => mount({ template: '<div />' })
+const mountPlugin = () => mount({ render: () => h('div') })
 
-beforeEach(() => {
-  vi.useFakeTimers()
-})
+const defaultViewport = { width: 1280, height: 800 }
 
-afterEach(() => {
-  vi.clearAllTimers()
-  vi.restoreAllMocks()
-})
+// resizes the real viewport, then waits for the Screen plugin
+// (debounced listener on window.visualViewport) to pick it up
+async function setViewport(width, height) {
+  await page.viewport(width, height)
+  await vi.waitFor(() => {
+    expect(Screen.width).toBe(width)
+    expect(Screen.height).toBe(height)
+  })
+}
 
 function setWidth(width) {
-  window.innerWidth = width
-  window.dispatchEvent(new Event('resize'))
-  vi.runAllTimers()
+  return setViewport(width, defaultViewport.height)
 }
 
 function setHeight(height) {
-  window.innerHeight = height
-  window.dispatchEvent(new Event('resize'))
-  vi.runAllTimers()
+  return setViewport(defaultViewport.width, height)
 }
+
+afterEach(async () => {
+  vi.useRealTimers()
+  vi.restoreAllMocks()
+  await setViewport(defaultViewport.width, defaultViewport.height)
+})
 
 describe('[Screen API]', () => {
   describe('[Injection]', () => {
@@ -41,11 +48,10 @@ describe('[Screen API]', () => {
         expect(Screen.width).toBeTypeOf('number')
       })
 
-      test('is reactive', () => {
+      test('is reactive', async () => {
         mountPlugin()
         expect(Screen.width).not.toBe(100)
-        setWidth(100)
-        vi.runAllTimers()
+        await setWidth(100)
         expect(Screen.width).toBe(100)
       })
     })
@@ -56,10 +62,10 @@ describe('[Screen API]', () => {
         expect(Screen.height).toBeTypeOf('number')
       })
 
-      test('is reactive', () => {
+      test('is reactive', async () => {
         mountPlugin()
         expect(Screen.height).not.toBe(100)
-        setHeight(100)
+        await setHeight(100)
         expect(Screen.height).toBe(100)
       })
     })
@@ -70,22 +76,22 @@ describe('[Screen API]', () => {
         expect(['xs', 'sm', 'md', 'lg', 'xl']).toContain(Screen.name)
       })
 
-      test('is reactive', () => {
+      test('is reactive', async () => {
         mountPlugin()
 
-        setWidth(500)
+        await setWidth(500)
         expect(Screen.name).toBe('xs')
 
-        setWidth(800)
+        await setWidth(800)
         expect(Screen.name).toBe('sm')
 
-        setWidth(1200)
+        await setWidth(1200)
         expect(Screen.name).toBe('md')
 
-        setWidth(1600)
+        await setWidth(1600)
         expect(Screen.name).toBe('lg')
 
-        setWidth(2000)
+        await setWidth(2000)
         expect(Screen.name).toBe('xl')
       })
     })
@@ -113,10 +119,10 @@ describe('[Screen API]', () => {
         })
       })
 
-      test('is reactive', () => {
+      test('is reactive', async () => {
         mountPlugin()
 
-        setWidth(500) // xs
+        await setWidth(500) // xs
         expect(Screen.lt).toStrictEqual({
           sm: true,
           md: true,
@@ -124,7 +130,7 @@ describe('[Screen API]', () => {
           xl: true
         })
 
-        setWidth(800) // sm
+        await setWidth(800) // sm
         expect(Screen.lt).toStrictEqual({
           sm: false,
           md: true,
@@ -132,7 +138,7 @@ describe('[Screen API]', () => {
           xl: true
         })
 
-        setWidth(1200) // md
+        await setWidth(1200) // md
         expect(Screen.lt).toStrictEqual({
           sm: false,
           md: false,
@@ -140,7 +146,7 @@ describe('[Screen API]', () => {
           xl: true
         })
 
-        setWidth(1600) // lg
+        await setWidth(1600) // lg
         expect(Screen.lt).toStrictEqual({
           sm: false,
           md: false,
@@ -148,7 +154,7 @@ describe('[Screen API]', () => {
           xl: true
         })
 
-        setWidth(2000) // xl
+        await setWidth(2000) // xl
         expect(Screen.lt).toStrictEqual({
           sm: false,
           md: false,
@@ -169,10 +175,10 @@ describe('[Screen API]', () => {
         })
       })
 
-      test('is reactive', () => {
+      test('is reactive', async () => {
         mountPlugin()
 
-        setWidth(500) // xs
+        await setWidth(500) // xs
         expect(Screen.gt).toStrictEqual({
           xs: false,
           sm: false,
@@ -180,7 +186,7 @@ describe('[Screen API]', () => {
           lg: false
         })
 
-        setWidth(800) // sm
+        await setWidth(800) // sm
         expect(Screen.gt).toStrictEqual({
           xs: true,
           sm: false,
@@ -188,7 +194,7 @@ describe('[Screen API]', () => {
           lg: false
         })
 
-        setWidth(1200) // md
+        await setWidth(1200) // md
         expect(Screen.gt).toStrictEqual({
           xs: true,
           sm: true,
@@ -196,7 +202,7 @@ describe('[Screen API]', () => {
           lg: false
         })
 
-        setWidth(1600) // lg
+        await setWidth(1600) // lg
         expect(Screen.gt).toStrictEqual({
           xs: true,
           sm: true,
@@ -204,7 +210,7 @@ describe('[Screen API]', () => {
           lg: false
         })
 
-        setWidth(2000) // xl
+        await setWidth(2000) // xl
         expect(Screen.gt).toStrictEqual({
           xs: true,
           sm: true,
@@ -220,13 +226,13 @@ describe('[Screen API]', () => {
         expect(Screen.xs).toBeTypeOf('boolean')
       })
 
-      test('is reactive', () => {
+      test('is reactive', async () => {
         mountPlugin()
 
-        setWidth(500) // xs
+        await setWidth(500) // xs
         expect(Screen.xs).toBe(true)
 
-        setWidth(800) // sm
+        await setWidth(800) // sm
         expect(Screen.xs).toBe(false)
       })
     })
@@ -237,13 +243,13 @@ describe('[Screen API]', () => {
         expect(Screen.sm).toBeTypeOf('boolean')
       })
 
-      test('is reactive', () => {
+      test('is reactive', async () => {
         mountPlugin()
 
-        setWidth(500) // xs
+        await setWidth(500) // xs
         expect(Screen.sm).toBe(false)
 
-        setWidth(800) // sm
+        await setWidth(800) // sm
         expect(Screen.sm).toBe(true)
       })
     })
@@ -254,13 +260,13 @@ describe('[Screen API]', () => {
         expect(Screen.md).toBeTypeOf('boolean')
       })
 
-      test('is reactive', () => {
+      test('is reactive', async () => {
         mountPlugin()
 
-        setWidth(800) // sm
+        await setWidth(800) // sm
         expect(Screen.md).toBe(false)
 
-        setWidth(1200) // md
+        await setWidth(1200) // md
         expect(Screen.md).toBe(true)
       })
     })
@@ -271,13 +277,13 @@ describe('[Screen API]', () => {
         expect(Screen.lg).toBeTypeOf('boolean')
       })
 
-      test('is reactive', () => {
+      test('is reactive', async () => {
         mountPlugin()
 
-        setWidth(1200) // md
+        await setWidth(1200) // md
         expect(Screen.lg).toBe(false)
 
-        setWidth(1600) // lg
+        await setWidth(1600) // lg
         expect(Screen.lg).toBe(true)
       })
     })
@@ -288,13 +294,13 @@ describe('[Screen API]', () => {
         expect(Screen.xl).toBeTypeOf('boolean')
       })
 
-      test('is reactive', () => {
+      test('is reactive', async () => {
         mountPlugin()
 
-        setWidth(1600) // lg
+        await setWidth(1600) // lg
         expect(Screen.xl).toBe(false)
 
-        setWidth(2000) // xl
+        await setWidth(2000) // xl
         expect(Screen.xl).toBe(true)
       })
     })
@@ -302,21 +308,34 @@ describe('[Screen API]', () => {
 
   describe('[Methods]', () => {
     describe('[(method)setSizes]', () => {
-      test('should be callable', () => {
+      // Screen is a singleton, so the breakpoints set below
+      // would otherwise leak into other tests
+      let originalSizes = null
+
+      afterEach(() => {
+        if (originalSizes !== null) {
+          Screen.setSizes(originalSizes)
+          originalSizes = null
+        }
+      })
+
+      test('should be callable', async () => {
         mountPlugin()
 
+        originalSizes = { ...Screen.sizes }
+
         const newSizes = {
-          sm: 10,
-          md: 15,
-          lg: 20,
-          xl: 25
+          sm: 1000,
+          md: 1500,
+          lg: 2000,
+          xl: 2500
         }
 
         expect(Screen.setSizes(newSizes)).toBeUndefined()
 
         expect(Screen.sizes).toStrictEqual(newSizes)
 
-        setWidth(5)
+        await setWidth(500)
         expect(Screen).toMatchObject({
           name: 'xs',
           xs: true,
@@ -338,7 +357,7 @@ describe('[Screen API]', () => {
           }
         })
 
-        setWidth(11)
+        await setWidth(1100)
         expect(Screen).toMatchObject({
           name: 'sm',
           xs: false,
@@ -360,7 +379,7 @@ describe('[Screen API]', () => {
           }
         })
 
-        setWidth(16)
+        await setWidth(1600)
         expect(Screen).toMatchObject({
           name: 'md',
           xs: false,
@@ -382,7 +401,7 @@ describe('[Screen API]', () => {
           }
         })
 
-        setWidth(21)
+        await setWidth(2100)
         expect(Screen).toMatchObject({
           name: 'lg',
           xs: false,
@@ -404,7 +423,7 @@ describe('[Screen API]', () => {
           }
         })
 
-        setWidth(26)
+        await setWidth(2600)
         expect(Screen).toMatchObject({
           name: 'xl',
           xs: false,
@@ -429,18 +448,38 @@ describe('[Screen API]', () => {
     })
 
     describe('[(method)setDebounce]', () => {
-      test('should be callable', () => {
+      test('should be callable', async () => {
         mountPlugin()
         expect(Screen.setDebounce(1000)).toBeUndefined()
 
-        window.innerWidth = 100
-        window.dispatchEvent(new Event('resize'))
+        let viewportChange
+        try {
+          // resolves when the (real) resize event reaches the page;
+          // registered after setDebounce() so the Screen plugin's
+          // debounced listener is triggered first
+          const resizeEvt = new Promise(resolve => {
+            window.visualViewport.addEventListener('resize', resolve, {
+              once: true
+            })
+          })
 
-        expect(Screen.width).not.toBe(100)
-        vi.advanceTimersByTime(999)
-        expect(Screen.width).not.toBe(100)
-        vi.advanceTimersByTime(1)
-        expect(Screen.width).toBe(100)
+          // fake timers must be active when the resize event fires
+          // so that the debounce setTimeout call gets mocked
+          vi.useFakeTimers()
+
+          viewportChange = page.viewport(100, defaultViewport.height)
+          await resizeEvt
+
+          expect(Screen.width).not.toBe(100)
+          vi.advanceTimersByTime(999)
+          expect(Screen.width).not.toBe(100)
+          vi.advanceTimersByTime(1)
+          expect(Screen.width).toBe(100)
+        } finally {
+          vi.useRealTimers()
+          Screen.setDebounce(16) // restore the plugin's default
+          await viewportChange
+        }
       })
     })
   })

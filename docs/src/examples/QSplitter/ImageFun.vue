@@ -29,28 +29,18 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { computed, ref } from 'vue'
 
-export default {
-  setup() {
-    const width = ref(400)
+const width = ref(400)
+const splitterModel = ref(50) // start at 50%
 
-    return {
-      width,
-      splitterModel: ref(50), // start at 50%
+const splitterStyle = computed(() => ({
+  height: Math.min(600, 0.66 * width.value) + 'px',
+  width: width.value + 'px'
+}))
 
-      splitterStyle: computed(() => ({
-        height: Math.min(600, 0.66 * width.value) + 'px',
-        width: width.value + 'px'
-      })),
-
-      // we are using QResizeObserver to keep
-      // this example mobile-friendly
-      onResize(info) {
-        width.value = info.width
-      }
-    }
-  }
+function onResize(info) {
+  width.value = info.width
 }
 </script>

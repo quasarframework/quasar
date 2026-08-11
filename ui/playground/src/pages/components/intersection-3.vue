@@ -9,7 +9,7 @@
         style="min-width: 250px"
       />
     </div>
-    <table v-if="visible" ref="table">
+    <table v-if="visible" :ref="el => (tableEl = el)">
       <tbody>
         <tr v-for="index in 10" :key="index">
           <q-intersection
@@ -36,21 +36,13 @@
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      visible: true,
-      once: false,
-      transition: 'scale'
-    }
-  },
-  computed: {
-    tableEl() {
-      return this.$refs.table ? this.$refs.table.$el : null
-    }
-  }
-}
+<script setup>
+import { ref } from 'vue'
+
+const visible = ref(true)
+const once = ref(false)
+const transition = ref('scale')
+const tableEl = ref(null)
 </script>
 
 <style lang="sass">

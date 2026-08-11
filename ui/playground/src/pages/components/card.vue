@@ -860,18 +860,15 @@
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      tab: 'one',
-      toggle: 'one',
-      stars: 3,
-      lorem:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
-    }
-  }
-}
+<script setup>
+import { ref } from 'vue'
+
+const tab = ref('one')
+const toggle = ref('one')
+const stars = ref(3)
+const lorem = ref(
+  'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
+)
 </script>
 
 <style lang="sass">
@@ -880,7 +877,7 @@ export default {
     width: 300px
   .bigger
     width: 450px
-  @media (max-width $breakpoint-xs-max)
+  @media (max-width: $breakpoint-xs-max)
     .q-card
       width: 100%
 </style>

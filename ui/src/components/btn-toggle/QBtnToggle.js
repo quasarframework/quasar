@@ -12,7 +12,7 @@ import {
 import { hMergeSlot } from '../../utils/private.render/render.js'
 import { getBtnDesignAttr } from '../btn/use-btn.js'
 
-export default createComponent({
+export default /*#__PURE__*/ createComponent({
   name: 'QBtnToggle',
 
   props: {

@@ -109,7 +109,7 @@
   </div>
 </template>
 
-<script>
+<script setup>
 // We guard the Electron API calls with the optional chaining JS operator,
 // but this is only needed if we build same app with other Quasar Modes
 // as well (SPA/PWA/Cordova/SSR...)
@@ -124,11 +124,5 @@ function toggleMaximize() {
 
 function closeApp() {
   window.myWindowAPI?.close()
-}
-
-export default {
-  setup() {
-    return { minimize, toggleMaximize, closeApp }
-  }
 }
 </script>

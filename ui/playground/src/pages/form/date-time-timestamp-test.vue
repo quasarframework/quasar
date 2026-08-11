@@ -71,18 +71,14 @@
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      timestamp: '1558626538737',
-      date: '2019-05-23 19:57:02',
+<script setup>
+import { ref } from 'vue'
 
-      landscape: false,
-      buttons: false,
-      flatBordered: false,
-      format24h: false
-    }
-  }
-}
+const timestamp = ref('1558626538737')
+const date = ref('2019-05-23 19:57:02')
+
+const landscape = ref(false)
+const buttons = ref(false)
+const flatBordered = ref(false)
+const format24h = ref(false)
 </script>

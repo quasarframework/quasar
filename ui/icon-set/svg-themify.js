@@ -23,7 +23,6 @@ import {
   tiAngleUp,
   tiAngleDown,
   tiControlRecord,
-  tiLayoutSliderAlt,
   tiClose,
   tiTime,
   tiCalendar,
@@ -118,8 +117,7 @@ export default {
     right: tiAngleRight,
     up: tiAngleUp,
     down: tiAngleDown,
-    navigationIcon: tiControlRecord,
-    thumbnails: tiLayoutSliderAlt
+    navigationIcon: tiControlRecord
   },
   chip: {
     remove: tiClose,

@@ -18,7 +18,7 @@ import { useCircularCommonProps } from '../circular-progress/circular-progress.j
 const keyCodes = [34, 37, 40, 33, 39, 38]
 const commonPropsName = Object.keys(useCircularCommonProps)
 
-export default createComponent({
+export default /*#__PURE__*/ createComponent({
   name: 'QKnob',
 
   props: {

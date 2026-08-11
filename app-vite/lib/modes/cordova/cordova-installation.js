@@ -3,16 +3,23 @@ import { green } from 'kolorist'
 
 import { createPromptSession, warn } from '../../utils/logger.js'
 import { spawnSync } from '../../utils/spawn.js'
-import { ensureModeDeps, isModeInstalled } from '../modes-utils.js'
+import {
+  ensureModeDeps,
+  isModeInstalled,
+  resolvePromptAnswer
+} from '../modes-utils.js'
+
+const defaultAppId = 'org.cordova.quasar.app'
 
 /**
  * @param {{
  *   ctx: import('../../../types/configuration/context').InternalQuasarContext,
  *   silent: boolean,
- *   target: 'android' | 'ios' | undefined
+ *   target: 'android' | 'ios' | undefined,
+ *   appId?: string
  * }} options
  */
-export async function addMode({ ctx, silent, target }) {
+export async function addMode({ ctx, silent, target, appId }) {
   const {
     appPaths,
     pkg: { appPkg }
@@ -51,16 +58,25 @@ export async function addMode({ ctx, silent, target }) {
 
   const promptSession = await createPromptSession('Installing Cordova Mode...')
 
-  const answer = await promptSession.prompt({
-    appId: () =>
-      promptSession.text({
-        message: 'What is the Cordova app id?',
-        placeholder: 'org.cordova.quasar.app',
-        validate: val => {
-          if (!val) return 'Please fill in a value'
-        }
-      })
-  })
+  const answer = {
+    appId: await resolvePromptAnswer({
+      promptSession,
+      value: appId,
+      validate: val => {
+        if (!val) return 'The app id cannot be empty'
+      },
+      fallback: defaultAppId,
+      fallbackNote: `Using "${defaultAppId}" as the app id.`,
+      question: () =>
+        promptSession.text({
+          message: 'What is the Cordova app id?',
+          placeholder: defaultAppId,
+          validate: val => {
+            if (!val) return 'Please fill in a value'
+          }
+        })
+    })
+  }
 
   await spawnSync('cordova', ['create', 'src-cordova', answer.appId, appName], {
     cwd: appPaths.appDir
@@ -79,7 +95,7 @@ export async function addMode({ ctx, silent, target }) {
   promptSession.note(
     'If developing for iOS, it is HIGHLY recommended that you' +
       '\ninstall the Ionic Webview Plugin.' +
-      `\n\n${green('https://quasar.dev/quasar-cli/developing-cordova-apps/preparation')}`,
+      `\n\n${green('https://quasar.dev/quasar-cli-vite/developing-cordova-apps/preparation')}`,
     'WARNING!'
   )
 

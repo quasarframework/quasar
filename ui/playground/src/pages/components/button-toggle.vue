@@ -107,77 +107,72 @@
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      model: '',
-      modelD: '',
-      options: [true, false],
-      optionsO1: [
-        { label: 'One', value: 'one' },
-        { label: 'Two - this one has a longer label', value: 'two' },
-        { label: 'Three', value: 'three' }
-      ],
-      optionsO2: [
-        {
-          label: 'One Clearable',
-          value: 'one',
-          size: '32px',
-          attrs: { 'aria-label': 'Button' }
-        },
-        { label: 'Two', value: 'two', padding: '32px 64px' }
-      ],
-      optionsO3: [
-        {
-          label: 'One',
-          value: 'one',
-          color: 'green-2',
-          textColor: 'black',
-          class: 'col-grow'
-        },
-        {
-          label: 'Two - this one has a longer label',
-          value: 'two',
-          color: 'red-2',
-          textColor: 'black'
-        },
-        {
-          label: 'Three',
-          value: 'three',
-          color: 'blue-2',
-          textColor: 'black',
-          class: 'col-grow'
-        }
-      ],
-      optionsS1: [
-        { label: 'One tooltip', value: 'one', slot: 'one' },
-        { label: 'Two tooltip', value: 'two', slot: 'two' },
-        { label: 'Three tooltip', value: 'three', slot: 'three' }
-      ],
-      optionsS2: [
-        { value: 'one', slot: 'one' },
-        { value: 'two', slot: 'two' },
-        { value: 'three', slot: 'three' }
-      ],
-      optionsD: [
-        { label: 'One', value: 'one', count: 0 },
-        { label: 'Two', value: 'two', count: 0 },
-        { label: 'Three', value: 'three', count: 0 }
-      ],
-      sizes: ['sm', 'md', 'lg']
-    }
-  },
-  methods: {
-    log(name, data) {
-      console.log(name, JSON.stringify(data))
-    },
+<script setup>
+import { ref } from 'vue'
 
-    updateD(value, opt) {
-      this.modelD = value
-      opt.count++
-    }
+const model = ref('')
+const modelD = ref('')
+const options = ref([true, false])
+const optionsO1 = ref([
+  { label: 'One', value: 'one' },
+  { label: 'Two - this one has a longer label', value: 'two' },
+  { label: 'Three', value: 'three' }
+])
+const optionsO2 = ref([
+  {
+    label: 'One Clearable',
+    value: 'one',
+    size: '32px',
+    attrs: { 'aria-label': 'Button' }
+  },
+  { label: 'Two', value: 'two', padding: '32px 64px' }
+])
+const optionsO3 = ref([
+  {
+    label: 'One',
+    value: 'one',
+    color: 'green-2',
+    textColor: 'black',
+    class: 'col-grow'
+  },
+  {
+    label: 'Two - this one has a longer label',
+    value: 'two',
+    color: 'red-2',
+    textColor: 'black'
+  },
+  {
+    label: 'Three',
+    value: 'three',
+    color: 'blue-2',
+    textColor: 'black',
+    class: 'col-grow'
   }
+])
+const optionsS1 = ref([
+  { label: 'One tooltip', value: 'one', slot: 'one' },
+  { label: 'Two tooltip', value: 'two', slot: 'two' },
+  { label: 'Three tooltip', value: 'three', slot: 'three' }
+])
+const optionsS2 = ref([
+  { value: 'one', slot: 'one' },
+  { value: 'two', slot: 'two' },
+  { value: 'three', slot: 'three' }
+])
+const optionsD = ref([
+  { label: 'One', value: 'one', count: 0 },
+  { label: 'Two', value: 'two', count: 0 },
+  { label: 'Three', value: 'three', count: 0 }
+])
+const sizes = ref(['sm', 'md', 'lg'])
+
+function log(name, data) {
+  console.log(name, JSON.stringify(data))
+}
+
+function updateD(value, opt) {
+  modelD.value = value
+  opt.count++
 }
 </script>
 

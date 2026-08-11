@@ -92,8 +92,10 @@
   </div>
 </template>
 
-<script>
-const rows = [
+<script setup>
+import { ref } from 'vue'
+
+const allRows = [
   {
     name: 'Frozen Yogurt',
     calories: 159,
@@ -196,68 +198,59 @@ const rows = [
   }
 ]
 
-export default {
-  data() {
-    return {
-      hideBottom: false,
-      hideSelectedBanner: false,
-      hideNoData: false,
-      hidePagination: false,
-      selected: [],
-      columns: [
-        {
-          name: 'desc',
-          required: true,
-          label: 'Dessert (100g serving)',
-          align: 'left',
-          field: row => row.name,
-          format: val => `${val}`,
-          sortable: true
-        },
-        {
-          name: 'calories',
-          align: 'center',
-          label: 'Calories',
-          field: 'calories',
-          sortable: true,
-          classes: row =>
-            row.calories % 2 === 0 ? 'bg-green text-white' : 'bg-yellow'
-        },
-        {
-          name: 'fat',
-          sortOrder: 'ad',
-          label: 'Fat (g)',
-          field: 'fat',
-          sortable: true,
-          style: row =>
-            'width:10px' + (row.fat % 2 === 0 ? ';font-size: 2em' : '')
-        },
-        { name: 'carbs', label: 'Carbs (g)', field: 'carbs' },
-        { name: 'protein', label: 'Protein (g)', field: 'protein' },
-        { name: 'sodium', label: 'Sodium (mg)', field: 'sodium' },
-        {
-          name: 'calcium',
-          label: 'Calcium (%)',
-          field: 'calcium',
-          sortable: true,
-          sort: (a, b) => Number.parseInt(a, 10) - Number.parseInt(b, 10)
-        },
-        {
-          name: 'iron',
-          label: 'Iron (%)',
-          field: 'iron',
-          sortable: true,
-          sort: (a, b) => Number.parseInt(a, 10) - Number.parseInt(b, 10)
-        }
-      ],
-      rows
-    }
+const hideBottom = ref(false)
+const hideSelectedBanner = ref(false)
+const hideNoData = ref(false)
+const hidePagination = ref(false)
+const selected = ref([])
+const columns = ref([
+  {
+    name: 'desc',
+    required: true,
+    label: 'Dessert (100g serving)',
+    align: 'left',
+    field: row => row.name,
+    format: val => `${val}`,
+    sortable: true
   },
-
-  methods: {
-    toggleData() {
-      this.rows = this.rows.length === 0 ? rows : []
-    }
+  {
+    name: 'calories',
+    align: 'center',
+    label: 'Calories',
+    field: 'calories',
+    sortable: true,
+    classes: row =>
+      row.calories % 2 === 0 ? 'bg-green text-white' : 'bg-yellow'
+  },
+  {
+    name: 'fat',
+    sortOrder: 'ad',
+    label: 'Fat (g)',
+    field: 'fat',
+    sortable: true,
+    style: row => 'width:10px' + (row.fat % 2 === 0 ? ';font-size: 2em' : '')
+  },
+  { name: 'carbs', label: 'Carbs (g)', field: 'carbs' },
+  { name: 'protein', label: 'Protein (g)', field: 'protein' },
+  { name: 'sodium', label: 'Sodium (mg)', field: 'sodium' },
+  {
+    name: 'calcium',
+    label: 'Calcium (%)',
+    field: 'calcium',
+    sortable: true,
+    sort: (a, b) => Number.parseInt(a, 10) - Number.parseInt(b, 10)
+  },
+  {
+    name: 'iron',
+    label: 'Iron (%)',
+    field: 'iron',
+    sortable: true,
+    sort: (a, b) => Number.parseInt(a, 10) - Number.parseInt(b, 10)
   }
+])
+const rows = ref(allRows)
+
+function toggleData() {
+  rows.value = rows.value.length === 0 ? allRows : []
 }
 </script>

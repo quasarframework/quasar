@@ -5,7 +5,7 @@ import { hMergeSlot } from '../../utils/private.render/render.js'
 
 const alignValues = ['top', 'middle', 'bottom']
 
-export default createComponent({
+export default /*#__PURE__*/ createComponent({
   name: 'QBadge',
 
   props: {

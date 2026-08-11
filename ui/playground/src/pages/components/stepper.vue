@@ -215,90 +215,84 @@
   </div>
 </template>
 
-<script>
-import { h } from 'vue'
+<script setup>
+import { h, onMounted, ref, watch } from 'vue'
 
-export default {
-  components: {
-    KeepAliveTest: {
-      name: 'KeepAliveTest',
+const KeepAliveTest = {
+  name: 'KeepAliveTest',
 
-      props: {
-        name: String
-      },
-
-      created() {
-        this.log('created')
-      },
-
-      beforeMount() {
-        this.log('beforeMount')
-      },
-
-      mounted() {
-        this.log('mounted')
-      },
-
-      beforeUnmount() {
-        this.log('beforeUnmount')
-      },
-
-      unmounted() {
-        this.log('unmounted')
-      },
-
-      methods: {
-        log(what) {
-          console.log(`[KeepAliveTest > ${this.name}] ${what}`)
-        }
-      },
-
-      render() {
-        return h('div', 'keep alive test ' + this.name)
-      }
-    }
+  props: {
+    name: String
   },
 
-  data() {
-    return {
-      color: 'primary',
-      myInput: '',
-      date: null,
-
-      stepDisable: true,
-
-      step: 1,
-      vertical: false,
-      animated: true,
-      swipeable: true,
-      alt: false,
-      contracted: false,
-      headerNav: true,
-      flat: false,
-      bordered: false,
-      dark: null,
-
-      globalNav: false,
-      caption: false,
-      prefix: false,
-      noActiveIcon: false,
-      noErrorIcon: false,
-      noDoneIcon: false,
-      useDone: false,
-      headerNavStep: false,
-
-      keepAlive: true,
-
-      customHeaderClass: false
-    }
+  created() {
+    this.log('created')
   },
-  watch: {
-    dark(v) {
-      this.color = v ? 'deep-orange' : 'primary'
-    }
+
+  beforeMount() {
+    this.log('beforeMount')
   },
+
   mounted() {
-    window.x = this.$refs.stepper
+    this.log('mounted')
+  },
+
+  beforeUnmount() {
+    this.log('beforeUnmount')
+  },
+
+  unmounted() {
+    this.log('unmounted')
+  },
+
+  methods: {
+    log(what) {
+      console.log(`[KeepAliveTest > ${this.name}] ${what}`)
+    }
+  },
+
+  render() {
+    return h('div', 'keep alive test ' + this.name)
   }
 }
+
+const stepper = ref(null)
+
+const color = ref('primary')
+const myInput = ref('')
+const date = ref(null)
+
+const stepDisable = ref(true)
+
+const step = ref(1)
+const vertical = ref(false)
+const animated = ref(true)
+const swipeable = ref(true)
+const alt = ref(false)
+const contracted = ref(false)
+const headerNav = ref(true)
+const flat = ref(false)
+const bordered = ref(false)
+const dark = ref(null)
+
+const globalNav = ref(false)
+const caption = ref(false)
+const prefix = ref(false)
+const noActiveIcon = ref(false)
+const noErrorIcon = ref(false)
+const noDoneIcon = ref(false)
+const useDone = ref(false)
+const headerNavStep = ref(false)
+
+const keepAlive = ref(true)
+
+const customHeaderClass = ref(false)
+
+watch(dark, v => {
+  color.value = v ? 'deep-orange' : 'primary'
+})
+
+onMounted(() => {
+  window.x = stepper.value
+})
 </script>

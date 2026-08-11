@@ -28,7 +28,7 @@ function onKeydown(e) {
   if (e.keyCode === 13) prevent(e)
 }
 
-export default createComponent({
+export default /*#__PURE__*/ createComponent({
   name: 'QFile',
 
   inheritAttrs: false,
@@ -38,7 +38,7 @@ export default createComponent({
     ...useFormProps,
     ...useFileProps,
 
-    /* SSR does not know about File & FileList */
+    /* SSR/SSG does not know about File & FileList */
     modelValue: __QUASAR_SSR_SERVER__ ? {} : [File, FileList, Array],
 
     append: Boolean,
@@ -192,14 +192,14 @@ export default createComponent({
         return innerValue.value.length === 0
           ? getFiller()
           : innerValue.value.map((file, index) =>
-              slots.file({ index, file, ref: this })
+              slots.file({ index, file, ref: proxy })
             )
       }
 
       if (slots.selected !== void 0) {
         return innerValue.value.length === 0
           ? getFiller()
-          : slots.selected({ files: innerValue.value, ref: this })
+          : slots.selected({ files: innerValue.value, ref: proxy })
       }
 
       if (props.useChips) {

@@ -72,22 +72,32 @@ export function examplesVitePlugin(isProd) {
   return {
     name: 'docs:examples',
 
-    resolveId(id) {
-      if (id.startsWith('examples:')) return '\0' + id
+    resolveId: {
+      // rust-side filter: other import specifiers never cross into JS
+      filter: { id: /^examples:/ },
+
+      handler(id) {
+        if (id.startsWith('examples:')) return '\0' + id
+      }
     },
 
-    load(id) {
-      if (id.startsWith('\0examples')) {
-        const exampleId = id.slice(id.lastIndexOf(':') + 1)
-        const importModifier = id.includes(':source:') ? '?raw' : ''
+    load: {
+      // oxlint-disable-next-line no-control-regex
+      filter: { id: /^\0examples:/ },
 
-        return exampleIdContentMap[exampleId]
-          .map(
-            entry =>
-              `export { default as ${entry} } from ` +
-              `'@/examples/${exampleId}/${entry}.vue${importModifier}'`
-          )
-          .join('\n')
+      handler(id) {
+        if (id.startsWith('\0examples')) {
+          const exampleId = id.slice(id.lastIndexOf(':') + 1)
+          const importModifier = id.includes(':source:') ? '?raw' : ''
+
+          return exampleIdContentMap[exampleId]
+            .map(
+              entry =>
+                `export { default as ${entry} } from ` +
+                `'@/examples/${exampleId}/${entry}.vue${importModifier}'`
+            )
+            .join('\n')
+        }
       }
     }
   }

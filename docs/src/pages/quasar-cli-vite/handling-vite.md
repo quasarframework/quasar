@@ -54,37 +54,28 @@ $ quasar inspect -h
 
   Options
     --cmd, -c        Quasar command [dev|build] (default: dev)
-    --mode, -m       App mode [spa|ssr|pwa|bex|cordova|capacitor|electron] (default: spa)
+    --mode, -m       App mode [spa|ssr|ssg|pwa|bex|cordova|capacitor|electron] (default: spa)
     --depth, -d      Number of levels deep (default: 2)
     --path, -p       Path of config in dot notation
                         Examples:
-                          -p module.rules
+                          -p build.outDir
+                          -p server.port
                           -p plugins
     --thread, -t     Display only one specific app mode config thread
+    --no-color       Disable colored output
     --help, -h       Displays this message
 ```
 
 ## Adding Vite plugins
 
-Make sure to pnpm/yarn/npm/bun install the vite plugin package that you want to use, then edit the `/quasar.config` file:
+Install the Vite plugin with your project's package manager, then edit the `/quasar.config` file:
 
 ```js /quasar.config file
 build: {
   vitePlugins: [
     // both are perfectly equivalent:
-    [
-      '<plugin-name>',
-      {
-        /* plugin options */
-      }
-    ],
-    [
-      '<plugin-name>',
-      {
-        /* plugin options */
-      },
-      { server: true, client: true }
-    ]
+    ['<plugin-name>', {/* plugin options */}],
+    ['<plugin-name>', {/* plugin options */}, { server: true, client: true }]
   ]
 }
 ```
@@ -95,22 +86,10 @@ You can disable a plugin on the client-side or the server-side, which is especia
 build: {
   vitePlugins: [
     // disable on the server-side:
-    [
-      '<plugin-name>',
-      {
-        /* plugin options */
-      },
-      { server: false }
-    ],
+    ['<plugin-name>', {/* plugin options */}, { server: false }],
 
     // disable on the client-side:
-    [
-      '<plugin-name>',
-      {
-        /* plugin options */
-      },
-      { client: false }
-    ]
+    ['<plugin-name>', {/* plugin options */}, { client: false }]
   ]
 }
 ```
@@ -119,20 +98,8 @@ There are multiple syntaxes supported:
 
 ```js /quasar.config file
 vitePlugins: [
-  [
-    '<plugin1-name>',
-    {
-      /* plugin1 options */
-    },
-    { server: true, client: true }
-  ],
-  [
-    '<plugin2-name>',
-    {
-      /* plugin2 options */
-    },
-    { server: true, client: true }
-  ]
+  ['<plugin1-name>', {/* plugin1 options */}, { server: true, client: true }],
+  ['<plugin2-name>', {/* plugin2 options */}, { server: true, client: true }]
   // ...
 ]
 
@@ -141,20 +108,8 @@ import plugin1 from 'plugin1'
 import plugin2 from 'plugin2'
 
 vitePlugins: [
-  [
-    plugin1,
-    {
-      /* plugin1 options */
-    },
-    { server: true, client: true }
-  ],
-  [
-    plugin2,
-    {
-      /* plugin2 options */
-    },
-    { server: true, client: true }
-  ]
+  [plugin1, {/* plugin1 options */}, { server: true, client: true }],
+  [plugin2, {/* plugin2 options */}, { server: true, client: true }]
   // ...
 ]
 
@@ -166,17 +121,13 @@ import plugin1 from 'plugin1'
 import plugin2 from 'plugin2'
 
 vitePlugins: [
-  plugin1({
-    /* plugin1 options */
-  }),
-  plugin2({
-    /* plugin2 options */
-  })
+  plugin1({/* plugin1 options */}),
+  plugin2({/* plugin2 options */})
   // ...
 ]
 ```
 
-And, should you want, you can also add Vite plugins through `extendViteConf()` in the `/quasar.config` file. This is especially useful for (but not limited to) SSR mode where you'd want a Vite plugin to be applied only on the server-side or the client-side:
+And, should you want, you can also add Vite plugins through `extendViteConf()` in the `/quasar.config` file. This is especially useful for (but not limited to) SSR/SSG mode where you'd want a Vite plugin to be applied only on the server-side or the client-side:
 
 ```js
 import plugin1 from 'plugin1'
@@ -232,7 +183,7 @@ build: {
             dest: '[DEST_PATH]'
           },
           {
-            // Copying firebase-messaging-sw.js to SPA/PWA/SSR dest build folder
+            // Copying firebase-messaging-sw.js to SPA/PWA/SSR/SSG dist build folder
             src: 'config/firebase/firebase-messaging-sw.js',
             dest: 'dest/spa' // example when building SPA
           }

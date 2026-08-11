@@ -36,22 +36,17 @@
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      bodyClasses: ''
-    }
-  },
+<script setup>
+import { useQuasar } from 'quasar'
+import { computed, onMounted, ref } from 'vue'
 
-  computed: {
-    touch() {
-      return this.$q.platform.has.touch ? 'has' : 'does not have'
-    }
-  },
+const $q = useQuasar()
 
-  mounted() {
-    this.bodyClasses = document.body.classList.value
-  }
-}
+const bodyClasses = ref('')
+
+const touch = computed(() => ($q.platform.has.touch ? 'has' : 'does not have'))
+
+onMounted(() => {
+  bodyClasses.value = document.body.classList.value
+})
 </script>

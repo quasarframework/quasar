@@ -132,19 +132,12 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { useQuasar } from 'quasar'
 import { computed } from 'vue'
 
-export default {
-  setup() {
-    const $q = useQuasar()
-
-    return {
-      layout: computed(() =>
-        $q.screen.lt.sm ? 'dense' : $q.screen.lt.md ? 'comfortable' : 'loose'
-      )
-    }
-  }
-}
+const $q = useQuasar()
+const layout = computed(() =>
+  $q.screen.lt.sm ? 'dense' : $q.screen.lt.md ? 'comfortable' : 'loose'
+)
 </script>

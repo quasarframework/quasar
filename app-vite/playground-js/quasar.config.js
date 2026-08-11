@@ -41,7 +41,6 @@ export default defineConfig((/* ctx */) => ({
 
     vueRouterMode: 'history' // available values: 'hash', 'history'
     // vueRouterBase,
-    // vueDevtools,
 
     // publicPath: '/',
     // define: {},
@@ -60,6 +59,7 @@ export default defineConfig((/* ctx */) => ({
 
   // https://v2.quasar.dev/quasar-cli-vite/quasar-config-file#devserver
   devServer: {
+    // vueDevtools: true,
     // https: true,
     open: {
       app: { name: 'google chrome' }
@@ -103,26 +103,49 @@ export default defineConfig((/* ctx */) => ({
 
   // https://v2.quasar.dev/quasar-cli-vite/developing-ssr/configuring-ssr
   ssr: {
-    prodPort: 3000, // The default port that the production server should use
-    // (gets superseded if process.env.PORT is specified at runtime)
-
+    pwa: false,
+    /**
+     * The default port that the production server should use
+     * (gets superseded if process.env.PORT is specified at runtime)
+     *
+     * Mirrored by /app-vite/lib/quasar-config-file.test.js
+     * > playgroundConfig — keep in sync
+     */
+    prodPort: 3000,
     middlewares: [
       'render' // keep this as last one
-    ],
+    ]
 
     // extendSSRPackageJson (pkgJson) {},
+    // extendSSRManifestJson (json) {},
     // extendSSRWebserverConf (rolldownConf) {},
 
     // manualStoreSerialization: true,
     // manualStoreSsrContextInjection: true,
     // manualStoreHydration: true,
     // manualPostHydrationTrigger: true,
+    // clientSideRenderingRoutes: [],
 
-    pwa: false
     // pwaOfflineHtmlFilename: 'offline.html', // do NOT use index.html as name!
-
     // extendSSRGenerateSWOptions (cfg) {},
     // extendSSRInjectManifestOptions (cfg) {}
+  },
+
+  // https://v2.quasar.dev/quasar-cli-vite/developing-ssg/configuring-ssg
+  ssg: {
+    // pwa: true
+    // extendSSGManifestJson (json) {},
+    // extendSSGRendererConf (rolldownConf) {},
+    // manualStoreSerialization: true,
+    // manualStoreSsrContextInjection: true,
+    // manualStoreHydration: true,
+    // manualPostHydrationTrigger: true,
+    // error404HtmlFilename: '404.html'
+    // pwaOfflineHtmlFilename: 'offline.html',
+    // clientSideRenderingHtmlFilename: 'csr.html',
+    // clientSideRenderingRoutes: [],
+    // extendSSGGenerateSWOptions (cfg) {},
+    // extendSSGInjectManifestOptions (cfg) {},
   },
 
   // https://v2.quasar.dev/quasar-cli-vite/developing-pwa/configuring-pwa
@@ -154,9 +177,11 @@ export default defineConfig((/* ctx */) => ({
     // extendElectronPackageJson (pkgJson) {},
 
     // Electron preload scripts (if any) from /src-electron, WITHOUT file extension
+    // (mirrored by /app-vite/lib/quasar-config-file.test.js > playgroundConfig)
     preloadScripts: ['electron-preload'],
 
     // specify the debugging port to use for the Electron app when running in development mode
+    // (mirrored by /app-vite/lib/quasar-config-file.test.js > playgroundConfig)
     inspectPort: 5858,
 
     bundler: 'packager', // 'packager' or 'builder'

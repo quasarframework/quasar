@@ -9,14 +9,8 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    return {
-      file: ref(null)
-    }
-  }
-}
+const file = ref(null)
 </script>

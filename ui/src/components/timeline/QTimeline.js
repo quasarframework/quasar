@@ -11,7 +11,7 @@ import { timelineKey } from '../../utils/private.symbols/symbols.js'
 const sideValues = ['left', 'right']
 const layoutValues = ['dense', 'comfortable', 'loose']
 
-export default createComponent({
+export default /*#__PURE__*/ createComponent({
   name: 'QTimeline',
 
   props: {

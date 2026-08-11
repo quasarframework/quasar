@@ -10,19 +10,12 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    const url = ref('https://picsum.photos/500/300')
+const url = ref('https://picsum.photos/500/300')
 
-    return {
-      url,
-      refresh() {
-        url.value = 'https://picsum.photos/500/300?t=' + Math.random()
-      }
-    }
-  }
+function refresh() {
+  url.value = 'https://picsum.photos/500/300?t=' + Math.random()
 }
 </script>

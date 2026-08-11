@@ -48,7 +48,7 @@ const ionRE = /^ion-/
 const faRE =
   /^(fa-(classic|sharp|solid|regular|light|brands|duotone|thin)|[lf]a[srlbdk]?) /
 
-export default createComponent({
+export default /*#__PURE__*/ createComponent({
   name: 'QIcon',
 
   props: {

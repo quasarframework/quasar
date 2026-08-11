@@ -154,19 +154,11 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    return {
-      model: ref(null),
-
-      options: ['Google', 'Facebook', 'Twitter', 'Apple', 'Oracle'],
-
-      dense: ref(false),
-      denseOpts: ref(false)
-    }
-  }
-}
+const model = ref(null)
+const options = ['Google', 'Facebook', 'Twitter', 'Apple', 'Oracle']
+const dense = ref(false)
+const denseOpts = ref(false)
 </script>

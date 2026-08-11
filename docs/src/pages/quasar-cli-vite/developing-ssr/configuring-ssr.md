@@ -22,65 +22,78 @@ scope:
 
 This is the place where you can configure some SSR options. Like if you want the client side to takeover as a SPA (Single Page Application -- the default behaviour), or as a PWA (Progressive Web App).
 
+Options shared by the `ssr` and `ssg` sections can be configured once. When a shared option is omitted from `ssr`, Quasar uses an explicitly configured value from `ssg`. A value specified in `ssr`, including `false` or an empty array, always takes precedence.
+
+```js /quasar.config file
+export default defineConfig(() => ({
+  ssr: {
+    prodPort: 3000
+  },
+
+  ssg: {
+    // Also used by SSR because SSR does not override it
+    clientSideRenderingRoutes: ['/admin/**']
+  }
+}))
+```
+
+This applies to `pwaOfflineHtmlFilename`, `clientSideRenderingRoutes`, `noPreloadTagRoutes`, and the `manualStore*` and `manualPostHydrationTrigger` options. The `pwa` option remains mode-specific so that enabling PWA takeover for one mode does not implicitly enable it for the other. Other mode-specific options and extension hooks are not shared.
+
 ```ts /quasar.config file
 return {
   // ...
   ssr: {
     /**
-     * If a PWA should take over or just a SPA.
-     * @default false
+     * Requires @quasar/app-vite v3.1+
+     *
+     * Configure this for a hybrid SSR + partial CSR (Client-Side Rendering)
+     * approach, where you have some Vue Router routes that you want to be
+     * rendered on the client-side exclusively.
+     *
+     * You can use picomatch patterns to match the routes you want to be rendered
+     * on the client-side. https://www.npmjs.com/package/picomatch
+     *
+     * Note on picomatch patterns:
+     *   "/admin" matches the exact route only
+     *   "/admin/**" matches the exact route and all sub-routes of /admin
+     *   "/admin/*" matches only direct sub-routes of /admin
+     *   "/admin/{users,settings}" matches both exact routes /admin/users and /admin/settings
+     *
+     * @example ['/dashboard', '/admin/**']
+     * @default ssg.clientSideRenderingRoutes (when configured), otherwise []
      */
-    pwa?: boolean;
+    clientSideRenderingRoutes?: string[];
 
     /**
-     * When using SSR+PWA, this is the name of the
-     * PWA index html file that the client-side fallbacks to.
-     * For production only.
+     * Requires @quasar/app-vite v3.1+
      *
-     * Do NOT use index.html as name as it will mess SSR up!
+     * Configure the Vue Router routes for which you don't want to inject
+     * preload tags (on production only!).
      *
-     * @default 'offline.html'
+     * You can use picomatch patterns to match the routes you want
+     * no preload tags for. https://www.npmjs.com/package/picomatch
+     *
+     * Note on picomatch patterns:
+     *   "/admin" matches the exact route only,
+     *   "/admin/**" matches the exact route and all sub-routes of /admin,
+     *   "/admin/*" matches only direct sub-routes of /admin,
+     *   "/admin/{users,settings}" matches both exact routes /admin/users and /admin/settings
+     *
+     * @example ['/dashboard', '/admin/**']
+     * @default ssg.noPreloadTagRoutes (when configured), otherwise []
      */
-    pwaOfflineHtmlFilename?: string;
-
-    /**
-     * Extend/configure the Workbox GenerateSW options
-     * Specify Workbox options which will be applied on top of
-     *  `pwa > extendPWAGenerateSWOptions()`.
-     *
-     * https://developer.chrome.com/docs/workbox/the-ways-of-workbox/
-     *
-     * Can be async. Can directly modify the "config" parameter or
-     * return a new one that will be merged with the default one.
-     */
-    extendSSRGenerateSWOptions?: (
-      config: GenerateSWOptions
-    ) => void | GenerateSWOptions | Promise<void | GenerateSWOptions>;
-
-    /**
-     * Extend/configure the Workbox InjectManifest options
-     * Specify Workbox options which will be applied on top of
-     *  `pwa > extendPWAInjectManifestOptions()`.
-     *
-     * https://developer.chrome.com/docs/workbox/the-ways-of-workbox/
-     *
-     * Can be async. Can directly modify the "config" parameter or
-     * return a new one that will be merged with the default one.
-     */
-    extendSSRInjectManifestOptions?: (
-      config: InjectManifestOptions
-    ) => void | InjectManifestOptions | Promise<void | InjectManifestOptions>;
+    noPreloadTagRoutes?: string[];
 
     /**
      * Manually serialize the store state and provide it yourself
      * as window.__INITIAL_STATE__ to the client-side (through a <script> tag)
-     * @default false
+     * @default ssg.manualStoreSerialization (when configured), otherwise false
      */
     manualStoreSerialization?: boolean;
 
     /**
      * Manually inject the store state into ssrContext.state
-     * @default false
+     * @default ssg.manualStoreSsrContextInjection (when configured), otherwise false
      */
     manualStoreSsrContextInjection?: boolean;
 
@@ -89,14 +102,14 @@ return {
      *
      * For Pinia: store.state.value = window.__INITIAL_STATE__
      *
-     * @default false
+     * @default ssg.manualStoreHydration (when configured), otherwise false
      */
     manualStoreHydration?: boolean;
 
     /**
      * Manually call $q.onSSRHydrated() instead of letting Quasar CLI do it.
      * This announces that client-side code should takeover.
-     * @default false
+     * @default ssg.manualPostHydrationTrigger (when configured), otherwise false
      */
     manualPostHydrationTrigger?: boolean;
 
@@ -123,6 +136,19 @@ return {
       | void
       | { [index in string]: any }
       | Promise<void | { [index in string]: any }>;
+
+    /**
+     * Requires @quasar/app-vite v3.1+
+     *
+     * Extend the underlying SSR manifest file generated by Vite,
+     * which is used by the server-side renderer to know which files to preload.
+     *
+     * Can be async. Can directly modify the "ssrManifest" parameter or
+     * return a new one that will be merged with the default one.
+     */
+    extendSSRManifestJson?: (
+      ssrManifest: QuasarSsrManifest
+    ) => void | QuasarSsrManifest | Promise<void | QuasarSsrManifest>;
 
     /**
      * Extend the Rolldown config that is used for the SSR webserver
@@ -190,6 +216,51 @@ return {
      * the /src-ssr/middlewares/render file
      */
     prodScriptNamedExport?: false | string | string[];
+
+    /**
+     * If a PWA should take over or just a SPA.
+     * @default false
+     */
+    pwa?: boolean;
+
+    /**
+     * When using SSR+PWA, this is the name of the
+     * PWA index html file that the client-side fallbacks to.
+     * For production only.
+     *
+     * Do NOT use index.html as name as it will mess SSR up!
+     *
+     * @default ssg.pwaOfflineHtmlFilename (when configured), otherwise 'offline.html'
+     */
+    pwaOfflineHtmlFilename?: string;
+
+    /**
+     * Extend/configure the Workbox GenerateSW options
+     * Specify Workbox options which will be applied on top of
+     *  `pwa > extendPWAGenerateSWOptions()`.
+     *
+     * https://developer.chrome.com/docs/workbox/the-ways-of-workbox/
+     *
+     * Can be async. Can directly modify the "config" parameter or
+     * return a new one that will be merged with the default one.
+     */
+    extendSSRGenerateSWOptions?: (
+      config: GenerateSWOptions
+    ) => void | GenerateSWOptions | Promise<void | GenerateSWOptions>;
+
+    /**
+     * Extend/configure the Workbox InjectManifest options
+     * Specify Workbox options which will be applied on top of
+     *  `pwa > extendPWAInjectManifestOptions()`.
+     *
+     * https://developer.chrome.com/docs/workbox/the-ways-of-workbox/
+     *
+     * Can be async. Can directly modify the "config" parameter or
+     * return a new one that will be merged with the default one.
+     */
+    extendSSRInjectManifestOptions?: (
+      config: InjectManifestOptions
+    ) => void | InjectManifestOptions | Promise<void | InjectManifestOptions>;
   }
 }
 ```
@@ -215,7 +286,7 @@ export default defineConfig(ctx => {
 
 ### Manually triggering store hydration
 
-By default, Quasar CLI takes care of hydrating the Pinia stores (if you use it) on client-side.
+By default, Quasar CLI hydrates Pinia stores on the client.
 
 However, should you wish to manually hydrate it yourself, you need to set quasar.config file > ssr > manualStoreHydration: true. One good example is doing it from [a boot file](/quasar-cli-vite/boot-files):
 
@@ -273,7 +344,7 @@ You can freely edit these files. All folders are detailed in their own doc pages
 
 Notice a few things:
 
-1. If you import anything from node_modules in /src-ssr, then make sure that the package is specified in /src-ssr/package.json > "dependencies" (runtime deps) and NOT in "devDependencies" (build system deps). The "dependencies" will be embedded into your dist/.
+1. If `/src-ssr` imports a package needed at runtime, list it in `/src-ssr/package.json > dependencies`, not `devDependencies`. Quasar copies it into the generated production `package.json` so it can be installed during deployment.
 
 2. These files are built through a separate Rolldown config. You can extend the Rolldown configuration of these files through the `/quasar.config` file:
 
@@ -281,23 +352,29 @@ Notice a few things:
 return {
   // ...
   ssr: {
-    // ...
-    extendSSRWebserverConf(rolldownConf) {
-      // tamper with rolldownConf here
-    }
+    /**
+     * Extend the Rolldown config that is used for the SSR webserver
+     * (which includes the SSR middlewares).
+     *
+     * Can be async. Can directly modify the "config" parameter or
+     * return a new one that will be merged with the default one.
+     */
+    extendSSRWebserverConf?: (
+      config: RolldownOptions
+    ) => void | RolldownOptions | Promise<void | RolldownOptions>;
   }
 }
 ```
 
-4. The `/src-ssr/server.js` file is detailed in [SSR Webserver](/quasar-cli-vite/developing-ssr/ssr-webserver) page. Read it especially if you need to support serverless functions.
+3. The `/src-ssr/server.js` file is detailed on the [SSR Webserver](/quasar-cli-vite/developing-ssr/ssr-webserver) page. Read it especially if you need to support serverless functions.
 
 ## Helping SEO
 
-One of the main reasons when you develop a SSR instead of a SPA is for taking care of the SEO. And SEO can be greatly improved by using the [Quasar Meta Plugin](/quasar-plugins/meta) to manage dynamic html markup required by the search engines.
+SSR allows crawlers to receive rendered content for each route. Use the [Quasar Meta Plugin](/quasar-plugins/meta) to add the page titles, descriptions, canonical URLs, and structured data needed by search engines.
 
 ## Boot Files
 
-When running on SSR mode, your application code needs to be isomorphic or "universal", which means that it must run both on a Node.js context and in the browser. This applies to your [Boot Files](/quasar-cli-vite/boot-files) too.
+In SSR mode, shared application code must run in both Node.js and browser contexts. This also applies to [Boot Files](/quasar-cli-vite/boot-files).
 
 However, there are cases where you only want some boot files to run only on the server or only on the client-side. You can achieve that by specifying:
 

@@ -22,14 +22,8 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    return {
-      editor: ref('Customize it.')
-    }
-  }
-}
+const editor = ref('Customize it.')
 </script>

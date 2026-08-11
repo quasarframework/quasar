@@ -62,12 +62,12 @@ Except for `/ae/src/index.js|ts`, all the other files are optional. You can manu
 
 ## Handling package dependencies
 
-If your App Extension has its own dependencies over some packages in order for it to be able to run (except for packages supplied by Quasar CLI, like "quasar", "@quasar/extras", "@quasar/app-vite" -- you should use "api.compatibleWith()" for those in your /install.js and /index.js scripts -- check [Install API](/app-extensions/development-guide/install-api) and [Index API](/app-extensions/development-guide/index-api)), then PNPM installing them into your App Extension folder will supply them into the hosting app.
+If your App Extension needs packages at runtime, install them in the `/ae` folder as regular dependencies. Do not install packages supplied by Quasar CLI, such as `quasar`, `@quasar/extras`, or `@quasar/app-vite`. Use `api.compatibleWith()` in your install and index scripts to declare the versions that your extension supports; see the [Install API](/app-extensions/development-guide/install-api) and [Index API](/app-extensions/development-guide/index-api).
 
-Example: You are creating a UI component that depends on "my-table" npm package (name is bogus, just for making a point here), then you should PNPM install "my-table" in your App Extension folder.
+For example, if you are creating a UI component that depends on a package named `my-table`, run `pnpm add my-table` from the `/ae` folder.
 
 ::: warning
-Never PNPM install packages that are supplied by the Quasar CLI, because App Extensions should not be so intrusive and force the user to use a certain Quasar version. Instead, make use of "api.compatibleWith()" for those, which is equivalent to softly saying "Sorry, you need to install this version of Quasar if you want to take advantage of my App Extension".
+Never install packages that are supplied by Quasar CLI as dependencies of your extension. Use `api.compatibleWith()` to require a compatible version without installing a second copy.
 :::
 
 ## Developing
@@ -118,7 +118,7 @@ quasar ext invoke <ext-id>
 Learn more about what you can do with the [Uninstall API](/app-extensions/development-guide/uninstall-api).
 :::
 
-You will notice mentions of `uninvoking` an AE. The un-invoking procedure, as opposed to the "remove" one, un-registers the App Extension from the host app, but does NOT uninstalls its npm package.
+You will notice mentions of `uninvoking` an AE. Unlike removing an extension, uninvoking unregisters it from the host app but does not uninstall its package.
 
 ```bash End-user commands using Uninstall script
 quasar ext remove <ext-id>
@@ -147,9 +147,9 @@ A common use-case of what you can do with your Index script is to extend the hos
 import { defineIndexScript } from '#q-app'
 
 export default defineIndexScript(api => {
-  api.extendViteConf (viteConf, { isClient, isServer }, api) {
+  api.extendViteConf((viteConf, { isClient, isServer }, api) => {
     // similar in use to /quasar.config > build > extendViteConf
-  }
+  })
 })
 ```
 

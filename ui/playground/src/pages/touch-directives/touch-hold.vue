@@ -141,75 +141,65 @@
   </div>
 </template>
 
-<script>
+<script setup>
+import { computed, ref } from 'vue'
+
 import './touch-style.sass'
 
-export default {
-  data() {
-    return {
-      info: null,
-      infoExtended: null,
-      infoCustom: null,
-      disable: false,
+const info = ref(null)
+const infoExtended = ref(null)
+const infoCustom = ref(null)
+const disable = ref(false)
 
-      infoTest: null,
-      holdTestStopPropagation: true,
+const infoTest = ref(null)
+const holdTestStopPropagation = ref(true)
 
-      infoTestCapture: null
-    }
-  },
+const infoTestCapture = ref(null)
 
-  computed: {
-    computedHandler() {
-      return this.disable ? void 0 : this.handleHold
-    }
-  },
+const computedHandler = computed(() => (disable.value ? void 0 : handleHold))
 
-  methods: {
-    handleHold({ evt, ...info }) {
-      this.info = info
+function handleHold({ evt, ...localInfo }) {
+  info.value = localInfo
 
-      // native Javascript event
-      console.log('TRIGGER', evt)
-    },
+  // native Javascript event
+  console.log('TRIGGER', evt)
+}
 
-    holdExtended({ evt, ...info }) {
-      this.infoExtended = info
+function holdExtended({ evt, ...localInfo }) {
+  infoExtended.value = localInfo
 
-      // native Javascript event
-      console.log('TRIGGER', evt)
-    },
+  // native Javascript event
+  console.log('TRIGGER', evt)
+}
 
-    holdCustom({ evt, ...info }) {
-      this.infoCustom = info
+function holdCustom({ evt, ...localInfo }) {
+  infoCustom.value = localInfo
 
-      // native Javascript event
-      console.log('TRIGGER', evt)
-    },
+  // native Javascript event
+  console.log('TRIGGER', evt)
+}
 
-    holdTest({ evt, ...info }) {
-      this.infoTest = info
+function holdTest({ evt, ...localInfo }) {
+  infoTest.value = localInfo
 
-      // native Javascript event
-      console.log('TRIGGER', evt)
-    },
+  // native Javascript event
+  console.log('TRIGGER', evt)
+}
 
-    holdTestCapture({ evt, ...info }) {
-      this.infoTestCapture = info
+function holdTestCapture({ evt, ...localInfo }) {
+  infoTestCapture.value = localInfo
 
-      // native Javascript event
-      console.log('TRIGGER', evt)
-    },
+  // native Javascript event
+  console.log('TRIGGER', evt)
+}
 
-    onEvt(reason) {
-      console.log('@' + reason)
-    },
+function onEvt(reason) {
+  console.log('@' + reason)
+}
 
-    handleEvt(e) {
-      if (this.holdTestStopPropagation) {
-        e.stopPropagation()
-      }
-    }
+function handleEvt(e) {
+  if (holdTestStopPropagation.value) {
+    e.stopPropagation()
   }
 }
 </script>

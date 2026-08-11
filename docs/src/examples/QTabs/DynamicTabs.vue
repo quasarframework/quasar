@@ -46,7 +46,7 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { computed, ref } from 'vue'
 
 const tabsDefinition = [
@@ -60,32 +60,24 @@ const tabsDefinition = [
   // #endregion
 ]
 
-export default {
-  setup() {
-    const tabs = ref(tabsDefinition.slice(0, 1))
+const tab = ref('mails')
+const tabs = ref(tabsDefinition.slice(0, 1))
 
-    return {
-      tab: ref('mails'),
-      tabs,
+const allTabs = computed(() =>
+  tabsDefinition.map(tabItem => ({
+    tab: tabItem,
+    selected: tabs.value.includes(tabItem)
+  }))
+)
 
-      allTabs: computed(() =>
-        tabsDefinition.map(tab => ({
-          tab,
-          selected: tabs.value.includes(tab)
-        }))
-      ),
+function setTabSelected(tabItem, status) {
+  if (status) {
+    tabs.value.push(tabItem)
+  } else {
+    const index = tabs.value.indexOf(tabItem)
 
-      setTabSelected(tab, status) {
-        if (status) {
-          tabs.value.push(tab)
-        } else {
-          const index = tabs.value.indexOf(tab)
-
-          if (index !== -1) {
-            tabs.value.splice(index, 1)
-          }
-        }
-      }
+    if (index !== -1) {
+      tabs.value.splice(index, 1)
     }
   }
 }

@@ -178,22 +178,17 @@
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      keepColor: true,
-      disable: true,
-      dark: null,
-      dense: false,
+<script setup>
+import { ref } from 'vue'
 
-      checked: true,
-      checked2: false,
-      checked3: false,
+const keepColor = ref(true)
+const disable = ref(true)
+const dark = ref(null)
+const dense = ref(false)
 
-      option: 'opt1'
-    }
-  },
-  methods: {}
-}
+const checked = ref(true)
+const checked2 = ref(false)
+const checked3 = ref(false)
+
+const option = ref('opt1')
 </script>

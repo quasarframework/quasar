@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import { mount } from '@vue/test-utils'
-import { defineComponent } from 'vue'
+import { defineComponent, h } from 'vue'
 
 import useInterval from './use-interval.js'
 
@@ -28,7 +28,7 @@ describe('[useInterval API]', () => {
 
         wrapper = mount(
           defineComponent({
-            template: '<div />',
+            render: () => h('div'),
             setup() {
               const { registerInterval } = useInterval()
 
@@ -54,7 +54,7 @@ describe('[useInterval API]', () => {
 
         wrapper = mount(
           defineComponent({
-            template: '<div />',
+            render: () => h('div'),
             setup() {
               const { registerInterval } = useInterval()
 
@@ -80,7 +80,7 @@ describe('[useInterval API]', () => {
 
         wrapper = mount(
           defineComponent({
-            template: '<div />',
+            render: () => h('div'),
             setup() {
               const { registerInterval, removeInterval } = useInterval()
 
@@ -113,7 +113,7 @@ describe('[useInterval API]', () => {
 
         wrapper = mount(
           defineComponent({
-            template: '<div />',
+            render: () => h('div'),
             setup() {
               const { registerInterval } = useInterval()
 
@@ -140,7 +140,7 @@ describe('[useInterval API]', () => {
 
         wrapper = mount(
           defineComponent({
-            template: '<div />',
+            render: () => h('div'),
             setup() {
               const { registerInterval } = useInterval()
               return { registerInterval }

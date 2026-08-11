@@ -4,21 +4,15 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { useQuasar } from 'quasar'
 
-export default {
-  setup() {
-    const $q = useQuasar()
+const $q = useQuasar()
 
-    return {
-      showNotif() {
-        $q.notify({
-          message: 'Jim pinged you.',
-          icon: 'announcement'
-        })
-      }
-    }
-  }
+function showNotif() {
+  $q.notify({
+    message: 'Jim pinged you.',
+    icon: 'announcement'
+  })
 }
 </script>

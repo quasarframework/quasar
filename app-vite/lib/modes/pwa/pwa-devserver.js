@@ -17,6 +17,10 @@ export class QuasarModeDevserver extends AppDevserver {
   run(quasarConf, __isRetry) {
     const { diff, queue } = super.run(quasarConf, __isRetry)
 
+    if (diff('vueDevtools', quasarConf)) {
+      return queue(() => this.installVueDevtools(quasarConf))
+    }
+
     // also update ssr-devserver.js when changing here
     if (diff('pwaManifest', quasarConf)) {
       this.clientNeedsReload = false
@@ -114,7 +118,11 @@ export class QuasarModeDevserver extends AppDevserver {
         'InjectManifest Custom SW',
         rolldownConfig,
         () => {
-          queue(() => buildPwaServiceWorker(quasarConf, workboxConfig))
+          queue(() =>
+            buildPwaServiceWorker(quasarConf, workboxConfig).then(() =>
+              this.reloadClient()
+            )
+          )
         }
       ).then(watcher => {
         this.#pwaServiceWorkerWatcher = watcher

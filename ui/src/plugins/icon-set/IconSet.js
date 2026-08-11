@@ -3,7 +3,7 @@ import { injectProp } from '../../utils/private.inject-obj-prop/inject-obj-prop.
 
 import materialIcons from '../../../icon-set/material-icons.js'
 
-const Plugin = createReactivePlugin(
+const Plugin = /*#__PURE__*/ createReactivePlugin(
   {
     iconMapFn: null,
     __qIconSet: {}
@@ -42,7 +42,7 @@ const Plugin = createReactivePlugin(
 
         $q.iconSet.set(initialSet)
 
-        // one-time SSR server operation
+        // one-time SSR/SSG server operation
         if (this.props === void 0 || this.props.name !== initialSet.name) {
           this.props = { ...initialSet }
         }

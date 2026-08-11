@@ -144,11 +144,7 @@
           :key="index"
           class="flex-playground-demo__child rounded-borders"
           :child="child"
-          :ref="
-            el => {
-              childRef[index] = el
-            }
-          "
+          ref="childRefs"
           :index="index"
           :selected-index="selectedIndex"
           @delete="onDelete"
@@ -215,7 +211,7 @@
 </template>
 
 <script setup>
-import { computed, onBeforeUpdate, onMounted, reactive, ref } from 'vue'
+import { computed, onMounted, reactive, ref, useTemplateRef } from 'vue'
 import { useRoute } from 'vue-router'
 import { copyToClipboard, useQuasar } from 'quasar'
 import { fabCodepen } from '@quasar/extras/fontawesome-v7'
@@ -287,8 +283,8 @@ const contentOptions = [
 const $q = useQuasar()
 const $route = useRoute()
 
-const childRef = ref([])
-const codepenRef = ref(null)
+const childRefs = useTemplateRef('childRefs')
+const codepenRef = useTemplateRef('codepenRef')
 
 const group = reactive({
   containerGroup: 'fit',
@@ -347,7 +343,7 @@ function onDelete(index) {
 
 function onChange(index) {
   selectedIndex.value = index
-  const child = childRef.value[index]
+  const child = childRefs.value[index]
   group.childClasses = child.classes
   group.childStyles = child.styles
 }
@@ -387,7 +383,7 @@ function share() {
 
 function editInCodepen() {
   const children = group.children.map((_, index) => {
-    const kid = childRef.value[index]
+    const kid = childRefs.value[index]
     return `<div class="${kid.classes} bg-grey-6" style="${kid.styles}">
       <q-card class="no-border-radius">
         <q-card-section>
@@ -411,11 +407,6 @@ function editInCodepen() {
 }
 
 onMounted(checkQueryParams)
-
-// Make sure to reset the dynamic refs before each update.
-onBeforeUpdate(() => {
-  childRef.value = []
-})
 
 const classes = computed(() =>
   (

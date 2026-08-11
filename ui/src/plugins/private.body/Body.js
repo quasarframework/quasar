@@ -9,7 +9,7 @@ function getMobilePlatform(is) {
   if (is.android) return 'android'
 }
 
-function getBodyClasses({ is, has, within }, cfg) {
+export function getBodyClasses({ is, has, within }, cfg) {
   const cls = [
     is.desktop ? 'desktop' : 'mobile',
     `${has.touch ? '' : 'no-'}touch`
@@ -22,12 +22,17 @@ function getBodyClasses({ is, has, within }, cfg) {
 
   if (is.nativeMobile) {
     const type = is.nativeMobileWrapper
+    const mobileCfg = cfg[type]
 
-    cls.push(type)
-    cls.push('native-mobile')
+    cls.push(type, 'native-mobile')
 
-    if (is.ios && (cfg[type] === void 0 || cfg[type].iosStatusBarPadding)) {
+    if (is.ios && (mobileCfg === void 0 || mobileCfg.iosStatusBarPadding)) {
       cls.push('q-ios-padding')
+    } else if (
+      is.android &&
+      (mobileCfg === void 0 || mobileCfg.androidStatusBarPadding !== false)
+    ) {
+      cls.push('q-safe-area-padding')
     }
   } else if (is.electron) {
     cls.push('electron')
@@ -92,7 +97,7 @@ export default {
       const { $q, ssrContext } = opts
       const cls = getBodyClasses($q.platform, $q.config)
 
-      if ($q.config.screen?.bodyClass === true) {
+      if ($q.config.screen?.bodyClasses === true) {
         cls.push('screen--xs')
       }
 

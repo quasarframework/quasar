@@ -30,7 +30,7 @@ Adding PWA mode to a Quasar project means a new folder will be created: `/src-pw
 
 You can freely edit these files. Notice a few things:
 
-1. `register-sw.js` is automatically imported into your app (like any other /src file). It registers the service worker (created by Workbox or your custom one, depending on workbox plugin mode -- quasar.config file > pwa > workboxPluginMode) and you can listen for Service Worker's events.
+1. `register-sw.js` is automatically imported into your app (like any other `/src` file). It registers the service worker created by Workbox and lets you respond to its lifecycle events. The generated worker depends on `quasar.config > pwa > workboxMode`.
 2. `sw/custom-sw.js` will be your service worker file ONLY if workbox plugin mode is set to "InjectManifest" (quasar.config file > pwa > workboxMode: 'InjectManifest'). Otherwise, Quasar and Workbox will create a service-worker file for you. The `/src-pwa/sw/` folder is the WebWorker context. Anything inside it runs in the service worker, not the main thread.
 3. It makes sense to run [Lighthouse](https://developers.google.com/web/tools/lighthouse/) tests on production builds only.
 
@@ -44,6 +44,10 @@ This is the place where you can configure Workbox behavior and also tweak your m
 
 ```ts
 pwa: {
+  /**
+   * Workbox operating mode.
+   * @default 'GenerateSW'
+   */
   workboxMode?: "GenerateSW" | "InjectManifest";
 
   /**
@@ -62,7 +66,9 @@ pwa: {
    * Should you need some dynamic changes to the /src-pwa/manifest.json,
    * use this method to do it.
    */
-  extendPWAManifestJson?: (json: PwaManifestOptions) => void;
+  extendPWAManifestJson?: (
+    json: PwaManifestOptions
+  ) => void | PwaManifestOptions | Promise<void | PwaManifestOptions>;
 
   /**
    * Does the PWA manifest tag requires crossorigin auth?
@@ -111,7 +117,7 @@ pwa: {
   /**
    * Extend the generated `.quasar/tsconfig.pwa-sw.json` file.
    *
-   * NOT async! Can directly modify the "config" parameter or
+   * NOT async! Can directly modify the "tsConfig" parameter or
    * return a new one that will be merged with the default one.
    */
   extendPWASwTsConfig (tsConfig) {
@@ -289,8 +295,8 @@ precacheAndRoute(self.__WB_MANIFEST)
 cleanupOutdatedCaches()
 
 if (import.meta.env.QUASAR_PROD) {
-  // Non-SSR fallbacks to index.html
-  // Production SSR fallbacks to offline.html (except for dev)
+  // Non-SSR/SSG fallbacks to index.html
+  // Production SSR/SSG fallbacks to offline.html (except for dev)
   registerRoute(
     new NavigationRoute(
       createHandlerBoundToURL(import.meta.env.QUASAR_PWA_FALLBACK_HTML),
@@ -329,8 +335,8 @@ precacheAndRoute(self.__WB_MANIFEST);
 cleanupOutdatedCaches();
 
 if (import.meta.env.QUASAR_PROD) {
-  // Non-SSR fallbacks to index.html
-  // Production SSR fallbacks to offline.html (except for dev)
+  // Non-SSR/SSG fallbacks to index.html
+  // Production SSR/SSG fallbacks to offline.html (except for dev)
   registerRoute(
     new NavigationRoute(
       createHandlerBoundToURL(import.meta.env.QUASAR_PWA_FALLBACK_HTML),
@@ -368,6 +374,8 @@ Note that you don't need to edit your index.html file (generated from `/index.ht
 ::: tip
 If your PWA is behind basic auth or requires an Authorization header, set quasar.config file > pwa > useCredentialsForManifestTag to `true` to include `crossorigin="use-credentials"` on the manifest.json meta tag.
 ::::
+
+This option affects only the manifest request. If you add runtime caching for authenticated API responses, do not use a broad cache rule that can return one user's private response to another session. Limit matching to intended URLs and methods, avoid caching sensitive responses unless the cache is safely partitioned and cleared on sign-out, and respect the server's cache policy.
 
 ## PWA Checklist
 

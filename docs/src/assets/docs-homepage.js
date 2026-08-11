@@ -28,7 +28,7 @@ export const mostUsedPages = [
   },
   {
     name: 'QBtn',
-    icon: 'img:https://cdn.quasar.dev/img/custom-svg-icons/button-click.svg',
+    icon: 'img:/svg/button-click.svg',
     path: '/vue-components/button'
   },
   {
@@ -38,7 +38,7 @@ export const mostUsedPages = [
   },
   {
     name: 'Flavour',
-    icon: 'img:https://cdn.quasar.dev/logo-v2/svg/logo-mono-cyan.svg',
+    icon: 'img:/logo/logo-mono-cyan.svg',
     path: '/start/pick-quasar-flavour'
   }
 ]
@@ -47,7 +47,7 @@ export const pagesToDiscover = [
   {
     name: 'quasar.config',
     icon: mdiHumanMaleBoard,
-    path: '/quasar-cli-vite/quasar-config-js'
+    path: '/quasar-cli-vite/quasar-config-file'
   },
   {
     name: 'Boot Files',
