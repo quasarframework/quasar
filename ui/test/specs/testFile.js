@@ -40,7 +40,7 @@ function createIgnoreComment(ignoreCommentIds) {
 const treeNodeTypes = ['describe', 'test']
 const treeNodeCalleeTypes = ['Identifier', 'MemberExpression', 'CallExpression']
 
-function extractTree(astNode, tree, indent) {
+function extractTree(astNode, tree, indent, duplicates, path) {
   if (
     astNode.type !== 'ExpressionStatement' ||
     astNode.expression.type !== 'CallExpression' ||
@@ -69,22 +69,34 @@ function extractTree(astNode, tree, indent) {
   const subTree = {}
   const subIndent = indent + 2
   fn.body.body.forEach(child => {
-    extractTree(child, subTree, subIndent)
+    extractTree(
+      child,
+      subTree,
+      subIndent,
+      duplicates,
+      `${path}${type}('${id.value}') > `
+    )
   })
 
   entry.children = Object.keys(subTree).length !== 0 ? subTree : null
 
+  // same-name siblings silently overwrite each other in the keyed tree,
+  // so they can only be reported from here
+  if (type === 'describe' && tree[id.value] !== void 0) {
+    duplicates.push(`${path}describe('${id.value}')`)
+  }
+
   tree[id.value] = entry
 }
 
-function getTestTree(testFileContent) {
+function getTestTree(testFileContent, duplicates = []) {
   const { body } = Parser.parse(testFileContent, {
     ecmaVersion: 'latest',
     sourceType: 'module'
   })
 
   const tree = {}
-  body.forEach(astNode => extractTree(astNode, tree, 1))
+  body.forEach(astNode => extractTree(astNode, tree, 1, duplicates, ''))
 
   return tree
 }
@@ -163,6 +175,12 @@ function getTestFileMisconfiguration({ ctx, generator, json, testFile, opts }) {
     )
     return { errors, warnings }
   }
+
+  // one declaration per describe: hand-written categories especially
+  // ([Generic]/[Accessibility]) must not be spread over multiple blocks
+  testFile.duplicateNodes.forEach(entry => {
+    errors.push(`Found duplicated ${entry}. Keep a single declaration.`)
+  })
 
   const { identifiers } = generator
   const identifiersKeys = Object.keys(identifiers)
@@ -437,7 +455,8 @@ function getInitialState(file) {
     return {
       content: null,
       ignoreCommentIds: [],
-      testTree: {}
+      testTree: {},
+      duplicateNodes: []
     }
   }
 
@@ -445,10 +464,13 @@ function getInitialState(file) {
   const match = content.match(ignoreCommentRE)
   const ignoreComment = match?.[1]
 
+  const duplicateNodes = []
+
   return {
     content,
     ignoreCommentIds: getIgnoreCommentIds(ignoreComment),
-    testTree: getTestTree(content)
+    testTree: getTestTree(content, duplicateNodes),
+    duplicateNodes
   }
 }
 
@@ -469,7 +491,8 @@ export function getTestFile(ctx) {
   }
 
   const save = content => {
-    testFile.testTree = getTestTree(content)
+    testFile.duplicateNodes = []
+    testFile.testTree = getTestTree(content, testFile.duplicateNodes)
     fse.writeFileSync(file, content, 'utf8')
   }
 
