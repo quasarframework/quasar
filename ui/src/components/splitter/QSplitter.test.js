@@ -340,4 +340,121 @@ describe('[QSplitter API]', () => {
       })
     })
   })
+
+  describe('[Accessibility]', () => {
+    test('the separator implements the WAI-ARIA window splitter semantics', () => {
+      const wrapper = mountSplitter()
+      const attrs = getSeparator(wrapper).attributes()
+
+      expect(attrs.role).toBe('separator')
+      expect(attrs.tabindex).toBe('0')
+      expect(attrs['aria-orientation']).toBe('vertical')
+      expect(attrs['aria-valuemin']).toBe('10')
+      expect(attrs['aria-valuemax']).toBe('90')
+      expect(attrs['aria-valuenow']).toBe('20')
+      expect(attrs['aria-controls']).toBe(getBefore(wrapper).attributes('id'))
+    })
+
+    test('the separator aria reflects horizontal/reverse/limits props', () => {
+      const wrapper = mountSplitter({
+        horizontal: true,
+        reverse: true,
+        limits: [30, 70]
+      })
+      const attrs = getSeparator(wrapper).attributes()
+
+      expect(attrs['aria-orientation']).toBe('horizontal')
+      expect(attrs['aria-valuemin']).toBe('30')
+      expect(attrs['aria-valuemax']).toBe('70')
+      expect(attrs['aria-controls']).toBe(getAfter(wrapper).attributes('id'))
+    })
+
+    test('the separator omits aria-valuemax for an Infinity limit', () => {
+      // default "px" limits are [ 50, Infinity ]
+      const wrapper = mountSplitter({ unit: 'px' })
+      const attrs = getSeparator(wrapper).attributes()
+
+      expect(attrs['aria-valuemin']).toBe('50')
+      expect(attrs['aria-valuemax']).toBeUndefined()
+    })
+
+    test('a disabled separator is neither focusable nor keyboard-operable', async () => {
+      const wrapper = mountSplitter({ disable: true })
+      const separator = getSeparator(wrapper)
+
+      expect(separator.attributes('tabindex')).toBeUndefined()
+      expect(separator.attributes('aria-valuenow')).toBeUndefined()
+
+      await separator.trigger('keydown', { keyCode: 39 })
+
+      expect(wrapper.emitted('update:modelValue')).toBeUndefined()
+    })
+
+    test.each([
+      ['ArrowRight', 39, {}, 21],
+      ['ArrowLeft', 37, {}, 19],
+      ['ArrowDown', 40, { horizontal: true }, 21],
+      ['ArrowUp', 38, { horizontal: true }, 19],
+      ['ArrowRight', 39, { reverse: true }, 19],
+      ['Home', 36, {}, 10],
+      ['End', 35, {}, 90]
+    ])(
+      '%s key moves the splitter (extra props: %o)',
+      async (_, keyCode, props, expected) => {
+        const wrapper = mountSplitter(props)
+
+        await getSeparator(wrapper).trigger('keydown', { keyCode })
+
+        expect(wrapper.emitted('update:modelValue')).toStrictEqual([[expected]])
+      }
+    )
+
+    test('left/right arrow keys are reversed in RTL', async () => {
+      const wrapper = mountSplitter()
+
+      wrapper.vm.$q.lang.rtl = true
+
+      try {
+        await getSeparator(wrapper).trigger('keydown', { keyCode: 39 })
+
+        expect(wrapper.emitted('update:modelValue')).toStrictEqual([[19]])
+      } finally {
+        wrapper.vm.$q.lang.rtl = false
+      }
+    })
+
+    test('cross-axis and unrelated keys are ignored', async () => {
+      const wrapper = mountSplitter()
+      const separator = getSeparator(wrapper)
+
+      // ArrowUp/ArrowDown belong to horizontal splitters; Space is unrelated
+      for (const keyCode of [38, 40, 32]) {
+        await separator.trigger('keydown', { keyCode })
+      }
+
+      expect(wrapper.emitted('update:modelValue')).toBeUndefined()
+    })
+
+    test('arrows step by 10px in "px" unit; End clamps to the container size', async () => {
+      const wrapper = mountSplitter({ unit: 'px', modelValue: 60 })
+      wrapper.element.getBoundingClientRect = () => ({
+        height: 200,
+        width: 200
+      })
+      const separator = getSeparator(wrapper)
+
+      await separator.trigger('keydown', { keyCode: 39 })
+      await separator.trigger('keydown', { keyCode: 35 })
+
+      expect(wrapper.emitted('update:modelValue')).toStrictEqual([[70], [200]])
+    })
+
+    test('does not emit when the splitter is already at the limit', async () => {
+      const wrapper = mountSplitter({ modelValue: 90 })
+
+      await getSeparator(wrapper).trigger('keydown', { keyCode: 39 })
+
+      expect(wrapper.emitted('update:modelValue')).toBeUndefined()
+    })
+  })
 })

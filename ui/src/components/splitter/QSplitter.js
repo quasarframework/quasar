@@ -5,9 +5,11 @@ import TouchPan from '../../directives/touch-pan/TouchPan.js'
 import useDark, {
   useDarkProps
 } from '../../composables/private.use-dark/use-dark.js'
+import useId from '../../composables/use-id/use-id.js'
 
 import { createComponent } from '../../utils/private.create/create.js'
 import { hDir, hMergeSlot, hSlot } from '../../utils/private.render/render.js'
+import { stopAndPrevent } from '../../utils/event/event.js'
 
 export default /*#__PURE__*/ createComponent({
   name: 'QSplitter',
@@ -60,6 +62,8 @@ export default /*#__PURE__*/ createComponent({
       before: ref(null),
       after: ref(null)
     }
+
+    const panelId = useId()
 
     const classes = computed(
       () =>
@@ -156,6 +160,73 @@ export default /*#__PURE__*/ createComponent({
       ]
     ])
 
+    const separatorAttrs = computed(() => {
+      const acc = {
+        role: 'separator',
+        'aria-orientation': props.horizontal ? 'horizontal' : 'vertical'
+      }
+
+      if (props.disable) {
+        acc['aria-disabled'] = 'true'
+      } else {
+        const limits = computedLimits.value
+
+        acc.tabindex = 0
+        acc['aria-controls'] = panelId.value
+        acc['aria-valuemin'] = limits[0]
+        if (limits[1] !== Infinity) {
+          acc['aria-valuemax'] = limits[1]
+        }
+        acc['aria-valuenow'] = Math.round(props.modelValue * 100) / 100
+      }
+
+      return acc
+    })
+
+    function onSeparatorKeydown(evt) {
+      const { keyCode } = evt
+      // 37 ArrowLeft, 39 ArrowRight (vertical splitter)
+      // 38 ArrowUp, 40 ArrowDown (horizontal splitter)
+      const arrowKeys = props.horizontal ? [38, 40] : [37, 39]
+
+      if (
+        keyCode !== 36 /* Home */ &&
+        keyCode !== 35 /* End */ &&
+        !arrowKeys.includes(keyCode)
+      ) {
+        return
+      }
+
+      stopAndPrevent(evt)
+
+      const limits = computedLimits.value
+      const maxValue =
+        props.unit === '%'
+          ? 100
+          : rootRef.value.getBoundingClientRect()[propName.value]
+
+      let val
+
+      if (keyCode === 36) {
+        val = limits[0]
+      } else if (keyCode === 35) {
+        val = limits[1]
+      } else {
+        const dir =
+          (keyCode === arrowKeys[0] ? -1 : 1) *
+          (props.reverse ? -1 : 1) *
+          (props.horizontal ? 1 : $q.lang.rtl ? -1 : 1)
+
+        val = props.modelValue + dir * (props.unit === '%' ? 1 : 10)
+      }
+
+      const normalized = Math.min(maxValue, limits[1], Math.max(limits[0], val))
+
+      if (normalized !== props.modelValue) {
+        emit('update:modelValue', normalized)
+      }
+    }
+
     function normalize(val, limits) {
       if (val < limits[0]) {
         emit('update:modelValue', limits[0])
@@ -186,6 +257,7 @@ export default /*#__PURE__*/ createComponent({
           'div',
           {
             ref: sideRefs.before,
+            id: side.value === 'before' ? panelId.value : void 0,
             class: [
               'q-splitter__panel q-splitter__before' +
                 (props.reverse ? ' col' : ''),
@@ -201,7 +273,8 @@ export default /*#__PURE__*/ createComponent({
           {
             class: ['q-splitter__separator', props.separatorClass],
             style: props.separatorStyle,
-            'aria-disabled': props.disable ? 'true' : void 0
+            ...separatorAttrs.value,
+            onKeydown: props.disable ? void 0 : onSeparatorKeydown
           },
           [
             hDir(
@@ -219,6 +292,7 @@ export default /*#__PURE__*/ createComponent({
           'div',
           {
             ref: sideRefs.after,
+            id: side.value === 'after' ? panelId.value : void 0,
             class: [
               'q-splitter__panel q-splitter__after' +
                 (props.reverse ? '' : ' col'),

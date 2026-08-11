@@ -33,6 +33,10 @@ Click and drag on the splitter separator bar to see results.
 
 <DocExample title="Custom dragging limits (50-100)" file="Limits" />
 
+### Keyboard navigation <q-badge label="v2.25+" />
+
+QSplitter follows the [WAI-ARIA window splitter pattern](https://www.w3.org/WAI/ARIA/apg/patterns/windowsplitter/): the separator bar is a Tab stop exposed to assistive technology as a `separator` with the model as its value. While it has focus, the arrow keys matching the splitter's orientation (left/right, or up/down when in `horizontal` mode) move it by 1% (or 10px when `unit` is set to pixels), while `Home`/`End` jump to the model's limits. Arrow keys account for the `reverse` prop and RTL language packs, so a given key always moves the separator in the direction it points to.
+
 ### Model units
 
 By default, the CSS `unit` used is '%' (percentage). But you can also use 'px' (pixels), as in the example below.
