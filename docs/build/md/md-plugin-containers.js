@@ -54,8 +54,11 @@ function htmlRenderFor(type) {
         : '</details>\n'
     }
 
+    // the title must not be a <p>: titles may hold block-level Quasar
+    // components (e.g. <q-badge>, a div), and the HTML parser auto-closes
+    // a <p> at the first block element, breaking SSR hydration
     return token.nesting === 1
-      ? `<div class="doc-note doc-note--${type}"><p class="doc-note__title">${title}</p>\n`
+      ? `<div class="doc-note doc-note--${type}"><div class="doc-note__title">${title}</div>\n`
       : '</div>\n'
   }
 }

@@ -4,7 +4,7 @@
 <h2 id="usage" class="doc-heading doc-h2" @click="copyHeading(`usage`)">Usage</h2>
 <h3 id="basic" class="doc-heading doc-h3" @click="copyHeading(`basic`)">Basic</h3>
 <DocPrerender title="Outside of a Vue file"><DocCode lang="js" :code="&quot;import { Notify } from \'quasar'\n\nNotify.create('Danger, Will Robinson! Danger!')\n// or with a config object:\nNotify.create({\n  message: 'Danger, Will Robinson! Danger!'\n})&quot;" /></DocPrerender><DocPrerender title="Inside of a Vue file"><DocCode lang="js" :code="&quot;import { useQuasar } from \'quasar'\n\nsetup () {\n  const $q = useQuasar()\n\n  $q.notify('Message')\n  // or with a config object:\n  $q.notify({...})\n}&quot;" /></DocPrerender><DocExample title="Basic" file="Basic" />
-<div class="doc-note doc-note--tip"><p class="doc-note__title">TIP</p>
+<div class="doc-note doc-note--tip"><div class="doc-note__title">TIP</div>
 <p>If you define any actions, the notification will automatically be dismissed when the user picks it.</p>
 </div>
 <h3 id="with-caption" class="doc-heading doc-h3" @click="copyHeading(`with-caption`)">With caption</h3>
@@ -19,7 +19,7 @@
 <DocExample title="Multiline" file="Multiline" />
 <h3 id="positioning" class="doc-heading doc-h3" @click="copyHeading(`positioning`)">Positioning</h3>
 <DocExample title="Positioning & different options" file="Positioning" />
-<div class="doc-note doc-note--tip"><p class="doc-note__title">TIP</p>
+<div class="doc-note doc-note--tip"><div class="doc-note__title">TIP</div>
 <p>For a full list of options, check the API section.</p>
 </div>
 <h3 id="grouping" class="doc-heading doc-h3" @click="copyHeading(`grouping`)">Grouping</h3>
@@ -52,7 +52,7 @@
 <p>First we create the boot file. Let’s name it “notify-defaults.js”.</p>
 <DocPrerender><DocCode lang="bash" :code="&quot;quasar new boot notify-defaults [--format ts]&quot;" /></DocPrerender><p>Add the created notify-defaults.js file to the boot array in the <code class="doc-token">/quasar.config</code> file:</p>
 <DocPrerender><DocCode lang="js" :code="&quot;import { defineConfig } from '#q-app'\n\nexport default defineConfig(ctx => {\n  return {\n    // ...\n    boot: ['notify-defaults']\n    // ...\n  }\n})&quot;" /></DocPrerender><p>We then edit the newly created <code class="doc-token">/src/boot/notify-defaults.js</code>:</p>
-<DocPrerender><DocCode lang="ts" :code="&quot;import { Notify } from \'quasar'\n\nNotify.setDefaults({\n  timeout: 2500,\n  textColor: 'white',\n  actions: [{ icon: 'close', color: 'white' }],\n  position: 'top-right'\n})&quot;" /></DocPrerender><div class="doc-note doc-note--warning"><p class="doc-note__title">WARNING</p>
+<DocPrerender><DocCode lang="ts" :code="&quot;import { Notify } from \'quasar'\n\nNotify.setDefaults({\n  timeout: 2500,\n  textColor: 'white',\n  actions: [{ icon: 'close', color: 'white' }],\n  position: 'top-right'\n})&quot;" /></DocPrerender><div class="doc-note doc-note--warning"><div class="doc-note__title">WARNING</div>
 <p>You can only set default <code class="doc-token">actions</code> through this method. Specifying <code class="doc-token">actions</code> with handlers in the <code class="doc-token">/quasar.config</code> file cannot and will NOT work.</p>
 </div>
 <p>We could also set the defaults in some Vue file:</p>

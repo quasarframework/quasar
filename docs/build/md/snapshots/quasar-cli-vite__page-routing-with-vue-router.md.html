@@ -3,13 +3,13 @@
 <li>“/src/router/index.js” holds the Vue Router initialization code</li>
 <li>“/src/router/routes.js” holds the routes of your website/app</li>
 </ul>
-<div class="doc-note doc-note--warning"><p class="doc-note__title">WARNING</p>
+<div class="doc-note doc-note--warning"><div class="doc-note__title">WARNING</div>
 <p>Quasar documentation assumes you are already familiar with <doc-link to="https://github.com/vuejs/vue-router">Vue Router</doc-link>. Below it’s described only the basics of how to make use of it in a Quasar CLI project. For the full list of its features please visit the <doc-link to="https://router.vuejs.org/">Vue Router documentation</doc-link>.</p>
 </div>
 <h2 id="basic-usage" class="doc-heading doc-h2" @click="copyHeading(`basic-usage`)">Basic Usage</h2>
 <p>The <code class="doc-token">/src/router/routes.js</code> needs to import your website/app’s Pages and Layouts. Read more on <doc-link to="/layout/routing-with-layouts-and-pages">Routing with Layouts and Pages</doc-link> documentation page.</p>
 <p>When using Pinia, the store is not directly importable from other scripts, but it is passed to the exported function of <code class="doc-token">/src/router/index.js</code>, so it can be accessed from there. For example you can use the <code class="doc-token">Router.beforeEach</code> method to check authentication in the router:</p>
-<DocPrerender title="/src/router.js"><DocCode lang="js" :code="&quot;import { defineRouter } from '#q-app'\n\nexport default defineRouter(({ store /*, ssrContext */ }) => {\n  // ...\n  const userStore = useUserStore(store)\n\n  Router.beforeEach((to, from) => {\n    if (\n      to.matched.some(record => record.meta.requiresAuth) &amp;&amp;\n      !userStore.isSignedIn\n    ) {\n      return { name: 'account-signin', query: { next: to.fullPath } }\n    }\n  })\n  // ...\n})&quot;" /></DocPrerender><div class="doc-note doc-note--tip"><p class="doc-note__title">TIP</p>
+<DocPrerender title="/src/router.js"><DocCode lang="js" :code="&quot;import { defineRouter } from '#q-app'\n\nexport default defineRouter(({ store /*, ssrContext */ }) => {\n  // ...\n  const userStore = useUserStore(store)\n\n  Router.beforeEach((to, from) => {\n    if (\n      to.matched.some(record => record.meta.requiresAuth) &amp;&amp;\n      !userStore.isSignedIn\n    ) {\n      return { name: 'account-signin', query: { next: to.fullPath } }\n    }\n  })\n  // ...\n})&quot;" /></DocPrerender><div class="doc-note doc-note--tip"><div class="doc-note__title">TIP</div>
 <p>If you are developing a SSR/SSG app, then you can check out the <doc-link to="/quasar-cli-vite/developing-ssr/ssr-context">ssrContext</doc-link> Object that gets supplied server-side.</p>
 </div>
 <h2 id="filename-based-routing" class="doc-heading doc-h2" @click="copyHeading(`filename-based-routing`)">Filename-Based Routing <q-badge label="Vue Router v5+" /></h2>
