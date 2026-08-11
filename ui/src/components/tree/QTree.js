@@ -629,6 +629,14 @@ export default /*#__PURE__*/ createComponent({
                   ? 'true'
                   : 'false'
                 : null,
+              'aria-checked':
+                m.hasTicking === true && m.noTick !== true
+                  ? m.indeterminate === true
+                    ? 'mixed'
+                    : m.ticked === true
+                      ? 'true'
+                      : 'false'
+                  : null,
               'aria-disabled': m.disabled === true ? 'true' : null,
               role: 'treeitem',
               onFocus() {
@@ -642,7 +650,16 @@ export default /*#__PURE__*/ createComponent({
                   if (e.keyCode === 13) {
                     onClick(node, m, e, true)
                   } else if (e.keyCode === 32) {
-                    onExpandClick(node, m, e, true)
+                    if (
+                      m.hasTicking === true &&
+                      m.noTick !== true &&
+                      m.tickable === true
+                    ) {
+                      stopAndPrevent(e)
+                      onTickedClick(m, m.ticked !== true)
+                    } else {
+                      onExpandClick(node, m, e, true)
+                    }
                   } else if (onNavigationKey(m, e.keyCode)) {
                     stopAndPrevent(e)
                   }
@@ -684,7 +701,10 @@ export default /*#__PURE__*/ createComponent({
                     dense: true,
                     keepColor: true,
                     disable: m.tickable !== true,
-                    onKeydown: stopAndPrevent,
+                    // a pointer affordance only -- keyboard ticking goes
+                    // through the header (Space), which carries aria-checked
+                    tabindex: -1,
+                    'aria-hidden': 'true',
                     'onUpdate:modelValue': v => {
                       onTickedClick(m, v)
                     }

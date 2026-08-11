@@ -1041,6 +1041,89 @@ describe('[QTree API]', () => {
       ])
     })
 
+    test('keeps the tickboxes out of the Tab order', () => {
+      const wrapper = mountNavTree({ tickStrategy: 'strict' })
+
+      for (const tickbox of getTickboxes(wrapper)) {
+        expect(tickbox.attributes('tabindex')).toBe('-1')
+        expect(tickbox.attributes('aria-hidden')).toBe('true')
+      }
+    })
+
+    test('does not trap Tab on a tickbox', () => {
+      const wrapper = mountNavTree({ tickStrategy: 'strict' })
+
+      const event = new KeyboardEvent('keydown', {
+        cancelable: true,
+        bubbles: true
+      })
+      Object.defineProperty(event, 'keyCode', { value: 9 })
+
+      getTickboxes(wrapper)[0].element.dispatchEvent(event)
+
+      expect(event.defaultPrevented).toBe(false)
+    })
+
+    test('toggles ticking with Space on a tickable node', async () => {
+      const wrapper = mountNavTree({
+        tickStrategy: 'strict',
+        ticked: [],
+        'onUpdate:ticked': () => {}
+      })
+
+      await keydown(getHeader(wrapper, 'Fruits'), 32)
+
+      expect(wrapper.emitted('update:ticked')).toStrictEqual([[['fruits']]])
+      // ticking replaces the expansion toggle
+      expect(getLabels(wrapper)).toStrictEqual(['Fruits', 'Bread'])
+    })
+
+    test('keeps Space as the expansion toggle on non-tickable nodes', async () => {
+      const wrapper = mountNavTree()
+
+      await keydown(getHeader(wrapper, 'Fruits'), 32)
+
+      expect(getLabels(wrapper)).toStrictEqual([
+        'Fruits',
+        'Apple',
+        'Banana',
+        'Bread'
+      ])
+    })
+
+    test('exposes the ticked state', async () => {
+      const wrapper = mountNavTree({
+        tickStrategy: 'leaf',
+        ticked: ['apple'],
+        'onUpdate:ticked': () => {},
+        defaultExpandAll: true
+      })
+
+      expect(getHeader(wrapper, 'Fruits').attributes('aria-checked')).toBe(
+        'mixed'
+      )
+      expect(getHeader(wrapper, 'Apple').attributes('aria-checked')).toBe(
+        'true'
+      )
+      expect(getHeader(wrapper, 'Banana').attributes('aria-checked')).toBe(
+        'false'
+      )
+
+      await wrapper.setProps({ ticked: ['apple', 'banana'] })
+
+      expect(getHeader(wrapper, 'Fruits').attributes('aria-checked')).toBe(
+        'true'
+      )
+    })
+
+    test('omits aria-checked without a tick strategy', () => {
+      const wrapper = mountNavTree()
+
+      expect(
+        getHeader(wrapper, 'Fruits').attributes('aria-checked')
+      ).toBeUndefined()
+    })
+
     test('exposes the expansion and selection state', async () => {
       const wrapper = mountNavTree()
 

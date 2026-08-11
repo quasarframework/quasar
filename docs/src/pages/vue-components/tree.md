@@ -23,7 +23,7 @@ When a tree node has focus:
 - `Arrow Right` expands a collapsed parent or moves focus to its first visible child.
 - `Arrow Left` collapses an expanded parent or moves focus to its parent.
 - `Home` and `End` move focus to the first and last visible nodes.
-- `Enter` performs the node's default action; `Space` toggles its expansion.
+- `Enter` performs the node's default action; `Space` toggles its expansion — or its checkbox, on tickable nodes (when using a `tick-strategy`).
 
 ### No connector lines
 
