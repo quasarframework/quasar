@@ -82,9 +82,12 @@ export default /*#__PURE__*/ createComponent({
     const targetUid = useId()
 
     const ariaAttrs = computed(() => {
+      // no aria-haspopup: its value must reflect the popup's ARIA role
+      // (WAI-ARIA; 'true' means role="menu") and the dropdown hosts
+      // arbitrary content — consumers set it through fall-through attrs
+      // when they give that content a matching role
       const acc = {
         'aria-expanded': showing.value ? 'true' : 'false',
-        'aria-haspopup': 'true',
         'aria-controls': targetUid.value,
         'aria-label':
           props.toggleAriaLabel ||

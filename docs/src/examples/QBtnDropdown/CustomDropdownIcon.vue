@@ -5,7 +5,7 @@
       label="Dropdown Button"
       dropdown-icon="change_history"
     >
-      <q-list>
+      <q-list role="menu">
         <q-item clickable v-close-popup @click="onItemClick">
           <q-item-section>
             <q-item-label>Photos</q-item-label>

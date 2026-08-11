@@ -41,7 +41,7 @@
           >Original parent</div
         >
         <q-menu touch-position :target="targetEl">
-          <q-list>
+          <q-list role="menu">
             <q-item v-for="n in 5" :key="n" v-close-popup clickable>
               <q-item-section>Label</q-item-section>
             </q-item>

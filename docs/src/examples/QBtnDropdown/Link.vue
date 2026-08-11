@@ -7,7 +7,7 @@
       rounded
       label="Go to Docs Index"
     >
-      <q-list>
+      <q-list role="menu">
         <q-item clickable v-close-popup>
           <q-item-section>
             <q-item-label>Photos</q-item-label>

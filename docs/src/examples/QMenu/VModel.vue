@@ -12,7 +12,7 @@
       Click me
 
       <q-menu v-model="showing">
-        <q-list style="min-width: 100px">
+        <q-list role="menu" style="min-width: 100px">
           <q-item clickable v-close-popup>
             <q-item-section>New tab</q-item-section>
           </q-item>

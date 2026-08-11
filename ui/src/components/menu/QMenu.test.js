@@ -1175,6 +1175,22 @@ describe('[QMenu API]', () => {
   })
 
   describe('[Accessibility]', () => {
+    test('claims no ARIA role by default, forwards a declared one', async () => {
+      // the popup hosts arbitrary content, so it must not claim
+      // role="menu" (WAI-ARIA allows only menuitem* children in it)
+      const wrapper = mountMenu()
+      await showMenu(wrapper)
+
+      expect(getMenu().hasAttribute('role')).toBe(false)
+
+      wrapper.unmount()
+
+      const roleWrapper = mountMenu({ role: 'menu' })
+      await showMenu(roleWrapper)
+
+      expect(getMenu().getAttribute('role')).toBe('menu')
+    })
+
     async function mountMenuInDialog(dialogProps) {
       activeWrapper = mount(
         defineComponent({

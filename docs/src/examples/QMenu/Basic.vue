@@ -3,7 +3,7 @@
     <div class="q-gutter-md">
       <q-btn color="primary" label="Basic Menu">
         <q-menu>
-          <q-list style="min-width: 100px">
+          <q-list role="menu" style="min-width: 100px">
             <q-item clickable v-close-popup>
               <q-item-section>New tab</q-item-section>
             </q-item>
@@ -36,7 +36,7 @@
 
       <q-btn color="secondary" label="Auto-Close Menu">
         <q-menu auto-close>
-          <q-list style="min-width: 100px">
+          <q-list role="menu" style="min-width: 100px">
             <q-item clickable>
               <q-item-section>New tab</q-item-section>
             </q-item>
@@ -76,7 +76,7 @@
         </div>
 
         <q-menu touch-position>
-          <q-list style="min-width: 100px">
+          <q-list role="menu" style="min-width: 100px">
             <q-item clickable v-close-popup>
               <q-item-section>Branches</q-item-section>
             </q-item>

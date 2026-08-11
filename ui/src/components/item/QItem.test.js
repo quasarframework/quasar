@@ -1,8 +1,10 @@
 import { flushPromises, mount } from '@vue/test-utils'
+import { h } from 'vue'
 import { describe, expect, test, vi } from 'vitest'
 
 import { getRouter } from 'testing/runtime/router.js'
 import QItem from './QItem.js'
+import QList from './QList.js'
 
 describe('[QItem API]', () => {
   describe('[Props]', () => {
@@ -224,7 +226,7 @@ describe('[QItem API]', () => {
         const wrapper = mount(QItem)
         const target = wrapper.get('.q-item')
 
-        expect(target.attributes('role')).toBe('listitem')
+        expect(target.attributes('role')).toBeUndefined()
 
         await wrapper.setProps({ clickable: true })
 
@@ -282,6 +284,23 @@ describe('[QItem API]', () => {
         })
 
         expect(wrapper.get('.q-item').attributes('tabindex')).toBe('-1')
+      })
+    })
+
+    describe('[(prop)role]', () => {
+      test('type String has effect', async () => {
+        const wrapper = mount(QItem, {
+          props: { clickable: true, role: 'menuitemcheckbox' }
+        })
+
+        const target = wrapper.get('.q-item')
+
+        expect(target.attributes('role')).toBe('menuitemcheckbox')
+
+        await wrapper.setProps({ role: 'option' })
+        await flushPromises()
+
+        expect(target.attributes('role')).toBe('option')
       })
     })
 
@@ -396,6 +415,46 @@ describe('[QItem API]', () => {
       await target.trigger('keyup', { keyCode: 13 })
 
       expect(wrapper.emitted('click')).toHaveLength(1)
+    })
+
+    test('derives its default ARIA role from the wrapping QList', () => {
+      const mountInList = (listProps, itemProps) =>
+        mount(QList, {
+          props: listProps,
+          slots: { default: () => h(QItem, itemProps) }
+        }).get('.q-item')
+
+      // the listitem role requires a list ancestor (WAI-ARIA),
+      // so only a default-role QList grants it
+      expect(mountInList({}, {}).attributes('role')).toBe('listitem')
+      expect(mount(QItem).get('.q-item').attributes('role')).toBeUndefined()
+
+      // role="menu" allows only menuitem* children (WAI-ARIA):
+      // actionable items become menuitems, the rest stays generic
+      const menu = { role: 'menu' }
+      expect(mountInList(menu, { clickable: true }).attributes('role')).toBe(
+        'menuitem'
+      )
+      expect(
+        mountInList(menu, { clickable: true, disable: true }).attributes('role')
+      ).toBe('menuitem')
+      expect(
+        mountInList(menu, { href: 'https://quasar.dev' }).attributes('role')
+      ).toBe('menuitem')
+      expect(mountInList(menu, {}).attributes('role')).toBeUndefined()
+
+      // a per-item role always wins over the derived one
+      expect(
+        mountInList(menu, {
+          clickable: true,
+          role: 'menuitemradio'
+        }).attributes('role')
+      ).toBe('menuitemradio')
+
+      // any other list role stops items from claiming a default role
+      expect(
+        mountInList({ role: 'listbox' }, {}).attributes('role')
+      ).toBeUndefined()
     })
   })
 })

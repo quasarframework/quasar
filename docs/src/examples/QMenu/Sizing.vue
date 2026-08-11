@@ -3,7 +3,7 @@
     <div class="q-gutter-md">
       <q-btn color="accent" label="Fit Menu" style="width: 280px">
         <q-menu fit>
-          <q-list style="min-width: 100px">
+          <q-list role="menu" style="min-width: 100px">
             <q-item clickable>
               <q-item-section>New tab</q-item-section>
             </q-item>
@@ -36,7 +36,7 @@
 
       <q-btn color="brown" label="Max Height Menu">
         <q-menu max-height="130px">
-          <q-list style="min-width: 100px">
+          <q-list role="menu" style="min-width: 100px">
             <q-item clickable>
               <q-item-section>New tab</q-item-section>
             </q-item>
@@ -69,7 +69,7 @@
 
       <q-btn color="indigo" label="Max Width Menu">
         <q-menu max-width="80px">
-          <q-list style="min-width: 100px">
+          <q-list role="menu" style="min-width: 100px">
             <q-item clickable>
               <q-item-section>
                 <q-item-label lines="1">New tab</q-item-label>

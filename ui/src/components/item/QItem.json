@@ -38,6 +38,14 @@
       "extends": "tabindex"
     },
 
+    "role": {
+      "type": "String",
+      "desc": "Overrides the ARIA role that the item derives from its context: 'menuitem' when the wrapping QList has a 'menu'/'menubar' role (actionable items only), 'button' when clickable, 'listitem' when non-interactive inside a default QList, none otherwise",
+      "examples": ["'menuitem'", "'menuitemcheckbox'", "'option'"],
+      "category": "accessibility",
+      "addedIn": "v2.25"
+    },
+
     "tag": {
       "extends": "tag",
       "desc": "HTML tag to render; Suggestion: use 'label' when encapsulating a QCheckbox/QRadio/QToggle so that when user clicks/taps on the whole item it will trigger a model change for the mentioned components",

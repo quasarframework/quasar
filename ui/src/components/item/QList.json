@@ -33,6 +33,14 @@
       "default": "'div'",
       "examples": ["'div'", "'ul'", "'ol'"],
       "addedIn": "v2.10.1"
+    },
+
+    "role": {
+      "type": "String",
+      "desc": "Overrides the default 'list' ARIA role; Contained QItems derive their own default role from it: with 'menu'/'menubar' the actionable items become 'menuitem's, while any other value stops the non-actionable items from claiming 'listitem'",
+      "examples": ["'menu'", "'listbox'", "'none'"],
+      "category": "accessibility",
+      "addedIn": "v2.25"
     }
   },
 

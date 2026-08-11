@@ -2,7 +2,7 @@
   <div class="q-pa-md">
     <q-btn color="primary" label="Persistent Menu">
       <q-menu persistent auto-close>
-        <q-list style="min-width: 100px">
+        <q-list role="menu" style="min-width: 100px">
           <q-item clickable>
             <q-item-section>New tab</q-item-section>
           </q-item>

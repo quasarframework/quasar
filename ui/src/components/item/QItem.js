@@ -1,4 +1,4 @@
-import { computed, getCurrentInstance, h, ref } from 'vue'
+import { computed, getCurrentInstance, h, inject, ref } from 'vue'
 
 import useDark, {
   useDarkProps
@@ -8,6 +8,7 @@ import useRouterLink, {
 } from '../../composables/private.use-router-link/use-router-link.js'
 
 import { createComponent } from '../../utils/private.create/create.js'
+import { listKey } from '../../utils/private.symbols/symbols.js'
 import { hUniqueSlot } from '../../utils/private.render/render.js'
 import { stopAndPrevent } from '../../utils/event/event.js'
 import { isKeyCode } from '../../utils/private.keyboard/key-composition.js'
@@ -32,6 +33,8 @@ export default /*#__PURE__*/ createComponent({
     clickable: Boolean,
     dense: Boolean,
     insetLevel: Number,
+
+    role: String,
 
     tabindex: [String, Number],
 
@@ -58,6 +61,28 @@ export default /*#__PURE__*/ createComponent({
     )
 
     const isClickable = computed(() => !props.disable && isActionable.value)
+
+    const listRole = inject(listKey, null)
+
+    const role = computed(() => {
+      if (props.role !== void 0) return props.role
+
+      const ctx = listRole !== null ? listRole.value : null
+
+      if (ctx === 'menu' || ctx === 'menubar') {
+        // actionable entries (including disabled ones, which stay
+        // perceivable through aria-disabled) are the menu's items;
+        // anything else (headers, ...) stays generic
+        return isActionable.value ? 'menuitem' : void 0
+      }
+
+      if (hasLink.value) return void 0 // implicit link role of <a>
+      if (isClickable.value) return 'button'
+
+      // the listitem role requires an ancestor with list semantics,
+      // so it may only be claimed inside such a QList
+      return ctx === 'list' ? 'listitem' : void 0
+    })
 
     const classes = computed(
       () =>
@@ -143,11 +168,7 @@ export default /*#__PURE__*/ createComponent({
         ref: rootRef,
         class: classes.value,
         style: style.value,
-        role: hasLink.value
-          ? void 0
-          : isClickable.value
-            ? 'button'
-            : 'listitem',
+        role: role.value,
         // bound regardless of clickability: bubbled key events from
         // inner content emit "keyup" as part of the public contract
         onKeyup

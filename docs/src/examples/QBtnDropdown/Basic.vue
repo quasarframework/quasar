@@ -1,7 +1,7 @@
 <template>
   <div class="q-pa-md">
     <q-btn-dropdown color="primary" label="Dropdown Button">
-      <q-list>
+      <q-list role="menu">
         <q-item clickable v-close-popup @click="onItemClick">
           <q-item-section>
             <q-item-label>Photos</q-item-label>

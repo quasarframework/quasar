@@ -452,7 +452,9 @@ export default /*#__PURE__*/ createComponent({
           ? h(
               'div',
               {
-                role: 'menu',
+                // no default ARIA role: the popup hosts arbitrary content,
+                // while role="menu" only allows menuitem* children (WAI-ARIA);
+                // consumers declare a role through fall-through attrs
                 ...attrs,
                 ref: innerRef,
                 tabindex: -1,

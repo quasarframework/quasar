@@ -1422,4 +1422,22 @@ describe('[QBtnDropdown API]', () => {
       })
     })
   })
+
+  describe('[Accessibility]', () => {
+    test('exposes the popup through the disclosure pattern', async () => {
+      const wrapper = mountBtnDropdown()
+      const toggle = getRoot(wrapper)
+
+      // the popup holds arbitrary content without a default ARIA role,
+      // so aria-haspopup (whose value names the popup's role; 'true'
+      // means role="menu") must not be claimed by default
+      expect(toggle.attributes('aria-haspopup')).toBeUndefined()
+      expect(toggle.attributes('aria-expanded')).toBe('false')
+
+      await showMenu(wrapper)
+
+      expect(toggle.attributes('aria-expanded')).toBe('true')
+      expect(toggle.attributes('aria-controls')).toBe(getMenu().id)
+    })
+  })
 })

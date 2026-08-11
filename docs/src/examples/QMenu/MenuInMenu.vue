@@ -3,7 +3,7 @@
     <div class="q-gutter-md row items-center">
       <q-btn color="primary" label="Click me">
         <q-menu>
-          <q-list dense style="min-width: 100px">
+          <q-list role="menu" dense style="min-width: 100px">
             <q-item clickable v-close-popup>
               <q-item-section>Open...</q-item-section>
             </q-item>
@@ -18,14 +18,14 @@
               </q-item-section>
 
               <q-menu anchor="top end" self="top start">
-                <q-list>
+                <q-list role="menu">
                   <q-item v-for="n in 3" :key="n" dense clickable>
                     <q-item-section>Submenu Label</q-item-section>
                     <q-item-section side>
                       <q-icon name="keyboard_arrow_right" />
                     </q-item-section>
                     <q-menu auto-close anchor="top end" self="top start">
-                      <q-list>
+                      <q-list role="menu">
                         <q-item v-for="n in 3" :key="n" dense clickable>
                           <q-item-section>3rd level Label</q-item-section>
                         </q-item>
@@ -50,7 +50,7 @@
         <div class="cursor-pointer non-selectable">
           File
           <q-menu>
-            <q-list dense style="min-width: 100px">
+            <q-list role="menu" dense style="min-width: 100px">
               <q-item clickable v-close-popup>
                 <q-item-section>Open...</q-item-section>
               </q-item>
@@ -65,14 +65,14 @@
                 </q-item-section>
 
                 <q-menu anchor="top end" self="top start">
-                  <q-list dense>
+                  <q-list role="menu" dense>
                     <q-item v-for="n in 3" :key="n" clickable>
                       <q-item-section>Submenu Label</q-item-section>
                       <q-item-section side>
                         <q-icon name="keyboard_arrow_right" />
                       </q-item-section>
                       <q-menu auto-close anchor="top end" self="top start">
-                        <q-list dense>
+                        <q-list role="menu" dense>
                           <q-item v-for="n in 3" :key="n" clickable>
                             <q-item-section>3rd level Label</q-item-section>
                           </q-item>
@@ -92,7 +92,7 @@
         <div class="cursor-pointer non-selectable"
           >Edit
           <q-menu>
-            <q-list dense style="min-width: 100px">
+            <q-list role="menu" dense style="min-width: 100px">
               <q-item clickable v-close-popup>
                 <q-item-section>Cut</q-item-section>
               </q-item>

@@ -147,6 +147,29 @@ describe('[QList API]', () => {
         expect(target.element.tagName.toLowerCase()).toBe('div')
       })
     })
+
+    describe('[(prop)role]', () => {
+      test('type String has effect', async () => {
+        const wrapper = mount(QList)
+
+        const target = wrapper.get('.q-list')
+
+        expect(target.attributes('role')).toBe('list')
+
+        await wrapper.setProps({ role: 'menu' })
+        await flushPromises()
+
+        expect(target.attributes('role')).toBe('menu')
+      })
+
+      test('overrides the implicit list role of a ul/ol tag', () => {
+        const wrapper = mount(QList, { props: { tag: 'ul', role: 'menu' } })
+
+        const target = wrapper.get('.q-list')
+
+        expect(target.attributes('role')).toBe('menu')
+      })
+    })
   })
 
   describe('[Slots]', () => {

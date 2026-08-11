@@ -35,3 +35,17 @@ In case you are looking for a dropdown "input" instead of "button" use [Select](
 The following example won't work with UMD version (so in Codepen/jsFiddle too) because it relies on the existence of Vue Router.
 
 <DocExample title="Split and router link on main" file="Link" no-edit />
+
+## Accessibility <q-badge label="v2.25+" />
+
+The toggle button follows the [WAI-ARIA disclosure pattern](https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/): it exposes `aria-expanded` plus `aria-controls` and deliberately claims no `aria-haspopup` — that attribute's value must name the popup's ARIA role, and the dropdown content (which has no default role) can be anything. If you give the content an actual role, mirror it on the button yourself — for instance `aria-haspopup="menu"` when declaring `role="menu"` on a wrapped [QList](/vue-components/list-and-list-items) (see [QMenu's Accessibility section](/vue-components/menu#accessibility)):
+
+```html
+<q-btn-dropdown label="Actions" aria-haspopup="menu">
+  <q-list role="menu">
+    <!-- clickable QItems become menuitems automatically -->
+  </q-list>
+</q-btn-dropdown>
+```
+
+Note that in `split` mode the fall-through attributes land on the wrapping button group rather than on the toggle button, so the technique above applies to the regular (non-split) design only.

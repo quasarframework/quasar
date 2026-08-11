@@ -10,7 +10,7 @@
       label="Dropdown Button"
       @click="onMainClick"
     >
-      <q-list>
+      <q-list role="menu">
         <q-item clickable v-close-popup @click="onItemClick">
           <q-item-section avatar>
             <q-avatar icon="folder" color="primary" text-color="white" />

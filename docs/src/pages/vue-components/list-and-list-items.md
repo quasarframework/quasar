@@ -95,3 +95,18 @@ You can use QItems together with Vue Router through `<router-link>` properties b
 You can also delay, cancel or redirect navigation, as seen below. For a more in-depth description of the `@click` event being used below, please refer to QItem API card at the top of the page.
 
 <DocExample title="Links with delayed, cancelled or redirected navigation (v2.9+)" file="LinksWithGo" no-edit />
+
+## Accessibility <q-badge label="v2.25+" />
+
+QList exposes itself with the [WAI-ARIA `list` role](https://www.w3.org/TR/wai-aria-1.2/#list) by default (implicitly so when rendered as `ul`/`ol` through the `tag` prop) and the `role` prop overrides that. Each QItem derives its default role from the QList wrapping it:
+
+| QItem                      | inside default QList   | inside QList with `role="menu"`/`"menubar"` | outside QList / other QList `role` |
+| -------------------------- | ---------------------- | ------------------------------------------- | ---------------------------------- |
+| with `clickable` or a link | `button` / native link | `menuitem`                                  | `button` / native link             |
+| non-interactive            | `listitem`             | none                                        | none                               |
+
+This keeps the produced markup valid: ARIA's `list` may only own `listitem` children (which in turn require a list parent, so a standalone QItem claims no role), while `menu`/`menubar` may only own `menuitem`-type entries — declaring the role once on the QList is enough, as in the "Basic" example of [QMenu's Accessibility section](/vue-components/menu#accessibility). The `role` prop on QItem overrides the derived role for a single item (e.g. `menuitemcheckbox`/`menuitemradio` for toggle entries — managing `aria-checked` is then up to you).
+
+::: warning
+A list made up of only interactive items has no valid claim to the `list` role — such a container owns no `listitem` children. Declare what it actually is: `role="menu"` if it pops up as a list of commands, or `role="none"` to keep the items (announced as buttons/links) without list semantics.
+:::

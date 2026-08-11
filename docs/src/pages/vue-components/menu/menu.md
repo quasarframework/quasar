@@ -9,7 +9,7 @@ related:
   - /vue-components/popup-proxy
 ---
 
-The QMenu component is a convenient way to show menus. Goes very well with [QList](/vue-components/list-and-list-items) as dropdown content, but it's by no means limited to it.
+The QMenu component is a convenient way to show menus. Goes very well with [QList](/vue-components/list-and-list-items) as dropdown content, but it's by no means limited to it. When the content is indeed a list of actions, declare it through `role="menu"` on the QList — see [Accessibility](#accessibility).
 
 <DocApi file="QMenu" />
 
@@ -56,10 +56,6 @@ If you want the QMenu to not close if app route changes or if hitting ESCAPE key
 
 <DocExample title="Persistent" file="Persistent" />
 
-### Keyboard navigation <q-badge label="v2.25+" />
-
-Since the menu renders next to the end of the page, letting <kbd>Tab</kbd> walk past its last focusable element (or <kbd>Shift</kbd> + <kbd>Tab</kbd> before its first one) would drop keyboard focus out of the page. Following the [WAI-ARIA APG](https://www.w3.org/WAI/ARIA/apg/patterns/menu-button/), the menu instead closes and focus continues from its anchor, just like <kbd>Escape</kbd> closes it while returning focus to the anchor. Tabbing between multiple focusable elements _inside_ the menu works as usual, and a `persistent` menu opts out of this dismissal too.
-
 ### Transitions
 
 In the example below there's a few transitions showcased. For a full list of transitions available, go to [Transitions](/options/transitions).
@@ -90,3 +86,19 @@ import MenuPositioning from './MenuPositioning.vue'
 </script>
 
 <MenuPositioning />
+
+## Accessibility
+
+### Semantics <q-badge label="v2.25+" />
+
+QMenu renders as a plain positioned container, deliberately claiming no ARIA role of its own: it can host any kind of content, while the [WAI-ARIA `menu` role](https://www.w3.org/TR/wai-aria-1.2/#menu) permits nothing but menu items as children — a form, a date picker or a list would all become invalid markup under it.
+
+So when the popup content really is a menu — a list of commands — declare it as such by setting `role="menu"` on the wrapping [QList](/vue-components/list-and-list-items). The contained QItems then adapt automatically: actionable ones (clickable or link items, including disabled ones) expose themselves as `menuitem`, anything else (section headers etc.) stays neutral, and QSeparator already announces itself as a separator. An individual item can override its derived role — for instance with `role="menuitemcheckbox"` or `role="menuitemradio"` for toggle entries, in which case managing `aria-checked` is up to you. The "Basic" example above shows the declaration.
+
+If you attach a role to the QMenu container itself instead (it forwards any `role` you pass), make sure its entire content satisfies that role's requirements.
+
+### Keyboard navigation <q-badge label="v2.25+" />
+
+Since the menu renders next to the end of the page, letting <kbd>Tab</kbd> walk past its last focusable element (or <kbd>Shift</kbd> + <kbd>Tab</kbd> before its first one) would drop keyboard focus out of the page. Following the [WAI-ARIA APG](https://www.w3.org/WAI/ARIA/apg/patterns/menu-button/), the menu instead closes and focus continues from its anchor, just like <kbd>Escape</kbd> closes it while returning focus to the anchor. Tabbing between multiple focusable elements _inside_ the menu works as usual, and a `persistent` menu opts out of this dismissal too.
+
+Note that focusable menu items are plain Tab stops — QMenu does not (yet) provide the Arrow-key navigation that the [APG menu pattern](https://www.w3.org/WAI/ARIA/apg/patterns/menu-button/) describes for `role="menu"` content.
