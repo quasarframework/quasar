@@ -100,6 +100,20 @@ describe('[quasar-config-file.js] read()', () => {
     expect(conf.metaConf.hasTypescript).toBe(false)
   })
 
+  test('capacitor dev: CLI preparation params + iosBuildScheme defaults', async () => {
+    const conf = await readConf({
+      mode: 'capacitor',
+      dev: true,
+      target: 'android'
+    })
+
+    expect(conf.capacitor.capacitorCliPreparationParams).toEqual([
+      'sync',
+      'android'
+    ])
+    expect(conf.capacitor.iosBuildScheme).toBe('App')
+  })
+
   test('devServer.host: true is normalized to 0.0.0.0', async () => {
     const conf = await readConf({ mode: 'spa', dev: true }, { host: true })
 

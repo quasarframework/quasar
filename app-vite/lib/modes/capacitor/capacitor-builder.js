@@ -80,19 +80,30 @@ export class QuasarModeBuilder extends AppBuilder {
 
   async #buildIos() {
     const buildType = this.quasarConf.metaConf.debugging ? 'debug' : 'release'
-    const workspaceArg = fse.existsSync(
-      this.ctx.appPaths.resolve.capacitor('ios/App/App.xcworkspace')
+    // the scheme (and workspace file) follow the Xcode project name,
+    // which users may have renamed from the default "App"
+    const scheme = this.quasarConf.capacitor.iosBuildScheme
+    const workspaceArgs = fse.existsSync(
+      this.ctx.appPaths.resolve.capacitor(`ios/App/${scheme}.xcworkspace`)
     )
-      ? ' -workspace App.xcworkspace'
-      : ''
-
-    const args = `xcodebuild${workspaceArg} -scheme App -configuration ${buildType} -derivedDataPath`
+      ? ['-workspace', `${scheme}.xcworkspace`]
+      : []
 
     log('Building iOS app...')
 
     await spawnSync(
       'xcrun',
-      [...args.split(' '), this.#packagedDir, ...this.argv._],
+      [
+        'xcodebuild',
+        ...workspaceArgs,
+        '-scheme',
+        scheme,
+        '-configuration',
+        buildType,
+        '-derivedDataPath',
+        this.#packagedDir,
+        ...this.argv._
+      ],
       { cwd: this.ctx.appPaths.resolve.capacitor('ios/App') },
       () => {
         console.log()

@@ -164,6 +164,15 @@ return {
      * @default [ 'sync', ctx.targetName ]
      */
     capacitorCliPreparationParams?: string[];
+
+    /**
+     * The Xcode scheme (and .xcworkspace file name) used when building
+     * for iOS from the CLI. Set it if you renamed the default "App"
+     * in Xcode.
+     *
+     * @default 'App'
+     */
+    iosBuildScheme?: string;
   }
 }
 ```

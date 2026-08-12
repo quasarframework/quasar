@@ -1341,14 +1341,15 @@ export class QuasarConfigFile {
     // make sure we have preFetch in config
     cfg.preFetch ||= false
 
-    if (
-      this.#ctx.mode.capacitor &&
-      cfg.capacitor.capacitorCliPreparationParams.length === 0
-    ) {
-      cfg.capacitor.capacitorCliPreparationParams = [
-        'sync',
-        this.#ctx.targetName
-      ]
+    if (this.#ctx.mode.capacitor) {
+      if (cfg.capacitor.capacitorCliPreparationParams.length === 0) {
+        cfg.capacitor.capacitorCliPreparationParams = [
+          'sync',
+          this.#ctx.targetName
+        ]
+      }
+
+      cfg.capacitor.iosBuildScheme ||= 'App'
     }
 
     if (this.#ctx.mode.ssr) {
