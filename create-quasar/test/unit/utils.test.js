@@ -206,6 +206,37 @@ describe('[utils.js]', () => {
     })
   })
 
+  describe('createTargetDir()', () => {
+    const rootDir = mkdtempSync(join(tmpdir(), 'create-quasar-target-'))
+
+    afterAll(() => {
+      rmSync(rootDir, { recursive: true, force: true })
+    })
+
+    test('creates a missing project folder', () => {
+      const projectFolder = join(rootDir, 'fresh')
+
+      utils.createTargetDir({ projectFolder, overwrite: false })
+
+      expect(existsSync(projectFolder)).toBe(true)
+    })
+
+    test('overwrite empties the folder but keeps .git', () => {
+      const projectFolder = join(rootDir, 'overwrite')
+      mkdirSync(join(projectFolder, '.git'), { recursive: true })
+      writeFileSync(join(projectFolder, '.git', 'HEAD'), 'ref: main')
+      mkdirSync(join(projectFolder, 'src'))
+      writeFileSync(join(projectFolder, 'src', 'index.js'), '')
+      writeFileSync(join(projectFolder, 'README.md'), '')
+
+      utils.createTargetDir({ projectFolder, overwrite: true })
+
+      expect(existsSync(join(projectFolder, '.git', 'HEAD'))).toBe(true)
+      expect(existsSync(join(projectFolder, 'src'))).toBe(false)
+      expect(existsSync(join(projectFolder, 'README.md'))).toBe(false)
+    })
+  })
+
   describe('initializeGit()', () => {
     const rootDir = mkdtempSync(join(tmpdir(), 'create-quasar-git-'))
 

@@ -1,14 +1,9 @@
-import { readFileSync, writeFileSync } from 'node:fs'
+import { readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 import { dirname, extname, join, resolve } from 'node:path'
 import { execSync as exec } from 'node:child_process'
 import { sync as spawnSync } from 'cross-spawn'
-import {
-  copySync,
-  emptyDirSync,
-  ensureDirSync,
-  ensureFileSync
-} from 'fs-extra/esm'
+import { copySync, ensureDirSync, ensureFileSync } from 'fs-extra/esm'
 import { globSync } from 'tinyglobby'
 import {
   box,
@@ -95,8 +90,20 @@ async function promptUser(
 }
 
 function createTargetDir(scope) {
-  const fn = scope.overwrite ? emptyDirSync : ensureDirSync
-  fn(scope.projectFolder)
+  ensureDirSync(scope.projectFolder)
+
+  if (scope.overwrite) {
+    // like fs-extra's emptyDirSync, but preserving the .git folder:
+    // the user chose to overwrite their files, not to lose repo history
+    for (const entry of readdirSync(scope.projectFolder)) {
+      if (entry !== '.git') {
+        rmSync(join(scope.projectFolder, entry), {
+          recursive: true,
+          force: true
+        })
+      }
+    }
+  }
 }
 
 function convertArrayToObject(arr) {
