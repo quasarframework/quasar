@@ -96,9 +96,11 @@ export default /*#__PURE__*/ createComponent({
               return { none: true }
             }
           } else {
+            const content = res.content !== void 0 ? res.content : ' '
             return {
               cls: res.cls,
-              content: res.content !== void 0 ? res.content : ' '
+              content,
+              ligature: content.trim().length !== 0
             }
           }
         }
@@ -177,7 +179,10 @@ export default /*#__PURE__*/ createComponent({
 
       return {
         cls,
-        content
+        content,
+        // ligature sets (material icons/symbols) carry the icon name as
+        // real text content; class-based sets only a placeholder space
+        ligature: content !== ' '
       }
     })
 
@@ -236,7 +241,19 @@ export default /*#__PURE__*/ createComponent({
         data.class += ' ' + type.value.cls
       }
 
-      return h(props.tag, data, hMergeSlot(slots.default, [type.value.content]))
+      return h(
+        props.tag,
+        data,
+        hMergeSlot(slots.default, [
+          // ligature text is rendered as a glyph, so it must not surface
+          // in the accessibility tree, where it would compete with the
+          // aria-label of interactive icons (WCAG 2.5.3); the placeholder
+          // space of class-based sets is accname-inert and stays unwrapped
+          type.value.ligature === true
+            ? h('span', { 'aria-hidden': 'true' }, type.value.content)
+            : type.value.content
+        ])
+      )
     }
   }
 })

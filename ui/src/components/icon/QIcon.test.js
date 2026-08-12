@@ -96,4 +96,37 @@ describe('[QIcon API]', () => {
       })
     })
   })
+
+  describe('[Accessibility]', () => {
+    test('keeps the ligature text out of the accessibility tree', () => {
+      // an interactive icon (e.g. a clearable field's action) overrides
+      // aria-hidden and carries its own accessible name
+      const wrapper = mount(QIcon, {
+        props: { name: 'cancel' },
+        attrs: {
+          'aria-hidden': 'false',
+          role: 'button',
+          'aria-label': 'Clear'
+        }
+      })
+
+      expect(wrapper.attributes('aria-hidden')).toBe('false')
+
+      // the glyph text lives in an aria-hidden wrapper, so the
+      // aria-label stays the control's only accessible text
+      const ligature = wrapper.get('span[aria-hidden="true"]')
+      expect(ligature.text()).toBe('cancel')
+    })
+
+    test('renders class-based webfont icons without a ligature wrapper', () => {
+      // class-based sets have no real text content (placeholder space
+      // only), which is accname-inert -- no wrapper element needed
+      const wrapper = mount(QIcon, {
+        props: { name: 'mdi-close' }
+      })
+
+      expect(wrapper.classes()).toContain('mdi')
+      expect(wrapper.find('span').exists()).toBe(false)
+    })
+  })
 })

@@ -669,4 +669,6 @@ And also add "my-app-icon.woff2" and "my-app-icon.woff" files into the same fold
 
 Every QIcon renders with `aria-hidden="true"` — icons are treated as decorative by default, and this includes webfont ligature text (a screen reader never reads out "home"). For the rare standalone icon that carries meaning of its own, override through attributes: `aria-hidden="false"` together with `role="img"` and an `aria-label`.
 
+For ligature-based sets (Material Icons and Material Symbols), the ligature text itself is additionally wrapped in its own `aria-hidden` element, so even an icon acting as an interactive control (like the clear action of a `clearable` field, which overrides `aria-hidden` and carries `role="button"` with an `aria-label`) never exposes the raw ligature (e.g. "cancel") as content competing with its accessible name (WCAG 2.5.3). Class-based sets (FontAwesome, MDI, etc.) render no real text content, so they need — and get — no wrapper.
+
 An icon inside a button or link contributes nothing to that control's accessible name — label the control itself (e.g. `aria-label` on the QBtn) rather than the icon.
