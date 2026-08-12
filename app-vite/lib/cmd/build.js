@@ -156,20 +156,6 @@ appBuilder
     fatal('App build failed (check the log above)', 'FAIL')
   })
   .then(async signal => {
-    if (signal !== void 0) {
-      const { SIGNALS } = await import('../utils/signals.js')
-      if (signal === SIGNALS.BUILD_EXTERNAL_TOOL_SPAWNED) {
-        const { platform } = await import('node:process')
-
-        // We simply return and let Windows be able to
-        // spawn the external tool (requires extra time)
-        if (platform === 'win32') return
-        // Otherwise, we force exit the process.
-        // See process.exit(0) at the end of this then() for the explanation.
-        process.exit(0)
-      }
-    }
-
     if (argv.mode === 'cordova') {
       const { join } = await import('node:path')
       outputFolder = join(outputFolder, '..')
@@ -184,6 +170,20 @@ appBuilder
         target: quasarConf.build.target
       }
     })
+
+    if (signal !== void 0) {
+      const { SIGNALS } = await import('../utils/signals.js')
+      if (signal === SIGNALS.BUILD_EXTERNAL_TOOL_SPAWNED) {
+        const { platform } = await import('node:process')
+
+        // We simply return and let Windows be able to
+        // spawn the external tool (requires extra time)
+        if (platform === 'win32') return
+        // Otherwise, we force exit the process.
+        // See process.exit(0) at the end of this then() for the explanation.
+        process.exit(0)
+      }
+    }
 
     if (typeof quasarConf.build.afterBuild === 'function') {
       await quasarConf.build.afterBuild({ quasarConf })
