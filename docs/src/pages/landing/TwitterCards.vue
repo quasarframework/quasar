@@ -3,6 +3,8 @@
     <div
       class="twitter-cards__content col row items-stretch no-wrap q-pa-xl"
       ref="contentRef"
+      role="region"
+      aria-label="Community tweets"
       @scroll="updateArrows"
     >
       <q-card
@@ -50,21 +52,27 @@
       <q-resize-observer @resize="updateArrows" debounce="0" />
     </div>
 
-    <div
+    <button
+      type="button"
       class="twitter-cards__arrow twitter-cards__arrow--left cursor-pointer absolute-left row items-center"
       :class="leftArrowClass"
+      :disabled="leftArrowClass !== null"
+      aria-label="Scroll tweets left"
       @click="scrollToStart"
     >
       <q-icon :name="mdiChevronLeft" size="56px" color="brand-primary" />
-    </div>
+    </button>
 
-    <div
+    <button
+      type="button"
       class="twitter-cards__arrow twitter-cards__arrow--right cursor-pointer absolute-right row items-center"
       :class="rightArrowClass"
+      :disabled="rightArrowClass !== null"
+      aria-label="Scroll tweets right"
       @click="scrollToEnd"
     >
       <q-icon :name="mdiChevronRight" size="56px" color="brand-primary" />
-    </div>
+    </button>
   </div>
 </template>
 
@@ -271,6 +279,9 @@ const tweetsList = [
     box-shadow: none !important
 
   &__arrow
+    // native <button> for accessibility
+    border: 0
+    padding: 0
     transition: opacity .5s ease-in-out
     &--left
       background: linear-gradient(to right, $dark-bg 0%, $dark-bg 5%, transparent 100%)

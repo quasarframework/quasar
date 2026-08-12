@@ -1,7 +1,7 @@
 <template>
   <div class="page-integrations column justify-center text-center doc-brand">
-    <div class="heading heading--large normal-line-height"
-      >All platforms in one go</div
+    <h1 class="heading heading--large normal-line-height"
+      >All platforms in one go</h1
     >
     <div
       class="letter-spacing-300 text-size-16 text-weight-bold text-center q-mb-md"
@@ -19,7 +19,11 @@
       </div>
     </div>
 
-    <div class="page-integrations__platforms q-gutter-lg">
+    <div
+      class="page-integrations__platforms q-gutter-lg"
+      role="img"
+      aria-label="Runs in browsers and on mobile and desktop platforms"
+    >
       <q-icon
         v-for="(iconName, platformIndex) in platformIcons"
         :key="`platform-${platformIndex}`"

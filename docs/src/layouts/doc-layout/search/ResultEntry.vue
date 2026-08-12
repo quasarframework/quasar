@@ -4,6 +4,9 @@
     :id="props.entry.id"
     :active="props.active"
     clickable
+    role="option"
+    :aria-selected="props.active ? 'true' : 'false'"
+    tabindex="-1"
     active-class="app-search__result--active"
     @click.prevent.stop="props.entry.onClick"
     @mouseenter="props.entry.onMouseenter"
@@ -23,7 +26,11 @@
       </div>
     </q-item-section>
 
-    <div v-if="props.active" class="absolute-right row items-center q-pr-sm">
+    <div
+      v-if="props.active"
+      class="absolute-right row items-center q-pr-sm"
+      aria-hidden="true"
+    >
       <kbd><q-icon :name="mdiKeyboardReturn" /></kbd>
     </div>
   </q-item>

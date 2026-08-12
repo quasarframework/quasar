@@ -18,6 +18,42 @@
 .primary-line-height
   line-height: 1.5
 
+// visually hidden, still exposed to assistive technology
+.doc-sr-only
+  position: absolute
+  width: 1px
+  height: 1px
+  padding: 0
+  margin: -1px
+  overflow: hidden
+  clip-path: inset(50%)
+  white-space: nowrap
+  border: 0
+
+.doc-skip-link
+  position: fixed
+  top: 8px
+  left: 8px
+  z-index: 7000 // above the fixed header
+  padding: 8px 16px
+  border-radius: $generic-border-radius
+  background: $brand-primary
+  color: #fff
+  font-weight: 700
+  text-decoration: none
+
+  // hidden until keyboard-focused
+  &:not(:focus)
+    position: absolute
+    width: 1px
+    height: 1px
+    padding: 0
+    margin: -1px
+    overflow: hidden
+    clip-path: inset(50%)
+    white-space: nowrap
+    border: 0
+
 .normal-line-height
   line-height: normal
 
@@ -476,6 +512,9 @@ body.body--dark
     box-shadow: inset 0 -2px 0 0 $brown-10, inset 0 0 1px 1px $brown-8, -1px 0 0 0 $brown, 1px 0 0 0 $brown, 0 1px 0 0 $brown
 
 .doc-card-title
+  // it is an h2 for semantics only; keep the inherited look
+  font-weight: inherit
+  line-height: inherit
   margin-left: -12px
   padding: 4px 8px 4px 28px
   position: relative

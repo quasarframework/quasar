@@ -27,6 +27,7 @@
             square
             v-model="search"
             placeholder="Search"
+            aria-label="Search"
             class="bg-white col"
           />
           <q-btn
@@ -35,6 +36,8 @@
             text-color="grey-8"
             icon="search"
             unelevated
+            aria-label="Search"
+            tabindex="-1"
           />
         </div>
 
@@ -48,6 +51,8 @@
             color="grey-8"
             icon="video_call"
             v-if="$q.screen.gt.sm"
+            aria-label="Create a video or post"
+            tabindex="-1"
           >
             <q-tooltip>Create a video or post</q-tooltip>
           </q-btn>
@@ -58,6 +63,8 @@
             color="grey-8"
             icon="apps"
             v-if="$q.screen.gt.sm"
+            aria-label="Apps"
+            tabindex="-1"
           >
             <q-tooltip>Apps</q-tooltip>
           </q-btn>
@@ -68,16 +75,26 @@
             color="grey-8"
             icon="message"
             v-if="$q.screen.gt.sm"
+            aria-label="Messages"
+            tabindex="-1"
           >
             <q-tooltip>Messages</q-tooltip>
           </q-btn>
-          <q-btn round dense flat color="grey-8" icon="notifications">
+          <q-btn
+            round
+            dense
+            flat
+            color="grey-8"
+            icon="notifications"
+            aria-label="Notifications"
+            tabindex="-1"
+          >
             <q-badge color="red" text-color="white" floating> 2 </q-badge>
             <q-tooltip>Notifications</q-tooltip>
           </q-btn>
-          <q-btn round flat>
+          <q-btn round flat aria-label="Account" tabindex="-1">
             <q-avatar size="26px">
-              <img src="https://cdn.quasar.dev/img/boy-avatar.png" />
+              <img src="https://cdn.quasar.dev/img/boy-avatar.png" alt="" />
             </q-avatar>
             <q-tooltip>Account</q-tooltip>
           </q-btn>

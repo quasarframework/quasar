@@ -9,10 +9,12 @@
       >
         <input
           class="col doc-api__search text-right"
+          type="search"
           ref="inputRef"
           v-model="filter"
           name="filter"
           placeholder="Filter..."
+          aria-label="Filter API"
         />
         <q-btn
           :icon="inputIcon"
@@ -20,6 +22,7 @@
           dense
           flat
           round
+          :aria-label="filter !== '' ? 'Clear filter' : 'Filter API'"
           @click="onFilterClick"
         />
       </div>
@@ -414,6 +417,8 @@ function onSearchFieldClick() {
 function onFilterClick() {
   if (filter.value !== '') {
     filter.value = ''
+  } else {
+    inputRef.value.focus()
   }
 }
 

@@ -4,13 +4,19 @@
     view="hHh LpR fff"
     @scroll="docStore.onPageScroll"
   >
+    <a class="doc-skip-link" href="#doc-main-content">Skip to page content</a>
+
     <DocHeader />
 
     <q-page-container>
-      <q-page :class="pageClass" key="q-page">
+      <q-page id="doc-main-content" :class="pageClass" key="q-page">
         <router-view v-if="isFullscreen" key="page-fullscreen" />
         <div v-else :class="pageContentClass" key="page-standard">
-          <div class="doc-layout__menu-container row justify-center">
+          <div
+            class="doc-layout__menu-container row justify-center"
+            role="navigation"
+            aria-label="Main menu"
+          >
             <q-scroll-area class="doc-layout__menu q-ml-md">
               <DocPageMenu />
             </q-scroll-area>

@@ -1,7 +1,7 @@
 <template>
   <div class="page-docs column justify-center text-center">
-    <div class="heading heading--large normal-line-height"
-      >Welcome to Quasar docs</div
+    <h1 class="heading heading--large normal-line-height"
+      >Welcome to Quasar docs</h1
     >
     <div class="letter-spacing-300 text-size-16 text-weight-bold q-mb-md">
       Here you can find everything you need to start working with Quasar.
@@ -36,11 +36,11 @@
 
     <div class="row">
       <div class="col-12 col-md row justify-center q-gutter-sm q-py-lg">
-        <div
-          class="text-center full-width text-size-24 text-weight-bolder letter-spacing-450 text-brand-primary text-uppercase"
+        <h2
+          class="text-center full-width text-size-24 text-weight-bolder letter-spacing-450 text-brand-primary text-uppercase q-ma-none"
         >
           Most Used
-        </div>
+        </h2>
 
         <DocCardLink
           v-for="(entry, pageIndex) in mostUsedPages"
@@ -66,11 +66,11 @@
       <div
         class="col-12 col-md row cards-container-width justify-center q-gutter-sm q-py-lg"
       >
-        <div
-          class="text-center full-width text-size-24 text-weight-bolder letter-spacing-450 text-brand-primary text-uppercase"
+        <h2
+          class="text-center full-width text-size-24 text-weight-bolder letter-spacing-450 text-brand-primary text-uppercase q-ma-none"
         >
           Discover Also
-        </div>
+        </h2>
 
         <DocCardLink
           v-for="(entry, pageIndex) in pagesToDiscover"

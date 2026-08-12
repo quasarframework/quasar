@@ -7,6 +7,7 @@
       hide-selected
       fill-input
       placeholder="Names of Quasar components, directives or plugins"
+      aria-label="Search Quasar API"
       input-debounce="0"
       :options="options"
       clearable

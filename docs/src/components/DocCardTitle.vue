@@ -1,9 +1,9 @@
 <template>
-  <div
+  <h2
     class="doc-card-title q-my-xs q-mr-sm cursor-pointer"
     :id="id"
     @click="onClick"
-    >{{ props.title }}</div
+    >{{ props.title }}</h2
   >
 </template>
 

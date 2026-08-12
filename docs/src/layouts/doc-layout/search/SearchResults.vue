@@ -1,6 +1,6 @@
 <template>
   <div class="app-search relative-position">
-    <div class="app-search__instructions flex flex-center">
+    <div class="app-search__instructions flex flex-center" aria-hidden="true">
       <span>Navigate</span>
       <kbd class="q-ml-sm"><q-icon :name="mdiArrowDownBold" /></kbd>
       <kbd class="q-mr-sm"><q-icon :name="mdiArrowUpBold" /></kbd>
@@ -12,10 +12,12 @@
       <kbd class="q-ml-sm"><q-icon :name="mdiKeyboardEsc" /></kbd>
     </div>
 
-    <!-- every entry is interactive, so a "list" role would own no
-         listitem children (invalid ARIA); behaviorally this is a
-         listbox - proper combobox/option wiring is a follow-up -->
-    <q-list padding role="none">
+    <q-list
+      id="doc-search-listbox"
+      padding
+      role="listbox"
+      aria-label="Search results"
+    >
       <result-entry
         v-for="entry in props.results.entries"
         :key="entry.id"

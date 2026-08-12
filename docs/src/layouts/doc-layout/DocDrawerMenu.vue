@@ -17,6 +17,7 @@
         dense
         flat
         color="brand-accent"
+        aria-label="Close menu"
         @click="docStore.toggleMenuDrawer"
       />
     </div>

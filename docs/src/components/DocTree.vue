@@ -18,6 +18,7 @@
         :icon="mdiLaunch"
         :href="prop.node.url"
         target="_blank"
+        :aria-label="`Open ${prop.node.l} (new tab)`"
         @click.stop
       />
 

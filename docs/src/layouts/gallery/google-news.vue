@@ -19,6 +19,7 @@
         >
           <img
             src="https://cdn.quasar.dev/img/layout-gallery/logo-google.svg"
+            alt="Google"
           />
           <span class="q-ml-sm">News</span>
         </q-toolbar-title>
@@ -32,18 +33,30 @@
           v-model="search"
           color="bg-grey-7 shadow-1"
           placeholder="Search for topics, locations & sources"
+          aria-label="Search for topics, locations and sources"
         >
           <template v-slot:prepend>
             <q-icon v-if="search === ''" name="search" />
-            <q-icon
+            <q-btn
               v-else
-              name="clear"
-              class="cursor-pointer"
+              flat
+              dense
+              round
+              size="sm"
+              icon="clear"
+              aria-label="Clear search"
               @click="search = ''"
             />
           </template>
           <template v-slot:append>
-            <q-btn flat dense round aria-label="Menu" icon="arrow_drop_down">
+            <q-btn
+              flat
+              dense
+              round
+              aria-label="Advanced search"
+              aria-haspopup="dialog"
+              icon="arrow_drop_down"
+            >
               <q-menu anchor="bottom end" self="top end">
                 <div class="q-pa-md" style="width: 400px">
                   <div class="text-body2 text-grey q-mb-md">
@@ -55,26 +68,38 @@
                       Exact phrase
                     </div>
                     <div class="col-9 q-pl-md">
-                      <q-input dense v-model="exactPhrase" />
+                      <q-input
+                        dense
+                        v-model="exactPhrase"
+                        aria-label="Exact phrase"
+                      />
                     </div>
 
                     <div class="col-3 text-subtitle2 text-grey">
                       Has words
                     </div>
                     <div class="col-9 q-pl-md">
-                      <q-input dense v-model="hasWords" />
+                      <q-input
+                        dense
+                        v-model="hasWords"
+                        aria-label="Has words"
+                      />
                     </div>
 
                     <div class="col-3 text-subtitle2 text-grey">
                       Exclude words
                     </div>
                     <div class="col-9 q-pl-md">
-                      <q-input dense v-model="excludeWords" />
+                      <q-input
+                        dense
+                        v-model="excludeWords"
+                        aria-label="Exclude words"
+                      />
                     </div>
 
                     <div class="col-3 text-subtitle2 text-grey"> Website </div>
                     <div class="col-9 q-pl-md">
-                      <q-input dense v-model="byWebsite" />
+                      <q-input dense v-model="byWebsite" aria-label="Website" />
                     </div>
 
                     <div class="col-12 q-pt-lg row justify-end">
@@ -117,16 +142,26 @@
             flat
             color="text-grey-7"
             icon="apps"
+            aria-label="Google Apps"
+            tabindex="-1"
           >
             <q-tooltip>Google Apps</q-tooltip>
           </q-btn>
-          <q-btn round dense flat color="grey-8" icon="notifications">
+          <q-btn
+            round
+            dense
+            flat
+            color="grey-8"
+            icon="notifications"
+            aria-label="Notifications"
+            tabindex="-1"
+          >
             <q-badge color="red" text-color="white" floating> 2 </q-badge>
             <q-tooltip>Notifications</q-tooltip>
           </q-btn>
-          <q-btn round flat>
+          <q-btn round flat aria-label="Account" tabindex="-1">
             <q-avatar size="26px">
-              <img src="https://cdn.quasar.dev/img/boy-avatar.png" />
+              <img src="https://cdn.quasar.dev/img/boy-avatar.png" alt="" />
             </q-avatar>
             <q-tooltip>Account</q-tooltip>
           </q-btn>

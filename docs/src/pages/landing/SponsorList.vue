@@ -3,8 +3,8 @@
     <div class="text-center">
       <template v-for="(tierSponsors, tierName) in sponsors" :key="tierName">
         <template v-if="tierSponsors.length > 0">
-          <div class="q-my-md text-capitalize text-size-16 text-weight-bold"
-            >{{ tierName }} Sponsors</div
+          <h3 class="q-my-md text-capitalize text-size-16 text-weight-bold"
+            >{{ tierName }} Sponsors</h3
           >
           <div class="row justify-center logos-container">
             <sponsor-tile

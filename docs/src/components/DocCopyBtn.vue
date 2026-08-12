@@ -1,6 +1,13 @@
 <template>
   <div class="doc-copy-btn">
-    <q-icon name="content_paste" color="brand-primary" @click="copy" />
+    <button
+      type="button"
+      class="doc-copy-btn__btn"
+      aria-label="Copy code to clipboard"
+      @click="copy"
+    >
+      <q-icon name="content_paste" color="brand-primary" />
+    </button>
 
     <transition
       enter-active-class="animated fadeIn"
@@ -9,6 +16,7 @@
       <q-badge
         class="absolute header-badge"
         v-show="copied"
+        role="status"
         label="Copied to clipboard"
       />
     </transition>
@@ -86,6 +94,15 @@ function copy() {
   top: 8px
   right: 16px // account for scrollbar
 
+  // the actual control is a native <button> for accessibility;
+  // the icon stays the visual
+  &__btn
+    border: 0
+    padding: 0
+    margin: 0
+    background: none
+    line-height: 0
+
   .q-icon
     cursor: pointer
     color: $brand-primary
@@ -112,7 +129,7 @@ body.body--dark
     &:hover
       background-color: #000
 
-.copybtn-hover:hover
-  .doc-copy-btn .q-icon
-    opacity: 1
+.copybtn-hover:hover .doc-copy-btn .q-icon,
+.doc-copy-btn__btn:focus-visible .q-icon
+  opacity: 1
 </style>

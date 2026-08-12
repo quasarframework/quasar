@@ -8,6 +8,7 @@
       borderless
       color="white"
       placeholder="Search..."
+      aria-label="Search release notes"
       clearable
     >
       <template #prepend>

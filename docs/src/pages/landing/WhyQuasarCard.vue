@@ -4,11 +4,11 @@
   >
     <q-card-section class="q-pa-none">
       <q-icon size="xl" :name="props.icon" />
-      <div
-        class="why-quasar-card__title text-uppercase heading--medium q-py-md"
+      <h3
+        class="why-quasar-card__title text-uppercase heading--medium q-py-md q-ma-none"
       >
         {{ props.title }}
-      </div>
+      </h3>
       <div
         class="text-dark text-size-16 text-weight-medium q-pb-md letter-spacing-300 primary-line-height"
       >

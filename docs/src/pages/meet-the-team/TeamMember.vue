@@ -1,11 +1,11 @@
 <template>
   <q-card class="team-member column" flat bordered>
     <q-card-section>
-      <div class="text-bold">{{ props.name }}</div>
+      <h3 class="text-bold team-member__name">{{ props.name }}</h3>
       <div v-if="props.github">@{{ props.github }}</div>
     </q-card-section>
 
-    <q-img v-if="props.avatar" alt="avatar" :src="url.avatar" :ratio="1" />
+    <q-img v-if="props.avatar" :alt="props.name" :src="url.avatar" :ratio="1" />
 
     <q-card-section class="team-member__front col">
       <div class="text-grey text-italic q-mt-xs team-member__role">{{
@@ -25,6 +25,7 @@
           round
           flat
           :icon="fabTwitter"
+          :aria-label="`${props.name} on Twitter`"
         />
       </div>
       <div v-if="props.github">
@@ -35,6 +36,7 @@
           round
           flat
           :icon="fabGithub"
+          :aria-label="`${props.name} on GitHub`"
         />
       </div>
       <div v-if="props.email">
@@ -45,6 +47,7 @@
           round
           flat
           icon="mail"
+          :aria-label="`Email ${props.name}`"
         />
       </div>
     </q-card-actions>
@@ -76,6 +79,12 @@ const url = computed(() => ({
 <style lang="sass">
 .team-member
   width: 12.2rem
+
+  // h3 for semantics only; keep the inherited look
+  &__name
+    font-size: inherit
+    line-height: inherit
+    margin: 0
 
   &__role
     height: 42px

@@ -14,7 +14,7 @@
       />
     </div>
 
-    <div class="text-h6 q-mb-md">Configure parent (container):</div>
+    <h3 class="text-h6 q-mb-md q-mt-none">Configure parent (container):</h3>
     <div class="row q-col-gutter-sm content-stretch q-mb-md">
       <div class="col-lg-2 col-xs-12 col-sm-6">
         <q-select
@@ -108,8 +108,8 @@
     </div>
 
     <div class="row items-center q-gutter-md q-mb-md">
-      <div class="text-h6"
-        >Configure children: {{ group.children.length }} / 10</div
+      <h3 class="text-h6 q-ma-none"
+        >Configure children: {{ group.children.length }} / 10</h3
       >
 
       <q-btn
@@ -123,13 +123,27 @@
 
       <q-space />
 
-      <q-btn round dense flat :icon="mdiShareVariant" @click="share">
+      <q-btn
+        round
+        dense
+        flat
+        :icon="mdiShareVariant"
+        aria-label="Share URL"
+        @click="share"
+      >
         <q-tooltip>{{
           copied ? 'Copied to clipboard' : 'Share URL'
         }}</q-tooltip>
       </q-btn>
 
-      <q-btn round dense flat :icon="fabCodepen" @click="editInCodepen">
+      <q-btn
+        round
+        dense
+        flat
+        :icon="fabCodepen"
+        aria-label="Edit in Codepen"
+        @click="editInCodepen"
+      >
         <q-tooltip>Edit in Codepen</q-tooltip>
       </q-btn>
     </div>

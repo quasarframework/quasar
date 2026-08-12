@@ -12,6 +12,7 @@
           flat
           round
           :icon="mdiCompare"
+          aria-label="Toggle dark mode"
           @click="docStore.toggleDark"
         >
           <q-tooltip>Toggle dark mode</q-tooltip>
@@ -25,6 +26,7 @@
           flat
           round
           :icon="fabGithub"
+          aria-label="View source on GitHub"
           @click="openGitHub"
         >
           <q-tooltip>View on GitHub</q-tooltip>
@@ -36,6 +38,7 @@
           flat
           round
           :icon="fabCodepen"
+          aria-label="Edit in Codepen"
           @click="openCodepen"
           :loading="source.isLoading"
         >
@@ -47,6 +50,9 @@
           flat
           round
           icon="code"
+          aria-label="View source code"
+          :aria-expanded="expanded ? 'true' : 'false'"
+          :aria-controls="expanded ? sourceId : void 0"
           @click="toggleExpand"
           :loading="source.isLoading"
         >
@@ -56,7 +62,7 @@
     </div>
 
     <q-slide-transition>
-      <div v-if="expanded">
+      <div v-if="expanded" :id="sourceId">
         <q-tabs
           class="header-tabs"
           v-model="currentTab"
@@ -121,6 +127,7 @@ import { fabCodepen, fabGithub } from '@quasar/extras/fontawesome-v7'
 import { mdiCompare } from '@quasar/extras/mdi-v7'
 
 import { useDocStore } from '@/layouts/doc-layout/store/index.js'
+import { slugify } from '@/assets/page-utils.js'
 
 import DocCode from './DocCode.vue'
 import DocCodepen from './DocCodepen.vue'
@@ -147,6 +154,8 @@ const source = ref({
   tabs: [],
   parts: {}
 })
+
+const sourceId = computed(() => `example-src--${slugify(props.file || '')}`)
 
 const componentClass = computed(() =>
   props.scrollable

@@ -1,7 +1,7 @@
 <template>
   <div class="doc-page-footer doc-brand">
     <template v-if="fullscreen">
-      <nav class="doc-page-footer__nav" v-once>
+      <nav class="doc-page-footer__nav" aria-label="Footer" v-once>
         <!-- link columns: a "list" role may only own listitem children
              (invalid ARIA around links), so the links stand on their own -->
         <q-list v-for="entry in links" :key="entry.name" role="none">

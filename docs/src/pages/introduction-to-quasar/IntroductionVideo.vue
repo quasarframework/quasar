@@ -4,10 +4,12 @@
     class="introduction-video rounded-borders overflow-hidden"
     style="max-width: 530px"
     target="_blank"
+    aria-label="Watch the Quasar introduction video on YouTube (new tab)"
   >
     <div class="introduction-video__thumbnail relative-position">
       <q-img
         src="https://i.ibb.co/k4jkggH/thumbnail-quasar-docs.jpg"
+        alt=""
         :ratio="1.78"
       >
         <q-icon

@@ -8,7 +8,7 @@ import {
   QSeparator,
   Screen
 } from 'quasar'
-import { h } from 'vue'
+import { h, ref } from 'vue'
 import { mdiMenuRight } from '@quasar/extras/mdi-v7'
 
 const offset = [0, 4]
@@ -20,6 +20,8 @@ export default {
   },
 
   setup(props) {
+    const openSubmenus = ref({})
+
     function getChildren(list) {
       return h(QList, { dense: true, padding: true, role: 'menu' }, () =>
         list.map(entry => {
@@ -37,7 +39,14 @@ export default {
               clickable: true,
               to: entry.path,
               href: entry.external ? entry.path : void 0,
-              target: entry.external ? '_blank' : void 0
+              target: entry.external ? '_blank' : void 0,
+              'aria-haspopup': entry.children !== void 0 ? 'menu' : void 0,
+              'aria-expanded':
+                entry.children !== void 0
+                  ? openSubmenus.value[entry.name] === true
+                    ? 'true'
+                    : 'false'
+                  : void 0
             },
             () => {
               const acc = []
@@ -67,7 +76,13 @@ export default {
                       anchor: 'top right',
                       self: 'top left',
                       class: 'doc-header-menu doc-technical',
-                      cover: Screen.lt.sm
+                      cover: Screen.lt.sm,
+                      onShow: () => {
+                        openSubmenus.value[entry.name] = true
+                      },
+                      onHide: () => {
+                        openSubmenus.value[entry.name] = false
+                      }
                     },
                     () => getChildren(entry.children)
                   )

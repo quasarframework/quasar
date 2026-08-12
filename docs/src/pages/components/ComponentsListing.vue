@@ -11,10 +11,12 @@
       >
         <input
           ref="inputRef"
+          type="search"
           name="listing-search"
           class="page-all__search-input text-white letter-spacing-225"
           v-model="searchTerms"
           placeholder="Search item"
+          aria-label="Search components, directives and plugins"
         />
         <q-icon
           v-if="!searchTerms"
@@ -22,12 +24,15 @@
           size="24px"
           color="brand-primary"
         />
-        <q-icon
+        <q-btn
           v-else
-          name="clear"
-          size="24px"
+          flat
+          dense
+          round
+          icon="clear"
+          size="sm"
           color="brand-primary"
-          class="cursor-pointer"
+          aria-label="Clear search"
           @click.stop="clearSearchTerms"
         />
       </div>
@@ -65,7 +70,7 @@
             class="page-all__card bg-white shadow-bottom-large cursor-pointer overflow-hidden letter-spacing-300"
           >
             <div class="page-all__card-img">
-              <q-img v-if="entry.img" :src="entry.img" />
+              <q-img v-if="entry.img" :src="entry.img" alt="" />
             </div>
             <q-card-section
               class="text-size-14 text-brand-primary text-weight-bold"

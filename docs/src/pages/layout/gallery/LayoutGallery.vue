@@ -13,6 +13,7 @@
             round
             color="brand-primary"
             :icon="mdiOpenInNew"
+            :aria-label="`Open ${layout.name} demo (new tab)`"
           />
           <q-btn
             :href="layout.sourceLink"
@@ -22,6 +23,7 @@
             round
             color="brand-primary"
             :icon="mdiCodeTags"
+            :aria-label="`View ${layout.name} source code (new tab)`"
           />
         </div>
 
@@ -30,7 +32,7 @@
         <div class="overflow-hidden">
           <a :href="layout.demoLink" target="_blank">
             <q-img
-              alt="Layout Screenshot"
+              :alt="`${layout.name} layout screenshot`"
               :src="layout.screenshot"
               :ratio="1.95"
             />

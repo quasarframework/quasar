@@ -8,12 +8,18 @@
             flat
             icon="keyboard_arrow_left"
             class="WAL__drawer-open q-mr-sm"
+            aria-label="Open conversation list"
             @click="toggleLeftDrawer"
           />
 
-          <q-btn round flat>
+          <q-btn
+            round
+            flat
+            :aria-label="`${currentConversation.person} profile`"
+            tabindex="-1"
+          >
             <q-avatar>
-              <img :src="currentConversation.avatar" />
+              <img :src="currentConversation.avatar" alt="" />
             </q-avatar>
           </q-btn>
 
@@ -23,11 +29,17 @@
 
           <q-space />
 
-          <q-btn round flat icon="search" />
-          <q-btn round flat>
+          <q-btn round flat icon="search" aria-label="Search" tabindex="-1" />
+          <q-btn round flat aria-label="Attach file" tabindex="-1">
             <q-icon name="attachment" class="rotate-135" />
           </q-btn>
-          <q-btn round flat icon="more_vert">
+          <q-btn
+            round
+            flat
+            icon="more_vert"
+            aria-label="Conversation options"
+            aria-haspopup="menu"
+          >
             <q-menu auto-close :offset="[110, 0]">
               <q-list role="menu" style="min-width: 150px">
                 <q-item clickable>
@@ -62,13 +74,25 @@
       >
         <q-toolbar class="bg-grey-3">
           <q-avatar class="cursor-pointer">
-            <img src="https://cdn.quasar.dev/logo-v2/svg/logo.svg" />
+            <img src="https://cdn.quasar.dev/logo-v2/svg/logo.svg" alt="" />
           </q-avatar>
 
           <q-space />
 
-          <q-btn round flat icon="message" />
-          <q-btn round flat icon="more_vert">
+          <q-btn
+            round
+            flat
+            icon="message"
+            aria-label="New conversation"
+            tabindex="-1"
+          />
+          <q-btn
+            round
+            flat
+            icon="more_vert"
+            aria-label="Menu"
+            aria-haspopup="menu"
+          >
             <q-menu auto-close :offset="[110, 8]">
               <q-list role="menu" style="min-width: 150px">
                 <q-item clickable>
@@ -98,6 +122,7 @@
             flat
             icon="close"
             class="WAL__drawer-close"
+            aria-label="Close conversation list"
             @click="toggleLeftDrawer"
           />
         </q-toolbar>
@@ -111,6 +136,7 @@
             bg-color="white"
             v-model="search"
             placeholder="Search or start a new conversation"
+            aria-label="Search or start a new conversation"
           >
             <template v-slot:prepend>
               <q-icon name="search" />
@@ -129,7 +155,7 @@
             >
               <q-item-section avatar>
                 <q-avatar>
-                  <img :src="conversation.avatar" />
+                  <img :src="conversation.avatar" alt="" />
                 </q-avatar>
               </q-item-section>
 
@@ -161,7 +187,14 @@
 
       <q-footer>
         <q-toolbar class="bg-grey-3 text-black row">
-          <q-btn round flat icon="insert_emoticon" class="q-mr-sm" />
+          <q-btn
+            round
+            flat
+            icon="insert_emoticon"
+            class="q-mr-sm"
+            aria-label="Emoji"
+            tabindex="-1"
+          />
           <q-input
             rounded
             outlined
@@ -170,8 +203,15 @@
             bg-color="white"
             v-model="message"
             placeholder="Type a message"
+            aria-label="Type a message"
           />
-          <q-btn round flat icon="mic" />
+          <q-btn
+            round
+            flat
+            icon="mic"
+            aria-label="Record voice message"
+            tabindex="-1"
+          />
         </q-toolbar>
       </q-footer>
     </q-layout>

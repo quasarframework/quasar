@@ -15,12 +15,14 @@
           flat
           round
           :icon="mdiMenu"
+          aria-label="Toggle left drawer"
+          :aria-expanded="play.left ? 'true' : 'false'"
           @click="play.left = !play.left"
         />
 
         <q-toolbar-title>
           <q-avatar>
-            <img src="/logo/logo-mono-white.svg" />
+            <img src="/logo/logo-mono-white.svg" alt="" />
           </q-avatar>
           Layout Builder
         </q-toolbar-title>
@@ -31,6 +33,8 @@
           flat
           round
           :icon="mdiMenu"
+          aria-label="Toggle right drawer"
+          :aria-expanded="play.right ? 'true' : 'false'"
           @click="play.right = !play.right"
         />
       </q-toolbar>
@@ -104,6 +108,7 @@
                     keep-color
                     dense
                     v-model="topL"
+                    aria-label="Top left slot"
                     :options="[
                       { label: 'l', value: 'l' },
                       { label: 'h', value: 'h' }
@@ -119,6 +124,7 @@
                     keep-color
                     dense
                     v-model="topC"
+                    aria-label="Top center slot"
                     :options="[
                       { label: 'h', value: 'h' },
                       { label: 'H', value: 'H' }
@@ -139,6 +145,7 @@
                     keep-color
                     dense
                     v-model="topR"
+                    aria-label="Top right slot"
                     :options="[
                       { label: 'r', value: 'r' },
                       { label: 'h', value: 'h' }
@@ -157,6 +164,7 @@
                     keep-color
                     dense
                     v-model="middleL"
+                    aria-label="Middle left slot"
                     :options="[
                       { label: 'l', value: 'l' },
                       { label: 'L', value: 'L' }
@@ -173,6 +181,7 @@
                     keep-color
                     dense
                     v-model="middleR"
+                    aria-label="Middle right slot"
                     :options="[
                       { label: 'r', value: 'r' },
                       { label: 'R', value: 'R' }
@@ -196,6 +205,7 @@
                     keep-color
                     dense
                     v-model="bottomL"
+                    aria-label="Bottom left slot"
                     :options="[
                       { label: 'l', value: 'l' },
                       { label: 'f', value: 'f' }
@@ -211,6 +221,7 @@
                     keep-color
                     dense
                     v-model="bottomC"
+                    aria-label="Bottom center slot"
                     :options="[
                       { label: 'f', value: 'f' },
                       { label: 'F', value: 'F' }
@@ -231,6 +242,7 @@
                     keep-color
                     dense
                     v-model="bottomR"
+                    aria-label="Bottom right slot"
                     :options="[
                       { label: 'r', value: 'r' },
                       { label: 'f', value: 'f' }
@@ -471,11 +483,12 @@
       <q-img
         class="absolute-top"
         src="https://cdn.quasar.dev/img/material.png"
+        alt=""
         style="height: 204px"
       >
         <div class="absolute-bottom bg-transparent">
           <q-avatar size="56px" class="q-mb-sm">
-            <img src="https://cdn.quasar.dev/img/boy-avatar.png" />
+            <img src="https://cdn.quasar.dev/img/boy-avatar.png" alt="" />
           </q-avatar>
           <div class="text-weight-bold">Razvan Stoenescu</div>
           <div>@rstoenescu</div>
@@ -498,6 +511,8 @@
           flat
           round
           :icon="mdiMenu"
+          aria-label="Toggle left drawer"
+          :aria-expanded="play.left ? 'true' : 'false'"
           @click="play.left = !play.left"
         />
 
@@ -509,6 +524,8 @@
           flat
           round
           :icon="mdiMenu"
+          aria-label="Toggle right drawer"
+          :aria-expanded="play.right ? 'true' : 'false'"
           @click="play.right = !play.right"
         />
       </q-toolbar>

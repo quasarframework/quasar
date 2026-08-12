@@ -2,14 +2,15 @@
   <DocStars />
   <div class="page404 flex flex-center text-center relative-position doc-brand">
     <div>
-      <div
+      <h1
         class="page404__hero flex flex-center no-wrap q-gutter-sm text-brand-primary"
+        aria-label="404 - Page not found"
       >
-        <div>4</div>
-        <img class="page404__logo-light" src="/logo/logo.svg" />
-        <img class="page404__logo-dark" src="/logo/logo-dark.svg" />
-        <div>4</div>
-      </div>
+        <div aria-hidden="true">4</div>
+        <img class="page404__logo-light" src="/logo/logo.svg" alt="" />
+        <img class="page404__logo-dark" src="/logo/logo-dark.svg" alt="" />
+        <div aria-hidden="true">4</div>
+      </h1>
       <div class="letter-spacing-225 q-mb-xl">
         You're not intentionally heading to a black hole, are you?
       </div>
@@ -36,6 +37,8 @@ useMeta({ title: 'Page not found' })
 
   &__hero
     font-size: 150px
+    font-weight: inherit
+    margin: 0
 
     img
       width: 130px

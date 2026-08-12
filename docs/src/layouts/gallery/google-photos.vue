@@ -19,6 +19,7 @@
         >
           <img
             src="https://cdn.quasar.dev/img/layout-gallery/logo-google.svg"
+            alt="Google"
           />
           <span class="q-ml-sm">Photos</span>
         </q-toolbar-title>
@@ -31,13 +32,18 @@
           standout="bg-primary"
           v-model="search"
           placeholder="Search"
+          aria-label="Search"
         >
           <template v-slot:prepend>
             <q-icon v-if="search === ''" name="search" />
-            <q-icon
+            <q-btn
               v-else
-              name="clear"
-              class="cursor-pointer"
+              flat
+              dense
+              round
+              size="sm"
+              icon="clear"
+              aria-label="Clear search"
               @click="search = ''"
             />
           </template>
@@ -56,7 +62,7 @@
         >
           <q-menu anchor="top end" self="top end">
             <q-list role="menu" class="text-grey-8" style="min-width: 100px">
-              <q-item aria-hidden="true">
+              <q-item>
                 <q-item-section
                   class="text-uppercase text-grey-7"
                   style="font-size: 0.7rem"
@@ -68,7 +74,6 @@
                 :key="menu.text"
                 clickable
                 v-close-popup
-                aria-hidden="true"
               >
                 <q-item-section avatar>
                   <q-icon :name="menu.icon" />
@@ -94,16 +99,32 @@
         <q-space />
 
         <div class="q-gutter-sm row items-center no-wrap">
-          <q-btn round dense flat color="text-grey-7" icon="apps">
+          <q-btn
+            round
+            dense
+            flat
+            color="text-grey-7"
+            icon="apps"
+            aria-label="Google Apps"
+            tabindex="-1"
+          >
             <q-tooltip>Google Apps</q-tooltip>
           </q-btn>
-          <q-btn round dense flat color="grey-8" icon="notifications">
+          <q-btn
+            round
+            dense
+            flat
+            color="grey-8"
+            icon="notifications"
+            aria-label="Notifications"
+            tabindex="-1"
+          >
             <q-badge color="red" text-color="white" floating> 2 </q-badge>
             <q-tooltip>Notifications</q-tooltip>
           </q-btn>
-          <q-btn round flat>
+          <q-btn round flat aria-label="Account" tabindex="-1">
             <q-avatar size="26px">
-              <img src="https://cdn.quasar.dev/img/boy-avatar.png" />
+              <img src="https://cdn.quasar.dev/img/boy-avatar.png" alt="" />
             </q-avatar>
             <q-tooltip>Account</q-tooltip>
           </q-btn>
@@ -123,6 +144,7 @@
             <img
               class="q-pl-md"
               src="https://www.gstatic.com/images/branding/googlelogo/svg/googlelogo_clr_74x24px.svg"
+              alt="Google"
             />
             <span class="q-ml-sm">Photos</span>
           </q-toolbar-title>

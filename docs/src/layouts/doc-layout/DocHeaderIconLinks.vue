@@ -1,5 +1,8 @@
 <template>
-  <div class="doc-header-icon-links row no-wrap items-center">
+  <nav
+    class="doc-header-icon-links row no-wrap items-center"
+    aria-label="Social links"
+  >
     <q-btn
       v-for="(entry, index) in props.menu"
       :key="index"
@@ -12,7 +15,7 @@
       :target="entry.external ? '_blank' : void 0"
       :aria-label="entry.name"
     />
-  </div>
+  </nav>
 </template>
 
 <script setup>

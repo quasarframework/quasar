@@ -6,6 +6,7 @@
       <div class="column items-center intro-section letter-spacing-300">
         <q-img
           src="/logo/logo-vertical-dark.svg"
+          alt="Quasar logo"
           loading="eager"
           width="250px"
           height="255px"
@@ -30,14 +31,15 @@
           class="text-white q-mt-md"
           size="lg"
           padding="none"
+          aria-label="Scroll to the next section"
           @click="scrollSectionIntoView.whyQuasar"
         />
 
-        <div
-          class="intro-section__sponsors-heading q-mt-xl text-weight-bold text-brand-primary text-size-16 text-capitalize"
+        <h2
+          class="intro-section__sponsors-heading q-mt-xl q-mb-none text-weight-bold text-brand-primary text-size-16 text-capitalize"
         >
           Our Platinum sponsor
-        </div>
+        </h2>
         <div class="row justify-center full-width">
           <sponsor-tile
             v-for="(
@@ -132,10 +134,10 @@
       </div>
 
       <div class="text-center social-channels-call-to-action">
-        <q-img src="/landing/planet.png" height="600px">
+        <q-img src="/landing/planet.png" alt="" height="600px">
           <div class="bg-transparent absolute-bottom">
             <q-icon size="xl" name="img:/svg/satellite.svg" />
-            <div class="heading heading--large">Don't miss the news</div>
+            <h2 class="heading heading--large">Don't miss the news</h2>
             <div class="heading heading--small"
               >Follow our social pages to stay up to date</div
             >
@@ -150,7 +152,7 @@
                 color="brand-accent"
                 outline
                 :href="socialLink.path"
-                target="__blank"
+                target="_blank"
               />
             </div>
           </div>

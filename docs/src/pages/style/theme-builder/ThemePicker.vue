@@ -51,7 +51,14 @@
               />
             </q-bar>
             <q-toolbar>
-              <q-btn flat dense round :icon="mdiArrowLeft" />
+              <q-btn
+                flat
+                dense
+                round
+                :icon="mdiArrowLeft"
+                aria-label="Back"
+                tabindex="-1"
+              />
               <q-space />
               <q-toggle
                 class="q-mr-sm"
@@ -61,8 +68,22 @@
                 color="red"
                 label="Dark page"
               />
-              <q-btn flat dense round :icon="mdiMagnify" />
-              <q-btn flat dense round :icon="mdiMenu" />
+              <q-btn
+                flat
+                dense
+                round
+                :icon="mdiMagnify"
+                aria-label="Search"
+                tabindex="-1"
+              />
+              <q-btn
+                flat
+                dense
+                round
+                :icon="mdiMenu"
+                aria-label="Menu"
+                tabindex="-1"
+              />
             </q-toolbar>
             <q-toolbar inset>
               <q-toolbar-title>Quasar</q-toolbar-title>
@@ -105,6 +126,8 @@
               color="accent"
               :text-color="dark.accent ? 'white' : 'black'"
               style="bottom: 16px; right: 16px"
+              aria-label="Location"
+              tabindex="-1"
             />
           </div>
         </div>

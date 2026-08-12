@@ -1,5 +1,10 @@
 <template>
-  <div :class="classes" :style="styles" @click="emitChange">
+  <div
+    :class="classes"
+    :style="styles"
+    @click="emitChange"
+    @focusin="emitChange"
+  >
     <div class="row justify-between items-center">
       <q-btn no-caps flat :class="buttonClasses" padding="2px 8px">
         Child #{{ index + 1 }}
@@ -11,6 +16,7 @@
         flat
         dense
         round
+        :aria-label="`Remove child #${index + 1}`"
         @click="onDelete"
       />
     </div>
@@ -27,6 +33,7 @@
           size="xs"
           flat
           dense
+          aria-label="Clear width"
           @click="child.width = ''"
         />
       </template>
@@ -45,6 +52,7 @@
           size="xs"
           flat
           dense
+          aria-label="Clear height"
           @click="child.height = ''"
         />
       </template>

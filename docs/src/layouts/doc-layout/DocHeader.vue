@@ -34,6 +34,7 @@
         :menu="primaryToolbarLinks"
         mq-prefix="gt"
         nav-class="text-uppercase text-size-16 letter-spacing-300"
+        aria-label="Primary"
       />
 
       <DocSearch />
@@ -44,12 +45,14 @@
       >
         <q-btn
           class="header-btn"
-          type="a"
           flat
           round
           :icon="mdiCompare"
+          aria-label="Toggle dark mode"
           @click="docStore.toggleDark"
-        />
+        >
+          <q-tooltip>Toggle dark mode</q-tooltip>
+        </q-btn>
       </div>
     </q-toolbar>
 
@@ -74,11 +77,13 @@
           :menu="secondaryToolbarLinks"
           nav-class="text-size-14 letter-spacing-100"
           mq-prefix="gt"
+          aria-label="Secondary"
         />
         <DocHeaderTextLinks
           :menu="moreLinks"
           nav-class="text-size-14 letter-spacing-100 lt-1400"
           mq-prefix="lt"
+          aria-label="More links"
         />
       </div>
 
@@ -87,6 +92,7 @@
       <DocHeaderTextLinks
         :menu="versionLinks"
         nav-class="text-size-14 letter-spacing-100 doc-header__version q-ml-sm"
+        aria-label="Quasar version"
       />
 
       <div

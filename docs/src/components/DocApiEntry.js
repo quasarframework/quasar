@@ -97,8 +97,17 @@ function getNameDiv(prop, label, level, suffix, prefix) {
       class: 'doc-api-entry__pill cursor-pointer',
       label,
       color: NAME_PROP_COLOR[level % NAME_PROP_COLOR_LEN],
+      role: 'button',
+      tabindex: 0,
+      'aria-label': `Copy "${label}" to clipboard`,
       onClick: () => {
         copyPropName(label)
+      },
+      onKeydown: evt => {
+        if (evt.keyCode === 13 || evt.keyCode === 32) {
+          evt.preventDefault()
+          copyPropName(label)
+        }
       }
     })
   )
@@ -138,6 +147,8 @@ function getExpandable(openState, desc, isExpandable, key, getDetails) {
             size: '11px',
             padding: '1px',
             icon: expanded ? mdiMinusBox : mdiPlusBox,
+            'aria-label': expanded ? 'Hide details' : 'Show details',
+            'aria-expanded': expanded ? 'true' : 'false',
             onClick: () => {
               openState.value[key] = !expanded
             }

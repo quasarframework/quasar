@@ -4,7 +4,7 @@
       props.overline
     }}</div>
 
-    <div class="doc-heading doc-h1" id="introduction" v-if="props.heading">
+    <h1 class="doc-heading doc-h1" id="introduction" v-if="props.heading">
       <div class="row items-center q-gutter-sm">
         <div>{{ props.title }}</div>
         <q-badge v-if="props.badge" :label="props.badge" />
@@ -22,13 +22,14 @@
         round
         color="brand-primary"
         :icon="mdiPencil"
+        aria-label="Edit this page in browser"
       >
         <q-tooltip class="row no-wrap items-center">
           <span>Caught a mistake? Edit page in browser</span>
           <q-icon class="q-ml-xs" :name="mdiFlash" size="2em" />
         </q-tooltip>
       </q-btn>
-    </div>
+    </h1>
 
     <div class="doc-page__nav" v-if="props.related">
       <div class="q-gutter-sm flex">
@@ -79,14 +80,15 @@
     </div>
   </div>
 
-  <div
+  <nav
     class="doc-page__toc-container col-grow row justify-center gt-sm"
     :class="tocClass"
+    aria-label="Table of contents"
   >
     <q-scroll-area class="doc-page__toc-area">
       <DocPageToc />
     </q-scroll-area>
-  </div>
+  </nav>
 </template>
 
 <script setup>

@@ -17,6 +17,8 @@
           color="white"
           class="q-mr-sm"
           no-caps
+          aria-label="GitHub"
+          tabindex="-1"
         />
 
         <q-select
@@ -38,6 +40,7 @@
           <template v-slot:append>
             <img
               src="https://cdn.quasar.dev/img/layout-gallery/img-github-search-key-slash.svg"
+              alt=""
             />
           </template>
 
@@ -96,8 +99,16 @@
             round
             size="sm"
             icon="notifications"
+            aria-label="Notifications"
+            tabindex="-1"
           />
-          <q-btn v-if="$q.screen.gt.xs" dense flat>
+          <q-btn
+            v-if="$q.screen.gt.xs"
+            dense
+            flat
+            aria-label="Create new"
+            aria-haspopup="menu"
+          >
             <div class="row items-center no-wrap">
               <q-icon name="add" size="20px" />
               <q-icon
@@ -129,9 +140,9 @@
             </q-menu>
           </q-btn>
 
-          <q-btn dense flat no-wrap>
+          <q-btn dense flat no-wrap aria-label="Account" aria-haspopup="menu">
             <q-avatar rounded size="20px">
-              <img src="https://cdn.quasar.dev/img/avatar3.jpg" />
+              <img src="https://cdn.quasar.dev/img/avatar3.jpg" alt="" />
             </q-avatar>
             <q-icon name="arrow_drop_down" size="16px" />
 

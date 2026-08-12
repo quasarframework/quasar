@@ -14,6 +14,7 @@
             keep-color
             dense
             v-model="topL"
+            aria-label="Top left slot"
             :options="[
               { label: 'l', value: 'l' },
               { label: 'h', value: 'h' }
@@ -27,6 +28,7 @@
             keep-color
             dense
             v-model="topC"
+            aria-label="Top center slot"
             :options="[
               { label: 'h', value: 'h' },
               { label: 'H', value: 'H' }
@@ -45,6 +47,7 @@
             keep-color
             dense
             v-model="topR"
+            aria-label="Top right slot"
             :options="[
               { label: 'r', value: 'r' },
               { label: 'h', value: 'h' }
@@ -63,6 +66,7 @@
             keep-color
             dense
             v-model="middleL"
+            aria-label="Middle left slot"
             :options="[
               { label: 'l', value: 'l' },
               { label: 'L', value: 'L' }
@@ -79,6 +83,7 @@
             keep-color
             dense
             v-model="middleR"
+            aria-label="Middle right slot"
             :options="[
               { label: 'r', value: 'r' },
               { label: 'R', value: 'R' }
@@ -100,6 +105,7 @@
             keep-color
             dense
             v-model="bottomL"
+            aria-label="Bottom left slot"
             :options="[
               { label: 'l', value: 'l' },
               { label: 'f', value: 'f' }
@@ -113,6 +119,7 @@
             keep-color
             dense
             v-model="bottomC"
+            aria-label="Bottom center slot"
             :options="[
               { label: 'f', value: 'f' },
               { label: 'F', value: 'F' }
@@ -131,6 +138,7 @@
             keep-color
             dense
             v-model="bottomR"
+            aria-label="Bottom right slot"
             :options="[
               { label: 'r', value: 'r' },
               { label: 'f', value: 'f' }

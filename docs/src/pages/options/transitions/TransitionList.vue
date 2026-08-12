@@ -3,6 +3,8 @@
     <img
       class="transition-list-box__ensure-img-loaded no-pointer-events absolute-bottom-left"
       src="/img/parallax1.jpg"
+      alt=""
+      aria-hidden="true"
     />
 
     <q-btn
@@ -18,13 +20,18 @@
         v-for="transition in transitions"
         :key="transition.name"
         class="transition-list-box relative-position overflow-hidden rounded-borders shadow-2 cursor-pointer non-selectable"
+        role="button"
+        tabindex="0"
+        :aria-label="`Play ${transition.name} transition`"
         @click="transition.trigger"
+        @keydown.enter.space.prevent="transition.trigger"
       >
         <transition :name="transition.css">
           <img
             class="transition-list-box__img absolute-full"
             :key="transition.name + '|' + transition.url"
             :src="transition.url"
+            alt=""
           />
         </transition>
 
