@@ -1,5 +1,6 @@
 import { listenOpts } from '../event/event.js'
 import { portalProxyList } from '../private.portal/portal.js'
+import { focusIsInDetachedFullscreen } from '../private.focus/detached-fullscreen.js'
 
 let timer = null
 
@@ -63,11 +64,16 @@ function globalHandler(evt) {
     }
 
     if (
+      // a target inside a child that useFullscreen() has detached to <body>
+      // is still logically inside the popup / anchor it was moved out of,
+      // despite failing the physical containment test (#18512)
       (state.anchorEl.value === null ||
-        !state.anchorEl.value.contains(target)) &&
+        (!state.anchorEl.value.contains(target) &&
+          !focusIsInDetachedFullscreen(state.anchorEl.value, target))) &&
       (target === document.body ||
         (state.innerRef.value !== null &&
-          !state.innerRef.value.contains(target)))
+          !state.innerRef.value.contains(target) &&
+          !focusIsInDetachedFullscreen(state.innerRef.value, target)))
     ) {
       // mark the event as being processed by clickOutside
       // used to prevent refocus after menu close

@@ -2,10 +2,15 @@ import { afterEach, describe, expect, test, vi } from 'vitest'
 
 import { addClickOutside, removeClickOutside } from './click-outside.js'
 import { portalProxyList } from '../private.portal/portal.js'
+import {
+  addDetachedFullscreen,
+  removeDetachedFullscreen
+} from '../private.focus/detached-fullscreen.js'
 
 // Elements and clickOutside states created during a test, cleaned up after.
 const createdEls = []
 const registeredStates = []
+const detachedFillers = []
 
 function createEl() {
   const el = document.createElement('div')
@@ -44,10 +49,32 @@ function mousedownOn(el) {
   el.dispatchEvent(new MouseEvent('mousedown', { bubbles: true }))
 }
 
+// Detach a child of parentEl to <body> the way useFullscreen().setFullscreen()
+// does: leave a filler node behind and register the pairing.
+function detachFullscreenChild(parentEl) {
+  const childEl = document.createElement('div')
+  parentEl.append(childEl)
+
+  const targetEl = document.createElement('input')
+  childEl.append(targetEl)
+
+  const fillerNode = document.createElement('span')
+  childEl.replaceWith(fillerNode)
+  document.body.append(childEl)
+  createdEls.push(childEl)
+
+  addDetachedFullscreen(fillerNode, { $el: childEl })
+  detachedFillers.push(fillerNode)
+
+  return { childEl, fillerNode, targetEl }
+}
+
 afterEach(() => {
   registeredStates.forEach(removeClickOutside)
   registeredStates.length = 0
   portalProxyList.length = 0
+  detachedFillers.forEach(removeDetachedFullscreen)
+  detachedFillers.length = 0
   createdEls.forEach(el => el.remove())
   createdEls.length = 0
   vi.restoreAllMocks()
@@ -105,6 +132,64 @@ describe('[clickOutside API]', () => {
         mousedownOn(dialogEl)
 
         expect(outer.onClickOutside).not.toHaveBeenCalled()
+      })
+
+      test('a click inside a fullscreen-detached child of the popup does not close it (issue #18512)', () => {
+        const menu = pushMenu()
+
+        // a fullscreen-capable component inside the popup content has been
+        // moved to <body> by useFullscreen()
+        const { targetEl } = detachFullscreenChild(menu.contentEl)
+
+        mousedownOn(targetEl)
+
+        expect(menu.onClickOutside).not.toHaveBeenCalled()
+      })
+
+      test('a click inside a nested fullscreen-detached chain of the popup does not close it', () => {
+        const menu = pushMenu()
+
+        // fullscreen child of a fullscreen child: the inner filler sits inside
+        // the outer detached element, so ownership resolves through the chain
+        const outer = detachFullscreenChild(menu.contentEl)
+        const inner = detachFullscreenChild(outer.childEl)
+
+        mousedownOn(inner.targetEl)
+
+        expect(menu.onClickOutside).not.toHaveBeenCalled()
+      })
+
+      test('a click inside a fullscreen-detached child of the anchor does not close the popup', () => {
+        const anchorEl = createEl()
+        const contentEl = pushPortal('QMenu')
+        const onClickOutside = vi.fn()
+        const state = {
+          anchorEl: { value: anchorEl },
+          innerRef: { value: contentEl },
+          onClickOutside
+        }
+        addClickOutside(state)
+        registeredStates.push(state)
+
+        const { targetEl } = detachFullscreenChild(anchorEl)
+
+        mousedownOn(targetEl)
+
+        expect(onClickOutside).not.toHaveBeenCalled()
+      })
+
+      test('a click inside an unrelated fullscreen-detached element still closes the popup', () => {
+        // the unowned container must precede the popup content in DOM order:
+        // ownership checks include later siblings (childHasFocus), so a
+        // container created after the popup would read as owned
+        const container = createEl()
+        const menu = pushMenu()
+
+        const { targetEl } = detachFullscreenChild(container)
+
+        mousedownOn(targetEl)
+
+        expect(menu.onClickOutside).toHaveBeenCalledTimes(1)
       })
 
       test('a QTooltip above a modal dialog does not unshield an earlier menu', () => {
