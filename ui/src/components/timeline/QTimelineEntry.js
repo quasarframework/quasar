@@ -71,8 +71,10 @@ export default /*#__PURE__*/ createComponent({
           h(props.tag, { class: 'q-timeline__heading-title' }, child)
         ]
 
+        // must render an "li": QTimeline is a native "ul", which only
+        // permits list items as children
         return h(
-          'div',
+          'li',
           {
             class: 'q-timeline__heading'
           },

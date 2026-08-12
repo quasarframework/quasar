@@ -146,7 +146,11 @@ export default function useBtn(props) {
     if (linkTag.value === 'a') {
       if (props.disable) {
         acc['aria-disabled'] = 'true'
-      } else if (acc.href === void 0) {
+      }
+
+      // a disabled link loses its href, but must still announce
+      // as a (dimmed) button rather than as plain text
+      if (acc.href === void 0) {
         acc.role = 'button'
       }
 

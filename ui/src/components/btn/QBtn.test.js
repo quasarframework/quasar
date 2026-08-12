@@ -1187,4 +1187,20 @@ describe('[QBtn API]', () => {
       })
     })
   })
+
+  describe('[Accessibility]', () => {
+    test('a disabled link-shaped button keeps its button semantics', () => {
+      const wrapper = mount(QBtn, {
+        props: { type: 'a', disable: true }
+      })
+
+      expect(wrapper.element.tagName).toBe('A')
+      expect(wrapper.attributes('href')).toBeUndefined()
+
+      // it must still announce as a (dimmed) button, not as plain text
+      expect(wrapper.attributes('role')).toBe('button')
+      expect(wrapper.attributes('aria-disabled')).toBe('true')
+      expect(wrapper.attributes('tabindex')).toBe('-1')
+    })
+  })
 })

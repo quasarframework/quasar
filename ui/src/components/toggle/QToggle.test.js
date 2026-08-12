@@ -101,7 +101,9 @@ describe('[QToggle API]', () => {
           indeterminateValue: 0
         })
 
-        expect(wrapper.attributes('aria-checked')).toBe('mixed')
+        // the switch role does not allow aria-checked="mixed":
+        // an indeterminate toggle announces as unchecked
+        expect(wrapper.attributes('aria-checked')).toBe('false')
       })
     })
 

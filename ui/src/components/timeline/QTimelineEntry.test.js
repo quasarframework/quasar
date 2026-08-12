@@ -21,7 +21,10 @@ describe('[QTimelineEntry API]', () => {
         const wrapper = mountTimelineEntry({ heading: true })
 
         expect(wrapper.find('.q-timeline__entry').exists()).toBe(false)
-        expect(wrapper.get('.q-timeline__heading').exists()).toBe(true)
+
+        // a heading entry must still be a list item —
+        // QTimeline renders a native "ul"
+        expect(wrapper.get('.q-timeline__heading').element.tagName).toBe('LI')
       })
     })
 

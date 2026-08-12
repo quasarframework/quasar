@@ -30,7 +30,7 @@ function getPageLabels(wrapper) {
 }
 
 function getActiveButton(wrapper) {
-  return wrapper.get('.q-btn[aria-current="true"]')
+  return wrapper.get('.q-btn[aria-current="page"]')
 }
 
 function getInput(wrapper) {

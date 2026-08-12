@@ -331,8 +331,12 @@ export default /*#__PURE__*/ createComponent({
           key: 'main',
           class: classes.value,
           style: style.value,
-          role: 'img',
-          'aria-label': props.alt
+          // the img role requires an accessible name, so it is only
+          // claimed when "alt" provides one; without it the wrapper
+          // stays neutral (like a native <img alt="">)
+          ...(props.alt !== void 0
+            ? { role: 'img', 'aria-label': props.alt }
+            : {})
         },
         content
       )

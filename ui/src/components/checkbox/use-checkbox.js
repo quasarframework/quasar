@@ -139,8 +139,12 @@ export default function useCheckbox(type, getInner) {
       tabindex: tabindex.value,
       role: type === 'toggle' ? 'switch' : 'checkbox',
       'aria-label': props.label,
+      // the switch role does not allow "mixed"
+      // (AT would map it to "false" anyway)
       'aria-checked': isIndeterminate.value
-        ? 'mixed'
+        ? type === 'toggle'
+          ? 'false'
+          : 'mixed'
         : isTrue.value
           ? 'true'
           : 'false'

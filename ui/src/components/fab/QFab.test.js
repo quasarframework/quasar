@@ -581,4 +581,26 @@ describe('[QFab API]', () => {
       })
     })
   })
+
+  describe('[Accessibility]', () => {
+    test('the trigger discloses without claiming a popup role', async () => {
+      const wrapper = mountFab()
+      const actions = wrapper.get('.q-fab__actions')
+
+      // the actions container holds plain buttons, so neither it nor the
+      // trigger may claim menu semantics
+      expect(actions.attributes('role')).toBeUndefined()
+      expect(getTrigger(wrapper).attributes('aria-haspopup')).toBeUndefined()
+
+      expect(getTrigger(wrapper).attributes('aria-expanded')).toBe('false')
+      expect(getTrigger(wrapper).attributes('aria-controls')).toBe(
+        actions.attributes('id')
+      )
+
+      await getTrigger(wrapper).trigger('click')
+
+      expect(getTrigger(wrapper).attributes('aria-expanded')).toBe('true')
+      expect(actions.attributes('aria-hidden')).toBeUndefined()
+    })
+  })
 })

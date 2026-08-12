@@ -43,6 +43,26 @@ then root `pnpm test`.
   is the catch-all for other non-API behavior. These two are the only
   valid hand-written categories (see `test/README.md`).
 
+## Accessibility
+
+Component a11y work (roles, `aria-*` state, keyboard maps, focus
+handling) follows the WAI-ARIA APG patterns; its tests go in the
+`[Accessibility]` describe (see Test design). Any a11y behavior change
+must update, in the same change set, the "Accessibility" section of the
+component's docs page AND — whenever the one-line summary there stops
+matching — the component's matrix row on
+`docs/src/pages/options/accessibility.md`.
+
+Localized screen-reader strings are lang-pack keys. Adding one touches:
+every `ui/lang/*.js` pack (the ui build validates each pack against
+en-US's shape, so none may lag), the strict enumeration in
+`src/plugins/lang/Lang.test.js`, both label blocks in
+`src/plugins/lang/Lang.json`, and `types/lang.d.ts` (keep new a11y keys
+optional so third-party packs still compile). Consumer code needs
+optional chaining only for a brand-new lang-pack SECTION (third-party
+packs lack it); new keys in existing sections resolve to `undefined`
+safely.
+
 ## Hydration tests
 
 `pnpm test:hydration` (separate from the Specs workflow): colocated

@@ -133,7 +133,9 @@ export default /*#__PURE__*/ createComponent({
           role: 'progressbar',
           'aria-valuemin': 0,
           'aria-valuemax': 1,
-          'aria-valuenow': props.indeterminate ? void 0 : props.value
+          // "query" animates as indeterminate, so it reports no value either
+          'aria-valuenow':
+            props.indeterminate || props.query ? void 0 : props.value
         },
         hMergeSlot(slots.default, child)
       )

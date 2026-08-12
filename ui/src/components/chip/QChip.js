@@ -92,9 +92,10 @@ export default /*#__PURE__*/ createComponent({
       () => props.iconRemove || $q.iconSet.chip.remove
     )
 
-    const isClickable = computed(
-      () => !props.disable && (props.clickable || props.selected !== null)
+    const isActionable = computed(
+      () => props.clickable || props.selected !== null
     )
+    const isClickable = computed(() => !props.disable && isActionable.value)
 
     const classes = computed(() => {
       const text = props.outline
@@ -119,18 +120,24 @@ export default /*#__PURE__*/ createComponent({
 
     const attributes = computed(() => {
       const chip = props.disable
-        ? { tabindex: -1, 'aria-disabled': 'true' }
+        ? { role: 'button', tabindex: -1, 'aria-disabled': 'true' }
         : {
-            tabindex: props.tabindex || 0,
             role: 'button',
-            'aria-pressed': props.selected ? 'true' : 'false'
+            tabindex: props.tabindex || 0,
+            // aria-pressed only for actual toggle chips —
+            // plain action chips must not announce as (unpressed) toggles
+            ...(props.selected !== null
+              ? { 'aria-pressed': props.selected ? 'true' : 'false' }
+              : {})
           }
 
       const remove = {
-        ...chip,
         role: 'button',
         'aria-hidden': 'false',
-        'aria-label': props.removeAriaLabel || $q.lang.label.remove
+        'aria-label': props.removeAriaLabel || $q.lang.label.remove,
+        ...(props.disable
+          ? { tabindex: -1, 'aria-disabled': 'true' }
+          : { tabindex: props.tabindex || 0 })
       }
 
       return { chip, remove }
@@ -224,8 +231,14 @@ export default /*#__PURE__*/ createComponent({
         style: sizeStyle.value
       }
 
+      if (isActionable.value) {
+        // a disabled actionable chip keeps its role (perceivable,
+        // announced as dimmed) but leaves the tab order
+        Object.assign(data, attributes.value.chip)
+      }
+
       if (isClickable.value) {
-        Object.assign(data, attributes.value.chip, {
+        Object.assign(data, {
           onClick,
           onKeydown: preventSpace,
           onKeyup

@@ -328,8 +328,18 @@ describe('[QImg API]', () => {
         const propVal = 'A nice photo'
         const wrapper = mountImg({ alt: propVal })
 
+        expect(wrapper.attributes('role')).toBe('img')
         expect(wrapper.attributes('aria-label')).toBe(propVal)
         expect(getCurrentImg(wrapper).attributes('alt')).toBe(propVal)
+      })
+
+      test('the img role is only claimed when "alt" provides a name', () => {
+        // the img role requires an accessible name; without "alt" the
+        // wrapper stays neutral, like a native <img alt="">
+        const wrapper = mountImg()
+
+        expect(wrapper.attributes('role')).toBeUndefined()
+        expect(wrapper.attributes('aria-label')).toBeUndefined()
       })
     })
 

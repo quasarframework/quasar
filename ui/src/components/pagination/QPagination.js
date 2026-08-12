@@ -300,14 +300,13 @@ export default /*#__PURE__*/ createComponent({
     function getBtn(cfg, page, active) {
       const data = {
         'aria-label': page,
-        'aria-current': 'false',
         ...btnProps.value,
         ...cfg
       }
 
       if (active) {
         Object.assign(data, {
-          'aria-current': 'true',
+          'aria-current': 'page',
           ...activeBtnProps.value
         })
       }

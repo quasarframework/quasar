@@ -41,6 +41,6 @@ Also check out [QBadge](/vue-components/badge).
 
 ## Accessibility
 
-A clickable chip (through the `clickable` prop or a `selected` model) exposes itself as `role="button"` with `aria-pressed` reflecting the selected state, and activates on <kbd>Enter</kbd> or <kbd>Space</kbd>. A disabled chip is marked `aria-disabled` and taken out of the tab order.
+A clickable chip (through the `clickable` prop or a `selected` model) exposes itself as `role="button"` and activates on <kbd>Enter</kbd> or <kbd>Space</kbd>. Only chips driven by a `selected` model additionally expose `aria-pressed` — a plain action chip does not claim toggle semantics. A disabled chip keeps its role (announced as dimmed via `aria-disabled`) but is taken out of the tab order.
 
 The remove icon of a `removable` chip is a keyboard-operable control of its own, named by the localized "Remove" label from the [Quasar Language Pack](/options/quasar-language-packs). That generic name says nothing about what would be removed, so set `remove-aria-label` per chip for context — e.g. "Remove tag: Vue".

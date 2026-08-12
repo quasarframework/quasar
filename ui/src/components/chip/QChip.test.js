@@ -465,13 +465,16 @@ describe('[QChip API]', () => {
 
         expect(wrapper.attributes('tabindex')).toBe(String(propVal))
 
-        // we'll test clickable + disable
+        // we'll test clickable + disable: the chip leaves the tab order
+        // but keeps its button role, announced as dimmed
         await wrapper.setProps({ disable: true })
         await flushPromises()
 
-        expect(wrapper.attributes('tabindex')).toBeUndefined()
+        expect(wrapper.attributes('tabindex')).toBe('-1')
 
-        expect(wrapper.attributes('aria-disabled')).toBeUndefined()
+        expect(wrapper.attributes('aria-disabled')).toBe('true')
+
+        expect(wrapper.attributes('role')).toBe('button')
 
         // we'll now test removable + disable
         await wrapper.setProps({
@@ -681,6 +684,30 @@ describe('[QChip API]', () => {
         const [value] = eventList['update:modelValue'][0]
         expect(value).toBe(false)
       })
+    })
+  })
+
+  describe('[Accessibility]', () => {
+    test('plain action chips do not claim toggle semantics', () => {
+      const wrapper = mount(QChip, {
+        props: { clickable: true }
+      })
+
+      expect(wrapper.attributes('role')).toBe('button')
+      expect(wrapper.attributes('aria-pressed')).toBeUndefined()
+    })
+
+    test('selection chips expose aria-pressed', async () => {
+      const wrapper = mount(QChip, {
+        props: { selected: false }
+      })
+
+      expect(wrapper.attributes('role')).toBe('button')
+      expect(wrapper.attributes('aria-pressed')).toBe('false')
+
+      await wrapper.setProps({ selected: true })
+
+      expect(wrapper.attributes('aria-pressed')).toBe('true')
     })
   })
 })

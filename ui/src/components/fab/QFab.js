@@ -83,10 +83,12 @@ export default /*#__PURE__*/ createComponent({
         ` q-fab__actions--${showing.value ? 'opened' : 'closed'}`
     )
 
+    // deliberately no role on the actions container: its children are
+    // plain buttons/links, which the "menu" role would render invalid
+    // (menus permit nothing but menuitem* children)
     const actionAttrs = computed(() => {
       const attrs = {
-        id: targetUid.value,
-        role: 'menu'
+        id: targetUid.value
       }
 
       if (!showing.value) {
@@ -173,8 +175,9 @@ export default /*#__PURE__*/ createComponent({
               label: void 0,
               noCaps: true,
               fab: true,
+              // no aria-haspopup: its value must reflect the popup's
+              // ARIA role and the actions container claims none
               'aria-expanded': showing.value ? 'true' : 'false',
-              'aria-haspopup': 'true',
               'aria-controls': targetUid.value,
               onClick: toggle
             },

@@ -132,6 +132,9 @@ describe('[QLinearProgress API]', () => {
         expect(wrapper.get('.q-linear-progress__model').classes()).toContain(
           'q-linear-progress__model--indeterminate'
         )
+
+        // query animates as indeterminate, so it must not report a value
+        expect(wrapper.attributes('aria-valuenow')).toBeUndefined()
       })
     })
 
