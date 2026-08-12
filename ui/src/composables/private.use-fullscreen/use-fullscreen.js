@@ -26,6 +26,60 @@ import { bringGlobalNodesToFront } from '../../utils/private.config/nodes.js'
 let counter = 0
 let restoreState = null
 
+/**
+ * Detaching an element drops the focus (and any caret) it holds, and
+ * browsers do not bring either back on re-insertion (#17843). Captured
+ * before a move, restored after it.
+ *
+ * The caret/selection of an input or textarea is element state and comes
+ * back with focus() on its own; a contenteditable caret lives on the
+ * document Selection, which is captured as plain boundary values -- node
+ * removal re-targets live Range objects to the old parent.
+ */
+function captureFocusWithin(el) {
+  const activeEl = document.activeElement
+
+  if (
+    activeEl === null ||
+    activeEl === document.body ||
+    !el.contains(activeEl)
+  ) {
+    return null
+  }
+
+  const capture = { activeEl }
+
+  if (activeEl.isContentEditable === true) {
+    const selection = document.getSelection()
+
+    if (selection.rangeCount !== 0 && el.contains(selection.anchorNode)) {
+      capture.anchorNode = selection.anchorNode
+      capture.anchorOffset = selection.anchorOffset
+      capture.focusNode = selection.focusNode
+      capture.focusOffset = selection.focusOffset
+    }
+  }
+
+  return capture
+}
+
+function restoreFocus(capture) {
+  if (capture === null || !capture.activeEl.isConnected) return
+
+  capture.activeEl.focus({ preventScroll: true })
+
+  if (capture.anchorNode !== void 0 && capture.anchorNode.isConnected) {
+    document
+      .getSelection()
+      .setBaseAndExtent(
+        capture.anchorNode,
+        capture.anchorOffset,
+        capture.focusNode,
+        capture.focusOffset
+      )
+  }
+}
+
 export const useFullscreenProps = {
   fullscreen: Boolean,
   noRouteFullscreenExit: Boolean
@@ -88,6 +142,9 @@ export default function useFullscreen() {
     }
 
     inFullscreen.value = true
+
+    const focusCapture = captureFocusWithin(proxy.$el)
+
     proxy.$el.replaceWith(fullscreenFillerNode)
     document.body.append(proxy.$el)
 
@@ -97,6 +154,10 @@ export default function useFullscreen() {
     bringGlobalNodesToFront()
 
     addDetachedFullscreen(fullscreenFillerNode, proxy)
+
+    // after the registry entry, so that a focus trap watching focusin
+    // (QDialog) already resolves the detached element as logically owned
+    restoreFocus(focusCapture)
 
     counter++
     if (counter === 1) {
@@ -120,8 +181,13 @@ export default function useFullscreen() {
     removeDetachedFullscreen(fullscreenFillerNode)
 
     if (shouldRestoreElement === true) {
+      const focusCapture = captureFocusWithin(proxy.$el)
+
       fullscreenFillerNode.replaceWith(proxy.$el)
+      restoreFocus(focusCapture)
     } else {
+      // the element is headed for a KeepAlive storage container;
+      // focus cannot follow it out of the live DOM
       fullscreenFillerNode.remove()
     }
 

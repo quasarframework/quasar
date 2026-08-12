@@ -41,6 +41,33 @@ const OtherComponent = defineComponent({
   setup: () => () => h('section', { 'data-test': 'other-component' })
 })
 
+const FocusableFullscreenComponent = defineComponent({
+  name: 'FocusableFullscreenComponent',
+  props: useFullscreenProps,
+  emits: useFullscreenEmits,
+
+  setup() {
+    useFullscreen()
+
+    return () =>
+      h('section', null, [
+        h('input', { 'data-test': 'inner-input' }),
+        h(
+          'div',
+          { 'data-test': 'inner-editable', contenteditable: 'true' },
+          'editable text'
+        )
+      ])
+  }
+})
+
+function mountFocusable() {
+  mountTarget = document.createElement('div')
+  document.body.append(mountTarget)
+
+  wrapper = mount(FocusableFullscreenComponent, { attachTo: mountTarget })
+}
+
 const NestedFullscreenComponent = defineComponent({
   name: 'NestedFullscreenComponent',
   props: useFullscreenProps,
@@ -236,6 +263,64 @@ describe('[useFullscreen API]', () => {
 
         expect(getFullscreenElement()).not.toBeNull()
         expect(getFullscreenElement().dataset.fullscreen).toBe('true')
+      })
+
+      test('keeps focus and caret on an input through enter and exit (issue #17843)', async () => {
+        mountFocusable()
+
+        const input = document.querySelector('[data-test="inner-input"]')
+        input.value = 'abc'
+        input.focus()
+        input.setSelectionRange(1, 2)
+
+        wrapper.vm.setFullscreen()
+        await flushPromises()
+
+        expect(document.activeElement).toBe(input)
+        expect(input.selectionStart).toBe(1)
+        expect(input.selectionEnd).toBe(2)
+
+        wrapper.vm.exitFullscreen()
+        await flushPromises()
+
+        expect(document.activeElement).toBe(input)
+        expect(input.selectionStart).toBe(1)
+        expect(input.selectionEnd).toBe(2)
+      })
+
+      test('keeps the caret of a contenteditable through the move', async () => {
+        mountFocusable()
+
+        const editable = document.querySelector('[data-test="inner-editable"]')
+        const textNode = editable.firstChild
+        editable.focus()
+        document.getSelection().setBaseAndExtent(textNode, 2, textNode, 6)
+
+        wrapper.vm.setFullscreen()
+        await flushPromises()
+
+        expect(document.activeElement).toBe(editable)
+
+        const selection = document.getSelection()
+        expect(selection.anchorNode).toBe(textNode)
+        expect(selection.anchorOffset).toBe(2)
+        expect(selection.focusNode).toBe(textNode)
+        expect(selection.focusOffset).toBe(6)
+      })
+
+      test('leaves focus held outside the moving element alone', async () => {
+        mountFocusable()
+
+        const outsideInput = document.createElement('input')
+        document.body.append(outsideInput)
+        outsideInput.focus()
+
+        wrapper.vm.setFullscreen()
+        await flushPromises()
+
+        expect(document.activeElement).toBe(outsideInput)
+
+        outsideInput.remove()
       })
     })
   })
