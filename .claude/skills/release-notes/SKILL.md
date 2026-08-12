@@ -173,7 +173,7 @@ Draft release — never a duplicate:
 
 - `utils/*` packages and create-quasar get NO draft (no GitHub
   releases for them): they skip this whole section — say so when
-  asking. The handoff below still applies, minus its item 4.
+  asking. The handoff below still applies, minus its draft item.
 - Release label: ONLY the ui package is marked "Latest". GitHub does
   NOT persist a latest flag on drafts (it only applies at publish), so
   don't pass `--latest` flags when creating/editing the draft — the
@@ -189,15 +189,21 @@ Draft release — never a duplicate:
   line. A draft creates no tag (it is cut from dev HEAD at publish
   time).
 
-End the continuation with this handoff checklist for the user:
+End the continuation by asking the user to run `pnpm publish` from
+the package dir themselves (suggest the `! pnpm publish` prompt
+prefix so its output lands in the session) — prepublish hooks run
+builds/tests and may regenerate tracked files. NEVER run the publish
+yourself.
 
-1. `pnpm publish` from the package dir (prepublish hooks run
-   builds/tests and may adjust files).
-2. If the publish left changes in the worktree, fold them into the
-   bump commit BEFORE pushing (amend — it stays a single commit;
-   never amend after the push).
-3. Push dev.
-4. If a draft was created, give its link and how to publish it:
+After the publish has run: if it left changes in the worktree, fold
+them into the bump commit yourself without asking — `git add` them
+and `git commit --amend --no-edit` (it stays a single commit; never
+amend after the push) — then report what the commit now contains
+(`git show --stat`) so the user sees exactly what they're pushing.
+Then hand off:
+
+1. Push dev.
+2. If a draft was created, give its link and how to publish it:
    `gh release edit "<tag>" --draft=false --latest=false` for any
    package except ui (publishing from the GitHub UI pre-selects
    "Set as the latest release" — uncheck it there); plain UI publish
