@@ -1488,7 +1488,7 @@ export default /*#__PURE__*/ createComponent({
       if (props.useInput) {
         updateInputValue(
           !props.multiple && props.fillInput && innerValue.value.length !== 0
-            ? getOptionLabel.value(innerValue.value[0]) || ''
+            ? (getOptionLabel.value(innerValue.value[0]) ?? '')
             : '',
           true,
           true

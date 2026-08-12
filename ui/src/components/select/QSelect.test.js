@@ -1463,6 +1463,28 @@ describe('[QSelect API]', () => {
 
         expect(wrapper.get('input').element.value).toBe('b')
       })
+
+      test('displays falsy (but non-null) selected values', async () => {
+        const wrapper = mountSelect({
+          modelValue: 0,
+          options: [0, 1, 2],
+          useInput: true,
+          fillInput: true
+        })
+        await flushPromises()
+
+        expect(wrapper.get('input').element.value).toBe('0')
+
+        const boolWrapper = mountSelect({
+          modelValue: false,
+          options: [true, false],
+          useInput: true,
+          fillInput: true
+        })
+        await flushPromises()
+
+        expect(boolWrapper.get('input').element.value).toBe('false')
+      })
     })
 
     describe('[(prop)new-value-mode]', () => {
