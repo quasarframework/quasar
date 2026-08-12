@@ -55,6 +55,7 @@ export default [
       },
       {
         name: 'Accessibility',
+        badge: 'new',
         path: 'accessibility'
       },
       {
