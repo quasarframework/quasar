@@ -128,10 +128,6 @@ export default /*#__PURE__*/ createComponent({
       return acc
     })
 
-    const orientation = computed(() =>
-      props.vertical ? 'vertical' : 'horizontal'
-    )
-
     function getEditableAriaState() {
       return props.disable
         ? { 'aria-disabled': 'true' }
@@ -153,7 +149,7 @@ export default /*#__PURE__*/ createComponent({
         'aria-label':
           props[isMin ? 'leftThumbAriaLabel' : 'rightThumbAriaLabel'] ||
           $q.lang.label[isMin ? 'minimum' : 'maximum'],
-        'aria-orientation': orientation.value,
+        'aria-orientation': state.orientation.value,
         // each thumb is clamped against the other one (see onKeydown),
         // so its effective limits are what gets exposed
         'aria-valuemin': isMin ? state.innerMin.value : model.value.min,
@@ -187,7 +183,7 @@ export default /*#__PURE__*/ createComponent({
       return {
         role: 'slider',
         'aria-label': $q.lang.label.range,
-        'aria-orientation': orientation.value,
+        'aria-orientation': state.orientation.value,
         'aria-valuemin': state.innerMin.value,
         'aria-valuemax': state.innerMax.value,
         'aria-valuenow': min,
@@ -450,6 +446,40 @@ export default /*#__PURE__*/ createComponent({
       if (!keyCodes.includes(evt.keyCode)) return
 
       stopAndPrevent(evt)
+
+      // HOME/END jump straight to the focused thumb's limits
+      // (never direction-reversed)
+      if (evt.keyCode === 36 || evt.keyCode === 35) {
+        const toStart = evt.keyCode === 36
+
+        if (state.focus.value === 'both') {
+          // the whole window moves to the edge, preserving its width
+          const interval = model.value.max - model.value.min
+          const min = toStart
+            ? state.innerMin.value
+            : state.innerMax.value - interval
+
+          model.value = {
+            min,
+            max: state.roundValueFn.value(min + interval)
+          }
+        } else if (!state.focus.value) {
+          return
+        } else if (state.focus.value === 'min') {
+          model.value = {
+            ...model.value,
+            min: toStart ? state.innerMin.value : model.value.max
+          }
+        } else {
+          model.value = {
+            ...model.value,
+            max: toStart ? model.value.min : state.innerMax.value
+          }
+        }
+
+        updateValue()
+        return
+      }
 
       const stepVal =
           ([34, 33].includes(evt.keyCode) ? 10 : 1) * state.keyStep.value,

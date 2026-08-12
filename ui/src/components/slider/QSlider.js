@@ -1,6 +1,7 @@
 import { computed, getCurrentInstance, h, ref, watch } from 'vue'
 
 import { useFormAttrs } from '../../composables/use-form/private.use-form.js'
+import useSplitAttrs from '../../composables/use-split-attrs/use-split-attrs.js'
 
 import useSlider, {
   keyCodes,
@@ -31,10 +32,17 @@ export default /*#__PURE__*/ createComponent({
 
   emits: useSliderEmits,
 
-  setup(props, { emit }) {
+  // fall-through attributes (aria-label & friends) are routed to the
+  // focusable track container, which carries the slider role; only
+  // class/style (and listeners) stay on the root element
+  inheritAttrs: false,
+
+  setup(props, { emit, attrs }) {
     const {
       proxy: { $q }
     } = getCurrentInstance()
+
+    const splitAttrs = useSplitAttrs()
 
     const { state, methods } = useSlider({
       updateValue,
@@ -108,6 +116,40 @@ export default /*#__PURE__*/ createComponent({
           }
     })
 
+    // the WAI-ARIA slider is the track container — the same element
+    // that is focusable and handles the keyboard
+    const trackContainerAriaAttrs = computed(() => {
+      const acc = {
+        role: 'slider',
+        'aria-orientation': state.orientation.value,
+        'aria-valuemin': state.innerMin.value,
+        'aria-valuemax': state.innerMax.value,
+        'data-step': props.step
+      }
+
+      if (props.modelValue !== null) {
+        acc['aria-valuenow'] = props.modelValue
+      }
+      if (props.labelValue !== void 0) {
+        acc['aria-valuetext'] = props.labelValue
+      }
+
+      if (props.disable) {
+        acc['aria-disabled'] = 'true'
+      } else if (props.readonly) {
+        acc['aria-readonly'] = 'true'
+      }
+
+      return acc
+    })
+
+    const trackContainerData = computed(() => ({
+      ...trackContainerAriaAttrs.value,
+      // consumer-supplied attributes (aria-label etc.) win
+      ...splitAttrs.attributes.value,
+      ...trackContainerEvents.value
+    }))
+
     function updateValue(change) {
       if (model.value !== props.modelValue) {
         emit('update:modelValue', model.value)
@@ -140,6 +182,15 @@ export default /*#__PURE__*/ createComponent({
 
       stopAndPrevent(evt)
 
+      // HOME/END jump straight to the limits (never direction-reversed)
+      if (evt.keyCode === 36 || evt.keyCode === 35) {
+        model.value =
+          evt.keyCode === 36 ? state.innerMin.value : state.innerMax.value
+
+        updateValue()
+        return
+      }
+
       const stepVal =
           ([34, 33].includes(evt.keyCode) ? 10 : 1) * state.keyStep.value,
         offset =
@@ -161,7 +212,7 @@ export default /*#__PURE__*/ createComponent({
       const content = methods.getContent(
         selectionBarStyle,
         state.tabindex,
-        trackContainerEvents,
+        trackContainerData,
         node => {
           node.push(getThumb())
         }
@@ -171,11 +222,13 @@ export default /*#__PURE__*/ createComponent({
         'div',
         {
           ref: rootRef,
-          class:
+          class: [
             state.classes.value +
-            (props.modelValue === null ? ' q-slider--no-value' : ''),
-          ...state.attributes.value,
-          'aria-valuenow': props.modelValue
+              (props.modelValue === null ? ' q-slider--no-value' : ''),
+            attrs.class
+          ],
+          style: attrs.style,
+          ...splitAttrs.listeners.value
         },
         content
       )

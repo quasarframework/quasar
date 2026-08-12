@@ -97,13 +97,17 @@ describe('[QSlider API]', () => {
         const propVal = 0
         const wrapper = mountSlider({ min: propVal })
 
-        expect(wrapper.attributes('aria-valuemin')).toBe(String(propVal))
+        expect(getTrackContainer(wrapper).attributes('aria-valuemin')).toBe(
+          String(propVal)
+        )
         expect(getThumb(wrapper).$style('left')).toBe('50%')
 
         // half of the [-50, 100] range sits at two thirds of the track
         await wrapper.setProps({ min: -50 })
 
-        expect(wrapper.attributes('aria-valuemin')).toBe('-50')
+        expect(getTrackContainer(wrapper).attributes('aria-valuemin')).toBe(
+          '-50'
+        )
         // the browser's CSSOM serializes the percentage rounded
         // to a few decimals, so allow for that loss of precision
         expect(Number.parseFloat(getThumb(wrapper).$style('left'))).toBeCloseTo(
@@ -118,12 +122,16 @@ describe('[QSlider API]', () => {
         const propVal = 100
         const wrapper = mountSlider({ max: propVal })
 
-        expect(wrapper.attributes('aria-valuemax')).toBe(String(propVal))
+        expect(getTrackContainer(wrapper).attributes('aria-valuemax')).toBe(
+          String(propVal)
+        )
         expect(getThumb(wrapper).$style('left')).toBe('50%')
 
         await wrapper.setProps({ max: 200 })
 
-        expect(wrapper.attributes('aria-valuemax')).toBe('200')
+        expect(getTrackContainer(wrapper).attributes('aria-valuemax')).toBe(
+          '200'
+        )
         expect(getThumb(wrapper).$style('left')).toBe('25%')
       })
     })
@@ -138,7 +146,9 @@ describe('[QSlider API]', () => {
         await wrapper.setProps({ innerMin: propVal })
 
         // the model gets pushed inside of the allowed range
-        expect(wrapper.attributes('aria-valuemin')).toBe(String(propVal))
+        expect(getTrackContainer(wrapper).attributes('aria-valuemin')).toBe(
+          String(propVal)
+        )
         expect(getThumb(wrapper).$style('left')).toBe(`${propVal}%`)
         expect(getInnerTrack(wrapper).$style('left')).toBe(`${propVal}%`)
         expect(getInnerTrack(wrapper).$style('width')).toBe('90%')
@@ -154,7 +164,9 @@ describe('[QSlider API]', () => {
 
         await wrapper.setProps({ innerMax: propVal })
 
-        expect(wrapper.attributes('aria-valuemax')).toBe(String(propVal))
+        expect(getTrackContainer(wrapper).attributes('aria-valuemax')).toBe(
+          String(propVal)
+        )
         expect(getThumb(wrapper).$style('left')).toBe(`${propVal}%`)
         expect(getInnerTrack(wrapper).$style('width')).toBe(`${propVal}%`)
       })
@@ -165,7 +177,9 @@ describe('[QSlider API]', () => {
         const propVal = 1
         const wrapper = mountSlider({ step: propVal })
 
-        expect(wrapper.attributes('data-step')).toBe(String(propVal))
+        expect(getTrackContainer(wrapper).attributes('data-step')).toBe(
+          String(propVal)
+        )
 
         await getTrackContainer(wrapper).trigger('keydown', { keyCode: 39 })
 
@@ -233,14 +247,18 @@ describe('[QSlider API]', () => {
         expect(wrapper.classes()).toEqual(
           expect.arrayContaining(['q-slider--h', 'column'])
         )
-        expect(wrapper.attributes('aria-orientation')).toBe('horizontal')
+        expect(getTrackContainer(wrapper).attributes('aria-orientation')).toBe(
+          'horizontal'
+        )
 
         await wrapper.setProps({ vertical: true })
 
         expect(wrapper.classes()).toEqual(
           expect.arrayContaining(['q-slider--v', 'row'])
         )
-        expect(wrapper.attributes('aria-orientation')).toBe('vertical')
+        expect(getTrackContainer(wrapper).attributes('aria-orientation')).toBe(
+          'vertical'
+        )
         expect(getThumb(wrapper).$style('top')).toBe('50%')
         expect(getSelection(wrapper).$style('height')).toBe('50%')
       })
@@ -674,7 +692,9 @@ describe('[QSlider API]', () => {
 
         expect(wrapper.classes()).toContain('disabled')
         expect(wrapper.classes()).not.toContain('q-slider--editable')
-        expect(wrapper.attributes('aria-disabled')).toBe('true')
+        expect(getTrackContainer(wrapper).attributes('aria-disabled')).toBe(
+          'true'
+        )
         expect(getTrackContainer(wrapper).attributes('tabindex')).toBe('-1')
         expect(getTrackContainer(wrapper).element.__qtouchpan).toBeUndefined()
         // nothing gets submitted while disabled
@@ -694,7 +714,9 @@ describe('[QSlider API]', () => {
 
         expect(wrapper.classes()).not.toContain('disabled')
         expect(wrapper.classes()).not.toContain('q-slider--editable')
-        expect(wrapper.attributes('aria-readonly')).toBe('true')
+        expect(getTrackContainer(wrapper).attributes('aria-readonly')).toBe(
+          'true'
+        )
         expect(getTrackContainer(wrapper).attributes('tabindex')).toBe('-1')
         // unlike "disable", the value still gets submitted
         expect(wrapper.find('input[type="hidden"]').exists()).toBe(true)
@@ -731,7 +753,9 @@ describe('[QSlider API]', () => {
         const propVal = 10
         const wrapper = mountSlider({ modelValue: propVal })
 
-        expect(wrapper.attributes('aria-valuenow')).toBe(String(propVal))
+        expect(getTrackContainer(wrapper).attributes('aria-valuenow')).toBe(
+          String(propVal)
+        )
         expect(wrapper.classes()).not.toContain('q-slider--no-value')
         expect(getThumb(wrapper).$style('left')).toBe(`${propVal}%`)
         expect(getSelection(wrapper).$style('width')).toBe(`${propVal}%`)
@@ -939,6 +963,58 @@ describe('[QSlider API]', () => {
         expect(value).$any([expect.any(Number), null])
         expect(value).toBe(1)
       })
+    })
+  })
+
+  describe('[Accessibility]', () => {
+    test('the focusable track container carries the slider semantics', () => {
+      // default mount: modelValue 50, limits 0-100
+      const wrapper = mountSlider()
+      const attrs = getTrackContainer(wrapper).attributes()
+
+      expect(attrs.role).toBe('slider')
+      expect(attrs.tabindex).toBe('0')
+      expect(attrs['aria-orientation']).toBe('horizontal')
+      expect(attrs['aria-valuemin']).toBe('0')
+      expect(attrs['aria-valuemax']).toBe('100')
+      expect(attrs['aria-valuenow']).toBe('50')
+
+      // the root is a plain wrapper
+      expect(wrapper.attributes('role')).toBeUndefined()
+      expect(wrapper.attributes('aria-valuenow')).toBeUndefined()
+    })
+
+    test('fall-through attributes reach the slider element, class stays on the root', () => {
+      const wrapper = mount(QSlider, {
+        props: { modelValue: 50 },
+        attrs: {
+          'aria-label': 'Volume',
+          class: 'my-slider'
+        }
+      })
+
+      expect(getTrackContainer(wrapper).attributes('aria-label')).toBe('Volume')
+      expect(wrapper.classes()).toContain('my-slider')
+      expect(getTrackContainer(wrapper).classes()).not.toContain('my-slider')
+    })
+
+    test('label-value feeds aria-valuetext', () => {
+      const wrapper = mountSlider({ labelValue: '50%' })
+
+      expect(getTrackContainer(wrapper).attributes('aria-valuetext')).toBe(
+        '50%'
+      )
+    })
+
+    test.each([
+      ['Home', 36, 0],
+      ['End', 35, 100]
+    ])('%s jumps to the limit', async (_, keyCode, expected) => {
+      const wrapper = mountSlider()
+
+      await getTrackContainer(wrapper).trigger('keydown', { keyCode })
+
+      expect(wrapper.emitted('update:modelValue')).toStrictEqual([[expected]])
     })
   })
 })

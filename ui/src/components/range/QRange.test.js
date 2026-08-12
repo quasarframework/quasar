@@ -1285,6 +1285,41 @@ describe('[QRange API]', () => {
       expect(getMinThumb(wrapper).attributes('aria-disabled')).toBeUndefined()
     })
 
+    test('Home/End jump the focused thumb to its limits', async () => {
+      const wrapper = mountRange()
+
+      // min thumb: Home -> track start, End -> the max thumb's value
+      await focusAndPress(getMinThumb(wrapper), 36)
+      expect(wrapper.emitted('update:modelValue')[0]).toStrictEqual([
+        { min: 0, max: 60 }
+      ])
+
+      await focusAndPress(getMinThumb(wrapper), 35)
+      expect(wrapper.emitted('update:modelValue')[1]).toStrictEqual([
+        { min: 60, max: 60 }
+      ])
+
+      // max thumb: End -> track end
+      // (the internal value carries over between presses: { 60, 60 })
+      await focusAndPress(getMaxThumb(wrapper), 35)
+      expect(wrapper.emitted('update:modelValue')[2]).toStrictEqual([
+        { min: 60, max: 100 }
+      ])
+    })
+
+    test('Home/End move the whole window when dragging the range', async () => {
+      const wrapper = mountRange({ dragRange: true })
+      const trackContainer = getTrackContainer(wrapper)
+
+      await trackContainer.trigger('focus')
+      await trackContainer.trigger('keydown', { keyCode: 35 })
+
+      // the 40-wide window slides to the end of the track
+      expect(wrapper.emitted('update:modelValue')[0]).toStrictEqual([
+        { min: 60, max: 100 }
+      ])
+    })
+
     test('drag-only-range moves the slider semantics onto the track container', () => {
       const wrapper = mountRange({ dragOnlyRange: true })
       const attrs = getTrackContainer(wrapper).attributes()

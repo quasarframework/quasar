@@ -114,10 +114,10 @@ When dealing with a native form which has an `action` and a `method` (eg. when u
 
 <DocExample title="Native form" file="NativeForm" />
 
-## Accessibility
+## Accessibility <q-badge label="v2.25+" />
 
-QSlider implements the [WAI-ARIA slider pattern](https://www.w3.org/WAI/ARIA/apg/patterns/slider/): it exposes `role="slider"` with `aria-valuemin`/`aria-valuemax`/`aria-valuenow` tracking the model, `aria-orientation` for the vertical mode, and `aria-disabled` / `aria-readonly` when applicable.
+QSlider implements the [WAI-ARIA slider pattern](https://www.w3.org/WAI/ARIA/apg/patterns/slider/): the element that receives keyboard focus exposes `role="slider"` with `aria-valuemin`/`aria-valuemax`/`aria-valuenow` tracking the model, `aria-orientation` for the vertical mode, and `aria-disabled` / `aria-readonly` when applicable. A `label-value` (e.g. "50%") also becomes `aria-valuetext`, so screen readers announce the same formatted value sighted users see.
 
-In desktop mode the slider is keyboard-operable: the <kbd>Arrow</kbd> keys step the value (the direction follows RTL, `reverse` and `vertical`), while <kbd>PageUp</kbd> / <kbd>PageDown</kbd> jump by 10 steps. On mobile platforms only touch/pointer interaction is wired up.
+In desktop mode the slider is keyboard-operable: the <kbd>Arrow</kbd> keys step the value (the direction follows RTL, `reverse` and `vertical`), <kbd>PageUp</kbd> / <kbd>PageDown</kbd> jump by 10 steps and <kbd>Home</kbd> / <kbd>End</kbd> go straight to the limits. On mobile platforms only touch/pointer interaction is wired up.
 
-There is no built-in accessible-name wiring, so a QSlider is announced without a label by default. Pass an `aria-label` attribute (it is applied on the `role="slider"` element) or associate a visible label yourself so screen reader users know what the value controls.
+There is no built-in accessible name, so a QSlider is announced without a label by default. Pass an `aria-label` attribute — attributes fall through onto the focusable `role="slider"` element (only `class`/`style` stay on the wrapping element) — or associate a visible label yourself so screen reader users know what the value controls.

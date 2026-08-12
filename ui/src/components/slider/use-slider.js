@@ -28,8 +28,8 @@ const defaultMarkerLabelRenderFn = ({ marker }) =>
     marker.label
   )
 
-// PGDOWN, LEFT, DOWN, PGUP, RIGHT, UP
-export const keyCodes = [34, 37, 40, 33, 39, 38]
+// PGDOWN, LEFT, DOWN, PGUP, RIGHT, UP, END, HOME
+export const keyCodes = [34, 37, 40, 33, 39, 38, 35, 36]
 
 export const useSliderProps = {
   ...useDarkProps,
@@ -177,24 +177,6 @@ export default function useSlider({
   const orientation = computed(() =>
     props.vertical ? 'vertical' : 'horizontal'
   )
-
-  const attributes = computed(() => {
-    const acc = {
-      role: 'slider',
-      'aria-valuemin': innerMin.value,
-      'aria-valuemax': innerMax.value,
-      'aria-orientation': orientation.value,
-      'data-step': props.step
-    }
-
-    if (props.disable) {
-      acc['aria-disabled'] = 'true'
-    } else if (props.readonly) {
-      acc['aria-readonly'] = 'true'
-    }
-
-    return acc
-  })
 
   const classes = computed(
     () =>
@@ -715,7 +697,7 @@ export default function useSlider({
       editable,
       classes,
       tabindex,
-      attributes,
+      orientation,
 
       roundValueFn,
       keyStep,
