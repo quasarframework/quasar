@@ -1,7 +1,7 @@
 import { existsSync } from 'node:fs'
 import { join, normalize, sep } from 'node:path'
 
-import { fatal } from './logger.js'
+import { warn } from './logger.js'
 
 function getAppInfo() {
   let appDir = process.cwd()
@@ -20,7 +20,14 @@ function getAppInfo() {
     appDir = normalize(join(appDir, '..'))
   }
 
-  fatal(`Error. This command must be executed inside a Quasar project folder.`)
+  // no Quasar CLI project detected; Quasar might still be used as a
+  // library (custom Vite/Electron setups), so target the current folder
+  // instead of hard-failing -- only modes whose target folders actually
+  // exist under it will get assets generated
+  warn(
+    'No Quasar project folder detected. Using the current folder as the target.'
+  )
+  return process.cwd()
 }
 
 export const appDir = getAppInfo()
