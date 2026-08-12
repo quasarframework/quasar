@@ -240,9 +240,12 @@ export default /*#__PURE__*/ createComponent({
         if (val) {
           nextTick(adjustHeight)
         }
-        // if it has a number of rows set respect it
-        else if (inputRef.value !== null && attrs.rows > 0) {
-          inputRef.value.style.height = 'auto'
+        // restore the inline styles that adjustHeight() had set
+        else if (inputRef.value !== null) {
+          const { style } = inputRef.value
+          style.overflowY = ''
+          // if it has a number of rows set respect it
+          style.height = attrs.rows > 0 ? 'auto' : ''
         }
       }
     )

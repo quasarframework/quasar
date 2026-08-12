@@ -829,6 +829,25 @@ describe('[QInput API]', () => {
         expect(wrapper.classes()).toContain('q-textarea')
         expect(wrapper.classes()).toContain('q-textarea--autogrow')
       })
+
+      test('toggling it off restores the textarea inline styles', async () => {
+        const wrapper = mountInput({
+          modelValue: 'line1\nline2\nline3',
+          autogrow: true
+        })
+        const inp = wrapper.get('textarea').element
+
+        await new Promise(resolve => {
+          requestAnimationFrame(resolve)
+        })
+
+        expect(inp.style.overflowY).toBe('hidden')
+
+        await wrapper.setProps({ autogrow: false })
+
+        expect(inp.style.overflowY).toBe('')
+        expect(inp.style.height).toBe('')
+      })
     })
 
     describe('[(prop)input-class]', () => {
