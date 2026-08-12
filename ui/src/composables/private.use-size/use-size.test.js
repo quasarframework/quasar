@@ -1,6 +1,10 @@
 import { describe, expect, test } from 'vitest'
 
-import useSize, { useSizeDefaults, useSizeProps } from './use-size.js'
+import useSize, {
+  getSizeStyle,
+  useSizeDefaults,
+  useSizeProps
+} from './use-size.js'
 
 describe('[useSize API]', () => {
   describe('[Variables]', () => {
@@ -19,6 +23,22 @@ describe('[useSize API]', () => {
   })
 
   describe('[Functions]', () => {
+    describe('[(function)getSizeStyle]', () => {
+      test('has correct return value', () => {
+        expect(getSizeStyle(void 0)).toBeNull()
+
+        expect(getSizeStyle('24px')).toStrictEqual({ fontSize: '24px' })
+
+        expect(getSizeStyle('sm')).toStrictEqual({
+          fontSize: `${useSizeDefaults.sm}px`
+        })
+
+        // the returned objects are shared and reference-stable,
+        // so an unchanged size can skip style patching entirely
+        expect(getSizeStyle('24px')).toBe(getSizeStyle('24px'))
+      })
+    })
+
     describe('[(function)default]', () => {
       test('should set the size', () => {
         const { value } = useSize({ size: '24px' })

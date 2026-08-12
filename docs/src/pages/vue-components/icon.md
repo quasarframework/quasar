@@ -561,6 +561,8 @@ type GlobalQuasarIconMapFn = (iconName: string) =>
 
 Mapping icons will not only affect QIcon, but also any other Quasar component that uses icons like QBtn, QInput, and more.
 
+Your `iconMapFn` must be a pure mapping: for performance reasons Quasar caches its results per function. To change mappings at runtime, assign a new function to `$q.iconMapFn` and rendered icons will pick it up — mutating state behind the already-assigned function will not, since its results are cached.
+
 #### Use case 1: Simply mapping a few icons
 
 ```js
