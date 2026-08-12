@@ -272,15 +272,15 @@ export default /*#__PURE__*/ createComponent({
         }
         case 40: {
           // DOWN ARROW
-          if (iconRefs[`rt${i - 1}`]) {
-            iconRefs[`rt${i - 1}`].focus()
+          if (iconRefs[`rt${i + 1}`]) {
+            iconRefs[`rt${i + 1}`].focus()
           }
           return stopAndPrevent(e)
         }
         case 38: {
           // UP ARROW
-          if (iconRefs[`rt${i + 1}`]) {
-            iconRefs[`rt${i + 1}`].focus()
+          if (iconRefs[`rt${i - 1}`]) {
+            iconRefs[`rt${i - 1}`].focus()
           }
           return stopAndPrevent(e)
         }

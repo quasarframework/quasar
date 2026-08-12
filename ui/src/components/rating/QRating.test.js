@@ -315,4 +315,95 @@ describe('[QRating API]', () => {
       })
     })
   })
+
+  describe('[Accessibility]', () => {
+    function mountNavRating(props) {
+      return mount(QRating, {
+        attachTo: document.body,
+        props: {
+          modelValue: 2,
+          ...props
+        }
+      })
+    }
+
+    function getStars(wrapper) {
+      return wrapper.findAll('.q-rating__icon-container')
+    }
+
+    test('implements the WAI-ARIA radio group semantics with a roving tabindex', async () => {
+      const wrapper = mountNavRating()
+      const getTabindexes = () =>
+        getStars(wrapper).map(star => star.attributes('tabindex'))
+
+      expect(wrapper.attributes('role')).toBe('radiogroup')
+      expect(
+        getStars(wrapper).map(star => star.attributes('aria-checked'))
+      ).toStrictEqual(['false', 'true', 'false', 'false', 'false'])
+
+      // the checked star is the group's single tab stop
+      expect(getTabindexes()).toStrictEqual(['-1', '0', '-1', '-1', '-1'])
+
+      // without a (whole-star) value, the first star is the tab stop
+      await wrapper.setProps({ modelValue: 0 })
+      expect(getTabindexes()).toStrictEqual(['0', '-1', '-1', '-1', '-1'])
+    })
+
+    test('arrow keys move focus without updating the model', async () => {
+      const wrapper = mountNavRating()
+      const stars = getStars(wrapper)
+
+      stars[1].element.focus()
+
+      // ArrowRight and ArrowDown move to the next star
+      await stars[1].trigger('keydown', { keyCode: 39 })
+      expect(document.activeElement).toBe(stars[2].element)
+
+      await stars[2].trigger('keydown', { keyCode: 40 })
+      expect(document.activeElement).toBe(stars[3].element)
+
+      // ArrowLeft and ArrowUp move to the previous star
+      await stars[3].trigger('keydown', { keyCode: 37 })
+      expect(document.activeElement).toBe(stars[2].element)
+
+      await stars[2].trigger('keydown', { keyCode: 38 })
+      expect(document.activeElement).toBe(stars[1].element)
+
+      // moving focus never selects
+      expect(wrapper.emitted('update:modelValue')).toBeUndefined()
+    })
+
+    test('horizontal arrow keys are reversed in RTL', async () => {
+      const wrapper = mountNavRating()
+      const stars = getStars(wrapper)
+
+      wrapper.vm.$q.lang.rtl = true
+
+      try {
+        stars[1].element.focus()
+
+        // ArrowLeft moves to the next star in RTL
+        await stars[1].trigger('keydown', { keyCode: 37 })
+        expect(document.activeElement).toBe(stars[2].element)
+
+        // ArrowDown is direction-neutral: still the next star
+        await stars[2].trigger('keydown', { keyCode: 40 })
+        expect(document.activeElement).toBe(stars[3].element)
+      } finally {
+        wrapper.vm.$q.lang.rtl = false
+      }
+    })
+
+    test('Enter and Space select the focused star', async () => {
+      const wrapper = mountNavRating()
+      const stars = getStars(wrapper)
+
+      await stars[3].trigger('keydown', { keyCode: 13 })
+      expect(wrapper.emitted('update:modelValue')).toStrictEqual([[4]])
+
+      await wrapper.setProps({ modelValue: 4 })
+      await stars[2].trigger('keydown', { keyCode: 32 })
+      expect(wrapper.emitted('update:modelValue')[1]).toStrictEqual([3])
+    })
+  })
 })
