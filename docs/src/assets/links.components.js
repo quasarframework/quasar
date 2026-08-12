@@ -104,6 +104,12 @@ const components = [
     path: 'dialog'
   },
   {
+    name: 'Drawer',
+    description: 'The sidebar panels of your layout',
+    tag: 'navigation',
+    to: '/layout/drawer'
+  },
+  {
     name: 'Editor WYSIWYG',
     description: 'To write text and style it directly',
     tag: 'other',
@@ -620,8 +626,10 @@ export const quasarElements = [
     return {
       ...entry,
       category: 'vue-components',
-      img: `/components/${kebab}.jpg`,
-      to: `/vue-components/${entry.path || kebab}`
+      // entries with an explicit `to` live outside /vue-components
+      // (layout family) and carry no card image
+      img: entry.to === void 0 ? `/components/${kebab}.jpg` : void 0,
+      to: entry.to || `/vue-components/${entry.path || kebab}`
     }
   }),
 
