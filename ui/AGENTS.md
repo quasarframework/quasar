@@ -80,11 +80,14 @@ and fails on hydration console output — playground pages must keep
 their server-rendered data deterministic (no `Math.random()`/`uid()`/
 live clocks in SSR markup; client-only data goes in `onMounted`).
 Set `E2E_SERVER_URL` to audit an already-running `dev:ssr` session
-instead of booting one. `pnpm test:umd` smoke-tests the built
-`dist/quasar.umd.js` in a real browser. `pnpm test:sweep` (on-demand,
-never part of `pnpm test`) drives the self-verdicting playground page
-`/web-tests/regression-sweep` across chromium/firefox/webkit, plus
-`--safari` (needs `safaridriver --enable` once) and `--ios` (needs full
-Xcode); `SWEEP_SERVER_URL` reuses a running playground dev server. `pnpm test` runs all five
+instead of booting one. `pnpm test:umd` drives `test/umd/` against both
+built UMD bundles in a real browser: the window.Quasar surface vs the
+src export lists, every lang-pack/icon-set UMD asset, in-DOM
+(runtime-compiler) boot, install config and the missing-Vue guard.
+`pnpm test:sweep` (on-demand, never part of `pnpm test`) drives the
+self-verdicting playground page `/web-tests/regression-sweep` across
+chromium/firefox/webkit, plus `--safari` (needs `safaridriver --enable`
+once) and `--ios` (needs full Xcode); `SWEEP_SERVER_URL` reuses a
+running playground dev server. `pnpm test` runs all five
 suites concurrently on dev machines (serially on CI) via
 `test/parallel.js`.

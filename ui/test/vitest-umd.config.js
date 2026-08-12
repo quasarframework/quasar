@@ -15,9 +15,11 @@ function getReporterConfig() {
   return {}
 }
 
-// Node-side smoke over the published UMD bundle: loads it into a real
-// browser page next to the global Vue build and boots an app — the
-// only coverage this dist artifact has.
+// Node-side suite over the published UMD artifacts, loaded into a real
+// browser page next to the global Vue build (the CDN usage pattern):
+// the global surface of both bundle flavors, every lang-pack/icon-set
+// UMD asset, in-DOM (runtime compiler) boot, install config and the
+// missing-Vue guard — the only coverage these dist artifacts have.
 export default defineConfig(() => ({
   // the package root, so the config behaves the same from the /ui
   // scripts and from the workspace-root IDE projects config
@@ -25,7 +27,14 @@ export default defineConfig(() => ({
 
   test: {
     ...getReporterConfig(),
+
+    // each test file drives its own chromium; serialize them on the
+    // memory-constrained CI runners
+    fileParallelism: !process.env.GITHUB_ACTIONS,
+
     include: ['test/umd/*.test.js'],
-    testTimeout: 60_000
+    testTimeout: 60_000,
+    // page setup loads the two bundles plus ~170 lang/icon-set scripts
+    hookTimeout: 60_000
   }
 }))
