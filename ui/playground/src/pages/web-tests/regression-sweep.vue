@@ -389,7 +389,7 @@ async function s5() {
   await settle(400)
   // the JS focus trap is a desktop affordance (see utils/private.focus/
   // focusout.js); touch platforms rely on aria-modal for AT containment
-  const desktop = !navigator.maxTouchPoints
+  const desktop = !$q.platform.is.mobile
   const outsideOk = desktop ? document.activeElement !== outside : true
   outside.remove()
   report(

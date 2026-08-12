@@ -81,6 +81,10 @@ their server-rendered data deterministic (no `Math.random()`/`uid()`/
 live clocks in SSR markup; client-only data goes in `onMounted`).
 Set `E2E_SERVER_URL` to audit an already-running `dev:ssr` session
 instead of booting one. `pnpm test:umd` smoke-tests the built
-`dist/quasar.umd.js` in a real browser. `pnpm test` runs all five
+`dist/quasar.umd.js` in a real browser. `pnpm test:sweep` (on-demand,
+never part of `pnpm test`) drives the self-verdicting playground page
+`/web-tests/regression-sweep` across chromium/firefox/webkit, plus
+`--safari` (needs `safaridriver --enable` once) and `--ios` (needs full
+Xcode); `SWEEP_SERVER_URL` reuses a running playground dev server. `pnpm test` runs all five
 suites concurrently on dev machines (serially on CI) via
 `test/parallel.js`.
