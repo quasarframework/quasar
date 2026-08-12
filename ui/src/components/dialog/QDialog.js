@@ -283,7 +283,8 @@ export default /*#__PURE__*/ createComponent({
       addFocusFn(() => {
         let node = innerRef.value
 
-        if (node === null) return
+        // the ref can hold a non-Element stub in non-browser test environments
+        if (node === null || node.contains === void 0) return
 
         if (selector !== void 0) {
           const target = node.querySelector(selector)

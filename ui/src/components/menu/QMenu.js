@@ -222,7 +222,12 @@ export default /*#__PURE__*/ createComponent({
       addFocusFn(() => {
         let node = innerRef.value
 
-        if (node && !node.contains(document.activeElement)) {
+        // the ref can hold a non-Element stub in non-browser test environments
+        if (
+          node &&
+          node.contains !== void 0 &&
+          !node.contains(document.activeElement)
+        ) {
           node =
             node.querySelector(
               '[autofocus][tabindex], [data-autofocus][tabindex]'
