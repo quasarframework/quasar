@@ -24,3 +24,9 @@ The QBadge component allows you to create a small badge for adding information l
 <DocExample title="Rounded" file="Rounded" />
 
 <DocExample title="Indicators" file="Indicators" />
+
+## Accessibility
+
+QBadge renders with `role="status"` — a polite live region — and takes its `aria-label` from the `label` prop, so a badge whose label changes after render is announced automatically (content coming through the default slot is read as plain text instead).
+
+A `floating` badge is attached to its host element only visually; there is no programmatic association between the two. Make sure the host's own accessible name carries the badge's meaning — "Inbox, 4 unread" rather than a bare "4" floating next to an unlabeled icon.

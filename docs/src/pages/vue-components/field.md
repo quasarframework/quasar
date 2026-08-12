@@ -180,3 +180,11 @@ Depending on your needs, you might connect [Regle](https://reglejs.dev/) (our re
 You can also customize the slot for error message:
 
 <DocExample title="Slot for error message" file="ValidationSlots" />
+
+## Accessibility
+
+QField renders as a native `<label>` wired through its `for` attribute to the enclosed control, using a generated SSR-safe id (overridable through the `for` prop), so clicking the label focuses the control and screen readers announce the field's name for it. A disabled field carries `aria-disabled` on the wrapper, and the clear icon shown by `clearable` is a keyboard-operable button — activated with <kbd>Enter</kbd> or <kbd>Space</kbd> — with a localized accessible name from the [Quasar Language Pack](/options/quasar-language-packs).
+
+Validation errors are announced as they appear: the error message renders with `role="alert"`, and while it is displayed the control also receives `aria-invalid` together with `aria-errormessage` and `aria-describedby` pointing at the message. These references are applied only while the message actually renders, so they never point at a missing element, and an `aria-describedby` you set yourself is merged with the error reference rather than replaced by it.
+
+When building your own control through the `control` slot, this wiring is handed to you rather than applied for you: the slot scope exposes `id`, `ariaInvalid`, `ariaDescribedby` and `ariaErrormessage`, and it is your responsibility to bind them to your focusable element (the [third party mask processor examples](/vue-components/input#using-third-party-mask-processors) on the QInput page show `:id="id"` in action). Also note that the `hint` text is purely visual — it is not associated with the control through `aria-describedby` — so if a hint carries essential information, convey it to assistive technology yourself (for instance through your own element referenced by `aria-describedby`).

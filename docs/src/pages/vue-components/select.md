@@ -286,6 +286,14 @@ When the list of options is opened:
   - select the option and close the list of options if `multiple` and `disable-tab-selection` are not set
   - toggle the option if `multiple` is set
 
+## Accessibility
+
+QSelect follows the [WAI-ARIA combobox pattern](https://www.w3.org/WAI/ARIA/apg/patterns/combobox/). The focus target is always an `<input>` with `role="combobox"` — the real filter input when `use-input` is set, otherwise a readonly input holding the displayed selection, so screen readers read the current value directly off it. It carries `aria-expanded` reflecting the popup state, `aria-controls` referencing the list of options (only while the popup with options actually exists, so the reference never points at a missing element) and `aria-activedescendant` tracking the highlighted option. Per the pattern, focus never leaves this input while the popup is open — the list is operated from it, with the keys detailed in the [Keyboard navigation](#keyboard-navigation) section above.
+
+The popup content is a `listbox` (with `aria-multiselectable` when `multiple` is set) whose options carry `aria-selected` plus `aria-setsize` and `aria-posinset`: since the list is virtually scrolled, only a slice of the options exists in the DOM at any time, and these attributes let screen readers still announce each option's true position within the full set.
+
+The `label` prop doubles as the combobox's `aria-label`; an `aria-label` or `aria-labelledby` attribute set on QSelect takes precedence, as it is applied to the focusable control (see the Accessibility tip under [Native attributes with "use-input"](#native-attributes-with-use-input)). Two slot-related responsibilities are yours: when using the `option` slot, `v-bind="scope.itemProps"` onto your item, otherwise the option loses its `role="option"`, its id (the `aria-activedescendant` target), `aria-selected` and position attributes; and content placed in the `before-options`/`after-options` slots sits outside the listbox and out of keyboard reach while the popup is open, so avoid interactive elements there. Label association and error announcements are inherited from the field frame — see [QField's Accessibility section](/vue-components/field#accessibility).
+
 ## Native form submit
 
 When dealing with a native form which has an `action` and a `method` (eg. when using Quasar with ASP.NET controllers), you need to specify the `name` property on QSelect, otherwise formData will not contain it (if it should) - all value are converted to string (native behaviour, so do not use Object values):

@@ -16,3 +16,7 @@ QResizeObserver is a Quasar component that emits a `resize` event whenever the w
 <DocExample title="Basic" file="Basic" />
 
 Please note that QResizeObserver will issue an event as soon as it gets rendered and attached to DOM, so you can have the initial size of the container.
+
+## Accessibility
+
+QResizeObserver renders nothing (on legacy browsers without the native ResizeObserver API it falls back to an `<object>` element that is hidden from assistive technology), so it has no accessibility surface.

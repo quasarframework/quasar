@@ -50,3 +50,7 @@ Always sanitize values if you do not trust the origin (if the value comes from u
 :::
 
 <DocExample title="Sanitized content" file="Sanitize" />
+
+## Accessibility
+
+The message text is plain readable content and the avatar image is hidden from assistive technology. Sent vs. received is conveyed only visually (alignment and color), so always provide the `name` prop — or equivalent text content — so that authorship gets announced. The `*-html` props render raw HTML: sanitizing it is entirely your responsibility (see "Sanitization" above).

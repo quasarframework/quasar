@@ -46,3 +46,9 @@ The following are a few examples, but not an exhaustive list:
 <DocExample title="With boundary links" file="BoundaryLinks" />
 
 <DocExample title="With direction links" file="DirectionLinks" />
+
+## Accessibility
+
+QPagination renders as a `navigation` landmark. The first/previous/next/last buttons get localized `aria-label`s from the [Quasar Language Pack](/options/quasar-language-packs) in use, the numbered buttons are labeled with the page they lead to, and the active page's button is marked with `aria-current`. The landmark has no accessible name of its own, so give it an `aria-label` (it falls through to the root element) when a page contains more than one navigation landmark.
+
+In input mode, the typed page number is committed when the user hits <kbd>Enter</kbd> or when the field loses focus.

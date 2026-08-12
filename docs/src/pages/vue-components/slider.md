@@ -113,3 +113,11 @@ In order to use the marker label slots (see below), you must enable them by usin
 When dealing with a native form which has an `action` and a `method` (eg. when using Quasar with ASP.NET controllers), you need to specify the `name` property on QSlider, otherwise formData will not contain it (if it should):
 
 <DocExample title="Native form" file="NativeForm" />
+
+## Accessibility
+
+QSlider implements the [WAI-ARIA slider pattern](https://www.w3.org/WAI/ARIA/apg/patterns/slider/): it exposes `role="slider"` with `aria-valuemin`/`aria-valuemax`/`aria-valuenow` tracking the model, `aria-orientation` for the vertical mode, and `aria-disabled` / `aria-readonly` when applicable.
+
+In desktop mode the slider is keyboard-operable: the <kbd>Arrow</kbd> keys step the value (the direction follows RTL, `reverse` and `vertical`), while <kbd>PageUp</kbd> / <kbd>PageDown</kbd> jump by 10 steps. On mobile platforms only touch/pointer interaction is wired up.
+
+There is no built-in accessible-name wiring, so a QSlider is announced without a label by default. Pass an `aria-label` attribute (it is applied on the `role="slider"` element) or associate a visible label yourself so screen reader users know what the value controls.

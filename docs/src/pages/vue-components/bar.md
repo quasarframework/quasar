@@ -42,3 +42,7 @@ For responsiveness, use [Visibility](/style/visibility#Window-Width-Related) Qua
 QBar component can come in really handy when developing Electron apps, especially if you choose to use a frameless window.
 
 Read more on [Frameless Electron Window](/quasar-cli-vite/developing-electron-apps/frameless-electron-window) page.
+
+## Accessibility
+
+Like QToolbar, QBar carries `role="toolbar"` and nothing more — give it an `aria-label` when the page contains several toolbars, and keep in mind that any controls inside are independent Tab stops. See [QToolbar's Accessibility section](/vue-components/toolbar#accessibility) for details.

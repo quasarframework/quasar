@@ -58,3 +58,9 @@ When content changes, the scrollbar appears then disappears again. You can set a
 Below is an example of using the `@scroll` event to synchronize the scrolling between two containers.
 
 <DocExample title="Synchronized" file="Synchronized" />
+
+## Accessibility
+
+The custom scrollbars and their thumbs are hidden from assistive technology — they are redundant, pointer-only controls over what remains a natively scrollable container.
+
+By default, a QScrollArea that contains no focusable content cannot be scrolled with the keyboard, because the scroll container is not a Tab stop. Set `tabindex="0"` on the component to make the container focusable, at which point the browser's native keyboard scrolling — arrow keys, <kbd>PageUp</kbd>/<kbd>PageDown</kbd>, <kbd>Home</kbd>/<kbd>End</kbd> — works as expected.

@@ -117,3 +117,11 @@ When placing a QBtn with type "submit" in one of the "before", "after", "prepend
 :::
 
 <DocExample title="Form Submission" file="FormSubmission" />
+
+## Accessibility
+
+QBtn renders as a native `<button>` element, or as an `<a>` when it acts as a link (`href`, `to` or `type="a"`); a link button that ends up without an `href` receives `role="button"` so it still announces as a button. On link buttons QBtn also synthesizes activation on <kbd>Space</kbd> — a native `<a>` only responds to <kbd>Enter</kbd> — so both keys work regardless of the rendered tag.
+
+While in `disable` or `loading` state, the button is marked `aria-disabled="true"` and drops out of the tab order (a disabled non-link button also gets the native `disabled` attribute), and a loading button swallows all interaction until it settles. When loading with the `percentage` prop, the button exposes itself as a `progressbar` and reports its progress through `aria-valuenow`.
+
+QBtn has no dedicated `aria-label` prop, but the attribute falls through to the rendered element — be sure to supply one on icon-only (e.g. `round`) buttons, which otherwise have no accessible name.

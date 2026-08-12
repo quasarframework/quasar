@@ -127,3 +127,11 @@ When dealing with a native form which has an `action` and a `method` (eg. when u
 The submitted value contains the minimum and maximum values separated by a pipe (`min|max`).
 
 <DocExample title="Native form" file="NativeForm" />
+
+## Accessibility
+
+QRange shares the semantics and keyboard behavior of [QSlider](/vue-components/slider#accessibility): `role="slider"` with `aria-valuemin`/`aria-valuemax`/`aria-valuenow`, `aria-orientation` and `aria-disabled`/`aria-readonly`, with the <kbd>Arrow</kbd> keys stepping the value (RTL/`reverse`/`vertical`-aware) and <kbd>PageUp</kbd> / <kbd>PageDown</kbd> jumping by 10 steps in desktop mode.
+
+Focus is per-thumb: <kbd>Tab</kbd> reaches each thumb in turn and the keys move whichever thumb has focus, with the minimum and maximum clamping against each other. When dragging the range as a whole (see "Dragging range" above), the keys move the entire selected window, preserving its width.
+
+Be aware that the ARIA value state lives on the wrapping element rather than on each thumb, so what screen readers announce while operating the individual thumbs is limited. When the range input is critical for assistive technology users, consider offering two coordinated [QSliders](/vue-components/slider) (one for the minimum, one for the maximum) as an alternative.

@@ -49,3 +49,9 @@ You can either disable a QBtnToggle by providing a `disable` attribute, or disab
 When dealing with a native form which has an `action` and a `method` (eg. when using Quasar with ASP.NET controllers), you need to specify the `name` property on QBtnToggle, otherwise formData will not contain it (if it should) - all value are converted to string (native behaviour, so do not use Object values):
 
 <DocExample title="Native form" file="NativeForm" />
+
+## Accessibility
+
+Each option renders as a button with `aria-pressed` reflecting whether it is the currently selected value, so screen readers announce the selection state. Give icon-only options an accessible name through the option's `attrs` property (e.g. `attrs: { 'aria-label': 'Justify left' }`).
+
+Note that QBtnToggle exposes no group semantics: the wrapping element carries no role or accessible name, and there is no arrow-key navigation between options — each enabled option is its own Tab stop.

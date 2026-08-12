@@ -54,6 +54,10 @@ export default [
         path: 'seo'
       },
       {
+        name: 'Accessibility',
+        path: 'accessibility'
+      },
+      {
         name: 'Quasar Language Packs',
         path: 'quasar-language-packs'
       },

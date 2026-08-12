@@ -38,3 +38,9 @@ Also check out [QBadge](/vue-components/badge).
 <DocExample title="Removable" file="Removable" />
 
 <DocExample title="Long label truncation" file="LongLabel" />
+
+## Accessibility
+
+A clickable chip (through the `clickable` prop or a `selected` model) exposes itself as `role="button"` with `aria-pressed` reflecting the selected state, and activates on <kbd>Enter</kbd> or <kbd>Space</kbd>. A disabled chip is marked `aria-disabled` and taken out of the tab order.
+
+The remove icon of a `removable` chip is a keyboard-operable control of its own, named by the localized "Remove" label from the [Quasar Language Pack](/options/quasar-language-packs). That generic name says nothing about what would be removed, so set `remove-aria-label` per chip for context — e.g. "Remove tag: Vue".

@@ -36,3 +36,7 @@ You can use the `glossy` class to make the toolbar glossy.
 <DocExample title="With Button Dropdown" file="WithDropdown" />
 
 <DocExample title="With Button Toggle" file="WithBtnToggle" />
+
+## Accessibility
+
+QToolbar carries `role="toolbar"`. Give each toolbar an `aria-label` (it falls through to the root element) when a page contains more than one, so screen reader users can tell them apart. Note that the controls inside remain independent Tab stops — QToolbar does not implement the single-Tab-stop, arrow-key navigation that the [WAI-ARIA toolbar pattern](https://www.w3.org/WAI/ARIA/apg/patterns/toolbar/) describes.

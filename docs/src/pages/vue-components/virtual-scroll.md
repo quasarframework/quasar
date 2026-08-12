@@ -116,3 +116,7 @@ There are two CSS classes that you can use (should you need to) to control Virtu
 <DocExample title="Virtual scroll with multiple rows for a data row" file="VirtscrollMultipleRows" />
 
 <DocExample title="Virtual scroll with expansion model" file="VirtscrollExpandedRow" />
+
+## Accessibility
+
+Items outside the rendered slice are not in the DOM, so they do not exist for assistive technology either — screen readers perceive only the visible window of the list, never its full length. When that matters, add per-item `aria-setsize`/`aria-posinset` attributes yourself (this is the compensation pattern [QTree](/vue-components/tree#accessibility)'s `virtual-scroll` mode uses). The padding around the rendered slice is hidden from assistive technology, and when a focused item scrolls out of the slice, focus is transferred to the container instead of falling to `<body>`. The container is also keyboard-scrollable when it owns its own scrolling (no `scroll-target` set).

@@ -35,3 +35,7 @@ QInnerLoading must be the last element inside its parent so it can appear on top
 You can add a label when using the default slot, but you can also use the "label" props instead:
 
 <DocExample title="Label props" file="LabelProp" />
+
+## Accessibility
+
+QInnerLoading is a visual overlay only: the content it covers stays in the accessibility tree and remains focusable, and the loading state itself is never announced. Pass `role="status"` as an attribute and use the `label` prop so screen readers hear the state change, and manage the covered region yourself — set `aria-busy="true"` on it, or make it `inert` — when it shouldn't be reachable while loading.

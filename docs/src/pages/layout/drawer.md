@@ -33,10 +33,6 @@ Scaffold your layout(s) by clicking on the button below.
 By default, QDrawer has touch actions attached to it. If this interferes with your drawer content components, disable it by specifying the Boolean `no-swipe-close` property.
 :::
 
-::: tip Keyboard dismissal <q-badge label="v2.25+" />
-While the drawer is in a dismissible state (below its breakpoint or shown in overlay mode), hitting the <kbd>Escape</kbd> key closes it — the keyboard counterpart of the backdrop click and the swipe gesture. The `persistent` prop opts out of it, and an `escape-key` event is emitted whenever the key is handled.
-:::
-
 ::: warning
 When QDrawer is set into overlay mode, **it will force it to go into fixed position**, regardless if QLayout's "view" prop is configured with "l/r" or "L/R". Also, **if on iOS platform and QLayout is containerized**, the fixed position will also be forced upon QDrawer due to platform limitations that cannot be overcome.
 :::
@@ -103,3 +99,17 @@ The overlay mode prevents the drawer from occupying space on the layout and rath
 On the example below, click the menu icon to see the drawer in action. It's best viewed on a desktop with a window of at least 500px width (this is the breakpoint that is set on this demo).
 
 <DocExample title="Overlay mode" file="OverlayMode" />
+
+## Accessibility
+
+QDrawer renders its panel as a real `<aside>` element, so it is exposed to assistive technology as a complementary landmark of your [QLayout](/layout/layout#accessibility). The backdrop shown in its overlay states and the invisible swipe-opener strip along the screen edge are hidden from assistive technology — they are redundant, pointer-only affordances. A closed drawer leaves the Tab order and the accessibility tree entirely, so nothing invisible stays reachable.
+
+### Keyboard dismissal <q-badge label="v2.25+" />
+
+While the drawer is in a dismissible state (below its breakpoint or shown in overlay mode), hitting the <kbd>Escape</kbd> key closes it — the keyboard counterpart of the backdrop click and the swipe gesture. The `persistent` prop opts out of it, and an `escape-key` event is emitted whenever the key is handled.
+
+### Your responsibilities
+
+Be aware that in its overlay states the drawer only looks modal — it does not trap or move keyboard focus, so the page behind the backdrop remains keyboard-reachable and readable by screen readers. If your use case calls for it, move focus into the drawer yourself when opening it. The toggle button is app-provided too, so it should manage its own `aria-expanded` state.
+
+When a drawer holds your primary navigation, wrap the menu inside it in a `<nav>` element (or add `role="navigation"`) and give it an `aria-label`, so it is announced as a navigation landmark distinct from the surrounding `aside`.

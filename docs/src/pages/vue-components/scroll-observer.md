@@ -69,3 +69,7 @@ When scrolling on a Layout with a Page, rather than injecting a QScrollObservabl
 ```html
 <q-layout @scroll="scrollHandler">...</q-layout>
 ```
+
+## Accessibility
+
+QScrollObserver is renderless — it emits no DOM element at all, so it has no accessibility surface.

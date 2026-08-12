@@ -36,3 +36,9 @@ The examples below won't work with UMD version (so in Codepen/jsFiddle too) beca
 You can also delay, cancel or redirect navigation, as seen below. For a more in-depth description of the `@click` event being used below, please refer to QBreadcrumbsEl API card at the top of the page.
 
 <DocExample title="Links with delayed, cancelled or redirected navigation (v2.9+)" file="LinksWithGo" no-edit />
+
+## Accessibility
+
+QBreadcrumbs only renders the links themselves — it claims no landmark or list semantics of its own. To follow the [WAI-ARIA breadcrumb pattern](https://www.w3.org/WAI/ARIA/apg/patterns/breadcrumb/), wrap the component in a `<nav aria-label="Breadcrumb">` element and add `aria-current="page"` to the QBreadcrumbsEl representing the current page (attributes fall through to the rendered element) — the component does neither by itself.
+
+Also be aware that the separator text is announced by screen readers between the links; if you want to avoid that, render the separator through the `separator` slot with `aria-hidden="true"` content.

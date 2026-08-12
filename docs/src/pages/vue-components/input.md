@@ -343,6 +343,12 @@ You can also customize the slot for error message:
 
 <DocExample title="Slot for error message" file="ValidationSlots" />
 
+## Accessibility
+
+QInput renders a native `<input>` (or `<textarea>`) inside the QField frame, so everything described in [QField's Accessibility section](/vue-components/field#accessibility) applies here: the label association through a generated SSR-safe id, error messages announced with `role="alert"` and referenced from the control through `aria-invalid`/`aria-errormessage`/`aria-describedby`, and the keyboard-operable clear button.
+
+The `label` prop is additionally exposed as `aria-label` on the native element — an `aria-label` or `aria-labelledby` attribute you set yourself takes precedence — while `disable` and `readonly` map to the native `disabled` and `readonly` attributes. Any other native attributes (`placeholder`, `autocomplete`, `inputmode`, ...) fall through to the native element as well.
+
 ## Native form submit
 
 When dealing with a native form which has an `action` and a `method` (eg. when using Quasar with ASP.NET controllers), you need to specify the `name` property on QInput, otherwise formData will not contain it (if it should):

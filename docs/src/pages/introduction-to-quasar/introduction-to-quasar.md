@@ -66,7 +66,7 @@ There’s a component for almost every web development need within Quasar. Each 
 
 #### Best practices integrated by default
 
-Quasar was also built to encourage developers to follow web development best practices. To do this, Quasar is packed full of great features out of the box - **with no configuration needed**.
+Quasar was also built to encourage developers to follow web development best practices. To do this, Quasar is packed full of great features out of the box - **with no configuration needed**. This includes [accessibility](/options/accessibility): components ship with WAI-ARIA semantics, keyboard navigation and focus management built in.
 
 #### App Extensions support
 

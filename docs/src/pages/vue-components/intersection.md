@@ -57,3 +57,7 @@ Triggering only once means, however, that you lose the benefit of freeing up the
 The example below uses the `root` property and therefore can be seen in a Codepen (which hosts in an iframe).
 
 <DocExample title="Root viewport" file="Root" />
+
+## Accessibility
+
+Off-screen content is genuinely unmounted (not merely hidden), so it is correctly absent from the accessibility tree as well. Keep in mind that the wrapper element itself always renders, so if you give the `tag` prop a landmark or otherwise semantic element, those semantics apply even while the content inside is unmounted.

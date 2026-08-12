@@ -31,7 +31,11 @@ Notice that the model is a String only.
 For landscape mode, you can use it along with `$q.screen` to make QTime responsive. Example: `:landscape="$q.screen.gt.xs"`. More info: [Quasar Screen Plugin](/options/screen-plugin).
 :::
 
-### Keyboard navigation
+### Accessibility
+
+The header's hour, minute and second sections are exposed as `role="spinbutton"` elements per the [WAI-ARIA spinbutton pattern](https://www.w3.org/WAI/ARIA/apg/patterns/spinbutton/), each with a localized `aria-label` from the [Quasar Language Pack](/options/quasar-language-packs) and `aria-valuemin`/`aria-valuemax`/`aria-valuenow` reflecting its current value. The AM/PM controls are toggle buttons (`aria-pressed`). The clock face itself is a pointer-only visualization that is deliberately hidden from assistive technology — the header spinbuttons are the accessible way to set the time.
+
+#### Keyboard navigation
 
 The hour, minute, second, and AM/PM controls can be activated with <kbd>Space</kbd> or <kbd>Enter</kbd>. The hour, minute and second controls are exposed as spinbuttons: when one has focus, use the <kbd>Arrow</kbd> keys to adjust its value, <kbd>Home</kbd> / <kbd>End</kbd> to jump to the first/last valid value, or type digits to enter a value directly (e.g. <kbd>1</kbd> <kbd>5</kbd> sets 15). Their screen reader labels come from the `date.hour`/`date.minute`/`date.second` keys of the [Quasar Language Pack](/options/quasar-language-packs).
 

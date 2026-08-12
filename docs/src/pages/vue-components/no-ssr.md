@@ -83,3 +83,7 @@ Alternatively, you can also use it to render content only on server-side and it 
   </template>
 </q-no-ssr>
 ```
+
+## Accessibility
+
+QNoSsr is a passthrough wrapper rendering only your own content (or placeholder), so it has no accessibility surface of its own.

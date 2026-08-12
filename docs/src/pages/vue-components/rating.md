@@ -17,7 +17,13 @@ Quasar Rating is a Component which allows users to rate items, usually known as 
 
 <DocExample title="Custom number of choices" file="Max" />
 
-### Keyboard navigation
+### Accessibility
+
+QRating exposes the [WAI-ARIA radio group pattern](https://www.w3.org/WAI/ARIA/apg/patterns/radio/): the component is a `radiogroup` whose stars are `role="radio"` elements, with `aria-checked` set on the star matching the current model and a roving tabindex (the selected star — or the first one — is the group's single Tab stop). Each star's accessible name comes from the `icon-aria-label` prop (a string gets the star's value appended, an array names each star individually; the icon name is the fallback), and `aria-readonly` / `aria-disabled` are set on the group when applicable.
+
+Note that half values (see "Floating number" below) are not conveyed to screen readers: `aria-checked="true"` requires an exact integer match, so a model of e.g. 3.5 announces no star as checked.
+
+#### Keyboard navigation
 
 QRating uses radio-group keyboard behavior:
 

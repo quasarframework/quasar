@@ -41,3 +41,7 @@ Since QPageScroller needs a layout and QLayout by default manages the entire win
 ### Reverse
 
 <DocExample title="Reverse" file="Reverse" />
+
+## Accessibility
+
+QPageScroller itself is a plain clickable container with no role or keyboard handling of its own — keyboard operability comes entirely from what you put in its slot. Use a real button ([QBtn](/vue-components/button)) as the slot content, like the examples on this page do, so keyboard users can reach and activate it too.

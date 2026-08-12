@@ -42,3 +42,11 @@ Keep in mind that all props from both [QMenu](/vue-components/menu) and [QDialog
 ::: warning
 QPopupProxy treats some components ([QDate](/vue-components/date), [QTime](/vue-components/time), [QCarousel](/vue-components/carousel) and [QColor](/vue-components/color-picker)) as special ones and forces `cover: true` and `maxHeight: '99vh'` on them. If you don't want this behavior just place a `div` as the first level child of QPopupProxy.
 :::
+
+## Accessibility
+
+QPopupProxy has no semantics of its own — it exposes whatever the rendered component provides. Below the breakpoint that is a QDialog (`role="dialog"` with a managed `aria-modal`), above it a QMenu (a positioned container that deliberately claims no ARIA role). See [QDialog's Accessibility section](/vue-components/dialog#accessibility) and [QMenu's Accessibility section](/vue-components/menu#accessibility) for what each mode announces and how it handles keyboard interaction and focus.
+
+::: warning
+Just like props, attributes fall through to whichever component is currently active — and that includes `role`. A role you intend for menu mode (e.g. `role="menu"`) would, under the breakpoint, land on the QDialog and replace its `role="dialog"`. If you need to declare a role, put it on an element inside the popup content (such as the wrapping QList) rather than on QPopupProxy itself.
+:::

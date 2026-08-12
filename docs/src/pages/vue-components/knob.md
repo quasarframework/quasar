@@ -54,3 +54,7 @@ Sometimes you need to restrict the model value to an interval inside of the trac
 When dealing with a native form which has an `action` and a `method` (eg. when using Quasar with ASP.NET controllers), you need to specify the `name` property on QKnob, otherwise formData will not contain it (if it should):
 
 <DocExample title="Native form" file="NativeForm" />
+
+## Accessibility
+
+QKnob follows the [WAI-ARIA slider pattern](https://www.w3.org/WAI/ARIA/apg/patterns/slider/): the focusable element itself carries `role="slider"` with `aria-valuemin`/`aria-valuemax`/`aria-valuenow`, plus `aria-disabled` or `aria-readonly` when it is not editable. The <kbd>Arrow</kbd> keys step the value and <kbd>PageUp</kbd> / <kbd>PageDown</kbd> jump by 10 steps. There is no accessible name by default, so pass an `aria-label` attribute (it lands on the slider element) to tell screen reader users what the knob controls.

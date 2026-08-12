@@ -101,3 +101,9 @@ You can also apply custom filters (which are executed after user picks files):
 When dealing with a native form which has an `action` and a `method` (eg. when using Quasar with ASP.NET controllers), you need to specify the `name` property on QFile, otherwise formData will not contain it (if it should):
 
 <DocExample title="Native form" file="NativeForm" />
+
+## Accessibility
+
+QFile is built on the QField frame, so label it like any other field: the label association through a generated SSR-safe id, the `role="alert"` error announcements and the keyboard-operable clear button all work as described in [QField's Accessibility section](/vue-components/field#accessibility). The validation attributes (`aria-invalid`, `aria-errormessage`, `aria-describedby`) are applied to the underlying native file input.
+
+With the field focused, <kbd>Enter</kbd> or <kbd>Space</kbd> opens the file picker. When `use-chips` is set, each selected file's chip is keyboard-removable through <kbd>Enter</kbd> or <kbd>Space</kbd>, with a localized "Remove" label from the [Quasar Language Pack](/options/quasar-language-packs). Drag-and-drop is a pointer-only convenience — the file picker itself is the keyboard path to selecting files.

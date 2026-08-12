@@ -85,3 +85,9 @@ Notice the slots for QFab and the slots for QFabAction below:
 Below is a nice example of using [TouchPan](/vue-directives/touch-pan) for making the QFab draggable across the screen.
 
 <DocExample title="Draggable" file="Draggable" />
+
+## Accessibility
+
+The QFab trigger is a button carrying `aria-expanded` and `aria-controls` pointing at its actions container, so screen readers can tell whether the sub-actions are open. While closed, the actions are hidden from assistive technology and removed from the tab order; activating an action closes the FAB and returns focus to the trigger.
+
+A visible `label` doubles as the accessible name of the trigger or of an action; give icon-only ones an `aria-label`, which falls through to the rendered button. Keyboard support covers opening/closing the FAB with <kbd>Enter</kbd> / <kbd>Space</kbd> and Tab-bing through the open actions only — there is no <kbd>Escape</kbd>-to-close and no arrow-key navigation between actions.

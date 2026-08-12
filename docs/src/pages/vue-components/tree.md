@@ -15,7 +15,13 @@ Quasar Tree represents a highly configurable component that displays hierarchica
 
 <DocExample title="Basic" file="Basic" />
 
-### Keyboard navigation
+### Accessibility
+
+QTree follows the [WAI-ARIA tree pattern](https://www.w3.org/WAI/ARIA/apg/patterns/treeview/): the component exposes `role="tree"` and each node header is a `role="treeitem"` carrying `aria-expanded` on parents, `aria-selected` on selectable nodes, `aria-checked` on ticking ones (including the `mixed` state of partially ticked parents) and `aria-disabled` when disabled, while the nested child groups convey the hierarchy. In `virtual-scroll` mode the rows are rendered flat instead, so each one compensates with `aria-level`, `aria-setsize` and `aria-posinset`. Do give the tree an accessible name by setting `aria-label` (or `aria-labelledby`) on the component itself.
+
+The tick checkboxes are pointer affordances only — the keyboard path is <kbd>Space</kbd> on the node header (see below), with the state announced through `aria-checked`. The "no nodes" and "no results" messages use localized strings from the [Quasar Language Pack](/options/quasar-language-packs).
+
+#### Keyboard navigation
 
 When a tree node has focus:
 

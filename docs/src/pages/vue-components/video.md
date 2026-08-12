@@ -26,3 +26,7 @@ You may also want to check our own HTML 5 video player component: [QMediaPlayer]
 ### Markup equivalent
 
 <DocExample title="HTML markup" file="HtmlMarkup" />
+
+## Accessibility
+
+The iframe's accessible name comes from the `title` prop — always provide it, otherwise screen readers announce an anonymous frame with no way to tell what it embeds. Captions and player keyboard support are the embedded player's responsibility, not QVideo's.

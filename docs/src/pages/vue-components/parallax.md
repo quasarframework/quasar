@@ -42,3 +42,7 @@ When using the `video` tag inside QParallax, you **must** provide the `width` an
 ### Using slot
 
 <DocExample title="Using the slot" file="ScopedSlot" />
+
+## Accessibility
+
+The default media image has no `alt` and there is no prop to set one — when the imagery is meaningful, use the `media` slot and supply your own attributes. The scroll-driven motion does not respect `prefers-reduced-motion`, so consider offering a reduced-motion alternative yourself. Also verify that text overlaid on the moving image keeps sufficient contrast throughout the scroll range.

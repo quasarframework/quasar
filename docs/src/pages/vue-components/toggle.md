@@ -98,3 +98,9 @@ You can also use [QOptionGroup](/vue-components/option-group), which simplifies 
 When dealing with a native form which has an `action` and a `method` (eg. when using Quasar with ASP.NET controllers), you need to specify the `name` property on QToggle, otherwise formData will not contain it (if it should) - all value are converted to string (native behaviour, so do not use Object values):
 
 <DocExample title="Native form" file="NativeForm" />
+
+## Accessibility
+
+QToggle implements the [WAI-ARIA switch pattern](https://www.w3.org/WAI/ARIA/apg/patterns/switch/): it exposes `role="switch"` with `aria-checked` reflecting the model. The `label` prop provides the accessible name (`aria-label`), a disabled toggle exposes `aria-disabled="true"`, and the keyboard/focus behavior is the same as [QCheckbox](/vue-components/checkbox#accessibility): a Tab stop that toggles on <kbd>Enter</kbd> or <kbd>Space</kbd>.
+
+Note that switch semantics only know on/off, so the indeterminate state is not announced — screen readers treat an indeterminate QToggle as off. When the mixed state matters to assistive technology users, prefer a [QCheckbox](/vue-components/checkbox#accessibility), whose role does announce `aria-checked="mixed"`.

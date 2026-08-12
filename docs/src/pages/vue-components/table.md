@@ -412,3 +412,14 @@ You could also make use of the `filteredSortedRows` internal computed property o
 Below is an example of keyboard navigation in the table using selected row. Use <kbd>Arrow Up</kbd>, <kbd>Arrow Down</kbd>, <kbd>Page Up</kbd>, <kbd>Page Down</kbd>, <kbd>Home</kbd> and <kbd>End</kbd> keys to navigate.
 
 <DocExample title="Keyboard navigation" file="KeyboardNavigation" />
+
+## Accessibility
+
+QTable renders a native `<table>` with `thead`/`tbody`, so the tabular semantics come for free. Sortable column headers are focusable, sort on <kbd>Enter</kbd> or <kbd>Space</kbd> and expose [`aria-sort`](https://www.w3.org/TR/wai-aria-1.2/#aria-sort); this behavior lives in QTh, so custom `header`/`header-cell` slots should render QTh rather than a plain `th` to keep it. The pagination controls and the rows-per-page select carry localized accessible names from the [Quasar Language Pack](/options/quasar-language-packs).
+
+A few aspects remain in your hands:
+
+- The selection checkboxes have no accessible names — when selection matters to your assistive technology users, label them yourself through the `header-selection` and `body-selection` slots.
+- Clickable rows (`@row-click` & co.) are pointer-only: rows receive no focus and no key handling. Offer row actions as real buttons inside a cell, or add keyboard handling yourself — the [Keyboard navigation](#keyboard-navigation) example above shows the technique.
+- `grid` mode trades the table semantics for plain cards.
+- The `title` prop renders a visual heading, not a `<caption>` — associate a name with the table through `aria-label`/`aria-labelledby` if it needs one.

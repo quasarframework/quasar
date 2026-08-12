@@ -75,3 +75,9 @@ In the example below, we are rendering a `<label>` tag (notice `tag="label"`) so
 When dealing with a native form which has an `action` and a `method` (eg. when using Quasar with ASP.NET controllers), you need to specify the `name` property on QRadio, otherwise formData will not contain it (if it should) - all value are converted to string (native behaviour, so do not use Object values):
 
 <DocExample title="Native form" file="NativeForm" />
+
+## Accessibility
+
+QRadio exposes `role="radio"` and reflects its state through `aria-checked`. The `label` prop provides the accessible name (`aria-label`) and a disabled radio exposes `aria-disabled="true"`. It is reachable with <kbd>Tab</kbd> (see the `tabindex` prop) and selects on <kbd>Enter</kbd> or <kbd>Space</kbd>.
+
+A standalone QRadio has no knowledge of its siblings: each one is its own Tab stop and there is no enclosing `radiogroup`. For the full [WAI-ARIA radio group pattern](https://www.w3.org/WAI/ARIA/apg/patterns/radio/) — a single Tab stop for the whole group, with the arrow keys moving focus and selection (roving tabindex) — wrap your radios in a [QOptionGroup](/vue-components/option-group#accessibility).

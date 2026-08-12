@@ -85,3 +85,7 @@ When you are using this option always take care to have the content of the `defa
 :::
 
 <DocExample title="Native context menu" file="ContextMenu" />
+
+## Accessibility
+
+The QImg wrapper carries `role="img"` and takes its accessible name from the `alt` prop — always provide `alt`, since an unnamed `role="img"` element is ambiguous to screen readers instead of being skipped like a native `<img alt="">` would be. There is no built-in decorative mode: for purely decorative images pass `aria-hidden="true"` as an attribute. Also note that the loading and error state changes are not announced to assistive technology.

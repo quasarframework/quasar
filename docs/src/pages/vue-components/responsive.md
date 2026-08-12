@@ -51,3 +51,7 @@ Notice that we will not supply a `height` prop to QCarousel when we use QRespons
 Apply the max height (or max width, etc etc) directly on the QResponsive component through a CSS class or inline. Remember that it is still your responsibility to ensure that the content won't overflow the container.
 
 <DocExample title="On QCard" file="MaxHeight" />
+
+## Accessibility
+
+QResponsive is a purely presentational aspect-ratio wrapper with no accessibility surface of its own.

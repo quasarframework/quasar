@@ -29,3 +29,11 @@ If your content also has images, you might want to add `draggable="false"` to th
 <DocExample title="Customize while sliding" file="CustomizeSlide" />
 
 <DocExample title="One sided or no sides" file="OneSided" />
+
+## Accessibility
+
+::: warning
+The slide actions are pointer gestures only — there is no keyboard interaction and no assistive technology path to trigger them. Any behavior you bind to the slide events is unreachable for keyboard and screen reader users.
+:::
+
+Always provide an equivalent way to perform the same actions — visible buttons, or a [QMenu](/vue-components/menu) with the same commands — so the gestures remain a convenience rather than the only route.

@@ -164,3 +164,9 @@ export default {
   // ...
 }
 ```
+
+## Accessibility
+
+QForm renders a native `<form>` element, so the browser's built-in form semantics (including implicit submission with <kbd>Enter</kbd>) apply as-is. When validation fails, QForm moves keyboard focus to the first invalid field (opt out with the `no-error-focus` prop), and screen readers pick up that field's error through its own `role="alert"` message — see [QField's Accessibility section](/vue-components/field#accessibility). The `autofocus` prop focuses the first `[autofocus]` element (falling back to the first tabbable one) when the form is mounted.
+
+There is no aggregate error summary: a screen reader user hears the alert of the field that receives focus, not how many fields failed overall. For long forms, consider rendering a live region of your own (e.g. "3 fields need attention") when validation fails.

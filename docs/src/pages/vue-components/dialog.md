@@ -88,6 +88,16 @@ You are able to customize the size of the Dialogs. Notice we either tamper with 
 
 <DocExample title="Sizing examples" file="Sizing" />
 
+## Accessibility
+
+QDialog follows the [WAI-ARIA dialog pattern](https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/): the popup renders with `role="dialog"` and a managed `aria-modal` attribute — `"true"` while the dialog has a backdrop, while a `seamless` dialog (which does not block the rest of the page) keeps the dialog role but announces `aria-modal="false"`.
+
+Focus is managed for you. On open, it moves into the dialog — to the first element bearing an `autofocus` (or `data-autofocus`) attribute, or to the dialog body itself when there is none. While the dialog is modal, focus that strays outside of it gets recaptured back in, and on close it returns to the element that opened the dialog. The `no-focus`, `no-refocus` and `allow-focus-outside` props opt out of each of these behaviors, should you need to manage focus yourself. <kbd>Escape</kbd> dismisses the dialog — a `persistent` dialog responds with its "shake" animation instead.
+
+::: warning
+One thing QDialog cannot do for you is provide an accessible name — by default it is announced as an unnamed dialog. Pass an `aria-label`, or better, give your title element an `id` and reference it with `aria-labelledby`; both are attributes that fall through onto the `role="dialog"` element.
+:::
+
 ## Cordova/Capacitor back button
 
 Quasar handles the back button for you by default so it can hide any opened Dialogs instead of the default behavior which is to return to the previous page (which is not a nice user experience).

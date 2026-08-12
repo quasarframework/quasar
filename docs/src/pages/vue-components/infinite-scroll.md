@@ -49,3 +49,9 @@ If the scroll target container cannot be overflowed you'll get a forever loading
 :::
 
 <DocExample title="Usage in QMenu" file="Menu" />
+
+## Accessibility
+
+Loading is triggered by native scrolling, so keyboard users trigger it too — as long as the scroll target itself can be scrolled with the keyboard (when using a [QScrollArea](/vue-components/scroll-area#accessibility) as target, see its Accessibility section).
+
+The loading indicator is not announced to screen readers. If the arrival of new content matters to your users, add text with `role="status"` inside the `loading` slot so assistive technology reports that more content is loading.

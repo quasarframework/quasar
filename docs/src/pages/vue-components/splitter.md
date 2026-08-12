@@ -33,10 +33,6 @@ Click and drag on the splitter separator bar to see results.
 
 <DocExample title="Custom dragging limits (50-100)" file="Limits" />
 
-### Keyboard navigation <q-badge label="v2.25+" />
-
-QSplitter follows the [WAI-ARIA window splitter pattern](https://www.w3.org/WAI/ARIA/apg/patterns/windowsplitter/): the separator bar is a Tab stop exposed to assistive technology as a `separator` with the model as its value. While it has focus, the arrow keys matching the splitter's orientation (left/right, or up/down when in `horizontal` mode) move it by 1% (or 10px when `unit` is set to pixels), while <kbd>Home</kbd>/<kbd>End</kbd> jump to the model's limits. Arrow keys account for the `reverse` prop and RTL language packs, so a given key always moves the separator in the direction it points to. Pressing <kbd>Enter</kbd> collapses the model-controlled panel to its minimum limit, and pressing it again restores the previous position.
-
 ### Model units
 
 By default, the CSS `unit` used is '%' (percentage). But you can also use 'px' (pixels), as in the example below.
@@ -72,3 +68,11 @@ A QSplitter can be embedded in another QSplitter's `before` and/or `after` slots
 <DocExample title="Image Fun" file="ImageFun" />
 
 <DocExample title="Reactive Images" file="ReactiveImages" />
+
+## Accessibility
+
+The separator bar implements the [WAI-ARIA window splitter pattern](https://www.w3.org/WAI/ARIA/apg/patterns/windowsplitter/): it carries `role="separator"` with an `aria-orientation` matching the splitter's direction, `aria-controls` pointing at the panel the model resizes, and `aria-valuemin`/`aria-valuemax`/`aria-valuenow` tracking the split as it moves. A disabled QSplitter exposes `aria-disabled` on the separator and removes it from the Tab order.
+
+### Keyboard navigation <q-badge label="v2.25+" />
+
+QSplitter follows the [WAI-ARIA window splitter pattern](https://www.w3.org/WAI/ARIA/apg/patterns/windowsplitter/): the separator bar is a Tab stop exposed to assistive technology as a `separator` with the model as its value. While it has focus, the arrow keys matching the splitter's orientation (left/right, or up/down when in `horizontal` mode) move it by 1% (or 10px when `unit` is set to pixels), while <kbd>Home</kbd>/<kbd>End</kbd> jump to the model's limits. Arrow keys account for the `reverse` prop and RTL language packs, so a given key always moves the separator in the direction it points to. Pressing <kbd>Enter</kbd> collapses the model-controlled panel to its minimum limit, and pressing it again restores the previous position.

@@ -41,3 +41,7 @@ In the example below, click on the menu buttons to show/hide Drawers, scroll the
 By using expanded QPageSticky you can, for example, have a page-specific QToolbar as below.
 
 <DocExample title="Expanded" file="Expanded" />
+
+## Accessibility
+
+QPageSticky is a positioning-only wrapper with no accessibility surface of its own — the accessibility of whatever you place inside it is entirely up to that content.

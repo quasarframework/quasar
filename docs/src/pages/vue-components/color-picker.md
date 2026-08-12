@@ -68,3 +68,9 @@ You can also pick the default view, like in example below, where we also specify
 When dealing with a native form which has an `action` and a `method` (eg. when using Quasar with ASP.NET controllers), you need to specify the `name` property on QColor, otherwise formData will not contain it (if it should):
 
 <DocExample title="Native form" file="NativeForm" />
+
+## Accessibility
+
+QColor is only partially accessible, and which view is active matters. The Tune view — native text/number inputs plus sliders — is the keyboard and screen reader path. The palette swatches and the spectrum panel, on the other hand, are pointer-only: they cannot be reached with the keyboard and expose nothing to assistive technology.
+
+If your app needs accessible color input, start users in the Tune view (`default-view="tune"`) or provide an alternative way of entering the color (e.g. a plain [QInput](/vue-components/input) accepting a hex value).

@@ -68,3 +68,7 @@ It's recommended that you use QImg component instead of native `<img>` when deal
 On the example below, click on the round button on the bottom right to see the expansion in action.
 
 <DocExample title="Expandable" file="Expandable" />
+
+## Accessibility
+
+QCard and its sections are semantic-free containers by design — no roles, no ARIA. Use the `tag` prop on QCard and QCardSection to build real document structure (`article`, `section`) and place proper heading elements inside, so screen reader users can navigate the card's content like any other part of the page.
