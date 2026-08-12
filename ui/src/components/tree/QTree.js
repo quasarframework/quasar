@@ -1167,7 +1167,9 @@ export default /*#__PURE__*/ createComponent({
             onClick(node, key, e)
           },
           onKeydown(e) {
-            if (shouldIgnoreKey(e) !== true) {
+            // keys pressed on interactive elements embedded in the header
+            // (inputs, buttons, ...) belong to them, not to tree navigation
+            if (e.target === e.currentTarget && shouldIgnoreKey(e) !== true) {
               if (e.keyCode === 13) {
                 onClick(node, key, e, true)
               } else if (e.keyCode === 32) {

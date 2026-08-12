@@ -1,6 +1,6 @@
 import { flushPromises, mount } from '@vue/test-utils'
 import { describe, expect, test } from 'vitest'
-import { nextTick } from 'vue'
+import { h, nextTick } from 'vue'
 
 import QTree from './QTree.js'
 
@@ -2088,6 +2088,32 @@ describe('[QTree API]', () => {
         'Banana',
         'Bread'
       ])
+    })
+
+    test('leaves keys typed into interactive header content alone', async () => {
+      const wrapper = mountNavTree(
+        {},
+        {
+          slots: {
+            'default-header': () => h('input', { class: 'header-input' })
+          }
+        }
+      )
+
+      expect(getNodeHeaders(wrapper)).toHaveLength(2)
+
+      const event = new KeyboardEvent('keydown', {
+        cancelable: true,
+        bubbles: true
+      })
+      Object.defineProperty(event, 'keyCode', { value: 32 })
+
+      wrapper.get('input.header-input').element.dispatchEvent(event)
+      await flushPromises()
+
+      // typing Space in the input neither expands the node nor swallows the key
+      expect(event.defaultPrevented).toBe(false)
+      expect(getNodeHeaders(wrapper)).toHaveLength(2)
     })
 
     test('exposes the ticked state', async () => {
