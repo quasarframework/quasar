@@ -22,6 +22,25 @@ const FullscreenChild = defineComponent({
   }
 })
 
+const FullscreenAnchorHost = defineComponent({
+  name: 'FullscreenAnchorHost',
+  props: useFullscreenProps,
+
+  setup(_, { slots }) {
+    useFullscreen()
+
+    return () => h('section', null, slots.default())
+  }
+})
+
+// the detached-fullscreen relocation defers through nextTick + an animation
+// frame; the frame is faked along with the timers in this suite
+async function flushAnimationFrames() {
+  await flushPromises()
+  await vi.runAllTimersAsync()
+  await flushPromises()
+}
+
 let activeWrapper
 
 beforeEach(() => {
@@ -1216,6 +1235,87 @@ describe('[QMenu API]', () => {
 
       // ...while a click genuinely outside still closes it
       expect(getMenu()).toBeNull()
+    })
+
+    test('follows its anchor through a fullscreen detach and back (issue #18513)', async () => {
+      activeWrapper = mount(
+        defineComponent({
+          setup() {
+            return () =>
+              h(
+                FullscreenAnchorHost,
+                // positioned, and pushed away from where the detached
+                // geometry will land so the reposition is observable
+                { style: 'position: relative; margin-top: 300px' },
+                () =>
+                  h(
+                    'div',
+                    {
+                      class: 'my-anchor',
+                      style:
+                        'position: absolute; top: 40px; left: 30px;' +
+                        ' width: 100px; height: 50px'
+                    },
+                    [
+                      h(QMenu, null, () =>
+                        h('div', { style: 'width: 50px; height: 20px' })
+                      )
+                    ]
+                  )
+              )
+          }
+        }),
+        { attachTo: document.body }
+      )
+      const wrapper = activeWrapper
+
+      await showMenu(wrapper)
+
+      const beforeTop = getMenu().style.top
+      const host = wrapper.findComponent(FullscreenAnchorHost)
+
+      host.vm.setFullscreen()
+      // the suite loads no CSS, so emulate what the fullscreen class does
+      // to the detached element
+      Object.assign(host.vm.$el.style, {
+        position: 'fixed',
+        top: '0',
+        left: '0',
+        width: '500px',
+        height: '400px',
+        margin: '0'
+      })
+      await flushAnimationFrames()
+
+      // the menu is still open...
+      const menuEl = getMenu()
+      expect(menuEl).not.toBeNull()
+
+      // ...repositioned onto the moved anchor (bottom start / top start)...
+      const anchorRect = getAnchor(wrapper).element.getBoundingClientRect()
+      expect(menuEl.style.top).toBe(`${anchorRect.bottom}px`)
+      expect(menuEl.style.left).toBe(`${anchorRect.left}px`)
+      expect(menuEl.style.top).not.toBe(beforeTop)
+
+      // ...and its portal paints above the detached element
+      // (same z-index: later in DOM order wins)
+      let portalNode = menuEl
+      while (portalNode.parentElement !== document.body) {
+        portalNode = portalNode.parentElement
+      }
+      expect(
+        host.vm.$el.compareDocumentPosition(portalNode) &
+          Node.DOCUMENT_POSITION_FOLLOWING
+      ).toBeTruthy()
+
+      host.vm.exitFullscreen()
+      host.vm.$el.style.cssText = 'position: relative; margin-top: 300px'
+      await flushAnimationFrames()
+
+      // restored: still open, tracking the anchor at its original position
+      const restoredRect = getAnchor(wrapper).element.getBoundingClientRect()
+      expect(getMenu()).not.toBeNull()
+      expect(getMenu().style.top).toBe(`${restoredRect.bottom}px`)
     })
   })
 

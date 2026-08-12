@@ -37,6 +37,32 @@ export function removeGlobalNode(el) {
   el.remove()
 }
 
+/**
+ * Re-appends the global nodes living directly under the current target, in
+ * their creation order. Portals paint above a same-z-index sibling only while
+ * they come later in the DOM, which holds naturally until something else gets
+ * appended to <body> after them -- the fullscreen mixin does exactly that
+ * with the element it detaches, burying every already-open popup (#18513).
+ */
+export function bringGlobalNodesToFront() {
+  const activeEl = document.activeElement
+
+  nodesList.forEach(node => {
+    if (node.parentElement === target) {
+      target.append(node)
+    }
+  })
+
+  // moving a node drops the focus it holds; restore it
+  if (
+    activeEl !== null &&
+    activeEl !== document.activeElement &&
+    activeEl.isConnected
+  ) {
+    activeEl.focus({ preventScroll: true })
+  }
+}
+
 export function changeGlobalNodesTarget(newTarget) {
   if (newTarget === target) return
 

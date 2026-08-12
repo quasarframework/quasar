@@ -14,12 +14,46 @@ import { childHasFocus } from '../dom/dom.js'
  */
 const detachedMap = new Map()
 
+/**
+ * Registry-change listeners. An anchored popup that is open while its anchor's
+ * subtree gets detached (or restored) has stale geometry and a stale scroll
+ * target; it subscribes here to know when to re-measure (#18513). Listeners
+ * run synchronously, before the exit path restores the element -- schedule any
+ * DOM measurement instead of measuring inside the listener. Notification runs
+ * over a snapshot, so a listener may safely un/subscribe from within.
+ */
+const listeners = []
+
+export function addDetachedFullscreenListener(fn) {
+  listeners.push(fn)
+}
+
+export function removeDetachedFullscreenListener(fn) {
+  const index = listeners.indexOf(fn)
+  if (index !== -1) {
+    listeners.splice(index, 1)
+  }
+}
+
+function notifyListeners() {
+  // snapshot: a listener may un/subscribe from within its own notification
+  // (prefer-spread's autofix would turn this into a spread, which
+  // no-useless-spread then rejects)
+  // oxlint-disable-next-line unicorn/prefer-spread
+  for (const fn of listeners.slice()) {
+    fn()
+  }
+}
+
 export function addDetachedFullscreen(fillerNode, vm) {
   detachedMap.set(fillerNode, vm)
+  notifyListeners()
 }
 
 export function removeDetachedFullscreen(fillerNode) {
-  detachedMap.delete(fillerNode)
+  if (detachedMap.delete(fillerNode)) {
+    notifyListeners()
+  }
 }
 
 function fillerNodeFor(el) {

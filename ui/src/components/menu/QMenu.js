@@ -3,6 +3,7 @@ import {
   computed,
   getCurrentInstance,
   h,
+  nextTick,
   onBeforeUnmount,
   ref,
   watch
@@ -45,7 +46,11 @@ import {
   removeClickOutside
 } from '../../utils/private.click-outside/click-outside.js'
 import { addFocusFn } from '../../utils/private.focus/focus-manager.js'
-import { focusIsInDetachedFullscreen } from '../../utils/private.focus/detached-fullscreen.js'
+import {
+  addDetachedFullscreenListener,
+  focusIsInDetachedFullscreen,
+  removeDetachedFullscreenListener
+} from '../../utils/private.focus/detached-fullscreen.js'
 
 import {
   parsePosition,
@@ -234,6 +239,7 @@ export default /*#__PURE__*/ createComponent({
       refocusTarget = props.noRefocus ? null : document.activeElement
 
       addFocusout(onFocusout)
+      addDetachedFullscreenListener(onDetachedFullscreenChange)
 
       showPortal()
       configureScrollTarget()
@@ -336,6 +342,7 @@ export default /*#__PURE__*/ createComponent({
 
       if (hiding || showing.value) {
         removeFocusout(onFocusout)
+        removeDetachedFullscreenListener(onDetachedFullscreenChange)
         unconfigureScrollTarget()
         removeClickOutside(clickOutsideProps)
         removeEscapeKey(onEscapeKey)
@@ -429,6 +436,30 @@ export default /*#__PURE__*/ createComponent({
 
       refocusTarget = null
       hide(evt)
+    }
+
+    function onDetachedFullscreenChange() {
+      // useFullscreen() moved a subtree to <body> (or moved it back); if the
+      // anchor traveled with it, the position measured at show time and the
+      // scroll target bound to the old ancestor chain are both stale (#18513).
+      // The notification fires before the DOM settles (enter: before the
+      // fullscreen styles apply; exit: before the element is restored), so
+      // re-measure only after the move and the re-render are done.
+      nextTick(() => {
+        requestAnimationFrame(() => {
+          if (
+            !showing.value ||
+            anchorEl.value === null ||
+            !anchorEl.value.isConnected
+          ) {
+            return
+          }
+
+          unconfigureScrollTarget()
+          configureScrollTarget()
+          updatePosition()
+        })
+      })
     }
 
     function updatePosition() {

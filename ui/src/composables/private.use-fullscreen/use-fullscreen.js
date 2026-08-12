@@ -21,6 +21,7 @@ import {
   addDetachedFullscreen,
   removeDetachedFullscreen
 } from '../../utils/private.focus/detached-fullscreen.js'
+import { bringGlobalNodesToFront } from '../../utils/private.config/nodes.js'
 
 let counter = 0
 let restoreState = null
@@ -89,6 +90,12 @@ export default function useFullscreen() {
     inFullscreen.value = true
     proxy.$el.replaceWith(fullscreenFillerNode)
     document.body.append(proxy.$el)
+
+    // appending after the portal nodes would bury every open popup
+    // (same z-index, later in DOM paints on top) -- restore their
+    // paint order (#18513)
+    bringGlobalNodesToFront()
+
     addDetachedFullscreen(fullscreenFillerNode, proxy)
 
     counter++

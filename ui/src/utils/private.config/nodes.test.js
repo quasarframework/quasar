@@ -1,6 +1,7 @@
 import { afterEach, describe, expect, test } from 'vitest'
 
 import {
+  bringGlobalNodesToFront,
   changeGlobalNodesTarget,
   createGlobalNode,
   removeGlobalNode
@@ -74,6 +75,64 @@ describe('[nodes API]', () => {
       test('does not error out when removing non-existing el', () => {
         const localEl = document.createElement('div')
         expect(removeGlobalNode(localEl)).toBeUndefined()
+      })
+    })
+
+    describe('[(function)bringGlobalNodesToFront]', () => {
+      test('has correct return value', () => {
+        expect(bringGlobalNodesToFront()).toBeUndefined()
+      })
+
+      test('re-appends the tracked nodes after a later body child, in order', () => {
+        const first = createGlobalNode('front1')
+        const second = createGlobalNode('front2', 'ptype')
+
+        // what the fullscreen mixin does: append its element after the portals
+        const fullscreenEl = document.createElement('div')
+        document.body.append(fullscreenEl)
+
+        bringGlobalNodesToFront()
+
+        // both portals paint above the appended element again...
+        expect(
+          fullscreenEl.compareDocumentPosition(first) &
+            Node.DOCUMENT_POSITION_FOLLOWING
+        ).toBeTruthy()
+        // ...and keep their relative order
+        expect(
+          first.compareDocumentPosition(second) &
+            Node.DOCUMENT_POSITION_FOLLOWING
+        ).toBeTruthy()
+
+        removeGlobalNode(first)
+        removeGlobalNode(second)
+        fullscreenEl.remove()
+      })
+
+      test('keeps the focus held inside a moved node', () => {
+        const node = createGlobalNode('front-focus')
+        const input = document.createElement('input')
+        node.append(input)
+        input.focus()
+
+        bringGlobalNodesToFront()
+
+        expect(document.activeElement).toBe(input)
+
+        removeGlobalNode(node)
+      })
+
+      test('leaves nodes created under an explicit parent alone', () => {
+        const parentEl = document.createElement('div')
+        document.body.append(parentEl)
+        const node = createGlobalNode('front-nested', void 0, parentEl)
+
+        bringGlobalNodesToFront()
+
+        expect(node.parentElement).toBe(parentEl)
+
+        removeGlobalNode(node)
+        parentEl.remove()
       })
     })
 
