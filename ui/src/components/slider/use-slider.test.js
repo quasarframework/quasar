@@ -67,8 +67,7 @@ function mountSlider({ slots, ...props } = {}) {
           h(
             'div',
             {
-              class: slider.state.classes.value,
-              ...slider.state.attributes.value
+              class: slider.state.classes.value
             },
             slider.methods.getContent(
               computed(() => ({ width: '50%' })),
@@ -89,8 +88,8 @@ describe('[useSlider API]', () => {
   describe('[Variables]', () => {
     describe('[(variable)keyCodes]', () => {
       test('is defined correctly', () => {
-        // PGDOWN, LEFT, DOWN, PGUP, RIGHT, UP
-        expect(keyCodes).toStrictEqual([34, 37, 40, 33, 39, 38])
+        // PGDOWN, LEFT, DOWN, PGUP, RIGHT, UP, END, HOME
+        expect(keyCodes).toStrictEqual([34, 37, 40, 33, 39, 38, 35, 36])
       })
     })
 
@@ -131,7 +130,7 @@ describe('[useSlider API]', () => {
             editable: expect.$ref(true),
             classes: expect.$ref(expect.any(String)),
             tabindex: expect.$ref(0),
-            attributes: expect.$ref(expect.any(Object)),
+            orientation: expect.$ref('horizontal'),
 
             roundValueFn: expect.$ref(expect.any(Function)),
             keyStep: expect.$ref(1),
@@ -302,22 +301,16 @@ describe('[useSlider API]', () => {
         ).toBe(0.6)
       })
 
-      test('describes itself for assistive technology', async () => {
-        const { slider } = mountSlider({ innerMin: 10, innerMax: 90, step: 5 })
+      test('exposes the orientation for assistive technology', async () => {
+        // the ARIA attribute set itself is built by the consumers on their
+        // focusable element (see QSlider.test.js / QRange.test.js)
+        const { slider } = mountSlider()
 
-        expect(slider.state.attributes.value).toStrictEqual({
-          role: 'slider',
-          'aria-valuemin': 10,
-          'aria-valuemax': 90,
-          'aria-orientation': 'horizontal',
-          'data-step': 5
-        })
+        expect(slider.state.orientation.value).toBe('horizontal')
 
-        await wrapper.setProps({ disable: true })
-        expect(slider.state.attributes.value['aria-disabled']).toBe('true')
+        await wrapper.setProps({ vertical: true })
 
-        await wrapper.setProps({ disable: false, readonly: true })
-        expect(slider.state.attributes.value['aria-readonly']).toBe('true')
+        expect(slider.state.orientation.value).toBe('vertical')
       })
 
       test.each([
