@@ -34,12 +34,13 @@ afterAll(() => {
 
 // compiles the real playground quasar.config.js through rolldown and
 // runs the full normalization — no build is triggered
-function readConf(ctxOpts) {
+function readConf(ctxOpts, opts) {
   const ctx = getCtx(ctxOpts)
   const configFile = new QuasarConfigFile({
     ctx,
     port: 9100,
-    host: 'localhost'
+    host: 'localhost',
+    ...opts
   })
   return configFile.read()
 }
@@ -97,6 +98,14 @@ describe('[quasar-config-file.js] read()', () => {
     // the playground has no store
     expect(conf.metaConf.hasStore).toBe(false)
     expect(conf.metaConf.hasTypescript).toBe(false)
+  })
+
+  test('devServer.host: true is normalized to 0.0.0.0', async () => {
+    const conf = await readConf({ mode: 'spa', dev: true }, { host: true })
+
+    expect(conf.devServer.host).toBe('0.0.0.0')
+    // and the all-addresses host resolves to a browsable URL
+    expect(conf.metaConf.APP_URL).toBe('http://localhost:9100/')
   })
 
   test('spa prod: publicPath root + distDir + debugging off', async () => {

@@ -976,6 +976,13 @@ export class QuasarConfigFile {
         cfg.devServer.host = '0.0.0.0'
       }
 
+      // Vite also accepts `host: true` ("listen on all addresses");
+      // normalize it for the string handling downstream (address
+      // verification, APP_URL, external IP detection)
+      if (cfg.devServer.host === true) {
+        cfg.devServer.host = '0.0.0.0'
+      }
+
       if (this.#opts.port) {
         cfg.devServer.port = this.#opts.port
         tip(
