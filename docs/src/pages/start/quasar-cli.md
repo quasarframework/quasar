@@ -108,17 +108,7 @@ Pick `App with Quasar CLI`.
    ```
 
    <br>
-   Under Windows, modify user's PATH environment variable. If you are using yarn then add `%LOCALAPPDATA%\yarn\bin`, otherwise if you're using npm then add `%APPDATA%\npm`.
-   <br>
-   Or to do this easily, enter the following code in the terminal:
-
-   ```bash
-   # If you're using Yarn:
-   setx path "%path%;%LocalAppData%\yarn\bin"
-
-   # Or if you're using NPM:
-   setx path "%path%;%AppData%\npm"
-   ```
+   Under Windows, modify user's PATH environment variable (search for "Edit environment variables for your account" in the Start Menu). If you are using yarn then add `%LOCALAPPDATA%\yarn\bin`, otherwise if you're using npm then add `%APPDATA%\npm`. Avoid using `setx` for this — it truncates the stored value to 1024 characters, which can permanently destroy part of your existing PATH.
 
    :::
 

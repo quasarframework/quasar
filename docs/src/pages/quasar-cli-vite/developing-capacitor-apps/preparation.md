@@ -30,10 +30,16 @@ export PATH="$PATH:$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform
 
 #### Windows
 
-```bash
-setx ANDROID_HOME "%USERPROFILE%\AppData\Local\Android\Sdk"
-setx path "%path%;%ANDROID_HOME%\cmdline-tools\latest\bin;%ANDROID_HOME%\platform-tools"
+Using the Windows UI (search for "Edit environment variables for your account" in the Start Menu), set the `ANDROID_HOME` environment variable to `%USERPROFILE%\AppData\Local\Android\Sdk`, then append the following two entries to the user `Path` variable:
+
 ```
+%ANDROID_HOME%\cmdline-tools\latest\bin
+%ANDROID_HOME%\platform-tools
+```
+
+::: warning
+Do not use `setx` for updating `Path` — it truncates the stored value to 1024 characters, which can permanently destroy part of your existing `Path`.
+:::
 
 - Start Android studio (check the executable in the folder that you installed it in). Next step is to install the individual SDKs:
 
