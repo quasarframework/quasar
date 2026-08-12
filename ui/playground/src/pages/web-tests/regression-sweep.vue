@@ -2,7 +2,7 @@
   <div class="q-layout-padding">
     <!--
       Self-driving cross-engine regression sweep for popup / fullscreen /
-      keyboard-a11y behavior. Every scenario runs programmatically (no
+      a11y behavior. Every scenario runs programmatically (no
       trusted input needed), reports PASS/FAIL with details into the panel
       below, and exposes the machine-readable result on window.__results
       (window.__done flags completion).
@@ -611,13 +611,33 @@ async function s12() {
   )
 }
 
+// S13: #17031 the scaffolded viewport must not block zoom in web modes
+function s13() {
+  const meta = document.querySelector('meta[name="viewport"]')
+  const content = meta !== null ? meta.getAttribute('content') || '' : ''
+  const locked =
+    /user-scalable\s*=\s*(no|0)|maximum-scale\s*=\s*1(?![.\d])/.test(content)
+  const hasDeviceWidth = content.includes('width=device-width')
+  // hybrid wrappers intentionally keep the locked viewport (see the
+  // Accessibility docs page, "Viewport zoom")
+  const hybrid =
+    $q.platform.is.cordova === true || $q.platform.is.capacitor === true
+  const ok = meta !== null && hasDeviceWidth && (hybrid ? locked : !locked)
+  report(
+    'S13 17031 viewport allows zoom',
+    ok,
+    `content="${content}"` + (hybrid ? ' (hybrid: lock expected)' : '')
+  )
+}
+
 async function runAll() {
   lines.value = []
   results.length = 0
   const tag = route.query.tag || 'untagged'
   lines.value.push(`sweep tag=${tag} ua=${navigator.userAgent.slice(0, 80)}`)
 
-  for (const scenario of [s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12]) {
+  const scenarios = [s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13]
+  for (const scenario of scenarios) {
     try {
       await scenario()
     } catch (err) {
