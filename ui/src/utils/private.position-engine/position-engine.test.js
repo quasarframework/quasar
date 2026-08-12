@@ -6,6 +6,7 @@ import {
   getAnchorProps,
   parsePosition,
   setPosition,
+  trackAnchorMotion,
   validateOffset,
   validatePosition
 } from './position-engine.js'
@@ -441,6 +442,96 @@ describe('[positionEngine API]', () => {
 
         expect(document.body.style.getPropertyValue('--q-pe-left')).toBe('13px')
         expect(document.body.style.getPropertyValue('--q-pe-top')).toBe('27px')
+      })
+    })
+
+    describe('[(function)trackAnchorMotion]', () => {
+      const sleep = ms =>
+        new Promise(resolve => {
+          setTimeout(resolve, ms)
+        })
+
+      test('has correct return value', () => {
+        const el = createAnchor({ top: 100, left: 100, width: 100, height: 30 })
+        const result = trackAnchorMotion(
+          () => el,
+          () => {},
+          100
+        )
+
+        expect(result).toBeTypeOf('function')
+        result()
+      })
+
+      test('invokes onMove when the anchor moves within the duration', async () => {
+        const el = createAnchor({ top: 100, left: 100, width: 100, height: 30 })
+        const onMove = vi.fn()
+
+        trackAnchorMotion(() => el, onMove, 500)
+        el.style.top = '110px'
+
+        await vi.waitFor(() => expect(onMove).toHaveBeenCalled())
+      })
+
+      test('accepts a String duration (transition-duration prop contract)', async () => {
+        const el = createAnchor({ top: 100, left: 100, width: 100, height: 30 })
+        const onMove = vi.fn()
+
+        trackAnchorMotion(() => el, onMove, '500')
+        await sleep(50)
+        el.style.left = '120px'
+
+        await vi.waitFor(() => expect(onMove).toHaveBeenCalled())
+      })
+
+      test('does not invoke onMove for a static anchor', async () => {
+        const el = createAnchor({ top: 100, left: 100, width: 100, height: 30 })
+        const onMove = vi.fn()
+
+        trackAnchorMotion(() => el, onMove, 100)
+        await sleep(150)
+
+        expect(onMove).not.toHaveBeenCalled()
+      })
+
+      test('stops watching once the duration window ends', async () => {
+        const el = createAnchor({ top: 100, left: 100, width: 100, height: 30 })
+        const onMove = vi.fn()
+
+        trackAnchorMotion(() => el, onMove, 50)
+        await sleep(120)
+        el.style.top = '150px'
+        await sleep(100)
+
+        expect(onMove).not.toHaveBeenCalled()
+      })
+
+      test('the returned stop function ends the tracking', async () => {
+        const el = createAnchor({ top: 100, left: 100, width: 100, height: 30 })
+        const onMove = vi.fn()
+
+        const stop = trackAnchorMotion(() => el, onMove, 500)
+        stop()
+        el.style.top = '150px'
+        await sleep(100)
+
+        expect(onMove).not.toHaveBeenCalled()
+      })
+
+      test('ends itself when the anchor leaves the DOM', async () => {
+        const el = createAnchor({ top: 100, left: 100, width: 100, height: 30 })
+        const onMove = vi.fn()
+
+        trackAnchorMotion(() => el, onMove, 500)
+        el.remove()
+        await sleep(50)
+
+        // even moving a re-attached anchor cannot revive the ended loop
+        document.body.append(el)
+        el.style.top = '150px'
+        await sleep(100)
+
+        expect(onMove).not.toHaveBeenCalled()
       })
     })
   })

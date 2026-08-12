@@ -55,6 +55,7 @@ import {
 import {
   parsePosition,
   setPosition,
+  trackAnchorMotion,
   validateOffset,
   validatePosition
 } from '../../utils/private.position-engine/position-engine.js'
@@ -121,6 +122,7 @@ export default /*#__PURE__*/ createComponent({
     let refocusTarget = null,
       absoluteOffset,
       unwatchPosition,
+      stopAnchorTracking,
       avoidAutoClose
 
     const vm = getCurrentInstance()
@@ -278,6 +280,17 @@ export default /*#__PURE__*/ createComponent({
       // should removeTick() if this gets removed
       registerTick(() => {
         updatePosition()
+
+        // the anchor itself may still be animating (e.g. a push QBtn
+        // springing back from :active after the click that opened us),
+        // so follow it while the enter transition plays out — otherwise
+        // the transition-end updatePosition() lands as a visible snap
+        stopAnchorTracking = trackAnchorMotion(
+          () => anchorEl.value,
+          updatePosition,
+          props.transitionDuration
+        )
+
         if (!props.noFocus) focus()
       })
 
@@ -338,6 +351,11 @@ export default /*#__PURE__*/ createComponent({
       if (unwatchPosition !== void 0) {
         unwatchPosition()
         unwatchPosition = void 0
+      }
+
+      if (stopAnchorTracking !== void 0) {
+        stopAnchorTracking()
+        stopAnchorTracking = void 0
       }
 
       if (hiding || showing.value) {

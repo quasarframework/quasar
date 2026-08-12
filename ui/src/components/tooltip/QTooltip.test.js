@@ -574,6 +574,37 @@ describe('[QTooltip API]', () => {
     })
   })
 
+  describe('[Generic]', () => {
+    test('follows an anchor still moving while the enter transition plays', async () => {
+      const wrapper = mountTooltip()
+      Object.assign(getAnchor(wrapper).element.style, {
+        position: 'fixed',
+        top: '100px',
+        left: '100px',
+        width: '100px',
+        height: '50px'
+      })
+
+      getTooltipComponent(wrapper).vm.show()
+      await flushPromises()
+      // let the show tick take the initial measurement
+      await vi.advanceTimersByTimeAsync(50)
+
+      // bottom middle / top middle with the default [14, 14] offset
+      expect(getTooltip().style.top).toBe('164px')
+
+      // the anchor moves while the tooltip is still transitioning in;
+      // there is no transition-end re-measure, so only live tracking
+      // keeps it from ending up permanently offset
+      getAnchor(wrapper).element.style.top = '120px'
+      await vi.advanceTimersByTimeAsync(100)
+
+      expect(getTooltip().style.top).toBe('184px')
+
+      await vi.runAllTimersAsync()
+    })
+  })
+
   describe('[Accessibility]', () => {
     test('applies a dynamic id to the tooltip and its aria wiring', async () => {
       const wrapper = mountTooltip({ id: 'tip-a' })

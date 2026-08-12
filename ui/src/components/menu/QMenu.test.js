@@ -1317,6 +1317,31 @@ describe('[QMenu API]', () => {
       expect(getMenu()).not.toBeNull()
       expect(getMenu().style.top).toBe(`${restoredRect.bottom}px`)
     })
+
+    test('follows an anchor still moving while the enter transition plays', async () => {
+      const wrapper = mountMenu(void 0, {
+        default: () => h('div', { style: { width: '50px', height: '20px' } })
+      })
+      setAnchorRect(wrapper)
+
+      getMenuComponent(wrapper).vm.show()
+      await flushPromises()
+      // let the show tick take the initial measurement
+      await vi.advanceTimersByTimeAsync(50)
+
+      // positioned below the anchor (bottom start / top start)
+      expect(getMenu().style.top).toBe('150px')
+
+      // the anchor springs to a new spot mid-transition, the way a push
+      // QBtn returns from its :active translate after the opening click
+      getAnchor(wrapper).element.style.top = '120px'
+      // ...and the menu follows while still inside the enter transition
+      await vi.advanceTimersByTimeAsync(100)
+
+      expect(getMenu().style.top).toBe('170px')
+
+      await vi.runAllTimersAsync()
+    })
   })
 
   describe('[Accessibility]', () => {

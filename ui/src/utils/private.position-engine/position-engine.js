@@ -301,6 +301,58 @@ export function setPosition(cfg, retryNumber = 0) {
   }
 }
 
+/**
+ * Follows an anchor that is still moving while its popup opens — e.g. a
+ * push QBtn springing back from its :active translateY, released by the
+ * very click that opens the menu. The popup only measures the anchor at
+ * show time and again when the enter transition ends, so a rect that
+ * settles in between would land as a visible position snap at the end
+ * of the transition (and QTooltip has no end-of-transition re-measure
+ * at all).
+ *
+ * Re-measures the anchor every animation frame for the given duration
+ * and invokes onMove only on frames where the rect actually changed;
+ * idle frames cost a single clean-layout getBoundingClientRect() read.
+ * Stops itself if the anchor goes away. Returns a stop function.
+ */
+export function trackAnchorMotion(getAnchorEl, onMove, duration) {
+  const stopTime = performance.now() + Number(duration)
+
+  let el = getAnchorEl()
+  let prevRect = el === null ? null : el.getBoundingClientRect()
+  let rafId = requestAnimationFrame(function step() {
+    rafId = null
+    el = getAnchorEl()
+
+    if (el === null || !el.isConnected) return
+
+    const rect = el.getBoundingClientRect()
+
+    if (
+      prevRect !== null &&
+      (rect.top !== prevRect.top ||
+        rect.left !== prevRect.left ||
+        rect.width !== prevRect.width ||
+        rect.height !== prevRect.height)
+    ) {
+      onMove()
+    }
+
+    prevRect = rect
+
+    if (performance.now() < stopTime) {
+      rafId = requestAnimationFrame(step)
+    }
+  })
+
+  return () => {
+    if (rafId !== null) {
+      cancelAnimationFrame(rafId)
+      rafId = null
+    }
+  }
+}
+
 function applyBoundaries(
   props,
   anchorProps,

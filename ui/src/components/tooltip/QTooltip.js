@@ -40,6 +40,7 @@ import {
 import {
   parsePosition,
   setPosition,
+  trackAnchorMotion,
   validateOffset,
   validatePosition
 } from '../../utils/private.position-engine/position-engine.js'
@@ -109,6 +110,7 @@ export default /*#__PURE__*/ createComponent({
 
   setup(props, { slots, emit, attrs }) {
     let unwatchPosition,
+      stopAnchorTracking,
       observer,
       removeNonSelectableTimer,
       hasNonSelectable = false,
@@ -237,6 +239,16 @@ export default /*#__PURE__*/ createComponent({
         })
         updatePosition()
         configureScrollTarget()
+
+        // the anchor itself may still be animating when the tooltip
+        // opens (focus/hover styles moving it, an entering parent);
+        // unlike QMenu there is no transition-end re-measure, so a
+        // moving anchor would leave the tooltip permanently offset
+        stopAnchorTracking = trackAnchorMotion(
+          () => anchorEl.value,
+          updatePosition,
+          props.transitionDuration
+        )
       })
 
       if (unwatchPosition === void 0) {
@@ -284,6 +296,11 @@ export default /*#__PURE__*/ createComponent({
       if (unwatchPosition !== void 0) {
         unwatchPosition()
         unwatchPosition = void 0
+      }
+
+      if (stopAnchorTracking !== void 0) {
+        stopAnchorTracking()
+        stopAnchorTracking = void 0
       }
 
       unconfigureScrollTarget()
