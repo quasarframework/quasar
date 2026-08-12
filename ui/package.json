@@ -48,7 +48,8 @@
   "sideEffects": [
     "*.css",
     "*.sass",
-    "./src/flags.dev.js"
+    "./src/flags.dev.js",
+    "./src/umd-vue-guard.js"
   ],
   "module": "dist/quasar.client.js",
   "typings": "dist/types/index.d.ts",
