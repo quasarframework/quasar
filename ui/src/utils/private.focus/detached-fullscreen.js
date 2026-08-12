@@ -29,34 +29,60 @@ function fillerNodeFor(el) {
 }
 
 /**
- * Tells if focusedEl sits inside an element that was detached from somewhere
- * within rootEl, which makes it a logical -- but no longer physical -- child.
+ * Tells if el sits inside an element that was detached from somewhere within
+ * rootEl, which makes it a logical -- but no longer physical -- child. The
+ * `owns` test decides whether a filler node belongs to rootEl, so that each
+ * variant below agrees with the physical containment test it complements at
+ * its call sites.
  *
  * Walks the filler chain instead of testing a single hop, so that an element
  * detached from inside another detached element resolves as well.
- *
- * Ownership of each filler is decided with childHasFocus() so that this
- * agrees with the physical containment test it complements at the call sites.
  */
-export function focusIsInDetachedFullscreen(rootEl, focusedEl) {
-  // childHasFocus() treats a nullish root as containing everything; here a
-  // root that no longer exists cannot logically own a detached element
+function isInDetachedFullscreen(rootEl, el, owns) {
+  // the ownership test may treat a nullish root as containing everything
+  // (childHasFocus() does); a root that no longer exists cannot logically
+  // own a detached element
   if (rootEl === void 0 || rootEl === null) return false
 
   // Each hop moves to the filler of a strictly outer detached element, and
   // every detached element is a direct child of <body>, so the chain cannot
   // cycle. The guard only defends against a stale entry left behind by a
-  // consumer that failed to unregister -- a hang here would freeze focusin.
+  // consumer that failed to unregister -- a hang here would freeze the
+  // document-level listeners these predicates run under.
   const visited = new Set()
 
   for (
-    let node = fillerNodeFor(focusedEl);
-    node !== void 0 && visited.has(node) === false;
+    let node = fillerNodeFor(el);
+    node !== void 0 && !visited.has(node);
     node = fillerNodeFor(node)
   ) {
-    if (childHasFocus(rootEl, node) === true) return true
+    if (owns(rootEl, node) === true) return true
     visited.add(node)
   }
 
   return false
+}
+
+/**
+ * Focus-trap variant (QDialog trap, QMenu focusout recapture): ownership via
+ * childHasFocus(), which also owns later siblings -- matching how those traps
+ * treat sibling portal nodes. A false positive only makes a trap fire less.
+ */
+export function focusIsInDetachedFullscreen(rootEl, focusedEl) {
+  return isInDetachedFullscreen(rootEl, focusedEl, childHasFocus)
+}
+
+function strictlyContains(rootEl, node) {
+  return rootEl.contains(node)
+}
+
+/**
+ * Pointer variant (click-outside, #18512): ownership via strict containment,
+ * matching click-outside's own anchorEl/innerRef .contains() tests. The
+ * sibling widening above must not leak here: an element detached from a later
+ * *sibling* of a popup is genuinely outside it, and a click inside that
+ * element still has to close the popup.
+ */
+export function clickIsInDetachedFullscreen(rootEl, targetEl) {
+  return isInDetachedFullscreen(rootEl, targetEl, strictlyContains)
 }

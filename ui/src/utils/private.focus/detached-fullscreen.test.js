@@ -2,6 +2,7 @@ import { afterEach, describe, expect, test } from 'vitest'
 
 import {
   addDetachedFullscreen,
+  clickIsInDetachedFullscreen,
   focusIsInDetachedFullscreen,
   removeDetachedFullscreen
 } from './detached-fullscreen.js'
@@ -196,6 +197,50 @@ describe('[detachedFullscreen API]', () => {
         addDetachedFullscreen(fillerB, { $el: movedB })
 
         expect(focusIsInDetachedFullscreen(rootEl, targetEl)).toBe(false)
+      })
+    })
+
+    describe('[(function)clickIsInDetachedFullscreen]', () => {
+      test('has correct return value', () => {
+        const rootEl = createNode()
+        const { movedEl, targetEl } = detach(rootEl)
+
+        expect(clickIsInDetachedFullscreen(rootEl, targetEl)).toBe(true)
+        expect(clickIsInDetachedFullscreen(rootEl, movedEl)).toBe(true)
+      })
+
+      test('does not own a filler through the focus-trap sibling rule', () => {
+        const rootEl = createNode()
+        const siblingEl = createNode()
+        const { targetEl } = detach(siblingEl)
+
+        // the focus variant owns fillers in later siblings of the root
+        // (agreeing with childHasFocus); for pointer purposes an element
+        // detached from a sibling is genuinely outside the root
+        expect(rootEl.nextElementSibling).toBe(siblingEl)
+        expect(focusIsInDetachedFullscreen(rootEl, targetEl)).toBe(true)
+        expect(clickIsInDetachedFullscreen(rootEl, targetEl)).toBe(false)
+      })
+
+      test('follows a chain of nested detached elements', () => {
+        const rootEl = createNode()
+        const outer = detach(rootEl)
+        const inner = detach(outer.movedEl)
+
+        // with strict containment every hop of the chain walk is essential:
+        // the inner filler sits inside the outer moved element, so only the
+        // outer filler physically resolves into rootEl
+        expect(rootEl.contains(inner.fillerNode)).toBe(false)
+
+        expect(clickIsInDetachedFullscreen(rootEl, inner.targetEl)).toBe(true)
+      })
+
+      test('returns false for a nullish root', () => {
+        const rootEl = createNode()
+        const { targetEl } = detach(rootEl)
+
+        expect(clickIsInDetachedFullscreen(null, targetEl)).toBe(false)
+        expect(clickIsInDetachedFullscreen(void 0, targetEl)).toBe(false)
       })
     })
   })

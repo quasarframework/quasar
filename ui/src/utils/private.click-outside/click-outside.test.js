@@ -179,13 +179,24 @@ describe('[clickOutside API]', () => {
       })
 
       test('a click inside an unrelated fullscreen-detached element still closes the popup', () => {
-        // the unowned container must precede the popup content in DOM order:
-        // ownership checks include later siblings (childHasFocus), so a
-        // container created after the popup would read as owned
         const container = createEl()
         const menu = pushMenu()
 
         const { targetEl } = detachFullscreenChild(container)
+
+        mousedownOn(targetEl)
+
+        expect(menu.onClickOutside).toHaveBeenCalledTimes(1)
+      })
+
+      test('detached-element ownership is strict containment, not the focus-trap sibling rule', () => {
+        // an element detached from a later *sibling* of the popup content is
+        // owned by the popup under childHasFocus() semantics, but is genuinely
+        // outside it for pointer purposes -- the click must still close
+        const menu = pushMenu()
+        const laterSibling = createEl()
+
+        const { targetEl } = detachFullscreenChild(laterSibling)
 
         mousedownOn(targetEl)
 
