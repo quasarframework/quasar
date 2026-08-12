@@ -1,7 +1,7 @@
 import { chromium } from 'playwright'
 import { afterAll, beforeAll, describe, expect, test } from 'vitest'
 
-import { bundleFlavors, createUmdPage, vuePath } from './helpers.js'
+import { bundleFlavors, createUmdPage, flavorMatrix } from './helpers.js'
 
 let browser
 
@@ -15,11 +15,11 @@ afterAll(async () => {
 
 // each test gets a fresh page: the first app.use(Quasar, ...) on a page
 // freezes the bundle's global config (see src/install-quasar.js)
-describe.each(bundleFlavors)('$label', ({ path }) => {
+describe.each(flavorMatrix)('$label', ({ bundlePath, vuePath }) => {
   test('install config reaches the app (dark mode)', async () => {
     const { page, consoleIssues } = await createUmdPage(browser, [
       vuePath,
-      path
+      bundlePath
     ])
 
     const result = await page.evaluate(() => {
@@ -48,7 +48,7 @@ describe.each(bundleFlavors)('$label', ({ path }) => {
   test('two apps share plugin state but keep their own config', async () => {
     const { page, consoleIssues } = await createUmdPage(browser, [
       vuePath,
-      path
+      bundlePath
     ])
 
     const boot = await page.evaluate(() => {
@@ -90,9 +90,11 @@ describe.each(bundleFlavors)('$label', ({ path }) => {
 
     await page.close()
   })
+})
 
+// no Vue involved, so only the quasar bundle flavor matters here
+describe.each(bundleFlavors)('$label', ({ path }) => {
   test('loading before Vue prints the guidance error', async () => {
-    // no Vue on purpose
     const { page, consoleIssues } = await createUmdPage(browser, [path])
 
     expect(consoleIssues.some(issue => issue.includes('Vue is required'))).toBe(

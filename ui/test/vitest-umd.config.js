@@ -16,10 +16,11 @@ function getReporterConfig() {
 }
 
 // Node-side suite over the published UMD artifacts, loaded into a real
-// browser page next to the global Vue build (the CDN usage pattern):
-// the global surface of both bundle flavors, every lang-pack/icon-set
-// UMD asset, in-DOM (runtime compiler) boot, install config and the
-// missing-Vue guard — the only coverage these dist artifacts have.
+// browser page next to the global Vue builds (the CDN usage pattern;
+// dev AND prod Vue): the global surface of both bundle flavors, every
+// lang-pack/icon-set UMD asset, in-DOM (runtime compiler) boot, install
+// config and the missing-Vue guard — the only coverage these dist
+// artifacts have.
 export default defineConfig(() => ({
   // the package root, so the config behaves the same from the /ui
   // scripts and from the workspace-root IDE projects config

@@ -7,13 +7,33 @@ export const { version } = JSON.parse(
   readFileSync(join(uiDir, 'package.json'), 'utf8')
 )
 
-// the CDN usage pattern: global Vue build + a quasar UMD bundle
-export const vuePath = join(uiDir, 'node_modules/vue/dist/vue.global.prod.js')
+// the CDN usage pattern: a global Vue build + a quasar UMD bundle;
+// the dev Vue build surfaces runtime-compiler warnings (caught by the
+// clean-console assertions) that the prod build silences
+export const vueBuilds = [
+  {
+    vueLabel: 'vue.global.js',
+    vuePath: join(uiDir, 'node_modules/vue/dist/vue.global.js')
+  },
+  {
+    vueLabel: 'vue.global.prod.js',
+    vuePath: join(uiDir, 'node_modules/vue/dist/vue.global.prod.js')
+  }
+]
 
 export const bundleFlavors = [
   { label: 'quasar.umd.js', path: join(uiDir, 'dist/quasar.umd.js') },
   { label: 'quasar.umd.prod.js', path: join(uiDir, 'dist/quasar.umd.prod.js') }
 ]
+
+// every quasar bundle × Vue build combination
+export const flavorMatrix = bundleFlavors.flatMap(bundle =>
+  vueBuilds.map(vue => ({
+    label: `${bundle.label} + ${vue.vueLabel}`,
+    bundlePath: bundle.path,
+    vuePath: vue.vuePath
+  }))
+)
 
 // mirrors the dash-to-camel mangling of addUmdAssets()
 // in build/script.build.javascript.js

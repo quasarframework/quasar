@@ -2,13 +2,7 @@ import { join } from 'node:path'
 import { chromium } from 'playwright'
 import { afterAll, beforeAll, describe, expect, test } from 'vitest'
 
-import {
-  bundleFlavors,
-  createUmdPage,
-  uiDir,
-  version,
-  vuePath
-} from './helpers.js'
+import { createUmdPage, flavorMatrix, uiDir, version } from './helpers.js'
 
 // The UMD/CDN usage pattern compiles templates straight from the DOM
 // (runtime compiler): kebab-case tags, NO self-closing tags. Nothing
@@ -39,11 +33,14 @@ afterAll(async () => {
   await browser?.close()
 })
 
-describe.each(bundleFlavors)('$label', ({ path }) => {
+describe.each(flavorMatrix)('$label', ({ bundlePath, vuePath }) => {
   let page, consoleIssues
 
   beforeAll(async () => {
-    ;({ page, consoleIssues } = await createUmdPage(browser, [vuePath, path]))
+    ;({ page, consoleIssues } = await createUmdPage(browser, [
+      vuePath,
+      bundlePath
+    ]))
 
     await page.addStyleTag({ path: join(uiDir, 'dist/quasar.css') })
 

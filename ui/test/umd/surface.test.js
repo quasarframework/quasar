@@ -2,11 +2,10 @@ import { chromium } from 'playwright'
 import { afterAll, beforeAll, describe, expect, test } from 'vitest'
 
 import {
-  bundleFlavors,
   createUmdPage,
+  flavorMatrix,
   listSourceExports,
-  version,
-  vuePath
+  version
 } from './helpers.js'
 
 // the export listing files index.umd.js spreads onto window.Quasar
@@ -28,11 +27,14 @@ afterAll(async () => {
   await browser?.close()
 })
 
-describe.each(bundleFlavors)('$label', ({ path }) => {
+describe.each(flavorMatrix)('$label', ({ bundlePath, vuePath }) => {
   let page, consoleIssues
 
   beforeAll(async () => {
-    ;({ page, consoleIssues } = await createUmdPage(browser, [vuePath, path]))
+    ;({ page, consoleIssues } = await createUmdPage(browser, [
+      vuePath,
+      bundlePath
+    ]))
   })
 
   afterAll(async () => {

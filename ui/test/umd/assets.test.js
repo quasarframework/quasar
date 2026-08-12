@@ -6,7 +6,7 @@ import {
   countSourceAssets,
   createUmdPage,
   listUmdAssets,
-  vuePath
+  vueBuilds
 } from './helpers.js'
 
 // The lang packs and icon sets only ship as .umd.prod assets, so one
@@ -19,8 +19,9 @@ let browser, page, consoleIssues
 
 beforeAll(async () => {
   browser = await chromium.launch()
+  // dev Vue build: maximum warning surface for the clean-console check
   ;({ page, consoleIssues } = await createUmdPage(browser, [
-    vuePath,
+    vueBuilds[0].vuePath,
     bundleFlavors[0].path,
     ...langs.map(asset => asset.path),
     ...iconSets.map(asset => asset.path)

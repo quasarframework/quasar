@@ -81,8 +81,9 @@ their server-rendered data deterministic (no `Math.random()`/`uid()`/
 live clocks in SSR markup; client-only data goes in `onMounted`).
 Set `E2E_SERVER_URL` to audit an already-running `dev:ssr` session
 instead of booting one. `pnpm test:umd` drives `test/umd/` against both
-built UMD bundles in a real browser: the window.Quasar surface vs the
-src export lists, every lang-pack/icon-set UMD asset, in-DOM
+built UMD bundles × both global Vue builds (dev Vue surfaces
+runtime-compiler warnings) in a real browser: the window.Quasar surface
+vs the src export lists, every lang-pack/icon-set UMD asset, in-DOM
 (runtime-compiler) boot, install config and the missing-Vue guard.
 `pnpm test:sweep` (on-demand, never part of `pnpm test`) drives the
 self-verdicting playground page `/web-tests/regression-sweep` across
