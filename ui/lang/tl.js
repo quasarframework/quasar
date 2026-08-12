@@ -15,6 +15,9 @@ export default {
     search: 'Maghanap',
     filter: 'Salain',
     refresh: 'Refresh',
+    minimum: 'Minimum',
+    maximum: 'Maximum',
+    range: 'Saklaw',
     expand: label => (label ? `Palawakin "${label}"` : 'Palawakin'),
     collapse: label => (label ? `Pagbagsak "${label}"` : 'Pagbagsak')
   },

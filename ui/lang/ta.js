@@ -15,6 +15,9 @@ export default {
     search: 'தேடு',
     filter: 'வடிகட்டு',
     refresh: 'புதுப்பி',
+    minimum: 'குறைந்தபட்சம்',
+    maximum: 'அதிகபட்சம்',
+    range: 'வரம்பு',
     expand: label => (label ? `"${label}" ஐ விரிவாக்கு` : 'விரிவாக்கு'),
     collapse: label => (label ? `"${label}" ஐச் சுருக்கு` : 'சுருக்கு')
   },

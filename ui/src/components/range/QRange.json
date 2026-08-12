@@ -86,6 +86,22 @@
       "desc": "Color name (from the Quasar Color Palette) for right thumb",
       "category": "labels",
       "addedIn": "v2.4"
+    },
+
+    "left-thumb-aria-label": {
+      "type": "String",
+      "desc": "Aria-label for the left (minimum-value) thumb; Overrides the default label taken from the Quasar Language Pack ('label.minimum')",
+      "examples": ["'Lowest price'"],
+      "category": "accessibility",
+      "addedIn": "v2.25"
+    },
+
+    "right-thumb-aria-label": {
+      "type": "String",
+      "desc": "Aria-label for the right (maximum-value) thumb; Overrides the default label taken from the Quasar Language Pack ('label.maximum')",
+      "examples": ["'Highest price'"],
+      "category": "accessibility",
+      "addedIn": "v2.25"
     }
   },
 

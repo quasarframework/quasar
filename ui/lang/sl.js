@@ -15,6 +15,9 @@ export default {
     search: 'Išči',
     filter: 'Filtriraj',
     refresh: 'Ponovno naloži',
+    minimum: 'Minimum',
+    maximum: 'Maksimum',
+    range: 'Razpon',
     expand: label => (label ? `Razširi "${label}"` : 'Razširi'),
     collapse: label => (label ? `Strni "${label}"` : 'Strni')
   },

@@ -15,6 +15,9 @@ export default {
     search: 'Sök',
     filter: 'Filtrera',
     refresh: 'Uppdatera',
+    minimum: 'Minimum',
+    maximum: 'Maximum',
+    range: 'Intervall',
     expand: label => (label ? `Utöka "${label}"` : 'Bygga ut'),
     collapse: label => (label ? `Komprimera "${label}"` : 'Kollaps')
   },

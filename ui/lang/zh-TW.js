@@ -15,6 +15,9 @@ export default {
     search: '搜尋',
     filter: '篩選',
     refresh: '更新',
+    minimum: '最小值',
+    maximum: '最大值',
+    range: '範圍',
     expand: label => (label ? `展開"${label}"` : '擴張'),
     collapse: label => (label ? `折疊"${label}"` : '坍塌')
   },

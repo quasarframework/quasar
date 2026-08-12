@@ -15,6 +15,9 @@ export default {
     search: 'Bilatu',
     filter: 'Iragazi',
     refresh: 'Eguneratu',
+    minimum: 'Minimoa',
+    maximum: 'Maximoa',
+    range: 'Tartea',
     expand: label => (label ? `Zabaldu "${label}"` : 'Zabaldu'),
     collapse: label => (label ? `Tolestu "${label}"` : 'Tolestu')
   },

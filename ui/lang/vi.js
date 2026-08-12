@@ -15,6 +15,9 @@ export default {
     search: 'Tìm kiếm',
     filter: 'Bộ lọc',
     refresh: 'Làm mới',
+    minimum: 'Tối thiểu',
+    maximum: 'Tối đa',
+    range: 'Phạm vi',
     expand: label => (label ? `Mở rộng "${label}"` : 'Mở rộng'),
     collapse: label => (label ? `Thu gọn "${label}"` : 'Sụp đổ')
   },

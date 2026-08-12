@@ -128,10 +128,10 @@ The submitted value contains the minimum and maximum values separated by a pipe 
 
 <DocExample title="Native form" file="NativeForm" />
 
-## Accessibility
+## Accessibility <q-badge label="v2.25+" />
 
-QRange shares the semantics and keyboard behavior of [QSlider](/vue-components/slider#accessibility): `role="slider"` with `aria-valuemin`/`aria-valuemax`/`aria-valuenow`, `aria-orientation` and `aria-disabled`/`aria-readonly`, with the <kbd>Arrow</kbd> keys stepping the value (RTL/`reverse`/`vertical`-aware) and <kbd>PageUp</kbd> / <kbd>PageDown</kbd> jumping by 10 steps in desktop mode.
+QRange follows the [WAI-ARIA multi-thumb slider pattern](https://www.w3.org/WAI/ARIA/apg/patterns/slider-multithumb/): each thumb is its own `role="slider"` element exposing `aria-valuemin`/`aria-valuemax`/`aria-valuenow` (each thumb's limit follows the other one, mirroring how the values clamp against each other), `aria-orientation` and `aria-disabled`/`aria-readonly`, wrapped in a `role="group"` container. The thumbs are named "Minimum"/"Maximum" through the [Quasar Language Pack](/options/quasar-language-packs) (`label.minimum`/`label.maximum`) — override them per instance with the `left-thumb-aria-label`/`right-thumb-aria-label` props. A `left-label-value`/`right-label-value` (e.g. "20%") also becomes its thumb's `aria-valuetext`, so screen readers announce the same formatted value sighted users see.
 
-Focus is per-thumb: <kbd>Tab</kbd> reaches each thumb in turn and the keys move whichever thumb has focus, with the minimum and maximum clamping against each other. When dragging the range as a whole (see "Dragging range" above), the keys move the entire selected window, preserving its width.
+The keyboard behavior matches [QSlider](/vue-components/slider#accessibility): <kbd>Tab</kbd> reaches each thumb in turn, the <kbd>Arrow</kbd> keys step whichever thumb has focus (RTL/`reverse`/`vertical`-aware) and <kbd>PageUp</kbd> / <kbd>PageDown</kbd> jump by 10 steps, in desktop mode.
 
-Be aware that the ARIA value state lives on the wrapping element rather than on each thumb, so what screen readers announce while operating the individual thumbs is limited. When the range input is critical for assistive technology users, consider offering two coordinated [QSliders](/vue-components/slider) (one for the minimum, one for the maximum) as an alternative.
+With `drag-range`, the track container is an additional Tab stop whose keys move the entire selected window, preserving its width; with `drag-only-range` it is the only one, so the slider semantics (localized "Range" name, the minimum as `aria-valuenow`, both formatted values as `aria-valuetext`) move onto it instead of the thumbs.

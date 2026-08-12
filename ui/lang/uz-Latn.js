@@ -15,6 +15,9 @@ export default {
     search: 'Qidirish',
     filter: 'Filtrlash',
     refresh: 'Yangilash',
+    minimum: 'Minimum',
+    maximum: 'Maksimum',
+    range: 'Diapazon',
     expand: label => (label ? `"${label}" ni kengaytirish` : 'Kengaytirish'),
     collapse: label => (label ? `"${label}" ni yig'ish` : 'Yiqilish')
   },

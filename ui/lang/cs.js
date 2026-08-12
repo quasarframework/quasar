@@ -15,6 +15,9 @@ export default {
     search: 'Hledat',
     filter: 'Filtrovat',
     refresh: 'Obnovit',
+    minimum: 'Minimum',
+    maximum: 'Maximum',
+    range: 'Rozsah',
     expand: label => (label ? `Rozbalit "${label}"` : 'Rozšířit'),
     collapse: label => (label ? `Sbalit "${label}"` : 'Kolaps')
   },

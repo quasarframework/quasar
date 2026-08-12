@@ -15,6 +15,9 @@ export default {
     search: 'Axtar',
     filter: 'Filtrlə',
     refresh: 'Yenilə',
+    minimum: 'Minimum',
+    maximum: 'Maksimum',
+    range: 'Aralıq',
     expand: label => (label ? `"${label}" genişləndirin` : 'Genişləndirin'),
     collapse: label => (label ? `"${label}" yığcamlaşdırın` : 'Yıxılma')
   },

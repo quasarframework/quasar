@@ -15,6 +15,9 @@ export default {
     search: 'Søk',
     filter: 'Filter',
     refresh: 'Oppdater',
+    minimum: 'Minimum',
+    maximum: 'Maksimum',
+    range: 'Område',
     expand: label => (label ? `Utvid "${label}"` : 'Utvide'),
     collapse: label => (label ? `Skjul "${label}"` : 'Kollapse')
   },

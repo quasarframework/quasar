@@ -15,6 +15,9 @@ export default {
     search: 'Otsi',
     filter: 'Filtreeri',
     refresh: 'Värskenda',
+    minimum: 'Miinimum',
+    maximum: 'Maksimum',
+    range: 'Vahemik',
     expand: label => (label ? `Laienda "${label}"` : 'Laienda'),
     collapse: label => (label ? `Ahenda "${label}"` : 'Ahenda')
   },

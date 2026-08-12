@@ -15,6 +15,9 @@ export default {
     search: 'തിരയുക',
     filter: 'അരിക്കുക',
     refresh: 'പുതുക്കുക',
+    minimum: 'കുറഞ്ഞത്',
+    maximum: 'കൂടിയത്',
+    range: 'പരിധി',
     expand: label => (label ? `"${label}" വികസിപ്പിക്കുക` : 'വികസിപ്പിക്കുക'),
     collapse: label => (label ? `"${label}" ചുരുക്കുക` : 'ചുരുക്കുക')
   },

@@ -15,6 +15,9 @@ export default {
     search: 'खोजें',
     filter: 'फ़िल्टर करें',
     refresh: 'ताज़ा करें',
+    minimum: 'न्यूनतम',
+    maximum: 'अधिकतम',
+    range: 'रेंज',
     expand: label => (label ? `"${label}" का विस्तार करें` : 'विस्तार करें'),
     collapse: label => (label ? `"${label}" को संकुचित करें` : 'संकुचित करें')
   },

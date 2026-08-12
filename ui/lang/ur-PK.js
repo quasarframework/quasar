@@ -29,6 +29,9 @@ export default {
     search: 'تلاش کریں',
     filter: 'فلٹر',
     refresh: 'تازہ کریں',
+    minimum: 'کم از کم',
+    maximum: 'زیادہ سے زیادہ',
+    range: 'رینج',
     expand: label => (label ? `"${label}" کو وسیع کریں` : 'وسیع کریں'),
     collapse: label => (label ? `"${label}" کو سکیڑیں` : 'سکیڑیں')
   },

@@ -15,6 +15,9 @@ export default {
     search: 'Etsi',
     filter: 'Suodata',
     refresh: 'Päivitä',
+    minimum: 'Minimi',
+    maximum: 'Maksimi',
+    range: 'Vaihteluväli',
     expand: label => (label ? `Laajenna "${label}"` : 'Laajentaa'),
     collapse: label => (label ? `Tiivistä "${label}"` : 'Romahdus')
   },

@@ -15,6 +15,9 @@ export default {
     search: 'Тражи',
     filter: 'Филтер',
     refresh: 'Освежи',
+    minimum: 'Минимум',
+    maximum: 'Максимум',
+    range: 'Опсег',
     expand: label => (label ? `Прошири "${label}"` : 'Проширити'),
     collapse: label => (label ? `Скупи "${label}"` : 'Колапс')
   },

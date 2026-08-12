@@ -15,6 +15,9 @@ export default {
     search: 'Leita',
     filter: 'Sía',
     refresh: 'Endurhlaða',
+    minimum: 'Lágmark',
+    maximum: 'Hámark',
+    range: 'Bil',
     expand: label => (label ? `Stækka "${label}"` : 'Stækkaðu'),
     collapse: label => (label ? `Draga saman "${label}"` : 'Hrun')
   },

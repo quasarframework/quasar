@@ -15,6 +15,9 @@ export default {
     search: 'Cari',
     filter: 'Saring',
     refresh: 'Segarkan',
+    minimum: 'Minimum',
+    maximum: 'Maksimum',
+    range: 'Rentang',
     expand: label => (label ? `Perluas "${label}"` : 'Mengembangkan'),
     collapse: label => (label ? `Ciutkan "${label}"` : 'Jatuh')
   },

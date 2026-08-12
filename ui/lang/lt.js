@@ -26,6 +26,9 @@ export default {
     search: 'Ieškoti',
     filter: 'Filtruoti',
     refresh: 'Atnaujinti',
+    minimum: 'Minimumas',
+    maximum: 'Maksimumas',
+    range: 'Diapazonas',
     expand: label => (label ? `Išskleisti "${label}"` : 'Išskleisti'),
     collapse: label => (label ? `Sutraukti "${label}"` : 'Sutraukti')
   },

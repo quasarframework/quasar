@@ -15,6 +15,9 @@ export default {
     search: 'ค้นหา',
     filter: 'กรอง',
     refresh: 'รีเฟรช',
+    minimum: 'ต่ำสุด',
+    maximum: 'สูงสุด',
+    range: 'ช่วง',
     expand: label => (label ? `ขยาย "${label}"` : 'ขยาย'),
     collapse: label => (label ? `ยุบ "${label}"` : 'ทรุด')
   },

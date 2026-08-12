@@ -15,6 +15,9 @@ export default {
     search: 'Αναζήτηση',
     filter: 'Φίλτρο',
     refresh: 'Ανανέωση',
+    minimum: 'Ελάχιστο',
+    maximum: 'Μέγιστο',
+    range: 'Εύρος',
     expand: label => (label ? `Επέκταση "${label}"` : 'Επεκτείνουν'),
     collapse: label => (label ? `Σύμπτυξη "${label}"` : 'Κατάρρευση')
   },

@@ -15,6 +15,9 @@ export default {
     search: '搜索',
     filter: '过滤',
     refresh: '刷新',
+    minimum: '最小值',
+    maximum: '最大值',
+    range: '范围',
     expand: label => (label ? `展开"${label}"` : '扩张'),
     collapse: label => (label ? `折叠"${label}"` : '坍塌')
   },

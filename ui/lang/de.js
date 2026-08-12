@@ -15,6 +15,9 @@ export default {
     search: 'Suche',
     filter: 'Filter',
     refresh: 'Aktualisieren',
+    minimum: 'Minimum',
+    maximum: 'Maximum',
+    range: 'Bereich',
     expand: label => (label ? `Erweitern Sie "${label}"` : 'Erweitern'),
     collapse: label => (label ? `"${label}" minimieren` : 'Zusammenbruch')
   },

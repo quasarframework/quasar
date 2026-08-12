@@ -15,6 +15,9 @@ export default {
     search: 'Traži',
     filter: 'Filter',
     refresh: 'Osveži',
+    minimum: 'Minimum',
+    maximum: 'Maksimum',
+    range: 'Opseg',
     expand: label => (label ? `Proširi "${label}"` : 'Proširiti'),
     collapse: label => (label ? `Skupi "${label}"` : 'Skupiti')
   },

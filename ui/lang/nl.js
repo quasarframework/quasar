@@ -15,6 +15,9 @@ export default {
     search: 'Zoek',
     filter: 'Filter',
     refresh: 'Ververs',
+    minimum: 'Minimum',
+    maximum: 'Maximum',
+    range: 'Bereik',
     expand: label => (label ? `"${label}" uitklappen` : 'Uitklappen'),
     collapse: label => (label ? `"${label}" inklappen` : 'Inklappen')
   },

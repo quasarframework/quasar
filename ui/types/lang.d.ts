@@ -27,7 +27,10 @@ type QuasarLanguageGeneralLabel =
   | "create"
   | "search"
   | "filter"
-  | "refresh";
+  | "refresh"
+  | "minimum"
+  | "maximum"
+  | "range";
 type QuasarLanguageTableLabel =
   | "noData"
   | "noResults"

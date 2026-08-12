@@ -106,6 +106,21 @@
               "desc": "Label",
               "examples": ["'Refresh'"]
             },
+            "minimum": {
+              "type": "String",
+              "desc": "Aria-label for the QRange minimum-value thumb",
+              "examples": ["'Minimum'"]
+            },
+            "maximum": {
+              "type": "String",
+              "desc": "Aria-label for the QRange maximum-value thumb",
+              "examples": ["'Maximum'"]
+            },
+            "range": {
+              "type": "String",
+              "desc": "Aria-label for the QRange track when it drags the whole selected window (drag-range/drag-only-range)",
+              "examples": ["'Range'"]
+            },
             "expand": {
               "type": "Function",
               "desc": "Label function",
@@ -724,6 +739,21 @@
                   "desc": "Label",
                   "required": true,
                   "examples": ["'Refresh'"]
+                },
+                "minimum": {
+                  "type": "String",
+                  "desc": "Aria-label for the QRange minimum-value thumb",
+                  "examples": ["'Minimum'"]
+                },
+                "maximum": {
+                  "type": "String",
+                  "desc": "Aria-label for the QRange maximum-value thumb",
+                  "examples": ["'Maximum'"]
+                },
+                "range": {
+                  "type": "String",
+                  "desc": "Aria-label for the QRange track when it drags the whole selected window (drag-range/drag-only-range)",
+                  "examples": ["'Range'"]
                 },
                 "expand": {
                   "type": "Function",

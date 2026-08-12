@@ -42,7 +42,10 @@ export default /*#__PURE__*/ createComponent({
     rightLabelValue: [String, Number],
 
     leftThumbColor: String,
-    rightThumbColor: String
+    rightThumbColor: String,
+
+    leftThumbAriaLabel: String,
+    rightThumbAriaLabel: String
   },
 
   emits: useSliderEmits,
@@ -125,6 +128,74 @@ export default /*#__PURE__*/ createComponent({
       return acc
     })
 
+    const orientation = computed(() =>
+      props.vertical ? 'vertical' : 'horizontal'
+    )
+
+    function getEditableAriaState() {
+      return props.disable
+        ? { 'aria-disabled': 'true' }
+        : props.readonly
+          ? { 'aria-readonly': 'true' }
+          : {}
+    }
+
+    // one WAI-ARIA slider per thumb (unless drag-only-range, where the
+    // track container is the single focusable acting on the whole window)
+    function getThumbAriaAttrs(which) {
+      if (props.dragOnlyRange) return {}
+
+      const isMin = which === 'min',
+        labelValue = props[isMin ? 'leftLabelValue' : 'rightLabelValue']
+
+      return {
+        role: 'slider',
+        'aria-label':
+          props[isMin ? 'leftThumbAriaLabel' : 'rightThumbAriaLabel'] ||
+          $q.lang.label[isMin ? 'minimum' : 'maximum'],
+        'aria-orientation': orientation.value,
+        // each thumb is clamped against the other one (see onKeydown),
+        // so its effective limits are what gets exposed
+        'aria-valuemin': isMin ? state.innerMin.value : model.value.min,
+        'aria-valuemax': isMin ? model.value.max : state.innerMax.value,
+        'aria-valuenow': model.value[which],
+        ...(labelValue !== void 0 ? { 'aria-valuetext': labelValue } : {}),
+        ...getEditableAriaState()
+      }
+    }
+
+    const minThumbAriaAttrs = computed(() => getThumbAriaAttrs('min'))
+    const maxThumbAriaAttrs = computed(() => getThumbAriaAttrs('max'))
+
+    const rootAttrs = computed(() => ({
+      role: 'group',
+      'data-step': props.step,
+      ...getEditableAriaState()
+    }))
+
+    const trackContainerAriaAttrs = computed(() => {
+      if ($q.platform.is.mobile || (!props.dragRange && !props.dragOnlyRange)) {
+        return {}
+      }
+
+      const min = model.value.min,
+        max = model.value.max,
+        minLabel = props.leftLabelValue !== void 0 ? props.leftLabelValue : min,
+        maxLabel =
+          props.rightLabelValue !== void 0 ? props.rightLabelValue : max
+
+      return {
+        role: 'slider',
+        'aria-label': $q.lang.label.range,
+        'aria-orientation': orientation.value,
+        'aria-valuemin': state.innerMin.value,
+        'aria-valuemax': state.innerMax.value,
+        'aria-valuenow': min,
+        'aria-valuetext': `${minLabel}–${maxLabel}`,
+        ...getEditableAriaState()
+      }
+    })
+
     const trackContainerEvents = computed(() => {
       if (!state.editable.value) return {}
 
@@ -147,6 +218,11 @@ export default /*#__PURE__*/ createComponent({
 
       return evt
     })
+
+    const trackContainerData = computed(() => ({
+      ...trackContainerAriaAttrs.value,
+      ...trackContainerEvents.value
+    }))
 
     function getEvents(side) {
       return !$q.platform.is.mobile &&
@@ -180,7 +256,8 @@ export default /*#__PURE__*/ createComponent({
         ref: minThumbRef,
         key: 'tmin',
         ...minEvents.value,
-        tabindex: thumbTabindex.value
+        tabindex: thumbTabindex.value,
+        ...minThumbAriaAttrs.value
       }),
       ratio: ratioMin,
       label: computed(() =>
@@ -202,7 +279,8 @@ export default /*#__PURE__*/ createComponent({
       getNodeData: () => ({
         ...maxEvents.value,
         key: 'tmax',
-        tabindex: thumbTabindex.value
+        tabindex: thumbTabindex.value,
+        ...maxThumbAriaAttrs.value
       }),
       ratio: ratioMax,
       label: computed(() =>
@@ -415,7 +493,7 @@ export default /*#__PURE__*/ createComponent({
       const content = methods.getContent(
         selectionBarStyle,
         trackContainerTabindex,
-        trackContainerEvents,
+        trackContainerData,
         node => {
           node.push(getMinThumb(), getMaxThumb())
         }
@@ -431,8 +509,7 @@ export default /*#__PURE__*/ createComponent({
             (modelProp.value.min === null || modelProp.value.max === null
               ? ' q-slider--no-value'
               : ''),
-          ...state.attributes.value,
-          'aria-valuenow': modelProp.value.min + '|' + modelProp.value.max
+          ...rootAttrs.value
         },
         content
       )

@@ -15,6 +15,9 @@ export default {
     search: 'Keresés',
     filter: 'Szűrés',
     refresh: 'Frissítés',
+    minimum: 'Minimum',
+    maximum: 'Maximum',
+    range: 'Tartomány',
     expand: label => (label ? `A "${label}" kiterjesztése` : 'Kiterjed'),
     collapse: label => (label ? `A "${label}" összecsukása` : 'Összeomlás')
   },

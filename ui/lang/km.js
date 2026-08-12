@@ -15,6 +15,9 @@ export default {
     search: 'ស្វែងរក',
     filter: 'ច្រោះ',
     refresh: 'ធ្វើឲ្យថ្មី',
+    minimum: 'អប្បបរមា',
+    maximum: 'អតិបរមា',
+    range: 'ចន្លោះ',
     expand: label => (label ? `ពង្រីក "${label}"` : 'ពង្រីក'),
     collapse: label => (label ? `បង្រួម "${label}"` : 'ដួលរលំ')
   },

@@ -16,6 +16,9 @@ export default {
     search: 'گەڕان',
     filter: 'پاڵاوتن',
     refresh: 'تازەکردنەوە',
+    minimum: 'کەمترین',
+    maximum: 'زۆرترین',
+    range: 'مەودا',
     expand: label => (label ? `"${label}" فراوانکردنی` : 'فراوانکردن'),
     collapse: label => (label ? `"${label}" داخستنی` : 'شکست هێنان')
   },

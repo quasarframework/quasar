@@ -15,6 +15,9 @@ export default {
     search: 'Meklēt',
     filter: 'Filtēt',
     refresh: 'Atjaunot',
+    minimum: 'Minimums',
+    maximum: 'Maksimums',
+    range: 'Diapazons',
     expand: label => (label ? `Paplašināt "${label}"` : 'Izvērst'),
     collapse: label => (label ? `Sakļaut "${label}"` : 'Sakļaut')
   },

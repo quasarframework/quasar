@@ -15,6 +15,9 @@ export default {
     search: 'Hľadať',
     filter: 'Filtrovať',
     refresh: 'Obnoviť',
+    minimum: 'Minimum',
+    maximum: 'Maximum',
+    range: 'Rozsah',
     expand: label => (label ? `Rozbaliť "${label}"` : 'Rozbaliť'),
     collapse: label => (label ? `Zbaliť "${label}"` : 'Kolaps')
   },

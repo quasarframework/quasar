@@ -15,6 +15,9 @@ export default {
     search: 'ရှာမည်',
     filter: 'စစ်ထုတ်မည်',
     refresh: 'အသစ်ပြန်လုပ်မည်',
+    minimum: 'အနည်းဆုံး',
+    maximum: 'အများဆုံး',
+    range: 'အပိုင်းအခြား',
     expand: label => (label ? `"${label}" ကိုချဲ့ထွင်ပါ။` : 'ချဲ့ထွင်ပါ။'),
     collapse: label => (label ? `"${label}" ကို ခေါက်သိမ်းပါ` : 'ခေါက်သိမ်းပါ')
   },

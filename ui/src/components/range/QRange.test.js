@@ -2,6 +2,7 @@ import { mount } from '@vue/test-utils'
 import { describe, expect, test } from 'vitest'
 import { nextTick } from 'vue'
 
+import langEn from '../../../lang/en-US.js'
 import QRange from './QRange.js'
 
 function mountRange(props, slots) {
@@ -124,12 +125,14 @@ describe('[QRange API]', () => {
         const propVal = 0
         const wrapper = mountRange({ min: propVal })
 
-        expect(wrapper.attributes('aria-valuemin')).toBe(String(propVal))
+        expect(getMinThumb(wrapper).attributes('aria-valuemin')).toBe(
+          String(propVal)
+        )
         expect(getMinThumb(wrapper).$style('left')).toBe('20%')
 
         await wrapper.setProps({ min: -100 })
 
-        expect(wrapper.attributes('aria-valuemin')).toBe('-100')
+        expect(getMinThumb(wrapper).attributes('aria-valuemin')).toBe('-100')
         expect(getMinThumb(wrapper).$style('left')).toBe('60%')
         expect(getMaxThumb(wrapper).$style('left')).toBe('80%')
       })
@@ -140,12 +143,14 @@ describe('[QRange API]', () => {
         const propVal = 100
         const wrapper = mountRange({ max: propVal })
 
-        expect(wrapper.attributes('aria-valuemax')).toBe(String(propVal))
+        expect(getMaxThumb(wrapper).attributes('aria-valuemax')).toBe(
+          String(propVal)
+        )
         expect(getMaxThumb(wrapper).$style('left')).toBe('60%')
 
         await wrapper.setProps({ max: 200 })
 
-        expect(wrapper.attributes('aria-valuemax')).toBe('200')
+        expect(getMaxThumb(wrapper).attributes('aria-valuemax')).toBe('200')
         expect(getMaxThumb(wrapper).$style('left')).toBe('30%')
       })
     })
@@ -160,7 +165,9 @@ describe('[QRange API]', () => {
         await wrapper.setProps({ innerMin: propVal })
 
         // the model gets pushed inside of the allowed range
-        expect(wrapper.attributes('aria-valuemin')).toBe(String(propVal))
+        expect(getMinThumb(wrapper).attributes('aria-valuemin')).toBe(
+          String(propVal)
+        )
         expect(getMinThumb(wrapper).$style('left')).toBe(`${propVal}%`)
         expect(getInnerTrack(wrapper).$style('left')).toBe(`${propVal}%`)
         expect(getInnerTrack(wrapper).$style('width')).toBe('70%')
@@ -176,7 +183,9 @@ describe('[QRange API]', () => {
 
         await wrapper.setProps({ innerMax: propVal })
 
-        expect(wrapper.attributes('aria-valuemax')).toBe(String(propVal))
+        expect(getMaxThumb(wrapper).attributes('aria-valuemax')).toBe(
+          String(propVal)
+        )
         expect(getMaxThumb(wrapper).$style('left')).toBe(`${propVal}%`)
         expect(getInnerTrack(wrapper).$style('width')).toBe(`${propVal}%`)
       })
@@ -266,14 +275,22 @@ describe('[QRange API]', () => {
         expect(wrapper.classes()).toEqual(
           expect.arrayContaining(['q-slider--h', 'column'])
         )
-        expect(wrapper.attributes('aria-orientation')).toBe('horizontal')
+        expect(
+          getThumbs(wrapper).every(
+            thumb => thumb.attributes('aria-orientation') === 'horizontal'
+          )
+        ).toBe(true)
 
         await wrapper.setProps({ vertical: true })
 
         expect(wrapper.classes()).toEqual(
           expect.arrayContaining(['q-slider--v', 'row'])
         )
-        expect(wrapper.attributes('aria-orientation')).toBe('vertical')
+        expect(
+          getThumbs(wrapper).every(
+            thumb => thumb.attributes('aria-orientation') === 'vertical'
+          )
+        ).toBe(true)
         expect(getMinThumb(wrapper).$style('top')).toBe('20%')
         expect(getSelection(wrapper).$style('height')).toBe('40%')
       })
@@ -774,7 +791,11 @@ describe('[QRange API]', () => {
         const propVal = { min: 10, max: 40 }
         const wrapper = mountRange({ modelValue: propVal })
 
-        expect(wrapper.attributes('aria-valuenow')).toBe('10|40')
+        expect(getMinThumb(wrapper).attributes('aria-valuenow')).toBe('10')
+        expect(getMaxThumb(wrapper).attributes('aria-valuenow')).toBe('40')
+        // each thumb is clamped against the other one
+        expect(getMinThumb(wrapper).attributes('aria-valuemax')).toBe('40')
+        expect(getMaxThumb(wrapper).attributes('aria-valuemin')).toBe('10')
         expect(wrapper.classes()).not.toContain('q-slider--no-value')
         expect(getMinThumb(wrapper).$style('left')).toBe('10%')
         expect(getMaxThumb(wrapper).$style('left')).toBe('40%')
@@ -788,7 +809,9 @@ describe('[QRange API]', () => {
         // it is treated the same as an empty range
         const wrapper = mountRange({ modelValue: null })
 
-        expect(wrapper.attributes('aria-valuenow')).toBe('null|null')
+        // the thumbs report the normalized model (the full allowed range)
+        expect(getMinThumb(wrapper).attributes('aria-valuenow')).toBe('0')
+        expect(getMaxThumb(wrapper).attributes('aria-valuenow')).toBe('100')
         expect(wrapper.classes()).toContain('q-slider--no-value')
         expect(getMinThumb(wrapper).$style('left')).toBe('0%')
         expect(getMaxThumb(wrapper).$style('left')).toBe('100%')
@@ -798,7 +821,8 @@ describe('[QRange API]', () => {
         // it falls back to an empty range
         const wrapper = mountRange({ modelValue: void 0 })
 
-        expect(wrapper.attributes('aria-valuenow')).toBe('null|null')
+        expect(getMinThumb(wrapper).attributes('aria-valuenow')).toBe('0')
+        expect(getMaxThumb(wrapper).attributes('aria-valuenow')).toBe('100')
         expect(wrapper.classes()).toContain('q-slider--no-value')
         // the thumbs sit at both ends of the track
         expect(getMinThumb(wrapper).$style('left')).toBe('0%')
@@ -997,6 +1021,43 @@ describe('[QRange API]', () => {
         expect(getMinThumb(wrapper).classes()).toContain('text-accent')
       })
     })
+
+    describe('[(prop)left-thumb-aria-label]', () => {
+      test('type String has effect', async () => {
+        const propVal = 'Lowest price'
+        const wrapper = mountRange()
+
+        // defaults to the Quasar Language Pack string
+        expect(getMinThumb(wrapper).attributes('aria-label')).toBe(
+          langEn.label.minimum
+        )
+
+        await wrapper.setProps({ leftThumbAriaLabel: propVal })
+
+        expect(getMinThumb(wrapper).attributes('aria-label')).toBe(propVal)
+        expect(getMaxThumb(wrapper).attributes('aria-label')).toBe(
+          langEn.label.maximum
+        )
+      })
+    })
+
+    describe('[(prop)right-thumb-aria-label]', () => {
+      test('type String has effect', async () => {
+        const propVal = 'Highest price'
+        const wrapper = mountRange()
+
+        expect(getMaxThumb(wrapper).attributes('aria-label')).toBe(
+          langEn.label.maximum
+        )
+
+        await wrapper.setProps({ rightThumbAriaLabel: propVal })
+
+        expect(getMaxThumb(wrapper).attributes('aria-label')).toBe(propVal)
+        expect(getMinThumb(wrapper).attributes('aria-label')).toBe(
+          langEn.label.minimum
+        )
+      })
+    })
   })
 
   describe('[Slots]', () => {
@@ -1163,6 +1224,84 @@ describe('[QRange API]', () => {
         const [value] = eventList['update:modelValue'][0]
         expect(value).toStrictEqual({ min: 21, max: 60 })
       })
+    })
+  })
+
+  describe('[Accessibility]', () => {
+    test('each thumb implements the WAI-ARIA slider semantics', () => {
+      // default mount: model { min: 20, max: 60 }, limits 0-100
+      const wrapper = mountRange()
+      const minAttrs = getMinThumb(wrapper).attributes()
+      const maxAttrs = getMaxThumb(wrapper).attributes()
+
+      expect(wrapper.attributes('role')).toBe('group')
+      expect(wrapper.attributes('aria-valuenow')).toBeUndefined()
+
+      expect(minAttrs.role).toBe('slider')
+      expect(minAttrs.tabindex).toBe('0')
+      expect(minAttrs['aria-orientation']).toBe('horizontal')
+      expect(minAttrs['aria-label']).toBe(langEn.label.minimum)
+      expect(minAttrs['aria-valuemin']).toBe('0')
+      expect(minAttrs['aria-valuemax']).toBe('60')
+      expect(minAttrs['aria-valuenow']).toBe('20')
+
+      expect(maxAttrs.role).toBe('slider')
+      expect(maxAttrs.tabindex).toBe('0')
+      expect(maxAttrs['aria-label']).toBe(langEn.label.maximum)
+      expect(maxAttrs['aria-valuemin']).toBe('20')
+      expect(maxAttrs['aria-valuemax']).toBe('100')
+      expect(maxAttrs['aria-valuenow']).toBe('60')
+    })
+
+    test('a thumb limit follows the other thumb as the value changes', async () => {
+      const wrapper = mountRange()
+
+      // ArrowRight on the min thumb: 20 -> 21
+      await focusAndPress(getMinThumb(wrapper), 39)
+
+      expect(getMinThumb(wrapper).attributes('aria-valuenow')).toBe('21')
+      expect(getMaxThumb(wrapper).attributes('aria-valuemin')).toBe('21')
+    })
+
+    test('label values feed aria-valuetext', () => {
+      const wrapper = mountRange({
+        leftLabelValue: '20%',
+        rightLabelValue: '60%'
+      })
+
+      expect(getMinThumb(wrapper).attributes('aria-valuetext')).toBe('20%')
+      expect(getMaxThumb(wrapper).attributes('aria-valuetext')).toBe('60%')
+    })
+
+    test('disabled/readonly state is exposed on the thumbs', async () => {
+      const wrapper = mountRange({ disable: true })
+
+      expect(getMinThumb(wrapper).attributes('aria-disabled')).toBe('true')
+      expect(getMinThumb(wrapper).attributes('tabindex')).toBe('-1')
+
+      await wrapper.setProps({ disable: false, readonly: true })
+
+      expect(getMinThumb(wrapper).attributes('aria-readonly')).toBe('true')
+      expect(getMinThumb(wrapper).attributes('aria-disabled')).toBeUndefined()
+    })
+
+    test('drag-only-range moves the slider semantics onto the track container', () => {
+      const wrapper = mountRange({ dragOnlyRange: true })
+      const attrs = getTrackContainer(wrapper).attributes()
+
+      expect(attrs.role).toBe('slider')
+      expect(attrs.tabindex).toBe('0')
+      expect(attrs['aria-label']).toBe(langEn.label.range)
+      expect(attrs['aria-orientation']).toBe('horizontal')
+      expect(attrs['aria-valuemin']).toBe('0')
+      expect(attrs['aria-valuemax']).toBe('100')
+      expect(attrs['aria-valuenow']).toBe('20')
+      expect(attrs['aria-valuetext']).toBe('20–60')
+
+      // the thumbs step aside: not focusable, no competing slider role
+      expect(getMinThumb(wrapper).attributes('role')).toBeUndefined()
+      expect(getMinThumb(wrapper).attributes('tabindex')).toBeUndefined()
+      expect(getMaxThumb(wrapper).attributes('role')).toBeUndefined()
     })
   })
 })

@@ -18,6 +18,9 @@ export default {
     search: 'ئىزدەش',
     filter: 'سۈزگۈچ',
     refresh: 'يېڭىلاش',
+    minimum: 'ئەڭ تۆۋەن',
+    maximum: 'ئەڭ يۇقىرى',
+    range: 'دائىرە',
     expand: label => (label ? `نى كېڭەيتىڭ "${label}"` : 'كېڭەيتىش'),
     collapse: label => (label ? `نى يىمىرىڭ "${label}"` : 'كېڭەيتىش')
   },

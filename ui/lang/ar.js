@@ -16,6 +16,9 @@ export default {
     search: 'بحث',
     filter: 'ترشيح',
     refresh: 'تحديث',
+    minimum: 'الحد الأدنى',
+    maximum: 'الحد الأقصى',
+    range: 'النطاق',
     expand: label => (label ? `"${label} توسيع` : 'وسعت'),
     collapse: label => (label ? `"${label}" تصغير` : 'انهيار')
   },

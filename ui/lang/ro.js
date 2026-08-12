@@ -15,6 +15,9 @@ export default {
     search: 'Caută',
     filter: 'Filtrează',
     refresh: 'Actualizează',
+    minimum: 'Minim',
+    maximum: 'Maxim',
+    range: 'Interval',
     expand: label => (label ? `Deschideți "${label}"` : 'Deschide'),
     collapse: label => (label ? `Închide "${label}"` : 'Închide')
   },

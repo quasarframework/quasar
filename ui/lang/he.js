@@ -16,6 +16,9 @@ export default {
     search: 'חיפוש',
     filter: 'סינון',
     refresh: 'רענון',
+    minimum: 'מינימום',
+    maximum: 'מקסימום',
+    range: 'טווח',
     expand: label => (label ? `"${label}" הרחב את` : 'לְהַרְחִיב'),
     collapse: label => (label ? `"${label}" כווץ` : 'הִתמוֹטְטוּת')
   },

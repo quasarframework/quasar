@@ -22,6 +22,9 @@ export default {
     search: 'جستجو',
     filter: 'فیلتر',
     refresh: 'تازه‌سازی',
+    minimum: 'کمینه',
+    maximum: 'بیشینه',
+    range: 'بازه',
     expand: label => (label ? `"${label}" گسترش` : 'بسط دادن'),
     collapse: label => (label ? `"${label}" کوچک کردن` : 'سقوط - فروپاشی')
   },

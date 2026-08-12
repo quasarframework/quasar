@@ -25,6 +25,9 @@ export default {
     search: 'Іздеу',
     filter: 'Сүзгі',
     refresh: 'Жаңарту',
+    minimum: 'Минимум',
+    maximum: 'Максимум',
+    range: 'Диапазон',
     expand: label => (label ? `"${label}" кеңейту` : 'Кеңейту'),
     collapse: label => (label ? `"${label}" жию` : 'Жыйрату')
   },

@@ -15,6 +15,9 @@ export default {
     search: '검색',
     filter: '필터',
     refresh: '새로 고침',
+    minimum: '최소',
+    maximum: '최대',
+    range: '범위',
     expand: label => (label ? `"${label}" 확장` : '확장하다'),
     collapse: label => (label ? `"${label}" 접기` : '무너지다')
   },

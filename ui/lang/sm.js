@@ -15,6 +15,9 @@ export default {
     search: "Sā'ili",
     filter: "Fa'amamā",
     refresh: "Fa'afou",
+    minimum: 'Minimum',
+    maximum: 'Maximum',
+    range: 'Range',
     expand: label => (label ? `Fa'alautele "${label}"` : 'Faalautele'),
     collapse: label => (label ? `Pa'u "${label}"` : "Pa'u")
   },

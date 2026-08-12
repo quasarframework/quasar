@@ -15,6 +15,9 @@ export default {
     search: 'Heka',
     filter: 'Mbogua',
     refresh: 'Actualisa',
+    minimum: 'Mínimo',
+    maximum: 'Máximo',
+    range: 'Rango',
     expand: label => (label ? `Oñembotuichave "${label}"` : 'Myasãi'),
     collapse: label => (label ? `Omboguejy "${label}"` : 'Ñembyaipa')
   },

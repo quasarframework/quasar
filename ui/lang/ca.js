@@ -15,6 +15,9 @@ export default {
     search: 'Cercar',
     filter: 'Filtrar',
     refresh: 'Refrescar',
+    minimum: 'Mínim',
+    maximum: 'Màxim',
+    range: 'Interval',
     expand: label => (label ? `Amplia "${label}"` : 'Expandir'),
     collapse: label => (label ? `Col·lapse "${label}"` : 'Col·lapse')
   },

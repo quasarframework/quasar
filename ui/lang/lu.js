@@ -15,6 +15,9 @@ export default {
     search: 'Sichen',
     filter: 'Filter',
     refresh: 'Aktualiséieren',
+    minimum: 'Minimum',
+    maximum: 'Maximum',
+    range: 'Plage',
     expand: label => (label ? `"${label}" erweideren` : 'Erweideren'),
     collapse: label => (label ? `"${label}" zesummeklappen` : 'Zesummebroch')
   },

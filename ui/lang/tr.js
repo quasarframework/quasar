@@ -15,6 +15,9 @@ export default {
     search: 'Ara',
     filter: 'Süz',
     refresh: 'Yenile',
+    minimum: 'Minimum',
+    maximum: 'Maksimum',
+    range: 'Aralık',
     expand: label => (label ? `"${label}" genişlet` : 'Genişletmek'),
     collapse: label => (label ? `"${label}" daralt` : 'Yıkılmak')
   },

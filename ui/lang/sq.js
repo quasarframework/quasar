@@ -15,6 +15,9 @@ export default {
     search: 'Kërko',
     filter: 'Filtro',
     refresh: 'Rifresko',
+    minimum: 'Minimumi',
+    maximum: 'Maksimumi',
+    range: 'Intervali',
     expand: label => (label ? `Zgjero "${label}"` : 'Zgjero'),
     collapse: label => (label ? `Tkur "${label}"` : 'Tkur')
   },

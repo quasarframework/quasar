@@ -40,6 +40,9 @@ describe('[Lang API]', () => {
             search: expect.any(String),
             filter: expect.any(String),
             refresh: expect.any(String),
+            minimum: expect.any(String),
+            maximum: expect.any(String),
+            range: expect.any(String),
             expand: expect.any(Function),
             collapse: expect.any(Function)
           },

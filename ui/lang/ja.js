@@ -15,6 +15,9 @@ export default {
     search: '検索', // 'Search',
     filter: 'フィルタ', // 'Filter',
     refresh: '再読込', // 'Refresh'
+    minimum: '最小',
+    maximum: '最大',
+    range: '範囲',
     expand: label => (label ? `「${label}」を展開します。` : '展開'),
     collapse: label => (label ? `「${label}」を折りたたむ` : '折りたたむ')
   },

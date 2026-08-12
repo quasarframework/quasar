@@ -15,6 +15,9 @@ export default {
     search: 'Søg',
     filter: 'Filtrer',
     refresh: 'Opdater',
+    minimum: 'Minimum',
+    maximum: 'Maksimum',
+    range: 'Interval',
     expand: label => (label ? `Udvid "${label}"` : 'Udvide'),
     collapse: label => (label ? `Skjul "${label}"` : 'Bryder sammen')
   },

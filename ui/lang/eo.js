@@ -15,6 +15,9 @@ export default {
     search: 'Serĉi',
     filter: 'Filtri',
     refresh: 'Reŝargi',
+    minimum: 'Minimumo',
+    maximum: 'Maksimumo',
+    range: 'Intervalo',
     expand: label => (label ? `Vastigi "${label}"` : 'Vastigi'),
     collapse: label => (label ? `Kolapsi "${label}"` : 'Kolapso')
   },
