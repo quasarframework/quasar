@@ -1,4 +1,4 @@
-import { computed, h } from 'vue'
+import { h } from 'vue'
 
 import QIcon from '../icon/QIcon.js'
 
@@ -81,69 +81,6 @@ export default /*#__PURE__*/ createComponent({
 
     const isDark = useDark(props, $q)
 
-    const hasLeftIcon = computed(() => props.selected || props.icon !== void 0)
-
-    const leftIcon = computed(() =>
-      props.selected
-        ? props.iconSelected || $q.iconSet.chip.selected
-        : props.icon
-    )
-
-    const removeIcon = computed(
-      () => props.iconRemove || $q.iconSet.chip.remove
-    )
-
-    const isActionable = computed(
-      () => props.clickable || props.selected !== null
-    )
-    const isClickable = computed(() => !props.disable && isActionable.value)
-
-    const classes = computed(() => {
-      const text = props.outline
-        ? props.color || props.textColor
-        : props.textColor
-
-      return (
-        'q-chip row inline no-wrap items-center' +
-        (!props.outline && props.color !== void 0 ? ` bg-${props.color}` : '') +
-        (text ? ` text-${text} q-chip--colored` : '') +
-        (props.disable ? ' disabled' : '') +
-        (props.dense ? ' q-chip--dense' : '') +
-        (props.outline ? ' q-chip--outline' : '') +
-        (props.selected ? ' q-chip--selected' : '') +
-        (isClickable.value
-          ? ' q-chip--clickable cursor-pointer non-selectable q-hoverable'
-          : '') +
-        (props.square ? ' q-chip--square' : '') +
-        (isDark() ? ' q-chip--dark q-dark' : '')
-      )
-    })
-
-    const attributes = computed(() => {
-      const chip = props.disable
-        ? { role: 'button', tabindex: -1, 'aria-disabled': 'true' }
-        : {
-            role: 'button',
-            tabindex: props.tabindex || 0,
-            // aria-pressed only for actual toggle chips —
-            // plain action chips must not announce as (unpressed) toggles
-            ...(props.selected !== null
-              ? { 'aria-pressed': props.selected ? 'true' : 'false' }
-              : {})
-          }
-
-      const remove = {
-        role: 'button',
-        'aria-hidden': 'false',
-        'aria-label': props.removeAriaLabel || $q.lang.label.remove,
-        ...(props.disable
-          ? { tabindex: -1, 'aria-disabled': 'true' }
-          : { tabindex: props.tabindex || 0 })
-      }
-
-      return { chip, remove }
-    })
-
     function onKeyup(e) {
       if ([13, 32].includes(e.keyCode)) {
         onClick(e)
@@ -168,18 +105,20 @@ export default /*#__PURE__*/ createComponent({
       }
     }
 
-    function getContent() {
+    function getContent(clickable) {
       const child = []
 
-      if (isClickable.value) {
+      if (clickable) {
         child.push(h('div', { class: 'q-focus-helper' }))
       }
 
-      if (hasLeftIcon.value) {
+      if (props.selected || props.icon !== void 0) {
         child.push(
           h(QIcon, {
             class: 'q-chip__icon q-chip__icon--left',
-            name: leftIcon.value
+            name: props.selected
+              ? props.iconSelected || $q.iconSet.chip.selected
+              : props.icon
           })
         )
       }
@@ -209,16 +148,25 @@ export default /*#__PURE__*/ createComponent({
       }
 
       if (props.removable) {
-        child.push(
-          h(QIcon, {
-            class: 'q-chip__icon q-chip__icon--remove cursor-pointer',
-            name: removeIcon.value,
-            ...attributes.value.remove,
-            onClick: onRemove,
-            onKeydown: preventSpace,
-            onKeyup: onRemove
-          })
-        )
+        const removeData = {
+          class: 'q-chip__icon q-chip__icon--remove cursor-pointer',
+          name: props.iconRemove || $q.iconSet.chip.remove,
+          role: 'button',
+          'aria-hidden': 'false',
+          'aria-label': props.removeAriaLabel || $q.lang.label.remove,
+          onClick: onRemove,
+          onKeydown: preventSpace,
+          onKeyup: onRemove
+        }
+
+        if (props.disable) {
+          removeData.tabindex = -1
+          removeData['aria-disabled'] = 'true'
+        } else {
+          removeData.tabindex = props.tabindex || 0
+        }
+
+        child.push(h(QIcon, removeData))
       }
 
       return child
@@ -227,29 +175,64 @@ export default /*#__PURE__*/ createComponent({
     return () => {
       if (!props.modelValue) return
 
-      const data = { class: classes.value }
+      const actionable = props.clickable || props.selected !== null
+      const clickable = !props.disable && actionable
+
+      const text = props.outline
+        ? props.color || props.textColor
+        : props.textColor
+
+      const data = {
+        class:
+          'q-chip row inline no-wrap items-center' +
+          (!props.outline && props.color !== void 0
+            ? ` bg-${props.color}`
+            : '') +
+          (text ? ` text-${text} q-chip--colored` : '') +
+          (props.disable ? ' disabled' : '') +
+          (props.dense ? ' q-chip--dense' : '') +
+          (props.outline ? ' q-chip--outline' : '') +
+          (props.selected ? ' q-chip--selected' : '') +
+          (clickable
+            ? ' q-chip--clickable cursor-pointer non-selectable q-hoverable'
+            : '') +
+          (props.square ? ' q-chip--square' : '') +
+          (isDark() ? ' q-chip--dark q-dark' : '')
+      }
+
       if (props.size !== void 0) {
         data.style = getSizeStyle(props.size)
       }
 
-      if (isActionable.value) {
+      if (actionable) {
         // a disabled actionable chip keeps its role (perceivable,
         // announced as dimmed) but leaves the tab order
-        Object.assign(data, attributes.value.chip)
+        data.role = 'button'
+
+        if (props.disable) {
+          data.tabindex = -1
+          data['aria-disabled'] = 'true'
+        } else {
+          data.tabindex = props.tabindex || 0
+
+          // aria-pressed only for actual toggle chips —
+          // plain action chips must not announce as (unpressed) toggles
+          if (props.selected !== null) {
+            data['aria-pressed'] = props.selected ? 'true' : 'false'
+          }
+        }
       }
 
-      if (isClickable.value) {
-        Object.assign(data, {
-          onClick,
-          onKeydown: preventSpace,
-          onKeyup
-        })
+      if (clickable) {
+        data.onClick = onClick
+        data.onKeydown = preventSpace
+        data.onKeyup = onKeyup
       }
 
       return hDir(
         'div',
         data,
-        getContent(),
+        getContent(clickable),
         'ripple',
         props.ripple !== false && !props.disable,
         () => [[Ripple, props.ripple]]
