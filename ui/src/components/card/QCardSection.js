@@ -1,4 +1,4 @@
-import { computed, h } from 'vue'
+import { h } from 'vue'
 
 import { createComponent } from '../../utils/private.create/create.js'
 import { hSlot } from '../../utils/private.render/render.js'
@@ -16,12 +16,15 @@ export default /*#__PURE__*/ createComponent({
   },
 
   setup(props, { slots }) {
-    const classes = computed(
-      () =>
-        'q-card__section' +
-        ` q-card__section--${props.horizontal ? 'horiz row no-wrap' : 'vert'}`
-    )
-
-    return () => h(props.tag, { class: classes.value }, hSlot(slots.default))
+    return () =>
+      h(
+        props.tag,
+        {
+          class:
+            'q-card__section' +
+            ` q-card__section--${props.horizontal ? 'horiz row no-wrap' : 'vert'}`
+        },
+        hSlot(slots.default)
+      )
   }
 })

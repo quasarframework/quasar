@@ -1,4 +1,4 @@
-import { computed, h } from 'vue'
+import { h } from 'vue'
 
 import useQuasar from '../../composables/use-quasar/use-quasar.js'
 import useDark, {
@@ -38,28 +38,14 @@ export default /*#__PURE__*/ createComponent({
     const $q = useQuasar()
     const isDark = useDark(props, $q)
 
-    const orientation = computed(() =>
-      props.vertical ? 'vertical' : 'horizontal'
-    )
+    return () => {
+      const orientation = props.vertical ? 'vertical' : 'horizontal'
+      const orientClass = ` q-separator--${orientation}`
 
-    const orientClass = computed(() => ` q-separator--${orientation.value}`)
-
-    const insetClass = computed(() =>
-      props.inset ? `${orientClass.value}-${insetMap[props.inset]}` : ''
-    )
-
-    const classes = computed(
-      () =>
-        `q-separator${orientClass.value}${insetClass.value}` +
-        (props.color !== void 0 ? ` bg-${props.color}` : '') +
-        (isDark() ? ' q-separator--dark' : '')
-    )
-
-    const style = computed(() => {
-      const acc = {}
+      const style = {}
 
       if (props.size !== void 0) {
-        acc[props.vertical ? 'width' : 'height'] = props.size
+        style[props.vertical ? 'width' : 'height'] = props.size
       }
 
       if (props.spaced) {
@@ -72,17 +58,18 @@ export default /*#__PURE__*/ createComponent({
 
         const dir = props.vertical ? ['Left', 'Right'] : ['Top', 'Bottom']
 
-        acc[`margin${dir[0]}`] = acc[`margin${dir[1]}`] = size
+        style[`margin${dir[0]}`] = style[`margin${dir[1]}`] = size
       }
 
-      return acc
-    })
-
-    return () =>
-      h('hr', {
-        class: classes.value,
-        style: style.value,
-        'aria-orientation': orientation.value
+      return h('hr', {
+        class:
+          `q-separator${orientClass}` +
+          (props.inset ? `${orientClass}-${insetMap[props.inset]}` : '') +
+          (props.color !== void 0 ? ` bg-${props.color}` : '') +
+          (isDark() ? ' q-separator--dark' : ''),
+        style,
+        'aria-orientation': orientation
       })
+    }
   }
 })

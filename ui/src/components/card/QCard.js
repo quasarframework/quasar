@@ -1,4 +1,4 @@
-import { computed, h } from 'vue'
+import { h } from 'vue'
 
 import useQuasar from '../../composables/use-quasar/use-quasar.js'
 import useDark, {
@@ -28,15 +28,18 @@ export default /*#__PURE__*/ createComponent({
     const $q = useQuasar()
     const isDark = useDark(props, $q)
 
-    const classes = computed(
-      () =>
-        'q-card' +
-        (isDark() ? ' q-card--dark q-dark' : '') +
-        (props.bordered ? ' q-card--bordered' : '') +
-        (props.square ? ' q-card--square no-border-radius' : '') +
-        (props.flat ? ' q-card--flat no-shadow' : '')
-    )
-
-    return () => h(props.tag, { class: classes.value }, hSlot(slots.default))
+    return () =>
+      h(
+        props.tag,
+        {
+          class:
+            'q-card' +
+            (isDark() ? ' q-card--dark q-dark' : '') +
+            (props.bordered ? ' q-card--bordered' : '') +
+            (props.square ? ' q-card--square no-border-radius' : '') +
+            (props.flat ? ' q-card--flat no-shadow' : '')
+        },
+        hSlot(slots.default)
+      )
   }
 })

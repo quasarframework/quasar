@@ -1,4 +1,4 @@
-import { computed, h } from 'vue'
+import { h } from 'vue'
 
 import useAlign, {
   useAlignProps
@@ -18,12 +18,15 @@ export default /*#__PURE__*/ createComponent({
   setup(props, { slots }) {
     const alignClass = useAlign(props)
 
-    const classes = computed(
-      () =>
-        `q-card__actions ${alignClass()}` +
-        ` q-card__actions--${props.vertical ? 'vert column' : 'horiz row'}`
-    )
-
-    return () => h('div', { class: classes.value }, hSlot(slots.default))
+    return () =>
+      h(
+        'div',
+        {
+          class:
+            `q-card__actions ${alignClass()}` +
+            ` q-card__actions--${props.vertical ? 'vert column' : 'horiz row'}`
+        },
+        hSlot(slots.default)
+      )
   }
 })

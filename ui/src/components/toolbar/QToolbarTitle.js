@@ -1,4 +1,4 @@
-import { computed, h } from 'vue'
+import { h } from 'vue'
 
 import { createComponent } from '../../utils/private.create/create.js'
 import { hSlot } from '../../utils/private.render/render.js'
@@ -11,10 +11,14 @@ export default /*#__PURE__*/ createComponent({
   },
 
   setup(props, { slots }) {
-    const classes = computed(
-      () => 'q-toolbar__title ellipsis' + (props.shrink ? ' col-shrink' : '')
-    )
-
-    return () => h('div', { class: classes.value }, hSlot(slots.default))
+    return () =>
+      h(
+        'div',
+        {
+          class:
+            'q-toolbar__title ellipsis' + (props.shrink ? ' col-shrink' : '')
+        },
+        hSlot(slots.default)
+      )
   }
 })

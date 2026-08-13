@@ -1,4 +1,4 @@
-import { computed, h } from 'vue'
+import { h } from 'vue'
 
 import QIcon from '../icon/QIcon.js'
 
@@ -27,27 +27,21 @@ export default /*#__PURE__*/ createComponent({
   },
 
   setup(props, { slots }) {
-    const classes = computed(
-      () =>
-        'q-avatar' +
-        (props.color ? ` bg-${props.color}` : '') +
-        (props.textColor ? ` text-${props.textColor} q-chip--colored` : '') +
-        (props.square
-          ? ' q-avatar--square'
-          : props.rounded
-            ? ' rounded-borders'
-            : '')
-    )
-
-    const contentStyle = computed(() =>
-      props.fontSize ? { fontSize: props.fontSize } : null
-    )
-
     return () => {
       const icon =
         props.icon !== void 0 ? [h(QIcon, { name: props.icon })] : void 0
 
-      const data = { class: classes.value }
+      const data = {
+        class:
+          'q-avatar' +
+          (props.color ? ` bg-${props.color}` : '') +
+          (props.textColor ? ` text-${props.textColor} q-chip--colored` : '') +
+          (props.square
+            ? ' q-avatar--square'
+            : props.rounded
+              ? ' rounded-borders'
+              : '')
+      }
       if (props.size !== void 0) {
         data.style = getSizeStyle(props.size)
       }
@@ -57,7 +51,7 @@ export default /*#__PURE__*/ createComponent({
           'div',
           {
             class: 'q-avatar__content row flex-center overflow-hidden',
-            style: contentStyle.value
+            style: props.fontSize ? { fontSize: props.fontSize } : null
           },
           hMergeSlotSafely(slots.default, icon)
         )
