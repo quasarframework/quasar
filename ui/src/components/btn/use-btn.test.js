@@ -61,16 +61,24 @@ describe('[useBtn API]', () => {
           })
         )
 
-        expect(wrapper.vm.result).toStrictEqual({
-          classes: expect.$ref(expect.any(String)),
-          style: expect.$ref(expect.any(Object)),
-          innerClasses: expect.$ref(expect.any(String)),
-          attributes: expect.$ref(expect.any(Object)),
+        const { result } = wrapper.vm
+
+        expect(result).toStrictEqual({
+          getClasses: expect.any(Function),
+          getStyle: expect.any(Function),
+          getInnerClasses: expect.any(Function),
+          getAttributes: expect.any(Function),
           hasLink: expect.$ref(expect.any(Boolean)),
           linkTag: expect.$ref(expect.any(String)),
           navigateOnClick: expect.any(Function),
-          isActionable: expect.$ref(expect.any(Boolean))
+          isActionable: expect.any(Function)
         })
+
+        expect(result.getClasses()).toBeTypeOf('string')
+        expect(result.getStyle()).toBeTypeOf('object')
+        expect(result.getInnerClasses()).toBeTypeOf('string')
+        expect(result.getAttributes()).toBeTypeOf('object')
+        expect(result.isActionable()).toBeTypeOf('boolean')
       })
     })
 

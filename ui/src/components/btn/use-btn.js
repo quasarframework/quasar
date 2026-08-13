@@ -1,5 +1,3 @@
-import { computed } from 'vue'
-
 import useAlign, {
   useAlignProps
 } from '../../composables/private.use-align/use-align.js'
@@ -32,6 +30,8 @@ const getSizeStyle = /*#__PURE__*/ createSizeStyle(defaultSizes)
 
 const formTypes = ['button', 'submit', 'reset']
 const mediaTypeRE = /[^\s]\/[^\s]/
+
+const fabStyle = {}
 
 export const btnDesignOptions = ['flat', 'outline', 'push', 'unelevated']
 
@@ -110,8 +110,12 @@ export default function useBtn(props) {
       fallbackTag: 'button'
     })
 
-  const style = computed(() => {
-    const obj = props.fab || props.fabMini ? {} : getSizeStyle(props.size)
+  function isActionable() {
+    return !props.disable && !props.loading
+  }
+
+  function getStyle() {
+    const obj = props.fab || props.fabMini ? fabStyle : getSizeStyle(props.size)
 
     return props.padding !== void 0
       ? {
@@ -124,20 +128,10 @@ export default function useBtn(props) {
           minHeight: '0'
         }
       : obj
-  })
+  }
 
-  const isRounded = computed(() => props.rounded || props.fab || props.fabMini)
-
-  const isActionable = computed(() => !props.disable && !props.loading)
-
-  const tabIndex = computed(() =>
-    isActionable.value ? props.tabindex || 0 : -1
-  )
-
-  const design = computed(() => getBtnDesign(props, 'standard'))
-
-  const attributes = computed(() => {
-    const acc = { tabindex: tabIndex.value }
+  function getAttributes() {
+    const acc = { tabindex: isActionable() ? props.tabindex || 0 : -1 }
 
     if (hasLink.value) {
       Object.assign(acc, linkAttrs.value)
@@ -174,9 +168,9 @@ export default function useBtn(props) {
     }
 
     return acc
-  })
+  }
 
-  const classes = computed(() => {
+  function getClasses() {
     let colors
 
     if (props.color !== void 0) {
@@ -190,12 +184,18 @@ export default function useBtn(props) {
 
     const shape = props.round
       ? 'round'
-      : `rectangle${isRounded.value ? ' q-btn--rounded' : props.square ? ' q-btn--square' : ''}`
+      : `rectangle${
+          props.rounded || props.fab || props.fabMini
+            ? ' q-btn--rounded'
+            : props.square
+              ? ' q-btn--square'
+              : ''
+        }`
 
     return (
-      `q-btn--${design.value} q-btn--${shape}` +
+      `q-btn--${getBtnDesign(props, 'standard')} q-btn--${shape}` +
       (colors !== void 0 ? ' ' + colors : '') +
-      (isActionable.value
+      (isActionable()
         ? ' q-btn--actionable q-focusable q-hoverable'
         : props.disable
           ? ' disabled'
@@ -207,21 +207,22 @@ export default function useBtn(props) {
       (props.glossy ? ' glossy' : '') +
       (props.square ? ' q-btn--square' : '')
     )
-  })
+  }
 
-  const innerClasses = computed(
-    () =>
+  function getInnerClasses() {
+    return (
       alignClass() +
       (props.stack ? ' column' : ' row') +
       (props.noWrap ? ' no-wrap text-no-wrap' : '') +
       (props.loading ? ' q-btn__content--hidden' : '')
-  )
+    )
+  }
 
   return {
-    classes,
-    style,
-    innerClasses,
-    attributes,
+    getClasses,
+    getStyle,
+    getInnerClasses,
+    getAttributes,
     hasLink,
     linkTag,
     navigateOnClick,
