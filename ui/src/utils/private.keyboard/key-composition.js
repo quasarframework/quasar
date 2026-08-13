@@ -13,6 +13,12 @@ export function shouldIgnoreKey(evt) {
   )
 }
 
+// keyCodes: a number or a flat array of numbers
 export function isKeyCode(evt, keyCodes) {
-  return !shouldIgnoreKey(evt) && [keyCodes].flat().includes(evt.keyCode)
+  return (
+    !shouldIgnoreKey(evt) &&
+    (Array.isArray(keyCodes)
+      ? keyCodes.includes(evt.keyCode)
+      : keyCodes === evt.keyCode)
+  )
 }

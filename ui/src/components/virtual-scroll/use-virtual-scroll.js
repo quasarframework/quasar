@@ -206,13 +206,23 @@ function sumSize(sizeAgg, size, from, to) {
     fromAgg = Math.floor(from / aggBucketSize),
     toAgg = Math.floor((to - 1) / aggBucketSize) + 1
 
-  let total = sizeAgg.slice(fromAgg, toAgg).reduce(sumFn, 0)
+  let total = 0
+
+  for (let i = fromAgg; i < toAgg; i++) {
+    total += sizeAgg[i]
+  }
 
   if (from % aggBucketSize !== 0) {
-    total -= size.slice(fromAgg * aggBucketSize, from).reduce(sumFn, 0)
+    for (let i = fromAgg * aggBucketSize; i < from; i++) {
+      total -= size[i]
+    }
   }
+
   if (to % aggBucketSize !== 0 && to !== lastTo) {
-    total -= size.slice(to, toAgg * aggBucketSize).reduce(sumFn, 0)
+    const end = Math.min(toAgg * aggBucketSize, lastTo)
+    for (let i = to; i < end; i++) {
+      total -= size[i]
+    }
   }
 
   return total
