@@ -147,11 +147,8 @@ jobs:
           name: ui-build
           path: ui/dist
 
-      # validates the generated Specs against the JSON API files —
+      # also validates the generated Specs against the JSON API files —
       # fast, so it runs before the browser suite for fail-fast ordering
-      - name: Check the test Specs
-        run: pnpm test:specs:ci
-
       - name: Run tests
         run: pnpm test
 
