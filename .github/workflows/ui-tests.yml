@@ -13,9 +13,10 @@ on:
     paths:
       - '.github/workflows/ui-tests.yml'
       - 'ui/**/*.js'
-      # JSON API files, validated by the specs tooling
-      - 'ui/src/**/*.json'
-      - 'ui/src/css/**'
+      # all of src rather than an extension list, which grows holes: the
+      # JSON API files the specs tooling validates, the .sass behind the
+      # computed-style assertions, the .vue fixtures the unit tests mount
+      - 'ui/src/**'
       # the SSR hydration sweep loads every playground page
       - 'ui/playground/src/**'
       - 'ui/package.json'
@@ -31,9 +32,10 @@ on:
     paths:
       - '.github/workflows/ui-tests.yml'
       - 'ui/**/*.js'
-      # JSON API files, validated by the specs tooling
-      - 'ui/src/**/*.json'
-      - 'ui/src/css/**'
+      # all of src rather than an extension list, which grows holes: the
+      # JSON API files the specs tooling validates, the .sass behind the
+      # computed-style assertions, the .vue fixtures the unit tests mount
+      - 'ui/src/**'
       # the SSR hydration sweep loads every playground page
       - 'ui/playground/src/**'
       - 'ui/package.json'

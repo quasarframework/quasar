@@ -2,11 +2,18 @@ name: ui build cache
 
 # Seeds the shared ui-dist cache on the default branch. GitHub only
 # lets PR and tag runs restore caches created on their own ref or on
-# the default branch — and since none of the test workflows run on
-# push, the exact-input-hash key the "<package> tests" workflows all
-# use would otherwise only ever exist inside a single PR. With this
-# seed, any PR that does not change the ui build inputs restores dev's
-# warm dist instead of building it.
+# the default branch, so the exact-input-hash key that the "<package>
+# tests" workflows all use stays invisible to every other PR when it is
+# first built inside one. With this seed, any PR that does not change
+# the ui build inputs restores dev's warm dist instead of building it.
+#
+# Nothing waits on this workflow, and nothing can: the consumers restore
+# by key and fall back to building when they miss, so on a dev push they
+# race this one and whichever finishes first saves the key. It stays
+# separate because its path filter is exactly the cache-key input set —
+# narrower filters elsewhere would leave a re-hashed key unseeded — and
+# because workflow_dispatch makes it the lever for re-seeding after an
+# eviction.
 
 on:
   # re-seed manually if the dev cache ever gets evicted
