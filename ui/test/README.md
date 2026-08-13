@@ -231,7 +231,7 @@ $ pnpm test:specs --dry-run
 # ...it should not output any errors
 
 # also do a test for existing files:
-$ pnpm test:specs:ci
+$ pnpm test:specs:check
 # ...it should not output any errors
 ```
 

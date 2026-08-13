@@ -77,7 +77,7 @@
     "dev:build:ssr": "cd ./playground && quasar build -m ssr && cd ..",
     "dev:umd": "node build/script.test-umd.js",
     "dev:quploader": "cd ./playground/upload-server && pnpm i && cd ../.. && node playground/upload-server/server.js",
-    "test": "pnpm test:specs:ci && node test/parallel.js",
+    "test": "pnpm test:specs:check && node test/parallel.js",
     "pretest:e2e:ssr": "node build/ensure-fresh-build.js && playwright install chromium",
     "test:e2e:ssr": "vitest run -c test/vitest-e2e-ssr.config.js",
     "pretest:umd": "node build/ensure-fresh-build.js && playwright install chromium",
@@ -98,8 +98,8 @@
     "coverage": "vitest run --coverage -c test/vitest.config.js",
     "pretest:specs": "node build/ensure-fresh-build.js",
     "test:specs": "node ./test/specs/script.js",
-    "pretest:specs:ci": "node build/ensure-fresh-build.js",
-    "test:specs:ci": "node ./test/specs/script.js --ci",
+    "pretest:specs:check": "node build/ensure-fresh-build.js",
+    "test:specs:check": "node ./test/specs/script.js --check",
     "prepublishOnly": "pnpm build && pnpm test"
   },
   "devDependencies": {

@@ -21,7 +21,7 @@ Read `test/README.md` before creating or editing `src/**/*.test.js`.
    any test file.
 
 If the Specs script itself changes, also run the extra validation from
-`test/README.md`: `pnpm test:specs --dry-run`, `pnpm test:specs:ci`,
+`test/README.md`: `pnpm test:specs --dry-run`, `pnpm test:specs:check`,
 then root `pnpm test`.
 
 ### Test design

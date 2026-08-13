@@ -6,11 +6,11 @@ function showHelp() {
     UI test files validator & generator
 
   Usage
-    $ specs [--ci] [-t <target>] [-g <json.path>]
+    $ specs [--check] [-t <target>] [-g <json.path>]
     $ specs [-t <target>] [-g <json.path>]
     $ specs [-d] [-t <target>]
 
-    $ specs --ci
+    $ specs --check
 
     $ specs -t QIcon
     $ specs -t components
@@ -25,7 +25,8 @@ function showHelp() {
                            (should not specify file extension)
     --generate, -g      Generates a targeted section of a json path
     --dry-run, -d       Dry-run test for create + validate (no output to files)
-    --ci, -c            Validate & create specs while in CI mode
+    --check, -c         Validate only: never prompt, never write, exit 1 on
+                           the first problem (what "pnpm test" runs)
     --help, -h          Show this help message
   `)
   process.exit(0)
@@ -37,7 +38,10 @@ const { values, positionals } = parseArgs({
   options: {
     target: { type: 'string', short: 't' },
     generate: { type: 'string', short: 'g' },
-    ci: { type: 'boolean', short: 'c', default: false },
+    check: { type: 'boolean', short: 'c', default: false },
+    // former name of --check; kept accepted so that muscle memory and
+    // any out-of-tree invocation don't hit the strict-parse error
+    ci: { type: 'boolean', default: false },
     'dry-run': { type: 'boolean', short: 'd', default: false },
     help: { type: 'boolean', short: 'h' }
   },
@@ -47,6 +51,7 @@ const { values, positionals } = parseArgs({
 
 const argv = { ...values, _: positionals }
 if (argv.help) showHelp()
+if (argv.ci === true) argv.check = true
 
 import { getTargetList } from './target.js'
 import { ignoredTestFiles } from './ignoredTestFiles.js'
@@ -74,7 +79,7 @@ const missingTestFileList = []
 
 for (const target of targetList) {
   if (ignoredTestFiles.has(target)) {
-    if (argv.ci !== true) {
+    if (argv.check !== true) {
       console.log(`  📦 Ignoring "${target}"`)
     }
     continue
@@ -89,8 +94,8 @@ for (const target of targetList) {
     await cmdGenerateSection({ ctx, testFile, jsonPath: argv.generate })
   } else if (testFile.content !== null) {
     await cmdValidateTestFile({ ctx, testFile, argv })
-  } else if (argv.ci === true) {
-    // there is nobody to answer the prompts in CI
+  } else if (argv.check === true) {
+    // check mode never prompts, so report instead of offering to generate
     missingTestFileList.push(ctx)
   } else if (
     (await cmdCreateTestFile({ ctx, testFile, ignoredTestFiles })) !== true

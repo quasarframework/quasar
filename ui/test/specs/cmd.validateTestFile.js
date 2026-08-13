@@ -12,7 +12,7 @@ export async function cmdValidateTestFile({ ctx, testFile, argv }) {
   })
 
   if (errors.length !== 0) {
-    if (argv.ci !== true) {
+    if (argv.check !== true) {
       console.log('\n')
     }
 
@@ -29,7 +29,7 @@ export async function cmdValidateTestFile({ ctx, testFile, argv }) {
       console.warn(`       • (warning) ${warning}`)
     })
 
-    if (argv.ci !== true) {
+    if (argv.check !== true) {
       console.log()
 
       const { action } = await prompts({
@@ -67,7 +67,7 @@ export async function cmdValidateTestFile({ ctx, testFile, argv }) {
 
   const pluralSuffix = plural(missingTests.length)
 
-  if (argv.ci === true) {
+  if (argv.check === true) {
     console.log(
       `  ❌ ${ctx.testFileRelative} is missing ${missingTests.length} test-case${pluralSuffix}`
     )
