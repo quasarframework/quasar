@@ -72,6 +72,46 @@ describe('[useSplitAttrs API]', () => {
 
         expect(child.vm.result.listeners.value.onFoo()).toBe('B')
       })
+
+      test('keeps the same objects across a re-render with unchanged attrs', async () => {
+        // reference stability is the contract that lets consumers'
+        // computeds (which spread these maps) skip recomputation on
+        // re-renders where the attrs did not actually change
+        const Child = defineComponent({
+          name: 'Child',
+          setup() {
+            return { result: useSplitAttrs() }
+          },
+          render() {
+            return h('div')
+          }
+        })
+        const tick = ref(0)
+        const onFoo = () => {}
+        const wrapper = mount(
+          defineComponent({
+            setup() {
+              return () =>
+                h('div', { 'data-tick': tick.value }, [
+                  h(Child, { 'data-x': '1', onFoo })
+                ])
+            }
+          })
+        )
+        const child = wrapper.findComponent({ name: 'Child' })
+
+        const attributes = child.vm.result.attributes.value
+        const listeners = child.vm.result.listeners.value
+        expect(attributes).toStrictEqual({ 'data-x': '1' })
+        expect(listeners).toStrictEqual({ onFoo })
+
+        tick.value++
+        await nextTick()
+        await nextTick()
+
+        expect(child.vm.result.attributes.value).toBe(attributes)
+        expect(child.vm.result.listeners.value).toBe(listeners)
+      })
     })
   })
 })
