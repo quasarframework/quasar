@@ -10,11 +10,11 @@ import {
 import { join } from 'node:path'
 
 // The freshness contract for ui/dist: the full build writes a stamp of
-// its input hashes (script.build.js) and every test suite consuming
-// the build verifies it before running (the vite-plugin/app-vite/docs
-// global setups fail on a stale dist; the create-quasar/cli e2e local
-// registry rebuilds instead) — so a forgotten rebuild after ui changes
-// can never silently test old code.
+// its input hashes (script.build.js) and every consumer verifies it
+// before running — the vite-plugin/app-vite/docs global setups, the
+// pretest hooks and the create-quasar/cli e2e local registry all
+// rebuild a stale dist — so a forgotten rebuild after ui changes can
+// never silently test old code.
 
 const uiDir = join(import.meta.dirname, '..')
 const repoDir = join(uiDir, '..')
