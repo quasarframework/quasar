@@ -94,6 +94,14 @@ export const useRouterLinkProps = {
   }
 }
 
+const emptyLinkAttrs = {}
+
+// ref-shaped constants shared by all instances in router-less apps;
+// consumers only ever read .value on them (never watch() them directly)
+const linkFalse = { value: false }
+const linkNull = { value: null }
+const linkNoClass = { value: '' }
+
 // external props: type, tag
 
 export default function useRouterLink({
@@ -103,14 +111,51 @@ export default function useRouterLink({
   const vm = getCurrentInstance()
   const { props, proxy, emit } = vm
 
-  const hasRouter = vmHasRouter(vm)
   const hasHrefLink = computed(() => !props.disable && props.href !== void 0)
+
+  if (!vmHasRouter(vm)) {
+    // the router-link half can never activate
+    const linkTag = computed(() =>
+      props.type === 'a' || hasHrefLink.value
+        ? 'a'
+        : props.tag || fallbackTag || 'div'
+    )
+
+    const linkAttrs = computed(() =>
+      hasHrefLink.value
+        ? { href: props.href, target: props.target }
+        : emptyLinkAttrs
+    )
+
+    return {
+      hasRouterLink: linkFalse,
+      hasHrefLink,
+      hasLink: hasHrefLink,
+
+      linkTag,
+      resolvedLink: linkNull,
+      linkIsActive: linkFalse,
+      linkIsExactActive: linkFalse,
+      linkClass: linkNoClass,
+      linkAttrs,
+
+      getLink: () => null,
+
+      navigateToRouterLink(e) {
+        e.preventDefault()
+        return Promise.resolve(false)
+      },
+
+      navigateOnClick(e) {
+        emit('click', e)
+      }
+    }
+  }
 
   // for perf reasons, we use minimum amount of runtime work
   const hasRouterLinkProps = useDisableForRouterLinkProps
     ? computed(
         () =>
-          hasRouter &&
           !props.disable &&
           !hasHrefLink.value &&
           props.to !== void 0 &&
@@ -119,7 +164,6 @@ export default function useRouterLink({
       )
     : computed(
         () =>
-          hasRouter &&
           !hasHrefLink.value &&
           props.to !== void 0 &&
           props.to !== null &&
@@ -150,7 +194,7 @@ export default function useRouterLink({
             href: resolvedLink.value.href,
             target: props.target
           }
-        : {}
+        : emptyLinkAttrs
   )
 
   const linkActiveIndex = computed(() => {

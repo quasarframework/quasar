@@ -83,8 +83,10 @@ describe('[useRouterLink API]', () => {
 
   describe('[Functions]', () => {
     describe('[(function)default]', () => {
-      test('returns the link API', () => {
-        expect(mountLink()).toMatchObject({
+      test('returns the link API', async () => {
+        const router = await getRouter('/target')
+
+        expect(mountLink({ router })).toMatchObject({
           hasRouterLink: expect.$ref(false),
           hasHrefLink: expect.$ref(false),
           hasLink: expect.$ref(false),
@@ -100,6 +102,21 @@ describe('[useRouterLink API]', () => {
           navigateToRouterLink: expect.any(Function),
           navigateOnClick: expect.any(Function)
         })
+      })
+
+      test('serves .value-shaped constants without a router', () => {
+        const api = mountLink()
+
+        // without a router the router-link half can never activate, so
+        // these are shared constants — still read through .value
+        expect(api.hasLink).toBe(api.hasHrefLink)
+        expect(api.hasRouterLink.value).toBe(false)
+        expect(api.resolvedLink.value).toBeNull()
+        expect(api.linkIsActive.value).toBe(false)
+        expect(api.linkIsExactActive.value).toBe(false)
+        expect(api.linkClass.value).toBe('')
+        expect(api.linkTag.value).toBe('div')
+        expect(api.linkAttrs.value).toStrictEqual({})
       })
 
       test('detects a plain href link', () => {
