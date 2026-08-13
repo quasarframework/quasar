@@ -1,5 +1,6 @@
-import { computed, getCurrentInstance, h, ref, watch } from 'vue'
+import { computed, h, ref, watch } from 'vue'
 
+import useQuasar from '../../composables/use-quasar/use-quasar.js'
 import useSlider, {
   keyCodes,
   useSliderEmits,
@@ -51,9 +52,7 @@ export default /*#__PURE__*/ createComponent({
   emits: useSliderEmits,
 
   setup(props, { emit }) {
-    const {
-      proxy: { $q }
-    } = getCurrentInstance()
+    const $q = useQuasar()
 
     // the model can also be null, which means the same thing
     // as having no value on either end of the range

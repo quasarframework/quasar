@@ -8,6 +8,7 @@ import { position, stopAndPrevent } from '../../utils/event/event.js'
 import { between, normalizeToInterval } from '../../utils/format/format.js'
 import { hDir } from '../../utils/private.render/render.js'
 
+import useQuasar from '../../composables/use-quasar/use-quasar.js'
 import {
   useFormAttrs,
   useFormProps
@@ -52,7 +53,7 @@ export default /*#__PURE__*/ createComponent({
 
   setup(props, { slots, emit }) {
     const { proxy } = getCurrentInstance()
-    const { $q } = proxy
+    const $q = useQuasar()
 
     const model = ref(props.modelValue)
     const dragging = ref(false)

@@ -7,6 +7,8 @@ import {
   watch
 } from 'vue'
 
+import useQuasar from '../use-quasar/use-quasar.js'
+
 import { clearSelection } from '../../utils/private.selection/selection.js'
 import { addEvt, cleanEvt, prevent } from '../../utils/event/event.js'
 import { isKeyCode } from '../../utils/private.keyboard/key-composition.js'
@@ -34,6 +36,7 @@ export default function useAnchor({
   configureAnchorEl // optional
 }) {
   const { props, proxy, emit } = getCurrentInstance()
+  const $q = useQuasar()
 
   const anchorEl = ref(null)
 
@@ -121,7 +124,7 @@ export default function useAnchor({
       if (props.noParentEvent || anchorEl.value === null) return
 
       const evts = context
-        ? proxy.$q.platform.is.mobile
+        ? $q.platform.is.mobile
           ? [[anchorEl.value, 'touchstart', 'mobileTouch', 'passive']]
           : [
               [anchorEl.value, 'mousedown', 'hide', 'passive'],

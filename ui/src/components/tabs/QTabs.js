@@ -13,6 +13,7 @@ import {
 import QIcon from '../icon/QIcon.js'
 import QResizeObserver from '../resize-observer/QResizeObserver.js'
 
+import useQuasar from '../../composables/use-quasar/use-quasar.js'
 import useTick from '../../composables/use-tick/use-tick.js'
 import useTimeout from '../../composables/use-timeout/use-timeout.js'
 
@@ -84,7 +85,7 @@ export default /*#__PURE__*/ createComponent({
 
   setup(props, { slots, emit }) {
     const { proxy } = getCurrentInstance()
-    const { $q } = proxy
+    const $q = useQuasar()
 
     const { registerTick: registerScrollTick } = useTick()
     const { registerTick: registerUpdateArrowsTick } = useTick()

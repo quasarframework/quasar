@@ -2,6 +2,8 @@ import { getCurrentInstance, h } from 'vue'
 
 import QIcon from '../icon/QIcon.js'
 
+import useQuasar from '../../composables/use-quasar/use-quasar.js'
+
 import { createComponent } from '../../utils/private.create/create.js'
 import { hSlot, hUniqueSlot } from '../../utils/private.render/render.js'
 
@@ -17,9 +19,7 @@ export default /*#__PURE__*/ createComponent({
 
   setup(props, { slots, emit }) {
     const vm = getCurrentInstance()
-    const {
-      proxy: { $q }
-    } = vm
+    const $q = useQuasar()
 
     const onClick = evt => {
       emit('click', evt)

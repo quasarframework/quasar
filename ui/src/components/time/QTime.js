@@ -12,6 +12,7 @@ import {
 import QBtn from '../btn/QBtn.js'
 import TouchPan from '../../directives/touch-pan/TouchPan.js'
 
+import useQuasar from '../../composables/use-quasar/use-quasar.js'
 import useDark, {
   useDarkProps
 } from '../../composables/private.use-dark/use-dark.js'
@@ -147,7 +148,7 @@ export default /*#__PURE__*/ createComponent({
 
   setup(props, { slots, emit }) {
     const vm = getCurrentInstance()
-    const { $q } = vm.proxy
+    const $q = useQuasar()
 
     const isDark = useDark(props, $q)
     const { tabindex, headerClass, getLocale, getCurrentDate } = useDatetime(

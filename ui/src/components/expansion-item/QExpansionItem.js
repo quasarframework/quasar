@@ -1,6 +1,5 @@
 import {
   computed,
-  getCurrentInstance,
   h,
   onBeforeUnmount,
   ref,
@@ -17,6 +16,7 @@ import QIcon from '../icon/QIcon.js'
 import QSlideTransition from '../slide-transition/QSlideTransition.js'
 import QSeparator from '../separator/QSeparator.js'
 
+import useQuasar from '../../composables/use-quasar/use-quasar.js'
 import useDark, {
   useDarkProps
 } from '../../composables/private.use-dark/use-dark.js'
@@ -82,9 +82,7 @@ export default /*#__PURE__*/ createComponent({
   emits: [...useModelToggleEmits, 'click', 'afterShow', 'afterHide'],
 
   setup(props, { slots, emit }) {
-    const {
-      proxy: { $q }
-    } = getCurrentInstance()
+    const $q = useQuasar()
     const isDark = useDark(props, $q)
 
     const showing = ref(

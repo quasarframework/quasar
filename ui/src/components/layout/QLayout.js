@@ -1,18 +1,11 @@
-import {
-  computed,
-  getCurrentInstance,
-  h,
-  onUnmounted,
-  provide,
-  reactive,
-  ref,
-  watch
-} from 'vue'
+import { computed, h, onUnmounted, provide, reactive, ref, watch } from 'vue'
 
 import { isRuntimeSsrPreHydration } from '../../plugins/platform/Platform.js'
 
 import QScrollObserver from '../scroll-observer/QScrollObserver.js'
 import QResizeObserver from '../resize-observer/QResizeObserver.js'
+
+import useQuasar from '../../composables/use-quasar/use-quasar.js'
 
 import { createComponent } from '../../utils/private.create/create.js'
 import { getScrollbarWidth } from '../../utils/scroll/scroll.js'
@@ -38,9 +31,7 @@ export default /*#__PURE__*/ createComponent({
   },
 
   setup(props, { slots, emit }) {
-    const {
-      proxy: { $q }
-    } = getCurrentInstance()
+    const $q = useQuasar()
 
     const rootRef = ref(null)
 

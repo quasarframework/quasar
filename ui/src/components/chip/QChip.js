@@ -1,13 +1,15 @@
-import { computed, getCurrentInstance, h } from 'vue'
+import { computed, h } from 'vue'
 
 import QIcon from '../icon/QIcon.js'
 
 import Ripple from '../../directives/ripple/Ripple.js'
 
+import useQuasar from '../../composables/use-quasar/use-quasar.js'
 import useDark, {
   useDarkProps
 } from '../../composables/private.use-dark/use-dark.js'
-import useSize, {
+import {
+  createSizeStyle,
   useSizeProps
 } from '../../composables/private.use-size/use-size.js'
 
@@ -26,6 +28,8 @@ export const defaultSizes = {
   lg: 20,
   xl: 24
 }
+
+const getSizeStyle = /*#__PURE__*/ createSizeStyle(defaultSizes)
 
 export default /*#__PURE__*/ createComponent({
   name: 'QChip',
@@ -73,12 +77,9 @@ export default /*#__PURE__*/ createComponent({
   emits: ['update:modelValue', 'update:selected', 'remove', 'click'],
 
   setup(props, { slots, emit }) {
-    const {
-      proxy: { $q }
-    } = getCurrentInstance()
+    const $q = useQuasar()
 
     const isDark = useDark(props, $q)
-    const sizeStyle = useSize(props, defaultSizes)
 
     const hasLeftIcon = computed(() => props.selected || props.icon !== void 0)
 
@@ -226,9 +227,9 @@ export default /*#__PURE__*/ createComponent({
     return () => {
       if (!props.modelValue) return
 
-      const data = {
-        class: classes.value,
-        style: sizeStyle.value
+      const data = { class: classes.value }
+      if (props.size !== void 0) {
+        data.style = getSizeStyle(props.size)
       }
 
       if (isActionable.value) {

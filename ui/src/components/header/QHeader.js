@@ -1,14 +1,8 @@
-import {
-  computed,
-  getCurrentInstance,
-  h,
-  inject,
-  onBeforeUnmount,
-  ref,
-  watch
-} from 'vue'
+import { computed, h, inject, onBeforeUnmount, ref, watch } from 'vue'
 
 import QResizeObserver from '../resize-observer/QResizeObserver.js'
+
+import useQuasar from '../../composables/use-quasar/use-quasar.js'
 
 import { createComponent } from '../../utils/private.create/create.js'
 import { hUniqueSlot } from '../../utils/private.render/render.js'
@@ -48,9 +42,7 @@ export default /*#__PURE__*/ createComponent({
   emits: ['reveal', 'focusin'],
 
   setup(props, { slots, emit }) {
-    const {
-      proxy: { $q }
-    } = getCurrentInstance()
+    const $q = useQuasar()
 
     const $layout = inject(layoutKey, emptyRenderFn)
     if ($layout === emptyRenderFn) {

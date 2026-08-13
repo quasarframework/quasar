@@ -1,22 +1,24 @@
-import { computed, getCurrentInstance, h } from 'vue'
+import { computed, h } from 'vue'
 
+import useQuasar from '../../composables/use-quasar/use-quasar.js'
 import useDark, {
   useDarkProps
 } from '../../composables/private.use-dark/use-dark.js'
-import useSize, {
+import {
+  createSizeStyle,
   useSizeProps
 } from '../../composables/private.use-size/use-size.js'
 
 import { createComponent } from '../../utils/private.create/create.js'
 import { hMergeSlot } from '../../utils/private.render/render.js'
 
-const defaultSizes = {
+const getSizeStyle = /*#__PURE__*/ createSizeStyle({
   xs: 2,
   sm: 4,
   md: 6,
   lg: 10,
   xl: 14
-}
+})
 
 function width(val) {
   return {
@@ -55,13 +57,12 @@ export default /*#__PURE__*/ createComponent({
   },
 
   setup(props, { slots }) {
-    const { proxy } = getCurrentInstance()
-    const isDark = useDark(props, proxy.$q)
-    const sizeStyle = useSize(props, defaultSizes)
+    const $q = useQuasar()
+    const isDark = useDark(props, $q)
 
     const motion = computed(() => props.indeterminate || props.query)
     const style = computed(() => ({
-      ...(sizeStyle.value !== null ? sizeStyle.value : {}),
+      ...getSizeStyle(props.size),
       '--q-linear-progress-speed': `${props.animationSpeed}ms`
     }))
 

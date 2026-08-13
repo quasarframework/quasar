@@ -7,6 +7,8 @@ import {
   ref
 } from 'vue'
 
+import useQuasar from '../../composables/use-quasar/use-quasar.js'
+
 import { createComponent } from '../../utils/private.create/create.js'
 import { between } from '../../utils/format/format.js'
 
@@ -133,6 +135,7 @@ export default /*#__PURE__*/ createComponent({
 
   setup(props, { emit }) {
     const { proxy } = getCurrentInstance()
+    const $q = useQuasar()
 
     const progress = ref(0)
     const onScreen = ref(false)
@@ -163,10 +166,10 @@ export default /*#__PURE__*/ createComponent({
         active,
         horiz: horizontal.value,
         reverse:
-          proxy.$q.lang.rtl && ['top', 'bottom'].includes(props.position)
+          $q.lang.rtl && ['top', 'bottom'].includes(props.position)
             ? !props.reverse
             : props.reverse,
-        dir: proxy.$q.lang.rtl ? -1 : 1
+        dir: $q.lang.rtl ? -1 : 1
       })
 
       obj[sizeProp.value] = props.size

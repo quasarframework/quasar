@@ -9,6 +9,7 @@ import {
   watch
 } from 'vue'
 
+import useQuasar from '../../composables/use-quasar/use-quasar.js'
 import useDark, {
   useDarkProps
 } from '../../composables/private.use-dark/use-dark.js'
@@ -124,8 +125,9 @@ export default /*#__PURE__*/ createComponent({
     }
 
     const { proxy } = getCurrentInstance()
+    const $q = useQuasar()
 
-    const isDark = useDark(props, proxy.$q)
+    const isDark = useDark(props, $q)
 
     let timer = null,
       panRefPos
@@ -226,7 +228,7 @@ export default /*#__PURE__*/ createComponent({
     )
     scroll.horizontal.thumbStart = computed(
       () =>
-        props.horizontalOffset[proxy.$q.lang.rtl ? 1 : 0] +
+        props.horizontalOffset[$q.lang.rtl ? 1 : 0] +
         scroll.horizontal.percentage.value *
           (container.horizontalInner.value - scroll.horizontal.thumbSize.value)
     )
@@ -243,7 +245,7 @@ export default /*#__PURE__*/ createComponent({
     scroll.horizontal.style = computed(() => ({
       ...props.thumbStyle,
       ...props.horizontalThumbStyle,
-      [proxy.$q.lang.rtl ? 'right' : 'left']:
+      [$q.lang.rtl ? 'right' : 'left']:
         `${scroll.horizontal.thumbStart.value}px`,
       width: `${scroll.horizontal.thumbSize.value}px`,
       bottom: `${props.verticalOffset[1]}px`
@@ -375,7 +377,7 @@ export default /*#__PURE__*/ createComponent({
       const distance = e.distance[dProp.dist]
       const direction =
         (e.direction === dProp.dir ? 1 : -1) *
-        (axis === 'horizontal' && proxy.$q.lang.rtl ? -1 : 1)
+        (axis === 'horizontal' && $q.lang.rtl ? -1 : 1)
       const pos = panRefPos + direction * distance * multiplier
 
       setScroll(
@@ -388,7 +390,7 @@ export default /*#__PURE__*/ createComponent({
       const data = scroll[axis]
 
       if (!data.thumbHidden.value) {
-        const isHorizontalRtl = axis === 'horizontal' && proxy.$q.lang.rtl
+        const isHorizontalRtl = axis === 'horizontal' && $q.lang.rtl
         const startOffset =
           axis === 'vertical'
             ? props.verticalOffset[0]
@@ -443,7 +445,7 @@ export default /*#__PURE__*/ createComponent({
       targetRef.value[dirProps[axis].scroll] = offset
     }
 
-    function getHorizontalLogicalPosition(position, rtl = proxy.$q.lang.rtl) {
+    function getHorizontalLogicalPosition(position, rtl = $q.lang.rtl) {
       if (!rtl) return position
 
       return rtlHasScrollBug
@@ -454,7 +456,7 @@ export default /*#__PURE__*/ createComponent({
         : -position
     }
 
-    function getHorizontalNativePosition(position, rtl = proxy.$q.lang.rtl) {
+    function getHorizontalNativePosition(position, rtl = $q.lang.rtl) {
       if (!rtl) return position
 
       return rtlHasScrollBug
@@ -478,7 +480,7 @@ export default /*#__PURE__*/ createComponent({
           mouseEventTimer = null
           hover.value = true
         },
-        proxy.$q.platform.is.ios ? 50 : 0
+        $q.platform.is.ios ? 50 : 0
       )
     }
 
@@ -494,7 +496,7 @@ export default /*#__PURE__*/ createComponent({
     let scrollPosition = null
 
     watch(
-      () => proxy.$q.lang.rtl,
+      () => $q.lang.rtl,
       (rtl, oldRtl) => {
         if (targetRef.value !== null) {
           setHorizontalScrollPosition(

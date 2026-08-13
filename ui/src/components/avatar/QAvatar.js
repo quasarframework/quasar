@@ -2,7 +2,8 @@ import { computed, h } from 'vue'
 
 import QIcon from '../icon/QIcon.js'
 
-import useSize, {
+import {
+  getSizeStyle,
   useSizeProps
 } from '../../composables/private.use-size/use-size.js'
 
@@ -26,8 +27,6 @@ export default /*#__PURE__*/ createComponent({
   },
 
   setup(props, { slots }) {
-    const sizeStyle = useSize(props)
-
     const classes = computed(
       () =>
         'q-avatar' +
@@ -48,23 +47,21 @@ export default /*#__PURE__*/ createComponent({
       const icon =
         props.icon !== void 0 ? [h(QIcon, { name: props.icon })] : void 0
 
-      return h(
-        'div',
-        {
-          class: classes.value,
-          style: sizeStyle.value
-        },
-        [
-          h(
-            'div',
-            {
-              class: 'q-avatar__content row flex-center overflow-hidden',
-              style: contentStyle.value
-            },
-            hMergeSlotSafely(slots.default, icon)
-          )
-        ]
-      )
+      const data = { class: classes.value }
+      if (props.size !== void 0) {
+        data.style = getSizeStyle(props.size)
+      }
+
+      return h('div', data, [
+        h(
+          'div',
+          {
+            class: 'q-avatar__content row flex-center overflow-hidden',
+            style: contentStyle.value
+          },
+          hMergeSlotSafely(slots.default, icon)
+        )
+      ])
     }
   }
 })

@@ -1,6 +1,10 @@
 import { h } from 'vue'
 
-import useSpinner, { useSpinnerProps } from './use-spinner.js'
+import {
+  getSpinnerClass,
+  getSpinnerSize,
+  useSpinnerProps
+} from './spinner-utils.js'
 
 import { createComponent } from '../../utils/private.create/create.js'
 
@@ -17,15 +21,14 @@ export default /*#__PURE__*/ createComponent({
   },
 
   setup(props) {
-    const { cSize, classes } = useSpinner(props)
-
-    return () =>
-      h(
+    return () => {
+      const cSize = getSpinnerSize(props.size)
+      return h(
         'svg',
         {
-          class: classes.value + ' q-spinner-mat',
-          width: cSize.value,
-          height: cSize.value,
+          class: getSpinnerClass(props.color) + ' q-spinner-mat',
+          width: cSize,
+          height: cSize,
           viewBox: '25 25 50 50'
         },
         [
@@ -41,5 +44,6 @@ export default /*#__PURE__*/ createComponent({
           })
         ]
       )
+    }
   }
 })

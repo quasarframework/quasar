@@ -8,6 +8,7 @@ import {
   watch
 } from 'vue'
 
+import useQuasar from '../../composables/use-quasar/use-quasar.js'
 import useHistory from '../../composables/private.use-history/use-history.js'
 import useTimeout from '../../composables/use-timeout/use-timeout.js'
 import useTick from '../../composables/use-tick/use-tick.js'
@@ -98,6 +99,7 @@ export default /*#__PURE__*/ createComponent({
 
   setup(props, { slots, emit, attrs }) {
     const vm = getCurrentInstance()
+    const $q = useQuasar()
 
     const rootElRef = ref(null)
     const innerRef = ref(null)
@@ -212,7 +214,7 @@ export default /*#__PURE__*/ createComponent({
 
       // should removeTimeout() if this gets removed
       registerTimeout(() => {
-        if (vm.proxy.$q.platform.is.ios) {
+        if ($q.platform.is.ios) {
           if (!props.seamless && document.activeElement) {
             const { top, bottom } =
                 document.activeElement.getBoundingClientRect(),

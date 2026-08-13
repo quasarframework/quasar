@@ -1,8 +1,10 @@
-import { computed, getCurrentInstance, h, onBeforeUpdate, ref } from 'vue'
+import { computed, h, onBeforeUpdate, ref } from 'vue'
 
 import QIcon from '../icon/QIcon.js'
 
-import useSize, {
+import useQuasar from '../../composables/use-quasar/use-quasar.js'
+import {
+  getSizeStyle,
   useSizeProps
 } from '../../composables/private.use-size/use-size.js'
 import {
@@ -53,11 +55,8 @@ export default /*#__PURE__*/ createComponent({
   emits: ['update:modelValue'],
 
   setup(props, { slots, emit }) {
-    const {
-      proxy: { $q }
-    } = getCurrentInstance()
+    const $q = useQuasar()
 
-    const sizeStyle = useSize(props)
     const formAttrs = useFormAttrs(props)
     const injectFormInput = useFormInject(formAttrs)
 
@@ -341,7 +340,7 @@ export default /*#__PURE__*/ createComponent({
         'div',
         {
           class: classes.value,
-          style: sizeStyle.value,
+          style: getSizeStyle(props.size),
           ...attributes.value
         },
         child

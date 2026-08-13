@@ -1,5 +1,7 @@
 import { computed, nextTick, ref, watch } from 'vue'
 
+import useQuasar from '../../composables/use-quasar/use-quasar.js'
+
 function samePagination(oldPag, newPag) {
   for (const prop in newPag) {
     if (newPag[prop] !== oldPag[prop]) {
@@ -120,11 +122,8 @@ export function useTablePagination(
   setPagination,
   filteredSortedRowsNumber
 ) {
-  const {
-    props,
-    emit,
-    proxy: { $q }
-  } = vm
+  const { props, emit } = vm
+  const $q = useQuasar()
 
   const computedRowsNumber = computed(() =>
     isServerSide.value

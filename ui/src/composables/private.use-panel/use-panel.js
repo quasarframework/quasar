@@ -10,6 +10,7 @@ import {
 
 import TouchSwipe from '../../directives/touch-swipe/TouchSwipe.js'
 
+import useQuasar from '../use-quasar/use-quasar.js'
 import useRenderCache from '../../composables/use-render-cache/use-render-cache.js'
 import useTimeout from '../../composables/use-timeout/use-timeout.js'
 
@@ -65,6 +66,7 @@ function isValidPanelName(name) {
 
 export default function usePanel() {
   const { props, emit, proxy } = getCurrentInstance()
+  const $q = useQuasar()
   const { getCache } = useRenderCache()
   const { registerTimeout } = useTimeout()
 
@@ -85,7 +87,7 @@ export default function usePanel() {
   function onSwipe(evt) {
     const dir = props.vertical ? 'up' : 'left'
     goToPanelByOffset(
-      (!props.vertical && proxy.$q.lang.rtl ? -1 : 1) *
+      (!props.vertical && $q.lang.rtl ? -1 : 1) *
         (evt.direction === dir ? 1 : -1)
     )
   }
@@ -106,13 +108,13 @@ export default function usePanel() {
   const transitionPrev = computed(
     () =>
       props.transitionPrev ||
-      `slide-${props.vertical ? 'down' : proxy.$q.lang.rtl ? 'left' : 'right'}`
+      `slide-${props.vertical ? 'down' : $q.lang.rtl ? 'left' : 'right'}`
   )
 
   const transitionNext = computed(
     () =>
       props.transitionNext ||
-      `slide-${props.vertical ? 'up' : proxy.$q.lang.rtl ? 'right' : 'left'}`
+      `slide-${props.vertical ? 'up' : $q.lang.rtl ? 'right' : 'left'}`
   )
 
   const transitionStyle = computed(

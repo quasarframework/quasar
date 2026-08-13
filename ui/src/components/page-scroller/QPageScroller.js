@@ -1,13 +1,6 @@
-import {
-  Transition,
-  computed,
-  getCurrentInstance,
-  h,
-  onBeforeUnmount,
-  ref,
-  watch
-} from 'vue'
+import { Transition, computed, h, onBeforeUnmount, ref, watch } from 'vue'
 
+import useQuasar from '../../composables/use-quasar/use-quasar.js'
 import usePageSticky, {
   usePageStickyProps
 } from '../page-sticky/use-page-sticky.js'
@@ -45,9 +38,7 @@ export default /*#__PURE__*/ createComponent({
   emits: ['click'],
 
   setup(props, { slots, emit }) {
-    const {
-      proxy: { $q }
-    } = getCurrentInstance()
+    const $q = useQuasar()
     const { $layout, getStickyContent } = usePageSticky()
     const rootRef = ref(null)
 

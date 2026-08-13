@@ -1,7 +1,9 @@
-import { computed, getCurrentInstance, h, ref, withDirectives } from 'vue'
+import { computed, h, ref, withDirectives } from 'vue'
 
 import QIcon from '../icon/QIcon.js'
 import Ripple from '../../directives/ripple/Ripple.js'
+
+import useQuasar from '../../composables/use-quasar/use-quasar.js'
 
 import { createComponent } from '../../utils/private.create/create.js'
 import { stopAndPrevent } from '../../utils/event/event.js'
@@ -20,9 +22,7 @@ export default /*#__PURE__*/ createComponent({
   },
 
   setup(props, { attrs }) {
-    const {
-      proxy: { $q }
-    } = getCurrentInstance()
+    const $q = useQuasar()
     const blurRef = ref(null)
 
     const isActive = computed(

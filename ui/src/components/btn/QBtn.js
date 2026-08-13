@@ -13,6 +13,7 @@ import QSpinner from '../spinner/QSpinner.js'
 
 import Ripple from '../../directives/ripple/Ripple.js'
 
+import useQuasar from '../../composables/use-quasar/use-quasar.js'
 import useBtn, { useBtnProps } from './use-btn.js'
 
 import { createComponent } from '../../utils/private.create/create.js'
@@ -52,6 +53,7 @@ export default /*#__PURE__*/ createComponent({
 
   setup(props, { slots, emit }) {
     const { proxy } = getCurrentInstance()
+    const $q = useQuasar()
 
     const {
       classes,
@@ -115,7 +117,7 @@ export default /*#__PURE__*/ createComponent({
           onMousedown
         }
 
-        if (proxy.$q.platform.has.touch) {
+        if ($q.platform.has.touch) {
           const suffix = props.onTouchstart !== void 0 ? '' : 'Passive'
 
           acc[`onTouchstart${suffix}`] = onTouchstart

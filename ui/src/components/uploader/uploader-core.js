@@ -14,6 +14,7 @@ import QIcon from '../icon/QIcon.js'
 import QSpinner from '../spinner/QSpinner.js'
 import QCircularProgress from '../circular-progress/QCircularProgress.js'
 
+import useQuasar from '../../composables/use-quasar/use-quasar.js'
 import useDark, {
   useDarkProps
 } from '../../composables/private.use-dark/use-dark.js'
@@ -71,7 +72,7 @@ export const coreEmits = [
 export function getRenderer(getPlugin, expose) {
   const vm = getCurrentInstance()
   const { props, slots, emit, proxy } = vm
-  const { $q } = proxy
+  const $q = useQuasar()
 
   const isDark = useDark(props, $q)
 

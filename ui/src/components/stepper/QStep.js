@@ -1,8 +1,9 @@
-import { KeepAlive, computed, getCurrentInstance, h, inject, ref } from 'vue'
+import { KeepAlive, computed, h, inject, ref } from 'vue'
 
 import QSlideTransition from '../slide-transition/QSlideTransition.js'
 import StepHeader from './StepHeader.js'
 
+import useQuasar from '../../composables/use-quasar/use-quasar.js'
 import { usePanelChildProps } from '../../composables/private.use-panel/use-panel.js'
 import useRenderCache from '../../composables/use-render-cache/use-render-cache.js'
 
@@ -70,9 +71,7 @@ export default /*#__PURE__*/ createComponent({
   },
 
   setup(props, { slots, emit }) {
-    const {
-      proxy: { $q }
-    } = getCurrentInstance()
+    const $q = useQuasar()
 
     const $stepper = inject(stepperKey, emptyRenderFn)
     if ($stepper === emptyRenderFn) {

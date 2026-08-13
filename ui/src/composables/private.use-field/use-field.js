@@ -14,6 +14,7 @@ import {
 import QIcon from '../../components/icon/QIcon.js'
 import QSpinner from '../../components/spinner/QSpinner.js'
 
+import useQuasar from '../use-quasar/use-quasar.js'
 import useId from '../use-id/use-id.js'
 import useSplitAttrs from '../use-split-attrs/use-split-attrs.js'
 import useDark, {
@@ -93,9 +94,9 @@ export function useFieldState({
   tagProp,
   changeEvent = false
 } = {}) {
-  const { props, proxy } = getCurrentInstance()
+  const { props } = getCurrentInstance()
 
-  const isDark = useDark(props, proxy.$q)
+  const isDark = useDark(props, useQuasar())
   const targetUid = useId({
     required: requiredForAttr,
     getValue: () => props.for
@@ -158,7 +159,7 @@ function getInnerAppendNode(key, content) {
 
 export default function useField(state) {
   const { props, emit, slots, attrs, proxy } = getCurrentInstance()
-  const { $q } = proxy
+  const $q = useQuasar()
 
   let focusoutTimer = null
 

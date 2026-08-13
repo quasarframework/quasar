@@ -9,6 +9,7 @@ import {
   watch
 } from 'vue'
 
+import useQuasar from '../../composables/use-quasar/use-quasar.js'
 import useAnchor, {
   useAnchorProps
 } from '../../composables/private.use-anchor/use-anchor.js'
@@ -127,7 +128,7 @@ export default /*#__PURE__*/ createComponent({
 
     const vm = getCurrentInstance()
     const { proxy } = vm
-    const { $q } = proxy
+    const $q = useQuasar()
 
     const innerRef = ref(null)
     const showing = ref(false)

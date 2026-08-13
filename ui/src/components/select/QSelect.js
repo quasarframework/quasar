@@ -21,6 +21,7 @@ import QItemLabel from '../item/QItemLabel.js'
 import QMenu from '../menu/QMenu.js'
 import QDialog from '../dialog/QDialog.js'
 
+import useQuasar from '../../composables/use-quasar/use-quasar.js'
 import useField, {
   fieldValueIsFilled,
   useFieldEmits,
@@ -178,7 +179,7 @@ export default /*#__PURE__*/ createComponent({
 
   setup(props, { slots, emit }) {
     const { proxy } = getCurrentInstance()
-    const { $q } = proxy
+    const $q = useQuasar()
 
     const menu = ref(false)
     const dialog = ref(false)

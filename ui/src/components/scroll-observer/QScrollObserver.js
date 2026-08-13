@@ -1,5 +1,7 @@
 import { getCurrentInstance, onBeforeUnmount, onMounted, watch } from 'vue'
 
+import useQuasar from '../../composables/use-quasar/use-quasar.js'
+
 import { createComponent } from '../../utils/private.create/create.js'
 import {
   getHorizontalScrollPosition,
@@ -134,8 +136,9 @@ export default /*#__PURE__*/ createComponent({
     }
 
     const { proxy } = getCurrentInstance()
+    const $q = useQuasar()
 
-    watch(() => proxy.$q.lang.rtl, emitEvent)
+    watch(() => $q.lang.rtl, emitEvent)
 
     onMounted(() => {
       parentEl = proxy.$el.parentNode

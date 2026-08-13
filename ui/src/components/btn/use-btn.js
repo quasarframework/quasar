@@ -3,7 +3,8 @@ import { computed } from 'vue'
 import useAlign, {
   useAlignProps
 } from '../../composables/private.use-align/use-align.js'
-import useSize, {
+import {
+  createSizeStyle,
   useSizeProps
 } from '../../composables/private.use-size/use-size.js'
 import useRouterLink, {
@@ -26,6 +27,8 @@ export const defaultSizes = {
   lg: 20,
   xl: 24
 }
+
+const getSizeStyle = /*#__PURE__*/ createSizeStyle(defaultSizes)
 
 const formTypes = ['button', 'submit', 'reset']
 const mediaTypeRE = /[^\s]\/[^\s]/
@@ -101,7 +104,6 @@ export const useBtnProps = {
 }
 
 export default function useBtn(props) {
-  const sizeStyle = useSize(props, defaultSizes)
   const alignClass = useAlign(props)
   const { hasRouterLink, hasLink, linkTag, linkAttrs, navigateOnClick } =
     useRouterLink({
@@ -109,7 +111,7 @@ export default function useBtn(props) {
     })
 
   const style = computed(() => {
-    const obj = props.fab || props.fabMini ? {} : sizeStyle.value
+    const obj = props.fab || props.fabMini ? {} : getSizeStyle(props.size)
 
     return props.padding !== void 0
       ? {

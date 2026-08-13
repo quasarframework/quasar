@@ -1,4 +1,6 @@
-import { computed, getCurrentInstance, h, inject, provide } from 'vue'
+import { computed, h, inject, provide } from 'vue'
+
+import useQuasar from '../../composables/use-quasar/use-quasar.js'
 
 import { createComponent } from '../../utils/private.create/create.js'
 import { hSlot } from '../../utils/private.render/render.js'
@@ -12,9 +14,7 @@ export default /*#__PURE__*/ createComponent({
   name: 'QPageContainer',
 
   setup(_, { slots }) {
-    const {
-      proxy: { $q }
-    } = getCurrentInstance()
+    const $q = useQuasar()
 
     const $layout = inject(layoutKey, emptyRenderFn)
     if ($layout === emptyRenderFn) {

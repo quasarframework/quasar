@@ -1,14 +1,8 @@
-import {
-  computed,
-  getCurrentInstance,
-  h,
-  onBeforeUnmount,
-  onMounted,
-  watch
-} from 'vue'
+import { computed, h, onBeforeUnmount, onMounted, watch } from 'vue'
 
 import QBtn from '../btn/QBtn.js'
 
+import useQuasar from '../../composables/use-quasar/use-quasar.js'
 import useDark, {
   useDarkProps
 } from '../../composables/private.use-dark/use-dark.js'
@@ -79,9 +73,7 @@ export default /*#__PURE__*/ createComponent({
   emits: [...useFullscreenEmits, ...usePanelEmits],
 
   setup(props, { slots }) {
-    const {
-      proxy: { $q }
-    } = getCurrentInstance()
+    const $q = useQuasar()
 
     const isDark = useDark(props, $q)
 

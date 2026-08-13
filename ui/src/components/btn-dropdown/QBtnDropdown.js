@@ -5,6 +5,7 @@ import QBtn from '../btn/QBtn.js'
 import QBtnGroup from '../btn-group/QBtnGroup.js'
 import QMenu from '../menu/QMenu.js'
 
+import useQuasar from '../../composables/use-quasar/use-quasar.js'
 import { getBtnDesignAttr, nonRoundBtnProps } from '../btn/use-btn.js'
 import useId from '../../composables/use-id/use-id.js'
 import { useTransitionProps } from '../../composables/private.use-transition/use-transition.js'
@@ -76,6 +77,7 @@ export default /*#__PURE__*/ createComponent({
 
   setup(props, { slots, emit }) {
     const { proxy } = getCurrentInstance()
+    const $q = useQuasar()
 
     const showing = ref(props.modelValue)
     const menuRef = ref(null)
@@ -90,9 +92,7 @@ export default /*#__PURE__*/ createComponent({
         'aria-expanded': showing.value ? 'true' : 'false',
         'aria-label':
           props.toggleAriaLabel ||
-          proxy.$q.lang.label[showing.value ? 'collapse' : 'expand'](
-            props.label
-          )
+          $q.lang.label[showing.value ? 'collapse' : 'expand'](props.label)
       }
 
       // the portal-based menu only exists in the DOM while shown,
@@ -192,7 +192,7 @@ export default /*#__PURE__*/ createComponent({
       const Arrow = hMergeSlot(slots.toggle, [
         h(QIcon, {
           class: iconClass.value,
-          name: props.dropdownIcon || proxy.$q.iconSet.arrow.dropdown
+          name: props.dropdownIcon || $q.iconSet.arrow.dropdown
         })
       ])
 

@@ -1,6 +1,10 @@
 import { h } from 'vue'
 
-import useSpinner, { useSpinnerProps } from './use-spinner.js'
+import {
+  getSpinnerClass,
+  getSpinnerSize,
+  useSpinnerProps
+} from './spinner-utils.js'
 import { createComponent } from '../../utils/private.create/create.js'
 
 const innerHTML =
@@ -12,16 +16,17 @@ export default /*#__PURE__*/ createComponent({
   props: useSpinnerProps,
 
   setup(props) {
-    const { cSize, classes } = useSpinner(props)
-    return () =>
-      h('svg', {
-        class: classes.value,
+    return () => {
+      const cSize = getSpinnerSize(props.size)
+      return h('svg', {
+        class: getSpinnerClass(props.color),
         stroke: 'currentColor',
-        width: cSize.value,
-        height: cSize.value,
+        width: cSize,
+        height: cSize,
         viewBox: '0 0 38 38',
         xmlns: 'http://www.w3.org/2000/svg',
         innerHTML
       })
+    }
   }
 })

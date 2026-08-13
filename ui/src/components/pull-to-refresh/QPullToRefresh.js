@@ -12,6 +12,8 @@ import QIcon from '../icon/QIcon.js'
 import QSpinner from '../spinner/QSpinner.js'
 import TouchPan from '../../directives/touch-pan/TouchPan.js'
 
+import useQuasar from '../../composables/use-quasar/use-quasar.js'
+
 import { createComponent } from '../../utils/private.create/create.js'
 import {
   getScrollTarget,
@@ -42,7 +44,7 @@ export default /*#__PURE__*/ createComponent({
 
   setup(props, { slots, emit }) {
     const { proxy } = getCurrentInstance()
-    const { $q } = proxy
+    const $q = useQuasar()
 
     const state = ref('pull')
     const pullRatio = ref(0)

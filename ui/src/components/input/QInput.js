@@ -9,6 +9,7 @@ import {
   watch
 } from 'vue'
 
+import useQuasar from '../../composables/use-quasar/use-quasar.js'
 import useField, {
   fieldValueIsFilled,
   useFieldEmits,
@@ -73,7 +74,7 @@ export default /*#__PURE__*/ createComponent({
 
   setup(props, { emit, attrs }) {
     const { proxy } = getCurrentInstance()
-    const { $q } = proxy
+    const $q = useQuasar()
 
     const temp = {}
     let emitCachedValue = Number.NaN,

@@ -12,6 +12,7 @@ import {
 import Caret from './editor-caret.js'
 import { getFonts, getLinkEditor, getToolbar } from './editor-utils.js'
 
+import useQuasar from '../../composables/use-quasar/use-quasar.js'
 import useDark, {
   useDarkProps
 } from '../../composables/private.use-dark/use-dark.js'
@@ -103,7 +104,7 @@ export default /*#__PURE__*/ createComponent({
 
   setup(props, { slots, emit, attrs }) {
     const { proxy } = getCurrentInstance()
-    const { $q } = proxy
+    const $q = useQuasar()
 
     const isDark = useDark(props, $q)
     const { inFullscreen, toggleFullscreen } = useFullscreen()

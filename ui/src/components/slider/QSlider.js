@@ -1,5 +1,6 @@
-import { computed, getCurrentInstance, h, ref, watch } from 'vue'
+import { computed, h, ref, watch } from 'vue'
 
+import useQuasar from '../../composables/use-quasar/use-quasar.js'
 import { useFormAttrs } from '../../composables/use-form/private.use-form.js'
 import useSplitAttrs from '../../composables/use-split-attrs/use-split-attrs.js'
 
@@ -38,9 +39,7 @@ export default /*#__PURE__*/ createComponent({
   inheritAttrs: false,
 
   setup(props, { emit, attrs }) {
-    const {
-      proxy: { $q }
-    } = getCurrentInstance()
+    const $q = useQuasar()
 
     const splitAttrs = useSplitAttrs()
 

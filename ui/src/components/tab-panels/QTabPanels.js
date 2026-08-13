@@ -1,5 +1,6 @@
-import { computed, getCurrentInstance } from 'vue'
+import { computed } from 'vue'
 
+import useQuasar from '../../composables/use-quasar/use-quasar.js'
 import useDark, {
   useDarkProps
 } from '../../composables/private.use-dark/use-dark.js'
@@ -22,8 +23,8 @@ export default /*#__PURE__*/ createComponent({
   emits: usePanelEmits,
 
   setup(props, { slots }) {
-    const vm = getCurrentInstance()
-    const isDark = useDark(props, vm.proxy.$q)
+    const $q = useQuasar()
+    const isDark = useDark(props, $q)
 
     const { updatePanelsList, getPanelContent, panelDirectives } = usePanel()
 

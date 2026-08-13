@@ -1,5 +1,6 @@
-import { computed, getCurrentInstance, h, inject, ref } from 'vue'
+import { computed, h, inject, ref } from 'vue'
 
+import useQuasar from '../../composables/use-quasar/use-quasar.js'
 import useDark, {
   useDarkProps
 } from '../../composables/private.use-dark/use-dark.js'
@@ -45,9 +46,7 @@ export default /*#__PURE__*/ createComponent({
   emits: ['click', 'keyup'],
 
   setup(props, { slots, emit }) {
-    const {
-      proxy: { $q }
-    } = getCurrentInstance()
+    const $q = useQuasar()
 
     const isDark = useDark(props, $q)
     const { hasLink, linkAttrs, linkClass, linkTag, navigateOnClick } =

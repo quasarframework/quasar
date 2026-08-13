@@ -1,7 +1,8 @@
-import { computed, getCurrentInstance, h, nextTick, ref, watch } from 'vue'
+import { computed, h, nextTick, ref, watch } from 'vue'
 
 import TouchPan from '../../directives/touch-pan/TouchPan.js'
 
+import useQuasar from '../../composables/use-quasar/use-quasar.js'
 import useDark, {
   useDarkProps
 } from '../../composables/private.use-dark/use-dark.js'
@@ -52,9 +53,7 @@ export default /*#__PURE__*/ createComponent({
   emits: ['update:modelValue'],
 
   setup(props, { slots, emit }) {
-    const {
-      proxy: { $q }
-    } = getCurrentInstance()
+    const $q = useQuasar()
     const isDark = useDark(props, $q)
 
     const rootRef = ref(null)

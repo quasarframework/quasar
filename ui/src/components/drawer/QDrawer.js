@@ -11,6 +11,7 @@ import {
   withDirectives
 } from 'vue'
 
+import useQuasar from '../../composables/use-quasar/use-quasar.js'
 import useHistory from '../../composables/private.use-history/use-history.js'
 import useModelToggle, {
   useModelToggleEmits,
@@ -98,9 +99,7 @@ export default /*#__PURE__*/ createComponent({
 
   setup(props, { slots, emit, attrs }) {
     const vm = getCurrentInstance()
-    const {
-      proxy: { $q }
-    } = vm
+    const $q = useQuasar()
 
     const isDark = useDark(props, $q)
     const { preventBodyScroll } = usePreventScroll()

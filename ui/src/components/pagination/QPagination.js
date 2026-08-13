@@ -3,6 +3,7 @@ import { computed, getCurrentInstance, h, ref, watch } from 'vue'
 import QBtn from '../btn/QBtn.js'
 import QInput from '../input/QInput.js'
 
+import useQuasar from '../../composables/use-quasar/use-quasar.js'
 import useDark, {
   useDarkProps
 } from '../../composables/private.use-dark/use-dark.js'
@@ -112,7 +113,7 @@ export default /*#__PURE__*/ createComponent({
 
   setup(props, { emit }) {
     const { proxy } = getCurrentInstance()
-    const { $q } = proxy
+    const $q = useQuasar()
 
     const isDark = useDark(props, $q)
 

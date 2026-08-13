@@ -1,6 +1,7 @@
 import { describe, expect, test } from 'vitest'
 
-import useSize, {
+import {
+  createSizeStyle,
   getSizeStyle,
   useSizeDefaults,
   useSizeProps
@@ -20,10 +21,8 @@ describe('[useSize API]', () => {
         expect(useSizeProps).$props()
       })
     })
-  })
 
-  describe('[Functions]', () => {
-    describe('[(function)getSizeStyle]', () => {
+    describe('[(variable)getSizeStyle]', () => {
       test('has correct return value', () => {
         expect(getSizeStyle(void 0)).toBeNull()
 
@@ -38,21 +37,20 @@ describe('[useSize API]', () => {
         expect(getSizeStyle('24px')).toBe(getSizeStyle('24px'))
       })
     })
+  })
 
-    describe('[(function)default]', () => {
-      test('should set the size', () => {
-        const { value } = useSize({ size: '24px' })
-        expect(value.fontSize).toBe('24px')
-      })
+  describe('[Functions]', () => {
+    describe('[(function)createSizeStyle]', () => {
+      test('has correct return value', () => {
+        const getStyle = createSizeStyle({ xs: 55 })
 
-      test('should set the size with standard size names', () => {
-        const { value } = useSize({ size: 'sm' })
-        expect(value.fontSize).toBe(`${useSizeDefaults.sm}px`)
-      })
+        expect(getStyle(void 0)).toBeNull()
+        expect(getStyle('xs')).toStrictEqual({ fontSize: '55px' })
+        expect(getStyle('24px')).toStrictEqual({ fontSize: '24px' })
 
-      test('should set the size with custom size names', () => {
-        const { value } = useSize({ size: 'xs' }, { xs: 55 })
-        expect(value.fontSize).toBe('55px')
+        // the returned objects are shared and reference-stable,
+        // so an unchanged size can skip style patching entirely
+        expect(getStyle('24px')).toBe(getStyle('24px'))
       })
     })
   })

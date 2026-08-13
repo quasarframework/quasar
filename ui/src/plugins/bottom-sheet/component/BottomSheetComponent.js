@@ -12,6 +12,7 @@ import QItem from '../../../components/item/QItem.js'
 import QItemSection from '../../../components/item/QItemSection.js'
 
 import { createComponent } from '../../../utils/private.create/create.js'
+import useQuasar from '../../../composables/use-quasar/use-quasar.js'
 import useDark, {
   useDarkProps
 } from '../../../composables/private.use-dark/use-dark.js'
@@ -36,7 +37,7 @@ export default /*#__PURE__*/ createComponent({
 
   setup(props, { emit }) {
     const { proxy } = getCurrentInstance()
-    const isDark = useDark(props, proxy.$q)
+    const isDark = useDark(props, useQuasar())
 
     const dialogRef = ref(null)
 

@@ -14,6 +14,7 @@ import QOptionGroup from '../../../components/option-group/QOptionGroup.js'
 import QSpinner from '../../../components/spinner/QSpinner.js'
 
 import { createComponent } from '../../../utils/private.create/create.js'
+import useQuasar from '../../../composables/use-quasar/use-quasar.js'
 import useDark, {
   useDarkProps
 } from '../../../composables/private.use-dark/use-dark.js'
@@ -57,7 +58,7 @@ export default /*#__PURE__*/ createComponent({
 
   setup(props, { emit }) {
     const { proxy } = getCurrentInstance()
-    const { $q } = proxy
+    const $q = useQuasar()
 
     const isDark = useDark(props, $q)
 

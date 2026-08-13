@@ -1,6 +1,7 @@
-import { computed, getCurrentInstance, h } from 'vue'
+import { computed, h } from 'vue'
 
-import useSize from '../../composables/private.use-size/use-size.js'
+import useQuasar from '../../composables/use-quasar/use-quasar.js'
+import { getSizeStyle } from '../../composables/private.use-size/use-size.js'
 import { useCircularCommonProps } from './circular-progress.js'
 
 import { createComponent } from '../../utils/private.create/create.js'
@@ -32,10 +33,7 @@ export default /*#__PURE__*/ createComponent({
   },
 
   setup(props, { slots }) {
-    const {
-      proxy: { $q }
-    } = getCurrentInstance()
-    const sizeStyle = useSize(props)
+    const $q = useQuasar()
 
     const svgStyle = computed(() => {
       const angle = ($q.lang.rtl ? -1 : 1) * props.angle
@@ -167,7 +165,7 @@ export default /*#__PURE__*/ createComponent({
         'div',
         {
           class: `q-circular-progress q-circular-progress--${props.indeterminate ? 'in' : ''}determinate`,
-          style: sizeStyle.value,
+          style: getSizeStyle(props.size),
           role: 'progressbar',
           'aria-valuemin': props.min,
           'aria-valuemax': props.max,

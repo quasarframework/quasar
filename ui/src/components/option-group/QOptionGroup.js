@@ -1,4 +1,4 @@
-import { computed, getCurrentInstance, h, ref, toRaw } from 'vue'
+import { computed, h, ref, toRaw } from 'vue'
 
 import QRadio from '../radio/QRadio.js'
 import QCheckbox from '../checkbox/QCheckbox.js'
@@ -7,6 +7,7 @@ import QToggle from '../toggle/QToggle.js'
 import { createComponent } from '../../utils/private.create/create.js'
 import { stopAndPrevent } from '../../utils/event/event.js'
 
+import useQuasar from '../../composables/use-quasar/use-quasar.js'
 import useDark, {
   useDarkProps
 } from '../../composables/private.use-dark/use-dark.js'
@@ -69,9 +70,7 @@ export default /*#__PURE__*/ createComponent({
   emits: ['update:modelValue'],
 
   setup(props, { emit, slots }) {
-    const {
-      proxy: { $q }
-    } = getCurrentInstance()
+    const $q = useQuasar()
 
     const arrayModel = Array.isArray(props.modelValue)
 

@@ -11,6 +11,8 @@ import {
   watch
 } from 'vue'
 
+import useQuasar from '../../composables/use-quasar/use-quasar.js'
+
 import debounce from '../../utils/debounce/debounce.js'
 import { noop } from '../../utils/event/event.js'
 import { rtlHasScrollBug } from '../../utils/private.rtl/rtl.js'
@@ -267,7 +269,7 @@ export function useVirtualScroll({
   const vm = getCurrentInstance()
 
   const { props, emit, proxy } = vm
-  const { $q } = proxy
+  const $q = useQuasar()
 
   let prevScrollStart,
     prevToIndex,

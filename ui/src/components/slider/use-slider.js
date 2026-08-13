@@ -2,6 +2,7 @@ import { computed, getCurrentInstance, h, onBeforeUnmount, ref } from 'vue'
 
 import TouchPan from '../../directives/touch-pan/TouchPan.js'
 
+import useQuasar from '../../composables/use-quasar/use-quasar.js'
 import useDark, {
   useDarkProps
 } from '../../composables/private.use-dark/use-dark.js'
@@ -107,12 +108,8 @@ export default function useSlider({
   getDragging,
   formAttrs
 }) {
-  const {
-    props,
-    emit,
-    slots,
-    proxy: { $q }
-  } = getCurrentInstance()
+  const { props, emit, slots } = getCurrentInstance()
+  const $q = useQuasar()
   const isDark = useDark(props, $q)
 
   const injectFormInput = useFormInject(formAttrs)

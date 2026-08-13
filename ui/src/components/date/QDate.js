@@ -10,6 +10,7 @@ import {
 
 import QBtn from '../btn/QBtn.js'
 
+import useQuasar from '../../composables/use-quasar/use-quasar.js'
 import useDark, {
   useDarkProps
 } from '../../composables/private.use-dark/use-dark.js'
@@ -127,7 +128,7 @@ export default /*#__PURE__*/ createComponent({
 
   setup(props, { slots, emit }) {
     const { proxy } = getCurrentInstance()
-    const { $q } = proxy
+    const $q = useQuasar()
 
     const isDark = useDark(props, $q)
     const { getCache } = useRenderCache()

@@ -1,8 +1,9 @@
-import { computed, getCurrentInstance, h, provide, ref } from 'vue'
+import { computed, h, provide, ref } from 'vue'
 
 import QBtn from '../btn/QBtn.js'
 import QIcon from '../icon/QIcon.js'
 
+import useQuasar from '../../composables/use-quasar/use-quasar.js'
 import useFab, { useFabProps } from './use-fab.js'
 import useId from '../../composables/use-id/use-id.js'
 import useModelToggle, {
@@ -55,9 +56,7 @@ export default /*#__PURE__*/ createComponent({
     const showing = ref(props.modelValue === true)
     const targetUid = useId()
 
-    const {
-      proxy: { $q }
-    } = getCurrentInstance()
+    const $q = useQuasar()
     const { formClass, labelProps } = useFab(props, showing)
 
     const hideOnRouteChange = computed(() => !props.persistent)

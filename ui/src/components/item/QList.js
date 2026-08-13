@@ -1,6 +1,7 @@
-import { computed, getCurrentInstance, h, provide } from 'vue'
+import { computed, h, provide } from 'vue'
 
 import { createComponent } from '../../utils/private.create/create.js'
+import useQuasar from '../../composables/use-quasar/use-quasar.js'
 import useDark, {
   useDarkProps
 } from '../../composables/private.use-dark/use-dark.js'
@@ -29,8 +30,8 @@ export default /*#__PURE__*/ createComponent({
   },
 
   setup(props, { slots }) {
-    const vm = getCurrentInstance()
-    const isDark = useDark(props, vm.proxy.$q)
+    const $q = useQuasar()
+    const isDark = useDark(props, $q)
 
     const role = computed(() =>
       props.role !== void 0

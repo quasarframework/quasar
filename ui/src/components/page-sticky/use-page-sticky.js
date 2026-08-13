@@ -1,5 +1,7 @@
 import { computed, getCurrentInstance, h, inject } from 'vue'
 
+import useQuasar from '../../composables/use-quasar/use-quasar.js'
+
 import { hSlot } from '../../utils/private.render/render.js'
 import {
   emptyRenderFn,
@@ -30,10 +32,8 @@ export const usePageStickyProps = {
 }
 
 export default function usePageSticky() {
-  const {
-    props,
-    proxy: { $q }
-  } = getCurrentInstance()
+  const { props } = getCurrentInstance()
+  const $q = useQuasar()
 
   const $layout = inject(layoutKey, emptyRenderFn)
   if ($layout === emptyRenderFn) {

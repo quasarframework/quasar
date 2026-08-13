@@ -1,18 +1,17 @@
 import { computed, getCurrentInstance, h, ref, toRaw } from 'vue'
 
+import useQuasar from '../../composables/use-quasar/use-quasar.js'
 import useDark, {
   useDarkProps
 } from '../../composables/private.use-dark/use-dark.js'
-import useSize, {
-  useSizeProps
-} from '../../composables/private.use-size/use-size.js'
+import { useSizeProps } from '../../composables/private.use-size/use-size.js'
 import useRefocusTarget from '../../composables/private.use-refocus-target/use-refocus-target.js'
 import {
   useFormInject,
   useFormProps
 } from '../../composables/use-form/private.use-form.js'
 
-import optionSizes from '../../utils/private.option-sizes/option-sizes.js'
+import { getOptionSizeStyle } from '../../utils/private.option-sizes/option-sizes.js'
 import { stopAndPrevent } from '../../utils/event/event.js'
 import { hMergeSlot, hSlot } from '../../utils/private.render/render.js'
 
@@ -62,13 +61,12 @@ function onKeydown(e) {
 
 export default function useCheckbox(type, getInner) {
   const { props, slots, emit, proxy } = getCurrentInstance()
-  const { $q } = proxy
+  const $q = useQuasar()
 
   const isDark = useDark(props, $q)
 
   const rootRef = ref(null)
   const { refocusTargetEl, refocusTarget } = useRefocusTarget(props, rootRef)
-  const sizeStyle = useSize(props, optionSizes)
 
   const modelIsArray = computed(
     () => props.val !== void 0 && Array.isArray(props.modelValue)
@@ -224,7 +222,7 @@ export default function useCheckbox(type, getInner) {
         'div',
         {
           class: innerClass.value,
-          style: sizeStyle.value,
+          style: getOptionSizeStyle(props.size),
           'aria-hidden': 'true'
         },
         inner
