@@ -46,7 +46,7 @@ export default /*#__PURE__*/ createComponent({
       onChildClick: noop
     }))
 
-    const { formClass, labelProps } = useFab(props, $fab.showing)
+    const { formClass, stacked, labelProps } = useFab(props, $fab.showing)
 
     const classes = computed(() => {
       const align = anchorMap[props.anchor]
@@ -93,7 +93,7 @@ export default /*#__PURE__*/ createComponent({
           class: classes.value,
           ...props,
           noWrap: true,
-          stack: props.stacked,
+          stack: stacked.value,
           icon: void 0,
           label: void 0,
           noCaps: true,

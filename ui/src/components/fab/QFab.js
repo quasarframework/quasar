@@ -57,7 +57,7 @@ export default /*#__PURE__*/ createComponent({
     const targetUid = useId()
 
     const $q = useQuasar()
-    const { formClass, labelProps } = useFab(props, showing)
+    const { formClass, stacked, labelProps } = useFab(props, showing)
 
     const hideOnRouteChange = computed(() => !props.persistent)
 
@@ -168,7 +168,7 @@ export default /*#__PURE__*/ createComponent({
               class: formClass.value,
               ...props,
               noWrap: true,
-              stack: props.stacked,
+              stack: stacked.value,
               align: void 0,
               icon: void 0,
               label: void 0,

@@ -34,6 +34,12 @@ function getLabel(wrapper) {
   return wrapper.get('.q-fab__label')
 }
 
+function expectStacked(wrapper, stacked) {
+  const content = wrapper.get('.q-btn__content')
+
+  expect(content.classes()).toContain(stacked ? 'column' : 'row')
+}
+
 function expectButtonType(wrapper, type) {
   const button = getButton(wrapper)
 
@@ -153,35 +159,52 @@ describe('[QFabAction API]', () => {
 
     describe('[(prop)label-position]', () => {
       test('value "top" has effect', () => {
-        expect(
-          getLabel(
-            mountAction({ label: 'Create', labelPosition: 'top' })
-          ).classes()
-        ).toContain('q-fab__label--internal-top')
+        const wrapper = mountAction({ label: 'Create', labelPosition: 'top' })
+
+        expect(getLabel(wrapper).classes()).toContain(
+          'q-fab__label--internal-top'
+        )
+        expectStacked(wrapper, true)
       })
 
       test('value "right" has effect', () => {
-        expect(
-          getLabel(
-            mountAction({ label: 'Create', labelPosition: 'right' })
-          ).classes()
-        ).toContain('q-fab__label--internal-right')
+        const wrapper = mountAction({ label: 'Create', labelPosition: 'right' })
+
+        expect(getLabel(wrapper).classes()).toContain(
+          'q-fab__label--internal-right'
+        )
+        expectStacked(wrapper, false)
       })
 
       test('value "bottom" has effect', () => {
-        expect(
-          getLabel(
-            mountAction({ label: 'Create', labelPosition: 'bottom' })
-          ).classes()
-        ).toContain('q-fab__label--internal-bottom')
+        const wrapper = mountAction({
+          label: 'Create',
+          labelPosition: 'bottom'
+        })
+
+        expect(getLabel(wrapper).classes()).toContain(
+          'q-fab__label--internal-bottom'
+        )
+        expectStacked(wrapper, true)
       })
 
       test('value "left" has effect', () => {
-        expect(
-          getLabel(
-            mountAction({ label: 'Create', labelPosition: 'left' })
-          ).classes()
-        ).toContain('q-fab__label--internal-left')
+        const wrapper = mountAction({ label: 'Create', labelPosition: 'left' })
+
+        expect(getLabel(wrapper).classes()).toContain(
+          'q-fab__label--internal-left'
+        )
+        expectStacked(wrapper, false)
+      })
+
+      test('does not stack an external label', () => {
+        const wrapper = mountAction({
+          label: 'Create',
+          labelPosition: 'top',
+          externalLabel: true
+        })
+
+        expectStacked(wrapper, false)
       })
     })
 

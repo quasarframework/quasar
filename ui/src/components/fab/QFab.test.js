@@ -21,6 +21,12 @@ function getLabel(wrapper) {
   return wrapper.get('.q-fab__label')
 }
 
+function expectStacked(wrapper, stacked) {
+  const content = wrapper.get('.q-btn__content')
+
+  expect(content.classes()).toContain(stacked ? 'column' : 'row')
+}
+
 function expectButtonType(wrapper, type) {
   const button = getTrigger(wrapper)
 
@@ -152,6 +158,7 @@ describe('[QFab API]', () => {
         expect(getLabel(wrapper).classes()).toContain(
           'q-fab__label--internal-top'
         )
+        expectStacked(wrapper, true)
       })
 
       test('value "right" has effect', () => {
@@ -163,6 +170,7 @@ describe('[QFab API]', () => {
         expect(getLabel(wrapper).classes()).toContain(
           'q-fab__label--internal-right'
         )
+        expectStacked(wrapper, false)
       })
 
       test('value "bottom" has effect', () => {
@@ -174,6 +182,7 @@ describe('[QFab API]', () => {
         expect(getLabel(wrapper).classes()).toContain(
           'q-fab__label--internal-bottom'
         )
+        expectStacked(wrapper, true)
       })
 
       test('value "left" has effect', () => {
@@ -185,6 +194,17 @@ describe('[QFab API]', () => {
         expect(getLabel(wrapper).classes()).toContain(
           'q-fab__label--internal-left'
         )
+        expectStacked(wrapper, false)
+      })
+
+      test('does not stack an external label', () => {
+        const wrapper = mountFab({
+          label: 'Create',
+          labelPosition: 'top',
+          externalLabel: true
+        })
+
+        expectStacked(wrapper, false)
       })
     })
 
