@@ -77,12 +77,12 @@ export default /*#__PURE__*/ createComponent({
       return props.showing
         ? h(
             'div',
-            { class: classes.value, style: transitionStyle.value },
+            { class: classes.value, style: transitionStyle() },
             slots.default !== void 0 ? slots.default() : getInner()
           )
         : null
     }
 
-    return () => h(Transition, transitionProps.value, getContent)
+    return () => h(Transition, transitionProps(), getContent)
   }
 })

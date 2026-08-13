@@ -502,7 +502,7 @@ export default /*#__PURE__*/ createComponent({
     }
 
     function renderPortalContent() {
-      return h(Transition, transitionProps.value, () =>
+      return h(Transition, transitionProps(), () =>
         showing.value
           ? h(
               'div',
@@ -520,7 +520,7 @@ export default /*#__PURE__*/ createComponent({
                   'q-menu q-position-engine scroll' + menuClass.value,
                   attrs.class
                 ],
-                style: [attrs.style, transitionStyle.value],
+                style: [attrs.style, transitionStyle()],
                 ...onEvents.value
               },
               hSlot(slots.default)

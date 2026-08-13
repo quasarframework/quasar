@@ -127,7 +127,7 @@ export default /*#__PURE__*/ createComponent({
 
     const backdropStyle = computed(
       () =>
-        transitionStyle.value +
+        transitionStyle() +
         (props.backdropFilter !== void 0
           ? // Safari requires the -webkit prefix
             `;backdrop-filter:${props.backdropFilter};-webkit-backdrop-filter:${props.backdropFilter}`
@@ -466,14 +466,14 @@ export default /*#__PURE__*/ createComponent({
                 : null
           ),
 
-          h(Transition, transitionProps.value, () =>
+          h(Transition, transitionProps(), () =>
             showing.value
               ? h(
                   'div',
                   {
                     ref: innerRef,
                     class: classes.value,
-                    style: transitionStyle.value,
+                    style: transitionStyle(),
                     tabindex: -1,
                     ...onEvents.value
                   },

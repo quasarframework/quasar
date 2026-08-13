@@ -465,7 +465,7 @@ export default /*#__PURE__*/ createComponent({
                 'q-tooltip q-tooltip--style q-position-engine no-pointer-events',
                 attrs.class
               ],
-              style: [attrs.style, transitionStyle.value],
+              style: [attrs.style, transitionStyle()],
               role: 'tooltip'
             },
             hSlot(slots.default)
@@ -474,7 +474,7 @@ export default /*#__PURE__*/ createComponent({
     }
 
     function renderPortalContent() {
-      return h(Transition, transitionProps.value, getTooltipContent)
+      return h(Transition, transitionProps(), getTooltipContent)
     }
 
     onBeforeUnmount(anchorCleanup)

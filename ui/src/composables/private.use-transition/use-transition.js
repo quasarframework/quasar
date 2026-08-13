@@ -1,5 +1,3 @@
-import { computed } from 'vue'
-
 export const useTransitionProps = {
   transitionShow: {
     type: String,
@@ -17,31 +15,49 @@ export const useTransitionProps = {
   }
 }
 
+// shared, reference-stable Transition props per (show, hide) pair, so
+// re-renders patch the Transition vnode with the exact same props object
+const transitionPropsCache = new Map()
+
+// returns { transitionProps(), transitionStyle() } getters
 export default function useTransition(
   props,
   defaultShowFn = () => {},
   defaultHideFn = () => {}
 ) {
   return {
-    transitionProps: computed(() => {
-      const show = `q-transition--${props.transitionShow || defaultShowFn()}`
-      const hide = `q-transition--${props.transitionHide || defaultHideFn()}`
+    transitionProps: () => {
+      const show = props.transitionShow || defaultShowFn()
+      const hide = props.transitionHide || defaultHideFn()
+      const key = `${show}|${hide}`
+      let target = transitionPropsCache.get(key)
 
-      return {
-        appear: true,
+      if (target === void 0) {
+        // transition names can technically be fed generated values
+        if (transitionPropsCache.size > 200) transitionPropsCache.clear()
 
-        enterFromClass: `${show}-enter-from`,
-        enterActiveClass: `${show}-enter-active`,
-        enterToClass: `${show}-enter-to`,
+        const showCls = `q-transition--${show}`
+        const hideCls = `q-transition--${hide}`
 
-        leaveFromClass: `${hide}-leave-from`,
-        leaveActiveClass: `${hide}-leave-active`,
-        leaveToClass: `${hide}-leave-to`
+        target = {
+          appear: true,
+
+          enterFromClass: `${showCls}-enter-from`,
+          enterActiveClass: `${showCls}-enter-active`,
+          enterToClass: `${showCls}-enter-to`,
+
+          leaveFromClass: `${hideCls}-leave-from`,
+          leaveActiveClass: `${hideCls}-leave-active`,
+          leaveToClass: `${hideCls}-leave-to`
+        }
+
+        transitionPropsCache.set(key, target)
       }
-    }),
 
-    transitionStyle: computed(
-      () => `--q-transition-duration: ${props.transitionDuration}ms`
-    )
+      return target
+    },
+
+    transitionStyle: () =>
+      `--q-transition-duration: ${props.transitionDuration}ms`
   }
 }
