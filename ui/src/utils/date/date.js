@@ -1084,6 +1084,36 @@ const formatter = {
   }
 }
 
+// a mask compiles to literal strings + formatter fn refs, so repeated
+// formatDate calls (bulk QTable formatters) skip the regex tokenization
+const formatStore = new Map()
+
+function compileMask(mask) {
+  const parts = []
+  let index = 0
+
+  mask.replace(token, (match, text, offset) => {
+    if (offset > index) {
+      parts.push(mask.slice(index, offset))
+    }
+    index = offset + match.length
+
+    parts.push(
+      match in formatter
+        ? formatter[match]
+        : text === void 0
+          ? match
+          : text.split(String.raw`\]`).join(']')
+    )
+  })
+
+  if (index < mask.length) {
+    parts.push(mask.slice(index))
+  }
+
+  return parts
+}
+
 export function formatDate(
   val,
   mask,
@@ -1103,13 +1133,31 @@ export function formatDate(
 
   const locale = getDateLocale(dateLocale, Lang.props)
 
-  return mask.replace(token, (match, text) =>
-    match in formatter
-      ? formatter[match](date, locale, __forcedYear, __forcedTimezoneOffset)
-      : text === void 0
-        ? match
-        : text.split(String.raw`\]`).join(']')
-  )
+  let parts = formatStore.get(mask)
+
+  if (parts === void 0) {
+    // masks can be generated on the fly, so guard against unbounded growth
+    if (formatStore.size > 100) formatStore.clear()
+    parts = compileMask(mask)
+    formatStore.set(mask, parts)
+  }
+
+  let acc = ''
+
+  for (const part of parts) {
+    acc +=
+      typeof part === 'function'
+        ? part.call(
+            formatter,
+            date,
+            locale,
+            __forcedYear,
+            __forcedTimezoneOffset
+          )
+        : part
+  }
+
+  return acc
 }
 
 export function clone(date) {
