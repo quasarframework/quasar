@@ -1,5 +1,3 @@
-import { computed } from 'vue'
-
 export const alignMap = {
   left: 'start',
   center: 'center',
@@ -19,9 +17,9 @@ export const useAlignProps = {
   }
 }
 
+// returns an alignClass() getter
 export default function useAlign(props) {
-  // return alignClass
-  return computed(() => {
+  return () => {
     const align =
       props.align === void 0
         ? props.vertical
@@ -30,5 +28,5 @@ export default function useAlign(props) {
         : props.align
 
     return `${props.vertical ? 'items' : 'justify'}-${alignMap[align]}`
-  })
+  }
 }

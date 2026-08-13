@@ -39,7 +39,7 @@ export default /*#__PURE__*/ createComponent({
 
     const classes = computed(
       () =>
-        `flex items-center ${alignClass.value}${props.gutter === 'none' ? '' : ` q-gutter-${props.gutter}`}`
+        `flex items-center ${alignClass()}${props.gutter === 'none' ? '' : ` q-gutter-${props.gutter}`}`
     )
 
     const sepClass = computed(() =>

@@ -211,7 +211,7 @@ export default function useBtn(props) {
 
   const innerClasses = computed(
     () =>
-      alignClass.value +
+      alignClass() +
       (props.stack ? ' column' : ' row') +
       (props.noWrap ? ' no-wrap text-no-wrap' : '') +
       (props.loading ? ' q-btn__content--hidden' : '')

@@ -28,15 +28,15 @@ describe('[useAlign API]', () => {
   describe('[Functions]', () => {
     describe('[(function)default]', () => {
       test('returns correctly', () => {
-        expect(useAlign({})).$ref()
+        expect(useAlign({})).toBeTypeOf('function')
       })
 
       test('horizontal', () => {
-        expect(useAlign({}).value).toMatch(/^justify-/)
+        expect(useAlign({})()).toMatch(/^justify-/)
       })
 
       test('vertical', () => {
-        expect(useAlign({ vertical: true }).value).toMatch(/^items-/)
+        expect(useAlign({ vertical: true })()).toMatch(/^items-/)
       })
 
       test.each([
@@ -46,7 +46,7 @@ describe('[useAlign API]', () => {
         ['align evenly', { align: 'evenly' }, 'justify-evenly'],
         ['vertical right', { vertical: true, align: 'right' }, 'items-end']
       ])('useAlign: %s', (_, arg, expected) => {
-        expect(useAlign(arg)).$ref(expected)
+        expect(useAlign(arg)()).toBe(expected)
       })
     })
   })

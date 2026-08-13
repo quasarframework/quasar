@@ -20,7 +20,7 @@ export default /*#__PURE__*/ createComponent({
 
     const classes = computed(
       () =>
-        `q-card__actions ${alignClass.value}` +
+        `q-card__actions ${alignClass()}` +
         ` q-card__actions--${props.vertical ? 'vert column' : 'horiz row'}`
     )
 
