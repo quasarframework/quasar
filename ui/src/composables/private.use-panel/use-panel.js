@@ -22,12 +22,14 @@ export const usePanelChildProps = {
   disable: Boolean
 }
 
+const panelClassProps = { class: 'q-panel scroll' }
+
 const PanelWrapper = {
   setup(_, { slots }) {
     return () =>
       // the ARIA role belongs to the panel component inside
       // (QTabPanel/QStep/QCarouselSlide), not to this wrapper
-      h('div', { class: 'q-panel scroll' }, hSlot(slots.default))
+      h('div', panelClassProps, hSlot(slots.default))
   }
 }
 
@@ -105,27 +107,26 @@ export default function usePanel() {
     ]
   ])
 
-  const transitionPrev = computed(
-    () =>
+  function getTransitionPrev() {
+    return (
       props.transitionPrev ||
       `slide-${props.vertical ? 'down' : $q.lang.rtl ? 'left' : 'right'}`
-  )
+    )
+  }
 
-  const transitionNext = computed(
-    () =>
+  function getTransitionNext() {
+    return (
       props.transitionNext ||
       `slide-${props.vertical ? 'up' : $q.lang.rtl ? 'right' : 'left'}`
-  )
+    )
+  }
 
-  const transitionStyle = computed(
-    () => `--q-transition-duration: ${props.transitionDuration}ms`
-  )
-
-  const contentKey = computed(() =>
-    typeof props.modelValue === 'string' || typeof props.modelValue === 'number'
+  function getContentKey() {
+    return typeof props.modelValue === 'string' ||
+      typeof props.modelValue === 'number'
       ? props.modelValue
       : String(props.modelValue)
-  )
+  }
 
   const keepAliveProps = computed(() => ({
     include: props.keepAliveInclude,
@@ -188,7 +189,7 @@ export default function usePanel() {
     const val =
       direction !== 0 && props.animated && panelIndex.value !== -1
         ? 'q-transition--' +
-          (direction === -1 ? transitionPrev.value : transitionNext.value)
+          (direction === -1 ? getTransitionPrev() : getTransitionNext())
         : null
 
     if (panelTransition.value !== val) {
@@ -248,17 +249,20 @@ export default function usePanel() {
       updatePanelIndex() &&
       panels[panelIndex.value]
 
+    const contentKey = getContentKey()
+    const transitionStyle = `--q-transition-duration: ${props.transitionDuration}ms`
+
     return props.keepAlive
       ? [
           h(KeepAlive, keepAliveProps.value, [
             h(
               needsUniqueKeepAliveWrapper.value
-                ? getCache(contentKey.value, () => ({
+                ? getCache(contentKey, () => ({
                     ...PanelWrapper,
-                    name: contentKey.value
+                    name: contentKey
                   }))
                 : PanelWrapper,
-              { key: contentKey.value, style: transitionStyle.value },
+              { key: contentKey, style: transitionStyle },
               () => panel
             )
           ])
@@ -268,8 +272,8 @@ export default function usePanel() {
             'div',
             {
               class: 'q-panel scroll',
-              style: transitionStyle.value,
-              key: contentKey.value
+              style: transitionStyle,
+              key: contentKey
             },
             [panel]
           )

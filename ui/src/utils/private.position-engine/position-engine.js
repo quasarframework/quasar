@@ -47,12 +47,24 @@ const horizontalPos = {
   horizontalPos[`${pos}#rtl`] = pos
 })
 
+// bounded keyspace (validated positions x ltr/rtl) of shared, read-only
+// origin objects — the engine never mutates them
+const positionCache = new Map()
+
 export function parsePosition(pos, rtl) {
-  const parts = pos.split(' ')
-  return {
-    vertical: parts[0],
-    horizontal: horizontalPos[`${parts[1]}#${rtl ? 'rtl' : 'ltr'}`]
+  const key = `${pos}#${rtl ? 'rtl' : 'ltr'}`
+  let res = positionCache.get(key)
+
+  if (res === void 0) {
+    const parts = pos.split(' ')
+    res = {
+      vertical: parts[0],
+      horizontal: horizontalPos[`${parts[1]}#${rtl ? 'rtl' : 'ltr'}`]
+    }
+    positionCache.set(key, res)
   }
+
+  return res
 }
 
 export function getAnchorProps(el, offset) {

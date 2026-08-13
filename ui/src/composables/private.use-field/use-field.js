@@ -105,7 +105,13 @@ export function useFieldState({
   return {
     requiredForAttr,
     changeEvent,
-    tag: tagProp ? computed(() => props.tag) : { value: 'label' },
+    tag: tagProp
+      ? {
+          get value() {
+            return props.tag
+          }
+        }
+      : { value: 'label' },
 
     isDark,
 
@@ -142,6 +148,50 @@ export function useFieldState({
      */
   }
 }
+
+// constant vnode props, shared across all fields and renders
+const prependProps = {
+  class: 'q-field__prepend q-field__marginal row no-wrap items-center',
+  key: 'prepend',
+  onClick: prevent
+}
+
+const appendProps = {
+  class: 'q-field__append q-field__marginal row no-wrap items-center',
+  key: 'append',
+  onClick: prevent
+}
+
+const controlContainerProps = {
+  class:
+    'q-field__control-container col relative-position row no-wrap q-anchor--skip'
+}
+
+const prefixProps = {
+  class: 'q-field__prefix no-pointer-events row items-center'
+}
+
+const suffixProps = {
+  class: 'q-field__suffix no-pointer-events row items-center'
+}
+
+const innerProps = {
+  class: 'q-field__inner relative-position col self-stretch'
+}
+
+const beforeProps = {
+  class: 'q-field__before q-field__marginal row no-wrap items-center',
+  onClick: prevent
+}
+
+const afterProps = {
+  class: 'q-field__after q-field__marginal row no-wrap items-center',
+  onClick: prevent
+}
+
+const messageTransitionProps = { name: 'q-transition--field-message' }
+
+const noErrorAriaAttrs = {}
 
 function getInnerAppendNode(key, content) {
   return content === null
@@ -218,7 +268,7 @@ export default function useField(state) {
   // render-path only - never call it from a computed: it reads slot
   // presence, which is not reactive and must not be cached
   function getErrorAriaAttrs(controlAttrs) {
-    if (hasError.value !== true) return {}
+    if (hasError.value !== true) return noErrorAriaAttrs
 
     const acc = { 'aria-invalid': 'true' }
 
@@ -272,17 +322,18 @@ export default function useField(state) {
       props.error !== null
   )
 
-  const styleType = computed(() => {
-    if (props.filled) return 'filled'
-    if (props.outlined) return 'outlined'
-    if (props.borderless) return 'borderless'
-    if (props.standout) return 'standout'
-    return 'standard'
-  })
-
   const classes = computed(
     () =>
-      `q-field row no-wrap items-start q-field--${styleType.value}` +
+      'q-field row no-wrap items-start q-field--' +
+      (props.filled
+        ? 'filled'
+        : props.outlined
+          ? 'outlined'
+          : props.borderless
+            ? 'borderless'
+            : props.standout
+              ? 'standout'
+              : 'standard') +
       (state.fieldClass !== void 0 ? ` ${state.fieldClass.value}` : '') +
       (props.rounded ? ' q-field--rounded' : '') +
       (props.square ? ' q-field--square' : '') +
@@ -466,30 +517,10 @@ export default function useField(state) {
     const node = []
 
     if (slots.prepend !== void 0) {
-      node.push(
-        h(
-          'div',
-          {
-            class:
-              'q-field__prepend q-field__marginal row no-wrap items-center',
-            key: 'prepend',
-            onClick: prevent
-          },
-          slots.prepend()
-        )
-      )
+      node.push(h('div', prependProps, slots.prepend()))
     }
 
-    node.push(
-      h(
-        'div',
-        {
-          class:
-            'q-field__control-container col relative-position row no-wrap q-anchor--skip'
-        },
-        getControlContainer()
-      )
-    )
+    node.push(h('div', controlContainerProps, getControlContainer()))
 
     if (hasError.value && !props.noErrorIcon) {
       node.push(
@@ -530,17 +561,7 @@ export default function useField(state) {
     }
 
     if (slots.append !== void 0) {
-      node.push(
-        h(
-          'div',
-          {
-            class: 'q-field__append q-field__marginal row no-wrap items-center',
-            key: 'append',
-            onClick: prevent
-          },
-          slots.append()
-        )
-      )
+      node.push(h('div', appendProps, slots.append()))
     }
 
     if (state.getInnerAppend !== void 0) {
@@ -558,15 +579,7 @@ export default function useField(state) {
     const node = []
 
     if (props.prefix !== void 0 && props.prefix !== null) {
-      node.push(
-        h(
-          'div',
-          {
-            class: 'q-field__prefix no-pointer-events row items-center'
-          },
-          props.prefix
-        )
-      )
+      node.push(h('div', prefixProps, props.prefix))
     }
 
     if (state.getShadowControl !== void 0 && state.hasShadow.value) {
@@ -608,15 +621,7 @@ export default function useField(state) {
     }
 
     if (props.suffix !== void 0 && props.suffix !== null) {
-      node.push(
-        h(
-          'div',
-          {
-            class: 'q-field__suffix no-pointer-events row items-center'
-          },
-          props.suffix
-        )
-      )
+      node.push(h('div', suffixProps, props.suffix))
     }
 
     // oxlint-disable-next-line unicorn/prefer-spread
@@ -671,7 +676,7 @@ export default function useField(state) {
       [
         props.hideBottomSpace
           ? main
-          : h(Transition, { name: 'q-transition--field-message' }, () => main),
+          : h(Transition, messageTransitionProps, () => main),
 
         hasCounter
           ? h(
@@ -732,50 +737,24 @@ export default function useField(state) {
         ...labelAttrs
       },
       [
-        slots.before !== void 0
-          ? h(
-              'div',
-              {
-                class:
-                  'q-field__before q-field__marginal row no-wrap items-center',
-                onClick: prevent
-              },
-              slots.before()
-            )
-          : null,
+        slots.before !== void 0 ? h('div', beforeProps, slots.before()) : null,
 
-        h(
-          'div',
-          {
-            class: 'q-field__inner relative-position col self-stretch'
-          },
-          [
-            h(
-              'div',
-              {
-                ref: state.controlRef,
-                class: contentClass.value,
-                tabindex: -1,
-                ...state.controlEvents
-              },
-              getContent()
-            ),
+        h('div', innerProps, [
+          h(
+            'div',
+            {
+              ref: state.controlRef,
+              class: contentClass.value,
+              tabindex: -1,
+              ...state.controlEvents
+            },
+            getContent()
+          ),
 
-            shouldRenderBottom.value ? getBottom() : null
-          ]
-        ),
+          shouldRenderBottom.value ? getBottom() : null
+        ]),
 
-        slots.after !== void 0
-          ? h(
-              'div',
-              {
-                class:
-                  'q-field__after q-field__marginal row no-wrap items-center',
-                onClick: prevent
-              },
-              slots.after()
-            )
-          : null
+        slots.after !== void 0 ? h('div', afterProps, slots.after()) : null
       ]
     )
   }
