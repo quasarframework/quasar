@@ -62,11 +62,11 @@ export default /*#__PURE__*/ createComponent({
       updateValue,
       updatePosition,
       getDragging,
-      formAttrs: computed(() => ({
+      formAttrs: () => ({
         type: 'hidden',
         name: props.name,
         value: `${modelProp.value.min}|${modelProp.value.max}`
-      }))
+      })
     })
 
     const rootRef = ref(null)

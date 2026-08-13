@@ -1,5 +1,4 @@
 import { describe, expect, test } from 'vitest'
-import { computed } from 'vue'
 
 import {
   useFormAttrs,
@@ -20,10 +19,10 @@ describe('[useForm API]', () => {
   describe('[Functions]', () => {
     describe('[(function)useFormAttrs]', () => {
       test('has correct return value', () => {
-        const { value: result } = useFormAttrs({
+        const result = useFormAttrs({
           name: 'MyName',
           modelValue: 'MyModelValue'
-        })
+        })()
 
         expect(result).toBeTypeOf('object')
         expect(result.name).toBe('MyName')
@@ -53,11 +52,9 @@ describe('[useForm API]', () => {
       })
 
       test('useFormInject(formAttrs)', () => {
-        const fn = useFormInject(
-          computed(() => ({
-            myAttr: 'MyAttrValue'
-          }))
-        )
+        const fn = useFormInject(() => ({
+          myAttr: 'MyAttrValue'
+        }))
 
         const acc = []
 
@@ -80,26 +77,26 @@ describe('[useForm API]', () => {
 
     describe('[(function)useFormInputNameAttr]', () => {
       test('useFormInputNameAttr({ name })', () => {
-        const { value: result } = useFormInputNameAttr({
+        const result = useFormInputNameAttr({
           name: 'MyName'
-        })
+        })()
 
         expect(result).toBe('MyName')
       })
 
       test('useFormInputNameAttr({ for })', () => {
-        const { value: result } = useFormInputNameAttr({
+        const result = useFormInputNameAttr({
           for: 'MyFor'
-        })
+        })()
 
         expect(result).toBe('MyFor')
       })
 
       test('useFormInputNameAttr({ name, for })', () => {
-        const { value: result } = useFormInputNameAttr({
+        const result = useFormInputNameAttr({
           name: 'MyName',
           for: 'MyFor'
-        })
+        })()
 
         expect(result).toBe('MyName')
       })

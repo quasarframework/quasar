@@ -1706,7 +1706,7 @@ export default /*#__PURE__*/ createComponent({
         }
 
         if (
-          nameProp.value !== void 0 &&
+          nameProp() !== void 0 &&
           !props.disable &&
           innerOptionsValue.value.length !== 0
         ) {
@@ -1719,7 +1719,7 @@ export default /*#__PURE__*/ createComponent({
               'select',
               {
                 class: 'hidden',
-                name: nameProp.value,
+                name: nameProp(),
                 multiple: props.multiple
               },
               opts

@@ -78,11 +78,11 @@ export default /*#__PURE__*/ createComponent({
       () => props.options.find(opt => opt.value === props.modelValue) !== void 0
     )
 
-    const formAttrs = computed(() => ({
+    const formAttrs = () => ({
       type: 'hidden',
       name: props.name,
       value: props.modelValue
-    }))
+    })
 
     const injectFormInput = useFormInject(formAttrs)
 

@@ -161,7 +161,7 @@ export default /*#__PURE__*/ createComponent({
         'data-autofocus': props.autofocus || void 0,
         rows: props.type === 'textarea' ? 6 : void 0,
         'aria-label': props.label,
-        name: nameProp.value,
+        name: nameProp(),
         ...state.splitAttrs.attributes.value,
         id: state.targetUid.value,
         maxlength: props.maxlength,

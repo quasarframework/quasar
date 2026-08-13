@@ -254,7 +254,7 @@ export default /*#__PURE__*/ createComponent({
     const formAttrs = useFormAttrs(props)
 
     function getNameInput() {
-      return h('input', formAttrs.value)
+      return h('input', formAttrs())
     }
 
     return () => {

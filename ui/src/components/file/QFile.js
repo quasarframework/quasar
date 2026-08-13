@@ -110,7 +110,7 @@ export default /*#__PURE__*/ createComponent({
         title: '', // try to remove default tooltip,
         accept: props.accept,
         capture: props.capture,
-        name: nameProp.value,
+        name: nameProp(),
         ...attrs,
         id: state.targetUid.value,
         disabled: !state.editable.value

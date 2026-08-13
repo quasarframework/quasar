@@ -109,7 +109,7 @@ export default /*#__PURE__*/ createComponent({
 
     const tabindex = computed(() => (props.disable ? -1 : props.tabindex || 0))
 
-    const formAttrs = computed(() => {
+    const formAttrs = () => {
       const prop = { type: 'radio' }
 
       if (props.name !== void 0) {
@@ -123,7 +123,7 @@ export default /*#__PURE__*/ createComponent({
       }
 
       return prop
-    })
+    }
 
     const injectFormInput = useFormInject(formAttrs)
 

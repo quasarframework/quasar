@@ -114,7 +114,7 @@ export default function useCheckbox(type, getInner) {
     return `q-${type}__inner relative-position non-selectable q-${type}__inner--${state}${color}`
   })
 
-  const formAttrs = computed(() => {
+  const formAttrs = () => {
     const prop = { type: 'checkbox' }
 
     if (props.name !== void 0) {
@@ -128,7 +128,7 @@ export default function useCheckbox(type, getInner) {
     }
 
     return prop
-  })
+  }
 
   const injectFormInput = useFormInject(formAttrs)
 

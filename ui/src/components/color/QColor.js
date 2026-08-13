@@ -234,11 +234,11 @@ export default /*#__PURE__*/ createComponent({
       forceHex.value !== null ? forceHex.value : isHex.value
     )
 
-    const formAttrs = computed(() => ({
+    const formAttrs = () => ({
       type: 'hidden',
       name: props.name,
       value: model.value[isOutputHex.value ? 'hex' : 'rgb']
-    }))
+    })
 
     const injectFormInput = useFormInject(formAttrs)
 
