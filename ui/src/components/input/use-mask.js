@@ -12,6 +12,27 @@ const NAMED_MASKS = {
   card: '#### #### #### ####'
 }
 
+// allocation-free equivalents of the ASCII-only built-in token patterns;
+// any other pattern falls back to the RegExp built from it
+const patternTesters = {
+  '[\\d]': char => {
+    const code = char.codePointAt(0)
+    return code > 47 && code < 58
+  },
+  '[a-zA-Z]': char => {
+    const code = char.codePointAt(0)
+    return (code > 64 && code < 91) || (code > 96 && code < 123)
+  },
+  '[0-9a-zA-Z]': char => {
+    const code = char.codePointAt(0)
+    return (
+      (code > 47 && code < 58) ||
+      (code > 64 && code < 91) ||
+      (code > 96 && code < 123)
+    )
+  }
+}
+
 const { tokenMap: DEFAULT_TOKEN_MAP, tokenKeys: DEFAULT_TOKEN_MAP_KEYS } =
   /*#__PURE__*/ getTokenMap({
     '#': { pattern: '[\\d]', negate: '[^\\d]' },
@@ -48,10 +69,16 @@ function getTokenMap(tokens) {
 
   tokenKeys.forEach(key => {
     const entry = tokens[key]
-    tokenMap[key] = {
-      ...entry,
-      regex: new RegExp(entry.pattern)
+    let test
+
+    if (Object.hasOwn(patternTesters, entry.pattern)) {
+      test = patternTesters[entry.pattern]
+    } else {
+      const regex = new RegExp(entry.pattern)
+      test = char => regex.test(char)
     }
+
+    tokenMap[key] = { ...entry, test }
   })
 
   return { tokenMap, tokenKeys }
@@ -625,7 +652,7 @@ export default function useMask(props, emit, emitValue, inputRef) {
         if (updateMaskInternalsFlag === true && valChar === maskDef) {
           valIndex++
         }
-      } else if (valChar !== void 0 && maskDef.regex.test(valChar)) {
+      } else if (valChar !== void 0 && maskDef.test(valChar)) {
         output +=
           maskDef.transform !== void 0 ? maskDef.transform(valChar) : valChar
         valIndex++
@@ -659,7 +686,7 @@ export default function useMask(props, emit, emitValue, inputRef) {
         if (updateMaskInternalsFlag === true && valChar === maskDef) {
           valIndex--
         }
-      } else if (valChar !== void 0 && maskDef.regex.test(valChar)) {
+      } else if (valChar !== void 0 && maskDef.test(valChar)) {
         do {
           output =
             (maskDef.transform !== void 0
@@ -671,7 +698,7 @@ export default function useMask(props, emit, emitValue, inputRef) {
           // oxlint-disable-next-line no-unmodified-loop-condition
           firstTokenIndex === maskIndex &&
           valChar !== void 0 &&
-          maskDef.regex.test(valChar)
+          maskDef.test(valChar)
         )
       } else {
         return output

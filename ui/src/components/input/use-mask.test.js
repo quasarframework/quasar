@@ -125,6 +125,16 @@ describe('[useMask API]', () => {
       })
 
       test.each([
+        ['digits', '###', '٣٤٥'],
+        ['letters', 'SSS', 'éàü'],
+        ['alphanumerics', 'NNN', 'é３ü']
+      ])('rejects non-ASCII %s', (_, maskDef, modelValue) => {
+        const { mask } = createMask({ modelValue, mask: maskDef })
+
+        expect(mask.innerValue.value).toBe('')
+      })
+
+      test.each([
         ['date', '2020/01/02', '20200102'],
         ['datetime', '2020/01/02 03:04', '202001020304'],
         ['time', '03:04', '0304'],
