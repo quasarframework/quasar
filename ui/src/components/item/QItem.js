@@ -1,4 +1,4 @@
-import { computed, h, inject, ref } from 'vue'
+import { h, inject, ref } from 'vue'
 
 import useQuasar from '../../composables/use-quasar/use-quasar.js'
 import useDark, {
@@ -55,15 +55,17 @@ export default /*#__PURE__*/ createComponent({
     const rootRef = ref(null)
     const blurTargetRef = ref(null)
 
-    const isActionable = computed(
-      () => props.clickable || hasLink.value || props.tag === 'label'
-    )
+    function isActionable() {
+      return props.clickable || hasLink.value || props.tag === 'label'
+    }
 
-    const isClickable = computed(() => !props.disable && isActionable.value)
+    function isClickable() {
+      return !props.disable && isActionable()
+    }
 
     const listRole = inject(listKey, null)
 
-    const role = computed(() => {
+    function getRole(actionable, clickable) {
       if (props.role !== void 0) return props.role
 
       const ctx = listRole !== null ? listRole.value : null
@@ -72,48 +74,19 @@ export default /*#__PURE__*/ createComponent({
         // actionable entries (including disabled ones, which stay
         // perceivable through aria-disabled) are the menu's items;
         // anything else (headers, ...) stays generic
-        return isActionable.value ? 'menuitem' : void 0
+        return actionable ? 'menuitem' : void 0
       }
 
       if (hasLink.value) return void 0 // implicit link role of <a>
-      if (isClickable.value) return 'button'
+      if (clickable) return 'button'
 
       // the listitem role requires an ancestor with list semantics,
       // so it may only be claimed inside such a QList
       return ctx === 'list' ? 'listitem' : void 0
-    })
-
-    const classes = computed(
-      () =>
-        'q-item q-item-type row no-wrap' +
-        (props.dense ? ' q-item--dense' : '') +
-        (isDark() ? ' q-item--dark' : '') +
-        (hasLink.value && props.active === null
-          ? linkClass.value
-          : props.active
-            ? ` q-item--active${props.activeClass !== void 0 ? ` ${props.activeClass}` : ''}`
-            : '') +
-        (props.disable ? ' disabled' : '') +
-        (isClickable.value
-          ? ' q-item--clickable q-link cursor-pointer ' +
-            (props.manualFocus
-              ? 'q-manual-focusable'
-              : 'q-focusable q-hoverable') +
-            (props.focused ? ' q-manual-focusable--focused' : '')
-          : '')
-    )
-
-    const style = computed(() => {
-      if (props.insetLevel === void 0) return null
-
-      const dir = $q.lang.rtl ? 'Right' : 'Left'
-      return {
-        ['padding' + dir]: 16 + props.insetLevel * 56 + 'px'
-      }
-    })
+    }
 
     function onClick(e) {
-      if (isClickable.value) {
+      if (isClickable()) {
         if (blurTargetRef.value !== null && !e.qAvoidFocus) {
           if (!e.qKeyEvent && document.activeElement === rootRef.value) {
             blurTargetRef.value.focus({ preventScroll: true })
@@ -127,7 +100,7 @@ export default /*#__PURE__*/ createComponent({
     }
 
     function onKeyup(e) {
-      if (isClickable.value && isKeyCode(e, [13, 32])) {
+      if (isClickable() && isKeyCode(e, [13, 32])) {
         stopAndPrevent(e)
 
         // for ripple
@@ -143,13 +116,13 @@ export default /*#__PURE__*/ createComponent({
     }
 
     function onKeydown(e) {
-      if (isClickable.value && e.keyCode === 32) stopAndPrevent(e)
+      if (isClickable() && e.keyCode === 32) stopAndPrevent(e)
     }
 
-    function getContent() {
+    function getContent(clickable) {
       const child = hUniqueSlot(slots.default, [])
 
-      if (isClickable.value) {
+      if (clickable) {
         child.unshift(
           h('div', {
             class: 'q-focus-helper',
@@ -163,17 +136,42 @@ export default /*#__PURE__*/ createComponent({
     }
 
     return () => {
+      const actionable = isActionable()
+      const clickable = !props.disable && actionable
+
       const data = {
         ref: rootRef,
-        class: classes.value,
-        style: style.value,
-        role: role.value,
+        class:
+          'q-item q-item-type row no-wrap' +
+          (props.dense ? ' q-item--dense' : '') +
+          (isDark() ? ' q-item--dark' : '') +
+          (hasLink.value && props.active === null
+            ? linkClass.value
+            : props.active
+              ? ` q-item--active${props.activeClass !== void 0 ? ` ${props.activeClass}` : ''}`
+              : '') +
+          (props.disable ? ' disabled' : '') +
+          (clickable
+            ? ' q-item--clickable q-link cursor-pointer ' +
+              (props.manualFocus
+                ? 'q-manual-focusable'
+                : 'q-focusable q-hoverable') +
+              (props.focused ? ' q-manual-focusable--focused' : '')
+            : ''),
+        style:
+          props.insetLevel !== void 0
+            ? {
+                ['padding' + ($q.lang.rtl ? 'Right' : 'Left')]:
+                  16 + props.insetLevel * 56 + 'px'
+              }
+            : null,
+        role: getRole(actionable, clickable),
         // bound regardless of clickability: bubbled key events from
         // inner content emit "keyup" as part of the public contract
         onKeyup
       }
 
-      if (isClickable.value) {
+      if (clickable) {
         // pointer listeners on a non-interactive element would flag
         // WCAG keyboard-accessibility checks, so bind them only when
         // the item is truly interactive
@@ -181,11 +179,11 @@ export default /*#__PURE__*/ createComponent({
         data.onKeydown = onKeydown
         data.tabindex = props.tabindex || '0'
         Object.assign(data, linkAttrs.value)
-      } else if (isActionable.value) {
+      } else if (actionable) {
         data['aria-disabled'] = 'true'
       }
 
-      return h(linkTag.value, data, getContent())
+      return h(linkTag.value, data, getContent(clickable))
     }
   }
 })
