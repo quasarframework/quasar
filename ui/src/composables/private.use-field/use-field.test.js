@@ -435,7 +435,7 @@ describe('[useField API]', () => {
           changeEvent: false,
           tag: { value: 'label' },
 
-          isDark: expect.$ref(false),
+          isDark: expect.any(Function),
           editable: expect.$ref(true),
 
           innerLoading: expect.$ref(false),

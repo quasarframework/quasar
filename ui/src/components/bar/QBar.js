@@ -24,7 +24,7 @@ export default /*#__PURE__*/ createComponent({
       () =>
         'q-bar row no-wrap items-center' +
         ` q-bar--${props.dense ? 'dense' : 'standard'} ` +
-        ` q-bar--${isDark.value ? 'dark' : 'light'}`
+        ` q-bar--${isDark() ? 'dark' : 'light'}`
     )
 
     return () =>

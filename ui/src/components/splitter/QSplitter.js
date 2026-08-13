@@ -69,7 +69,7 @@ export default /*#__PURE__*/ createComponent({
         'q-splitter no-wrap ' +
         `${props.horizontal ? 'q-splitter--horizontal column' : 'q-splitter--vertical row'}` +
         ` q-splitter--${props.disable ? 'disabled' : 'workable'}` +
-        (isDark.value ? ' q-splitter--dark' : '')
+        (isDark() ? ' q-splitter--dark' : '')
     )
 
     const propName = computed(() => (props.horizontal ? 'height' : 'width'))

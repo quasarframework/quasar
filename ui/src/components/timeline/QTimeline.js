@@ -43,7 +43,7 @@ export default /*#__PURE__*/ createComponent({
     const classes = computed(
       () =>
         `q-timeline q-timeline--${props.layout} q-timeline--${props.layout}--${props.side}` +
-        (isDark.value ? ' q-timeline--dark' : '')
+        (isDark() ? ' q-timeline--dark' : '')
     )
 
     return () => h('ul', { class: classes.value }, hSlot(slots.default))

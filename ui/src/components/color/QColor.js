@@ -284,7 +284,7 @@ export default /*#__PURE__*/ createComponent({
         (props.square ? ' q-color-picker--square no-border-radius' : '') +
         (props.flat ? ' q-color-picker--flat no-shadow' : '') +
         (props.disable ? ' disabled' : '') +
-        (isDark.value ? ' q-color-picker--dark q-dark' : '')
+        (isDark() ? ' q-color-picker--dark q-dark' : '')
     )
 
     const attributes = computed(() =>
@@ -856,7 +856,7 @@ export default /*#__PURE__*/ createComponent({
             min: 0,
             max: 255,
             color: 'red',
-            dark: isDark.value,
+            dark: isDark(),
             readonly: !editable.value,
             ...getCache('rSlide', {
               'onUpdate:modelValue': value => onNumericChange(value, 'r', 255),
@@ -883,7 +883,7 @@ export default /*#__PURE__*/ createComponent({
             min: 0,
             max: 255,
             color: 'green',
-            dark: isDark.value,
+            dark: isDark(),
             readonly: !editable.value,
             ...getCache('gSlide', {
               'onUpdate:modelValue': value => onNumericChange(value, 'g', 255),
@@ -911,7 +911,7 @@ export default /*#__PURE__*/ createComponent({
             max: 255,
             color: 'blue',
             readonly: !editable.value,
-            dark: isDark.value,
+            dark: isDark(),
             ...getCache('bSlide', {
               'onUpdate:modelValue': value => onNumericChange(value, 'b', 255),
               onChange: value => onNumericChange(value, 'b', 255, void 0, true)
@@ -937,7 +937,7 @@ export default /*#__PURE__*/ createComponent({
                 modelValue: model.value.a,
                 color: 'grey',
                 readonly: !editable.value,
-                dark: isDark.value,
+                dark: isDark(),
                 ...getCache('aSlide', {
                   'onUpdate:modelValue': value =>
                     onNumericChange(value, 'a', 100),

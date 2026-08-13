@@ -115,7 +115,7 @@ export default /*#__PURE__*/ createComponent({
           ? ' q-chip--clickable cursor-pointer non-selectable q-hoverable'
           : '') +
         (props.square ? ' q-chip--square' : '') +
-        (isDark.value ? ' q-chip--dark q-dark' : '')
+        (isDark() ? ' q-chip--dark q-dark' : '')
       )
     })
 

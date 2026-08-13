@@ -37,7 +37,7 @@ export default /*#__PURE__*/ createComponent({
       () =>
         'q-markup-table q-table__container q-table__card' +
         ` q-table--${props.separator}-separator` +
-        (isDark.value ? ' q-table--dark q-table__card--dark q-dark' : '') +
+        (isDark() ? ' q-table--dark q-table__card--dark q-dark' : '') +
         (props.dense ? ' q-table--dense' : '') +
         (props.flat ? ' q-table--flat' : '') +
         (props.bordered ? ' q-table--bordered' : '') +

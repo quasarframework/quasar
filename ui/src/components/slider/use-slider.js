@@ -186,7 +186,7 @@ export default function useSlider({
       (focus.value === 'both' ? ' q-slider--focus' : '') +
       (props.label || props.labelAlways ? ' q-slider--label' : '') +
       (props.labelAlways ? ' q-slider--label-always' : '') +
-      (isDark.value ? ' q-slider--dark' : '') +
+      (isDark() ? ' q-slider--dark' : '') +
       (props.dense ? ' q-slider--dense q-slider--dense' + axis.value : '')
   )
 

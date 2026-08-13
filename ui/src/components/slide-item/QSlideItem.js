@@ -65,7 +65,7 @@ export default /*#__PURE__*/ createComponent({
     const classes = computed(
       () =>
         'q-slide-item q-item-type overflow-hidden' +
-        (isDark.value ? ' q-slide-item--dark q-dark' : '')
+        (isDark() ? ' q-slide-item--dark q-dark' : '')
     )
 
     function reset() {

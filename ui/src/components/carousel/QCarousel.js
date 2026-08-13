@@ -112,7 +112,7 @@ export default /*#__PURE__*/ createComponent({
       () =>
         `q-carousel q-panel-parent q-carousel--with${props.padding ? '' : 'out'}-padding` +
         (inFullscreen.value ? ' fullscreen' : '') +
-        (isDark.value ? ' q-carousel--dark q-dark' : '') +
+        (isDark() ? ' q-carousel--dark q-dark' : '') +
         (props.arrows ? ` q-carousel--arrows-${direction.value}` : '') +
         (props.navigation
           ? ` q-carousel--navigation-${navigationPosition.value}`

@@ -534,7 +534,7 @@ export default /*#__PURE__*/ createComponent({
         (props.square ? ' q-editor--square no-border-radius' : '') +
         (props.flat ? ' q-editor--flat' : '') +
         (props.dense ? ' q-editor--dense' : '') +
-        (isDark.value ? ' q-editor--dark q-dark' : '')
+        (isDark() ? ' q-editor--dark q-dark' : '')
     )
 
     const innerClass = computed(() => [

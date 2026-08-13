@@ -135,7 +135,7 @@ export default /*#__PURE__*/ createComponent({
     const targetRef = ref(null)
 
     const classes = computed(
-      () => 'q-scrollarea' + (isDark.value ? ' q-scrollarea--dark' : '')
+      () => 'q-scrollarea' + (isDark() ? ' q-scrollarea--dark' : '')
     )
 
     Object.assign(container, {

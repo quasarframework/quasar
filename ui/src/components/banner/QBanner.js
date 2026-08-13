@@ -27,7 +27,7 @@ export default /*#__PURE__*/ createComponent({
       () =>
         'q-banner row items-center' +
         (props.dense ? ' q-banner--dense' : '') +
-        (isDark.value ? ' q-banner--dark q-dark' : '') +
+        (isDark() ? ' q-banner--dark q-dark' : '') +
         (props.rounded ? ' rounded-borders' : '')
     )
 

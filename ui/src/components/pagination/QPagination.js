@@ -492,7 +492,7 @@ export default /*#__PURE__*/ createComponent({
                     dense: true,
                     value: newPage.value,
                     disable: props.disable,
-                    dark: isDark.value,
+                    dark: isDark(),
                     borderless: true,
                     inputClass: props.inputClass,
                     inputStyle: props.inputStyle,

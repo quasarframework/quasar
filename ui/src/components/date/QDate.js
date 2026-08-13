@@ -180,7 +180,7 @@ export default /*#__PURE__*/ createComponent({
       const type = props.landscape ? 'landscape' : 'portrait'
       return (
         `q-date q-date--${type} q-date--${type}-${props.minimal ? 'minimal' : 'standard'}` +
-        (isDark.value ? ' q-date--dark q-dark' : '') +
+        (isDark() ? ' q-date--dark q-dark' : '') +
         (props.bordered ? ' q-date--bordered' : '') +
         (props.square ? ' q-date--square no-border-radius' : '') +
         (props.flat ? ' q-date--flat no-shadow' : '') +

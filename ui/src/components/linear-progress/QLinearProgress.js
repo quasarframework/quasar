@@ -85,7 +85,7 @@ export default /*#__PURE__*/ createComponent({
       () =>
         'q-linear-progress__track absolute-full' +
         ` q-linear-progress__track--${transitionSuffix.value}` +
-        ` q-linear-progress__track--${isDark.value ? 'dark' : 'light'}` +
+        ` q-linear-progress__track--${isDark() ? 'dark' : 'light'}` +
         (props.trackColor !== void 0 ? ` bg-${props.trackColor}` : '')
     )
 

@@ -267,7 +267,7 @@ export default /*#__PURE__*/ createComponent({
       () =>
         `q-tree q-tree--${props.dense ? 'dense' : 'standard'}` +
         (props.noConnectors ? ' q-tree--no-connectors' : '') +
-        (isDark.value ? ' q-tree--dark' : '') +
+        (isDark() ? ' q-tree--dark' : '') +
         (props.color !== void 0 ? ` text-${props.color}` : '')
     )
 
@@ -1072,7 +1072,7 @@ export default /*#__PURE__*/ createComponent({
         node,
         key,
         color: props.color,
-        dark: isDark.value
+        dark: isDark()
       }
 
       injectProp(
@@ -1218,7 +1218,7 @@ export default /*#__PURE__*/ createComponent({
                 class: 'q-tree__tickbox',
                 modelValue: m.indeterminate === true ? null : m.ticked,
                 color: computedControlColor.value,
-                dark: isDark.value,
+                dark: isDark(),
                 dense: true,
                 keepColor: true,
                 disable: !m.tickable,

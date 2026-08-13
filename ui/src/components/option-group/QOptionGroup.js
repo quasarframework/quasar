@@ -106,7 +106,7 @@ export default /*#__PURE__*/ createComponent({
         color: opt.color === void 0 ? props.color : opt.color,
         checkedIcon: opt.checkedIcon,
         uncheckedIcon: opt.uncheckedIcon,
-        dark: opt.dark === void 0 ? isDark.value : opt.dark,
+        dark: opt.dark === void 0 ? isDark() : opt.dark,
         size: opt.size === void 0 ? props.size : opt.size,
         dense: props.dense,
         keepColor: opt.keepColor === void 0 ? props.keepColor : opt.keepColor

@@ -186,7 +186,7 @@ export default /*#__PURE__*/ createComponent({
     const classes = computed(
       () =>
         `q-time q-time--${props.landscape ? 'landscape' : 'portrait'}` +
-        (isDark.value ? ' q-time--dark q-dark' : '') +
+        (isDark() ? ' q-time--dark q-dark' : '') +
         (props.disable
           ? ' disabled'
           : props.readonly

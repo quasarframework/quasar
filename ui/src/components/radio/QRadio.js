@@ -86,7 +86,7 @@ export default /*#__PURE__*/ createComponent({
       () =>
         'q-radio cursor-pointer no-outline row inline no-wrap items-center' +
         (props.disable ? ' disabled' : '') +
-        (isDark.value ? ' q-radio--dark' : '') +
+        (isDark() ? ' q-radio--dark' : '') +
         (props.dense ? ' q-radio--dense' : '') +
         (props.leftLabel ? ' reverse' : '')
     )

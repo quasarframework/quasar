@@ -87,7 +87,7 @@ export default /*#__PURE__*/ createComponent({
       () =>
         'q-item q-item-type row no-wrap' +
         (props.dense ? ' q-item--dense' : '') +
-        (isDark.value ? ' q-item--dark' : '') +
+        (isDark() ? ' q-item--dark' : '') +
         (hasLink.value && props.active === null
           ? linkClass.value
           : props.active

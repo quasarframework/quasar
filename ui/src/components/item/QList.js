@@ -53,7 +53,7 @@ export default /*#__PURE__*/ createComponent({
         (props.bordered ? ' q-list--bordered' : '') +
         (props.dense ? ' q-list--dense' : '') +
         (props.separator ? ' q-list--separator' : '') +
-        (isDark.value ? ' q-list--dark' : '') +
+        (isDark() ? ' q-list--dark' : '') +
         (props.padding ? ' q-list--padding' : '')
     )
 

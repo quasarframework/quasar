@@ -272,7 +272,7 @@ export default /*#__PURE__*/ createComponent({
     })
 
     const isOptionsDark = computed(() =>
-      props.optionsDark === null ? state.isDark.value : props.optionsDark
+      props.optionsDark === null ? state.isDark() : props.optionsDark
     )
 
     const hasValue = computed(() => fieldValueIsFilled(innerValue.value))

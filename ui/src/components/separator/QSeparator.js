@@ -52,7 +52,7 @@ export default /*#__PURE__*/ createComponent({
       () =>
         `q-separator${orientClass.value}${insetClass.value}` +
         (props.color !== void 0 ? ` bg-${props.color}` : '') +
-        (isDark.value ? ' q-separator--dark' : '')
+        (isDark() ? ' q-separator--dark' : '')
     )
 
     const style = computed(() => {

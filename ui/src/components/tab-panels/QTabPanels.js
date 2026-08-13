@@ -31,7 +31,7 @@ export default /*#__PURE__*/ createComponent({
     const classes = computed(
       () =>
         'q-tab-panels q-panel-parent' +
-        (isDark.value ? ' q-tab-panels--dark q-dark' : '')
+        (isDark() ? ' q-tab-panels--dark q-dark' : '')
     )
 
     return () => {

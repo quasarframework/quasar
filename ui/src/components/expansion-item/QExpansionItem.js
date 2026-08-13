@@ -326,7 +326,7 @@ export default /*#__PURE__*/ createComponent({
         ref: 'item',
         style: props.headerStyle,
         class: props.headerClass,
-        dark: isDark.value,
+        dark: isDark(),
         disable: props.disable,
         dense: props.dense,
         insetLevel: props.headerInsetLevel
@@ -381,12 +381,12 @@ export default /*#__PURE__*/ createComponent({
           h(QSeparator, {
             class:
               'q-expansion-item__border q-expansion-item__border--top absolute-top',
-            dark: isDark.value
+            dark: isDark()
           }),
           h(QSeparator, {
             class:
               'q-expansion-item__border q-expansion-item__border--bottom absolute-bottom',
-            dark: isDark.value
+            dark: isDark()
           })
         )
       }

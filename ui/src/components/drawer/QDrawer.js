@@ -319,7 +319,7 @@ export default /*#__PURE__*/ createComponent({
         `q-drawer q-drawer--${props.side}` +
         (flagMiniAnimate.value ? ' q-drawer--mini-animate' : '') +
         (props.bordered ? ' q-drawer--bordered' : '') +
-        (isDark.value ? ' q-drawer--dark q-dark' : '') +
+        (isDark() ? ' q-drawer--dark q-dark' : '') +
         (flagPanning.value
           ? ' no-transition'
           : showing.value

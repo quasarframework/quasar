@@ -184,7 +184,7 @@ export function getRenderer(getPlugin, expose) {
   const classes = computed(
     () =>
       'q-uploader column no-wrap' +
-      (isDark.value ? ' q-uploader--dark q-dark' : '') +
+      (isDark() ? ' q-uploader--dark q-dark' : '') +
       (props.bordered ? ' q-uploader--bordered' : '') +
       (props.square ? ' q-uploader--square no-border-radius' : '') +
       (props.flat ? ' q-uploader--flat no-shadow' : '') +

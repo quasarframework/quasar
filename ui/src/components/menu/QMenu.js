@@ -200,7 +200,7 @@ export default /*#__PURE__*/ createComponent({
     const menuClass = computed(
       () =>
         (props.square ? ' q-menu--square' : '') +
-        (isDark.value ? ' q-menu--dark q-dark' : '')
+        (isDark() ? ' q-menu--dark q-dark' : '')
     )
 
     const onEvents = computed(() =>

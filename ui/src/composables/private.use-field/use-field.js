@@ -290,7 +290,7 @@ export default function useField(state) {
       (hasLabel.value ? ' q-field--labeled' : '') +
       (props.dense ? ' q-field--dense' : '') +
       (props.itemAligned ? ' q-field--item-aligned q-item-type' : '') +
-      (state.isDark.value ? ' q-field--dark' : '') +
+      (state.isDark() ? ' q-field--dark' : '') +
       (state.getControl === void 0 ? ' q-field--auto-height' : '') +
       (state.focused.value ? ' q-field--focused' : '') +
       (hasError.value ? ' q-field--error' : '') +

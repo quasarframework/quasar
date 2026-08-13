@@ -83,7 +83,7 @@ export default /*#__PURE__*/ createComponent({
         `q-stepper q-stepper--${props.vertical ? 'vertical' : 'horizontal'}` +
         (props.flat ? ' q-stepper--flat' : '') +
         (props.bordered ? ' q-stepper--bordered' : '') +
-        (isDark.value ? ' q-stepper--dark q-dark' : '')
+        (isDark() ? ' q-stepper--dark q-dark' : '')
     )
 
     const headerClasses = computed(

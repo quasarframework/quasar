@@ -65,7 +65,7 @@ export default /*#__PURE__*/ createComponent({
         return action.label === void 0
           ? h(QSeparator, {
               class: 'col-all',
-              dark: isDark.value
+              dark: isDark()
             })
           : h(
               'div',
@@ -107,7 +107,7 @@ export default /*#__PURE__*/ createComponent({
         const img = action.avatar || action.img
 
         return action.label === void 0
-          ? h(QSeparator, { spaced: true, dark: isDark.value })
+          ? h(QSeparator, { spaced: true, dark: isDark() })
           : h(
               QItem,
               {
@@ -115,7 +115,7 @@ export default /*#__PURE__*/ createComponent({
                 style: action.style,
                 tabindex: 0,
                 clickable: true,
-                dark: isDark.value,
+                dark: isDark(),
                 onClick() {
                   onOk(action)
                 }
@@ -194,7 +194,7 @@ export default /*#__PURE__*/ createComponent({
           {
             class: [
               `q-bottom-sheet q-bottom-sheet--${props.grid ? 'grid' : 'list'}` +
-                (isDark.value ? ' q-bottom-sheet--dark q-dark' : ''),
+                (isDark() ? ' q-bottom-sheet--dark q-dark' : ''),
               props.cardClass
             ],
             style: props.cardStyle

@@ -75,12 +75,12 @@ export default /*#__PURE__*/ createComponent({
     const classes = computed(
       () =>
         'q-dialog-plugin' +
-        (isDark.value ? ' q-dialog-plugin--dark q-dark' : '') +
+        (isDark() ? ' q-dialog-plugin--dark q-dark' : '') +
         (props.progress !== false ? ' q-dialog-plugin--progress' : '')
     )
 
     const vmColor = computed(
-      () => props.color || (isDark.value ? 'amber' : 'primary')
+      () => props.color || (isDark() ? 'amber' : 'primary')
     )
 
     const spinner = computed(() =>
@@ -215,7 +215,7 @@ export default /*#__PURE__*/ createComponent({
           color: vmColor.value,
           dense: true,
           autofocus: true,
-          dark: isDark.value,
+          dark: isDark(),
           ...formProps.value,
           modelValue: model.value,
           'onUpdate:modelValue': onUpdateModel,
@@ -229,7 +229,7 @@ export default /*#__PURE__*/ createComponent({
         h(QOptionGroup, {
           color: vmColor.value,
           options: props.options.items,
-          dark: isDark.value,
+          dark: isDark(),
           ...formProps.value,
           modelValue: model.value,
           'onUpdate:modelValue': onUpdateModel
@@ -277,13 +277,13 @@ export default /*#__PURE__*/ createComponent({
         )
       } else if (props.options !== void 0) {
         child.push(
-          h(QSeparator, { dark: isDark.value }),
+          h(QSeparator, { dark: isDark() }),
           h(
             QCardSection,
             { class: 'scroll q-dialog-plugin__form' },
             getOptions
           ),
-          h(QSeparator, { dark: isDark.value })
+          h(QSeparator, { dark: isDark() })
         )
       }
 
@@ -301,7 +301,7 @@ export default /*#__PURE__*/ createComponent({
           {
             class: [classes.value, props.cardClass],
             style: props.cardStyle,
-            dark: isDark.value
+            dark: isDark()
           },
           getCardContent
         )

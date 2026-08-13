@@ -179,7 +179,7 @@ export default /*#__PURE__*/ createComponent({
     const cardDefaultClass = computed(
       () =>
         ' q-table__card' +
-        (isDark.value ? ' q-table__card--dark q-dark' : '') +
+        (isDark() ? ' q-table__card--dark q-dark' : '') +
         (props.square ? ' q-table--square' : '') +
         (props.flat ? ' q-table--flat' : '') +
         (props.bordered ? ' q-table--bordered' : '')
@@ -189,7 +189,7 @@ export default /*#__PURE__*/ createComponent({
       () =>
         `q-table__container q-table--${props.separator}-separator column no-wrap` +
         (props.grid ? ' q-table--grid' : cardDefaultClass.value) +
-        (isDark.value ? ' q-table--dark' : '') +
+        (isDark() ? ' q-table--dark' : '') +
         (props.dense ? ' q-table--dense' : '') +
         (props.wrapCells ? '' : ' q-table--no-wrap') +
         (inFullscreen.value ? ' fullscreen scroll' : '')
@@ -449,7 +449,7 @@ export default /*#__PURE__*/ createComponent({
         h(QLinearProgress, {
           class: 'q-table__linear-progress',
           color: props.color,
-          dark: isDark.value,
+          dark: isDark(),
           indeterminate: true,
           trackColor: 'transparent'
         })
@@ -508,7 +508,7 @@ export default /*#__PURE__*/ createComponent({
                 h(QCheckbox, {
                   modelValue: selected,
                   color: props.color,
-                  dark: isDark.value,
+                  dark: isDark(),
                   dense: props.dense,
                   'onUpdate:modelValue': (adding, evt) => {
                     updateSelection([key], [row], adding, evt)
@@ -603,7 +603,7 @@ export default /*#__PURE__*/ createComponent({
         sort,
         rowIndex: firstRowIndex.value + data.pageIndex,
         color: props.color,
-        dark: isDark.value,
+        dark: isDark(),
         dense: props.dense
       })
 
@@ -759,7 +759,7 @@ export default /*#__PURE__*/ createComponent({
                 h(QCheckbox, {
                   color: props.color,
                   modelValue: headerSelectedValue.value,
-                  dark: isDark.value,
+                  dark: isDark(),
                   dense: props.dense,
                   'onUpdate:modelValue': onMultipleSelectionSet
                 })
@@ -786,7 +786,7 @@ export default /*#__PURE__*/ createComponent({
         sort,
         colsMap: computedColsMap.value,
         color: props.color,
-        dark: isDark.value,
+        dark: isDark(),
         dense: props.dense
       })
 
@@ -926,7 +926,7 @@ export default /*#__PURE__*/ createComponent({
               options: computedRowsPerPageOptions.value,
               displayValue:
                 rowsPerPage === 0 ? $q.lang.table.allRows : rowsPerPage,
-              dark: isDark.value,
+              dark: isDark(),
               borderless: true,
               dense: true,
               optionsDense: true,
@@ -1056,7 +1056,7 @@ export default /*#__PURE__*/ createComponent({
                         h(QCheckbox, {
                           modelValue: scope.selected,
                           color: props.color,
-                          dark: isDark.value,
+                          dark: isDark(),
                           dense: props.dense,
                           'onUpdate:modelValue': (adding, evt) => {
                             updateSelection(
@@ -1071,7 +1071,7 @@ export default /*#__PURE__*/ createComponent({
 
                 child.unshift(
                   h('div', { class: 'q-table__grid-item-row' }, content),
-                  h(QSeparator, { dark: isDark.value })
+                  h(QSeparator, { dark: isDark() })
                 )
               }
 

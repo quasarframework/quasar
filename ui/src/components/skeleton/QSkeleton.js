@@ -89,7 +89,7 @@ export default /*#__PURE__*/ createComponent({
 
     const classes = computed(
       () =>
-        `q-skeleton q-skeleton--${isDark.value ? 'dark' : 'light'} q-skeleton--type-${props.type}` +
+        `q-skeleton q-skeleton--${isDark() ? 'dark' : 'light'} q-skeleton--type-${props.type}` +
         (props.animation !== 'none'
           ? ` q-skeleton--anim q-skeleton--anim-${props.animation}`
           : '') +

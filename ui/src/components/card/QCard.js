@@ -31,7 +31,7 @@ export default /*#__PURE__*/ createComponent({
     const classes = computed(
       () =>
         'q-card' +
-        (isDark.value ? ' q-card--dark q-dark' : '') +
+        (isDark() ? ' q-card--dark q-dark' : '') +
         (props.bordered ? ' q-card--bordered' : '') +
         (props.square ? ' q-card--square no-border-radius' : '') +
         (props.flat ? ' q-card--flat no-shadow' : '')

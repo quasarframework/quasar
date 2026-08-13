@@ -97,7 +97,7 @@ export default function useCheckbox(type, getInner) {
     () =>
       `q-${type} cursor-pointer no-outline row inline no-wrap items-center` +
       (props.disable ? ' disabled' : '') +
-      (isDark.value ? ` q-${type}--dark` : '') +
+      (isDark() ? ` q-${type}--dark` : '') +
       (props.dense ? ` q-${type}--dense` : '') +
       (props.leftLabel ? ' reverse' : '')
   )

@@ -1,5 +1,3 @@
-import { computed } from 'vue'
-
 export const useDarkProps = {
   dark: {
     type: Boolean,
@@ -7,7 +5,8 @@ export const useDarkProps = {
   }
 }
 
+// returns an isDark() getter; the $q.dark.isActive read stays reactive
+// by being tracked in whichever effect calls the getter
 export default function useDark(props, $q) {
-  // return isDark
-  return computed(() => (props.dark === null ? $q.dark.isActive : props.dark))
+  return () => (props.dark === null ? $q.dark.isActive : props.dark)
 }
