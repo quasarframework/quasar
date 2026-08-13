@@ -1,4 +1,4 @@
-import { h } from 'vue'
+import { computed, h } from 'vue'
 
 import QIcon from '../icon/QIcon.js'
 
@@ -48,15 +48,17 @@ export default /*#__PURE__*/ createComponent({
     const bgNode = createBgNode()
 
     function getInner(isTrue, isIndeterminate) {
-      return () => {
-        const icon =
+      const icon = computed(
+        () =>
           (isTrue.value
             ? props.checkedIcon
             : isIndeterminate.value
               ? props.indeterminateIcon
               : props.uncheckedIcon) || null
+      )
 
-        return icon !== null
+      return () =>
+        icon.value !== null
           ? [
               h(
                 'div',
@@ -68,13 +70,12 @@ export default /*#__PURE__*/ createComponent({
                 [
                   h(QIcon, {
                     class: 'q-checkbox__icon',
-                    name: icon
+                    name: icon.value
                   })
                 ]
               )
             ]
           : [bgNode]
-      }
     }
 
     return useCheckbox('checkbox', getInner)

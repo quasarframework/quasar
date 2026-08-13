@@ -1,5 +1,6 @@
 import {
   Transition,
+  computed,
   getCurrentInstance,
   h,
   onBeforeUnmount,
@@ -31,9 +32,6 @@ let touchTarget = null,
   keyboardTarget = null,
   mouseTarget = null
 
-const centeredRipple = { center: true }
-const uncenteredRipple = { center: false }
-
 function onLoadingEvt(evt) {
   stopAndPrevent(evt)
   evt.qSkipRipple = true
@@ -58,10 +56,10 @@ export default /*#__PURE__*/ createComponent({
     const $q = useQuasar()
 
     const {
-      getClasses,
-      getStyle,
-      getInnerClasses,
-      getAttributes,
+      classes,
+      style,
+      innerClasses,
+      attributes,
       hasLink,
       linkTag,
       navigateOnClick,
@@ -76,16 +74,32 @@ export default /*#__PURE__*/ createComponent({
       mouseTimer = null,
       clickCleanup = null
 
-    function getRipple() {
-      return props.disable || props.ripple === false
+    const hasLabel = computed(
+      () => props.label !== void 0 && props.label !== null && props.label !== ''
+    )
+
+    const ripple = computed(() =>
+      props.disable || props.ripple === false
         ? false
         : {
             keyCodes: hasLink.value ? [13, 32] : [13],
             ...(props.ripple === true ? {} : props.ripple)
           }
-    }
+    )
 
-    function getOnEvents() {
+    const rippleProps = computed(() => ({ center: props.round }))
+
+    const percentageStyle = computed(() => {
+      const val = Math.max(0, Math.min(100, props.percentage))
+      return val > 0
+        ? {
+            transition: 'transform 0.6s',
+            transform: `translateX(${val - 100}%)`
+          }
+        : {}
+    })
+
+    const onEvents = computed(() => {
       if (props.loading) {
         return {
           onMousedown: onLoadingEvt,
@@ -96,7 +110,7 @@ export default /*#__PURE__*/ createComponent({
         }
       }
 
-      if (isActionable()) {
+      if (isActionable.value) {
         const acc = {
           onClick,
           onKeydown,
@@ -116,7 +130,15 @@ export default /*#__PURE__*/ createComponent({
         // needed; especially for disabled <a> tags
         onClick: stopAndPrevent
       }
-    }
+    })
+
+    const nodeProps = computed(() => ({
+      ref: rootRef,
+      class: 'q-btn q-btn-item non-selectable no-outline ' + classes.value,
+      style: style.value,
+      ...attributes.value,
+      ...onEvents.value
+    }))
 
     function onClick(e) {
       // is it already destroyed?
@@ -315,27 +337,24 @@ export default /*#__PURE__*/ createComponent({
     // expose public methods
     Object.assign(proxy, {
       click: e => {
-        if (isActionable()) onClick(e)
+        if (isActionable.value) onClick(e)
       }
     })
 
     return () => {
-      const hasLabel =
-        props.label !== void 0 && props.label !== null && props.label !== ''
-
       let inner = []
 
       if (props.icon !== void 0) {
         inner.push(
           h(QIcon, {
             name: props.icon,
-            left: !props.stack && hasLabel,
+            left: !props.stack && hasLabel.value,
             role: 'img'
           })
         )
       }
 
-      if (hasLabel) {
+      if (hasLabel.value) {
         inner.push(h('span', { class: 'block' }, [props.label]))
       }
 
@@ -345,7 +364,7 @@ export default /*#__PURE__*/ createComponent({
         inner.push(
           h(QIcon, {
             name: props.iconRight,
-            right: !props.stack && hasLabel,
+            right: !props.stack && hasLabel.value,
             role: 'img'
           })
         )
@@ -359,8 +378,6 @@ export default /*#__PURE__*/ createComponent({
       ]
 
       if (props.loading && props.percentage !== void 0) {
-        const val = Math.max(0, Math.min(100, props.percentage))
-
         child.push(
           h(
             'span',
@@ -372,13 +389,7 @@ export default /*#__PURE__*/ createComponent({
             [
               h('span', {
                 class: 'q-btn__progress-indicator fit block',
-                style:
-                  val > 0
-                    ? {
-                        transition: 'transform 0.6s',
-                        transform: `translateX(${val - 100}%)`
-                      }
-                    : null
+                style: percentageStyle.value
               })
             ]
           )
@@ -391,7 +402,7 @@ export default /*#__PURE__*/ createComponent({
           {
             class:
               'q-btn__content text-center col items-center q-anchor--skip ' +
-              getInnerClasses()
+              innerClasses.value
           },
           inner
         )
@@ -421,21 +432,8 @@ export default /*#__PURE__*/ createComponent({
         )
       }
 
-      const data = {
-        ref: rootRef,
-        class: 'q-btn q-btn-item non-selectable no-outline ' + getClasses(),
-        style: getStyle(),
-        ...getAttributes(),
-        ...getOnEvents()
-      }
-
-      return withDirectives(h(linkTag.value, data, child), [
-        [
-          Ripple,
-          getRipple(),
-          void 0,
-          props.round ? centeredRipple : uncenteredRipple
-        ]
+      return withDirectives(h(linkTag.value, nodeProps.value, child), [
+        [Ripple, ripple.value, void 0, rippleProps.value]
       ])
     }
   }

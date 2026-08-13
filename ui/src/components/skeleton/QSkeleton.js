@@ -1,4 +1,4 @@
-import { h } from 'vue'
+import { computed, h } from 'vue'
 
 import useQuasar from '../../composables/use-quasar/use-quasar.js'
 import useDark, {
@@ -74,22 +74,35 @@ export default /*#__PURE__*/ createComponent({
     const $q = useQuasar()
     const isDark = useDark(props, $q)
 
+    const style = computed(() => {
+      const size =
+        props.size !== void 0
+          ? [props.size, props.size]
+          : [props.width, props.height]
+
+      return {
+        '--q-skeleton-speed': `${props.animationSpeed}ms`,
+        width: size[0],
+        height: size[1]
+      }
+    })
+
+    const classes = computed(
+      () =>
+        `q-skeleton q-skeleton--${isDark() ? 'dark' : 'light'} q-skeleton--type-${props.type}` +
+        (props.animation !== 'none'
+          ? ` q-skeleton--anim q-skeleton--anim-${props.animation}`
+          : '') +
+        (props.square ? ' q-skeleton--square' : '') +
+        (props.bordered ? ' q-skeleton--bordered' : '')
+    )
+
     return () =>
       h(
         props.tag,
         {
-          class:
-            `q-skeleton q-skeleton--${isDark() ? 'dark' : 'light'} q-skeleton--type-${props.type}` +
-            (props.animation !== 'none'
-              ? ` q-skeleton--anim q-skeleton--anim-${props.animation}`
-              : '') +
-            (props.square ? ' q-skeleton--square' : '') +
-            (props.bordered ? ' q-skeleton--bordered' : ''),
-          style: {
-            '--q-skeleton-speed': `${props.animationSpeed}ms`,
-            width: props.size !== void 0 ? props.size : props.width,
-            height: props.size !== void 0 ? props.size : props.height
-          }
+          class: classes.value,
+          style: style.value
         },
         hSlot(slots.default)
       )

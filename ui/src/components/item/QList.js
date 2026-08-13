@@ -33,30 +33,34 @@ export default /*#__PURE__*/ createComponent({
     const $q = useQuasar()
     const isDark = useDark(props, $q)
 
+    const role = computed(() =>
+      props.role !== void 0
+        ? props.role
+        : roleAttrExceptions.includes(props.tag)
+          ? null // ul/ol already have an implicit list role
+          : 'list'
+    )
+
     // the list semantics that QItem children derive their default role from
     provide(
       listKey,
       computed(() => (props.role !== void 0 ? props.role : 'list'))
     )
 
+    const classes = computed(
+      () =>
+        'q-list' +
+        (props.bordered ? ' q-list--bordered' : '') +
+        (props.dense ? ' q-list--dense' : '') +
+        (props.separator ? ' q-list--separator' : '') +
+        (isDark() ? ' q-list--dark' : '') +
+        (props.padding ? ' q-list--padding' : '')
+    )
+
     return () =>
       h(
         props.tag,
-        {
-          class:
-            'q-list' +
-            (props.bordered ? ' q-list--bordered' : '') +
-            (props.dense ? ' q-list--dense' : '') +
-            (props.separator ? ' q-list--separator' : '') +
-            (isDark() ? ' q-list--dark' : '') +
-            (props.padding ? ' q-list--padding' : ''),
-          role:
-            props.role !== void 0
-              ? props.role
-              : roleAttrExceptions.includes(props.tag)
-                ? null // ul/ol already have an implicit list role
-                : 'list'
-        },
+        { class: classes.value, role: role.value },
         hSlot(slots.default)
       )
   }

@@ -92,6 +92,27 @@ export default function useCheckbox(type, getInner) {
   )
 
   const isIndeterminate = computed(() => !isTrue.value && !isFalse.value)
+  const tabindex = computed(() => (props.disable ? -1 : props.tabindex || 0))
+  const classes = computed(
+    () =>
+      `q-${type} cursor-pointer no-outline row inline no-wrap items-center` +
+      (props.disable ? ' disabled' : '') +
+      (isDark() ? ` q-${type}--dark` : '') +
+      (props.dense ? ` q-${type}--dense` : '') +
+      (props.leftLabel ? ' reverse' : '')
+  )
+
+  const innerClass = computed(() => {
+    const state = isTrue.value ? 'truthy' : isFalse.value ? 'falsy' : 'indet'
+
+    const color =
+      props.color !== void 0 &&
+      (props.keepColor || (type === 'toggle' ? isTrue.value : !isFalse.value))
+        ? ` text-${props.color}`
+        : ''
+
+    return `q-${type}__inner relative-position non-selectable q-${type}__inner--${state}${color}`
+  })
 
   const formAttrs = () => {
     const prop = { type: 'checkbox' }
@@ -110,6 +131,29 @@ export default function useCheckbox(type, getInner) {
   }
 
   const injectFormInput = useFormInject(formAttrs)
+
+  const attributes = computed(() => {
+    const attrs = {
+      tabindex: tabindex.value,
+      role: type === 'toggle' ? 'switch' : 'checkbox',
+      'aria-label': props.label,
+      // the switch role does not allow "mixed"
+      // (AT would map it to "false" anyway)
+      'aria-checked': isIndeterminate.value
+        ? type === 'toggle'
+          ? 'false'
+          : 'mixed'
+        : isTrue.value
+          ? 'true'
+          : 'false'
+    }
+
+    if (props.disable) {
+      attrs['aria-disabled'] = 'true'
+    }
+
+    return attrs
+  })
 
   function onClick(e) {
     if (e !== void 0) {
@@ -160,9 +204,6 @@ export default function useCheckbox(type, getInner) {
   Object.assign(proxy, { toggle: onClick })
 
   return () => {
-    const trueState = isTrue.value
-    const falseState = isFalse.value
-
     const inner = getInnerContent()
 
     // the native input carries the value for a form submission (when a name
@@ -180,13 +221,7 @@ export default function useCheckbox(type, getInner) {
       h(
         'div',
         {
-          class:
-            `q-${type}__inner relative-position non-selectable q-${type}__inner--` +
-            (trueState ? 'truthy' : falseState ? 'falsy' : 'indet') +
-            (props.color !== void 0 &&
-            (props.keepColor || (type === 'toggle' ? trueState : !falseState))
-              ? ` text-${props.color}`
-              : ''),
+          class: innerClass.value,
           style: getOptionSizeStyle(props.size),
           'aria-hidden': 'true'
         },
@@ -215,36 +250,17 @@ export default function useCheckbox(type, getInner) {
       )
     }
 
-    const data = {
-      ref: rootRef,
-      class:
-        `q-${type} cursor-pointer no-outline row inline no-wrap items-center` +
-        (props.disable ? ' disabled' : '') +
-        (isDark() ? ` q-${type}--dark` : '') +
-        (props.dense ? ` q-${type}--dense` : '') +
-        (props.leftLabel ? ' reverse' : ''),
-      tabindex: props.disable ? -1 : props.tabindex || 0,
-      role: type === 'toggle' ? 'switch' : 'checkbox',
-      'aria-label': props.label,
-      // the switch role does not allow "mixed"
-      // (AT would map it to "false" anyway)
-      'aria-checked':
-        trueState || falseState
-          ? trueState
-            ? 'true'
-            : 'false'
-          : type === 'toggle'
-            ? 'false'
-            : 'mixed',
-      onClick,
-      onKeydown,
-      onKeyup
-    }
-
-    if (props.disable) {
-      data['aria-disabled'] = 'true'
-    }
-
-    return h('div', data, child)
+    return h(
+      'div',
+      {
+        ref: rootRef,
+        class: classes.value,
+        ...attributes.value,
+        onClick,
+        onKeydown,
+        onKeyup
+      },
+      child
+    )
   }
 }
