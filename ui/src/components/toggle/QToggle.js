@@ -1,4 +1,4 @@
-import { computed, h } from 'vue'
+import { h } from 'vue'
 
 import QIcon from '../icon/QIcon.js'
 
@@ -23,35 +23,33 @@ export default /*#__PURE__*/ createComponent({
 
   setup(props) {
     function getInner(isTrue, isIndeterminate) {
-      const icon = computed(
-        () =>
+      return () => {
+        const icon =
           (isTrue.value
             ? props.checkedIcon
             : isIndeterminate.value
               ? props.indeterminateIcon
               : props.uncheckedIcon) || props.icon
-      )
 
-      const color = computed(() => (isTrue.value ? props.iconColor : null))
+        return [
+          h('div', { class: 'q-toggle__track' }),
 
-      return () => [
-        h('div', { class: 'q-toggle__track' }),
-
-        h(
-          'div',
-          {
-            class: 'q-toggle__thumb absolute flex flex-center no-wrap'
-          },
-          icon.value !== void 0
-            ? [
-                h(QIcon, {
-                  name: icon.value,
-                  color: color.value
-                })
-              ]
-            : void 0
-        )
-      ]
+          h(
+            'div',
+            {
+              class: 'q-toggle__thumb absolute flex flex-center no-wrap'
+            },
+            icon !== void 0
+              ? [
+                  h(QIcon, {
+                    name: icon,
+                    color: isTrue.value ? props.iconColor : null
+                  })
+                ]
+              : void 0
+          )
+        ]
+      }
     }
 
     return useCheckbox('toggle', getInner)

@@ -1,4 +1,4 @@
-import { computed, getCurrentInstance, h, ref, toRaw } from 'vue'
+import { getCurrentInstance, h, ref, toRaw } from 'vue'
 
 import QIcon from '../icon/QIcon.js'
 
@@ -80,34 +80,9 @@ export default /*#__PURE__*/ createComponent({
     const rootRef = ref(null)
     const { refocusTargetEl, refocusTarget } = useRefocusTarget(props, rootRef)
 
-    const isTrue = computed(() => toRaw(props.modelValue) === toRaw(props.val))
-
-    const classes = computed(
-      () =>
-        'q-radio cursor-pointer no-outline row inline no-wrap items-center' +
-        (props.disable ? ' disabled' : '') +
-        (isDark() ? ' q-radio--dark' : '') +
-        (props.dense ? ' q-radio--dense' : '') +
-        (props.leftLabel ? ' reverse' : '')
-    )
-
-    const innerClass = computed(() => {
-      const color =
-        props.color !== void 0 && (props.keepColor || isTrue.value)
-          ? ` text-${props.color}`
-          : ''
-
-      return (
-        'q-radio__inner relative-position ' +
-        `q-radio__inner--${isTrue.value ? 'truthy' : 'falsy'}${color}`
-      )
-    })
-
-    const icon = computed(
-      () => (isTrue.value ? props.checkedIcon : props.uncheckedIcon) || null
-    )
-
-    const tabindex = computed(() => (props.disable ? -1 : props.tabindex || 0))
+    function isTrue() {
+      return toRaw(props.modelValue) === toRaw(props.val)
+    }
 
     const formAttrs = () => {
       const prop = { type: 'radio' }
@@ -115,8 +90,8 @@ export default /*#__PURE__*/ createComponent({
       if (props.name !== void 0) {
         Object.assign(prop, {
           // see https://vuejs.org/guide/extras/render-function.html#creating-vnodes (.prop)
-          '.checked': isTrue.value,
-          '^checked': isTrue.value ? 'checked' : void 0,
+          '.checked': isTrue(),
+          '^checked': isTrue() ? 'checked' : void 0,
           name: props.name,
           value: props.val
         })
@@ -133,7 +108,7 @@ export default /*#__PURE__*/ createComponent({
         refocusTarget(e)
       }
 
-      if (!props.disable && !isTrue.value) {
+      if (!props.disable && !isTrue()) {
         emit('update:modelValue', props.val, e)
       }
     }
@@ -150,8 +125,11 @@ export default /*#__PURE__*/ createComponent({
     const svg = createSvg()
 
     return () => {
+      const trueState = isTrue()
+      const icon = (trueState ? props.checkedIcon : props.uncheckedIcon) || null
+
       const content =
-        icon.value !== null
+        icon !== null
           ? [
               h(
                 'div',
@@ -163,7 +141,7 @@ export default /*#__PURE__*/ createComponent({
                 [
                   h(QIcon, {
                     class: 'q-radio__icon',
-                    name: icon.value
+                    name: icon
                   })
                 ]
               )
@@ -185,7 +163,12 @@ export default /*#__PURE__*/ createComponent({
         h(
           'div',
           {
-            class: innerClass.value,
+            class:
+              'q-radio__inner relative-position ' +
+              `q-radio__inner--${trueState ? 'truthy' : 'falsy'}` +
+              (props.color !== void 0 && (props.keepColor || trueState)
+                ? ` text-${props.color}`
+                : ''),
             style: getOptionSizeStyle(props.size),
             'aria-hidden': 'true'
           },
@@ -218,11 +201,16 @@ export default /*#__PURE__*/ createComponent({
         'div',
         {
           ref: rootRef,
-          class: classes.value,
-          tabindex: tabindex.value,
+          class:
+            'q-radio cursor-pointer no-outline row inline no-wrap items-center' +
+            (props.disable ? ' disabled' : '') +
+            (isDark() ? ' q-radio--dark' : '') +
+            (props.dense ? ' q-radio--dense' : '') +
+            (props.leftLabel ? ' reverse' : ''),
+          tabindex: props.disable ? -1 : props.tabindex || 0,
           role: 'radio',
           'aria-label': props.label,
-          'aria-checked': isTrue.value ? 'true' : 'false',
+          'aria-checked': trueState ? 'true' : 'false',
           'aria-disabled': props.disable ? 'true' : void 0,
           onClick,
           onKeydown,
