@@ -212,7 +212,9 @@ export default /*#__PURE__*/ createComponent({
         key: 'img_' + index,
         class: imgClass.value,
         style: imgStyle.value,
-        alt: props.alt,
+        // always emit alt: an absent attribute makes the image unnamed,
+        // whereas alt="" correctly marks it decorative
+        alt: props.alt !== void 0 ? props.alt : '',
         crossorigin: props.crossorigin,
         decoding: props.decoding,
         referrerpolicy: props.referrerpolicy,
@@ -331,12 +333,10 @@ export default /*#__PURE__*/ createComponent({
           key: 'main',
           class: classes.value,
           style: style.value,
-          // the img role requires an accessible name, so it is only
-          // claimed when "alt" provides one; without it the wrapper
-          // stays neutral (like a native <img alt="">)
-          ...(props.alt !== void 0
-            ? { role: 'img', 'aria-label': props.alt }
-            : {})
+          // the img role requires an accessible name, so it is only claimed
+          // when "alt" actually provides one; alt="" is the native way to
+          // mark an image decorative, so it leaves the wrapper neutral too
+          ...(props.alt ? { role: 'img', 'aria-label': props.alt } : {})
         },
         content
       )

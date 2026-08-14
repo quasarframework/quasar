@@ -88,4 +88,4 @@ When you are using this option always take care to have the content of the `defa
 
 ## Accessibility
 
-The QImg wrapper carries `role="img"` with its accessible name taken from the `alt` prop — provide `alt` for any image that carries meaning. Without `alt` the wrapper claims no role at all (the img role requires a name), so screen readers skip it like a native `<img alt="">` — omitting `alt` is the decorative mode. Note that the loading and error state changes are not announced to assistive technology.
+The QImg wrapper carries `role="img"` with its accessible name taken from the `alt` prop — provide `alt` for any image that carries meaning. For a purely decorative image set `alt=""`, exactly as you would on a native `<img>`: the wrapper then claims no role at all (the img role requires a name) and screen readers skip it. Omitting `alt` entirely does the same thing. Note that the loading and error state changes are not announced to assistive technology.

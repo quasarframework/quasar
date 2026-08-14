@@ -752,7 +752,10 @@ describe('[QRange API]', () => {
 
         expect(wrapper.classes()).not.toContain('disabled')
         expect(wrapper.classes()).not.toContain('q-slider--editable')
-        expect(wrapper.attributes('aria-readonly')).toBe('true')
+        // aria-readonly is not allowed on the root's group role; it belongs
+        // to the thumbs, which carry the slider role
+        expect(wrapper.attributes('aria-readonly')).toBeUndefined()
+        expect(getMinThumb(wrapper).attributes('aria-readonly')).toBe('true')
         expect(getMinThumb(wrapper).attributes('tabindex')).toBe('-1')
         // unlike "disable", the value still gets submitted
         expect(wrapper.find('input[type="hidden"]').exists()).toBe(true)

@@ -165,7 +165,9 @@ export default /*#__PURE__*/ createComponent({
     const rootAttrs = computed(() => ({
       role: 'group',
       'data-step': props.step,
-      ...getEditableAriaState()
+      // only aria-disabled is allowed on a group; aria-readonly belongs to
+      // the thumbs, which carry the slider role
+      ...(props.disable ? { 'aria-disabled': 'true' } : {})
     }))
 
     const trackContainerAriaAttrs = computed(() => {

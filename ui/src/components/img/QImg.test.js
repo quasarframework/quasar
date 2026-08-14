@@ -341,6 +341,24 @@ describe('[QImg API]', () => {
         expect(wrapper.attributes('role')).toBeUndefined()
         expect(wrapper.attributes('aria-label')).toBeUndefined()
       })
+
+      test('an empty "alt" marks the image decorative', () => {
+        // alt="" is the native way to say "decorative"; claiming the img
+        // role for it would produce a role with no accessible name
+        const wrapper = mountImg({ alt: '' })
+
+        expect(wrapper.attributes('role')).toBeUndefined()
+        expect(wrapper.attributes('aria-label')).toBeUndefined()
+        expect(getCurrentImg(wrapper).attributes('alt')).toBe('')
+      })
+
+      test('the inner image is decorative when "alt" is omitted', () => {
+        // an absent alt attribute leaves the image unnamed, which is a
+        // different failure from being explicitly decorative
+        const wrapper = mountImg()
+
+        expect(getCurrentImg(wrapper).attributes('alt')).toBe('')
+      })
     })
 
     describe('[(prop)draggable]', () => {

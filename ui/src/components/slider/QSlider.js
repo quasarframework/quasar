@@ -123,12 +123,13 @@ export default /*#__PURE__*/ createComponent({
         'aria-orientation': state.orientation.value,
         'aria-valuemin': state.innerMin.value,
         'aria-valuemax': state.innerMax.value,
+        // the slider role requires aria-valuenow; a null model still renders
+        // a thumb, parked at the minimum (see normalizeModel), so expose that
+        'aria-valuenow':
+          props.modelValue === null ? state.innerMin.value : props.modelValue,
         'data-step': props.step
       }
 
-      if (props.modelValue !== null) {
-        acc['aria-valuenow'] = props.modelValue
-      }
       if (props.labelValue !== void 0) {
         acc['aria-valuetext'] = props.labelValue
       }

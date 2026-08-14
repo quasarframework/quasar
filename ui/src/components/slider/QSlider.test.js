@@ -967,6 +967,15 @@ describe('[QSlider API]', () => {
   })
 
   describe('[Accessibility]', () => {
+    test('a null model still exposes the required aria-valuenow', () => {
+      // the slider role requires aria-valuenow; the thumb is parked at the
+      // minimum in this state, so that is what gets reported
+      const wrapper = mountSlider({ modelValue: null, min: 5, max: 20 })
+
+      expect(wrapper.classes()).toContain('q-slider--no-value')
+      expect(getTrackContainer(wrapper).attributes('aria-valuenow')).toBe('5')
+    })
+
     test('the focusable track container carries the slider semantics', () => {
       // default mount: modelValue 50, limits 0-100
       const wrapper = mountSlider()
