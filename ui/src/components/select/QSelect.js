@@ -1664,7 +1664,12 @@ export default /*#__PURE__*/ createComponent({
           child.push(getInput(fromDialog, isTarget))
         }
         // there can be only one (when dialog is opened the control in dialog should be target)
-        else if (state.editable.value) {
+        // a readonly select renders it too: readonly controls stay focusable and
+        // keep exposing their value (only "disable" leaves the tab order), and it
+        // owns the id that the QField label's "for" points at. It never becomes a
+        // popup trigger - showPopup() and onTargetKeydown() both bail when the
+        // field is not editable, and getControlChild() renders no menu/dialog
+        else if (!props.disable) {
           const attrs = isTarget
             ? { ...comboboxAttrs.value, ...state.splitAttrs.attributes.value }
             : void 0
@@ -1689,8 +1694,11 @@ export default /*#__PURE__*/ createComponent({
 
           child.push(h('input', data))
 
+          // browser autofill has nothing to fill on a readonly field, and the
+          // handler behind it writes the model (clearing it on an empty value)
           if (
             isTarget &&
+            state.editable.value &&
             typeof props.autocomplete === 'string' &&
             props.autocomplete.length !== 0
           ) {

@@ -860,7 +860,9 @@ describe('[QSelect API]', () => {
         const wrapper = mountSelect({ readonly: true })
 
         expect(wrapper.classes()).toContain('q-field--readonly')
-        expect(wrapper.find('.q-select__focus-target').exists()).toBe(false)
+        // unlike "disable", a readonly control stays focusable and keeps
+        // exposing its value - only the popup is out of reach
+        expect(wrapper.get('.q-select__focus-target').exists()).toBe(true)
 
         wrapper.vm.showPopup()
         await flushPromises()
@@ -1765,6 +1767,14 @@ describe('[QSelect API]', () => {
           false
         )
         expect(withInput.get('input').attributes('autocomplete')).toBe('name')
+
+        // a readonly select still renders its focus target, but autofill has
+        // nothing to fill there and its handler would write the model
+        const readonly = mountSelect({ autocomplete: 'name', readonly: true })
+        expect(readonly.find('.q-select__focus-target').exists()).toBe(true)
+        expect(readonly.find('.q-select__autocomplete-input').exists()).toBe(
+          false
+        )
       })
     })
 
@@ -2978,6 +2988,32 @@ describe('[QSelect API]', () => {
         expect(opt.attributes('aria-setsize')).toBe(String(total))
         expect(opt.attributes('aria-posinset')).toBe(String(i + 1))
       })
+    })
+
+    test.each([
+      ['focus target', false],
+      ['use-input control', true]
+    ])('exposes a readonly select through its %s', async (_, useInput) => {
+      const wrapper = mountSelect({ useInput, readonly: true, modelValue: 'a' })
+      const target = wrapper.get('input[role="combobox"]')
+
+      expect(target.attributes('aria-readonly')).toBe('true')
+      // the label's "for" has to resolve, so the id stays on a real element
+      expect(target.attributes('id')).toBe(wrapper.attributes('for'))
+      // readonly keeps it in the tab order; only "disable" leaves it
+      expect(target.attributes('tabindex')).toBe('0')
+
+      await target.trigger('keydown', { keyCode: 40 })
+      await flushPromises()
+
+      expect(target.attributes('aria-expanded')).toBe('false')
+      expect(wrapper.findComponent({ name: 'QPortal' }).exists()).toBe(false)
+    })
+
+    test('drops the combobox entirely when disabled', () => {
+      const wrapper = mountSelect({ disable: true, modelValue: 'a' })
+
+      expect(wrapper.find('input[role="combobox"]').exists()).toBe(false)
     })
 
     test.each([
