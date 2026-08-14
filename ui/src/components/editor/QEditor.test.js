@@ -909,6 +909,25 @@ describe('[QEditor API]', () => {
   })
 
   describe('[Accessibility]', () => {
+    test('toolbar toggles expose their state, not just a color', async () => {
+      const wrapper = mountEditor({ toolbar: [['bold']] })
+      await flushToolbar()
+
+      // "bold" is a toggle command: its pressed state must be programmatic
+      expect(getToolbarButtons(wrapper)[0].attributes('aria-pressed')).toBe(
+        'false'
+      )
+    })
+
+    test('plain toolbar commands are not marked as toggles', async () => {
+      const wrapper = mountEditor({ toolbar: [['undo']] })
+      await flushToolbar()
+
+      expect(
+        getToolbarButtons(wrapper)[0].attributes('aria-pressed')
+      ).toBeUndefined()
+    })
+
     test('content region is a multiline textbox', () => {
       const wrapper = mountEditor()
       const content = getContent(wrapper)

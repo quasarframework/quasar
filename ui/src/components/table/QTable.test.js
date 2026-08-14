@@ -2808,6 +2808,17 @@ describe('[QTable API]', () => {
   })
 
   describe('[Accessibility]', () => {
+    test('names its own loading progressbar', () => {
+      // the consumer never renders this element, so it cannot name it
+      const wrapper = mountTable({ loading: true })
+      const bar = wrapper.get('.q-table__linear-progress')
+
+      expect(bar.attributes('role')).toBe('progressbar')
+      expect(bar.attributes('aria-label')).toBe(
+        wrapper.vm.$q.lang.table.loading
+      )
+    })
+
     function getRowsPerPageParts(wrapper) {
       const target = wrapper.get(
         '.q-table__select input[role="combobox"]'

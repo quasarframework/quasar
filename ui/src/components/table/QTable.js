@@ -451,7 +451,9 @@ export default /*#__PURE__*/ createComponent({
           color: props.color,
           dark: isDark(),
           indeterminate: true,
-          trackColor: 'transparent'
+          trackColor: 'transparent',
+          // internal progressbar: the consumer has no way to name it
+          'aria-label': $q.lang.table.loading
         })
       ]
     }

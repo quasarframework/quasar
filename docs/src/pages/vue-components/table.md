@@ -415,7 +415,7 @@ Below is an example of keyboard navigation in the table using selected row. Use 
 
 ## Accessibility
 
-QTable renders a native `<table>` with `thead`/`tbody`, so the tabular semantics come for free. Sortable column headers are focusable, sort on <kbd>Enter</kbd> or <kbd>Space</kbd> and expose [`aria-sort`](https://www.w3.org/TR/wai-aria-1.2/#aria-sort); this behavior lives in QTh, so custom `header`/`header-cell` slots should render QTh rather than a plain `th` to keep it. The pagination controls and the rows-per-page select carry localized accessible names from the [Quasar Language Pack](/options/quasar-language-packs).
+QTable renders a native `<table>` with `thead`/`tbody`, so the tabular semantics come for free. Sortable column headers are focusable, sort on <kbd>Enter</kbd> or <kbd>Space</kbd> and expose [`aria-sort`](https://www.w3.org/TR/wai-aria-1.2/#aria-sort); this behavior lives in QTh, so custom `header`/`header-cell` slots should render QTh rather than a plain `th` to keep it. The pagination controls, the rows-per-page select and the loading progress bar carry localized accessible names from the [Quasar Language Pack](/options/quasar-language-packs).
 
 A few aspects remain in your hands:
 

@@ -70,6 +70,9 @@ function getBtn(eVm, btn, clickHandler, active, tabAttrs) {
       // icon-only buttons (no label) need an accessible name
       'aria-label':
         btn.label === void 0 || btn.label === null ? btn.tip : void 0,
+      // a toggle's state is otherwise conveyed by color alone
+      'aria-pressed':
+        btn.type === 'toggle' ? (toggled ? 'true' : 'false') : void 0,
       disable: isBtnDisabled(eVm, btn),
       size: 'sm',
       ...tabAttrs,
@@ -337,6 +340,8 @@ export function getLinkEditor(eVm) {
       h('input', {
         key: 'qedt_btm_input',
         class: 'col q-editor__link-input',
+        // the visible "URL:" text is a sibling, not a label element
+        'aria-label': eVm.$q.lang.editor.url,
         value: link,
         onInput: evt => {
           stop(evt)
