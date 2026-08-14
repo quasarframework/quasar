@@ -31,7 +31,7 @@ Notice that the model is a String only.
 For landscape mode, you can use it along with `$q.screen` to make QTime responsive. Example: `:landscape="$q.screen.gt.xs"`. More info: [Quasar Screen Plugin](/options/screen-plugin).
 :::
 
-### Accessibility
+### Accessibility <q-badge label="v2.25+" />
 
 The header's hour, minute and second sections are exposed as `role="spinbutton"` elements per the [WAI-ARIA spinbutton pattern](https://www.w3.org/WAI/ARIA/apg/patterns/spinbutton/), each with a localized `aria-label` from the [Quasar Language Pack](/options/quasar-language-packs) and `aria-valuemin`/`aria-valuemax`/`aria-valuenow` reflecting its current value. The AM/PM controls are toggle buttons (`aria-pressed`). The clock face itself is a pointer-only visualization that is deliberately hidden from assistive technology — the header spinbuttons are the accessible way to set the time.
 

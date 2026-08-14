@@ -15,6 +15,6 @@ These are only two examples so you can get a glimpse on how to use it.
 
 <DocExample title="Basic" file="Basic" />
 
-## Accessibility
+## Accessibility <q-badge label="v2.25+" />
 
 QSpace is a pure flexbox filler, invisible to assistive technology — there is nothing to add.

@@ -58,6 +58,6 @@ The example below uses the `root` property and therefore can be seen in a Codepe
 
 <DocExample title="Root viewport" file="Root" />
 
-## Accessibility
+## Accessibility <q-badge label="v2.25+" />
 
 Off-screen content is genuinely unmounted (not merely hidden), so it is correctly absent from the accessibility tree as well. Keep in mind that the wrapper element itself always renders, so if you give the `tag` prop a landmark or otherwise semantic element, those semantics apply even while the content inside is unmounted.

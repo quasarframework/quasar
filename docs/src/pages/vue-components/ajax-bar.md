@@ -54,6 +54,6 @@ Should you want QAjaxBar to trigger only for some URLs (and not for all, like in
 - Each Ajax call makes a `start()` call when it is triggered. When it ends, it calls `stop()`. So yes, if you also manually trigger QAjaxBar you must call `start()` each time a new event is starting and `stop()` each time an event finished. QAjaxBar knows to handle multiple events simultaneously.
 - The automatic capture is designed to function exclusively with libraries utilizing [XMLHttpRequest (XHR)](https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest). Consequently, if you opt for the native browser [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API), it won't initiate the loading bar automatically.
 
-## Accessibility
+## Accessibility <q-badge label="v2.25+" />
 
 While running, the bar exposes `role="progressbar"` with the usual value attributes, and it is hidden from assistive technology (`aria-hidden`) when idle. Its progress values are synthetic — incremented on a timer, not measured — so treat it as decorative feedback: give it an `aria-label` (e.g. "Page loading"), and announce long-running operations that actually matter through a live region of your own, since the bar's start and completion are not announced.

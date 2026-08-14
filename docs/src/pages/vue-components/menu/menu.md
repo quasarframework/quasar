@@ -87,9 +87,9 @@ import MenuPositioning from './MenuPositioning.vue'
 
 <MenuPositioning />
 
-## Accessibility
+## Accessibility <q-badge label="v2.25+" />
 
-### Semantics <q-badge label="v2.25+" />
+### Semantics
 
 QMenu renders as a plain positioned container, deliberately claiming no ARIA role of its own: it can host any kind of content, while the [WAI-ARIA `menu` role](https://www.w3.org/TR/wai-aria-1.2/#menu) permits nothing but menu items as children — a form, a date picker or a list would all become invalid markup under it.
 
@@ -97,7 +97,7 @@ So when the popup content really is a menu — a list of commands — declare it
 
 If you attach a role to the QMenu container itself instead (it forwards any `role` you pass), make sure its entire content satisfies that role's requirements.
 
-### Anchor semantics <q-badge label="v2.25+" />
+### Anchor semantics
 
 The anchor is your own markup, yet it is the control that opens the popup, so QMenu maintains the trigger's ARIA on it from the outside: `aria-expanded` follows the open state, and a `role` declared on the QMenu container itself is mirrored onto the anchor as `aria-haspopup` (that attribute names the popup's role, so only `menu`, `listbox`, `tree`, `grid` and `dialog` can be mirrored). A `<q-btn>` wrapping a QMenu is therefore announced as a collapsed or expanded trigger with no work on your part.
 
@@ -115,7 +115,7 @@ Do keep in mind that when the role lives on the [QList](/vue-components/list-and
 </q-btn>
 ```
 
-### Keyboard navigation <q-badge label="v2.25+" />
+### Keyboard navigation
 
 Since the menu renders next to the end of the page, letting <kbd>Tab</kbd> walk past its last focusable element (or <kbd>Shift</kbd> + <kbd>Tab</kbd> before its first one) would drop keyboard focus out of the page. Following the [WAI-ARIA APG](https://www.w3.org/WAI/ARIA/apg/patterns/menu-button/), the menu instead closes and focus continues from its anchor, just like <kbd>Escape</kbd> closes it while returning focus to the anchor. Tabbing between multiple focusable elements _inside_ the menu works as usual, and a `persistent` menu opts out of this dismissal too.
 

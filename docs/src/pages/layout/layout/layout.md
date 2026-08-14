@@ -93,7 +93,7 @@ In the example below, there is a containerized QLayout with drawers on each side
 
 <DocExample title="In a QDialog" file="ContainerDialog" />
 
-## Accessibility
+## Accessibility <q-badge label="v2.25+" />
 
 A QLayout with its usual children produces a correct landmark structure out of the box: [QHeader](/layout/header-and-footer#accessibility) renders a real `<header>` element, [QFooter](/layout/header-and-footer#accessibility) a `<footer>`, each [QDrawer](/layout/drawer#accessibility) an `<aside>` and [QPage](/layout/page#accessibility) the page's `<main>`. Screen reader users can therefore jump between the banner, footer, complementary and main content regions without any extra work on your side. QLayout itself and QPageContainer are plain containers that claim no landmark of their own.
 

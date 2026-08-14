@@ -25,6 +25,6 @@ You must use same design props (flat, outline, push, ...) on both the parent QBt
 
 <DocExample title="With QBtnDropdown" file="WithDropdown" />
 
-## Accessibility
+## Accessibility <q-badge label="v2.25+" />
 
 QBtnGroup is purely presentational: it renders a plain `div` with no ARIA role, and the buttons inside manage their own semantics — each one is its own Tab stop. If the grouping is semantically meaningful (a set of related actions), pass `role="group"` along with an `aria-label` yourself; both fall through to the wrapping element.

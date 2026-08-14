@@ -413,7 +413,7 @@ Below is an example of keyboard navigation in the table using selected row. Use 
 
 <DocExample title="Keyboard navigation" file="KeyboardNavigation" />
 
-## Accessibility
+## Accessibility <q-badge label="v2.25+" />
 
 QTable renders a native `<table>` with `thead`/`tbody`, so the tabular semantics come for free. Sortable column headers are focusable, sort on <kbd>Enter</kbd> or <kbd>Space</kbd> and expose [`aria-sort`](https://www.w3.org/TR/wai-aria-1.2/#aria-sort); this behavior lives in QTh, so custom `header`/`header-cell` slots should render QTh rather than a plain `th` to keep it. The horizontally scrolling body is a Tab stop, so a wide table can be scrolled with the arrow keys. The selection checkboxes (and their otherwise empty column header), the pagination controls, the rows-per-page select and the loading progress bar carry localized accessible names from the [Quasar Language Pack](/options/quasar-language-packs).
 

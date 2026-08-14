@@ -99,7 +99,7 @@ When dealing with a native form which has an `action` and a `method` (eg. when u
 
 <DocExample title="Native form" file="NativeForm" />
 
-## Accessibility
+## Accessibility <q-badge label="v2.25+" />
 
 QToggle implements the [WAI-ARIA switch pattern](https://www.w3.org/WAI/ARIA/apg/patterns/switch/): it exposes `role="switch"` with `aria-checked` reflecting the model. The `label` prop provides the accessible name (`aria-label`), a disabled toggle exposes `aria-disabled="true"`, and the keyboard/focus behavior is the same as [QCheckbox](/vue-components/checkbox#accessibility): a Tab stop that toggles on <kbd>Enter</kbd> or <kbd>Space</kbd>.
 

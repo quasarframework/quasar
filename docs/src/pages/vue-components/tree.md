@@ -15,7 +15,7 @@ Quasar Tree represents a highly configurable component that displays hierarchica
 
 <DocExample title="Basic" file="Basic" />
 
-### Accessibility
+### Accessibility <q-badge label="v2.25+" />
 
 QTree follows the [WAI-ARIA tree pattern](https://www.w3.org/WAI/ARIA/apg/patterns/treeview/): the component exposes `role="tree"` and each node header is a `role="treeitem"` carrying `aria-expanded` on parents, `aria-selected` on selectable nodes, `aria-checked` on ticking ones (including the `mixed` state of partially ticked parents) and `aria-disabled` when disabled, while the nested child groups convey the hierarchy. In `virtual-scroll` mode the rows are rendered flat instead, so each one compensates with `aria-level`, `aria-setsize` and `aria-posinset`. Do give the tree an accessible name by setting `aria-label` (or `aria-labelledby`) on the component itself.
 

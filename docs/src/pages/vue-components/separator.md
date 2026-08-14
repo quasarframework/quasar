@@ -25,6 +25,6 @@ Take the following just as examples. Doesn't mean you can use QSeparator only on
 
 Should you need, there are four special Quasar CSS classes which apply the color of QSeparator: `text-separator`, `bg-separator`, `text-dark-separator`, `bg-dark-separator`.
 
-## Accessibility
+## Accessibility <q-badge label="v2.25+" />
 
 QSeparator renders a native `<hr>` with `aria-orientation` matching the `vertical` prop — there is nothing for you to add.

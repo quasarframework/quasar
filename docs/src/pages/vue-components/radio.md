@@ -76,7 +76,7 @@ When dealing with a native form which has an `action` and a `method` (eg. when u
 
 <DocExample title="Native form" file="NativeForm" />
 
-## Accessibility
+## Accessibility <q-badge label="v2.25+" />
 
 QRadio exposes `role="radio"` and reflects its state through `aria-checked`. The `label` prop provides the accessible name (`aria-label`) and a disabled radio exposes `aria-disabled="true"`. It is reachable with <kbd>Tab</kbd> (see the `tabindex` prop) and selects on <kbd>Enter</kbd> or <kbd>Space</kbd>.
 

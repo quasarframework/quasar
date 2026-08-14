@@ -30,7 +30,7 @@ If your content also has images, you might want to add `draggable="false"` to th
 
 <DocExample title="One sided or no sides" file="OneSided" />
 
-## Accessibility
+## Accessibility <q-badge label="v2.25+" />
 
 ::: warning
 The slide actions are pointer gestures only — there is no keyboard interaction and no assistive technology path to trigger them. Any behavior you bind to the slide events is unreachable for keyboard and screen reader users.

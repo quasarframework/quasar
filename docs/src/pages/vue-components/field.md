@@ -181,7 +181,7 @@ You can also customize the slot for error message:
 
 <DocExample title="Slot for error message" file="ValidationSlots" />
 
-## Accessibility
+## Accessibility <q-badge label="v2.25+" />
 
 QField renders as a native `<label>` wired through its `for` attribute to the enclosed control, using a generated SSR-safe id (overridable through the `for` prop), so clicking the label focuses the control and screen readers announce the field's name for it. A disabled field carries `aria-disabled` on the wrapper, and the clear icon shown by `clearable` is a keyboard-operable button — activated with <kbd>Enter</kbd> or <kbd>Space</kbd> — with a localized accessible name from the [Quasar Language Pack](/options/quasar-language-packs).
 

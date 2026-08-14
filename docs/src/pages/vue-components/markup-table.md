@@ -48,7 +48,7 @@ This component will _NOT_ work as-is within the UMD version of Quasar. Browsers 
 If you want to remove the hover effect on some rows or some cells add a `q-tr--no-hover` or `q-td--no-hover` class to them.
 :::
 
-## Accessibility
+## Accessibility <q-badge label="v2.25+" />
 
 QMarkupTable renders a plain native `<table>` around your content and adds no semantics of its own, so all the accessibility work of a hand-written table — `scope` on header cells, a `<caption>`, header/data associations — is yours to author in the markup.
 

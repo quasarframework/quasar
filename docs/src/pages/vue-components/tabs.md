@@ -43,7 +43,7 @@ QRouteTab won't and cannot work with the UMD version if you don't also install V
 
 <DocExample title="Basic" file="Basic" />
 
-### Accessibility
+### Accessibility <q-badge label="v2.25+" />
 
 QTabs renders with the `tablist` role, its `aria-orientation` matching the horizontal or vertical layout, and each QTab / QRouteTab exposes itself as a `tab` whose `aria-selected` reflects the current selection (plus `aria-disabled` when disabled). Together with the keyboard behavior below — where moving focus does not change the selection — this is the manual activation flavor of the [WAI-ARIA tabs pattern](https://www.w3.org/WAI/ARIA/apg/patterns/tabs/).
 

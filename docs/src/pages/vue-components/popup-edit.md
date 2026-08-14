@@ -85,7 +85,7 @@ With this example, we are using QInput's external error handling. We could also 
 
 <DocExample title="Edit with validation" file="WithValidation" />
 
-## Accessibility
+## Accessibility <q-badge label="v2.25+" />
 
 QPopupEdit is built on [QMenu](/vue-components/menu), so the popup itself claims no ARIA role — see [QMenu's Accessibility section](/vue-components/menu#accessibility) for the underlying keyboard and focus behavior. <kbd>Escape</kbd> cancels the edit and returns focus to the element the popup covers, and closing the popup any other way without going through validation never silently commits: depending on the `auto-save` prop, either a value that passes validation is saved or `cancel` is emitted. When using the `buttons` prop, "Set" and "Cancel" render as real buttons whose default labels come localized from the [Quasar Language Pack](/options/quasar-language-packs) (override them with `label-set` / `label-cancel`).
 

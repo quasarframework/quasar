@@ -667,7 +667,7 @@ We should then add the newly created CSS file into our app:
 
 And also add "my-app-icon.woff2" and "my-app-icon.woff" files into the same folder as "my-app-icon.css" (or somewhere else, but edit the relative paths (see "src:" above) to the woff/woff2 files).
 
-## Accessibility
+## Accessibility <q-badge label="v2.25+" />
 
 Every QIcon renders with `aria-hidden="true"` — icons are treated as decorative by default, and this includes webfont ligature text (a screen reader never reads out "home"). For the rare standalone icon that carries meaning of its own, override through attributes: `aria-hidden="false"` together with `role="img"` and an `aria-label`.
 

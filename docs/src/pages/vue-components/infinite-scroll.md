@@ -50,7 +50,7 @@ If the scroll target container cannot be overflowed you'll get a forever loading
 
 <DocExample title="Usage in QMenu" file="Menu" />
 
-## Accessibility
+## Accessibility <q-badge label="v2.25+" />
 
 Loading is triggered by native scrolling, so keyboard users trigger it too — as long as the scroll target itself can be scrolled with the keyboard (when using a [QScrollArea](/vue-components/scroll-area#accessibility) as target, see its Accessibility section).
 

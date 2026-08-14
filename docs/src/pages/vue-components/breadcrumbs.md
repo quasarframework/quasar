@@ -37,7 +37,7 @@ You can also delay, cancel or redirect navigation, as seen below. For a more in-
 
 <DocExample title="Links with delayed, cancelled or redirected navigation (v2.9+)" file="LinksWithGo" no-edit />
 
-## Accessibility
+## Accessibility <q-badge label="v2.25+" />
 
 QBreadcrumbs only renders the links themselves — it claims no landmark or list semantics of its own. To follow the [WAI-ARIA breadcrumb pattern](https://www.w3.org/WAI/ARIA/apg/patterns/breadcrumb/), wrap the component in a `<nav aria-label="Breadcrumb">` element and add `aria-current="page"` to the QBreadcrumbsEl representing the current page (attributes fall through to the rendered element) — the component does neither by itself.
 

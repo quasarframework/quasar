@@ -1,6 +1,7 @@
 ---
 title: Accessibility
 desc: How Quasar components implement WAI-ARIA semantics, keyboard navigation and focus management — and what remains your app's responsibility.
+badge: v2.25
 related:
   - /options/quasar-language-packs
   - /options/rtl-support

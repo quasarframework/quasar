@@ -102,7 +102,7 @@ When dealing with a native form which has an `action` and a `method` (eg. when u
 
 <DocExample title="Native form" file="NativeForm" />
 
-## Accessibility
+## Accessibility <q-badge label="v2.25+" />
 
 QFile is built on the QField frame, so label it like any other field: the label association through a generated SSR-safe id, the `role="alert"` error announcements and the keyboard-operable clear button all work as described in [QField's Accessibility section](/vue-components/field#accessibility). The validation attributes (`aria-invalid`, `aria-errormessage`, `aria-describedby`) are applied to the underlying native file input.
 

@@ -101,7 +101,7 @@ When dealing with a native form which has an `action` and a `method` (eg. when u
 
 <DocExample title="Native form" file="NativeForm" />
 
-## Accessibility
+## Accessibility <q-badge label="v2.25+" />
 
 QCheckbox implements the [WAI-ARIA checkbox pattern](https://www.w3.org/WAI/ARIA/apg/patterns/checkbox/): it exposes `role="checkbox"` with a three-state `aria-checked` (`true`, `false`, or `mixed` for the indeterminate state). The `label` prop doubles as the accessible name (`aria-label`) — with a slot-only label, the name is derived from the rendered content — and a disabled checkbox exposes `aria-disabled="true"`. The native `<input type="checkbox">` you may notice in the DOM exists only for native form submission and `<label>` click forwarding; it is hidden from assistive technology.
 

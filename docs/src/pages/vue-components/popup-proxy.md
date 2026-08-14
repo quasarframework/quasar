@@ -43,7 +43,7 @@ Keep in mind that all props from both [QMenu](/vue-components/menu) and [QDialog
 QPopupProxy treats some components ([QDate](/vue-components/date), [QTime](/vue-components/time), [QCarousel](/vue-components/carousel) and [QColor](/vue-components/color-picker)) as special ones and forces `cover: true` and `maxHeight: '99vh'` on them. If you don't want this behavior just place a `div` as the first level child of QPopupProxy.
 :::
 
-## Accessibility
+## Accessibility <q-badge label="v2.25+" />
 
 QPopupProxy has no semantics of its own — it exposes whatever the rendered component provides. Below the breakpoint that is a QDialog (`role="dialog"` with a managed `aria-modal`), above it a QMenu (a positioned container that deliberately claims no ARIA role). See [QDialog's Accessibility section](/vue-components/dialog#accessibility) and [QMenu's Accessibility section](/vue-components/menu#accessibility) for what each mode announces and how it handles keyboard interaction and focus.
 

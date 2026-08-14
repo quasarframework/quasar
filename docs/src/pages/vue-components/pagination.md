@@ -47,7 +47,7 @@ The following are a few examples, but not an exhaustive list:
 
 <DocExample title="With direction links" file="DirectionLinks" />
 
-## Accessibility
+## Accessibility <q-badge label="v2.25+" />
 
 QPagination renders as a `navigation` landmark. The first/previous/next/last buttons get localized `aria-label`s from the [Quasar Language Pack](/options/quasar-language-packs) in use, the numbered buttons are labeled with the page they lead to, and the active page's button is marked with `aria-current="page"`. The landmark itself is named from the same language pack (`pagination.label`); pass your own `aria-label` (it falls through to the root element) to tell several paginations on one page apart. It also carries `aria-disabled` at all times, reporting `true` or `false` according to the `disable` prop.
 

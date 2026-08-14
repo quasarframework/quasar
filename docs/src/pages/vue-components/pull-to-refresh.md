@@ -43,6 +43,6 @@ Please read [here](/vue-components/scroll-observer#determining-scrolling-contain
 - If you change the parent of this component, don't forget to call `updateScrollTarget()` on the QPullToRefresh Vue reference.
 - QPullToRefresh also allows text selection, so if your content also has images, you might want to add `draggable="false"` to them, otherwise the native browser behavior might interfere in a negative way.
 
-## Accessibility
+## Accessibility <q-badge label="v2.25+" />
 
 The pull gesture is pointer-only — keyboard and assistive technology users cannot perform it. The component exposes a `trigger()` method on its ref for exactly this reason: wire it to a visible refresh button so everyone has a way to refresh. The refreshing spinner is not announced to screen readers either, so if completion matters to your users, announce it yourself (e.g. through a live region or a notification) when your `@refresh` handler finishes.

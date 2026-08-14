@@ -23,6 +23,6 @@ According to the Material Design spec, the banner should be "displayed at the to
 
 <DocExample title="Dense" file="Dense" />
 
-## Accessibility
+## Accessibility <q-badge label="v2.25+" />
 
 QBanner renders with `role="alert"`, an assertive live region: a banner inserted dynamically (say, an error appearing after a failed request) is announced immediately, while one rendered together with the page is not announced at all. For a persistent, informational banner that should not interrupt, override the role by passing an attribute — `role="status"` for polite announcements, or a landmark role such as `region` (with an `aria-label`) for purely static content.

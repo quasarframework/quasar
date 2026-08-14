@@ -103,7 +103,7 @@ Notice that you must install and use one more component (QUploaderAddTrigger) in
 
 <DocExample title="Custom files list" file="SlotList" />
 
-## Accessibility
+## Accessibility <q-badge label="v2.25+" />
 
 QUploader's controls are real buttons — adding, uploading, aborting and removing files all go through QBtns that respond to the keyboard as usual — and per-file upload progress is exposed with `progressbar` semantics.
 

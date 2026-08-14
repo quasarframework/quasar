@@ -50,7 +50,7 @@ When dealing with a native form which has an `action` and a `method` (eg. when u
 
 <DocExample title="Native form" file="NativeForm" />
 
-## Accessibility
+## Accessibility <q-badge label="v2.25+" />
 
 Each option renders as a button with `aria-pressed` reflecting whether it is the currently selected value, so screen readers announce the selection state. Give icon-only options an accessible name through the option's `attrs` property (e.g. `attrs: { 'aria-label': 'Justify left' }`).
 

@@ -38,6 +38,6 @@ In the example below, `show-value` property also enables the default slot, so yo
 
 <DocExample title="Standard sizes" file="StandardSizes" />
 
-## Accessibility
+## Accessibility <q-badge label="v2.25+" />
 
 QCircularProgress exposes `role="progressbar"` with `aria-valuemin`/`aria-valuemax` taken from the `min`/`max` props and `aria-valuenow` tracking the current value (omitted while `indeterminate`, as the pattern requires). It has no accessible name by default, so add an `aria-label` telling screen reader users what is progressing — "Uploading attachment", not just a number.

@@ -88,7 +88,7 @@ You are able to customize the size of the Dialogs. Notice we either tamper with 
 
 <DocExample title="Sizing examples" file="Sizing" />
 
-## Accessibility
+## Accessibility <q-badge label="v2.25+" />
 
 QDialog follows the [WAI-ARIA dialog pattern](https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/): the popup renders with `role="dialog"` and a managed `aria-modal` attribute — `"true"` while the dialog has a backdrop, while a `seamless` dialog (which does not block the rest of the page) keeps the dialog role but announces `aria-modal="false"`.
 

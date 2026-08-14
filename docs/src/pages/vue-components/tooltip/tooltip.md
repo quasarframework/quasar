@@ -60,7 +60,7 @@ import TooltipPositioning from './TooltipPositioning.vue'
 
 <TooltipPositioning />
 
-## Accessibility
+## Accessibility <q-badge label="v2.25+" />
 
 QTooltip implements the [WAI-ARIA tooltip pattern](https://www.w3.org/WAI/ARIA/apg/patterns/tooltip/): the popup renders with `role="tooltip"` and, while it is shown, its `id` is added to the anchor element's `aria-describedby` (any values you set there yourself are preserved and restored on hide), so screen readers announce the tooltip content as the anchor's description. The tooltip shows on keyboard focus (when the anchor matches `:focus-visible`) just as it does on hover, and <kbd>Escape</kbd> hides it without moving focus, as [WCAG 1.4.13](https://www.w3.org/WAI/WCAG21/Understanding/content-on-hover-or-focus.html) requires.
 

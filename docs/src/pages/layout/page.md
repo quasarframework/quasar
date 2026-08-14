@@ -84,6 +84,6 @@ If you wish to tweak, or even remove this property, you can do so by using the `
 </script>
 ```
 
-## Accessibility
+## Accessibility <q-badge label="v2.25+" />
 
 QPage renders a real `<main>` element, so the main landmark of your [QLayout](/layout/layout#accessibility) comes for free — exactly one per page, as long as you use a single QPage. Do not add a `<main>` of your own around or inside it, which would leave the page with duplicate main landmarks. QPageContainer is a plain container with no semantics of its own.

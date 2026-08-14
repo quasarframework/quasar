@@ -58,6 +58,6 @@ To add a label to the progress bar you can use the default slot. Take care to:
 
 <DocExample title="With a label" file="Label" />
 
-## Accessibility
+## Accessibility <q-badge label="v2.25+" />
 
 QLinearProgress exposes `role="progressbar"` with `aria-valuemin="0"`, `aria-valuemax="1"` and `aria-valuenow` set to the current value — note that the scale is 0..1, matching the `value` prop. While `indeterminate` (or in `query` mode, which animates the same way), `aria-valuenow` is dropped, as the pattern requires. The bar has no accessible name of its own, so add an `aria-label` describing what is progressing.

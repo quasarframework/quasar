@@ -69,7 +69,7 @@ When dealing with a native form which has an `action` and a `method` (eg. when u
 
 <DocExample title="Native form" file="NativeForm" />
 
-## Accessibility
+## Accessibility <q-badge label="v2.25+" />
 
 QColor is only partially accessible, and which view is active matters. The Tune view — native text/number inputs plus sliders — is the keyboard and screen reader path. The palette swatches and the spectrum panel, on the other hand, are pointer-only: they cannot be reached with the keyboard and expose nothing to assistive technology.
 

@@ -121,9 +121,9 @@ User can pick only one option from each dropdown.
 />
 ```
 
-## Accessibility
+## Accessibility <q-badge label="v2.25+" />
 
-### Keyboard navigation <q-badge label="v2.25+" />
+### Keyboard navigation
 
 Following the [WAI-ARIA toolbar pattern](https://www.w3.org/WAI/ARIA/apg/patterns/toolbar/), the toolbar is a single Tab stop: pressing <kbd>Tab</kbd> moves focus into the toolbar (onto the last used button, or the first enabled one) and a second press moves it on to the editing area, rather than walking through every button. Within the toolbar, <kbd>Arrow Left</kbd> and <kbd>Arrow Right</kbd> move focus between the buttons (wrapping at either end and following the text direction in RTL), while <kbd>Home</kbd> and <kbd>End</kbd> jump to the first or last one. Content rendered through custom toolbar slots keeps its own Tab stops.
 
@@ -131,7 +131,7 @@ The commands wired to the current toolbar also respond to their <kbd>CTRL</kbd> 
 
 You can prevent QEditor from running one of these commands by preventing its `keydown` event; for example, `@keydown.ctrl.b.prevent` leaves <kbd>CTRL + B</kbd> to your own handler instead of toggling bold.
 
-### Labeling <q-badge label="v2.25+" />
+### Labeling
 
 The editing area is exposed as a multiline `textbox` and the toolbar carries a localized `aria-label` from the [Quasar Language Pack](/options/quasar-language-packs). It also mirrors its own props onto that role: a `placeholder` becomes `aria-placeholder`, while `readonly` and `disable` surface as `aria-readonly` and `aria-disabled`. Toggle commands (bold, italic, the alignment buttons and friends) report their state through `aria-pressed` rather than through their color alone, and the hyperlink editor's URL field is labeled from the same language pack. Attributes passed to QEditor itself (such as `aria-label`, `aria-labelledby` or `aria-describedby`) are applied to the editing area, so you can — and should — give it an accessible name:
 
@@ -139,7 +139,7 @@ The editing area is exposed as a multiline `textbox` and the toolbar carries a l
 <q-editor v-model="model" aria-label="Post body" />
 ```
 
-### Help dialog <q-badge label="v2.25+" />
+### Help dialog
 
 Some WYSIWYG editors offer a dialog listing the available keyboard commands. QEditor does not ship one built in, but a custom toolbar slot gets you there:
 

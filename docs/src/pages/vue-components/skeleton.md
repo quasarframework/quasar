@@ -59,6 +59,6 @@ Enjoy some pre-made recipes. Your imagination is the only limit.
 
 <DocExample title="List" file="RecipeList" />
 
-## Accessibility
+## Accessibility <q-badge label="v2.25+" />
 
 QSkeleton is a decorative placeholder carrying no ARIA — a screen reader wandering into a skeleton screen finds only empty, unlabeled boxes. Hide skeletons from assistive technology with `aria-hidden="true"`, or mark the loading region itself with `aria-busy="true"` so its not-yet-ready state is conveyed instead.

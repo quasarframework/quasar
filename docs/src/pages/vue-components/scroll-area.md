@@ -59,7 +59,7 @@ Below is an example of using the `@scroll` event to synchronize the scrolling be
 
 <DocExample title="Synchronized" file="Synchronized" />
 
-## Accessibility
+## Accessibility <q-badge label="v2.25+" />
 
 The custom scrollbars and their thumbs are hidden from assistive technology — they are redundant, pointer-only controls over what remains a natively scrollable container.
 

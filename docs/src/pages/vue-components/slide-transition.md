@@ -16,6 +16,6 @@ QSlideTransition slides the DOM element (or component) up or down, based on its 
 
 <DocExample title="Basic" file="Basic" />
 
-## Accessibility
+## Accessibility <q-badge label="v2.25+" />
 
 QSlideTransition is renderless and only animates the height of its child, so it has no ARIA surface of its own. Note that the animation runs in JavaScript and therefore plays regardless of the user's `prefers-reduced-motion` setting — motion-sensitive apps may want to skip the animated collapse for such users.

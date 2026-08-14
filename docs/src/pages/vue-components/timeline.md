@@ -55,6 +55,6 @@ The examples below uses `$q.screen` to detect changes in window size to see all 
 
 <DocExample title="Responsive layout" file="Responsive" scrollable />
 
-## Accessibility
+## Accessibility <q-badge label="v2.25+" />
 
 QTimeline renders a native `<ul>` with each entry as a `<li>`, so entries read as a list. Be aware that entry titles render as `h6` elements regardless of where the timeline sits in your document's heading outline (only a `heading` entry lets you pick its level, through the `tag` prop — an `h3` by default), and that avatar images carry no `alt` attribute — supply meaningful structure and text through the slots and props accordingly.

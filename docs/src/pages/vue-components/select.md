@@ -286,7 +286,7 @@ When the list of options is opened:
   - select the option and close the list of options if `multiple` and `disable-tab-selection` are not set
   - toggle the option if `multiple` is set
 
-## Accessibility
+## Accessibility <q-badge label="v2.25+" />
 
 QSelect follows the [WAI-ARIA combobox pattern](https://www.w3.org/WAI/ARIA/apg/patterns/combobox/). The focus target is always an `<input>` with `role="combobox"` — the real filter input when `use-input` is set, otherwise a readonly input holding the displayed selection, so screen readers read the current value directly off it. It is rendered whatever the field's state, so it always carries the accessible name, the current value and the `id` that the label's `for` points at: a `readonly` QSelect keeps it focusable and marked `aria-readonly="true"`, while a `disable`d one stays in the accessibility tree — announced as unavailable — but leaves the tab order through the native `disabled` attribute. Neither can open the popup. It carries `aria-expanded` reflecting the popup state, `aria-controls` referencing the list of options (only while the popup with options actually exists, so the reference never points at a missing element), `aria-activedescendant` tracking the highlighted option and `aria-autocomplete` — `list` when `use-input` lets the typed text filter the options, `none` otherwise. Per the pattern, focus never leaves this input while the popup is open — the list is operated from it, with the keys detailed in the [Keyboard navigation](#keyboard-navigation) section above.
 

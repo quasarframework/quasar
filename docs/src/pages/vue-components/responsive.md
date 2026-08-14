@@ -52,6 +52,6 @@ Apply the max height (or max width, etc etc) directly on the QResponsive compone
 
 <DocExample title="On QCard" file="MaxHeight" />
 
-## Accessibility
+## Accessibility <q-badge label="v2.25+" />
 
 QResponsive is a purely presentational aspect-ratio wrapper with no accessibility surface of its own.

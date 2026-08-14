@@ -39,7 +39,7 @@ Also check out [QBadge](/vue-components/badge).
 
 <DocExample title="Long label truncation" file="LongLabel" />
 
-## Accessibility
+## Accessibility <q-badge label="v2.25+" />
 
 A clickable chip (through the `clickable` prop or a `selected` model) exposes itself as `role="button"` and activates on <kbd>Enter</kbd> or <kbd>Space</kbd>. Only chips driven by a `selected` model additionally expose `aria-pressed` — a plain action chip does not claim toggle semantics. A disabled chip keeps its role (announced as dimmed via `aria-disabled`) but is taken out of the tab order.
 

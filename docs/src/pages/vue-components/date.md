@@ -33,7 +33,7 @@ For landscape mode, you can use it along with `$q.screen` to make QDate responsi
 
 <DocExample title="Landscape" file="Landscape" overflow />
 
-### Accessibility
+### Accessibility <q-badge label="v2.25+" />
 
 Each selectable day of the calendar renders as a button named with its full date. Selection — single days as well as days inside a range — is marked with `aria-pressed`, and today additionally carries `aria-current="date"`. The header navigation buttons (previous/next month and year, "Today") get localized labels from the [Quasar Language Pack](/options/quasar-language-packs). Keyboard focus roves over the day buttons (roving tabindex) and is restored on the equivalent day when navigation crosses into another month. A `disable`d QDate exposes `aria-disabled="true"` on its root element.
 

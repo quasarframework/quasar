@@ -69,6 +69,6 @@ On the example below, click on the round button on the bottom right to see the e
 
 <DocExample title="Expandable" file="Expandable" />
 
-## Accessibility
+## Accessibility <q-badge label="v2.25+" />
 
 QCard and its sections are semantic-free containers by design — no roles, no ARIA. Use the `tag` prop on QCard and QCardSection to build real document structure (`article`, `section`) and place proper heading elements inside, so screen reader users can navigate the card's content like any other part of the page.

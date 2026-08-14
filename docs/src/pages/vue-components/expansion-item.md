@@ -55,7 +55,7 @@ The behavior below of toggling by expand icon only is especially useful when hav
 
 <DocExample title="Popup mode" file="Popup" />
 
-## Accessibility
+## Accessibility <q-badge label="v2.25+" />
 
 The header follows the [WAI-ARIA disclosure pattern](https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/): it exposes `role="button"` with `aria-expanded` reflecting the current state and `aria-controls` pointing at the content container, and <kbd>Enter</kbd> or <kbd>Space</kbd> toggles it. Its accessible name is a localized "Expand"/"Collapse" label built from the `label` prop (see [Quasar Language Packs](/options/quasar-language-packs)); the `toggle-aria-label` prop overrides the generated label. Collapsed content is truly hidden from assistive technology, not just visually.
 

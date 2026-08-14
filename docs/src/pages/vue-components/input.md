@@ -345,7 +345,7 @@ You can also customize the slot for error message:
 
 <DocExample title="Slot for error message" file="ValidationSlots" />
 
-## Accessibility
+## Accessibility <q-badge label="v2.25+" />
 
 QInput renders a native `<input>` (or `<textarea>`) inside the QField frame, so everything described in [QField's Accessibility section](/vue-components/field#accessibility) applies here: the label association through a generated SSR-safe id, error messages announced with `role="alert"` and referenced from the control through `aria-invalid`/`aria-errormessage`/`aria-describedby`, and the keyboard-operable clear button.
 

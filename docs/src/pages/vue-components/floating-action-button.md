@@ -86,7 +86,7 @@ Below is a nice example of using [TouchPan](/vue-directives/touch-pan) for makin
 
 <DocExample title="Draggable" file="Draggable" />
 
-## Accessibility
+## Accessibility <q-badge label="v2.25+" />
 
 The QFab trigger is a button carrying `aria-expanded` and `aria-controls` pointing at its actions container, so screen readers can tell whether the sub-actions are open. While closed, the actions are hidden from assistive technology and removed from the tab order; activating an action closes the FAB and returns focus to the trigger.
 

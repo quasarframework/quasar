@@ -118,7 +118,7 @@ When placing a QBtn with type "submit" in one of the "before", "after", "prepend
 
 <DocExample title="Form Submission" file="FormSubmission" />
 
-## Accessibility
+## Accessibility <q-badge label="v2.25+" />
 
 QBtn renders as a native `<button>` element, or as an `<a>` when it acts as a link (`href`, `to` or `type="a"`); a link button that ends up without an `href` receives `role="button"` so it still announces as a button. On link buttons QBtn also synthesizes activation on <kbd>Space</kbd> — a native `<a>` only responds to <kbd>Enter</kbd> — so both keys work regardless of the rendered tag.
 

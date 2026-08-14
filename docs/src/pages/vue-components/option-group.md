@@ -68,20 +68,6 @@ By default, QOptionGroup looks at `label`, `value`, `disable` props of each opti
 
 <DocExample title="Custom Label, Value and Disable props" file="CustomOptionProps" />
 
-### Accessibility
-
-QOptionGroup wraps its options in a container with `role="radiogroup"` when `type` is `radio`, or a generic `role="group"` for checkboxes and toggles, and sets `aria-disabled="true"` on it when the whole group is disabled. The per-option semantics (`radio`/`checkbox`/`switch` roles, `aria-checked`, labels) come from the underlying QRadio/QCheckbox/QToggle components. The group itself has no accessible name by default — pass an `aria-label` (or `aria-labelledby`) attribute to QOptionGroup so screen readers can announce what the group is about.
-
-For radio groups, the keyboard interaction below implements a roving tabindex; the horizontal arrow keys are RTL-aware.
-
-#### Keyboard navigation <q-badge label="v2.25+" />
-
-When `type` is `radio` (the default), QOptionGroup follows the [WAI-ARIA radio group pattern](https://www.w3.org/WAI/ARIA/apg/patterns/radio/): the whole group is a single Tab stop (pressing <kbd>Tab</kbd> moves focus into the group — onto the selected radio — and out of it), while the arrow keys move focus within the group, selecting the newly focused radio, wrapping around and skipping disabled options.
-
-Standalone QRadio components (used without QOptionGroup) have no knowledge of their siblings, so they cannot offer arrow key navigation — each is its own Tab stop.
-
-For checkboxes and toggles, each control remains an individual Tab stop, as each one is toggled independently.
-
 ### Force dark mode
 
 <DocExample title="Force dark mode" file="Dark" />
@@ -91,3 +77,17 @@ For checkboxes and toggles, each control remains an individual Tab stop, as each
 When dealing with a native form which has an `action` and a `method` (eg. when using Quasar with ASP.NET controllers), you need to specify the `name` property on QOptionGroup, otherwise formData will not contain it (if it should) - all value are converted to string (native behaviour, so do not use Object values):
 
 <DocExample title="Native form" file="NativeForm" />
+
+## Accessibility <q-badge label="v2.25+" />
+
+QOptionGroup wraps its options in a container with `role="radiogroup"` when `type` is `radio`, or a generic `role="group"` for checkboxes and toggles, and sets `aria-disabled="true"` on it when the whole group is disabled. The per-option semantics (`radio`/`checkbox`/`switch` roles, `aria-checked`, labels) come from the underlying QRadio/QCheckbox/QToggle components. The group itself has no accessible name by default — pass an `aria-label` (or `aria-labelledby`) attribute to QOptionGroup so screen readers can announce what the group is about.
+
+For radio groups, the keyboard interaction below implements a roving tabindex; the horizontal arrow keys are RTL-aware.
+
+### Keyboard navigation
+
+When `type` is `radio` (the default), QOptionGroup follows the [WAI-ARIA radio group pattern](https://www.w3.org/WAI/ARIA/apg/patterns/radio/): the whole group is a single Tab stop (pressing <kbd>Tab</kbd> moves focus into the group — onto the selected radio — and out of it), while the arrow keys move focus within the group, selecting the newly focused radio, wrapping around and skipping disabled options.
+
+Standalone QRadio components (used without QOptionGroup) have no knowledge of their siblings, so they cannot offer arrow key navigation — each is its own Tab stop.
+
+For checkboxes and toggles, each control remains an individual Tab stop, as each one is toggled independently.

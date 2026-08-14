@@ -62,7 +62,7 @@ The example below is especially useful if you build an Electron app and you hide
 
 <DocExample title="Desktop app-like" file="AppLike" />
 
-## Accessibility
+## Accessibility <q-badge label="v2.25+" />
 
 QHeader and QFooter render real `<header>` and `<footer>` elements, so they are exposed to assistive technology as the banner and footer landmarks of your [QLayout](/layout/layout#accessibility) with no extra work. A header or footer hidden through its `v-model` also leaves the Tab order and the accessibility tree entirely, so nothing invisible stays reachable.
 

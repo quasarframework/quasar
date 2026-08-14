@@ -42,6 +42,6 @@ By using expanded QPageSticky you can, for example, have a page-specific QToolba
 
 <DocExample title="Expanded" file="Expanded" />
 
-## Accessibility
+## Accessibility <q-badge label="v2.25+" />
 
 QPageSticky is a positioning-only wrapper with no accessibility surface of its own — the accessibility of whatever you place inside it is entirely up to that content.
