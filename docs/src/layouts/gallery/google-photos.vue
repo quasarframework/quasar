@@ -59,6 +59,7 @@
           no-caps
           label="Create"
           class="q-ml-sm q-px-md"
+          aria-haspopup="menu"
         >
           <q-menu anchor="top end" self="top end">
             <q-list role="menu" class="text-grey-8" style="min-width: 100px">

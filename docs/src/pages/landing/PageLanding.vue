@@ -134,7 +134,7 @@
       </div>
 
       <div class="text-center social-channels-call-to-action">
-        <q-img src="/landing/planet.png" alt="" height="600px">
+        <q-img src="/landing/planet.png" height="600px">
           <div class="bg-transparent absolute-bottom">
             <q-icon size="xl" name="img:/svg/satellite.svg" />
             <h2 class="heading heading--large">Don't miss the news</h2>

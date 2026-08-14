@@ -1,7 +1,12 @@
 <template>
   <q-card flat bordered>
     <div class="q-pa-md text-center">
-      <q-btn class="call-to-action-btn" label="Test me" style="width: 200px">
+      <q-btn
+        class="call-to-action-btn"
+        label="Test me"
+        style="width: 200px"
+        aria-haspopup="menu"
+      >
         <q-menu
           :fit="fit"
           :cover="cover"

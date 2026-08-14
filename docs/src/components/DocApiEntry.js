@@ -94,20 +94,16 @@ function getNameDiv(prop, label, level, suffix, prefix) {
 
   child.push(
     h(QBadge, {
+      // click-to-copy is a pointer shortcut over the entry name, which is
+      // plain selectable text either way - turning every one of the
+      // hundreds of names on an API page into a button would flood the tab
+      // order and replace the name itself with "Copy ... to clipboard" in
+      // the accessibility tree
       class: 'doc-api-entry__pill cursor-pointer',
       label,
       color: NAME_PROP_COLOR[level % NAME_PROP_COLOR_LEN],
-      role: 'button',
-      tabindex: 0,
-      'aria-label': `Copy "${label}" to clipboard`,
       onClick: () => {
         copyPropName(label)
-      },
-      onKeydown: evt => {
-        if (evt.keyCode === 13 || evt.keyCode === 32) {
-          evt.preventDefault()
-          copyPropName(label)
-        }
       }
     })
   )

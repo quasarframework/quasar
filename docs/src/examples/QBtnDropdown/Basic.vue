@@ -1,6 +1,10 @@
 <template>
   <div class="q-pa-md">
-    <q-btn-dropdown color="primary" label="Dropdown Button">
+    <q-btn-dropdown
+      color="primary"
+      label="Dropdown Button"
+      aria-haspopup="menu"
+    >
       <q-list role="menu">
         <q-item clickable v-close-popup @click="onItemClick">
           <q-item-section>

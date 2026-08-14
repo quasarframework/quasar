@@ -1,7 +1,12 @@
 <template>
   <div class="q-pa-md">
     <div class="q-gutter-md">
-      <q-btn color="accent" label="Fit Menu" style="width: 280px">
+      <q-btn
+        color="accent"
+        label="Fit Menu"
+        style="width: 280px"
+        aria-haspopup="menu"
+      >
         <q-menu fit>
           <q-list role="menu" style="min-width: 100px">
             <q-item clickable>
@@ -34,7 +39,7 @@
         </q-menu>
       </q-btn>
 
-      <q-btn color="brown" label="Max Height Menu">
+      <q-btn color="brown" label="Max Height Menu" aria-haspopup="menu">
         <q-menu max-height="130px">
           <q-list role="menu" style="min-width: 100px">
             <q-item clickable>
@@ -67,7 +72,7 @@
         </q-menu>
       </q-btn>
 
-      <q-btn color="indigo" label="Max Width Menu">
+      <q-btn color="indigo" label="Max Width Menu" aria-haspopup="menu">
         <q-menu max-width="80px">
           <q-list role="menu" style="min-width: 100px">
             <q-item clickable>

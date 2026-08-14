@@ -483,7 +483,6 @@
       <q-img
         class="absolute-top"
         src="https://cdn.quasar.dev/img/material.png"
-        alt=""
         style="height: 204px"
       >
         <div class="absolute-bottom bg-transparent">

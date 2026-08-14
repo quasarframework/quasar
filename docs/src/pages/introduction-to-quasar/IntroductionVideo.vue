@@ -9,7 +9,6 @@
     <div class="introduction-video__thumbnail relative-position">
       <q-img
         src="https://i.ibb.co/k4jkggH/thumbnail-quasar-docs.jpg"
-        alt=""
         :ratio="1.78"
       >
         <q-icon

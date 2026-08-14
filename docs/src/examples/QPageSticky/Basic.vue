@@ -97,7 +97,7 @@
           <!-- place QPageSticky at end of page -->
           <q-page-sticky position="top-left" :offset="[18, 18]">
             <q-btn
-              aria-label="Back"
+              aria-label="Sticky top left"
               round
               color="accent"
               icon="arrow_back"
@@ -106,7 +106,7 @@
           </q-page-sticky>
           <q-page-sticky position="top" :offset="[0, 18]">
             <q-btn
-              aria-label="Back"
+              aria-label="Sticky top"
               round
               color="accent"
               icon="arrow_back"
@@ -115,7 +115,7 @@
           </q-page-sticky>
           <q-page-sticky position="top-right" :offset="[18, 18]">
             <q-btn
-              aria-label="Up"
+              aria-label="Sticky top right"
               round
               color="accent"
               icon="arrow_upward"
@@ -124,7 +124,7 @@
           </q-page-sticky>
           <q-page-sticky position="right" :offset="[18, 0]">
             <q-btn
-              aria-label="Up"
+              aria-label="Sticky right"
               round
               color="accent"
               icon="arrow_upward"
@@ -132,11 +132,16 @@
             />
           </q-page-sticky>
           <q-page-sticky position="left" :offset="[18, 0]">
-            <q-btn aria-label="Back" round color="accent" icon="arrow_back" />
+            <q-btn
+              aria-label="Sticky left"
+              round
+              color="accent"
+              icon="arrow_back"
+            />
           </q-page-sticky>
           <q-page-sticky position="bottom-left" :offset="[18, 18]">
             <q-btn
-              aria-label="Forward"
+              aria-label="Sticky bottom left"
               round
               color="accent"
               icon="arrow_forward"
@@ -145,7 +150,7 @@
           </q-page-sticky>
           <q-page-sticky position="bottom" :offset="[0, 18]">
             <q-btn
-              aria-label="Forward"
+              aria-label="Sticky bottom"
               round
               color="accent"
               icon="arrow_forward"
@@ -154,7 +159,7 @@
           </q-page-sticky>
           <q-page-sticky position="bottom-right" :offset="[18, 18]">
             <q-btn
-              aria-label="Forward"
+              aria-label="Sticky bottom right"
               round
               color="accent"
               icon="arrow_forward"

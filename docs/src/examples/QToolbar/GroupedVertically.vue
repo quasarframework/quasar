@@ -28,19 +28,19 @@
 
     <div class="bg-cyan text-white">
       <q-toolbar>
-        <q-btn aria-label="Assignment" flat round dense icon="assignment_ind" />
+        <q-btn aria-label="Profile" flat round dense icon="assignment_ind" />
 
         <q-space />
 
         <q-btn
-          aria-label="SIM card"
+          aria-label="SIM settings"
           flat
           round
           dense
           icon="sim_card"
           class="q-mr-xs"
         />
-        <q-btn aria-label="Gamepad" flat round dense icon="gamepad" />
+        <q-btn aria-label="Games" flat round dense icon="gamepad" />
       </q-toolbar>
 
       <q-toolbar inset>

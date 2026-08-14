@@ -1,7 +1,7 @@
 <template>
   <div class="q-pa-md">
     <div class="q-gutter-md row items-center">
-      <q-btn color="primary" label="Click me">
+      <q-btn color="primary" label="Click me" aria-haspopup="menu">
         <q-menu>
           <q-list role="menu" dense style="min-width: 100px">
             <q-item clickable v-close-popup>
@@ -11,7 +11,7 @@
               <q-item-section>New</q-item-section>
             </q-item>
             <q-separator />
-            <q-item clickable>
+            <q-item clickable aria-haspopup="menu">
               <q-item-section>Preferences</q-item-section>
               <q-item-section side>
                 <q-icon name="keyboard_arrow_right" />
@@ -19,7 +19,13 @@
 
               <q-menu anchor="top end" self="top start">
                 <q-list role="menu">
-                  <q-item v-for="n in 3" :key="n" dense clickable>
+                  <q-item
+                    v-for="n in 3"
+                    :key="n"
+                    dense
+                    clickable
+                    aria-haspopup="menu"
+                  >
                     <q-item-section>Submenu Label</q-item-section>
                     <q-item-section side>
                       <q-icon name="keyboard_arrow_right" />
@@ -58,7 +64,7 @@
                 <q-item-section>New</q-item-section>
               </q-item>
               <q-separator />
-              <q-item clickable>
+              <q-item clickable aria-haspopup="menu">
                 <q-item-section>Preferences</q-item-section>
                 <q-item-section side>
                   <q-icon name="keyboard_arrow_right" />
@@ -66,7 +72,12 @@
 
                 <q-menu anchor="top end" self="top start">
                   <q-list role="menu" dense>
-                    <q-item v-for="n in 3" :key="n" clickable>
+                    <q-item
+                      v-for="n in 3"
+                      :key="n"
+                      clickable
+                      aria-haspopup="menu"
+                    >
                       <q-item-section>Submenu Label</q-item-section>
                       <q-item-section side>
                         <q-icon name="keyboard_arrow_right" />

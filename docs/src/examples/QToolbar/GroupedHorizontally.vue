@@ -12,7 +12,7 @@
       <q-toolbar class="col-4 bg-primary text-white">
         <q-space />
         <q-btn
-          aria-label="Bluetooth"
+          aria-label="Bluetooth settings"
           flat
           round
           dense

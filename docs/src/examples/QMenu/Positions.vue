@@ -1,7 +1,7 @@
 <template>
   <div class="q-pa-md">
     <div class="q-gutter-md row">
-      <q-btn color="primary" label="Anchor/Self Menu">
+      <q-btn color="primary" label="Anchor/Self Menu" aria-haspopup="menu">
         <q-menu anchor="top right" self="top left">
           <q-list role="menu" style="min-width: 100px">
             <q-item clickable v-close-popup>
@@ -14,7 +14,7 @@
         </q-menu>
       </q-btn>
 
-      <q-btn color="primary" label="Anchor/Self Menu">
+      <q-btn color="primary" label="Anchor/Self Menu" aria-haspopup="menu">
         <q-menu anchor="center middle" self="center middle">
           <q-list role="menu" style="min-width: 100px">
             <q-item clickable v-close-popup>
@@ -27,7 +27,7 @@
         </q-menu>
       </q-btn>
 
-      <q-btn color="primary" label="Anchor/Self Menu">
+      <q-btn color="primary" label="Anchor/Self Menu" aria-haspopup="menu">
         <q-menu anchor="bottom right" self="bottom left">
           <q-list role="menu" style="min-width: 100px">
             <q-item clickable v-close-popup>
@@ -40,7 +40,7 @@
         </q-menu>
       </q-btn>
 
-      <q-btn color="primary" label="Offset Menu">
+      <q-btn color="primary" label="Offset Menu" aria-haspopup="menu">
         <q-menu :offset="[0, 20]">
           <q-list role="menu" style="min-width: 100px">
             <q-item clickable v-close-popup>
@@ -53,7 +53,7 @@
         </q-menu>
       </q-btn>
 
-      <q-btn color="primary" label="Offset Menu">
+      <q-btn color="primary" label="Offset Menu" aria-haspopup="menu">
         <q-menu :offset="[50, 10]">
           <q-list role="menu" style="min-width: 100px">
             <q-item clickable v-close-popup>
@@ -66,7 +66,7 @@
         </q-menu>
       </q-btn>
 
-      <q-btn color="primary" label="Offset Menu">
+      <q-btn color="primary" label="Offset Menu" aria-haspopup="menu">
         <q-menu :offset="[-50, 10]">
           <q-list role="menu" style="min-width: 100px">
             <q-item clickable v-close-popup>

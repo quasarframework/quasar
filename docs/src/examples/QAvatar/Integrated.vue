@@ -16,19 +16,19 @@
     <div class="q-gutter-x-sm">
       <q-btn round color="white">
         <q-avatar size="28px">
-          <img alt="" src="https://cdn.quasar.dev/logo-v2/svg/logo.svg" />
+          <img alt="Quasar" src="https://cdn.quasar.dev/logo-v2/svg/logo.svg" />
         </q-avatar>
       </q-btn>
       <!-- #region -->
       <q-btn round color="white">
         <q-avatar size="32px">
-          <img alt="" src="https://cdn.quasar.dev/logo-v2/svg/logo.svg" />
+          <img alt="Quasar" src="https://cdn.quasar.dev/logo-v2/svg/logo.svg" />
         </q-avatar>
       </q-btn>
       <!-- #endregion -->
       <q-btn round color="white">
         <q-avatar size="40px">
-          <img alt="" src="https://cdn.quasar.dev/logo-v2/svg/logo.svg" />
+          <img alt="Quasar" src="https://cdn.quasar.dev/logo-v2/svg/logo.svg" />
         </q-avatar>
       </q-btn>
     </div>

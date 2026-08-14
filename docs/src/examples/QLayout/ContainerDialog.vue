@@ -65,7 +65,7 @@
 
             <q-page-sticky position="top-left" :offset="[18, 18]">
               <q-btn
-                aria-label="Back"
+                aria-label="Sticky top left"
                 round
                 color="primary"
                 icon="arrow_back"
@@ -74,7 +74,7 @@
             </q-page-sticky>
             <q-page-sticky position="top-right" :offset="[18, 18]">
               <q-btn
-                aria-label="Up"
+                aria-label="Sticky top right"
                 round
                 color="primary"
                 icon="arrow_upward"
@@ -83,7 +83,7 @@
             </q-page-sticky>
             <q-page-sticky position="bottom-left" :offset="[18, 18]">
               <q-btn
-                aria-label="Forward"
+                aria-label="Sticky bottom left"
                 round
                 color="primary"
                 icon="arrow_forward"
@@ -92,7 +92,7 @@
             </q-page-sticky>
             <q-page-sticky position="bottom-right" :offset="[18, 18]">
               <q-btn
-                aria-label="Forward"
+                aria-label="Sticky bottom right"
                 round
                 color="primary"
                 icon="arrow_forward"

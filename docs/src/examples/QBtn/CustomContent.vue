@@ -7,7 +7,7 @@
 
     <q-btn round>
       <q-avatar size="42px">
-        <img alt="" src="https://cdn.quasar.dev/img/avatar2.jpg" />
+        <img alt="John Doe" src="https://cdn.quasar.dev/img/avatar2.jpg" />
       </q-avatar>
     </q-btn>
 

@@ -1,7 +1,7 @@
 <template>
   <div class="q-pa-md">
     <div class="q-gutter-md">
-      <q-btn color="primary" label="Basic Menu">
+      <q-btn color="primary" label="Basic Menu" aria-haspopup="menu">
         <q-menu>
           <q-list role="menu" style="min-width: 100px">
             <q-item clickable v-close-popup>
@@ -34,7 +34,7 @@
         </q-menu>
       </q-btn>
 
-      <q-btn color="secondary" label="Auto-Close Menu">
+      <q-btn color="secondary" label="Auto-Close Menu" aria-haspopup="menu">
         <q-menu auto-close>
           <q-list role="menu" style="min-width: 100px">
             <q-item clickable>

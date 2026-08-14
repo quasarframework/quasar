@@ -1,6 +1,6 @@
 <template>
   <div class="q-pa-md">
-    <q-btn color="primary" label="Persistent Menu">
+    <q-btn color="primary" label="Persistent Menu" aria-haspopup="menu">
       <q-menu persistent auto-close>
         <q-list role="menu" style="min-width: 100px">
           <q-item clickable>

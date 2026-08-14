@@ -4,7 +4,6 @@
       class="transition-list-box__ensure-img-loaded no-pointer-events absolute-bottom-left"
       src="/img/parallax1.jpg"
       alt=""
-      aria-hidden="true"
     />
 
     <q-btn
