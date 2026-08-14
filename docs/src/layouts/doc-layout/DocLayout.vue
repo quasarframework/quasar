@@ -186,6 +186,11 @@ const pageContentClass = computed(
     position: fixed
     left: -1000px
     top: 0
+    // off-screen is not gone: without this the menu keeps every one of its
+    // links in the tab order and in the accessibility tree, so narrow
+    // viewports tab through a sidebar nobody can see. Unlike display:none
+    // this still leaves QScrollArea a box to measure
+    visibility: hidden
 
 .doc-drawer
   // only show the shadow when the drawer is open
