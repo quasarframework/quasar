@@ -4,17 +4,15 @@
       props.overline
     }}</div>
 
-    <h1 class="doc-heading doc-h1" id="introduction" v-if="props.heading">
-      <div class="row items-center q-gutter-sm">
-        <div>{{ props.title }}</div>
+    <div class="doc-page__title" v-if="props.heading">
+      <h1 class="doc-heading doc-h1" id="introduction">
+        {{ props.title }}
         <q-badge v-if="props.badge" :label="props.badge" />
-      </div>
-
-      <q-space />
+      </h1>
 
       <q-btn
         v-if="props.editLink"
-        class="self-start q-ml-sm"
+        class="doc-page__title-edit"
         :href="editHref"
         target="_blank"
         rel="noopener noreferrer"
@@ -29,7 +27,7 @@
           <q-icon class="q-ml-xs" :name="mdiFlash" size="2em" />
         </q-tooltip>
       </q-btn>
-    </h1>
+    </div>
 
     <div class="doc-page__nav" v-if="props.related">
       <div class="q-gutter-sm flex">
@@ -183,12 +181,32 @@ const tocClass = computed(
   &__content-footer
     margin-top: 64px
 
+  // The page title and the link to edit the page share one line. The link
+  // has to stay outside the <h1>, because a heading is named by what it
+  // contains and its label was ending up in every page's title. Sizing the
+  // title here rather than on the heading keeps the two facts that follow
+  // from each other together: the space below the title is 1em of it, and
+  // the heading is free of margins that would otherwise make it the
+  // tallest thing on the line and knock it off centre.
+  &__title
+    display: flex
+    align-items: center
+    flex-wrap: nowrap
+    font-size: $doc-title-font-size
+    // beats the 22px every other div of page content gets: this block is
+    // the title, and its spacing scales with the title
+    margin-bottom: 1em !important
+
+    @media (max-width: 850px)
+      font-size: $doc-title-font-size--narrow
+
+  &__title-edit
+    align-self: flex-start
+    margin-left: auto
+
   &__overline
     letter-spacing: $letter-spacing-brand
     margin-bottom: 0 !important
-    & + .doc-h1
-      margin-top: 0 !important
-      padding-top: 0 !important
 
   &__related
     transition: color $header-transition

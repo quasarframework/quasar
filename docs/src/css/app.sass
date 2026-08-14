@@ -186,12 +186,18 @@ ul
     &:hover:after
       opacity: 1
 
+// the only h1 on the site is the page title, laid out by
+// .doc-page__title - which is where its scale and its trailing space live
 .doc-h1
-  font-size: 2.4em
+  font-size: inherit
   font-weight: 700
-  margin: 0 0 1em !important
+  margin: 0 !important
   display: flex
   align-items: center
+  min-width: 0 // a long title wraps rather than pushing the edit link out
+
+  .q-badge
+    margin-left: 8px
 
 .doc-h2
   font-size: 1.8em
@@ -225,8 +231,8 @@ ul
     vertical-align: text-top
 
 @media (max-width: 850px)
-  .doc-h1
-    font-size: 1.7em
+  // .doc-h1 is absent here on purpose: it inherits from .doc-page__title,
+  // which narrows itself at this same width
   .doc-h2
     font-size: 1.4em
   .doc-h3
