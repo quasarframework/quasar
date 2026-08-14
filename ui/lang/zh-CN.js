@@ -18,6 +18,7 @@ export default {
     minimum: '最小值',
     maximum: '最大值',
     range: '范围',
+    resize: '调整大小',
     expand: label => (label ? `展开"${label}"` : '扩张'),
     collapse: label => (label ? `折叠"${label}"` : '坍塌')
   },

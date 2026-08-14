@@ -18,6 +18,7 @@ export default {
     minimum: 'Minimum',
     maximum: 'Maximum',
     range: 'Range',
+    resize: "Suia le lapo'a",
     expand: label => (label ? `Fa'alautele "${label}"` : 'Faalautele'),
     collapse: label => (label ? `Pa'u "${label}"` : "Pa'u")
   },

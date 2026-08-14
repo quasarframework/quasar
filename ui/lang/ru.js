@@ -28,6 +28,7 @@ export default {
     minimum: 'Минимум',
     maximum: 'Максимум',
     range: 'Диапазон',
+    resize: 'Изменить размер',
     expand: label => (label ? `Расширьте "${label}"` : 'Расширять'),
     collapse: label => (label ? `Свернуть "${label}"` : 'Крах')
   },

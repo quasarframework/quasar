@@ -18,6 +18,7 @@ export default {
     minimum: 'সর্বনিম্ন',
     maximum: 'সর্বোচ্চ',
     range: 'পরিসর',
+    resize: 'আকার পরিবর্তন করুন',
     expand: label => (label ? `"${label}" প্রসারিত করুন` : 'বিস্তৃত করা'),
     collapse: label => (label ? `"${label}" সঙ্কুচিত করুন` : 'সঙ্কুচিত')
   },

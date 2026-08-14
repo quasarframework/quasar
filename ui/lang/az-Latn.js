@@ -18,6 +18,7 @@ export default {
     minimum: 'Minimum',
     maximum: 'Maksimum',
     range: 'Aralıq',
+    resize: 'Ölçüsünü dəyiş',
     expand: label => (label ? `"${label}" genişləndirin` : 'Genişləndirin'),
     collapse: label => (label ? `"${label}" yığcamlaşdırın` : 'Yıxılma')
   },

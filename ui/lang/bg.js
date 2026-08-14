@@ -18,6 +18,7 @@ export default {
     minimum: 'Минимум',
     maximum: 'Максимум',
     range: 'Диапазон',
+    resize: 'Преоразмеряване',
     expand: label => (label ? `Разширете "${label}"` : 'Разширяване'),
     collapse: label => (label ? `Свиване на "${label}"` : 'Свиване')
   },

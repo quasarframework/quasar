@@ -18,6 +18,7 @@ export default {
     minimum: 'Mínimo',
     maximum: 'Máximo',
     range: 'Rango',
+    resize: 'Redimensiona',
     expand: label => (label ? `Oñembotuichave "${label}"` : 'Myasãi'),
     collapse: label => (label ? `Omboguejy "${label}"` : 'Ñembyaipa')
   },

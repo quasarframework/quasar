@@ -18,6 +18,7 @@ export default {
     minimum: 'Минимум',
     maximum: 'Максимум',
     range: 'Диапазон',
+    resize: 'Ўлчамни ўзгартириш',
     expand: label => (label ? `"${label}" ни кенгайтириш` : 'ъКенгайтиришъ'),
     collapse: label => (label ? `"${label}" ни йиғиш` : 'ъЙиқилишъ')
   },

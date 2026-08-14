@@ -18,6 +18,7 @@ export default {
     minimum: '最小',
     maximum: '最大',
     range: '範囲',
+    resize: 'サイズ変更',
     expand: label => (label ? `「${label}」を展開します。` : '展開'),
     collapse: label => (label ? `「${label}」を折りたたむ` : '折りたたむ')
   },

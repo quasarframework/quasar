@@ -18,6 +18,7 @@ export default {
     minimum: 'Minimum',
     maximum: 'Maksimum',
     range: 'Område',
+    resize: 'Endre størrelse',
     expand: label => (label ? `Utvid "${label}"` : 'Utvide'),
     collapse: label => (label ? `Skjul "${label}"` : 'Kollapse')
   },

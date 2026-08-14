@@ -21,6 +21,7 @@ export default {
     minimum: 'ئەڭ تۆۋەن',
     maximum: 'ئەڭ يۇقىرى',
     range: 'دائىرە',
+    resize: 'چوڭلۇقىنى ئۆزگەرتىش',
     expand: label => (label ? `نى كېڭەيتىڭ "${label}"` : 'كېڭەيتىش'),
     collapse: label => (label ? `نى يىمىرىڭ "${label}"` : 'كېڭەيتىش')
   },

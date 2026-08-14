@@ -18,6 +18,7 @@ export default {
     minimum: 'អប្បបរមា',
     maximum: 'អតិបរមា',
     range: 'ចន្លោះ',
+    resize: 'ប្តូរទំហំ',
     expand: label => (label ? `ពង្រីក "${label}"` : 'ពង្រីក'),
     collapse: label => (label ? `បង្រួម "${label}"` : 'ដួលរលំ')
   },

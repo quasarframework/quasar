@@ -18,6 +18,7 @@ export default {
     minimum: 'Minimumo',
     maximum: 'Maksimumo',
     range: 'Intervalo',
+    resize: 'Regrandigi',
     expand: label => (label ? `Vastigi "${label}"` : 'Vastigi'),
     collapse: label => (label ? `Kolapsi "${label}"` : 'Kolapso')
   },

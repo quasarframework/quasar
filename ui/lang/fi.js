@@ -18,6 +18,7 @@ export default {
     minimum: 'Minimi',
     maximum: 'Maksimi',
     range: 'Vaihteluväli',
+    resize: 'Muuta kokoa',
     expand: label => (label ? `Laajenna "${label}"` : 'Laajentaa'),
     collapse: label => (label ? `Tiivistä "${label}"` : 'Romahdus')
   },

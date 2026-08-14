@@ -18,6 +18,7 @@ export default {
     minimum: 'Minimum',
     maximum: 'Maximum',
     range: 'Bereich',
+    resize: 'Grösse ändern',
     expand: label => (label ? `Erweitern Sie "${label}"` : 'Erweitern'),
     collapse: label => (label ? `"${label}" minimieren` : 'Zusammenbruch')
   },

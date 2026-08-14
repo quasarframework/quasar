@@ -18,6 +18,7 @@ export default {
     minimum: 'Ελάχιστο',
     maximum: 'Μέγιστο',
     range: 'Εύρος',
+    resize: 'Αλλαγή μεγέθους',
     expand: label => (label ? `Επέκταση "${label}"` : 'Επεκτείνουν'),
     collapse: label => (label ? `Σύμπτυξη "${label}"` : 'Κατάρρευση')
   },

@@ -47,7 +47,9 @@ export default /*#__PURE__*/ createComponent({
     afterClass: [Array, String, Object],
 
     separatorClass: [Array, String, Object],
-    separatorStyle: [Array, String, Object]
+    separatorStyle: [Array, String, Object],
+
+    separatorAriaLabel: String
   },
 
   emits: ['update:modelValue'],
@@ -162,7 +164,10 @@ export default /*#__PURE__*/ createComponent({
     const separatorAttrs = computed(() => {
       const acc = {
         role: 'separator',
-        'aria-orientation': props.horizontal ? 'horizontal' : 'vertical'
+        'aria-orientation': props.horizontal ? 'horizontal' : 'vertical',
+        // a separator has presentational children, so it can only be
+        // named through this attribute
+        'aria-label': props.separatorAriaLabel || $q.lang.label.resize
       }
 
       if (props.disable) {

@@ -29,6 +29,7 @@ export default {
     minimum: 'Minimumas',
     maximum: 'Maksimumas',
     range: 'Diapazonas',
+    resize: 'Keisti dydį',
     expand: label => (label ? `Išskleisti "${label}"` : 'Išskleisti'),
     collapse: label => (label ? `Sutraukti "${label}"` : 'Sutraukti')
   },

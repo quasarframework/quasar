@@ -85,6 +85,14 @@
       "category": "style"
     },
 
+    "separator-aria-label": {
+      "type": "String",
+      "desc": "Aria-label for the separator; Overrides the default label taken from the Quasar Language Pack ('label.resize')",
+      "examples": ["'Resize the navigation panel'"],
+      "category": "accessibility",
+      "addedIn": "v2.25"
+    },
+
     "dark": {
       "extends": "dark",
       "desc": "Applies a default lighter color on the separator; To be used when background is darker; Avoid using when you are overriding through separator-class or separator-style props"

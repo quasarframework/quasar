@@ -18,6 +18,7 @@ export default {
     minimum: 'Minimum',
     maximum: 'Maximum',
     range: 'Bereik',
+    resize: 'Formaat wijzigen',
     expand: label => (label ? `"${label}" uitklappen` : 'Uitklappen'),
     collapse: label => (label ? `"${label}" inklappen` : 'Inklappen')
   },

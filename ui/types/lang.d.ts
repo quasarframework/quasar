@@ -115,6 +115,7 @@ export interface QuasarLanguage {
   label: StringDictionary<QuasarLanguageGeneralLabel> & {
     expand: (label?: string | undefined) => string;
     collapse: (label?: string | undefined) => string;
+    resize?: string;
   };
   date: {
     days: QuasarLanguageDayTuple;

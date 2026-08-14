@@ -18,6 +18,7 @@ export default {
     minimum: 'Minimum',
     maximum: 'Maximum',
     range: 'Plage',
+    resize: 'Gréisst änneren',
     expand: label => (label ? `"${label}" erweideren` : 'Erweideren'),
     collapse: label => (label ? `"${label}" zesummeklappen` : 'Zesummebroch')
   },

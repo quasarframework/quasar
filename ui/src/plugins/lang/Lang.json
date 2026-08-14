@@ -121,6 +121,11 @@
               "desc": "Aria-label for the QRange track when it drags the whole selected window (drag-range/drag-only-range)",
               "examples": ["'Range'"]
             },
+            "resize": {
+              "type": "String",
+              "desc": "Aria-label for the QSplitter separator",
+              "examples": ["'Resize'"]
+            },
             "expand": {
               "type": "Function",
               "desc": "Label function",
@@ -754,6 +759,11 @@
                   "type": "String",
                   "desc": "Aria-label for the QRange track when it drags the whole selected window (drag-range/drag-only-range)",
                   "examples": ["'Range'"]
+                },
+                "resize": {
+                  "type": "String",
+                  "desc": "Aria-label for the QSplitter separator",
+                  "examples": ["'Resize'"]
                 },
                 "expand": {
                   "type": "Function",

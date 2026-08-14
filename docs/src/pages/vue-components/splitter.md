@@ -73,6 +73,8 @@ A QSplitter can be embedded in another QSplitter's `before` and/or `after` slots
 
 The separator bar implements the [WAI-ARIA window splitter pattern](https://www.w3.org/WAI/ARIA/apg/patterns/windowsplitter/): it carries `role="separator"` with an `aria-orientation` matching the splitter's direction, `aria-controls` pointing at the panel the model resizes, and `aria-valuemin`/`aria-valuemax`/`aria-valuenow` tracking the split as it moves. A disabled QSplitter exposes `aria-disabled` on the separator and removes it from the Tab order.
 
+Its accessible name defaults to the `label.resize` entry of the [Quasar Language Pack](/options/quasar-language-packs), since a separator's children are presentational in ARIA — whatever you put in the `separator` slot can never name it. Use the `separator-aria-label` prop (v2.25+) to replace that generic name with one that says which panels are being resized, which is what you want as soon as a page holds more than one splitter.
+
 ### Keyboard navigation <q-badge label="v2.25+" />
 
 QSplitter follows the [WAI-ARIA window splitter pattern](https://www.w3.org/WAI/ARIA/apg/patterns/windowsplitter/): the separator bar is a Tab stop exposed to assistive technology as a `separator` with the model as its value. While it has focus, the arrow keys matching the splitter's orientation (left/right, or up/down when in `horizontal` mode) move it by 1% (or 10px when `unit` is set to pixels), while <kbd>Home</kbd>/<kbd>End</kbd> jump to the model's limits. Arrow keys account for the `reverse` prop and RTL language packs, so a given key always moves the separator in the direction it points to. Pressing <kbd>Enter</kbd> collapses the model-controlled panel to its minimum limit, and pressing it again restores the previous position.

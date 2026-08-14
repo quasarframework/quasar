@@ -261,6 +261,21 @@ describe('[QSplitter API]', () => {
       })
     })
 
+    describe('[(prop)separator-aria-label]', () => {
+      test('type String has effect', async () => {
+        const propVal = 'Resize the navigation panel'
+        const wrapper = mountSplitter()
+
+        expect(getSeparator(wrapper).attributes('aria-label')).toBe(
+          wrapper.vm.$q.lang.label.resize
+        )
+
+        await wrapper.setProps({ separatorAriaLabel: propVal })
+
+        expect(getSeparator(wrapper).attributes('aria-label')).toBe(propVal)
+      })
+    })
+
     describe('[(prop)dark]', () => {
       test('type Boolean has effect', () => {
         const wrapper = mountSplitter({ dark: true })
@@ -353,6 +368,16 @@ describe('[QSplitter API]', () => {
       expect(attrs['aria-valuemax']).toBe('90')
       expect(attrs['aria-valuenow']).toBe('20')
       expect(attrs['aria-controls']).toBe(getBefore(wrapper).attributes('id'))
+    })
+
+    test('the separator is named through the language pack, disabled included', () => {
+      // its children are presentational (WAI-ARIA), so the separator can
+      // only get an accessible name from this attribute
+      const wrapper = mountSplitter({ disable: true })
+      const label = wrapper.vm.$q.lang.label.resize
+
+      expect(label).toEqual(expect.any(String))
+      expect(getSeparator(wrapper).attributes('aria-label')).toBe(label)
     })
 
     test('the separator aria reflects horizontal/reverse/limits props', () => {

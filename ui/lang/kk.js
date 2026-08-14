@@ -28,6 +28,7 @@ export default {
     minimum: 'Минимум',
     maximum: 'Максимум',
     range: 'Диапазон',
+    resize: 'Өлшемін өзгерту',
     expand: label => (label ? `"${label}" кеңейту` : 'Кеңейту'),
     collapse: label => (label ? `"${label}" жию` : 'Жыйрату')
   },

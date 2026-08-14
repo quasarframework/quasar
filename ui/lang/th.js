@@ -18,6 +18,7 @@ export default {
     minimum: 'ต่ำสุด',
     maximum: 'สูงสุด',
     range: 'ช่วง',
+    resize: 'ปรับขนาด',
     expand: label => (label ? `ขยาย "${label}"` : 'ขยาย'),
     collapse: label => (label ? `ยุบ "${label}"` : 'ทรุด')
   },

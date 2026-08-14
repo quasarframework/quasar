@@ -28,6 +28,7 @@ export default {
     minimum: 'Мінімум',
     maximum: 'Максимум',
     range: 'Діапазон',
+    resize: 'Змінити розмір',
     expand: label => (label ? `Розгорнути "${label}"` : 'Розгорнути'),
     collapse: label => (label ? `Згорнути "${label}"` : 'Згорнути')
   },
