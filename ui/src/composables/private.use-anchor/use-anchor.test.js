@@ -30,6 +30,7 @@ function mountAnchor({
   avoidEmit = false,
   componentProps = {},
   configureAnchorEl,
+  getPopupRole,
   showing = ref(false)
 } = {}) {
   const hide = vi.fn()
@@ -57,7 +58,8 @@ function mountAnchor({
         anchor = useAnchor({
           showing,
           avoidEmit,
-          configureAnchorEl
+          configureAnchorEl,
+          getPopupRole
         })
 
         return () => h('button', { 'data-test': 'anchor-child' })
@@ -270,6 +272,170 @@ describe('[useAnchor API]', () => {
 
         expect(show).not.toHaveBeenCalled()
       })
+    })
+  })
+
+  describe('[Accessibility]', () => {
+    function mountTriggerAnchor({
+      attributes = {},
+      componentProps,
+      popupRole = ref(void 0),
+      tag = 'button'
+    } = {}) {
+      const target = createElement(tag)
+
+      Object.entries(attributes).forEach(([name, value]) => {
+        target.setAttribute(name, value)
+      })
+
+      const { showing } = mountAnchor({
+        componentProps: { target, ...componentProps },
+        getPopupRole: () => popupRole.value
+      })
+
+      return { popupRole, showing, target }
+    }
+
+    test('writes nothing when the caller does not opt in', () => {
+      const target = createElement('button')
+      mountAnchor({ componentProps: { target } })
+
+      expect(target.hasAttribute('aria-expanded')).toBe(false)
+      expect(target.hasAttribute('aria-haspopup')).toBe(false)
+    })
+
+    test('tracks the popup state on the anchor, and cleans up after itself', async () => {
+      const { showing, target } = mountTriggerAnchor()
+
+      expect(target.getAttribute('aria-expanded')).toBe('false')
+
+      showing.value = true
+      await nextTick()
+
+      expect(target.getAttribute('aria-expanded')).toBe('true')
+
+      showing.value = false
+      await nextTick()
+
+      expect(target.getAttribute('aria-expanded')).toBe('false')
+
+      wrapper.unmount()
+      wrapper = void 0
+
+      expect(target.hasAttribute('aria-expanded')).toBe(false)
+    })
+
+    test.each([
+      ['button', {}],
+      ['a', { href: '#' }],
+      ['input', { type: 'submit' }],
+      ['div', { role: 'button' }],
+      ['div', { role: 'menuitem' }]
+    ])('wires an anchor that ARIA allows: %s %o', (tag, attributes) => {
+      const { target } = mountTriggerAnchor({ attributes, tag })
+
+      expect(target.getAttribute('aria-expanded')).toBe('false')
+    })
+
+    test.each([
+      ['div', {}],
+      ['div', { role: 'listitem' }],
+      ['div', { role: 'none' }],
+      ['span', { tabindex: '0' }],
+      // a link without an href computes to the generic role
+      ['a', {}],
+      ['input', { type: 'text' }]
+    ])(
+      'leaves an anchor ARIA does not allow it on: %s %o',
+      (tag, attributes) => {
+        const { target } = mountTriggerAnchor({
+          attributes,
+          popupRole: ref('menu'),
+          tag
+        })
+
+        expect(target.hasAttribute('aria-expanded')).toBe(false)
+        expect(target.hasAttribute('aria-haspopup')).toBe(false)
+      }
+    )
+
+    test('mirrors the popup role as aria-haspopup while it can name it', async () => {
+      const popupRole = ref('menu')
+      const { showing, target } = mountTriggerAnchor({ popupRole })
+
+      expect(target.getAttribute('aria-haspopup')).toBe('menu')
+
+      // the role is re-read whenever the popup state changes
+      popupRole.value = 'listbox'
+      showing.value = true
+      await nextTick()
+
+      expect(target.getAttribute('aria-haspopup')).toBe('listbox')
+
+      // aria-haspopup can only name a popup role
+      popupRole.value = 'group'
+      showing.value = false
+      await nextTick()
+
+      expect(target.hasAttribute('aria-haspopup')).toBe(false)
+    })
+
+    test('defers to the ARIA already set on the anchor', async () => {
+      const { showing, target } = mountTriggerAnchor({
+        attributes: {
+          'aria-expanded': 'true',
+          'aria-haspopup': 'dialog'
+        },
+        popupRole: ref('menu')
+      })
+
+      // both would have been overwritten if they were ours to manage
+      expect(target.getAttribute('aria-expanded')).toBe('true')
+      expect(target.getAttribute('aria-haspopup')).toBe('dialog')
+
+      showing.value = true
+      await nextTick()
+      wrapper.unmount()
+      wrapper = void 0
+
+      expect(target.getAttribute('aria-expanded')).toBe('true')
+      expect(target.getAttribute('aria-haspopup')).toBe('dialog')
+    })
+
+    test('skips a context-menu anchor, which expands nothing', async () => {
+      const { target } = mountTriggerAnchor({
+        componentProps: { contextMenu: true },
+        popupRole: ref('menu')
+      })
+
+      expect(target.hasAttribute('aria-expanded')).toBe(false)
+      expect(target.hasAttribute('aria-haspopup')).toBe(false)
+
+      await wrapper.setProps({ contextMenu: false })
+
+      expect(target.getAttribute('aria-expanded')).toBe('false')
+      expect(target.getAttribute('aria-haspopup')).toBe('menu')
+
+      await wrapper.setProps({ contextMenu: true })
+
+      expect(target.hasAttribute('aria-expanded')).toBe(false)
+      expect(target.hasAttribute('aria-haspopup')).toBe(false)
+    })
+
+    test('follows the target to another anchor', async () => {
+      const first = createElement('button')
+      const second = createElement('button')
+      mountAnchor({
+        componentProps: { target: first },
+        getPopupRole: () => void 0
+      })
+
+      expect(first.getAttribute('aria-expanded')).toBe('false')
+
+      await wrapper.setProps({ target: second })
+
+      expect(first.hasAttribute('aria-expanded')).toBe(false)
+      expect(second.getAttribute('aria-expanded')).toBe('false')
     })
   })
 })

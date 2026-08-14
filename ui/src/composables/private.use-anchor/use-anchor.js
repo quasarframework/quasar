@@ -30,15 +30,81 @@ export const useAnchorProps = {
   contextMenu: Boolean
 }
 
+// aria-expanded is not a global ARIA attribute: it is only valid on the
+// roles below, so an anchor that computes to anything else (a bare <div>
+// computes to "generic") must be left untouched
+const expandableRoles = {
+  application: true,
+  button: true,
+  checkbox: true,
+  columnheader: true,
+  combobox: true,
+  gridcell: true,
+  link: true,
+  listbox: true,
+  menuitem: true,
+  menuitemcheckbox: true,
+  menuitemradio: true,
+  row: true,
+  rowheader: true,
+  switch: true,
+  tab: true,
+  treeitem: true
+}
+
+// the input types whose implicit ARIA role is "button"
+const expandableInputTypes = {
+  button: true,
+  image: true,
+  reset: true,
+  submit: true
+}
+
+// aria-haspopup must name the popup's own ARIA role and only these
+// roles can be named by it ('true' is a synonym for 'menu')
+const popupRoles = {
+  dialog: true,
+  grid: true,
+  listbox: true,
+  menu: true,
+  tree: true
+}
+
+function isExpandableControl(el) {
+  const role = el.getAttribute('role')?.trim()
+
+  if (role) {
+    // a role attribute holding a fallback list resolves to its first
+    // valid role; treating an unknown first token as unsupported keeps
+    // us from writing an attribute that might not be allowed
+    return Object.hasOwn(expandableRoles, role.split(/\s+/)[0])
+  }
+
+  const tag = el.tagName
+  return (
+    tag === 'BUTTON' ||
+    (tag === 'A' && el.hasAttribute('href')) ||
+    (tag === 'INPUT' && Object.hasOwn(expandableInputTypes, el.type))
+  )
+}
+
 export default function useAnchor({
   showing,
   avoidEmit, // required for QPopupProxy (true)
-  configureAnchorEl // optional
+  configureAnchorEl, // optional
+  getPopupRole // optional; opts into wiring the anchor's popup ARIA (QMenu)
 }) {
   const { props, proxy, emit } = getCurrentInstance()
   const $q = useQuasar()
 
   const anchorEl = ref(null)
+
+  // the anchor is a foreign DOM node (never rendered by us), so its popup
+  // ARIA gets applied imperatively; each attribute is managed only when
+  // the devland has not already set it on the anchor itself
+  let ariaEl = null,
+    ownsExpanded = false,
+    ownsHaspopup = false
 
   let touchTimer = null
 
@@ -143,6 +209,62 @@ export default function useAnchor({
     cleanEvt(anchorEvents, 'anchor')
   }
 
+  function configureAnchorAria() {
+    if (
+      getPopupRole === void 0 ||
+      anchorEl.value === null ||
+      // a context menu opens on right click / long tap, so its anchor is
+      // not a control that the user can expand and collapse
+      props.contextMenu
+    ) {
+      return
+    }
+
+    const el = anchorEl.value
+
+    // an anchor that is not a control (a bare <div> computes to the
+    // "generic" role) gets no popup ARIA at all: aria-expanded would be
+    // invalid on it and aria-haspopup would describe a non-control
+    if (!isExpandableControl(el)) return
+
+    ownsExpanded = !el.hasAttribute('aria-expanded')
+    ownsHaspopup = !el.hasAttribute('aria-haspopup')
+
+    if (ownsExpanded || ownsHaspopup) {
+      ariaEl = el
+      updateAnchorAria()
+    }
+  }
+
+  function updateAnchorAria() {
+    if (ariaEl === null) return
+
+    if (ownsExpanded) {
+      ariaEl.setAttribute('aria-expanded', showing.value ? 'true' : 'false')
+    }
+
+    if (ownsHaspopup) {
+      const role = getPopupRole()
+
+      if (Object.hasOwn(popupRoles, role)) {
+        ariaEl.setAttribute('aria-haspopup', role)
+      } else {
+        ariaEl.removeAttribute('aria-haspopup')
+      }
+    }
+  }
+
+  function unconfigureAnchorAria() {
+    if (ariaEl === null) return
+
+    if (ownsExpanded) ariaEl.removeAttribute('aria-expanded')
+    if (ownsHaspopup) ariaEl.removeAttribute('aria-haspopup')
+
+    ariaEl = null
+    ownsExpanded = false
+    ownsHaspopup = false
+  }
+
   function setAnchorEl(el) {
     anchorEl.value = el
     while (anchorEl.value.classList.contains('q-anchor--skip')) {
@@ -179,6 +301,8 @@ export default function useAnchor({
         console.error(`Anchor: target "${props.target}" not found`)
       }
     }
+
+    configureAnchorAria()
   }
 
   watch(
@@ -187,6 +311,10 @@ export default function useAnchor({
       if (anchorEl.value !== null) {
         unconfigureAnchorEl()
         configureAnchorEl(val)
+
+        // a context menu anchor gets no popup ARIA
+        unconfigureAnchorAria()
+        configureAnchorAria()
       }
     }
   )
@@ -196,6 +324,7 @@ export default function useAnchor({
     () => {
       if (anchorEl.value !== null) {
         unconfigureAnchorEl()
+        unconfigureAnchorAria()
       }
 
       pickAnchorEl()
@@ -215,6 +344,10 @@ export default function useAnchor({
     }
   )
 
+  if (getPopupRole !== void 0) {
+    watch(showing, updateAnchorAria)
+  }
+
   onMounted(() => {
     pickAnchorEl()
 
@@ -226,6 +359,7 @@ export default function useAnchor({
   onBeforeUnmount(() => {
     if (touchTimer !== null) clearTimeout(touchTimer)
     unconfigureAnchorEl()
+    unconfigureAnchorAria()
   })
 
   return {

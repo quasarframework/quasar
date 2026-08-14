@@ -97,6 +97,24 @@ So when the popup content really is a menu — a list of commands — declare it
 
 If you attach a role to the QMenu container itself instead (it forwards any `role` you pass), make sure its entire content satisfies that role's requirements.
 
+### Anchor semantics <q-badge label="v2.25+" />
+
+The anchor is your own markup, yet it is the control that opens the popup, so QMenu maintains the trigger's ARIA on it from the outside: `aria-expanded` follows the open state, and a `role` declared on the QMenu container itself is mirrored onto the anchor as `aria-haspopup` (that attribute names the popup's role, so only `menu`, `listbox`, `tree`, `grid` and `dialog` can be mirrored). A `<q-btn>` wrapping a QMenu is therefore announced as a collapsed or expanded trigger with no work on your part.
+
+This requires an anchor that ARIA allows the state on — a `<button>`, a link with an `href`, or any element declaring a widget role such as `role="button"`. A plain `<div>` computes to the generic role, where `aria-expanded` is invalid, so QMenu leaves it untouched: give such an anchor a proper role (and a keyboard path to activate it) before using it as a trigger. Two more cases are deliberately left alone — a `context-menu` popup, which opens on right click or long tap rather than on activation, and any `aria-expanded`/`aria-haspopup` you set on the anchor yourself, which QMenu never overwrites.
+
+Do keep in mind that when the role lives on the [QList](/vue-components/list-and-list-items) inside the popup — the shape recommended above — QMenu cannot see it, so add `aria-haspopup="menu"` on the anchor yourself:
+
+```html
+<q-btn label="Actions" aria-haspopup="menu">
+  <q-menu>
+    <q-list role="menu">
+      <!-- ... -->
+    </q-list>
+  </q-menu>
+</q-btn>
+```
+
 ### Keyboard navigation <q-badge label="v2.25+" />
 
 Since the menu renders next to the end of the page, letting <kbd>Tab</kbd> walk past its last focusable element (or <kbd>Shift</kbd> + <kbd>Tab</kbd> before its first one) would drop keyboard focus out of the page. Following the [WAI-ARIA APG](https://www.w3.org/WAI/ARIA/apg/patterns/menu-button/), the menu instead closes and focus continues from its anchor, just like <kbd>Escape</kbd> closes it while returning focus to the anchor. Tabbing between multiple focusable elements _inside_ the menu works as usual, and a `persistent` menu opts out of this dismissal too.

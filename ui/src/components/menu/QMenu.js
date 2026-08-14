@@ -144,7 +144,13 @@ export default /*#__PURE__*/ createComponent({
     const { localScrollTarget, changeScrollEvent, unconfigureScrollTarget } =
       useScrollTarget(props, configureScrollTarget)
 
-    const { anchorEl, canShow } = useAnchor({ showing })
+    const { anchorEl, canShow } = useAnchor({
+      showing,
+      // the anchor is the control that opens this popup, so it carries
+      // the disclosure state; a role declared on the popup through
+      // fall-through attrs is what aria-haspopup can name
+      getPopupRole: () => attrs.role
+    })
 
     const { hide } = useModelToggle({
       showing,

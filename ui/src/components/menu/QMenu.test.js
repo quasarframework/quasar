@@ -1501,5 +1501,72 @@ describe('[QMenu API]', () => {
         expect(getMenu()).not.toBeNull()
       })
     })
+
+    // the anchor is the control that opens the popup, but it is devland
+    // markup, so QMenu maintains its disclosure ARIA from the outside
+    describe('anchor ARIA', () => {
+      function mountMenuOnButton(menuProps) {
+        activeWrapper = mount(
+          defineComponent({
+            props: { menuProps: Object },
+            setup(componentProps) {
+              return () =>
+                h('button', { class: 'my-anchor' }, [
+                  h(QMenu, componentProps.menuProps, () => 'Menu content')
+                ])
+            }
+          }),
+          {
+            props: { menuProps },
+            attachTo: document.body
+          }
+        )
+
+        return activeWrapper
+      }
+
+      test('tracks the popup state on the anchor', async () => {
+        const wrapper = mountMenuOnButton()
+        const anchorEl = getAnchor(wrapper).element
+
+        expect(anchorEl.getAttribute('aria-expanded')).toBe('false')
+
+        await showMenu(wrapper)
+
+        expect(anchorEl.getAttribute('aria-expanded')).toBe('true')
+
+        await hideMenu(wrapper)
+
+        expect(anchorEl.getAttribute('aria-expanded')).toBe('false')
+      })
+
+      test('mirrors a declared popup role as aria-haspopup', () => {
+        const wrapper = mountMenuOnButton({ role: 'menu' })
+
+        expect(getAnchor(wrapper).element.getAttribute('aria-haspopup')).toBe(
+          'menu'
+        )
+      })
+
+      test('claims no aria-haspopup for a role-less popup', () => {
+        const wrapper = mountMenuOnButton()
+
+        expect(getAnchor(wrapper).element.hasAttribute('aria-haspopup')).toBe(
+          false
+        )
+      })
+
+      test('leaves an anchor that is not a control alone', async () => {
+        // the default anchor of this suite is a plain <div>, which
+        // computes to the "generic" role
+        const wrapper = mountMenu({ role: 'menu' })
+        const anchorEl = getAnchor(wrapper).element
+
+        await showMenu(wrapper)
+
+        expect(anchorEl.hasAttribute('aria-expanded')).toBe(false)
+        expect(anchorEl.hasAttribute('aria-haspopup')).toBe(false)
+      })
+    })
   })
 })
