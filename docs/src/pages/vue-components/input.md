@@ -182,6 +182,8 @@ There are **helpers** for QInput `mask` prop: [full list](https://github.com/qua
 
 <DocExample title="Filling the mask" file="MaskFill" />
 
+You can prevent the mask's own handling of a key — the cursor movement over the mask literals, along with the <kbd>BACKSPACE</kbd> / <kbd>DELETE</kbd> boundary logic — by preventing its `keydown` event. Keep in mind that this also cancels the browser's native handling of that key, so `@keydown.left.prevent` leaves the cursor where it is rather than moving it past the literals; repositioning it is then up to your own handler.
+
 The `unmasked-value` is useful if for example you want to force the user type a certain format, but you want the model to contain the raw value:
 
 <DocExample title="Unmasked model" file="MaskUnmaskedModel" />
@@ -189,8 +191,6 @@ The `unmasked-value` is useful if for example you want to force the user type a 
 The `reverse-fill-mask` is useful if you want to force the user to fill the mask from the end and allow non-fixed length of input:
 
 <DocExample title="Filling the mask in reverse" file="MaskFillReverse" />
-
-You can prevent the mask's own handling of a key — the cursor movement over the mask literals, along with the <kbd>BACKSPACE</kbd> / <kbd>DELETE</kbd> boundary logic — by preventing its `keydown` event. Keep in mind that this also cancels the browser's native handling of that key, so `@keydown.left.prevent` leaves the cursor where it is rather than moving it past the literals; repositioning it is then up to your own handler.
 
 ### Custom mask tokens <q-badge label="v2.18.4+" />
 
