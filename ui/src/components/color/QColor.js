@@ -824,7 +824,6 @@ export default /*#__PURE__*/ createComponent({
             selectionColor: 'transparent',
             trackImg: alphaTrackImg,
             readonly: !editable.value,
-            hideSelection: true,
             thumbPath,
             ...getCache('alphaSlide', {
               'onUpdate:modelValue': value => onNumericChange(value, 'a', 100),
