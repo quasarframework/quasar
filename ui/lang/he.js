@@ -60,9 +60,12 @@ export default {
     recordsPerPage: 'שורות בעמוד:',
     allRows: 'הכל',
     pagination: (start, end, total) => start + ' - ' + end + ' מתוך ' + total,
-    columns: 'עמודות'
+    columns: 'עמודות',
+    selectAllRows: 'בחר את כל השורות',
+    selectRow: 'בחר שורה'
   },
   pagination: {
+    label: 'עימוד',
     first: 'עמוד ראשון',
     prev: 'עמוד קודם',
     next: 'העמוד הבא',
@@ -71,6 +74,22 @@ export default {
   carousel: {
     prevSlide: 'השקופית הקודמת',
     nextSlide: 'השקופית הבאה'
+  },
+  colorPicker: {
+    spectrum: 'ספקטרום',
+    tune: 'כוונון',
+    palette: 'לוח צבעים',
+    value: 'ערך הצבע',
+    hue: 'גוון',
+    alpha: 'אטימות'
+  },
+  uploader: {
+    addFiles: 'בחר קבצים',
+    upload: 'העלה קבצים',
+    abort: 'בטל העלאה',
+    removeQueued: 'הסר קבצים בהמתנה',
+    removeUploaded: 'הסר קבצים שהועלו',
+    removeFile: 'הסר קובץ'
   },
   editor: {
     toolbar: 'סרגל הכלים של העורך',

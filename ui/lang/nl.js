@@ -58,9 +58,12 @@ export default {
     recordsPerPage: 'Records per pagina:',
     allRows: 'Alle',
     pagination: (start, end, total) => start + '-' + end + ' van ' + total,
-    columns: 'Kolommen'
+    columns: 'Kolommen',
+    selectAllRows: 'Alle rijen selecteren',
+    selectRow: 'Rij selecteren'
   },
   pagination: {
+    label: 'Paginering',
     first: 'Eerste pagina',
     prev: 'Vorige pagina',
     next: 'Volgende pagina',
@@ -69,6 +72,22 @@ export default {
   carousel: {
     prevSlide: 'Vorige dia',
     nextSlide: 'Volgende dia'
+  },
+  colorPicker: {
+    spectrum: 'Spectrum',
+    tune: 'Afstemming',
+    palette: 'Palet',
+    value: 'Kleurwaarde',
+    hue: 'Kleurtoon',
+    alpha: 'Dekking'
+  },
+  uploader: {
+    addFiles: 'Bestanden kiezen',
+    upload: 'Bestanden uploaden',
+    abort: 'Uploaden afbreken',
+    removeQueued: 'Wachtende bestanden verwijderen',
+    removeUploaded: 'Geüploade bestanden verwijderen',
+    removeFile: 'Bestand verwijderen'
   },
   editor: {
     toolbar: 'Werkbalk van de editor',

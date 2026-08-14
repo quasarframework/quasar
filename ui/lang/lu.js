@@ -58,9 +58,12 @@ export default {
     recordsPerPage: 'Zeilen pro Säit:',
     allRows: 'All',
     pagination: (start, end, total) => start + '-' + end + ' vun ' + total,
-    columns: 'Kolonnen'
+    columns: 'Kolonnen',
+    selectAllRows: 'Sungula milongo yonso',
+    selectRow: 'Sungula mulongo'
   },
   pagination: {
+    label: 'Kutanga kwa mabaji',
     first: 'Éischt Säit',
     prev: 'Virdrun Säit',
     next: 'Nächst Säit',
@@ -69,6 +72,22 @@ export default {
   carousel: {
     prevSlide: 'Virescht Folie',
     nextSlide: 'Nächst Folie'
+  },
+  colorPicker: {
+    spectrum: 'Mfwalansa ya mikuba',
+    tune: 'Kulongolola',
+    palette: 'Kibaya kya mikuba',
+    value: 'Bukata bwa mukuba',
+    hue: 'Mukuba',
+    alpha: 'Bukole bwa mukuba'
+  },
+  uploader: {
+    addFiles: 'Sungula bifile',
+    upload: 'Tuma bifile',
+    abort: 'Jimija kutuma',
+    removeQueued: 'Fundula bifile bidi mu kindi',
+    removeUploaded: 'Fundula bifile bitumibwe',
+    removeFile: 'Fundula file'
   },
   editor: {
     toolbar: 'Toolbar vum Editeur',

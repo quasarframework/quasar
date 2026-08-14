@@ -61,9 +61,12 @@ export default {
     recordsPerPage: 'Сахифадаги қаторлар:',
     allRows: 'Барчаси',
     pagination: (start, end, total) => start + '-' + end + ' жами ' + total,
-    columns: 'Устунлар'
+    columns: 'Устунлар',
+    selectAllRows: 'Барча қаторларни танлаш',
+    selectRow: 'Қаторни танлаш'
   },
   pagination: {
+    label: 'Саҳифалаш',
     first: 'Биринчи саҳифа',
     prev: 'Олдинги саҳифа',
     next: 'Кейинги саҳифа',
@@ -72,6 +75,22 @@ export default {
   carousel: {
     prevSlide: 'Олдинги слайд',
     nextSlide: 'Кейинги слайд'
+  },
+  colorPicker: {
+    spectrum: 'Спектр',
+    tune: 'Созлаш',
+    palette: 'Палитра',
+    value: 'Ранг қиймати',
+    hue: 'Тус',
+    alpha: 'Хиралик'
+  },
+  uploader: {
+    addFiles: 'Файлларни танлаш',
+    upload: 'Файлларни юклаш',
+    abort: 'Юклашни тўхтатиш',
+    removeQueued: 'Навбатдаги файлларни ўчириш',
+    removeUploaded: 'Юкланган файлларни ўчириш',
+    removeFile: 'Файлни ўчириш'
   },
   editor: {
     toolbar: 'Муҳаррир асбоблар панели',

@@ -75,9 +75,12 @@ describe('[Lang API]', () => {
             recordsPerPage: expect.any(String),
             allRows: expect.any(String),
             pagination: expect.any(Function),
-            columns: expect.any(String)
+            columns: expect.any(String),
+            selectAllRows: expect.any(String),
+            selectRow: expect.any(String)
           },
           pagination: {
+            label: expect.any(String),
             first: expect.any(String),
             last: expect.any(String),
             next: expect.any(String),
@@ -86,6 +89,22 @@ describe('[Lang API]', () => {
           carousel: {
             prevSlide: expect.any(String),
             nextSlide: expect.any(String)
+          },
+          colorPicker: {
+            spectrum: expect.any(String),
+            tune: expect.any(String),
+            palette: expect.any(String),
+            value: expect.any(String),
+            hue: expect.any(String),
+            alpha: expect.any(String)
+          },
+          uploader: {
+            addFiles: expect.any(String),
+            upload: expect.any(String),
+            abort: expect.any(String),
+            removeQueued: expect.any(String),
+            removeUploaded: expect.any(String),
+            removeFile: expect.any(String)
           },
           editor: {
             toolbar: expect.any(String),
@@ -246,9 +265,12 @@ describe('[Lang API]', () => {
               allRows: 'All',
               pagination: (start, end, total) =>
                 start + '–' + end + ' of ' + total,
-              columns: 'Columns'
+              columns: 'Columns',
+              selectAllRows: 'Select all rows',
+              selectRow: 'Select row'
             },
             pagination: {
+              label: expect.any(String),
               first: expect.any(String),
               last: expect.any(String),
               next: expect.any(String),
@@ -257,6 +279,22 @@ describe('[Lang API]', () => {
             carousel: {
               prevSlide: 'Previous slide',
               nextSlide: 'Next slide'
+            },
+            colorPicker: {
+              spectrum: 'Spectrum',
+              tune: 'Tune',
+              palette: 'Palette',
+              value: 'Color value',
+              hue: 'Hue',
+              alpha: 'Opacity'
+            },
+            uploader: {
+              addFiles: 'Pick files',
+              upload: 'Upload files',
+              abort: 'Abort upload',
+              removeQueued: 'Remove queued files',
+              removeUploaded: 'Remove uploaded files',
+              removeFile: 'Remove file'
             },
             editor: {
               toolbar: 'Editor toolbar',

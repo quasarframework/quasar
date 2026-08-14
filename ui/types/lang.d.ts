@@ -34,7 +34,9 @@ type QuasarLanguageTableLabel =
   | "loading"
   | "recordsPerPage"
   | "allRows"
-  | "columns";
+  | "columns"
+  | "selectAllRows"
+  | "selectRow";
 type QuasarLanguageEditorLabel =
   | "url"
   | "bold"
@@ -156,6 +158,22 @@ export interface QuasarLanguage {
   carousel?: {
     prevSlide?: string;
     nextSlide?: string;
+  };
+  colorPicker?: {
+    spectrum?: string;
+    tune?: string;
+    palette?: string;
+    value?: string;
+    hue?: string;
+    alpha?: string;
+  };
+  uploader?: {
+    addFiles?: string;
+    upload?: string;
+    abort?: string;
+    removeQueued?: string;
+    removeUploaded?: string;
+    removeFile?: string;
   };
   editor: StringDictionary<QuasarLanguageEditorLabel> & {
     toolbar?: string;

@@ -56,9 +56,12 @@ export default {
     recordsPerPage: 'Εγγραφές ανα σελίδα:',
     allRows: 'Όλες',
     pagination: (start, end, total) => start + '-' + end + ' από ' + total,
-    columns: 'Στήλες'
+    columns: 'Στήλες',
+    selectAllRows: 'Επιλογή όλων των γραμμών',
+    selectRow: 'Επιλογή γραμμής'
   },
   pagination: {
+    label: 'Σελιδοποίηση',
     first: 'Πρώτη σελίδα',
     prev: 'Προηγούμενη σελίδα',
     next: 'Επόμενη σελίδα',
@@ -67,6 +70,22 @@ export default {
   carousel: {
     prevSlide: 'Προηγούμενη διαφάνεια',
     nextSlide: 'Επόμενη διαφάνεια'
+  },
+  colorPicker: {
+    spectrum: 'Φάσμα',
+    tune: 'Ρύθμιση',
+    palette: 'Παλέτα',
+    value: 'Τιμή χρώματος',
+    hue: 'Απόχρωση',
+    alpha: 'Αδιαφάνεια'
+  },
+  uploader: {
+    addFiles: 'Επιλογή αρχείων',
+    upload: 'Μεταφόρτωση αρχείων',
+    abort: 'Ακύρωση μεταφόρτωσης',
+    removeQueued: 'Αφαίρεση αρχείων σε αναμονή',
+    removeUploaded: 'Αφαίρεση μεταφορτωμένων αρχείων',
+    removeFile: 'Αφαίρεση αρχείου'
   },
   editor: {
     toolbar: 'Γραμμή εργαλείων επεξεργαστή',

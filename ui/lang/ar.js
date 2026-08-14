@@ -61,9 +61,12 @@ export default {
     recordsPerPage: 'عدد المُدخَلات في كل صفحة:',
     allRows: 'الكل',
     pagination: (start, end, total) => start + ' - ' + end + ' من ' + total,
-    columns: 'أعمدة'
+    columns: 'أعمدة',
+    selectAllRows: 'تحديد كل الصفوف',
+    selectRow: 'تحديد الصف'
   },
   pagination: {
+    label: 'ترقيم الصفحات',
     first: 'الصفحة الأولى',
     prev: 'الصفحة السابقة',
     next: 'الصفحة التالية',
@@ -72,6 +75,22 @@ export default {
   carousel: {
     prevSlide: 'الشريحة السابقة',
     nextSlide: 'الشريحة التالية'
+  },
+  colorPicker: {
+    spectrum: 'الطيف',
+    tune: 'ضبط',
+    palette: 'لوحة الألوان',
+    value: 'قيمة اللون',
+    hue: 'درجة اللون',
+    alpha: 'العتامة'
+  },
+  uploader: {
+    addFiles: 'اختيار الملفات',
+    upload: 'رفع الملفات',
+    abort: 'إلغاء الرفع',
+    removeQueued: 'إزالة الملفات في الانتظار',
+    removeUploaded: 'إزالة الملفات المرفوعة',
+    removeFile: 'إزالة الملف'
   },
   editor: {
     toolbar: 'شريط أدوات المحرر',

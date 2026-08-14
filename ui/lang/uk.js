@@ -69,9 +69,12 @@ export default {
     recordsPerPage: 'Рядків на сторінці:',
     allRows: 'Усі',
     pagination: (start, end, total) => start + '-' + end + ' з ' + total,
-    columns: 'Колонки'
+    columns: 'Колонки',
+    selectAllRows: 'Вибрати всі рядки',
+    selectRow: 'Вибрати рядок'
   },
   pagination: {
+    label: 'Посторінкова навігація',
     first: 'Перша сторінка',
     prev: 'Попередня сторінка',
     next: 'Наступна сторінка',
@@ -80,6 +83,22 @@ export default {
   carousel: {
     prevSlide: 'Попередній слайд',
     nextSlide: 'Наступний слайд'
+  },
+  colorPicker: {
+    spectrum: 'Спектр',
+    tune: 'Налаштування',
+    palette: 'Палітра',
+    value: 'Значення кольору',
+    hue: 'Відтінок',
+    alpha: 'Непрозорість'
+  },
+  uploader: {
+    addFiles: 'Вибрати файли',
+    upload: 'Завантажити файли',
+    abort: 'Перервати завантаження',
+    removeQueued: 'Видалити файли з черги',
+    removeUploaded: 'Видалити завантажені файли',
+    removeFile: 'Видалити файл'
   },
   editor: {
     toolbar: 'Панель інструментів редактора',

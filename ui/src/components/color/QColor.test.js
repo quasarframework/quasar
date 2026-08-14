@@ -3,6 +3,7 @@ import { describe, expect, test } from 'vitest'
 import { nextTick } from 'vue'
 
 import QColor from './QColor.js'
+import langEn from '../../../lang/en-US.js'
 
 function mountColor(props = {}) {
   return mount(QColor, {
@@ -443,6 +444,45 @@ describe('[QColor API]', () => {
         const [value] = eventList.change[0]
         expect(value).toBe('#ffcccc')
       })
+    })
+  })
+
+  describe('[Accessibility]', () => {
+    test('names the internals the consumer cannot reach', () => {
+      const wrapper = mountColor({
+        modelValue: '#ff00ffcc',
+        formatModel: 'rgba'
+      })
+      const { colorPicker } = langEn
+
+      // view tabs are icon-only
+      const tabs = wrapper
+        .findAll('.q-color-picker__footer [role="tab"]')
+        .map(t => t.attributes('aria-label'))
+      expect(tabs).toStrictEqual([
+        colorPicker.spectrum,
+        colorPicker.tune,
+        colorPicker.palette
+      ])
+
+      // the header value field has no label element of its own
+      expect(
+        wrapper
+          .get('.q-color-picker__header-banner input')
+          .attributes('aria-label')
+      ).toBe(colorPicker.value)
+
+      // both sliders carry the slider role, so they need names
+      expect(
+        wrapper
+          .get('.q-color-picker__hue [role="slider"]')
+          .attributes('aria-label')
+      ).toBe(colorPicker.hue)
+      expect(
+        wrapper
+          .get('.q-color-picker__alpha [role="slider"]')
+          .attributes('aria-label')
+      ).toBe(colorPicker.alpha)
     })
   })
 })

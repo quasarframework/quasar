@@ -58,9 +58,12 @@ export default {
     recordsPerPage: 'Files per pàgina:',
     allRows: 'Totes',
     pagination: (start, end, total) => start + '-' + end + ' de ' + total,
-    columns: 'Columnes'
+    columns: 'Columnes',
+    selectAllRows: 'Selecciona totes les files',
+    selectRow: 'Selecciona la fila'
   },
   pagination: {
+    label: 'Paginació',
     first: 'Primera pàgina',
     prev: 'Pàgina anterior',
     next: 'Pàgina següent',
@@ -69,6 +72,22 @@ export default {
   carousel: {
     prevSlide: 'Diapositiva anterior',
     nextSlide: 'Diapositiva següent'
+  },
+  colorPicker: {
+    spectrum: 'Espectre',
+    tune: 'Ajust',
+    palette: 'Paleta',
+    value: 'Valor del color',
+    hue: 'To',
+    alpha: 'Opacitat'
+  },
+  uploader: {
+    addFiles: 'Tria fitxers',
+    upload: 'Puja els fitxers',
+    abort: 'Cancel·la la pujada',
+    removeQueued: 'Elimina els fitxers en cua',
+    removeUploaded: 'Elimina els fitxers pujats',
+    removeFile: 'Elimina el fitxer'
   },
   editor: {
     toolbar: "Barra d'eines de l'editor",

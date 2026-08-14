@@ -56,9 +56,12 @@ export default {
     recordsPerPage: 'Rader per sida:',
     allRows: 'Alla',
     pagination: (start, end, total) => start + '-' + end + ' av ' + total,
-    columns: 'Kolumner'
+    columns: 'Kolumner',
+    selectAllRows: 'Markera alla rader',
+    selectRow: 'Markera rad'
   },
   pagination: {
+    label: 'Sidnumrering',
     first: 'Första sidan',
     prev: 'Föregående sida',
     next: 'Nästa sida',
@@ -67,6 +70,22 @@ export default {
   carousel: {
     prevSlide: 'Föregående bild',
     nextSlide: 'Nästa bild'
+  },
+  colorPicker: {
+    spectrum: 'Spektrum',
+    tune: 'Finjustering',
+    palette: 'Palett',
+    value: 'Färgvärde',
+    hue: 'Nyans',
+    alpha: 'Opacitet'
+  },
+  uploader: {
+    addFiles: 'Välj filer',
+    upload: 'Ladda upp filer',
+    abort: 'Avbryt uppladdningen',
+    removeQueued: 'Ta bort köade filer',
+    removeUploaded: 'Ta bort uppladdade filer',
+    removeFile: 'Ta bort fil'
   },
   editor: {
     toolbar: 'Redigerarens verktygsfält',

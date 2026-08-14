@@ -56,9 +56,12 @@ export default {
     recordsPerPage: 'Mga tala sa bawat pahina:',
     allRows: 'Lahat',
     pagination: (start, end, total) => start + '-' + end + ' ng ' + total,
-    columns: 'Mga hanay'
+    columns: 'Mga hanay',
+    selectAllRows: 'Piliin ang lahat ng hilera',
+    selectRow: 'Piliin ang hilera'
   },
   pagination: {
+    label: 'Pagbibilang ng pahina',
     first: 'Unang pahina',
     prev: 'Nakaraang pahina',
     next: 'Susunod na pahina',
@@ -67,6 +70,22 @@ export default {
   carousel: {
     prevSlide: 'Nakaraang slide',
     nextSlide: 'Susunod na slide'
+  },
+  colorPicker: {
+    spectrum: 'Espektro',
+    tune: 'Pag-aayos',
+    palette: 'Paleta',
+    value: 'Halaga ng kulay',
+    hue: 'Kulay',
+    alpha: 'Kapal ng kulay'
+  },
+  uploader: {
+    addFiles: 'Pumili ng mga file',
+    upload: 'I-upload ang mga file',
+    abort: 'Ihinto ang pag-upload',
+    removeQueued: 'Alisin ang mga nakapilang file',
+    removeUploaded: 'Alisin ang mga na-upload na file',
+    removeFile: 'Alisin ang file'
   },
   editor: {
     toolbar: 'Toolbar ng editor',

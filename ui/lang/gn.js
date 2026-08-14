@@ -56,9 +56,12 @@ export default {
     recordsPerPage: 'Fila por páhina:',
     allRows: 'Entero',
     pagination: (start, end, total) => start + '-' + end + ' de ' + total,
-    columns: 'Columnakuéra'
+    columns: 'Columnakuéra',
+    selectAllRows: 'Eiporavo opa tysýi',
+    selectRow: 'Eiporavo tysýi'
   },
   pagination: {
+    label: 'Kuatiarogue papapy',
     first: 'Aña kuatia',
     prev: 'Kuatia ohasáva',
     next: 'Kuatia ohasáva',
@@ -67,6 +70,22 @@ export default {
   carousel: {
     prevSlide: 'Diapositiva anterior',
     nextSlide: 'Diapositiva siguiente'
+  },
+  colorPicker: {
+    spectrum: "Sa'y aty",
+    tune: 'Ñemboja',
+    palette: "Sa'y renda",
+    value: "Sa'y repykue",
+    hue: "Sa'y",
+    alpha: 'Hesakãỹ'
+  },
+  uploader: {
+    addFiles: 'Eiporavo marandurenda',
+    upload: 'Emyanyhẽ marandurenda',
+    abort: 'Ejoko ñemyanyhẽ',
+    removeQueued: "Emboguete marandurenda oha'arõva",
+    removeUploaded: 'Emboguete marandurenda oñemyanyhẽva',
+    removeFile: 'Emboguete marandurenda'
   },
   editor: {
     toolbar: 'Barra de herramientas del editor',

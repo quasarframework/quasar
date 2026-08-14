@@ -53,9 +53,12 @@ export default {
     recordsPerPage: '페이지 당 개수:',
     allRows: '전체',
     pagination: (start, end, total) => total + ' 중 ' + start + '-' + end,
-    columns: '열'
+    columns: '열',
+    selectAllRows: '모든 행 선택',
+    selectRow: '행 선택'
   },
   pagination: {
+    label: '페이지 매김',
     first: '첫 페이지',
     prev: '이전 페이지',
     next: '다음 페이지',
@@ -64,6 +67,22 @@ export default {
   carousel: {
     prevSlide: '이전 슬라이드',
     nextSlide: '다음 슬라이드'
+  },
+  colorPicker: {
+    spectrum: '스펙트럼',
+    tune: '조정',
+    palette: '팔레트',
+    value: '색상 값',
+    hue: '색조',
+    alpha: '불투명도'
+  },
+  uploader: {
+    addFiles: '파일 선택',
+    upload: '파일 업로드',
+    abort: '업로드 중단',
+    removeQueued: '대기 중인 파일 제거',
+    removeUploaded: '업로드된 파일 제거',
+    removeFile: '파일 제거'
   },
   editor: {
     toolbar: '편집기 도구 모음',

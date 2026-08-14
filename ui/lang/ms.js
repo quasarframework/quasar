@@ -56,9 +56,12 @@ export default {
     recordsPerPage: 'Rekod per halaman:',
     allRows: 'Semua',
     pagination: (start, end, total) => start + '-' + end + ' dari ' + total,
-    columns: 'Kolum'
+    columns: 'Kolum',
+    selectAllRows: 'Pilih semua baris',
+    selectRow: 'Pilih baris'
   },
   pagination: {
+    label: 'Penomboran halaman',
     first: 'Halaman pertama',
     prev: 'Halaman sebelumnya',
     next: 'Halaman seterusnya',
@@ -67,6 +70,22 @@ export default {
   carousel: {
     prevSlide: 'Slaid sebelumnya',
     nextSlide: 'Slaid seterusnya'
+  },
+  colorPicker: {
+    spectrum: 'Spektrum',
+    tune: 'Pelarasan',
+    palette: 'Palet',
+    value: 'Nilai warna',
+    hue: 'Rona',
+    alpha: 'Kelegapan'
+  },
+  uploader: {
+    addFiles: 'Pilih fail',
+    upload: 'Muat naik fail',
+    abort: 'Batalkan muat naik',
+    removeQueued: 'Buang fail dalam giliran',
+    removeUploaded: 'Buang fail yang dimuat naik',
+    removeFile: 'Buang fail'
   },
   editor: {
     toolbar: 'Bar alat penyunting',

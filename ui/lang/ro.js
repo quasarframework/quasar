@@ -56,9 +56,12 @@ export default {
     recordsPerPage: 'Înregistrări pe pagină:',
     allRows: 'Toate',
     pagination: (start, end, total) => start + '-' + end + ' din ' + total,
-    columns: 'Coloane'
+    columns: 'Coloane',
+    selectAllRows: 'Selectează toate rândurile',
+    selectRow: 'Selectează rândul'
   },
   pagination: {
+    label: 'Paginare',
     first: 'Prima pagină',
     prev: 'Pagina anterioară',
     next: 'Pagina următoare',
@@ -67,6 +70,22 @@ export default {
   carousel: {
     prevSlide: 'Diapozitivul anterior',
     nextSlide: 'Diapozitivul următor'
+  },
+  colorPicker: {
+    spectrum: 'Spectru',
+    tune: 'Ajustare',
+    palette: 'Paletă',
+    value: 'Valoarea culorii',
+    hue: 'Nuanță',
+    alpha: 'Opacitate'
+  },
+  uploader: {
+    addFiles: 'Alege fișiere',
+    upload: 'Încarcă fișierele',
+    abort: 'Anulează încărcarea',
+    removeQueued: 'Elimină fișierele în așteptare',
+    removeUploaded: 'Elimină fișierele încărcate',
+    removeFile: 'Elimină fișierul'
   },
   editor: {
     toolbar: 'Bara de instrumente a editorului',

@@ -56,9 +56,12 @@ export default {
     recordsPerPage: 'Redova po stranici:',
     allRows: 'Sve',
     pagination: (start, end, total) => start + '-' + end + ' od ' + total,
-    columns: 'Kolone'
+    columns: 'Kolone',
+    selectAllRows: 'Izaberi sve redove',
+    selectRow: 'Izaberi red'
   },
   pagination: {
+    label: 'Paginacija',
     first: 'Prva stranica',
     prev: 'Prethodna stranica',
     next: 'Sledeća stranica',
@@ -67,6 +70,22 @@ export default {
   carousel: {
     prevSlide: 'Prethodni slajd',
     nextSlide: 'Sledeći slajd'
+  },
+  colorPicker: {
+    spectrum: 'Spektar',
+    tune: 'Podešavanje',
+    palette: 'Paleta',
+    value: 'Vrednost boje',
+    hue: 'Nijansa',
+    alpha: 'Neprozirnost'
+  },
+  uploader: {
+    addFiles: 'Izaberi datoteke',
+    upload: 'Otpremi datoteke',
+    abort: 'Prekini otpremanje',
+    removeQueued: 'Ukloni datoteke na čekanju',
+    removeUploaded: 'Ukloni otpremljene datoteke',
+    removeFile: 'Ukloni datoteku'
   },
   editor: {
     toolbar: 'Traka sa alatkama uređivača',

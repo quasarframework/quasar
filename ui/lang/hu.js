@@ -56,9 +56,12 @@ export default {
     recordsPerPage: 'Elemek száma oldalanként:',
     allRows: 'Összes',
     pagination: (start, end, total) => start + '-' + end + ' / ' + total,
-    columns: 'Oszlopok'
+    columns: 'Oszlopok',
+    selectAllRows: 'Összes sor kijelölése',
+    selectRow: 'Sor kijelölése'
   },
   pagination: {
+    label: 'Lapozás',
     first: 'Első oldal',
     prev: 'Előző oldal',
     next: 'Következő oldal',
@@ -67,6 +70,22 @@ export default {
   carousel: {
     prevSlide: 'Előző dia',
     nextSlide: 'Következő dia'
+  },
+  colorPicker: {
+    spectrum: 'Színkép',
+    tune: 'Finomhangolás',
+    palette: 'Paletta',
+    value: 'Színérték',
+    hue: 'Árnyalat',
+    alpha: 'Átlátszatlanság'
+  },
+  uploader: {
+    addFiles: 'Fájlok kiválasztása',
+    upload: 'Fájlok feltöltése',
+    abort: 'Feltöltés megszakítása',
+    removeQueued: 'Várakozó fájlok eltávolítása',
+    removeUploaded: 'Feltöltött fájlok eltávolítása',
+    removeFile: 'Fájl eltávolítása'
   },
   editor: {
     toolbar: 'Szerkesztő eszköztára',

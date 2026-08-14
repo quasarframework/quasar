@@ -4,6 +4,7 @@ import { nextTick } from 'vue'
 
 import Dark from '../../plugins/dark/Dark.js'
 import QUploader from './QUploader.js'
+import langEn from '../../../lang/en-US.js'
 
 /**
  * The XHR uploader plugin talks to a real XMLHttpRequest, so a fake one
@@ -1196,6 +1197,20 @@ describe('[QUploader API]', () => {
 
         expect(wrapper.vm.isUploading).toBe(false)
       })
+    })
+  })
+
+  describe('[Accessibility]', () => {
+    test('names its icon-only controls and the file input', () => {
+      const wrapper = mountUploader()
+      const { uploader } = langEn
+
+      // the pick-files control and the native input it wraps
+      const addBtn = wrapper.get('.q-uploader__header .q-btn')
+      expect(addBtn.attributes('aria-label')).toBe(uploader.addFiles)
+      expect(wrapper.get('.q-uploader__input').attributes('aria-label')).toBe(
+        uploader.addFiles
+      )
     })
   })
 })

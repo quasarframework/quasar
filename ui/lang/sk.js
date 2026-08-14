@@ -63,9 +63,12 @@ export default {
     recordsPerPage: 'Riadkov na stránku:',
     allRows: 'Všetky',
     pagination: (start, end, total) => start + '-' + end + ' z ' + total,
-    columns: 'Stĺpce'
+    columns: 'Stĺpce',
+    selectAllRows: 'Vybrať všetky riadky',
+    selectRow: 'Vybrať riadok'
   },
   pagination: {
+    label: 'Stránkovanie',
     first: 'Prvá stránka',
     prev: 'Predchádzajúca stránka',
     next: 'Ďalšia stránka',
@@ -74,6 +77,22 @@ export default {
   carousel: {
     prevSlide: 'Predchádzajúca snímka',
     nextSlide: 'Ďalšia snímka'
+  },
+  colorPicker: {
+    spectrum: 'Spektrum',
+    tune: 'Doladenie',
+    palette: 'Paleta',
+    value: 'Hodnota farby',
+    hue: 'Odtieň',
+    alpha: 'Krytie'
+  },
+  uploader: {
+    addFiles: 'Vybrať súbory',
+    upload: 'Nahrať súbory',
+    abort: 'Prerušiť nahrávanie',
+    removeQueued: 'Odstrániť čakajúce súbory',
+    removeUploaded: 'Odstrániť nahraté súbory',
+    removeFile: 'Odstrániť súbor'
   },
   editor: {
     toolbar: 'Panel nástrojov editora',

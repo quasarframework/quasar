@@ -55,9 +55,12 @@ export default {
     recordsPerPage: 'ជួរដេកក្នុងមួយទំព័រ:',
     allRows: 'ទាំងអស់',
     pagination: (start, end, total) => start + '-' + end + ' នៃ ' + total,
-    columns: 'ជួរឈរ'
+    columns: 'ជួរឈរ',
+    selectAllRows: 'ជ្រើសរើសជួរដេកទាំងអស់',
+    selectRow: 'ជ្រើសរើសជួរដេក'
   },
   pagination: {
+    label: 'ការបែងចែកទំព័រ',
     first: 'ទំព័រដំបូង',
     prev: 'ទំព័រមុន',
     next: 'ទំព័របន្ទាប់',
@@ -66,6 +69,22 @@ export default {
   carousel: {
     prevSlide: 'ស្លាយមុន',
     nextSlide: 'ស្លាយបន្ទាប់'
+  },
+  colorPicker: {
+    spectrum: 'វិសាលគម',
+    tune: 'ការកែសម្រួល',
+    palette: 'ក្តារពណ៌',
+    value: 'តម្លៃពណ៌',
+    hue: 'ពណ៌',
+    alpha: 'ភាពស្រអាប់'
+  },
+  uploader: {
+    addFiles: 'ជ្រើសរើសឯកសារ',
+    upload: 'ផ្ទុកឯកសារឡើង',
+    abort: 'បោះបង់ការផ្ទុកឡើង',
+    removeQueued: 'លុបឯកសាររង់ចាំ',
+    removeUploaded: 'លុបឯកសារដែលបានផ្ទុកឡើង',
+    removeFile: 'លុបឯកសារ'
   },
   editor: {
     toolbar: 'របារឧបករណ៍កម្មវិធីនិពន្ធ',

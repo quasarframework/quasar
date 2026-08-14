@@ -770,6 +770,18 @@ describe('[QPagination API]', () => {
       })
     })
   })
+
+  describe('[Accessibility]', () => {
+    test('names its navigation landmark', () => {
+      // two unnamed navigation landmarks on a page are indistinguishable
+      const wrapper = mountPagination()
+
+      expect(wrapper.attributes('role')).toBe('navigation')
+      expect(wrapper.attributes('aria-label')).toBe(
+        getLangLabel(wrapper, 'label')
+      )
+    })
+  })
 })
 
 function getPageButton(wrapper, label) {

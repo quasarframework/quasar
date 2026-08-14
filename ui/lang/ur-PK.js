@@ -68,9 +68,12 @@ export default {
     recordsPerPage: 'ریکارڈز فی صفحہ:',
     allRows: 'سب',
     pagination: (start, end, total) => `${start} - ${end} / ${total}`,
-    columns: 'کالم'
+    columns: 'کالم',
+    selectAllRows: 'تمام قطاریں منتخب کریں',
+    selectRow: 'قطار منتخب کریں'
   },
   pagination: {
+    label: 'صفحہ بندی',
     first: 'لومړی مخ',
     prev: 'مخکینۍ پاڼه',
     next: 'بل مخ',
@@ -79,6 +82,22 @@ export default {
   carousel: {
     prevSlide: 'پچھلی سلائیڈ',
     nextSlide: 'اگلی سلائیڈ'
+  },
+  colorPicker: {
+    spectrum: 'طیف',
+    tune: 'ترتیب',
+    palette: 'رنگ تختی',
+    value: 'رنگ کی قدر',
+    hue: 'رنگت',
+    alpha: 'دھندلاپن'
+  },
+  uploader: {
+    addFiles: 'فائلیں منتخب کریں',
+    upload: 'فائلیں اپ لوڈ کریں',
+    abort: 'اپ لوڈ منسوخ کریں',
+    removeQueued: 'قطار میں موجود فائلیں ہٹائیں',
+    removeUploaded: 'اپ لوڈ شدہ فائلیں ہٹائیں',
+    removeFile: 'فائل ہٹائیں'
   },
   editor: {
     toolbar: 'ایڈیٹر ٹول بار',

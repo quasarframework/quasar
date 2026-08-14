@@ -59,9 +59,12 @@ export default {
     recordsPerPage: 'Linioj po paĝoj:',
     allRows: 'Ĉiuj',
     pagination: (start, end, total) => start + '-' + end + ' el ' + total,
-    columns: 'Kolumnoj'
+    columns: 'Kolumnoj',
+    selectAllRows: 'Elekti ĉiujn liniojn',
+    selectRow: 'Elekti linion'
   },
   pagination: {
+    label: 'Paĝigo',
     first: 'Unua paĝo',
     prev: 'Antaŭa paĝo',
     next: 'Sekva paĝo',
@@ -70,6 +73,22 @@ export default {
   carousel: {
     prevSlide: 'Antaŭa lumbildo',
     nextSlide: 'Sekva lumbildo'
+  },
+  colorPicker: {
+    spectrum: 'Spektro',
+    tune: 'Agordo',
+    palette: 'Paletro',
+    value: 'Kolora valoro',
+    hue: 'Nuanco',
+    alpha: 'Maldiafaneco'
+  },
+  uploader: {
+    addFiles: 'Elekti dosierojn',
+    upload: 'Alŝuti dosierojn',
+    abort: 'Nuligi alŝuton',
+    removeQueued: 'Forigi atendantajn dosierojn',
+    removeUploaded: 'Forigi alŝutitajn dosierojn',
+    removeFile: 'Forigi dosieron'
   },
   editor: {
     toolbar: 'Ilobreto de la redaktilo',

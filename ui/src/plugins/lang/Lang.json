@@ -370,6 +370,16 @@
               "type": "String",
               "desc": "Label",
               "examples": ["'Columns'"]
+            },
+            "selectAllRows": {
+              "type": "String",
+              "desc": "Accessible name (aria-label) of the select-all-rows checkbox",
+              "examples": ["'Select all rows'"]
+            },
+            "selectRow": {
+              "type": "String",
+              "desc": "Accessible name (aria-label) of a row selection checkbox",
+              "examples": ["'Select row'"]
             }
           }
         },
@@ -386,6 +396,78 @@
               "type": "String",
               "desc": "Accessible name (aria-label) of the next-slide arrow",
               "examples": ["'Next slide'"]
+            }
+          }
+        },
+        "colorPicker": {
+          "type": "Object",
+          "desc": "QColor labels",
+          "definition": {
+            "spectrum": {
+              "type": "String",
+              "desc": "Accessible name (aria-label) of the spectrum tab",
+              "examples": ["'Spectrum'"]
+            },
+            "tune": {
+              "type": "String",
+              "desc": "Accessible name (aria-label) of the tune tab",
+              "examples": ["'Tune'"]
+            },
+            "palette": {
+              "type": "String",
+              "desc": "Accessible name (aria-label) of the palette tab",
+              "examples": ["'Palette'"]
+            },
+            "value": {
+              "type": "String",
+              "desc": "Accessible name (aria-label) of the color value input",
+              "examples": ["'Color value'"]
+            },
+            "hue": {
+              "type": "String",
+              "desc": "Accessible name (aria-label) of the hue slider",
+              "examples": ["'Hue'"]
+            },
+            "alpha": {
+              "type": "String",
+              "desc": "Accessible name (aria-label) of the opacity slider",
+              "examples": ["'Opacity'"]
+            }
+          }
+        },
+        "uploader": {
+          "type": "Object",
+          "desc": "QUploader labels",
+          "definition": {
+            "addFiles": {
+              "type": "String",
+              "desc": "Accessible name (aria-label) of the pick-files button",
+              "examples": ["'Pick files'"]
+            },
+            "upload": {
+              "type": "String",
+              "desc": "Accessible name (aria-label) of the upload button",
+              "examples": ["'Upload files'"]
+            },
+            "abort": {
+              "type": "String",
+              "desc": "Accessible name (aria-label) of the abort-upload button",
+              "examples": ["'Abort upload'"]
+            },
+            "removeQueued": {
+              "type": "String",
+              "desc": "Accessible name (aria-label) of the remove-queued-files button",
+              "examples": ["'Remove queued files'"]
+            },
+            "removeUploaded": {
+              "type": "String",
+              "desc": "Accessible name (aria-label) of the remove-uploaded-files button",
+              "examples": ["'Remove uploaded files'"]
+            },
+            "removeFile": {
+              "type": "String",
+              "desc": "Accessible name (aria-label) of a single file removal button",
+              "examples": ["'Remove file'"]
             }
           }
         },
@@ -1030,6 +1112,18 @@
                   "desc": "Label",
                   "required": true,
                   "examples": ["'Columns'"]
+                },
+                "selectAllRows": {
+                  "type": "String",
+                  "desc": "Accessible name (aria-label) of the select-all-rows checkbox",
+                  "required": true,
+                  "examples": ["'Select all rows'"]
+                },
+                "selectRow": {
+                  "type": "String",
+                  "desc": "Accessible name (aria-label) of a row selection checkbox",
+                  "required": true,
+                  "examples": ["'Select row'"]
                 }
               }
             },
@@ -1046,6 +1140,90 @@
                   "type": "String",
                   "desc": "Accessible name (aria-label) of the next-slide arrow",
                   "examples": ["'Next slide'"]
+                }
+              }
+            },
+            "colorPicker": {
+              "type": "Object",
+              "desc": "QColor labels",
+              "definition": {
+                "spectrum": {
+                  "type": "String",
+                  "desc": "Accessible name (aria-label) of the spectrum tab",
+                  "required": true,
+                  "examples": ["'Spectrum'"]
+                },
+                "tune": {
+                  "type": "String",
+                  "desc": "Accessible name (aria-label) of the tune tab",
+                  "required": true,
+                  "examples": ["'Tune'"]
+                },
+                "palette": {
+                  "type": "String",
+                  "desc": "Accessible name (aria-label) of the palette tab",
+                  "required": true,
+                  "examples": ["'Palette'"]
+                },
+                "value": {
+                  "type": "String",
+                  "desc": "Accessible name (aria-label) of the color value input",
+                  "required": true,
+                  "examples": ["'Color value'"]
+                },
+                "hue": {
+                  "type": "String",
+                  "desc": "Accessible name (aria-label) of the hue slider",
+                  "required": true,
+                  "examples": ["'Hue'"]
+                },
+                "alpha": {
+                  "type": "String",
+                  "desc": "Accessible name (aria-label) of the opacity slider",
+                  "required": true,
+                  "examples": ["'Opacity'"]
+                }
+              }
+            },
+            "uploader": {
+              "type": "Object",
+              "desc": "QUploader labels",
+              "definition": {
+                "addFiles": {
+                  "type": "String",
+                  "desc": "Accessible name (aria-label) of the pick-files button",
+                  "required": true,
+                  "examples": ["'Pick files'"]
+                },
+                "upload": {
+                  "type": "String",
+                  "desc": "Accessible name (aria-label) of the upload button",
+                  "required": true,
+                  "examples": ["'Upload files'"]
+                },
+                "abort": {
+                  "type": "String",
+                  "desc": "Accessible name (aria-label) of the abort-upload button",
+                  "required": true,
+                  "examples": ["'Abort upload'"]
+                },
+                "removeQueued": {
+                  "type": "String",
+                  "desc": "Accessible name (aria-label) of the remove-queued-files button",
+                  "required": true,
+                  "examples": ["'Remove queued files'"]
+                },
+                "removeUploaded": {
+                  "type": "String",
+                  "desc": "Accessible name (aria-label) of the remove-uploaded-files button",
+                  "required": true,
+                  "examples": ["'Remove uploaded files'"]
+                },
+                "removeFile": {
+                  "type": "String",
+                  "desc": "Accessible name (aria-label) of a single file removal button",
+                  "required": true,
+                  "examples": ["'Remove file'"]
                 }
               }
             },

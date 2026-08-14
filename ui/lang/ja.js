@@ -58,9 +58,12 @@ export default {
     recordsPerPage: 'ページあたりの行数', // 'Rows per page:',
     allRows: '全て', // 'All',
     pagination: (start, end, total) => start + '〜' + end + ' ／ ' + total,
-    columns: '列' // 'Columns'
+    columns: '列', // 'Columns',
+    selectAllRows: 'すべての行を選択',
+    selectRow: '行を選択'
   },
   pagination: {
+    label: 'ページ送り',
     first: '最初のページ',
     prev: '前のページ',
     next: '次のページ',
@@ -69,6 +72,22 @@ export default {
   carousel: {
     prevSlide: '前のスライド',
     nextSlide: '次のスライド'
+  },
+  colorPicker: {
+    spectrum: 'スペクトル',
+    tune: '調整',
+    palette: 'パレット',
+    value: '色の値',
+    hue: '色相',
+    alpha: '不透明度'
+  },
+  uploader: {
+    addFiles: 'ファイルを選択',
+    upload: 'ファイルをアップロード',
+    abort: 'アップロードを中止',
+    removeQueued: '待機中のファイルを削除',
+    removeUploaded: 'アップロード済みのファイルを削除',
+    removeFile: 'ファイルを削除'
   },
   editor: {
     toolbar: 'エディタツールバー',

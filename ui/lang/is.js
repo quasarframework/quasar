@@ -58,9 +58,12 @@ export default {
     recordsPerPage: 'Færslur á hverri síðu:',
     allRows: 'Allar',
     pagination: (start, end, total) => start + '-' + end + ' af ' + total,
-    columns: 'Dálkar'
+    columns: 'Dálkar',
+    selectAllRows: 'Velja allar raðir',
+    selectRow: 'Velja röð'
   },
   pagination: {
+    label: 'Blaðsíðuskipting',
     first: 'Fyrsta blaðsíða',
     prev: 'Fyrri blaðsíða',
     next: 'Næsta blaðsíða',
@@ -69,6 +72,22 @@ export default {
   carousel: {
     prevSlide: 'Fyrri glæra',
     nextSlide: 'Næsta glæra'
+  },
+  colorPicker: {
+    spectrum: 'Litróf',
+    tune: 'Fínstilling',
+    palette: 'Litaspjald',
+    value: 'Litgildi',
+    hue: 'Litblær',
+    alpha: 'Ógegnsæi'
+  },
+  uploader: {
+    addFiles: 'Velja skrár',
+    upload: 'Hlaða upp skrám',
+    abort: 'Hætta við upphleðslu',
+    removeQueued: 'Fjarlægja skrár í biðröð',
+    removeUploaded: 'Fjarlægja upphlaðnar skrár',
+    removeFile: 'Fjarlægja skrá'
   },
   editor: {
     toolbar: 'Tækjastika ritils',

@@ -58,9 +58,12 @@ export default {
     recordsPerPage: 'Regjistrime për faqe:',
     allRows: 'Të gjitha',
     pagination: (start, end, total) => `${start}-${end} nga ${total}`,
-    columns: 'Kolonat'
+    columns: 'Kolonat',
+    selectAllRows: 'Zgjidh të gjitha rreshtat',
+    selectRow: 'Zgjidh rreshtin'
   },
   pagination: {
+    label: 'Faqosje',
     first: 'Faqja e parë',
     prev: 'Faqja e mëparshme',
     next: 'Faqja tjetër',
@@ -69,6 +72,22 @@ export default {
   carousel: {
     prevSlide: 'Diapozitivi i mëparshëm',
     nextSlide: 'Diapozitivi tjetër'
+  },
+  colorPicker: {
+    spectrum: 'Spektri',
+    tune: 'Rregullim',
+    palette: 'Paleta',
+    value: 'Vlera e ngjyrës',
+    hue: 'Nuanca',
+    alpha: 'Patejdukshmëria'
+  },
+  uploader: {
+    addFiles: 'Zgjidh skedarët',
+    upload: 'Ngarko skedarët',
+    abort: 'Anulo ngarkimin',
+    removeQueued: 'Hiq skedarët në pritje',
+    removeUploaded: 'Hiq skedarët e ngarkuar',
+    removeFile: 'Hiq skedarin'
   },
   editor: {
     toolbar: 'Shiriti i veglave të redaktuesit',

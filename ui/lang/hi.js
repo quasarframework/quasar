@@ -54,9 +54,12 @@ export default {
     recordsPerPage: 'प्रति पृष्ठ रिकॉर्ड:',
     allRows: 'सभी',
     pagination: (start, end, total) => start + '-' + end + ' कुल ' + total,
-    columns: 'कॉलम'
+    columns: 'कॉलम',
+    selectAllRows: 'सभी पंक्तियाँ चुनें',
+    selectRow: 'पंक्ति चुनें'
   },
   pagination: {
+    label: 'पृष्ठ क्रमांकन',
     first: 'पहला पृष्ठ',
     prev: 'पिछला पृष्ठ',
     next: 'अगला पृष्ठ',
@@ -65,6 +68,22 @@ export default {
   carousel: {
     prevSlide: 'पिछली स्लाइड',
     nextSlide: 'अगली स्लाइड'
+  },
+  colorPicker: {
+    spectrum: 'वर्णक्रम',
+    tune: 'समायोजन',
+    palette: 'रंगपट',
+    value: 'रंग मान',
+    hue: 'रंगत',
+    alpha: 'अपारदर्शिता'
+  },
+  uploader: {
+    addFiles: 'फ़ाइलें चुनें',
+    upload: 'फ़ाइलें अपलोड करें',
+    abort: 'अपलोड रद्द करें',
+    removeQueued: 'कतार की फ़ाइलें हटाएँ',
+    removeUploaded: 'अपलोड की गई फ़ाइलें हटाएँ',
+    removeFile: 'फ़ाइल हटाएँ'
   },
   editor: {
     toolbar: 'संपादक टूलबार',

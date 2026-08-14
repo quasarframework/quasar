@@ -73,4 +73,6 @@ When dealing with a native form which has an `action` and a `method` (eg. when u
 
 QColor is only partially accessible, and which view is active matters. The Tune view — native text/number inputs plus sliders — is the keyboard and screen reader path. The palette swatches and the spectrum panel, on the other hand, are pointer-only: they cannot be reached with the keyboard and expose nothing to assistive technology.
 
+The parts that are exposed carry localized accessible names from the [Quasar Language Pack](/options/quasar-language-packs) (`colorPicker.*`): the view tabs, the header's color value field and the hue/opacity sliders, none of which the consumer can name from the outside.
+
 If your app needs accessible color input, start users in the Tune view (`default-view="tune"`) or provide an alternative way of entering the color (e.g. a plain [QInput](/vue-components/input) accepting a hex value).

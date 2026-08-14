@@ -63,9 +63,12 @@ export default {
     allRows: '全部',
     pagination: (start, end, total) =>
       start + '〜' + end + ' 列，共 ' + total + ' 列',
-    columns: '欄位'
+    columns: '欄位',
+    selectAllRows: '選擇所有列',
+    selectRow: '選擇列'
   },
   pagination: {
+    label: '分頁',
     first: '首頁',
     prev: '上一頁',
     next: '下一頁',
@@ -74,6 +77,22 @@ export default {
   carousel: {
     prevSlide: '上一張投影片',
     nextSlide: '下一張投影片'
+  },
+  colorPicker: {
+    spectrum: '光譜',
+    tune: '調整',
+    palette: '調色盤',
+    value: '顏色值',
+    hue: '色相',
+    alpha: '不透明度'
+  },
+  uploader: {
+    addFiles: '選擇檔案',
+    upload: '上傳檔案',
+    abort: '中止上傳',
+    removeQueued: '移除佇列中的檔案',
+    removeUploaded: '移除已上傳的檔案',
+    removeFile: '移除檔案'
   },
   editor: {
     toolbar: '編輯器工具列',

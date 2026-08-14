@@ -512,6 +512,7 @@ export default /*#__PURE__*/ createComponent({
                   color: props.color,
                   dark: isDark(),
                   dense: props.dense,
+                  'aria-label': $q.lang.table.selectRow,
                   'onUpdate:modelValue': (adding, evt) => {
                     updateSelection([key], [row], adding, evt)
                   }
@@ -763,11 +764,22 @@ export default /*#__PURE__*/ createComponent({
                   modelValue: headerSelectedValue.value,
                   dark: isDark(),
                   dense: props.dense,
+                  'aria-label': $q.lang.table.selectAllRows,
                   'onUpdate:modelValue': onMultipleSelectionSet
                 })
               ]
 
-        child.unshift(h('th', { class: 'q-table--col-auto-width' }, content))
+        child.unshift(
+          h(
+            'th',
+            {
+              class: 'q-table--col-auto-width',
+              // the cell holds only a checkbox, so it has no text of its own
+              'aria-label': $q.lang.table.selectAllRows
+            },
+            content
+          )
+        )
       }
 
       return [
@@ -1060,6 +1072,7 @@ export default /*#__PURE__*/ createComponent({
                           color: props.color,
                           dark: isDark(),
                           dense: props.dense,
+                          'aria-label': $q.lang.table.selectRow,
                           'onUpdate:modelValue': (adding, evt) => {
                             updateSelection(
                               [scope.key],

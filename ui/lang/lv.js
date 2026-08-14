@@ -58,9 +58,12 @@ export default {
     recordsPerPage: 'Rindas lapā:',
     allRows: 'Visas',
     pagination: (start, end, total) => start + '-' + end + ' no ' + total,
-    columns: 'Kolonnas'
+    columns: 'Kolonnas',
+    selectAllRows: 'Atlasīt visas rindas',
+    selectRow: 'Atlasīt rindu'
   },
   pagination: {
+    label: 'Lappušu numerācija',
     first: 'Pirmā lapa',
     prev: 'Iepriekšējā lapa',
     next: 'Nākamā lapa',
@@ -69,6 +72,22 @@ export default {
   carousel: {
     prevSlide: 'Iepriekšējais slaids',
     nextSlide: 'Nākamais slaids'
+  },
+  colorPicker: {
+    spectrum: 'Spektrs',
+    tune: 'Pieregulēšana',
+    palette: 'Palete',
+    value: 'Krāsas vērtība',
+    hue: 'Nokrāsa',
+    alpha: 'Necaurspīdīgums'
+  },
+  uploader: {
+    addFiles: 'Izvēlēties failus',
+    upload: 'Augšupielādēt failus',
+    abort: 'Pārtraukt augšupielādi',
+    removeQueued: 'Noņemt rindā esošos failus',
+    removeUploaded: 'Noņemt augšupielādētos failus',
+    removeFile: 'Noņemt failu'
   },
   editor: {
     toolbar: 'Redaktora rīkjosla',

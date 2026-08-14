@@ -71,9 +71,12 @@ export default {
     recordsPerPage: 'Строк на странице:',
     allRows: 'Все',
     pagination: (start, end, total) => start + '-' + end + ' из ' + total,
-    columns: 'Колонки'
+    columns: 'Колонки',
+    selectAllRows: 'Выбрать все строки',
+    selectRow: 'Выбрать строку'
   },
   pagination: {
+    label: 'Постраничная навигация',
     first: 'Первая страница',
     prev: 'Предыдущая страница',
     next: 'Следующая страница',
@@ -82,6 +85,22 @@ export default {
   carousel: {
     prevSlide: 'Предыдущий слайд',
     nextSlide: 'Следующий слайд'
+  },
+  colorPicker: {
+    spectrum: 'Спектр',
+    tune: 'Настройка',
+    palette: 'Палитра',
+    value: 'Значение цвета',
+    hue: 'Оттенок',
+    alpha: 'Непрозрачность'
+  },
+  uploader: {
+    addFiles: 'Выбрать файлы',
+    upload: 'Загрузить файлы',
+    abort: 'Прервать загрузку',
+    removeQueued: 'Удалить файлы из очереди',
+    removeUploaded: 'Удалить загруженные файлы',
+    removeFile: 'Удалить файл'
   },
   editor: {
     toolbar: 'Панель инструментов редактора',

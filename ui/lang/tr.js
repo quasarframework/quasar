@@ -53,9 +53,12 @@ export default {
     recordsPerPage: 'Sayfa başına kayıt:',
     allRows: 'Tümü',
     pagination: (start, end, total) => start + '-' + end + ' toplam ' + total,
-    columns: 'Sütunlar'
+    columns: 'Sütunlar',
+    selectAllRows: 'Tüm satırları seç',
+    selectRow: 'Satırı seç'
   },
   pagination: {
+    label: 'Sayfalama',
     first: 'İlk sayfa',
     prev: 'Önceki sayfa',
     next: 'Sonraki Sayfa',
@@ -64,6 +67,22 @@ export default {
   carousel: {
     prevSlide: 'Önceki slayt',
     nextSlide: 'Sonraki slayt'
+  },
+  colorPicker: {
+    spectrum: 'Tayf',
+    tune: 'İnce ayar',
+    palette: 'Palet',
+    value: 'Renk değeri',
+    hue: 'Renk tonu',
+    alpha: 'Matlık'
+  },
+  uploader: {
+    addFiles: 'Dosya seç',
+    upload: 'Dosyaları yükle',
+    abort: 'Yüklemeyi iptal et',
+    removeQueued: 'Sıradaki dosyaları kaldır',
+    removeUploaded: 'Yüklenen dosyaları kaldır',
+    removeFile: 'Dosyayı kaldır'
   },
   editor: {
     toolbar: 'Düzenleyici araç çubuğu',

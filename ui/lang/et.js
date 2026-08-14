@@ -57,9 +57,12 @@ export default {
     recordsPerPage: 'Kirjed lehel:',
     allRows: 'Kõik',
     pagination: (start, end, total) => start + '-' + end + ' / ' + total,
-    columns: 'Veerud'
+    columns: 'Veerud',
+    selectAllRows: 'Vali kõik read',
+    selectRow: 'Vali rida'
   },
   pagination: {
+    label: 'Lehekülgede jaotus',
     first: 'Esimene leht',
     prev: 'Eelmine leht',
     next: 'Järgmine leht',
@@ -68,6 +71,22 @@ export default {
   carousel: {
     prevSlide: 'Eelmine slaid',
     nextSlide: 'Järgmine slaid'
+  },
+  colorPicker: {
+    spectrum: 'Spekter',
+    tune: 'Häälestus',
+    palette: 'Palett',
+    value: 'Värvi väärtus',
+    hue: 'Värvitoon',
+    alpha: 'Läbipaistmatus'
+  },
+  uploader: {
+    addFiles: 'Vali failid',
+    upload: 'Laadi failid üles',
+    abort: 'Katkesta üleslaadimine',
+    removeQueued: 'Eemalda järjekorras failid',
+    removeUploaded: 'Eemalda üleslaaditud failid',
+    removeFile: 'Eemalda fail'
   },
   editor: {
     toolbar: 'Redaktori tööriistariba',

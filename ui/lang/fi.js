@@ -59,9 +59,12 @@ export default {
     recordsPerPage: 'Rivejä sivulla:',
     allRows: 'Kaikki',
     pagination: (start, end, total) => start + '-' + end + ' / ' + total,
-    columns: 'Sarakkeet'
+    columns: 'Sarakkeet',
+    selectAllRows: 'Valitse kaikki rivit',
+    selectRow: 'Valitse rivi'
   },
   pagination: {
+    label: 'Sivutus',
     first: 'Ensimmäinen sivu',
     prev: 'Edellinen sivu',
     next: 'Seuraava sivu',
@@ -70,6 +73,22 @@ export default {
   carousel: {
     prevSlide: 'Edellinen dia',
     nextSlide: 'Seuraava dia'
+  },
+  colorPicker: {
+    spectrum: 'Spektri',
+    tune: 'Hienosäätö',
+    palette: 'Paletti',
+    value: 'Värin arvo',
+    hue: 'Sävy',
+    alpha: 'Peittävyys'
+  },
+  uploader: {
+    addFiles: 'Valitse tiedostot',
+    upload: 'Lähetä tiedostot',
+    abort: 'Keskeytä lähetys',
+    removeQueued: 'Poista jonossa olevat tiedostot',
+    removeUploaded: 'Poista lähetetyt tiedostot',
+    removeFile: 'Poista tiedosto'
   },
   editor: {
     toolbar: 'Editorin työkalupalkki',

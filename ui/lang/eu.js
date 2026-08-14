@@ -57,9 +57,12 @@ export default {
     allRows: 'Denak',
     pagination: (start, end, total) =>
       start + 'tik -' + end + 'ra, guztira ' + total,
-    columns: 'Zutabeak'
+    columns: 'Zutabeak',
+    selectAllRows: 'Hautatu errenkada guztiak',
+    selectRow: 'Hautatu errenkada'
   },
   pagination: {
+    label: 'Orrikatzea',
     first: 'Lehen orria',
     prev: 'Aurreko orria',
     next: 'Hurrengo orria',
@@ -68,6 +71,22 @@ export default {
   carousel: {
     prevSlide: 'Aurreko diapositiba',
     nextSlide: 'Hurrengo diapositiba'
+  },
+  colorPicker: {
+    spectrum: 'Espektroa',
+    tune: 'Doikuntza',
+    palette: 'Paleta',
+    value: 'Kolorearen balioa',
+    hue: 'Ñabardura',
+    alpha: 'Opakutasuna'
+  },
+  uploader: {
+    addFiles: 'Aukeratu fitxategiak',
+    upload: 'Kargatu fitxategiak',
+    abort: 'Utzi karga',
+    removeQueued: 'Kendu zain dauden fitxategiak',
+    removeUploaded: 'Kendu kargatutako fitxategiak',
+    removeFile: 'Kendu fitxategia'
   },
   editor: {
     toolbar: 'Editorearen tresna-barra',

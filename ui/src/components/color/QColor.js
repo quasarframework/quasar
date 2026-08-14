@@ -637,6 +637,7 @@ export default /*#__PURE__*/ createComponent({
           [
             h('input', {
               class: 'fit',
+              'aria-label': $q.lang.colorPicker?.value,
               value: model.value[topView.value],
               ...(editable.value ? {} : { readonly: true }),
               ...getCache('topIn', {
@@ -742,19 +743,22 @@ export default /*#__PURE__*/ createComponent({
               h(QTab, {
                 icon: $q.iconSet.colorPicker.spectrum,
                 name: 'spectrum',
-                ripple: false
+                ripple: false,
+                'aria-label': $q.lang.colorPicker?.spectrum
               }),
 
               h(QTab, {
                 icon: $q.iconSet.colorPicker.tune,
                 name: 'tune',
-                ripple: false
+                ripple: false,
+                'aria-label': $q.lang.colorPicker?.tune
               }),
 
               h(QTab, {
                 icon: $q.iconSet.colorPicker.palette,
                 name: 'palette',
-                ripple: false
+                ripple: false,
+                'aria-label': $q.lang.colorPicker?.palette
               })
             ]
           )
@@ -806,6 +810,7 @@ export default /*#__PURE__*/ createComponent({
           selectionColor: 'transparent',
           readonly: !editable.value,
           thumbPath,
+          'aria-label': $q.lang.colorPicker?.hue,
           'onUpdate:modelValue': onHue,
           onChange: onHueChange
         })
@@ -825,6 +830,7 @@ export default /*#__PURE__*/ createComponent({
             trackImg: alphaTrackImg,
             readonly: !editable.value,
             thumbPath,
+            'aria-label': $q.lang.colorPicker?.alpha,
             ...getCache('alphaSlide', {
               'onUpdate:modelValue': value => onNumericChange(value, 'a', 100),
               onChange: value => onNumericChange(value, 'a', 100, void 0, true)

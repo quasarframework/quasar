@@ -73,9 +73,12 @@ export default {
     recordsPerPage: 'Puslapyje:',
     allRows: 'Visi',
     pagination: (start, end, total) => start + '-' + end + ' iš ' + total,
-    columns: 'Stulpeliai'
+    columns: 'Stulpeliai',
+    selectAllRows: 'Pažymėti visas eilutes',
+    selectRow: 'Pažymėti eilutę'
   },
   pagination: {
+    label: 'Puslapiavimas',
     first: 'Pirmasis puslapis',
     prev: 'Ankstesnis puslapis',
     next: 'Kitas puslapis',
@@ -84,6 +87,22 @@ export default {
   carousel: {
     prevSlide: 'Ankstesnė skaidrė',
     nextSlide: 'Kita skaidrė'
+  },
+  colorPicker: {
+    spectrum: 'Spektras',
+    tune: 'Derinimas',
+    palette: 'Paletė',
+    value: 'Spalvos reikšmė',
+    hue: 'Atspalvis',
+    alpha: 'Nepermatomumas'
+  },
+  uploader: {
+    addFiles: 'Pasirinkti failus',
+    upload: 'Įkelti failus',
+    abort: 'Nutraukti įkėlimą',
+    removeQueued: 'Pašalinti laukiančius failus',
+    removeUploaded: 'Pašalinti įkeltus failus',
+    removeFile: 'Pašalinti failą'
   },
   editor: {
     toolbar: 'Redaktoriaus įrankių juosta',

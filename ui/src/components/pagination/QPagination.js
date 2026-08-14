@@ -183,7 +183,9 @@ export default /*#__PURE__*/ createComponent({
 
     const attrs = computed(() => ({
       'aria-disabled': props.disable ? 'true' : 'false',
-      role: 'navigation'
+      role: 'navigation',
+      // an unnamed navigation landmark is indistinguishable from any other
+      'aria-label': $q.lang.pagination.label
     }))
 
     const btnDesignProp = computed(() => getBtnDesign(props, 'flat'))

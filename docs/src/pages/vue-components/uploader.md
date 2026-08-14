@@ -107,7 +107,7 @@ Notice that you must install and use one more component (QUploaderAddTrigger) in
 
 QUploader's controls are real buttons — adding, uploading, aborting and removing files all go through QBtns that respond to the keyboard as usual — and per-file upload progress is exposed with `progressbar` semantics.
 
-The rest currently needs your attention when accessibility matters: the header and per-file buttons are icon-only and ship without accessible names, and file status changes (uploading, uploaded, failed, rejected) are conveyed visually only, with no screen reader announcement. Use the `header` slot to rebuild the controls with proper `aria-label`s, and listen to the upload lifecycle events (`@uploaded`, `@failed`, `@rejected`, ...) to feed a live region of your own. Drag-and-drop is a pointer-only convenience — the "add files" button is the keyboard path.
+The header and per-file buttons are icon-only, so they carry localized accessible names from the [Quasar Language Pack](/options/quasar-language-packs) (`uploader.*`), as does the hidden native file input. The rest still needs your attention when accessibility matters: file status changes (uploading, uploaded, failed, rejected) are conveyed visually only, with no screen reader announcement. Use the `header` slot if you need different wording, and listen to the upload lifecycle events (`@uploaded`, `@failed`, `@rejected`, ...) to feed a live region of your own. Drag-and-drop is a pointer-only convenience — the "add files" button is the keyboard path.
 
 ## Server endpoint examples
 

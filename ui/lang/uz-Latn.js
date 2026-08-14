@@ -65,9 +65,12 @@ export default {
     recordsPerPage: 'Saxifadagi qatorlar:',
     allRows: 'Barchasi',
     pagination: (start, end, total) => start + '-' + end + ' jami ' + total,
-    columns: 'Ustunlar'
+    columns: 'Ustunlar',
+    selectAllRows: 'Barcha qatorlarni tanlash',
+    selectRow: 'Qatorni tanlash'
   },
   pagination: {
+    label: 'Sahifalash',
     first: 'Birinchi sahifa',
     prev: 'Oldingi sahifa',
     next: 'Keyingi sahifa',
@@ -76,6 +79,22 @@ export default {
   carousel: {
     prevSlide: 'Oldingi slayd',
     nextSlide: 'Keyingi slayd'
+  },
+  colorPicker: {
+    spectrum: 'Spektr',
+    tune: 'Sozlash',
+    palette: 'Palitra',
+    value: 'Rang qiymati',
+    hue: 'Tus',
+    alpha: 'Xiralik'
+  },
+  uploader: {
+    addFiles: 'Fayllarni tanlash',
+    upload: 'Fayllarni yuklash',
+    abort: "Yuklashni to'xtatish",
+    removeQueued: "Navbatdagi fayllarni o'chirish",
+    removeUploaded: "Yuklangan fayllarni o'chirish",
+    removeFile: "Faylni o'chirish"
   },
   editor: {
     toolbar: 'Muharrir asboblar paneli',

@@ -55,9 +55,12 @@ export default {
     recordsPerPage: 'แถวต่อหน้า:',
     allRows: 'แถวทั้งหมด',
     pagination: (start, end, total) => start + '-' + end + ' of ' + total,
-    columns: 'คอลัมน์'
+    columns: 'คอลัมน์',
+    selectAllRows: 'เลือกทุกแถว',
+    selectRow: 'เลือกแถว'
   },
   pagination: {
+    label: 'การแบ่งหน้า',
     first: 'หน้าแรก',
     prev: 'หน้าก่อนหน้า',
     next: 'หน้าถัดไป',
@@ -66,6 +69,22 @@ export default {
   carousel: {
     prevSlide: 'สไลด์ก่อนหน้า',
     nextSlide: 'สไลด์ถัดไป'
+  },
+  colorPicker: {
+    spectrum: 'สเปกตรัม',
+    tune: 'ปรับแต่ง',
+    palette: 'จานสี',
+    value: 'ค่าสี',
+    hue: 'เฉดสี',
+    alpha: 'ความทึบ'
+  },
+  uploader: {
+    addFiles: 'เลือกไฟล์',
+    upload: 'อัปโหลดไฟล์',
+    abort: 'ยกเลิกการอัปโหลด',
+    removeQueued: 'ลบไฟล์ที่รออยู่',
+    removeUploaded: 'ลบไฟล์ที่อัปโหลดแล้ว',
+    removeFile: 'ลบไฟล์'
   },
   editor: {
     toolbar: 'แถบเครื่องมือตัวแก้ไข',

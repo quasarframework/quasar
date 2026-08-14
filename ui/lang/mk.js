@@ -56,9 +56,12 @@ export default {
     recordsPerPage: 'Записи по страница:',
     allRows: 'Сите',
     pagination: (start, end, total) => start + '-' + end + ' од ' + total,
-    columns: 'Колони'
+    columns: 'Колони',
+    selectAllRows: 'Избери ги сите редови',
+    selectRow: 'Избери ред'
   },
   pagination: {
+    label: 'Пагинација',
     first: 'Прва страница',
     prev: 'Претходна страница',
     next: 'Следната страница',
@@ -67,6 +70,22 @@ export default {
   carousel: {
     prevSlide: 'Претходен слајд',
     nextSlide: 'Следен слајд'
+  },
+  colorPicker: {
+    spectrum: 'Спектар',
+    tune: 'Дотерување',
+    palette: 'Палета',
+    value: 'Вредност на бојата',
+    hue: 'Нијанса',
+    alpha: 'Непроѕирност'
+  },
+  uploader: {
+    addFiles: 'Избери датотеки',
+    upload: 'Подигни датотеки',
+    abort: 'Прекини го подигањето',
+    removeQueued: 'Отстрани ги датотеките на чекање',
+    removeUploaded: 'Отстрани ги подигнатите датотеки',
+    removeFile: 'Отстрани ја датотеката'
   },
   editor: {
     toolbar: 'Лента со алатки на уредувачот',

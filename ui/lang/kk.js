@@ -69,9 +69,12 @@ export default {
     recordsPerPage: 'Беттегі жолдар:',
     allRows: 'Бәрі',
     pagination: (start, end, total) => start + '-' + end + ' из ' + total,
-    columns: 'Бағандар'
+    columns: 'Бағандар',
+    selectAllRows: 'Барлық жолдарды таңдау',
+    selectRow: 'Жолды таңдау'
   },
   pagination: {
+    label: 'Беттеу',
     first: 'Бірінші бет',
     prev: 'Алдыңғы бет',
     next: 'Келесі бет',
@@ -80,6 +83,22 @@ export default {
   carousel: {
     prevSlide: 'Алдыңғы слайд',
     nextSlide: 'Келесі слайд'
+  },
+  colorPicker: {
+    spectrum: 'Спектр',
+    tune: 'Реттеу',
+    palette: 'Палитра',
+    value: 'Түс мәні',
+    hue: 'Реңк',
+    alpha: 'Мөлдірсіздік'
+  },
+  uploader: {
+    addFiles: 'Файлдарды таңдау',
+    upload: 'Файлдарды жүктеу',
+    abort: 'Жүктеуді тоқтату',
+    removeQueued: 'Кезектегі файлдарды жою',
+    removeUploaded: 'Жүктелген файлдарды жою',
+    removeFile: 'Файлды жою'
   },
   editor: {
     toolbar: 'Редактордың құралдар тақтасы',

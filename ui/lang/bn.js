@@ -59,9 +59,12 @@ export default {
     recordsPerPage: 'প্রতি পৃষ্ঠায় রেকর্ড:',
     allRows: 'সব',
     pagination: (start, end, total) => start + '-' + end + ' মধ্যে ' + total,
-    columns: 'কলাম'
+    columns: 'কলাম',
+    selectAllRows: 'সব সারি নির্বাচন করুন',
+    selectRow: 'সারি নির্বাচন করুন'
   },
   pagination: {
+    label: 'পৃষ্ঠাবিন্যাস',
     first: 'প্রথম পৃষ্ঠা',
     prev: 'পূর্ববর্তী পৃষ্ঠা',
     next: 'পরবর্তী পৃষ্ঠা',
@@ -70,6 +73,22 @@ export default {
   carousel: {
     prevSlide: 'পূর্ববর্তী স্লাইড',
     nextSlide: 'পরবর্তী স্লাইড'
+  },
+  colorPicker: {
+    spectrum: 'বর্ণালী',
+    tune: 'সমন্বয়',
+    palette: 'প্যালেট',
+    value: 'রঙের মান',
+    hue: 'বর্ণ',
+    alpha: 'অস্বচ্ছতা'
+  },
+  uploader: {
+    addFiles: 'ফাইল বাছুন',
+    upload: 'ফাইল আপলোড করুন',
+    abort: 'আপলোড বাতিল করুন',
+    removeQueued: 'অপেক্ষমাণ ফাইল সরান',
+    removeUploaded: 'আপলোড করা ফাইল সরান',
+    removeFile: 'ফাইল সরান'
   },
   editor: {
     toolbar: 'সম্পাদকের টুলবার',

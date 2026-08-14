@@ -61,9 +61,12 @@ export default {
     recordsPerPage: 'Registros por página:',
     allRows: 'Todos',
     pagination: (start, end, total) => start + '-' + end + ' de ' + total,
-    columns: 'Colunas'
+    columns: 'Colunas',
+    selectAllRows: 'Selecionar todas as linhas',
+    selectRow: 'Selecionar linha'
   },
   pagination: {
+    label: 'Paginação',
     first: 'Primeira página',
     prev: 'Página anterior',
     next: 'Próxima página',
@@ -72,6 +75,22 @@ export default {
   carousel: {
     prevSlide: 'Slide anterior',
     nextSlide: 'Próximo slide'
+  },
+  colorPicker: {
+    spectrum: 'Espectro',
+    tune: 'Ajuste',
+    palette: 'Paleta',
+    value: 'Valor da cor',
+    hue: 'Matiz',
+    alpha: 'Opacidade'
+  },
+  uploader: {
+    addFiles: 'Escolher arquivos',
+    upload: 'Enviar arquivos',
+    abort: 'Cancelar o envio',
+    removeQueued: 'Remover arquivos na fila',
+    removeUploaded: 'Remover arquivos enviados',
+    removeFile: 'Remover arquivo'
   },
   editor: {
     toolbar: 'Barra de ferramentas do editor',

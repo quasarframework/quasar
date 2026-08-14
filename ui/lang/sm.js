@@ -58,9 +58,12 @@ export default {
     recordsPerPage: "Laina 'i le ītūlau:",
     allRows: "Laina 'uma",
     pagination: (start, end, total) => start + '-' + end + ' o ' + total,
-    columns: 'Poutū'
+    columns: 'Poutū',
+    selectAllRows: 'Filifili laina uma',
+    selectRow: 'Filifili le laina'
   },
   pagination: {
+    label: 'Faasologa o itulau',
     first: 'Itulau muamua',
     prev: 'Itulau muamua',
     next: 'Isi Itulau',
@@ -69,6 +72,22 @@ export default {
   carousel: {
     prevSlide: "Fa'aaliga muamua",
     nextSlide: "Isi fa'aaliga"
+  },
+  colorPicker: {
+    spectrum: 'Vaega lanu',
+    tune: 'Fetuutuunai',
+    palette: 'Laulau lanu',
+    value: 'Tau o le lanu',
+    hue: 'Lanu',
+    alpha: 'Mafiafia o le lanu'
+  },
+  uploader: {
+    addFiles: 'Filifili faila',
+    upload: 'Lafo faila',
+    abort: 'Faalēaogāina le lafoina',
+    removeQueued: 'Aveese faila o faatali',
+    removeUploaded: 'Aveese faila ua lafo',
+    removeFile: 'Aveese le faila'
   },
   editor: {
     toolbar: 'Laina meafaigaluega',

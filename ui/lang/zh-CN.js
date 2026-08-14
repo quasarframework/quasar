@@ -62,9 +62,12 @@ export default {
     recordsPerPage: '每页的行数:',
     allRows: '全部',
     pagination: (start, end, total) => start + '〜' + end + ' / ' + total,
-    columns: '列'
+    columns: '列',
+    selectAllRows: '选择所有行',
+    selectRow: '选择行'
   },
   pagination: {
+    label: '分页',
     first: '第一页',
     prev: '上一页',
     next: '下一页',
@@ -73,6 +76,22 @@ export default {
   carousel: {
     prevSlide: '上一张幻灯片',
     nextSlide: '下一张幻灯片'
+  },
+  colorPicker: {
+    spectrum: '光谱',
+    tune: '调整',
+    palette: '调色板',
+    value: '颜色值',
+    hue: '色相',
+    alpha: '不透明度'
+  },
+  uploader: {
+    addFiles: '选择文件',
+    upload: '上传文件',
+    abort: '中止上传',
+    removeQueued: '移除排队文件',
+    removeUploaded: '移除已上传文件',
+    removeFile: '移除文件'
   },
   editor: {
     toolbar: '编辑器工具栏',

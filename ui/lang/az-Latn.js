@@ -58,9 +58,12 @@ export default {
     recordsPerPage: 'Hər səhifədəki məlumat:',
     allRows: 'Bütün',
     pagination: (start, end, total) => start + '-' + end + ' cəmi ' + total,
-    columns: 'Sütun'
+    columns: 'Sütun',
+    selectAllRows: 'Bütün sətirləri seç',
+    selectRow: 'Sətri seç'
   },
   pagination: {
+    label: 'Səhifələmə',
     first: 'İlk səhifə',
     prev: 'Əvvəlki səhifə',
     next: 'Növbəti səhifə',
@@ -69,6 +72,22 @@ export default {
   carousel: {
     prevSlide: 'Əvvəlki slayd',
     nextSlide: 'Növbəti slayd'
+  },
+  colorPicker: {
+    spectrum: 'Spektr',
+    tune: 'Tənzimlə',
+    palette: 'Palitra',
+    value: 'Rəng dəyəri',
+    hue: 'Çalar',
+    alpha: 'Şəffaflıq'
+  },
+  uploader: {
+    addFiles: 'Fayl seç',
+    upload: 'Faylları yüklə',
+    abort: 'Yükləməni dayandır',
+    removeQueued: 'Növbədəki faylları sil',
+    removeUploaded: 'Yüklənmiş faylları sil',
+    removeFile: 'Faylı sil'
   },
   editor: {
     toolbar: 'Redaktor alətlər paneli',

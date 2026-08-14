@@ -2808,6 +2808,21 @@ describe('[QTable API]', () => {
   })
 
   describe('[Accessibility]', () => {
+    test('names the selection checkboxes and their column header', () => {
+      const wrapper = mountTable({ selection: 'multiple', selected: [] })
+      const { table } = wrapper.vm.$q.lang
+
+      const header = wrapper.get('thead th.q-table--col-auto-width')
+      expect(header.attributes('aria-label')).toBe(table.selectAllRows)
+      expect(header.get('[role="checkbox"]').attributes('aria-label')).toBe(
+        table.selectAllRows
+      )
+
+      expect(
+        wrapper.get('tbody [role="checkbox"]').attributes('aria-label')
+      ).toBe(table.selectRow)
+    })
+
     test('names its own loading progressbar', () => {
       // the consumer never renders this element, so it cannot name it
       const wrapper = mountTable({ loading: true })

@@ -56,9 +56,12 @@ export default {
     recordsPerPage: 'Rækker per side:',
     allRows: 'Alle',
     pagination: (start, end, total) => start + '-' + end + ' af ' + total,
-    columns: 'Kolonner'
+    columns: 'Kolonner',
+    selectAllRows: 'Vælg alle rækker',
+    selectRow: 'Vælg række'
   },
   pagination: {
+    label: 'Paginering',
     first: 'Første side',
     prev: 'Forrige side',
     next: 'Næste side',
@@ -67,6 +70,22 @@ export default {
   carousel: {
     prevSlide: 'Forrige dias',
     nextSlide: 'Næste dias'
+  },
+  colorPicker: {
+    spectrum: 'Spektrum',
+    tune: 'Finjuster',
+    palette: 'Palet',
+    value: 'Farveværdi',
+    hue: 'Farvetone',
+    alpha: 'Uigennemsigtighed'
+  },
+  uploader: {
+    addFiles: 'Vælg filer',
+    upload: 'Upload filer',
+    abort: 'Afbryd upload',
+    removeQueued: 'Fjern filer i kø',
+    removeUploaded: 'Fjern uploadede filer',
+    removeFile: 'Fjern fil'
   },
   editor: {
     toolbar: 'Editorens værktøjslinje',

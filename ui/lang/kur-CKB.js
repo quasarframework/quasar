@@ -62,9 +62,12 @@ export default {
     recordsPerPage: 'ئەنجام بۆهەر پەڕەیەک:',
     allRows: 'هەمووی',
     pagination: (start, end, total) => start + ' - ' + end + ' لە ' + total,
-    columns: 'ڕیز'
+    columns: 'ڕیز',
+    selectAllRows: 'هەڵبژاردنی هەموو ڕیزەکان',
+    selectRow: 'هەڵبژاردنی ڕیز'
   },
   pagination: {
+    label: 'پەڕەبەندی',
     first: 'پەڕەی یەکەمی',
     prev: 'پەڕەی پێشوو',
     next: 'پەڕەی داهاتوو',
@@ -73,6 +76,22 @@ export default {
   carousel: {
     prevSlide: 'سلایدی پێشوو',
     nextSlide: 'سلایدی داهاتوو'
+  },
+  colorPicker: {
+    spectrum: 'تیشک',
+    tune: 'ڕێکخستن',
+    palette: 'تەختەڕەنگ',
+    value: 'بەهای ڕەنگ',
+    hue: 'ڕەنگ',
+    alpha: 'ناڕوونی'
+  },
+  uploader: {
+    addFiles: 'هەڵبژاردنی پەڕگەکان',
+    upload: 'بارکردنی پەڕگەکان',
+    abort: 'وەستاندنی بارکردن',
+    removeQueued: 'سڕینەوەی پەڕگە چاوەڕوانەکان',
+    removeUploaded: 'سڕینەوەی پەڕگە بارکراوەکان',
+    removeFile: 'سڕینەوەی پەڕگە'
   },
   editor: {
     toolbar: 'شریتی ئامرازەکانی دەستکاریکەر',

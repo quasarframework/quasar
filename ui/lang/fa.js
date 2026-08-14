@@ -63,9 +63,12 @@ export default {
     recordsPerPage: 'رکورد در صفحه:',
     allRows: 'همه',
     pagination: (start, end, total) => start + ' - ' + end + ' از ' + total,
-    columns: 'ستون'
+    columns: 'ستون',
+    selectAllRows: 'انتخاب همه ردیف‌ها',
+    selectRow: 'انتخاب ردیف'
   },
   pagination: {
+    label: 'صفحه‌بندی',
     first: 'صفحه اول',
     prev: 'صفحه قبلی',
     next: 'صفحه بعدی',
@@ -74,6 +77,22 @@ export default {
   carousel: {
     prevSlide: 'اسلاید قبلی',
     nextSlide: 'اسلاید بعدی'
+  },
+  colorPicker: {
+    spectrum: 'طیف',
+    tune: 'تنظیم',
+    palette: 'پالت',
+    value: 'مقدار رنگ',
+    hue: 'فام',
+    alpha: 'کدری'
+  },
+  uploader: {
+    addFiles: 'انتخاب فایل‌ها',
+    upload: 'بارگذاری فایل‌ها',
+    abort: 'لغو بارگذاری',
+    removeQueued: 'حذف فایل‌های در صف',
+    removeUploaded: 'حذف فایل‌های بارگذاری‌شده',
+    removeFile: 'حذف فایل'
   },
   editor: {
     toolbar: 'نوار ابزار ویرایشگر',

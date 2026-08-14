@@ -59,9 +59,12 @@ export default {
     allRows: 'എല്ലാം',
     pagination: (start, end, total) =>
       start + '-' + end + ' മൊത്തം ' + total + ' ൽ നിന്നും',
-    columns: 'നിരകൾ'
+    columns: 'നിരകൾ',
+    selectAllRows: 'എല്ലാ വരികളും തിരഞ്ഞെടുക്കുക',
+    selectRow: 'വരി തിരഞ്ഞെടുക്കുക'
   },
   pagination: {
+    label: 'പേജ് വിഭജനം',
     first: 'ആദ്യ പേജ്',
     prev: 'മുമ്പത്തെ പേജ്',
     next: 'അടുത്ത പേജ്',
@@ -70,6 +73,22 @@ export default {
   carousel: {
     prevSlide: 'മുൻ സ്ലൈഡ്',
     nextSlide: 'അടുത്ത സ്ലൈഡ്'
+  },
+  colorPicker: {
+    spectrum: 'വർണ്ണരാജി',
+    tune: 'ക്രമീകരണം',
+    palette: 'നിറപ്പലക',
+    value: 'നിറത്തിന്റെ മൂല്യം',
+    hue: 'വർണ്ണച്ഛായ',
+    alpha: 'അതാര്യത'
+  },
+  uploader: {
+    addFiles: 'ഫയലുകൾ തിരഞ്ഞെടുക്കുക',
+    upload: 'ഫയലുകൾ അപ്‌ലോഡ് ചെയ്യുക',
+    abort: 'അപ്‌ലോഡ് റദ്ദാക്കുക',
+    removeQueued: 'കാത്തിരിക്കുന്ന ഫയലുകൾ നീക്കുക',
+    removeUploaded: 'അപ്‌ലോഡ് ചെയ്ത ഫയലുകൾ നീക്കുക',
+    removeFile: 'ഫയൽ നീക്കുക'
   },
   editor: {
     toolbar: 'എഡിറ്റർ ടൂൾബാർ',

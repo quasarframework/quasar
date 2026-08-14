@@ -58,9 +58,12 @@ export default {
     recordsPerPage: 'Zeilen pro Säit:',
     allRows: 'All',
     pagination: (start, end, total) => start + '–' + end + ' vun ' + total,
-    columns: 'Kolonnen'
+    columns: 'Kolonnen',
+    selectAllRows: 'All Reien auswielen',
+    selectRow: 'Rei auswielen'
   },
   pagination: {
+    label: 'Säitennummeréierung',
     first: 'Éischt Säit',
     prev: 'Vireg Säit',
     next: 'Nächst Säit',
@@ -69,6 +72,22 @@ export default {
   carousel: {
     prevSlide: 'Virescht Folie',
     nextSlide: 'Nächst Folie'
+  },
+  colorPicker: {
+    spectrum: 'Spektrum',
+    tune: 'Feinofstëmmung',
+    palette: 'Palette',
+    value: 'Faarfwäert',
+    hue: 'Faarftoun',
+    alpha: 'Deckkraaft'
+  },
+  uploader: {
+    addFiles: 'Fichieren auswielen',
+    upload: 'Fichieren eroplueden',
+    abort: 'Eroplueden ofbriechen',
+    removeQueued: 'Waardend Fichieren ewechhuelen',
+    removeUploaded: 'Eropgelueden Fichieren ewechhuelen',
+    removeFile: 'Fichier ewechhuelen'
   },
   editor: {
     toolbar: 'Toolbar vum Editeur',

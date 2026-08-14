@@ -49,6 +49,6 @@ The following are a few examples, but not an exhaustive list:
 
 ## Accessibility
 
-QPagination renders as a `navigation` landmark. The first/previous/next/last buttons get localized `aria-label`s from the [Quasar Language Pack](/options/quasar-language-packs) in use, the numbered buttons are labeled with the page they lead to, and the active page's button is marked with `aria-current="page"`. The landmark has no accessible name of its own, so give it an `aria-label` (it falls through to the root element) when a page contains more than one navigation landmark.
+QPagination renders as a `navigation` landmark. The first/previous/next/last buttons get localized `aria-label`s from the [Quasar Language Pack](/options/quasar-language-packs) in use, the numbered buttons are labeled with the page they lead to, and the active page's button is marked with `aria-current="page"`. The landmark itself is named from the same language pack (`pagination.label`); pass your own `aria-label` (it falls through to the root element) to tell several paginations on one page apart.
 
 In input mode, the typed page number is committed when the user hits <kbd>Enter</kbd> or when the field loses focus.

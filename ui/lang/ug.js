@@ -61,9 +61,12 @@ export default {
     recordsPerPage: 'ھەربەتتىكى قۇر سانى:',
     allRows: 'ھەممىسى',
     pagination: (start, end, total) => start + ' - ' + end + ' / ' + total,
-    columns: 'ئىستون'
+    columns: 'ئىستون',
+    selectAllRows: 'بارلىق قۇرلارنى تاللاش',
+    selectRow: 'قۇرنى تاللاش'
   },
   pagination: {
+    label: 'بەت بۆلۈش',
     first: 'بىرىنچى بەت',
     prev: 'ئالدىنقى بەت',
     next: 'كېيىنكى بەت',
@@ -72,6 +75,22 @@ export default {
   carousel: {
     prevSlide: 'ئالدىنقى سلايت',
     nextSlide: 'كېيىنكى سلايت'
+  },
+  colorPicker: {
+    spectrum: 'سپېكتر',
+    tune: 'تەڭشەش',
+    palette: 'رەڭ تاختىسى',
+    value: 'رەڭ قىممىتى',
+    hue: 'رەڭ تەڭشىكى',
+    alpha: 'سۈزۈكسىزلىك'
+  },
+  uploader: {
+    addFiles: 'ھۆججەت تاللاش',
+    upload: 'ھۆججەتلەرنى يۈكلەش',
+    abort: 'يۈكلەشنى توختىتىش',
+    removeQueued: 'نۆۋەتتىكى ھۆججەتلەرنى ئۆچۈرۈش',
+    removeUploaded: 'يۈكلەنگەن ھۆججەتلەرنى ئۆچۈرۈش',
+    removeFile: 'ھۆججەتنى ئۆچۈرۈش'
   },
   editor: {
     toolbar: 'تەھرىرلىگۈچ قورال ستونى',
