@@ -18,6 +18,7 @@ export default {
     minimum: 'Minimumi',
     maximum: 'Maksimumi',
     range: 'Intervali',
+    noValue: 'Pa vlerë',
     resize: 'Ndrysho përmasat',
     expand: label => (label ? `Zgjero "${label}"` : 'Zgjero'),
     collapse: label => (label ? `Tkur "${label}"` : 'Tkur')

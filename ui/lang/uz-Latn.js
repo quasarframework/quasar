@@ -18,6 +18,7 @@ export default {
     minimum: 'Minimum',
     maximum: 'Maksimum',
     range: 'Diapazon',
+    noValue: "Qiymat yo'q",
     resize: "O'lchamni o'zgartirish",
     expand: label => (label ? `"${label}" ni kengaytirish` : 'Kengaytirish'),
     collapse: label => (label ? `"${label}" ni yig'ish` : 'Yiqilish')

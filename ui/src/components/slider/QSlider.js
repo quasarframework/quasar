@@ -132,6 +132,10 @@ export default /*#__PURE__*/ createComponent({
 
       if (props.labelValue !== void 0) {
         acc['aria-valuetext'] = props.labelValue
+      } else if (props.modelValue === null) {
+        // aria-valuenow has to report a number, so spell out what that
+        // number means: nothing has been picked yet
+        acc['aria-valuetext'] = $q.lang.label.noValue
       }
 
       if (props.disable) {

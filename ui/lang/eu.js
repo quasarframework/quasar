@@ -18,6 +18,7 @@ export default {
     minimum: 'Minimoa',
     maximum: 'Maximoa',
     range: 'Tartea',
+    noValue: 'Baliorik ez',
     resize: 'Tamaina aldatu',
     expand: label => (label ? `Zabaldu "${label}"` : 'Zabaldu'),
     collapse: label => (label ? `Tolestu "${label}"` : 'Tolestu')

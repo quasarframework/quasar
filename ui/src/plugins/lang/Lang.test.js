@@ -43,6 +43,7 @@ describe('[Lang API]', () => {
             minimum: expect.any(String),
             maximum: expect.any(String),
             range: expect.any(String),
+            noValue: expect.any(String),
             resize: expect.any(String),
             expand: expect.any(Function),
             collapse: expect.any(Function)

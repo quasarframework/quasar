@@ -18,6 +18,7 @@ export default {
     minimum: 'Minimum',
     maximum: 'Maksimum',
     range: 'Rentang',
+    noValue: 'Tidak ada nilai',
     resize: 'Ubah ukuran',
     expand: label => (label ? `Perluas "${label}"` : 'Mengembangkan'),
     collapse: label => (label ? `Ciutkan "${label}"` : 'Jatuh')

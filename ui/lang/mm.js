@@ -18,6 +18,7 @@ export default {
     minimum: 'အနည်းဆုံး',
     maximum: 'အများဆုံး',
     range: 'အပိုင်းအခြား',
+    noValue: 'တန်ဖိုးမရှိ',
     resize: 'အရွယ်အစားပြောင်းမည်',
     expand: label => (label ? `"${label}" ကိုချဲ့ထွင်ပါ။` : 'ချဲ့ထွင်ပါ။'),
     collapse: label => (label ? `"${label}" ကို ခေါက်သိမ်းပါ` : 'ခေါက်သိမ်းပါ')

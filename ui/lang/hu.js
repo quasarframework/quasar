@@ -18,6 +18,7 @@ export default {
     minimum: 'Minimum',
     maximum: 'Maximum',
     range: 'Tartomány',
+    noValue: 'Nincs érték',
     resize: 'Átméretezés',
     expand: label => (label ? `A "${label}" kiterjesztése` : 'Kiterjed'),
     collapse: label => (label ? `A "${label}" összecsukása` : 'Összeomlás')

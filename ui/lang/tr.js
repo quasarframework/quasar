@@ -18,6 +18,7 @@ export default {
     minimum: 'Minimum',
     maximum: 'Maksimum',
     range: 'Aralık',
+    noValue: 'Değer yok',
     resize: 'Yeniden boyutlandır',
     expand: label => (label ? `"${label}" genişlet` : 'Genişletmek'),
     collapse: label => (label ? `"${label}" daralt` : 'Yıkılmak')

@@ -3,6 +3,7 @@ import { describe, expect, test } from 'vitest'
 import { nextTick } from 'vue'
 
 import QSlider from './QSlider.js'
+import langEn from '../../../lang/en-US.js'
 
 function mountSlider(props, slots) {
   props ||= {}
@@ -974,6 +975,24 @@ describe('[QSlider API]', () => {
 
       expect(wrapper.classes()).toContain('q-slider--no-value')
       expect(getTrackContainer(wrapper).attributes('aria-valuenow')).toBe('5')
+      // ...and aria-valuetext says what that number actually means
+      expect(getTrackContainer(wrapper).attributes('aria-valuetext')).toBe(
+        langEn.label.noValue
+      )
+    })
+
+    test('a label-value wins over the no-value text', async () => {
+      const wrapper = mountSlider({ modelValue: null, labelValue: 'Pick one' })
+
+      expect(getTrackContainer(wrapper).attributes('aria-valuetext')).toBe(
+        'Pick one'
+      )
+
+      // and a real value drops the no-value text entirely
+      await wrapper.setProps({ modelValue: 30, labelValue: void 0 })
+      expect(
+        getTrackContainer(wrapper).attributes('aria-valuetext')
+      ).toBeUndefined()
     })
 
     test('the focusable track container carries the slider semantics', () => {

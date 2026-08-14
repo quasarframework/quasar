@@ -119,6 +119,7 @@ export interface QuasarLanguage {
     minimum?: string;
     maximum?: string;
     range?: string;
+    noValue?: string;
     resize?: string;
   };
   date: {

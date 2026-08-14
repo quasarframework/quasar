@@ -18,6 +18,7 @@ export default {
     minimum: 'குறைந்தபட்சம்',
     maximum: 'அதிகபட்சம்',
     range: 'வரம்பு',
+    noValue: 'மதிப்பு இல்லை',
     resize: 'அளவை மாற்று',
     expand: label => (label ? `"${label}" ஐ விரிவாக்கு` : 'விரிவாக்கு'),
     collapse: label => (label ? `"${label}" ஐச் சுருக்கு` : 'சுருக்கு')

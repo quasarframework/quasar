@@ -19,6 +19,7 @@ export default {
     minimum: 'الحد الأدنى',
     maximum: 'الحد الأقصى',
     range: 'النطاق',
+    noValue: 'بدون قيمة',
     resize: 'تغيير الحجم',
     expand: label => (label ? `"${label} توسيع` : 'وسعت'),
     collapse: label => (label ? `"${label}" تصغير` : 'انهيار')

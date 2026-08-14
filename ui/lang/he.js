@@ -19,6 +19,7 @@ export default {
     minimum: 'מינימום',
     maximum: 'מקסימום',
     range: 'טווח',
+    noValue: 'אין ערך',
     resize: 'שינוי גודל',
     expand: label => (label ? `"${label}" הרחב את` : 'לְהַרְחִיב'),
     collapse: label => (label ? `"${label}" כווץ` : 'הִתמוֹטְטוּת')

@@ -121,6 +121,11 @@
               "desc": "Aria-label for the QRange track when it drags the whole selected window (drag-range/drag-only-range)",
               "examples": ["'Range'"]
             },
+            "noValue": {
+              "type": "String",
+              "desc": "Aria-valuetext for a QSlider/QRange thumb whose model side is null",
+              "examples": ["'No value'"]
+            },
             "resize": {
               "type": "String",
               "desc": "Aria-label for the QSplitter separator",
@@ -841,6 +846,11 @@
                   "type": "String",
                   "desc": "Aria-label for the QRange track when it drags the whole selected window (drag-range/drag-only-range)",
                   "examples": ["'Range'"]
+                },
+                "noValue": {
+                  "type": "String",
+                  "desc": "Aria-valuetext for a QSlider/QRange thumb whose model side is null",
+                  "examples": ["'No value'"]
                 },
                 "resize": {
                   "type": "String",

@@ -18,6 +18,7 @@ export default {
     minimum: 'Minimum',
     maximum: 'Maksimum',
     range: 'Interval',
+    noValue: 'Ingen værdi',
     resize: 'Ændr størrelse',
     expand: label => (label ? `Udvid "${label}"` : 'Udvide'),
     collapse: label => (label ? `Skjul "${label}"` : 'Bryder sammen')

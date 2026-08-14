@@ -18,6 +18,7 @@ export default {
     minimum: 'Minimum',
     maximum: 'Maximum',
     range: 'Saklaw',
+    noValue: 'Walang halaga',
     resize: 'Baguhin ang laki',
     expand: label => (label ? `Palawakin "${label}"` : 'Palawakin'),
     collapse: label => (label ? `Pagbagsak "${label}"` : 'Pagbagsak')

@@ -19,6 +19,7 @@ export default {
     minimum: 'کەمترین',
     maximum: 'زۆرترین',
     range: 'مەودا',
+    noValue: 'بێ بەها',
     resize: 'گۆڕینی قەبارە',
     expand: label => (label ? `"${label}" فراوانکردنی` : 'فراوانکردن'),
     collapse: label => (label ? `"${label}" داخستنی` : 'شکست هێنان')

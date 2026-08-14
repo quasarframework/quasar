@@ -25,6 +25,7 @@ export default {
     minimum: 'کمینه',
     maximum: 'بیشینه',
     range: 'بازه',
+    noValue: 'بدون مقدار',
     resize: 'تغییر اندازه',
     expand: label => (label ? `"${label}" گسترش` : 'بسط دادن'),
     collapse: label => (label ? `"${label}" کوچک کردن` : 'سقوط - فروپاشی')

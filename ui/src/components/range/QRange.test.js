@@ -1231,6 +1231,33 @@ describe('[QRange API]', () => {
   })
 
   describe('[Accessibility]', () => {
+    test('a null side says so instead of announcing its limit as a value', () => {
+      // both thumbs report a number (their limit), which on its own would
+      // read as "the whole range is selected"
+      const wrapper = mountRange({ modelValue: { min: null, max: null } })
+
+      expect(getMinThumb(wrapper).attributes('aria-valuetext')).toBe(
+        langEn.label.noValue
+      )
+      expect(getMaxThumb(wrapper).attributes('aria-valuetext')).toBe(
+        langEn.label.noValue
+      )
+    })
+
+    test('a per-thumb label value wins over the no-value text', () => {
+      const wrapper = mountRange({
+        modelValue: { min: null, max: null },
+        leftLabelValue: 'From anywhere'
+      })
+
+      expect(getMinThumb(wrapper).attributes('aria-valuetext')).toBe(
+        'From anywhere'
+      )
+      expect(getMaxThumb(wrapper).attributes('aria-valuetext')).toBe(
+        langEn.label.noValue
+      )
+    })
+
     test('each thumb implements the WAI-ARIA slider semantics', () => {
       // default mount: model { min: 20, max: 60 }, limits 0-100
       const wrapper = mountRange()

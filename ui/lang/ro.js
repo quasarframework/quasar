@@ -18,6 +18,7 @@ export default {
     minimum: 'Minim',
     maximum: 'Maxim',
     range: 'Interval',
+    noValue: 'Fără valoare',
     resize: 'Redimensionează',
     expand: label => (label ? `Deschideți "${label}"` : 'Deschide'),
     collapse: label => (label ? `Închide "${label}"` : 'Închide')

@@ -18,6 +18,7 @@ export default {
     minimum: 'Minimums',
     maximum: 'Maksimums',
     range: 'Diapazons',
+    noValue: 'Nav vērtības',
     resize: 'Mainīt izmēru',
     expand: label => (label ? `Paplašināt "${label}"` : 'Izvērst'),
     collapse: label => (label ? `Sakļaut "${label}"` : 'Sakļaut')

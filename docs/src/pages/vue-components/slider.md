@@ -116,7 +116,7 @@ When dealing with a native form which has an `action` and a `method` (eg. when u
 
 ## Accessibility <q-badge label="v2.25+" />
 
-QSlider implements the [WAI-ARIA slider pattern](https://www.w3.org/WAI/ARIA/apg/patterns/slider/): the element that receives keyboard focus exposes `role="slider"` with `aria-valuemin`/`aria-valuemax`/`aria-valuenow` tracking the model (a `null` model reports the minimum, where its thumb sits, since the role requires a value), `aria-orientation` for the vertical mode, and `aria-disabled` / `aria-readonly` when applicable. A `label-value` (e.g. "50%") also becomes `aria-valuetext`, so screen readers announce the same formatted value sighted users see.
+QSlider implements the [WAI-ARIA slider pattern](https://www.w3.org/WAI/ARIA/apg/patterns/slider/): the element that receives keyboard focus exposes `role="slider"` with `aria-valuemin`/`aria-valuemax`/`aria-valuenow` tracking the model (a `null` model reports the minimum, where its thumb sits, since the role requires a value — and `aria-valuetext` then says "No value" so it is not announced as a real selection), `aria-orientation` for the vertical mode, and `aria-disabled` / `aria-readonly` when applicable. A `label-value` (e.g. "50%") also becomes `aria-valuetext`, so screen readers announce the same formatted value sighted users see.
 
 In desktop mode the slider is keyboard-operable: the <kbd>Arrow</kbd> keys step the value (the direction follows RTL, `reverse` and `vertical`), <kbd>PageUp</kbd> / <kbd>PageDown</kbd> jump by 10 steps and <kbd>Home</kbd> / <kbd>End</kbd> go straight to the limits. On mobile platforms only touch/pointer interaction is wired up.
 

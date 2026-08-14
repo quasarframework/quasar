@@ -18,6 +18,7 @@ export default {
     minimum: 'Minimum',
     maximum: 'Maksimum',
     range: 'Raspon',
+    noValue: 'Bez vrijednosti',
     resize: 'Promijeni veličinu',
     expand: label => (label ? `Proširi "${label}"` : 'Proširiti'),
     collapse: label => (label ? `Sažmi "${label}"` : 'Kolaps')

@@ -18,6 +18,7 @@ export default {
     minimum: 'Minimo',
     maximum: 'Massimo',
     range: 'Intervallo',
+    noValue: 'Nessun valore',
     resize: 'Ridimensiona',
     expand: label => (label ? `Espandi "${label}"` : 'Espandere'),
     collapse: label => (label ? `Comprimi "${label}"` : 'Comprimere')

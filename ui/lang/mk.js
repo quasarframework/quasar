@@ -18,6 +18,7 @@ export default {
     minimum: 'Минимум',
     maximum: 'Максимум',
     range: 'Опсег',
+    noValue: 'Нема вредност',
     resize: 'Промени големина',
     expand: label => (label ? `Прошири "${label}"` : 'Прошири'),
     collapse: label => (label ? `Собери на "${label}"` : 'Собери')

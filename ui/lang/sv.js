@@ -18,6 +18,7 @@ export default {
     minimum: 'Minimum',
     maximum: 'Maximum',
     range: 'Intervall',
+    noValue: 'Inget värde',
     resize: 'Ändra storlek',
     expand: label => (label ? `Utöka "${label}"` : 'Bygga ut'),
     collapse: label => (label ? `Komprimera "${label}"` : 'Kollaps')

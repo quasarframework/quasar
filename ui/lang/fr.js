@@ -18,6 +18,7 @@ export default {
     minimum: 'Minimum',
     maximum: 'Maximum',
     range: 'Plage',
+    noValue: 'Aucune valeur',
     resize: 'Redimensionner',
     expand: label => (label ? `Développer "${label}"` : 'Développer'),
     collapse: label => (label ? `Réduire "${label}"` : 'Effondrement')

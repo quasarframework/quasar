@@ -154,7 +154,13 @@ export default /*#__PURE__*/ createComponent({
         'aria-valuemin': isMin ? state.innerMin.value : model.value.min,
         'aria-valuemax': isMin ? model.value.max : state.innerMax.value,
         'aria-valuenow': model.value[which],
-        ...(labelValue !== void 0 ? { 'aria-valuetext': labelValue } : {}),
+        // a null side still reports a number (the limit its thumb sits on),
+        // so say what that number means: nothing has been picked yet
+        ...(labelValue !== void 0
+          ? { 'aria-valuetext': labelValue }
+          : modelProp.value[which] === null
+            ? { 'aria-valuetext': $q.lang.label.noValue }
+            : {}),
         ...getEditableAriaState()
       }
     }

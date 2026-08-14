@@ -32,6 +32,7 @@ export default {
     minimum: 'کم از کم',
     maximum: 'زیادہ سے زیادہ',
     range: 'رینج',
+    noValue: 'کوئی قدر نہیں',
     resize: 'سائز تبدیل کریں',
     expand: label => (label ? `"${label}" کو وسیع کریں` : 'وسیع کریں'),
     collapse: label => (label ? `"${label}" کو سکیڑیں` : 'سکیڑیں')

@@ -18,6 +18,7 @@ export default {
     minimum: 'Lágmark',
     maximum: 'Hámark',
     range: 'Bil',
+    noValue: 'Ekkert gildi',
     resize: 'Breyta stærð',
     expand: label => (label ? `Stækka "${label}"` : 'Stækkaðu'),
     collapse: label => (label ? `Draga saman "${label}"` : 'Hrun')

@@ -18,6 +18,7 @@ export default {
     minimum: 'Tối thiểu',
     maximum: 'Tối đa',
     range: 'Phạm vi',
+    noValue: 'Không có giá trị',
     resize: 'Thay đổi kích thước',
     expand: label => (label ? `Mở rộng "${label}"` : 'Mở rộng'),
     collapse: label => (label ? `Thu gọn "${label}"` : 'Sụp đổ')

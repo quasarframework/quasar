@@ -18,6 +18,7 @@ export default {
     minimum: 'Minimum',
     maximum: 'Maximum',
     range: 'Rozsah',
+    noValue: 'Bez hodnoty',
     resize: 'Změnit velikost',
     expand: label => (label ? `Rozbalit "${label}"` : 'Rozšířit'),
     collapse: label => (label ? `Sbalit "${label}"` : 'Kolaps')

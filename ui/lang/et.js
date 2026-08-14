@@ -18,6 +18,7 @@ export default {
     minimum: 'Miinimum',
     maximum: 'Maksimum',
     range: 'Vahemik',
+    noValue: 'Väärtus puudub',
     resize: 'Muuda suurust',
     expand: label => (label ? `Laienda "${label}"` : 'Laienda'),
     collapse: label => (label ? `Ahenda "${label}"` : 'Ahenda')
