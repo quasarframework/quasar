@@ -230,7 +230,9 @@ function processPage(page, entries) {
     keys,
     content: frontMatter.data.desc,
     type: 'page-link',
-    anchor: 'introduction'
+    // a page opting out of the title heading renders no #introduction to
+    // scroll to, so its entry has to lead to the page itself
+    anchor: frontMatter.data.heading === false ? '' : 'introduction'
   })
 
   // handle API card (deep heading)
