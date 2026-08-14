@@ -4,13 +4,16 @@
     view="hHh LpR fff"
     @scroll="docStore.onPageScroll"
   >
-    <a class="doc-skip-link" href="#introduction">Skip to page content</a>
+    <a class="doc-skip-link" href="#doc-main-content">Skip to page content</a>
 
     <DocHeader />
 
     <q-page-container>
-      <q-page id="doc-main-content" :class="pageClass" key="q-page">
-        <router-view v-if="isFullscreen" key="page-fullscreen" />
+      <q-page :class="pageClass" key="q-page">
+        <template v-if="isFullscreen">
+          <span id="doc-main-content" class="doc-skip-target" tabindex="-1" />
+          <router-view key="page-fullscreen" />
+        </template>
         <div v-else :class="pageContentClass" key="page-standard">
           <div
             class="doc-layout__menu-container row justify-center"
@@ -21,6 +24,10 @@
               <DocPageMenu />
             </q-scroll-area>
           </div>
+          <!-- sits after the side menu, so skipping to it lands past the
+               menu rather than in front of it; every page renders one,
+               which a heading-derived target could not promise -->
+          <span id="doc-main-content" class="doc-skip-target" tabindex="-1" />
           <router-view />
         </div>
 
