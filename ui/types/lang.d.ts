@@ -27,10 +27,7 @@ type QuasarLanguageGeneralLabel =
   | "create"
   | "search"
   | "filter"
-  | "refresh"
-  | "minimum"
-  | "maximum"
-  | "range";
+  | "refresh";
 type QuasarLanguageTableLabel =
   | "noData"
   | "noResults"
@@ -115,6 +112,11 @@ export interface QuasarLanguage {
   label: StringDictionary<QuasarLanguageGeneralLabel> & {
     expand: (label?: string | undefined) => string;
     collapse: (label?: string | undefined) => string;
+    // screen-reader names stay optional: a third-party pack written
+    // before they existed must keep compiling
+    minimum?: string;
+    maximum?: string;
+    range?: string;
     resize?: string;
   };
   date: {
@@ -144,6 +146,12 @@ export interface QuasarLanguage {
   table: StringDictionary<QuasarLanguageTableLabel> & {
     selectedRecords: (rows: number) => string;
     pagination: (start: number, end: number, total: number) => string;
+  };
+  pagination?: {
+    first?: string;
+    prev?: string;
+    next?: string;
+    last?: string;
   };
   carousel?: {
     prevSlide?: string;
