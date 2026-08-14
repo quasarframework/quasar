@@ -190,7 +190,7 @@ The `reverse-fill-mask` is useful if you want to force the user to fill the mask
 
 <DocExample title="Filling the mask in reverse" file="MaskFillReverse" />
 
-You can prevent the mask's own handling of a key by preventing its `keydown` event; for example, `@keydown.left.prevent` keeps <kbd>ARROW LEFT</kbd> from moving the cursor over the mask literals.
+You can prevent the mask's own handling of a key — the cursor movement over the mask literals, along with the <kbd>BACKSPACE</kbd> / <kbd>DELETE</kbd> boundary logic — by preventing its `keydown` event. Keep in mind that this also cancels the browser's native handling of that key, so `@keydown.left.prevent` leaves the cursor where it is rather than moving it past the literals; repositioning it is then up to your own handler.
 
 ### Custom mask tokens <q-badge label="v2.18.4+" />
 
