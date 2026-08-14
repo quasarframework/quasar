@@ -12,6 +12,7 @@
     >
       <template v-slot:before>
         <img
+          alt=""
           src="https://cdn.quasar.dev/img/parallax1.jpg"
           :width="width"
           class="absolute-top-left"
@@ -20,6 +21,7 @@
 
       <template v-slot:after>
         <img
+          alt=""
           src="https://cdn.quasar.dev/img/parallax1-bw.jpg"
           :width="width"
           class="absolute-top-right"

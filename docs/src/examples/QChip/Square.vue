@@ -42,7 +42,7 @@
       </q-chip>
       <q-chip square>
         <q-avatar>
-          <img src="https://cdn.quasar.dev/img/boy-avatar.png" />
+          <img alt="" src="https://cdn.quasar.dev/img/boy-avatar.png" />
         </q-avatar>
         John
       </q-chip>

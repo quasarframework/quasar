@@ -60,7 +60,7 @@
       <q-field color="teal" outlined label="Label" stack-label>
         <template v-slot:append>
           <q-avatar>
-            <img src="https://cdn.quasar.dev/logo-v2/svg/logo.svg" />
+            <img alt="" src="https://cdn.quasar.dev/logo-v2/svg/logo.svg" />
           </q-avatar>
         </template>
         <template v-slot:control>

@@ -112,7 +112,7 @@ Capacitor is one of the most complicated of all of the build targets as far as i
 
 If you discover one file that is new or missing, please [open an issue](https://github.com/quasarframework/quasar/issues).
 
-<img src="/img/iconfactory.png" style="float:right;max-width:15%;min-width:240px;padding-top:40px">
+<img alt="IconGenie logo" src="/img/iconfactory.png" style="float:right;max-width:15%;min-width:240px;padding-top:40px">
 
 ## Icon Genie CLI
 

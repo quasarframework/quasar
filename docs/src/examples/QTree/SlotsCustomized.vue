@@ -4,6 +4,7 @@
       <template v-slot:header-root="prop">
         <div class="row items-center">
           <img
+            alt=""
             src="https://cdn.quasar.dev/logo-v2/svg/logo.svg"
             class="q-mr-sm"
             style="width: 50px; height: 50px"

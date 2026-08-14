@@ -54,7 +54,7 @@ scope:
 
 This build target includes manifest icons, favicons, and platform-specific assets. Icon Genie generates the recommended set for you. If you discover one that is new or missing, please [open an issue](https://github.com/quasarframework/quasar/issues).
 
-<img src="/img/iconfactory.png" style="float:right;max-width:15%;min-width:240px;padding-top:40px">
+<img alt="IconGenie logo" src="/img/iconfactory.png" style="float:right;max-width:15%;min-width:240px;padding-top:40px">
 
 ## Icon Genie CLI
 

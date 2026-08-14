@@ -65,7 +65,7 @@
         >
           <div class="absolute-bottom bg-transparent">
             <q-avatar size="56px" class="q-mb-sm">
-              <img src="https://cdn.quasar.dev/img/boy-avatar.png" />
+              <img alt="" src="https://cdn.quasar.dev/img/boy-avatar.png" />
             </q-avatar>
             <div class="text-weight-bold">Razvan Stoenescu</div>
             <div>@rstoenescu</div>

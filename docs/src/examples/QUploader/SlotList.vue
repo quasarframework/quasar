@@ -17,7 +17,7 @@
             </q-item-section>
 
             <q-item-section v-if="file.__img" thumbnail class="gt-xs">
-              <img :src="file.__img.src" />
+              <img alt="" :src="file.__img.src" />
             </q-item-section>
 
             <q-item-section top side>

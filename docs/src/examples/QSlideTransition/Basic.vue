@@ -4,7 +4,11 @@
 
     <q-slide-transition>
       <div v-show="visible">
-        <img class="responsive" src="https://cdn.quasar.dev/img/quasar.jpg" />
+        <img
+          alt=""
+          class="responsive"
+          src="https://cdn.quasar.dev/img/quasar.jpg"
+        />
       </div>
     </q-slide-transition>
   </div>

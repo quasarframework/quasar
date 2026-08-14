@@ -16,7 +16,7 @@ scope:
 
 This build target includes favicon formats and sizes used by different browsers and operating systems. Icon Genie generates the recommended set for you. If you discover one that is new or missing, please [open an issue](https://github.com/quasarframework/quasar/issues).
 
-<img src="/img/iconfactory.png" style="float:right;max-width:15%;min-width:240px;padding-top:40px">
+<img alt="IconGenie logo" src="/img/iconfactory.png" style="float:right;max-width:15%;min-width:240px;padding-top:40px">
 
 ## Icon Genie CLI
 

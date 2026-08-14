@@ -38,7 +38,7 @@
       </q-chip>
       <q-chip removable v-model="cookies" color="red" text-color="white">
         <q-avatar>
-          <img src="https://cdn.quasar.dev/img/boy-avatar.png" />
+          <img alt="" src="https://cdn.quasar.dev/img/boy-avatar.png" />
         </q-avatar>
         <div class="ellipsis">
           {{ cookiesLabel }}

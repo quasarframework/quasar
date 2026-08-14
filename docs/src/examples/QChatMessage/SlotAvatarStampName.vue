@@ -11,6 +11,7 @@
         <template v-slot:stamp>7 minutes ago</template>
         <template v-slot:avatar>
           <img
+            alt=""
             class="q-message-avatar q-message-avatar--sent"
             src="https://cdn.quasar.dev/img/avatar4.jpg"
           />
@@ -21,6 +22,7 @@
         <template v-slot:name>Mary</template>
         <template v-slot:avatar>
           <img
+            alt=""
             class="q-message-avatar q-message-avatar--received"
             src="https://cdn.quasar.dev/img/avatar2.jpg"
           />
@@ -29,6 +31,7 @@
         <div>
           Already building an app with it...
           <img
+            alt=""
             src="https://cdn.quasar.dev/img/discord-qeart.png"
             class="my-emoji"
           />

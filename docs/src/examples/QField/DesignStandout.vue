@@ -66,7 +66,7 @@
 
         <template v-slot:append>
           <q-avatar>
-            <img src="https://cdn.quasar.dev/logo-v2/svg/logo.svg" />
+            <img alt="" src="https://cdn.quasar.dev/logo-v2/svg/logo.svg" />
           </q-avatar>
         </template>
       </q-field>
@@ -137,7 +137,7 @@
       >
         <template v-slot:before>
           <q-avatar>
-            <img src="https://cdn.quasar.dev/img/avatar5.jpg" />
+            <img alt="" src="https://cdn.quasar.dev/img/avatar5.jpg" />
           </q-avatar>
         </template>
 

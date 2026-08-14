@@ -26,7 +26,7 @@
     >
       <q-item-section avatar>
         <q-avatar rounded>
-          <img src="https://cdn.quasar.dev/img/chaosmonkey.png" />
+          <img alt="" src="https://cdn.quasar.dev/img/chaosmonkey.png" />
         </q-avatar>
       </q-item-section>
 

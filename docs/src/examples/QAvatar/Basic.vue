@@ -11,7 +11,7 @@
     />
     <q-avatar size="24px" color="orange">J</q-avatar>
     <q-avatar>
-      <img src="https://cdn.quasar.dev/img/avatar.png" />
+      <img alt="" src="https://cdn.quasar.dev/img/avatar.png" />
     </q-avatar>
   </div>
 </template>

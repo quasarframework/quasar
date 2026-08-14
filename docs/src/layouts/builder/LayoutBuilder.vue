@@ -651,7 +651,7 @@ const layoutExport = computed(() => {
           }
         <q-toolbar-title>
           <q-avatar>
-            <img src="/logo/logo-mono-white.svg">
+            <img alt="" src="/logo/logo-mono-white.svg">
           </q-avatar>
           Title
         </q-toolbar-title>${
@@ -704,7 +704,7 @@ const layoutExport = computed(() => {
       <q-toolbar>
         <q-toolbar-title>
           <q-avatar>
-            <img src="/logo/logo-mono-white.svg">
+            <img alt="" src="/logo/logo-mono-white.svg">
           </q-avatar>
           <div>Title</div>
         </q-toolbar-title>

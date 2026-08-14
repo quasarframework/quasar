@@ -10,7 +10,7 @@
         <q-toolbar>
           <q-toolbar-title class="text-center">
             <q-avatar>
-              <img src="https://cdn.quasar.dev/logo-v2/svg/logo.svg" />
+              <img alt="" src="https://cdn.quasar.dev/logo-v2/svg/logo.svg" />
             </q-avatar>
             Quasar Framework
           </q-toolbar-title>

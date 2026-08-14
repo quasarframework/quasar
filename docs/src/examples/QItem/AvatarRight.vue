@@ -40,7 +40,7 @@
         <q-item-section>Image avatar</q-item-section>
         <q-item-section avatar>
           <q-avatar>
-            <img src="https://cdn.quasar.dev/img/boy-avatar.png" />
+            <img alt="" src="https://cdn.quasar.dev/img/boy-avatar.png" />
           </q-avatar>
         </q-item-section>
       </q-item>
@@ -49,7 +49,7 @@
         <q-item-section>Image square avatar</q-item-section>
         <q-item-section avatar>
           <q-avatar square>
-            <img src="https://cdn.quasar.dev/img/boy-avatar.png" />
+            <img alt="" src="https://cdn.quasar.dev/img/boy-avatar.png" />
           </q-avatar>
         </q-item-section>
       </q-item>
@@ -58,7 +58,7 @@
         <q-item-section>Image rounded avatar</q-item-section>
         <q-item-section avatar>
           <q-avatar rounded>
-            <img src="https://cdn.quasar.dev/img/boy-avatar.png" />
+            <img alt="" src="https://cdn.quasar.dev/img/boy-avatar.png" />
           </q-avatar>
         </q-item-section>
       </q-item>
@@ -69,7 +69,7 @@
         <q-item-section>List item</q-item-section>
         <q-item-section avatar>
           <q-avatar rounded>
-            <img src="https://cdn.quasar.dev/img/mountains.jpg" />
+            <img alt="" src="https://cdn.quasar.dev/img/mountains.jpg" />
           </q-avatar>
         </q-item-section>
       </q-item>
@@ -77,7 +77,7 @@
       <q-item clickable v-ripple>
         <q-item-section>List item</q-item-section>
         <q-item-section thumbnail>
-          <img src="https://cdn.quasar.dev/img/mountains.jpg" />
+          <img alt="" src="https://cdn.quasar.dev/img/mountains.jpg" />
         </q-item-section>
       </q-item>
     </q-list>

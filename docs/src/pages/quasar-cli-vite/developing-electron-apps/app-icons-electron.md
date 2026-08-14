@@ -16,7 +16,7 @@ scope:
 
 These images represent your application in the operating system, including the desktop, file browser, taskbar or dock, tray, and relevant stores. The `icon.ico` file is for Windows, `icon.icns` is for macOS, and `icon.png` is used where a PNG is required. If you discover any that are missing, please [open an issue](https://github.com/quasarframework/quasar/issues).
 
-<img src="/img/iconfactory.png" style="float:right;max-width:15%;min-width:240px;padding-top:40px">
+<img alt="IconGenie logo" src="/img/iconfactory.png" style="float:right;max-width:15%;min-width:240px;padding-top:40px">
 
 ## Icon Genie CLI
 

@@ -63,7 +63,7 @@ The Quasar SSG Mode is currently in the "beta" stage. Based on the community fee
 
 An SSG site uses the same favicon assets as a SPA. When PWA takeover is enabled, it also needs manifest icons and may include Apple touch icons and launch images.
 
-<img src="/img/iconfactory.png" style="float:right;max-width:15%;min-width:240px;padding-top:40px">
+<img alt="IconGenie logo" src="/img/iconfactory.png" style="float:right;max-width:15%;min-width:240px;padding-top:40px">
 
 ## Icon Genie CLI
 

@@ -73,6 +73,7 @@
             <q-toolbar class="bg-accent text-white">
               <q-avatar>
                 <img
+                  alt=""
                   src="https://cdn.quasar.dev/logo-v2/svg/logo-mono-white.svg"
                 />
               </q-avatar>

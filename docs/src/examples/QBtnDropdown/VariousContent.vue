@@ -12,7 +12,7 @@
 
         <div class="column items-center">
           <q-avatar size="72px">
-            <img src="https://cdn.quasar.dev/img/boy-avatar.png" />
+            <img alt="" src="https://cdn.quasar.dev/img/boy-avatar.png" />
           </q-avatar>
 
           <div class="text-subtitle1 q-mt-md q-mb-xs">John Doe</div>

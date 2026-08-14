@@ -21,7 +21,7 @@
         <q-item>
           <q-item-section avatar>
             <q-avatar>
-              <img src="https://cdn.quasar.dev/img/avatar6.jpg" />
+              <img alt="" src="https://cdn.quasar.dev/img/avatar6.jpg" />
             </q-avatar>
           </q-item-section>
           <q-item-section>Jane</q-item-section>
@@ -32,7 +32,7 @@
         <q-item>
           <q-item-section avatar>
             <q-avatar>
-              <img src="https://cdn.quasar.dev/img/avatar3.jpg" />
+              <img alt="" src="https://cdn.quasar.dev/img/avatar3.jpg" />
             </q-avatar>
           </q-item-section>
           <q-item-section>Lily</q-item-section>
@@ -41,7 +41,7 @@
         <q-item>
           <q-item-section avatar>
             <q-avatar>
-              <img src="https://cdn.quasar.dev/img/avatar5.jpg" />
+              <img alt="" src="https://cdn.quasar.dev/img/avatar5.jpg" />
             </q-avatar>
           </q-item-section>
           <q-item-section>Mary</q-item-section>
@@ -54,7 +54,7 @@
       >
         <q-item>
           <q-item-section thumbnail>
-            <img src="https://cdn.quasar.dev/img/mountains.jpg" />
+            <img alt="" src="https://cdn.quasar.dev/img/mountains.jpg" />
           </q-item-section>
           <q-item-section>Mountains</q-item-section>
         </q-item>
@@ -63,14 +63,14 @@
 
         <q-item>
           <q-item-section thumbnail>
-            <img src="https://cdn.quasar.dev/img/parallax1.jpg" />
+            <img alt="" src="https://cdn.quasar.dev/img/parallax1.jpg" />
           </q-item-section>
           <q-item-section>Venice</q-item-section>
         </q-item>
 
         <q-item>
           <q-item-section thumbnail>
-            <img src="https://cdn.quasar.dev/img/parallax2.jpg" />
+            <img alt="" src="https://cdn.quasar.dev/img/parallax2.jpg" />
           </q-item-section>
           <q-item-section>The Bridge</q-item-section>
         </q-item>
@@ -83,7 +83,7 @@
         <q-item>
           <q-item-section avatar>
             <q-avatar>
-              <img src="https://cdn.quasar.dev/img/avatar6.jpg" />
+              <img alt="" src="https://cdn.quasar.dev/img/avatar6.jpg" />
             </q-avatar>
           </q-item-section>
           <q-item-section>Jane</q-item-section>
@@ -94,7 +94,7 @@
         <q-item>
           <q-item-section avatar>
             <q-avatar>
-              <img src="https://cdn.quasar.dev/img/avatar3.jpg" />
+              <img alt="" src="https://cdn.quasar.dev/img/avatar3.jpg" />
             </q-avatar>
           </q-item-section>
           <q-item-section>Lily</q-item-section>
@@ -103,7 +103,7 @@
         <q-item>
           <q-item-section avatar>
             <q-avatar>
-              <img src="https://cdn.quasar.dev/img/avatar5.jpg" />
+              <img alt="" src="https://cdn.quasar.dev/img/avatar5.jpg" />
             </q-avatar>
           </q-item-section>
           <q-item-section>Mary</q-item-section>

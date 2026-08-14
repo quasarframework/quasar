@@ -10,7 +10,7 @@
       >
         <transition name="q-transition--scale">
           <q-card v-if="inView[index - 1]">
-            <img src="https://cdn.quasar.dev/img/mountains.jpg" />
+            <img alt="" src="https://cdn.quasar.dev/img/mountains.jpg" />
 
             <q-card-section>
               <div class="text-h6">Card #{{ index }}</div>
