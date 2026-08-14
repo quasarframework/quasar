@@ -133,7 +133,7 @@ You can prevent QEditor from running one of these commands by preventing its `ke
 
 ### Labeling <q-badge label="v2.25+" />
 
-The editing area is exposed as a multiline `textbox` and the toolbar carries a localized `aria-label` from the [Quasar Language Pack](/options/quasar-language-packs). Toggle commands (bold, italic, the alignment buttons and friends) report their state through `aria-pressed` rather than through their color alone, and the hyperlink editor's URL field is labeled from the same language pack. Attributes passed to QEditor itself (such as `aria-label`, `aria-labelledby` or `aria-describedby`) are applied to the editing area, so you can — and should — give it an accessible name:
+The editing area is exposed as a multiline `textbox` and the toolbar carries a localized `aria-label` from the [Quasar Language Pack](/options/quasar-language-packs). It also mirrors its own props onto that role: a `placeholder` becomes `aria-placeholder`, while `readonly` and `disable` surface as `aria-readonly` and `aria-disabled`. Toggle commands (bold, italic, the alignment buttons and friends) report their state through `aria-pressed` rather than through their color alone, and the hyperlink editor's URL field is labeled from the same language pack. Attributes passed to QEditor itself (such as `aria-label`, `aria-labelledby` or `aria-describedby`) are applied to the editing area, so you can — and should — give it an accessible name:
 
 ```html
 <q-editor v-model="model" aria-label="Post body" />

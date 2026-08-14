@@ -53,3 +53,5 @@ The toggle button follows the [WAI-ARIA disclosure pattern](https://www.w3.org/W
 ```
 
 The prop is the reliable way to do this in both designs: in `split` mode the fall-through attributes land on the wrapping button group rather than on the toggle button, so setting `aria-haspopup` as a plain attribute would never reach the control that opens the popup.
+
+The toggle also carries an accessible name of its own, built from the `label` prop and the active [Quasar Language Pack](/options/quasar-language-packs) and following the state — `Expand "Actions"` while collapsed, `Collapse "Actions"` once open (a dropdown without a `label` falls back to a bare `Expand`/`Collapse`). Since it describes the disclosure rather than the action behind it, override it with the `toggle-aria-label` prop whenever the label alone doesn't tell the story — and note that, like `toggle-aria-haspopup`, the prop is what reaches the toggle button in `split` mode.
