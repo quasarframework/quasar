@@ -52,7 +52,7 @@
     <div class="row q-col-gutter-xs items-start">
       <q-field
         class="col-6"
-        v-bind="props"
+        v-bind="nonInputProps"
         label="Field label"
         stack-label
         bottom-slots
@@ -111,7 +111,7 @@
     <div class="row q-col-gutter-xs items-start">
       <q-field
         class="col-6"
-        v-bind="props"
+        v-bind="nonInputProps"
         label="Field label"
         stack-label
         bottom-slots
@@ -218,7 +218,7 @@
     <div class="row q-col-gutter-xs items-start">
       <q-field
         class="col-3"
-        v-bind="props"
+        v-bind="nonInputProps"
         label="Field label"
         stack-label
         bottom-slots
@@ -275,7 +275,7 @@
 
       <q-select
         class="col-3"
-        v-bind="props"
+        v-bind="nonInputProps"
         v-model="text"
         :options="options"
         label="Field label"
@@ -303,7 +303,7 @@
 
       <q-select
         class="col-3"
-        v-bind="props"
+        v-bind="nonInputProps"
         v-model="text"
         :options="options"
         use-input
@@ -338,7 +338,7 @@
     <div class="row q-col-gutter-xs items-start">
       <q-field
         class="col-3"
-        v-bind="props"
+        v-bind="nonInputProps"
         label="Field label"
         stack-label
         bottom-slots
@@ -363,7 +363,7 @@
 
       <q-select
         class="col-3"
-        v-bind="props"
+        v-bind="nonInputProps"
         v-model="text"
         :options="options"
         label="Field label"
@@ -376,7 +376,7 @@
 
       <q-select
         class="col-3"
-        v-bind="props"
+        v-bind="nonInputProps"
         v-model="text"
         :options="options"
         use-input
@@ -408,7 +408,7 @@
 
       <q-select
         class="col-3"
-        v-bind="props"
+        v-bind="nonInputProps"
         v-model="text"
         :options="options"
         bottom-slots
@@ -419,7 +419,7 @@
 
       <q-select
         class="col-3"
-        v-bind="props"
+        v-bind="nonInputProps"
         v-model="text"
         :options="options"
         use-input
@@ -464,7 +464,7 @@
       <q-separator vertical spaced inset />
       <q-select
         style="width: 300px"
-        v-bind="props"
+        v-bind="nonInputProps"
         v-model="text"
         :options="options"
         :label="longLabel"
@@ -473,7 +473,7 @@
       <q-separator vertical spaced inset />
       <q-select
         style="width: 300px"
-        v-bind="props"
+        v-bind="nonInputProps"
         v-model="text"
         :options="options"
         :label="longLabel"
@@ -483,7 +483,7 @@
       <q-separator vertical spaced inset />
       <q-select
         style="width: 300px"
-        v-bind="props"
+        v-bind="nonInputProps"
         v-model="text"
         :options="options"
         :label="longLabel"
@@ -492,7 +492,7 @@
       <q-separator vertical spaced inset />
       <q-select
         style="width: 300px"
-        v-bind="props"
+        v-bind="nonInputProps"
         v-model="text"
         :options="options"
         :label="longLabel"
@@ -562,4 +562,14 @@ const props = computed(() => ({
       ? bgColor.value
       : null
 }))
+
+// "autogrow" and the input "type" belong to QInput alone; forwarding them
+// to QField/QSelect would only render stray DOM attributes
+const nonInputProps = computed(() =>
+  Object.fromEntries(
+    Object.entries(props.value).filter(
+      ([key]) => ['autogrow', 'type'].includes(key) === false
+    )
+  )
+)
 </script>

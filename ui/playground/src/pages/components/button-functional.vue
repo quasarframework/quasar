@@ -128,7 +128,7 @@
           "
           @click="onClick"
         />
-        <q-input type="number" v-model="testN" align="right" />
+        <q-input type="number" v-model="testN" input-class="text-right" />
         <q-btn
           push
           round

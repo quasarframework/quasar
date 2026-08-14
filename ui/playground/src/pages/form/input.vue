@@ -145,7 +145,7 @@
       />
 
       <q-field
-        v-bind="props"
+        v-bind="fieldProps"
         v-model="text"
         required
         label="Required - Custom input"
@@ -947,6 +947,16 @@ const props = computed(() => {
 
   return acc
 })
+
+// "autogrow" and the input "type" are QInput-only; the lone QField below
+// would just render them as stray DOM attributes
+const fieldProps = computed(() =>
+  Object.fromEntries(
+    Object.entries(props.value).filter(
+      ([key]) => ['autogrow', 'type'].includes(key) === false
+    )
+  )
+)
 
 const length = computed(() => text.value.length)
 

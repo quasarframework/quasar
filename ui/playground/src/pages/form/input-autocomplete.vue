@@ -3,7 +3,6 @@
     <q-input
       v-model="username"
       color="primary"
-      standard
       label="Username"
       autocomplete="username"
     >

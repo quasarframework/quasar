@@ -8,12 +8,7 @@
         >
           Before list
         </div>
-        <q-virtual-scroll
-          component="q-list"
-          :items="heavyList"
-          separator
-          scroll-target="body"
-        >
+        <q-virtual-scroll :items="heavyList" separator scroll-target="body">
           <template v-slot="{ item, index }">
             <q-item :key="'a' + index" v-if="index % 3 === 0" clickable>
               <q-item-section>

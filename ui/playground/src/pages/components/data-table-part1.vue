@@ -729,7 +729,7 @@
               {{ props.row.calcium }}
             </q-td>
             <q-td key="iron" :props="props">
-              <q-badge square color="amber">
+              <q-badge color="amber">
                 {{ props.row.iron }}
               </q-badge>
             </q-td>

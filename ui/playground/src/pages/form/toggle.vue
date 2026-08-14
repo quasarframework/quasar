@@ -426,7 +426,7 @@
             />
           </q-item-section>
         </q-item>
-        <q-item tag="label" multiline>
+        <q-item tag="label">
           <q-item-section>
             <q-item-label>Events and reminders</q-item-label>
             <q-item-label caption> Lorem ipsum </q-item-label>
@@ -441,7 +441,7 @@
             />
           </q-item-section>
         </q-item>
-        <q-item tag="label" multiline>
+        <q-item tag="label">
           <q-item-section>
             <q-item-label>Events and reminders</q-item-label>
             <q-item-label caption>

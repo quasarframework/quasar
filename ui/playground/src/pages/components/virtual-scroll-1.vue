@@ -82,7 +82,6 @@
           />
         </div>
         <q-virtual-scroll
-          component="q-list"
           ref="vList"
           :items="heavyList"
           separator

@@ -55,7 +55,7 @@
             :key="weight"
           >
             <div class="col-sm-3 col-12">
-              <q-badge color="primary" text-color="white" square>
+              <q-badge color="primary" text-color="white">
                 .text-weight-{{ weight }}
               </q-badge>
             </div>

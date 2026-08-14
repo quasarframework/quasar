@@ -27,7 +27,6 @@
             ref="virtualListRef"
             class="q-my-md"
             style="max-height: 60vh"
-            component="q-list"
             :items="heavyList"
             separator
             @virtual-scroll="onVirtualScroll"

@@ -113,10 +113,10 @@
               Configure the Tooltip for button above.
             </p>
             <div class="text-center">
-              <q-chip tag color="primary" text-color="white">
+              <q-chip color="primary" text-color="white">
                 anchor="{{ anchor }}"
               </q-chip>
-              <q-chip tag color="primary" text-color="white">
+              <q-chip color="primary" text-color="white">
                 self="{{ self }}"
               </q-chip>
             </div>

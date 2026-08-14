@@ -469,13 +469,13 @@
       </q-card>
 
       <q-card>
-        <q-img src="~@/assets/parallax2.jpg" basic>
+        <q-img src="~@/assets/parallax2.jpg">
           <div class="absolute-bottom text-subtitle2 text-center">Title</div>
         </q-img>
       </q-card>
 
       <q-card>
-        <q-img src="https://cdn.quasar.dev/img/parallax2.jpg" basic>
+        <q-img src="https://cdn.quasar.dev/img/parallax2.jpg">
           <div class="absolute-bottom text-h6">Title</div>
         </q-img>
 

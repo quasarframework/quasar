@@ -13,7 +13,6 @@
 
         <q-virtual-scroll
           class="bg-white col"
-          component="q-list"
           :items-size="size"
           :items-fn="getItems"
           :virtual-scroll-item-size="5"

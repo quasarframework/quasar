@@ -17,7 +17,6 @@
             Before list
           </div>
           <q-virtual-scroll
-            component="q-list"
             :items="heavyList"
             separator
             :scroll-target="scrollTarget"
@@ -80,7 +79,6 @@
             ref="virtualListRef"
             class="q-my-md"
             style="max-height: 300px"
-            component="q-list"
             :items="heavyList"
             separator
             @virtual-scroll="onVirtualScroll2"

@@ -398,7 +398,7 @@
 
         <q-input
           class="col-2"
-          v-bind="props"
+          v-bind="inputProps"
           :model-value="stringSingle"
           @update:model-value="val => (stringSingle = val === null ? '' : val)"
           label="Input"
@@ -415,7 +415,7 @@
         />
 
         <q-input
-          v-bind="props"
+          v-bind="inputProps"
           :model-value="stringSingle"
           @update:model-value="val => (stringSingle = val === null ? '' : val)"
           label="Input"
@@ -466,7 +466,7 @@
         />
 
         <q-input
-          v-bind="props"
+          v-bind="inputProps"
           :model-value="stringSingle"
           @update:model-value="val => (stringSingle = val === null ? '' : val)"
           prefix="A"
@@ -683,6 +683,17 @@ const props = computed(() => ({
   optionsCover: optionsCover.value,
   clearable: true
 }))
+
+// the q-inputs on this page share the design knobs, but the options-*
+// ones belong to QSelect alone and would end up as DOM attributes
+const inputProps = computed(() =>
+  Object.fromEntries(
+    Object.entries(props.value).filter(
+      ([key]) =>
+        ['optionsDense', 'optionsDark', 'optionsCover'].includes(key) === false
+    )
+  )
+)
 
 const dispVal = computed(() => {
   if (dispValSelection.value.length === 1) {

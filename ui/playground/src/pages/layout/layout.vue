@@ -219,7 +219,6 @@
           <div class="q-mini-drawer-only">Mini only</div>
           <q-list>
             <q-expansion-item
-              clickable
               icon="perm_identity"
               label="With a model and events"
             >
@@ -389,7 +388,7 @@
           <div>
             <q-input
               type="number"
-              align="right"
+              input-class="text-right"
               prefix="Bkpt"
               placeholder="Bkpt"
               v-model.number="leftBreakpoint"
@@ -426,7 +425,7 @@
           <div>
             <q-input
               type="number"
-              align="right"
+              input-class="text-right"
               prefix="Bkpt"
               placeholder="Bkpt"
               v-model.number="rightBreakpoint"

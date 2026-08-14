@@ -75,7 +75,7 @@
           <q-item-section>List item</q-item-section>
         </q-item>
 
-        <q-item clickable inset>
+        <q-item clickable>
           <q-item-section>Inset list item</q-item-section>
         </q-item>
 
