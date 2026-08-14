@@ -371,7 +371,8 @@ describe('[useMask API]', () => {
 
       test.each([
         ['ALT is held', { keyCode: 39, altKey: true }],
-        ['the key is a modifier', { keyCode: 16 }]
+        ['the key is a modifier', { keyCode: 16 }],
+        ['the event was prevented', { keyCode: 39, defaultPrevented: true }]
       ])('leaves the cursor alone when %s', (_, eventProps) => {
         const { mask, input } = createMask({
           modelValue: '12345',
