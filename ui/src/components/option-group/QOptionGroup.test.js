@@ -240,6 +240,20 @@ describe('[QOptionGroup API]', () => {
             .every(control => control.props('disable') === true)
         ).toBe(true)
       })
+
+      test.each(['radio', 'checkbox', 'toggle'])(
+        'announces a disabled "%s" group',
+        type => {
+          // aria-disabled is valid on the plain "group" role too, so it must
+          // not depend on the group being a radiogroup
+          expect(
+            mountGroup({ type, disable: true }).attributes('aria-disabled')
+          ).toBe('true')
+          expect(
+            mountGroup({ type }).attributes('aria-disabled')
+          ).toBeUndefined()
+        }
+      )
     })
   })
 

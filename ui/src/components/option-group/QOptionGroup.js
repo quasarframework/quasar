@@ -133,14 +133,15 @@ export default /*#__PURE__*/ createComponent({
     )
 
     const attrs = computed(() => {
-      const acc = { role: 'group' }
+      const acc = {
+        role: props.type === 'radio' ? 'radiogroup' : 'group'
+      }
 
-      if (props.type === 'radio') {
-        acc.role = 'radiogroup'
-
-        if (props.disable) {
-          acc['aria-disabled'] = 'true'
-        }
+      // ARIA allows aria-disabled on "group" just as much as on "radiogroup",
+      // and a whole set of options being unavailable is worth announcing
+      // whichever type the group holds
+      if (props.disable) {
+        acc['aria-disabled'] = 'true'
       }
 
       return acc
