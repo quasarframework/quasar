@@ -13,9 +13,9 @@
 
           <q-space />
 
-          <q-btn dense flat icon="minimize" />
-          <q-btn dense flat icon="crop_square" />
-          <q-btn dense flat icon="close" />
+          <q-btn aria-label="Minimize" dense flat icon="minimize" />
+          <q-btn aria-label="Maximize" dense flat icon="crop_square" />
+          <q-btn aria-label="Close" dense flat icon="close" />
         </q-bar>
 
         <div class="q-pa-sm q-pl-md row items-center">

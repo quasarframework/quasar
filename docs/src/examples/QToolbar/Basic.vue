@@ -1,9 +1,9 @@
 <template>
   <div class="q-pa-md q-gutter-y-sm">
     <q-toolbar class="text-primary">
-      <q-btn flat round dense icon="menu" />
+      <q-btn aria-label="Toggle drawer" flat round dense icon="menu" />
       <q-toolbar-title> Toolbar </q-toolbar-title>
-      <q-btn flat round dense icon="more_vert" />
+      <q-btn aria-label="More options" flat round dense icon="more_vert" />
     </q-toolbar>
 
     <q-toolbar class="bg-grey-9 text-white">
@@ -17,19 +17,26 @@
     </q-toolbar>
 
     <q-toolbar class="bg-purple text-white">
-      <q-btn flat round dense icon="assignment_ind" />
+      <q-btn aria-label="Assignment" flat round dense icon="assignment_ind" />
       <q-toolbar-title> Toolbar </q-toolbar-title>
-      <q-btn flat round dense icon="apps" class="q-mr-xs" />
-      <q-btn flat round dense icon="more_vert" />
+      <q-btn aria-label="Apps" flat round dense icon="apps" class="q-mr-xs" />
+      <q-btn aria-label="More options" flat round dense icon="more_vert" />
     </q-toolbar>
 
     <q-toolbar class="bg-black text-white">
-      <q-btn flat round dense icon="assignment_ind">
+      <q-btn aria-label="Assignment" flat round dense icon="assignment_ind">
         <q-badge floating color="red">2</q-badge>
       </q-btn>
       <q-toolbar-title> Toolbar </q-toolbar-title>
-      <q-btn flat round dense icon="sim_card" class="q-mr-xs" />
-      <q-btn flat round dense icon="gamepad" />
+      <q-btn
+        aria-label="SIM card"
+        flat
+        round
+        dense
+        icon="sim_card"
+        class="q-mr-xs"
+      />
+      <q-btn aria-label="Gamepad" flat round dense icon="gamepad" />
     </q-toolbar>
   </div>
 </template>

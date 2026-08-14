@@ -34,7 +34,12 @@
             :scroll-offset="20"
             :offset="[0, 18]"
           >
-            <q-btn fab icon="keyboard_arrow_down" color="accent" />
+            <q-btn
+              aria-label="Scroll to bottom"
+              fab
+              icon="keyboard_arrow_down"
+              color="accent"
+            />
           </q-page-scroller>
         </q-page>
       </q-page-container>

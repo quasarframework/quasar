@@ -12,6 +12,7 @@
       >
         <q-toolbar>
           <q-btn
+            aria-label="Toggle left drawer"
             flat
             @click="drawerLeft = !drawerLeft"
             round
@@ -20,6 +21,7 @@
           />
           <q-toolbar-title>Header</q-toolbar-title>
           <q-btn
+            aria-label="Toggle right drawer"
             flat
             @click="drawerRight = !drawerRight"
             round

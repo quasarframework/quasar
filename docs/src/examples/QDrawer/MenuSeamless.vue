@@ -8,14 +8,21 @@
     >
       <q-header elevated :class="$q.dark.isActive ? 'bg-primary' : 'bg-black'">
         <q-toolbar>
-          <q-btn flat @click="drawer = !drawer" round dense icon="menu" />
+          <q-btn
+            aria-label="Toggle drawer"
+            flat
+            @click="drawer = !drawer"
+            round
+            dense
+            icon="menu"
+          />
           <q-toolbar-title>Header</q-toolbar-title>
         </q-toolbar>
       </q-header>
 
       <q-drawer v-model="drawer" show-if-above :width="200" :breakpoint="500">
         <q-scroll-area class="fit">
-          <q-list padding class="menu-list">
+          <q-list padding class="menu-list" role="none">
             <q-item clickable v-ripple>
               <q-item-section avatar>
                 <q-icon name="inbox" />

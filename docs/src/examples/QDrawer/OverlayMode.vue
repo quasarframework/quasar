@@ -11,7 +11,14 @@
         :class="$q.dark.isActive ? 'bg-secondary' : 'bg-black'"
       >
         <q-toolbar>
-          <q-btn flat @click="drawer = !drawer" round dense icon="menu" />
+          <q-btn
+            aria-label="Toggle drawer"
+            flat
+            @click="drawer = !drawer"
+            round
+            dense
+            icon="menu"
+          />
           <q-toolbar-title>Header</q-toolbar-title>
         </q-toolbar>
       </q-header>
@@ -25,7 +32,7 @@
         :class="$q.dark.isActive ? 'bg-grey-9' : 'bg-grey-3'"
       >
         <q-scroll-area class="fit">
-          <q-list>
+          <q-list role="none">
             <template v-for="(menuItem, index) in menuList" :key="index">
               <q-item clickable :active="menuItem.label === 'Outbox'" v-ripple>
                 <q-item-section avatar>

@@ -11,7 +11,14 @@
         :class="$q.dark.isActive ? 'bg-secondary' : 'bg-black'"
       >
         <q-toolbar>
-          <q-btn flat @click="drawer = !drawer" round dense icon="menu" />
+          <q-btn
+            aria-label="Toggle drawer"
+            flat
+            @click="drawer = !drawer"
+            round
+            dense
+            icon="menu"
+          />
           <q-toolbar-title>Header</q-toolbar-title>
         </q-toolbar>
       </q-header>
@@ -42,7 +49,7 @@
         </template>
 
         <q-scroll-area class="fit">
-          <q-list padding>
+          <q-list padding role="none">
             <q-item clickable v-ripple>
               <q-item-section> Inbox </q-item-section>
             </q-item>
@@ -73,6 +80,7 @@
           style="top: 15px; right: -17px"
         >
           <q-btn
+            aria-label="Previous"
             dense
             round
             unelevated

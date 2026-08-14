@@ -9,7 +9,14 @@
       <q-header elevated class="bg-cyan-8">
         <q-toolbar>
           <q-toolbar-title>Header</q-toolbar-title>
-          <q-btn flat @click="drawer = !drawer" round dense icon="menu" />
+          <q-btn
+            aria-label="Toggle drawer"
+            flat
+            @click="drawer = !drawer"
+            round
+            dense
+            icon="menu"
+          />
         </q-toolbar>
       </q-header>
 
@@ -21,7 +28,7 @@
             border-right: 1px solid #ddd;
           "
         >
-          <q-list padding>
+          <q-list padding role="none">
             <q-item clickable v-ripple>
               <q-item-section avatar>
                 <q-icon name="inbox" />

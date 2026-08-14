@@ -2,10 +2,24 @@
   <div class="q-pa-md q-gutter-y-sm">
     <div class="bg-orange text-white">
       <q-toolbar>
-        <q-btn flat round dense icon="menu" class="q-mr-sm" />
+        <q-btn
+          aria-label="Toggle drawer"
+          flat
+          round
+          dense
+          icon="menu"
+          class="q-mr-sm"
+        />
         <q-space />
-        <q-btn flat round dense icon="search" class="q-mr-xs" />
-        <q-btn flat round dense icon="group_add" />
+        <q-btn
+          aria-label="Search"
+          flat
+          round
+          dense
+          icon="search"
+          class="q-mr-xs"
+        />
+        <q-btn aria-label="Add group" flat round dense icon="group_add" />
       </q-toolbar>
       <q-toolbar inset>
         <q-toolbar-title><strong>Quasar</strong> Framework</q-toolbar-title>
@@ -14,12 +28,19 @@
 
     <div class="bg-cyan text-white">
       <q-toolbar>
-        <q-btn flat round dense icon="assignment_ind" />
+        <q-btn aria-label="Assignment" flat round dense icon="assignment_ind" />
 
         <q-space />
 
-        <q-btn flat round dense icon="sim_card" class="q-mr-xs" />
-        <q-btn flat round dense icon="gamepad" />
+        <q-btn
+          aria-label="SIM card"
+          flat
+          round
+          dense
+          icon="sim_card"
+          class="q-mr-xs"
+        />
+        <q-btn aria-label="Gamepad" flat round dense icon="gamepad" />
       </q-toolbar>
 
       <q-toolbar inset>

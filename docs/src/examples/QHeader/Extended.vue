@@ -8,10 +8,24 @@
     >
       <q-header elevated class="bg-purple">
         <q-toolbar>
-          <q-btn flat round dense icon="menu" class="q-mr-sm" />
+          <q-btn
+            aria-label="Toggle drawer"
+            flat
+            round
+            dense
+            icon="menu"
+            class="q-mr-sm"
+          />
           <q-space></q-space>
-          <q-btn flat round dense icon="search" class="q-mr-xs" />
-          <q-btn flat round dense icon="group_add" />
+          <q-btn
+            aria-label="Search"
+            flat
+            round
+            dense
+            icon="search"
+            class="q-mr-xs"
+          />
+          <q-btn aria-label="Add group" flat round dense icon="group_add" />
         </q-toolbar>
         <q-toolbar inset>
           <q-toolbar-title> <strong>Quasar</strong> Framework </q-toolbar-title>

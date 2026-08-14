@@ -11,7 +11,14 @@
         :class="$q.dark.isActive ? 'bg-secondary' : 'bg-black'"
       >
         <q-toolbar>
-          <q-btn flat @click="drawer = !drawer" round dense icon="menu" />
+          <q-btn
+            aria-label="Toggle drawer"
+            flat
+            @click="drawer = !drawer"
+            round
+            dense
+            icon="menu"
+          />
           <q-toolbar-title>Header</q-toolbar-title>
         </q-toolbar>
       </q-header>
@@ -29,8 +36,8 @@
         :class="$q.dark.isActive ? 'bg-grey-9' : 'bg-grey-3'"
       >
         <q-scroll-area class="fit" :horizontal-thumb-style="{ opacity: 0 }">
-          <q-list padding>
-            <q-item clickable v-ripple>
+          <q-list padding role="none">
+            <q-item clickable v-ripple aria-label="Inbox">
               <q-item-section avatar>
                 <q-icon name="inbox" />
               </q-item-section>
@@ -39,7 +46,7 @@
             </q-item>
 
             <!-- #region -->
-            <q-item active clickable v-ripple>
+            <q-item active clickable v-ripple aria-label="Star">
               <q-item-section avatar>
                 <q-icon name="star" />
               </q-item-section>
@@ -47,7 +54,7 @@
               <q-item-section> Star </q-item-section>
             </q-item>
 
-            <q-item clickable v-ripple>
+            <q-item clickable v-ripple aria-label="Send">
               <q-item-section avatar>
                 <q-icon name="send" />
               </q-item-section>
@@ -57,7 +64,7 @@
 
             <q-separator />
 
-            <q-item clickable v-ripple>
+            <q-item clickable v-ripple aria-label="Drafts">
               <q-item-section avatar>
                 <q-icon name="drafts" />
               </q-item-section>

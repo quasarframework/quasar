@@ -17,7 +17,7 @@
 
           <q-toolbar-title> Quasar Framework </q-toolbar-title>
 
-          <q-btn flat round dense icon="whatshot" />
+          <q-btn aria-label="Trending" flat round dense icon="whatshot" />
         </q-toolbar>
       </q-header>
 

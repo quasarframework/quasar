@@ -8,7 +8,14 @@
     >
       <q-header elevated>
         <q-toolbar>
-          <q-btn flat round dense icon="menu" class="q-mr-sm" />
+          <q-btn
+            aria-label="Toggle drawer"
+            flat
+            round
+            dense
+            icon="menu"
+            class="q-mr-sm"
+          />
           <q-avatar>
             <img
               alt=""
@@ -18,7 +25,7 @@
 
           <q-toolbar-title>Quasar Framework</q-toolbar-title>
 
-          <q-btn flat round dense icon="whatshot" />
+          <q-btn aria-label="Trending" flat round dense icon="whatshot" />
         </q-toolbar>
       </q-header>
 

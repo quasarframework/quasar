@@ -1,7 +1,14 @@
 <template>
   <div class="q-pa-md">
     <q-toolbar class="bg-primary text-white q-my-md shadow-2">
-      <q-btn flat round dense icon="menu" class="q-mr-sm" />
+      <q-btn
+        aria-label="Toggle drawer"
+        flat
+        round
+        dense
+        icon="menu"
+        class="q-mr-sm"
+      />
       <q-separator dark vertical inset />
       <q-btn stretch flat label="Link" />
 

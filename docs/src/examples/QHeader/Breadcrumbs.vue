@@ -8,12 +8,25 @@
     >
       <q-header elevated class="bg-cyan">
         <q-toolbar>
-          <q-btn flat round dense icon="assignment_ind" />
+          <q-btn
+            aria-label="Assignment"
+            flat
+            round
+            dense
+            icon="assignment_ind"
+          />
 
           <q-space />
 
-          <q-btn flat round dense icon="sim_card" class="q-mr-xs" />
-          <q-btn flat round dense icon="gamepad" />
+          <q-btn
+            aria-label="SIM card"
+            flat
+            round
+            dense
+            icon="sim_card"
+            class="q-mr-xs"
+          />
+          <q-btn aria-label="Gamepad" flat round dense icon="gamepad" />
         </q-toolbar>
 
         <q-toolbar inset>

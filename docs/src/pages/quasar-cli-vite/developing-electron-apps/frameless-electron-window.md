@@ -159,9 +159,15 @@ We can also hide the header window bar for non-Electron Quasar modes:
 
     <q-space />
 
-    <q-btn dense flat icon="minimize" @click="minimize" />
-    <q-btn dense flat icon="crop_square" @click="toggleMaximize" />
-    <q-btn dense flat icon="close" @click="closeApp" />
+    <q-btn aria-label="Minimize" dense flat icon="minimize" @click="minimize" />
+    <q-btn
+      aria-label="Maximize"
+      dense
+      flat
+      icon="crop_square"
+      @click="toggleMaximize"
+    />
+    <q-btn aria-label="Close" dense flat icon="close" @click="closeApp" />
   </q-bar>
 </template>
 
