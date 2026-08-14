@@ -4,8 +4,15 @@ import { describe, expect, test, vi } from 'vitest'
 
 import { getRouter } from 'testing/runtime/router.js'
 
+import QBtn from '../btn/QBtn.js'
 import QFabAction from './QFabAction.js'
 import { fabKey } from '../../utils/private.symbols/symbols.js'
+
+// the props QFabAction consumes itself: QBtn does not declare them, so
+// forwarding them would render each one as a stray DOM attribute
+const actionOnlyPropNames = Object.keys(QFabAction.props)
+  .filter(name => QBtn.props[name] === void 0)
+  .map(name => name.toLowerCase())
 
 function mountAction(props = {}, slots = {}, global = {}) {
   const fab = {
@@ -466,6 +473,24 @@ describe('[QFabAction API]', () => {
         expect(wrapper.vm.click(evt)).toBeUndefined()
         expect(wrapper.emitted('click')).toStrictEqual([[evt]])
       })
+    })
+  })
+
+  describe('[Generic]', () => {
+    test('keeps its own props out of the button markup', () => {
+      const wrapper = mountAction({
+        label: 'Create',
+        labelPosition: 'top',
+        externalLabel: true,
+        anchor: 'start'
+      })
+
+      const rendered = Object.keys(getButton(wrapper).attributes())
+
+      expect(actionOnlyPropNames.length).toBeGreaterThan(0)
+      for (const name of actionOnlyPropNames) {
+        expect(rendered).not.toContain(name)
+      }
     })
   })
 })

@@ -3,7 +3,14 @@ import { describe, expect, test } from 'vitest'
 
 import { getRouter } from 'testing/runtime/router.js'
 
+import QBtn from '../btn/QBtn.js'
 import QFab from './QFab.js'
+
+// the props QFab consumes itself: QBtn does not declare them, so forwarding
+// them to the trigger would render each one as a stray DOM attribute
+const fabOnlyPropNames = Object.keys(QFab.props)
+  .filter(name => QBtn.props[name] === void 0)
+  .map(name => name.toLowerCase())
 
 function mountFab(props = {}, slots = {}, global = {}) {
   return mount(QFab, {
@@ -599,6 +606,27 @@ describe('[QFab API]', () => {
         await wrapper.vm.$nextTick()
         expect(wrapper.classes()).toContain('q-fab--opened')
       })
+    })
+  })
+
+  describe('[Generic]', () => {
+    test('keeps its own props out of the trigger button markup', () => {
+      const wrapper = mountFab({
+        label: 'Create',
+        labelPosition: 'top',
+        externalLabel: true,
+        hideIcon: true,
+        direction: 'up',
+        persistent: true,
+        verticalActionsAlign: 'left'
+      })
+
+      const rendered = Object.keys(getTrigger(wrapper).attributes())
+
+      expect(fabOnlyPropNames.length).toBeGreaterThan(0)
+      for (const name of fabOnlyPropNames) {
+        expect(rendered).not.toContain(name)
+      }
     })
   })
 

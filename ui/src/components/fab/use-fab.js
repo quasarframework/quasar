@@ -1,5 +1,7 @@
 import { computed } from 'vue'
 
+import QBtn from '../btn/QBtn.js'
+
 const labelPositions = ['top', 'right', 'bottom', 'left']
 
 export const useFabProps = {
@@ -39,6 +41,27 @@ export const useFabProps = {
   disable: Boolean,
 
   tabindex: [Number, String]
+}
+
+// both FAB components render the label into the button's content themselves
+const renderedByTheFab = ['label']
+
+// the useFabProps entries QBtn declares itself, derived from QBtn so the two
+// cannot fall out of step; the rest are consumed here (label placement,
+// anchoring, the FAB's own state) and would render as stray DOM attributes if
+// they were forwarded along with them. The resulting list is pinned in
+// use-fab.test.js, so a QBtn-side rename fails there instead of silently
+// dropping a prop the FAB is documented to forward.
+const btnPropList = Object.keys(useFabProps).filter(
+  name => !renderedByTheFab.includes(name) && QBtn.props[name] !== void 0
+)
+
+export function getFabBtnProps(props) {
+  const acc = {}
+  for (const name of btnPropList) {
+    acc[name] = props[name]
+  }
+  return acc
 }
 
 export default function useFab(props, showing) {

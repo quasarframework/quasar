@@ -3,7 +3,7 @@ import { computed, getCurrentInstance, h, inject } from 'vue'
 import QBtn from '../btn/QBtn.js'
 import QIcon from '../icon/QIcon.js'
 
-import useFab, { useFabProps } from './use-fab.js'
+import useFab, { getFabBtnProps, useFabProps } from './use-fab.js'
 
 import { createComponent } from '../../utils/private.create/create.js'
 import { fabKey } from '../../utils/private.symbols/symbols.js'
@@ -91,11 +91,11 @@ export default /*#__PURE__*/ createComponent({
         QBtn,
         {
           class: classes.value,
-          ...props,
+          ...getFabBtnProps(props),
+          to: props.to,
+          replace: props.replace,
           noWrap: true,
           stack: stacked.value,
-          icon: void 0,
-          label: void 0,
           noCaps: true,
           fabMini: true,
           disable: isDisabled.value,

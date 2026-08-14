@@ -4,7 +4,7 @@ import QBtn from '../btn/QBtn.js'
 import QIcon from '../icon/QIcon.js'
 
 import useQuasar from '../../composables/use-quasar/use-quasar.js'
-import useFab, { useFabProps } from './use-fab.js'
+import useFab, { getFabBtnProps, useFabProps } from './use-fab.js'
 import useId from '../../composables/use-id/use-id.js'
 import useModelToggle, {
   useModelToggleEmits,
@@ -166,12 +166,9 @@ export default /*#__PURE__*/ createComponent({
             {
               ref: triggerRef,
               class: formClass.value,
-              ...props,
+              ...getFabBtnProps(props),
               noWrap: true,
               stack: stacked.value,
-              align: void 0,
-              icon: void 0,
-              label: void 0,
               noCaps: true,
               fab: true,
               // no aria-haspopup: its value must reflect the popup's

@@ -2,7 +2,7 @@ import { mount } from '@vue/test-utils'
 import { afterEach, describe, expect, test } from 'vitest'
 import { defineComponent, h, ref } from 'vue'
 
-import useFab, { useFabProps } from './use-fab.js'
+import useFab, { getFabBtnProps, useFabProps } from './use-fab.js'
 
 let wrapper
 
@@ -54,6 +54,43 @@ describe('[useFab API]', () => {
   })
 
   describe('[Functions]', () => {
+    describe('[(function)getFabBtnProps]', () => {
+      test('has correct return value', () => {
+        const props = {}
+        for (const name of Object.keys(useFabProps)) {
+          props[name] = `value-${name}`
+        }
+
+        const result = getFabBtnProps(props)
+
+        // Pinned on purpose. The helper derives this set from QBtn's own
+        // props, so asserting it the same way would only restate the
+        // implementation; spelling it out is what makes a QBtn-side rename
+        // fail here instead of silently dropping a prop the FAB is
+        // documented to forward. "label" is absent by design — both FAB
+        // components render it into the button's content themselves.
+        expect(Object.keys(result)).toStrictEqual([
+          'type',
+          'outline',
+          'push',
+          'flat',
+          'unelevated',
+          'color',
+          'textColor',
+          'glossy',
+          'square',
+          'padding',
+          'disable',
+          'tabindex'
+        ])
+
+        // each one carried through untouched
+        for (const name of Object.keys(result)) {
+          expect(result[name]).toBe(props[name])
+        }
+      })
+    })
+
     describe('[(function)default]', () => {
       test('returns the FAB rendering helpers', () => {
         expect(mountFab()).toMatchObject({
