@@ -190,6 +190,8 @@ The `reverse-fill-mask` is useful if you want to force the user to fill the mask
 
 <DocExample title="Filling the mask in reverse" file="MaskFillReverse" />
 
+You can prevent the mask's own handling of a key by preventing its `keydown` event; for example, `@keydown.left.prevent` keeps <kbd>ARROW LEFT</kbd> from moving the cursor over the mask literals.
+
 ### Custom mask tokens <q-badge label="v2.18.4+" />
 
 You can also define custom mask tokens on top of the default ones or even override some/all of the [default ones](https://github.com/quasarframework/quasar/blob/dev/ui/src/components/input/use-mask.js#L15).

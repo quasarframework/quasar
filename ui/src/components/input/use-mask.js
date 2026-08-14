@@ -575,6 +575,7 @@ export default function useMask(props, emit, emitValue, inputRef) {
 
     if (
       shouldIgnoreKey(e) ||
+      e.defaultPrevented ||
       e.altKey // let browser handle these
     ) {
       return
