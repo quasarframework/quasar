@@ -265,6 +265,16 @@ export default /*#__PURE__*/ createComponent({
           : '')
     )
 
+    // a scrollable region must be keyboard-operable (WCAG 2.1.1), but a tab
+    // stop on a region with nothing to scroll is only noise. The render also
+    // re-runs on hover (mainStyle -> thumbHidden), so this stays a computed:
+    // the overflow state only ever changes when one of the sizes does.
+    const hasOverflow = computed(
+      () =>
+        scroll.vertical.size.value > container.vertical.value + 1 ||
+        scroll.horizontal.size.value > container.horizontal.value + 1
+    )
+
     const mainStyle = computed(() =>
       scroll.vertical.thumbHidden.value && scroll.horizontal.thumbHidden.value
         ? props.contentStyle
@@ -609,7 +619,12 @@ export default /*#__PURE__*/ createComponent({
               ref: targetRef,
               class:
                 'q-scrollarea__container scroll relative-position fit hide-scrollbar',
-              tabindex: props.tabindex !== void 0 ? props.tabindex : void 0
+              tabindex:
+                props.tabindex !== void 0
+                  ? props.tabindex
+                  : hasOverflow.value
+                    ? 0
+                    : void 0
             },
             [
               h(

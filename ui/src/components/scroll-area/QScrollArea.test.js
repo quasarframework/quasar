@@ -687,4 +687,27 @@ describe('[QScrollArea API]', () => {
       })
     })
   })
+
+  describe('[Accessibility]', () => {
+    test('overflowing content gets a tab stop, non-overflowing does not', async () => {
+      // WCAG 2.1.1 wants the scrollable region keyboard-operable, but a tab
+      // stop on a region with nothing to scroll is only noise
+      const wrapper = mountScrollableArea()
+
+      expect(getContainer(wrapper).attributes('tabindex')).toBeUndefined()
+
+      await setupScrollableArea(wrapper)
+
+      expect(getContainer(wrapper).attributes('tabindex')).toBe('0')
+    })
+
+    test('an explicit tabindex still wins over the automatic one', async () => {
+      const wrapper = mountScrollableArea()
+      await setupScrollableArea(wrapper)
+
+      await wrapper.setProps({ tabindex: -1 })
+
+      expect(getContainer(wrapper).attributes('tabindex')).toBe('-1')
+    })
+  })
 })

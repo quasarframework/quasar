@@ -2808,6 +2808,13 @@ describe('[QTable API]', () => {
   })
 
   describe('[Accessibility]', () => {
+    test('the horizontally scrollable body is reachable by keyboard', () => {
+      // WCAG 2.1.1: a scrollable region needs a tab stop of its own
+      const wrapper = mountTable()
+
+      expect(wrapper.get('.q-table__middle').attributes('tabindex')).toBe('0')
+    })
+
     test('names the selection checkboxes and their column header', () => {
       const wrapper = mountTable({ selection: 'multiple', selected: [] })
       const { table } = wrapper.vm.$q.lang

@@ -399,6 +399,9 @@ export default /*#__PURE__*/ createComponent({
       return getTableMiddle(
         {
           class: ['q-table__middle scroll', props.tableClass],
+          // horizontally scrollable region: keyboard users need a way in
+          // (WCAG 2.1.1)
+          tabindex: 0,
           style: props.tableStyle
         },
         child

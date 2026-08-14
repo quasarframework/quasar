@@ -63,4 +63,4 @@ Below is an example of using the `@scroll` event to synchronize the scrolling be
 
 The custom scrollbars and their thumbs are hidden from assistive technology — they are redundant, pointer-only controls over what remains a natively scrollable container.
 
-By default, a QScrollArea that contains no focusable content cannot be scrolled with the keyboard, because the scroll container is not a Tab stop. Set `tabindex="0"` on the component to make the container focusable, at which point the browser's native keyboard scrolling — arrow keys, <kbd>PageUp</kbd>/<kbd>PageDown</kbd>, <kbd>Home</kbd>/<kbd>End</kbd> — works as expected.
+Whenever the content actually overflows, the scroll container becomes a Tab stop on its own, so the browser's native keyboard scrolling — arrow keys, <kbd>PageUp</kbd>/<kbd>PageDown</kbd>, <kbd>Home</kbd>/<kbd>End</kbd> — works without any setup (WCAG 2.1.1). A QScrollArea whose content fits stays out of the tab order, since there would be nothing to scroll. The `tabindex` prop still overrides both cases — pass `-1` to opt out entirely.

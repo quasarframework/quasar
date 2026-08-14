@@ -51,3 +51,5 @@ If you want to remove the hover effect on some rows or some cells add a `q-tr--n
 ## Accessibility
 
 QMarkupTable renders a plain native `<table>` around your content and adds no semantics of its own, so all the accessibility work of a hand-written table — `scope` on header cells, a `<caption>`, header/data associations — is yours to author in the markup.
+
+The wrapper that provides the horizontal scrolling is a Tab stop, so a table wider than its container can be scrolled with the arrow keys (WCAG 2.1.1).

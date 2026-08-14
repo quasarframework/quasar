@@ -205,7 +205,12 @@ export default /*#__PURE__*/ createComponent({
 
       return props.type === '__qtable'
         ? getTableMiddle(
-            { ref: rootRef, class: 'q-table__middle ' + classes.value },
+            {
+              ref: rootRef,
+              class: 'q-table__middle ' + classes.value,
+              // scrollable region: keyboard users need a way in (WCAG 2.1.1)
+              tabindex: 0
+            },
             __getVirtualChildren()
           )
         : h(

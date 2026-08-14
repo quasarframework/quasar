@@ -8,7 +8,6 @@
       label="Always visible"
     />
     <q-toggle v-model="darkVariant" toggle-indeterminate label="Dark variant" />
-    <q-toggle v-model="focusable" label="Focusable" />
 
     <div class="row items-center">
       <div class="q-mr-md">
@@ -53,7 +52,6 @@
         :thumbStyle="customThumbStyle"
         :vertical-thumb-style="customVThumbStyle"
         :horizontal-thumb-style="customHThumbStyle"
-        :tabindex="focusable === true ? 0 : void 0"
       >
         <div
           v-if="topOffset"
@@ -114,7 +112,6 @@
         class="bg-dark text-white"
         :visible="alwaysVisible"
         dark
-        :tabindex="focusable === true ? 0 : void 0"
       >
         <div :class="{ 'flex no-wrap': horizontal }">
           <div style="margin-top: 150px" />
@@ -340,7 +337,6 @@ const number = ref(5)
 const horizontal = ref(false)
 const alwaysVisible = ref(true)
 const customStyle = ref(false)
-const focusable = ref(true)
 const scrollDetails = ref(null)
 const topOffset = ref(100)
 const bottomOffset = ref(100)

@@ -131,4 +131,14 @@ describe('[QMarkupTable API]', () => {
       })
     })
   })
+
+  describe('[Accessibility]', () => {
+    test('the scrollable container is reachable by keyboard', () => {
+      // the container scrolls horizontally, so it needs a tab stop of its
+      // own for keyboard users (WCAG 2.1.1)
+      const wrapper = mount(QMarkupTable)
+
+      expect(wrapper.get('.q-markup-table').attributes('tabindex')).toBe('0')
+    })
+  })
 })

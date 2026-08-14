@@ -49,7 +49,10 @@ export default /*#__PURE__*/ createComponent({
       h(
         'div',
         {
-          class: classes.value
+          class: classes.value,
+          // horizontally scrollable region: keyboard users need a way in
+          // (WCAG 2.1.1)
+          tabindex: 0
         },
         [h('table', { class: 'q-table' }, hSlot(slots.default))]
       )
