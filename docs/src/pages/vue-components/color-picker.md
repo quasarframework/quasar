@@ -75,4 +75,6 @@ QColor is only partially accessible, and which view is active matters. The Tune 
 
 The parts that are exposed carry localized accessible names from the [Quasar Language Pack](/options/quasar-language-packs) (`colorPicker.*`): the view tabs, the header's color value field and the hue/opacity sliders, none of which the consumer can name from the outside.
 
+A `disable`d QColor exposes `aria-disabled="true"` on its root element.
+
 If your app needs accessible color input, start users in the Tune view (`default-view="tune"`) or provide an alternative way of entering the color (e.g. a plain [QInput](/vue-components/input) accepting a hex value).
