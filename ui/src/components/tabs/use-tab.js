@@ -191,6 +191,12 @@ export default function useTab(props, slots, emit, routeData) {
   }
 
   function onKeydown(e) {
+    // emitted before acting on the key, so that a consumer
+    // can cancel our handling of it (same as with onClick)
+    emit('keydown', e)
+
+    if (e.defaultPrevented) return
+
     if (isKeyCode(e, [13, 32])) {
       onClick(e, true)
     } else if (
@@ -203,8 +209,6 @@ export default function useTab(props, slots, emit, routeData) {
     ) {
       stopAndPrevent(e)
     }
-
-    emit('keydown', e)
   }
 
   function getContent() {

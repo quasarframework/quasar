@@ -53,6 +53,8 @@ Use the arrow keys to move focus between tabs. Horizontal tabs use <kbd>Arrow Le
 
 Following the [WAI-ARIA tabs pattern](https://www.w3.org/WAI/ARIA/apg/patterns/tabs/), the tab list is a single Tab stop: pressing <kbd>Tab</kbd> moves focus into the tab list (onto the active tab, or the first enabled one when no tab is active) and out of it, rather than walking through each tab. Moving focus with the arrow keys does not change the selection.
 
+You can prevent a tab's own handling of a key by preventing its `keydown` event; for example, `@keydown.enter.prevent` keeps <kbd>Enter</kbd> from activating the tab. Should you take over the arrow keys this way, reimplement their behavior — otherwise the tab list no longer follows the pattern above.
+
 See [QTabPanels' accessibility section](/vue-components/tab-panels#accessibility) for how to link the tabs to their panels through ARIA attributes.
 
 ### Outside, inside and visible on mobile arrows

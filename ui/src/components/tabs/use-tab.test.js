@@ -292,6 +292,49 @@ describe('[useTab API]', () => {
         expect($tabs.updateModel).not.toHaveBeenCalled()
       })
 
+      test('emits the keydown before acting on it', async () => {
+        const $tabs = createTabs()
+        let selectedWhenEmitted
+        mountTab({
+          props: {
+            name: 'one',
+            onKeydown: () => {
+              selectedWhenEmitted = $tabs.updateModel.mock.calls.length
+            }
+          },
+          $tabs
+        })
+
+        await wrapper.trigger('keydown', { keyCode: 13 })
+
+        // the consumer gets a say before the tab acts on the key
+        expect(selectedWhenEmitted).toBe(0)
+        expect($tabs.updateModel).toHaveBeenCalledWith({ name: 'one' })
+      })
+
+      test.each([
+        ['selecting itself', 13],
+        ['delegating to QTabs', 39]
+      ])('skips %s when the keydown was cancelled', async (_, keyCode) => {
+        const $tabs = createTabs()
+        $tabs.onKbdNavigate.mockReturnValue(true)
+        mountTab({
+          props: {
+            name: 'one',
+            onKeydown: e => {
+              e.preventDefault()
+            }
+          },
+          $tabs
+        })
+
+        await wrapper.trigger('keydown', { keyCode })
+
+        expect(wrapper.emitted('keydown')).toHaveLength(1)
+        expect($tabs.updateModel).not.toHaveBeenCalled()
+        expect($tabs.onKbdNavigate).not.toHaveBeenCalled()
+      })
+
       test('ignores the keys QTabs does not handle', async () => {
         const $tabs = createTabs()
         mountTab({ props: { name: 'one' }, $tabs })
