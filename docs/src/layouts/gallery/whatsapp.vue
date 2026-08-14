@@ -84,12 +84,7 @@
 
           <q-space />
 
-          <q-btn
-            round
-            flat
-            icon="message"
-            aria-label="New conversation"
-          />
+          <q-btn round flat icon="message" aria-label="New conversation" />
           <q-btn
             round
             flat
@@ -211,12 +206,7 @@
             placeholder="Type a message"
             aria-label="Type a message"
           />
-          <q-btn
-            round
-            flat
-            icon="mic"
-            aria-label="Record voice message"
-          />
+          <q-btn round flat icon="mic" aria-label="Record voice message" />
         </q-toolbar>
       </q-footer>
     </q-layout>
