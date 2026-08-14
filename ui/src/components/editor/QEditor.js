@@ -583,7 +583,7 @@ export default /*#__PURE__*/ createComponent({
     function onKeydown(e) {
       emit('keydown', e)
 
-      if (!e.ctrlKey || shouldIgnoreKey(e)) {
+      if (!e.ctrlKey || e.defaultPrevented || shouldIgnoreKey(e)) {
         refreshToolbar()
         return
       }

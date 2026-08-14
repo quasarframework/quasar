@@ -129,6 +129,8 @@ Following the [WAI-ARIA toolbar pattern](https://www.w3.org/WAI/ARIA/apg/pattern
 
 The commands wired to the current toolbar also respond to their <kbd>CTRL</kbd> key combinations (shown in the button tooltips) while editing — <kbd>CTRL + B</kbd> for bold, for example.
 
+You can prevent QEditor from running one of these commands by preventing its `keydown` event; for example, `@keydown.ctrl.b.prevent` leaves <kbd>CTRL + B</kbd> to your own handler instead of toggling bold.
+
 ### Labeling <q-badge label="v2.25+" />
 
 The editing area is exposed as a multiline `textbox` and the toolbar carries a localized `aria-label` from the [Quasar Language Pack](/options/quasar-language-packs). Attributes passed to QEditor itself (such as `aria-label`, `aria-labelledby` or `aria-describedby`) are applied to the editing area, so you can — and should — give it an accessible name:

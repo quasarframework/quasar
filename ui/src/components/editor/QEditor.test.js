@@ -82,6 +82,18 @@ function selectContent(wrapper) {
   selection.addRange(range)
 }
 
+// the CTRL shortcuts are wired on the content element
+function pressCtrlKey(wrapper, keyCode) {
+  getContent(wrapper).element.dispatchEvent(
+    new KeyboardEvent('keydown', {
+      keyCode,
+      ctrlKey: true,
+      bubbles: true,
+      cancelable: true
+    })
+  )
+}
+
 // dropdowns are declared as an object token holding the options
 const fontDropdown = {
   label: 'Font',
@@ -1062,6 +1074,31 @@ describe('[QEditor API]', () => {
           .get('.q-editor__toolbar .q-btn-dropdown')
           .attributes('aria-label')
       ).toBe(langEn.editor.center)
+    })
+
+    test('CTRL shortcuts run the command of the matching toolbar button', async () => {
+      const wrapper = mountEditor({ toolbar: [['bold']] })
+      await flushPromises()
+
+      pressCtrlKey(wrapper, 66) // CTRL + B
+
+      expect(execCommand).toHaveBeenCalledWith('bold', false, void 0)
+    })
+
+    test('a cancelled keydown keeps the CTRL shortcut from running', async () => {
+      const wrapper = mountEditor({
+        toolbar: [['bold']],
+        onKeydown: e => {
+          e.preventDefault()
+        }
+      })
+      await flushPromises()
+
+      pressCtrlKey(wrapper, 66) // CTRL + B
+
+      expect(wrapper.emitted('keydown')).toHaveLength(1)
+      // the editor's own setup calls are the only ones left
+      expect(execCommand).not.toHaveBeenCalledWith('bold', false, void 0)
     })
   })
 })
