@@ -124,4 +124,4 @@ QBtn renders as a native `<button>` element, or as an `<a>` when it acts as a li
 
 While in `disable` or `loading` state, the button is marked `aria-disabled="true"` and drops out of the tab order (a disabled non-link button also gets the native `disabled` attribute), and a loading button swallows all interaction until it settles. When loading with the `percentage` prop, the button exposes itself as a `progressbar` and reports its progress through `aria-valuenow`.
 
-QBtn has no dedicated `aria-label` prop, but the attribute falls through to the rendered element — be sure to supply one on icon-only (e.g. `round`) buttons, which otherwise have no accessible name.
+QBtn has no dedicated `aria-label` prop, but the attribute falls through to the rendered element — be sure to supply one on icon-only (e.g. `round`) buttons, which otherwise have no accessible name. A [QTooltip](/vue-components/tooltip#accessibility) inside the button does not cover this: it becomes the button's _description_ (`aria-describedby`), never its name, so an icon-only button whose only text is a tooltip still announces as an unnamed button.
