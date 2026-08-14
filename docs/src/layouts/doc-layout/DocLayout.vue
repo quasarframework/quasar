@@ -4,7 +4,7 @@
     view="hHh LpR fff"
     @scroll="docStore.onPageScroll"
   >
-    <a class="doc-skip-link" href="#doc-main-content">Skip to page content</a>
+    <a class="doc-skip-link" href="#introduction">Skip to page content</a>
 
     <DocHeader />
 
