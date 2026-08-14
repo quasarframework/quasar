@@ -1,52 +1,52 @@
 <p>Notify is a Quasar plugin that can display animated messages (floating above everything in your pages) to users in the form of a notification. They are useful for alerting the user of an event and can even engage the user through actions. Also known as a toast or snackbar.</p>
 <DocApi file="Notify" />
 <DocInstall plugins="Notify" config="notify" />
-<h2 id="usage" class="doc-heading doc-h2" @click="copyHeading(`usage`)">Usage</h2>
-<h3 id="basic" class="doc-heading doc-h3" @click="copyHeading(`basic`)">Basic</h3>
+<h2 id="usage" class="doc-heading doc-h2" @click="copyHeading(`usage`)">Usage<a class="doc-heading__anchor" href="#usage" aria-label="Copy anchor to Usage" @click.prevent.stop="copyHeading(`usage`)"></a></h2>
+<h3 id="basic" class="doc-heading doc-h3" @click="copyHeading(`basic`)">Basic<a class="doc-heading__anchor" href="#basic" aria-label="Copy anchor to Basic" @click.prevent.stop="copyHeading(`basic`)"></a></h3>
 <DocPrerender title="Outside of a Vue file"><DocCode lang="js" :code="&quot;import { Notify } from \'quasar'\n\nNotify.create('Danger, Will Robinson! Danger!')\n// or with a config object:\nNotify.create({\n  message: 'Danger, Will Robinson! Danger!'\n})&quot;" /></DocPrerender><DocPrerender title="Inside of a Vue file"><DocCode lang="js" :code="&quot;import { useQuasar } from \'quasar'\n\nsetup () {\n  const $q = useQuasar()\n\n  $q.notify('Message')\n  // or with a config object:\n  $q.notify({...})\n}&quot;" /></DocPrerender><DocExample title="Basic" file="Basic" />
 <div class="doc-note doc-note--tip"><div class="doc-note__title">TIP</div>
 <p>If you define any actions, the notification will automatically be dismissed when the user picks it.</p>
 </div>
-<h3 id="with-caption" class="doc-heading doc-h3" @click="copyHeading(`with-caption`)">With caption</h3>
+<h3 id="with-caption" class="doc-heading doc-h3" @click="copyHeading(`with-caption`)">With caption<a class="doc-heading__anchor" href="#with-caption" aria-label="Copy anchor to With caption" @click.prevent.stop="copyHeading(`with-caption`)"></a></h3>
 <DocExample title="Caption" file="Caption" />
-<h3 id="with-icon-avatar-or-spinner" class="doc-heading doc-h3" @click="copyHeading(`with-icon-avatar-or-spinner`)">With icon, avatar or spinner</h3>
+<h3 id="with-icon-avatar-or-spinner" class="doc-heading doc-h3" @click="copyHeading(`with-icon-avatar-or-spinner`)">With icon, avatar or spinner<a class="doc-heading__anchor" href="#with-icon-avatar-or-spinner" aria-label="Copy anchor to With icon, avatar or spinner" @click.prevent.stop="copyHeading(`with-icon-avatar-or-spinner`)"></a></h3>
 <DocExample title="With icon" file="Icon" />
 <DocExample title="With avatar" file="Avatar" />
 <DocExample title="With spinner" file="Spinner" />
-<h3 id="with-actions" class="doc-heading doc-h3" @click="copyHeading(`with-actions`)">With actions</h3>
+<h3 id="with-actions" class="doc-heading doc-h3" @click="copyHeading(`with-actions`)">With actions<a class="doc-heading__anchor" href="#with-actions" aria-label="Copy anchor to With actions" @click.prevent.stop="copyHeading(`with-actions`)"></a></h3>
 <DocExample title="With actions" file="Actions" />
-<h3 id="multiline" class="doc-heading doc-h3" @click="copyHeading(`multiline`)">Multiline</h3>
+<h3 id="multiline" class="doc-heading doc-h3" @click="copyHeading(`multiline`)">Multiline<a class="doc-heading__anchor" href="#multiline" aria-label="Copy anchor to Multiline" @click.prevent.stop="copyHeading(`multiline`)"></a></h3>
 <DocExample title="Multiline" file="Multiline" />
-<h3 id="positioning" class="doc-heading doc-h3" @click="copyHeading(`positioning`)">Positioning</h3>
+<h3 id="positioning" class="doc-heading doc-h3" @click="copyHeading(`positioning`)">Positioning<a class="doc-heading__anchor" href="#positioning" aria-label="Copy anchor to Positioning" @click.prevent.stop="copyHeading(`positioning`)"></a></h3>
 <DocExample title="Positioning & different options" file="Positioning" />
 <div class="doc-note doc-note--tip"><div class="doc-note__title">TIP</div>
 <p>For a full list of options, check the API section.</p>
 </div>
-<h3 id="grouping" class="doc-heading doc-h3" @click="copyHeading(`grouping`)">Grouping</h3>
+<h3 id="grouping" class="doc-heading doc-h3" @click="copyHeading(`grouping`)">Grouping<a class="doc-heading__anchor" href="#grouping" aria-label="Copy anchor to Grouping" @click.prevent.stop="copyHeading(`grouping`)"></a></h3>
 <p>Each notification has an underlying unique group which is computed out of the message + caption + multiLine + actions labels + position. When multiple notifications get triggered with the same group, instead of showing all of them and flooding the view, only the first one remains on screen along with a badge. The badge content represents the number of times that the same notification has been triggered (and with same position) since the first one appeared on screen.</p>
 <p>However, if you wish to disable this behavior, specify <code class="doc-token">group: false</code>. In the example below, the first button triggers the same notification twice each time is clicked. The second button has grouping disabled. The third button, however, has a custom group name so each subsequent notification replaces the old one and increments the badge number.</p>
 <DocExample title="Grouping" file="Grouping" />
 <DocExample title="Custom badge" file="GroupingCustomBadge" />
-<h3 id="timeout-progress" class="doc-heading doc-h3" @click="copyHeading(`timeout-progress`)">Timeout progress</h3>
+<h3 id="timeout-progress" class="doc-heading doc-h3" @click="copyHeading(`timeout-progress`)">Timeout progress<a class="doc-heading__anchor" href="#timeout-progress" aria-label="Copy anchor to Timeout progress" @click.prevent.stop="copyHeading(`timeout-progress`)"></a></h3>
 <p>Should you wish, there is a way to tell the user when the notification will disappear from the screen. That’s for the cases when timeout is not set to 0.</p>
 <DocExample title="Timeout progress" file="TimeoutProgress" />
-<h3 id="updatable-notifications" class="doc-heading doc-h3" @click="copyHeading(`updatable-notifications`)">Updatable notifications</h3>
+<h3 id="updatable-notifications" class="doc-heading doc-h3" @click="copyHeading(`updatable-notifications`)">Updatable notifications<a class="doc-heading__anchor" href="#updatable-notifications" aria-label="Copy anchor to Updatable notifications" @click.prevent.stop="copyHeading(`updatable-notifications`)"></a></h3>
 <p>Should you have an ongoing process and you want to inform the user of its progress without blocking what he is currently doing, then you can generate an updatable notification. It’s useful to also show a spinner while at it.</p>
 <p>Please note in the example below that we are explicitly setting “group: false” (because only non-grouped notifications can be updated) and “timeout: 0” (because we want to be in full control when the notification will be dismissed).</p>
 <DocExample title="Updatable" file="Updatable" />
-<h3 id="predefined-types" class="doc-heading doc-h3" @click="copyHeading(`predefined-types`)">Predefined types</h3>
+<h3 id="predefined-types" class="doc-heading doc-h3" @click="copyHeading(`predefined-types`)">Predefined types<a class="doc-heading__anchor" href="#predefined-types" aria-label="Copy anchor to Predefined types" @click.prevent.stop="copyHeading(`predefined-types`)"></a></h3>
 <p>There are four predefined types out of the box that you can use: “positive”, “negative”, “warning” and “info”:</p>
 <DocExample title="Out of the box types" file="PredefinedTypesDefault" />
 <p>Furthermore, you can register your own types or even override the predefined ones. The best place to do this would be in a <doc-link to="/quasar-cli-vite/boot-files">@quasar/app-vite Boot File</doc-link>.</p>
 <DocExample title="Custom type" file="PredefinedTypesCustom" />
-<DocPrerender title="How to register in a boot file:"><DocCode lang="js" :code="&quot;import { Notify } from \'quasar'\n\nNotify.registerType('my-notif', {\n  icon: 'announcement',\n  progress: true,\n  color: 'brown',\n  textColor: 'white',\n  classes: 'glossy'\n})&quot;" /></DocPrerender><h3 id="using-html" class="doc-heading doc-h3" @click="copyHeading(`using-html`)">Using HTML</h3>
+<DocPrerender title="How to register in a boot file:"><DocCode lang="js" :code="&quot;import { Notify } from \'quasar'\n\nNotify.registerType('my-notif', {\n  icon: 'announcement',\n  progress: true,\n  color: 'brown',\n  textColor: 'white',\n  classes: 'glossy'\n})&quot;" /></DocPrerender><h3 id="using-html" class="doc-heading doc-h3" @click="copyHeading(`using-html`)">Using HTML<a class="doc-heading__anchor" href="#using-html" aria-label="Copy anchor to Using HTML" @click.prevent.stop="copyHeading(`using-html`)"></a></h3>
 <p>You can use HTML on message if you specify the <code class="doc-token">html: true</code> prop. <strong>Please note that this can lead to XSS attacks</strong>, so make sure that you sanitize the message by yourself.</p>
 <DocExample title="Unsafe HTML message" file="UnsafeHtml" />
-<h3 id="setting-attributes" class="doc-heading doc-h3" @click="copyHeading(`setting-attributes`)">Setting attributes</h3>
+<h3 id="setting-attributes" class="doc-heading doc-h3" @click="copyHeading(`setting-attributes`)">Setting attributes<a class="doc-heading__anchor" href="#setting-attributes" aria-label="Copy anchor to Setting attributes" @click.prevent.stop="copyHeading(`setting-attributes`)"></a></h3>
 <p>You can set custom HTML attributes on the notification itself by setting the <code class="doc-token">attrs</code> Object property. For individual notification actions, you can directly pass them just like any other prop.</p>
-<DocPrerender><DocCode lang="js" :code="&quot;import { useQuasar } from \'quasar'\n\nsetup () {\n  const $q = useQuasar()\n\n  $q.notify({\n    // ...\n\n    attrs: {\n      // for the notification itself:\n      role: 'alertdialog'\n    },\n\n    actions: [\n      {\n        icon: 'close',\n        // for individual action (button):\n        'aria-label': 'Dismiss'\n      }\n    ]\n  })\n}&quot;" /></DocPrerender><h3 id="programmatically-closing" class="doc-heading doc-h3" @click="copyHeading(`programmatically-closing`)">Programmatically closing</h3>
+<DocPrerender><DocCode lang="js" :code="&quot;import { useQuasar } from \'quasar'\n\nsetup () {\n  const $q = useQuasar()\n\n  $q.notify({\n    // ...\n\n    attrs: {\n      // for the notification itself:\n      role: 'alertdialog'\n    },\n\n    actions: [\n      {\n        icon: 'close',\n        // for individual action (button):\n        'aria-label': 'Dismiss'\n      }\n    ]\n  })\n}&quot;" /></DocPrerender><h3 id="programmatically-closing" class="doc-heading doc-h3" @click="copyHeading(`programmatically-closing`)">Programmatically closing<a class="doc-heading__anchor" href="#programmatically-closing" aria-label="Copy anchor to Programmatically closing" @click.prevent.stop="copyHeading(`programmatically-closing`)"></a></h3>
 <p>Notifications are meant to be dismissed only by the user, however for exceptional cases you can do it programmatically. Especially useful when you set indefinite timeout (0).</p>
-<DocPrerender><DocCode lang="js" :code="&quot;const dismiss = $q.notify({...})\n...\ndismiss()&quot;" /></DocPrerender><h3 id="setting-defaults" class="doc-heading doc-h3" @click="copyHeading(`setting-defaults`)">Setting defaults</h3>
+<DocPrerender><DocCode lang="js" :code="&quot;const dismiss = $q.notify({...})\n...\ndismiss()&quot;" /></DocPrerender><h3 id="setting-defaults" class="doc-heading doc-h3" @click="copyHeading(`setting-defaults`)">Setting defaults<a class="doc-heading__anchor" href="#setting-defaults" aria-label="Copy anchor to Setting defaults" @click.prevent.stop="copyHeading(`setting-defaults`)"></a></h3>
 <p>There are two ways of setting default configuration that will apply to all Notifications: through quasar.config file &gt; framework &gt; config &gt; notify Object (see Installation section) or programmatically (see below).</p>
 <p>We’ll describe setting the defaults through a <doc-link to="/quasar-cli-vite/boot-files">@quasar/app-vite Boot File</doc-link> (works the same anywhere in your code, but a boot file ensures this is run before your app starts):</p>
 <p>First we create the boot file. Let’s name it “notify-defaults.js”.</p>

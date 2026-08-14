@@ -180,11 +180,18 @@ ul
   &:not(#introduction)
     cursor: pointer
 
+  &__anchor
+    color: inherit
+    text-decoration: none
+    // it always occupies its space, so revealing it cannot reflow the heading
+    opacity: 0
+
     &:after
       content: ' #'
-      opacity: 0
-    &:hover:after
-      opacity: 1
+
+  &:hover &__anchor,
+  &__anchor:focus-visible
+    opacity: 1
 
 // the only h1 on the site is the page title, laid out by
 // .doc-page__title - which is where its scale and its trailing space live

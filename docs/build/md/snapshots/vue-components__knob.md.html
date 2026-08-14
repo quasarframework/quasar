@@ -1,26 +1,26 @@
 <p>The QKnob component is used to take a number input from the user through mouse/touch panning. It is based on <doc-link to="/vue-components/circular-progress">QCircularProgress</doc-link> and inherits all its properties and behavior.</p>
 <DocApi file="QKnob" />
-<h2 id="usage" class="doc-heading doc-h2" @click="copyHeading(`usage`)">Usage</h2>
+<h2 id="usage" class="doc-heading doc-h2" @click="copyHeading(`usage`)">Usage<a class="doc-heading__anchor" href="#usage" aria-label="Copy anchor to Usage" @click.prevent.stop="copyHeading(`usage`)"></a></h2>
 <p>By default, QKnob inherits current text color (as arc progress color and inner label color) and current font size (as component size). For customization, you can use the size and color related props.</p>
-<h3 id="basic" class="doc-heading doc-h3" @click="copyHeading(`basic`)">Basic</h3>
+<h3 id="basic" class="doc-heading doc-h3" @click="copyHeading(`basic`)">Basic<a class="doc-heading__anchor" href="#basic" aria-label="Copy anchor to Basic" @click.prevent.stop="copyHeading(`basic`)"></a></h3>
 <DocExample title="Basic" file="Basic" />
-<h3 id="show-value" class="doc-heading doc-h3" @click="copyHeading(`show-value`)">Show value</h3>
+<h3 id="show-value" class="doc-heading doc-h3" @click="copyHeading(`show-value`)">Show value<a class="doc-heading__anchor" href="#show-value" aria-label="Copy anchor to Show value" @click.prevent.stop="copyHeading(`show-value`)"></a></h3>
 <p>In the example below, <code class="doc-token">show-value</code> property also enables the default slot, so you can fill it with custom content, like even a QAvatar or a QTooltip. The <code class="doc-token">font-size</code> prop refers to the inner label font size.</p>
 <p>If the default slot contains an image, you have to style it with class <code class="doc-token">no-pointer-events</code> or set the <code class="doc-token">draggable</code> prop to false. Otherwise browser’s default image dragging behaviour overrides QKnob’s one</p>
 <DocExample title="Show value" file="ShowValue" />
-<h3 id="min-and-max" class="doc-heading doc-h3" @click="copyHeading(`min-and-max`)">Min and max</h3>
+<h3 id="min-and-max" class="doc-heading doc-h3" @click="copyHeading(`min-and-max`)">Min and max<a class="doc-heading__anchor" href="#min-and-max" aria-label="Copy anchor to Min and max" @click.prevent.stop="copyHeading(`min-and-max`)"></a></h3>
 <DocExample title="Custom min/max" file="MinMax" />
-<h3 id="inner-min-max" class="doc-heading doc-h3" @click="copyHeading(`inner-min-max`)">Inner min/max <q-badge label="v2.5.4+" /></h3>
+<h3 id="inner-min-max" class="doc-heading doc-h3" @click="copyHeading(`inner-min-max`)">Inner min/max <q-badge label="v2.5.4+" /><a class="doc-heading__anchor" href="#inner-min-max" aria-label="Copy anchor to Inner min/max" @click.prevent.stop="copyHeading(`inner-min-max`)"></a></h3>
 <p>Sometimes you need to restrict the model value to an interval inside of the track’s length. For this purpose, use <code class="doc-token">inner-min</code> and <code class="doc-token">inner-max</code> props. First prop needs to be higher or equal to <code class="doc-token">min</code> prop while the latter needs to be lower or equal to the <code class="doc-token">max</code> prop.</p>
 <DocExample title="Inner min/max" file="InnerMinMax" />
-<h3 id="custom-step" class="doc-heading doc-h3" @click="copyHeading(`custom-step`)">Custom step</h3>
+<h3 id="custom-step" class="doc-heading doc-h3" @click="copyHeading(`custom-step`)">Custom step<a class="doc-heading__anchor" href="#custom-step" aria-label="Copy anchor to Custom step" @click.prevent.stop="copyHeading(`custom-step`)"></a></h3>
 <DocExample title="Custom step" file="Step" />
-<h3 id="offset-angle" class="doc-heading doc-h3" @click="copyHeading(`offset-angle`)">Offset angle</h3>
+<h3 id="offset-angle" class="doc-heading doc-h3" @click="copyHeading(`offset-angle`)">Offset angle<a class="doc-heading__anchor" href="#offset-angle" aria-label="Copy anchor to Offset angle" @click.prevent.stop="copyHeading(`offset-angle`)"></a></h3>
 <DocExample title="Offset angle" file="Angle" />
-<h3 id="disable-and-readonly" class="doc-heading doc-h3" @click="copyHeading(`disable-and-readonly`)">Disable and readonly</h3>
+<h3 id="disable-and-readonly" class="doc-heading doc-h3" @click="copyHeading(`disable-and-readonly`)">Disable and readonly<a class="doc-heading__anchor" href="#disable-and-readonly" aria-label="Copy anchor to Disable and readonly" @click.prevent.stop="copyHeading(`disable-and-readonly`)"></a></h3>
 <DocExample title="Disable and readonly" file="DisableReadonly" />
-<h3 id="native-form-submit" class="doc-heading doc-h3" @click="copyHeading(`native-form-submit`)">Native form submit</h3>
+<h3 id="native-form-submit" class="doc-heading doc-h3" @click="copyHeading(`native-form-submit`)">Native form submit<a class="doc-heading__anchor" href="#native-form-submit" aria-label="Copy anchor to Native form submit" @click.prevent.stop="copyHeading(`native-form-submit`)"></a></h3>
 <p>When dealing with a native form which has an <code class="doc-token">action</code> and a <code class="doc-token">method</code> (eg. when using Quasar with ASP.NET controllers), you need to specify the <code class="doc-token">name</code> property on QKnob, otherwise formData will not contain it (if it should):</p>
 <DocExample title="Native form" file="NativeForm" />
-<h2 id="accessibility" class="doc-heading doc-h2" @click="copyHeading(`accessibility`)">Accessibility</h2>
+<h2 id="accessibility" class="doc-heading doc-h2" @click="copyHeading(`accessibility`)">Accessibility<a class="doc-heading__anchor" href="#accessibility" aria-label="Copy anchor to Accessibility" @click.prevent.stop="copyHeading(`accessibility`)"></a></h2>
 <p>QKnob follows the <doc-link to="https://www.w3.org/WAI/ARIA/apg/patterns/slider/">WAI-ARIA slider pattern</doc-link>: the focusable element itself carries <code class="doc-token">role=&quot;slider&quot;</code> with <code class="doc-token">aria-valuemin</code>/<code class="doc-token">aria-valuemax</code>/<code class="doc-token">aria-valuenow</code>, plus <code class="doc-token">aria-disabled</code> or <code class="doc-token">aria-readonly</code> when it is not editable. The <kbd>Arrow</kbd> keys step the value and <kbd>PageUp</kbd> / <kbd>PageDown</kbd> jump by 10 steps. There is no accessible name by default, so pass an <code class="doc-token">aria-label</code> attribute (it lands on the slider element) to tell screen reader users what the knob controls.</p>

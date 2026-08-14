@@ -3,6 +3,10 @@ import { Notify } from 'quasar'
 export { slugify } from '../../build/utils.js'
 
 export function copyToClipboard(text) {
+  // the copy borrows the focus; whoever triggered it must get it back, or a
+  // keyboard user is dropped at the top of the document on every copy
+  const trigger = document.activeElement
+
   const textArea = document.createElement('textarea')
   textArea.className = 'fixed-top'
   textArea.value = text
@@ -12,6 +16,10 @@ export function copyToClipboard(text) {
 
   document.execCommand('copy')
   textArea.remove()
+
+  if (trigger !== null && trigger.isConnected) {
+    trigger.focus()
+  }
 }
 
 export function copyHeading(id) {

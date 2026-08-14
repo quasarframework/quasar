@@ -18,16 +18,19 @@ function parseContent(str) {
   }
 }
 
+function parseInline(token) {
+  return parseContent(token.children.reduce((acc, t) => acc + t.content, ''))
+}
+
+function escapeAttr(str) {
+  return str.replaceAll('&', '&amp;').replaceAll('"', '&quot;')
+}
+
 export default function mdPluginHeading(md) {
   md.renderer.rules.heading_open = (tokens, idx, options, _env, self) => {
     const token = tokens[idx]
 
-    const content = tokens[idx + 1].children.reduce(
-      (acc, t) => acc + t.content,
-      ''
-    )
-
-    const { id, title } = parseContent(content)
+    const { id, title } = parseInline(tokens[idx + 1])
 
     token.attrSet('id', id)
     token.attrSet('class', `doc-heading doc-${token.tag}`)
@@ -40,6 +43,22 @@ export default function mdPluginHeading(md) {
     }
 
     return self.renderToken(tokens, idx, options)
+  }
+
+  // The heading stays clickable for the mouse, but a handler is not a keyboard
+  // path: this trailing link is the one every other input can reach. It only
+  // needs to carry the id, so it sits beside the heading content rather than
+  // wrapping it - a heading may hold a QBadge, which does not belong in a link.
+  // Its "#" is drawn by CSS so that it stays out of the heading's own name.
+  md.renderer.rules.heading_close = (tokens, idx, options, _env, self) => {
+    const { id, title } = parseInline(tokens[idx - 1])
+
+    return (
+      `<a class="doc-heading__anchor" href="#${id}"` +
+      ` aria-label="Copy anchor to ${escapeAttr(title)}"` +
+      ` @click.prevent.stop="copyHeading(\`${id}\`)"></a>` +
+      self.renderToken(tokens, idx, options)
+    )
   }
 
   md.renderer.rules.html_block = function html_block(

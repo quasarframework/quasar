@@ -2,27 +2,27 @@
 <div class="doc-note doc-note--tip"><div class="doc-note__title">TIP</div>
 <p>If you are a more advanced Vue developer, we invite you to start off by <doc-link to="/start/pick-quasar-flavour">deciding between all Quasar flavours</doc-link>.</p>
 </div>
-<h2 id="prerequisites" class="doc-heading doc-h2" @click="copyHeading(`prerequisites`)">Prerequisites</h2>
+<h2 id="prerequisites" class="doc-heading doc-h2" @click="copyHeading(`prerequisites`)">Prerequisites<a class="doc-heading__anchor" href="#prerequisites" aria-label="Copy anchor to Prerequisites" @click.prevent.stop="copyHeading(`prerequisites`)"></a></h2>
 <p>Make sure that you have Node.js &gt;=22 (or any newer <strong>LTS Node.js version</strong>) and PNPM v11+ or Yarn v1 classic or NPM or Bun installed on your machine. Again, please do not use non-LTS versions of Node.js.</p>
-<h2 id="step-1-create-a-project" class="doc-heading doc-h2" @click="copyHeading(`step-1-create-a-project`)">Step 1: Create a Project</h2>
+<h2 id="step-1-create-a-project" class="doc-heading doc-h2" @click="copyHeading(`step-1-create-a-project`)">Step 1: Create a Project<a class="doc-heading__anchor" href="#step-1-create-a-project" aria-label="Copy anchor to Step 1: Create a Project" @click.prevent.stop="copyHeading(`step-1-create-a-project`)"></a></h2>
 <p>Navigate to the folder above where you want your project to be. Quasar will later prompt you for the name of the project folder and create that folder within this.</p>
 <p>Enter the following command:</p>
 <DocPrerender :tabs="[ 'PNPM', 'Yarn', 'NPM', 'Bun' ]"><q-tab-panel class="q-pa-none" name="PNPM"><DocCode lang="bash" :code="&quot;pnpm create quasar@latest&quot;" /></q-tab-panel>
 <q-tab-panel class="q-pa-none" name="Yarn"><DocCode lang="bash" :code="&quot;yarn create quasar&quot;" /></q-tab-panel>
 <q-tab-panel class="q-pa-none" name="NPM"><DocCode lang="bash" :code="&quot;npm init quasar@latest&quot;" /></q-tab-panel>
 <q-tab-panel class="q-pa-none" name="Bun"><DocCode lang="bash" :code="&quot;bun create quasar@latest&quot;" /></q-tab-panel></DocPrerender><p>As the command above runs, you’ll be prompted with some options. Depending on your needs, you can add things like TypeScript support or a different CSS preprocessor. If you are unsure about any of the options, just take the defaults (hit enter) and you’ll be good to go. You can change the options, except for the CLI type, later if you wish.</p>
-<h3 id="optional-install-the-global-cli" class="doc-heading doc-h3" @click="copyHeading(`optional-install-the-global-cli`)">Optional - Install the Global CLI</h3>
+<h3 id="optional-install-the-global-cli" class="doc-heading doc-h3" @click="copyHeading(`optional-install-the-global-cli`)">Optional - Install the Global CLI<a class="doc-heading__anchor" href="#optional-install-the-global-cli" aria-label="Copy anchor to Optional - Install the Global CLI" @click.prevent.stop="copyHeading(`optional-install-the-global-cli`)"></a></h3>
 <p>For doing more with Quasar, you should also install the global CLI. With it you can directly run Quasar commands in the terminal, run a local http server for testing or do upgrades on your project.</p>
 <DocPrerender :tabs="[ 'PNPM', 'Yarn', 'NPM', 'Bun' ]"><q-tab-panel class="q-pa-none" name="PNPM"><DocCode lang="bash" :code="&quot;pnpm add -g @quasar/cli&quot;" /></q-tab-panel>
 <q-tab-panel class="q-pa-none" name="Yarn"><DocCode lang="bash" :code="&quot;yarn global add @quasar/cli&quot;" /></q-tab-panel>
 <q-tab-panel class="q-pa-none" name="NPM"><DocCode lang="bash" :code="&quot;npm i -g @quasar/cli&quot;" /></q-tab-panel>
-<q-tab-panel class="q-pa-none" name="Bun"><DocCode lang="bash" :code="&quot;bun install -g @quasar/cli&quot;" /></q-tab-panel></DocPrerender><h2 id="step-2-start-developing" class="doc-heading doc-h2" @click="copyHeading(`step-2-start-developing`)">Step 2: Start developing</h2>
+<q-tab-panel class="q-pa-none" name="Bun"><DocCode lang="bash" :code="&quot;bun install -g @quasar/cli&quot;" /></q-tab-panel></DocPrerender><h2 id="step-2-start-developing" class="doc-heading doc-h2" @click="copyHeading(`step-2-start-developing`)">Step 2: Start developing<a class="doc-heading__anchor" href="#step-2-start-developing" aria-label="Copy anchor to Step 2: Start developing" @click.prevent.stop="copyHeading(`step-2-start-developing`)"></a></h2>
 <p>For the second and last step, navigate into the newly created project folder and run the Quasar CLI command to start the dev server.</p>
 <DocPrerender :tabs="[ 'PNPM', 'Yarn', 'NPM', 'Bun' ]"><q-tab-panel class="q-pa-none" name="PNPM"><DocCode lang="bash" :code="&quot;# if you have the global CLI:\nquasar dev\n\n# otherwise:\n\npnpm run dev\n# to run a local Quasar CLI command:\npnpm quasar dev&quot;" /></q-tab-panel>
 <q-tab-panel class="q-pa-none" name="Yarn"><DocCode lang="bash" :code="&quot;# if you have the global CLI:\nquasar dev\n\n# otherwise:\n\nyarn run dev\n# to run a local Quasar CLI command:\nyarn quasar dev&quot;" /></q-tab-panel>
 <q-tab-panel class="q-pa-none" name="NPM"><DocCode lang="bash" :code="&quot;# if you have the global CLI:\nquasar dev\n\n# otherwise:\n\nnpm run dev\n# to run a local Quasar CLI command:\nnpx quasar dev&quot;" /></q-tab-panel>
 <q-tab-panel class="q-pa-none" name="Bun"><DocCode lang="bash" :code="&quot;# if you have the global CLI:\nquasar dev\n\n# otherwise:\n\nbun run dev\n# to run a local Quasar CLI command:\nbun quasar dev&quot;" /></q-tab-panel></DocPrerender><p>You’ll see the dev server compiling your new application and once it is finished, your new app should open up in your browser. That’s it! You can now develop your app with your favorite IDE / Code Editor.</p>
-<h2 id="now-what" class="doc-heading doc-h2" @click="copyHeading(`now-what`)">Now What?</h2>
+<h2 id="now-what" class="doc-heading doc-h2" @click="copyHeading(`now-what`)">Now What?<a class="doc-heading__anchor" href="#now-what" aria-label="Copy anchor to Now What?" @click.prevent.stop="copyHeading(`now-what`)"></a></h2>
 <p>If you are new to Quasar and a…</p>
 <p><strong>(Beginner Vue) JavaScript Dev</strong> - We highly recommend <doc-link to="/start/how-to-use-vue">learning Vue</doc-link>.</p>
 <p><strong>Intermediate Vue Dev</strong> - We recommend getting accustomed to <doc-link to="/quasar-cli-vite/directory-structure">Quasar’s Directory Structure</doc-link> and its different build modes, <doc-link to="/quasar-cli-vite/developing-ssr/introduction">starting with SSR</doc-link> (the project you built is an SPA).</p>
