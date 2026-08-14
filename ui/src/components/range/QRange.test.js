@@ -1231,6 +1231,51 @@ describe('[QRange API]', () => {
   })
 
   describe('[Accessibility]', () => {
+    test('a fall-through name goes to the group, not onto a thumb', () => {
+      // the thumbs are named individually (see the thumb-aria-label props);
+      // an attribute on the component describes the pair, so it belongs on
+      // the role="group" root. Asserting the VALUES matters here: a thumb
+      // carries a name of its own either way, so only the value shows
+      // whether the group's name overrode it.
+      const wrapper = mount(QRange, {
+        props: { modelValue: { min: 20, max: 60 } },
+        attrs: { 'aria-label': 'Price range', style: 'margin: 33px' }
+      })
+
+      expect(wrapper.attributes('role')).toBe('group')
+      expect(wrapper.attributes('aria-label')).toBe('Price range')
+
+      for (const thumb of [getMinThumb(wrapper), getMaxThumb(wrapper)]) {
+        expect(thumb.attributes('aria-label')).not.toBe('Price range')
+        // the thumb keeps its own positioning; the group's style stays put
+        expect(thumb.attributes('style')).not.toContain('margin')
+      }
+
+      expect(getMinThumb(wrapper).attributes('aria-label')).toBe(
+        langEn.label.minimum
+      )
+      expect(getMaxThumb(wrapper).attributes('aria-label')).toBe(
+        langEn.label.maximum
+      )
+    })
+
+    test('the thumb names still win when the group is named too', () => {
+      const wrapper = mount(QRange, {
+        props: {
+          modelValue: { min: 20, max: 60 },
+          leftThumbAriaLabel: 'Lowest price',
+          rightThumbAriaLabel: 'Highest price'
+        },
+        attrs: { 'aria-label': 'Price range' }
+      })
+
+      expect(wrapper.attributes('aria-label')).toBe('Price range')
+      expect(getMinThumb(wrapper).attributes('aria-label')).toBe('Lowest price')
+      expect(getMaxThumb(wrapper).attributes('aria-label')).toBe(
+        'Highest price'
+      )
+    })
+
     test('a null side says so instead of announcing its limit as a value', () => {
       // both thumbs report a number (their limit), which on its own would
       // read as "the whole range is selected"

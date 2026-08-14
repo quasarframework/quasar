@@ -304,4 +304,26 @@ describe('[QKnob API]', () => {
       })
     })
   })
+
+  describe('[Accessibility]', () => {
+    test('a fall-through name lands on the slider element itself', () => {
+      // QKnob has no built-in name, so the only way to say what the value
+      // means is an attribute — and it has to reach the element carrying
+      // the slider role, not a wrapper around it
+      const wrapper = mountKnob({}, { attrs: { 'aria-label': 'Brush size' } })
+      const slider = wrapper.get('[role="slider"]')
+
+      expect(slider.attributes('aria-label')).toBe('Brush size')
+      expect(slider.attributes('aria-valuenow')).toBe('10')
+    })
+
+    test('the knob is a slider, not the progressbar it renders through', () => {
+      // QCircularProgress would otherwise claim role="progressbar"; a knob
+      // is an input, so its own role has to win
+      const wrapper = mountKnob()
+
+      expect(wrapper.attributes('role')).toBe('slider')
+      expect(wrapper.find('[role="progressbar"]').exists()).toBe(false)
+    })
+  })
 })
