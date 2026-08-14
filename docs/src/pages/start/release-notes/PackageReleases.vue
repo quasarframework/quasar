@@ -18,7 +18,12 @@
 
     <q-separator />
 
-    <q-splitter class="release__splitter" :model-value="20" :limits="[14, 90]">
+    <q-splitter
+      class="release__splitter"
+      :model-value="20"
+      :limits="[14, 90]"
+      separator-aria-label="Resize the version list"
+    >
       <template #before>
         <q-scroll-area>
           <q-tabs
