@@ -269,10 +269,13 @@ export default /*#__PURE__*/ createComponent({
     // stop on a region with nothing to scroll is only noise. The render also
     // re-runs on hover (mainStyle -> thumbHidden), so this stays a computed:
     // the overflow state only ever changes when one of the sizes does.
-    const hasOverflow = computed(
-      () =>
-        scroll.vertical.size.value > container.vertical.value + 1 ||
-        scroll.horizontal.size.value > container.horizontal.value + 1
+    const tabindex = computed(() =>
+      props.tabindex !== void 0
+        ? props.tabindex
+        : scroll.vertical.size.value > container.vertical.value + 1 ||
+            scroll.horizontal.size.value > container.horizontal.value + 1
+          ? 0
+          : void 0
     )
 
     const mainStyle = computed(() =>
@@ -619,12 +622,7 @@ export default /*#__PURE__*/ createComponent({
               ref: targetRef,
               class:
                 'q-scrollarea__container scroll relative-position fit hide-scrollbar',
-              tabindex:
-                props.tabindex !== void 0
-                  ? props.tabindex
-                  : hasOverflow.value
-                    ? 0
-                    : void 0
+              tabindex: tabindex.value
             },
             [
               h(
