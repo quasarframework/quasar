@@ -284,21 +284,24 @@ export default /*#__PURE__*/ createComponent({
         : props.contentActiveStyle
     )
 
+    // spelled out (not built by concatenating the axis) on two counts: these
+    // 10 keys are public API, so they should be greppable in the component
+    // that produces them; and a static-key literal is one allocation with a
+    // cached shape, against 10 string internalizations per scroll event
     function getScroll() {
-      const info = {}
+      return {
+        verticalPosition: scroll.vertical.position.value,
+        verticalPercentage: scroll.vertical.percentage.value,
+        verticalSize: scroll.vertical.size.value,
+        verticalContainerSize: container.vertical.value,
+        verticalContainerInnerSize: container.verticalInner.value,
 
-      axisList.forEach(axis => {
-        const data = scroll[axis]
-        Object.assign(info, {
-          [axis + 'Position']: data.position.value,
-          [axis + 'Percentage']: data.percentage.value,
-          [axis + 'Size']: data.size.value,
-          [axis + 'ContainerSize']: container[axis].value,
-          [axis + 'ContainerInnerSize']: container[axis + 'Inner'].value
-        })
-      })
-
-      return info
+        horizontalPosition: scroll.horizontal.position.value,
+        horizontalPercentage: scroll.horizontal.percentage.value,
+        horizontalSize: scroll.horizontal.size.value,
+        horizontalContainerSize: container.horizontal.value,
+        horizontalContainerInnerSize: container.horizontalInner.value
+      }
     }
 
     // we have lots of listeners, so
