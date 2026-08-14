@@ -36,6 +36,14 @@ const inputGroups = {
   'pnpm-lock.yaml': join(repoDir, 'pnpm-lock.yaml')
 }
 
+// None of the input groups tracks a dotfile, so what turns up under one is
+// an OS or editor dropping (.DS_Store, .eslintcache, .vscode/) that git
+// ignores and a CI checkout never has. Hashing those would let a Finder
+// visit read as a source change — a needless multi-minute rebuild — and
+// would put this digest permanently out of step with the workflows' key.
+const isDroppingPath = entry =>
+  entry.split('/').some(part => part.startsWith('.'))
+
 function hashTarget(target) {
   const hash = createHash('sha256')
 
@@ -47,6 +55,7 @@ function hashTarget(target) {
       .sort()
 
     for (const entry of entries) {
+      if (isDroppingPath(entry)) continue
       const file = join(target, entry)
       if (!statSync(file).isFile()) continue
       hash.update(entry)
