@@ -7,13 +7,15 @@ import { quasarKey } from '../../utils/private.symbols/symbols.js'
  * Equivalent to `this.$q` inside templates.
  */
 export default function useQuasar() {
-  const vm = getCurrentInstance()
-
   // installQuasar() registers $q both as an app provide and as a global
-  // property; the direct appContext read is ~15x cheaper than an inject()
-  // provides-chain walk, so inject() is kept only for the instance-less
-  // app.runWithContext() case
-  return vm !== null
-    ? vm.appContext.config.globalProperties.$q
-    : inject(quasarKey)
+  // property; the appContext read is a fixed 3 hops, while inject() walks a
+  // provides prototype chain as long as the component's tree depth, from a
+  // call site that every component funnels through. inject() stays as the
+  // fallback: for the instance-less app.runWithContext() case, and for the
+  // shapes that reach $q through provides alone (a nested custom element
+  // inherits its parent's provides, not its global properties)
+  return (
+    getCurrentInstance()?.appContext.config.globalProperties.$q ??
+    inject(quasarKey)
+  )
 }
