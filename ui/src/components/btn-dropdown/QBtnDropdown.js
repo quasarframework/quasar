@@ -63,7 +63,8 @@ export default /*#__PURE__*/ createComponent({
 
     noIconAnimation: Boolean,
 
-    toggleAriaLabel: String
+    toggleAriaLabel: String,
+    toggleAriaHaspopup: String
   },
 
   emits: [
@@ -84,15 +85,20 @@ export default /*#__PURE__*/ createComponent({
     const targetUid = useId()
 
     const ariaAttrs = computed(() => {
-      // no aria-haspopup: its value must reflect the popup's ARIA role
-      // (WAI-ARIA; 'true' means role="menu") and the dropdown hosts
-      // arbitrary content — consumers set it through fall-through attrs
-      // when they give that content a matching role
+      // aria-haspopup has to name the popup's own ARIA role and the
+      // dropdown hosts arbitrary content, so it is opt-in: the devland
+      // declares it once the content has a matching role. In split mode
+      // fall-through attrs land on the QBtnGroup instead of the toggle
+      // button, which is why this needs a prop of its own
       const acc = {
         'aria-expanded': showing.value ? 'true' : 'false',
         'aria-label':
           props.toggleAriaLabel ||
           $q.lang.label[showing.value ? 'collapse' : 'expand'](props.label)
+      }
+
+      if (props.toggleAriaHaspopup !== void 0) {
+        acc['aria-haspopup'] = props.toggleAriaHaspopup
       }
 
       // the portal-based menu only exists in the DOM while shown,

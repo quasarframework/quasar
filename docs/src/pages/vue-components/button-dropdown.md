@@ -42,14 +42,14 @@ The following example won't work with UMD version (so in Codepen/jsFiddle too) b
 
 ## Accessibility <q-badge label="v2.25+" />
 
-The toggle button follows the [WAI-ARIA disclosure pattern](https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/): it exposes `aria-expanded` (plus `aria-controls` while the popup exists — the reference must not point to a missing id) and deliberately claims no `aria-haspopup` — that attribute's value must name the popup's ARIA role, and the dropdown content (which has no default role) can be anything. If you give the content an actual role, mirror it on the button yourself — for instance `aria-haspopup="menu"` when declaring `role="menu"` on a wrapped [QList](/vue-components/list-and-list-items) (see [QMenu's Accessibility section](/vue-components/menu#accessibility)):
+The toggle button follows the [WAI-ARIA disclosure pattern](https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/): it exposes `aria-expanded` (plus `aria-controls` while the popup exists — the reference must not point to a missing id) and deliberately claims no `aria-haspopup` — that attribute's value must name the popup's ARIA role, and the dropdown content (which has no default role) can be anything. Once you give the content an actual role, mirror it with the `toggle-aria-haspopup` prop — for instance when declaring `role="menu"` on a wrapped [QList](/vue-components/list-and-list-items) (see [QMenu's Accessibility section](/vue-components/menu#accessibility)):
 
 ```html
-<q-btn-dropdown label="Actions" aria-haspopup="menu">
+<q-btn-dropdown label="Actions" toggle-aria-haspopup="menu">
   <q-list role="menu">
     <!-- clickable QItems become menuitems automatically -->
   </q-list>
 </q-btn-dropdown>
 ```
 
-Note that in `split` mode the fall-through attributes land on the wrapping button group rather than on the toggle button, so the technique above applies to the regular (non-split) design only.
+The prop is the reliable way to do this in both designs: in `split` mode the fall-through attributes land on the wrapping button group rather than on the toggle button, so setting `aria-haspopup` as a plain attribute would never reach the control that opens the popup.

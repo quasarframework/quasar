@@ -1242,6 +1242,19 @@ describe('[QBtnDropdown API]', () => {
         expect(getRoot(wrapper).attributes('aria-label')).toBe(propVal)
       })
     })
+
+    describe('[(prop)toggle-aria-haspopup]', () => {
+      test('type String has effect', async () => {
+        const propVal = 'menu'
+        const wrapper = mountBtnDropdown({ label: 'Actions' })
+
+        expect(getRoot(wrapper).attributes('aria-haspopup')).toBeUndefined()
+
+        await wrapper.setProps({ toggleAriaHaspopup: propVal })
+
+        expect(getRoot(wrapper).attributes('aria-haspopup')).toBe(propVal)
+      })
+    })
   })
 
   describe('[Slots]', () => {
@@ -1494,6 +1507,20 @@ describe('[QBtnDropdown API]', () => {
       await hideMenu(wrapper)
 
       expect(toggle.attributes('aria-controls')).toBeUndefined()
+    })
+
+    test('carries the declared popup role on the toggle button in split mode', () => {
+      const wrapper = mountBtnDropdown({
+        label: 'Actions',
+        split: true,
+        toggleAriaHaspopup: 'menu'
+      })
+
+      // fall-through attrs land on the QBtnGroup in split mode, which is
+      // why the popup role needs a prop that reaches the toggle button
+      expect(getArrowBtn(wrapper).attributes('aria-haspopup')).toBe('menu')
+      expect(getRoot(wrapper).attributes('aria-haspopup')).toBeUndefined()
+      expect(getMainBtn(wrapper).attributes('aria-haspopup')).toBeUndefined()
     })
   })
 })

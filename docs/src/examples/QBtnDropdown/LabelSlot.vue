@@ -1,6 +1,13 @@
 <template>
   <div class="q-pa-md">
-    <q-btn-dropdown split color="cyan" push no-caps @click="onMainClick">
+    <q-btn-dropdown
+      split
+      color="cyan"
+      push
+      no-caps
+      @click="onMainClick"
+      toggle-aria-haspopup="menu"
+    >
       <template v-slot:label>
         <div class="row items-center no-wrap">
           <q-icon left name="map" />

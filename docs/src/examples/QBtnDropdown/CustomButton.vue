@@ -9,6 +9,7 @@
       icon="folder"
       label="Dropdown Button"
       @click="onMainClick"
+      toggle-aria-haspopup="menu"
     >
       <q-list role="menu">
         <q-item clickable v-close-popup @click="onItemClick">

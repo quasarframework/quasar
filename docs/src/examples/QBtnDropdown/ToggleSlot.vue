@@ -1,6 +1,12 @@
 <template>
   <div class="q-pa-md">
-    <q-btn-dropdown split color="primary" label="Save" @click="onMainClick">
+    <q-btn-dropdown
+      split
+      color="primary"
+      label="Save"
+      @click="onMainClick"
+      toggle-aria-haspopup="menu"
+    >
       <template v-slot:toggle>
         <q-tooltip>More save options</q-tooltip>
       </template>

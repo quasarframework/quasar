@@ -30,6 +30,7 @@
         class="glossy"
         color="primary"
         label="Only main btn"
+        toggle-aria-haspopup="menu"
       >
         <q-list role="menu">
           <q-item clickable v-close-popup>
@@ -70,6 +71,7 @@
         class="glossy"
         color="primary"
         label="Only dropdown"
+        toggle-aria-haspopup="menu"
       >
         <q-list role="menu">
           <q-item clickable v-close-popup>

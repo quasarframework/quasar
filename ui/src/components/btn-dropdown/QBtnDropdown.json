@@ -168,6 +168,14 @@
       "examples": ["'Open menu'"],
       "category": "accessibility",
       "addedIn": "v2.8.4"
+    },
+
+    "toggle-aria-haspopup": {
+      "type": "String",
+      "desc": "aria-haspopup to be used on the dropdown toggle element; Must name the ARIA role of the dropdown content ('menu', 'listbox', 'tree', 'grid' or 'dialog'), so only set it once that content declares a matching role",
+      "examples": ["'menu'", "'listbox'"],
+      "category": "accessibility",
+      "addedIn": "v2.25"
     }
   },
 
