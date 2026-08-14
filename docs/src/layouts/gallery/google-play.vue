@@ -39,7 +39,6 @@
             icon="search"
             unelevated
             aria-label="Search"
-            tabindex="-1"
           />
         </div>
 
@@ -54,7 +53,6 @@
             size="14px"
             icon="apps"
             aria-label="Google Apps"
-            tabindex="-1"
           >
             <q-tooltip>Google Apps</q-tooltip>
           </q-btn>
@@ -66,13 +64,12 @@
             color="grey-8"
             icon="notifications"
             aria-label="Notifications"
-            tabindex="-1"
           >
             <q-badge color="red" text-color="white" floating> 2 </q-badge>
             <q-tooltip>Notifications</q-tooltip>
           </q-btn>
 
-          <q-btn round flat aria-label="Account" tabindex="-1">
+          <q-btn round flat aria-label="Account">
             <q-avatar size="26px">
               <img
                 src="https://cdn.quasar.dev/img/boy-avatar.png"
@@ -197,7 +194,6 @@
             size="12px"
             class="GPLAY__sticky-help"
             aria-label="Help"
-            tabindex="-1"
           />
           <q-btn
             icon="settings"
@@ -206,7 +202,6 @@
             class="GPLAY__sticky-settings q-ml-md"
             size="12px"
             aria-label="Settings"
-            tabindex="-1"
           />
         </q-toolbar>
       </q-page-sticky>

@@ -16,7 +16,6 @@
             round
             flat
             :aria-label="`${currentConversation.person} profile`"
-            tabindex="-1"
           >
             <q-avatar>
               <img
@@ -32,8 +31,8 @@
 
           <q-space />
 
-          <q-btn round flat icon="search" aria-label="Search" tabindex="-1" />
-          <q-btn round flat aria-label="Attach file" tabindex="-1">
+          <q-btn round flat icon="search" aria-label="Search" />
+          <q-btn round flat aria-label="Attach file">
             <q-icon name="attachment" class="rotate-135" />
           </q-btn>
           <q-btn
@@ -90,7 +89,6 @@
             flat
             icon="message"
             aria-label="New conversation"
-            tabindex="-1"
           />
           <q-btn
             round
@@ -202,7 +200,6 @@
             icon="insert_emoticon"
             class="q-mr-sm"
             aria-label="Emoji"
-            tabindex="-1"
           />
           <q-input
             rounded
@@ -219,7 +216,6 @@
             flat
             icon="mic"
             aria-label="Record voice message"
-            tabindex="-1"
           />
         </q-toolbar>
       </q-footer>

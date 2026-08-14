@@ -107,7 +107,6 @@
             color="text-grey-7"
             icon="apps"
             aria-label="Google Apps"
-            tabindex="-1"
           >
             <q-tooltip>Google Apps</q-tooltip>
           </q-btn>
@@ -118,12 +117,11 @@
             color="grey-8"
             icon="notifications"
             aria-label="Notifications"
-            tabindex="-1"
           >
             <q-badge color="red" text-color="white" floating> 2 </q-badge>
             <q-tooltip>Notifications</q-tooltip>
           </q-btn>
-          <q-btn round flat aria-label="Account" tabindex="-1">
+          <q-btn round flat aria-label="Account">
             <q-avatar size="26px">
               <img
                 src="https://cdn.quasar.dev/img/boy-avatar.png"

@@ -18,7 +18,6 @@
           class="q-mr-sm"
           no-caps
           aria-label="GitHub"
-          tabindex="-1"
         />
 
         <q-select
@@ -100,7 +99,6 @@
             size="sm"
             icon="notifications"
             aria-label="Notifications"
-            tabindex="-1"
           />
           <q-btn
             v-if="$q.screen.gt.xs"
