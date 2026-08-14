@@ -320,7 +320,9 @@ export default /*#__PURE__*/ createComponent({
 
     const comboboxAttrs = computed(() => {
       const attrs = {
-        tabindex: props.tabindex,
+        // a disabled form control is never focusable, so carrying a tabindex
+        // on it would only be misleading markup
+        tabindex: props.disable === true ? void 0 : props.tabindex,
         role: 'combobox',
         'aria-label': props.label,
         'aria-readonly': props.readonly ? 'true' : 'false',
@@ -1664,12 +1666,14 @@ export default /*#__PURE__*/ createComponent({
           child.push(getInput(fromDialog, isTarget))
         }
         // there can be only one (when dialog is opened the control in dialog should be target)
-        // a readonly select renders it too: readonly controls stay focusable and
-        // keep exposing their value (only "disable" leaves the tab order), and it
-        // owns the id that the QField label's "for" points at. It never becomes a
-        // popup trigger - showPopup() and onTargetKeydown() both bail when the
-        // field is not editable, and getControlChild() renders no menu/dialog
-        else if (!props.disable) {
+        // rendered whatever the state, matching the use-input branch above: a
+        // readonly control stays focusable and a disabled one is still exposed
+        // (announced as unavailable, out of the tab order through the native
+        // attribute), and either way this is the element that owns the id the
+        // QField label's "for" points at. Neither becomes a popup trigger -
+        // showPopup() and onTargetKeydown() both bail when the field is not
+        // editable, and getControlChild() renders no menu/dialog
+        else {
           const attrs = isTarget
             ? { ...comboboxAttrs.value, ...state.splitAttrs.attributes.value }
             : void 0
@@ -1682,6 +1686,7 @@ export default /*#__PURE__*/ createComponent({
             readonly: true,
             'data-autofocus': fromDialog === true || props.autofocus || void 0,
             ...attrs,
+            disabled: props.disable,
             id: isTarget ? state.targetUid.value : void 0,
             onKeydown: onTargetKeydown,
             onKeyup: onTargetKeyup,

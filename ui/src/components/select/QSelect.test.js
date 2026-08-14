@@ -845,8 +845,11 @@ describe('[QSelect API]', () => {
 
         expect(wrapper.classes()).toContain('q-field--disabled')
         expect(wrapper.attributes('aria-disabled')).toBe('true')
-        // there is nothing left to focus or to open the popup with
-        expect(wrapper.find('.q-select__focus-target').exists()).toBe(false)
+        // the control is still rendered - and still owns the label's "for" -
+        // but the native attribute takes it out of the tab order
+        const target = wrapper.get('.q-select__focus-target')
+        expect(target.attributes('disabled')).toBeDefined()
+        expect(target.attributes('tabindex')).toBeUndefined()
 
         wrapper.vm.showPopup()
         await flushPromises()
@@ -3010,10 +3013,18 @@ describe('[QSelect API]', () => {
       expect(wrapper.findComponent({ name: 'QPortal' }).exists()).toBe(false)
     })
 
-    test('drops the combobox entirely when disabled', () => {
-      const wrapper = mountSelect({ disable: true, modelValue: 'a' })
+    test.each([
+      ['focus target', false],
+      ['use-input control', true]
+    ])('keeps a disabled select in the tree through its %s', (_, useInput) => {
+      const wrapper = mountSelect({ useInput, disable: true, modelValue: 'a' })
+      const target = wrapper.get('input[role="combobox"]')
 
-      expect(wrapper.find('input[role="combobox"]').exists()).toBe(false)
+      // exposed (announced as unavailable) rather than missing, so the label's
+      // "for" still resolves - but never focusable
+      expect(target.attributes('id')).toBe(wrapper.attributes('for'))
+      expect(target.attributes('disabled')).toBeDefined()
+      expect(target.attributes('tabindex')).toBeUndefined()
     })
 
     test.each([
