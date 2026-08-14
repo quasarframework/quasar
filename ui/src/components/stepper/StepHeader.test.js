@@ -352,4 +352,37 @@ describe('[StepHeader API]', () => {
       })
     })
   })
+
+  describe('[Accessibility]', () => {
+    test('announces a disabled header as an unavailable button', async () => {
+      const { goToPanel } = mountStepHeader({
+        stepper: { modelValue: 'other', headerNav: true },
+        step: { name: 'second', disable: true }
+      })
+
+      // same shape as QBtn/QChip: still perceivable as a control, just not
+      // operable - dropping the role would leave it as plain text
+      expect(wrapper.attributes('role')).toBe('button')
+      expect(wrapper.attributes('aria-disabled')).toBe('true')
+      expect(wrapper.attributes('tabindex')).toBe('-1')
+
+      await wrapper.trigger('click')
+      await wrapper.trigger('keyup', { keyCode: 13 })
+
+      expect(goToPanel).not.toHaveBeenCalled()
+    })
+
+    test.each([
+      ['the stepper offers no header navigation', {}, {}],
+      ['the step opts out of it', { headerNav: true }, { headerNav: false }]
+    ])('claims no role when %s', (_, stepper, step) => {
+      mountStepHeader({
+        stepper: { modelValue: 'other', ...stepper },
+        step: { name: 'second', ...step }
+      })
+
+      expect(wrapper.attributes('role')).toBeUndefined()
+      expect(wrapper.attributes('aria-disabled')).toBeUndefined()
+    })
+  })
 })

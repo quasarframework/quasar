@@ -52,7 +52,7 @@ If the QStep content also has images and you want to use swipe actions to naviga
 
 ### Accessibility <q-badge label="v2.25+" />
 
-The active step's header carries `aria-current="step"` so screen readers announce the user's position in the process, and each step's content renders as a `group` labeled with the step's `title`. Navigable headers (see the `header-nav` prop) are exposed as buttons. A `disable`d step is never navigable, so its header claims no role at all rather than announcing itself as a disabled button — assistive technology sees it as inert text, and only the visual styling sets it apart from a step that simply isn't clickable. Where that distinction matters, convey it in the step's `title`.
+The active step's header carries `aria-current="step"` so screen readers announce the user's position in the process, and each step's content renders as a `group` labeled with the step's `title`. Navigable headers (see the `header-nav` prop) are exposed as buttons. A `disable`d step stays part of that set: its header keeps the `button` role and announces itself as unavailable through `aria-disabled="true"`, while `tabindex="-1"` keeps it out of the tab order and neither click nor keyboard can activate it — the same shape [QBtn](/vue-components/button#accessibility) and [QChip](/vue-components/chip#accessibility) use for their disabled states. A step that opts out of header navigation (or a stepper without it) claims no role at all, since it is not a control in the first place.
 
 ### Header options
 

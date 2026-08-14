@@ -44,14 +44,19 @@ export default /*#__PURE__*/ createComponent({
       return !isDisable.value && (opt === true || opt === '')
     })
 
-    const headerNav = computed(() => {
+    // the stepper offers header navigation and this step does not opt out of
+    // it; a disabled step is part of that set too - it takes the button role
+    // and announces itself as unavailable rather than dropping to inert text
+    const isNavTarget = computed(() => {
       const opt = props.step.headerNav
       return (
-        !isDisable.value &&
-        props.stepper.headerNav &&
+        props.stepper.headerNav === true &&
         (opt === true || opt === '' || opt === void 0)
       )
     })
+
+    // ...but only an enabled one is actually operable
+    const headerNav = computed(() => !isDisable.value && isNavTarget.value)
 
     const hasPrefix = computed(
       () =>
@@ -151,18 +156,20 @@ export default /*#__PURE__*/ createComponent({
         'aria-current': isActive.value ? 'step' : void 0
       }
 
-      if (headerNav.value) {
-        data.onClick = onActivate
-        data.onKeydown = preventSpace
-        data.onKeyup = onKeyup
+      if (isNavTarget.value) {
         data.role = 'button'
 
-        Object.assign(
-          data,
-          isDisable.value
-            ? { tabindex: -1, 'aria-disabled': 'true' }
-            : { tabindex: attrs.tabindex || 0 }
-        )
+        if (isDisable.value) {
+          // perceivable as a disabled control, like QBtn and QChip, instead
+          // of losing the role and reaching AT as plain text
+          data.tabindex = -1
+          data['aria-disabled'] = 'true'
+        } else {
+          data.onClick = onActivate
+          data.onKeydown = preventSpace
+          data.onKeyup = onKeyup
+          data.tabindex = attrs.tabindex || 0
+        }
       }
 
       const child = [

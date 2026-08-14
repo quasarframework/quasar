@@ -60,9 +60,12 @@ describe('[QStep API]', () => {
         const header = getHeader(wrapper)
 
         expect(header.classes()).toContain('q-stepper__tab--disabled')
-        // header navigation is turned off altogether for a disabled step
+        // header navigation is turned off altogether for a disabled step,
+        // though the header keeps announcing itself as an unavailable button
         expect(header.classes()).not.toContain('q-stepper__tab--navigation')
-        expect(header.attributes('role')).toBeUndefined()
+        expect(header.attributes('role')).toBe('button')
+        expect(header.attributes('aria-disabled')).toBe('true')
+        expect(header.attributes('tabindex')).toBe('-1')
 
         await header.trigger('click')
 
