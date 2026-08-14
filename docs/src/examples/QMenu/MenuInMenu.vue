@@ -53,7 +53,12 @@
         style="min-width: 250px"
         class="bg-teal text-white rounded-borders"
       >
-        <div class="cursor-pointer non-selectable">
+        <div
+          class="cursor-pointer non-selectable"
+          role="button"
+          tabindex="0"
+          aria-haspopup="menu"
+        >
           File
           <q-menu>
             <q-list role="menu" dense style="min-width: 100px">
@@ -100,7 +105,11 @@
             </q-list>
           </q-menu>
         </div>
-        <div class="cursor-pointer non-selectable"
+        <div
+          class="cursor-pointer non-selectable"
+          role="button"
+          tabindex="0"
+          aria-haspopup="menu"
           >Edit
           <q-menu>
             <q-list role="menu" dense style="min-width: 100px">

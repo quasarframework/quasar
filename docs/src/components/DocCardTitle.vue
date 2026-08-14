@@ -1,9 +1,12 @@
 <template>
-  <h2
-    class="doc-card-title q-my-xs q-mr-sm cursor-pointer"
-    :id="id"
-    @click="onClick"
-    >{{ props.title }}</h2
+  <h2 class="doc-card-title q-my-xs q-mr-sm" :id="id"
+    ><a
+      class="doc-card-title__anchor"
+      :href="`#${id}`"
+      title="Copy anchor to clipboard"
+      @click.prevent="onClick"
+      >{{ props.title }}</a
+    ></h2
   >
 </template>
 

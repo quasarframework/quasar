@@ -15,23 +15,17 @@
       :href="entry.external ? entry.path : void 0"
       :target="entry.external ? '_blank' : void 0"
       :aria-haspopup="entry.children ? 'menu' : void 0"
-      :aria-expanded="
-        entry.children ? (openMenus[index] ? 'true' : 'false') : void 0
-      "
     >
       <DocHeaderMenu
         v-if="entry.children"
         :elements="entry.children"
         :mq-prefix="props.mqPrefix"
-        @show="openMenus[index] = true"
-        @hide="openMenus[index] = false"
       />
     </q-btn>
   </nav>
 </template>
 
 <script setup>
-import { ref } from 'vue'
 import { mdiMenuDown } from '@quasar/extras/mdi-v7'
 
 import DocHeaderMenu from './DocHeaderMenu.js'
@@ -42,6 +36,4 @@ const props = defineProps({
   navClass: String,
   ariaLabel: String
 })
-
-const openMenus = ref({})
 </script>

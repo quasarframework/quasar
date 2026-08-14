@@ -54,10 +54,14 @@
               dense
               round
               aria-label="Advanced search"
-              aria-haspopup="dialog"
               icon="arrow_drop_down"
             >
-              <q-menu anchor="bottom end" self="top end">
+              <q-menu
+                anchor="bottom end"
+                self="top end"
+                role="dialog"
+                aria-label="Advanced search"
+              >
                 <div class="q-pa-md" style="width: 400px">
                   <div class="text-body2 text-grey q-mb-md">
                     Narrow your search results

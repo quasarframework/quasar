@@ -7,7 +7,10 @@
 
     <div
       style="width: 200px; height: 70px"
-      class="bg-purple text-white rounded-borders row flex-center q-mt-md"
+      class="bg-purple text-white rounded-borders row flex-center q-mt-md cursor-pointer"
+      role="button"
+      tabindex="0"
+      aria-haspopup="menu"
     >
       Click me
 

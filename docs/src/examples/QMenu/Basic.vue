@@ -70,6 +70,9 @@
       <div
         class="inline bg-amber rounded-borders cursor-pointer"
         style="max-width: 300px"
+        role="button"
+        tabindex="0"
+        aria-haspopup="menu"
       >
         <div class="fit flex flex-center text-center non-selectable q-pa-md">
           I am groot!<br />(Click me! Using touch-position)

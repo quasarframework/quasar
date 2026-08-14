@@ -22,6 +22,7 @@
         src="https://cdn.quasar.dev/img/material.png"
         id="target-img-1"
         style="height: 100px"
+        v-bind="triggerAttrs('#target-img-1')"
       >
         <div class="absolute-bottom-right" style="border-top-left-radius: 5px"
           >#target-img-1</div
@@ -31,12 +32,17 @@
         src="https://cdn.quasar.dev/img/parallax2.jpg"
         id="target-img-2"
         style="height: 100px"
+        v-bind="triggerAttrs('#target-img-2')"
       >
         <div class="absolute-bottom-right" style="border-top-left-radius: 5px"
           >#target-img-2</div
         >
       </q-img>
-      <q-img src="https://cdn.quasar.dev/img/blueish.jpg" style="height: 100px">
+      <q-img
+        src="https://cdn.quasar.dev/img/blueish.jpg"
+        style="height: 100px"
+        v-bind="triggerAttrs(true)"
+      >
         <div class="absolute-bottom-right" style="border-top-left-radius: 5px"
           >Original parent</div
         >
@@ -56,4 +62,10 @@
 import { ref } from 'vue'
 
 const targetEl = ref('#target-img-1')
+
+function triggerAttrs(val) {
+  return targetEl.value === val
+    ? { role: 'button', tabindex: 0, 'aria-haspopup': 'menu' }
+    : {}
+}
 </script>
