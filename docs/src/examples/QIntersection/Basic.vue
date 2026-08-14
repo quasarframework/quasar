@@ -3,7 +3,7 @@
     <div class="row justify-center q-gutter-sm">
       <q-intersection v-for="index in 60" :key="index" class="example-item">
         <q-card flat bordered class="q-ma-sm">
-          <img alt="" src="https://cdn.quasar.dev/img/mountains.jpg" />
+          <img alt="Mountains" src="https://cdn.quasar.dev/img/mountains.jpg" />
 
           <q-card-section>
             <div class="text-h6">Card #{{ index }}</div>

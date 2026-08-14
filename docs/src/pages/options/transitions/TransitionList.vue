@@ -30,7 +30,7 @@
             class="transition-list-box__img absolute-full"
             :key="transition.name + '|' + transition.url"
             :src="transition.url"
-            alt=""
+            :alt="`${transition.name} transition preview`"
           />
         </transition>
 

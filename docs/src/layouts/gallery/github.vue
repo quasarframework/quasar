@@ -40,7 +40,7 @@
           <template v-slot:append>
             <img
               src="https://cdn.quasar.dev/img/layout-gallery/img-github-search-key-slash.svg"
-              alt=""
+              alt="Slash key"
             />
           </template>
 
@@ -142,7 +142,10 @@
 
           <q-btn dense flat no-wrap aria-label="Account" aria-haspopup="menu">
             <q-avatar rounded size="20px">
-              <img src="https://cdn.quasar.dev/img/avatar3.jpg" alt="" />
+              <img
+                src="https://cdn.quasar.dev/img/avatar3.jpg"
+                alt="User avatar"
+              />
             </q-avatar>
             <q-icon name="arrow_drop_down" size="16px" />
 

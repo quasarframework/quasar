@@ -59,7 +59,10 @@
       track-color="grey-3"
     >
       <q-avatar size="60px">
-        <img alt="" src="https://cdn.quasar.dev/logo-v2/svg/logo.svg" />
+        <img
+          alt="Quasar logo"
+          src="https://cdn.quasar.dev/logo-v2/svg/logo.svg"
+        />
       </q-avatar>
     </q-circular-progress>
   </div>

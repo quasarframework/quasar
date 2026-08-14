@@ -7,7 +7,10 @@
       </q-chip>
       <q-chip>
         <q-avatar>
-          <img alt="" src="https://cdn.quasar.dev/img/boy-avatar.png" />
+          <img
+            alt="User avatar"
+            src="https://cdn.quasar.dev/img/boy-avatar.png"
+          />
         </q-avatar>
         John
       </q-chip>
@@ -36,7 +39,7 @@
     <q-item clickable v-ripple>
       <q-item-section side>
         <q-avatar rounded size="48px">
-          <img alt="" src="https://cdn.quasar.dev/img/avatar.png" />
+          <img alt="User avatar" src="https://cdn.quasar.dev/img/avatar.png" />
           <q-badge floating color="teal">new</q-badge>
         </q-avatar>
       </q-item-section>

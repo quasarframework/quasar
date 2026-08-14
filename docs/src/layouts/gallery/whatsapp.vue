@@ -19,7 +19,10 @@
             tabindex="-1"
           >
             <q-avatar>
-              <img :src="currentConversation.avatar" alt="" />
+              <img
+                :src="currentConversation.avatar"
+                :alt="`${currentConversation.person} avatar`"
+              />
             </q-avatar>
           </q-btn>
 
@@ -74,7 +77,10 @@
       >
         <q-toolbar class="bg-grey-3">
           <q-avatar class="cursor-pointer">
-            <img src="https://cdn.quasar.dev/logo-v2/svg/logo.svg" alt="" />
+            <img
+              src="https://cdn.quasar.dev/logo-v2/svg/logo.svg"
+              alt="Quasar logo"
+            />
           </q-avatar>
 
           <q-space />
@@ -155,7 +161,10 @@
             >
               <q-item-section avatar>
                 <q-avatar>
-                  <img :src="conversation.avatar" alt="" />
+                  <img
+                    :src="conversation.avatar"
+                    :alt="`${conversation.person} avatar`"
+                  />
                 </q-avatar>
               </q-item-section>
 

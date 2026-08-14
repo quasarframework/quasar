@@ -40,7 +40,7 @@
         <template v-slot:append>
           <q-avatar>
             <img
-              alt=""
+              alt="Quasar logo"
               src="https://cdn.quasar.dev/logo-v2/svg/logo-dark.svg"
             />
           </q-avatar>

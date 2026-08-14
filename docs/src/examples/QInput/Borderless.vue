@@ -5,7 +5,7 @@
         <q-btn round dense flat icon="menu" class="q-mr-xs" />
         <q-avatar class="gt-xs">
           <img
-            alt=""
+            alt="Quasar logo"
             src="https://cdn.quasar.dev/logo-v2/svg/logo-mono-white.svg"
           />
         </q-avatar>

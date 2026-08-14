@@ -6,7 +6,10 @@
       <q-item clickable v-ripple>
         <q-item-section avatar>
           <q-avatar>
-            <img alt="" src="https://cdn.quasar.dev/img/avatar2.jpg" />
+            <img
+              alt="User avatar"
+              src="https://cdn.quasar.dev/img/avatar2.jpg"
+            />
           </q-avatar>
         </q-item-section>
 
@@ -27,7 +30,10 @@
       <q-item clickable v-ripple>
         <q-item-section avatar>
           <q-avatar>
-            <img alt="" src="https://cdn.quasar.dev/img/avatar4.jpg" />
+            <img
+              alt="User avatar"
+              src="https://cdn.quasar.dev/img/avatar4.jpg"
+            />
           </q-avatar>
         </q-item-section>
 

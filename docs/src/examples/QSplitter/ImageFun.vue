@@ -12,7 +12,7 @@
     >
       <template v-slot:before>
         <img
-          alt=""
+          alt="Landscape photo"
           src="https://cdn.quasar.dev/img/parallax1.jpg"
           :width="width"
           class="absolute-top-left"
@@ -21,7 +21,7 @@
 
       <template v-slot:after>
         <img
-          alt=""
+          alt="Landscape photo in black and white"
           src="https://cdn.quasar.dev/img/parallax1-bw.jpg"
           :width="width"
           class="absolute-top-right"

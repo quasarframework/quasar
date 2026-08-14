@@ -80,7 +80,10 @@
       <q-item>
         <q-item-section top avatar>
           <q-avatar>
-            <img alt="" src="https://cdn.quasar.dev/img/boy-avatar.png" />
+            <img
+              alt="User avatar"
+              src="https://cdn.quasar.dev/img/boy-avatar.png"
+            />
           </q-avatar>
         </q-item-section>
 
@@ -102,7 +105,10 @@
       <q-item>
         <q-item-section top avatar>
           <q-avatar rounded>
-            <img alt="" src="https://cdn.quasar.dev/img/boy-avatar.png" />
+            <img
+              alt="User avatar"
+              src="https://cdn.quasar.dev/img/boy-avatar.png"
+            />
           </q-avatar>
         </q-item-section>
 
@@ -123,7 +129,7 @@
 
       <q-item>
         <q-item-section top thumbnail class="q-ml-none">
-          <img alt="" src="https://cdn.quasar.dev/img/mountains.jpg" />
+          <img alt="Mountains" src="https://cdn.quasar.dev/img/mountains.jpg" />
         </q-item-section>
 
         <q-item-section>

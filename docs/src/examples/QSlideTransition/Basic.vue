@@ -5,7 +5,7 @@
     <q-slide-transition>
       <div v-show="visible">
         <img
-          alt=""
+          alt="Quasar"
           class="responsive"
           src="https://cdn.quasar.dev/img/quasar.jpg"
         />

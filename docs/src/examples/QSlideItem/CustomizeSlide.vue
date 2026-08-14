@@ -15,7 +15,7 @@
           <q-item-section avatar>
             <q-avatar>
               <img
-                alt=""
+                alt="User avatar"
                 src="https://cdn.quasar.dev/img/avatar6.jpg"
                 draggable="false"
               />

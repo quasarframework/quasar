@@ -9,7 +9,7 @@
     <p>Scroll Fire below. Reload page to see the bounce effect again.</p>
     <p class="text-center">
       <img
-        alt=""
+        alt="Quasar logo"
         v-scroll-fire="bounceImage"
         src="https://cdn.quasar.dev/logo-v2/svg/logo.svg"
         style="height: 100px; width: 100px"

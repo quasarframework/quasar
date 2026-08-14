@@ -13,7 +13,10 @@
       class="row no-wrap items-center q-mt-md q-pa-sm bg-grey-9 text-white rounded-borders"
     >
       <q-avatar>
-        <img alt="" src="https://cdn.quasar.dev/logo-v2/svg/logo-dark.svg" />
+        <img
+          alt="Quasar logo"
+          src="https://cdn.quasar.dev/logo-v2/svg/logo-dark.svg"
+        />
       </q-avatar>
 
       <q-space />

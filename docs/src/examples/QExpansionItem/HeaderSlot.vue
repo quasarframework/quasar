@@ -34,7 +34,10 @@
         <template v-slot:header="{ expanded }">
           <q-item-section avatar>
             <q-avatar>
-              <img alt="" src="https://cdn.quasar.dev/img/boy-avatar.png" />
+              <img
+                alt="User avatar"
+                src="https://cdn.quasar.dev/img/boy-avatar.png"
+              />
             </q-avatar>
           </q-item-section>
 

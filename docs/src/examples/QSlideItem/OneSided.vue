@@ -10,7 +10,7 @@
           <q-item-section avatar>
             <q-avatar>
               <img
-                alt=""
+                alt="User avatar"
                 src="https://cdn.quasar.dev/img/avatar2.jpg"
                 draggable="false"
               />
@@ -29,7 +29,7 @@
           <q-item-section avatar>
             <q-avatar>
               <img
-                alt=""
+                alt="User avatar"
                 src="https://cdn.quasar.dev/img/avatar3.jpg"
                 draggable="false"
               />
@@ -44,7 +44,7 @@
           <q-item-section avatar>
             <q-avatar>
               <img
-                alt=""
+                alt="User avatar"
                 src="https://cdn.quasar.dev/img/avatar5.jpg"
                 draggable="false"
               />

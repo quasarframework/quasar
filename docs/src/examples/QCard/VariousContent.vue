@@ -1,7 +1,10 @@
 <template>
   <div class="q-pa-md row items-start q-gutter-md">
     <q-card class="my-card" flat bordered>
-      <img alt="" src="https://cdn.quasar.dev/img/parallax2.jpg" />
+      <img
+        alt="Landscape photo"
+        src="https://cdn.quasar.dev/img/parallax2.jpg"
+      />
 
       <q-list>
         <q-item clickable>
@@ -42,7 +45,7 @@
     </q-card>
 
     <q-card class="my-card" flat bordered>
-      <img alt="" src="https://cdn.quasar.dev/img/mountains.jpg" />
+      <img alt="Mountains" src="https://cdn.quasar.dev/img/mountains.jpg" />
 
       <q-card-actions align="right">
         <q-btn flat round color="red" icon="favorite" />
@@ -60,7 +63,7 @@
         </div>
       </q-card-section>
 
-      <img alt="" src="https://cdn.quasar.dev/img/mountains.jpg" />
+      <img alt="Mountains" src="https://cdn.quasar.dev/img/mountains.jpg" />
     </q-card>
 
     <q-card class="my-card" flat bordered>

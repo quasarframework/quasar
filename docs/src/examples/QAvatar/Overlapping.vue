@@ -7,7 +7,10 @@
       class="overlapping"
       :style="`left: ${n * 25}px`"
     >
-      <img alt="" :src="`https://cdn.quasar.dev/img/avatar${n + 1}.jpg`" />
+      <img
+        alt="User avatar"
+        :src="`https://cdn.quasar.dev/img/avatar${n + 1}.jpg`"
+      />
     </q-avatar>
   </div>
 </template>

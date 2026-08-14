@@ -75,7 +75,7 @@
             <q-toolbar class="bg-accent text-white">
               <q-avatar>
                 <img
-                  alt=""
+                  alt="Quasar logo"
                   src="https://cdn.quasar.dev/logo-v2/svg/logo-mono-white.svg"
                 />
               </q-avatar>

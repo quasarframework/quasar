@@ -1,7 +1,7 @@
 <template>
   <div class="q-pa-md row items-start q-gutter-md">
     <q-card class="my-card">
-      <img alt="" src="https://cdn.quasar.dev/img/mountains.jpg" />
+      <img alt="Mountains" src="https://cdn.quasar.dev/img/mountains.jpg" />
 
       <q-card-section>
         <div class="text-h6">Our Changing Planet</div>
@@ -45,7 +45,10 @@
       <q-item>
         <q-item-section avatar>
           <q-avatar>
-            <img alt="" src="https://cdn.quasar.dev/img/avatar2.jpg" />
+            <img
+              alt="User avatar"
+              src="https://cdn.quasar.dev/img/avatar2.jpg"
+            />
           </q-avatar>
         </q-item-section>
 
@@ -55,7 +58,10 @@
         </q-item-section>
       </q-item>
 
-      <img alt="" src="https://cdn.quasar.dev/img/parallax2.jpg" />
+      <img
+        alt="Landscape photo"
+        src="https://cdn.quasar.dev/img/parallax2.jpg"
+      />
     </q-card>
 
     <q-card class="my-card">

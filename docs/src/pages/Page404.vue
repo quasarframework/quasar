@@ -7,8 +7,16 @@
         aria-label="404 - Page not found"
       >
         <div aria-hidden="true">4</div>
-        <img class="page404__logo-light" src="/logo/logo.svg" alt="" />
-        <img class="page404__logo-dark" src="/logo/logo-dark.svg" alt="" />
+        <img
+          class="page404__logo-light"
+          src="/logo/logo.svg"
+          alt="Quasar logo"
+        />
+        <img
+          class="page404__logo-dark"
+          src="/logo/logo-dark.svg"
+          alt="Quasar logo"
+        />
         <div aria-hidden="true">4</div>
       </h1>
       <div class="letter-spacing-225 q-mb-xl">

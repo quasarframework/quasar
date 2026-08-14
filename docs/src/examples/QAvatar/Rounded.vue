@@ -12,7 +12,7 @@
     />
     <q-avatar rounded size="24px" color="orange">J</q-avatar>
     <q-avatar rounded>
-      <img alt="" src="https://cdn.quasar.dev/img/avatar.png" />
+      <img alt="User avatar" src="https://cdn.quasar.dev/img/avatar.png" />
     </q-avatar>
   </div>
 </template>

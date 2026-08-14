@@ -22,7 +22,7 @@
 
         <q-toolbar-title>
           <q-avatar>
-            <img src="/logo/logo-mono-white.svg" alt="" />
+            <img src="/logo/logo-mono-white.svg" alt="Quasar logo" />
           </q-avatar>
           Layout Builder
         </q-toolbar-title>
@@ -487,7 +487,10 @@
       >
         <div class="absolute-bottom bg-transparent">
           <q-avatar size="56px" class="q-mb-sm">
-            <img src="https://cdn.quasar.dev/img/boy-avatar.png" alt="" />
+            <img
+              src="https://cdn.quasar.dev/img/boy-avatar.png"
+              alt="User avatar"
+            />
           </q-avatar>
           <div class="text-weight-bold">Razvan Stoenescu</div>
           <div>@rstoenescu</div>
@@ -650,7 +653,7 @@ const layoutExport = computed(() => {
           }
         <q-toolbar-title>
           <q-avatar>
-            <img alt="" src="/logo/logo-mono-white.svg">
+            <img alt="Quasar logo" src="/logo/logo-mono-white.svg">
           </q-avatar>
           Title
         </q-toolbar-title>${
@@ -703,7 +706,7 @@ const layoutExport = computed(() => {
       <q-toolbar>
         <q-toolbar-title>
           <q-avatar>
-            <img alt="" src="/logo/logo-mono-white.svg">
+            <img alt="Quasar logo" src="/logo/logo-mono-white.svg">
           </q-avatar>
           <div>Title</div>
         </q-toolbar-title>

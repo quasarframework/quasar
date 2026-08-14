@@ -94,7 +94,10 @@
           </q-btn>
           <q-btn round flat aria-label="Account" tabindex="-1">
             <q-avatar size="26px">
-              <img src="https://cdn.quasar.dev/img/boy-avatar.png" alt="" />
+              <img
+                src="https://cdn.quasar.dev/img/boy-avatar.png"
+                alt="User avatar"
+              />
             </q-avatar>
             <q-tooltip>Account</q-tooltip>
           </q-btn>

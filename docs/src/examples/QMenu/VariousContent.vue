@@ -13,7 +13,10 @@
 
           <div class="column items-center">
             <q-avatar size="72px">
-              <img alt="" src="https://cdn.quasar.dev/img/avatar4.jpg" />
+              <img
+                alt="User avatar"
+                src="https://cdn.quasar.dev/img/avatar4.jpg"
+              />
             </q-avatar>
 
             <div class="text-subtitle1 q-mt-md q-mb-xs">John Doe</div>

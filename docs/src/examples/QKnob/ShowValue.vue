@@ -60,7 +60,7 @@
     >
       <q-avatar size="60px">
         <img
-          alt=""
+          alt="Quasar logo"
           draggable="false"
           src="https://cdn.quasar.dev/logo-v2/svg/logo.svg"
         />

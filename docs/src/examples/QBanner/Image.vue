@@ -3,7 +3,7 @@
     <q-banner rounded :class="$q.dark.isActive ? 'bg-grey-9' : 'bg-grey-2'">
       <template v-slot:avatar>
         <img
-          alt=""
+          alt="Mountains"
           src="https://cdn.quasar.dev/img/mountains.jpg"
           style="width: 100px; height: 64px"
         />
