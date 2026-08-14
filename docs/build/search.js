@@ -88,6 +88,18 @@ const addItem = (entries, item) => {
   )
 }
 
+// a hand-written tag's attributes are layout, and they were reaching the
+// index as prose (an <img> contributed its src and style). Only a tag
+// holding a quoted attribute value is removed, which is what separates
+// markup from the angle brackets these pages legitimately talk about:
+// Promise<void | RolldownOptions>, <T = any>, a placeholder such as
+// <ext-id>, or a sentence naming a <script> tag. Runs on text nodes
+// rather than on the joined result so a code span keeps its own.
+const stripHtmlTags = str =>
+  str
+    .replaceAll(/<br\s*\/?>/g, '\n')
+    .replaceAll(/<\/?[a-zA-Z][a-zA-Z0-9-]*\s[^<>]*=\s*["'][^<>]*>/g, '')
+
 const processNode = (node, prefix = '') => {
   const text = []
   let type = 'page-content'
@@ -120,12 +132,8 @@ const processNode = (node, prefix = '') => {
     text.push('')
   } else if (node.type === 'codeSpan') {
     text.push(prefix + node.code)
-  } else if (
-    node.type === 'text' ||
-    node.type === 'break' ||
-    node.type === 'codeSpan'
-  ) {
-    text.push(prefix + node.text)
+  } else if (node.type === 'text' || node.type === 'break') {
+    text.push(prefix + stripHtmlTags(node.text))
   } else if (node.type === 'linkDef') {
     // do nothing
   } else {
@@ -147,6 +155,9 @@ const processMarkdown = (syntaxTree, entries, entry) => {
       const text = contents
         .join(joiner)
         // .replace(/\n/g, ' ')
+        // a tag holding markdown (e.g. <DocExample title="a-[b] slot" />)
+        // is split across nodes, so it only becomes strippable once the
+        // pieces are joined back together
         .replaceAll(/<[^>]*\/>/g, '') // remove self-closing tags
         .replaceAll('<br>', '\n')
         .replaceAll('|', '')
