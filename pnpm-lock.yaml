@@ -332,9 +332,6 @@ importers:
       gray-matter:
         specifier: ^4.0.3
         version: 4.0.3
-      markdown-ast:
-        specifier: ^0.3.0
-        version: 0.3.0
       markdown-it:
         specifier: ^15.0.0
         version: 15.0.0
@@ -4508,9 +4505,6 @@ packages:
 
   magic-string@0.30.21:
     resolution: {integrity: sha512-vd2F4YUyEXKGcLHoq+TEyCjxueSeHnFxyyjNp80yg0XV4vUhnDer/lvvlqM/arB5bXQN5K2/3oinyCRyx8T2CQ==}
-
-  markdown-ast@0.3.0:
-    resolution: {integrity: sha512-tFydZe/NV56f2LdKr49zElVKnOt/sH8G1rQ0wl8+Xtylv0mbh9g20tUK9Ln5CvTOajeJdaK5oWcZosUBJRBEcg==}
 
   markdown-it-container@4.0.0:
     resolution: {integrity: sha512-HaNccxUH0l7BNGYbFbjmGpf5aLHAMTinqRZQAEQbMr2cdD3z91Q6kIo1oUn1CQndkT03jat6ckrdRYuwwqLlQw==}
@@ -10957,8 +10951,6 @@ snapshots:
   magic-string@0.30.21:
     dependencies:
       '@jridgewell/sourcemap-codec': 1.5.5
-
-  markdown-ast@0.3.0: {}
 
   markdown-it-container@4.0.0: {}
 

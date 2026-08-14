@@ -29,6 +29,18 @@ test('generates the search index over every page', { timeout: 120_000 }, () => {
   }
 })
 
+test('leaves fenced code out of the index', () => {
+  const entries = JSON.parse(
+    readFileSync(join(docsDir, 'dist/indices.json'), 'utf8')
+  )
+
+  // the pages fence code as ```lang, often with a title after it. Both
+  // forms are code the site renders as such, so neither may reach the
+  // index as prose - nor may a comment inside one pass for a heading
+  const fenced = entries.filter(entry => entry.content?.includes('```'))
+  expect(fenced).toEqual([])
+})
+
 test('leads to the page itself when it renders no title heading', () => {
   const entries = JSON.parse(
     readFileSync(join(docsDir, 'dist/indices.json'), 'utf8')
