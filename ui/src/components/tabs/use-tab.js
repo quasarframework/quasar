@@ -200,11 +200,12 @@ export default function useTab(props, slots, emit, routeData) {
     if (isKeyCode(e, [13, 32])) {
       onClick(e, true)
     } else if (
-      !shouldIgnoreKey(e) &&
       e.keyCode >= 35 &&
       e.keyCode <= 40 &&
       !e.altKey &&
       !e.metaKey &&
+      !shouldIgnoreKey(e) &&
+      // keep last: it navigates
       $tabs.onKbdNavigate(e.keyCode, proxy.$el)
     ) {
       stopAndPrevent(e)
