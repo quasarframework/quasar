@@ -13,7 +13,7 @@ function parseContent(str) {
   const title = String(str).replace(titleRE, '').trim()
 
   return {
-    id: slugify(title),
+    id: slugify(str),
     title
   }
 }

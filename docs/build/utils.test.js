@@ -11,6 +11,18 @@ test('slugify turns headings into anchor ids', () => {
   )
 })
 
+test('slugify drops the markup a title carries', () => {
+  // the badge leaves a gap behind it that must not become a dash, or the
+  // search index would point at an anchor no page renders
+  expect(slugify('Using an Ajax filter <q-badge label="v2.4.5+" />')).toBe(
+    'using-an-ajax-filter'
+  )
+  expect(slugify('Keyboard dismissal <q-badge label="v2.25+" />')).toBe(
+    'keyboard-dismissal'
+  )
+  expect(slugify('  padded  ')).toBe('padded')
+})
+
 test('capitalize uppercases the first character only', () => {
   expect(capitalize('quasar')).toBe('Quasar')
   expect(capitalize('already Capitalized')).toBe('Already Capitalized')
