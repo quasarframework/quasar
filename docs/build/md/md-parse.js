@@ -47,7 +47,15 @@ export function applyHtmlContentControl(source) {
     .replace(LLM_EXCLUDE_CLOSE_RE, '')
 }
 
-export default function mdParse(code, id, isProd) {
+/**
+ * @param {string} code the page source
+ * @param {string} id the module id
+ * @param {boolean} isProd
+ * @param {boolean} reportIdIssues false when the caller only wants the
+ *   compiled page and not a second round of the same console lines - the HMR
+ *   hook parses a page purely to be diffed against
+ */
+export default function mdParse(code, id, isProd, reportIdIssues = true) {
   const cleanedCode = applyHtmlContentControl(code)
   const { data: frontMatter, content } = parseFrontMatter(cleanedCode)
 
@@ -125,7 +133,7 @@ export default function mdParse(code, id, isProd) {
   // moment the page's whole id namespace exists. The terminal hears about it
   // now; getVueComponent puts the same lines on the page itself in dev.
   const idIssues = formatPageIdIssues(mdRenderedContent, frontMatter)
-  reportPageIdIssues(idIssues, id)
+  if (reportIdIssues) reportPageIdIssues(idIssues, id)
 
   if (frontMatter.editLink !== false) {
     frontMatter.editLink = id.slice(id.indexOf('src/pages/') + 10, -3)
