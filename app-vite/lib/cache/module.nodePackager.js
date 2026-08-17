@@ -157,7 +157,7 @@ class Yarn extends PackageManager {
 // packages did get installed. Our installs happen in the middle of a longer
 // flow (App Extension install/uninstall, mode add, ...) which must not be
 // aborted half-way for something the user resolves with "pnpm approve-builds"
-// on their own time — their own installs keep enforcing whatever they configured.
+// on their own time -- their own installs keep enforcing whatever they configured.
 // Unknown "--config.<key>" params are accepted by any pnpm version.
 const pnpmIgnoredBuildsParam = '--config.strict-dep-builds=false'
 

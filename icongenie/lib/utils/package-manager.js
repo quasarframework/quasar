@@ -157,7 +157,7 @@ class Yarn extends PackageManager {
 
 // pnpm >= 11 exits with an error when any dependency in the tree has a build
 // script that was not approved (pnpm 10 only warned about it), even though the
-// packages did get installed — which would have us report "Failed to install"
+// packages did get installed -- which would have us report "Failed to install"
 // for a package that is in fact there. The user resolves the ignored builds
 // with "pnpm approve-builds" on their own time; their own installs keep
 // enforcing whatever they configured. It is a no-op next to

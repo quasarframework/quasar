@@ -278,7 +278,7 @@ class Yarn extends PackageManager {
 // pnpm >= 11 exits with an error when any dependency in the tree has a build
 // script that was not approved (pnpm 10 only warned about it), even though the
 // packages did get installed. "quasar upgrade" must not abort over that, with
-// the package.json versions already bumped but nothing installed to match —
+// the package.json versions already bumped but nothing installed to match --
 // the user resolves it with "pnpm approve-builds" on their own time, and their
 // own installs keep enforcing whatever they configured.
 // Unknown "--config.<key>" params are accepted by any pnpm version.
