@@ -105,6 +105,7 @@
     "vue/next-tick-style": ["error", "callback"],
     "unicorn/max-nested-calls": "off",
     "vue/require-default-prop": "off",
+    "one-var": "off",
 
     /** Performance rule overrides */
     "no-await-in-loop": "off",
