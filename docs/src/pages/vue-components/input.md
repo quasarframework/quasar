@@ -178,7 +178,7 @@ Below are the default mask tokens. To add your own, see the next section.
 
 There are **helpers** for QInput `mask` prop: [full list](https://github.com/quasarframework/quasar/blob/dev/ui/src/components/input/use-mask.js#L6). You can use these for convenience (examples: "phone", "card") or write the string specifying your custom needs.
 
-<DocExample title="Basic" file="MaskBasic" />
+<DocExample title="Basic Mask" file="MaskBasic" />
 
 <DocExample title="Filling the mask" file="MaskFill" />
 
@@ -311,7 +311,7 @@ You can reset the validation by calling `resetValidation()` method on the QInput
 
 There are **helpers** for QInput `rules` prop: [full list](https://github.com/quasarframework/quasar/blob/dev/ui/src/utils/patterns/patterns.js). You can use these for convenience (examples: "date", "time", "hexColor", "rgbOrRgbaColor", "anyColor") or write the string specifying your custom needs.
 
-<DocExample title="Basic" file="ValidationRequired" />
+<DocExample title="Validation required" file="ValidationRequired" />
 
 <DocExample title="Maximum length" file="ValidationMaxLength" />
 

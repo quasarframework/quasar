@@ -32,12 +32,21 @@ function parseToc(toc) {
   return JSON.stringify(list)
 }
 
+/**
+ * A page's id collisions travel with the page in dev, so the author reading
+ * it is told by the thing they are looking at rather than by the terminal
+ * the dev server writes to. Never in a production build: the prop is not
+ * emitted, so neither the banner nor the strings reach the bundle.
+ */
 export function getVueComponent({
   isProd,
   frontMatter,
+  idIssues = [],
   mdContent,
   pageScripts
 }) {
+  const showIdIssues = isProd !== true && idIssues.length !== 0
+
   return `<template>
   <DocPage
     title="${frontMatter.title}"
@@ -48,7 +57,8 @@ export function getVueComponent({
     ${frontMatter.editLink !== false ? `edit-link="${frontMatter.editLink}"` : ''}
     ${frontMatter.toc.length !== 0 ? ':toc="toc"' : ''}
     ${frontMatter.related !== void 0 ? ':related="related"' : ''}
-    ${frontMatter.nav !== void 0 ? ':nav="nav"' : ''}>${mdContent}</DocPage>
+    ${frontMatter.nav !== void 0 ? ':nav="nav"' : ''}
+    ${showIdIssues ? ':id-issues="idIssues"' : ''}>${mdContent}</DocPage>
 </template>
 <script setup>
 import { copyHeading } from '@/assets/page-utils'
@@ -75,6 +85,7 @@ ${frontMatter.related !== void 0 ? `const related = ${JSON.stringify(frontMatter
 ${frontMatter.nav !== void 0 ? `const nav = ${JSON.stringify(frontMatter.nav)}` : ''}
 ${frontMatter.toc.length !== 0 ? `const toc = ${parseToc(frontMatter.toc)}` : ''}
 ${frontMatter.scope !== void 0 ? `const scope = ${JSON.stringify(frontMatter.scope)}` : ''}
+${showIdIssues ? `const idIssues = ${JSON.stringify(idIssues)}` : ''}
 ${pageScripts}
 </script>`
 }

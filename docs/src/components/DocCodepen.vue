@@ -44,7 +44,9 @@ const replace = name => (_, p1) => {
   return text.join('\n')
 }
 
-const props = defineProps({ title: String })
+// `prefix` is DocExample's, the same one it hands DocCardTitle: the pen's
+// "Forked from" line has to point at the anchor that title actually renders
+const props = defineProps({ title: String, prefix: String })
 
 const active = ref(false)
 const formRef = useTemplateRef('formRef')
@@ -220,7 +222,9 @@ const computedTitle = computed(
     `Quasar v${Quasar.version}`
 )
 
-const slugifiedTitle = computed(() => 'example--' + slugify(props.title))
+const slugifiedTitle = computed(
+  () => (props.prefix || '') + slugify(props.title)
+)
 
 const options = computed(() => {
   const data = {

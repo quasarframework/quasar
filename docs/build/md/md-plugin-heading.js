@@ -36,6 +36,19 @@ export default function mdPluginHeading(md) {
     token.attrSet('class', `doc-heading doc-${token.tag}`)
     token.attrSet('@click', `copyHeading(\`${id}\`)`)
 
+    // Where this heading was written, for whoever has to find it again: the
+    // rendered HTML keeps the id but loses both the line and the words the
+    // id was slugified from, and the token is the last place to hold them.
+    // `map` counts from 0 and from the end of the front matter, which
+    // mdParse measures into lineOffset.
+    if (token.map !== null) {
+      ;(md.$frontMatter.headingSources ??= []).push({
+        id,
+        text: title,
+        line: token.map[0] + 1 + (md.$frontMatter.lineOffset ?? 0)
+      })
+    }
+
     if (token.tag === 'h2') {
       md.$frontMatter.toc.push({ id, title })
     } else if (token.tag === 'h3') {

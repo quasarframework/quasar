@@ -15,7 +15,7 @@ OTA updates must comply with the rules of every target store and must not replac
 
 [Capgo](https://capgo.app/) provides the open-source `@capgo/capacitor-updater` plugin. It supports both a free self-hosted workflow and a managed cloud service.
 
-### Installation
+### Capgo Installation
 
 Navigate to the Capacitor project directory and install the plugin:
 
@@ -40,7 +40,7 @@ Then synchronize the native projects:
 npx cap sync
 ```
 
-### Configuration
+### Capgo Configuration
 
 For a self-hosted manual update flow, disable automatic updates in your `capacitor.config` file. This keeps the update decision in your application code while you host the update bundle and metadata on your own infrastructure.
 
@@ -62,7 +62,7 @@ After configuring the plugin, synchronize the Capacitor project again:
 npx cap sync
 ```
 
-### Usage
+### Capgo Usage
 
 Call [`notifyAppReady()`](https://capgo.app/docs/plugins/updater/api/#notifyappready) after the application has loaded successfully. This confirms that the current bundle works and prevents an unnecessary rollback.
 
@@ -102,7 +102,7 @@ The downloaded bundle will be used on the next application start. To apply it im
 await CapacitorUpdater.reload()
 ```
 
-### Publishing updates
+### Capgo Publishing updates
 
 Return to the Quasar project root and create the Capacitor web bundle:
 
@@ -134,7 +134,7 @@ If you do not want to maintain the update API, storage, channels, rollbacks, and
 
 [Capawesome Live Update](https://capawesome.io/plugins/live-update/) provides a managed update workflow through Capawesome Cloud.
 
-### Installation
+### Capawesome Installation
 
 To enable Live Updates in your Quasar Capacitor app, you need to install the `@capawesome/capacitor-live-update` plugin. First, navigate to your Capacitor project directory:
 
@@ -161,7 +161,7 @@ After that, you need to sync the changes with your native projects:
 npx cap sync
 ```
 
-### Configuration
+### Capawesome Configuration
 
 Next, you need to configure the plugin to work with [Capawesome Cloud](https://cloud.capawesome.io/).
 
@@ -189,7 +189,7 @@ After configuring the App ID, sync your Capacitor project again:
 npx cap sync
 ```
 
-### Usage
+### Capawesome Usage
 
 The most basic usage of the Live Update plugin is to call the [`sync(...)`](https://capawesome.io/plugins/live-update/#sync) method when the app starts. This method checks for updates, downloads them if available, and sets them as the next bundle to be applied. You can then call the [`reload()`](https://capawesome.io/plugins/live-update/#reload) method to apply the update immediately. If the [`reload()`](https://capawesome.io/plugins/live-update/#reload) method is not called, the new bundle will be used on the next app start.
 
@@ -204,7 +204,7 @@ const sync = async () => {
 }
 ```
 
-### Publishing updates
+### Capawesome Publishing updates
 
 To publish your first update, you need to [create a bundle](https://capawesome.io/cloud/live-updates/bundles/#create-a-bundle) on Capawesome Cloud. For this, you need a bundle artifact. A bundle artifact is the build output of your web app. In Quasar, this is the `src-capacitor/www` folder. You can create a bundle artifact by running the following command:
 

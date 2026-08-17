@@ -1,7 +1,7 @@
 <template>
   <q-card class="doc-example q-my-lg" flat bordered>
     <div class="header-toolbar row items-center q-pr-sm">
-      <DocCardTitle :title="props.title" prefix="example--" />
+      <DocCardTitle :title="props.title" :prefix="titlePrefix" />
 
       <q-space />
 
@@ -103,7 +103,12 @@
       </div>
     </q-slide-transition>
 
-    <DocCodepen v-if="component" ref="codepenRef" :title="props.title" />
+    <DocCodepen
+      v-if="component"
+      ref="codepenRef"
+      :title="props.title"
+      :prefix="titlePrefix"
+    />
 
     <q-separator />
 
@@ -155,6 +160,7 @@ const source = ref({
   parts: {}
 })
 
+const titlePrefix = computed(() => `example--${props.file.toLowerCase()}--`)
 const sourceId = computed(() => `example-src--${slugify(props.file || '')}`)
 
 const componentClass = computed(() =>

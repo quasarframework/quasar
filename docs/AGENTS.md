@@ -9,6 +9,15 @@ Quasar app itself (`quasar prepare` applies).
   `build/ai-docs/test-helpers.js`); `pnpm test:unit` runs them — do so
   for any `build/` change. Menu/related-link integrity lives in
   `src/assets/menu.test.js` and `build/md/flat-menu.test.js`.
+- A page's DOM ids come from the markdown AND from the layout/components
+  it embeds (DocPage's h1, DocCardTitle via DocApi/DocExample,
+  DocInstall). `build/md/page-ids.js` assembles that whole namespace at
+  the md stage — the only place their collisions are visible — and
+  `mdParse` calls it per page: the terminal gets `[page-ids] ERROR` and
+  the page itself gets a banner above its title (DocPage's `idIssues`
+  prop, dev builds only — `getVueComponent` omits it when `isProd`).
+  Extend its source list when a component starts emitting an id;
+  `page-ids.test.js` sweeps every page with it.
 - `pnpm test` = `test:unit`, then `test:e2e:ssr` and `test:build`
   SEQUENTIALLY (`test/suites.js` — a build must never overlap the dev
   server: they share `.quasar`/`.q-cache`). `test:build` self-heals

@@ -90,8 +90,8 @@
 </template>
 
 <script setup>
-import { useMeta } from 'quasar'
-import { computed } from 'vue'
+import { Notify, useMeta } from 'quasar'
+import { computed, onMounted, onUnmounted } from 'vue'
 
 import { mdiFlash, mdiLaunch, mdiPencil } from '@quasar/extras/mdi-v7'
 
@@ -112,8 +112,58 @@ const props = defineProps({
 
   toc: Array,
   related: Array,
-  nav: Array
+  nav: Array,
+
+  // dev only, from the markdown pipeline - see the reporting below
+  idIssues: Array
 })
+
+/**
+ * The ids this page renders twice. Nothing is drawn into the page for them:
+ * the article has to stay the one production serves, or every sweep reading
+ * it in dev - axe, the SSR hydration run, a screenshot - is reading markup no
+ * reader will ever get. So the list goes to the console, and one toast points
+ * at the console, from outside the article.
+ *
+ * The prop only exists in a dev build, and this whole block goes with it.
+ */
+if (import.meta.env.QUASAR_DEV) {
+  let dismiss = null
+
+  onMounted(() => {
+    if (props.idIssues === void 0) return
+
+    // same tag and same shape as the dev server's terminal lines, with the
+    // route standing in for the file, so one grep finds either
+    for (const issue of props.idIssues) {
+      console.error(`[page-ids] ${location.pathname} - ${issue}`)
+    }
+
+    const count = props.idIssues.length
+
+    dismiss = Notify.create({
+      message: `${count} colliding DOM id${count === 1 ? '' : 's'} on this page`,
+      caption:
+        'Anchors, search results and the browser hash for the second one all' +
+        ' land on the first. The list is in the console.',
+      multiline: true,
+      color: 'negative',
+      position: 'bottom-right',
+      timeout: 0,
+      // this component owns the toast for as long as the page is on screen,
+      // so grouping is not what keeps it to one - unmounting is
+      group: false,
+      actions: [{ label: 'Dismiss', color: 'white' }]
+    })
+  })
+
+  // leaving the page, or saving it and having it reload, takes the toast with
+  // it: the next mount is what puts up the next one
+  onUnmounted(() => {
+    dismiss?.()
+    dismiss = null
+  })
+}
 
 useMeta(
   props.desc !== void 0

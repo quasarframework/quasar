@@ -30,7 +30,7 @@ Do not use it on Quasar components that already have a `ratio` property, like QI
 
 Note below that we are using a vertical alignment (`items-start`) other than the default (`stretch`), so that flexbox won't force the height on each QResponsive component.
 
-<DocExample title="Basic usage" file="FlexRow" />
+<DocExample title="Flex row" file="FlexRow" />
 
 ### On some components
 
@@ -50,7 +50,7 @@ Notice that we will not supply a `height` prop to QCarousel when we use QRespons
 
 Apply the max height (or max width, etc etc) directly on the QResponsive component through a CSS class or inline. Remember that it is still your responsibility to ensure that the content won't overflow the container.
 
-<DocExample title="On QCard" file="MaxHeight" />
+<DocExample title="Max height" file="MaxHeight" />
 
 ## Accessibility <q-badge label="v2.25+" />
 

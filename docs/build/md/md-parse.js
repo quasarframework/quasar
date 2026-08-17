@@ -1,6 +1,7 @@
 import md from './md.js'
 import { convertToRelated, flatMenu } from './flat-menu.js'
 import { getVueComponent, parseFrontMatter } from './md-parse-utils.js'
+import { formatPageIdIssues, reportPageIdIssues } from './page-ids.js'
 
 const docApiRE = /<DocApi /
 const docInstallationRE = /<DocInstall /
@@ -32,12 +33,14 @@ function splitRenderedContent(mdPageContent) {
  * content (the wrapper means "exclude from AI export, keep on live site").
  *
  * Applied at the entry of mdParse so the markdown-it tokenizer and the
- * downstream Vue template never see the marker tags.
+ * downstream Vue template never see the marker tags. Exported so that
+ * anything rendering a page outside this module (page-ids.test.js sweeps
+ * every one of them) starts from the same source the site is built from.
  *
  * @param {string} source raw page source (including frontmatter)
  * @returns {string} source with llm-* markers normalized for the HTML pipeline
  */
-function applyHtmlContentControl(source) {
+export function applyHtmlContentControl(source) {
   return source
     .replace(LLM_ONLY_RE, '')
     .replace(LLM_EXCLUDE_OPEN_RE, '')
@@ -59,6 +62,14 @@ export default function mdParse(code, id, isProd) {
 
   frontMatter.toc = []
   frontMatter.pageScripts = new Set()
+
+  // markdown-it counts the body's lines from the end of the front matter,
+  // which is not where the author's editor counts from
+  const contentAt = cleanedCode.indexOf(content)
+  frontMatter.lineOffset =
+    contentAt === -1
+      ? 0
+      : cleanedCode.slice(0, contentAt).split('\n').length - 1
 
   frontMatter.pageScripts.add(
     "import DocPage from '@/layouts/doc-layout/DocPage.vue'"
@@ -110,6 +121,12 @@ export default function mdParse(code, id, isProd) {
 
   const mdRenderedContent = md.render(content)
 
+  // the TOC is collected during the render above, so this is the first
+  // moment the page's whole id namespace exists. The terminal hears about it
+  // now; getVueComponent puts the same lines on the page itself in dev.
+  const idIssues = formatPageIdIssues(mdRenderedContent, frontMatter)
+  reportPageIdIssues(idIssues, id)
+
   if (frontMatter.editLink !== false) {
     frontMatter.editLink = id.slice(id.indexOf('src/pages/') + 10, -3)
   }
@@ -121,6 +138,7 @@ export default function mdParse(code, id, isProd) {
   return getVueComponent({
     isProd,
     frontMatter,
+    idIssues,
     mdContent,
     pageScripts: [...frontMatter.pageScripts, ...userScripts].join('\n')
   })
