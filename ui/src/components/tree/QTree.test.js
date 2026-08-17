@@ -1201,6 +1201,20 @@ describe('[QTree API]', () => {
       })
     })
 
+    describe('[(method)getParentNode]', () => {
+      test('should be callable', () => {
+        const wrapper = mountTree()
+
+        expect(wrapper.vm.getParentNode('banana')).toBe(
+          wrapper.vm.getNodeByKey('fruits')
+        )
+
+        // a root node has no parent, nor has a key outside of the model
+        expect(wrapper.vm.getParentNode('fruits')).toBeUndefined()
+        expect(wrapper.vm.getParentNode('nowhere')).toBeUndefined()
+      })
+    })
+
     describe('[(method)getTickedNodes]', () => {
       test('should be callable', () => {
         const wrapper = mountTree({
@@ -1212,6 +1226,37 @@ describe('[QTree API]', () => {
           { id: 'banana', label: 'Banana' },
           { id: 'bread', label: 'Bread' }
         ])
+      })
+    })
+
+    describe('[(method)getIndeterminateNodes]', () => {
+      test('should be callable', async () => {
+        const wrapper = mountTree({ tickStrategy: 'leaf' })
+
+        expect(wrapper.vm.getIndeterminateNodes()).toStrictEqual([])
+
+        wrapper.vm.setTicked(['apple'], true)
+        await nextTick()
+
+        // "Fruits" now has one of its two leaves ticked
+        expect(
+          wrapper.vm.getIndeterminateNodes().map(node => node.id)
+        ).toStrictEqual(['fruits'])
+
+        wrapper.vm.setTicked(['banana'], true)
+        await nextTick()
+
+        // ...and now it is fully ticked, so no longer partially so
+        expect(wrapper.vm.getIndeterminateNodes()).toStrictEqual([])
+      })
+
+      test('should be empty for the strict strategy', () => {
+        const wrapper = mountTree({
+          tickStrategy: 'strict',
+          ticked: ['apple']
+        })
+
+        expect(wrapper.vm.getIndeterminateNodes()).toStrictEqual([])
       })
     })
 
@@ -1288,6 +1333,27 @@ describe('[QTree API]', () => {
         await nextTick()
 
         expect(wrapper.vm.isTicked('bread')).toBe(true)
+      })
+    })
+
+    describe('[(method)isIndeterminate]', () => {
+      test('should be callable', async () => {
+        const wrapper = mountTree({ tickStrategy: 'leaf' })
+
+        expect(wrapper.vm.isIndeterminate('fruits')).toBe(false)
+
+        wrapper.vm.setTicked(['apple'], true)
+        await nextTick()
+
+        expect(wrapper.vm.isIndeterminate('fruits')).toBe(true)
+        // a leaf is either ticked or not; it is never partially ticked
+        expect(wrapper.vm.isIndeterminate('apple')).toBe(false)
+
+        wrapper.vm.setTicked(['banana'], true)
+        await nextTick()
+
+        expect(wrapper.vm.isIndeterminate('fruits')).toBe(false)
+        expect(wrapper.vm.isTicked('fruits')).toBe(true)
       })
     })
 

@@ -571,6 +571,23 @@
       }
     },
 
+    "getParentNode": {
+      "desc": "Get the parent of the node with the given key",
+      "params": {
+        "key": {
+          "type": "Any",
+          "required": true,
+          "desc": "The key of a node",
+          "examples": ["'Node 1'"]
+        }
+      },
+      "returns": {
+        "type": "Object",
+        "desc": "The parent node, or 'undefined' if the node is a root one or the key is not in the nodes model"
+      },
+      "addedIn": "v2.25"
+    },
+
     "getTickedNodes": {
       "desc": "Get array of nodes that are ticked",
       "params": null,
@@ -578,6 +595,16 @@
         "type": "Array",
         "desc": "Ticked node objects"
       }
+    },
+
+    "getIndeterminateNodes": {
+      "desc": "Get array of nodes that are partially ticked (some, but not all, of their tickable children are ticked); Always empty unless the 'leaf' or 'leaf-filtered' tick strategy is used",
+      "params": null,
+      "returns": {
+        "type": "Array",
+        "desc": "Partially ticked node objects, in the order of the nodes model"
+      },
+      "addedIn": "v2.25"
     },
 
     "getExpandedNodes": {
@@ -649,6 +676,23 @@
         "type": "Boolean",
         "desc": "Is specified node ticked?"
       }
+    },
+
+    "isIndeterminate": {
+      "desc": "Method to check if a node's checkbox is partially ticked (some, but not all, of its tickable children are ticked); Always 'false' unless the 'leaf' or 'leaf-filtered' tick strategy is used",
+      "params": {
+        "key": {
+          "type": "Any",
+          "required": true,
+          "desc": "The key of a node",
+          "examples": ["'Node 1'"]
+        }
+      },
+      "returns": {
+        "type": "Boolean",
+        "desc": "Is specified node partially ticked?"
+      },
+      "addedIn": "v2.25"
     },
 
     "setTicked": {

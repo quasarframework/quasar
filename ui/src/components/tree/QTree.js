@@ -917,8 +917,39 @@ export default /*#__PURE__*/ createComponent({
       return find(null, props.nodes)
     }
 
+    function getParentNode(key) {
+      const { map } = structure.value,
+        rec = map.get(key)
+
+      return rec !== void 0 && rec.parentKey !== null
+        ? map.get(rec.parentKey).node
+        : void 0
+    }
+
     function getTickedNodes() {
       return innerTicked.value.map(key => getNodeByKey(key))
+    }
+
+    // only the leaf strategies aggregate a parent's state from its
+    // children, so only their parents can ever be indeterminate; gating on
+    // that keeps a strict/none tree from materializing any aggregate ref
+    // (the ones it does materialize are cached and pruned with structure).
+    // Map insertion order is the depth-first travel order, so the result
+    // comes out in the same order as the nodes model
+    function getIndeterminateNodes() {
+      const acc = []
+
+      structure.value.map.forEach((rec, key) => {
+        if (
+          rec.isParent &&
+          rec.leafTicking &&
+          getTickAggRef(key).value.indeterminate === true
+        ) {
+          acc.push(rec.node)
+        }
+      })
+
+      return acc
     }
 
     function getExpandedNodes() {
@@ -1045,6 +1076,10 @@ export default /*#__PURE__*/ createComponent({
 
     function isTicked(key) {
       return key ? getMeta(key)?.ticked === true : false
+    }
+
+    function isIndeterminate(key) {
+      return key ? getMeta(key)?.indeterminate === true : false
     }
 
     function setTicked(keys, state) {
@@ -1706,13 +1741,16 @@ export default /*#__PURE__*/ createComponent({
     // expose public methods
     Object.assign(proxy, {
       getNodeByKey,
+      getParentNode,
       getTickedNodes,
+      getIndeterminateNodes,
       getExpandedNodes,
       isExpanded,
       collapseAll,
       expandAll,
       setExpanded,
       isTicked,
+      isIndeterminate,
       setTicked,
       scrollTo
     })

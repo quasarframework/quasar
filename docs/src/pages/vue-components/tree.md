@@ -129,6 +129,14 @@ You can apply a global tick strategy for a QTree and locally change the ticking 
 
 <DocExample title="Tick strategy" file="TickStrategy" />
 
+### Partially ticked nodes <q-badge label="v2.25+" />
+
+With the `leaf` and `leaf-filtered` strategies, a parent whose tickable children are only partly ticked is neither ticked nor unticked, so it does not show up in the `ticked` model. Use the `getIndeterminateNodes()` method to get such nodes (in the order of the `nodes` model), or `isIndeterminate(key)` to check one of them.
+
+Both always report nothing for the `strict` strategy, where a node's tick state is independent of its children.
+
+<DocExample title="Partially ticked nodes" file="Indeterminate" />
+
 ### Custom filter method
 
 You can customize the filtering method by specifying the `filter-method` prop. The method below filters by input if it also has '(\*)':
