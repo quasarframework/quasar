@@ -48,7 +48,7 @@
     "vue-tsc": "^3.3.3",
     "@types/node": "^22.19.11",
     <% if (scope.preset.i18n) { %>"@intlify/unplugin-vue-i18n": "^11.0.0",<% } %>
-    "@quasar/app-vite": "^3.5.0",
+    "@quasar/app-vite": "^3.6.0",
     "autoprefixer": "^10.4.27",
     "postcss": "^8.5.8",
     "typescript": "^6.0.0"

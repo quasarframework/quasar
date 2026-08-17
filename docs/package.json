@@ -32,7 +32,7 @@
     "vue-router": "^5.2.0"
   },
   "devDependencies": {
-    "@quasar/app-vite": "^3.5.0",
+    "@quasar/app-vite": "^3.6.0",
     "@rolldown/pluginutils": "^1.0.1",
     "@vitejs/plugin-vue": "^6.0.8",
     "fs-extra": "^11.4.0",
