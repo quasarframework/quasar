@@ -262,6 +262,12 @@
           "desc": "Is node ticked? Can directly be assigned new Boolean value which changes ticked state",
           "reactive": true
         },
+        "indeterminate": {
+          "type": "Boolean",
+          "desc": "Is node partially ticked (some, but not all, of its tickable children are ticked)? Read-only -- tick its children to change it",
+          "reactive": true,
+          "addedIn": "v2.25"
+        },
         "tree": {
           "type": "Component",
           "tsType": "QTree",
@@ -299,6 +305,12 @@
           "type": "Boolean",
           "desc": "Is node ticked? Can directly be assigned new Boolean value which changes ticked state",
           "reactive": true
+        },
+        "indeterminate": {
+          "type": "Boolean",
+          "desc": "Is node partially ticked (some, but not all, of its tickable children are ticked)? Read-only -- tick its children to change it",
+          "reactive": true,
+          "addedIn": "v2.25"
         },
         "tree": {
           "type": "Component",
@@ -338,6 +350,12 @@
           "desc": "Is node ticked? Can directly be assigned new Boolean value which changes ticked state",
           "reactive": true
         },
+        "indeterminate": {
+          "type": "Boolean",
+          "desc": "Is node partially ticked (some, but not all, of its tickable children are ticked)? Read-only -- tick its children to change it",
+          "reactive": true,
+          "addedIn": "v2.25"
+        },
         "tree": {
           "type": "Component",
           "tsType": "QTree",
@@ -375,6 +393,12 @@
           "type": "Boolean",
           "desc": "Is node ticked? Can directly be assigned new Boolean value which changes ticked state",
           "reactive": true
+        },
+        "indeterminate": {
+          "type": "Boolean",
+          "desc": "Is node partially ticked (some, but not all, of its tickable children are ticked)? Read-only -- tick its children to change it",
+          "reactive": true,
+          "addedIn": "v2.25"
         },
         "tree": {
           "type": "Component",
@@ -691,6 +715,23 @@
       "returns": {
         "type": "Boolean",
         "desc": "Is specified node partially ticked?"
+      },
+      "addedIn": "v2.25"
+    },
+
+    "getTickState": {
+      "desc": "Method to get a node's tick state in the tri-state form that a QCheckbox takes as its model ('true' ticked, 'null' partially ticked, 'false' unticked); It is the value that the node's own tickbox gets",
+      "params": {
+        "key": {
+          "type": "Any",
+          "required": true,
+          "desc": "The key of a node",
+          "examples": ["'Node 1'"]
+        }
+      },
+      "returns": {
+        "type": ["Boolean", "null"],
+        "desc": "The tick state of the specified node ('false' if the key is not in the nodes model)"
       },
       "addedIn": "v2.25"
     },

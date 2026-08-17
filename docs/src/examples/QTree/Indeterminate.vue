@@ -8,7 +8,17 @@
       node-key="label"
       tick-strategy="leaf"
       default-expand-all
-    />
+    >
+      <template v-slot:default-header="prop">
+        {{ prop.node.label }}
+        <q-badge
+          v-if="prop.indeterminate"
+          class="q-ml-sm"
+          color="orange"
+          label="partial"
+        />
+      </template>
+    </q-tree>
 
     <div class="col-12 col-sm-6">
       <div class="text-h6">Ticked</div>

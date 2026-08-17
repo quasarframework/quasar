@@ -1090,6 +1090,16 @@ export default /*#__PURE__*/ createComponent({
       return key ? getMeta(key)?.indeterminate === true : false
     }
 
+    // the tri-state form of the two above -- the same value that the
+    // node's own tickbox gets, so it can be bound to a QCheckbox as is
+    function getTickState(key) {
+      const m = key ? getMeta(key) : void 0
+
+      if (m === void 0) return false
+
+      return m.indeterminate === true ? null : m.ticked
+    }
+
     function setTicked(keys, state) {
       let target = innerTicked.value
       const shouldEmit = props.ticked !== void 0
@@ -1139,6 +1149,10 @@ export default /*#__PURE__*/ createComponent({
           }
         }
       )
+
+      // read-only: a node becomes partially ticked through its children,
+      // so there is nothing to assign here -- tick them instead
+      injectProp(scope, 'indeterminate', () => localMeta.indeterminate === true)
 
       return scope
     }
@@ -1759,6 +1773,7 @@ export default /*#__PURE__*/ createComponent({
       setExpanded,
       isTicked,
       isIndeterminate,
+      getTickState,
       setTicked,
       scrollTo
     })

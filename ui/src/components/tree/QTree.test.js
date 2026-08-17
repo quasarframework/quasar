@@ -945,9 +945,45 @@ describe('[QTree API]', () => {
           color: void 0,
           dark: false,
           expanded: expect.any(Boolean),
-          ticked: expect.any(Boolean)
+          ticked: expect.any(Boolean),
+          indeterminate: expect.any(Boolean)
         })
         expect(slotScope.key).toBe('bread')
+      })
+
+      test('scope tells a partially ticked node from a ticked one', async () => {
+        const scopes = {}
+        const wrapper = mountTree(
+          { tickStrategy: 'leaf', defaultExpandAll: true },
+          {
+            slots: {
+              'default-header': scope => {
+                scopes[scope.key] = { ...scope }
+                return scope.node.label
+              }
+            }
+          }
+        )
+
+        wrapper.vm.setTicked(['apple'], true)
+        await nextTick()
+
+        expect(scopes.fruits).toMatchObject({
+          ticked: false,
+          indeterminate: true
+        })
+        expect(scopes.apple).toMatchObject({
+          ticked: true,
+          indeterminate: false
+        })
+
+        wrapper.vm.setTicked(['banana'], true)
+        await nextTick()
+
+        expect(scopes.fruits).toMatchObject({
+          ticked: true,
+          indeterminate: false
+        })
       })
     })
 
@@ -1002,7 +1038,8 @@ describe('[QTree API]', () => {
           color: void 0,
           dark: false,
           expanded: expect.any(Boolean),
-          ticked: expect.any(Boolean)
+          ticked: expect.any(Boolean),
+          indeterminate: expect.any(Boolean)
         })
       })
     })
@@ -1354,6 +1391,25 @@ describe('[QTree API]', () => {
 
         expect(wrapper.vm.isIndeterminate('fruits')).toBe(false)
         expect(wrapper.vm.isTicked('fruits')).toBe(true)
+      })
+    })
+
+    describe('[(method)getTickState]', () => {
+      test('should be callable', async () => {
+        const wrapper = mountTree({ tickStrategy: 'leaf' })
+
+        expect(wrapper.vm.getTickState('fruits')).toBe(false)
+
+        wrapper.vm.setTicked(['apple'], true)
+        await nextTick()
+
+        // the tri-state form a QCheckbox model takes
+        expect(wrapper.vm.getTickState('fruits')).toBeNull()
+        expect(wrapper.vm.getTickState('apple')).toBe(true)
+        expect(wrapper.vm.getTickState('banana')).toBe(false)
+
+        // a key outside of the nodes model reports as unticked
+        expect(wrapper.vm.getTickState('nowhere')).toBe(false)
       })
     })
 

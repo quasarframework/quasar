@@ -135,6 +135,10 @@ With the `leaf` and `leaf-filtered` strategies, a parent whose tickable children
 
 Both always report nothing for the `strict` strategy, where a node's tick state is independent of its children.
 
+When you need all three states at once, `getTickState(key)` returns them in the tri-state form that a QCheckbox takes as its model: `true` when ticked, `null` when partially ticked and `false` when unticked. It is the very value that the node's own tickbox gets, so it can be bound to a QCheckbox of yours as is.
+
+The header and body slots also get an `indeterminate` boolean in their scope, next to the `ticked` one. It is read-only — a node becomes partially ticked through its children, so tick those instead.
+
 <DocExample title="Partially ticked nodes" file="Indeterminate" />
 
 ### Custom filter method
