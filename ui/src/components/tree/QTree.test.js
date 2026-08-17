@@ -1,5 +1,5 @@
 import { flushPromises, mount } from '@vue/test-utils'
-import { describe, expect, test } from 'vitest'
+import { describe, expect, test, vi } from 'vitest'
 import { h, nextTick } from 'vue'
 
 import QTree from './QTree.js'
@@ -1916,8 +1916,8 @@ describe('[QTree API]', () => {
   })
 
   describe('[Accessibility]', () => {
-    // binding a selection makes leaf nodes focusable "links" too,
-    // like in real keyboard-accessible usage
+    // a bound selection gives Enter and the selection assertions
+    // something to emit; navigation itself needs no such model
     function mountNavTree(props, options) {
       return mountTree({ selected: null, ...props }, options)
     }
@@ -1952,6 +1952,39 @@ describe('[QTree API]', () => {
 
       await keydown(getHeader(wrapper, 'Banana'), 38)
       expect(document.activeElement).toBe(getHeader(wrapper, 'Apple').element)
+    })
+
+    test('reaches every node of a tree with no selection model', async () => {
+      // nothing happens when such a leaf is activated, but the tree
+      // pattern still has it be a Tab stop of the roving set
+      const wrapper = mountTree({ defaultExpandAll: true })
+
+      await keydown(getHeader(wrapper, 'Fruits'), 40)
+
+      const apple = getHeader(wrapper, 'Apple')
+      expect(document.activeElement).toBe(apple.element)
+      expect(apple.attributes('tabindex')).toBe('0')
+
+      await keydown(apple, 35)
+      expect(document.activeElement).toBe(getHeader(wrapper, 'Bread').element)
+    })
+
+    test('ticks a leaf with Space when ticking is the only interaction', async () => {
+      const wrapper = mountTree({
+        tickStrategy: 'leaf',
+        defaultExpandAll: true
+      })
+
+      // the leaf has to be reachable first: the tickbox is aria-hidden
+      // and out of the Tab order, so Space on the node is the only way
+      await keydown(getHeader(wrapper, 'Fruits'), 40)
+
+      const apple = getHeader(wrapper, 'Apple')
+      expect(document.activeElement).toBe(apple.element)
+
+      await keydown(apple, 32)
+
+      expect(wrapper.vm.isTicked('apple')).toBe(true)
     })
 
     test('skips the children of collapsed nodes', async () => {
@@ -2065,19 +2098,61 @@ describe('[QTree API]', () => {
       expect(stops).toHaveLength(1)
     })
 
-    test('skips disabled nodes entirely', async () => {
+    test('navigates through disabled nodes but does not act on them', async () => {
+      const handler = vi.fn()
       const nodes = getNodes()
       nodes[0].children[0].disabled = true
+      nodes[0].children[0].handler = handler
 
       const wrapper = mountNavTree({ nodes, defaultExpandAll: true })
 
       const apple = getHeader(wrapper, 'Apple')
       expect(apple.attributes('aria-disabled')).toBe('true')
-      expect(apple.attributes('tabindex')).toBe('-1')
 
+      // reachable, so that it is not silently missing from the tree
       await keydown(getHeader(wrapper, 'Fruits'), 40)
 
+      expect(document.activeElement).toBe(apple.element)
+      expect(apple.attributes('tabindex')).toBe('0')
+
+      // ...but inert: no selection, no handler of its own
+      await keydown(apple, 13)
+
+      expect(wrapper.emitted('update:selected')).toBeUndefined()
+      expect(handler).not.toHaveBeenCalled()
+
+      // ...and navigation continues past it
+      await keydown(apple, 40)
+
       expect(document.activeElement).toBe(getHeader(wrapper, 'Banana').element)
+    })
+
+    test('leaves a disabled parent unexpandable from the keyboard', async () => {
+      const nodes = getNodes()
+      nodes[0].disabled = true
+
+      const wrapper = mountNavTree({ nodes })
+      const fruits = getHeader(wrapper, 'Fruits')
+
+      // neither the expansion keys nor Space reach a disabled parent
+      await keydown(fruits, 39)
+      await keydown(fruits, 32)
+      await keydown(fruits, 13)
+
+      expect(wrapper.vm.isExpanded('fruits')).toBe(false)
+      expect(getLabels(wrapper)).toStrictEqual(['Fruits', 'Bread'])
+    })
+
+    test('does not lazy-load the children of a disabled node', async () => {
+      const wrapper = mountNavTree({
+        nodes: [{ id: 'lazy', label: 'Lazy', lazy: true, disabled: true }]
+      })
+
+      await keydown(getHeader(wrapper, 'Lazy'), 39)
+      wrapper.vm.setExpanded('lazy', true)
+      await nextTick()
+
+      expect(wrapper.emitted('lazyLoad')).toBeUndefined()
     })
 
     test('navigates only through the filtered nodes', async () => {

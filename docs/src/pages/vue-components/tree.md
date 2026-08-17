@@ -21,6 +21,8 @@ QTree follows the [WAI-ARIA tree pattern](https://www.w3.org/WAI/ARIA/apg/patter
 
 The tick checkboxes are pointer affordances only — the keyboard path is <kbd>Space</kbd> on the node header (see below), with the state announced through `aria-checked`. The "no nodes" and "no results" messages use localized strings from the [Quasar Language Pack](/options/quasar-language-packs).
 
+Every node the user can see takes part in the roving Tab stop, as the tree pattern requires of a `role="treeitem"`. That includes the nodes nothing happens on (a leaf of a tree with no selection and no ticking) and the disabled ones: a disabled node stays reachable and announces itself through `aria-disabled`, but nothing acts on it — no selection, no expansion, no lazy loading and not even its own `handler`.
+
 #### Keyboard navigation
 
 When a tree node has focus:
@@ -29,7 +31,7 @@ When a tree node has focus:
 - <kbd>Arrow Right</kbd> expands a collapsed parent or moves focus to its first visible child.
 - <kbd>Arrow Left</kbd> collapses an expanded parent or moves focus to its parent.
 - <kbd>Home</kbd> and <kbd>End</kbd> move focus to the first and last visible nodes.
-- <kbd>Enter</kbd> performs the node's default action; <kbd>Space</kbd> toggles its expansion — or its checkbox, on tickable nodes (when using a `tick-strategy`).
+- <kbd>Enter</kbd> performs the node's default action; <kbd>Space</kbd> toggles its expansion — or its checkbox, on tickable nodes (when using a `tick-strategy`). Both do nothing on a disabled node.
 
 ### No connector lines
 
