@@ -59,20 +59,33 @@ describe('[node-packager.js]', () => {
       makeProjectDir('npm-params', 'package-lock.json')
     )
 
+    // pnpm >= 11 fails the command over unapproved build scripts anywhere in
+    // the tree, so every pnpm install params list opts out of that
+    const noStrictBuilds = '--config.strict-dep-builds=false'
+
     test('build the package manager specific install arguments', () => {
-      expect(pnpm.getInstallParams('development')).toEqual(['install'])
-      expect(pnpm.getInstallParams('production')).toEqual(['install', '--prod'])
+      expect(pnpm.getInstallParams('development')).toEqual([
+        'install',
+        noStrictBuilds
+      ])
+      expect(pnpm.getInstallParams('production')).toEqual([
+        'install',
+        '--prod',
+        noStrictBuilds
+      ])
       expect(npm.getInstallParams('development')).toEqual(['install'])
     })
 
     test('build the add/remove package arguments', () => {
       expect(pnpm.getInstallPackageParams(['quasar'], false)).toEqual([
         'add',
+        noStrictBuilds,
         '',
         'quasar'
       ])
       expect(pnpm.getInstallPackageParams(['quasar'], true)).toEqual([
         'add',
+        noStrictBuilds,
         '--save-dev',
         'quasar'
       ])

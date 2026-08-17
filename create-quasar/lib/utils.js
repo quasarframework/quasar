@@ -258,7 +258,16 @@ async function runCommand({
 async function installDeps(scope) {
   const hadError = await runCommand({
     cmd: scope.install,
-    args: ['install'],
+    args:
+      scope.install === 'pnpm'
+        ? // pnpm >= 11 exits with an error when any dependency in the tree has
+          // a build script that was not approved (pnpm 10 only warned about
+          // it), even though the packages did get installed — we would then
+          // wrongly declare the fresh project's install a failure. The user
+          // resolves those with "pnpm approve-builds" on their own time, and
+          // their own installs from here on keep enforcing it.
+          ['install', '--config.strict-dep-builds=false']
+        : ['install'],
     cwd: scope.projectFolder,
     message: `Installing dependencies using ${scope.install.toUpperCase()}...`,
     successMessage: 'Dependencies installed successfully!',
