@@ -183,6 +183,35 @@
         </q-tooltip>
       </q-btn>
     </div>
+
+    <!-- S14: #12109 a fixed child of a QScrollArea stays viewport-anchored.
+         The reference box is fixed at the same coordinates but outside any
+         scroll area, so the check survives whatever the page ancestors do -->
+    <div class="fixture">
+      <div class="s14-ref" />
+      <div style="height: 120px; width: 260px; overflow: auto">
+        <q-scroll-area class="fit">
+          <div class="q-pa-sm">
+            <div class="s14-fixed" />
+            S14 content
+          </div>
+        </q-scroll-area>
+      </div>
+    </div>
+
+    <!-- S15: #10120/#10281 guard - a QScrollArea must not inflate the
+         scrollable overflow of an ancestor sized to a fractional height,
+         which is what made the ancestor flash a native scrollbar -->
+    <div class="fixture">
+      <div
+        class="s15-outer"
+        style="height: 250.5px; width: 260px; overflow: auto"
+      >
+        <q-scroll-area class="fit">
+          <div class="q-pa-sm">S15 content</div>
+        </q-scroll-area>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -630,13 +659,57 @@ function s13() {
   )
 }
 
+// S14: #12109 QScrollArea must not become the containing block of its
+// `position: fixed` descendants
+function s14() {
+  const outside = document.querySelector('.s14-ref').getBoundingClientRect()
+  const inside = document.querySelector('.s14-fixed').getBoundingClientRect()
+  const dx = Math.abs(inside.x - outside.x)
+  const dy = Math.abs(inside.y - outside.y)
+  const ok = dx < 1 && dy < 1
+  report(
+    'S14 12109 fixed child stays viewport-anchored',
+    ok,
+    `ref=${Math.round(outside.x)},${Math.round(outside.y)} ` +
+      `inside=${Math.round(inside.x)},${Math.round(inside.y)}`
+  )
+}
+
+// S15: #10120/#10281 the ancestor must not end up scrollable by a fraction
+function s15() {
+  const outer = document.querySelector('.s15-outer')
+  const overflow = outer.scrollHeight - outer.clientHeight
+  const ok = overflow <= 0
+  report(
+    'S15 10281 no phantom scrollbar on the ancestor',
+    ok,
+    `scrollHeight=${outer.scrollHeight} clientHeight=${outer.clientHeight}`
+  )
+}
+
 async function runAll() {
   lines.value = []
   results.length = 0
   const tag = route.query.tag || 'untagged'
   lines.value.push(`sweep tag=${tag} ua=${navigator.userAgent.slice(0, 80)}`)
 
-  const scenarios = [s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13]
+  const scenarios = [
+    s1,
+    s2,
+    s3,
+    s4,
+    s5,
+    s6,
+    s7,
+    s8,
+    s9,
+    s10,
+    s11,
+    s12,
+    s13,
+    s14,
+    s15
+  ]
   for (const scenario of scenarios) {
     try {
       await scenario()
@@ -688,5 +761,18 @@ onMounted(() => {
   border: 1px dashed #ccc;
   padding: 8px;
   margin-bottom: 8px;
+}
+/* S14 probes: same declared offsets, one inside a QScrollArea and one not,
+   so the two rects must agree. pointer-events stay off so they can never
+   swallow a click meant for another scenario */
+.s14-ref,
+.s14-fixed {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 8px;
+  height: 8px;
+  pointer-events: none;
+  background: rgba(255, 0, 0, 0.4);
 }
 </style>

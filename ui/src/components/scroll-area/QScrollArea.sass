@@ -1,6 +1,20 @@
+// Replaces the "contain: strict" that used to sit here: it stopped the
+// endless native scrollbar flicker of #10120/#10281, but it also made us the
+// containing block of every "position: fixed" child and clipped it here (#12109).
+//   size       - our box never depends on our content
+//   clip       - our descendants cannot inflate a scrollable ancestor's
+//                overflow, and none of it creates a containing block for fixed
+//   flow-root  - the independent formatting context we lose along with layout
+//                containment. WebKit needs it to keep re-laying out a dirty
+//                scroll area in isolation (4x cheaper), and it also keeps us
+//                from overlapping floats the way "contain: strict" did.
+//                "overflow: hidden" would give the same, but would make us a
+//                scroll container that content could be scrolled inside of.
 .q-scrollarea
   position: relative
-  contain: strict
+  contain: size
+  overflow: clip
+  display: flow-root
 
   &__bar,
   &__thumb
