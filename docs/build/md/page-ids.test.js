@@ -1,34 +1,17 @@
 import { expect, test, vi } from 'vitest'
-import { globSync, readFileSync } from 'node:fs'
+import { readFileSync } from 'node:fs'
 import { join } from 'node:path'
 
-import md from './md.js'
-import mdParse, { applyHtmlContentControl } from './md-parse.js'
-import { parseFrontMatter } from './md-parse-utils.js'
+import mdParse from './md-parse.js'
 import {
   collectPageIds,
   findPageIdIssues,
   formatPageIdIssues,
   reportPageIdIssues
 } from './page-ids.js'
+import { renderAllPages, renderPage } from './test-helpers.js'
 
 const docsDir = join(import.meta.dirname, '../..')
-const pagesDir = join(docsDir, 'src/pages')
-
-/**
- * Renders the way mdParse does, handing back exactly what it hands
- * reportPageIdIssues: the rendered markdown and the front matter with the
- * TOC the render collected into it.
- */
-function renderPage(content, frontMatter = {}) {
-  const fullFrontMatter = { ...frontMatter, toc: [], pageScripts: new Set() }
-
-  md.$frontMatter = fullFrontMatter
-  const html = md.render(content)
-  md.$frontMatter = null
-
-  return { html, frontMatter: fullFrontMatter }
-}
 
 function issuesOf(content, frontMatter) {
   const { html, frontMatter: rendered } = renderPage(content, frontMatter)
@@ -36,21 +19,10 @@ function issuesOf(content, frontMatter) {
   return findPageIdIssues(html, rendered)
 }
 
-// Every page under src/pages, with nothing held out: a page not on a route
-// today (__elements.md) is still one someone opens in dev, and holding it out
-// would mean the one page most likely to be edited carelessly is the one page
-// nothing checks. The sweep is cheap enough (a fraction of a second for the
-// whole site) to run once here and let each test read the same rendering.
-const pages = globSync('**/*.md', { cwd: pagesDir }).map(rel => {
-  // through the same content control mdParse runs first: an id inside an
-  // <llm-only> block belongs to the AI export and never reaches the site,
-  // so counting it here would report a collision that does not exist
-  const { data: frontMatter, content } = parseFrontMatter(
-    applyHtmlContentControl(readFileSync(join(pagesDir, rel), 'utf8'))
-  )
-
-  return { rel, ...issuesOf(content, frontMatter) }
-})
+const pages = renderAllPages().map(({ rel, html, frontMatter }) => ({
+  rel,
+  ...findPageIdIssues(html, frontMatter)
+}))
 
 test('the pages exist to be swept', () => {
   // a glob that silently matched nothing would make every sweep below pass
