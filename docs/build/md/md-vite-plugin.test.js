@@ -17,6 +17,45 @@ test('transforms only .md modules', () => {
   expect(id.test('/src/scripts/build.cmd')).toBe(false)
 })
 
+test('turns a page the build must not publish into the build failing', () => {
+  const prodPlugin = mdVitePlugin(true)
+  const colliding = '---\ntitle: T\n---\n## Usage\n\n## Usage\n'
+  const errors = []
+
+  prodPlugin.transform.handler.call(
+    {
+      error(err) {
+        errors.push(err)
+      }
+    },
+    colliding,
+    '/src/pages/some/page.md'
+  )
+
+  // this.error is how a rollup plugin fails a build
+  expect(errors).toHaveLength(1)
+  expect(errors[0].message).toContain('[page-ids]')
+  expect(errors[0].message).toContain('src/pages/some/page.md')
+})
+
+test('lets a sound page through the same handler', () => {
+  const prodPlugin = mdVitePlugin(true)
+  const errors = []
+
+  const out = prodPlugin.transform.handler.call(
+    {
+      error(err) {
+        errors.push(err)
+      }
+    },
+    '---\ntitle: T\n---\n## Usage\n\n## Config\n',
+    '/src/pages/some/page.md'
+  )
+
+  expect(errors).toEqual([])
+  expect(out).toContain('<template>')
+})
+
 // @vitejs/plugin-vue hot-updates a file by diffing the SFC blocks it parses
 // out of it against the ones it compiled last time. Read a .md page off disk
 // and there are no blocks to find, so the diff says nothing changed and the

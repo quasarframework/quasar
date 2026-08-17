@@ -52,3 +52,19 @@ test('reports an unknown related link and yields an empty entry', () => {
     errorSpy.mockRestore()
   }
 })
+
+test('refuses an unknown related link when the build is for production', () => {
+  // the dead link would otherwise be published as an empty related entry
+  expect(() => convertToRelated('/definitely-not-a-page', 'x', true)).toThrow(
+    /wrong related link: \/definitely-not-a-page/
+  )
+})
+
+test('a related link that resolves never throws, strict or not', () => {
+  // flatMenu is keyed by the absolute page file; a related entry is that
+  // without the pages root and without the extension
+  const [key] = Object.keys(flatMenu)
+  const entry = key.slice(key.indexOf('src/pages') + 'src/pages'.length, -3)
+
+  expect(convertToRelated(entry, 'x', true).path).toBeDefined()
+})

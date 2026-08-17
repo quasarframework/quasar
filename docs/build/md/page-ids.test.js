@@ -240,14 +240,22 @@ test('a page whose ids are unique carries no banner', () => {
   expect(sfc).not.toContain('idIssues')
 })
 
-test('a production build carries none of it', () => {
-  const sfc = parsePage(COLLIDING_PAGE, true)
+test('a production build refuses to publish a page that collides', () => {
+  // md-vite-plugin hands this to `this.error`, which is the build failing
+  expect(() => parsePage(COLLIDING_PAGE, true)).toThrow(
+    /\[page-ids\] src\/pages\/some\/page\.md/
+  )
+  // and it says what is wrong, not merely that something is
+  expect(() => parsePage(COLLIDING_PAGE, true)).toThrow(
+    /heading "Usage" on line 6 takes the id "usage"/
+  )
+})
+
+test('a production build of a sound page carries none of it', () => {
+  const sfc = parsePage('---\ntitle: T\n---\n## Usage\n\n## Config\n', true)
 
   expect(sfc).not.toContain('id-issues')
   expect(sfc).not.toContain('idIssues')
-  expect(sfc, 'the collision text must not reach the bundle').not.toContain(
-    'duplicate id'
-  )
 })
 
 test('what the pipeline emits is a prop DocPage declares', () => {

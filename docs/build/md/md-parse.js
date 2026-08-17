@@ -1,7 +1,11 @@
 import md from './md.js'
 import { convertToRelated, flatMenu } from './flat-menu.js'
 import { getVueComponent, parseFrontMatter } from './md-parse-utils.js'
-import { formatPageIdIssues, reportPageIdIssues } from './page-ids.js'
+import {
+  formatPageIdIssues,
+  pageLabel,
+  reportPageIdIssues
+} from './page-ids.js'
 
 const docApiRE = /<DocApi /
 const docInstallationRE = /<DocInstall /
@@ -64,7 +68,7 @@ export default function mdParse(code, id, isProd, reportIdIssues = true) {
 
   if (frontMatter.related !== void 0) {
     frontMatter.related = frontMatter.related.map(entry =>
-      convertToRelated(entry, id)
+      convertToRelated(entry, id, isProd === true)
     )
   }
 
@@ -133,7 +137,18 @@ export default function mdParse(code, id, isProd, reportIdIssues = true) {
   // moment the page's whole id namespace exists. The terminal hears about it
   // now; getVueComponent puts the same lines on the page itself in dev.
   const idIssues = formatPageIdIssues(mdRenderedContent, frontMatter)
-  if (reportIdIssues) reportPageIdIssues(idIssues, id)
+
+  if (idIssues.length !== 0) {
+    // Same call either way: a page whose anchors lead to the wrong section is
+    // something to be told about while writing it, and something to stop the
+    // build that would publish it. md-vite-plugin turns this into the build's
+    // own error, naming the page.
+    if (isProd === true) {
+      throw new Error(`[page-ids] ${pageLabel(id)}\n  ${idIssues.join('\n  ')}`)
+    }
+
+    if (reportIdIssues) reportPageIdIssues(idIssues, id)
+  }
 
   if (frontMatter.editLink !== false) {
     frontMatter.editLink = id.slice(id.indexOf('src/pages/') + 10, -3)

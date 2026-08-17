@@ -210,9 +210,9 @@ export function pageLabel(pageId) {
 
 /**
  * Names each issue on the console the way flat-menu.js names a bad related
- * link. Deliberately not a throw: md-vite-plugin turns one into a Vite
- * overlay and a failed build, which is far too much for a page that renders
- * perfectly well and merely points some of its anchors at the wrong section.
+ * link. This is the dev half of the answer only: mdParse throws instead when
+ * it is building for production, so a page whose anchors lead to the wrong
+ * section cannot be published - but nothing interrupts the author writing it.
  *
  * One line per issue, each opening with the same `[page-ids]` tag and the
  * page it belongs to, so a run of them can be grepped by tag, by page, or by

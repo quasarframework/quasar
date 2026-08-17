@@ -46,11 +46,22 @@ menu.forEach(n => {
   menuWalk(n, '', null)
 })
 
-export function convertToRelated(entry, id) {
+/**
+ * @param {string} entry the related link as the page wrote it
+ * @param {string} id the page that wrote it
+ * @param {boolean} strict throw rather than report. A link resolving to
+ *   nothing is worth carrying on past while a page is being written, and
+ *   worth stopping the build that would ship it.
+ */
+export function convertToRelated(entry, id, strict = false) {
   const localMenu = flatMenu[join(prefix, entry + '.md')]
 
   if (!localMenu) {
-    console.error('[flat-menu] ERROR - wrong related link:', entry, '@id', id)
+    const message = `[flat-menu] ERROR - wrong related link: ${entry} @id ${id}`
+
+    if (strict) throw new Error(message)
+
+    console.error(message)
     return {}
   }
 
