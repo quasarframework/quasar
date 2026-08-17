@@ -25,6 +25,7 @@ import {
   supressLogger,
   taskLogger,
   tip,
+  waitForKey,
   warn,
   warning,
   warningPill
@@ -35,7 +36,7 @@ import {
  * - clearConsole (behavior is fixed at import time based on process.stdout.isTTY)
  * - createPromptSession() and the prompt-session flavor of taskLogger()
  *   (interactive @clack/prompts UI)
- * - waitForKey() (raw-mode stdin key press)
+ * - the raw-mode key press of waitForKey() (only its non-TTY exit is covered)
  */
 
 function spyLog() {
@@ -245,7 +246,15 @@ describe('[logger.js]', () => {
   })
 
   describe('alternate screen', () => {
+    const originalStdoutTTY = process.stdout.isTTY
+
+    afterEach(() => {
+      process.stdout.isTTY = originalStdoutTTY
+    })
+
     test('enterAlternateScreen()/exitAlternateScreen() emit terminal escapes', () => {
+      process.stdout.isTTY = true
+
       const writeSpy = vi
         .spyOn(process.stdout, 'write')
         .mockImplementation(() => true)
@@ -262,6 +271,42 @@ describe('[logger.js]', () => {
 
       exitAlternateScreen()
       expect(writeSpy).toHaveBeenCalledWith('\u001B[?1049l')
+    })
+
+    test('nothing is emitted when stdout is piped', () => {
+      process.stdout.isTTY = false
+
+      const writeSpy = vi
+        .spyOn(process.stdout, 'write')
+        .mockImplementation(() => true)
+      const logSpy = spyLog()
+
+      enterAlternateScreen('starting task')
+      exitAlternateScreen()
+
+      expect(writeSpy).not.toHaveBeenCalled()
+      expect(logSpy).not.toHaveBeenCalled()
+    })
+  })
+
+  describe('waitForKey()', () => {
+    const originalStdinTTY = process.stdin.isTTY
+
+    afterEach(() => {
+      process.stdin.isTTY = originalStdinTTY
+    })
+
+    test('resolves right away when stdin is piped', async () => {
+      process.stdin.isTTY = false
+
+      const writeSpy = vi
+        .spyOn(process.stdout, 'write')
+        .mockImplementation(() => true)
+
+      // a piped stdin has no setRawMode(), so the interactive path would
+      // throw and mask whatever error the caller is reporting
+      await expect(waitForKey()).resolves.toBeUndefined()
+      expect(writeSpy).not.toHaveBeenCalled()
     })
   })
 
