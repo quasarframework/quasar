@@ -1,7 +1,7 @@
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import { ref } from 'vue'
 
-import editorCaret from './editor-caret.js'
+import editorCaret, { linkPlaceholder } from './editor-caret.js'
 
 const Caret = editorCaret
 
@@ -75,6 +75,24 @@ function select(node, start = 0, end = null) {
 }
 
 describe('[editorCaret API]', () => {
+  describe('[Variables]', () => {
+    describe('[(variable)linkPlaceholder]', () => {
+      test('is defined correctly', () => {
+        expect(linkPlaceholder).toBeTypeOf('string')
+      })
+
+      test('is the scheme the link editor treats as "nothing typed"', () => {
+        const eVm = createEVm()
+        const { caret, el } = createCaret({ html: 'Hello world', eVm })
+
+        select(el.firstChild, 0, 5)
+        caret.apply('link')
+
+        expect(eVm.editLinkUrl.value).toBe(linkPlaceholder)
+      })
+    })
+  })
+
   describe('[Classes]', () => {
     describe('[(class)default]', () => {
       test('can be instantiated', () => {
@@ -513,25 +531,26 @@ describe('[editorCaret API]', () => {
       })
 
       test.each([
-        ['a plain word', 'Hello world', 'https://'],
+        ['a plain word', 'Hello world', linkPlaceholder],
         ['an URL', 'https://quasar.dev is nice', 'https://quasar.dev']
-      ])('creates a link out of the selected %s', (_, html, expected) => {
-        const eVm = createEVm()
-        const { caret, el } = createCaret({ html, eVm })
+      ])(
+        'offers the selected %s for linking without touching the document',
+        (_, html, expected) => {
+          const eVm = createEVm()
+          const { caret, el } = createCaret({ html, eVm })
 
-        // a non-collapsed selection is taken as-is, no word expansion needed
-        select(el.firstChild, 0, html.indexOf(' '))
-        caret.apply('link')
+          // a non-collapsed selection is taken as-is, no word expansion needed
+          select(el.firstChild, 0, html.indexOf(' '))
+          caret.apply('link')
 
-        expect(eVm.editLinkUrl.value).toBe(expected)
-        expect(execCommand).toHaveBeenCalledExactlyOnceWith(
-          'createLink',
-          false,
-          expected
-        )
-        // the anchor was really created around the selection
-        expect(el.querySelector('a')?.getAttribute('href')).toBe(expected)
-      })
+          expect(eVm.editLinkUrl.value).toBe(expected)
+          expect(caret._range).not.toBeNull()
+          // the link only gets created once the user confirms an URL, so
+          // walking away from the editor cannot leave a bogus anchor behind
+          expect(execCommand).not.toHaveBeenCalled()
+          expect(el.querySelector('a')).toBeNull()
+        }
+      )
 
       test('refuses to link an empty selection without an image', () => {
         const eVm = createEVm()

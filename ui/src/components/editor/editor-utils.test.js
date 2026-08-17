@@ -4,6 +4,7 @@ import { computed, defineComponent, getCurrentInstance, h, ref } from 'vue'
 
 import QBtn from '../btn/QBtn.js'
 import QBtnDropdown from '../btn-dropdown/QBtnDropdown.js'
+import { linkPlaceholder } from './editor-caret.js'
 import { getFonts, getLinkEditor, getToolbar } from './editor-utils.js'
 
 /**
@@ -13,6 +14,13 @@ import { getFonts, getLinkEditor, getToolbar } from './editor-utils.js'
  */
 let execCommand
 let wrapper
+
+/**
+ * The link the fixture starts out on: by default the editor is opened over
+ * an anchor that already carries this href, so seeding the URL field and
+ * the document with the same value keeps "untouched" meaningful.
+ */
+const existingLink = 'https://quasar.dev'
 
 beforeEach(() => {
   execCommand = vi.spyOn(document, 'execCommand')
@@ -28,7 +36,10 @@ afterEach(() => {
  * Builds the "editor vm" the utils are handed by QEditor. Only the pieces
  * they actually reach for are provided.
  */
-function createEVm($q, { props = {}, buttons = [], ...overrides } = {}) {
+function createEVm(
+  $q,
+  { props = {}, buttons = [], linkedHref = existingLink, ...overrides } = {}
+) {
   return {
     $q,
     props: {
@@ -44,11 +55,14 @@ function createEVm($q, { props = {}, buttons = [], ...overrides } = {}) {
     caret: {
       is: vi.fn(() => false),
       can: vi.fn(() => true),
-      restore: vi.fn()
+      restore: vi.fn(),
+      // the href the selection carries in the document; null while the
+      // link editor is opened over something that is not linked yet
+      getParentAttribute: vi.fn(() => linkedHref)
     },
 
     isViewingSource: ref(false),
-    editLinkUrl: ref('https://quasar.dev'),
+    editLinkUrl: ref(existingLink),
     toolbarTabStop: ref(null),
     toolbarBackgroundClass: computed(() => ' bg-grey-3'),
     buttonProps: computed(() => ({ type: 'a', flat: true, dense: true })),
@@ -333,7 +347,7 @@ describe('[editorUtils API]', () => {
         const { eVm } = mountUtil(getLinkEditor)
 
         expect(wrapper.get('.q-editor__link-input').element.value).toBe(
-          'https://quasar.dev'
+          existingLink
         )
         expect(wrapper.text()).toContain(eVm.$q.lang.editor.url)
         expect(wrapper.findAllComponents(QBtn)).toHaveLength(2)
@@ -374,6 +388,12 @@ describe('[editorUtils API]', () => {
               .get('.q-editor__link-input')
               .trigger('keydown', { keyCode: 13 })
           }
+        ],
+        [
+          'leaving the field',
+          async () => {
+            await wrapper.get('.q-editor__link-input').trigger('blur')
+          }
         ]
       ])('applies an edited link through %s', async (_, apply) => {
         const { eVm } = mountUtil(getLinkEditor)
@@ -391,8 +411,15 @@ describe('[editorUtils API]', () => {
         expect(eVm.editLinkUrl.value).toBeNull()
       })
 
-      test('leaves an untouched link alone', async () => {
-        const { eVm } = mountUtil(getLinkEditor)
+      test.each([
+        ['an URL', existingLink],
+        // the field mirrors the href, so both sides are blank here
+        ['no href at all', '']
+      ])('leaves a link untouched when it still holds %s', async (_, href) => {
+        const { eVm } = mountUtil(getLinkEditor, {
+          editLinkUrl: ref(href),
+          linkedHref: href
+        })
 
         await wrapper.findAllComponents(QBtn)[1].trigger('click')
 
@@ -424,21 +451,112 @@ describe('[editorUtils API]', () => {
       })
 
       test.each([
-        ['a link that was never set', 'https://', true],
-        ['an empty link', '', true],
-        ['an existing link', 'https://quasar.dev', false]
-      ])('handles ESCAPE over %s', async (_, editLinkUrl, unlinked) => {
+        ['a link that was never set', linkPlaceholder, null],
+        ['an empty link', '', null],
+        ['an existing link', existingLink, existingLink]
+      ])(
+        'cancels through ESCAPE over %s',
+        async (_, editLinkUrl, linkedHref) => {
+          const { eVm } = mountUtil(getLinkEditor, {
+            editLinkUrl: ref(editLinkUrl),
+            linkedHref
+          })
+
+          await wrapper
+            .get('.q-editor__link-input')
+            .setValue('https://vuejs.org')
+          await wrapper
+            .get('.q-editor__link-input')
+            .trigger('keydown', { keyCode: 27 })
+
+          expect(eVm.caret.restore).toHaveBeenCalledOnce()
+          // nothing was applied on the way in, so cancelling has nothing
+          // to undo -- and must not damage a link that is already there
+          expect(execCommand).not.toHaveBeenCalled()
+          expect(eVm.editLinkUrl.value).toBeNull()
+        }
+      )
+
+      test('creates a link the selected text already spells out', async () => {
+        // QEditor seeds the field with the selection when it reads as an
+        // URL; confirming it as-is still has to produce the anchor
         const { eVm } = mountUtil(getLinkEditor, {
-          editLinkUrl: ref(editLinkUrl)
+          editLinkUrl: ref('https://vuejs.org'),
+          linkedHref: null
         })
+
+        await wrapper.findAllComponents(QBtn)[1].trigger('click')
+
+        expect(execCommand).toHaveBeenCalledExactlyOnceWith(
+          'createLink',
+          false,
+          'https://vuejs.org'
+        )
+        expect(eVm.editLinkUrl.value).toBeNull()
+      })
+
+      test.each([
+        ['nothing was typed over the placeholder', linkPlaceholder],
+        ['the field was left empty', '']
+      ])('links nothing when %s', async (_, editLinkUrl) => {
+        const { eVm } = mountUtil(getLinkEditor, {
+          editLinkUrl: ref(editLinkUrl),
+          linkedHref: null
+        })
+
+        await wrapper.get('.q-editor__link-input').trigger('blur')
+
+        expect(execCommand).not.toHaveBeenCalled()
+        expect(eVm.editLinkUrl.value).toBeNull()
+      })
+
+      test('trims the URL before applying it', async () => {
+        mountUtil(getLinkEditor)
 
         await wrapper
           .get('.q-editor__link-input')
-          .trigger('keydown', { keyCode: 27 })
+          .setValue('  https://vuejs.org  ')
+        await wrapper.findAllComponents(QBtn)[1].trigger('click')
 
-        expect(eVm.caret.restore).toHaveBeenCalledOnce()
-        expect(execCommand.mock.calls).toStrictEqual(
-          unlinked ? [['unlink']] : []
+        expect(execCommand).toHaveBeenCalledExactlyOnceWith(
+          'createLink',
+          false,
+          'https://vuejs.org'
+        )
+      })
+
+      test.each([
+        ['remove', 0],
+        ['update', 1]
+      ])(
+        'keeps the %s button reachable while the field commits on blur',
+        (_, index) => {
+          mountUtil(getLinkEditor)
+
+          const evt = new MouseEvent('mousedown', {
+            bubbles: true,
+            cancelable: true
+          })
+          wrapper.findAllComponents(QBtn)[index].element.dispatchEvent(evt)
+
+          // without this the field would blur, commit and unmount the whole
+          // row before the click ever got the chance to land on the button
+          expect(evt.defaultPrevented).toBe(true)
+        }
+      )
+
+      test('commits only once when the field closes before the blur', async () => {
+        const { eVm } = mountUtil(getLinkEditor)
+        const input = wrapper.get('.q-editor__link-input')
+
+        await input.setValue('https://vuejs.org')
+        await input.trigger('keydown', { keyCode: 13 })
+        await input.trigger('blur')
+
+        expect(execCommand).toHaveBeenCalledExactlyOnceWith(
+          'createLink',
+          false,
+          'https://vuejs.org'
         )
         expect(eVm.editLinkUrl.value).toBeNull()
       })

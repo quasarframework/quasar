@@ -59,6 +59,10 @@ function createRange(node, chars, range) {
 
 const urlRegex = /^https?:\/\//
 
+// seeded into the URL field when the selection carries no URL of its own;
+// the link editor reads it back as "the user typed nothing"
+export const linkPlaceholder = 'https://'
+
 export default class Caret {
   constructor(el, eVm) {
     this.el = el
@@ -300,7 +304,9 @@ export default class Caret {
           return
         }
 
-        this.eVm.editLinkUrl.value = urlRegex.test(url) ? url : 'https://'
+        // the document is left untouched until the user confirms a URL,
+        // so that abandoning the editor cannot leave a bogus link behind
+        this.eVm.editLinkUrl.value = urlRegex.test(url) ? url : linkPlaceholder
         this.save(selection.getRangeAt(0))
       } else {
         this.eVm.editLinkUrl.value = link

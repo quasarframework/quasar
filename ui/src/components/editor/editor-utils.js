@@ -7,6 +7,7 @@ import QTooltip from '../tooltip/QTooltip.js'
 import QItem from '../item/QItem.js'
 import QItemSection from '../item/QItemSection.js'
 
+import { linkPlaceholder } from './editor-caret.js'
 import { prevent, stop } from '../../utils/event/event.js'
 import { hSlot } from '../../utils/private.render/render.js'
 import { shouldIgnoreKey } from '../../utils/private.keyboard/key-composition.js'
@@ -321,17 +322,29 @@ export function getLinkEditor(eVm) {
   if (eVm.caret) {
     const color = eVm.props.toolbarColor || eVm.props.toolbarTextColor
     let link = eVm.editLinkUrl.value
+
     const updateLink = () => {
+      // a blur can still reach us after the field was closed by ESCAPE
+      // or by one of the buttons; there is nothing left to commit then
+      if (eVm.editLinkUrl.value === null) return
+
       eVm.caret.restore()
+
       const nextLink = link.trim()
+      // the href the selection carries right now -- null while it is not
+      // linked yet, so a brand new link always counts as a change
+      const currentLink = eVm.caret.getParentAttribute('href')
 
-      if (nextLink === '' || nextLink === 'https://') {
-        eVm.editLinkUrl.value = null
-        return
-      }
-
-      if (nextLink !== eVm.editLinkUrl.value) {
-        document.execCommand('createLink', false, nextLink)
+      if (nextLink !== currentLink) {
+        if (nextLink === '') {
+          // an emptied field blanks out a link that is already there
+          if (currentLink !== null) {
+            document.execCommand('createLink', false, ' ')
+          }
+        } else if (nextLink !== linkPlaceholder) {
+          // the untouched placeholder means no URL was ever typed
+          document.execCommand('createLink', false, nextLink)
+        }
       }
 
       eVm.editLinkUrl.value = null
@@ -353,11 +366,9 @@ export function getLinkEditor(eVm) {
           stop(evt)
           link = evt.target.value
         },
-
-        onBlur: () => {
-          updateLink()
-        },
-
+        // leaving the field commits, the same way the rest of the editor
+        // takes an edit without asking for an explicit confirmation
+        onBlur: updateLink,
         onKeydown: evt => {
           if (shouldIgnoreKey(evt)) return
 
@@ -368,15 +379,10 @@ export function getLinkEditor(eVm) {
               return updateLink()
             }
             case 27: {
-              // ESCAPE key
+              // ESCAPE key -- nothing was applied yet, so cancelling only
+              // has to close the field and hand the selection back
               prevent(evt)
               eVm.caret.restore()
-              if (
-                !eVm.editLinkUrl.value ||
-                eVm.editLinkUrl.value === 'https://'
-              ) {
-                document.execCommand('unlink')
-              }
               eVm.editLinkUrl.value = null
               break
             }
@@ -389,6 +395,9 @@ export function getLinkEditor(eVm) {
           ...eVm.buttonProps.value,
           label: eVm.$q.lang.label.remove,
           noCaps: true,
+          // holding on to the focus keeps the field -- and so this very
+          // button -- alive long enough for the click to land on it
+          onMousedown: prevent,
           onClick: () => {
             eVm.caret.restore()
             document.execCommand('unlink')
@@ -400,6 +409,7 @@ export function getLinkEditor(eVm) {
           ...eVm.buttonProps.value,
           label: eVm.$q.lang.label.update,
           noCaps: true,
+          onMousedown: prevent,
           onClick: updateLink
         })
       ])
