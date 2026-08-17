@@ -205,16 +205,29 @@ describe('[module.nodePackager.js]', () => {
     test('pnpm builds its specific params', () => {
       const pnpm = createPackager(['pnpm-lock.yaml'])
 
-      expect(pnpm.getInstallParams('development')).toEqual(['install'])
-      expect(pnpm.getInstallParams('production')).toEqual(['install', '--prod'])
+      // pnpm >= 11 fails the command over unapproved build scripts anywhere
+      // in the tree, so every install params list opts out of that
+      const noStrictBuilds = '--config.strict-dep-builds=false'
+
+      expect(pnpm.getInstallParams('development')).toEqual([
+        'install',
+        noStrictBuilds
+      ])
+      expect(pnpm.getInstallParams('production')).toEqual([
+        'install',
+        '--prod',
+        noStrictBuilds
+      ])
 
       expect(pnpm.getInstallPackageParams(['quasar'], false)).toEqual([
         'add',
+        noStrictBuilds,
         '',
         'quasar'
       ])
       expect(pnpm.getInstallPackageParams(['quasar'], true)).toEqual([
         'add',
+        noStrictBuilds,
         '--save-dev',
         'quasar'
       ])
@@ -256,10 +269,11 @@ describe('[module.nodePackager.js]', () => {
 
       await pm.install()
 
+      // the exact per-manager params are asserted by the specs above
       expect(state.spawnCalls).toEqual([
         {
           name: 'pnpm',
-          params: ['install'],
+          params: pm.getInstallParams('development'),
           opts: { cwd: pm.appDir, env: { NODE_ENV: 'development' } }
         }
       ])
@@ -274,7 +288,7 @@ describe('[module.nodePackager.js]', () => {
       expect(state.spawnCalls).toEqual([
         {
           name: 'pnpm',
-          params: ['install', '--prod'],
+          params: pm.getInstallParams('production'),
           opts: { cwd: pm.appDir, env: { NODE_ENV: 'production' } }
         },
         {

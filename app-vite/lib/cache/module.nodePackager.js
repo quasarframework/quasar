@@ -152,16 +152,32 @@ class Yarn extends PackageManager {
   }
 }
 
+// pnpm >= 11 exits with an error when any dependency in the tree has a build
+// script that was not approved (pnpm 10 only warned about it), even though the
+// packages did get installed. Our installs happen in the middle of a longer
+// flow (App Extension install/uninstall, mode add, ...) which must not be
+// aborted half-way for something the user resolves with "pnpm approve-builds"
+// on their own time — their own installs keep enforcing whatever they configured.
+// Unknown "--config.<key>" params are accepted by any pnpm version.
+const pnpmIgnoredBuildsParam = '--config.strict-dep-builds=false'
+
 class Pnpm extends PackageManager {
   name = 'pnpm'
   lockFiles = ['pnpm-lock.yaml']
 
   getInstallParams(env) {
-    return env === 'development' ? ['install'] : ['install', '--prod']
+    return env === 'development'
+      ? ['install', pnpmIgnoredBuildsParam]
+      : ['install', '--prod', pnpmIgnoredBuildsParam]
   }
 
   getInstallPackageParams(names, isDevDependency) {
-    return ['add', isDevDependency ? '--save-dev' : '', ...names]
+    return [
+      'add',
+      pnpmIgnoredBuildsParam,
+      isDevDependency ? '--save-dev' : '',
+      ...names
+    ]
   }
 
   getUninstallPackageParams(names) {
