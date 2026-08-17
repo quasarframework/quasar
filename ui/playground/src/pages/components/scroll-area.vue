@@ -164,7 +164,7 @@
         <div
           v-if="topOffset"
           :style="`width: ${topOffset}px`"
-          class="flex flex-center text-center text-white fixed-left"
+          class="flex flex-center text-center text-white absolute-left"
           style="backdrop-filter: blur(8px); background: #0008; z-index: 1"
         >
           User-Defined Panel
@@ -192,7 +192,7 @@
         <div
           v-if="bottomOffset"
           :style="`width: ${bottomOffset}px`"
-          class="flex flex-center text-center text-white fixed-right"
+          class="flex flex-center text-center text-white absolute-right"
           style="backdrop-filter: blur(8px); background: #0008; z-index: 1"
         >
           User-Defined Panel
