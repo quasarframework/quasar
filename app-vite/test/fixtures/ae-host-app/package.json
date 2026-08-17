@@ -6,7 +6,7 @@
   "type": "module",
   "dependencies": {
     "@quasar/extras": "^2.0.0",
-    "quasar": "^2.24.0"
+    "quasar": "^2.25.0"
   },
   "devDependencies": {
     "@quasar/app-vite": "^3.5.0"
