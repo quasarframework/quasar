@@ -24,7 +24,8 @@ export function fatal(msg) {
  */
 
 export function enterAlternateScreen(message) {
-  if (isCI) return
+  // with piped stdio the escapes below would only pollute the log
+  if (isCI || process.stdout.isTTY !== true) return
 
   // Enter Alternate Screen Buffer (hides current terminal history)
   process.stdout.write('\u001B[?1049h')
@@ -35,14 +36,16 @@ export function enterAlternateScreen(message) {
 }
 
 export function exitAlternateScreen() {
-  if (isCI) return
+  if (isCI || process.stdout.isTTY !== true) return
   process.stdout.write('\u001B[?1049l')
 }
 
 export function waitForKey() {
   // Are we in a real terminal?
-  // If not (e.g., CI pipeline), resolve immediately so the script doesn't hang forever.
-  if (isCI) return Promise.resolve()
+  // If not (e.g., CI pipeline or piped stdio), resolve immediately so the
+  // script doesn't hang forever. A non-TTY stdin has no setRawMode() either,
+  // so calling it below would throw and mask the error that led us here.
+  if (isCI || process.stdin.isTTY !== true) return Promise.resolve()
 
   const { stdin } = process
   process.stdout.write('Press any key to continue...')
