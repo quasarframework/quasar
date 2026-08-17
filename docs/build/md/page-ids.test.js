@@ -205,6 +205,22 @@ test('the page carries its own collisions in dev', () => {
   ])
 })
 
+test('a stripped <llm-only> block does not move the lines below it', () => {
+  // the two headings sit on lines 11 and 13 of this page; everything the
+  // block holds belongs to the AI export and never reaches markdown-it
+  const sfc = parsePage(
+    '---\ntitle: T\n---\n\nIntro.\n<llm-only>\nfor the AI export\n' +
+      'and more\n</llm-only>\n\n## Usage\n\n## Usage\n',
+    false
+  )
+
+  expect(JSON.parse(idIssuesRE.exec(sfc)[1])).toEqual([
+    'heading "Usage" on line 13 takes the id "usage", already taken by' +
+      ' heading "Usage" on line 11' +
+      ' - a link to #usage only ever reaches line 11'
+  ])
+})
+
 test('a page whose ids are unique carries no banner', () => {
   const sfc = parsePage('---\ntitle: T\n---\n## Usage\n\n## Config\n', false)
 
@@ -269,6 +285,10 @@ test('the id shapes mirrored in page-ids.js still live in their components', () 
     /titlePrefix = computed\(\(\) => `example--\$\{props\.file\.toLowerCase\(\)\}--`\)/
   )
   expect(read('src/components/DocExample.vue')).toContain('example-src--')
+  // both of those ids are built from the file, so it cannot be optional
+  expect(read('src/components/DocExample.vue')).toMatch(
+    /file: \{\s*type: String,\s*required: true/
+  )
   // the pen's "Forked from" anchor is built from that same prefix, so it
   // cannot drift into linking at an id no page renders
   expect(read('src/components/DocCodepen.vue')).toContain(

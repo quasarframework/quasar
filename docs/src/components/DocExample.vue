@@ -140,7 +140,11 @@ import DocCardTitle from './DocCardTitle.vue'
 
 const props = defineProps({
   title: String,
-  file: String,
+  // there is no example without one, and both ids below are built from it
+  file: {
+    type: String,
+    required: true
+  },
   noEdit: Boolean,
   scrollable: Boolean,
   overflow: Boolean
@@ -161,7 +165,7 @@ const source = ref({
 })
 
 const titlePrefix = computed(() => `example--${props.file.toLowerCase()}--`)
-const sourceId = computed(() => `example-src--${slugify(props.file || '')}`)
+const sourceId = computed(() => `example-src--${slugify(props.file)}`)
 
 const componentClass = computed(() =>
   props.scrollable

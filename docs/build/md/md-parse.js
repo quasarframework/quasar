@@ -41,12 +41,18 @@ function splitRenderedContent(mdPageContent) {
  * anything rendering a page outside this module (page-ids.test.js sweeps
  * every one of them) starts from the same source the site is built from.
  *
+ * An <llm-only> block leaves its newlines behind rather than collapsing:
+ * markdown-it counts a heading's line in what it is handed, so swallowing
+ * lines here would report every heading below the block above where the
+ * author's editor shows it. The wrapper tags need no such care - dropping
+ * one empties its line without removing it.
+ *
  * @param {string} source raw page source (including frontmatter)
  * @returns {string} source with llm-* markers normalized for the HTML pipeline
  */
 export function applyHtmlContentControl(source) {
   return source
-    .replace(LLM_ONLY_RE, '')
+    .replace(LLM_ONLY_RE, match => '\n'.repeat(match.split('\n').length - 1))
     .replace(LLM_EXCLUDE_OPEN_RE, '')
     .replace(LLM_EXCLUDE_CLOSE_RE, '')
 }

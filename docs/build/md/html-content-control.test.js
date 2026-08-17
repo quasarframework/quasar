@@ -7,7 +7,7 @@
  */
 
 import { expect, test } from 'vitest'
-import mdParse from './md-parse.js'
+import mdParse, { applyHtmlContentControl } from './md-parse.js'
 
 test('<llm-only> content is stripped from HTML pipeline', () => {
   const output = mdParse(
@@ -53,4 +53,14 @@ test('<llm-exclude reason="..."> wrapper stripped, content kept', () => {
     'reason'
   )
   expect(output, 'inner content must be preserved').toContain('kept')
+})
+
+test('<llm-only> leaves behind the lines it occupied', () => {
+  // markdown-it numbers a heading by the lines it is handed, so swallowing
+  // these would report every heading below the block above where it is
+  const source = 'a\n<llm-only>\nx\ny\n</llm-only>\nb\n'
+  const output = applyHtmlContentControl(source)
+
+  expect(output).not.toContain('x')
+  expect(output.split('\n')).toHaveLength(source.split('\n').length)
 })
