@@ -6,6 +6,8 @@
 
 <img alt="@quasar/update-notifier npm version" src="https://img.shields.io/npm/v/%40quasar/update-notifier.svg?label=@quasar/update-notifier">
 
+[![utils tests](https://github.com/quasarframework/quasar/actions/workflows/utils-tests.yml/badge.svg?branch=dev)](https://github.com/quasarframework/quasar/actions/workflows/utils-tests.yml)
+
 ## Chat Support
 
 Ask questions at the official community Discord server: [https://chat.quasar.dev](https://chat.quasar.dev)

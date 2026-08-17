@@ -8,6 +8,8 @@
 <a href="https://forum.quasar.dev" target="_blank"><img src="https://img.shields.io/badge/community-forum-brightgreen.svg"></a>
 [![https://good-labs.github.io/greater-good-affirmation/assets/images/badge.svg](https://good-labs.github.io/greater-good-affirmation/assets/images/badge.svg)](https://good-labs.github.io/greater-good-affirmation)
 
+[![create-quasar tests](https://github.com/quasarframework/quasar/actions/workflows/create-quasar-tests.yml/badge.svg?branch=dev)](https://github.com/quasarframework/quasar/actions/workflows/create-quasar-tests.yml)
+
 ## Scaffolding app
 
 This app is used to scaffold Quasar CLI project folders.

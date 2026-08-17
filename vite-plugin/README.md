@@ -13,6 +13,8 @@
 <a href="https://forum.quasar.dev" target="_blank"><img src="https://img.shields.io/badge/community-forum-brightgreen.svg"></a>
 [![https://good-labs.github.io/greater-good-affirmation/assets/images/badge.svg](https://good-labs.github.io/greater-good-affirmation/assets/images/badge.svg)](https://good-labs.github.io/greater-good-affirmation)
 
+[![vite-plugin tests](https://github.com/quasarframework/quasar/actions/workflows/vite-plugin-tests.yml/badge.svg?branch=dev)](https://github.com/quasarframework/quasar/actions/workflows/vite-plugin-tests.yml)
+
 ## Requirements (v2)
 
 - Vite 8+

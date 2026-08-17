@@ -10,7 +10,14 @@
 <a href="https://forum.quasar.dev" target="_blank"><img src="https://img.shields.io/badge/community-forum-brightgreen.svg"></a>
 [![https://good-labs.github.io/greater-good-affirmation/assets/images/badge.svg](https://good-labs.github.io/greater-good-affirmation/assets/images/badge.svg)](https://good-labs.github.io/greater-good-affirmation)
 
-[![Build types](https://github.com/quasarframework/quasar/actions/workflows/build-types.yml/badge.svg)](https://github.com/quasarframework/quasar/actions/workflows/build-types.yml)
+[![ui tests](https://github.com/quasarframework/quasar/actions/workflows/ui-tests.yml/badge.svg?branch=dev)](https://github.com/quasarframework/quasar/actions/workflows/ui-tests.yml)
+[![ui types](https://github.com/quasarframework/quasar/actions/workflows/ui-types.yml/badge.svg?branch=dev)](https://github.com/quasarframework/quasar/actions/workflows/ui-types.yml)
+[![app-vite tests](https://github.com/quasarframework/quasar/actions/workflows/app-vite-tests.yml/badge.svg?branch=dev)](https://github.com/quasarframework/quasar/actions/workflows/app-vite-tests.yml)
+[![cli tests](https://github.com/quasarframework/quasar/actions/workflows/cli-tests.yml/badge.svg?branch=dev)](https://github.com/quasarframework/quasar/actions/workflows/cli-tests.yml)
+[![create-quasar tests](https://github.com/quasarframework/quasar/actions/workflows/create-quasar-tests.yml/badge.svg?branch=dev)](https://github.com/quasarframework/quasar/actions/workflows/create-quasar-tests.yml)
+[![vite-plugin tests](https://github.com/quasarframework/quasar/actions/workflows/vite-plugin-tests.yml/badge.svg?branch=dev)](https://github.com/quasarframework/quasar/actions/workflows/vite-plugin-tests.yml)
+[![utils tests](https://github.com/quasarframework/quasar/actions/workflows/utils-tests.yml/badge.svg?branch=dev)](https://github.com/quasarframework/quasar/actions/workflows/utils-tests.yml)
+[![docs tests](https://github.com/quasarframework/quasar/actions/workflows/docs-tests.yml/badge.svg?branch=dev)](https://github.com/quasarframework/quasar/actions/workflows/docs-tests.yml)
 
 Please submit a PR to https://github.com/quasarframework/quasar-awesome with your website/app/Quasar tutorial/video etc. Thank you!
 

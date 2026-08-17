@@ -8,6 +8,8 @@
 <a href="https://forum.quasar.dev" target="_blank"><img src="https://img.shields.io/badge/community-forum-brightgreen.svg"></a>
 [![https://good-labs.github.io/greater-good-affirmation/assets/images/badge.svg](https://good-labs.github.io/greater-good-affirmation/assets/images/badge.svg)](https://good-labs.github.io/greater-good-affirmation)
 
+[![docs tests](https://github.com/quasarframework/quasar/actions/workflows/docs-tests.yml/badge.svg?branch=dev)](https://github.com/quasarframework/quasar/actions/workflows/docs-tests.yml)
+
 ## Supporting Quasar
 
 Quasar Framework is an MIT-licensed open source project. Its ongoing development is made possible thanks to the support by these awesome [backers](https://github.com/rstoenescu/quasar-framework/blob/dev/backers.md).
