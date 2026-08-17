@@ -720,11 +720,32 @@ export function definePlaygroundSuite({ playgroundDir, scriptExt }) {
     // Warm the Electron binary first (electron >= 43 downloads it lazily
     // on first launch), so the settle window below measures the app
     // actually starting instead of the download.
-    const warmup = await run(
-      process.execPath,
-      ['node_modules/electron/install.js'],
-      join(playgroundDir, 'src-electron')
-    )
+    // Every upstream release invalidates the local binary cache, turning
+    // this into a multi-minute download that reports nothing: the
+    // downloader's progress bar is TTY-gated and a vitest worker has no
+    // TTY, so no child output can ever surface it. Without the heartbeat
+    // below the step just sits there and reads as a hung dev server.
+    // An already-cached binary exits install.js immediately, well before
+    // the first tick, so warm runs stay silent.
+    const warmupStartedAt = Date.now()
+    const warmupHeartbeat = setInterval(() => {
+      const elapsedSec = Math.round((Date.now() - warmupStartedAt) / 1000)
+      console.log(
+        `  still warming the Electron binary — ${elapsedSec}s elapsed; a new upstream release re-downloads it`
+      )
+    }, 15_000)
+
+    let warmup
+    try {
+      warmup = await run(
+        process.execPath,
+        ['node_modules/electron/install.js'],
+        join(playgroundDir, 'src-electron')
+      )
+    } finally {
+      clearInterval(warmupHeartbeat)
+    }
+
     expect(warmup.code, warmup.output + warmup.repro).toBe(0)
 
     const port = await getFreePort()
