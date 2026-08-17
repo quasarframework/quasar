@@ -260,10 +260,50 @@ describe('[preventScroll API]', () => {
         // handler is fed a crafted resize payload: maxScrollTop becomes
         // 800 (clientHeight) - 500 = 300, and the 500px scrollTop gets
         // pulled back by ceil((500 - 300) / 8)
-        resizeHandler({ target: { height: 500 } })
+        resizeHandler({ target: { height: 500, scale: 1 } })
 
         await vi.waitFor(() => {
           expect(scrollingElement.scrollTop).toBe(475)
+        })
+      })
+
+      test('stops correcting the iOS scroll position while the viewport is zoomed', async () => {
+        document.documentElement.style.minHeight = '3000px'
+        restoreFns.push(() => {
+          document.documentElement.style.minHeight = ''
+          window.scrollTo(0, 0)
+        })
+
+        mockPlatform({ ios: true, nativeMobile: false })
+
+        const viewport = spyVisualViewport()
+
+        preventScroll(true)
+
+        const scrollingElement = document.scrollingElement
+        scrollingElement.scrollTop = 500
+
+        const resizeHandler = viewport.addEventListener.mock.calls[0][1]
+
+        // a shrunken viewport that is shrunken because it is zoomed in:
+        // correcting the scroll position would emit another visual viewport
+        // event, which would correct it again, and the page would never settle
+        resizeHandler({ target: { height: 500, scale: 2 } })
+
+        // the handler defers to an animation frame, so give it two of them
+        // before concluding that it left the scroll position alone
+        await new Promise(resolve => {
+          requestAnimationFrame(() => requestAnimationFrame(resolve))
+        })
+
+        expect(scrollingElement.scrollTop).toBe(500)
+
+        // the very same viewport height is still corrected once unzoomed,
+        // so it is the zoom that suppresses it and not the payload
+        resizeHandler({ target: { height: 500, scale: 1 } })
+
+        await vi.waitFor(() => {
+          expect(scrollingElement.scrollTop).toBeLessThan(500)
         })
       })
 

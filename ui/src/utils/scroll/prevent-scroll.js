@@ -31,8 +31,16 @@ function onAppleResize(evt) {
   requestAnimationFrame(() => {
     vpPendingUpdate = false
 
-    const { height } = evt.target,
-      { clientHeight, scrollTop } = document.scrollingElement
+    const { height, scale } = evt.target
+
+    // While zoomed, the visual viewport is never as tall as the layout one,
+    // so the correction below would rewrite scrollTop on every event -- and
+    // each write emits another one, so it never settles. iOS keeps the focused
+    // element in view by itself while zoomed. The tolerance keeps the shrink
+    // handling on devices that report a scale a hair off 1 when not zoomed.
+    if (Math.abs(scale - 1) > 0.01) return
+
+    const { clientHeight, scrollTop } = document.scrollingElement
 
     if (maxScrollTop === void 0 || height !== window.innerHeight) {
       maxScrollTop = clientHeight - height
