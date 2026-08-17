@@ -49,6 +49,12 @@ quasar ext add <ext-id>
 
 This command will find and install the extension's module. After installation is complete, there may be one or more prompts asking you to make choices or add information needed by the extension. When the installation is concluded, you will be returned to the command line.
 
+::: danger Installing an App Extension runs third-party code
+`quasar ext add` installs the extension's npm package (running that package's lifecycle scripts, if it has any), then executes the extension's install script inside the Quasar CLI process with the same privileges as your user account. App Extensions are not sandboxed: an extension can read and write files anywhere your user can - inside or outside of your project folder - run commands and read your environment variables. The trust is also not limited to installation time, since every installed extension is initialized again on each `quasar dev` and `quasar build`.
+
+This is the same level of trust that you already grant to any npm dependency, so treat App Extensions the same way: install only the ones whose author and source code you trust.
+:::
+
 ### List Installed App Extensions
 
 There are several ways to "discover" what App Extensions have been installed:
