@@ -13,7 +13,7 @@ export default function injectScroll(store) {
     () => store.$route.fullPath,
     (newRoute, oldRoute) => {
       setTimeout(() => {
-        scrollToCurrentAnchor(newRoute.path !== oldRoute.path)
+        scrollToCurrentAnchor(newRoute !== oldRoute)
       }, 0)
     }
   )
