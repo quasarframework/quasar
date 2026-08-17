@@ -926,8 +926,16 @@ export default /*#__PURE__*/ createComponent({
         : void 0
     }
 
+    // structure's records point at the very node objects of the nodes
+    // model, so a keyed lookup replaces getNodeByKey()'s full-tree scan
+    // per key -- these two run over a whole model list
+    function getNodesByKeys(keys) {
+      const { map } = structure.value
+      return keys.map(key => map.get(key)?.node)
+    }
+
     function getTickedNodes() {
-      return innerTicked.value.map(key => getNodeByKey(key))
+      return getNodesByKeys(innerTicked.value)
     }
 
     // only the leaf strategies aggregate a parent's state from its
@@ -953,7 +961,7 @@ export default /*#__PURE__*/ createComponent({
     }
 
     function getExpandedNodes() {
-      return innerExpanded.value.map(key => getNodeByKey(key))
+      return getNodesByKeys(innerExpanded.value)
     }
 
     function isExpanded(key) {
