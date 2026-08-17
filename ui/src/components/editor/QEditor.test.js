@@ -908,6 +908,58 @@ describe('[QEditor API]', () => {
     })
   })
 
+  describe('[Generic]', () => {
+    test.each([
+      ['an only-icons dropdown', 'only-icons', '.q-menu .q-btn'],
+      ['a list dropdown', void 0, '.q-menu .q-item']
+    ])(
+      'keeps the link editor open when the command comes from %s',
+      async (_, list, optionSelector) => {
+        const wrapper = mountEditor(
+          {
+            toolbar: [
+              [
+                {
+                  label: 'Link',
+                  fixedLabel: true,
+                  fixedIcon: true,
+                  list,
+                  options: ['link']
+                }
+              ]
+            ]
+          },
+          { attachTo: document.body }
+        )
+        await flushToolbar()
+
+        getContent(wrapper).element.focus()
+        selectContent(wrapper)
+        // the click is what a real selection ends with, and it refreshes
+        // the toolbar so the link command reports itself as available
+        await getContent(wrapper).trigger('click')
+        await flushToolbar()
+
+        const dropdown = wrapper.findComponent({ name: 'QBtnDropdown' })
+        dropdown.vm.show()
+        await flushPromises()
+        await flushDropdown()
+
+        document
+          .querySelector(optionSelector)
+          .dispatchEvent(new MouseEvent('click', { bubbles: true }))
+
+        // the menu lives in a portal, so the focus it hands back on close
+        // used to read as "focus left the editor" and closed the editor
+        // again one tick after it had opened
+        await flushDropdown()
+        await flushToolbar()
+
+        expect(wrapper.find('.q-editor__link-input').exists()).toBe(true)
+      }
+    )
+  })
+
   describe('[Accessibility]', () => {
     test('toolbar toggles expose their state, not just a color', async () => {
       const wrapper = mountEditor({ toolbar: [['bold']] })

@@ -48,6 +48,8 @@ The `link` command swaps the toolbar for a URL field pointing at the current sel
 
 Your content is only touched once you commit an URL — by pressing <kbd>Enter</kbd>, by hitting the "Update" button, or simply by clicking away from the field. Leaving `https://` untouched commits nothing, so abandoning the field never leaves a broken link behind. <kbd>Escape</kbd> cancels outright, while the "Remove" button strips the link from the selection.
 
+The command behaves the same wherever you put it, including inside one of the [dropdowns](#dropdowns) described below.
+
 ## Dropdowns
 
 ### Types of dropdowns

@@ -5,7 +5,12 @@ import { computed, defineComponent, getCurrentInstance, h, ref } from 'vue'
 import QBtn from '../btn/QBtn.js'
 import QBtnDropdown from '../btn-dropdown/QBtnDropdown.js'
 import { linkPlaceholder } from './editor-caret.js'
-import { getFonts, getLinkEditor, getToolbar } from './editor-utils.js'
+import {
+  dropdownContentClass,
+  getFonts,
+  getLinkEditor,
+  getToolbar
+} from './editor-utils.js'
 
 /**
  * The link editor drives the real execCommand of the browser; a passthrough
@@ -102,6 +107,29 @@ function mountUtil(render, options) {
 const boldBtn = { cmd: 'bold', icon: 'format_bold', tip: 'Bold' }
 
 describe('[editorUtils API]', () => {
+  describe('[Variables]', () => {
+    describe('[(variable)dropdownContentClass]', () => {
+      test('is defined correctly', () => {
+        expect(dropdownContentClass).toBeTypeOf('string')
+      })
+
+      test.each([
+        ['a list dropdown', void 0],
+        ['an only-icons dropdown', 'only-icons']
+      ])('marks the menu of %s as part of the editor', (_, list) => {
+        mountUtil(getToolbar, {
+          buttons: [
+            [{ type: 'dropdown', label: 'Size', list, options: [boldBtn] }]
+          ]
+        })
+
+        const { contentClass } = wrapper.findComponent(QBtnDropdown).props()
+
+        expect([contentClass].flat()).toContain(dropdownContentClass)
+      })
+    })
+  })
+
   describe('[Functions]', () => {
     describe('[(function)getToolbar]', () => {
       test('has correct return value', () => {

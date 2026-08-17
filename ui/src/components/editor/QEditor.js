@@ -10,7 +10,12 @@ import {
 } from 'vue'
 
 import Caret from './editor-caret.js'
-import { getFonts, getLinkEditor, getToolbar } from './editor-utils.js'
+import {
+  dropdownContentClass,
+  getFonts,
+  getLinkEditor,
+  getToolbar
+} from './editor-utils.js'
 
 import useQuasar from '../../composables/use-quasar/use-quasar.js'
 import useDark, {
@@ -621,13 +626,27 @@ export default /*#__PURE__*/ createComponent({
       emit('focus', e)
     }
 
+    /**
+     * Tells a real focus change apart from focus merely travelling between
+     * the editor and one of its own toolbar dropdowns: those render their
+     * menu through a portal, so the DOM alone reports them as elsewhere.
+     */
+    function movedOutside(el) {
+      const root = rootRef.value
+
+      return (
+        el === null ||
+        (!root.contains(el) && !el.closest?.(`.${dropdownContentClass}`))
+      )
+    }
+
     function onFocusin(e) {
       const root = rootRef.value
 
       if (
         root !== null &&
         root.contains(e.target) &&
-        (e.relatedTarget === null || !root.contains(e.relatedTarget))
+        movedOutside(e.relatedTarget)
       ) {
         const prop = `inner${isViewingSource.value ? 'Text' : 'HTML'}`
         eVm.caret.restorePosition(contentRef.value[prop].length)
@@ -641,7 +660,7 @@ export default /*#__PURE__*/ createComponent({
       if (
         root !== null &&
         root.contains(e.target) &&
-        (e.relatedTarget === null || !root.contains(e.relatedTarget))
+        movedOutside(e.relatedTarget)
       ) {
         eVm.caret.savePosition()
         refreshToolbar()

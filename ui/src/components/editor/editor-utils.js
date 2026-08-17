@@ -12,6 +12,10 @@ import { prevent, stop } from '../../utils/event/event.js'
 import { hSlot } from '../../utils/private.render/render.js'
 import { shouldIgnoreKey } from '../../utils/private.keyboard/key-composition.js'
 
+// toolbar dropdowns render their menu through a portal, so it lands outside
+// of the editor element; this marks those menus as still being part of it
+export const dropdownContentClass = 'q-editor__dropdown'
+
 function run(e, btn, eVm) {
   if (btn.handler) {
     btn.handler(e, eVm, eVm.caret)
@@ -110,7 +114,7 @@ function getDropdown(eVm, btn, tabAttrs) {
       }
       return getBtn(eVm, localBtn, closeDropdown, active)
     })
-    contentClass = eVm.toolbarBackgroundClass.value
+    contentClass = [dropdownContentClass, eVm.toolbarBackgroundClass.value]
     Items = [getGroup(Items)]
   } else {
     const activeClass =
@@ -184,7 +188,11 @@ function getDropdown(eVm, btn, tabAttrs) {
       )
     })
 
-    contentClass = [eVm.toolbarBackgroundClass.value, inactiveClass]
+    contentClass = [
+      dropdownContentClass,
+      eVm.toolbarBackgroundClass.value,
+      inactiveClass
+    ]
   }
 
   const highlight = btn.highlight && label !== btn.label
