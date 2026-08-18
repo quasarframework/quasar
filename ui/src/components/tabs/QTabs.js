@@ -183,12 +183,8 @@ export default /*#__PURE__*/ createComponent({
 
     const domProps = computed(() =>
       props.vertical
-        ? {
-            container: 'height',
-            content: 'offsetHeight',
-            scroll: 'scrollHeight'
-          }
-        : { container: 'width', content: 'offsetWidth', scroll: 'scrollWidth' }
+        ? { container: 'height', content: 'offsetHeight' }
+        : { container: 'width', content: 'offsetWidth' }
     )
 
     const isRTL = computed(() => !props.vertical && $q.lang.rtl === true)
@@ -235,16 +231,21 @@ export default /*#__PURE__*/ createComponent({
       // (one example of such case is the docs release notes page)
       if (domProps.value === void 0 || contentRef.value === null) return
 
+      // We measure the content as the sum of the children sizes rather than
+      // reading scrollWidth/scrollHeight, because that only reports overflow
+      // towards the end edge. When align is "right" (or "center") the content
+      // overflows towards the start edge instead, and Blink and Gecko leave it
+      // out of the scrollable overflow region, so scrollWidth collapses to the
+      // client size and the arrows never show up (#17847). WebKit does report
+      // it, hence the engine split. The sum also avoids the transiently
+      // oversized scrollWidth that used to raise a phantom arrow (#7667).
       const size = domSize[domProps.value.container],
-        scrollSize = Math.min(
-          contentRef.value[domProps.value.scroll],
-          Array.prototype.reduce.call(
-            contentRef.value.children,
-            (acc, el) => acc + (el[domProps.value.content] || 0),
-            0
-          )
+        scrollSize = Array.prototype.reduce.call(
+          contentRef.value.children,
+          (acc, el) => acc + (el[domProps.value.content] || 0),
+          0
         ),
-        scroll = size > 0 && scrollSize > size // when there is no tab, in Chrome, size === 0 and scrollSize === 1
+        scroll = size > 0 && scrollSize > size // no tab -> size is 0 in Chrome
 
       scrollable.value = scroll
 

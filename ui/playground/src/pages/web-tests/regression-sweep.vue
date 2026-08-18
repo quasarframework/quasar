@@ -212,6 +212,22 @@
         </q-scroll-area>
       </div>
     </div>
+
+    <!-- S16: #17847 QTabs must notice it overflows whichever way `align`
+         pushes the content. The box has to be wider than the 600px
+         `breakpoint`, below which `align` is dropped in favour of `justify`
+         and the bug cannot appear at all. The left-aligned set is the
+         control: if it stops being scrollable the fixture itself is wrong -->
+    <div class="fixture">
+      <div style="width: 700px">
+        <q-tabs v-model="s16tab" align="left" class="s16-left">
+          <q-tab v-for="n in 12" :key="n" :name="`t${n}`" :label="`Tab ${n}`" />
+        </q-tabs>
+        <q-tabs v-model="s16tab" align="right" class="s16-right">
+          <q-tab v-for="n in 12" :key="n" :name="`t${n}`" :label="`Tab ${n}`" />
+        </q-tabs>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -248,6 +264,7 @@ const s10val = ref(2)
 const s11menu = ref(null)
 const s12dlg = ref(false)
 const s12tt = ref(null)
+const s16tab = ref('t1')
 
 const lines = ref([])
 const results = []
@@ -687,6 +704,33 @@ function s15() {
   )
 }
 
+// S16: #17847 QTabs must detect overflow no matter how `align` positions its
+// content. With align="right" the tabs spill towards the start edge, which
+// Blink and Gecko keep out of the scrollable overflow region, so measuring via
+// scrollWidth reported "fits" and the arrows were hidden. WebKit reported it,
+// so this only ever failed in 2 of the 3 engines.
+function s16() {
+  const visibleArrows = el =>
+    Array.prototype.filter.call(
+      el.querySelectorAll('.q-tabs__arrow'),
+      arrow => getComputedStyle(arrow).display !== 'none'
+    ).length
+
+  const left = document.querySelector('.s16-left'),
+    right = document.querySelector('.s16-right'),
+    leftArrows = visibleArrows(left),
+    rightArrows = visibleArrows(right),
+    rightScrollable = right.classList.contains('q-tabs--scrollable'),
+    ok = leftArrows > 0 && rightScrollable && rightArrows > 0
+
+  report(
+    'S16 17847 QTabs detects overflow when align=right',
+    ok,
+    `leftArrows=${leftArrows} rightArrows=${rightArrows} ` +
+      `rightScrollable=${rightScrollable}`
+  )
+}
+
 async function runAll() {
   lines.value = []
   results.length = 0
@@ -708,7 +752,8 @@ async function runAll() {
     s12,
     s13,
     s14,
-    s15
+    s15,
+    s16
   ]
   for (const scenario of scenarios) {
     try {
