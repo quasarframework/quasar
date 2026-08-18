@@ -196,6 +196,12 @@ The `reverse-fill-mask` is useful if you want to force the user to fill the mask
 
 <DocExample title="Filling the mask in reverse" file="MaskFillReverse" />
 
+### Multiple masks
+
+When one field must accept several formats (a phone number with 8 or 9 local digits, for example), bind `mask` to a computed property that picks the format from the value's length. Two details make the pattern reliable: use `unmasked-value`, so the plain digit count drives the decision regardless of which mask's literals are currently applied, and give the shorter mask one spare token at its end, so the digit that crosses the threshold can be typed at all; the moment it lands, the computed property switches masks and the value is re-laid out, with the caret staying in place.
+
+<DocExample title="Multiple masks" file="MaskMultiple" />
+
 ### Custom mask tokens <q-badge label="v2.18.4+" />
 
 You can also define custom mask tokens on top of the default ones or even override some/all of the [default ones](https://github.com/quasarframework/quasar/blob/dev/ui/src/components/input/use-mask.js#L15).
