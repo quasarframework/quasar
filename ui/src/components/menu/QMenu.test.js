@@ -3,6 +3,7 @@ import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import { defineComponent, h } from 'vue'
 
 import { getRouter } from 'testing/runtime/router.js'
+import { client } from '../../plugins/platform/Platform.js'
 import { validatePosition } from '../../utils/private.position-engine/position-engine.js'
 import useFullscreen, {
   useFullscreenProps
@@ -1209,6 +1210,43 @@ describe('[QMenu API]', () => {
   })
 
   describe('[Generic]', () => {
+    test('follows visual viewport moves while showing on iOS', async () => {
+      // iOS scrolls only the visual viewport while the soft keyboard is
+      // open (or while pinch-zoomed): no window scroll event fires, yet
+      // position:fixed popups stay pinned to the pre-scroll viewport,
+      // so the popup must re-anchor on visual viewport scroll/resize
+      const originalIos = client.is.ios
+      client.is.ios = true
+
+      const addSpy = vi.spyOn(window.visualViewport, 'addEventListener')
+      const removeSpy = vi.spyOn(window.visualViewport, 'removeEventListener')
+
+      try {
+        const wrapper = mountMenu()
+        await showMenu(wrapper)
+
+        for (const evt of ['scroll', 'resize']) {
+          expect(addSpy).toHaveBeenCalledWith(
+            evt,
+            expect.any(Function),
+            expect.anything()
+          )
+        }
+
+        await hideMenu(wrapper)
+
+        for (const evt of ['scroll', 'resize']) {
+          expect(removeSpy).toHaveBeenCalledWith(
+            evt,
+            expect.any(Function),
+            expect.anything()
+          )
+        }
+      } finally {
+        client.is.ios = originalIos
+      }
+    })
+
     test('stays open when clicking inside a fullscreen-detached child (issue #18512)', async () => {
       const wrapper = mountMenu(
         {},
