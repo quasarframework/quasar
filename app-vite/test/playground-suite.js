@@ -34,7 +34,10 @@ const fixtureMarkers = {
   indexPageContent: 'Go to Second Page',
   // playground-ts/src/stores/example-store.ts — rendered on the index
   // page, proving store state made it through SSR/SSG rendering
-  storeGreeting: 'Greetings from Pinia'
+  storeGreeting: 'Greetings from Pinia',
+  // playground-ts/src/stores/example-store.ts: the serialized form of the
+  // store's Map, proving non-JSON types survive state serialization
+  storeMapState: 'new Map([["ssr","map-survives-serialization"]])'
 }
 
 // The full per-playground pipeline, driving every mode through the real
@@ -318,6 +321,7 @@ export function definePlaygroundSuite({ playgroundDir, scriptExt }) {
       // the store got used during the render and its state serialized
       expect(html).toContain(fixtureMarkers.storeGreeting)
       expect(html).toContain('__INITIAL_STATE__')
+      expect(html).toContain(fixtureMarkers.storeMapState)
     } else {
       expect(html).not.toContain('__INITIAL_STATE__')
     }
@@ -436,6 +440,7 @@ export function definePlaygroundSuite({ playgroundDir, scriptExt }) {
     if (hasStore) {
       // store-driven content is statically rendered too
       expect(indexHtml, repro).toContain(fixtureMarkers.storeGreeting)
+      expect(indexHtml, repro).toContain(fixtureMarkers.storeMapState)
     }
   })
 
@@ -642,6 +647,7 @@ export function definePlaygroundSuite({ playgroundDir, scriptExt }) {
     if (hasStore) {
       expect(html).toContain(fixtureMarkers.storeGreeting)
       expect(html).toContain('__INITIAL_STATE__')
+      expect(html).toContain(fixtureMarkers.storeMapState)
     }
   })
 

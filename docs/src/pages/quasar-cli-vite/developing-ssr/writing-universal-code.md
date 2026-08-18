@@ -105,6 +105,12 @@ During SSR, we are essentially rendering a "snapshot" of our app, so if the app 
 
 The Quasar CLI [PreFetch Feature](/quasar-cli-vite/prefetch-feature) has been created to solve this problem. Take a few moments to read about it.
 
+### State serialization
+
+The store state is serialized into the HTML payload (as `window.__INITIAL_STATE__`) and revived on the client before hydration. Besides JSON-compatible data, `Map`, `Set`, `Date`, `RegExp`, `BigInt` and `undefined` values survive the trip as well (requires @quasar/app-vite v3.7+; earlier versions JSON-stringify the state, so such values degrade to empty objects or get dropped).
+
+Avoid placing functions or class instances in the state: a function would get its source code embedded into the payload, while class instances are downgraded to plain objects. If you need full control, you can serialize and hydrate the state yourself through the `ssr.manualStoreSerialization` and `ssr.manualStoreHydration` config props.
+
 <q-separator class="q-mt-xl" />
 
 > Parts of this page are taken from the official [Vue.js SSR guide](https://vuejs.org/guide/scaling-up/ssr.html#component-lifecycle-hooks).

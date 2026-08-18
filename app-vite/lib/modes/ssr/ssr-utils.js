@@ -8,7 +8,8 @@ import { dot, info, log } from '../../utils/logger.js'
 export { injectNonceAttr } from '../../../templates/entry/ssr-nonce.js'
 
 export function renderStoreState(ssrContext) {
-  const state = serialize(ssrContext.state, { isJSON: true })
+  // no isJSON flag so Map/Set/Date/RegExp survive into the client payload
+  const state = serialize(ssrContext.state)
   return (
     `<script${ssrContext.__quasarNonceAttr}>` +
     `window.__INITIAL_STATE__=${state};` +

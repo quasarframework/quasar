@@ -53,7 +53,8 @@ function renderModulesPreload (opts) {
 const autoRemove = 'document.currentScript.remove()'
 
 function renderStoreState (ssrContext) {
-  const state = serialize(ssrContext.state, { isJSON: true })
+  // no isJSON flag so Map/Set/Date/RegExp survive into the client payload
+  const state = serialize(ssrContext.state)
   return '<script' + ssrContext.__quasarNonceAttr + '>window.__INITIAL_STATE__=' + state + ';' + autoRemove + '</script>'
 }
 <% } %>

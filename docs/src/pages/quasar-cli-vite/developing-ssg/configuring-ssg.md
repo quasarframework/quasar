@@ -355,7 +355,7 @@ export default defineConfig(ctx => {
 
 ### Manually triggering store hydration
 
-By default, Quasar CLI serializes the Pinia state into the generated HTML and hydrates the store on the client.
+By default, Quasar CLI serializes the Pinia state into the generated HTML and hydrates the store on the client. See [State serialization](/quasar-cli-vite/developing-ssr/writing-universal-code#state-serialization) for which value types survive the trip.
 
 Set `ssg.manualStoreHydration: true` only when you need to replace that client-side hydration step. For example, use a client-only [boot file](/quasar-cli-vite/boot-files):
 
