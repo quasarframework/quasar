@@ -3,6 +3,7 @@ import { mount } from '@vue/test-utils'
 import { afterEach, describe, expect, test, vi } from 'vitest'
 
 import QInfiniteScroll from './QInfiniteScroll.js'
+import preventScroll from '../../utils/scroll/prevent-scroll.js'
 
 const targets = []
 const wrappers = []
@@ -328,6 +329,53 @@ describe('[QInfiniteScroll API]', () => {
           expect.anything()
         )
       })
+    })
+  })
+
+  describe('[Generic]', () => {
+    test('does not poll while an overlay scroll-locks the page', async () => {
+      // give the page real overflowing content, so window scrolling works
+      const filler = document.createElement('div')
+      filler.style.height = '3000px'
+      document.body.append(filler)
+      targets.push(filler)
+
+      const wrapper = mount(QInfiniteScroll, {
+        props: { debounce: 0, reverse: true },
+        attachTo: document.body
+      })
+      wrappers.push(wrapper)
+
+      try {
+        // mounting in reverse mode scrolls the page to the bottom,
+        // far beyond the trigger offset, so nothing loads yet
+        expect(window.scrollY).toBeGreaterThan(500)
+        expect(wrapper.emitted()).not.toHaveProperty('load')
+
+        // a Dialog or an overlay Drawer opens...
+        preventScroll(true)
+
+        // ...pinning the window scroll position at 0, which reverse mode
+        // would misread as "scrolled to the top" and load over and over
+        await expect.poll(() => window.scrollY).toBe(0)
+        window.dispatchEvent(new Event('scroll'))
+
+        expect(wrapper.emitted()).not.toHaveProperty('load')
+
+        // closing the overlay restores the scroll position and polling
+        preventScroll(false)
+        await expect.poll(() => window.scrollY).toBeGreaterThan(500)
+
+        window.scrollTo(0, 100)
+        window.dispatchEvent(new Event('scroll'))
+
+        expect(wrapper.emitted('load')).toHaveLength(1)
+      } finally {
+        // the module keeps an internal counter, so always end up
+        // unregistered even when an assertion above fails
+        preventScroll(false)
+        window.scrollTo(0, 0)
+      }
     })
   })
 })

@@ -79,6 +79,17 @@ export default /*#__PURE__*/ createComponent({
         return
       }
 
+      // A Dialog or an overlay Drawer scroll-locks the page (body becomes
+      // position:fixed), which pins the window scroll position at 0. Reverse
+      // mode reads that as "scrolled to the top", so each done() would
+      // trigger the next load for as long as the overlay stays open. Skip
+      // polling while locked: releasing the lock restores the scroll
+      // position, and that scroll event resumes polling. Element scroll
+      // targets keep their own geometry under the lock, so they stay live.
+      if (localScrollTarget === window && document.qScrollPrevented === true) {
+        return
+      }
+
       const scrollHeight = getScrollHeight(localScrollTarget),
         scrollPosition = getVerticalScrollPosition(localScrollTarget),
         containerHeight = height(localScrollTarget)
