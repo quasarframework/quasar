@@ -415,6 +415,36 @@ describe('[QInput API]', () => {
         expect(wrapper.classes()).toContain('q-field--error')
       })
 
+      test('value true clears a displayed error while typing (#17456)', async () => {
+        const wrapper = mountInput({
+          modelValue: 'abcd',
+          lazyRules: true,
+          rules: [maxThreeChars]
+        })
+
+        const control = wrapper.get('.q-field__control')
+        await control.trigger('focusin')
+        await control.trigger('focusout')
+        await flushTimers()
+        await flushPromises()
+
+        expect(wrapper.classes()).toContain('q-field--error')
+
+        // fixing the value clears the error without another blur...
+        await wrapper.setProps({ modelValue: 'ab' })
+        await flushTimers()
+        await flushPromises()
+
+        expect(wrapper.classes()).not.toContain('q-field--error')
+
+        // ...and the field is lazy again until the next blur
+        await wrapper.setProps({ modelValue: 'abcd' })
+        await flushTimers()
+        await flushPromises()
+
+        expect(wrapper.classes()).not.toContain('q-field--error')
+      })
+
       test('value false has effect', async () => {
         const wrapper = mountInput({
           modelValue: 'ab',
