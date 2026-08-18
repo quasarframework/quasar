@@ -17,7 +17,15 @@ import { formKey } from '../../utils/private.symbols/symbols.js'
 import { vmIsDestroyed } from '../../utils/private.vm/vm.js'
 
 function validateComponent(comp) {
-  const valid = comp.validate()
+  let valid
+
+  try {
+    valid = comp.validate()
+  } catch (err) {
+    // a synchronously throwing rule must fail the same
+    // way an asynchronously rejecting one already does
+    return Promise.resolve({ valid: false, comp, err })
+  }
 
   return typeof valid.then === 'function'
     ? valid.then(
