@@ -107,7 +107,7 @@ The Quasar CLI [PreFetch Feature](/quasar-cli-vite/prefetch-feature) has been cr
 
 ### State serialization
 
-The store state is serialized into the HTML payload (as `window.__INITIAL_STATE__`) and revived on the client before hydration. Besides JSON-compatible data, `Map`, `Set`, `Date`, `RegExp`, `BigInt` and `undefined` values survive the trip as well (requires @quasar/app-vite v3.7+; earlier versions JSON-stringify the state, so such values degrade to empty objects or get dropped).
+The store state is serialized into the HTML payload (as `window.__INITIAL_STATE__`) and revived on the client before hydration. Besides JSON-compatible data, `Map`, `Set`, `Date`, `RegExp`, `BigInt` and `undefined` values survive the trip as well (requires @quasar/app-vite v3.6.2+; earlier versions JSON-stringify the state, so such values degrade to empty objects or get dropped).
 
 Avoid placing functions or class instances in the state: a function would get its source code embedded into the payload, while class instances are downgraded to plain objects. If you need full control, you can serialize and hydrate the state yourself through the `ssr.manualStoreSerialization` and `ssr.manualStoreHydration` config props.
 
