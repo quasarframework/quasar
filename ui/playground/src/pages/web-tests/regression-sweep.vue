@@ -220,10 +220,13 @@
          control: if it stops being scrollable the fixture itself is wrong -->
     <div class="fixture">
       <div style="width: 700px">
-        <q-tabs v-model="s16tab" align="left" class="s16-left">
+        <!-- mobile-arrows: on mobile platforms arrows are otherwise hidden
+             in favour of touch panning, which would fail this scenario's
+             arrow assertions on the iOS Simulator run -->
+        <q-tabs v-model="s16tab" align="left" mobile-arrows class="s16-left">
           <q-tab v-for="n in 12" :key="n" :name="`t${n}`" :label="`Tab ${n}`" />
         </q-tabs>
-        <q-tabs v-model="s16tab" align="right" class="s16-right">
+        <q-tabs v-model="s16tab" align="right" mobile-arrows class="s16-right">
           <q-tab v-for="n in 12" :key="n" :name="`t${n}`" :label="`Tab ${n}`" />
         </q-tabs>
       </div>
