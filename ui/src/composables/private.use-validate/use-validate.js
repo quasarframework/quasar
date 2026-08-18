@@ -36,7 +36,11 @@ export default function useValidate(focused, innerLoading) {
   useFormChild({ validate, resetValidation })
 
   let validateIndex = 0,
-    unwatchRules
+    unwatchRules,
+    unmounted = false,
+    // a blur arrived while an async validation was in flight;
+    // honor it when that validation settles
+    pendingBlurValidation = false
 
   const hasRules = computed(
     () =>
@@ -112,8 +116,12 @@ export default function useValidate(focused, innerLoading) {
   watch(focused, val => {
     if (val) {
       isDirtyModel.value = true
-    } else if (canDebounceValidate.value && props.lazyRules !== 'ondemand') {
-      debouncedValidate()
+    } else if (props.lazyRules !== 'ondemand') {
+      if (canDebounceValidate.value) {
+        debouncedValidate()
+      } else if (!props.disable && hasRules.value && innerLoading.value) {
+        pendingBlurValidation = true
+      }
     }
   })
 
@@ -123,6 +131,7 @@ export default function useValidate(focused, innerLoading) {
     isDirtyModel.value = false
     innerError.value = false
     innerErrorMessage.value = null
+    pendingBlurValidation = false
     debouncedValidate.cancel()
   }
 
@@ -136,6 +145,27 @@ export default function useValidate(focused, innerLoading) {
     if (props.disable || !hasRules.value) return true
 
     const index = ++validateIndex
+    const startModel = props.modelValue
+    pendingBlurValidation = false
+
+    // an async validation freezes the watchers (see canDebounceValidate),
+    // so a model change or blur arriving while it is in flight would
+    // otherwise be lost and its verdict would go stale
+    const revalidateIfStale = () => {
+      const blurArrived = pendingBlurValidation
+      pendingBlurValidation = false
+
+      if (
+        !unmounted &&
+        props.modelValue !== startModel &&
+        canDebounceValidate.value &&
+        props.lazyRules !== 'ondemand' &&
+        // same gates as the modelValue watcher, plus a deferred blur
+        (props.lazyRules === false || innerError.value || blurArrived)
+      ) {
+        debouncedValidate()
+      }
+    }
     const setDirty = innerLoading.value
       ? () => {}
       : () => {
@@ -186,18 +216,25 @@ export default function useValidate(focused, innerLoading) {
     return Promise.all(promises).then(
       res => {
         if (res === void 0 || !Array.isArray(res) || res.length === 0) {
-          if (index === validateIndex) update(false)
+          if (index === validateIndex) {
+            update(false)
+            revalidateIfStale()
+          }
           return true
         }
 
         const msg = res.find(r => r === false || typeof r === 'string')
-        if (index === validateIndex) update(msg !== void 0, msg)
+        if (index === validateIndex) {
+          update(msg !== void 0, msg)
+          revalidateIfStale()
+        }
         return msg === void 0
       },
       err => {
         if (index === validateIndex) {
           console.error(err)
           update(true)
+          revalidateIfStale()
         }
 
         return false
@@ -208,6 +245,7 @@ export default function useValidate(focused, innerLoading) {
   const debouncedValidate = debounce(validate, 0)
 
   onBeforeUnmount(() => {
+    unmounted = true
     unwatchRules?.()
     debouncedValidate.cancel()
   })

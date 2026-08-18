@@ -159,7 +159,7 @@ If you set `lazy-rules`, validation triggers when the field loses focus; while a
 
 #### Async rules
 
-Rules can be async too, by using async/await or by directly returning a Promise.
+Rules can be async too, by using async/await or by directly returning a Promise. If the value changes or the field gets blurred while an async validation is still in flight, the field re-validates once it settles, so the displayed verdict always matches the current value.
 
 ::: tip
 Consider coupling async rules with `debounce` prop to avoid calling the async rules immediately on each keystroke, which might be detrimental to performance.
