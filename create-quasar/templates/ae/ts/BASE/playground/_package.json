@@ -15,7 +15,7 @@
     "cycle": "quasar ext uninvoke <%= scope.aeShortName %> && quasar ext invoke <%= scope.aeShortName %>"
   },
   "dependencies": {
-    "@quasar/extras": "^2.0.3",
+    "@quasar/extras": "^2.0.4",
     "quasar": "catalog:",
     "vue": "catalog:",
     "vue-router": "^5.0.6"
