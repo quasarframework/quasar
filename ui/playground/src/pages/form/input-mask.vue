@@ -44,6 +44,16 @@
         data-test="sku-prefixed"
       ></q-input>
 
+      <div>Model (card): {{ cardNumber }}</div>
+      <q-input
+        filled
+        v-model="cardNumber"
+        label="Card number"
+        mask="card"
+        hint="Mask: #### #### #### ####"
+        data-test="card-number"
+      ></q-input>
+
       <div>Model (#18051): {{ zeroPrefixed }}</div>
       <q-input
         filled
@@ -208,6 +218,7 @@ const text1 = ref('12/12/2023')
 const id = ref(null)
 const phonePrefixed = ref('')
 const skuPrefixed = ref('')
+const cardNumber = ref('')
 const zeroPrefixed = ref('')
 const text2 = ref('')
 const text3 = ref('')

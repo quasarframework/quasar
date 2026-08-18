@@ -228,6 +228,20 @@
         </q-tabs>
       </div>
     </div>
+
+    <!-- S17: #17639 a backspace that arrives without the keydown hook (the
+         iOS soft keyboard) and lands on a mask literal must delete the data
+         char before it instead of being silently undone -->
+    <div class="fixture">
+      <q-input
+        v-model="s17model"
+        mask="card"
+        class="s17-input"
+        filled
+        dense
+        label="S17"
+      />
+    </div>
   </div>
 </template>
 
@@ -265,6 +279,7 @@ const s11menu = ref(null)
 const s12dlg = ref(false)
 const s12tt = ref(null)
 const s16tab = ref('t1')
+const s17model = ref('')
 
 const lines = ref([])
 const results = []
@@ -731,6 +746,63 @@ function s16() {
   )
 }
 
+// S17: #17639 -- the iOS soft keyboard does not go through the keydown hook
+// that pre-selects across mask literals, so a backspace landing on a literal
+// used to be silently undone by the remask, leaving the caret misplaced and
+// scrambling the digits typed next ("1234 89" instead of "1239 8")
+async function s17() {
+  const inp = document.querySelector('.s17-input input')
+  inp.focus()
+
+  const insert = ch => {
+    inp.setRangeText(ch, inp.selectionStart, inp.selectionEnd, 'end')
+    inp.dispatchEvent(
+      new InputEvent('input', {
+        bubbles: true,
+        inputType: 'insertText',
+        data: ch
+      })
+    )
+  }
+  // backspace as the soft keyboard delivers it: no usable keydown, the char
+  // before the caret is removed, then the input event fires
+  const softBackspace = () => {
+    let start = inp.selectionStart
+    const end = inp.selectionEnd
+    if (start === end) {
+      if (end === 0) return
+      start = end - 1
+    }
+    inp.setRangeText('', start, end, 'end')
+    inp.dispatchEvent(
+      new InputEvent('input', {
+        bubbles: true,
+        inputType: 'deleteContentBackward'
+      })
+    )
+  }
+
+  for (const char of '123456') {
+    insert(char)
+    await settle(30)
+  }
+  for (let i = 0; i < 3; i++) {
+    softBackspace()
+    await settle(30)
+  }
+  insert('9')
+  await settle(30)
+  insert('8')
+  await settle(30)
+
+  const ok = inp.value === '1239 8' && inp.selectionStart === 6
+  report(
+    'S17 17639 soft-keyboard backspace over a mask literal',
+    ok,
+    `value="${inp.value}" cursor=${inp.selectionStart}`
+  )
+}
+
 async function runAll() {
   lines.value = []
   results.length = 0
@@ -753,7 +825,8 @@ async function runAll() {
     s13,
     s14,
     s15,
-    s16
+    s16,
+    s17
   ]
   for (const scenario of scenarios) {
     try {

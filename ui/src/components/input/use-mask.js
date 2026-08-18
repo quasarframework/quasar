@@ -368,7 +368,7 @@ export default function useMask(props, emit, emitValue, inputRef) {
         updateMaskInternalsFlag !== true &&
         typeof innerValue.value === 'string' &&
         EDIT_INPUT_TYPES.includes(inputType)
-          ? unmaskEditValue(innerValue.value, rawVal)
+          ? unmaskEditValue(innerValue.value, rawVal, inputType)
           : unmaskValue(rawVal)
 
     // Update here so unmask uses the original fillChar
@@ -733,7 +733,7 @@ export default function useMask(props, emit, emitValue, inputRef) {
   // is known exactly through maskMarked. Data chars that happen to equal a
   // mask literal are therefore never mistaken for the literal itself, which
   // the positional guesswork in unmaskValue cannot avoid (#15624, #18051)
-  function unmaskEditValue(prev, val) {
+  function unmaskEditValue(prev, val, inputType) {
     const prevLen = prev.length,
       valLen = val.length,
       minLen = Math.min(prevLen, valLen)
@@ -814,6 +814,28 @@ export default function useMask(props, emit, emitValue, inputRef) {
             inserted += char
             slot++
           }
+        }
+      }
+    } else if (!props.reverseFillMask && start + end < prevLen) {
+      // A pure deletion. When the deleted chunk held no data chars (only
+      // mask literals), remasking would restore them and turn the edit into
+      // a silent no-op with a drifting caret. Soft keyboards (iOS) do not
+      // reliably go through the keydown hook that pre-selects across
+      // literals (#17639), so compensate here by dropping the data char
+      // adjacent to the deletion point instead
+      let deletedData = false
+      for (let i = start; i < prevLen - end; i++) {
+        if (dataAt(i)) {
+          deletedData = true
+          break
+        }
+      }
+
+      if (!deletedData) {
+        if (inputType === 'deleteContentForward') {
+          after = after.slice(1)
+        } else {
+          before = before.slice(0, -1)
         }
       }
     }

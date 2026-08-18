@@ -390,6 +390,34 @@ describe('[useMask API]', () => {
         expect(mask.innerValue.value).toBe('12:34')
       })
 
+      test('backspacing a literal deletes the data char before it (#17639)', () => {
+        const { mask } = createMask({ modelValue: '1234', mask: 'card' })
+        expect(mask.innerValue.value).toBe('1234 ')
+
+        // soft-keyboard backspace (no keydown hook): the browser removed
+        // only the trailing space literal
+        mask.updateMaskValue('1234', false, 'deleteContentBackward')
+        expect(mask.innerValue.value).toBe('123')
+      })
+
+      test('forward-deleting a literal deletes the data char after it', () => {
+        const { mask } = createMask({ modelValue: '12345', mask: '###-##' })
+        expect(mask.innerValue.value).toBe('123-45')
+
+        // caret after "123"; DELETE removed only the "-" literal
+        mask.updateMaskValue('12345', false, 'deleteContentForward')
+        expect(mask.innerValue.value).toBe('123-5')
+      })
+
+      test('backspacing a literal with no data before it stays put', () => {
+        const { mask } = createMask({ modelValue: '1', mask: '+1 ###' })
+        expect(mask.innerValue.value).toBe('+1 1')
+
+        // caret after "+"; backspace removed only the "+" literal
+        mask.updateMaskValue('1 1', false, 'deleteContentBackward')
+        expect(mask.innerValue.value).toBe('+1 1')
+      })
+
       test('still strips the literals out of a pasted masked value', () => {
         const { mask, emitValue } = createMask({
           modelValue: '',
