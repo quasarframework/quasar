@@ -366,6 +366,32 @@ export default function useMask(
     maskReplaced = maskMarked.split(MARKER).join(fillChar)
   }
 
+  // counts the chars of `str` (a rendered masked value) up to `position`
+  // that hold real data: they sit in a mask slot and their own token
+  // accepts them, a test that fill chars fail; walks the CURRENT internals
+  function countDataChars(str, position) {
+    const localMaskMarked = props.reverseFillMask
+        ? getPaddedMaskMarked(str.length)
+        : maskMarked,
+      defOffset = props.reverseFillMask ? computedMask.length - str.length : 0
+
+    let count = 0
+    for (let i = 0; i < position; i++) {
+      if (localMaskMarked[i] === MARKER) {
+        const maskDef = computedMask[defOffset + i]
+        if (
+          maskDef === void 0 ||
+          typeof maskDef === 'string' ||
+          maskDef.test(str[i])
+        ) {
+          count++
+        }
+      }
+    }
+
+    return count
+  }
+
   function updateMaskValue(rawVal, updateMaskInternalsFlag, inputType) {
     const inp = inputRef.value,
       end = inp?.selectionEnd ?? 0,
@@ -376,6 +402,23 @@ export default function useMask(
         EDIT_INPUT_TYPES.includes(inputType)
           ? unmaskEditValue(innerValue.value, rawVal, inputType)
           : unmaskValue(rawVal)
+
+    // An internals rebuild (mask/fill props changed) can shift the layout
+    // arbitrarily, so the caret cannot keep its raw offset; remember how
+    // many data chars sit before it in the OLD layout (#7777). Counting
+    // data chars rather than raw slots also neutralizes the caret's
+    // transient jump to the end of the fill region: the fill chars there
+    // fail their token test and do not count.
+    // (maskMarked still holds the OLD layout here; when it is empty the
+    // control was not masked before, so there is nothing to re-anchor to)
+    let dataBeforeCaret
+    if (
+      updateMaskInternalsFlag === true &&
+      inp !== null &&
+      maskMarked.length !== 0
+    ) {
+      dataBeforeCaret = countDataChars(inp.value, end)
+    }
 
     // Update here so unmask uses the original fillChar
     if (updateMaskInternalsFlag === true) updateMaskInternals()
@@ -393,6 +436,21 @@ export default function useMask(
       nextTick(() => {
         if (masked === maskReplaced) {
           const cursor = props.reverseFillMask ? maskReplaced.length : 0
+          inp.setSelectionRange(cursor, cursor, 'forward')
+          return
+        }
+
+        if (dataBeforeCaret !== void 0) {
+          // re-anchor the caret after the same number of data chars it had
+          // before the rebuild; its old raw offset points at an arbitrary
+          // spot of the new layout, which scrambled the chars typed next
+          let cursor = 0,
+            found = 0
+          while (cursor < masked.length && found < dataBeforeCaret) {
+            found = countDataChars(masked, cursor + 1)
+            cursor++
+          }
+
           inp.setSelectionRange(cursor, cursor, 'forward')
           return
         }

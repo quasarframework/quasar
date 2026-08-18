@@ -215,6 +215,29 @@ describe('[useMask API]', () => {
         expect(mask.innerValue.value).toBe('12/345')
       })
 
+      test('re-anchors the caret after its slots when the mask changes (#7777)', async () => {
+        const { mask, props, input } = createMask({
+          modelValue: '',
+          mask: '###.#.###'
+        })
+
+        input.focus()
+        mask.updateMaskValue('18', false, 'insertText')
+        await nextTick()
+        expect(input.value).toBe('18')
+        input.setSelectionRange(2, 2)
+
+        // a computed mask flipping on the value just typed (#7777's setup)
+        props.mask = '#.###.###'
+        await nextTick() // the watcher re-masks...
+        await nextTick() // ...and re-anchors the caret a tick later
+
+        expect(input.value).toBe('1.8')
+        // still after its 2 data chars, so the next char continues the value
+        // instead of landing between "1" and "8"
+        expect(input.selectionStart).toBe(3)
+      })
+
       test('gives the unmasked value back when the mask goes away', async () => {
         const { mask, props, emit } = createMask({
           modelValue: '12:34',
