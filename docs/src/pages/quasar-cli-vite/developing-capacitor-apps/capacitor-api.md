@@ -173,7 +173,7 @@ Now let's put this API to some good use. In one of your Quasar project's pages/l
 </script>
 ```
 
-## Capacitor APIs in other Quasar modes <q-badge label="@quasar/app-vite v3.6.2+" />
+## Capacitor APIs in other Quasar modes <q-badge label="@quasar/app-vite v3.7+" />
 
 The packages installed in `/src-capacitor` are resolvable from the `/src` folder regardless of the Quasar mode being built, so the examples on this page work when building for SPA, PWA or any other mode too. Many Capacitor plugins ship a web implementation and simply work in a browser, like the Camera example above.
 
