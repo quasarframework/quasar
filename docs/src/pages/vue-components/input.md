@@ -164,6 +164,10 @@ You can force/help the user to input a specific format with help from `mask` pro
 Mask is only available if the `type` is one of 'text' (default), 'search', 'url', 'tel', or 'password'.
 :::
 
+::: warning Interaction with `maxlength`
+A mask already caps input at its own slots, so you should not combine it with the `maxlength` prop. The native `maxlength` counts the whole displayed value, literals and fill characters included, so anything below the full masked length blocks typing too early. With `fill-mask` the displayed value always has the mask's full length, so such a `maxlength` locks the field entirely.
+:::
+
 Below are the default mask tokens. To add your own, see the next section.
 
 | Token | Description                                        |
