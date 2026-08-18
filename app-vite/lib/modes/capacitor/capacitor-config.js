@@ -8,22 +8,15 @@ import { createViteConfig, extendViteConfig } from '../../config-tools.js'
  */
 export const quasarCapacitorConfig = {
   vite: async quasarConf => {
-    const {
-      appPaths,
-      pkg: { capacitorPkg }
-    } = quasarConf.ctx
+    const { appPaths } = quasarConf.ctx
 
+    /**
+     * No modeDeps needed here: config-tools.js injects the /src-capacitor
+     * deps aliases for every mode when Capacitor mode is installed.
+     */
     const cfg = await createViteConfig(quasarConf, {
       compileId: 'vite-capacitor',
-      shippedToClient: true,
-      /**
-       * We specify modeDeps because the deps in /src-capacitor
-       * can be used in the /src folder too.
-       *
-       * This also means that types-generator will need to have
-       * the deps specified in compilerOptions.paths for correct type resolution.
-       */
-      modeDeps: [{ dir: 'src-capacitor', deps: capacitorPkg.dependencies }]
+      shippedToClient: true
     })
 
     if (quasarConf.ctx.prod) {

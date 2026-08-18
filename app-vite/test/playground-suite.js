@@ -569,32 +569,69 @@ export function definePlaygroundSuite({ playgroundDir, scriptExt }) {
     }
   )
 
-  stepTest('adds Capacitor mode non-interactively', async () => {
-    // building Capacitor requires adding a native platform (and its
-    // toolchain), so e2e coverage stops at the mode installation
-    removeModeDir('capacitor')
+  stepTest(
+    'adds Capacitor mode non-interactively, deps aliased cross-mode',
+    async () => {
+      // building Capacitor requires adding a native platform (and its
+      // toolchain), so e2e coverage stops at the mode installation
+      removeModeDir('capacitor')
 
-    const { code, output, repro } = await runQuasar(
-      [
-        'mode',
-        'add',
-        'capacitor',
-        '--app-id',
-        'org.quasar.e2e',
-        '--app-name',
-        'Quasar E2E'
-      ],
-      playgroundDir
-    )
-    expect(code, output + repro).toBe(0)
+      const { code, output, repro } = await runQuasar(
+        [
+          'mode',
+          'add',
+          'capacitor',
+          '--app-id',
+          'org.quasar.e2e',
+          '--app-name',
+          'Quasar E2E'
+        ],
+        playgroundDir
+      )
+      expect(code, output + repro).toBe(0)
 
-    const capacitorConfig = readFileSync(
-      join(playgroundDir, `src-capacitor/capacitor.config.${scriptExt}`),
-      'utf8'
-    )
-    expect(capacitorConfig, repro).toContain("appId: 'org.quasar.e2e'")
-    expect(capacitorConfig, repro).toContain("appName: 'Quasar E2E'")
-  })
+      const capacitorConfig = readFileSync(
+        join(playgroundDir, `src-capacitor/capacitor.config.${scriptExt}`),
+        'utf8'
+      )
+      expect(capacitorConfig, repro).toContain("appId: 'org.quasar.e2e'")
+      expect(capacitorConfig, repro).toContain("appName: 'Quasar E2E'")
+
+      // /src-capacitor deps must resolve from /src in EVERY mode (#17681),
+      // proven by building for a mode other than Capacitor with a boot file
+      // statically importing one; same backup/restore protocol as the
+      // config: self-heal a killed run's leftover first, remove in finally
+      const bootFile = join(
+        playgroundDir,
+        `src/boot/e2e-capacitor-deps.${scriptExt}`
+      )
+      rmSync(bootFile, { force: true })
+
+      await withModifiedConfig(
+        { from: 'boot: [],', to: "boot: ['e2e-capacitor-deps']," },
+        async () => {
+          writeFileSync(
+            bootFile,
+            // written by test/playground-suite.js Capacitor step; never committed
+            "import { defineBoot } from '#q-app'\n" +
+              "import { App } from '@capacitor/app'\n\n" +
+              'export default defineBoot(() => {\n' +
+              '  if (import.meta.env.QUASAR_CAPACITOR_MODE) {\n' +
+              '    App.getInfo()\n' +
+              '  }\n' +
+              '})\n'
+          )
+
+          try {
+            const res = await runQuasar(['build'], playgroundDir)
+            expect(res.code, res.output + res.repro).toBe(0)
+          } finally {
+            rmSync(bootFile, { force: true })
+          }
+        }
+      )
+    }
+  )
 
   stepTest(
     'adds Cordova mode non-interactively',

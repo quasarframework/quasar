@@ -172,3 +172,17 @@ Now let's put this API to some good use. In one of your Quasar project's pages/l
   })
 </script>
 ```
+
+## Capacitor APIs in other Quasar modes <q-badge label="@quasar/app-vite v3.6.2+" />
+
+The packages installed in `/src-capacitor` are resolvable from the `/src` folder regardless of the Quasar mode being built, so the examples on this page work when building for SPA, PWA or any other mode too. Many Capacitor plugins ship a web implementation and simply work in a browser, like the Camera example above.
+
+For plugins without a web implementation, or for code that should only run inside the Capacitor-built app, guard the usage with the `QUASAR_CAPACITOR_MODE` [environment flag](/quasar-cli-vite/handling-import-meta-env) and a dynamic import. The guarded branch is dead-code eliminated in the production builds of all other modes, so it adds nothing to their bundles:
+
+```js
+if (import.meta.env.QUASAR_CAPACITOR_MODE) {
+  const { Preferences } = await import('@capacitor/preferences')
+  const { value } = await Preferences.get({ key: 'locale' })
+  // ...
+}
+```
