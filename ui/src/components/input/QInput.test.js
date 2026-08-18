@@ -41,6 +41,63 @@ describe('[QInput API]', () => {
         const wrapper = mountInput({ modelValue: '12345', mask: '###-##' })
         expect(wrapper.get('input').element.value).toBe('123-45')
       })
+
+      test('a rapid backspace burst empties the model too (#15895)', async () => {
+        const wrapper = mountInput({
+          modelValue: '',
+          mask: '##.##.#### ##:##:##'
+        })
+        const input = wrapper.get('input').element
+
+        // fill the mask completely
+        for (let i = 0; i < 14; i++) {
+          input.value += '1'
+          input.dispatchEvent(
+            new InputEvent('input', {
+              bubbles: true,
+              inputType: 'insertText',
+              data: '1'
+            })
+          )
+        }
+        expect(input.value).toBe('11.11.1111 11:11:11')
+
+        // the parent's re-render settles between the typing and the erasing
+        await wrapper.setProps({
+          modelValue: wrapper.emitted('update:modelValue').at(-1)[0]
+        })
+
+        // a held-down BACKSPACE fires faster than the parent re-renders, so
+        // props.modelValue stays stale throughout the burst
+        input.setSelectionRange(input.value.length, input.value.length)
+        for (let i = 0; i < 25 && input.value !== ''; i++) {
+          input.dispatchEvent(
+            new KeyboardEvent('keydown', {
+              key: 'Backspace',
+              keyCode: 8,
+              bubbles: true,
+              cancelable: true
+            })
+          )
+
+          let start = input.selectionStart
+          const end = input.selectionEnd
+          if (start === end) {
+            if (end === 0) break
+            start = end - 1
+          }
+          input.setRangeText('', start, end, 'end')
+          input.dispatchEvent(
+            new InputEvent('input', {
+              bubbles: true,
+              inputType: 'deleteContentBackward'
+            })
+          )
+        }
+
+        expect(input.value).toBe('')
+        expect(wrapper.emitted('update:modelValue').at(-1)).toEqual([''])
+      })
     })
 
     describe('[(prop)fill-mask]', () => {
