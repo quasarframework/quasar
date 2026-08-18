@@ -10,9 +10,6 @@ $field-transition-label-right-up: .324s cubic-bezier(.4,0,.2,1)
   ::-ms-reveal
     display: none
 
-  &--with-bottom
-    padding-bottom: $field-with-bottom-padding-bottom
-
   &__marginal
     height: 56px
     color: rgba(0,0,0,.54)
@@ -41,18 +38,13 @@ $field-transition-label-right-up: .324s cubic-bezier(.4,0,.2,1)
 
   &__bottom
     font-size: $field-bottom-font-size
-    min-height: 20px
+    // in-flow so long messages grow the field instead of overlapping what
+    // follows; min-height keeps one line reserved to avoid layout shift
+    min-height: $field-with-bottom-padding-bottom
     line-height: $field-bottom-line-height
     color: rgba(0,0,0,.54)
     padding: 8px 12px 0
     backface-visibility: hidden
-
-    &--animated
-      transform: translateY(100%)
-      position: absolute
-      left: 0
-      right: 0
-      bottom: 0
 
   &__messages
     line-height: 1
@@ -410,9 +402,6 @@ $field-transition-label-right-up: .324s cubic-bezier(.4,0,.2,1)
         padding-bottom: 2px
 
   &--dense
-    .q-field--with-bottom
-      padding-bottom: $field-dense-with-bottom-padding-bottom
-
     .q-field__shadow
       top: 0
     .q-field__control, .q-field__marginal

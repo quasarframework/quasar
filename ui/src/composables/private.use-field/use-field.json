@@ -117,7 +117,7 @@
 
     "hide-bottom-space": {
       "type": "Boolean",
-      "desc": "Do not reserve space for hint/error/counter anymore when these are not used; As a result, it also disables the animation for those; It also allows the hint/error area to stretch vertically based on its content",
+      "desc": "Do not reserve space for hint/error/counter anymore when these are not used; As a result, it also disables the animation for those",
       "category": "style"
     },
 
