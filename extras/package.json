@@ -121,7 +121,7 @@
     "@fortawesome/fontawesome-free": "7.3.1",
     "@mdi/font": "7.4.47",
     "@mdi/svg": "7.4.47",
-    "@xmldom/xmldom": "0.9.10",
+    "@xmldom/xmldom": "0.9.11",
     "animate.css": "4.1.1",
     "bootstrap-icons": "^1.13.1",
     "cross-fetch": "^4.1.0",
