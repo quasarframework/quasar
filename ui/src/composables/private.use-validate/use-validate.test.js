@@ -354,6 +354,50 @@ describe('[useValidate API]', () => {
         expect(result.hasError.value).toBe(true)
       })
 
+      test('re-validates a lazy field on model change while an error is displayed (issue #17456)', async () => {
+        vi.useFakeTimers()
+        const { result, focused } = mountValidate({
+          modelValue: '',
+          rules: [requiredRule],
+          lazyRules: true
+        })
+
+        focused.value = true
+        await flushDebounce()
+        focused.value = false
+        await flushDebounce()
+
+        expect(result.hasError.value).toBe(true)
+
+        await wrapper.setProps({ modelValue: 'fixed' })
+        await flushDebounce()
+
+        expect(result.hasError.value).toBe(false)
+
+        // with the error cleared, the field is lazy again until the next blur
+        await wrapper.setProps({ modelValue: '' })
+        await flushDebounce()
+
+        expect(result.hasError.value).toBe(false)
+      })
+
+      test('keeps on-demand rules manual even while an error is displayed', async () => {
+        vi.useFakeTimers()
+        const { result } = mountValidate({
+          modelValue: '',
+          rules: [requiredRule],
+          lazyRules: 'ondemand'
+        })
+
+        expect(result.validate()).toBe(false)
+        expect(result.hasError.value).toBe(true)
+
+        await wrapper.setProps({ modelValue: 'fixed' })
+        await flushDebounce()
+
+        expect(result.hasError.value).toBe(true)
+      })
+
       test('never auto-validates on-demand rules', async () => {
         vi.useFakeTimers()
         const { result, focused } = mountValidate({

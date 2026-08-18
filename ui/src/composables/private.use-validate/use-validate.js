@@ -68,8 +68,11 @@ export default function useValidate(focused, innerLoading) {
 
       if (
         canDebounceValidate.value &&
-        // trigger validation if not using any kind of lazy-rules
-        props.lazyRules === false
+        // trigger validation if not using any kind of lazy-rules;
+        // boolean lazy-rules still re-validates while an error is
+        // displayed so the error clears as soon as the value is fixed
+        (props.lazyRules === false ||
+          (props.lazyRules === true && innerError.value))
       ) {
         debouncedValidate()
       }
