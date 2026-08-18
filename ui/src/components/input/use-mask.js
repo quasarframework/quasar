@@ -94,6 +94,20 @@ function getTokenRegexMask(keys) {
   )
 }
 
+// input event types for which the new value is the previous masked value
+// with one contiguous user edit applied, so it can be unmasked by diffing
+// against that previous value (see unmaskEditValue); everything else
+// (paste, drop, autofill, IME composition, programmatic updates) may carry
+// an arbitrary — possibly fully masked — string and goes through unmaskValue
+const EDIT_INPUT_TYPES = [
+  'insertText',
+  'deleteContentBackward',
+  'deleteContentForward',
+  'deleteWordBackward',
+  'deleteWordForward',
+  'deleteByCut'
+]
+
 const escRegex = /[.*+?^${}()|[\]\\]/g
 const DEFAULT_TOKEN_REGEX_MASK = /*#__PURE__*/ getTokenRegexMask(
   DEFAULT_TOKEN_MAP_KEYS
@@ -350,7 +364,12 @@ export default function useMask(props, emit, emitValue, inputRef) {
     const inp = inputRef.value,
       end = inp?.selectionEnd ?? 0,
       endReverse = inp === null ? 0 : inp.value.length - end,
-      unmasked = unmaskValue(rawVal)
+      unmasked =
+        updateMaskInternalsFlag !== true &&
+        typeof innerValue.value === 'string' &&
+        EDIT_INPUT_TYPES.includes(inputType)
+          ? unmaskEditValue(innerValue.value, rawVal)
+          : unmaskValue(rawVal)
 
     // Update here so unmask uses the original fillChar
     if (updateMaskInternalsFlag === true) updateMaskInternals()
@@ -707,6 +726,99 @@ export default function useMask(props, emit, emitValue, inputRef) {
     }
 
     return output
+  }
+
+  // Unmasks the result of a single contiguous user edit (EDIT_INPUT_TYPES)
+  // by diffing it against the previously rendered masked value, whose layout
+  // is known exactly through maskMarked. Data chars that happen to equal a
+  // mask literal are therefore never mistaken for the literal itself, which
+  // the positional guesswork in unmaskValue cannot avoid (#15624, #18051)
+  function unmaskEditValue(prev, val) {
+    const prevLen = prev.length,
+      valLen = val.length,
+      minLen = Math.min(prevLen, valLen)
+
+    let start = 0
+    while (start < minLen && prev[start] === val[start]) {
+      start++
+    }
+
+    let end = 0
+    while (
+      end < minLen - start &&
+      prev[prevLen - 1 - end] === val[valLen - 1 - end]
+    ) {
+      end++
+    }
+
+    const localMaskMarked = props.reverseFillMask
+        ? getPaddedMaskMarked(prevLen)
+        : maskMarked,
+      defOffset = props.reverseFillMask ? computedMask.length - prevLen : 0
+
+    // a marker position holds data when its own token accepts the char;
+    // fill chars fail that test and get skipped, mirroring unmaskValue.
+    // A padded reverse position with no token to check against stays data
+    function dataAt(i) {
+      if (localMaskMarked[i] !== MARKER) {
+        return false
+      }
+
+      const maskDef = computedMask[defOffset + i]
+      return maskDef === void 0 || typeof maskDef === 'string'
+        ? true
+        : maskDef.test(prev[i])
+    }
+
+    let before = '',
+      after = ''
+
+    for (let i = 0; i < start; i++) {
+      if (dataAt(i)) {
+        before += prev[i]
+      }
+    }
+
+    for (let i = prevLen - end; i < prevLen; i++) {
+      if (dataAt(i)) {
+        after += prev[i]
+      }
+    }
+
+    let inserted = ''
+    const rawInserted = val.slice(start, valLen - end)
+
+    if (rawInserted.length !== 0) {
+      if (props.reverseFillMask) {
+        // right-aligned content has no fixed slot for new chars;
+        // keep the ones some token accepts
+        for (const char of rawInserted) {
+          if (
+            computedMask.some(
+              maskDef => typeof maskDef !== 'string' && maskDef.test(char)
+            )
+          ) {
+            inserted += char
+          }
+        }
+      } else {
+        // data fills the token slots in order, so the insertion continues
+        // at the slot right after the data preceding it
+        const tokenDefs = computedMask.filter(
+          maskDef => typeof maskDef !== 'string'
+        )
+        let slot = before.length
+
+        for (const char of rawInserted) {
+          if (tokenDefs[slot] !== void 0 && tokenDefs[slot].test(char)) {
+            inserted += char
+            slot++
+          }
+        }
+      }
+    }
+
+    return before + inserted + after
   }
 
   function unmaskValue(val) {

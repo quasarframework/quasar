@@ -315,6 +315,94 @@ describe('[useMask API]', () => {
         expect(mask.innerValue.value).toBe('+1 123 123 45 67')
       })
 
+      test('keeps a typed digit that equals a digit literal (#15624, #18051)', () => {
+        const { mask, input } = createMask({ modelValue: '', mask: '11##' })
+
+        // "1" is typed into the empty field; it must land in the first
+        // token slot instead of being read as one of the "11" literals
+        mask.updateMaskValue('1', false, 'insertText')
+        expect(mask.innerValue.value).toBe('111')
+
+        // the next "1" gets appended by the browser to what is displayed
+        mask.updateMaskValue(input.value + '1', false, 'insertText')
+        expect(mask.innerValue.value).toBe('1111')
+      })
+
+      test('keeps a typed "0" that equals a "0" literal (#18051)', () => {
+        const { mask, input } = createMask({
+          modelValue: '',
+          mask: '04## ### ###'
+        })
+
+        mask.updateMaskValue('0', false, 'insertText')
+        expect(mask.innerValue.value).toBe('040')
+
+        mask.updateMaskValue(input.value + '0', false, 'insertText')
+        expect(mask.innerValue.value).toBe('0400 ')
+      })
+
+      test('re-lays out the data when typing into the middle', () => {
+        const { mask } = createMask({ modelValue: '12345', mask: '###-##' })
+
+        // "9" inserted right after "123" of the displayed "123-45"
+        mask.updateMaskValue('1239-45', false, 'insertText')
+        expect(mask.innerValue.value).toBe('123-94')
+      })
+
+      test('clears out when deleting the only typed char behind literals', () => {
+        const { mask, input } = createMask({ modelValue: '', mask: '11##' })
+
+        mask.updateMaskValue('1', false, 'insertText')
+        expect(input.value).toBe('111')
+
+        mask.updateMaskValue('11', false, 'deleteContentBackward')
+        expect(mask.innerValue.value).toBe('')
+      })
+
+      test('drops a typed char its token slot rejects, keeping the rest', () => {
+        const { mask } = createMask({ modelValue: 'ab12', mask: 'AA##' })
+
+        // digit typed at the front, where a letter is expected
+        mask.updateMaskValue('5AB12', false, 'insertText')
+        expect(mask.innerValue.value).toBe('AB12')
+      })
+
+      test('types over the fill chars, not into them', () => {
+        const { mask } = createMask({
+          modelValue: '12',
+          mask: '###-##',
+          fillMask: true
+        })
+
+        // "3" typed at the cursor, which sits on the first fill char
+        mask.updateMaskValue('123_-__', false, 'insertText')
+        expect(mask.innerValue.value).toBe('123-__')
+      })
+
+      test('accepts a typed digit literal look-alike when reverse filling', () => {
+        const { mask } = createMask({
+          modelValue: '123',
+          mask: '##:##',
+          reverseFillMask: true
+        })
+
+        mask.updateMaskValue('1:234', false, 'insertText')
+        expect(mask.innerValue.value).toBe('12:34')
+      })
+
+      test('still strips the literals out of a pasted masked value', () => {
+        const { mask, emitValue } = createMask({
+          modelValue: '',
+          mask: '+1 123 ### ## ##',
+          unmaskedValue: true
+        })
+
+        mask.updateMaskValue('+1 123 456 78 90', false, 'insertFromPaste')
+
+        expect(mask.innerValue.value).toBe('+1 123 456 78 90')
+        expect(emitValue).toHaveBeenCalledExactlyOnceWith('4567890', true)
+      })
+
       test('reports the unmasked value when asked to', () => {
         const { mask, input, emitValue } = createMask({
           modelValue: '',

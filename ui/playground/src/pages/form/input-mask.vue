@@ -34,6 +34,26 @@
         data-test="phone-prefixed"
       ></q-input>
 
+      <div>Model (#15624): {{ skuPrefixed }}</div>
+      <q-input
+        filled
+        v-model="skuPrefixed"
+        label="SKU with digit-only literal prefix"
+        mask="11##"
+        hint="Mask: 11##"
+        data-test="sku-prefixed"
+      ></q-input>
+
+      <div>Model (#18051): {{ zeroPrefixed }}</div>
+      <q-input
+        filled
+        v-model="zeroPrefixed"
+        label="Number with 0 literal"
+        mask="04## ### ###"
+        hint="Mask: 04## ### ###"
+        data-test="zero-prefixed"
+      ></q-input>
+
       <div>Model: {{ text2 }}</div>
       <q-input
         mask="((###) ### - ####)"
@@ -187,6 +207,8 @@ const maskedOrNotValue = ref('##/##/####')
 const text1 = ref('12/12/2023')
 const id = ref(null)
 const phonePrefixed = ref('')
+const skuPrefixed = ref('')
+const zeroPrefixed = ref('')
 const text2 = ref('')
 const text3 = ref('')
 const text4 = ref('')
