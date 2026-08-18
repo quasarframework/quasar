@@ -19,15 +19,15 @@ With boot files, it is possible to split each of your dependencies into self-con
 
 A boot file is a simple JavaScript file which can optionally export a function. Quasar will then call the exported function when it boots the application and additionally pass **an object** with the following properties to the function:
 
-| Prop name    | Description                                                                                                       |
-| ------------ | ----------------------------------------------------------------------------------------------------------------- |
-| `app`        | Vue app instance                                                                                                  |
-| `router`     | Instance of Vue Router from 'src/router/index.js'                                                                 |
-| `store`      | Instance of Pinia - **store only will be passed if your project uses Pinia (you have src/stores)**                |
-| `ssrContext` | Available only on server-side, if building for SSR/SSG. [More info](/quasar-cli-vite/developing-ssr/ssr-context)  |
-| `urlPath`    | The pathname (path + search) part of the URL. It also contains the hash on client-side.                           |
-| `publicPath` | The configured public path.                                                                                       |
-| `redirect`   | Function to call to redirect to another URL. Accepts String (full URL) or a Vue Router location String or Object. |
+| Prop name    | Description                                                                                                                                                                                                                                                                                                                                            |
+| ------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `app`        | Vue app instance                                                                                                                                                                                                                                                                                                                                       |
+| `router`     | Instance of Vue Router from 'src/router/index.js'                                                                                                                                                                                                                                                                                                      |
+| `store`      | Instance of Pinia - **store only will be passed if your project uses Pinia (you have src/stores)**                                                                                                                                                                                                                                                     |
+| `ssrContext` | Available only on server-side, if building for SSR/SSG. [More info](/quasar-cli-vite/developing-ssr/ssr-context)                                                                                                                                                                                                                                       |
+| `urlPath`    | The URL the app was accessed with, as Vue Router sees it (path + query + hash), without the publicPath prefix or the hash-mode `#` wrapper. Same value in every Quasar mode and Vue Router mode, so it can be matched directly against your routes. For the raw browser URL use `window.location` (client-side) or `ssrContext.req.url` (server-side). |
+| `publicPath` | The configured public path.                                                                                                                                                                                                                                                                                                                            |
+| `redirect`   | Function to call to redirect to another URL. Accepts String (full URL) or a Vue Router location String or Object.                                                                                                                                                                                                                                      |
 
 ```js
 import { defineBoot } from '#q-app'

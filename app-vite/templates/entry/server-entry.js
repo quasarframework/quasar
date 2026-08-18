@@ -138,6 +138,7 @@ export default async ssrContext => {
   } = await createQuasarApp(createApp, qUserOptions, ssrContext)
 
   const origUrlPath = fastStripHost(ssrContext.url || ssrContext.req.url)
+  // the router-facing URL: no publicPath (SSR/SSG always use history mode)
   const urlPath = origUrlPath<% if (quasarConf.build.publicPath !== '/') { %>.replace(publicPath, '/')<% } %>
 
 <% if (bootEntries.length !== 0) { %>
@@ -160,7 +161,7 @@ export default async ssrContext => {
       <%= quasarConf.metaConf.hasStore ? 'store,' : '' %>
       ssrContext,
       redirect: bootRedirectFn,
-      urlPath: origUrlPath,
+      urlPath,
       publicPath
     })
 
@@ -232,7 +233,7 @@ export default async ssrContext => {
       ssrContext,
       currentRoute: router.currentRoute.value,
       redirect: prefetchRedirectFn,
-      urlPath: origUrlPath,
+      urlPath,
       publicPath
     })),
     Promise.resolve()

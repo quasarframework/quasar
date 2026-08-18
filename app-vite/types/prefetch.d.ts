@@ -20,6 +20,12 @@ interface PreFetchOptions extends HasSsrParam, HasSsgParam, HasStoreParam {
      */
     httpStatusCode?: HttpRedirectStatusCode
   ) => void;
+  /**
+   * The URL being navigated to, as Vue Router sees it: path + query (+ hash),
+   * without the publicPath prefix and without the hash-mode "#" wrapper.
+   * Same value in every Quasar mode and Vue Router mode.
+   * Equals currentRoute.fullPath.
+   */
   readonly urlPath: string;
   readonly publicPath: string;
 }

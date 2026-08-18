@@ -310,7 +310,7 @@ function heavySetup() {
 | `router`     | Instance of Vue Router from '/src/router/index.js'                                                                |
 | `store`      | Instance of Pinia - **store only will be passed if your project uses Pinia (you have /src/stores)**               |
 | `ssrContext` | Available only on server-side, if building for SSR. [More info](/quasar-cli-vite/developing-ssr/ssr-context)      |
-| `urlPath`    | The pathname (path + search) part of the URL. It also contains the hash on client-side.                           |
+| `urlPath`    | The URL the app was accessed with, as Vue Router sees it (no publicPath prefix or hash-mode `#` wrapper).         |
 | `publicPath` | The configured public path.                                                                                       |
 | `redirect`   | Function to call to redirect to another URL. Accepts String (full URL) or a Vue Router location String or Object. |
 

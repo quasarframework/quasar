@@ -91,6 +91,18 @@ Now, let's see how the hooks are called when the user visits these routes in the
 
 The hook is defined as a custom static function called `preFetch` on our route components. Note that because this function will be called before the components are instantiated, it doesn't have access to `this`.
 
+The hook receives **an object** with the following properties:
+
+| Prop name       | Description                                                                                                                                                                                                               |
+| --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `store`         | Instance of Pinia - **only if your project uses Pinia (you have src/stores)**                                                                                                                                             |
+| `currentRoute`  | The Vue Router route being navigated to                                                                                                                                                                                   |
+| `previousRoute` | The previous Vue Router route                                                                                                                                                                                             |
+| `redirect`      | Function to call to redirect to another URL. Accepts String (full URL) or a Vue Router location String or Object.                                                                                                         |
+| `ssrContext`    | Available only on server-side, if building for SSR/SSG. [More info](/quasar-cli-vite/developing-ssr/ssr-context)                                                                                                          |
+| `urlPath`       | The URL being navigated to, as Vue Router sees it (path + query + hash), without the publicPath prefix or the hash-mode `#` wrapper. Same value in every Quasar mode and Vue Router mode. Equals `currentRoute.fullPath`. |
+| `publicPath`    | The configured public path.                                                                                                                                                                                               |
+
 Example below is when using Pinia:
 
 ```html Some .vue component used as route
@@ -191,7 +203,7 @@ actions: {
 ### Redirecting Example
 
 ::: warning
-Please be mindful when redirecting as you might configure the app to go into an infinite redirect loop.
+Please be mindful when redirecting as you might configure the app to go into an infinite redirect loop. Guard the redirect with a check on the route being navigated to, e.g. `if (currentRoute.path !== '/login') { redirect({ path: '/login' }) }`.
 :::
 
 ::: warning

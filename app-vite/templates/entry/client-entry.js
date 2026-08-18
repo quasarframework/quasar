@@ -99,7 +99,12 @@ async function start ({
     }
   }
 
-  const urlPath = window.location.href.replace(window.location.origin, '')
+  // the router-facing URL: no publicPath, no hash-mode "#"
+<% if (quasarConf.build.vueRouterMode === 'hash') { %>
+  const urlPath = window.location.hash.slice(1) || '/'
+<% } else { %>
+  const urlPath = window.location.href.replace(window.location.origin, '')<%= quasarConf.build.publicPath !== '/' ? '.replace(publicPath, \'/\')' : '' %>
+<% } %>
 
   for (let i = 0; hasRedirected === false && i < bootFiles.length; i++) {
     try {
@@ -127,7 +132,7 @@ async function start ({
 <% if (quasarConf.ctx.mode.ssr || quasarConf.ctx.mode.ssg) { %>
     if (isClientSideRenderedPage) {
       <% if (quasarConf.preFetch) { %>
-      addPreFetchHooks({ router, isClientSideRenderedPage<%= quasarConf.metaConf.hasStore ? ', store' : '' %> })
+      addPreFetchHooks({ router, isClientSideRenderedPage<%= quasarConf.metaConf.hasStore ? ', store' : '' %>, publicPath })
       <% } %>
       app.mount('#q-app')
     }
@@ -149,7 +154,7 @@ async function start ({
     }
 <% } else { /* not SSR */ %>
     <% if (quasarConf.preFetch) { %>
-    addPreFetchHooks({ router<%= quasarConf.metaConf.hasStore ? ', store' : '' %> })
+    addPreFetchHooks({ router<%= quasarConf.metaConf.hasStore ? ', store' : '' %>, publicPath })
     <% } %>
 
     <% if (quasarConf.ctx.mode.cordova) { %>

@@ -8,6 +8,14 @@ import type { HasStoreParam } from "./store.d.ts";
 interface BootFileParams extends HasSsrParam, HasSsgParam, HasStoreParam {
   readonly app: App;
   readonly router: Router;
+  /**
+   * The URL the app was accessed with, as Vue Router sees it: path + query
+   * (+ hash), without the publicPath prefix and without the hash-mode "#"
+   * wrapper. Same value in every Quasar mode and Vue Router mode; can be
+   * fed directly to router.resolve() or matched against your routes.
+   * For the raw browser URL use window.location (client-side)
+   * or ssrContext.req.url (server-side).
+   */
   readonly urlPath: string;
   readonly publicPath: string;
   readonly redirect: (

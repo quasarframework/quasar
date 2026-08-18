@@ -55,7 +55,10 @@ export function addPreFetchHooks ({ router<%= (quasarConf.ctx.mode.ssr || quasar
   // async components are resolved.
   router.beforeResolve(async (to, from) => {
     const
-      urlPath = window.location.href.replace(window.location.origin, ''),
+      // window.location still points to the previous URL while the navigation
+      // is pending, so derive the target URL from the route instead (#16423);
+      // urlPath is the router-facing URL: no publicPath, no hash-mode "#"
+      urlPath = to.fullPath,
       matched = getMatchedComponents(to, router),
       prevMatched = getMatchedComponents(from, router)
 
