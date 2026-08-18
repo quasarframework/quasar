@@ -68,25 +68,19 @@ export function createDialog(
         return
       }
 
-      const target = vm.$.subTree
+      // account for "script setup" way of declaring the component,
+      // where the QDialog can sit behind any number of (possibly async)
+      // single-root wrapper components; non-function cmd matches on
+      // intermediate wrappers (e.g. a "show" prop) must not stop the walk
+      let target = vm.$.subTree?.component
 
-      if (target?.component) {
-        // account for "script setup" way of declaring component
-        if (target.component.proxy && target.component.proxy[cmd]) {
-          target.component.proxy[cmd]()
+      while (target) {
+        if (typeof target.proxy?.[cmd] === 'function') {
+          target.proxy[cmd]()
           return
         }
 
-        // account for "script setup" + async component way of declaring component
-        if (
-          target.component.subTree &&
-          target.component.subTree.component &&
-          target.component.subTree.component.proxy &&
-          target.component.subTree.component.proxy[cmd]
-        ) {
-          target.component.subTree.component.proxy[cmd]()
-          return
-        }
+        target = target.subTree?.component
       }
 
       console.error('[Quasar] Incorrectly defined Dialog component')
