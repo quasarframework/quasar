@@ -238,6 +238,55 @@ describe('[useMask API]', () => {
         expect(input.selectionStart).toBe(3)
       })
 
+      test('rides a length-switching mask up and down its threshold', async () => {
+        // the "Multiple masks" docs pattern (#7920), see
+        // docs/src/examples/QInput/MaskMultiple.vue: the shorter mask
+        // carries a spare trailing token so the switching digit can land
+        const SHORT = '(##) ####-#####'
+        const LONG = '(##) #####-####'
+        const { mask, props, input } = createMask({
+          modelValue: '',
+          mask: SHORT
+        })
+
+        input.focus()
+
+        // the browser applies the edit (value + caret) before the input
+        // event fires, so mirror that ordering here
+        function applyEdit(val, inputType) {
+          input.value = val
+          input.setSelectionRange(val.length, val.length)
+          mask.updateMaskValue(val, false, inputType)
+        }
+
+        for (const digit of '1123456789') {
+          applyEdit(input.value + digit, 'insertText')
+          await nextTick()
+        }
+        expect(input.value).toBe('(11) 2345-6789')
+
+        // the 11th digit lands in the spare token, then the computed
+        // property switches masks and the value re-lays out
+        applyEdit(input.value + '0', 'insertText')
+        await nextTick()
+        expect(input.value).toBe('(11) 2345-67890')
+
+        props.mask = LONG
+        await nextTick()
+        await nextTick()
+        expect(input.value).toBe('(11) 23456-7890')
+        expect(input.selectionStart).toBe(input.value.length)
+
+        // deleting that digit switches back down
+        applyEdit('(11) 23456-789', 'deleteContentBackward')
+        await nextTick()
+        props.mask = SHORT
+        await nextTick()
+        await nextTick()
+        expect(input.value).toBe('(11) 2345-6789')
+        expect(input.selectionStart).toBe(input.value.length)
+      })
+
       test('gives the unmasked value back when the mask goes away', async () => {
         const { mask, props, emit } = createMask({
           modelValue: '12:34',

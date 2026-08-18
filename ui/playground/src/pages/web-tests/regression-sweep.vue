@@ -245,11 +245,26 @@
         label="S17"
       />
     </div>
+
+    <!-- S18: #7920/#7777 the multiple-masks pattern: a computed mask picks
+         the format from the unmasked length; crossing the threshold in
+         either direction must re-lay-out the value with the caret intact -->
+    <div class="fixture">
+      <q-input
+        v-model="s18model"
+        :mask="s18mask"
+        unmasked-value
+        class="s18-input"
+        filled
+        dense
+        label="S18"
+      />
+    </div>
   </div>
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { useQuasar } from 'quasar'
 
@@ -283,6 +298,13 @@ const s12dlg = ref(false)
 const s12tt = ref(null)
 const s16tab = ref('t1')
 const s17model = ref('')
+const s18model = ref('')
+// the "Multiple masks" docs pattern (docs/src/examples/QInput/MaskMultiple.vue)
+const s18mask = computed(() =>
+  s18model.value !== null && s18model.value.length > 10
+    ? '(##) #####-####'
+    : '(##) ####-#####'
+)
 
 const lines = ref([])
 const results = []
@@ -806,6 +828,58 @@ async function s17() {
   )
 }
 
+// S18: #7920/#7777 -- the multiple-masks pattern: a computed mask picks the
+// format from the unmasked length. Crossing the threshold re-lays-out the
+// value (the hyphen moves) and the caret must stay after its data chars
+async function s18() {
+  const inp = document.querySelector('.s18-input input')
+  inp.focus()
+
+  const insert = ch => {
+    inp.setRangeText(ch, inp.selectionStart, inp.selectionEnd, 'end')
+    inp.dispatchEvent(
+      new InputEvent('input', {
+        bubbles: true,
+        inputType: 'insertText',
+        data: ch
+      })
+    )
+  }
+
+  for (const char of '1123456789') {
+    insert(char)
+    await settle(30)
+  }
+  const eightDigit = inp.value
+
+  // the 11th digit crosses the threshold: mask switches, hyphen moves
+  insert('0')
+  await settle(60)
+  const nineDigit = { v: inp.value, cur: inp.selectionStart }
+
+  // backspace (soft-keyboard style) crosses back down
+  inp.setRangeText('', inp.value.length - 1, inp.value.length, 'end')
+  inp.dispatchEvent(
+    new InputEvent('input', {
+      bubbles: true,
+      inputType: 'deleteContentBackward'
+    })
+  )
+  await settle(60)
+  const backDown = inp.value
+
+  const ok =
+    eightDigit === '(11) 2345-6789' &&
+    nineDigit.v === '(11) 23456-7890' &&
+    nineDigit.cur === nineDigit.v.length &&
+    backDown === '(11) 2345-6789'
+  report(
+    'S18 7920 computed mask switches formats mid-typing',
+    ok,
+    `8d="${eightDigit}" 9d="${nineDigit.v}"@${nineDigit.cur} back="${backDown}"`
+  )
+}
+
 async function runAll() {
   lines.value = []
   results.length = 0
@@ -829,7 +903,8 @@ async function runAll() {
     s14,
     s15,
     s16,
-    s17
+    s17,
+    s18
   ]
   for (const scenario of scenarios) {
     try {

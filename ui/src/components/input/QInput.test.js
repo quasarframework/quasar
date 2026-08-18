@@ -42,6 +42,86 @@ describe('[QInput API]', () => {
         expect(wrapper.get('input').element.value).toBe('123-45')
       })
 
+      test('supports the multiple-masks computed pattern (#7920)', async () => {
+        // the "Multiple masks" docs pattern, see
+        // docs/src/examples/QInput/MaskMultiple.vue
+        const SHORT = '(##) ####-#####'
+        const LONG = '(##) #####-####'
+        const maskFor = model => (model.length > 10 ? LONG : SHORT)
+
+        const wrapper = mountInput({
+          modelValue: '',
+          mask: SHORT,
+          unmaskedValue: true
+        })
+        const input = wrapper.get('input').element
+
+        // after each edit, the parent applies v-model and its computed mask
+        async function parentSettles() {
+          const emitted = wrapper.emitted('update:modelValue')
+          const model = emitted === void 0 ? '' : emitted.at(-1)[0]
+          await wrapper.setProps({ modelValue: model, mask: maskFor(model) })
+          await flushPromises()
+        }
+
+        async function typeDigit(digit) {
+          input.focus()
+          input.setRangeText(
+            digit,
+            input.selectionStart,
+            input.selectionEnd,
+            'end'
+          )
+          input.dispatchEvent(
+            new InputEvent('input', {
+              bubbles: true,
+              inputType: 'insertText',
+              data: digit
+            })
+          )
+          await parentSettles()
+        }
+
+        for (const digit of '1123456789') {
+          await typeDigit(digit)
+        }
+        expect(input.value).toBe('(11) 2345-6789')
+
+        // the 9-digit number's extra digit crosses the threshold: the
+        // computed mask switches and the value re-lays out around it
+        await typeDigit('0')
+        expect(input.value).toBe('(11) 23456-7890')
+        expect(input.selectionStart).toBe(input.value.length)
+
+        // backspace crosses back down
+        input.dispatchEvent(
+          new KeyboardEvent('keydown', {
+            key: 'Backspace',
+            keyCode: 8,
+            bubbles: true,
+            cancelable: true
+          })
+        )
+        let start = input.selectionStart
+        const end = input.selectionEnd
+        if (start === end) {
+          start = end - 1
+        }
+        input.setRangeText('', start, end, 'end')
+        input.dispatchEvent(
+          new InputEvent('input', {
+            bubbles: true,
+            inputType: 'deleteContentBackward'
+          })
+        )
+        await parentSettles()
+
+        expect(input.value).toBe('(11) 2345-6789')
+        expect(wrapper.emitted('update:modelValue').at(-1)).toEqual([
+          '1123456789'
+        ])
+      })
+
       test('a rapid backspace burst empties the model too (#15895)', async () => {
         const wrapper = mountInput({
           modelValue: '',
