@@ -301,6 +301,20 @@ describe('[useMask API]', () => {
         expect(emitValue).toHaveBeenCalledExactlyOnceWith('123-45', true)
       })
 
+      test('keeps a typed char that matches an upcoming mask literal (#8354)', () => {
+        const { mask } = createMask({
+          modelValue: '',
+          mask: '+1 123 ### ## ##'
+        })
+
+        // the digit literals of the prefix must not swallow the typed "1"
+        mask.updateMaskValue('1')
+        expect(mask.innerValue.value).toBe('+1 123 1')
+
+        mask.updateMaskValue('+1 123 1234567')
+        expect(mask.innerValue.value).toBe('+1 123 123 45 67')
+      })
+
       test('reports the unmasked value when asked to', () => {
         const { mask, input, emitValue } = createMask({
           modelValue: '',
