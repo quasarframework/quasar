@@ -89,6 +89,9 @@ vs the src export lists, every lang-pack/icon-set UMD asset, in-DOM
 self-verdicting playground page `/web-tests/regression-sweep` across
 chromium/firefox/webkit, plus `--safari` (needs `safaridriver --enable`
 once) and `--ios` (needs full Xcode); `SWEEP_SERVER_URL` reuses a
-running playground dev server. `pnpm test` runs all five
-suites concurrently on dev machines (serially on CI) via
-`test/parallel.js`.
+running playground dev server. A NEW scenario must pass `--ios` before
+handoff, not just the three desktop engines: components that behave
+differently on touch platforms pass everywhere else and fail there
+(QTabs hides its arrows on mobile unless `mobile-arrows` is set).
+`pnpm test` runs all five suites concurrently on dev machines
+(serially on CI) via `test/parallel.js`.
