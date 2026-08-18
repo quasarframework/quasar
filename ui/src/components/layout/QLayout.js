@@ -9,6 +9,10 @@ import useQuasar from '../../composables/use-quasar/use-quasar.js'
 
 import { createComponent } from '../../utils/private.create/create.js'
 import { getScrollbarWidth } from '../../utils/scroll/scroll.js'
+import {
+  addPreventScrollReleaseListener,
+  removePreventScrollReleaseListener
+} from '../../utils/scroll/prevent-scroll.js'
 import { hMergeSlot } from '../../utils/private.render/render.js'
 import { layoutKey } from '../../utils/private.symbols/symbols.js'
 
@@ -74,19 +78,31 @@ export default /*#__PURE__*/ createComponent({
         : null
     )
 
-    function onPageScroll(data) {
-      if (props.container || !document.qScrollPrevented) {
-        const info = {
-          position: data.position.top,
-          direction: data.direction,
-          directionChanged: data.directionChanged,
-          inflectionPoint: data.inflectionPoint.top,
-          delta: data.delta.top
-        }
+    let suppressedScroll = null
 
-        scroll.value = info
-        if (props.onScroll !== void 0) emit('scroll', info)
+    function onPageScroll(data) {
+      const info = {
+        position: data.position.top,
+        direction: data.direction,
+        directionChanged: data.directionChanged,
+        inflectionPoint: data.inflectionPoint.top,
+        delta: data.delta.top
       }
+
+      if (props.container || !document.qScrollPrevented) {
+        suppressedScroll = null
+        applyPageScroll(info)
+      } else {
+        // scroll-lock acquisition scrolls the page to top; that synthetic
+        // move must stay invisible (#7012) unless the lock later releases
+        // without restoring the position (#12994) -- so buffer it
+        suppressedScroll = info
+      }
+    }
+
+    function applyPageScroll(info) {
+      scroll.value = info
+      if (props.onScroll !== void 0) emit('scroll', info)
     }
 
     function onPageResize(data) {
@@ -176,6 +192,22 @@ export default /*#__PURE__*/ createComponent({
     }
 
     provide(layoutKey, $layout)
+
+    if (!__QUASAR_SSR_SERVER__) {
+      const onScrollLockRelease = () => {
+        if (suppressedScroll !== null) {
+          const info = suppressedScroll
+          suppressedScroll = null
+          applyPageScroll(info)
+        }
+      }
+
+      addPreventScrollReleaseListener(onScrollLockRelease)
+
+      onUnmounted(() => {
+        removePreventScrollReleaseListener(onScrollLockRelease)
+      })
+    }
 
     // prevent scrollbar flicker while resizing window height
     // if no page scrollbar is already present

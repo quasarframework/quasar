@@ -260,6 +260,24 @@
         label="S18"
       />
     </div>
+    <!-- S19: #12994 reveal QHeader must reappear when a route change
+         happens while the Loading plugin keeps the page scroll-locked.
+         Own window-scrolling layout: the bug lives in the non-container
+         QLayout path only -->
+    <template v-if="s19on">
+      <q-layout class="s19-layout">
+        <q-header reveal class="s19-header bg-primary text-white">
+          <q-toolbar>
+            <q-toolbar-title>S19</q-toolbar-title>
+          </q-toolbar>
+        </q-header>
+        <q-page-container>
+          <q-page>
+            <div style="height: 3000px">S19 tall page</div>
+          </q-page>
+        </q-page-container>
+      </q-layout>
+    </template>
   </div>
 </template>
 
@@ -299,6 +317,7 @@ const s12tt = ref(null)
 const s16tab = ref('t1')
 const s17model = ref('')
 const s18model = ref('')
+const s19on = ref(false)
 // the "Multiple masks" docs pattern (docs/src/examples/QInput/MaskMultiple.vue)
 const s18mask = computed(() =>
   s18model.value !== null && s18model.value.length > 10
@@ -880,6 +899,66 @@ async function s18() {
   )
 }
 
+// S19: #12994 -- while the Loading plugin holds the scroll lock, QLayout
+// suppresses the lock's synthetic scroll-to-top (#7012); when a route
+// change happens under the lock, the unlock skips the scroll restore, so
+// the layout used to keep the stale pre-navigation scroll state and a
+// reveal QHeader never reappeared at the top of the new page
+async function s19() {
+  s19on.value = true
+  // scroll anchoring (Firefox especially) can nudge the position back up
+  // after the programmatic jump, which counts as an 'up' move and
+  // re-reveals the header, breaking the fixture's control condition
+  document.documentElement.style.overflowAnchor = 'none'
+  await settle(300)
+
+  const header = document.querySelector('.s19-header')
+
+  // earlier scenarios focus() inputs far down the page, which Blink and
+  // Gecko answer with a scroll-into-view; settle at the top first so the
+  // moves below are unambiguous 'down' travel
+  document.activeElement?.blur()
+  window.scrollTo(0, 0)
+  await settle(250)
+
+  // the reveal logic hides only after 100px+ of travel PAST the last
+  // direction change, so take two down moves: the first may only set the
+  // inflection point, the second provides the travel
+  window.scrollTo(0, 500)
+  await settle(250)
+  let hiddenAfterScroll = false
+  for (let i = 0; i < 5 && !hiddenAfterScroll; i++) {
+    window.scrollTo(0, 1300 + 200 * i)
+    await settle(250)
+    hiddenAfterScroll = header.classList.contains('q-header--hidden')
+  }
+
+  const path = window.location.pathname
+  $q.loading.show({ delay: 0 })
+  await settle(400)
+  // a route change as prevent-scroll sees one: the pathname moves on
+  // while the lock is held (no popstate, the router stays put)
+  history.pushState({}, '', path + '/s19-nav')
+  $q.loading.hide()
+  await settle(500)
+
+  const atTop = Math.round(window.scrollY) === 0
+  const revealed = !header.classList.contains('q-header--hidden')
+
+  history.pushState({}, '', path)
+  s19on.value = false
+  document.documentElement.style.overflowAnchor = ''
+  await settle(200)
+  window.scrollTo(0, 0)
+  await settle(200)
+
+  report(
+    'S19 12994 reveal header vs scroll lock + route change',
+    hiddenAfterScroll && atTop && revealed,
+    `hidByScroll=${hiddenAfterScroll} atTop=${atTop} revealedAfterUnlock=${revealed}`
+  )
+}
+
 async function runAll() {
   lines.value = []
   results.length = 0
@@ -904,7 +983,8 @@ async function runAll() {
     s15,
     s16,
     s17,
-    s18
+    s18,
+    s19
   ]
   for (const scenario of scenarios) {
     try {

@@ -15,6 +15,20 @@ let registered = 0,
   routePath,
   closeTimer = null
 
+// notified when the lock releases WITHOUT restoring the scroll position
+// (the route changed while locked, so the page legitimately sits at top);
+// consumers that suppress scroll updates while locked (QLayout) re-sync
+// through this since no scroll event will ever fire for them
+const releaseListeners = new Set()
+
+export function addPreventScrollReleaseListener(fn) {
+  releaseListeners.add(fn)
+}
+
+export function removePreventScrollReleaseListener(fn) {
+  releaseListeners.delete(fn)
+}
+
 function onAppleScroll(e) {
   if (e.target === document) {
     // required, otherwise iOS blocks further scrolling
@@ -148,6 +162,10 @@ function apply(action) {
     // scroll back only if route path has not changed
     if (window.location.pathname === routePath) {
       window.scrollTo(scrollPositionX, scrollPositionY)
+    } else {
+      releaseListeners.forEach(fn => {
+        fn()
+      })
     }
 
     maxScrollTop = void 0

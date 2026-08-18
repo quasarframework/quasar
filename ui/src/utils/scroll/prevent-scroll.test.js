@@ -2,7 +2,10 @@ import { afterEach, describe, expect, test, vi } from 'vitest'
 
 import { client } from '../../plugins/platform/Platform.js'
 import { listenOpts } from '../event/event.js'
-import preventScroll from './prevent-scroll.js'
+import preventScroll, {
+  addPreventScrollReleaseListener,
+  removePreventScrollReleaseListener
+} from './prevent-scroll.js'
 
 const forceScrollbarClasses = [
   'q-body--force-scrollbar-x',
@@ -329,6 +332,63 @@ describe('[preventScroll API]', () => {
 
         vi.advanceTimersByTime(100)
         expect(isPrevented()).toBe(false)
+      })
+    })
+
+    describe('[(function)addPreventScrollReleaseListener]', () => {
+      test('notifies when the lock releases without restoring the scroll position', () => {
+        const listener = vi.fn()
+        const { pathname, search, hash } = window.location
+
+        restoreFns.push(() => {
+          removePreventScrollReleaseListener(listener)
+          window.history.replaceState({}, '', `${pathname}${search}${hash}`)
+        })
+
+        addPreventScrollReleaseListener(listener)
+
+        preventScroll(true)
+        expect(listener).not.toHaveBeenCalled()
+
+        window.history.replaceState({}, '', '/some-other-route')
+        preventScroll(false)
+
+        expect(listener).toHaveBeenCalledOnce()
+      })
+
+      test('does not notify when the scroll position gets restored', () => {
+        const listener = vi.fn()
+
+        restoreFns.push(() => {
+          removePreventScrollReleaseListener(listener)
+        })
+
+        addPreventScrollReleaseListener(listener)
+
+        preventScroll(true)
+        preventScroll(false)
+
+        expect(listener).not.toHaveBeenCalled()
+      })
+    })
+
+    describe('[(function)removePreventScrollReleaseListener]', () => {
+      test('stops notifying a removed listener', () => {
+        const listener = vi.fn()
+        const { pathname, search, hash } = window.location
+
+        restoreFns.push(() => {
+          window.history.replaceState({}, '', `${pathname}${search}${hash}`)
+        })
+
+        addPreventScrollReleaseListener(listener)
+        removePreventScrollReleaseListener(listener)
+
+        preventScroll(true)
+        window.history.replaceState({}, '', '/some-other-route')
+        preventScroll(false)
+
+        expect(listener).not.toHaveBeenCalled()
       })
     })
   })
