@@ -122,7 +122,13 @@ export const useMaskProps = {
   maskTokens: Object
 }
 
-export default function useMask(props, emit, emitValue, inputRef) {
+export default function useMask(
+  props,
+  emit,
+  emitValue,
+  inputRef,
+  cancelPendingValueEmission
+) {
   let maskMarked,
     maskReplaced,
     computedMask,
@@ -466,6 +472,11 @@ export default function useMask(props, emit, emitValue, inputRef) {
       (props.modelValue !== null || val !== '')
     ) {
       emitValue(val, true)
+    } else if (cancelPendingValueEmission !== void 0) {
+      // the displayed value matches the model again, so a debounced
+      // emission of an intermediate state still in flight is stale and
+      // must not fire (#17568)
+      cancelPendingValueEmission()
     }
   }
 

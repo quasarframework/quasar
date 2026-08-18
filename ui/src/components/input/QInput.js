@@ -93,7 +93,13 @@ export default /*#__PURE__*/ createComponent({
       updateMaskValue,
       onMaskedKeydown,
       onMaskedClick
-    } = useMask(props, emit, emitValue, inputRef)
+    } = useMask(props, emit, emitValue, inputRef, () => {
+      // the mask found the displayed value matching the model again: a
+      // debounced emission still in flight carries a stale intermediate
+      // state (#17568), and so would a kept temp.value on the next render
+      cancelPendingValueEmission()
+      delete temp.value
+    })
 
     const formDomProps = useFileFormDomProps(props, /* type guard */ true)
     const hasValue = computed(() => fieldValueIsFilled(innerValue.value))

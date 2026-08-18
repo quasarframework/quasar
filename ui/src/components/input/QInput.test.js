@@ -859,6 +859,59 @@ describe('[QInput API]', () => {
           vi.useRealTimers()
         }
       })
+
+      test('drops a stale masked emission when the value returns (#17568)', async () => {
+        vi.useFakeTimers()
+
+        try {
+          const wrapper = mountInput({
+            modelValue: '',
+            mask: '##########',
+            debounce: 75
+          })
+          const input = wrapper.get('input').element
+
+          input.value = '111111'
+          input.dispatchEvent(
+            new InputEvent('input', { bubbles: true, inputType: 'insertText' })
+          )
+          vi.advanceTimersByTime(75)
+          expect(wrapper.emitted('update:modelValue').at(-1)).toEqual([
+            '111111'
+          ])
+          await wrapper.setProps({ modelValue: '111111' })
+
+          // everything gets cut...
+          input.value = ''
+          input.dispatchEvent(
+            new InputEvent('input', {
+              bubbles: true,
+              inputType: 'deleteContentBackward'
+            })
+          )
+          // ...and the same text pasted back before the debounce fires
+          vi.advanceTimersByTime(30)
+          input.value = '111111'
+          input.dispatchEvent(
+            new InputEvent('input', {
+              bubbles: true,
+              inputType: 'insertFromPaste'
+            })
+          )
+
+          vi.advanceTimersByTime(200)
+          await flushPromises()
+
+          // the pending "" emission was stale and must not have fired,
+          // and the re-render must keep showing the restored value
+          expect(wrapper.emitted('update:modelValue').at(-1)).toEqual([
+            '111111'
+          ])
+          expect(input.value).toBe('111111')
+        } finally {
+          vi.useRealTimers()
+        }
+      })
     })
 
     describe('[(prop)maxlength]', () => {
