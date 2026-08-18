@@ -138,7 +138,7 @@
 
     "hide-dropdown-icon": {
       "type": "Boolean",
-      "desc": "Hides dropdown icon",
+      "desc": "Hides dropdown icon; the default loading spinner is also suppressed (with the icon hidden it would change the field's width), while a 'loading' slot still renders",
       "category": "content|behavior"
     },
 

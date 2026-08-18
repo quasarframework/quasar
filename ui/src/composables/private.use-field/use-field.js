@@ -142,6 +142,8 @@ export function useFieldState({
 
      * getControl - fn
      * getInnerAppend - fn
+     * shouldHideLoadingIndicator - fn; true suppresses the default loading
+     *   spinner (an explicit "loading" slot still renders)
      * getControlChild - fn
      * getShadowControl - fn
      * showPopup - fn
@@ -530,15 +532,17 @@ export default function useField(state) {
       )
     }
 
-    if (props.loading || state.innerLoading.value) {
-      node.push(
-        getInnerAppendNode(
-          'inner-loading-append',
-          slots.loading !== void 0
-            ? slots.loading()
+    const loadingContent =
+      props.loading || state.innerLoading.value
+        ? slots.loading !== void 0
+          ? slots.loading()
+          : state.shouldHideLoadingIndicator?.()
+            ? null
             : [h(QSpinner, { color: props.color })]
-        )
-      )
+        : null
+
+    if (loadingContent !== null) {
+      node.push(getInnerAppendNode('inner-loading-append', loadingContent))
     } else if (
       props.clearable &&
       state.hasValue.value &&

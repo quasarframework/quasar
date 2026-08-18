@@ -1756,6 +1756,11 @@ export default /*#__PURE__*/ createComponent({
         )
       },
 
+      // the default loading spinner swaps in for the dropdown icon at a
+      // constant width; with the icon hidden there is nothing to swap
+      // with, so the spinner would make the field width jump (#17375)
+      shouldHideLoadingIndicator: () => props.hideDropdownIcon === true,
+
       getInnerAppend: () =>
         !props.loading &&
         !innerLoadingIndicator.value &&

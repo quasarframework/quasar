@@ -129,6 +129,10 @@ The following example shows a glimpse of how you can play with lazy loading the 
 
 <DocExample title="Lazy load options" file="OptionLazyLoad" />
 
+::: tip
+While options are being loaded, the default loading spinner takes the place of the dropdown icon so the field keeps a constant width. For this reason, when `hide-dropdown-icon` is used the default spinner is not displayed at all (it would make the field's width jump); supply a `loading` slot if you still want an inline indicator in that case.
+:::
+
 You can dynamically load new options when scroll reaches the end:
 
 <DocExample title="Dynamic loading options" file="OptionsDynamic" />

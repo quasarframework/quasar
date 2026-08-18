@@ -1108,6 +1108,35 @@ describe('[QSelect API]', () => {
         const wrapper = mountSelect({ hideDropdownIcon: true })
         expect(wrapper.find('.q-select__dropdown-icon').exists()).toBe(false)
       })
+
+      test('suppresses the default loading spinner (#17375)', () => {
+        // there is no dropdown icon for the spinner to swap with, so
+        // rendering it would make the field's width jump
+        const wrapper = mountSelect({ hideDropdownIcon: true, loading: true })
+        expect(wrapper.find('.q-spinner').exists()).toBe(false)
+      })
+
+      test('an explicit loading slot still renders', () => {
+        const wrapper = mountSelect(
+          { hideDropdownIcon: true, loading: true },
+          { slots: { loading: () => 'some-slot-content' } }
+        )
+
+        expect(wrapper.get('.q-field__append').text()).toContain(
+          'some-slot-content'
+        )
+      })
+
+      test('keeps the clearable icon while loading', () => {
+        const wrapper = mountSelect({
+          hideDropdownIcon: true,
+          clearable: true,
+          modelValue: 'a',
+          loading: true
+        })
+
+        expect(wrapper.find('.q-field__focusable-action').exists()).toBe(true)
+      })
     })
 
     describe('[(prop)dropdown-icon]', () => {
