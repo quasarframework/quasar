@@ -323,6 +323,10 @@ You can reset the validation by calling `resetValidation()` method on the QInput
 
 There are **helpers** for QInput `rules` prop: [full list](https://github.com/quasarframework/quasar/blob/dev/ui/src/utils/patterns/patterns.js). You can use these for convenience (examples: "date", "time", "hexColor", "rgbOrRgbaColor", "anyColor") or write the string specifying your custom needs.
 
+::: warning Native constraints are separate from rules
+Native HTML constraints (a `type` like "email" or "url", or a `pattern`/`required` attribute passed through to the native input) are enforced by the browser only on a native form submission. The programmatic `validate()` method (on QInput or on a wrapping QForm) evaluates the `rules` only and does not consult them. Express any constraint that `validate()` should catch as a rule too, e.g. `:rules="['email']"`.
+:::
+
 <DocExample title="Validation required" file="ValidationRequired" />
 
 <DocExample title="Maximum length" file="ValidationMaxLength" />

@@ -21,6 +21,7 @@ Please be aware of the following:
 
 - QForm hooks into QInput, QSelect or QField wrapped components
 - QInput, QSelect or QField wrapped components must use the internal validation (NOT the external one).
+- The `validate()` method runs the components' internal validation (their `rules`) only. Native HTML constraints (like `type="email"` or a `required` attribute on the underlying native input) are enforced by the browser on a native form submission, but `validate()` does not consult them, so express such constraints as rules too (e.g. `:rules="['email']"`).
 - If you want to take advantage of the `reset` functionality, then be sure to also capture the `@reset` event on QForm and make its handler reset all of the wrapped components models.
 
 :::
