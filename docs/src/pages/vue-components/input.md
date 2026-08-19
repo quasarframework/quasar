@@ -116,6 +116,8 @@ Do NOT use a `v-model` when QInput is of `type="file"`. Browser security policy 
 
 <DocExample title="Textarea" file="Textarea" />
 
+The line spacing of a textarea follows its font-size, so giving the native field a bigger or smaller font (through `input-class` or `input-style`) keeps the lines evenly spaced.
+
 When you need QInput to grow along with its content, then use the `autogrow` prop like in the example below:
 
 <DocExample title="Autogrow" file="Autogrow" />

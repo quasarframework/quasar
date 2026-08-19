@@ -13,7 +13,10 @@
     bottom: 2px
 
   .q-field__native, .q-field__prefix, .q-field__suffix
-    line-height: 18px
+    // 18 / 14, so the default font-size still gets the former fixed 18px while a
+    // custom one scales; rounded up because WebKit holds the ratio in single
+    // precision and any value below 18/14 loses 1/64px on every line
+    line-height: 1.28572
 
   .q-field__native
     resize: vertical
