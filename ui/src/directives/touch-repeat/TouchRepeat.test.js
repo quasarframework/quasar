@@ -224,4 +224,44 @@ describe('[TouchRepeat API]', () => {
       })
     })
   })
+
+  describe('[Generic]', () => {
+    test('suppresses selection immediately for touch, lazily for mouse', () => {
+      client.has.touch = true
+      const { wrapper } = mountTouchRepeat({ mouse: true }, { arg: '100:100' })
+
+      // a mouse press waits for the first repeat, so a quick
+      // click never flashes the suppression styles
+      dispatchMouseDown(wrapper)
+
+      expect(document.body.classList.contains('non-selectable')).toBe(false)
+
+      vi.advanceTimersByTime(100)
+
+      expect(document.body.classList.contains('non-selectable')).toBe(true)
+
+      document.dispatchEvent(new MouseEvent('click', { cancelable: true }))
+      vi.advanceTimersByTime(50)
+
+      expect(document.body.classList.contains('non-selectable')).toBe(false)
+
+      // a touch press starts native selection on ANY touch-capable
+      // device, so it is suppressed right away
+      wrapper.element.dispatchEvent(
+        new TouchEvent('touchstart', {
+          bubbles: true,
+          touches: [new Touch({ identifier: 1, target: wrapper.element })]
+        })
+      )
+
+      expect(document.body.classList.contains('non-selectable')).toBe(true)
+
+      wrapper.element.dispatchEvent(
+        new TouchEvent('touchend', { bubbles: true, touches: [] })
+      )
+      vi.advanceTimersByTime(50)
+
+      expect(document.body.classList.contains('non-selectable')).toBe(false)
+    })
+  })
 })

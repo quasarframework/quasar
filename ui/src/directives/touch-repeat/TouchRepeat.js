@@ -134,7 +134,12 @@ export default /*#__PURE__*/ createDirective(
                 }
               }
 
-              if (client.is.mobile) {
+              // a touch long-press starts native text selection right away
+              // (on any touch-capable device, not just mobile UAs), so it
+              // gets suppressed immediately; mouse/keyboard interactions
+              // wait for the first repeat below to avoid flashing styles
+              // on a quick click
+              if (!mouseEvent && !keyboardEvent) {
                 document.body.classList.add('non-selectable')
                 clearSelection()
                 ctx.styleCleanup = styleCleanup
@@ -162,7 +167,7 @@ export default /*#__PURE__*/ createDirective(
                     ctx.event.position = position(evt)
                   }
 
-                  if (!client.is.mobile) {
+                  if (!ctx.event.touch) {
                     document.documentElement.style.cursor = 'pointer'
                     document.body.classList.add('non-selectable')
                     clearSelection()

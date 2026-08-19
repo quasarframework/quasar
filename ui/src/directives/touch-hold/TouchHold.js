@@ -59,7 +59,10 @@ export default /*#__PURE__*/ createDirective(
 
               const startTime = Date.now()
 
-              if (client.is.mobile) {
+              // a touch long-press starts native text selection (on any
+              // touch-capable device, not just mobile UAs); a held mouse
+              // button does not, so it needs no suppression
+              if (!mouseEvent) {
                 document.body.classList.add('non-selectable')
                 clearSelection()
 

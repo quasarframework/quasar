@@ -128,4 +128,38 @@ describe('[TouchHold API]', () => {
       })
     })
   })
+
+  describe('[Generic]', () => {
+    test('suppresses text selection for touch holds only', () => {
+      client.has.touch = true
+      const { wrapper } = mountTouchHold({ mouse: true })
+
+      // a held mouse button selects nothing, so nothing to suppress
+      wrapper.element.dispatchEvent(
+        new MouseEvent('mousedown', { bubbles: true, button: 0 })
+      )
+
+      expect(document.body.classList.contains('non-selectable')).toBe(false)
+
+      document.dispatchEvent(new MouseEvent('mouseup'))
+
+      // a touch hold starts native selection on ANY touch-capable
+      // device, so it is suppressed right from the press
+      wrapper.element.dispatchEvent(
+        new TouchEvent('touchstart', {
+          bubbles: true,
+          touches: [new Touch({ identifier: 1, target: wrapper.element })]
+        })
+      )
+
+      expect(document.body.classList.contains('non-selectable')).toBe(true)
+
+      wrapper.element.dispatchEvent(
+        new TouchEvent('touchend', { bubbles: true, touches: [] })
+      )
+      vi.advanceTimersByTime(50)
+
+      expect(document.body.classList.contains('non-selectable')).toBe(false)
+    })
+  })
 })
