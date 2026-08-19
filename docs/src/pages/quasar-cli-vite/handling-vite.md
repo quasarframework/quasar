@@ -39,7 +39,7 @@ If you want to add some Vite plugins, see the [Adding Vite plugins](#adding-vite
 
 ## Npm packages that import from Quasar
 
-An npm package (a component library, a helper package, an [App Extension](/app-extensions/introduction)) that does `import { Notify } from 'quasar'` in its own code gets pre-bundled by Vite's dep optimizer, which links it against a second copy of Quasar. Quasar Plugins installed by your app then appear uninstalled to that package, with errors like `Notify.create is not a function`.
+An npm package (a component library, a helper package, an [App Extension](/app-extensions/introduction)) that does `import { Notify }` from "quasar" in its own code gets pre-bundled by Vite's dep optimizer, which links it against a second copy of Quasar. Quasar Plugins installed by your app then appear uninstalled to that package, with errors like `Notify.create is not a function`.
 
 The fix is excluding such packages from pre-bundling, so their Quasar imports resolve to the same modules as your app code:
 

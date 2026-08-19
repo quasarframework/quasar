@@ -30,7 +30,7 @@ export default defineIndexScript(api => {
 
 ## Using the plugin from your own code
 
-Injecting the plugin makes the host app install it, but importing it from your App Extension's runtime code needs one more step. Your package lives in the host app's `node_modules`, so Vite pre-bundles it by default. The pre-bundle links your `import { Notify } from 'quasar'` against a second copy of Quasar, on which the host app never installed anything. The plugin then appears uninstalled to your code, with errors like `Notify.create is not a function`.
+Injecting the plugin makes the host app install it, but importing it from your App Extension's runtime code needs one more step. Your package lives in the host app's `node_modules`, so Vite pre-bundles it by default. The pre-bundle links your `import { Notify }` from "quasar" against a second copy of Quasar, on which the host app never installed anything. The plugin then appears uninstalled to your code, with errors like `Notify.create is not a function`.
 
 Tell Vite to serve your package through the module graph instead, where its Quasar imports resolve to the same modules as the host app's code. Your Index script can do this on behalf of the host app:
 
