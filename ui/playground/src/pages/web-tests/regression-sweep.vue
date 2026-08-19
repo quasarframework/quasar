@@ -260,6 +260,20 @@
         label="S18"
       />
     </div>
+    <!-- S20: #17155 shadow-text visibility follows focus; an invalid field
+         must still hide it on blur and keep it while focused -->
+    <div class="fixture">
+      <q-input
+        v-model="s20model"
+        :rules="[val => val.length > 2 || 'min 3 chars']"
+        shadow-text=" shadow"
+        class="s20-input"
+        filled
+        dense
+        label="S20"
+      />
+    </div>
+
     <!-- S19: #12994 reveal QHeader must reappear when a route change
          happens while the Loading plugin keeps the page scroll-locked.
          Own window-scrolling layout: the bug lives in the non-container
@@ -318,6 +332,7 @@ const s16tab = ref('t1')
 const s17model = ref('')
 const s18model = ref('')
 const s19on = ref(false)
+const s20model = ref('okay')
 // the "Multiple masks" docs pattern (docs/src/examples/QInput/MaskMultiple.vue)
 const s18mask = computed(() =>
   s18model.value !== null && s18model.value.length > 10
@@ -959,6 +974,46 @@ async function s19() {
   )
 }
 
+// S20: #17155 -- the q-field--highlighted class stays on while the field
+// has an error, so gating the shadow-text opacity on it kept the shadow
+// visible after blur, overlapped with the label; visibility must follow
+// focus alone: shown while focused (error or not), hidden when blurred
+async function s20() {
+  const field = document.querySelector('.s20-input')
+  const input = field.querySelector('input')
+  const shadow = field.querySelector('.q-field__shadow')
+  const opacity = () => Number(getComputedStyle(shadow).opacity)
+
+  input.focus()
+  await settle(600)
+  const shownFocused = opacity() > 0.4
+
+  // fail the min-3 rule while still focused
+  s20model.value = 'x'
+  await settle(600)
+  const errOn = field.classList.contains('q-field--error')
+  const shownFocusedError = opacity() > 0.4
+
+  input.blur()
+  await settle(600)
+  const stillErr = field.classList.contains('q-field--error')
+  const hiddenBlurredError = opacity() < 0.1
+
+  s20model.value = 'okay'
+  await settle(300)
+
+  report(
+    'S20 17155 shadow-text vs error state',
+    shownFocused &&
+      errOn &&
+      shownFocusedError &&
+      stillErr &&
+      hiddenBlurredError,
+    `focus=${shownFocused} err=${errOn} focusErr=${shownFocusedError} ` +
+      `blurErrKept=${stillErr} blurHidden=${hiddenBlurredError}`
+  )
+}
+
 async function runAll() {
   lines.value = []
   results.length = 0
@@ -984,7 +1039,8 @@ async function runAll() {
     s16,
     s17,
     s18,
-    s19
+    s19,
+    s20
   ]
   for (const scenario of scenarios) {
     try {
