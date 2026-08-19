@@ -1319,12 +1319,12 @@ describe('[QBtnDropdown API]', () => {
           { toggle: () => h(QTooltip, () => 'toggle help') }
         )
 
-        await getMainBtn(wrapper).trigger('mouseenter')
+        await getMainBtn(wrapper).trigger('pointerenter')
         await settle()
 
         expect(document.querySelector('.q-tooltip')).toBeNull()
 
-        await getArrowBtn(wrapper).trigger('mouseenter')
+        await getArrowBtn(wrapper).trigger('pointerenter')
         await settle()
 
         expect(document.querySelector('.q-tooltip')).not.toBeNull()

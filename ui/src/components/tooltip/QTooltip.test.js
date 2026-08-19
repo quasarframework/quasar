@@ -154,7 +154,7 @@ describe('[QTooltip API]', () => {
       test('type Boolean has effect', async () => {
         const wrapper = mountTooltip({ target: false })
 
-        await getAnchor(wrapper).trigger('mouseenter')
+        await getAnchor(wrapper).trigger('pointerenter')
         await vi.runAllTimersAsync()
 
         // no anchor means the parent events are never wired up
@@ -204,7 +204,7 @@ describe('[QTooltip API]', () => {
     describe('[(prop)no-parent-event]', () => {
       test('type Boolean has effect', async () => {
         const withEvents = mountTooltip()
-        await getAnchor(withEvents).trigger('mouseenter')
+        await getAnchor(withEvents).trigger('pointerenter')
         await vi.runAllTimersAsync()
         expect(getTooltip()).not.toBeNull()
         withEvents.unmount()
@@ -212,7 +212,7 @@ describe('[QTooltip API]', () => {
 
         const wrapper = mountTooltip({ noParentEvent: true })
 
-        await getAnchor(wrapper).trigger('mouseenter')
+        await getAnchor(wrapper).trigger('pointerenter')
         await vi.runAllTimersAsync()
 
         expect(getTooltip()).toBeNull()
@@ -378,7 +378,7 @@ describe('[QTooltip API]', () => {
       test('type Number has effect', async () => {
         const wrapper = mountTooltip({ delay: 500 })
 
-        await getAnchor(wrapper).trigger('mouseenter')
+        await getAnchor(wrapper).trigger('pointerenter')
         await vi.advanceTimersByTimeAsync(499)
 
         expect(getTooltip()).toBeNull()
@@ -394,11 +394,11 @@ describe('[QTooltip API]', () => {
       test('type Number has effect', async () => {
         const wrapper = mountTooltip({ hideDelay: 500 })
 
-        await getAnchor(wrapper).trigger('mouseenter')
+        await getAnchor(wrapper).trigger('pointerenter')
         await vi.runAllTimersAsync()
         expect(getTooltip()).not.toBeNull()
 
-        await getAnchor(wrapper).trigger('mouseleave')
+        await getAnchor(wrapper).trigger('pointerleave')
         await vi.advanceTimersByTimeAsync(499)
 
         expect(getTooltip()).not.toBeNull()
@@ -602,6 +602,77 @@ describe('[QTooltip API]', () => {
       expect(getTooltip().style.top).toBe('184px')
 
       await vi.runAllTimersAsync()
+    })
+
+    test('applies the touch UX per interaction, not per device', async () => {
+      const wrapper = mountTooltip()
+      const anchor = getAnchor(wrapper)
+
+      await anchor.trigger('pointerenter', { pointerType: 'mouse' })
+      await vi.runAllTimersAsync()
+
+      expect(getTooltip()).not.toBeNull()
+      expect(document.body.classList.contains('non-selectable')).toBe(false)
+
+      await anchor.trigger('pointerleave', { pointerType: 'mouse' })
+      await vi.runAllTimersAsync()
+
+      expect(getTooltip()).toBeNull()
+
+      await anchor.trigger('pointerenter', {
+        pointerType: 'touch',
+        isPrimary: true
+      })
+      await vi.runAllTimersAsync()
+
+      expect(getTooltip()).not.toBeNull()
+      expect(document.body.classList.contains('non-selectable')).toBe(true)
+
+      // lifting the finger ends a touch-initiated show
+      await anchor.trigger('touchend')
+      await vi.runAllTimersAsync()
+
+      expect(getTooltip()).toBeNull()
+      expect(document.body.classList.contains('non-selectable')).toBe(false)
+    })
+
+    test('ignores non-primary pointers (multi-touch)', async () => {
+      const wrapper = mountTooltip()
+      const anchor = getAnchor(wrapper)
+
+      // a second finger landing on the anchor must not show it
+      await anchor.trigger('pointerenter', {
+        pointerType: 'touch',
+        isPrimary: false
+      })
+      await vi.runAllTimersAsync()
+
+      expect(getTooltip()).toBeNull()
+
+      await anchor.trigger('pointerenter', {
+        pointerType: 'mouse',
+        isPrimary: true
+      })
+      await vi.runAllTimersAsync()
+
+      expect(getTooltip()).not.toBeNull()
+
+      // ...nor hide it while the primary pointer is still there
+      await anchor.trigger('pointerleave', {
+        pointerType: 'touch',
+        isPrimary: false
+      })
+      await vi.runAllTimersAsync()
+
+      expect(getTooltip()).not.toBeNull()
+
+      await anchor.trigger('pointerleave', {
+        pointerType: 'mouse',
+        isPrimary: true
+      })
+      await vi.runAllTimersAsync()
+
+      expect(getTooltip()).toBeNull()
     })
   })
 

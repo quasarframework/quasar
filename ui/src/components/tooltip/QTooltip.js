@@ -32,6 +32,7 @@ import {
   addEscapeKey,
   removeEscapeKey
 } from '../../utils/private.keyboard/escape-key.js'
+import { client } from '../../plugins/platform/Platform.js'
 import { clearSelection } from '../../utils/private.selection/selection.js'
 import { hSlot } from '../../utils/private.render/render.js'
 import {
@@ -115,6 +116,9 @@ export default /*#__PURE__*/ createComponent({
       observer,
       removeNonSelectableTimer,
       hasNonSelectable = false,
+      // the currently developing show was initiated by a touch interaction
+      // (the hide can arrive through events that can't tell us themselves)
+      touchInteraction = false,
       describedBy
 
     const vm = getCurrentInstance()
@@ -164,9 +168,11 @@ export default /*#__PURE__*/ createComponent({
       'tooltip'
     )
 
-    // if we're on mobile, let's improve the experience
-    // by closing it when user taps outside of it
-    if ($q.platform.is.mobile) {
+    // on touch-capable devices, let's improve the experience
+    // by closing it when user taps outside of it;
+    // must be the non-reactive "client" (not $q.platform): this runs at
+    // setup time, when an SSR client hasn't taken over $q.platform yet
+    if (client.has.touch) {
       const clickOutsideProps = {
         anchorEl,
         innerRef,
@@ -200,7 +206,11 @@ export default /*#__PURE__*/ createComponent({
       onBeforeUnmount(() => {
         removeClickOutside(clickOutsideProps)
       })
-    } else {
+    }
+
+    // independent of the touch handling above: a hybrid device
+    // (touchscreen laptop) needs both dismissal methods
+    if (!$q.platform.is.mobile) {
       // dismiss with the ESC key (WCAG 1.4.13) without moving focus;
       // uses the shared escape stack so only the top-most popup reacts
       watch(
@@ -304,6 +314,7 @@ export default /*#__PURE__*/ createComponent({
 
       unconfigureScrollTarget()
       removeEscapeKey(onEscapeKey)
+      touchInteraction = false
       cleanEvt(anchorEvents, 'tooltipTemp')
       removeAriaDescription()
       setNonSelectable(false)
@@ -322,7 +333,15 @@ export default /*#__PURE__*/ createComponent({
     }
 
     function delayShow(evt) {
-      if ($q.platform.is.mobile) {
+      // secondary fingers (multi-touch, e.g. a starting pinch-zoom) don't
+      // get to drive the tooltip; only guard real touches: synthetic
+      // PointerEvents default to isPrimary false, so a broader check would
+      // break tooltips for everyone dispatching them (tests included)
+      if (evt.pointerType === 'touch' && evt.isPrimary === false) return
+
+      if (evt.pointerType === 'touch') {
+        touchInteraction = true
+
         if (removeNonSelectableTimer !== void 0) {
           clearTimeout(removeNonSelectableTimer)
           removeNonSelectableTimer = void 0
@@ -345,7 +364,10 @@ export default /*#__PURE__*/ createComponent({
     }
 
     function delayHide(evt) {
-      if ($q.platform.is.mobile) {
+      if (evt.pointerType === 'touch' && evt.isPrimary === false) return
+
+      if (touchInteraction) {
+        touchInteraction = false
         cleanEvt(anchorEvents, 'tooltipTemp')
         clearSelection()
         // delay needed otherwise selection still occurs
@@ -384,14 +406,16 @@ export default /*#__PURE__*/ createComponent({
     function configureAnchorEl() {
       if (props.noParentEvent || anchorEl.value === null) return
 
-      const evts = $q.platform.is.mobile
-        ? [[anchorEl.value, 'touchstart', 'delayShow', 'passive']]
-        : [
-            [anchorEl.value, 'mouseenter', 'delayShow', 'passive'],
-            [anchorEl.value, 'mouseleave', 'delayHide', 'passive'],
-            [anchorEl.value, 'focusin', 'onFocusin', 'passive'],
-            [anchorEl.value, 'focusout', 'delayHide', 'passive']
-          ]
+      // pointer events cover mouse hover, pen hover AND the touch
+      // press (where "enter" is finger-down and "leave" is finger-up),
+      // so the same wiring serves every platform, hybrids included;
+      // no synthetic mouse event dedup needed since we never listen to them
+      const evts = [
+        [anchorEl.value, 'pointerenter', 'delayShow', 'passive'],
+        [anchorEl.value, 'pointerleave', 'delayHide', 'passive'],
+        [anchorEl.value, 'focusin', 'onFocusin', 'passive'],
+        [anchorEl.value, 'focusout', 'delayHide', 'passive']
+      ]
 
       addEvt(anchorEvents, 'anchor', evts)
     }
