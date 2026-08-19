@@ -35,7 +35,13 @@
         </q-toolbar>
       </q-footer>
 
-      <q-drawer v-model="drawerLeft" :width="200" :breakpoint="700" bordered>
+      <q-drawer
+        aria-label="Left drawer"
+        v-model="drawerLeft"
+        :width="200"
+        :breakpoint="700"
+        bordered
+      >
         <q-scroll-area class="fit">
           <div class="q-pa-sm">
             <div v-for="n in 50" :key="n">Drawer {{ n }} / 50</div>
@@ -44,6 +50,7 @@
       </q-drawer>
 
       <q-drawer
+        aria-label="Right drawer"
         side="right"
         v-model="drawerRight"
         bordered

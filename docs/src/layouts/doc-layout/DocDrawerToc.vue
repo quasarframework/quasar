@@ -5,7 +5,7 @@
     side="right"
     class="doc-drawer"
     behavior="mobile"
-    aria-labelledby="toc-drawer-title"
+    aria-label="Table of contents"
   >
     <div
       class="doc-drawer__header row justify-end no-wrap q-pt-sm q-pb-md q-px-sm"
@@ -21,8 +21,6 @@
       />
     </div>
 
-    <!-- navigation is not an allowed role on the <aside> the drawer
-         renders, so the nav landmark is an inner element -->
     <nav aria-labelledby="toc-drawer-title">
       <div
         id="toc-drawer-title"

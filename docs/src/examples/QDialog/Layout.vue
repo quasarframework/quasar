@@ -20,6 +20,7 @@
         </q-footer>
 
         <q-drawer
+          aria-label="Left drawer"
           bordered
           v-model="drawer"
           :width="200"
@@ -30,6 +31,7 @@
         </q-drawer>
 
         <q-drawer
+          aria-label="Right drawer"
           side="right"
           bordered
           v-model="drawerR"

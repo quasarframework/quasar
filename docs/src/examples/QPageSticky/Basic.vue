@@ -55,6 +55,7 @@
       </q-footer>
 
       <q-drawer
+        aria-label="Left drawer"
         v-model="drawerLeft"
         :width="150"
         :breakpoint="700"
@@ -70,6 +71,7 @@
       </q-drawer>
 
       <q-drawer
+        aria-label="Right drawer"
         side="right"
         v-model="drawerRight"
         bordered

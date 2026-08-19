@@ -20,8 +20,7 @@
         @click="docStore.toggleMenuDrawer"
       />
     </div>
-    <!-- navigation is not an allowed role on the <aside> the drawer
-         renders, so the nav landmark is an inner element -->
+
     <nav aria-label="Main menu">
       <DocPageMenu class="q-mx-xs q-mb-lg" />
     </nav>
