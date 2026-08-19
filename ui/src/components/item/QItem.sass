@@ -7,7 +7,8 @@
   &__section
 
     &--side
-      color: $grey-7
+      color: $grey-7 // fallback for browsers without color-mix()
+      color: color-mix(in srgb, currentColor 54%, transparent)
       align-items: flex-start
       padding-right: 16px
       width: auto
@@ -55,6 +56,7 @@
 
     &--header
       color: $grey-7
+      color: color-mix(in srgb, currentColor 54%, transparent)
       padding: 16px
       font-size: $item-label-header-font-size
       line-height: $item-label-header-line-height
@@ -109,10 +111,12 @@
 
   .q-item__section--side:not(.q-item__section--avatar)
     color: rgba(255,255,255,.7)
+    color: color-mix(in srgb, currentColor 70%, transparent)
 
   .q-item__label
     &--header
       color: rgba(255,255,255,.64)
+      color: color-mix(in srgb, currentColor 64%, transparent)
     &--overline, &--caption
       color: rgba(255,255,255,.8)
       color: color-mix(in srgb, currentColor 80%, transparent)
