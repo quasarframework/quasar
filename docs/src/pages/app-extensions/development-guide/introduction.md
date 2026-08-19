@@ -70,6 +70,10 @@ For example, if you are creating a UI component that depends on a package named 
 Never install packages that are supplied by Quasar CLI as dependencies of your extension. Use `api.compatibleWith()` to require a compatible version without installing a second copy.
 :::
 
+::: tip
+If your App Extension's own code imports from the `quasar` package (a Quasar Plugin like Notify, a utility, etc.), also read [Injecting Quasar Plugin](/app-extensions/common-formulas-and-patterns/inject-quasar-plugin#using-the-plugin-from-your-own-code), otherwise your code can end up linked against a second copy of Quasar.
+:::
+
 ## Developing
 
 ### Commands to use

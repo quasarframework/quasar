@@ -37,6 +37,31 @@ Notice that you don't need to return anything. The parameter of extendViteConf(v
 
 If you want to add some Vite plugins, see the [Adding Vite plugins](#adding-vite-plugins) section below.
 
+## Npm packages that import from Quasar
+
+An npm package (a component library, a helper package, an [App Extension](/app-extensions/introduction)) that does `import { Notify } from 'quasar'` in its own code gets pre-bundled by Vite's dep optimizer, which links it against a second copy of Quasar. Quasar Plugins installed by your app then appear uninstalled to that package, with errors like `Notify.create is not a function`.
+
+The fix is excluding such packages from pre-bundling, so their Quasar imports resolve to the same modules as your app code:
+
+```js /quasar.config file
+build: {
+  extendViteConf () {
+    // gets deeply merged into the generated Vite config
+    return {
+      optimizeDeps: {
+        exclude: ['my-quasar-helper-package']
+      }
+    }
+  }
+}
+```
+
+App Extensions can (and should) configure this themselves instead of relying on the host app. See [Injecting Quasar Plugin](/app-extensions/common-formulas-and-patterns/inject-quasar-plugin).
+
+::: warning
+The dep optimizer only runs for the dev server. Production builds instead rely on Quasar's import mapping, which processes the file extensions listed in `quasar.config file > framework > autoImportScriptExtensions` (default: `['js', 'jsx', 'ts', 'tsx']`). If such a package ships its ESM build as `.mjs` files, add `'mjs'` to that list, otherwise the production bundle will contain a second copy of Quasar with the same symptoms as above.
+:::
+
 ## Inspecting Vite Config
 
 Quasar CLI offers a useful command for this:

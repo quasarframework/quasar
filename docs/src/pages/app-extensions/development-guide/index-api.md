@@ -14,6 +14,10 @@ import { defineIndexScript } from '#q-app'
 export default defineIndexScript(api => {})
 ```
 
+::: tip
+If your App Extension's own code imports from the `quasar` package (a Quasar Plugin like Notify, a utility, etc.), use this hook to exclude your package from the host app's dep optimizer, as described in [Injecting Quasar Plugin](/app-extensions/common-formulas-and-patterns/inject-quasar-plugin#using-the-plugin-from-your-own-code).
+:::
+
 ## The API param
 
 ### api.ctx
