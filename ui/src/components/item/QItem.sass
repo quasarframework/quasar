@@ -43,11 +43,15 @@
     line-height: 1.2em !important
     max-width: 100%
 
+    // fixed rgba fallbacks first: browsers without color-mix() keep the
+    // legacy grays instead of rendering the labels at full emphasis
     &--overline
       color: rgba(0,0,0,.7)
+      color: color-mix(in srgb, currentColor 70%, transparent)
 
     &--caption
       color: rgba(0,0,0,.54)
+      color: color-mix(in srgb, currentColor 54%, transparent)
 
     &--header
       color: $grey-7
@@ -111,6 +115,7 @@
       color: rgba(255,255,255,.64)
     &--overline, &--caption
       color: rgba(255,255,255,.8)
+      color: color-mix(in srgb, currentColor 80%, transparent)
 
 .q-item
   position: relative
