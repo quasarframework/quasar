@@ -234,7 +234,7 @@ export default /*#__PURE__*/ createComponent({
     }))
 
     const trackContainerAriaAttrs = computed(() => {
-      if ($q.platform.is.mobile || (!props.dragRange && !props.dragOnlyRange)) {
+      if (!props.dragRange && !props.dragOnlyRange) {
         return {}
       }
 
@@ -259,11 +259,11 @@ export default /*#__PURE__*/ createComponent({
     const trackContainerEvents = computed(() => {
       if (!state.editable.value) return {}
 
-      if ($q.platform.is.mobile) {
-        return { onClick: methods.onMobileClick }
+      // same wiring on every device; see QSlider's trackContainerEvents
+      const evt = {
+        onClick: methods.onMobileClick,
+        onMousedown: methods.onActivate
       }
-
-      const evt = { onMousedown: methods.onActivate }
 
       if (props.dragRange || props.dragOnlyRange) {
         Object.assign(evt, {
@@ -285,9 +285,7 @@ export default /*#__PURE__*/ createComponent({
     }))
 
     function getEvents(side) {
-      return !$q.platform.is.mobile &&
-        state.editable.value &&
-        !props.dragOnlyRange
+      return state.editable.value && !props.dragOnlyRange
         ? {
             onFocus: () => {
               state.focus.value = side
@@ -303,9 +301,7 @@ export default /*#__PURE__*/ createComponent({
       props.dragOnlyRange ? null : state.tabindex.value
     )
     const trackContainerTabindex = computed(() =>
-      !$q.platform.is.mobile && (props.dragRange || props.dragOnlyRange)
-        ? state.tabindex.value
-        : null
+      props.dragRange || props.dragOnlyRange ? state.tabindex.value : null
     )
 
     const minThumbRef = ref(null)

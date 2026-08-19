@@ -107,18 +107,17 @@ export default /*#__PURE__*/ createComponent({
       () => props.instantFeedback || dragging.value
     )
 
-    const onEvents = $q.platform.is.mobile
-      ? computed(() => (editable.value ? { onClick } : {}))
-      : computed(() =>
-          editable.value
-            ? {
-                onMousedown,
-                onClick,
-                onKeydown,
-                onKeyup
-              }
-            : {}
-        )
+    // same wiring on every device; see QSlider's trackContainerEvents
+    const onEvents = computed(() =>
+      editable.value
+        ? {
+            onMousedown,
+            onClick,
+            onKeydown,
+            onKeyup
+          }
+        : {}
+    )
 
     const attrs = computed(() =>
       editable.value

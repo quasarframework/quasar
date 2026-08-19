@@ -110,15 +110,20 @@ export default /*#__PURE__*/ createComponent({
     const trackContainerEvents = computed(() => {
       if (!state.editable.value) return {}
 
-      return $q.platform.is.mobile
-        ? { onClick: methods.onMobileClick }
-        : {
-            onMousedown: methods.onActivate,
-            onFocus,
-            onBlur: methods.onBlur,
-            onKeydown,
-            onKeyup: methods.onKeyup
-          }
+      // one wiring for every device: dragging is TouchPan's job either way,
+      // taps land through onClick (the compatibility mousedown/mouseup pair
+      // a tap also fires converges to the same state, with the change event
+      // de-duplicated by changeBaseline), a mouse/pen press reacts
+      // immediately through onActivate, and the keyboard works everywhere,
+      // not only on desktop UAs (the track is focusable everywhere)
+      return {
+        onClick: methods.onMobileClick,
+        onMousedown: methods.onActivate,
+        onFocus,
+        onBlur: methods.onBlur,
+        onKeydown,
+        onKeyup: methods.onKeyup
+      }
     })
 
     // the WAI-ARIA slider is the track container — the same element

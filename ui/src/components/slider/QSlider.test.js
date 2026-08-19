@@ -1020,6 +1020,35 @@ describe('[QSlider API]', () => {
   })
 
   describe('[Generic]', () => {
+    test('a tap converges through its compatibility mouse events', async () => {
+      const wrapper = mountSlider({ modelValue: 10 })
+      giveSliderSize(wrapper)
+      const trackContainer = getTrackContainer(wrapper)
+
+      // the full sequence a touch tap fires: compatibility mousedown and
+      // mouseup, then click, all at the same spot; the model must land
+      // once and change must not double-emit
+      await trackContainer.trigger('mousedown', { clientX: 30 })
+      document.dispatchEvent(new MouseEvent('mouseup'))
+      await nextTick()
+      await trackContainer.trigger('click', { clientX: 30 })
+
+      // every emission lands the same tapped value (the controlled prop
+      // never updates in this harness, so each handler re-emits it),
+      // and change fires exactly once for the whole sequence
+      wrapper.emitted('update:modelValue').forEach(payload => {
+        expect(payload).toStrictEqual([30])
+      })
+      expect(wrapper.emitted('change')).toStrictEqual([[30]])
+
+      // a bare click (assistive tech, or a tap whose compatibility
+      // mousedown was skipped) still sets the value on its own
+      await trackContainer.trigger('click', { clientX: 70 })
+
+      expect(wrapper.emitted('update:modelValue').at(-1)).toStrictEqual([70])
+      expect(wrapper.emitted('change')).toStrictEqual([[30], [70]])
+    })
+
     test('a fractional step keeps the emitted value float-exact', async () => {
       const wrapper = mountSlider({
         min: 0,
