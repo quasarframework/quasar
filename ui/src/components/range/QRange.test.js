@@ -1335,6 +1335,81 @@ describe('[QRange API]', () => {
     })
   })
 
+  describe('[Generic]', () => {
+    test('dragging a thumb across the other one swaps their roles', async () => {
+      const wrapper = mountRange()
+
+      // the min thumb travels past the max one: the grabbed thumb
+      // becomes the max end instead of pushing the other thumb along
+      await panFrom(wrapper, 20, 80)
+
+      expect(wrapper.emitted('update:modelValue').at(-1)).toStrictEqual([
+        { min: 60, max: 80 }
+      ])
+    })
+
+    test('grabbing the track moves the closest thumb', async () => {
+      const wrapper = mountRange()
+
+      // 55 sits between the thumbs (20-60), closer to the max one
+      await panFrom(wrapper, 55, 50)
+
+      expect(wrapper.emitted('update:modelValue').at(-1)).toStrictEqual([
+        { min: 20, max: 50 }
+      ])
+    })
+
+    test('dragging cannot leave the inner range', async () => {
+      const wrapper = mountRange({ innerMax: 80 })
+
+      await panFrom(wrapper, 60, 95)
+
+      expect(wrapper.emitted('update:modelValue').at(-1)).toStrictEqual([
+        { min: 20, max: 80 }
+      ])
+    })
+
+    test('a fractional step keeps the emitted values float-exact', async () => {
+      const wrapper = mountRange({
+        min: 0,
+        max: 1,
+        step: 0.1,
+        modelValue: { min: 0.2, max: 0.6 }
+      })
+
+      // 33% of the track: the raw math lands a float artifact away
+      // from 0.3, which must still be emitted as exactly 0.3
+      await pressAt(wrapper, { clientX: 33 })
+
+      expect(wrapper.emitted('update:modelValue')[0]).toStrictEqual([
+        { min: 0.3, max: 0.6 }
+      ])
+    })
+
+    test('an inverted inner range makes the component non-editable', async () => {
+      const wrapper = mountRange({ innerMin: 60, innerMax: 40 })
+
+      expect(wrapper.classes()).not.toContain('q-slider--editable')
+      expect(getMinThumb(wrapper).attributes('tabindex')).toBe('-1')
+      expect(getTrackContainer(wrapper).element.__qtouchpan).toBeUndefined()
+
+      await focusAndPress(getMinThumb(wrapper))
+
+      expect(wrapper.emitted('update:modelValue')).toBeUndefined()
+    })
+
+    test('a zero-length track renders safely', () => {
+      const wrapper = mountRange({
+        min: 30,
+        max: 30,
+        modelValue: { min: 30, max: 30 }
+      })
+
+      expect(getMinThumb(wrapper).$style('left')).toBe('0%')
+      expect(wrapper.classes()).not.toContain('q-slider--editable')
+    })
+  })
+
   describe('[Accessibility]', () => {
     test('a fall-through name goes to the group, not onto a thumb', () => {
       // the thumbs are named individually (see the thumb-aria-label props);
@@ -1497,6 +1572,104 @@ describe('[QRange API]', () => {
       // the 40-wide window slides to the end of the track
       expect(wrapper.emitted('update:modelValue')[0]).toStrictEqual([
         { min: 60, max: 100 }
+      ])
+    })
+
+    test('PageUp/PageDown move by ten steps and clamp to the limits', async () => {
+      const wrapper = mountRange({ innerMin: 15 })
+
+      await focusAndPress(getMinThumb(wrapper), 33)
+      expect(wrapper.emitted('update:modelValue')[0]).toStrictEqual([
+        { min: 30, max: 60 }
+      ])
+
+      // two PageDowns from 30 stop at the inner minimum
+      await focusAndPress(getMinThumb(wrapper), 34)
+      await focusAndPress(getMinThumb(wrapper), 34)
+      expect(wrapper.emitted('update:modelValue').at(-1)).toStrictEqual([
+        { min: 15, max: 60 }
+      ])
+    })
+
+    test('arrow keys follow the visual direction when reversed', async () => {
+      const wrapper = mountRange({ reverse: true })
+
+      // ArrowRight moves the thumb right, which now means a lower value
+      await focusAndPress(getMinThumb(wrapper), 39)
+
+      expect(wrapper.emitted('update:modelValue')[0]).toStrictEqual([
+        { min: 19, max: 60 }
+      ])
+    })
+
+    test('arrow keys follow the visual direction when vertical', async () => {
+      const wrapper = mountRange({ vertical: true })
+
+      // ArrowDown moves the thumb down the track: a higher value
+      await focusAndPress(getMinThumb(wrapper), 40)
+      expect(wrapper.emitted('update:modelValue')[0]).toStrictEqual([
+        { min: 21, max: 60 }
+      ])
+
+      // ...and ArrowUp a lower one
+      await focusAndPress(getMinThumb(wrapper), 38)
+      await focusAndPress(getMinThumb(wrapper), 38)
+      expect(wrapper.emitted('update:modelValue').at(-1)).toStrictEqual([
+        { min: 19, max: 60 }
+      ])
+    })
+
+    test('Home/End are never direction-reversed', async () => {
+      const wrapper = mountRange({ reverse: true })
+
+      await focusAndPress(getMinThumb(wrapper), 36)
+
+      expect(wrapper.emitted('update:modelValue')[0]).toStrictEqual([
+        { min: 0, max: 60 }
+      ])
+    })
+
+    test('End respects the inner maximum', async () => {
+      const wrapper = mountRange({ innerMax: 80 })
+
+      await focusAndPress(getMaxThumb(wrapper), 35)
+
+      expect(wrapper.emitted('update:modelValue')[0]).toStrictEqual([
+        { min: 20, max: 80 }
+      ])
+    })
+
+    test('keyboard input needs a focused thumb', async () => {
+      const wrapper = mountRange()
+
+      // keydown without a preceding focus (e.g. a programmatic event)
+      await getMinThumb(wrapper).trigger('keydown', { keyCode: 35 })
+      await getMinThumb(wrapper).trigger('keydown', { keyCode: 39 })
+
+      expect(wrapper.emitted('update:modelValue')).toBeUndefined()
+    })
+
+    test('keys outside the slider map are ignored', async () => {
+      const wrapper = mountRange()
+      const thumb = getMinThumb(wrapper)
+
+      await thumb.trigger('focus')
+      await thumb.trigger('keydown', { keyCode: 65 })
+      await thumb.trigger('keyup', { keyCode: 65 })
+
+      expect(wrapper.emitted('update:modelValue')).toBeUndefined()
+      expect(wrapper.emitted('change')).toBeUndefined()
+    })
+
+    test('drag-only-range keyboard moves the whole window', async () => {
+      const wrapper = mountRange({ dragOnlyRange: true })
+      const trackContainer = getTrackContainer(wrapper)
+
+      await trackContainer.trigger('focus')
+      await trackContainer.trigger('keydown', { keyCode: 39 })
+
+      expect(wrapper.emitted('update:modelValue')[0]).toStrictEqual([
+        { min: 21, max: 61 }
       ])
     })
 

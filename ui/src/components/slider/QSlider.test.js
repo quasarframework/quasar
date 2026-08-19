@@ -967,6 +967,62 @@ describe('[QSlider API]', () => {
     })
   })
 
+  describe('[Generic]', () => {
+    test('a fractional step keeps the emitted value float-exact', async () => {
+      const wrapper = mountSlider({
+        min: 0,
+        max: 1,
+        step: 0.1,
+        modelValue: 0.6
+      })
+
+      // 33% of the track: the raw math lands a float artifact away
+      // from 0.3, which must still be emitted as exactly 0.3
+      await pressAt(wrapper, { clientX: 33 })
+
+      expect(wrapper.emitted('update:modelValue')[0]).toStrictEqual([0.3])
+    })
+
+    test('dragging cannot leave the inner range', async () => {
+      const wrapper = mountSlider({ innerMin: 20, innerMax: 80 })
+
+      await clickAt(wrapper, { clientX: 95 })
+      expect(wrapper.emitted('update:modelValue')[0]).toStrictEqual([80])
+
+      await clickAt(wrapper, { clientX: 5 })
+      expect(wrapper.emitted('update:modelValue').at(-1)).toStrictEqual([20])
+    })
+
+    test('step 0 allows infinite precision', async () => {
+      const wrapper = mountSlider({ min: 0, max: 1, step: 0, modelValue: 0.5 })
+
+      // no step grid: the raw track position is the value
+      await clickAt(wrapper, { clientX: 13 })
+      expect(wrapper.emitted('update:modelValue')[0]).toStrictEqual([0.13])
+
+      // the keyboard falls back to a step of 1
+      const trackContainer = getTrackContainer(wrapper)
+      await trackContainer.trigger('focus')
+      await trackContainer.trigger('keydown', { keyCode: 39 })
+      expect(wrapper.emitted('update:modelValue').at(-1)).toStrictEqual([1])
+    })
+
+    test('an inverted inner range makes the component non-editable', () => {
+      const wrapper = mountSlider({ innerMin: 60, innerMax: 40 })
+
+      expect(wrapper.classes()).not.toContain('q-slider--editable')
+      expect(getTrackContainer(wrapper).attributes('tabindex')).toBe('-1')
+      expect(getTrackContainer(wrapper).element.__qtouchpan).toBeUndefined()
+    })
+
+    test('a zero-length track renders safely', () => {
+      const wrapper = mountSlider({ min: 30, max: 30, modelValue: 30 })
+
+      expect(getThumb(wrapper).$style('left')).toBe('0%')
+      expect(wrapper.classes()).not.toContain('q-slider--editable')
+    })
+  })
+
   describe('[Accessibility]', () => {
     test('a null model still exposes the required aria-valuenow', () => {
       // the slider role requires aria-valuenow; the thumb is parked at the
@@ -1043,6 +1099,72 @@ describe('[QSlider API]', () => {
       await getTrackContainer(wrapper).trigger('keydown', { keyCode })
 
       expect(wrapper.emitted('update:modelValue')).toStrictEqual([[expected]])
+    })
+
+    test('PageUp/PageDown move by ten steps and clamp to the limits', async () => {
+      const wrapper = mountSlider({ innerMax: 65 })
+      const trackContainer = getTrackContainer(wrapper)
+
+      await trackContainer.trigger('focus')
+      await trackContainer.trigger('keydown', { keyCode: 33 })
+      expect(wrapper.emitted('update:modelValue')[0]).toStrictEqual([60])
+
+      // a further PageUp stops at the inner maximum
+      await trackContainer.trigger('keydown', { keyCode: 33 })
+      expect(wrapper.emitted('update:modelValue').at(-1)).toStrictEqual([65])
+
+      await trackContainer.trigger('keydown', { keyCode: 34 })
+      expect(wrapper.emitted('update:modelValue').at(-1)).toStrictEqual([55])
+    })
+
+    test('arrow keys follow the visual direction when reversed', async () => {
+      const wrapper = mountSlider({ reverse: true })
+      const trackContainer = getTrackContainer(wrapper)
+
+      // ArrowRight moves the thumb right, which now means a lower value
+      await trackContainer.trigger('focus')
+      await trackContainer.trigger('keydown', { keyCode: 39 })
+
+      expect(wrapper.emitted('update:modelValue')[0]).toStrictEqual([49])
+    })
+
+    test('arrow keys follow the visual direction when vertical', async () => {
+      const wrapper = mountSlider({ vertical: true })
+      const trackContainer = getTrackContainer(wrapper)
+
+      // ArrowDown moves the thumb down the track: a higher value
+      await trackContainer.trigger('focus')
+      await trackContainer.trigger('keydown', { keyCode: 40 })
+      expect(wrapper.emitted('update:modelValue')[0]).toStrictEqual([51])
+
+      // ...and ArrowUp a lower one
+      await trackContainer.trigger('keydown', { keyCode: 38 })
+      await trackContainer.trigger('keydown', { keyCode: 38 })
+      expect(wrapper.emitted('update:modelValue').at(-1)).toStrictEqual([49])
+    })
+
+    test('Home/End are never direction-reversed and respect the inner limits', async () => {
+      const wrapper = mountSlider({ reverse: true, innerMin: 10, innerMax: 80 })
+      const trackContainer = getTrackContainer(wrapper)
+
+      await trackContainer.trigger('focus')
+      await trackContainer.trigger('keydown', { keyCode: 36 })
+      expect(wrapper.emitted('update:modelValue')[0]).toStrictEqual([10])
+
+      await trackContainer.trigger('keydown', { keyCode: 35 })
+      expect(wrapper.emitted('update:modelValue').at(-1)).toStrictEqual([80])
+    })
+
+    test('keys outside the slider map are ignored', async () => {
+      const wrapper = mountSlider()
+      const trackContainer = getTrackContainer(wrapper)
+
+      await trackContainer.trigger('focus')
+      await trackContainer.trigger('keydown', { keyCode: 65 })
+      await trackContainer.trigger('keyup', { keyCode: 65 })
+
+      expect(wrapper.emitted('update:modelValue')).toBeUndefined()
+      expect(wrapper.emitted('change')).toBeUndefined()
     })
   })
 })
