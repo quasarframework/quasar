@@ -22,7 +22,8 @@
     "oxfmt": "0.63.0",
     "oxlint": "1.78.0",
     "oxlint-tsgolint": "^7.0.2001",
-    "typescript": "^6.0.3"
+    "typescript": "^6.0.3",
+    "vitest": "^4.1.10"
   },
   "lint-staged": {
     "*.{js,ts,vue,mjs,cjs,json,css,sass,md}": [
