@@ -5,8 +5,7 @@
     class="doc-drawer"
     behavior="mobile"
     :width="330"
-    aria-label="Sidebar Navigation"
-    role="navigation"
+    aria-label="Sidebar"
   >
     <div
       class="doc-drawer__header row justify-end no-wrap q-pt-sm q-pb-md q-px-xs"
@@ -21,7 +20,11 @@
         @click="docStore.toggleMenuDrawer"
       />
     </div>
-    <DocPageMenu class="q-mx-xs q-mb-lg" />
+    <!-- navigation is not an allowed role on the <aside> the drawer
+         renders, so the nav landmark is an inner element -->
+    <nav aria-label="Main menu">
+      <DocPageMenu class="q-mx-xs q-mb-lg" />
+    </nav>
   </q-drawer>
 </template>
 
