@@ -490,11 +490,29 @@ describe('[QExpansionItem API]', () => {
         const wrapper = mountExpansionItem({ switchToggleSide: true })
         const switched = wrapper.findAll('.q-item__section')
 
-        // the toggle moves to the front and becomes the avatar section
-        expect(switched[0].classes()).toContain('q-item__section--avatar')
+        // the toggle moves to the front while remaining a side section
         expect(
           switched[0].find('.q-expansion-item__toggle-icon').exists()
         ).toBe(true)
+        expect(switched[0].classes()).toContain('q-item__section--side')
+        expect(switched[0].classes()).not.toContain('q-item__section--avatar')
+      })
+
+      test('keeps the sections color roles when switched', () => {
+        const wrapper = mountExpansionItem({
+          switchToggleSide: true,
+          icon: 'account_circle'
+        })
+
+        // the toggle stays a plain side section, the icon stays an avatar
+        // section, so QItem colors them the same on either side
+        expect(
+          getToggleIcon(wrapper).element.parentElement.classList
+        ).not.toContain('q-item__section--avatar')
+
+        expect(
+          wrapper.get('.q-expansion-item__icon-section').classes()
+        ).toContain('q-item__section--avatar')
       })
     })
 

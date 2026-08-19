@@ -239,12 +239,13 @@ export default /*#__PURE__*/ createComponent({
     function getToggleIcon() {
       const data = {
         class: [
-          'q-focusable relative-position cursor-pointer' +
+          'q-expansion-item__toggle-section' +
+            `${props.switchToggleSide ? ' q-expansion-item__toggle-section--switched' : ''}` +
+            ' q-focusable relative-position cursor-pointer' +
             `${props.denseToggle && props.switchToggleSide ? ' items-end' : ''}`,
           props.expandIconClass
         ],
-        side: !props.switchToggleSide,
-        avatar: props.switchToggleSide
+        side: true
       }
 
       const child = [
@@ -305,8 +306,8 @@ export default /*#__PURE__*/ createComponent({
             h(
               QItemSection,
               {
-                side: props.switchToggleSide,
-                avatar: !props.switchToggleSide
+                class: 'q-expansion-item__icon-section',
+                avatar: true
               },
               () => h(QIcon, { name: props.icon })
             )

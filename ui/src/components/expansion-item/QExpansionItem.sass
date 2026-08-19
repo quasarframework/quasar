@@ -19,6 +19,15 @@
     & + .q-expansion-item__toggle-icon
       margin-top: -1em
 
+  // switch-toggle-side swaps the two sections' positions but each keeps its
+  // side (toggle) / avatar (icon) role, so QItem's color semantics still
+  // apply; only the geometry of the swapped positions is compensated here
+  &__toggle-section--switched.q-item__section--side
+    min-width: 56px
+
+  .q-item__section--main ~ &__icon-section
+    min-width: 0
+
   &--standard
     &.q-expansion-item--expanded
       > div > .q-expansion-item__border
