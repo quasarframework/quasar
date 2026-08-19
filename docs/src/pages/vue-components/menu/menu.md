@@ -46,7 +46,7 @@ If you want to conditionally activate or de-activate a QMenu, please use `v-if` 
 
 ### Context menu
 
-You can also set QMenu to act as a context menu. On desktop, you need to right click the parent target to trigger it, and on mobile a long tap will do the job.
+You can also set QMenu to act as a context menu. A right click on the parent target triggers it, and so does a long press on touch-capable devices.
 
 <DocExample title="Context Menu" file="ContextMenu" />
 

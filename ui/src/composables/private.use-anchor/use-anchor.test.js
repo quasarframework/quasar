@@ -142,7 +142,7 @@ describe('[useAnchor API]', () => {
           noParentEvent: false
         })
 
-        const downEvent = new MouseEvent('mousedown')
+        const downEvent = new PointerEvent('pointerdown')
         anchorElement.dispatchEvent(downEvent)
 
         expect(hide).toHaveBeenCalledExactlyOnceWith(downEvent)
@@ -225,7 +225,7 @@ describe('[useAnchor API]', () => {
         expect(configureAnchorEl).toHaveBeenCalledTimes(3)
       })
 
-      test('opens after a sustained mobile touch', () => {
+      test('opens after a sustained touch hold', () => {
         vi.useFakeTimers()
 
         const { anchor, anchorElement, hide, show } = mountAnchor()
@@ -236,7 +236,7 @@ describe('[useAnchor API]', () => {
           touches: [{}]
         }
 
-        anchor.anchorEvents.mobileTouch(touchEvent)
+        anchor.anchorEvents.touchHold(touchEvent)
 
         expect(hide).toHaveBeenCalledExactlyOnceWith(touchEvent)
         expect(anchorElement.classList).toContain('non-selectable')
@@ -249,19 +249,19 @@ describe('[useAnchor API]', () => {
         expect(show).toHaveBeenCalledExactlyOnceWith(touchEvent)
         expect(touchEvent.qAnchorHandled).toBe(true)
 
-        anchor.anchorEvents.mobileCleanup(touchEvent)
+        anchor.anchorEvents.touchHoldCleanup(touchEvent)
 
         expect(anchorElement.classList).not.toContain('non-selectable')
       })
 
-      test('cancels a pending mobile touch when unmounted', () => {
+      test('cancels a pending touch hold when unmounted', () => {
         vi.useFakeTimers()
 
         const { anchor, anchorElement, show } = mountAnchor()
         const touchTarget = document.createElement('span')
         anchorElement.append(touchTarget)
 
-        anchor.anchorEvents.mobileTouch({
+        anchor.anchorEvents.touchHold({
           target: touchTarget,
           touches: [{}]
         })
@@ -271,6 +271,142 @@ describe('[useAnchor API]', () => {
         vi.advanceTimersByTime(300)
 
         expect(show).not.toHaveBeenCalled()
+      })
+
+      test('wires the touch hold through real parent events', () => {
+        vi.useFakeTimers()
+
+        const { anchorElement, hide, show } = mountAnchor({
+          componentProps: { contextMenu: true }
+        })
+
+        anchorElement.dispatchEvent(
+          new TouchEvent('touchstart', {
+            touches: [new Touch({ identifier: 1, target: anchorElement })]
+          })
+        )
+
+        expect(hide).toHaveBeenCalledTimes(1)
+
+        vi.advanceTimersByTime(300)
+
+        expect(show).toHaveBeenCalledTimes(1)
+      })
+
+      function startTouchHold({ anchor, anchorElement }) {
+        const touchEvent = {
+          target: anchorElement,
+          touches: [{}]
+        }
+
+        anchor.anchorEvents.touchHold(touchEvent)
+        return touchEvent
+      }
+
+      function dispatchContextMenu(anchorElement) {
+        const contextEvent = new MouseEvent('contextmenu', {
+          cancelable: true
+        })
+
+        anchorElement.dispatchEvent(contextEvent)
+        return contextEvent
+      }
+
+      test.each([
+        ['during the press', false],
+        ['at release', true]
+      ])(
+        'suppresses the native contextmenu of a touch long-press (%s)',
+        async (_, releaseFirst) => {
+          vi.useFakeTimers()
+
+          const mounted = mountAnchor({
+            componentProps: { contextMenu: true }
+          })
+          const { anchor, anchorElement, hide, show } = mounted
+          const touchEvent = startTouchHold(mounted)
+
+          vi.advanceTimersByTime(300)
+
+          expect(show).toHaveBeenCalledExactlyOnceWith(touchEvent)
+
+          if (releaseFirst) {
+            anchor.anchorEvents.touchHoldCleanup(touchEvent)
+          }
+
+          const contextEvent = dispatchContextMenu(anchorElement)
+          await nextTick()
+
+          // suppressed: prevented, but neither hidden nor re-shown
+          expect(contextEvent.defaultPrevented).toBe(true)
+          expect(hide).toHaveBeenCalledTimes(1)
+          expect(show).toHaveBeenCalledTimes(1)
+
+          // the ownership is consumed: the next contextmenu is a new,
+          // non-touch interaction and gets the full treatment
+          const laterEvent = dispatchContextMenu(anchorElement)
+          await nextTick()
+
+          expect(hide).toHaveBeenLastCalledWith(laterEvent)
+          expect(show).toHaveBeenLastCalledWith(laterEvent)
+        }
+      )
+
+      test('releases the contextmenu ownership on every exit path', async () => {
+        vi.useFakeTimers()
+
+        const showing = ref(false)
+        const mounted = mountAnchor({
+          componentProps: { contextMenu: true },
+          showing
+        })
+        const { anchor, anchorElement, hide, show } = mounted
+
+        // a hold that ends before showing anything owns nothing
+        const shortTap = startTouchHold(mounted)
+        anchor.anchorEvents.touchHoldCleanup(shortTap)
+        vi.advanceTimersByTime(300)
+
+        expect(show).not.toHaveBeenCalled()
+
+        let contextEvent = dispatchContextMenu(anchorElement)
+        await nextTick()
+
+        expect(show).toHaveBeenLastCalledWith(contextEvent)
+
+        // hiding the popup ends the ownership of a shown hold
+        startTouchHold(mounted)
+        vi.advanceTimersByTime(300)
+        showing.value = true
+        await nextTick()
+        showing.value = false
+        await nextTick()
+
+        contextEvent = dispatchContextMenu(anchorElement)
+        await nextTick()
+
+        expect(show).toHaveBeenLastCalledWith(contextEvent)
+
+        // a mouse press (which precedes a right-click's contextmenu)
+        // reclaims the anchor from a shown hold; a touch pointerdown
+        // (which belongs to the hold itself) must not
+        startTouchHold(mounted)
+        vi.advanceTimersByTime(300)
+        anchorElement.dispatchEvent(
+          new PointerEvent('pointerdown', { pointerType: 'touch' })
+        )
+
+        expect(hide).toHaveBeenCalledTimes(5)
+
+        anchorElement.dispatchEvent(
+          new PointerEvent('pointerdown', { pointerType: 'mouse' })
+        )
+
+        contextEvent = dispatchContextMenu(anchorElement)
+        await nextTick()
+
+        expect(show).toHaveBeenLastCalledWith(contextEvent)
+        expect(hide).toHaveBeenCalled()
       })
     })
   })

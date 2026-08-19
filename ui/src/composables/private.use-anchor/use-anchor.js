@@ -7,8 +7,6 @@ import {
   watch
 } from 'vue'
 
-import useQuasar from '../use-quasar/use-quasar.js'
-
 import { clearSelection } from '../../utils/private.selection/selection.js'
 import { addEvt, cleanEvt, prevent } from '../../utils/event/event.js'
 import { isKeyCode } from '../../utils/private.keyboard/key-composition.js'
@@ -95,7 +93,6 @@ export default function useAnchor({
   getPopupRole // optional; opts into wiring the anchor's popup ARIA (QMenu)
 }) {
   const { props, proxy, emit } = getCurrentInstance()
-  const $q = useQuasar()
 
   const anchorEl = ref(null)
 
@@ -107,6 +104,11 @@ export default function useAnchor({
     ownsHaspopup = false
 
   let touchTimer = null
+
+  // armed while a touch-hold interaction owns the anchor: the browser may
+  // fire a native contextmenu for the same long-press (during the press on
+  // some engines, at release on others) and it must not act a second time
+  let touchHoldOwned = false
 
   function canShow(evt) {
     // abort with no parent configured or on multi-touch
@@ -123,6 +125,14 @@ export default function useAnchor({
 
     Object.assign(anchorEvents, {
       hide(evt) {
+        // wired on pointerdown, which unlike mousedown is never re-fired
+        // as a compatibility event after a touch, so it cannot undo the
+        // menu that the same touch interaction just opened
+        if (evt?.pointerType === 'touch') return
+
+        // a right-click's pointerdown precedes its contextmenu, so a real
+        // mouse/pen interaction reclaims the anchor from a previous touch-hold
+        touchHoldOwned = false
         proxy.hide(evt)
       },
 
@@ -136,6 +146,14 @@ export default function useAnchor({
       },
 
       contextClick(evt) {
+        if (touchHoldOwned) {
+          // the touch-hold synthesis already handled this interaction;
+          // just keep the browser's own menu suppressed
+          touchHoldOwned = false
+          prevent(evt)
+          return
+        }
+
         proxy.hide(evt)
         prevent(evt)
         nextTick(() => {
@@ -144,22 +162,20 @@ export default function useAnchor({
         })
       },
 
-      prevent,
-
-      mobileTouch(evt) {
-        anchorEvents.mobileCleanup(evt)
+      touchHold(evt) {
+        anchorEvents.touchHoldCleanup(evt)
 
         if (!canShow(evt)) return
 
+        touchHoldOwned = true
         proxy.hide(evt)
         anchorEl.value.classList.add('non-selectable')
 
         const target = evt.target
         addEvt(anchorEvents, 'anchor', [
-          [target, 'touchmove', 'mobileCleanup', 'passive'],
-          [target, 'touchend', 'mobileCleanup', 'passive'],
-          [target, 'touchcancel', 'mobileCleanup', 'passive'],
-          [anchorEl.value, 'contextmenu', 'prevent', 'notPassive']
+          [target, 'touchmove', 'touchHoldCleanup', 'passive'],
+          [target, 'touchend', 'touchHoldCleanup', 'passive'],
+          [target, 'touchcancel', 'touchHoldCleanup', 'passive']
         ])
 
         touchTimer = setTimeout(() => {
@@ -169,12 +185,16 @@ export default function useAnchor({
         }, 300)
       },
 
-      mobileCleanup(evt) {
+      touchHoldCleanup(evt) {
         anchorEl.value.classList.remove('non-selectable')
 
         if (touchTimer !== null) {
           clearTimeout(touchTimer)
           touchTimer = null
+          // the hold ended before showing anything, so there is no
+          // interaction left to own; a native contextmenu arriving later
+          // can only belong to a new, non-touch interaction
+          touchHoldOwned = false
         }
 
         if (showing.value && evt !== void 0) {
@@ -183,19 +203,29 @@ export default function useAnchor({
       }
     })
 
+    // whatever hides the popup ends the touch-hold ownership with it
+    // (on iOS no native contextmenu ever arrives to consume the flag)
+    watch(showing, val => {
+      if (!val) touchHoldOwned = false
+    })
+
     // oxlint-disable-next-line func-name-matching
     configureAnchorEl = function configureAnchorElFn(
       context = props.contextMenu
     ) {
       if (props.noParentEvent || anchorEl.value === null) return
 
+      // every listener is self-gating, so the same wiring serves every
+      // device without a capability sniff: touchstart only ever fires on
+      // touch, iOS never delivers a native contextmenu, and the hide
+      // handler ignores touch pointers; the touchHoldOwned flag arbitrates
+      // when a single long-press reaches both mechanisms
       const evts = context
-        ? $q.platform.is.mobile
-          ? [[anchorEl.value, 'touchstart', 'mobileTouch', 'passive']]
-          : [
-              [anchorEl.value, 'mousedown', 'hide', 'passive'],
-              [anchorEl.value, 'contextmenu', 'contextClick', 'notPassive']
-            ]
+        ? [
+            [anchorEl.value, 'touchstart', 'touchHold', 'passive'],
+            [anchorEl.value, 'pointerdown', 'hide', 'passive'],
+            [anchorEl.value, 'contextmenu', 'contextClick', 'notPassive']
+          ]
         : [
             [anchorEl.value, 'click', 'toggle', 'passive'],
             [anchorEl.value, 'keyup', 'toggleKey', 'passive']
