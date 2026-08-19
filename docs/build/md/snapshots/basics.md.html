@@ -1,0 +1,47 @@
+<p>Intro paragraph with <strong>bold</strong>, <em>emphasis</em>, <code class="doc-token">inline code</code> and typographer
+input: “double quotes”, ‘single quotes’, an ellipsis… and a © symbol.</p>
+<h2 id="links" class="doc-heading doc-h2" @click="copyHeading(`links`)">Links<a class="doc-heading__anchor" href="#links" aria-label="Copy anchor to Links" @click.prevent.stop="copyHeading(`links`)"></a></h2>
+<p>An <doc-link to="/vue-components/knob">internal link</doc-link>, a <doc-link to="#links">hash link</doc-link>, an
+<doc-link to="/options/screen plugin">encoded link</doc-link> and an
+<doc-link to="https://quasar.dev">external link</doc-link> all become doc-link.</p>
+<h2 id="blocks" class="doc-heading doc-h2" @click="copyHeading(`blocks`)">Blocks<a class="doc-heading__anchor" href="#blocks" aria-label="Copy anchor to Blocks" @click.prevent.stop="copyHeading(`blocks`)"></a></h2>
+<blockquote class="doc-note">
+<p>A blockquote becomes a doc-note.</p>
+</blockquote>
+<ul>
+<li>unordered item</li>
+<li>item with <code class="doc-token">code</code></li>
+</ul>
+<ol>
+<li>ordered item</li>
+<li>second item</li>
+</ol>
+<p><img src="https://cdn.quasar.dev/img/fixture.png" alt="" class="doc-img"></p>
+<h3 id="table" class="doc-heading doc-h3" @click="copyHeading(`table`)">Table<a class="doc-heading__anchor" href="#table" aria-label="Copy anchor to Table" @click.prevent.stop="copyHeading(`table`)"></a></h3>
+<q-markup-table class="doc-page-table" :wrap-cells="true" :flat="true" :bordered="true">
+<thead>
+<tr>
+<th class="text-left">Prop</th>
+<th class="text-left">Type</th>
+<th class="text-left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code class="doc-token">size</code></td>
+<td>String</td>
+<td>Renders in a doc-token</td>
+</tr>
+<tr>
+<td>model</td>
+<td>Number</td>
+<td>Plain cell</td>
+</tr>
+</tbody>
+</q-markup-table>
+<h3 id="heading-with-code-and-bold" class="doc-heading doc-h3" @click="copyHeading(`heading-with-code-and-bold`)">Heading with <code class="doc-token">code</code> and <strong>bold</strong><a class="doc-heading__anchor" href="#heading-with-code-and-bold" aria-label="Copy anchor to Heading with code and bold" @click.prevent.stop="copyHeading(`heading-with-code-and-bold`)"></a></h3>
+<h4 id="an-h4-heading-stays-out-of-the-toc" class="doc-heading doc-h4" @click="copyHeading(`an-h4-heading-stays-out-of-the-toc`)">An h4 heading stays out of the toc<a class="doc-heading__anchor" href="#an-h4-heading-stays-out-of-the-toc" aria-label="Copy anchor to An h4 heading stays out of the toc" @click.prevent.stop="copyHeading(`an-h4-heading-stays-out-of-the-toc`)"></a></h4>
+<p>Content under a deep heading.</p>
+<h2 id="html-blocks" class="doc-heading doc-h2" @click="copyHeading(`html-blocks`)">HTML blocks<a class="doc-heading__anchor" href="#html-blocks" aria-label="Copy anchor to HTML blocks" @click.prevent.stop="copyHeading(`html-blocks`)"></a></h2>
+<DocApi file="QKnob" />
+<DocInstall title="Custom Install" />

@@ -1,37 +1,24 @@
 import { expect, test } from 'vitest'
-import { existsSync, readFileSync } from 'node:fs'
+import { globSync, readFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { parseFrontMatter } from './md-parse-utils.js'
-import md from './md.js'
+import { renderPage } from './test-helpers.js'
 
 const __dirname = import.meta.dirname
+const fixturesDir = join(__dirname, 'fixtures')
 const snapshotsDir = join(__dirname, 'snapshots')
-const pagesRoot = join(__dirname, '../../src/pages')
 
-// Update baselines with `vitest -u`. Vitest fails on missing snapshots in CI,
-// so a fresh checkout can't silently bake bugs into the baseline.
-const SAMPLES = [
-  'vue-components/knob.md',
-  'quasar-cli-vite/page-routing-with-vue-router.md',
-  'quasar-plugins/notify.md',
-  'quasar-cli-vite/handling-vite.md',
-  'start/quick-start.md'
-]
-
-for (const rel of SAMPLES) {
+// The fixtures are NOT site content: they exist only to exercise every md
+// plugin, so a snapshot diff always means the pipeline's output changed.
+// Review that diff, then update baselines with `vitest -u`. Vitest fails on
+// missing snapshots in CI, so a fresh checkout can't silently bake bugs
+// into the baseline.
+for (const rel of globSync('*.md', { cwd: fixturesDir }).sort()) {
   test(`HTML baseline: ${rel}`, async () => {
-    const sourcePath = join(pagesRoot, rel)
-    if (!existsSync(sourcePath)) {
-      throw new Error(`Sample page missing: ${sourcePath}`)
-    }
+    const raw = readFileSync(join(fixturesDir, rel), 'utf8')
+    const { data, content } = parseFrontMatter(raw)
+    const { html } = renderPage(content, data)
 
-    const raw = readFileSync(sourcePath, 'utf8')
-    const { data: frontMatter, content } = parseFrontMatter(raw)
-    md.$frontMatter = { ...frontMatter, toc: [], pageScripts: new Set() }
-    const html = md.render(content)
-    md.$frontMatter = null
-
-    const snapshotPath = join(snapshotsDir, rel.replaceAll('/', '__') + '.html')
-    await expect(html).toMatchFileSnapshot(snapshotPath)
+    await expect(html).toMatchFileSnapshot(join(snapshotsDir, rel + '.html'))
   })
 }
