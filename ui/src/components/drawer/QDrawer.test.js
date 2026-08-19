@@ -836,5 +836,57 @@ describe('[QDrawer API]', () => {
       // of the page layout -- not a modal surface to be dismissed
       expect(getDrawer(wrapper).$style('transform')).toBe('translateX(0px)')
     })
+
+    // the aside is what assistive technology sees as the landmark, so
+    // role and aria-* must land on it while every other fall-through
+    // attribute keeps targeting the content element
+    test('routes aria-label to the aside landmark', async () => {
+      const wrapper = await mountReadyDrawer({
+        modelValue: true,
+        'aria-label': 'Shopping cart',
+        'data-testid': 'cart-drawer'
+      })
+
+      expect(getDrawer(wrapper).attributes('aria-label')).toBe('Shopping cart')
+      expect(getDrawer(wrapper).attributes('data-testid')).toBeUndefined()
+
+      expect(getContent(wrapper).attributes('aria-label')).toBeUndefined()
+      expect(getContent(wrapper).attributes('data-testid')).toBe('cart-drawer')
+
+      await setDrawerProps(wrapper, {
+        modelValue: true,
+        'aria-label': 'Saved items'
+      })
+
+      expect(getDrawer(wrapper).attributes('aria-label')).toBe('Saved items')
+      expect(getContent(wrapper).attributes('data-testid')).toBeUndefined()
+    })
+
+    test('routes aria-labelledby to the aside landmark', async () => {
+      const wrapper = await mountReadyDrawer({
+        modelValue: true,
+        'aria-labelledby': 'drawer-title'
+      })
+
+      expect(getDrawer(wrapper).attributes('aria-labelledby')).toBe(
+        'drawer-title'
+      )
+      expect(getContent(wrapper).attributes('aria-labelledby')).toBeUndefined()
+    })
+
+    test('routes role together with its name to the aside', async () => {
+      const wrapper = await mountReadyDrawer({
+        modelValue: true,
+        role: 'region',
+        'aria-label': 'Filters'
+      })
+
+      // both on the same element, forming one named region landmark
+      expect(getDrawer(wrapper).attributes('role')).toBe('region')
+      expect(getDrawer(wrapper).attributes('aria-label')).toBe('Filters')
+
+      expect(getContent(wrapper).attributes('role')).toBeUndefined()
+      expect(getContent(wrapper).attributes('aria-label')).toBeUndefined()
+    })
   })
 })

@@ -104,6 +104,8 @@ On the example below, click the menu icon to see the drawer in action. It's best
 
 QDrawer renders its panel as a real `<aside>` element, so it is exposed to assistive technology as a complementary landmark of your [QLayout](/layout/layout#accessibility). The backdrop shown in its overlay states and the invisible swipe-opener strip along the screen edge are hidden from assistive technology — they are redundant, pointer-only affordances. A closed drawer leaves the Tab order and the accessibility tree entirely, so nothing invisible stays reachable.
 
+A `role` or any `aria-*` attribute set on QDrawer is applied to the `<aside>` element itself, since that is the element assistive technology interacts with. Give it an `aria-label` (or `aria-labelledby`) so that multiple drawers can be told apart, or a `role` when complementary does not fit — one [allowed on `aside`](https://www.w3.org/TR/html-aria/#el-aside), like `region`, `search` or `none`. All other fall-through attributes keep targeting the inner scrolling element.
+
 ### Keyboard dismissal
 
 While the drawer is in a dismissible state (below its breakpoint or shown in overlay mode), hitting the <kbd>Escape</kbd> key closes it — the keyboard counterpart of the backdrop click and the swipe gesture. The `persistent` prop opts out of it, and an `escape-key` event is emitted whenever the key is handled.

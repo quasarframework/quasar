@@ -21,7 +21,13 @@ export const basic = {
       h(QHeader, { elevated: true }, () => h('div', 'Header')),
       h(
         QDrawer,
-        { modelValue: false, side: 'left', 'onUpdate:modelValue': () => {} },
+        {
+          modelValue: false,
+          side: 'left',
+          // routed to the aside element on both sides of the round-trip
+          'aria-label': 'Sidebar',
+          'onUpdate:modelValue': () => {}
+        },
         () => h('div', 'Drawer')
       ),
       h(QPageContainer, {}, () =>

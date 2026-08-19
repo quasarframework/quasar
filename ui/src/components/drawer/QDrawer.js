@@ -723,12 +723,25 @@ export default /*#__PURE__*/ createComponent({
         )
       }
 
+      // the aside is the exposed landmark, so role and aria-* describe
+      // it and must land on it; everything else (id, data-*, listeners)
+      // keeps targeting the scrolling content element
+      const asideAttrs = {}
+      const contentAttrs = {}
+      for (const key in attrs) {
+        if (key === 'role' || key.startsWith('aria-')) {
+          asideAttrs[key] = attrs[key]
+        } else {
+          contentAttrs[key] = attrs[key]
+        }
+      }
+
       const mini = isMini.value && slots.mini !== void 0
       const content = [
         h(
           'div',
           {
-            ...attrs,
+            ...contentAttrs,
             key: String(mini), // required otherwise Vue will not diff correctly
             class: [contentClass.value, attrs.class]
           },
@@ -748,7 +761,12 @@ export default /*#__PURE__*/ createComponent({
       child.push(
         hDir(
           'aside',
-          { ref: 'content', class: classes.value, style: style.value },
+          {
+            ref: 'content',
+            class: classes.value,
+            style: style.value,
+            ...asideAttrs
+          },
           content,
           'contentclose',
           !props.noSwipeClose && belowBreakpoint.value,
