@@ -8,9 +8,9 @@ const MILLISECONDS_IN_DAY = 86_400_000,
   MILLISECONDS_IN_MINUTE = 60_000,
   defaultMask = 'YYYY-MM-DDTHH:mm:ss.SSSZ',
   token =
-    /\[((?:[^\]\\]|\\]|\\)*)\]|do|d{1,4}|Mo|M{1,4}|m{1,2}|wo|w{1,2}|Qo|Do|DDDo|D{1,4}|YY(?:YY)?|H{1,2}|h{1,2}|s{1,2}|S{1,3}|Z{1,2}|a{1,2}|[AQExX]/g,
+    /\[((?:[^\]\\]|\\]|\\)*)\]|do|d{1,4}|Mo|M{1,4}|m{1,2}|wo|w{1,2}|Qo|Do|DDDo|D{1,4}|YY(?:YY)?|GG(?:GG)?|H{1,2}|h{1,2}|s{1,2}|S{1,3}|Z{1,2}|a{1,2}|[AQExX]/g,
   reverseToken =
-    /(\[[^\]]*\])|do|d{1,4}|Mo|M{1,4}|m{1,2}|wo|w{1,2}|Qo|Do|DDDo|D{1,4}|YY(?:YY)?|H{1,2}|h{1,2}|s{1,2}|S{1,3}|Z{1,2}|a{1,2}|[AQExX]|([.*+:?^,\s${}()|\\]+)/g,
+    /(\[[^\]]*\])|do|d{1,4}|Mo|M{1,4}|m{1,2}|wo|w{1,2}|Qo|Do|DDDo|D{1,4}|YY(?:YY)?|GG(?:GG)?|H{1,2}|h{1,2}|s{1,2}|S{1,3}|Z{1,2}|a{1,2}|[AQExX]|([.*+:?^,\s${}()|\\]+)/g,
   escapeRegexRE = /[.*+?^${}()|[\]\\]/g,
   regexStore = new Map()
 
@@ -168,6 +168,13 @@ function getRegexData(mask, dateLocale) {
       }
       case 'ww': {
         return String.raw`(\d{2})`
+      }
+
+      case 'GG': {
+        return String.raw`(-?\d{1,2})`
+      }
+      case 'GGGG': {
+        return String.raw`(-?\d{1,4})`
       }
 
       case 'Z': {
@@ -544,19 +551,22 @@ export function getDayOfWeek(date) {
   return dow === 0 ? 7 : dow
 }
 
-export function getWeekOfYear(date) {
+function getISOWeekThursday(date) {
   // Remove time components of date
   const thursday = new Date(date.getFullYear(), date.getMonth(), date.getDate())
 
   // Change date to Thursday same week
   thursday.setDate(thursday.getDate() - ((thursday.getDay() + 6) % 7) + 3)
 
-  // Take January 4th as it is always in week 1 (see ISO 8601)
-  const firstThursday = new Date(thursday.getFullYear(), 0, 4)
+  return thursday
+}
 
-  // Change date to Thursday same week
-  firstThursday.setDate(
-    firstThursday.getDate() - ((firstThursday.getDay() + 6) % 7) + 3
+export function getWeekOfYear(date) {
+  const thursday = getISOWeekThursday(date)
+
+  // Take January 4th as it is always in week 1 (see ISO 8601)
+  const firstThursday = getISOWeekThursday(
+    new Date(thursday.getFullYear(), 0, 4)
   )
 
   // Check if daylight-saving-time-switch occurred and correct for it
@@ -566,6 +576,11 @@ export function getWeekOfYear(date) {
   // Number of weeks between target Thursday and first Thursday
   const weekDiff = (thursday - firstThursday) / (MILLISECONDS_IN_DAY * 7)
   return 1 + Math.floor(weekDiff)
+}
+
+export function getISOWeekYear(date) {
+  // The Thursday of a week always falls in the week's ISO year (see ISO 8601)
+  return getISOWeekThursday(date).getFullYear()
 }
 
 function getDayIdentifier(date) {
@@ -982,6 +997,21 @@ const formatter = {
     return pad(getWeekOfYear(date))
   },
 
+  // ISO Week Year: 70 71 ... 29 30
+  GG(date, dateLocale, forcedYear) {
+    // workaround for < 1900 with new Date()
+    const y = this.GGGG(date, dateLocale, forcedYear) % 100 // oxlint-disable-line new-cap
+    return y >= 0 ? pad(y) : '-' + pad(Math.abs(y))
+  },
+
+  // ISO Week Year: 1970 1971 ... 2029 2030
+  GGGG(date, _dateLocale, forcedYear) {
+    // workaround for < 1900 with new Date()
+    return forcedYear !== void 0 && forcedYear !== null
+      ? forcedYear
+      : getISOWeekYear(date)
+  },
+
   // Hour: 0, 1, ... 23
   H(date) {
     return date.getHours()
@@ -1170,6 +1200,7 @@ export default {
   buildDate,
   getDayOfWeek,
   getWeekOfYear,
+  getISOWeekYear,
   isBetweenDates,
   addToDate,
   subtractFromDate,

@@ -2,7 +2,7 @@
 
 import { afterEach, describe, expect, test, vi } from 'vitest'
 
-import date, { __splitDate, getWeekOfYear } from './date.js'
+import date, { __splitDate, getISOWeekYear, getWeekOfYear } from './date.js'
 
 // The browser's timezone cannot be changed at runtime (there is no
 // process.env.TZ equivalent), so mock the global Date class with one
@@ -153,6 +153,19 @@ describe('[date API]', () => {
       })
     })
 
+    describe('[(function)getISOWeekYear]', () => {
+      test.each([
+        [new Date(2020, 11, 31, 12), 2020], // week 53 of 2020
+        [new Date(2021, 0, 1, 12), 2020], // week 53 of 2020
+        [new Date(2021, 0, 4, 12), 2021], // week 1 of 2021
+        [new Date(2022, 0, 2, 12), 2021], // week 52 of 2021
+        [new Date(2024, 11, 30, 12), 2025], // week 1 of 2025
+        [new Date(2024, 3, 8, 12), 2024] // mid-year matches calendar year
+      ])('has correct return value', (value, expected) => {
+        expect(getISOWeekYear(value)).toBe(expected)
+      })
+    })
+
     describe('[(function)isValid]', () => {
       test.each([
         [0, true],
@@ -204,6 +217,12 @@ describe('[date API]', () => {
         expect(
           date.extractDate('2024-02-29 13:05 Z', 'YYYY-MM-DD HH:mm Z').getTime()
         ).toBe(Date.UTC(2024, 1, 29, 13, 5))
+      })
+
+      test('matches but ignores ISO week year tokens', () => {
+        expect(
+          date.extractDate('2021-W52 2022-01-01', 'GGGG-[W]ww YYYY-MM-DD')
+        ).toStrictEqual(new Date(2022, 0, 1))
       })
 
       test.each([
@@ -698,6 +717,21 @@ describe('[date API]', () => {
         expect(date.formatDate(value, 'YYYY YY X x', dateLocale, 42)).toBe(
           `42 42 ${Math.floor(value.getTime() / 1000)} ${value.getTime()}`
         )
+      })
+
+      test.each([
+        [new Date(2022, 0, 1), '2021-W52', '21'], // calendar year differs
+        [new Date(2024, 11, 30), '2025-W01', '25'], // next ISO year
+        [new Date(2024, 3, 8), '2024-W15', '24'] // mid-year
+      ])('formats the ISO week year of %o', (value, expected, expectedGG) => {
+        expect(date.formatDate(value, 'GGGG-[W]ww')).toBe(expected)
+        expect(date.formatDate(value, 'GG')).toBe(expectedGG)
+      })
+
+      test('applies a forced year to the ISO week year tokens', () => {
+        const value = new Date(2022, 0, 1)
+
+        expect(date.formatDate(value, 'GGGG GG', dateLocale, 42)).toBe('42 42')
       })
 
       test.each([

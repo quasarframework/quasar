@@ -51,6 +51,8 @@ export namespace date {
 
   function getWeekOfYear(date: DateInput): number;
 
+  function getISOWeekYear(date: DateInput): number;
+
   function isBetweenDates(
     date: DateInput,
     from: DateInput,
