@@ -11,6 +11,8 @@ describe('QTable SSR hydration', () => {
     const result = await hydrate(fixturesPath, 'basic', basic)
 
     expect(result.consoleOutput).toEqual([])
+    // the footer slot renders a real <tfoot> on the server too
+    expect(result.serverHtml).toContain('<tfoot>')
   })
 
   test('hydrates cleanly in virtual-scroll mode', async () => {
@@ -21,5 +23,7 @@ describe('QTable SSR hydration', () => {
     // is not
     expect(result.serverHtml).toContain('Row #0')
     expect(result.serverHtml).not.toContain('Row #39')
+    // the footer slot renders through QVirtualScroll's "after" slot here
+    expect(result.serverHtml).toContain('<tfoot>')
   })
 })

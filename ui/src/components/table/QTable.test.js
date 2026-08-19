@@ -1920,6 +1920,58 @@ describe('[QTable API]', () => {
       })
     })
 
+    describe('[(slot)footer]', () => {
+      test('renders the content', () => {
+        let slotScope
+        const slotContent = 'some-slot-content'
+        const wrapper = mountTable(
+          {},
+          {
+            slots: {
+              footer: scope => {
+                slotScope = scope
+                return slotContent
+              }
+            }
+          }
+        )
+
+        const footer = wrapper.get('tfoot')
+        expect(footer.text()).toContain(slotContent)
+        // the footer comes after the rows, as per the HTML spec
+        expect(
+          footer.element.previousElementSibling.tagName.toLowerCase()
+        ).toBe('tbody')
+
+        expect(slotScope).toStrictEqual({
+          cols: expect.any(Array)
+        })
+      })
+
+      test('renders the content when using virtual scroll', () => {
+        const slotContent = 'some-slot-content'
+        const wrapper = mountTable(
+          { virtualScroll: true },
+          {
+            slots: {
+              footer: () => slotContent
+            }
+          }
+        )
+
+        const footer = wrapper.getComponent(QVirtualScroll).get('tfoot')
+        expect(footer.text()).toContain(slotContent)
+        expect(
+          footer.element.previousElementSibling.tagName.toLowerCase()
+        ).toBe('tbody')
+      })
+
+      test('does not render a tfoot element when the slot is not used', () => {
+        const wrapper = mountTable()
+        expect(wrapper.find('tfoot').exists()).toBe(false)
+      })
+    })
+
     describe('[(slot)top]', () => {
       test('renders the content', () => {
         let slotScope

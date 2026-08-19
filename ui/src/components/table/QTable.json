@@ -1408,6 +1408,17 @@
       }
     },
 
+    "footer": {
+      "desc": "Slot to define the table footer (gets rendered in a <tfoot> element); not applied when in 'grid' mode; example: a totals row (which can be made sticky through CSS)",
+      "scope": {
+        "cols": {
+          "type": "Object",
+          "desc": "Column definitions"
+        }
+      },
+      "addedIn": "v2.26"
+    },
+
     "top": {
       "desc": "Slot to define how table top looks like",
       "scope": {

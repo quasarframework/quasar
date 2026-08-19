@@ -154,6 +154,10 @@ Pay attention to the code in the "style" section in the following examples, espe
 
 <DocExample title="Sticky header" file="StickyHeader" />
 
+The `footer` slot (rendered as a real `<tfoot>` element) can be made sticky the same way. A good use case for it is a totals row:
+
+<DocExample title="Sticky footer (v2.26+)" file="StickyFooter" />
+
 <DocExample title="Sticky first column" file="StickyColumn" />
 
 <DocExample title="Sticky last column" file="StickyLastColumn" />
@@ -291,6 +295,8 @@ An expanded row is just another `QTr` rendered for the same row of data, so the 
 
 ## Before/after slots
 
+Note the difference between `bottom-row` and `footer`: the former renders extra rows inside the table body, while the latter renders a real `<tfoot>` element (which, for example, can be made sticky through CSS; see the "Sticky footer" example above).
+
 <DocExample title="Before/After slots (header/footer)" file="BeforeAfterHeaderFooter" />
 
 ## Pagination
@@ -407,12 +413,6 @@ You could also make use of the `filteredSortedRows` internal computed property o
 
 <DocExample title="Export to csv" file="ExportCsv" />
 
-## Keyboard navigation
-
-Below is an example of keyboard navigation in the table using selected row. Use <kbd>Arrow Up</kbd>, <kbd>Arrow Down</kbd>, <kbd>Page Up</kbd>, <kbd>Page Down</kbd>, <kbd>Home</kbd> and <kbd>End</kbd> keys to navigate.
-
-<DocExample title="Keyboard navigation" file="KeyboardNavigation" />
-
 ## Accessibility <q-badge label="v2.25+" />
 
 QTable renders a native `<table>` with `thead`/`tbody`, so the tabular semantics come for free. Sortable column headers are focusable, sort on <kbd>Enter</kbd> or <kbd>Space</kbd> and expose [`aria-sort`](https://www.w3.org/TR/wai-aria-1.2/#aria-sort); this behavior lives in QTh, so custom `header`/`header-cell` slots should render QTh rather than a plain `th` to keep it. The horizontally scrolling body is a Tab stop, so a wide table can be scrolled with the arrow keys. The selection checkboxes (and their otherwise empty column header), the pagination controls, the rows-per-page select and the loading progress bar carry localized accessible names from the [Quasar Language Pack](/options/quasar-language-packs).
@@ -422,3 +422,9 @@ A few aspects remain in your hands:
 - Clickable rows (`@row-click` & co.) are pointer-only: rows receive no focus and no key handling. Offer row actions as real buttons inside a cell, or add keyboard handling yourself — the [Keyboard navigation](#keyboard-navigation) example above shows the technique.
 - `grid` mode trades the table semantics for plain cards.
 - The `title` prop renders a visual heading, not a `<caption>` — associate a name with the table through `aria-label`/`aria-labelledby` if it needs one.
+
+### Keyboard navigation
+
+Below is an example of keyboard navigation in the table using selected row. Use <kbd>Arrow Up</kbd>, <kbd>Arrow Down</kbd>, <kbd>Page Up</kbd>, <kbd>Page Down</kbd>, <kbd>Home</kbd> and <kbd>End</kbd> keys to navigate.
+
+<DocExample title="Keyboard navigation" file="KeyboardNavigation" />

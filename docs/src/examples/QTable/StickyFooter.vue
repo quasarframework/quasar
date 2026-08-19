@@ -1,42 +1,30 @@
 <template>
   <div class="q-pa-md">
     <q-table
+      class="my-sticky-footer-table"
       flat
       bordered
       title="Treats"
       :rows="rows"
       :columns="columns"
       row-key="name"
-      selection="multiple"
-      v-model:selected="selected"
     >
-      <template v-slot:top> Top </template>
-      <template v-slot:top-row>
-        <q-tr>
-          <q-td colspan="100%"> Top row </q-td>
-        </q-tr>
-      </template>
-
-      <template v-slot:bottom-row>
-        <q-tr>
-          <q-td colspan="100%"> Bottom row </q-td>
-        </q-tr>
-      </template>
-
       <template v-slot:footer>
-        <q-tr>
-          <q-td colspan="100%"> Footer (a real &lt;tfoot&gt; element) </q-td>
+        <q-tr class="text-weight-bold">
+          <q-td class="text-left"> Totals </q-td>
+          <q-td class="text-center"> {{ totals.calories }} </q-td>
+          <q-td class="text-right"> {{ totals.fat }} </q-td>
+          <q-td class="text-right"> {{ totals.carbs }} </q-td>
+          <q-td class="text-right"> {{ totals.protein }} </q-td>
+          <q-td class="text-right"> {{ totals.sodium }} </q-td>
+          <q-td colspan="2" />
         </q-tr>
       </template>
-
-      <template v-slot:bottom> Bottom </template>
     </q-table>
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue'
-
 const columns = [
   // #region
   {
@@ -181,5 +169,26 @@ const rows = [
   // #endregion
 ]
 
-const selected = ref([])
+const totals = {}
+for (const field of ['calories', 'fat', 'carbs', 'protein', 'sodium']) {
+  totals[field] =
+    Math.round(rows.reduce((acc, row) => acc + row[field], 0) * 100) / 100
+}
 </script>
+
+<style lang="sass">
+.my-sticky-footer-table
+  /* height or max-height is important */
+  height: 310px
+
+  .q-table__top,
+  .q-table__bottom
+    background-color: #00b4ff
+
+  tfoot tr td
+    /* bg color is important for td; just specify one */
+    background-color: #00b4ff
+    position: sticky
+    z-index: 1
+    bottom: 0
+</style>

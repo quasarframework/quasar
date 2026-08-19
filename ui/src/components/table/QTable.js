@@ -354,6 +354,7 @@ export default /*#__PURE__*/ createComponent({
       if (hasVirtScroll.value) {
         const topRow = slots['top-row']
         const bottomRow = slots['bottom-row']
+        const footer = slots.footer
 
         const virtSlots = {
           default: slotProps =>
@@ -368,9 +369,19 @@ export default /*#__PURE__*/ createComponent({
           virtSlots.before = header
         }
 
-        if (bottomRow !== void 0) {
-          virtSlots.after = () =>
-            h('tbody', bottomRow({ cols: computedCols.value }))
+        if (bottomRow !== void 0 || footer !== void 0) {
+          virtSlots.after = () => {
+            const acc = []
+
+            if (bottomRow !== void 0) {
+              acc.push(h('tbody', bottomRow({ cols: computedCols.value })))
+            }
+            if (footer !== void 0) {
+              acc.push(h('tfoot', footer({ cols: computedCols.value })))
+            }
+
+            return acc
+          }
         }
 
         return h(
@@ -394,6 +405,10 @@ export default /*#__PURE__*/ createComponent({
 
       if (header !== null) {
         child.unshift(header())
+      }
+
+      if (slots.footer !== void 0) {
+        child.push(h('tfoot', slots.footer({ cols: computedCols.value })))
       }
 
       return getTableMiddle(

@@ -38,6 +38,10 @@ export const basic = {
                 () => col.value
               )
             )
+          ),
+        footer: scope =>
+          h(QTr, {}, () =>
+            h(QTd, { colspan: scope.cols.length }, () => 'Footer')
           )
       }
     )
@@ -47,13 +51,23 @@ export const basic = {
 // padding sizes must match across the two render passes
 export const virtualScroll = {
   render: () =>
-    h(QTable, {
-      rowKey: 'name',
-      columns,
-      rows: Array.from({ length: 40 }, (_, i) => ({ name: `Row #${i}` })),
-      virtualScroll: true,
-      rowsPerPageOptions: [0],
-      style: 'height: 200px',
-      flat: true
-    })
+    h(
+      QTable,
+      {
+        rowKey: 'name',
+        columns,
+        rows: Array.from({ length: 40 }, (_, i) => ({ name: `Row #${i}` })),
+        virtualScroll: true,
+        rowsPerPageOptions: [0],
+        style: 'height: 200px',
+        flat: true
+      },
+      {
+        // renders through QVirtualScroll's "after" slot on this branch
+        footer: scope =>
+          h(QTr, {}, () =>
+            h(QTd, { colspan: scope.cols.length }, () => 'Footer')
+          )
+      }
+    )
 }
