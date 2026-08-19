@@ -121,7 +121,7 @@ function getScriptTransformsPlugin(opts) {
     if (
       useTreeshaking &&
       !warnedFiles.has(id) &&
-      hasResidualQuasarImports(code)
+      hasResidualQuasarImports(code, id)
     ) {
       warnedFiles.add(id)
       const msg =

@@ -1,6 +1,6 @@
 import { readFileSync } from 'node:fs'
 import { join } from 'node:path'
-import { parseAst } from 'vite'
+import { parseSync } from 'vite'
 
 import { quasarPath } from './quasar-path.js'
 
@@ -37,6 +37,43 @@ const staticQuasarImportNodeTypes = new Set([
   'ExportAllDeclaration'
 ])
 
+const scriptLangRegex = /\.([jt]sx?|[cm][jt]s)$/
+const scriptLangAliases = { mjs: 'js', cjs: 'js', mts: 'ts', cts: 'ts' }
+
+/**
+ * The parser infers the dialect from the filename, but module ids can
+ * carry queries (SFC sub-requests end in "lang.<ext>", plain files may
+ * have "?t=..." appended), so the dialect is resolved here and passed
+ * explicitly. Unknown extensions parse as plain JS, in which case
+ * unparsable content falls back to trusting the textual match.
+ */
+function inferScriptLang(id) {
+  const match =
+    scriptLangRegex.exec(id) ?? scriptLangRegex.exec(id.split('?', 2)[0])
+
+  if (match === null) return 'js'
+  return scriptLangAliases[match[1]] ?? match[1]
+}
+
+/**
+ * TS type-only imports/exports are erased at transpile time, so they
+ * never pull the Quasar bundle into the build output.
+ */
+function isTypeOnlyNode(node) {
+  if (node.importKind === 'type' || node.exportKind === 'type') {
+    return true
+  }
+
+  const specifiers = node.specifiers
+  return (
+    specifiers !== void 0 &&
+    specifiers.length !== 0 &&
+    specifiers.every(
+      entry => entry.importKind === 'type' || entry.exportKind === 'type'
+    )
+  )
+}
+
 function containsQuasarDynamicImport(node) {
   if (Array.isArray(node)) {
     return node.some(containsQuasarDynamicImport)
@@ -70,24 +107,29 @@ function containsQuasarDynamicImport(node) {
  * and weeds out its false positives (import statements appearing within
  * string content, like documentation code snippets).
  */
-export function hasResidualQuasarImports(code) {
+export function hasResidualQuasarImports(code, id = 'unknown.js') {
   if (!residualQuasarImportRegex.test(code)) {
     return false
   }
 
-  let ast
+  let program
   try {
-    ast = parseAst(code)
+    const result = parseSync(id, code, { lang: inferScriptLang(id) })
+    if (result.errors.length !== 0) {
+      // unparsable code; trust the textual match
+      return true
+    }
+    program = result.program
   } catch {
-    // unparsable code; trust the textual match
     return true
   }
 
   // static imports and re-exports are always top-level
-  for (const node of ast.body) {
+  for (const node of program.body) {
     if (
       staticQuasarImportNodeTypes.has(node.type) &&
-      node.source?.value === 'quasar'
+      node.source?.value === 'quasar' &&
+      !isTypeOnlyNode(node)
     ) {
       return true
     }
@@ -97,7 +139,7 @@ export function hasResidualQuasarImports(code) {
   // walk is only worth it when its textual form is present at all
   return (
     dynamicResidualRegex.test(code) &&
-    containsQuasarDynamicImport(ast.body) === true
+    containsQuasarDynamicImport(program.body) === true
   )
 }
 

@@ -122,6 +122,49 @@ app.use(Quasar)\`
     ).toBe(false)
   })
 
+  test('residual detection parses the dialect indicated by the module id', () => {
+    const tsString = 'const s: string = "import { QBtn } from \'quasar\'"'
+
+    // TS syntax parses exactly, so the string content is not a residual
+    expect(hasResidualQuasarImports(tsString, '/src/file.ts')).toBe(false)
+    expect(
+      hasResidualQuasarImports(tsString, '/src/App.vue?vue&type=script&lang.ts')
+    ).toBe(false)
+    expect(hasResidualQuasarImports(tsString, '/src/file.mts')).toBe(false)
+
+    // without a TS id the code is unparsable; the textual match is trusted
+    expect(hasResidualQuasarImports(tsString)).toBe(true)
+
+    expect(
+      hasResidualQuasarImports(
+        "enum E { A }\nimport { QBtn } from 'quasar'",
+        '/src/file.ts'
+      )
+    ).toBe(true)
+  })
+
+  test('residual detection ignores type-only imports and exports', () => {
+    const id = '/src/file.ts'
+
+    expect(
+      hasResidualQuasarImports("import type { QBtn } from 'quasar'", id)
+    ).toBe(false)
+    expect(
+      hasResidualQuasarImports("import { type QBtn } from 'quasar'", id)
+    ).toBe(false)
+    expect(
+      hasResidualQuasarImports("export type { QBtn } from 'quasar'", id)
+    ).toBe(false)
+    expect(hasResidualQuasarImports("export type * from 'quasar'", id)).toBe(
+      false
+    )
+
+    // a value specifier next to type ones still pulls the bundle in
+    expect(
+      hasResidualQuasarImports("import { type QBtn, QChip } from 'quasar'", id)
+    ).toBe(true)
+  })
+
   test('residual regex flags untransformed imports', () => {
     expect(
       residualQuasarImportRegex.test("export { QBtn } from 'quasar'")
