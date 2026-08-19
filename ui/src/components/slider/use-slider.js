@@ -291,10 +291,24 @@ export default function useSlider({
     const step = markerStep.value
     const max = props.max
 
+    // accumulating floats drifts (0.1 + 0.1 + 0.1 = 0.30000000000000004),
+    // so each tick is computed from the start and rounded back to its
+    // operands' precision; the raw sum stays the fallback so an exotic
+    // step (e.g. 1e-7, where the rounding is a no-op) cannot stall the loop
+    const decimals = Math.max(
+      (String(step).trim().split('.')[1] || '').length,
+      (String(props.min).trim().split('.')[1] || '').length
+    )
+
+    let index = 0
     let value = props.min
     do {
       acc.push(value)
-      value += step
+      index++
+      const tick = Number.parseFloat(
+        (props.min + index * step).toFixed(decimals)
+      )
+      value = tick > value ? tick : props.min + index * step
     } while (value < max)
 
     acc.push(max)

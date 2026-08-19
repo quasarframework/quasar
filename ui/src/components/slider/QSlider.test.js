@@ -532,6 +532,22 @@ describe('[QSlider API]', () => {
         expect(labels[1].$style('left')).toBe('5%')
       })
 
+      test('fractional steps produce float-exact labels', () => {
+        const wrapper = mountSlider({
+          min: 0,
+          max: 0.5,
+          step: 0.1,
+          modelValue: 0.2,
+          markerLabels: true
+        })
+
+        // a plain "value += step" accumulation would render the third
+        // label as 0.30000000000000004
+        expect(
+          getMarkerLabels(wrapper).map(label => label.text())
+        ).toStrictEqual(['0', '0.1', '0.2', '0.3', '0.4', '0.5'])
+      })
+
       test('type Function has effect', () => {
         const propVal = val => 10 * val + '%'
         const wrapper = mountSlider({ step: 25, markerLabels: propVal })
