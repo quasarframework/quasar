@@ -84,7 +84,7 @@ describe('vue ast transform', () => {
     )
     const fakeVuePlugin = { name: 'vite:vue', api: { options: {} } }
     scriptPlugin.configResolved({
-      mode: 'production',
+      isProduction: true,
       plugins: [fakeVuePlugin]
     })
 

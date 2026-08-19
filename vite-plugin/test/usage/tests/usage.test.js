@@ -171,12 +171,13 @@ describe('quasar plugin', () => {
       expect(scriptPlugin).toBeUndefined()
     })
 
-    test('should not map Quasar imports if devTreeshaking is disabled and mode is not production', () => {
+    test('should not map Quasar imports if devTreeshaking is disabled and the config is not production-flavored', () => {
       const plugins = quasar({ devTreeshaking: false })
       const scriptPlugin = plugins.find(
         ({ name }) => name === 'vite:quasar:script'
       )
-      scriptPlugin.configResolved({ mode: 'test' })
+      // matches a vitest run: NODE_ENV "test" regardless of Vite mode
+      scriptPlugin.configResolved({ mode: 'test', isProduction: false })
 
       // the transform hook is object-form (with filters)
       const transform = scriptPlugin.transform.handler
@@ -189,6 +190,23 @@ describe('quasar plugin', () => {
         code: "import {QBtn} from 'quasar';"
       })
       expect(scriptTransformed).toBeNull()
+    })
+
+    test('should map Quasar imports on production builds regardless of the mode name', () => {
+      const plugins = quasar({ devTreeshaking: false })
+      const scriptPlugin = plugins.find(
+        ({ name }) => name === 'vite:quasar:script'
+      )
+      // matches "vite build --mode qa": NODE_ENV stays "production"
+      scriptPlugin.configResolved({ mode: 'qa', isProduction: true })
+
+      const transform = scriptPlugin.transform.handler
+      const result = transform("import {QBtn} from 'quasar'", 'test.js')
+
+      expect(result.code).toContain(
+        "import QBtn from 'quasar/src/components/btn/QBtn.js'"
+      )
+      expect(result.code).not.toContain("from 'quasar'")
     })
   })
 })

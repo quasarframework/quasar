@@ -26,7 +26,7 @@ describe('hook filters never exclude what the handlers transform', () => {
   const scssPlugin = getPlugin('vite:quasar:scss')
 
   const scriptPlugin = getPlugin('vite:quasar:script')
-  scriptPlugin.configResolved({ mode: 'production' })
+  scriptPlugin.configResolved({ isProduction: true })
 
   const scssContent = '.foo { color: $primary; }'
   const scriptContent = "import { QBtn } from 'quasar'"
@@ -90,7 +90,7 @@ describe('?raw requests pass through untouched', () => {
 
   test('script plugin leaves raw imports alone', () => {
     const scriptPlugin = getPlugin('vite:quasar:script')
-    scriptPlugin.configResolved({ mode: 'production' })
+    scriptPlugin.configResolved({ isProduction: true })
     const id = '/src/App.vue?raw'
 
     expect(
@@ -143,7 +143,7 @@ describe('residual import warning', () => {
     const consoleWarn = vi.spyOn(console, 'warn').mockImplementation(() => {})
 
     const scriptPlugin = getPlugin('vite:quasar:script')
-    scriptPlugin.configResolved({ mode: 'production' })
+    scriptPlugin.configResolved({ isProduction: true })
 
     const code = "export * from 'quasar'"
     scriptPlugin.transform.handler(code, '/src/reexport.js')
@@ -159,7 +159,7 @@ describe('residual import warning', () => {
     const consoleWarn = vi.spyOn(console, 'warn').mockImplementation(() => {})
 
     const scriptPlugin = getPlugin('vite:quasar:script')
-    scriptPlugin.configResolved({ mode: 'production' })
+    scriptPlugin.configResolved({ isProduction: true })
 
     scriptPlugin.transform.handler(
       "import { QBtn } from 'quasar'",

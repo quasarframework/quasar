@@ -191,7 +191,7 @@ function getScriptTransformsPlugin(opts) {
     name: 'vite:quasar:script',
 
     configResolved(resolvedConfig) {
-      if (!opts.devTreeshaking && resolvedConfig.mode !== 'production') {
+      if (!opts.devTreeshaking && !resolvedConfig.isProduction) {
         useTreeshaking = false
       } else {
         loadQuasarImportMap()
