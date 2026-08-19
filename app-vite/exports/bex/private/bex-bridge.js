@@ -339,7 +339,7 @@ export class BexBridge {
       }
     }
 
-    await promise
+    return promise
   }
 
   /**
