@@ -24,6 +24,22 @@
       "examples": ["# v-model=\"positionModel\""]
     },
 
+    "min-range": {
+      "type": "Number",
+      "desc": "Minimum difference allowed between the model's 'max' and 'min' (the width of the selection); The model gets coerced to satisfy it, just like with 'inner-min'/'inner-max'; Capped to the inner track's length; Wins over 'max-range' should the two conflict",
+      "examples": ["# :min-range=\"2\""],
+      "category": "model",
+      "addedIn": "v2.26"
+    },
+
+    "max-range": {
+      "type": "Number",
+      "desc": "Maximum difference allowed between the model's 'max' and 'min' (the width of the selection); The model gets coerced to satisfy it, just like with 'inner-min'/'inner-max'; Capped to the inner track's length",
+      "examples": ["# :max-range=\"5\""],
+      "category": "model",
+      "addedIn": "v2.26"
+    },
+
     "drag-range": {
       "type": "Boolean",
       "desc": "User can drag range instead of just the two thumbs",

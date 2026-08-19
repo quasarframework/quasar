@@ -841,6 +841,111 @@ describe('[QRange API]', () => {
       })
     })
 
+    describe('[(prop)min-range]', () => {
+      test('type Number has effect', async () => {
+        const wrapper = mountRange({ minRange: 15 })
+
+        // 20-60 already satisfies the minimum width
+        expect(getMinThumb(wrapper).attributes('aria-valuenow')).toBe('20')
+        expect(getMaxThumb(wrapper).attributes('aria-valuenow')).toBe('60')
+        // each thumb's effective limit keeps the minimum width free
+        expect(getMinThumb(wrapper).attributes('aria-valuemax')).toBe('45')
+        expect(getMaxThumb(wrapper).attributes('aria-valuemin')).toBe('35')
+
+        // a too narrow model gets widened, with min acting as the anchor
+        await wrapper.setProps({ modelValue: { min: 30, max: 35 } })
+
+        expect(getMinThumb(wrapper).attributes('aria-valuenow')).toBe('30')
+        expect(getMaxThumb(wrapper).attributes('aria-valuenow')).toBe('45')
+
+        // ...unless that would push past the track's end
+        await wrapper.setProps({ modelValue: { min: 95, max: 98 } })
+
+        expect(getMinThumb(wrapper).attributes('aria-valuenow')).toBe('85')
+        expect(getMaxThumb(wrapper).attributes('aria-valuenow')).toBe('100')
+      })
+
+      test('keeps the thumbs apart while dragging', async () => {
+        const wrapper = mountRange({ minRange: 15 })
+
+        // dragging the min thumb onto the max one stops at the
+        // minimum width instead of crossing over
+        await panFrom(wrapper, 20, 80)
+
+        expect(wrapper.emitted('update:modelValue').at(-1)).toStrictEqual([
+          { min: 45, max: 60 }
+        ])
+      })
+
+      test('keeps the thumbs apart with the keyboard', async () => {
+        const wrapper = mountRange({ minRange: 15 })
+
+        // END on the min thumb goes only as far as the minimum width allows
+        await focusAndPress(getMinThumb(wrapper), 35)
+
+        expect(wrapper.emitted('update:modelValue').at(-1)).toStrictEqual([
+          { min: 45, max: 60 }
+        ])
+      })
+
+      test('wins over a smaller max-range', () => {
+        const wrapper = mountRange({
+          minRange: 30,
+          maxRange: 10,
+          modelValue: { min: 40, max: 50 }
+        })
+
+        expect(getMinThumb(wrapper).attributes('aria-valuenow')).toBe('40')
+        expect(getMaxThumb(wrapper).attributes('aria-valuenow')).toBe('70')
+      })
+    })
+
+    describe('[(prop)max-range]', () => {
+      test('type Number has effect', async () => {
+        const wrapper = mountRange({ maxRange: 40 })
+
+        // 20-60 already satisfies the maximum width
+        expect(getMinThumb(wrapper).attributes('aria-valuenow')).toBe('20')
+        expect(getMaxThumb(wrapper).attributes('aria-valuenow')).toBe('60')
+        // each thumb's effective limit caps the width
+        expect(getMinThumb(wrapper).attributes('aria-valuemin')).toBe('20')
+        expect(getMaxThumb(wrapper).attributes('aria-valuemax')).toBe('60')
+
+        // a too wide model gets narrowed, with min acting as the anchor
+        await wrapper.setProps({ modelValue: { min: 10, max: 90 } })
+
+        expect(getMinThumb(wrapper).attributes('aria-valuenow')).toBe('10')
+        expect(getMaxThumb(wrapper).attributes('aria-valuenow')).toBe('50')
+      })
+
+      test('caps the width while dragging', async () => {
+        const wrapper = mountRange({
+          maxRange: 30,
+          modelValue: { min: 20, max: 40 }
+        })
+
+        await panFrom(wrapper, 40, 90)
+
+        expect(wrapper.emitted('update:modelValue').at(-1)).toStrictEqual([
+          { min: 20, max: 50 }
+        ])
+      })
+
+      test('caps the width with the keyboard', async () => {
+        const wrapper = mountRange({
+          maxRange: 20,
+          modelValue: { min: 50, max: 60 }
+        })
+
+        // HOME on the min thumb goes only as far as the width cap allows
+        await focusAndPress(getMinThumb(wrapper), 36)
+
+        expect(wrapper.emitted('update:modelValue').at(-1)).toStrictEqual([
+          { min: 40, max: 60 }
+        ])
+      })
+    })
+
     describe('[(prop)drag-range]', () => {
       test('type Boolean has effect', async () => {
         const wrapper = mountRange()

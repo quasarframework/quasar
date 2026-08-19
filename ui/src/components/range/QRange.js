@@ -31,6 +31,9 @@ export default /*#__PURE__*/ createComponent({
       validator: v => 'min' in v && 'max' in v
     },
 
+    minRange: Number,
+    maxRange: Number,
+
     dragRange: Boolean,
     dragOnlyRange: Boolean,
 
@@ -74,8 +77,38 @@ export default /*#__PURE__*/ createComponent({
     const curMaxRatio = ref(0)
     const model = ref({ min: 0, max: 0 })
 
+    // effective selection-width limits, capped to what the inner track
+    // can hold; minRange wins over a smaller maxRange
+    function getWidthLimits() {
+      const len = state.innerMax.value - state.innerMin.value
+      const min = Number.isFinite(props.minRange)
+        ? between(props.minRange, 0, len)
+        : 0
+
+      return {
+        min,
+        max: Number.isFinite(props.maxRange)
+          ? between(props.maxRange, min, len)
+          : len
+      }
+    }
+
+    // the interval one thumb can move in, given the other thumb's value
+    // and the width limits; expects an already normalized other value
+    function getThumbBounds(which, otherValue, limits = getWidthLimits()) {
+      return which === 'min'
+        ? {
+            min: Math.max(state.innerMin.value, otherValue - limits.max),
+            max: otherValue - limits.min
+          }
+        : {
+            min: otherValue + limits.min,
+            max: Math.min(state.innerMax.value, otherValue + limits.max)
+          }
+    }
+
     function normalizeModel() {
-      model.value.min =
+      let min =
         modelProp.value.min === null
           ? state.innerMin.value
           : between(
@@ -84,7 +117,7 @@ export default /*#__PURE__*/ createComponent({
               state.innerMax.value
             )
 
-      model.value.max =
+      let max =
         modelProp.value.max === null
           ? state.innerMax.value
           : between(
@@ -92,11 +125,27 @@ export default /*#__PURE__*/ createComponent({
               state.innerMin.value,
               state.innerMax.value
             )
+
+      if (Number.isFinite(props.minRange) || Number.isFinite(props.maxRange)) {
+        // like inner-min/inner-max, the width limits coerce the displayed
+        // model (without emitting); min acts as the anchor
+        const limits = getWidthLimits()
+
+        max = between(max, min + limits.min, min + limits.max)
+
+        if (max > state.innerMax.value) {
+          max = state.innerMax.value
+          min = max - limits.min
+        }
+      }
+
+      model.value.min = min
+      model.value.max = max
     }
 
     watch(
       () =>
-        `${modelProp.value.min}|${modelProp.value.max}|${state.innerMin.value}|${state.innerMax.value}`,
+        `${modelProp.value.min}|${modelProp.value.max}|${state.innerMin.value}|${state.innerMax.value}|${props.minRange}|${props.maxRange}`,
       normalizeModel
     )
 
@@ -141,7 +190,11 @@ export default /*#__PURE__*/ createComponent({
       if (props.dragOnlyRange) return {}
 
       const isMin = which === 'min',
-        labelValue = props[isMin ? 'leftLabelValue' : 'rightLabelValue']
+        labelValue = props[isMin ? 'leftLabelValue' : 'rightLabelValue'],
+        // each thumb is clamped against the other one and the width
+        // limits (see onKeydown), so its effective limits are what
+        // gets exposed
+        bounds = getThumbBounds(which, model.value[isMin ? 'max' : 'min'])
 
       return {
         role: 'slider',
@@ -149,10 +202,8 @@ export default /*#__PURE__*/ createComponent({
           props[isMin ? 'leftThumbAriaLabel' : 'rightThumbAriaLabel'] ||
           $q.lang.label[isMin ? 'minimum' : 'maximum'],
         'aria-orientation': state.orientation.value,
-        // each thumb is clamped against the other one (see onKeydown),
-        // so its effective limits are what gets exposed
-        'aria-valuemin': isMin ? state.innerMin.value : model.value.min,
-        'aria-valuemax': isMin ? model.value.max : state.innerMax.value,
+        'aria-valuemin': bounds.min,
+        'aria-valuemax': bounds.max,
         'aria-valuenow': model.value[which],
         // a null side still reports a number (the limit its thumb sits on),
         // so say what that number means: nothing has been picked yet
@@ -364,23 +415,42 @@ export default /*#__PURE__*/ createComponent({
       let pos
       const ratio = methods.getDraggingRatio(event, dragging)
       const localModel = methods.convertRatioToModel(ratio)
+      const limits = getWidthLimits()
+
+      // clamps a dragged thumb (value + visual ratio) to its bounds
+      function getThumbPos(which, otherValue) {
+        const bounds = getThumbBounds(which, otherValue, limits)
+
+        return {
+          value: between(localModel, bounds.min, bounds.max),
+          ratio: between(
+            ratio,
+            methods.convertModelToRatio(bounds.min),
+            methods.convertModelToRatio(bounds.max)
+          )
+        }
+      }
 
       switch (dragging.type) {
         case dragType.MIN: {
-          if (ratio <= dragging.ratioMax) {
+          // a minimum width blocks thumb crossover
+          // (the widths in between would be forbidden)
+          if (limits.min > 0 || ratio <= dragging.ratioMax) {
+            const thumb = getThumbPos('min', dragging.valueMax)
             pos = {
-              minR: ratio,
+              minR: thumb.ratio,
               maxR: dragging.ratioMax,
-              min: localModel,
+              min: thumb.value,
               max: dragging.valueMax
             }
             state.focus.value = 'min'
           } else {
+            const thumb = getThumbPos('max', dragging.valueMax)
             pos = {
               minR: dragging.ratioMax,
-              maxR: ratio,
+              maxR: thumb.ratio,
               min: dragging.valueMax,
-              max: localModel
+              max: thumb.value
             }
             state.focus.value = 'max'
           }
@@ -388,19 +458,21 @@ export default /*#__PURE__*/ createComponent({
         }
 
         case dragType.MAX: {
-          if (ratio >= dragging.ratioMin) {
+          if (limits.min > 0 || ratio >= dragging.ratioMin) {
+            const thumb = getThumbPos('max', dragging.valueMin)
             pos = {
               minR: dragging.ratioMin,
-              maxR: ratio,
+              maxR: thumb.ratio,
               min: dragging.valueMin,
-              max: localModel
+              max: thumb.value
             }
             state.focus.value = 'max'
           } else {
+            const thumb = getThumbPos('min', dragging.valueMin)
             pos = {
-              minR: ratio,
+              minR: thumb.ratio,
               maxR: dragging.ratioMin,
-              min: localModel,
+              min: thumb.value,
               max: dragging.valueMin
             }
             state.focus.value = 'min'
@@ -473,14 +545,16 @@ export default /*#__PURE__*/ createComponent({
         } else if (!state.focus.value) {
           return
         } else if (state.focus.value === 'min') {
+          const bounds = getThumbBounds('min', model.value.max)
           model.value = {
             ...model.value,
-            min: toStart ? state.innerMin.value : model.value.max
+            min: toStart ? bounds.min : bounds.max
           }
         } else {
+          const bounds = getThumbBounds('max', model.value.min)
           model.value = {
             ...model.value,
-            max: toStart ? model.value.min : state.innerMax.value
+            max: toStart ? bounds.min : bounds.max
           }
         }
 
@@ -512,13 +586,17 @@ export default /*#__PURE__*/ createComponent({
         return
       } else {
         const which = state.focus.value
+        const bounds = getThumbBounds(
+          which,
+          model.value[which === 'min' ? 'max' : 'min']
+        )
 
         model.value = {
           ...model.value,
           [which]: between(
             state.roundValueFn.value(model.value[which] + offset),
-            which === 'min' ? state.innerMin.value : model.value.min,
-            which === 'max' ? state.innerMax.value : model.value.max
+            bounds.min,
+            bounds.max
           )
         }
       }

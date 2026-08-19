@@ -36,6 +36,16 @@ Sometimes you need to restrict the model value to an interval inside of the trac
 
 <DocExample title="Inner min/max" file="InnerMinMax" />
 
+### Range width limits <q-badge label="v2.26+" />
+
+Use the `min-range` and `max-range` props to constrain the width of the selection (the difference between the model's `max` and `min`). Think of picking an event's duration: at least 15 minutes long, but placed anywhere within the hour.
+
+External model values that would break these limits get coerced (in the same way `inner-min`/`inner-max` act), with the model's `min` acting as the anchor. Should the two props conflict, `min-range` wins.
+
+<DocExample title="Minimum width" file="MinimumRange" />
+
+<DocExample title="Maximum width" file="MaximumRange" />
+
 ### With step
 
 <DocExample title="With Step" file="Step" />
