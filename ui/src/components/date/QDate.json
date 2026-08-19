@@ -61,7 +61,7 @@
 
     "events": {
       "type": ["Array", "Function"],
-      "desc": "A list of events to highlight on the calendar; If using a function, it receives the date as a String and must return a Boolean (matches or not); If using a function then for best performance, reference it from your scope and do not define it inline",
+      "desc": "A list of events to highlight on the calendar; If using an Array, its entries must be in YYYY/MM/DD format, regardless of the 'mask' in use; If using a function, it receives the date as a String (in YYYY/MM/DD format) and must return a Boolean (matches or not); If using a function then for best performance, reference it from your scope and do not define it inline",
       "params": {
         "date": {
           "type": "String",
@@ -104,7 +104,7 @@
 
     "options": {
       "type": ["Array", "Function"],
-      "desc": "Optionally configure the days that are selectable; If using a function, it receives the date as a String and must return a Boolean (is date acceptable or not); If using a function then for best performance, reference it from your scope and do not define it inline; Incompatible with 'range' prop",
+      "desc": "Optionally configure the days that are selectable; If using an Array, its entries must be in YYYY/MM/DD format, regardless of the 'mask' in use; If using a function, it receives the date as a String (in YYYY/MM/DD format) and must return a Boolean (is date acceptable or not); If using a function then for best performance, reference it from your scope and do not define it inline; Incompatible with 'range' prop",
       "params": {
         "date": {
           "type": "String",

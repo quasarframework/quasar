@@ -141,6 +141,10 @@ If, for some reason, you need to use a custom ad-hoc locale rather than the curr
 
 The first example is using an array and the second example is using a function.
 
+::: tip
+The `events` array entries, as well as the String supplied to the function form, are always in `YYYY/MM/DD` format, regardless of the `mask` in use (the mask only shapes the model value). If you keep your event dates in another format, use the function form and convert before comparing.
+:::
+
 <DocExample title="Events" file="Events" overflow />
 
 <DocExample title="Event color" file="EventColor" overflow />
@@ -149,6 +153,7 @@ The first example is using an array and the second example is using a function.
 
 - You can use the `options` prop to limit user selection to certain times.
 - Alternatively, for a more in-depth way of limiting options, you can also supply a function (second and third example below) to `options-fn` prop.
+- The `options` array entries, as well as the String supplied to the function form, are always in `YYYY/MM/DD` format, regardless of the `mask` in use.
 
 ::: warning
 The `options` property is only partially compatible with the `range` prop. Ranges might contain "unselectable" days.
