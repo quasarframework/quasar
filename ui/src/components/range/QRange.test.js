@@ -1286,6 +1286,40 @@ describe('[QRange API]', () => {
           [{ min: 21, max: 60 }]
         ])
       })
+
+      test('stays silent when the interaction did not move the values', async () => {
+        const wrapper = mountRange({ modelValue: { min: 0, max: 60 } })
+        const thumb = getMinThumb(wrapper)
+
+        // Home with the min thumb already at the start
+        await focusAndPress(thumb, 36)
+        await thumb.trigger('keyup', { keyCode: 36 })
+
+        expect(wrapper.emitted('update:modelValue')).toBeUndefined()
+        expect(wrapper.emitted('change')).toBeUndefined()
+      })
+
+      test('stays silent when a drag returns to where it started', async () => {
+        const wrapper = mountRange()
+        giveRangeSize(wrapper)
+
+        const handler = getTrackContainer(wrapper).element.__qtouchpan.handler
+
+        handler({ isFirst: true, evt: { clientX: 20, clientY: 0 } })
+        handler({ evt: { clientX: 40, clientY: 0 } })
+        handler({
+          isFinal: true,
+          touch: true,
+          evt: { clientX: 20, clientY: 0 }
+        })
+        await nextTick()
+
+        expect(wrapper.emitted('change')).toBeUndefined()
+        // the intermediate movement still updated the model
+        expect(wrapper.emitted('update:modelValue')).toStrictEqual([
+          [{ min: 40, max: 60 }]
+        ])
+      })
     })
 
     describe('[(event)pan]', () => {

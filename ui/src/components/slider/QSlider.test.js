@@ -933,6 +933,42 @@ describe('[QSlider API]', () => {
 
         expect(wrapper.emitted('change')).toStrictEqual([[1]])
       })
+
+      test('stays silent when the interaction did not move the value', async () => {
+        const wrapper = mountSlider({ modelValue: 100 })
+        const trackContainer = getTrackContainer(wrapper)
+
+        // End with the thumb already at the maximum
+        await trackContainer.trigger('focus')
+        await trackContainer.trigger('keydown', { keyCode: 35 })
+        await trackContainer.trigger('keyup', { keyCode: 35 })
+
+        // a click on the value the slider already has
+        await clickAt(wrapper, { clientX: 100 })
+
+        expect(wrapper.emitted('update:modelValue')).toBeUndefined()
+        expect(wrapper.emitted('change')).toBeUndefined()
+      })
+
+      test('stays silent when a drag returns to where it started', async () => {
+        const wrapper = mountSlider()
+        giveSliderSize(wrapper)
+
+        const handler = getPanHandler(wrapper)
+
+        handler({ isFirst: true, evt: { clientX: 50, clientY: 0 } })
+        handler({ evt: { clientX: 70, clientY: 0 } })
+        handler({
+          isFinal: true,
+          touch: true,
+          evt: { clientX: 50, clientY: 0 }
+        })
+        await nextTick()
+
+        expect(wrapper.emitted('change')).toBeUndefined()
+        // the intermediate movement still updated the model
+        expect(wrapper.emitted('update:modelValue')).toStrictEqual([[70]])
+      })
     })
 
     describe('[(event)pan]', () => {

@@ -54,6 +54,12 @@ export default /*#__PURE__*/ createComponent({
     const curRatio = ref(0)
     const model = ref(0)
 
+    // "change" reports what an interaction actually changed: the value is
+    // snapshotted when the interaction starts (pointer via getDragging,
+    // keyboard on its first keydown) and compared at commit time, so an
+    // interaction that ends where it started stays silent
+    let changeBaseline = null
+
     function normalizeModel() {
       model.value =
         props.modelValue === null
@@ -159,10 +165,16 @@ export default /*#__PURE__*/ createComponent({
         emit('update:modelValue', model.value)
       }
 
-      if (change) emit('change', model.value)
+      if (change) {
+        if (changeBaseline !== null && changeBaseline !== model.value) {
+          emit('change', model.value)
+        }
+        changeBaseline = null
+      }
     }
 
     function getDragging() {
+      changeBaseline = model.value
       return rootRef.value.getBoundingClientRect()
     }
 
@@ -185,6 +197,10 @@ export default /*#__PURE__*/ createComponent({
       if (!keyCodes.includes(evt.keyCode)) return
 
       stopAndPrevent(evt)
+
+      if (changeBaseline === null) {
+        changeBaseline = model.value
+      }
 
       // HOME/END jump straight to the limits (never direction-reversed)
       if (evt.keyCode === 36 || evt.keyCode === 35) {

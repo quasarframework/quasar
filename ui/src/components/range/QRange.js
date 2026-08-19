@@ -77,6 +77,12 @@ export default /*#__PURE__*/ createComponent({
     const curMaxRatio = ref(0)
     const model = ref({ min: 0, max: 0 })
 
+    // "change" reports what an interaction actually changed: the values are
+    // snapshotted when the interaction starts (pointer via getDragging,
+    // keyboard on its first keydown) and compared at commit time, so an
+    // interaction that ends where it started stays silent
+    let changeBaseline = null
+
     // effective selection-width limits, capped to what the inner track
     // can hold; minRange wins over a smaller maxRange
     function getWidthLimits() {
@@ -359,10 +365,21 @@ export default /*#__PURE__*/ createComponent({
         emit('update:modelValue', { ...model.value })
       }
 
-      if (change) emit('change', { ...model.value })
+      if (change) {
+        if (
+          changeBaseline !== null &&
+          (changeBaseline.min !== model.value.min ||
+            changeBaseline.max !== model.value.max)
+        ) {
+          emit('change', { ...model.value })
+        }
+        changeBaseline = null
+      }
     }
 
     function getDragging(event) {
+      changeBaseline = { ...model.value }
+
       const { left, top, width, height } =
           rootRef.value.getBoundingClientRect(),
         sensitivity = props.dragOnlyRange
@@ -525,6 +542,10 @@ export default /*#__PURE__*/ createComponent({
       if (!keyCodes.includes(evt.keyCode)) return
 
       stopAndPrevent(evt)
+
+      if (changeBaseline === null) {
+        changeBaseline = { ...model.value }
+      }
 
       // HOME/END jump straight to the focused thumb's limits
       // (never direction-reversed)
