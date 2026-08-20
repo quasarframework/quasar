@@ -371,7 +371,14 @@ export default /*#__PURE__*/ createComponent({
 
       absoluteOffset = void 0
 
-      if (evt !== void 0 && (props.touchPosition || props.contextMenu)) {
+      // touch-position latches onto the coordinates of a deliberate
+      // click/tap; a hover-show's pointerenter only carries the point
+      // where the pointer happened to cross the target's edge
+      if (
+        !hoverShown &&
+        evt !== void 0 &&
+        (props.touchPosition || props.contextMenu)
+      ) {
         const pos = position(evt)
 
         if (pos.left !== void 0) {

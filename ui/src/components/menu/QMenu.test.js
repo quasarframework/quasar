@@ -733,6 +733,27 @@ describe('[QMenu API]', () => {
         expect(getMenu().style.top).toBe('301px')
         expect(getMenu().style.left).toBe('200px')
       })
+
+      test('is ignored by hover-triggered shows', async () => {
+        const wrapper = mountMenu({ touchPosition: true, hover: true })
+        setAnchorRect(wrapper)
+
+        // a pointerenter only carries the point where the pointer crossed
+        // the target's edge, so the menu keeps anchoring onto the target;
+        // the PointerEvent constructor is needed for the read-only coords
+        getAnchor(wrapper).element.dispatchEvent(
+          new PointerEvent('pointerenter', {
+            pointerType: 'mouse',
+            clientX: 130,
+            clientY: 110
+          })
+        )
+        await flushPromises()
+        await vi.runAllTimersAsync()
+
+        expect(getMenu().style.top).toBe('150px')
+        expect(getMenu().style.left).toBe('100px')
+      })
     })
 
     describe('[(prop)hover]', () => {

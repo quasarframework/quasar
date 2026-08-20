@@ -40,6 +40,10 @@ With the `hover` prop the menu also opens when the pointer hovers its target and
 
 Click/tap and keyboard interactions keep toggling the menu as usual, so touch devices (which have no hover) simply fall back to them; this also means that clicking the target (or activating it with <kbd>Enter</kbd>) while the menu is hover-shown closes it. A hover-opened menu does not move keyboard focus onto itself. Submenus work too: hovering from a menu into a submenu opened from it keeps the whole chain open.
 
+::: warning
+The `hover` and `context-menu` props are mutually exclusive; when both are set, `context-menu` takes precedence and `hover` has no effect. Also, hover-triggered opens ignore `touch-position`, which keeps applying to click/tap opens only.
+:::
+
 <DocExample title="Hover" file="Hover" />
 
 ### Submenus
@@ -54,7 +58,7 @@ Click/tap and keyboard interactions keep toggling the menu as usual, so touch de
 
 ### Context menu
 
-You can also set QMenu to act as a context menu. A right click on the parent target triggers it, and so does a long press on touch-capable devices.
+You can also set QMenu to act as a context menu. A right click on the parent target triggers it, and so does a long press on touch-capable devices. A context menu opens on those interactions only, so the `hover` prop has no effect on it.
 
 <DocExample title="Context Menu" file="ContextMenu" />
 
