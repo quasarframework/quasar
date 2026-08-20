@@ -14,12 +14,12 @@ Google Analytics does not provide an official Capacitor plugin. Choose an analyt
 
 ## Prerequisites
 
-- Make sure all your routes have a name and path parameter specified. Otherwise, they cannot be posted to the `ga.logPage` function. Please refer to [Page Routing with Vue Router](/quasar-cli-vite/page-routing-with-vue-router) for more info on routing.
-- Have Basic knowledge of Google Analytics
+- Give every route a `name`, so screen reports carry something more useful than a path. Refer to [Page Routing with Vue Router](/quasar-cli-vite/page-routing-with-vue-router) for more info on routing.
+- Have basic knowledge of [Google Analytics](https://analytics.google.com).
 
 ## Preparation
 
-Before we can start implementing Google Analytics into your application, you'll need an account for [Google Analytics](https://analytics.google.com) and [Google Tagmanager](https://tagmanager.google.com/). So let's do that first. When you have these accounts, it's time to configure Tag manager. Follow the steps in this [Multiminds article](https://www.multiminds.eu/blog/2016/12/google-analytics-and-tag-manager-with-ionic-and-cordova-apps/) to do so.
+Native Google Analytics runs through Firebase, so create a [Firebase](https://console.firebase.google.com/) project and enable Google Analytics on it. This gives you the GA4 property that the app reports into, plus the `google-services.json` (Android) and `GoogleService-Info.plist` (iOS) files that the plugin's installation guide asks you to add to each native project.
 
 ## Install an analytics plugin
 
