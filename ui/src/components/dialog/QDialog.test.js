@@ -50,7 +50,7 @@ async function triggerBackdropClick(localWrapper) {
   await localWrapper
     .findComponent({ name: 'QPortal' })
     .find('.q-dialog__backdrop')
-    .trigger('click')
+    .trigger('mousedown')
 }
 
 async function triggerEscKey(localWrapper) {
@@ -1123,6 +1123,39 @@ describe('[QDialog API]', () => {
 
       expect(root.classes()).toContain('my-class-b')
       expect(root.classes()).not.toContain('my-class-a')
+    })
+
+    test('ignores non-primary button presses on the backdrop', async () => {
+      wrapper = mount(QDialog)
+
+      wrapper.vm.show()
+      await flushPromises()
+
+      const portal = wrapper.findComponent({ name: 'QPortal' })
+
+      // MouseEvent.button is read-only, so trigger() cannot set it
+      const rightPress = () =>
+        portal
+          .get('.q-dialog__backdrop')
+          .element.dispatchEvent(
+            new MouseEvent('mousedown', { button: 2, bubbles: true })
+          )
+
+      rightPress()
+      await flushPromises()
+      await vi.runAllTimers()
+
+      expect(wrapper.findComponent({ name: 'QPortal' }).exists()).toBe(true)
+
+      await wrapper.setProps({ persistent: true })
+
+      rightPress()
+      await flushPromises()
+
+      expect(portal.get('.q-dialog__inner').classes()).not.toContain(
+        'q-animate--scale'
+      )
+      expect(wrapper.emitted()).not.toHaveProperty('shake')
     })
   })
 })

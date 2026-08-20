@@ -145,6 +145,7 @@
         <q-dialog v-model="dialog">
           <q-card class="q-pa-xl">
             <div class="q-gutter-md">
+              <div>some text</div>
               <q-btn label="Close Dialog" v-close-popup />
               <q-btn label="Open Dialog" @click="dialog2 = true" />
               <q-btn label="Menu" color="primary">

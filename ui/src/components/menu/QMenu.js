@@ -177,9 +177,11 @@ export default /*#__PURE__*/ createComponent({
           hide(e)
 
           if (
-            // always prevent touch event
+            // a dismissing tap must not click through to the element
+            // underneath (the mobile convention)
             e.type === 'touchstart' ||
-            // prevent click if it's on a dialog backdrop
+            // prevent a press on a dialog backdrop from also
+            // closing the dialog
             e.target.classList.contains('q-dialog__backdrop')
           ) {
             stopAndPrevent(e)

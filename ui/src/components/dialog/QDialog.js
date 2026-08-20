@@ -399,6 +399,10 @@ export default /*#__PURE__*/ createComponent({
     }
 
     function onBackdropClick(e) {
+      // only the primary button dismisses (matching the click event
+      // this used to rely on); a tap's compat mousedown reports button 0
+      if (e.button !== 0) return
+
       if (!props.persistent && !props.noBackdropDismiss) {
         hide(e)
       } else if (!props.noShake) {
@@ -461,7 +465,7 @@ export default /*#__PURE__*/ createComponent({
                     class: 'q-dialog__backdrop fixed-full',
                     style: backdropStyle.value,
                     'aria-hidden': 'true',
-                    onClick: onBackdropClick
+                    onMousedown: onBackdropClick
                   })
                 : null
           ),

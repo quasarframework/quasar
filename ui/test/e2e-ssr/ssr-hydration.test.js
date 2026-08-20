@@ -114,9 +114,9 @@ async function auditRoute(route) {
 // one test per route, concurrent up to the config's maxConcurrency —
 // granular reporting (and junit entries) at the same wall-clock cost
 // as a manual worker pool
-describe(`playground SSR hydration sweep (${routes.length} routes)`, () => {
+describe(`SSR hydration`, () => {
   for (const route of routes) {
-    test.concurrent(`${route} hydrates without console output`, async () => {
+    test.concurrent(`${route}`, async () => {
       attempts.set(route, (attempts.get(route) ?? 0) + 1)
 
       const messages = await auditRoute(route)

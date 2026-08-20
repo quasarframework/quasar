@@ -1275,6 +1275,78 @@ describe('[QMenu API]', () => {
       expect(getMenu()).toBeNull()
     })
 
+    test('dismissal swallows a tap but lets a mouse press through', async () => {
+      const wrapper = mountMenu()
+      await showMenu(wrapper)
+
+      const touchstart = new TouchEvent('touchstart', {
+        bubbles: true,
+        cancelable: true,
+        touches: [new Touch({ identifier: 1, target: document.body })]
+      })
+      document.body.dispatchEvent(touchstart)
+      await flushPromises()
+      await vi.runAllTimersAsync()
+
+      expect(getMenu()).toBeNull()
+      // the tap must not click through to the element underneath
+      expect(touchstart.defaultPrevented).toBe(true)
+
+      await showMenu(wrapper)
+
+      const mousedown = new MouseEvent('mousedown', {
+        bubbles: true,
+        cancelable: true
+      })
+      document.body.dispatchEvent(mousedown)
+      await flushPromises()
+      await vi.runAllTimersAsync()
+
+      expect(getMenu()).toBeNull()
+      // desktop convention: the dismissing press reaches the page
+      expect(mousedown.defaultPrevented).toBe(false)
+    })
+
+    test('a press on a dialog backdrop closes the menu, not the dialog', async () => {
+      activeWrapper = mount(
+        defineComponent({
+          setup() {
+            return () =>
+              h(QDialog, { modelValue: true }, () =>
+                h('div', { class: 'my-anchor', tabindex: 0 }, [
+                  h(QMenu, {}, () => 'Menu content')
+                ])
+              )
+          }
+        }),
+        { attachTo: document.body }
+      )
+
+      await flushPromises()
+      await vi.runAllTimersAsync()
+      await showMenu(activeWrapper)
+
+      const pressBackdrop = () =>
+        document
+          .querySelector('.q-dialog__backdrop')
+          .dispatchEvent(
+            new MouseEvent('mousedown', { bubbles: true, cancelable: true })
+          )
+
+      pressBackdrop()
+      await flushPromises()
+      await vi.runAllTimersAsync()
+
+      expect(getMenu()).toBeNull()
+      expect(document.querySelector('.q-dialog')).not.toBeNull()
+
+      pressBackdrop()
+      await flushPromises()
+      await vi.runAllTimersAsync()
+
+      expect(document.querySelector('.q-dialog')).toBeNull()
+    })
+
     test('follows its anchor through a fullscreen detach and back (issue #18513)', async () => {
       activeWrapper = mount(
         defineComponent({

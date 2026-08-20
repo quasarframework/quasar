@@ -33,9 +33,7 @@ function globalHandler(evt) {
     const name = proxy.type.name
 
     // skip QTooltip portals
-    if (name === 'QTooltip') {
-      continue
-    }
+    if (name === 'QTooltip') continue
 
     if (name === 'QDialog') {
       if (proxy.props.seamless !== true) {
@@ -96,26 +94,16 @@ export function addClickOutside(clickOutsideProps) {
 
 export function removeClickOutside(clickOutsideProps) {
   const index = registeredList.indexOf(clickOutsideProps)
+  if (index === -1) return
 
-  if (index !== -1) {
-    registeredList.splice(index, 1)
+  registeredList.splice(index, 1)
+  if (registeredList.length !== 0) return
 
-    if (registeredList.length === 0) {
-      if (timer !== null) {
-        clearTimeout(timer)
-        timer = null
-      }
-
-      document.removeEventListener(
-        'mousedown',
-        globalHandler,
-        notPassiveCapture
-      )
-      document.removeEventListener(
-        'touchstart',
-        globalHandler,
-        notPassiveCapture
-      )
-    }
+  if (timer !== null) {
+    clearTimeout(timer)
+    timer = null
   }
+
+  document.removeEventListener('mousedown', globalHandler, notPassiveCapture)
+  document.removeEventListener('touchstart', globalHandler, notPassiveCapture)
 }

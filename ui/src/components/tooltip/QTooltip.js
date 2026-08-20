@@ -27,18 +27,13 @@ import useId from '../../composables/use-id/use-id.js'
 
 import { createComponent } from '../../utils/private.create/create.js'
 import { getScrollTarget, scrollTargetProp } from '../../utils/scroll/scroll.js'
-import { addEvt, cleanEvt, stopAndPrevent } from '../../utils/event/event.js'
+import { addEvt, cleanEvt } from '../../utils/event/event.js'
 import {
   addEscapeKey,
   removeEscapeKey
 } from '../../utils/private.keyboard/escape-key.js'
-import { client } from '../../plugins/platform/Platform.js'
 import { clearSelection } from '../../utils/private.selection/selection.js'
 import { hSlot } from '../../utils/private.render/render.js'
-import {
-  addClickOutside,
-  removeClickOutside
-} from '../../utils/private.click-outside/click-outside.js'
 import {
   parsePosition,
   setPosition,
@@ -183,46 +178,6 @@ export default /*#__PURE__*/ createComponent({
       renderPortalContent,
       'tooltip'
     )
-
-    // on touch-capable devices, let's improve the experience
-    // by closing it when user taps outside of it;
-    // must be the non-reactive "client" (not $q.platform): this runs at
-    // setup time, when an SSR client hasn't taken over $q.platform yet
-    if (client.has.touch) {
-      const clickOutsideProps = {
-        anchorEl,
-        innerRef,
-        onClickOutside(e) {
-          hide(e)
-
-          // prevent click if it's on a dialog backdrop
-          if (e.target.classList.contains('q-dialog__backdrop')) {
-            stopAndPrevent(e)
-          }
-
-          return true
-        }
-      }
-
-      const hasClickOutside = computed(
-        () =>
-          // it doesn't has external model
-          // (null is the default value)
-          props.modelValue === null &&
-          // and it's not persistent
-          !props.persistent &&
-          showing.value
-      )
-
-      watch(hasClickOutside, val => {
-        const fn = val ? addClickOutside : removeClickOutside
-        fn(clickOutsideProps)
-      })
-
-      onBeforeUnmount(() => {
-        removeClickOutside(clickOutsideProps)
-      })
-    }
 
     // independent of the touch handling above: a hybrid device
     // (touchscreen laptop) needs both dismissal methods
