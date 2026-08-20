@@ -31,7 +31,7 @@ Keep an eye on your developer console for handy helpers on which components are 
 ## Usage
 
 ::: warning Using margin CSS will break the layout
-QLayout depends on taking up the whole screen and so QPageContainer, QHeader, QFooter and QLayoutDrawer positions are managed by it (through the `view` prop). You **cannot** use _CSS margins_ as a style neither on QLayout itself nor on any of the QLayout components mentioned above. However you can safely use _CSS padding_.
+QLayout depends on taking up the whole screen and so QPageContainer, QHeader, QFooter and QDrawer positions are managed by it (through the `view` prop). You **cannot** use _CSS margins_ as a style neither on QLayout itself nor on any of the QLayout components mentioned above. However you can safely use _CSS padding_.
 :::
 
 ::: tip

@@ -29,8 +29,22 @@ Scaffold your layout(s) by clicking on the button below.
 
 :::
 
-::: danger
-By default, QDrawer has touch actions attached to it. If this interferes with your drawer content components, disable it by specifying the Boolean `no-swipe-close` property.
+::: danger Touch gestures
+While the drawer is in its "mobile" behavior (the layout is below the drawer's `breakpoint`, or `behavior` is forced to "mobile"), QDrawer attaches three touch gestures, each with its own opt-out:
+
+- swiping the drawer content sideways to close it, disabled by `no-swipe-close`
+- swiping the backdrop to close it, disabled by `no-swipe-backdrop`
+- swiping in from that edge of the screen to open it, disabled by `no-swipe-open`
+
+Reach for `no-swipe-close` when your drawer holds components of your own that need to be swiped or panned. None of these gestures are attached while the drawer is in its "desktop" behavior, so setting these props there changes nothing.
+:::
+
+::: warning
+The swipe-to-open gesture is served by an invisible strip (`.q-drawer__opener`) which is 15px wide, spans the full height of that side of the screen and sits above your page content, so it captures the pointer events landing in that band. If you have something anchored to the same edge (a QPageSticky, for instance), disable the strip with `no-swipe-open`.
+:::
+
+::: warning
+While the drawer is shown in "mobile" behavior it locks the scrolling of the `<body>` element, the same way a modal does. Containerized [QLayouts](/layout/layout) are exempt, since they scroll their own container rather than the page.
 :::
 
 ::: warning
@@ -51,7 +65,7 @@ Consider using QItems with routing props (like `to`) below. For demoing purposes
 
 ### Mini-mode
 
-Drawer can operate in two modes: 'normal' and 'mini', and you can switch between them by using the Boolean `mini` property on QLayoutDrawer.
+Drawer can operate in two modes: 'normal' and 'mini', and you can switch between them by using the Boolean `mini` property on QDrawer.
 
 ::: warning
 Please note that **`mini` mode** does not apply when in **mobile** behavior.
@@ -64,7 +78,7 @@ There are some CSS classes that will help you customize the drawer when dealing 
 | `q-mini-drawer-hide` | Hide when drawer is in "mini" mode or in "mobile" mode. |
 | `q-mini-drawer-only` | Show only when drawer is in "mini" mode.                |
 
-You can also write your own CSS classes based on the fact that QLayoutDrawer has `q-drawer--standard` CSS class when in "normal" mode and `q-drawer--mini` when in "mini" mode. Also, when drawer is in "mobile" behavior, it gets `q-drawer--mobile` CSS class.
+You can also write your own CSS classes based on the fact that QDrawer has `q-drawer--standard` CSS class when in "normal" mode and `q-drawer--mini` when in "mini" mode. Also, when drawer is in "mobile" behavior, it gets `q-drawer--mobile` CSS class.
 
 #### Mouseover/mouseout trigger
 
@@ -88,7 +102,7 @@ Consider using QItems with routing props (like `to`) below. For demoing purposes
 
 #### Slots
 
-By default, when in "mini" mode, Quasar CSS hides a few DOM elements to provide a neat narrow drawer. But there may certainly be use-cases where you need a deep tweak. You can use the "mini" Vue slot of QLayoutDrawer just for that. The content of this slot will replace your drawer's default content when in "mini" mode.
+By default, when in "mini" mode, Quasar CSS hides a few DOM elements to provide a neat narrow drawer. But there may certainly be use-cases where you need a deep tweak. You can use the "mini" Vue slot of QDrawer just for that. The content of this slot will replace your drawer's default content when in "mini" mode.
 
 <DocExample title="Mini-mode with slot" file="MiniSlot" />
 
@@ -102,16 +116,16 @@ On the example below, click the menu icon to see the drawer in action. It's best
 
 ## Accessibility <q-badge label="v2.25+" />
 
-QDrawer renders its panel as a real `<aside>` element, so it is exposed to assistive technology as a complementary landmark of your [QLayout](/layout/layout#accessibility). The backdrop shown in its overlay states and the invisible swipe-opener strip along the screen edge are hidden from assistive technology — they are redundant, pointer-only affordances. A closed drawer leaves the Tab order and the accessibility tree entirely, so nothing invisible stays reachable.
+QDrawer renders its panel as a real `<aside>` element, so it is exposed to assistive technology as a complementary landmark of your [QLayout](/layout/layout#accessibility). The backdrop shown in its overlay states and the invisible swipe-opener strip along the screen edge are hidden from assistive technology, since they are redundant, pointer-only affordances. A closed drawer leaves the Tab order and the accessibility tree entirely, so nothing invisible stays reachable.
 
-A `role` or any `aria-*` attribute set on QDrawer is applied to the `<aside>` element itself, since that is the element assistive technology interacts with. Give it an `aria-label` (or `aria-labelledby`) so that multiple drawers can be told apart, or a `role` when complementary does not fit — one [allowed on `aside`](https://www.w3.org/TR/html-aria/#el-aside), like `region`, `search` or `none`. All other fall-through attributes keep targeting the inner scrolling element.
+A `role` or any `aria-*` attribute set on QDrawer is applied to the `<aside>` element itself, since that is the element assistive technology interacts with. Give it an `aria-label` (or `aria-labelledby`) so that multiple drawers can be told apart, or a `role` when complementary does not fit, one [allowed on `aside`](https://www.w3.org/TR/html-aria/#el-aside), like `region`, `search` or `none`. All other fall-through attributes keep targeting the inner scrolling element.
 
 ### Keyboard dismissal
 
-While the drawer is in a dismissible state (below its breakpoint or shown in overlay mode), hitting the <kbd>Escape</kbd> key closes it — the keyboard counterpart of the backdrop click and the swipe gesture. The `persistent` prop opts out of it, and an `escape-key` event is emitted whenever the key is handled.
+While the drawer is in a dismissible state (below its breakpoint or shown in overlay mode), hitting the <kbd>Escape</kbd> key closes it, the keyboard counterpart of the backdrop click and the swipe gesture. The `persistent` prop opts out of it, and an `escape-key` event is emitted whenever the key is handled.
 
 ### Your responsibilities
 
-Be aware that in its overlay states the drawer only looks modal — it does not trap or move keyboard focus, so the page behind the backdrop remains keyboard-reachable and readable by screen readers. If your use case calls for it, move focus into the drawer yourself when opening it. The toggle button is app-provided too, so it should manage its own `aria-expanded` state.
+Be aware that in its overlay states the drawer only looks modal: it does not trap or move keyboard focus, so the page behind the backdrop remains keyboard-reachable and readable by screen readers. If your use case calls for it, move focus into the drawer yourself when opening it. The toggle button is app-provided too, so it should manage its own `aria-expanded` state.
 
 When a drawer holds your primary navigation, wrap the menu inside it in a `<nav>` element (or add `role="navigation"`) and give it an `aria-label`, so it is announced as a navigation landmark distinct from the surrounding `aside`.
