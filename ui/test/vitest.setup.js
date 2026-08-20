@@ -1,5 +1,6 @@
 import { config } from '@vue/test-utils'
 import { afterEach, expect } from 'vitest'
+import { cdp } from 'vitest/browser'
 
 import { removeMountContainers } from './runtime/test-utils.js'
 
@@ -9,6 +10,19 @@ import '@quasar/extras/material-icons/material-icons.css'
 import 'quasar/src/css/index.sass'
 
 import quasarVuePlugin from 'quasar/src/vue-plugin.js'
+
+// headless Chromium's stationary cursor sits at (0,0) and the browser
+// re-dispatches real boundary pointer events there whenever the layout
+// under it changes, at browser-internal (real-)time points that fake
+// timers cannot control; a component mounted at the viewport origin then
+// receives a pointerenter no test triggered (seen on slower CI runners:
+// it cancelled QMenu's hover-hide timer). Park the cursor at the bottom
+// right, over nothing, before any test mounts.
+await cdp().send('Input.dispatchMouseEvent', {
+  type: 'mouseMoved',
+  x: 1275,
+  y: 795
+})
 
 const originalConsoleError = console.error
 console.error = (...args) => {
