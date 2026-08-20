@@ -1033,20 +1033,37 @@ describe('[QSlider API]', () => {
       await nextTick()
       await trackContainer.trigger('click', { clientX: 30 })
 
-      // every emission lands the same tapped value (the controlled prop
-      // never updates in this harness, so each handler re-emits it),
-      // and change fires exactly once for the whole sequence
-      wrapper.emitted('update:modelValue').forEach(payload => {
-        expect(payload).toStrictEqual([30])
-      })
+      // the controlled prop never updates in this harness, yet the whole
+      // sequence must hand the tapped value over exactly once: the
+      // release and the compatibility click bring no new information
+      expect(wrapper.emitted('update:modelValue')).toStrictEqual([[30]])
       expect(wrapper.emitted('change')).toStrictEqual([[30]])
 
       // a bare click (assistive tech, or a tap whose compatibility
       // mousedown was skipped) still sets the value on its own
       await trackContainer.trigger('click', { clientX: 70 })
 
-      expect(wrapper.emitted('update:modelValue').at(-1)).toStrictEqual([70])
+      expect(wrapper.emitted('update:modelValue')).toStrictEqual([[30], [70]])
       expect(wrapper.emitted('change')).toStrictEqual([[30], [70]])
+    })
+
+    test('a model move by the parent re-arms the emission', async () => {
+      const wrapper = mountSlider({ modelValue: 10 })
+      giveSliderSize(wrapper)
+      const trackContainer = getTrackContainer(wrapper)
+
+      await trackContainer.trigger('click', { clientX: 30 })
+      expect(wrapper.emitted('update:modelValue')).toStrictEqual([[30]])
+
+      // the parent rejected the value (the prop stayed put), so tapping
+      // the same spot again tells it nothing new
+      await trackContainer.trigger('click', { clientX: 30 })
+      expect(wrapper.emitted('update:modelValue')).toStrictEqual([[30]])
+
+      // once the parent moves the model anywhere, the same spot emits again
+      await wrapper.setProps({ modelValue: 50 })
+      await trackContainer.trigger('click', { clientX: 30 })
+      expect(wrapper.emitted('update:modelValue')).toStrictEqual([[30], [30]])
     })
 
     test('a fractional step keeps the emitted value float-exact', async () => {

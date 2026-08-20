@@ -83,6 +83,10 @@ export default /*#__PURE__*/ createComponent({
     // interaction that ends where it started stays silent
     let changeBaseline = null
 
+    // dedups re-emissions towards a parent that does not sync the model
+    // prop back; see QSlider's emittedValue
+    let emittedValue = null
+
     // effective selection-width limits, capped to what the inner track
     // can hold; minRange wins over a smaller maxRange
     function getWidthLimits() {
@@ -114,6 +118,8 @@ export default /*#__PURE__*/ createComponent({
     }
 
     function normalizeModel() {
+      emittedValue = null
+
       let min =
         modelProp.value.min === null
           ? state.innerMin.value
@@ -355,9 +361,13 @@ export default /*#__PURE__*/ createComponent({
 
     function updateValue(change) {
       if (
-        model.value.min !== modelProp.value.min ||
-        model.value.max !== modelProp.value.max
+        (model.value.min !== modelProp.value.min ||
+          model.value.max !== modelProp.value.max) &&
+        (emittedValue === null ||
+          model.value.min !== emittedValue.min ||
+          model.value.max !== emittedValue.max)
       ) {
+        emittedValue = { min: model.value.min, max: model.value.max }
         emit('update:modelValue', { ...model.value })
       }
 

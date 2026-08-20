@@ -60,7 +60,14 @@ export default /*#__PURE__*/ createComponent({
     // interaction that ends where it started stays silent
     let changeBaseline = null
 
+    // the last value handed to the listener while the model prop has not
+    // moved: a tap funnels through updateValue up to three times (its
+    // press, its release and its compatibility click), and a parent that
+    // does not sync the prop back must still hear each value only once
+    let emittedValue = null
+
     function normalizeModel() {
+      emittedValue = null
       model.value =
         props.modelValue === null
           ? state.innerMin.value
@@ -166,7 +173,8 @@ export default /*#__PURE__*/ createComponent({
     }))
 
     function updateValue(change) {
-      if (model.value !== props.modelValue) {
+      if (model.value !== props.modelValue && model.value !== emittedValue) {
+        emittedValue = model.value
         emit('update:modelValue', model.value)
       }
 

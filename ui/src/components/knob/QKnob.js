@@ -71,7 +71,12 @@ export default /*#__PURE__*/ createComponent({
 
     let centerPosition
 
+    // dedups re-emissions towards a parent that does not sync the model
+    // prop back; see QSlider's emittedValue
+    let emittedValue = null
+
     function normalizeModel() {
+      emittedValue = null
       model.value =
         props.modelValue === null
           ? innerMin.value
@@ -243,7 +248,8 @@ export default /*#__PURE__*/ createComponent({
     }
 
     function updateValue(change) {
-      if (props.modelValue !== model.value) {
+      if (props.modelValue !== model.value && model.value !== emittedValue) {
+        emittedValue = model.value
         emit('update:modelValue', model.value)
       }
 

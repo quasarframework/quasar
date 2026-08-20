@@ -305,6 +305,24 @@ describe('[QKnob API]', () => {
     })
   })
 
+  describe('[Generic]', () => {
+    test('a tap converges through its compatibility mouse events', async () => {
+      const wrapper = mountKnob()
+
+      // the full sequence a touch tap fires; the controlled prop never
+      // updates in this harness, yet the value must be handed over once
+      const pos = { clientX: 10, clientY: 0 }
+      await wrapper.trigger('mousedown', pos)
+      await wrapper.trigger('click', pos)
+
+      const updates = wrapper.emitted('update:modelValue')
+      expect(updates).toHaveLength(1)
+      // .at(-1): mounting a QKnob already emits one change (normalizeModel
+      // runs updateValue at setup), which is not this test's subject
+      expect(wrapper.emitted('change').at(-1)).toStrictEqual(updates[0])
+    })
+  })
+
   describe('[Accessibility]', () => {
     test('a fall-through name lands on the slider element itself', () => {
       // QKnob has no built-in name, so the only way to say what the value

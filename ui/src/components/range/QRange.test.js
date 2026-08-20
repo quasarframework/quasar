@@ -1370,6 +1370,23 @@ describe('[QRange API]', () => {
   })
 
   describe('[Generic]', () => {
+    test('a tap converges through its compatibility mouse events', async () => {
+      const wrapper = mountRange({ modelValue: { min: 0, max: 100 } })
+      giveRangeSize(wrapper)
+      const trackContainer = getTrackContainer(wrapper)
+
+      // the full sequence a touch tap fires; the controlled prop never
+      // updates in this harness, yet the value must be handed over once
+      await trackContainer.trigger('mousedown', { clientX: 30 })
+      document.dispatchEvent(new MouseEvent('mouseup'))
+      await nextTick()
+      await trackContainer.trigger('click', { clientX: 30 })
+
+      expect(wrapper.emitted('update:modelValue')).toStrictEqual([
+        [{ min: 30, max: 100 }]
+      ])
+    })
+
     test('dragging a thumb across the other one swaps their roles', async () => {
       const wrapper = mountRange()
 
