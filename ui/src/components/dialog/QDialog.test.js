@@ -46,7 +46,7 @@ afterEach(() => {
   vi.restoreAllMocks()
 })
 
-async function triggerBackdropClick(localWrapper) {
+async function triggerBackdropPress(localWrapper) {
   await localWrapper
     .findComponent({ name: 'QPortal' })
     .find('.q-dialog__backdrop')
@@ -169,7 +169,7 @@ describe('[QDialog API]', () => {
 
     describe('[(prop)persistent]', () => {
       test.each([
-        ['Backdrop click', triggerBackdropClick],
+        ['Backdrop press', triggerBackdropPress],
         ['ESC key', triggerEscKey]
       ])('handles %s correctly', async (_, trigger) => {
         wrapper = mount(QDialog, {
@@ -247,7 +247,7 @@ describe('[QDialog API]', () => {
         wrapper.vm.show()
         await flushPromises()
 
-        await triggerBackdropClick(wrapper)
+        await triggerBackdropPress(wrapper)
 
         await flushPromises()
         await vi.runAllTimers()
@@ -260,7 +260,7 @@ describe('[QDialog API]', () => {
         await flushPromises()
         await vi.runAllTimers()
 
-        await triggerBackdropClick(wrapper)
+        await triggerBackdropPress(wrapper)
 
         await flushPromises()
         await vi.runAllTimers()
@@ -654,7 +654,7 @@ describe('[QDialog API]', () => {
         await flushPromises()
         await vi.runAllTimers()
 
-        await triggerBackdropClick(wrapper)
+        await triggerBackdropPress(wrapper)
 
         await flushPromises()
 
@@ -668,7 +668,7 @@ describe('[QDialog API]', () => {
         await wrapper.setProps({ noShake: false })
         await flushPromises()
 
-        await triggerBackdropClick(wrapper)
+        await triggerBackdropPress(wrapper)
 
         expect(
           wrapper
