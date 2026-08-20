@@ -38,7 +38,7 @@ If you want to conditionally activate or de-activate a QMenu, please use `v-if` 
 
 With the `hover` prop the menu also opens when the pointer hovers its target and closes once the pointer has left both the target and the menu. The `hover-hide-delay` prop controls the grace period in which the pointer can travel between the two (or return) before the menu closes, while `hover-delay` postpones the opening.
 
-Click/tap and keyboard interactions keep working as usual, so touch devices (which have no hover) simply fall back to them. A hover-opened menu does not move keyboard focus onto itself; clicking the target (or activating it with <kbd>Enter</kbd>) while the menu is hover-shown switches it to a regular focused open instead of closing it. Submenus work too: hovering from a menu into a submenu opened from it keeps the whole chain open.
+Click/tap and keyboard interactions keep toggling the menu as usual, so touch devices (which have no hover) simply fall back to them; this also means that clicking the target (or activating it with <kbd>Enter</kbd>) while the menu is hover-shown closes it. A hover-opened menu does not move keyboard focus onto itself. Submenus work too: hovering from a menu into a submenu opened from it keeps the whole chain open.
 
 <DocExample title="Hover" file="Hover" />
 

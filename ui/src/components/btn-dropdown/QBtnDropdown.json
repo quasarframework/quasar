@@ -76,7 +76,7 @@
 
     "hover": {
       "type": "Boolean",
-      "desc": "Also opens the dropdown when the pointer hovers the button (in split mode: either one of the two buttons) and closes it when the pointer leaves both the button and the menu; Click/tap and keyboard interactions keep working (touch devices fall back to them): activating the button while hover-shown switches the dropdown to a regular focused open instead of closing it; A hover-opened dropdown does not switch focus on itself",
+      "desc": "Also opens the dropdown when the pointer hovers the button (in split mode: either one of the two buttons) and closes it when the pointer leaves both the button and the menu; Click/tap and keyboard interactions keep toggling as usual (touch devices fall back to them), so activating the toggle while hover-shown closes the dropdown; A hover-opened dropdown does not switch focus on itself",
       "category": "behavior",
       "addedIn": "v2.26"
     },

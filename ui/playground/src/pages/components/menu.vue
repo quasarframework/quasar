@@ -31,8 +31,59 @@
           </q-menu>
         </q-btn>
 
+        <q-btn color="primary" label="Persistent + Hover">
+          <q-menu
+            hover
+            v-model="toggle"
+            ref="popover1"
+            persistent
+            transition-show="jump-down"
+            @show="log('@show popover1 persistent')"
+            @hide="log('@hide popover1 persistent')"
+          >
+            <input v-model="gigi" />
+            <q-list padding style="min-width: 100px">
+              <q-item
+                v-for="n in 20"
+                :key="n"
+                clickable
+                v-close-popup
+                @click="showNotify()"
+              >
+                <q-item-section>Label</q-item-section>
+              </q-item>
+            </q-list>
+          </q-menu>
+        </q-btn>
+
         <q-btn color="primary" label="Decoupled">
           <q-menu
+            :model-value="toggle"
+            ref="popover11"
+            persistent
+            transition-show="jump-up"
+            anchor="top right"
+            @show="log('@show popover11 decoupled')"
+            @hide="log('@hide popover11 decoupled')"
+          >
+            <input v-model="gigi" />
+            <q-list padding style="min-width: 100px">
+              <q-item
+                v-for="n in 20"
+                :key="n"
+                clickable
+                v-close-popup
+                @click="showNotify()"
+              >
+                <q-item-section>Label</q-item-section>
+              </q-item>
+            </q-list>
+          </q-menu>
+        </q-btn>
+
+        <q-btn color="primary" label="Decoupled hover">
+          <q-menu
+            hover
             :model-value="toggle"
             ref="popover11"
             persistent
@@ -210,7 +261,7 @@
         <q-dialog v-model="dialog2">
           <q-card class="q-pa-xl">
             <div class="q-gutter-md">
-              <q-btn label="Close Dialog" v-close-popup />
+              <q-btn label="Close Dialog 2" v-close-popup />
               <q-btn label="Menu" color="primary">
                 <q-menu>
                   <q-list>
@@ -223,6 +274,37 @@
                         <q-icon name="keyboard_arrow_right" />
                       </q-item-section>
                       <q-menu anchor="top right" self="top left">
+                        <q-list>
+                          <q-item
+                            v-for="n in 5"
+                            :key="n"
+                            v-close-popup
+                            clickable
+                          >
+                            <q-item-section>Menu Item {{ n }}</q-item-section>
+                          </q-item>
+                          <q-item clickable v-close-popup="2">
+                            <q-item-section>Close dialog</q-item-section>
+                          </q-item>
+                        </q-list>
+                      </q-menu>
+                    </q-item>
+                  </q-list>
+                </q-menu>
+              </q-btn>
+
+              <q-btn label="Menu Hover" color="primary">
+                <q-menu hover>
+                  <q-list>
+                    <q-item v-for="n in 5" :key="n" v-close-popup clickable>
+                      <q-item-section>Menu Item {{ n }}</q-item-section>
+                    </q-item>
+                    <q-item clickable>
+                      <q-item-section>Submenu Label</q-item-section>
+                      <q-item-section side>
+                        <q-icon name="keyboard_arrow_right" />
+                      </q-item-section>
+                      <q-menu hover anchor="top right" self="top left">
                         <q-list>
                           <q-item
                             v-for="n in 5"
@@ -474,13 +556,18 @@
             <div class="q-gutter-sm">
               <q-toggle label="touch-position" v-model="touchPosition" />
               <q-toggle label="context-menu" v-model="contextMenu" />
+              <q-toggle label="hover" v-model="hover" />
             </div>
           </q-card-section>
           <q-img
             src="https://cdn.quasar.dev/img/material.png"
             style="height: 100px"
           >
-            <q-menu :touch-position="touchPosition" :context-menu="contextMenu">
+            <q-menu
+              :hover="hover"
+              :touch-position="touchPosition"
+              :context-menu="contextMenu"
+            >
               <q-list>
                 <q-item
                   v-for="n in 5"
@@ -500,6 +587,7 @@
             style="height: 100px"
           >
             <q-menu
+              :hover="hover"
               :touch-position="touchPosition"
               :context-menu="contextMenu"
               :offset="[24, 24]"
@@ -524,6 +612,7 @@
           >
             <q-menu
               v-model="menuModelTouch"
+              :hover="hover"
               :touch-position="touchPosition"
               :context-menu="contextMenu"
             >
@@ -815,7 +904,7 @@
 
 <script setup>
 import { useQuasar } from 'quasar'
-import { computed, ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 
 const $q = useQuasar()
 
@@ -829,16 +918,10 @@ for (let i = 0; i < 26 * 30; i += 1) {
 const gigi = ref('')
 const fit = ref(false)
 const cover = ref(false)
-const toggle = ref(true)
+const toggle = ref(false)
 const anchorOrigin = ref({ vertical: 'bottom', horizontal: 'left' })
 const selfOrigin = ref({ vertical: 'top', horizontal: 'left' })
-const terms = ref('')
-const modelDate = ref(null)
-const model = ref(30)
 const menuModelTouch = ref(false)
-const min = ref(0)
-const max = ref(50)
-const list = ref(initialList)
 
 const selectModelS = ref(null)
 const selectModelM = ref(null)
@@ -847,7 +930,19 @@ const selectOptions = ref(initialList)
 const vIfTest = ref(true)
 const touchPosition = ref(true)
 const contextMenu = ref(true)
+const hover = ref(false)
 const targetEl = ref('#target-img-1')
+
+watch(hover, val => {
+  if (val) {
+    contextMenu.value = false
+  }
+})
+watch(contextMenu, val => {
+  if (val) {
+    hover.value = false
+  }
+})
 
 const dialog = ref(false)
 const dialog2 = ref(false)

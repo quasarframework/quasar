@@ -173,31 +173,6 @@ export default /*#__PURE__*/ createComponent({
     // referenced by name when useAnchor wires the anchor's hover events
     Object.assign(anchorEvents, { hoverShow, hoverHide })
 
-    // on real hardware the pointer always hovers the anchor before it can
-    // click it, so with "hover" on, a plain toggle would only ever close
-    // the just-hover-shown menu; an explicit activation upgrades it to a
-    // regular focused open instead
-    const anchorToggle = anchorEvents.toggle
-    anchorEvents.toggle = evt => {
-      if (hoverShown && showing.value) {
-        hoverShown = false
-        clearHoverTimer()
-        refocusTarget = props.noRefocus ? null : document.activeElement
-
-        if (!props.noFocus) {
-          // the anchor's own press cycle (e.g. QBtn's focus-helper dance)
-          // must fully settle before focus can move into the menu
-          nextTick(() => {
-            if (showing.value) focus()
-          })
-        }
-
-        evt.qAnchorHandled = true
-      } else {
-        anchorToggle(evt)
-      }
-    }
-
     const { show, hide } = useModelToggle({
       showing,
       canShow,

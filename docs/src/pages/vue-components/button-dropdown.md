@@ -28,7 +28,7 @@ In case you are looking for a dropdown "input" instead of "button" use [Select](
 
 ### Hover <q-badge label="v2.26+" />
 
-The `hover` prop also opens the dropdown when the pointer hovers the button (in `split` mode: either one of the two buttons) and closes it once the pointer has left both the button and the menu. Click/tap and keyboard interactions keep working as usual, so touch devices (which have no hover) simply fall back to them; a hover-opened dropdown does not move keyboard focus onto itself, and clicking the button while it is hover-shown switches it to a regular focused open instead of closing it. The `hover-delay` and `hover-hide-delay` props tune the timings (see [QMenu's Hover section](/vue-components/menu#hover)).
+The `hover` prop also opens the dropdown when the pointer hovers the button (in `split` mode: either one of the two buttons) and closes it once the pointer has left both the button and the menu. Click/tap and keyboard interactions keep toggling the dropdown as usual, so touch devices (which have no hover) simply fall back to them; this also means that clicking the toggle while the dropdown is hover-shown closes it. A hover-opened dropdown does not move keyboard focus onto itself. The `hover-delay` and `hover-hide-delay` props tune the timings (see [QMenu's Hover section](/vue-components/menu#hover)).
 
 <DocExample title="Hover" file="Hover" />
 

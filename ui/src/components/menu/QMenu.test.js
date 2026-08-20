@@ -814,7 +814,7 @@ describe('[QMenu API]', () => {
         }
       })
 
-      test('activating the anchor upgrades a hover-shown menu', async () => {
+      test('activating the anchor closes a hover-shown menu', async () => {
         const wrapper = mountMenu({ hover: true })
 
         await getAnchor(wrapper).trigger('pointerenter', {
@@ -822,14 +822,6 @@ describe('[QMenu API]', () => {
         })
         await vi.runAllTimersAsync()
         expect(getMenu()).not.toBeNull()
-
-        // a click cannot happen without hovering first, so it must not
-        // toggle the hover-shown menu away; it hands it focus instead
-        await getAnchor(wrapper).trigger('click')
-        await vi.runAllTimersAsync()
-
-        expect(getMenu()).not.toBeNull()
-        expect(getMenu().contains(document.activeElement)).toBe(true)
 
         await getAnchor(wrapper).trigger('click')
         await vi.runAllTimersAsync()
