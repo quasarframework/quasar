@@ -7,7 +7,7 @@ related:
   - /vue-components/menu
 ---
 
-The QTooltip component is to be used when you want to offer the user more information about a certain area in your App. When hovering the mouse over the target element (or touching and holding on touch-capable devices), the tooltip will appear.
+The QTooltip component is to be used when you want to offer the user more information about a certain area in your App. When hovering the mouse over the target element (or touching and holding on touch-capable devices), the tooltip will appear. A stylus behaves like a mouse while hovering and like touch while pressed to the screen.
 
 <DocApi file="QTooltip" />
 

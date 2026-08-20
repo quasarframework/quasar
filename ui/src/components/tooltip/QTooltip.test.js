@@ -674,6 +674,120 @@ describe('[QTooltip API]', () => {
 
       expect(getTooltip()).toBeNull()
     })
+
+    test('treats a pressed stylus like touch, a hovering one like a mouse', async () => {
+      const wrapper = mountTooltip()
+      const anchor = getAnchor(wrapper)
+
+      // the PointerEvent constructor is needed for a real read-only
+      // "buttons" value; test-utils' trigger cannot assign it
+      function penEvent(type, buttons) {
+        return new PointerEvent(type, {
+          pointerType: 'pen',
+          isPrimary: true,
+          buttons
+        })
+      }
+
+      // a hovering pen (buttons 0) behaves like mouse hover
+      anchor.element.dispatchEvent(penEvent('pointerenter', 0))
+      await vi.runAllTimersAsync()
+
+      expect(getTooltip()).not.toBeNull()
+      expect(document.body.classList.contains('non-selectable')).toBe(false)
+
+      anchor.element.dispatchEvent(penEvent('pointerleave', 0))
+      await vi.runAllTimersAsync()
+
+      expect(getTooltip()).toBeNull()
+
+      // a pen pressed to the screen (buttons 1) starts native selection
+      // when held, so it gets the full touch UX
+      anchor.element.dispatchEvent(penEvent('pointerenter', 1))
+      await vi.runAllTimersAsync()
+
+      expect(getTooltip()).not.toBeNull()
+      expect(document.body.classList.contains('non-selectable')).toBe(true)
+
+      // lifting the pen fires a click ending the contact, but the pen is
+      // still hovering the anchor, so the tooltip stays like for a mouse
+      await anchor.trigger('click')
+      await vi.runAllTimersAsync()
+
+      expect(getTooltip()).not.toBeNull()
+      expect(document.body.classList.contains('non-selectable')).toBe(false)
+
+      anchor.element.dispatchEvent(penEvent('pointerleave', 0))
+      await vi.runAllTimersAsync()
+
+      expect(getTooltip()).toBeNull()
+    })
+
+    test('ignores focus moving within the anchor', async () => {
+      const wrapper = mountTooltip()
+      const anchor = getAnchor(wrapper)
+      const inner = document.createElement('span')
+      anchor.element.append(inner)
+
+      await showTooltip(wrapper)
+
+      // QBtn (for one) shuffles focus to an internal helper after every
+      // press: not a blur, so the tooltip must survive it
+      anchor.element.dispatchEvent(
+        new FocusEvent('focusout', { relatedTarget: inner })
+      )
+      await vi.runAllTimersAsync()
+
+      expect(getTooltip()).not.toBeNull()
+
+      // focus truly leaving the anchor still hides it
+      anchor.element.dispatchEvent(
+        new FocusEvent('focusout', { relatedTarget: document.body })
+      )
+      await vi.runAllTimersAsync()
+
+      expect(getTooltip()).toBeNull()
+    })
+
+    test('upgrades a hovering stylus to the touch UX when it presses', async () => {
+      const wrapper = mountTooltip()
+      const anchor = getAnchor(wrapper)
+
+      function penEvent(type, buttons) {
+        return new PointerEvent(type, {
+          pointerType: 'pen',
+          isPrimary: true,
+          buttons
+        })
+      }
+
+      // hover shows it without the touch UX...
+      anchor.element.dispatchEvent(penEvent('pointerenter', 0))
+      await vi.runAllTimersAsync()
+
+      expect(getTooltip()).not.toBeNull()
+      expect(document.body.classList.contains('non-selectable')).toBe(false)
+
+      // ...then pressing without leaving (so no new pointerenter can
+      // fire) engages it mid-flight
+      anchor.element.dispatchEvent(penEvent('pointerdown', 1))
+      await vi.runAllTimersAsync()
+
+      expect(getTooltip()).not.toBeNull()
+      expect(document.body.classList.contains('non-selectable')).toBe(true)
+
+      // the lift ends the contact and hover semantics take over again
+      await anchor.trigger('click')
+      await vi.runAllTimersAsync()
+
+      expect(getTooltip()).not.toBeNull()
+      expect(document.body.classList.contains('non-selectable')).toBe(false)
+
+      anchor.element.dispatchEvent(penEvent('pointerleave', 0))
+      await vi.runAllTimersAsync()
+
+      expect(getTooltip()).toBeNull()
+    })
   })
 
   describe('[Accessibility]', () => {

@@ -49,6 +49,16 @@ import {
 
 let nonSelectableCount = 0
 
+// a finger, or a stylus pressed to the screen (buttons is 0 while it
+// merely hovers): both start native text selection when held, unlike
+// a hovering pointer, so both need the touch UX
+function isContactPointer(evt) {
+  return (
+    evt.pointerType === 'touch' ||
+    (evt.pointerType === 'pen' && evt.buttons !== 0)
+  )
+}
+
 export default /*#__PURE__*/ createComponent({
   name: 'QTooltip',
 
@@ -116,9 +126,10 @@ export default /*#__PURE__*/ createComponent({
       observer,
       removeNonSelectableTimer,
       hasNonSelectable = false,
-      // the currently developing show was initiated by a touch interaction
-      // (the hide can arrive through events that can't tell us themselves)
-      touchInteraction = false,
+      // the pointerType of the contact interaction (touch or a pressed
+      // stylus) driving the current show, if any; the hide side needs it
+      // because its events can't tell us themselves
+      contactType = null,
       describedBy
 
     const vm = getCurrentInstance()
@@ -159,7 +170,12 @@ export default /*#__PURE__*/ createComponent({
       processOnMount: true
     })
 
-    Object.assign(anchorEvents, { delayShow, delayHide, onFocusin })
+    Object.assign(anchorEvents, {
+      delayShow,
+      delayHide,
+      onFocusin,
+      onPointerdown
+    })
 
     const { showPortal, hidePortal, renderPortal } = usePortal(
       vm,
@@ -314,7 +330,7 @@ export default /*#__PURE__*/ createComponent({
 
       unconfigureScrollTarget()
       removeEscapeKey(onEscapeKey)
-      touchInteraction = false
+      contactType = null
       cleanEvt(anchorEvents, 'tooltipTemp')
       removeAriaDescription()
       setNonSelectable(false)
@@ -339,23 +355,8 @@ export default /*#__PURE__*/ createComponent({
       // break tooltips for everyone dispatching them (tests included)
       if (evt.pointerType === 'touch' && evt.isPrimary === false) return
 
-      if (evt.pointerType === 'touch') {
-        touchInteraction = true
-
-        if (removeNonSelectableTimer !== void 0) {
-          clearTimeout(removeNonSelectableTimer)
-          removeNonSelectableTimer = void 0
-        }
-
-        clearSelection()
-        setNonSelectable(true)
-
-        const target = anchorEl.value
-        const evts = ['touchmove', 'touchcancel', 'touchend', 'click'].map(
-          e => [target, e, 'delayHide', 'passiveCapture']
-        )
-
-        addEvt(anchorEvents, 'tooltipTemp', evts)
+      if (isContactPointer(evt)) {
+        engageContact(evt)
       }
 
       registerTimeout(() => {
@@ -363,11 +364,58 @@ export default /*#__PURE__*/ createComponent({
       }, props.delay)
     }
 
+    function engageContact(evt) {
+      contactType = evt.pointerType
+
+      if (removeNonSelectableTimer !== void 0) {
+        clearTimeout(removeNonSelectableTimer)
+        removeNonSelectableTimer = void 0
+      }
+
+      clearSelection()
+      setNonSelectable(true)
+
+      const target = anchorEl.value
+      const evts = ['touchmove', 'touchcancel', 'touchend', 'click'].map(e => [
+        target,
+        e,
+        'delayHide',
+        'passiveCapture'
+      ])
+
+      addEvt(anchorEvents, 'tooltipTemp', evts)
+    }
+
+    function onPointerdown(evt) {
+      // a stylus that was already hovering (which showed the tooltip
+      // through the hover path, so no pointerenter fires anymore) gets
+      // upgraded to the touch UX when it presses down; touch is engaged
+      // by its own pointerenter and a mouse press needs no contact UX
+      if (evt.pointerType === 'pen' && contactType === null) {
+        engageContact(evt)
+      }
+    }
+
     function delayHide(evt) {
       if (evt.pointerType === 'touch' && evt.isPrimary === false) return
 
-      if (touchInteraction) {
-        touchInteraction = false
+      // focus moving WITHIN the anchor is not a blur; QBtn for one
+      // shuffles focus to an internal helper after every press, which
+      // must neither hide the tooltip nor end a contact interaction
+      if (
+        evt.type === 'focusout' &&
+        anchorEl.value !== null &&
+        anchorEl.value.contains(evt.relatedTarget)
+      ) {
+        return
+      }
+
+      if (contactType !== null) {
+        const liftedPen =
+          contactType === 'pen' &&
+          (evt.type === 'click' || evt.type === 'touchend')
+
+        contactType = null
         cleanEvt(anchorEvents, 'tooltipTemp')
         clearSelection()
         // delay needed otherwise selection still occurs
@@ -375,6 +423,11 @@ export default /*#__PURE__*/ createComponent({
           removeNonSelectableTimer = void 0
           setNonSelectable(false)
         }, 10)
+
+        // a lifted stylus keeps hovering the anchor, so the tooltip stays
+        // shown like it would for a mouse; pointerleave closes it later
+        // (or right away, on a pen that leaves the digitizer range)
+        if (liftedPen) return
       }
 
       // should removeTimeout() if this gets removed
@@ -412,6 +465,7 @@ export default /*#__PURE__*/ createComponent({
       // no synthetic mouse event dedup needed since we never listen to them
       const evts = [
         [anchorEl.value, 'pointerenter', 'delayShow', 'passive'],
+        [anchorEl.value, 'pointerdown', 'onPointerdown', 'passive'],
         [anchorEl.value, 'pointerleave', 'delayHide', 'passive'],
         [anchorEl.value, 'focusin', 'onFocusin', 'passive'],
         [anchorEl.value, 'focusout', 'delayHide', 'passive']
