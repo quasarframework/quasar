@@ -274,6 +274,58 @@
       />
     </div>
 
+    <!-- S21/S22: QTooltip per-interaction pointer wiring + pen lifecycle -->
+    <div class="fixture">
+      <q-btn class="s21-anchor" dense label="S21">
+        <q-tooltip ref="s21tt">S21 tooltip</q-tooltip>
+      </q-btn>
+      <q-btn class="s22-anchor" dense label="S22">
+        <q-tooltip ref="s22tt">S22 tooltip</q-tooltip>
+      </q-btn>
+    </div>
+
+    <!-- S23: context menu served by capability-neutral wiring -->
+    <div class="fixture">
+      <div class="s23-target" style="width: 220px; height: 48px">
+        S23 context area
+        <q-menu ref="s23menu" context-menu>
+          <div class="q-pa-sm">S23 menu</div>
+        </q-menu>
+      </div>
+    </div>
+
+    <!-- S24: a press on the dialog backdrop dismisses only the top popup -->
+    <q-dialog v-model="s24dlg">
+      <div class="bg-white q-pa-md">
+        <q-btn class="s24-anchor" dense label="S24">
+          <q-menu ref="s24menu">
+            <div class="q-pa-sm">S24 menu</div>
+          </q-menu>
+        </q-btn>
+      </div>
+    </q-dialog>
+
+    <!-- S25: slider tap compatibility burst + keyboard on every platform -->
+    <div class="fixture s25-wrap">
+      <q-slider
+        v-model="s25val"
+        :min="0"
+        :max="10"
+        :step="1"
+        style="width: 200px"
+        @update:model-value="s25onUpdate"
+        @change="s25onChange"
+      />
+    </div>
+
+    <!-- S26: TouchHold/TouchRepeat selection suppression per interaction -->
+    <div class="fixture">
+      <div v-touch-hold:400.mouse="s26onHold" class="s26-hold">S26 hold</div>
+      <div v-touch-repeat:400:300.mouse="s26onRepeat" class="s26-repeat">
+        S26 repeat
+      </div>
+    </div>
+
     <!-- S19: #12994 reveal QHeader must reappear when a route change
          happens while the Loading plugin keeps the page scroll-locked.
          Own window-scrolling layout: the bug lives in the non-container
@@ -333,6 +385,26 @@ const s17model = ref('')
 const s18model = ref('')
 const s19on = ref(false)
 const s20model = ref('okay')
+const s21tt = ref(null)
+const s22tt = ref(null)
+const s23menu = ref(null)
+const s24dlg = ref(false)
+const s24menu = ref(null)
+const s25val = ref(5)
+const s25log = { updates: 0, changes: [] }
+function s25onUpdate() {
+  s25log.updates++
+}
+function s25onChange(val) {
+  s25log.changes.push(val)
+}
+const s26counts = { hold: 0, repeat: 0 }
+function s26onHold() {
+  s26counts.hold++
+}
+function s26onRepeat() {
+  s26counts.repeat++
+}
 // the "Multiple masks" docs pattern (docs/src/examples/QInput/MaskMultiple.vue)
 const s18mask = computed(() =>
   s18model.value !== null && s18model.value.length > 10
@@ -589,16 +661,8 @@ async function s8() {
     thumb.getAttribute('aria-valuemin') === '0' &&
     thumb.getAttribute('aria-valuemax') === '10' &&
     thumb.getAttribute('aria-valuenow') === '5'
-  // the slider binds no keyboard handlers on touch platforms
-  // (trackContainerEvents in QSlider.js) -- assert the markup only there
-  if ($q.platform.is.mobile) {
-    report(
-      'S8 QSlider role + Home/End',
-      ariaOk,
-      `aria=${ariaOk} (touch: keyboard n/a)`
-    )
-    return
-  }
+  // keyboard is wired on every platform (trackContainerEvents in
+  // QSlider.js), so it is asserted on mobile UAs too
   thumb.focus()
   pressKey(thumb, 35) // END
   await settle(150)
@@ -637,14 +701,6 @@ async function s9() {
       'S9 QRange per-thumb sliders',
       false,
       'aria-valuenow does not mirror the model'
-    )
-    return
-  }
-  if ($q.platform.is.mobile) {
-    report(
-      'S9 QRange per-thumb sliders',
-      true,
-      'twoThumbs=true ariaSynced=true (touch: keyboard n/a)'
     )
     return
   }
@@ -1014,6 +1070,409 @@ async function s20() {
   )
 }
 
+// S21: QTooltip wires pointer events per interaction, no device sniff:
+// mouse hovers show/hide with no contact UX, a primary touch engages the
+// hold UX (selection suppressed) and its lift ends it, secondary touches
+// (a starting pinch-zoom) are ignored
+async function s21() {
+  const anchor = document.querySelector('.s21-anchor')
+  const tt = () => document.querySelector('.q-tooltip') !== null
+  const nonSel = () => document.body.classList.contains('non-selectable')
+
+  // tooltips hide on any scroll-target scroll BY DESIGN, and Blink/Gecko
+  // scroll anchoring compensates for the growing verdict panel above with
+  // real scroll events mid-scenario (WebKit has no scroll anchoring, so
+  // only 2 of the 3 engines would fail); pin the page for the duration
+  document.documentElement.style.overflowAnchor = 'none'
+  anchor.scrollIntoView({ block: 'center' })
+  await settle(300)
+
+  anchor.dispatchEvent(
+    new PointerEvent('pointerenter', { pointerType: 'mouse' })
+  )
+  await settle(300)
+  const mouseShows = tt()
+  const mouseNoContact = !nonSel()
+
+  anchor.dispatchEvent(
+    new PointerEvent('pointerleave', { pointerType: 'mouse' })
+  )
+  await settle(500)
+  const mouseHides = !tt()
+
+  anchor.dispatchEvent(
+    new PointerEvent('pointerenter', { pointerType: 'touch', isPrimary: true })
+  )
+  await settle(300)
+  const touchShows = tt()
+  const touchEngages = nonSel()
+
+  anchor.dispatchEvent(new Event('touchend'))
+  await settle(500)
+  const liftEnds = !tt() && !nonSel()
+
+  // synthetic PointerEvents default to isPrimary false
+  anchor.dispatchEvent(
+    new PointerEvent('pointerenter', { pointerType: 'touch' })
+  )
+  await settle(300)
+  const secondaryIgnored = !tt()
+
+  s21tt.value.hide()
+  await settle(300)
+  document.documentElement.style.overflowAnchor = ''
+
+  report(
+    'S21 tooltip per-interaction pointer wiring',
+    mouseShows &&
+      mouseNoContact &&
+      mouseHides &&
+      touchShows &&
+      touchEngages &&
+      liftEnds &&
+      secondaryIgnored,
+    `mouse=${mouseShows}/${mouseHides} noContactForMouse=${mouseNoContact} ` +
+      `touch=${touchShows}+sel=${touchEngages} lift=${liftEnds} ` +
+      `secondaryIgnored=${secondaryIgnored}`
+  )
+}
+
+// S22: a stylus hovers like a mouse and presses like touch: the press
+// upgrades an in-flight hover to the contact UX, the lift keeps the
+// tooltip shown (the pen still hovers); focus moving WITHIN the anchor
+// (QBtn shuffles it after every press) must not hide it, a real blur must
+async function s22() {
+  const anchor = document.querySelector('.s22-anchor')
+  const tt = () => document.querySelector('.q-tooltip') !== null
+  const nonSel = () => document.body.classList.contains('non-selectable')
+
+  // same page pinning as S21: a stray scroll event hides the tooltip
+  document.documentElement.style.overflowAnchor = 'none'
+  anchor.scrollIntoView({ block: 'center' })
+  await settle(300)
+
+  anchor.dispatchEvent(new PointerEvent('pointerenter', { pointerType: 'pen' }))
+  await settle(300)
+  const hoverShows = tt() && !nonSel()
+
+  anchor.dispatchEvent(
+    new PointerEvent('pointerdown', {
+      pointerType: 'pen',
+      buttons: 1,
+      bubbles: true
+    })
+  )
+  await settle(150)
+  const pressEngages = tt() && nonSel()
+
+  anchor.dispatchEvent(new MouseEvent('click', { bubbles: true }))
+  await settle(300)
+  const liftKeepsShown = tt() && !nonSel()
+
+  anchor.dispatchEvent(
+    new FocusEvent('focusout', { relatedTarget: anchor.firstElementChild })
+  )
+  await settle(300)
+  const innerFocusKeeps = tt()
+
+  anchor.dispatchEvent(new FocusEvent('focusout'))
+  await settle(500)
+  const blurHides = !tt()
+
+  anchor.dispatchEvent(new PointerEvent('pointerleave', { pointerType: 'pen' }))
+  await settle(200)
+  document.documentElement.style.overflowAnchor = ''
+
+  report(
+    'S22 tooltip pen lifecycle + intra-anchor focusout',
+    hoverShows &&
+      pressEngages &&
+      liftKeepsShown &&
+      innerFocusKeeps &&
+      blurHides,
+    `hover=${hoverShows} press=${pressEngages} lift=${liftKeepsShown} ` +
+      `innerFocusKept=${innerFocusKeeps} blurHides=${blurHides}`
+  )
+}
+
+// S23: context menus on capability-neutral wiring: a right-click's
+// contextmenu opens, a touch long-press opens (with the anchor's
+// selection suppressed), the SAME long-press's native contextmenu is
+// swallowed once, a touch pointerdown cannot undo the fresh menu, and a
+// non-touch press both hides and releases the ownership
+async function s23() {
+  const target = document.querySelector('.s23-target')
+  const rect = target.getBoundingClientRect()
+  const at = {
+    clientX: rect.left + rect.width / 2,
+    clientY: rect.top + rect.height / 2
+  }
+  const menuOpen = () => document.querySelector('.q-menu') !== null
+
+  let evt = new MouseEvent('contextmenu', {
+    bubbles: true,
+    cancelable: true,
+    ...at
+  })
+  target.dispatchEvent(evt)
+  await settle(400)
+  const rightClickOpens = menuOpen() && evt.defaultPrevented
+
+  target.dispatchEvent(
+    new PointerEvent('pointerdown', { pointerType: 'mouse', bubbles: true })
+  )
+  await settle(500)
+  const mousePressHides = !menuOpen()
+
+  evt = new Event('touchstart')
+  Object.defineProperty(evt, 'touches', { value: [at] })
+  target.dispatchEvent(evt)
+  await settle(100)
+  const holdSuppressesSelection =
+    target.classList.contains('non-selectable') && !menuOpen()
+  await settle(500)
+  const holdOpens = menuOpen()
+
+  evt = new MouseEvent('contextmenu', {
+    bubbles: true,
+    cancelable: true,
+    ...at
+  })
+  target.dispatchEvent(evt)
+  await settle(300)
+  const ownContextSwallowed = evt.defaultPrevented && menuOpen()
+
+  target.dispatchEvent(
+    new PointerEvent('pointerdown', { pointerType: 'touch', bubbles: true })
+  )
+  await settle(300)
+  const touchPressIgnored = menuOpen()
+
+  target.dispatchEvent(new Event('touchend'))
+  await settle(200)
+  const liftCleansSelection = !target.classList.contains('non-selectable')
+
+  target.dispatchEvent(
+    new PointerEvent('pointerdown', { pointerType: 'mouse', bubbles: true })
+  )
+  await settle(500)
+
+  evt = new MouseEvent('contextmenu', {
+    bubbles: true,
+    cancelable: true,
+    ...at
+  })
+  target.dispatchEvent(evt)
+  await settle(400)
+  const ownershipReleased = menuOpen()
+
+  s23menu.value.hide()
+  await settle(400)
+
+  report(
+    'S23 context menu capability wiring',
+    rightClickOpens &&
+      mousePressHides &&
+      holdSuppressesSelection &&
+      holdOpens &&
+      ownContextSwallowed &&
+      touchPressIgnored &&
+      liftCleansSelection &&
+      ownershipReleased,
+    `rightClick=${rightClickOpens} mouseHide=${mousePressHides} ` +
+      `holdSel=${holdSuppressesSelection} holdOpens=${holdOpens} ` +
+      `ownCtxSwallowed=${ownContextSwallowed} touchDownIgnored=${touchPressIgnored} ` +
+      `liftCleans=${liftCleansSelection} released=${ownershipReleased}`
+  )
+}
+
+// S24: the dialog backdrop acts on press: with a menu open inside the
+// dialog the first press (mouse or the swallowed touch) dismisses only
+// the menu, the next one the dialog; non-primary buttons are ignored
+async function s24() {
+  const backdrop = () => document.querySelector('.q-dialog__backdrop')
+  const menuOpen = () => document.querySelector('.q-menu') !== null
+  const dialogOpen = () => document.querySelector('.q-dialog') !== null
+
+  s24dlg.value = true
+  await settle(500)
+  s24menu.value.show()
+  await settle(400)
+
+  let press = new MouseEvent('mousedown', { bubbles: true, cancelable: true })
+  backdrop().dispatchEvent(press)
+  await settle(400)
+  const firstPressMenuOnly =
+    !menuOpen() && dialogOpen() && press.defaultPrevented
+
+  press = new MouseEvent('mousedown', { bubbles: true, cancelable: true })
+  backdrop().dispatchEvent(press)
+  await settle(600)
+  const secondPressDialog = !dialogOpen()
+
+  s24dlg.value = true
+  await settle(500)
+  backdrop().dispatchEvent(
+    new MouseEvent('mousedown', { bubbles: true, cancelable: true, button: 2 })
+  )
+  await settle(400)
+  const rightPressIgnored = dialogOpen()
+
+  s24menu.value.show()
+  await settle(400)
+  const tap = new Event('touchstart', { cancelable: true })
+  backdrop().dispatchEvent(tap)
+  await settle(400)
+  const tapMenuOnly = !menuOpen() && dialogOpen() && tap.defaultPrevented
+
+  s24dlg.value = false
+  await settle(500)
+
+  report(
+    'S24 backdrop press dismisses only the top popup',
+    firstPressMenuOnly && secondPressDialog && rightPressIgnored && tapMenuOnly,
+    `pressMenuOnly=${firstPressMenuOnly} pressDialog=${secondPressDialog} ` +
+      `rightIgnored=${rightPressIgnored} tapMenuOnly=${tapMenuOnly}`
+  )
+}
+
+// S25: a tap's compatibility burst (mousedown, mouseup, click at one
+// spot) lands the model once with a single change and a single
+// update:modelValue; the keyboard steps it on every platform
+async function s25() {
+  const slider = document.querySelector('.s25-wrap .q-slider')
+  const track = document.querySelector('.s25-wrap [role="slider"]')
+  const rect = slider.getBoundingClientRect()
+  const at = {
+    clientX: rect.left + rect.width * 0.8,
+    clientY: rect.top + rect.height / 2
+  }
+
+  s25log.updates = 0
+  s25log.changes.length = 0
+
+  track.dispatchEvent(new MouseEvent('mousedown', { bubbles: true, ...at }))
+  await settle(100)
+  document.dispatchEvent(new MouseEvent('mouseup', { ...at }))
+  await settle(100)
+  track.dispatchEvent(new MouseEvent('click', { bubbles: true, ...at }))
+  await settle(200)
+
+  const tapModel = s25val.value === 8
+  const tapEmits =
+    s25log.updates === 1 &&
+    s25log.changes.length === 1 &&
+    s25log.changes[0] === 8
+
+  track.focus()
+  pressKey(track, 39) // RIGHT
+  await settle(200)
+  const keyWorks = s25val.value === 9 && s25log.changes.length === 2
+  track.blur()
+
+  report(
+    'S25 slider tap burst + keyboard everywhere',
+    tapModel && tapEmits && keyWorks,
+    `model=${s25val.value} updates=${s25log.updates} ` +
+      `changes=${JSON.stringify(s25log.changes)} keyStep=${keyWorks}`
+  )
+}
+
+// S26: the touch directives suppress text selection per interaction: a
+// held mouse never suppresses (TouchHold) or suppresses lazily at the
+// first repeat (TouchRepeat), while a touch press suppresses immediately;
+// the touch half only runs where the directives wire touch listeners
+async function s26() {
+  const holdEl = document.querySelector('.s26-hold')
+  const repEl = document.querySelector('.s26-repeat')
+  const nonSel = () => document.body.classList.contains('non-selectable')
+  const at = el => {
+    const r = el.getBoundingClientRect()
+    return { clientX: r.left + 10, clientY: r.top + 10 }
+  }
+
+  s26counts.hold = 0
+  s26counts.repeat = 0
+
+  holdEl.dispatchEvent(
+    new MouseEvent('mousedown', { bubbles: true, ...at(holdEl) })
+  )
+  const mouseHoldNoSel = !nonSel()
+  await settle(600)
+  const mouseHoldFired = s26counts.hold === 1
+  const mouseHoldStillNoSel = !nonSel()
+  document.dispatchEvent(
+    new MouseEvent('click', { bubbles: true, cancelable: true, ...at(holdEl) })
+  )
+  await settle(100)
+
+  repEl.dispatchEvent(
+    new MouseEvent('mousedown', { bubbles: true, ...at(repEl) })
+  )
+  const mouseRepeatLazy = !nonSel()
+  await settle(650)
+  const mouseRepeatFired = s26counts.repeat >= 1
+  const mouseRepeatSel = nonSel()
+  document.dispatchEvent(
+    new MouseEvent('click', { bubbles: true, cancelable: true, ...at(repEl) })
+  )
+  await settle(150)
+  const mouseRepeatCleaned = !nonSel()
+
+  let touchOk = true
+  let touchDetail = ' touch=n/a'
+  if ($q.platform.has.touch) {
+    const touchStartOn = el => {
+      const evt = new Event('touchstart')
+      Object.defineProperty(evt, 'touches', { value: [at(el)] })
+      el.dispatchEvent(evt)
+    }
+
+    touchStartOn(holdEl)
+    const holdImmediateSel = nonSel()
+    await settle(600)
+    const holdFired = s26counts.hold === 2
+    holdEl.dispatchEvent(new Event('touchend', { cancelable: true }))
+    await settle(150)
+    const holdCleaned = !nonSel()
+
+    const repBase = s26counts.repeat
+    touchStartOn(repEl)
+    const repImmediateSel = nonSel() && s26counts.repeat === repBase
+    await settle(650)
+    const repFired = s26counts.repeat > repBase
+    repEl.dispatchEvent(new Event('touchend', { cancelable: true }))
+    await settle(150)
+    const repCleaned = !nonSel()
+
+    touchOk =
+      holdImmediateSel &&
+      holdFired &&
+      holdCleaned &&
+      repImmediateSel &&
+      repFired &&
+      repCleaned
+    touchDetail =
+      ` touchHold=${holdImmediateSel}/${holdFired}/${holdCleaned}` +
+      ` touchRepeat=${repImmediateSel}/${repFired}/${repCleaned}`
+  }
+
+  report(
+    'S26 touch directives suppress selection per interaction',
+    mouseHoldNoSel &&
+      mouseHoldFired &&
+      mouseHoldStillNoSel &&
+      mouseRepeatLazy &&
+      mouseRepeatFired &&
+      mouseRepeatSel &&
+      mouseRepeatCleaned &&
+      touchOk,
+    `mouseHold=${mouseHoldNoSel}/${mouseHoldFired}/${mouseHoldStillNoSel}` +
+      ` mouseRepeat=${mouseRepeatLazy}/${mouseRepeatFired}/${mouseRepeatSel}/${mouseRepeatCleaned}` +
+      touchDetail
+  )
+}
+
 async function runAll() {
   lines.value = []
   results.length = 0
@@ -1040,7 +1499,13 @@ async function runAll() {
     s17,
     s18,
     s19,
-    s20
+    s20,
+    s21,
+    s22,
+    s23,
+    s24,
+    s25,
+    s26
   ]
   for (const scenario of scenarios) {
     try {

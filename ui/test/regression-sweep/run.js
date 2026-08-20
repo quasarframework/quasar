@@ -6,7 +6,8 @@
  * Not part of `pnpm test` -- it needs real browsers and, optionally, a
  * macOS Simulator, so it is run on demand:
  *
- *   pnpm test:sweep                 chromium + firefox + webkit (Playwright)
+ *   pnpm test:sweep                 chromium (plain + touch-capable) +
+ *                                   firefox + webkit (Playwright)
  *   pnpm test:sweep --safari        + real desktop Safari via safaridriver
  *                                   (one-time: `safaridriver --enable`)
  *   pnpm test:sweep --ios           + Mobile Safari in the iOS Simulator
@@ -101,11 +102,21 @@ function stopDevServer() {
 async function runPlaywrightEngines(serverUrl) {
   const { chromium, firefox, webkit } = await import('playwright')
 
-  for (const [name, engine] of Object.entries({ chromium, firefox, webkit })) {
+  const passes = [
+    ['chromium', chromium, {}],
+    // a touch-capable desktop engine: capability-based (not UA-based)
+    // wiring must serve hybrid devices both interaction mechanisms
+    ['chromium-touch', chromium, { hasTouch: true }],
+    ['firefox', firefox, {}],
+    ['webkit', webkit, {}]
+  ]
+
+  for (const [name, engine, contextExtras] of passes) {
     const browser = await engine.launch()
     try {
       const page = await browser.newPage({
-        viewport: { width: 1280, height: 900 }
+        viewport: { width: 1280, height: 900 },
+        ...contextExtras
       })
       await page.goto(`${serverUrl}${ROUTE}?autorun&tag=${name}`)
       await page.waitForFunction('window.__done === true', null, {
