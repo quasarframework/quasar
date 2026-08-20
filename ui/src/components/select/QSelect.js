@@ -1718,11 +1718,9 @@ export default /*#__PURE__*/ createComponent({
           }
         }
 
-        if (
-          nameProp() !== void 0 &&
-          !props.disable &&
-          innerOptionsValue.value.length !== 0
-        ) {
+        const name = nameProp()
+
+        if (name !== void 0 && !props.disable) {
           const opts = innerOptionsValue.value.map(value =>
             h('option', { value, selected: true })
           )
@@ -1732,7 +1730,7 @@ export default /*#__PURE__*/ createComponent({
               'select',
               {
                 class: 'hidden',
-                name: nameProp(),
+                name,
                 multiple: props.multiple
               },
               opts

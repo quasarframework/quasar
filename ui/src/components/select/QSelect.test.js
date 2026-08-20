@@ -121,6 +121,67 @@ describe('[QSelect API]', () => {
           formEl.findAll('option').map(el => el.attributes('value'))
         ).toEqual(['a'])
       })
+
+      test('renders the form element even when there is no selection', () => {
+        const nullModel = mountSelect({ modelValue: null, name: 'car_id' })
+        const nullFormEl = nullModel.get('select.hidden')
+
+        expect(nullFormEl.attributes('name')).toBe('car_id')
+        expect(nullFormEl.findAll('option')).toHaveLength(0)
+
+        const emptyMultiple = mountSelect({
+          modelValue: [],
+          multiple: true,
+          name: 'car_ids'
+        })
+
+        expect(emptyMultiple.get('select.hidden').attributes('name')).toBe(
+          'car_ids'
+        )
+      })
+
+      test('keeps the selection while map-options has not resolved yet', () => {
+        // mapOptions looks the model up in options; until they load there is
+        // no match, and the raw model value has to survive into the form element
+        const pending = mountSelect({
+          modelValue: 'a',
+          mapOptions: true,
+          options: [],
+          name: 'car_id'
+        })
+
+        expect(
+          pending
+            .get('select.hidden')
+            .findAll('option')
+            .map(el => el.attributes('value'))
+        ).toEqual(['a'])
+
+        const pendingMultiple = mountSelect({
+          modelValue: ['a', 'b'],
+          multiple: true,
+          mapOptions: true,
+          options: [],
+          name: 'car_ids'
+        })
+
+        expect(
+          pendingMultiple
+            .get('select.hidden')
+            .findAll('option')
+            .map(el => el.attributes('value'))
+        ).toEqual(['a', 'b'])
+      })
+
+      test('type String has no effect when disabled', () => {
+        const wrapper = mountSelect({
+          modelValue: 'a',
+          name: 'car_id',
+          disable: true
+        })
+
+        expect(wrapper.find('select.hidden').exists()).toBe(false)
+      })
     })
 
     describe('[(prop)virtual-scroll-horizontal]', () => {
