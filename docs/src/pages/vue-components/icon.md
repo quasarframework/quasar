@@ -166,7 +166,11 @@ There are many advantages of using only svg icons in your website/app:
 - Better quality icons
 - No need for including equivalent webfonts from `@quasar/extras` or CDN.
 
-The current disadvantage is that it is more tedious to use these icons than their webfont counterpart.
+There are two disadvantages. First, it is more tedious to use these icons than their webfont
+counterpart. Second, an SVG icon is a fixed shape, so the axes of a variable icon font (like Material
+Symbols) can no longer be adjusted: the `font-variation-settings` CSS property (`'FILL'`, `'wght'`,
+`'GRAD'`, `'opsz'`) only applies to webfont icons. Pick the webfont form of an icon set when you need
+to vary fill or weight, and the SVG form when you need the smaller footprint.
 
 ### Svg usage
 
