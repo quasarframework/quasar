@@ -63,6 +63,34 @@ Consider using QItems with routing props (like `to`) below. For demoing purposes
 
 <DocExample title="Header Picture" file="HeaderPicture" />
 
+### Desktop and mobile behavior
+
+QDrawer runs in one of two behaviors, and a number of its props mean different things in each:
+
+|                     | "desktop" behavior                   | "mobile" behavior                  |
+| ------------------- | ------------------------------------ | ---------------------------------- |
+| Space on the layout | occupies it, unless `overlay` is set | never occupies it                  |
+| Backdrop            | none                                 | shown for as long as the drawer is |
+| Touch gestures      | none                                 | attached, as described above       |
+| Body scroll         | untouched                            | locked while the drawer is shown   |
+| `mini` mode         | applies                              | ignored                            |
+
+The `breakpoint` prop (default: 1023) decides which of the two is used: the drawer is in "mobile" behavior for as long as the width of the layout is smaller than or equal to it. Note that this is the width of the layout, which is the width of the window unless you are using a containerized QLayout.
+
+Set the `behavior` prop to "desktop" or "mobile" to pin the drawer into one of them regardless of the width. Its default value ("default") is the dynamic switch described above.
+
+#### Showing it above the breakpoint
+
+The `show-if-above` Boolean prop shows the drawer whenever the layout is in "desktop" behavior, even though its `v-model` is `false`, and it syncs that `v-model` back to `true` when it does so on the first render.
+
+It also takes part in what happens when the layout crosses the breakpoint. Going into "mobile" behavior always hides the drawer and remembers whether it was shown, and coming back into "desktop" behavior shows it again if it was. What `show-if-above` adds is that a drawer which the user never opened comes back too. This restore is skipped when the drawer has `overlay` set or its `behavior` pinned to "mobile".
+
+#### Persistence
+
+While the drawer is in a dismissible state (in "mobile" behavior, or shown while in `overlay` mode), it can close itself in three ways beyond your `v-model`: the <kbd>Escape</kbd> key, a change of the app's route, and the Cordova/Capacitor back button. The `persistent` Boolean prop turns off all three.
+
+It does not affect closing through a click on the backdrop or through a swipe, so pair it with `no-swipe-close` and `no-swipe-backdrop` for a drawer that only your `v-model` can close.
+
 ### Mini-mode
 
 Drawer can operate in two modes: 'normal' and 'mini', and you can switch between them by using the Boolean `mini` property on QDrawer.
@@ -70,6 +98,8 @@ Drawer can operate in two modes: 'normal' and 'mini', and you can switch between
 ::: warning
 Please note that **`mini` mode** does not apply when in **mobile** behavior.
 :::
+
+The transition played while switching between the two modes can be turned off with the `no-mini-animation` Boolean prop.
 
 There are some CSS classes that will help you customize the drawer when dealing with "mini" mode. These are very useful especially when using the "click" trigger:
 
