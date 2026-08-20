@@ -68,7 +68,8 @@ export default {
                       anchor: 'top right',
                       self: 'top left',
                       class: 'doc-header-menu doc-technical',
-                      cover: Screen.lt.sm
+                      cover: Screen.lt.sm,
+                      hover: true
                     },
                     () => getChildren(entry.children)
                   )
@@ -89,7 +90,12 @@ export default {
     return () =>
       h(
         QMenu,
-        { fit: true, class: 'doc-header-menu doc-technical', offset },
+        {
+          fit: true,
+          hover: true,
+          class: 'doc-header-menu doc-technical',
+          offset
+        },
         getMenu
       )
   }

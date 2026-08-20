@@ -16,15 +16,23 @@ In case you are looking for a dropdown "input" instead of "button" use [Select](
 
 ## Usage
 
+### Basic
+
 <DocExample title="Basic" file="Basic" />
 
 <DocExample title="Various content" file="VariousContent" />
 
+### Split
+
 <DocExample title="Split" file="Split" />
 
-The `hover` prop (v2.26+) also opens the dropdown when the pointer hovers the button (in `split` mode: either one of the two buttons) and closes it once the pointer has left both the button and the menu. Click/tap and keyboard interactions keep working as usual, so touch devices (which have no hover) simply fall back to them; a hover-opened dropdown does not move keyboard focus onto itself, and clicking the button while it is hover-shown switches it to a regular focused open instead of closing it. The `hover-delay` and `hover-hide-delay` props tune the timings (see [QMenu's Hover section](/vue-components/menu#hover)).
+### Hover <q-badge label="v2.26+" />
+
+The `hover` prop also opens the dropdown when the pointer hovers the button (in `split` mode: either one of the two buttons) and closes it once the pointer has left both the button and the menu. Click/tap and keyboard interactions keep working as usual, so touch devices (which have no hover) simply fall back to them; a hover-opened dropdown does not move keyboard focus onto itself, and clicking the button while it is hover-shown switches it to a regular focused open instead of closing it. The `hover-delay` and `hover-hide-delay` props tune the timings (see [QMenu's Hover section](/vue-components/menu#hover)).
 
 <DocExample title="Hover" file="Hover" />
+
+### Customization and slots
 
 <DocExample title="Custom button" file="CustomButton" />
 
@@ -35,6 +43,8 @@ The `hover` prop (v2.26+) also opens the dropdown when the pointer hovers the bu
 The `toggle` slot (v2.25+) adds content to the dropdown toggle itself, next to the arrow icon. In `split` mode it is the only way to reach the toggle button — attach a [QTooltip](/vue-components/tooltip) to it below (the `label` slot covers the main button):
 
 <DocExample title="Toggle slot" file="ToggleSlot" />
+
+### Other
 
 <DocExample title="Using v-model" file="Model" />
 

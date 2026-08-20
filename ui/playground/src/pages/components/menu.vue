@@ -95,6 +95,27 @@
           </q-menu>
         </q-btn>
 
+        <q-btn color="primary" label="Cover + Hover">
+          <q-menu
+            cover
+            hover
+            @show="log('@show cover')"
+            @hide="log('@hide cover')"
+          >
+            <q-list style="min-width: 100px">
+              <q-item
+                v-for="n in 20"
+                :key="n"
+                clickable
+                v-close-popup
+                @click="showNotify()"
+              >
+                <q-item-section>Label</q-item-section>
+              </q-item>
+            </q-list>
+          </q-menu>
+        </q-btn>
+
         <q-btn color="primary" label="Menu with select">
           <q-menu
             cover
@@ -150,6 +171,23 @@
               <q-btn label="Open Dialog" @click="dialog2 = true" />
               <q-btn label="Menu" color="primary">
                 <q-menu>
+                  <q-list>
+                    <q-item clickable @click="dialog2 = true">
+                      <q-item-section> Open Dialog </q-item-section>
+                    </q-item>
+                    <q-item v-close-popup clickable @click="dialog2 = true">
+                      <q-item-section>
+                        Close Menu and Open Dialog
+                      </q-item-section>
+                    </q-item>
+                    <q-item v-for="n in 5" :key="n" v-close-popup clickable>
+                      <q-item-section>Menu Item {{ n }}</q-item-section>
+                    </q-item>
+                  </q-list>
+                </q-menu>
+              </q-btn>
+              <q-btn label="Menu Hover" color="primary" icon="map">
+                <q-menu hover>
                   <q-list>
                     <q-item clickable @click="dialog2 = true">
                       <q-item-section> Open Dialog </q-item-section>
@@ -264,6 +302,27 @@
             </q-btn>
             <q-btn push color="orange" label="Tap Me Small" class="on-right">
               <q-menu :fit="fit" :cover="cover" :anchor="anchor" :self="self">
+                <q-list>
+                  <q-item
+                    v-for="n in 5"
+                    :key="n"
+                    v-close-popup
+                    clickable
+                    @click="showNotify()"
+                  >
+                    <q-item-section>Label</q-item-section>
+                  </q-item>
+                </q-list>
+              </q-menu>
+            </q-btn>
+            <q-btn push color="orange" label="Hover" class="on-right">
+              <q-menu
+                :fit="fit"
+                :cover="cover"
+                :anchor="anchor"
+                :self="self"
+                hover
+              >
                 <q-list>
                   <q-item
                     v-for="n in 5"
