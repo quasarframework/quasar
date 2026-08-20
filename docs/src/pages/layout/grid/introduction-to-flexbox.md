@@ -233,7 +233,8 @@ Also check [Visibility](/style/visibility#window-width-related) Style page to se
 
 ## Flex Addons
 
-When enabled (through `quasar.config file > framework > cssAddon: true`) it provides breakpoint aware versions for all flex (and display) related CSS classes.
+When enabled, it provides breakpoint aware versions for all flex (and display) related CSS classes.
+With Quasar CLI, switch it on through `quasar.config file > framework > cssAddon: true`.
 
 ::: warning
 Note that there will be a noticeable bump in CSS footprint when enabling it. So only do it if you really need it.
@@ -261,6 +262,30 @@ There are also responsive classes for spacing, both for padding and for margin:
 ```
 
 Examples: `row-md`, `items-lg-end`, `q-pa-xs q-pa-sm-sm q-px-md-lg q-py-md-md`
+
+### Enabling outside of Quasar CLI
+
+`cssAddon` is a Quasar CLI option, but the addon itself is a plain stylesheet, so the other flavours
+can pull it in directly.
+
+With `@quasar/vite-plugin` (or any bundler that handles Sass), import it once, next to wherever you
+import the Quasar CSS. This is the exact same import that Quasar CLI generates for you:
+
+```js
+import 'quasar/src/css/flex-addon.sass'
+```
+
+With [UMD](/start/umd), add the prebuilt stylesheet after the base one:
+
+```html
+<link
+  href="https://cdn.jsdelivr.net/npm/quasar@2/dist/quasar.addon.prod.css"
+  rel="stylesheet"
+  type="text/css"
+/>
+```
+
+Use `quasar.addon.rtl.prod.css` instead if you are serving an RTL language.
 
 ## Flex Playground
 
