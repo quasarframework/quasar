@@ -126,7 +126,6 @@ import fs from 'node:fs'
 import path from 'node:path'
 import express from 'express'
 import formidable from 'formidable'
-import throttle from 'express-throttle-bandwidth'
 
 const app = express()
 
@@ -138,7 +137,6 @@ if (!fs.existsSync(folder)) {
 }
 
 app.set('port', port)
-app.use(throttle(1024 * 128)) // throttling bandwidth
 
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*')
@@ -150,10 +148,17 @@ app.use((req, res, next) => {
 })
 
 app.post('/upload', (req, res) => {
-  const form = new formidable.IncomingForm()
+  const form = formidable({
+    uploadDir: folder,
+    keepExtensions: true
+  })
 
-  form.uploadDir = folder
-  form.parse(req, (_, fields, files) => {
+  form.parse(req, (err, fields, files) => {
+    if (err) {
+      res.status(400).send('Upload failed')
+      return
+    }
+
     console.log('\n-----------')
     console.log('Fields', fields)
     console.log('Received:', Object.keys(files))
