@@ -15,10 +15,13 @@ let registered = 0,
   routePath,
   closeTimer = null
 
-// notified when the lock releases WITHOUT restoring the scroll position
-// (the route changed while locked, so the page legitimately sits at top);
-// consumers that suppress scroll updates while locked (QLayout) re-sync
-// through this since no scroll event will ever fire for them
+// notified when the lock releases WITHOUT emitting a scroll event --
+// either the route changed while locked (no scroll restore happens), or
+// the saved position is the one the page already sits at (the lock pins
+// the page at top, so a position saved at top restores as a no-op);
+// consumers that suppress scroll work while locked (QLayout,
+// QInfiniteScroll) re-sync through this since no scroll event will ever
+// fire for them
 const releaseListeners = new Set()
 
 export function addPreventScrollReleaseListener(fn) {
@@ -159,8 +162,14 @@ function apply(action) {
     body.style.left = bodyLeft
     body.style.top = bodyTop
 
-    // scroll back only if route path has not changed
-    if (window.location.pathname === routePath) {
+    // scroll back only if the route path has not changed AND the page is
+    // not already at the saved position (scrollTo emits nothing then);
+    // when no scroll event can fire, notify the release listeners instead
+    if (
+      window.location.pathname === routePath &&
+      (getHorizontalScrollPosition(window) !== scrollPositionX ||
+        getVerticalScrollPosition(window) !== scrollPositionY)
+    ) {
       window.scrollTo(scrollPositionX, scrollPositionY)
     } else {
       releaseListeners.forEach(fn => {

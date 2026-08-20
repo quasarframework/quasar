@@ -377,5 +377,89 @@ describe('[QInfiniteScroll API]', () => {
         window.scrollTo(0, 0)
       }
     })
+
+    test('resumes polling when a lock engaged with the page at the top releases', () => {
+      // the page sits at position 0 with no scrollbar, so once the lock
+      // releases no scroll event can ever fire; the component has to come
+      // back through the prevent-scroll release listeners instead (#18520)
+      preventScroll(true)
+
+      try {
+        // mounting while the lock is held: the mount-time poll is skipped
+        const wrapper = mount(QInfiniteScroll, {
+          props: { debounce: 0 },
+          attachTo: document.body
+        })
+        wrappers.push(wrapper)
+
+        expect(wrapper.emitted()).not.toHaveProperty('load')
+
+        // releasing the lock alone must bring the first load;
+        // deliberately no scroll event gets dispatched here
+        preventScroll(false)
+
+        expect(wrapper.emitted('load')).toHaveLength(1)
+      } finally {
+        preventScroll(false)
+      }
+    })
+
+    test('recovers a poll skipped because disable was released under the lock', async () => {
+      const wrapper = mount(QInfiniteScroll, {
+        props: { debounce: 0, disable: true },
+        attachTo: document.body
+      })
+      wrappers.push(wrapper)
+
+      preventScroll(true)
+
+      try {
+        await wrapper.setProps({ disable: false })
+
+        // the resume happened while the lock was held, so it polled nothing
+        expect(wrapper.emitted()).not.toHaveProperty('load')
+
+        preventScroll(false)
+
+        expect(wrapper.emitted('load')).toHaveLength(1)
+      } finally {
+        preventScroll(false)
+      }
+    })
+
+    test('keeps polling element scroll targets while the page is scroll-locked', () => {
+      preventScroll(true)
+
+      try {
+        const { target, wrapper } = mountInfiniteScroll()
+
+        target.scrollTop = 450
+        target.dispatchEvent(new Event('scroll'))
+
+        expect(wrapper.emitted('load')).toHaveLength(1)
+      } finally {
+        preventScroll(false)
+      }
+    })
+
+    test('stops polling for good once a load reports being done', async () => {
+      const { target, wrapper } = mountInfiniteScroll()
+
+      target.scrollTop = 450
+      target.dispatchEvent(new Event('scroll'))
+
+      const [, done] = wrapper.emitted('load')[0]
+      done(true)
+      // the stop happens in a nextTick callback and the loading slot
+      // needs the re-render that follows it
+      await nextTick()
+      await nextTick()
+
+      target.scrollTop = 500
+      target.dispatchEvent(new Event('scroll'))
+
+      expect(wrapper.emitted('load')).toHaveLength(1)
+      expect(wrapper.find('.q-infinite-scroll__loading').exists()).toBe(false)
+    })
   })
 })

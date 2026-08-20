@@ -21,6 +21,10 @@ import {
   scrollTargetProp,
   setVerticalScrollPosition
 } from '../../utils/scroll/scroll.js'
+import {
+  addPreventScrollReleaseListener,
+  removePreventScrollReleaseListener
+} from '../../utils/scroll/prevent-scroll.js'
 import { listenOpts } from '../../utils/event/event.js'
 import { hSlot, hUniqueSlot } from '../../utils/private.render/render.js'
 
@@ -83,8 +87,9 @@ export default /*#__PURE__*/ createComponent({
       // position:fixed), which pins the window scroll position at 0. Reverse
       // mode reads that as "scrolled to the top", so each done() would
       // trigger the next load for as long as the overlay stays open. Skip
-      // polling while locked: releasing the lock restores the scroll
-      // position, and that scroll event resumes polling. Element scroll
+      // polling while locked: polling resumes on release, through the
+      // restore's scroll event or, when the page sat at top so no event can
+      // fire, through the prevent-scroll release listeners. Element scroll
       // targets keep their own geometry under the lock, so they stay live.
       if (localScrollTarget === window && document.qScrollPrevented === true) {
         return
@@ -290,6 +295,23 @@ export default /*#__PURE__*/ createComponent({
         localScrollTarget.removeEventListener('scroll', poll, passive)
       }
     })
+
+    if (!__QUASAR_SSR_SERVER__) {
+      // when a scroll lock releases with the page already at the saved
+      // position no scroll event fires, so the poll skipped while locked
+      // (see immediatePoll) has to be re-run through this channel
+      const onScrollLockRelease = () => {
+        if (localScrollTarget === window) {
+          immediatePoll()
+        }
+      }
+
+      addPreventScrollReleaseListener(onScrollLockRelease)
+
+      onBeforeUnmount(() => {
+        removePreventScrollReleaseListener(onScrollLockRelease)
+      })
+    }
 
     onMounted(() => {
       setDebounce(props.debounce)

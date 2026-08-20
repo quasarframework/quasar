@@ -128,7 +128,7 @@ describe('[preventScroll API]', () => {
         expect(document.body.style.top).toBe('-180px')
       })
 
-      test('restores the previous body offsets and scroll position', () => {
+      test('restores the previous body offsets and scroll position', async () => {
         makeDocumentScrollable()
         document.body.style.left = '5px'
         document.body.style.top = '10px'
@@ -137,6 +137,12 @@ describe('[preventScroll API]', () => {
         const scrollTo = vi.spyOn(window, 'scrollTo')
 
         preventScroll(true)
+
+        // the browser clamps the locked (position: fixed) body's scroll
+        // position to 0 asynchronously; the restore is only observable
+        // once the position got genuinely lost
+        await expect.poll(() => window.scrollY).toBe(0)
+
         preventScroll(false)
 
         expect(document.body.style.left).toBe('5px')
@@ -356,7 +362,10 @@ describe('[preventScroll API]', () => {
         expect(listener).toHaveBeenCalledOnce()
       })
 
-      test('does not notify when the scroll position gets restored', () => {
+      test('does not notify when the restore emits a scroll event', async () => {
+        makeDocumentScrollable()
+        window.scrollTo(30, 180)
+
         const listener = vi.fn()
 
         restoreFns.push(() => {
@@ -366,9 +375,36 @@ describe('[preventScroll API]', () => {
         addPreventScrollReleaseListener(listener)
 
         preventScroll(true)
+
+        // wait for the browser to clamp the locked page to 0, so that
+        // the release genuinely has a position to scroll back to
+        await expect.poll(() => window.scrollY).toBe(0)
+
         preventScroll(false)
 
+        // the page sat away from the top, so the restoring scrollTo emits
+        // a scroll event and consumers re-sync through that instead
         expect(listener).not.toHaveBeenCalled()
+        expect(window.scrollY).toBe(180)
+      })
+
+      test('notifies when the release lands on the saved scroll position', () => {
+        // the page is at top when the lock engages, so the restoring
+        // scrollTo is a no-op that emits no scroll event: the listeners
+        // are the only release signal (#18520)
+        const listener = vi.fn()
+
+        restoreFns.push(() => {
+          removePreventScrollReleaseListener(listener)
+        })
+
+        addPreventScrollReleaseListener(listener)
+
+        preventScroll(true)
+        expect(listener).not.toHaveBeenCalled()
+
+        preventScroll(false)
+        expect(listener).toHaveBeenCalledOnce()
       })
     })
 
