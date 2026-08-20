@@ -3029,7 +3029,7 @@ describe('[QSelect API]', () => {
         expect(
           wrapper.get('input[role="combobox"]').attributes('aria-label')
         ).toBe('Preferred car')
-        expect(wrapper.findAll('[aria-label="Preferred car"]').length).toBe(1)
+        expect(wrapper.findAll('[aria-label="Preferred car"]')).toHaveLength(1)
       }
     )
 
