@@ -79,6 +79,10 @@ The `breakpoint` prop (default: 1023) decides which of the two is used: the draw
 
 Set the `behavior` prop to "desktop" or "mobile" to pin the drawer into one of them regardless of the width. Its default value ("default") is the dynamic switch described above.
 
+::: warning
+A layout can hold one drawer per side, but the two cannot be on screen at the same time while both are in "mobile" behavior, where each of them covers the page with a backdrop of its own. Showing one closes the other, which also syncs its `v-model` to `false`. In "desktop" behavior they coexist.
+:::
+
 #### Showing it above the breakpoint
 
 The `show-if-above` Boolean prop shows the drawer whenever the layout is in "desktop" behavior, even though its `v-model` is `false`, and it syncs that `v-model` back to `true` when it does so on the first render.

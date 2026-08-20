@@ -51,6 +51,33 @@ function mountDrawer(drawerProps, slots, mountOptions) {
   return activeWrapper
 }
 
+/**
+ * The "one drawer per side" cases, mounted through a single QLayout so
+ * that both drawers register themselves with the same layout instance.
+ */
+function mountTwoDrawers(leftProps, rightProps) {
+  activeWrapper = mount(
+    defineComponent({
+      props: { leftProps: Object, rightProps: Object },
+      setup(componentProps) {
+        return () =>
+          h(QLayout, null, {
+            default: () => [
+              h(QDrawer, { side: 'left', ...componentProps.leftProps }),
+              h(QDrawer, { side: 'right', ...componentProps.rightProps })
+            ]
+          })
+      }
+    }),
+    {
+      props: { leftProps, rightProps },
+      attachTo: document.body
+    }
+  )
+
+  return activeWrapper
+}
+
 function getDrawer(wrapper) {
   return wrapper.get('aside.q-drawer')
 }
@@ -793,6 +820,48 @@ describe('[QDrawer API]', () => {
           'translateX(-300px)'
         )
       })
+    })
+  })
+
+  describe('[Generic]', () => {
+    // in mobile behavior a drawer covers the page with a backdrop of its
+    // own, so two of them can never share the screen
+    test('showing a mobile drawer hides the one on the other side', async () => {
+      const wrapper = mountTwoDrawers()
+      await settle()
+      await setLayoutWidth(wrapper, 500)
+
+      const [left, right] = wrapper.findAllComponents(QDrawer)
+      const [leftAside, rightAside] = wrapper.findAll('aside.q-drawer')
+
+      left.vm.show(false)
+      await settle()
+
+      expect(leftAside.$style('transform')).toBe('translateX(0px)')
+
+      right.vm.show(false)
+      await settle()
+
+      expect(rightAside.$style('transform')).toBe('translateX(0px)')
+      expect(leftAside.$style('transform')).toBe('translateX(-300px)')
+    })
+
+    test('leaves the other side alone in desktop behavior', async () => {
+      const wrapper = mountTwoDrawers()
+      await settle()
+      await setLayoutWidth(wrapper, 1500)
+
+      const [left, right] = wrapper.findAllComponents(QDrawer)
+      const [leftAside, rightAside] = wrapper.findAll('aside.q-drawer')
+
+      left.vm.show(false)
+      await settle()
+      right.vm.show(false)
+      await settle()
+
+      // both occupy space on the layout, so they coexist
+      expect(leftAside.$style('transform')).toBe('translateX(0px)')
+      expect(rightAside.$style('transform')).toBe('translateX(0px)')
     })
   })
 

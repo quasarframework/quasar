@@ -156,7 +156,8 @@ export default /*#__PURE__*/ createComponent({
 
       if (belowBreakpoint.value) {
         const otherInstance = $layout.instances[otherSide.value]
-        if (otherInstance?.belowBreakpoint === true) {
+        // the layout holds the raw instance, so this is the ref itself
+        if (otherInstance?.belowBreakpoint.value) {
           otherInstance.hide(false)
         }
 
