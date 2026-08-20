@@ -435,6 +435,8 @@ devServer: {
 }
 ```
 
+If you expose your dev server through a tunneling service, you will also need the `allowedHosts` property. See [Opening your dev server to the public](/quasar-cli-vite/opening-dev-server-to-public).
+
 ### build
 
 ```ts
