@@ -1,24 +1,24 @@
 <template>
   <div class="q-pa-md q-gutter-sm">
     <q-carousel animated v-model="slide" infinite>
-      <q-carousel-slide name="soft-jazz">
+      <q-carousel-slide name="big-buck-bunny">
         <q-video
           class="absolute-full"
-          src="https://www.youtube.com/embed/k3_tw44QsZQ"
+          src="https://www.youtube.com/embed/aqz-KE-bpKQ"
         />
       </q-carousel-slide>
 
-      <q-carousel-slide name="Rihanna">
+      <q-carousel-slide name="sintel">
         <q-video
           class="absolute-full"
-          src="https://www.youtube.com/embed/kOkQ4T5WO9E"
+          src="https://www.youtube.com/embed/eRsGyueVLvQ"
         />
       </q-carousel-slide>
 
-      <q-carousel-slide name="ibiza">
+      <q-carousel-slide name="tears-of-steel">
         <q-video
           class="absolute-full"
-          src="https://www.youtube.com/embed/p87miJIYEEk"
+          src="https://www.youtube.com/embed/R6MlUcmOul8"
         />
       </q-carousel-slide>
     </q-carousel>
@@ -28,9 +28,9 @@
         glossy
         v-model="slide"
         :options="[
-          { label: 'Soft Jazz', value: 'soft-jazz' },
-          { label: 'Rihanna', value: 'Rihanna' },
-          { label: 'Ibiza Mix', value: 'ibiza' }
+          { label: 'Big Buck Bunny', value: 'big-buck-bunny' },
+          { label: 'Sintel', value: 'sintel' },
+          { label: 'Tears of Steel', value: 'tears-of-steel' }
         ]"
       />
     </div>
@@ -40,5 +40,5 @@
 <script setup>
 import { ref } from 'vue'
 
-const slide = ref('Rihanna')
+const slide = ref('big-buck-bunny')
 </script>
