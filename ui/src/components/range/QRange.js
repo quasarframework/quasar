@@ -267,7 +267,7 @@ export default /*#__PURE__*/ createComponent({
 
       // same wiring on every device; see QSlider's trackContainerEvents
       const evt = {
-        onClick: methods.onMobileClick,
+        onClick: methods.onClick,
         onMousedown: methods.onActivate
       }
 

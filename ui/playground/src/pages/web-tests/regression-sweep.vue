@@ -712,10 +712,32 @@ async function s9() {
   pressKey(maxThumb, 35) // END
   await settle(150)
   const maxEndOk = s9val.value.min === 0 && s9val.value.max === 10
+
+  // a track tap must not leave the moved thumb's focus ring behind:
+  // QRange marks the moved thumb as focused while positioning it, and
+  // on touch platforms no blur ever arrives to clear that mark
+  // (found on an iPhone: the ring survived scrolling and taps away)
+  const wrap = document.querySelector('.s9-wrap')
+  const track = wrap.querySelector('.q-slider__track-container')
+  const rect = wrap.querySelector('.q-slider').getBoundingClientRect()
+  const tapAt = {
+    bubbles: true,
+    clientX: rect.left + rect.width / 2,
+    clientY: rect.top + rect.height / 2
+  }
+  track.dispatchEvent(new MouseEvent('mousedown', tapAt))
+  await settle(100)
+  document.dispatchEvent(new MouseEvent('mouseup', tapAt))
+  await settle(100)
+  track.dispatchEvent(new MouseEvent('click', tapAt))
+  await settle(200)
+  const noLingeringRing = wrap.querySelector('.q-slider--focus') === null
+
   report(
     'S9 QRange per-thumb sliders',
-    minHomeOk && maxEndOk,
-    `twoThumbs=true minHome=${minHomeOk} maxEnd=${maxEndOk}`
+    minHomeOk && maxEndOk && noLingeringRing,
+    `twoThumbs=true minHome=${minHomeOk} maxEnd=${maxEndOk} ` +
+      `noLingeringRing=${noLingeringRing}`
   )
 }
 

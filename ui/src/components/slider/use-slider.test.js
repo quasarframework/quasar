@@ -146,7 +146,7 @@ describe('[useSlider API]', () => {
 
           methods: {
             onActivate: expect.any(Function),
-            onMobileClick: expect.any(Function),
+            onClick: expect.any(Function),
             onBlur: expect.any(Function),
             onKeyup: expect.any(Function),
             getContent: expect.any(Function),
@@ -363,11 +363,11 @@ describe('[useSlider API]', () => {
         expect(updateValue).not.toHaveBeenCalled()
       })
 
-      test('applies a mobile tap right away', () => {
+      test('applies a click right away', () => {
         const { slider, updateValue, updatePosition } = mountSlider()
         const event = { type: 'click' }
 
-        slider.methods.onMobileClick(event)
+        slider.methods.onClick(event)
 
         expect(updatePosition).toHaveBeenCalledExactlyOnceWith(
           event,

@@ -124,7 +124,7 @@ export default /*#__PURE__*/ createComponent({
       // immediately through onActivate, and the keyboard works everywhere,
       // not only on desktop UAs (the track is focusable everywhere)
       return {
-        onClick: methods.onMobileClick,
+        onClick: methods.onClick,
         onMousedown: methods.onActivate,
         onFocus,
         onBlur: methods.onBlur,

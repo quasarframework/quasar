@@ -1385,6 +1385,10 @@ describe('[QRange API]', () => {
       expect(wrapper.emitted('update:modelValue')).toStrictEqual([
         [{ min: 30, max: 100 }]
       ])
+
+      // ...and must not leave the moved thumb's focus ring behind: on
+      // touch platforms nothing ever blurs it away afterwards
+      expect(wrapper.find('.q-slider--focus').exists()).toBe(false)
     })
 
     test('dragging a thumb across the other one swaps their roles', async () => {

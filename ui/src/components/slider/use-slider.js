@@ -483,9 +483,15 @@ export default function useSlider({
     document.removeEventListener('mouseup', onDeactivate, true)
   }
 
-  function onMobileClick(evt) {
+  function onClick(evt) {
     updatePosition(evt, getDragging(evt))
     updateValue(true)
+
+    // end without a focus ring, like onDeactivate: QRange's
+    // updatePosition marks the moved thumb as focused, and on touch
+    // platforms no blur ever arrives to clear that mark (a tap focuses
+    // nothing, so scrolling or tapping away leaves the ring on forever)
+    onBlur()
   }
 
   function onKeyup(evt) {
@@ -724,7 +730,7 @@ export default function useSlider({
 
     methods: {
       onActivate,
-      onMobileClick,
+      onClick,
       onBlur,
       onKeyup,
       getContent,
