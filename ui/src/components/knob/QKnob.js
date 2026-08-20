@@ -75,6 +75,19 @@ export default /*#__PURE__*/ createComponent({
     // prop back; see QSlider's emittedValue
     let emittedValue = null
 
+    // snapshotted when an interaction starts and compared at commit
+    // time (see QSlider's changeBaseline): an interaction ending where
+    // it started stays silent, and model normalization (mount, parent
+    // writes, clamping) is not a user adjustment, so it never emits
+    // change on its own
+    let changeBaseline = null
+
+    function armChangeBaseline() {
+      if (changeBaseline === null) {
+        changeBaseline = model.value
+      }
+    }
+
     function normalizeModel() {
       emittedValue = null
       model.value =
@@ -82,7 +95,10 @@ export default /*#__PURE__*/ createComponent({
           ? innerMin.value
           : between(props.modelValue, innerMin.value, innerMax.value)
 
-      updateValue(true)
+      // false: still pushes a clamped correction back through
+      // update:modelValue, but must not touch the change lifecycle
+      // (the parent syncing v-model mid-drag lands here)
+      updateValue(false)
     }
 
     watch(
@@ -148,6 +164,7 @@ export default /*#__PURE__*/ createComponent({
       }
 
       if (event.isFirst) {
+        armChangeBaseline()
         updateCenterPosition()
         dragging.value = true
       }
@@ -168,11 +185,13 @@ export default /*#__PURE__*/ createComponent({
     }
 
     function onMousedown(evt) {
+      armChangeBaseline()
       updateCenterPosition()
       updatePosition(evt, false)
     }
 
     function onClick(evt) {
+      armChangeBaseline()
       updateCenterPosition()
       updatePosition(evt, true)
     }
@@ -181,6 +200,7 @@ export default /*#__PURE__*/ createComponent({
       if (!keyCodes.includes(evt.keyCode)) return
 
       stopAndPrevent(evt)
+      armChangeBaseline()
 
       const stepVal = ([34, 33].includes(evt.keyCode) ? 10 : 1) * step.value,
         offset = [34, 37, 40].includes(evt.keyCode) ? -stepVal : stepVal
@@ -253,7 +273,12 @@ export default /*#__PURE__*/ createComponent({
         emit('update:modelValue', model.value)
       }
 
-      if (change) emit('change', model.value)
+      if (change) {
+        if (changeBaseline !== null && changeBaseline !== model.value) {
+          emit('change', model.value)
+        }
+        changeBaseline = null
+      }
     }
 
     const formAttrs = useFormAttrs(props)

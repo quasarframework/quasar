@@ -275,14 +275,11 @@ describe('[QKnob API]', () => {
     describe('[(event)change]', () => {
       test('is emitting', async () => {
         const wrapper = mountKnob()
-        const initialCount = wrapper.emitted('change').length
 
         await wrapper.trigger('keydown', { keyCode: 39 })
         await wrapper.trigger('keyup', { keyCode: 39 })
 
-        const changes = wrapper.emitted('change')
-        expect(changes).toHaveLength(initialCount + 1)
-        expect(changes.at(-1)).toStrictEqual([11])
+        expect(wrapper.emitted('change')).toStrictEqual([[11]])
       })
     })
 
@@ -317,9 +314,35 @@ describe('[QKnob API]', () => {
 
       const updates = wrapper.emitted('update:modelValue')
       expect(updates).toHaveLength(1)
-      // .at(-1): mounting a QKnob already emits one change (normalizeModel
-      // runs updateValue at setup), which is not this test's subject
-      expect(wrapper.emitted('change').at(-1)).toStrictEqual(updates[0])
+      expect(wrapper.emitted('change')).toStrictEqual([updates[0]])
+    })
+
+    test('change belongs to user adjustments alone', async () => {
+      // neither mounting...
+      const wrapper = mountKnob()
+      expect(wrapper.emitted('change')).toBeUndefined()
+
+      // ...nor a parent model write...
+      await wrapper.setProps({ modelValue: 50 })
+      expect(wrapper.emitted('change')).toBeUndefined()
+
+      // ...nor clamping an out-of-range model emits change; the clamped
+      // correction still flows back through update:modelValue
+      await wrapper.setProps({ modelValue: 500 })
+      expect(wrapper.emitted('update:modelValue')).toStrictEqual([[100]])
+      expect(wrapper.emitted('change')).toBeUndefined()
+
+      // an adjustment ending where it started stays silent too
+      await wrapper.setProps({ modelValue: 50 })
+      await wrapper.trigger('keydown', { keyCode: 39 })
+      await wrapper.trigger('keydown', { keyCode: 37 })
+      await wrapper.trigger('keyup', { keyCode: 37 })
+      expect(wrapper.emitted('change')).toBeUndefined()
+
+      // a real net adjustment still commits
+      await wrapper.trigger('keydown', { keyCode: 39 })
+      await wrapper.trigger('keyup', { keyCode: 39 })
+      expect(wrapper.emitted('change')).toStrictEqual([[51]])
     })
   })
 
