@@ -30,6 +30,16 @@ import { hSlot, hUniqueSlot } from '../../utils/private.render/render.js'
 
 const { passive } = listenOpts
 
+function isInFixedSubtree(el) {
+  while (el !== null && el !== document.body) {
+    if (window.getComputedStyle(el).position === 'fixed') {
+      return true
+    }
+    el = el.parentElement
+  }
+  return false
+}
+
 export default /*#__PURE__*/ createComponent({
   name: 'QInfiniteScroll',
 
@@ -66,6 +76,7 @@ export default /*#__PURE__*/ createComponent({
 
     let index = props.initialIndex
     let localScrollTarget, poll
+    let inFixedSubtree = false
 
     const classes = computed(
       () =>
@@ -83,15 +94,25 @@ export default /*#__PURE__*/ createComponent({
         return
       }
 
-      // A Dialog or an overlay Drawer scroll-locks the page (body becomes
-      // position:fixed), which pins the window scroll position at 0. Reverse
-      // mode reads that as "scrolled to the top", so each done() would
-      // trigger the next load for as long as the overlay stays open. Skip
-      // polling while locked: polling resumes on release, through the
+      // A window scroll target cannot react to content rendered inside a
+      // position:fixed subtree (a Dialog, a fullscreen overlay): the content
+      // never contributes to the document's scroll extent, so the forward
+      // load condition would hold forever and runaway-load. Such a placement
+      // needs an explicit scroll-target on the overlay's own scrollable
+      // element; until it gets one, polling stays off (trigger() still works).
+      //
+      // A Dialog or an overlay Drawer also scroll-locks the page (body
+      // becomes position:fixed), which pins the window scroll position at 0.
+      // Reverse mode reads that as "scrolled to the top", so each done()
+      // would trigger the next load for as long as the overlay stays open.
+      // Skip polling while locked: polling resumes on release, through the
       // restore's scroll event or, when the page sat at top so no event can
       // fire, through the prevent-scroll release listeners. Element scroll
       // targets keep their own geometry under the lock, so they stay live.
-      if (localScrollTarget === window && document.qScrollPrevented === true) {
+      if (
+        localScrollTarget === window &&
+        (inFixedSubtree || document.qScrollPrevented === true)
+      ) {
         return
       }
 
@@ -189,11 +210,13 @@ export default /*#__PURE__*/ createComponent({
       }
 
       localScrollTarget = getScrollTarget(rootRef.value, props.scrollTarget)
+      inFixedSubtree =
+        localScrollTarget === window && isInFixedSubtree(rootRef.value)
 
       if (isWorking.value) {
         localScrollTarget.addEventListener('scroll', poll, passive)
 
-        if (props.reverse) {
+        if (props.reverse && !inFixedSubtree) {
           const scrollHeight = getScrollHeight(localScrollTarget),
             containerHeight = height(localScrollTarget)
 

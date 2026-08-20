@@ -48,6 +48,10 @@ If you pass a custom scroll target container with `scroll-target` prop you must 
 If the scroll target container cannot be overflowed you'll get a forever loading situation.
 :::
 
+::: warning
+Inside a QDialog or any other `position: fixed` container the page itself cannot act as the scroll target: content rendered there never changes the page's scroll size, so the component would have no way to decide when to load. Point the `scroll-target` prop to a scrollable element of the overlay (or wrap the content in one, e.g. with the `scroll` CSS class and a maximum height); without one, automatic loading stays off in such a placement (the `trigger()` method still works).
+:::
+
 <DocExample title="Usage in QMenu" file="Menu" />
 
 ## Accessibility <q-badge label="v2.25+" />
