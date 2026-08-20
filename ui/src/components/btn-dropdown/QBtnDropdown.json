@@ -74,6 +74,31 @@
       "category": "behavior"
     },
 
+    "hover": {
+      "type": "Boolean",
+      "desc": "Also opens the dropdown when the pointer hovers the button (in split mode: either one of the two buttons) and closes it when the pointer leaves both the button and the menu; Click/tap and keyboard interactions keep working (touch devices fall back to them): activating the button while hover-shown switches the dropdown to a regular focused open instead of closing it; A hover-opened dropdown does not switch focus on itself",
+      "category": "behavior",
+      "addedIn": "v2.26"
+    },
+
+    "hover-delay": {
+      "type": "Number",
+      "desc": "Delay (in milliseconds) between the pointer entering the button and the dropdown showing up; Requires the 'hover' prop",
+      "default": "0",
+      "__runtimeDefault": true,
+      "category": "behavior",
+      "addedIn": "v2.26"
+    },
+
+    "hover-hide-delay": {
+      "type": "Number",
+      "desc": "Grace period (in milliseconds) in which the pointer can re-enter the button or the menu before the dropdown gets closed; Requires the 'hover' prop",
+      "default": "150",
+      "__runtimeDefault": true,
+      "category": "behavior",
+      "addedIn": "v2.26"
+    },
+
     "no-esc-dismiss": {
       "type": "Boolean",
       "desc": "User cannot dismiss the popup by hitting ESC key; No need to set it if 'persistent' prop is also set",

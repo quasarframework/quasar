@@ -29,7 +29,11 @@ import useTick from '../../composables/use-tick/use-tick.js'
 import useTimeout from '../../composables/use-timeout/use-timeout.js'
 
 import { createComponent } from '../../utils/private.create/create.js'
-import { closePortalMenus } from '../../utils/private.portal/portal.js'
+import {
+  closePortalMenus,
+  getPortalProxy
+} from '../../utils/private.portal/portal.js'
+import { getParentProxy } from '../../utils/private.vm/vm.js'
 import { getScrollTarget, scrollTargetProp } from '../../utils/scroll/scroll.js'
 import { position, stopAndPrevent } from '../../utils/event/event.js'
 import { hSlot } from '../../utils/private.render/render.js'
@@ -107,6 +111,16 @@ export default /*#__PURE__*/ createComponent({
 
     touchPosition: Boolean,
 
+    hover: Boolean,
+    hoverDelay: {
+      type: Number,
+      default: 0
+    },
+    hoverHideDelay: {
+      type: Number,
+      default: 150
+    },
+
     maxHeight: {
       type: String,
       default: null
@@ -124,7 +138,11 @@ export default /*#__PURE__*/ createComponent({
       absoluteOffset,
       unwatchPosition,
       stopAnchorTracking,
-      avoidAutoClose
+      avoidAutoClose,
+      hoverTimer = null,
+      // set while the current "show" was triggered by hovering the anchor,
+      // in which case the menu must leave focus wherever it already is
+      hoverShown = false
 
     const vm = getCurrentInstance()
     const { proxy } = vm
@@ -144,7 +162,7 @@ export default /*#__PURE__*/ createComponent({
     const { localScrollTarget, changeScrollEvent, unconfigureScrollTarget } =
       useScrollTarget(props, configureScrollTarget)
 
-    const { anchorEl, canShow } = useAnchor({
+    const { anchorEl, canShow, anchorEvents } = useAnchor({
       showing,
       // the anchor is the control that opens this popup, so it carries
       // the disclosure state; a role declared on the popup through
@@ -152,7 +170,35 @@ export default /*#__PURE__*/ createComponent({
       getPopupRole: () => attrs.role
     })
 
-    const { hide } = useModelToggle({
+    // referenced by name when useAnchor wires the anchor's hover events
+    Object.assign(anchorEvents, { hoverShow, hoverHide })
+
+    // on real hardware the pointer always hovers the anchor before it can
+    // click it, so with "hover" on, a plain toggle would only ever close
+    // the just-hover-shown menu; an explicit activation upgrades it to a
+    // regular focused open instead
+    const anchorToggle = anchorEvents.toggle
+    anchorEvents.toggle = evt => {
+      if (hoverShown && showing.value) {
+        hoverShown = false
+        clearHoverTimer()
+        refocusTarget = props.noRefocus ? null : document.activeElement
+
+        if (!props.noFocus) {
+          // the anchor's own press cycle (e.g. QBtn's focus-helper dance)
+          // must fully settle before focus can move into the menu
+          nextTick(() => {
+            if (showing.value) focus()
+          })
+        }
+
+        evt.qAnchorHandled = true
+      } else {
+        anchorToggle(evt)
+      }
+    }
+
+    const { show, hide } = useModelToggle({
       showing,
       canShow,
       handleShow,
@@ -251,8 +297,96 @@ export default /*#__PURE__*/ createComponent({
       })
     }
 
+    function clearHoverTimer() {
+      if (hoverTimer !== null) {
+        clearTimeout(hoverTimer)
+        hoverTimer = null
+      }
+    }
+
+    // is the pointer still over the menu's own scope: its anchor, its
+    // content, or a popup opened from within it? (the latter is rendered
+    // in a sibling portal, so it is never a DOM descendant of the content)
+    function hoverWithinScope(el) {
+      if (el === null || el === void 0) return false
+
+      if (
+        (anchorEl.value !== null && anchorEl.value.contains(el)) ||
+        (innerRef.value !== null && innerRef.value.contains(el))
+      ) {
+        return true
+      }
+
+      let portalProxy = getPortalProxy(el)
+      while (portalProxy !== void 0 && portalProxy !== null) {
+        if (portalProxy === proxy) return true
+        portalProxy = getParentProxy(portalProxy)
+      }
+
+      return false
+    }
+
+    function scheduleHoverHide(evt) {
+      clearHoverTimer()
+
+      if (!showing.value || hoverWithinScope(evt.relatedTarget)) return
+
+      hoverTimer = setTimeout(() => {
+        hoverTimer = null
+        hide(evt)
+      }, props.hoverHideDelay)
+    }
+
+    function hoverShow(evt) {
+      // touch has no hover; a tap keeps acting through the click toggle
+      if (evt.pointerType === 'touch') return
+
+      clearHoverTimer()
+
+      if (showing.value) return
+
+      if (props.hoverDelay > 0) {
+        hoverTimer = setTimeout(() => {
+          hoverTimer = null
+          show(evt)
+        }, props.hoverDelay)
+      } else {
+        show(evt)
+      }
+    }
+
+    function hoverHide(evt) {
+      if (evt.pointerType === 'touch') return
+
+      scheduleHoverHide(evt)
+
+      // a leave across a portal boundary is invisible to the ancestor
+      // menus' DOM (their content lives in sibling portals), so they get
+      // told directly; each one re-checks its own scope before hiding
+      let parent = getParentProxy(proxy)
+      while (parent !== void 0 && parent !== null) {
+        if (parent.$options.name === 'QMenu' && parent.$props.hover === true) {
+          parent.__qHoverHide?.(evt)
+        }
+        parent = getParentProxy(parent)
+      }
+    }
+
+    function onHoverContentEnter(evt) {
+      if (evt.pointerType !== 'touch') {
+        clearHoverTimer()
+      }
+    }
+
     function handleShow(evt) {
-      refocusTarget = props.noRefocus ? null : document.activeElement
+      // a hover-triggered open must not steal focus from wherever the
+      // user currently is, nor hand it anywhere when hiding
+      hoverShown = props.hover && evt?.type === 'pointerenter'
+
+      clearHoverTimer()
+
+      refocusTarget =
+        props.noRefocus || hoverShown ? null : document.activeElement
 
       addFocusout(onFocusout)
       addDetachedFullscreenListener(onDetachedFullscreenChange)
@@ -287,7 +421,7 @@ export default /*#__PURE__*/ createComponent({
         )
       }
 
-      if (!props.noFocus) {
+      if (!props.noFocus && !hoverShown) {
         document.activeElement.blur()
       }
 
@@ -305,7 +439,7 @@ export default /*#__PURE__*/ createComponent({
           props.transitionDuration
         )
 
-        if (!props.noFocus) focus()
+        if (!props.noFocus && !hoverShown) focus()
       })
 
       // should removeTimeout() if this gets removed
@@ -325,6 +459,8 @@ export default /*#__PURE__*/ createComponent({
     }
 
     function handleHide(evt) {
+      hoverShown = false
+
       removeTick()
       hidePortal()
 
@@ -360,6 +496,7 @@ export default /*#__PURE__*/ createComponent({
     }
 
     function anchorCleanup(hiding) {
+      clearHoverTimer()
       absoluteOffset = void 0
 
       if (unwatchPosition !== void 0) {
@@ -411,6 +548,7 @@ export default /*#__PURE__*/ createComponent({
       if (
         handlesFocus.value &&
         !props.noFocus &&
+        !hoverShown &&
         !childHasFocus(innerRef.value, evt.target) &&
         !focusIsInDetachedFullscreen(innerRef.value, evt.target)
       ) {
@@ -524,6 +662,20 @@ export default /*#__PURE__*/ createComponent({
                 // chains the consumer's own keydown listener, if any
                 // oxlint-disable-next-line unicorn/prefer-spread
                 onKeydown: [].concat(attrs.onKeydown || [], onPortalKeydown),
+                ...(props.hover
+                  ? {
+                      // oxlint-disable-next-line unicorn/prefer-spread
+                      onPointerenter: [].concat(
+                        attrs.onPointerenter || [],
+                        onHoverContentEnter
+                      ),
+                      // oxlint-disable-next-line unicorn/prefer-spread
+                      onPointerleave: [].concat(
+                        attrs.onPointerleave || [],
+                        hoverHide
+                      )
+                    }
+                  : {}),
                 class: [
                   'q-menu q-position-engine scroll' + menuClass.value,
                   attrs.class
@@ -543,6 +695,10 @@ export default /*#__PURE__*/ createComponent({
 
     // expose public methods
     Object.assign(proxy, { focus, updatePosition })
+
+    // internal: how a descendant hover menu notifies this one that the
+    // pointer left it (see hoverHide)
+    proxy.__qHoverHide = scheduleHoverHide
 
     return renderPortal
   }

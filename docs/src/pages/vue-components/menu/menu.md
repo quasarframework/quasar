@@ -34,6 +34,14 @@ Alternatively, you can use the QMenu's property `auto-close` or handle closing t
 If you want to conditionally activate or de-activate a QMenu, please use `v-if` on it instead of `v-show`.
 :::
 
+### Hover <q-badge label="v2.26+" />
+
+With the `hover` prop the menu also opens when the pointer hovers its target and closes once the pointer has left both the target and the menu. The `hover-hide-delay` prop controls the grace period in which the pointer can travel between the two (or return) before the menu closes, while `hover-delay` postpones the opening.
+
+Click/tap and keyboard interactions keep working as usual, so touch devices (which have no hover) simply fall back to them. A hover-opened menu does not move keyboard focus onto itself; clicking the target (or activating it with <kbd>Enter</kbd>) while the menu is hover-shown switches it to a regular focused open instead of closing it. Submenus work too: hovering from a menu into a submenu opened from it keeps the whole chain open.
+
+<DocExample title="Hover" file="Hover" />
+
 ### Submenus
 
 <DocExample title="Menus in menus" file="MenuInMenu" />

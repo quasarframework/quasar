@@ -90,6 +90,29 @@
       "category": "behavior"
     },
 
+    "hover": {
+      "type": "Boolean",
+      "desc": "Also opens the menu when the pointer hovers its target and closes it when the pointer leaves both the target and the menu; Click/tap and keyboard interactions keep working (touch devices fall back to them): activating the target while hover-shown switches the menu to a regular focused open instead of closing it; A hover-opened menu does not switch focus on itself; Has no effect when 'context-menu' is set",
+      "category": "behavior",
+      "addedIn": "v2.26"
+    },
+
+    "hover-delay": {
+      "type": "Number",
+      "desc": "Delay (in milliseconds) between the pointer entering the target and the menu showing up; Requires the 'hover' prop",
+      "default": "0",
+      "category": "behavior",
+      "addedIn": "v2.26"
+    },
+
+    "hover-hide-delay": {
+      "type": "Number",
+      "desc": "Grace period (in milliseconds) in which the pointer can re-enter the target or the menu before it gets closed; Requires the 'hover' prop",
+      "default": "150",
+      "category": "behavior",
+      "addedIn": "v2.26"
+    },
+
     "persistent": {
       "type": "Boolean",
       "desc": "Allows the menu to not be dismissed by a click/tap outside of the menu or by hitting the ESC key; Also, an app route change won't dismiss it",

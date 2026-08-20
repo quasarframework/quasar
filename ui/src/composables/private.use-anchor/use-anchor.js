@@ -231,6 +231,16 @@ export default function useAnchor({
             [anchorEl.value, 'keyup', 'toggleKey', 'passive']
           ]
 
+      // "hover" is declared by QMenu only, which supplies both handlers
+      // through anchorEvents and wires the popup-content side itself;
+      // click/keyup stay on so touch and keyboard keep working
+      if (!context && props.hover === true) {
+        evts.push(
+          [anchorEl.value, 'pointerenter', 'hoverShow', 'passive'],
+          [anchorEl.value, 'pointerleave', 'hoverHide', 'passive']
+        )
+      }
+
       addEvt(anchorEvents, 'anchor', evts)
     }
   }
@@ -345,6 +355,16 @@ export default function useAnchor({
         // a context menu anchor gets no popup ARIA
         unconfigureAnchorAria()
         configureAnchorAria()
+      }
+    }
+  )
+
+  watch(
+    () => props.hover,
+    () => {
+      if (anchorEl.value !== null) {
+        unconfigureAnchorEl()
+        configureAnchorEl()
       }
     }
   )

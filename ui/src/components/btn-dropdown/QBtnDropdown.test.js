@@ -911,6 +911,67 @@ describe('[QBtnDropdown API]', () => {
       })
     })
 
+    describe('[(prop)hover]', () => {
+      test('type Boolean has effect', async () => {
+        const wrapper = mountBtnDropdown({ hover: true })
+
+        await getRoot(wrapper).trigger('pointerenter', {
+          pointerType: 'mouse'
+        })
+        await flushPromises()
+
+        expect(getMenu()).not.toBeNull()
+
+        await getRoot(wrapper).trigger('pointerleave', {
+          pointerType: 'mouse'
+        })
+        await settle()
+
+        expect(getMenu()).toBeNull()
+      })
+    })
+
+    describe('[(prop)hover-delay]', () => {
+      test('type Number has effect', async () => {
+        const wrapper = mountBtnDropdown({ hover: true, hoverDelay: 500 })
+
+        await getRoot(wrapper).trigger('pointerenter', {
+          pointerType: 'mouse'
+        })
+        await vi.advanceTimersByTimeAsync(499)
+
+        expect(getMenu()).toBeNull()
+
+        await vi.advanceTimersByTimeAsync(1)
+        await flushPromises()
+
+        expect(getMenu()).not.toBeNull()
+      })
+    })
+
+    describe('[(prop)hover-hide-delay]', () => {
+      test('type Number has effect', async () => {
+        const wrapper = mountBtnDropdown({ hover: true, hoverHideDelay: 500 })
+
+        await getRoot(wrapper).trigger('pointerenter', {
+          pointerType: 'mouse'
+        })
+        await settle()
+        expect(getMenu()).not.toBeNull()
+
+        await getRoot(wrapper).trigger('pointerleave', {
+          pointerType: 'mouse'
+        })
+        await vi.advanceTimersByTimeAsync(499)
+
+        expect(getMenu()).not.toBeNull()
+
+        await settle()
+
+        expect(getMenu()).toBeNull()
+      })
+    })
+
     describe('[(prop)no-esc-dismiss]', () => {
       test('type Boolean has effect', async () => {
         const wrapper = mountBtnDropdown({ noEscDismiss: true })

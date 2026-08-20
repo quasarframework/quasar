@@ -735,6 +735,197 @@ describe('[QMenu API]', () => {
       })
     })
 
+    describe('[(prop)hover]', () => {
+      test('type Boolean has effect', async () => {
+        const wrapper = mountMenu({ hover: true })
+
+        await getAnchor(wrapper).trigger('pointerenter', {
+          pointerType: 'mouse'
+        })
+        await flushPromises()
+
+        expect(getMenu()).not.toBeNull()
+
+        await getAnchor(wrapper).trigger('pointerleave', {
+          pointerType: 'mouse'
+        })
+        await vi.runAllTimersAsync()
+
+        expect(getMenu()).toBeNull()
+      })
+
+      test('a touch pointer does not trigger it', async () => {
+        const wrapper = mountMenu({ hover: true })
+
+        await getAnchor(wrapper).trigger('pointerenter', {
+          pointerType: 'touch'
+        })
+        await vi.runAllTimersAsync()
+
+        expect(getMenu()).toBeNull()
+      })
+
+      test('moving the pointer into the menu keeps it open', async () => {
+        const wrapper = mountMenu({ hover: true })
+
+        await getAnchor(wrapper).trigger('pointerenter', {
+          pointerType: 'mouse'
+        })
+        await flushPromises()
+
+        // the relatedTarget of a real crossing is the element entered
+        getAnchor(wrapper).element.dispatchEvent(
+          new PointerEvent('pointerleave', {
+            pointerType: 'mouse',
+            relatedTarget: getMenu()
+          })
+        )
+        await vi.runAllTimersAsync()
+
+        expect(getMenu()).not.toBeNull()
+
+        getMenu().dispatchEvent(
+          new PointerEvent('pointerleave', { pointerType: 'mouse' })
+        )
+        await vi.runAllTimersAsync()
+
+        expect(getMenu()).toBeNull()
+      })
+
+      test('does not steal focus when opening', async () => {
+        const button = document.createElement('button')
+        document.body.append(button)
+
+        try {
+          const wrapper = mountMenu({ hover: true })
+
+          button.focus()
+          expect(document.activeElement).toBe(button)
+
+          await getAnchor(wrapper).trigger('pointerenter', {
+            pointerType: 'mouse'
+          })
+          await vi.runAllTimersAsync()
+
+          expect(getMenu()).not.toBeNull()
+          expect(document.activeElement).toBe(button)
+        } finally {
+          button.remove()
+        }
+      })
+
+      test('activating the anchor upgrades a hover-shown menu', async () => {
+        const wrapper = mountMenu({ hover: true })
+
+        await getAnchor(wrapper).trigger('pointerenter', {
+          pointerType: 'mouse'
+        })
+        await vi.runAllTimersAsync()
+        expect(getMenu()).not.toBeNull()
+
+        // a click cannot happen without hovering first, so it must not
+        // toggle the hover-shown menu away; it hands it focus instead
+        await getAnchor(wrapper).trigger('click')
+        await vi.runAllTimersAsync()
+
+        expect(getMenu()).not.toBeNull()
+        expect(getMenu().contains(document.activeElement)).toBe(true)
+
+        await getAnchor(wrapper).trigger('click')
+        await vi.runAllTimersAsync()
+
+        expect(getMenu()).toBeNull()
+      })
+
+      test('closes the whole hover chain when the pointer leaves a submenu', async () => {
+        activeWrapper = mount(
+          defineComponent({
+            setup() {
+              return () =>
+                h('div', { class: 'my-anchor' }, [
+                  h(
+                    QMenu,
+                    { class: 'outer-menu', hover: true, modelValue: true },
+                    () => [
+                      h('div', { class: 'inner-anchor' }, [
+                        h(
+                          QMenu,
+                          {
+                            class: 'inner-menu',
+                            hover: true,
+                            modelValue: true
+                          },
+                          () => h('div', { class: 'my-item' }, 'Item')
+                        )
+                      ])
+                    ]
+                  )
+                ])
+            }
+          }),
+          { attachTo: document.body }
+        )
+
+        await flushPromises()
+        await vi.runAllTimersAsync()
+
+        expect(document.querySelector('.inner-menu')).not.toBeNull()
+
+        // leaving the inner menu for a foreign target must close the
+        // outer menu too, even though its own DOM saw no pointer event
+        document
+          .querySelector('.inner-menu')
+          .dispatchEvent(
+            new PointerEvent('pointerleave', { pointerType: 'mouse' })
+          )
+        await vi.runAllTimersAsync()
+
+        expect(document.querySelector('.inner-menu')).toBeNull()
+        expect(document.querySelector('.outer-menu')).toBeNull()
+      })
+    })
+
+    describe('[(prop)hover-delay]', () => {
+      test('type Number has effect', async () => {
+        const wrapper = mountMenu({ hover: true, hoverDelay: 500 })
+
+        await getAnchor(wrapper).trigger('pointerenter', {
+          pointerType: 'mouse'
+        })
+        await vi.advanceTimersByTimeAsync(499)
+
+        expect(getMenu()).toBeNull()
+
+        await vi.advanceTimersByTimeAsync(1)
+        await flushPromises()
+
+        expect(getMenu()).not.toBeNull()
+      })
+    })
+
+    describe('[(prop)hover-hide-delay]', () => {
+      test('type Number has effect', async () => {
+        const wrapper = mountMenu({ hover: true, hoverHideDelay: 500 })
+
+        await getAnchor(wrapper).trigger('pointerenter', {
+          pointerType: 'mouse'
+        })
+        await vi.runAllTimersAsync()
+        expect(getMenu()).not.toBeNull()
+
+        await getAnchor(wrapper).trigger('pointerleave', {
+          pointerType: 'mouse'
+        })
+        await vi.advanceTimersByTimeAsync(499)
+
+        expect(getMenu()).not.toBeNull()
+
+        await vi.runAllTimersAsync()
+
+        expect(getMenu()).toBeNull()
+      })
+    })
+
     describe('[(prop)persistent]', () => {
       test('type Boolean has effect', async () => {
         const wrapper = mountMenu({ persistent: true })
