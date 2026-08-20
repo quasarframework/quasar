@@ -1718,24 +1718,25 @@ export default /*#__PURE__*/ createComponent({
           }
         }
 
-        const name = nameProp()
-
-        if (name !== void 0 && !props.disable) {
-          const opts = innerOptionsValue.value.map(value =>
-            h('option', { value, selected: true })
-          )
-
-          child.push(
-            h(
-              'select',
-              {
-                class: 'hidden',
-                name,
-                multiple: props.multiple
-              },
-              opts
+        if (!props.disable) {
+          const name = nameProp()
+          if (name !== void 0) {
+            const opts = innerOptionsValue.value.map(value =>
+              h('option', { value, selected: true })
             )
-          )
+
+            child.push(
+              h(
+                'select',
+                {
+                  class: 'hidden',
+                  name,
+                  multiple: props.multiple
+                },
+                opts
+              )
+            )
+          }
         }
 
         const attrs =
