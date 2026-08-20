@@ -31,6 +31,15 @@ function createScrollTarget(id) {
   return target
 }
 
+function createFixedOverlay() {
+  const overlay = document.createElement('div')
+  overlay.style.cssText =
+    'position: fixed; top: 0; left: 0; width: 200px; height: 200px;'
+  document.body.append(overlay)
+  targets.push(overlay)
+  return overlay
+}
+
 function mountInfiniteScroll(
   props = {},
   slots = {},
@@ -446,11 +455,8 @@ describe('[QInfiniteScroll API]', () => {
       // content inside the overlay never grows the document's scroll
       // extent, so the forward load condition would hold forever and
       // runaway-load; polling must not engage at all
-      const overlay = document.createElement('div')
-      overlay.style.cssText =
-        'position: fixed; top: 0; left: 0; width: 200px; height: 200px;'
-      document.body.append(overlay)
-      targets.push(overlay)
+      const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
+      const overlay = createFixedOverlay()
 
       const wrapper = mount(QInfiniteScroll, {
         props: { debounce: 0 },
@@ -463,24 +469,46 @@ describe('[QInfiniteScroll API]', () => {
       window.dispatchEvent(new Event('scroll'))
       expect(wrapper.emitted()).not.toHaveProperty('load')
 
+      // the placement gets called out once, so it is discoverable
+      expect(warn).toHaveBeenCalledExactlyOnceWith(
+        expect.stringContaining('QInfiniteScroll')
+      )
+
       // an explicit trigger still works as the escape hatch
       wrapper.vm.trigger()
+      expect(wrapper.emitted('load')).toHaveLength(1)
+    })
+
+    test('resumes automatically when its subtree stops being fixed', () => {
+      vi.spyOn(console, 'warn').mockImplementation(() => {})
+      const overlay = createFixedOverlay()
+
+      const wrapper = mount(QInfiniteScroll, {
+        props: { debounce: 0 },
+        attachTo: overlay
+      })
+      wrappers.push(wrapper)
+
+      expect(wrapper.emitted()).not.toHaveProperty('load')
+
+      // the overlay becomes part of the page flow again: the next poll
+      // notices on its own, without an updateScrollTarget() call
+      overlay.style.position = 'static'
+      window.dispatchEvent(new Event('scroll'))
+
       expect(wrapper.emitted('load')).toHaveLength(1)
     })
 
     test('does not scroll the page when mounting in reverse inside a fixed subtree', () => {
       // reverse mode normally jumps its scroll target to the bottom on
       // mount, but from a fixed overlay that would scroll the page behind
+      vi.spyOn(console, 'warn').mockImplementation(() => {})
       const filler = document.createElement('div')
       filler.style.height = '3000px'
       document.body.append(filler)
       targets.push(filler)
 
-      const overlay = document.createElement('div')
-      overlay.style.cssText =
-        'position: fixed; top: 0; left: 0; width: 200px; height: 200px;'
-      document.body.append(overlay)
-      targets.push(overlay)
+      const overlay = createFixedOverlay()
 
       const wrapper = mount(QInfiniteScroll, {
         props: { debounce: 0, reverse: true },

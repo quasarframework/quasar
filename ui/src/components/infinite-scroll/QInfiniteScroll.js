@@ -109,11 +109,17 @@ export default /*#__PURE__*/ createComponent({
       // restore's scroll event or, when the page sat at top so no event can
       // fire, through the prevent-scroll release listeners. Element scroll
       // targets keep their own geometry under the lock, so they stay live.
-      if (
-        localScrollTarget === window &&
-        (inFixedSubtree || document.qScrollPrevented === true)
-      ) {
-        return
+      if (localScrollTarget === window) {
+        if (inFixedSubtree) {
+          // the placement may have changed since it was measured (the
+          // ancestor lost its fixed positioning), so re-check while dormant
+          // to come back without requiring an updateScrollTarget() call
+          inFixedSubtree = isInFixedSubtree(rootRef.value)
+        }
+
+        if (inFixedSubtree || document.qScrollPrevented === true) {
+          return
+        }
       }
 
       const scrollHeight = getScrollHeight(localScrollTarget),
@@ -209,9 +215,20 @@ export default /*#__PURE__*/ createComponent({
         localScrollTarget.removeEventListener('scroll', poll, passive)
       }
 
+      const wasInFixedSubtree = inFixedSubtree
+
       localScrollTarget = getScrollTarget(rootRef.value, props.scrollTarget)
       inFixedSubtree =
         localScrollTarget === window && isInFixedSubtree(rootRef.value)
+
+      if (inFixedSubtree && !wasInFixedSubtree) {
+        console.warn(
+          '[Quasar] QInfiniteScroll: the window scroll target cannot react' +
+            ' to content inside a position:fixed subtree (e.g. a Dialog), so' +
+            ' automatic loading stays off here; set the scroll-target prop' +
+            ' to a scrollable element of the overlay'
+        )
+      }
 
       if (isWorking.value) {
         localScrollTarget.addEventListener('scroll', poll, passive)
