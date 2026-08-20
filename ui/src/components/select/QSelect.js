@@ -1739,16 +1739,10 @@ export default /*#__PURE__*/ createComponent({
           }
         }
 
-        const attrs =
-          props.useInput || !isTarget
-            ? void 0
-            : state.splitAttrs.attributes.value
-
         return h(
           'div',
           {
             class: 'q-field__native row items-center',
-            ...attrs,
             ...state.splitAttrs.listeners.value
           },
           child

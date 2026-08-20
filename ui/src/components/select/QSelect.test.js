@@ -3029,6 +3029,11 @@ describe('[QSelect API]', () => {
         expect(
           wrapper.get('input[role="combobox"]').attributes('aria-label')
         ).toBe('Preferred car')
+
+        // on the target only: a copy on the wrapper div breaks
+        // getByLabel-style strict queries and is invalid ARIA on
+        // its role=generic (#18519)
+        expect(wrapper.findAll('[aria-label="Preferred car"]')).toHaveLength(1)
       }
     )
 
