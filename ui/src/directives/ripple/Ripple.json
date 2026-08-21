@@ -9,7 +9,7 @@
     "definition": {
       "early": {
         "type": "Boolean",
-        "desc": "Trigger early/immediately on user interaction"
+        "desc": "Trigger early/immediately on user interaction; the ripple auto-cancels if the gesture turns into a scroll/pan or the pressed pointer is dragged off the element"
       },
 
       "stop": {
@@ -42,7 +42,7 @@
     "definition": {
       "early": {
         "type": "Boolean",
-        "desc": "Trigger early/immediately on user interaction"
+        "desc": "Trigger early/immediately on user interaction; the ripple auto-cancels if the gesture turns into a scroll/pan or the pressed pointer is dragged off the element"
       },
 
       "stop": {
@@ -82,7 +82,7 @@
   "modifiers": {
     "early": {
       "type": "Boolean",
-      "desc": "Trigger early/immediately on user interaction"
+      "desc": "Trigger early/immediately on user interaction; the ripple auto-cancels if the gesture turns into a scroll/pan or the pressed pointer is dragged off the element"
     },
 
     "stop": {

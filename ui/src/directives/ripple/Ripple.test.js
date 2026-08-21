@@ -4,7 +4,7 @@
  */
 
 import { flushPromises, mount } from '@vue/test-utils'
-import { describe, expect, test } from 'vitest'
+import { describe, expect, test, vi } from 'vitest'
 import { defineComponent, h, ref, withDirectives } from 'vue'
 
 import Ripple from './Ripple.js'
@@ -254,6 +254,107 @@ describe('[Ripple API]', () => {
 
         expect(wrapper.find('.q-ripple').exists()).toBe(true)
       })
+    })
+  })
+
+  describe('[Generic]', () => {
+    function mountEarly() {
+      const TestComponent = defineComponent({
+        render: () =>
+          withDirectives(h('div'), [[Ripple, void 0, void 0, { early: true }]])
+      })
+
+      return mount(TestComponent)
+    }
+
+    function firePointer(wrapper, type, opts) {
+      wrapper.element.dispatchEvent(new PointerEvent(type, opts))
+    }
+
+    test('cancels a pending early ripple when the gesture becomes a scroll', () => {
+      const wrapper = mountEarly()
+
+      firePointer(wrapper, 'pointerdown', { pointerId: 7 })
+
+      expect(wrapper.find('.q-ripple').exists()).toBe(true)
+
+      firePointer(wrapper, 'pointercancel', { pointerId: 7 })
+
+      expect(wrapper.find('.q-ripple').exists()).toBe(false)
+    })
+
+    test('fades out an already-visible early ripple on pointercancel', async () => {
+      const wrapper = mountEarly()
+
+      firePointer(wrapper, 'pointerdown', { pointerId: 7 })
+
+      await vi.waitFor(() => {
+        expect(wrapper.get('.q-ripple__inner').classes()).toContain(
+          'q-ripple__inner--enter'
+        )
+      })
+
+      firePointer(wrapper, 'pointercancel', { pointerId: 7 })
+
+      expect(wrapper.get('.q-ripple__inner').classes()).toContain(
+        'q-ripple__inner--leave'
+      )
+
+      await vi.waitFor(() => {
+        expect(wrapper.find('.q-ripple').exists()).toBe(false)
+      })
+    })
+
+    test('only cancels the ripples of the cancelled pointer', () => {
+      const wrapper = mountEarly()
+
+      firePointer(wrapper, 'pointerdown', { pointerId: 7 })
+      firePointer(wrapper, 'pointerdown', { pointerId: 8 })
+
+      expect(wrapper.findAll('.q-ripple').length).toBe(2)
+
+      firePointer(wrapper, 'pointercancel', { pointerId: 7 })
+
+      expect(wrapper.findAll('.q-ripple').length).toBe(1)
+    })
+
+    test('cancels an early ripple when the pressed pointer is dragged off', () => {
+      const wrapper = mountEarly()
+
+      firePointer(wrapper, 'pointerdown', { pointerId: 7 })
+
+      expect(wrapper.find('.q-ripple').exists()).toBe(true)
+
+      firePointer(wrapper, 'pointerleave', { pointerId: 7, buttons: 1 })
+
+      expect(wrapper.find('.q-ripple').exists()).toBe(false)
+    })
+
+    test('keeps an early ripple on the trailing pointerleave of a tap', () => {
+      const wrapper = mountEarly()
+
+      firePointer(wrapper, 'pointerdown', { pointerId: 7 })
+
+      firePointer(wrapper, 'pointerup', { pointerId: 7 })
+      firePointer(wrapper, 'pointerleave', { pointerId: 7, buttons: 0 })
+
+      expect(wrapper.find('.q-ripple').exists()).toBe(true)
+    })
+
+    test('keeps a click-triggered ripple on pointercancel', async () => {
+      const TestComponent = defineComponent({
+        render: () => withDirectives(h('div'), [[Ripple]])
+      })
+
+      const wrapper = mount(TestComponent)
+
+      await wrapper.trigger('click')
+
+      expect(wrapper.find('.q-ripple').exists()).toBe(true)
+
+      firePointer(wrapper, 'pointercancel', { pointerId: 7 })
+
+      expect(wrapper.find('.q-ripple').exists()).toBe(true)
     })
   })
 })

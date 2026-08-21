@@ -26,4 +26,6 @@
       transition: transform .225s cubic-bezier(.4, 0, .2, 1), opacity .1s cubic-bezier(.4, 0, .2, 1)
 
     &--leave
-      transition: opacity .25s cubic-bezier(.4, 0, .2, 1)
+      // transform keeps transitioning so a cancelled ripple finishes
+      // expanding while it fades out instead of snapping to full size
+      transition: transform .225s cubic-bezier(.4, 0, .2, 1), opacity .25s cubic-bezier(.4, 0, .2, 1)

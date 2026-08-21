@@ -5,6 +5,11 @@ import { isKeyCode } from '../../utils/private.keyboard/key-composition.js'
 import throttle from '../../utils/throttle/throttle.js'
 import getSSRProps from '../../utils/private.noop-ssr-directive-transform/noop-ssr-directive-transform.js'
 
+const enterDelay = 50
+// waits out the browser's tap-vs-scroll disambiguation, so a
+// flick-scroll started on the element gets cancelled before painting
+const touchEnterDelay = 100
+
 function showRipple(evt, el, ctx, forceCenter) {
   if (ctx.modifiers.stop) stop(evt)
 
@@ -34,28 +39,63 @@ function showRipple(evt, el, ctx, forceCenter) {
   node.append(innerNode)
   el.append(node)
 
-  const abort = () => {
-    node.remove()
-    clearTimeout(timer)
-  }
-  ctx.abort.push(abort)
+  let timer
+  let phase = 0 // 0: pending, 1: entering, 2: leaving
 
-  let timer = setTimeout(() => {
+  const finish = () => {
+    node.remove()
+    const index = ctx.ripples.indexOf(ripple)
+    if (index !== -1) {
+      ctx.ripples.splice(index, 1)
+    }
+  }
+
+  const leave = () => {
+    phase = 2
+    innerNode.classList.remove('q-ripple__inner--enter')
+    innerNode.classList.add('q-ripple__inner--leave')
+    innerNode.style.opacity = 0
+    timer = setTimeout(finish, 275)
+  }
+
+  const enter = () => {
+    phase = 1
     innerNode.classList.add('q-ripple__inner--enter')
     innerNode.style.transform = `translate3d(${centerX},${centerY},0) scale3d(1,1,1)`
     innerNode.style.opacity = 0.2
+    timer = setTimeout(leave, 250)
+  }
 
-    timer = setTimeout(() => {
-      innerNode.classList.remove('q-ripple__inner--enter')
-      innerNode.classList.add('q-ripple__inner--leave')
-      innerNode.style.opacity = 0
+  const ripple = {
+    // set only while the originating pointer can still turn into
+    // a scroll/pan or be dragged off the element
+    pointerId: evt.type === 'pointerdown' ? evt.pointerId : null,
 
-      timer = setTimeout(() => {
-        node.remove()
-        ctx.abort.splice(ctx.abort.indexOf(abort), 1)
-      }, 275)
-    }, 250)
-  }, 50)
+    abort() {
+      clearTimeout(timer)
+      node.remove()
+    },
+
+    cancel() {
+      ripple.pointerId = null
+      if (phase === 2) return
+      clearTimeout(timer)
+      if (phase === 0) {
+        finish()
+      } else {
+        leave()
+      }
+    }
+  }
+
+  ctx.ripples.push(ripple)
+
+  timer = setTimeout(
+    enter,
+    evt.type === 'pointerdown' && evt.pointerType === 'touch'
+      ? touchEnterDelay
+      : enterDelay
+  )
 }
 
 function updateModifiers(ctx, { modifiers, value, arg }) {
@@ -86,7 +126,7 @@ export default /*#__PURE__*/ createDirective(
             cfg,
             enabled: binding.value !== false,
             modifiers: {},
-            abort: [],
+            ripples: [],
 
             start(evt) {
               if (
@@ -95,6 +135,20 @@ export default /*#__PURE__*/ createDirective(
                 evt.type === (ctx.modifiers.early ? 'pointerdown' : 'click')
               ) {
                 showRipple(evt, el, ctx, evt.qKeyEvent === true)
+              }
+            },
+
+            // the browser claimed the gesture (scroll/pan) or the pressed
+            // pointer was dragged off, so it can no longer become a tap
+            cancel(evt) {
+              if (evt.type === 'pointerleave' && evt.buttons === 0) return
+
+              // backwards since cancel() may splice the list
+              for (let i = ctx.ripples.length - 1; i >= 0; i--) {
+                const ripple = ctx.ripples[i]
+                if (ripple.pointerId === evt.pointerId) {
+                  ripple.cancel()
+                }
               }
             },
 
@@ -117,6 +171,8 @@ export default /*#__PURE__*/ createDirective(
           addEvt(ctx, 'main', [
             [el, 'pointerdown', 'start', 'passive'],
             [el, 'click', 'start', 'passive'],
+            [el, 'pointercancel', 'cancel', 'passive'],
+            [el, 'pointerleave', 'cancel', 'passive'],
             [el, 'keydown', 'keystart', 'passive'],
             [el, 'keyup', 'keystart', 'passive']
           ])
@@ -138,8 +194,8 @@ export default /*#__PURE__*/ createDirective(
         beforeUnmount(el) {
           const ctx = el.__qripple
           if (ctx !== void 0) {
-            ctx.abort.forEach(fn => {
-              fn()
+            ctx.ripples.forEach(ripple => {
+              ripple.abort()
             })
             cleanEvt(ctx, 'main')
             delete el.__qripple
