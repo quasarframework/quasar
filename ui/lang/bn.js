@@ -56,7 +56,7 @@ export default {
     selectedRecords: rows =>
       rows === 1
         ? '১ টি রেকর্ড নির্বাচিত'
-        : (rows === 0 ? '' : rows) + ' রেকর্ড নির্বাচিত',
+        : (rows === 0 ? 'কোনো' : rows) + ' রেকর্ড নির্বাচিত',
     recordsPerPage: 'প্রতি পৃষ্ঠায় রেকর্ড:',
     allRows: 'সব',
     pagination: (start, end, total) => start + '-' + end + ' মধ্যে ' + total,

@@ -41,15 +41,15 @@ export default {
     prevYear: 'Joer virdrun',
     nextYear: 'Nächst Joer',
     today: 'Haut',
-    prevRangeYears: range => `Prévisch ${range} Joren`,
-    nextRangeYears: range => `Nächst ${range} Joren`,
+    prevRangeYears: range => `Vireg ${range} Joer`,
+    nextRangeYears: range => `Nächst ${range} Joer`,
     hour: 'Stonn',
     minute: 'Minutt',
     second: 'Sekonn',
     now: 'Aktuell Zäit'
   },
   table: {
-    noData: 'Keng Donnéen do',
+    noData: 'Keng Donnéen do',
     noResults: 'Keng Anträg fonnt',
     loading: 'Luedt...',
     selectedRecords: rows =>

@@ -51,8 +51,10 @@ export default {
     prevYear: 'Предыдущий год',
     nextYear: 'Следующий год',
     today: 'Сегодня',
-    prevRangeYears: range => `Предыдущий ${range} Годы`,
-    nextRangeYears: range => `Далее ${range} годы`,
+    prevRangeYears: range =>
+      `Предыдущие ${range} ${plurals(range, ['год', 'года', 'лет'])}`,
+    nextRangeYears: range =>
+      `Следующие ${range} ${plurals(range, ['год', 'года', 'лет'])}`,
     hour: 'Час',
     minute: 'Минута',
     second: 'Секунда',

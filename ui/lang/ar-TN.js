@@ -21,7 +21,7 @@ export default {
     range: 'النطاق',
     noValue: 'بدون قيمة',
     resize: 'تغيير الحجم',
-    expand: label => (label ? `"${label} توسيع` : 'وسعت'),
+    expand: label => (label ? `"${label}" توسيع` : 'وسعت'),
     collapse: label => (label ? `"${label}" تصغير` : 'انهيار')
   },
   date: {

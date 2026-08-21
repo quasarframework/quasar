@@ -41,8 +41,8 @@ export default {
     prevYear: 'Ötən il',
     nextYear: 'Gələn il',
     today: 'Bu gün',
-    prevRangeYears: range => `Əvvəlki ${range} illər`,
-    nextRangeYears: range => `Ardı ${range} illər`,
+    prevRangeYears: range => `Əvvəlki ${range} il`,
+    nextRangeYears: range => `Gələn ${range} il`,
     hour: 'Saat',
     minute: 'Dəqiqə',
     second: 'Saniyə',
@@ -54,8 +54,8 @@ export default {
     loading: 'Yüklənir...',
     selectedRecords: rows =>
       rows === 1
-        ? '1 record selected.'
-        : (rows === 0 ? 'No' : rows) + ' seçilmiş məlumat.',
+        ? '1 seçilmiş məlumat.'
+        : (rows === 0 ? 'Heç bir' : rows) + ' seçilmiş məlumat.',
     recordsPerPage: 'Hər səhifədəki məlumat:',
     allRows: 'Bütün',
     pagination: (start, end, total) => start + '-' + end + ' cəmi ' + total,
@@ -93,9 +93,9 @@ export default {
   editor: {
     toolbar: 'Redaktor alətlər paneli',
     url: 'URL',
-    bold: 'Bold',
-    italic: 'Italic',
-    strikethrough: 'Strikethrough',
+    bold: 'Qalın',
+    italic: 'Kursiv',
+    strikethrough: 'Üstündən xətt',
     underline: 'Altdan xətt',
     unorderedList: 'Sıralanmamış siyahı',
     orderedList: 'Sıralanmış siyahı',

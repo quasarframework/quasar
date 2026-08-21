@@ -52,8 +52,14 @@ export default {
     prevYear: 'Ankstesni metai',
     nextYear: 'Kitais metais',
     today: 'Šiandien',
-    prevRangeYears: range => `Ankstesnis ${range} metai`,
-    nextRangeYears: range => `Kitas ${range} metai`,
+    prevRangeYears: range =>
+      plurals(range, [
+        'Ankstesni {} metai',
+        'Ankstesni {} metai',
+        'Ankstesni {} metų'
+      ]),
+    nextRangeYears: range =>
+      plurals(range, ['Kiti {} metai', 'Kiti {} metai', 'Kiti {} metų']),
     hour: 'Valanda',
     minute: 'Minutė',
     second: 'Sekundė',
