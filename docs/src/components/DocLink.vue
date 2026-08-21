@@ -20,7 +20,7 @@ import { computed } from 'vue'
 import { mdiLaunch } from '@quasar/extras/mdi-v7'
 
 const props = defineProps({ to: String })
-const internal = computed(() => props.to[0] === '/')
+const internal = computed(() => props.to[0] === '/' || props.to[0] === '#')
 </script>
 
 <style lang="sass">

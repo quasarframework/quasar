@@ -18,7 +18,7 @@ function mdPlugins(md) {
   // link
   md.renderer.rules.link_open = (tokens, idx, options, _env, self) => {
     const token = tokens[idx]
-    token.attrSet('target', '__blank')
+    token.attrSet('target', '_blank')
     token.attrSet('class', 'doc-link')
     return self.renderToken(tokens, idx, options)
   }
