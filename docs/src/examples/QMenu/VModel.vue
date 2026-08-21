@@ -1,8 +1,18 @@
 <template>
   <div class="q-pa-md">
     <div class="q-gutter-sm">
-      <q-btn color="primary" @click="showing = true" label="Show" />
-      <q-btn color="primary" @click="showing = false" label="Hide" />
+      <q-btn
+        color="primary"
+        @click="showing = true"
+        label="Show"
+        :disable="showing"
+      />
+      <q-btn
+        color="primary"
+        @click="showing = false"
+        label="Hide"
+        :disable="!showing"
+      />
     </div>
 
     <div

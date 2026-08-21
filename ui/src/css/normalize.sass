@@ -5,7 +5,6 @@
 *, *:before, *:after
   box-sizing: inherit
   -webkit-tap-highlight-color: transparent
-  -moz-tap-highlight-color: transparent
 
 html, body, #q-app
   width: 100%
@@ -53,7 +52,9 @@ summary
 abbr[title]
   border-bottom: none
   text-decoration: underline
+  -webkit-text-decoration: underline /* Safari */
   text-decoration: underline dotted
+  -webkit-text-decoration: underline dotted /* Safari */
 
 /**
  * Remove the border on images inside links in IE 10.
@@ -174,6 +175,5 @@ textarea
  * Safari on OS X.
  */
 
-input[type='search']::-webkit-search-cancel-button,
-input[type='search']::-webkit-search-decoration
+input[type='search']::-webkit-search-cancel-button
   -webkit-appearance: none

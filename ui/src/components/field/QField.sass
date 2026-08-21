@@ -6,7 +6,6 @@ $field-transition-label-right-up: .324s cubic-bezier(.4,0,.2,1)
 .q-field
   font-size: $input-font-size
 
-  ::-ms-clear,
   ::-ms-reveal
     display: none
 
@@ -118,10 +117,11 @@ $field-transition-label-right-up: .324s cubic-bezier(.4,0,.2,1)
     min-width: 0 // needed for FF
     outline: 0 !important // needed for FF
     user-select: auto
+    -webkit-user-select: auto /* Safari, older Chrome */
 
-    &:-webkit-autofill
-      -webkit-animation-name: q-autofill
-      -webkit-animation-fill-mode: both
+    &:autofill
+      animation-name: q-autofill
+      animation-fill-mode: both
 
     &:invalid
       box-shadow: none
@@ -183,7 +183,7 @@ $field-transition-label-right-up: .324s cubic-bezier(.4,0,.2,1)
     backface-visibility: hidden
 
     &:has(+ :is(.q-field__native, .q-field__input):is(
-      :-webkit-autofill,
+      :autofill,
       [type="color"],
       [type="date"],
       [type="datetime-local"],
@@ -273,7 +273,7 @@ $field-transition-label-right-up: .324s cubic-bezier(.4,0,.2,1)
 
     .q-field__native,
     .q-field__input
-      &:-webkit-autofill
+      &:autofill
         margin-top: 1px
         margin-bottom: 1px
 
@@ -429,7 +429,7 @@ $field-transition-label-right-up: .324s cubic-bezier(.4,0,.2,1)
       transform: translateY(-30%) scale(.75)
 
     .q-field__label:has(+ :is(.q-field__native, .q-field__input):is(
-      :-webkit-autofill,
+      :autofill,
       [type="color"],
       [type="date"],
       [type="datetime-local"],

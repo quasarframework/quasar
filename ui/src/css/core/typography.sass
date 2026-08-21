@@ -4,11 +4,9 @@ body
   min-width: 100px
   min-height: 100%
   font-family: $typography-font-family
-  -ms-text-size-adjust: 100%
   -webkit-text-size-adjust: 100%
   -webkit-font-smoothing: antialiased
   -moz-osx-font-smoothing: grayscale
-  font-smoothing: antialiased
   line-height: $body-line-height
   font-size: $body-font-size
 
@@ -46,6 +44,7 @@ p
   &justify
     text-align: justify
     hyphens: auto
+    -webkit-hyphens: auto /* Safari 16.4 */
 
   &italic
     font-style: italic

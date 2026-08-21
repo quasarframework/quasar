@@ -10,6 +10,7 @@ $checkbox-transition: .22s cubic-bezier(0,0,.2,1) 0ms
   &__bg,
   &__icon-container
     user-select: none
+    -webkit-user-select: none /* Safari, older Chrome */
 
   &__bg
     top: 25%
@@ -19,6 +20,7 @@ $checkbox-transition: .22s cubic-bezier(0,0,.2,1) 0ms
     border: 2px solid currentColor
     border-radius: 2px
     transition: background $checkbox-transition
+    print-color-adjust: exact
     -webkit-print-color-adjust: exact
 
   &__icon

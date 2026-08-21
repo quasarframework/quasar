@@ -31,7 +31,7 @@
   overflow-y: scroll
 
 .q-no-input-spinner
-  -moz-appearance: textfield !important
+  appearance: textfield !important
   &::-webkit-outer-spin-button,
   &::-webkit-inner-spin-button
     -webkit-appearance: none
@@ -43,9 +43,11 @@
 
   &--focusable:focus-visible
     text-decoration: underline dashed currentColor 1px
+    -webkit-text-decoration: underline dashed currentColor 1px /* Safari */
 
 body.electron
   .q-electron-drag
+    user-select: none
     -webkit-user-select: none
     -webkit-app-region: drag
   .q-electron-drag .q-btn-item, .q-electron-drag--exception
