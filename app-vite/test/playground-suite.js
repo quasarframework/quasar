@@ -32,6 +32,10 @@ const hasCordovaBin = hasBin('cordova')
 const fixtureMarkers = {
   // playground-*/src/pages/index/(index).vue — the index page button
   indexPageContent: 'Go to Second Page',
+  // playground-js/src/components/JsxGreeting.jsx +
+  // playground-ts/src/components/JsxGreeting.tsx, rendered on the index
+  // page: proves build.vueJsx compiled the JSX/TSX against Vue's runtime
+  jsxGreeting: 'Greetings from JSX',
   // playground-ts/src/stores/example-store.ts — rendered on the index
   // page, proving store state made it through SSR/SSG rendering
   storeGreeting: 'Greetings from Pinia',
@@ -313,6 +317,7 @@ export function definePlaygroundSuite({ playgroundDir, scriptExt }) {
     // page content present in the payload proves actual server-side
     // rendering (a client-side rendered shell ships an empty q-app div)
     expect(html).toContain(fixtureMarkers.indexPageContent)
+    expect(html).toContain(fixtureMarkers.jsxGreeting)
     // preload tags are rendered by default — the no-preload-routes step
     // below asserts their absence, so pin their presence here
     expect(html).toContain('modulepreload')
@@ -436,6 +441,7 @@ export function definePlaygroundSuite({ playgroundDir, scriptExt }) {
     const indexHtml = readFileSync(indexFile, 'utf8')
     expect(indexHtml, repro).toMatch(/<div id="?q-app"?>/)
     expect(indexHtml, repro).toContain(fixtureMarkers.indexPageContent)
+    expect(indexHtml, repro).toContain(fixtureMarkers.jsxGreeting)
 
     if (hasStore) {
       // store-driven content is statically rendered too
@@ -679,6 +685,7 @@ export function definePlaygroundSuite({ playgroundDir, scriptExt }) {
     expect(html).toMatch(/<div id="?q-app"?>/)
     // dev-mode requests are server-rendered too
     expect(html).toContain(fixtureMarkers.indexPageContent)
+    expect(html).toContain(fixtureMarkers.jsxGreeting)
     expect(html).toContain('/@vite/client')
 
     if (hasStore) {

@@ -1116,6 +1116,7 @@ export class QuasarConfigFile {
     cfg.build = merge(
       {
         filenameBasedRouting: false,
+        vueJsx: false,
 
         viteVuePluginOptions: {
           isProduction: this.#ctx.prod,
@@ -1250,6 +1251,20 @@ export class QuasarConfigFile {
       cfg.build.filenameBasedRouting =
         Object(filenameBasedRouting) === filenameBasedRouting
           ? merge({}, defaultOptions, filenameBasedRouting)
+          : defaultOptions
+    }
+
+    if (cfg.build.vueJsx && cfg.build.vueJsx !== 'preserve') {
+      // Vite (through Oxc) compiles the JSX/TSX itself, so the only thing
+      // needed is pointing it at Vue's JSX runtime instead of React's.
+      // "preserve" opts out of it, for when a Vite plugin
+      // (@vitejs/plugin-vue-jsx) takes over the transformation.
+      const defaultOptions = { runtime: 'automatic', importSource: 'vue' }
+
+      const { vueJsx } = cfg.build
+      cfg.build.vueJsx =
+        Object(vueJsx) === vueJsx
+          ? merge({}, defaultOptions, vueJsx)
           : defaultOptions
     }
 

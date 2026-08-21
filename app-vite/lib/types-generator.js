@@ -225,6 +225,19 @@ function generateTsConfig(quasarConf, fsUtils) {
           }
         : {}),
 
+      /**
+       * JSX/TSX is compiled by Vite (see config-tools.js), so these two only
+       * configure the type-checking side (tsc/vue-tsc and the IDE)
+       */
+      ...(quasarConf.build.vueJsx
+        ? {
+            jsx: 'preserve',
+            // the "preserve" value (a Vite plugin transforms the JSX
+            // instead of Vite itself) carries no options of its own
+            jsxImportSource: quasarConf.build.vueJsx.importSource ?? 'vue'
+          }
+        : {}),
+
       paths
     },
     // include and exclude are relative to .quasar

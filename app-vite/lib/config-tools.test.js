@@ -3,7 +3,13 @@ import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { afterAll, beforeAll, describe, expect, test } from 'vitest'
 
-import { getModeDepsAliases } from './config-tools.js'
+import {
+  createBrowserRolldownConfig,
+  createViteConfig,
+  getModeDepsAliases
+} from './config-tools.js'
+import { QuasarConfigFile } from './quasar-config-file.js'
+import { getCtx } from './utils/get-ctx.js'
 
 // minimal stand-in for a real Quasar app dir; isModeInstalled() checks
 // appPaths.capacitorDir on disk, so the fixture creates/omits it for real
@@ -85,5 +91,81 @@ describe('[config-tools.js] getModeDepsAliases()', () => {
         {}
       )
     })
+  })
+})
+
+describe('[config-tools.js] createViteConfig()', () => {
+  // reading a config resolves the app from process.cwd(),
+  // so run from within a real Quasar app (the js playground)
+  const playgroundDir = join(import.meta.dirname, '../playground-js')
+  const originalCwd = process.cwd()
+
+  const readPlaygroundConf = () => {
+    const configFile = new QuasarConfigFile({
+      ctx: getCtx({ mode: 'spa', prod: true }),
+      port: 9200,
+      host: 'localhost'
+    })
+    return configFile.read()
+  }
+
+  const createConf = quasarConf =>
+    createViteConfig(quasarConf, {
+      compileId: 'vite-spa',
+      shippedToClient: true
+    })
+
+  beforeAll(() => {
+    process.chdir(playgroundDir)
+  })
+
+  afterAll(() => {
+    process.chdir(originalCwd)
+  })
+
+  test('points Oxc at the Vue JSX runtime when build.vueJsx is set', async () => {
+    // playground-js/quasar.config.js sets "vueJsx: true" (it carries a
+    // breadcrumb comment pointing back here)
+    const quasarConf = await readPlaygroundConf()
+    expect(quasarConf.build.vueJsx).toEqual({
+      runtime: 'automatic',
+      importSource: 'vue'
+    })
+
+    const viteConf = await createConf(quasarConf)
+    expect(viteConf.oxc.jsx).toEqual(quasarConf.build.vueJsx)
+  })
+
+  test('leaves the Oxc defaults alone when build.vueJsx is off', async () => {
+    const quasarConf = await readPlaygroundConf()
+    quasarConf.build.vueJsx = false
+
+    const viteConf = await createConf(quasarConf)
+    expect(viteConf.oxc).toBeUndefined()
+  })
+
+  test('hands over the JSX transformation on "preserve"', async () => {
+    const quasarConf = await readPlaygroundConf()
+    quasarConf.build.vueJsx = 'preserve'
+
+    const viteConf = await createConf(quasarConf)
+    expect(viteConf.oxc.jsx).toBe('preserve')
+  })
+
+  // the browser scripts that Rolldown builds on its own (BEX scripts, the
+  // custom PWA service worker) get the same treatment
+  test('carries build.vueJsx over to the Rolldown browser config', async () => {
+    const quasarConf = await readPlaygroundConf()
+
+    expect(
+      createBrowserRolldownConfig(quasarConf, { shippedToClient: true })
+        .transform.jsx
+    ).toEqual(quasarConf.build.vueJsx)
+
+    quasarConf.build.vueJsx = false
+    expect(
+      createBrowserRolldownConfig(quasarConf, { shippedToClient: true })
+        .transform.jsx
+    ).toBeUndefined()
   })
 })

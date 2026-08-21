@@ -120,6 +120,41 @@ describe('[types-generator.js] generateTypes()', () => {
     expect(featureFlags).not.toContain('bex: true;')
   })
 
+  test('configures the tsconfig for JSX/TSX when build.vueJsx is set', async () => {
+    const appDir = await generate(makeApp())
+
+    // opt-in: nothing JSX related by default
+    const defaultTsConfig = JSON.parse(readGenerated(appDir, 'tsconfig.json'))
+    expect(defaultTsConfig.compilerOptions.jsx).toBeUndefined()
+    expect(defaultTsConfig.compilerOptions.jsxImportSource).toBeUndefined()
+
+    const jsxAppDir = await generate(
+      makeApp(
+        'export default function () {\n' +
+          '  return { build: { vueJsx: true } }\n' +
+          '}\n'
+      )
+    )
+
+    const tsConfig = JSON.parse(readGenerated(jsxAppDir, 'tsconfig.json'))
+    // Vite compiles the JSX, so tsc/vue-tsc only type-checks it
+    expect(tsConfig.compilerOptions.jsx).toBe('preserve')
+    expect(tsConfig.compilerOptions.jsxImportSource).toBe('vue')
+  })
+
+  test('honors a custom JSX import source', async () => {
+    const appDir = await generate(
+      makeApp(
+        'export default function () {\n' +
+          "  return { build: { vueJsx: { importSource: 'some-other-vue' } } }\n" +
+          '}\n'
+      )
+    )
+
+    const tsConfig = JSON.parse(readGenerated(appDir, 'tsconfig.json'))
+    expect(tsConfig.compilerOptions.jsxImportSource).toBe('some-other-vue')
+  })
+
   test('honors build.typescript strict + vueShim options', async () => {
     const appDir = await generate(
       makeApp(

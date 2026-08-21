@@ -60,6 +60,7 @@ export class AppDevserver extends AppTool {
       quasarConf.build.alias,
       quasarConf.build.define,
       quasarConf.build.filenameBasedRouting,
+      quasarConf.build.vueJsx,
       quasarConf.metaConf.clientEnvDefineList,
       quasarConf.metaConf.backendEnvDefineList
     ])
@@ -106,7 +107,8 @@ export class AppDevserver extends AppTool {
       quasarConf.build.define,
       quasarConf.build.alias,
       quasarConf.build.minify,
-      quasarConf.build.target
+      quasarConf.build.target,
+      quasarConf.build.vueJsx
       /**
        * Warning!
        *

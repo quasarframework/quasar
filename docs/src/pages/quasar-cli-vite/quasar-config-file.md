@@ -655,6 +655,31 @@ interface QuasarStaticBuildConfiguration {
   filenameBasedRouting?: boolean | VueRouterVitePluginOptions
 
   /**
+   * Should you want to write your components with JSX/TSX (.jsx/.tsx files
+   * or <script lang="jsx|tsx"> in .vue files).
+   *
+   * Vite compiles them itself, so all this does is pointing it at Vue's JSX
+   * runtime (instead of the React one that it assumes by default) and adding
+   * the matching "jsx"/"jsxImportSource" to the generated
+   * .quasar/tsconfig.json (TypeScript projects).
+   *
+   * Set to `true`, or to an options object to override the defaults below,
+   * or to "preserve" when a Vite plugin (like @vitejs/plugin-vue-jsx, which
+   * adds the Vue specific JSX sugar: v-model, v-show, v-slots) should
+   * transform the JSX instead.
+   *
+   * Default options supplied to Vite (Oxc) when `true`:
+   * @example
+   * {
+   *   runtime: 'automatic',
+   *   importSource: 'vue'
+   * }
+   *
+   * @default false
+   */
+  vueJsx?: boolean | NonNullable<OxcOptions['jsx']>
+
+  /**
    * Options to supply to @vitejs/plugin-vue
    *
    * @see https://v2.quasar.dev/quasar-cli-vite/handling-vite#vite-vue-plugin-options

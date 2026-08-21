@@ -45,6 +45,9 @@ export default defineConfig((/* ctx */) => ({
     // https://v2.quasar.dev/quasar-cli-vite/page-routing-with-vue-router#filename-based-routing
     filenameBasedRouting: true,
 
+    // https://v2.quasar.dev/quasar-cli-vite/handling-vite#jsx-tsx
+    vueJsx: true,
+
     vueRouterMode: "history" // available values: 'hash', 'history'
     // vueRouterBase,
 
