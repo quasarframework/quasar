@@ -863,7 +863,6 @@ export default /*#__PURE__*/ createComponent({
             style: innerStyle.value,
             class: innerClass.value,
             contenteditable: editable.value,
-            placeholder: props.placeholder,
             ...contentAttributes.value,
             ...(renderInitialContent ? { innerHTML: props.modelValue } : {}),
             ...splitAttrs.listeners.value,

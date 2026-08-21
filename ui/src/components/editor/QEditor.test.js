@@ -606,12 +606,25 @@ describe('[QEditor API]', () => {
         const propVal = 'Write something...'
         const wrapper = mountEditor()
 
-        expect(getContent(wrapper).attributes('placeholder')).toBeUndefined()
+        expect(
+          getContent(wrapper).attributes('aria-placeholder')
+        ).toBeUndefined()
 
         await wrapper.setProps({ placeholder: propVal })
 
-        expect(getContent(wrapper).attributes('placeholder')).toBe(propVal)
         expect(getContent(wrapper).attributes('aria-placeholder')).toBe(propVal)
+      })
+
+      test('shows over the empty content', () => {
+        const propVal = 'Write something...'
+        const wrapper = mountEditor({ modelValue: '', placeholder: propVal })
+
+        const style = window.getComputedStyle(
+          getContent(wrapper).element,
+          ':before'
+        )
+
+        expect(style.content).toBe(`"${propVal}"`)
       })
     })
   })

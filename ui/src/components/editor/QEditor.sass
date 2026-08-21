@@ -32,8 +32,9 @@
       background: $editor-hr-color
 
     &:empty:not(:focus):before
-      content: attr(placeholder)
+      content: attr(aria-placeholder)
       opacity: .7
+      pointer-events: none
 
   &__toolbar
     border-bottom: 1px solid $editor-border-color
