@@ -78,6 +78,7 @@
     "dev:umd": "node build/script.test-umd.js",
     "dev:quploader": "cd ./playground/upload-server && pnpm i && cd ../.. && node playground/upload-server/server.js",
     "test": "pnpm test:specs:check && node test/parallel.js",
+    "test:build": "vitest run -c test/vitest-build.config.js",
     "pretest:e2e:ssr": "node build/ensure-fresh-build.js && playwright install chromium",
     "test:e2e:ssr": "vitest run -c test/vitest-e2e-ssr.config.js",
     "pretest:umd": "node build/ensure-fresh-build.js && playwright install chromium",

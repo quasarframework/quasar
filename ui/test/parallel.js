@@ -1,7 +1,7 @@
 import { spawn, spawnSync } from 'node:child_process'
 import { join } from 'node:path'
 
-// Runs the four ui suites CONCURRENTLY on dev machines — they are
+// Runs the ui suites CONCURRENTLY on dev machines — they are
 // independent (separate vitest processes, separate vite graphs), so
 // wall-clock drops to the slowest suite. CI runners stay SERIAL: four
 // chromium+vite processes contend badly on 2-core/7GB machines.
@@ -10,6 +10,7 @@ import { join } from 'node:path'
 
 const uiDir = join(import.meta.dirname, '..')
 const scripts = [
+  'test:build',
   'test:unit',
   'test:hydration',
   'test:hydration:pwa',

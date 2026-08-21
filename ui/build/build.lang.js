@@ -61,9 +61,13 @@ const stringProbes = {
   ]
 }
 
+const pathProbes = {
+  'date.headerTitle': [[new Date(2000, 0, 1), { year: 2000, month: 1, day: 1 }]]
+}
+
 // Machine-translation batches leave debris that no shape check can see:
-// stray padding, doubled spaces, orphaned escape characters. These render
-// straight into aria-labels, so treat them as build failures.
+// stray padding, doubled spaces, and control characters. These render straight
+// into aria-labels, so treat them as build failures.
 function validateStringText(file, path, value) {
   if (value !== value.trim()) {
     throw new Error(`${file}: ${path} has leading/trailing whitespace`)
@@ -82,25 +86,31 @@ function validateStringText(file, path, value) {
   }
 }
 
-function validateStringValues(file, value, path = '') {
+export function validateStringValues(file, value, path = '') {
   if (typeof value === 'string') {
     validateStringText(file, path, value)
     return
   }
 
   if (typeof value === 'function') {
-    for (const probe of stringProbes[value.length] || []) {
+    for (const probe of pathProbes[path] || stringProbes[value.length] || []) {
       let result
       try {
         result = value(...probe)
-      } catch {
-        // a pack is free to reject a probe it was never meant to format
-        continue
+      } catch (err) {
+        throw new Error(
+          `${file}: ${path}(${probe.join(', ')}) threw: ${err instanceof Error ? err.message : String(err)}`,
+          { cause: err }
+        )
       }
 
-      if (typeof result === 'string') {
-        validateStringText(file, `${path}(${probe.join(', ')})`, result)
+      if (typeof result !== 'string') {
+        throw new TypeError(
+          `${file}: ${path}(${probe.join(', ')}) must return a string`
+        )
       }
+
+      validateStringText(file, `${path}(${probe.join(', ')})`, result)
     }
 
     return
