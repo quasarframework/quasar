@@ -24,7 +24,7 @@
     <% if (scope.preset.i18n) { %>"vue-i18n": "^11.3.0",<% } %>
     <% if (scope.preset.pinia) { %>"pinia": "^4.0.2",<% } %>
     "@quasar/extras": "^2.0.4",
-    "quasar": "^2.25.1",
+    "quasar": "^2.26.0",
     "vue": "^3.5.22",
     "vue-router": "^5.0.6"
   },
