@@ -31,6 +31,11 @@ export type DeepPartial<T> = {
 // especially into VTU to automatically infer Quasar components type when using `findComponent`
 // This type is compatible with the Vue private `ComponentPublicInstanceConstructor` type
 // https://github.com/vuejs/vue-next/blob/011dee8644bb52f5bdc6365c6e8404936d57e2cd/packages/runtime-core/src/componentPublicInstance.ts#L111
+// The `$props` intersection adds the props that Vue accepts on any component
+// (class, style, key, ref, ...) on top of the component's own ones: JSX/TSX
+// reads the allowed attributes from the instance `$props` (through the
+// `ElementAttributesProperty` of the Vue JSX namespace), while templates get
+// them from GlobalComponentConstructor below
 export type ComponentConstructor<
   Component extends ComponentPublicInstance<Props, RawBindings, D, C, M> =
     ComponentPublicInstance<any>,
@@ -39,7 +44,13 @@ export type ComponentConstructor<
   D = any,
   C extends ComputedOptions = ComputedOptions,
   M extends MethodOptions = MethodOptions
-> = { new (): Component } & ComponentOptions<Props, RawBindings, D, C, M>;
+> = { new (): Component & { $props: PublicProps } } & ComponentOptions<
+  Props,
+  RawBindings,
+  D,
+  C,
+  M
+>;
 
 // https://github.com/vuejs/vue-next/blob/d84d5ecdbdf709570122175d6565bb61fae877f2/packages/runtime-core/src/apiDefineComponent.ts#L29-L31
 // TODO: This can be imported from vue directly once this PR gets merged: https://github.com/vuejs/vue-next/pull/2403

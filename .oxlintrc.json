@@ -20,6 +20,9 @@
     "ui/types/shim-icon-set.d.ts",
     "ui/types/shim-lang.d.ts",
     "ui/build/legacy-assets/",
+    // type-checked by the ui types build, which is the only place
+    // configuring the JSX compiler options that it needs
+    "ui/build/types-jsx-check.tsx",
 
     "utils/render-ssr-error/compiled-assets/",
     "**/*/typed-router.d.ts"
