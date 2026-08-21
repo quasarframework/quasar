@@ -223,6 +223,7 @@ function onSearchFieldClick() {
     z-index: 1
     background: rgba($dark-bg, .7)
     backdrop-filter: blur(5px)
+    -webkit-backdrop-filter: blur(5px)
 
   &__search-field
     border: 1px solid $brand-primary

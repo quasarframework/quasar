@@ -101,6 +101,7 @@ if (import.meta.env.QUASAR_CLIENT) {
     word-break: normal
     word-wrap: normal
     hyphens: none
+    -webkit-hyphens: none
 
     border-radius: inherit
 
@@ -123,6 +124,7 @@ if (import.meta.env.QUASAR_CLIENT) {
     position: absolute
     pointer-events: none
     user-select: none
+    -webkit-user-select: none /* Safari 16.4, older Chrome */
     top: 0
     left: -16px
     right: -16px
