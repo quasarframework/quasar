@@ -1,5 +1,6 @@
 import { describe, expect, test } from 'vitest'
 
+import languages from '../lang/index.json'
 import { validateStringValues } from './build.lang.js'
 
 describe('language-pack string validation', () => {
@@ -42,4 +43,48 @@ describe('language-pack string validation', () => {
       })
     ).toThrow('test.js: table.selectedRecords(0) must return a string')
   })
+})
+
+describe('built-in language packs', () => {
+  test('advertises valid BCP 47 language tags', () => {
+    for (const { isoName } of languages) {
+      expect(() => new Intl.Locale(isoName), isoName).not.toThrow()
+    }
+  })
+
+  test.each([
+    ['kur-CKB', 'ckb'],
+    ['mm', 'my'],
+    ['sr-CYR', 'sr-Cyrl']
+  ])(
+    'keeps the deprecated %s import as an alias for %s',
+    async (legacy, canonical) => {
+      const legacyPack = await import(`../lang/${legacy}.js`).then(
+        module => module.default
+      )
+      const canonicalPack = await import(`../lang/${canonical}.js`).then(
+        module => module.default
+      )
+
+      expect(legacyPack).toBe(canonicalPack)
+      expect(legacyPack.isoName).toBe(canonical)
+    }
+  )
+
+  test.each([
+    ['gn', 'pagination.prev', 'pagination.next'],
+    ['ug', 'label.expand', 'label.collapse']
+  ])(
+    '%s gives opposite actions distinct labels',
+    async (isoName, firstPath, secondPath) => {
+      const pack = await import(`../lang/${isoName}.js`).then(
+        module => module.default
+      )
+      const read = path =>
+        path.split('.').reduce((value, key) => value[key], pack)
+      const resolve = value => (typeof value === 'function' ? value() : value)
+
+      expect(resolve(read(firstPath))).not.toBe(resolve(read(secondPath)))
+    }
+  )
 })

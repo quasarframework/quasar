@@ -24,7 +24,7 @@ export default {
     noValue: 'قىممەت يوق',
     resize: 'چوڭلۇقىنى ئۆزگەرتىش',
     expand: label => (label ? `نى كېڭەيتىڭ "${label}"` : 'كېڭەيتىش'),
-    collapse: label => (label ? `نى يىمىرىڭ "${label}"` : 'كېڭەيتىش')
+    collapse: label => (label ? `نى يىمىرىڭ "${label}"` : 'يىمىرىش')
   },
   date: {
     days,

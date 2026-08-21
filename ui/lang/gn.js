@@ -65,7 +65,7 @@ export default {
     label: 'Kuatiarogue papapy',
     first: 'Aña kuatia',
     prev: 'Kuatia ohasáva',
-    next: 'Kuatia ohasáva',
+    next: 'Kuatia oúva',
     last: 'Kuatia última'
   },
   carousel: {

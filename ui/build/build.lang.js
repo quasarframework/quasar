@@ -12,6 +12,14 @@ import {
 // supported by runtime/types even though en-US does not need to declare them.
 const optionalPaths = new Set(['rtl', 'date.headerTitle'])
 
+// Keep old import paths working while advertising standards-compliant tags.
+// Remove these aliases in Quasar v3.
+export const langFileAliases = {
+  'kur-CKB.js': 'ckb',
+  'mm.js': 'my',
+  'sr-CYR.js': 'sr-Cyrl'
+}
+
 function getType(value) {
   if (Array.isArray(value)) {
     return `array:${value.length}`
@@ -144,11 +152,11 @@ function validateStringArray(file, path, value) {
 // shape consumed by Quasar components or documented by the public type.
 function validateLanguageShape(file, lang, expectedPaths) {
   const paths = flatten(lang)
-  const expectedFile = `${lang.isoName}.js`
+  const expectedIsoName = langFileAliases[file] || file.slice(0, -3)
 
-  if (expectedFile !== file) {
+  if (lang.isoName !== expectedIsoName) {
     throw new Error(
-      `${file}: isoName should match filename; found ${lang.isoName}`
+      `${file}: isoName should be ${expectedIsoName}; found ${lang.isoName}`
     )
   }
 
@@ -208,6 +216,11 @@ export async function generate() {
       const lang = await import(`../${file}`).then(module => module.default)
 
       validateLanguageShape(basename(file), lang, expectedPaths)
+
+      if (langFileAliases[basename(file)]) {
+        continue
+      }
+
       languages.push({
         isoName: lang.isoName,
         nativeName: lang.nativeName

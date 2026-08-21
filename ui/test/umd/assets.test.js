@@ -14,6 +14,11 @@ import {
 // the other suite files.
 const langs = listUmdAssets('lang')
 const iconSets = listUmdAssets('icon-set')
+const langAliases = {
+  'kur-CKB': 'ckb',
+  mm: 'my',
+  'sr-CYR': 'sr-Cyrl'
+}
 
 let browser, page, consoleIssues
 
@@ -58,18 +63,21 @@ test('the build emitted a UMD asset for every source icon set', () => {
 
 test('every lang pack registers under its camelized key', async () => {
   const problems = await page.evaluate(
-    entries =>
+    ({ entries, aliases }) =>
       entries
         .map(({ base, globalKey }) => {
           const pack = window.Quasar.Lang[globalKey]
           if (pack === void 0) return `${base}: not registered`
-          if (pack.isoName !== base) {
+          if (pack.isoName !== (aliases[base] || base)) {
             return `${base}: registered with isoName "${pack.isoName}"`
           }
           return null
         })
         .filter(problem => problem !== null),
-    langs.map(({ base, globalKey }) => ({ base, globalKey }))
+    {
+      entries: langs.map(({ base, globalKey }) => ({ base, globalKey })),
+      aliases: langAliases
+    }
   )
 
   expect(problems).toEqual([])

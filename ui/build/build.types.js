@@ -3,6 +3,7 @@ import fse from 'fs-extra'
 import { format } from 'oxfmt'
 import typescript from 'typescript'
 
+import { langFileAliases } from './build.lang.js'
 import { clone, logError, resolveToRoot, writeFile } from './build.utils.js'
 
 const typeRoot = resolveToRoot('types')
@@ -310,6 +311,10 @@ function addQuasarLangCodes(contents, quasarLangIndex) {
   quasarLangIndex.forEach(({ isoName }) =>
     writeLine(contents, `'${isoName}': true`, 3)
   )
+  Object.entries(langFileAliases).forEach(([file, isoName]) => {
+    writeLine(contents, `/** @deprecated Use '${isoName}'. */`, 3)
+    writeLine(contents, `'${file.slice(0, -3)}': true`, 3)
+  })
   writeLine(contents, '}', 2)
   writeLine(contents, '}')
 }

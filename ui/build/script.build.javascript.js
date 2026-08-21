@@ -238,10 +238,18 @@ async function addUmdAssets(buildList, type, injectName, convertImports) {
       .slice(0, -3)
       .replaceAll(umdDashRE, g => g[1].toUpperCase())
 
-    const inputCode = await fse.readFile(
-      resolveToRoot(`${type}/${file}`),
-      'utf8'
+    const sourceFile = resolveToRoot(`${type}/${file}`)
+    let inputCode = await fse.readFile(sourceFile, 'utf8')
+    const defaultReExport = inputCode.match(
+      /^export\s+\{\s*default\s*\}\s+from\s+['"](.+)['"]\s*$/
     )
+
+    if (defaultReExport) {
+      inputCode = await fse.readFile(
+        resolveToRoot(`${type}/${defaultReExport[1]}`),
+        'utf8'
+      )
+    }
     const tempFile = resolveToRoot(`dist/${type}/temp.${file}`)
     umdTempFilesList.push(tempFile)
 

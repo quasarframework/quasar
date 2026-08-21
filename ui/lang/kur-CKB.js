@@ -1,5 +1,5 @@
 export default {
-  isoName: 'kur-CKB',
+  isoName: 'ckb',
   nativeName: 'کوردی سۆرانی',
   rtl: true,
   label: {

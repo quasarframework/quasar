@@ -3,7 +3,7 @@ import { join } from 'node:path'
 
 // Runs the ui suites CONCURRENTLY on dev machines — they are
 // independent (separate vitest processes, separate vite graphs), so
-// wall-clock drops to the slowest suite. CI runners stay SERIAL: four
+// wall-clock drops to the slowest suite. CI runners stay SERIAL: five
 // chromium+vite processes contend badly on 2-core/7GB machines.
 // Shared prerequisites are settled serially first, so the scripts'
 // own pretest hooks become no-ops instead of racing.

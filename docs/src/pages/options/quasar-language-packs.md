@@ -28,6 +28,10 @@ For a complete list of available Quasar Languages, check [Quasar Languages on Gi
 
 Unless configured otherwise (see below), Quasar uses the `en-US` Language Pack by default.
 
+::: warning Legacy language-pack names
+Use `ckb`, `my`, and `sr-Cyrl` for Central Kurdish, Burmese, and Serbian Cyrillic respectively. The old `kur-CKB`, `mm`, and `sr-CYR` import paths remain available in Quasar v2 as deprecated aliases, but each pack now reports its standards-compliant language tag through `isoName`.
+:::
+
 ### Hardcoded
 
 If the default Quasar Language Pack is not dynamically determined (does not depend on cookies for example), then you can:
