@@ -45,12 +45,14 @@ export default {
     format24h: true,
     pluralDay: 'днів',
     prevMonth: 'Попередній місяць',
-    nextMonth: 'Наступного місяця',
+    nextMonth: 'Наступний місяць',
     prevYear: 'Попередній рік',
-    nextYear: 'Наступного року',
+    nextYear: 'Наступний рік',
     today: 'Сьогодні',
-    prevRangeYears: range => `Попередній ${range} роки`,
-    nextRangeYears: range => `Далі ${range} роки`,
+    prevRangeYears: range =>
+      `Попередні ${range} ${plurals(range, ['рік', 'роки', 'років'])}`,
+    nextRangeYears: range =>
+      `Наступні ${range} ${plurals(range, ['рік', 'роки', 'років'])}`,
     hour: 'Година',
     minute: 'Хвилина',
     second: 'Секунда',
@@ -62,11 +64,12 @@ export default {
     loading: 'Завантаження...',
     selectedRecords: rows =>
       rows > 0
-        ? rows +
+        ? 'Обрано ' +
+          rows +
           ' ' +
-          plurals(rows, ['рядок обраний', 'рядки обрані', 'рядків обрано']) +
+          plurals(rows, ['рядок', 'рядки', 'рядків']) +
           '.'
-        : 'Жодного рядку не обрано.',
+        : 'Жодного рядка не обрано.',
     recordsPerPage: 'Рядків на сторінці:',
     allRows: 'Усі',
     pagination: (start, end, total) => start + '-' + end + ' з ' + total,
