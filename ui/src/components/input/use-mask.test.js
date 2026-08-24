@@ -356,6 +356,51 @@ describe('[useMask API]', () => {
         expect(input.selectionStart).toBe(input.value.length)
       })
 
+      // A mask that mixes token TYPES cannot be unmasked by skipping over
+      // each token's own negate class: that class also matches every other
+      // type's data. Reverse filling hit it hardest, its overflow entry
+      // running before the later tokens ever saw their chars (#18523)
+      test.each([
+        ['AA-##', 'ab12', 'AB-12'],
+        ['AA-##', 'AB-12', 'AB-12'],
+        ['AA-##', '12', '12'],
+        ['A#A#', 'a5', 'A5'],
+        ['A#A#', 'a5b6', 'A5B6'],
+        ['SS##', 'ab12', 'ab12'],
+        ['##-AA', '12ab', '12-AB']
+      ])('reverse fills %s from the model %s', (mask, modelValue, expected) => {
+        const { mask: m } = createMask({
+          modelValue,
+          mask,
+          reverseFillMask: true
+        })
+
+        expect(m.innerValue.value).toBe(expected)
+      })
+
+      test.each([
+        ['####/##/##', false, '20260824'],
+        ['(###) ###-####', false, '1234567890'],
+        ['##:##', false, '1234'],
+        ['#.##', true, '123'],
+        ['AA-##', false, 'ab12'],
+        ['AA-##', true, 'ab12'],
+        ['A#A#', true, 'a5b6'],
+        ['##-AA', false, '12ab']
+      ])(
+        'renders %s (reverse: %s) as a fixed point',
+        (mask, reverseFillMask, modelValue) => {
+          const { mask: m } = createMask({ modelValue, mask, reverseFillMask })
+          const rendered = m.innerValue.value
+
+          // what the control displays must unmask back to what produced it,
+          // or a parent echoing the model would erode the value
+          m.updateMaskValue(rendered)
+
+          expect(m.innerValue.value).toBe(rendered)
+        }
+      )
+
       test('gives the unmasked value back when the mask goes away', async () => {
         const { mask, props, emit } = createMask({
           modelValue: '12:34',

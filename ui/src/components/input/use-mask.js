@@ -286,21 +286,14 @@ export default function useMask(
           const c = tokens.value.tokenMap[token]
           mask.push(c)
           negateChar = c.negate
+          // the separator class these entries skip over is only known once
+          // every token in the mask has been seen, so keep the descriptors
+          // and build the sources below
           if (firstMatch) {
-            extract.push(
-              '(?:' +
-                negateChar +
-                '+)?(' +
-                c.pattern +
-                '+)?(?:' +
-                negateChar +
-                '+)?(' +
-                c.pattern +
-                '+)?'
-            )
+            extract.push({ c, overflow: true })
             firstMatch = false
           }
-          extract.push('(?:' + negateChar + '+)?(' + c.pattern + ')?')
+          extract.push({ c })
           return
         }
 
@@ -320,7 +313,12 @@ export default function useMask(
       }
     )
 
-    const unmaskMatcher = new RegExp(
+    const maskTokenPatterns = [
+        ...new Set(
+          mask.filter(v => typeof v !== 'string').map(({ pattern }) => pattern)
+        )
+      ],
+      unmaskMatcher = new RegExp(
         '^' +
           unmask.join('') +
           '(' +
@@ -330,7 +328,36 @@ export default function useMask(
           '$'
       ),
       extractLast = extract.length - 1,
-      extractMatcher = extract.map((re, index) => {
+      // What the entries below skip over to reach their token: the mask's
+      // own separators. A token's negate class is the wrong tool once the
+      // mask mixes token TYPES, because it also matches the data of every
+      // other type -- "[^a-zA-Z]" over "AA-##" swallows the digits, and
+      // the reverse-fill overflow entry runs before the "#" entries ever
+      // see them, so "ab12" unmasked to "ab" and rendered as nothing.
+      // A separator is a char no token in the mask accepts; with a single
+      // token type that is exactly the negate class, so those masks keep
+      // the cheaper form and the identical regex source
+      separator =
+        maskTokenPatterns.length === 1
+          ? negateChar
+          : '(?:' +
+            maskTokenPatterns.map(pattern => '(?!' + pattern + ')').join('') +
+            String.raw`[\s\S])`,
+      getExtractSource = ({ c, overflow }) =>
+        overflow === true
+          ? '(?:' +
+            separator +
+            '+)?(' +
+            c.pattern +
+            '+)?(?:' +
+            separator +
+            '+)?(' +
+            c.pattern +
+            '+)?'
+          : '(?:' + separator + '+)?(' + c.pattern + ')?',
+      extractMatcher = extract.map((entry, index) => {
+        const re = getExtractSource(entry)
+
         if (index === 0 && props.reverseFillMask) {
           return new RegExp('^' + fillCharEscaped + '*' + re)
         } else if (index === extractLast) {
