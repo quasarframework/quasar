@@ -303,6 +303,22 @@ describe('[useMask API]', () => {
         )
       })
 
+      test('drops the fill padding when the mask goes away (#18523)', async () => {
+        const { mask, props, emit } = createMask({
+          modelValue: '12',
+          mask: '###-##',
+          fillMask: '0'
+        })
+
+        expect(mask.innerValue.value).toBe('120-00')
+
+        props.mask = void 0
+        await nextTick()
+
+        // the model already holds the only data there was
+        expect(emit).not.toHaveBeenCalled()
+      })
+
       test('stays quiet when the model already holds the unmasked value', async () => {
         const { props, emit } = createMask({
           modelValue: '1234',
@@ -579,6 +595,26 @@ describe('[useMask API]', () => {
 
         expect(input.value).toBe('123-45')
         expect(emitValue).toHaveBeenCalledExactlyOnceWith('12345', true)
+      })
+
+      test('leaves the fill chars out of the unmasked value (#18523)', () => {
+        const { mask, input, emitValue } = createMask({
+          modelValue: '',
+          mask: '###-##',
+          fillMask: '0',
+          unmaskedValue: true
+        })
+
+        // "1" typed at the cursor, which sits on the first fill char
+        mask.updateMaskValue(
+          '1' + mask.innerValue.value.slice(1),
+          false,
+          'insertText'
+        )
+
+        expect(input.value).toBe('100-00')
+        // the five "0"s are padding, not the digits the user typed
+        expect(emitValue).toHaveBeenCalledExactlyOnceWith('1', true)
       })
 
       test('stays quiet when the value did not really change', () => {

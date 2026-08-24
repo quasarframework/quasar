@@ -181,7 +181,13 @@ export default function useMask(
       if (v !== void 0) {
         updateMaskValue(innerValue.value, true)
       } else {
-        const val = unmaskValue(innerValue.value)
+        // hasMask still describes the OLD state here; when it was set,
+        // innerValue may carry fill padding that holds no data
+        const val = unmaskValue(
+          hasMask.value
+            ? stripFillPadding(innerValue.value, innerValueDataLen)
+            : innerValue.value
+        )
         updateMaskInternals()
         if (props.modelValue !== val) emit('update:modelValue', val)
       }
@@ -559,7 +565,12 @@ export default function useMask(
       })
     }
 
-    const val = props.unmaskedValue ? unmaskValue(masked) : masked
+    // unmask the value BEFORE fillWithMask padded it: the padding carries
+    // no data, and unmaskValue cannot drop it on its own once a fill char
+    // satisfies a token (fill-mask="0" against "#" reported "1" as
+    // "10000"). Re-unmasking rather than reusing `unmasked` keeps the
+    // token transforms and the overflow truncation maskValue applied
+    const val = props.unmaskedValue ? unmaskValue(preMasked) : masked
 
     if (
       String(props.modelValue) !== val &&
@@ -937,6 +948,19 @@ export default function useMask(
         ? computedUnmask(String(val))
         : val
       : computedUnmask(val)
+  }
+
+  // undoes fillWithMask: keeps only the `dataLen` chars the value had
+  // before it was padded. The padding cannot be recognized by looking at
+  // the chars, since a fill char may satisfy a token itself (#18523)
+  function stripFillPadding(str, dataLen) {
+    if (dataLen >= str.length) {
+      return str
+    }
+
+    return props.reverseFillMask
+      ? str.slice(str.length - dataLen)
+      : str.slice(0, dataLen)
   }
 
   function fillWithMask(val) {
