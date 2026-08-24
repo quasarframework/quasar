@@ -92,7 +92,7 @@
 
     "hover": {
       "type": "Boolean",
-      "desc": "Also opens the menu when the pointer hovers its target and closes it when the pointer leaves both the target and the menu; Click/tap and keyboard interactions keep toggling as usual (touch devices fall back to them), so activating the target while hover-shown closes the menu; A hover-opened menu does not switch focus on itself and ignores 'touch-position'; Mutually exclusive with 'context-menu', which takes precedence",
+      "desc": "Also opens the menu when the pointer hovers its target and closes it when the pointer leaves both the target and the menu; Click/tap and keyboard interactions keep toggling as usual (touch devices fall back to them), so activating the target closes a hover-shown menu, unless it is still animating into view (which keeps a single move-and-click gesture from closing what it just opened); A hover-opened menu does not switch focus on itself and ignores 'touch-position'; Mutually exclusive with 'context-menu', which takes precedence",
       "category": "behavior",
       "addedIn": "v2.26"
     },
