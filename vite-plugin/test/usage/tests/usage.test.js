@@ -1,6 +1,11 @@
 import { describe, expect, test } from 'vitest'
 import { quasar } from '../../../src/index'
 
+const getViteCfg = (pluginOpts = {}, userCfg = {}, command = 'build') => {
+  const [viteConfPlugin] = quasar(pluginOpts)
+  return viteConfPlugin.config(userCfg, { command })
+}
+
 describe('quasar plugin', () => {
   test('should return default plugins', () => {
     const plugins = quasar()
@@ -46,23 +51,17 @@ describe('quasar plugin', () => {
   describe('framework css alias', () => {
     const cssAlias = 'quasar/dist/quasar.css'
 
-    const getAliasList = (
-      pluginOpts = {},
-      userCfg = {},
-      mode = 'production'
-    ) => {
-      const [viteConfPlugin] = quasar(pluginOpts)
-      return viteConfPlugin.config(userCfg, { mode }).resolve?.alias ?? []
-    }
+    const getAliasList = (pluginOpts, userCfg, command) =>
+      getViteCfg(pluginOpts, userCfg, command).resolve?.alias ?? []
 
     const hasCssAlias = list =>
       list.some(entry => entry.replacement === cssAlias)
 
     test('aliases index.sass to the prebuilt css without a custom variables file', () => {
-      expect(hasCssAlias(getAliasList({}))).toBe(true)
+      expect(hasCssAlias(getAliasList())).toBe(true)
       expect(hasCssAlias(getAliasList({ sassVariables: false }))).toBe(true)
-      // in dev mode too, alongside the dev bundle alias
-      expect(hasCssAlias(getAliasList({}, {}, 'development'))).toBe(true)
+      // on the dev server too, alongside the client bundle alias
+      expect(hasCssAlias(getAliasList({}, {}, 'serve'))).toBe(true)
     })
 
     test('keeps compiling from source with a custom variables file', () => {
@@ -122,8 +121,18 @@ describe('quasar plugin', () => {
       ).toBe(true)
     })
 
+    test('the client bundle alias is a dev server concern, not a mode one', () => {
+      const clientBundleAlias = 'quasar/dist/quasar.client.js'
+      const hasClientBundleAlias = list =>
+        list.some(entry => entry.replacement === clientBundleAlias)
+
+      // any build, whatever the mode name is called
+      expect(hasClientBundleAlias(getAliasList())).toBe(false)
+      expect(hasClientBundleAlias(getAliasList({}, {}, 'serve'))).toBe(true)
+    })
+
     test('the alias matches only the exact framework css specifier', () => {
-      const entry = getAliasList({}).find(e => e.replacement === cssAlias)
+      const entry = getAliasList().find(e => e.replacement === cssAlias)
 
       expect(entry.find.test('quasar/src/css/index.sass')).toBe(true)
       expect(entry.find.test('quasar/src/css/flex-addon.sass')).toBe(false)

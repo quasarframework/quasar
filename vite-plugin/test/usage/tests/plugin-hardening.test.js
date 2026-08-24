@@ -102,7 +102,7 @@ describe('?raw requests pass through untouched', () => {
 describe('run mode build flags', () => {
   const getDefine = (runMode, externalCfg = {}) => {
     const [viteConfPlugin] = quasar({ runMode })
-    return viteConfPlugin.config(externalCfg, { mode: 'production' }).define
+    return viteConfPlugin.config(externalCfg, { command: 'build' }).define
   }
 
   test('web-client', () => {

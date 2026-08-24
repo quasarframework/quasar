@@ -30,7 +30,7 @@ function userAliasCoversFrameworkCss(aliasCfg) {
 
 export function getViteConfig(
   runMode,
-  viteMode,
+  isServing,
   externalViteCfg,
   sassVariables
 ) {
@@ -93,17 +93,13 @@ export function getViteConfig(
       __QUASAR_SSR_SERVER__: true
     })
   } else {
-    // Alias "quasar" package to its dev file (which has flags)
-    // to reduce the number of HTTP requests while in DEV mode
-    if (viteMode !== 'production') {
+    // Alias "quasar" package to its single-file client build to reduce
+    // the number of HTTP requests that the dev server has to answer
+    if (isServing) {
       aliasList.push({
         find: /^quasar$/,
         replacement: 'quasar/dist/quasar.client.js'
       })
-    } else {
-      viteCfg.optimizeDeps = {
-        exclude: ['quasar']
-      }
     }
 
     if (runMode === 'ssr-client') {

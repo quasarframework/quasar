@@ -54,8 +54,13 @@ function getConfigPlugin(opts) {
       }
     },
 
-    config(viteConf, { mode }) {
-      return getViteConfig(opts.runMode, mode, viteConf, opts.sassVariables)
+    config(viteConf, { command }) {
+      return getViteConfig(
+        opts.runMode,
+        command === 'serve',
+        viteConf,
+        opts.sassVariables
+      )
     }
   }
 }
