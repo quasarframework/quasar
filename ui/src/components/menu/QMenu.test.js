@@ -850,6 +850,22 @@ describe('[QMenu API]', () => {
         expect(getMenu()).toBeNull()
       })
 
+      test('clicking the anchor while hover showing a menu should keep it', async () => {
+        const wrapper = mountMenu({ hover: true })
+
+        await getAnchor(wrapper).trigger('pointerenter', {
+          pointerType: 'mouse'
+        })
+        await getAnchor(wrapper).trigger('click')
+        await vi.runAllTimersAsync()
+        expect(getMenu()).not.toBeNull()
+
+        await getAnchor(wrapper).trigger('click')
+        await vi.runAllTimersAsync()
+
+        expect(getMenu()).toBeNull()
+      })
+
       test('closes the whole hover chain when the pointer leaves a submenu', async () => {
         activeWrapper = mount(
           defineComponent({

@@ -18,6 +18,7 @@ export const useModelToggleEmits = ['beforeShow', 'show', 'beforeHide', 'hide']
 export default function useModelToggle({
   showing,
   canShow, // optional
+  canHide, // optional
   hideOnRouteChange, // optional
   handleShow, // optional
   handleHide, // optional
@@ -77,7 +78,13 @@ export default function useModelToggle({
   }
 
   function hide(evt) {
-    if (__QUASAR_SSR_SERVER__ || props.disable) return
+    if (
+      __QUASAR_SSR_SERVER__ ||
+      props.disable ||
+      (canHide !== void 0 && !canHide(evt))
+    ) {
+      return
+    }
 
     const listener = props['onUpdate:modelValue'] !== void 0
 

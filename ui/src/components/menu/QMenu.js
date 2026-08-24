@@ -176,6 +176,13 @@ export default /*#__PURE__*/ createComponent({
     const { show, hide } = useModelToggle({
       showing,
       canShow,
+      canHide(evt) {
+        // if the menu is being hovered, then a click on the anchor
+        // while it is opening should not close it
+        return hoverShown && !portalIsAccessible.value
+          ? evt?.type !== 'click'
+          : true
+      },
       handleShow,
       handleHide,
       handleRouteChange,
@@ -183,12 +190,8 @@ export default /*#__PURE__*/ createComponent({
       processOnMount: true
     })
 
-    const { showPortal, hidePortal, renderPortal } = usePortal(
-      vm,
-      innerRef,
-      renderPortalContent,
-      'menu'
-    )
+    const { showPortal, hidePortal, portalIsAccessible, renderPortal } =
+      usePortal(vm, innerRef, renderPortalContent, 'menu')
 
     const clickOutsideProps = {
       anchorEl,
@@ -267,6 +270,7 @@ export default /*#__PURE__*/ createComponent({
             ) ||
             node.querySelector('[autofocus], [data-autofocus]') ||
             node
+
           node.focus({ preventScroll: true })
         }
       })
