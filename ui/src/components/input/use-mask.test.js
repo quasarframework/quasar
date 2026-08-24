@@ -451,6 +451,71 @@ describe('[useMask API]', () => {
         expect(mask.innerValue.value).toBe('123-__')
       })
 
+      // The fill char is only distinguishable from a data char by the
+      // position it sits at: "0" satisfies the "#" token just as a typed
+      // digit does, so a fill char must never be recognized by testing it
+      test('shifts the digits while reverse filling with "0" (#18523)', () => {
+        const { mask, input } = createMask({
+          mask: '#.##',
+          fillMask: '0',
+          reverseFillMask: true
+        })
+
+        const rendered = [mask.innerValue.value]
+
+        // typing appends at the caret, which reverse filling keeps at the end
+        for (const char of ['1', '0', '0', '5']) {
+          input.value = mask.innerValue.value + char
+          input.setSelectionRange(input.value.length, input.value.length)
+          mask.updateMaskValue(input.value, false, 'insertText')
+          input.value = mask.innerValue.value
+          rendered.push(mask.innerValue.value)
+        }
+
+        expect(rendered).toEqual(['0.00', '0.01', '0.10', '1.00', '10.05'])
+      })
+
+      test('backspacing a "0" fill char drops a data char (#18523)', () => {
+        const { mask, input } = createMask({
+          modelValue: '12',
+          mask: '###-##',
+          fillMask: '0'
+        })
+
+        expect(mask.innerValue.value).toBe('120-00')
+
+        // the trailing fill char is deleted, so remasking would restore it
+        // and leave the edit a no-op; the adjacent data char goes instead
+        input.value = mask.innerValue.value.slice(0, -1)
+        input.setSelectionRange(input.value.length, input.value.length)
+        mask.updateMaskValue(input.value, false, 'deleteContentBackward')
+
+        expect(mask.innerValue.value).toBe('100-00')
+      })
+
+      test('re-anchors the caret past "0" fill chars on a mask change (#18523)', async () => {
+        const { mask, props, input } = createMask({
+          modelValue: '18',
+          mask: '###.#.###',
+          fillMask: '0'
+        })
+
+        input.focus()
+        input.value = mask.innerValue.value
+        expect(input.value).toBe('180.0.000')
+
+        // the caret sits where the fill region parks it, past the data
+        input.setSelectionRange(9, 9)
+
+        props.mask = '#.###.###'
+        await nextTick() // the watcher re-masks...
+        await nextTick() // ...and re-anchors the caret a tick later
+
+        expect(input.value).toBe('1.800.000')
+        // back after its 2 data chars, not stranded at the end of the fill
+        expect(input.selectionStart).toBe(3)
+      })
+
       test('accepts a typed digit literal look-alike when reverse filling', () => {
         const { mask } = createMask({
           modelValue: '123',

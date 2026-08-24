@@ -134,7 +134,12 @@ export default function useMask(
     computedMask,
     computedUnmask,
     pastedTextStart,
-    selectionAnchor
+    selectionAnchor,
+    // length innerValue had before fillWithMask padded it; the padded
+    // positions cannot be recognized by looking at the rendered value,
+    // since a fill char may be indistinguishable from a data char
+    // (fill-mask="0" against a "#" token) -- #18523
+    innerValueDataLen
 
   const tokens = computed(() => {
     if (props.maskTokens === void 0 || props.maskTokens === null) {
@@ -211,9 +216,11 @@ export default function useMask(
     if (hasMask.value) {
       const masked = maskValue(unmaskValue(props.modelValue))
 
+      innerValueDataLen = masked.length
       return props.fillMask !== false ? fillWithMask(masked) : masked
     }
 
+    innerValueDataLen = 0
     return props.modelValue
   }
 
@@ -366,26 +373,47 @@ export default function useMask(
     maskReplaced = maskMarked.split(MARKER).join(fillChar)
   }
 
-  // counts the chars of `str` (a rendered masked value) up to `position`
-  // that hold real data: they sit in a mask slot and their own token
-  // accepts them, a test that fill chars fail; walks the CURRENT internals
-  function countDataChars(str, position) {
-    const localMaskMarked = props.reverseFillMask
-        ? getPaddedMaskMarked(str.length)
+  // Builds the "does position i of `str` hold real data?" test for a
+  // rendered masked value whose pre-fill length was `dataLen`; hoists the
+  // per-value work out of the caller's loop. Walks the CURRENT internals.
+  //
+  // A position holds data when it sits in a mask slot, its own token
+  // accepts the char, and fillWithMask did not pad it. That last check
+  // cannot be replaced by testing the char: a fill char passes its own
+  // token whenever the two agree (fill-mask="0" against "#"), and would
+  // then be harvested as data -- growing the value by one fill char per
+  // keystroke (#18523). Only `dataLen` marks the boundary reliably.
+  // A padded reverse position with no token to check against stays data
+  function getDataCharTester(str, dataLen) {
+    const strLen = str.length,
+      localMaskMarked = props.reverseFillMask
+        ? getPaddedMaskMarked(strLen)
         : maskMarked,
-      defOffset = props.reverseFillMask ? computedMask.length - str.length : 0
+      defOffset = props.reverseFillMask ? computedMask.length - strLen : 0,
+      // fillWithMask appends the padding, or prepends it when reverse filling
+      fillFrom = props.reverseFillMask ? 0 : Math.min(dataLen, strLen),
+      fillTo = props.reverseFillMask ? strLen - dataLen : strLen
+
+    return i => {
+      if (localMaskMarked[i] !== MARKER || (i >= fillFrom && i < fillTo)) {
+        return false
+      }
+
+      const maskDef = computedMask[defOffset + i]
+      return maskDef === void 0 || typeof maskDef === 'string'
+        ? true
+        : maskDef.test(str[i])
+    }
+  }
+
+  // counts the chars of `str` up to `position` that hold real data
+  function countDataChars(str, position, dataLen) {
+    const isDataChar = getDataCharTester(str, dataLen)
 
     let count = 0
     for (let i = 0; i < position; i++) {
-      if (localMaskMarked[i] === MARKER) {
-        const maskDef = computedMask[defOffset + i]
-        if (
-          maskDef === void 0 ||
-          typeof maskDef === 'string' ||
-          maskDef.test(str[i])
-        ) {
-          count++
-        }
+      if (isDataChar(i)) {
+        count++
       }
     }
 
@@ -400,7 +428,12 @@ export default function useMask(
         updateMaskInternalsFlag !== true &&
         typeof innerValue.value === 'string' &&
         EDIT_INPUT_TYPES.includes(inputType)
-          ? unmaskEditValue(innerValue.value, rawVal, inputType)
+          ? unmaskEditValue(
+              innerValue.value,
+              innerValueDataLen,
+              rawVal,
+              inputType
+            )
           : unmaskValue(rawVal)
 
     // An internals rebuild (mask/fill props changed) can shift the layout
@@ -417,7 +450,7 @@ export default function useMask(
       inp !== null &&
       maskMarked.length !== 0
     ) {
-      dataBeforeCaret = countDataChars(inp.value, end)
+      dataBeforeCaret = countDataChars(inp.value, end, innerValueDataLen)
     }
 
     // Update here so unmask uses the original fillChar
@@ -425,7 +458,10 @@ export default function useMask(
 
     const preMasked = maskValue(unmasked, updateMaskInternalsFlag),
       masked = props.fillMask !== false ? fillWithMask(preMasked) : preMasked,
+      maskedDataLen = preMasked.length,
       changed = innerValue.value !== masked
+
+    innerValueDataLen = maskedDataLen
 
     // We want to avoid "flickering" so we set value immediately
     if (inp !== null && inp.value !== masked) inp.value = masked
@@ -447,7 +483,7 @@ export default function useMask(
           let cursor = 0,
             found = 0
           while (cursor < masked.length && found < dataBeforeCaret) {
-            found = countDataChars(masked, cursor + 1)
+            found = countDataChars(masked, cursor + 1, maskedDataLen)
             cursor++
           }
 
@@ -802,7 +838,7 @@ export default function useMask(
   // is known exactly through maskMarked. Data chars that happen to equal a
   // mask literal are therefore never mistaken for the literal itself, which
   // the positional guesswork in unmaskValue cannot avoid (#15624, #18051)
-  function unmaskEditValue(prev, val, inputType) {
+  function unmaskEditValue(prev, prevDataLen, val, inputType) {
     const prevLen = prev.length,
       valLen = val.length,
       minLen = Math.min(prevLen, valLen)
@@ -820,24 +856,7 @@ export default function useMask(
       end++
     }
 
-    const localMaskMarked = props.reverseFillMask
-        ? getPaddedMaskMarked(prevLen)
-        : maskMarked,
-      defOffset = props.reverseFillMask ? computedMask.length - prevLen : 0
-
-    // a marker position holds data when its own token accepts the char;
-    // fill chars fail that test and get skipped, mirroring unmaskValue.
-    // A padded reverse position with no token to check against stays data
-    function dataAt(i) {
-      if (localMaskMarked[i] !== MARKER) {
-        return false
-      }
-
-      const maskDef = computedMask[defOffset + i]
-      return maskDef === void 0 || typeof maskDef === 'string'
-        ? true
-        : maskDef.test(prev[i])
-    }
+    const dataAt = getDataCharTester(prev, prevDataLen)
 
     let before = '',
       after = ''
