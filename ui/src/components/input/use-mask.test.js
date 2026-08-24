@@ -124,6 +124,27 @@ async function traceFillCharParity(maskProps, ops, fillMask) {
   return trace
 }
 
+/**
+ * Closes the v-model loop. useMask only emits; without the value coming
+ * back its own "did this really change?" guard compares against a stale
+ * model and skips emissions a real binding would make.
+ */
+function syncModel(ctx) {
+  const last = ctx.emitValue.mock.calls.at(-1)
+  if (last !== void 0) ctx.props.modelValue = last[0]
+}
+
+/** Removes a range the way cut, ctrl-backspace and ctrl-delete do. */
+function removeRange(ctx, from, to, inputType) {
+  const { mask, input } = ctx,
+    val = input.value.slice(0, from) + input.value.slice(to)
+
+  input.value = val
+  input.setSelectionRange(from, from)
+  mask.updateMaskValue(val, false, inputType)
+  syncModel(ctx)
+}
+
 describe('[useMask API]', () => {
   describe('[Variables]', () => {
     describe('[(variable)useMaskProps]', () => {
@@ -214,6 +235,19 @@ describe('[useMask API]', () => {
         const { mask } = createMask({ modelValue, mask: named })
 
         expect(mask.innerValue.value).toBe(expected)
+      })
+
+      test.each([
+        ['date', '20260824', '2026/08/24'],
+        ['datetime', '202608241530', '2026/08/24 15:30'],
+        ['time', '1530', '15:30'],
+        ['fulltime', '153045', '15:30:45'],
+        ['phone', '1234567890', '(123) 456 - 7890'],
+        ['card', '1234567812345678', '1234 5678 1234 5678']
+      ])('expands the named mask %s', (mask, modelValue, expected) => {
+        const { mask: m } = createMask({ modelValue, mask })
+
+        expect(m.innerValue.value).toBe(expected)
       })
 
       test('treats an unknown token as a literal', () => {
@@ -797,6 +831,52 @@ describe('[useMask API]', () => {
         expect(mask.innerValue.value).toBe('123-5')
       })
 
+      // deleteByCut and the two word deletes take the same unmaskEditValue
+      // path as a plain backspace, but hand it a whole range at once
+      test.each([
+        ['a cut of the leading data', {}, 0, 3, 'deleteByCut', '45'],
+        ['a cut spanning the literal', {}, 1, 4, 'deleteByCut', '145-'],
+        ['a word delete of the tail', {}, 4, 6, 'deleteWordBackward', '123-'],
+        ['a word delete of everything', {}, 0, 6, 'deleteWordBackward', ''],
+        ['a forward word delete', {}, 0, 4, 'deleteWordForward', '45'],
+        [
+          'a cut while filling',
+          { fillMask: true },
+          0,
+          3,
+          'deleteByCut',
+          '45_-__'
+        ]
+      ])(
+        're-lays out the value after %s',
+        (_, extra, from, to, inputType, expected) => {
+          const ctx = createMask({
+            modelValue: '12345',
+            mask: '###-##',
+            ...extra
+          })
+
+          removeRange(ctx, from, to, inputType)
+
+          expect(ctx.mask.innerValue.value).toBe(expected)
+        }
+      )
+
+      test('drops a right-aligned separator nothing filled', async () => {
+        const ctx = createMask({ mask: 'AA-##', reverseFillMask: true })
+
+        ctx.input.focus()
+
+        // the digits reach the "#" slots, the "A" slots stay empty, so the
+        // "-" between them has nothing to separate and must not show up
+        for (const char of ['0', '5', '7']) {
+          await applyUserEdit(ctx, 'type', char)
+          syncModel(ctx)
+        }
+
+        expect(ctx.mask.innerValue.value).toBe('57')
+      })
+
       test('backspacing a literal with no data before it stays put', () => {
         const { mask } = createMask({ modelValue: '1', mask: '+1 ###' })
         expect(mask.innerValue.value).toBe('+1 1')
@@ -990,6 +1070,110 @@ describe('[useMask API]', () => {
 
         expect(input.selectionStart).toBe(1)
         expect(input.selectionEnd).toBeGreaterThan(1)
+      })
+
+      // Sweeps the props that interact -- mask shape, fill char, fill
+      // direction, what the model carries, custom tokens -- and holds each
+      // combination to the two properties that must survive all of them:
+      // what is displayed unmasks back to itself, and the model handed
+      // upwards re-renders to the same thing when handed back down. The
+      // second is the loop a parent closes on every keystroke, so a
+      // combination that fails it erodes the value as the user types.
+      test('holds its ground across the prop combinations', async () => {
+        const CUSTOM_TOKENS = {
+          Z: { pattern: '[A-Z]', negate: '[^A-Z]' },
+          d: { pattern: '[0-9]', negate: '[^0-9]' }
+        }
+        const SETS = [
+          [
+            void 0,
+            '1234567890abXY',
+            [
+              'date',
+              'datetime',
+              'time',
+              'fulltime',
+              'phone',
+              'card',
+              '###-##',
+              '#.##',
+              'AA-##',
+              'A#A#',
+              String.raw`\###`,
+              'NNN/NN'
+            ]
+          ],
+          [CUSTOM_TOKENS, 'ABCD1234', ['ZZ-dd', 'Zd.dd', 'dddd']]
+        ]
+        const failures = []
+
+        for (const [maskTokens, pool, masks] of SETS) {
+          for (const mask of masks) {
+            for (const fillMask of [false, true, '0', 'A']) {
+              for (const reverseFillMask of [false, true]) {
+                for (const unmaskedValue of [false, true]) {
+                  const props = {
+                    mask,
+                    fillMask,
+                    reverseFillMask,
+                    unmaskedValue,
+                    maskTokens
+                  }
+                  const ctx = createMask(props)
+
+                  ctx.input.focus()
+                  for (let i = 0; i < 6; i++) {
+                    await applyUserEdit(
+                      ctx,
+                      'type',
+                      pool[(i * 3) % pool.length]
+                    )
+                    syncModel(ctx)
+                  }
+
+                  removeRange(
+                    ctx,
+                    0,
+                    Math.min(2, ctx.input.value.length),
+                    'deleteByCut'
+                  )
+                  for (let i = 0; i < 3; i++) {
+                    await applyUserEdit(
+                      ctx,
+                      'type',
+                      pool[(i * 5) % pool.length]
+                    )
+                    syncModel(ctx)
+                  }
+
+                  const rendered = ctx.mask.innerValue.value,
+                    model = unmaskedValue ? ctx.props.modelValue : rendered,
+                    label = `mask=${mask} fill=${fillMask} reverse=${reverseFillMask} unmasked=${unmaskedValue}`
+
+                  ctx.mask.updateMaskValue(rendered)
+                  await nextTick()
+
+                  if (ctx.mask.innerValue.value !== rendered) {
+                    failures.push(
+                      `${label}: displaying ${rendered} unmasked to ${ctx.mask.innerValue.value}`
+                    )
+                    continue
+                  }
+
+                  const echoed = createMask({ ...props, modelValue: model })
+
+                  if (echoed.mask.innerValue.value !== rendered) {
+                    failures.push(
+                      `${label}: model ${model} re-rendered as ${echoed.mask.innerValue.value}, not ${rendered}`
+                    )
+                  }
+                }
+              }
+            }
+          }
+        }
+
+        expect(failures).toEqual([])
       })
 
       test('anchors a paste on the first free slot', () => {

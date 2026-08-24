@@ -847,7 +847,12 @@ export default function useMask(
       firstTokenIndex = maskMarked.indexOf(MARKER)
 
     let valIndex = val.length - 1,
-      output = ''
+      output = '',
+      // Literals reached on the way left are held back until a data char
+      // actually lands to their left. Emitting them on sight leaves the
+      // separator of a slot nothing ever filled dangling at the front:
+      // "AA-##" rendered "057" as "-57", which then unmasked back to "57"
+      pendingLiterals = ''
 
     for (
       let maskIndex = mask.length - 1;
@@ -859,12 +864,15 @@ export default function useMask(
       let valChar = val[valIndex]
 
       if (typeof maskDef === 'string') {
-        output = maskDef + output
+        pendingLiterals = maskDef + pendingLiterals
 
         if (updateMaskInternalsFlag === true && valChar === maskDef) {
           valIndex--
         }
       } else if (valChar !== void 0 && maskDef.test(valChar)) {
+        output = pendingLiterals + output
+        pendingLiterals = ''
+
         do {
           output =
             (maskDef.transform !== void 0
