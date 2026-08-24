@@ -238,7 +238,7 @@
 
     "menu-offset": {
       "type": "Array",
-      "desc": "An array of two numbers to offset the options list horizontally and vertically in pixels (only in menu mode)",
+      "desc": "An array of two numbers (in pixels) which expands the anchor element's bounding box outward horizontally and vertically; the options list is then positioned against the expanded box, so the visible effect depends on the 'anchor'/'self' points in use (only in menu mode)",
       "examples": ["[8, 8]", "[5, 10]"],
       "category": "position"
     },

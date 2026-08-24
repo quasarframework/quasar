@@ -135,7 +135,7 @@
 
     "offset": {
       "type": "Array",
-      "desc": "An array of two numbers to offset the menu horizontally and vertically in pixels",
+      "desc": "An array of two numbers (in pixels) which expands the anchor element's bounding box outward horizontally and vertically; the menu is then positioned against the expanded box, so the visible effect depends on the 'anchor'/'self' points in use",
       "examples": ["[8, 8]", "[5, 10]"],
       "category": "style",
       "passthrough": true

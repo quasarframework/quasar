@@ -51,7 +51,14 @@ The final position of QTooltip popup is calculated so that it will be displayed 
 For horizontal positioning you can use `start` and `end` when you want to automatically take into account if on RTL or non-RTL. `start` and `end` mean "left" for non-RTL and "right" for RTL.
 
 ::: tip
-The `offset` prop is applied to the **anchor element's bounding box**, and only then is the final position clamped to the available screen real estate. As a result, a large offset — or anchoring QTooltip to a full-width / screen-edge element — can push the popup against a viewport edge, where it gets clamped and the offset appears to have no effect (the clamped position then becomes independent of the offset value). If an `offset` seems to be ignored on one axis, make sure the chosen `anchor`/`self` lets the popup expand into free space on that axis — for example, attach QTooltip to an inline / `inline-block` trigger rather than to a full-width block element.
+The `offset` prop does not translate the popup by a number of pixels. It expands the **anchor element's bounding box** outward: `offset[0]` moves that box's `left` edge to the left and its `right` edge to the right, while `offset[1]` moves `top` up and `bottom` down. The popup's `self` point is then aligned to the `anchor` point of the expanded box, and only after that is the result clamped to the available screen real estate.
+
+Two consequences are worth knowing, because both make an `offset` look like it is being ignored on one axis:
+
+- **A `middle` or `center` anchor point does not move with the offset.** Expanding both edges by the same amount leaves the midpoint exactly where it was, so `offset[0]` is a no-op for `anchor="... middle"` and `offset[1]` is a no-op for `anchor="center ..."`, no matter which value you pass. QTooltip's default `anchor` is `bottom middle`, so its horizontal offset only starts having an effect once you pick a `left`, `right`, `start` or `end` anchor.
+- **A clamped popup does not move with the offset either.** Since the offset pushes the box outward, anchoring to a full-width or screen-edge element (or passing a very large value) can send the popup past a viewport edge, where it gets clamped back and the final position no longer depends on the offset value. Attach QTooltip to an inline or `inline-block` trigger and point `anchor`/`self` into free space, so the offset has room to take effect.
+
+In short, to place the popup at a fixed pixel distance from one side of the anchor element, name that side in `anchor` instead of relying on `middle`/`center`.
 :::
 
 <script doc>

@@ -85,7 +85,7 @@
 
     "offset": {
       "type": "Array",
-      "desc": "An array of two numbers to offset the Tooltip horizontally and vertically in pixels",
+      "desc": "An array of two numbers (in pixels) which expands the anchor element's bounding box outward horizontally and vertically; the Tooltip is then positioned against the expanded box, so the visible effect depends on the 'anchor'/'self' points in use",
       "default": "[14, 14]",
       "examples": ["[8, 8]", "[5, 10]"],
       "category": "position"
