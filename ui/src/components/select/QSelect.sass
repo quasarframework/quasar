@@ -1,4 +1,9 @@
 .q-select
+  // the value is nowrap (span.ellipsis), so without these the field grows past
+  // its parent instead of truncating -- main axis first, then the cross one (#18015)
+  min-width: 0
+  max-width: 100%
+
   &--without-input
     .q-field__control
       cursor: pointer
