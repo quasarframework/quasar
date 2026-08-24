@@ -55,6 +55,75 @@ function keydownEvent(props) {
   }
 }
 
+/**
+ * Drives one edit the way a browser does: the control already holds the new
+ * text and the caret when the input event fires, so the value is patched at
+ * the selection first and updateMaskValue() is told which edit produced it.
+ * Backspace goes through the keydown hook first, as QInput wires it, since
+ * that is what pre-selects across a mask literal.
+ */
+async function applyUserEdit({ mask, input }, op, char) {
+  if (op === 'type') {
+    const start = input.selectionStart,
+      end = input.selectionEnd,
+      val = input.value.slice(0, start) + char + input.value.slice(end)
+
+    input.value = val
+    input.setSelectionRange(start + 1, start + 1)
+    mask.updateMaskValue(val, false, 'insertText')
+  } else {
+    mask.onMaskedKeydown(keydownEvent({ keyCode: 8 }))
+
+    const end = input.selectionEnd
+    let start = input.selectionStart
+
+    if (start === end) {
+      if (start === 0) return
+      start--
+    }
+
+    const val = input.value.slice(0, start) + input.value.slice(end)
+    input.value = val
+    input.setSelectionRange(start, start)
+    mask.updateMaskValue(val, false, 'deleteContentBackward')
+  }
+
+  // the value lands synchronously, the caret a tick later
+  await nextTick()
+  await nextTick()
+}
+
+/**
+ * Replays one edit sequence against two otherwise identical masks that
+ * differ only in their fill char: one that can never be data ("_" against
+ * "#") and one that doubles as a valid data char ("0"). Only the rendered
+ * padding may differ. Returns a per-step trace of what must not: the
+ * unmasked model and the caret.
+ *
+ * The model is left out for reverseFillMask, where the two genuinely
+ * disagree: right-aligned content strips its leading fill run, so a leading
+ * "0" is padding under fill-mask="0" and data under fill-mask="_". That is
+ * the documented currency behavior, not a divergence to fix.
+ */
+async function traceFillCharParity(maskProps, ops, fillMask) {
+  const ctx = createMask({ ...maskProps, fillMask, unmaskedValue: true })
+  const trace = []
+
+  for (const [op, char] of ops) {
+    ctx.input.focus()
+    await applyUserEdit(ctx, op, char)
+
+    const model = ctx.emitValue.mock.calls.at(-1)?.[0] ?? ''
+    trace.push(
+      `${op}${char ?? ''} ` +
+        (maskProps.reverseFillMask === true ? '' : `model=${model} `) +
+        `caret=${ctx.input.selectionStart}`
+    )
+  }
+
+  return trace
+}
+
 describe('[useMask API]', () => {
   describe('[Variables]', () => {
     describe('[(variable)useMaskProps]', () => {
@@ -508,6 +577,127 @@ describe('[useMask API]', () => {
 
         expect(mask.innerValue.value).toBe('100-00')
       })
+
+      test('types a leading "0" before the next digit, not after (#18523)', async () => {
+        const ctx = createMask({
+          mask: '##:##',
+          fillMask: '0',
+          unmaskedValue: true
+        })
+
+        ctx.input.focus()
+        await applyUserEdit(ctx, 'type', '0')
+        await applyUserEdit(ctx, 'type', '1')
+
+        // the render cannot show the difference, the model must
+        expect(ctx.input.value).toBe('01:00')
+        expect(ctx.emitValue).toHaveBeenLastCalledWith('01', true)
+      })
+
+      test('advances the caret when a typed char leaves the render alone (#18523)', async () => {
+        const ctx = createMask({
+          mask: '###-##',
+          fillMask: '0',
+          unmaskedValue: true
+        })
+
+        ctx.input.focus()
+
+        // every one of these renders as "000-00", so the caret is the only
+        // thing that can move; if it stops, the next char lands in front of
+        // what was typed before it
+        for (const expected of ['0', '00', '000', '0000', '00000']) {
+          await applyUserEdit(ctx, 'type', '0')
+          expect(ctx.input.value).toBe('000-00')
+          expect(ctx.emitValue).toHaveBeenLastCalledWith(expected, true)
+        }
+      })
+
+      test.each([
+        [
+          '###-##',
+          false,
+          [
+            ['type', '0'],
+            ['type', '6'],
+            ['type', '0'],
+            ['type', '3']
+          ]
+        ],
+        [
+          '###-##',
+          false,
+          [
+            ['type', '0'],
+            ['type', '0'],
+            ['type', '0'],
+            ['type', '0']
+          ]
+        ],
+        [
+          '###-##',
+          false,
+          [['type', '1'], ['type', '2'], ['bksp'], ['type', '0'], ['bksp']]
+        ],
+        [
+          '(###) ###-####',
+          false,
+          [
+            ['type', '0'],
+            ['type', '9'],
+            ['type', '0'],
+            ['type', '1']
+          ]
+        ],
+        [
+          '##:##',
+          false,
+          [
+            ['type', '0'],
+            ['type', '1'],
+            ['type', '0'],
+            ['type', '2']
+          ]
+        ],
+        [
+          '####',
+          false,
+          [
+            ['type', '0'],
+            ['type', '0'],
+            ['type', '1']
+          ]
+        ],
+        [
+          '#.##',
+          true,
+          [
+            ['type', '1'],
+            ['type', '0'],
+            ['type', '0'],
+            ['type', '5']
+          ]
+        ],
+        [
+          '#.##',
+          true,
+          [
+            ['type', '0'],
+            ['type', '0'],
+            ['type', '5']
+          ]
+        ]
+      ])(
+        'reads %s (reverse: %s) the same whether or not the fill char is data-like',
+        async (mask, reverseFillMask, ops) => {
+          const maskProps = { mask, reverseFillMask }
+
+          // "_" can never satisfy "#", "0" always does
+          expect(await traceFillCharParity(maskProps, ops, '0')).toEqual(
+            await traceFillCharParity(maskProps, ops, true)
+          )
+        }
+      )
 
       test('re-anchors the caret past "0" fill chars on a mask change (#18523)', async () => {
         const { mask, props, input } = createMask({

@@ -465,9 +465,26 @@ export default function useMask(
     const preMasked = maskValue(unmasked, updateMaskInternalsFlag),
       masked = props.fillMask !== false ? fillWithMask(preMasked) : preMasked,
       maskedDataLen = preMasked.length,
-      changed = innerValue.value !== masked
+      changed = innerValue.value !== masked,
+      // Whether the edit reached the DATA, which is what the caret has to
+      // follow. `changed` only reports that the rendered string moved, and
+      // a fill char that doubles as a valid data char keeps the render
+      // identical while the data grows (fill-mask="0" over "###-##" renders
+      // "000-00" whether it holds no data or five zeros); the caret then
+      // took the "nothing happened" path and stayed put, so the next char
+      // landed in front of the one just typed, "09" arriving as "90".
+      // Same render plus same data length means the same data, so the
+      // length is enough to tell the two apart (#18523)
+      dataChanged = changed || maskedDataLen !== innerValueDataLen
 
     innerValueDataLen = maskedDataLen
+
+    // "the field holds no data", the state the caret logic below resets to.
+    // Comparing the render against maskReplaced only approximates it: a
+    // value whose data chars all equal the fill char renders identically to
+    // the empty state (fill-mask="0" over "###-##" renders "000-00" either
+    // way), which parked the caret at 0 on every "0" typed (#18523)
+    const rendersEmpty = props.fillMask !== false && maskedDataLen === 0
 
     // We want to avoid "flickering" so we set value immediately
     if (inp !== null && inp.value !== masked) inp.value = masked
@@ -476,7 +493,7 @@ export default function useMask(
 
     if (inp !== null && document.activeElement === inp) {
       nextTick(() => {
-        if (masked === maskReplaced) {
+        if (rendersEmpty) {
           const cursor = props.reverseFillMask ? maskReplaced.length : 0
           inp.setSelectionRange(cursor, cursor, 'forward')
           return
@@ -522,7 +539,7 @@ export default function useMask(
               : Math.max(
                   0,
                   masked.length -
-                    (masked === maskReplaced
+                    (rendersEmpty
                       ? 0
                       : Math.min(preMasked.length, endReverse) + 1)
                 ) + 1
@@ -533,13 +550,11 @@ export default function useMask(
         }
 
         if (props.reverseFillMask) {
-          if (changed) {
+          if (dataChanged) {
             const cursor = Math.max(
               0,
               masked.length -
-                (masked === maskReplaced
-                  ? 0
-                  : Math.min(preMasked.length, endReverse + 1))
+                (rendersEmpty ? 0 : Math.min(preMasked.length, endReverse + 1))
             )
 
             if (cursor === 1 && end === 1) {
@@ -551,7 +566,7 @@ export default function useMask(
             const cursor = masked.length - endReverse
             inp.setSelectionRange(cursor, cursor, 'backward')
           }
-        } else if (changed) {
+        } else if (dataChanged) {
           const cursor = Math.max(
             0,
             maskMarked.indexOf(MARKER),
