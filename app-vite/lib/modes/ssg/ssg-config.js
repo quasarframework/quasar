@@ -46,6 +46,8 @@ export const quasarSsgConfig = {
       appType: 'custom',
       build: {
         ssrManifest: true,
+        // needed by createSsrManifest() to resolve the CSS of shared chunks
+        manifest: true,
         outDir: quasarConf.build.distDir
       }
     })

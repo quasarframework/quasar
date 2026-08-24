@@ -41,7 +41,56 @@ const fixtureMarkers = {
   storeGreeting: 'Greetings from Pinia',
   // playground-ts/src/stores/example-store.ts: the serialized form of the
   // store's Map, proving non-JSON types survive state serialization
-  storeMapState: 'new Map([["ssr","map-survives-serialization"]])'
+  storeMapState: 'new Map([["ssr","map-survives-serialization"]])',
+  // playground-js/src/components/SharedStyleBadge.js +
+  // playground-ts/src/components/SharedStyleBadge.ts, rendered on both
+  // the second page and the catch-all one, so its CSS lands in a chunk
+  // shared by the two page chunks
+  sharedStyleContent: 'Styles from a shared chunk',
+  // playground-*/src/components/SharedStyleBadge.css — the only rule in it
+  sharedStyleCssRule: '.shared-style-badge',
+  // playground-*/src/pages/index/second.vue — the page's own scoped rule,
+  // which must load after the shared chunk's CSS
+  secondPageCssRule: '.second-page-style'
+}
+
+// The CSS of a chunk shared by several pages must be linked from the
+// rendered HTML: its owner module is not an SFC, so it never registers
+// itself on ssrContext.modules and can only be reached by completing the
+// page chunk's static import graph.
+// See https://github.com/quasarframework/quasar/issues/18171
+const expectSharedChunkCss = (html, clientDir, repro = '') => {
+  expect(html, repro).toContain(fixtureMarkers.sharedStyleContent)
+
+  const hrefList = [...html.matchAll(/<link\b[^>]*>/g)]
+    .filter(([tag]) => tag.includes('stylesheet'))
+    .map(([tag]) => tag.match(/href="?([^"\s>]+)"?/)?.[1])
+
+  // each stylesheet is linked once — the HTML shell already carries the
+  // entry CSS, so the render must not emit it a second time
+  expect(hrefList, repro).toEqual([...new Set(hrefList)])
+
+  const cssContentList = hrefList.map(href =>
+    readFileSync(join(clientDir, href.replace(/^\//, '')), 'utf8')
+  )
+
+  const indexOfRule = rule =>
+    cssContentList.findIndex(content => content.includes(rule))
+
+  const sharedIndex = indexOfRule(fixtureMarkers.sharedStyleCssRule)
+  expect(sharedIndex, `the shared chunk CSS is not linked${repro}`).not.toBe(-1)
+
+  // Vite's own preload helper loads a chunk's imports before the chunk's
+  // own CSS, so a page reached through client-side navigation cascades
+  // that way; a server-rendered page must not order it differently
+  const secondPageIndex = indexOfRule(fixtureMarkers.secondPageCssRule)
+  expect(secondPageIndex, `the page's own CSS is not linked${repro}`).not.toBe(
+    -1
+  )
+  expect(
+    sharedIndex,
+    `the shared chunk CSS must be linked before the page's own${repro}`
+  ).toBeLessThan(secondPageIndex)
 }
 
 // The full per-playground pipeline, driving every mode through the real
@@ -311,7 +360,23 @@ export function definePlaygroundSuite({ playgroundDir, scriptExt }) {
 
   stepTest('serves the SSR production build', async () => {
     const port = await getFreePort()
-    const html = await testSsrProdServer(join(playgroundDir, 'dist/ssr'), port)
+    const html = await testSsrProdServer(
+      join(playgroundDir, 'dist/ssr'),
+      port,
+      {
+        onReady: async origin => {
+          const response = await fetch(`${origin}/second`, {
+            headers: { accept: 'text/html' }
+          })
+          expect(response.status).toBe(200)
+
+          expectSharedChunkCss(
+            await response.text(),
+            join(playgroundDir, 'dist/ssr/client')
+          )
+        }
+      }
+    )
 
     expect(html).toMatch(/<div id="?q-app"?>/)
     // page content present in the payload proves actual server-side
@@ -442,6 +507,12 @@ export function definePlaygroundSuite({ playgroundDir, scriptExt }) {
     expect(indexHtml, repro).toMatch(/<div id="?q-app"?>/)
     expect(indexHtml, repro).toContain(fixtureMarkers.indexPageContent)
     expect(indexHtml, repro).toContain(fixtureMarkers.jsxGreeting)
+
+    const secondHtml = readFileSync(
+      join(playgroundDir, 'dist/ssg/second/index.html'),
+      'utf8'
+    )
+    expectSharedChunkCss(secondHtml, join(playgroundDir, 'dist/ssg'), repro)
 
     if (hasStore) {
       // store-driven content is statically rendered too

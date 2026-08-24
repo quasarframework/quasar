@@ -5,6 +5,7 @@ import { AppBuilder } from '../../app-builder.js'
 import { getContainedFilePath } from '../../utils/get-contained-file-path.js'
 import { getPackage } from '../../utils/get-package.js'
 import { getRouteMatcher } from '../../utils/get-route-matcher.js'
+import { createSsrManifest } from '../ssr/ssr-utils.js'
 import { quasarSsgConfig } from './ssg-config.js'
 import {
   getProdSsrRenderTemplateFileContent,
@@ -16,8 +17,6 @@ import { buildPwaServiceWorker, injectPwaManifest } from '../pwa/pwa-utils.js'
 
 const multiSlashRE = /\/{2,}/g
 const trailingSlashRE = /\/+$/
-const ssrManifestIdQueryRE = /vue\?vue/
-const ssrManifestIdQueryReplaceRE = /vue\?vue.*$/
 const synthetic404Route = '/______get-a-quasar-404-page______'
 
 function getSsgPageIdentifier(ssgPage) {
@@ -433,41 +432,20 @@ export class QuasarModeBuilder extends AppBuilder {
   }
 
   async #writeSsrManifest() {
-    const viteManifest = JSON.parse(
-      await this.readFile('.vite/ssr-manifest.json')
-    )
+    const [viteSsrManifest, viteClientManifest] = await Promise.all([
+      this.readFile('.vite/ssr-manifest.json').then(JSON.parse),
+      // a user config can turn the client manifest off through
+      // extendViteConf; shared-chunk CSS then simply cannot be resolved
+      this.readFile('.vite/manifest.json').then(JSON.parse, () => void 0)
+    ])
 
     await this.removeFile('.vite')
 
-    /**
-     * See https://github.com/quasarframework/quasar/issues/17864
-     * Need to strip out the query part of the IDs introduced by @vitejs/plugin-vue,
-     *   eg: `?vue&type=script&setup=true&lang.ts`
-     *   eg: `?vue&type=style&index=0&lang.scss`
-     *
-     * Otherwise we will have multiple entries for the same file,
-     * but NONE will match the actual production ID of the file.
-     *
-     * Example with original viteManifest:
-     *  "src/components/UsedOnTwoPlaces.vue?vue&type=script&setup=true&lang.ts": [
-     *    "/assets/UsedOnTwoPlaces.vue_vue_type_style_index_0_lang-CCF7vrwS.js",
-     *    "/assets/UsedOnTwoPlaces-CLKnUPw2.css"
-     *  ],
-     *  "src/components/UsedOnTwoPlaces.vue?vue&type=style&index=0&lang.scss": [
-     *    "/assets/UsedOnTwoPlaces.vue_vue_type_style_index_0_lang-CCF7vrwS.js",
-     *    "/assets/UsedOnTwoPlaces-CLKnUPw2.css"
-     *  ],
-     */
-    let ssrManifest = {}
-    for (let key in viteManifest) {
-      const value = viteManifest[key]
-      if (ssrManifestIdQueryRE.test(key)) {
-        key = key.replace(ssrManifestIdQueryReplaceRE, 'vue')
-        if (ssrManifest[key] !== void 0) continue
-      }
-
-      ssrManifest[key] = value
-    }
+    let ssrManifest = createSsrManifest({
+      viteSsrManifest,
+      viteClientManifest,
+      publicPath: this.quasarConf.build.publicPath
+    })
 
     if (typeof this.quasarConf.ssg.extendSSGManifestJson === 'function') {
       const overrides =

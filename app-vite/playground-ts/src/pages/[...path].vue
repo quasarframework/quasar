@@ -7,6 +7,8 @@
 
       <div class="text-h2" style="opacity: 0.4"> Oops. Nothing here... </div>
 
+      <SharedStyleBadge />
+
       <q-btn
         class="q-mt-xl"
         color="white"
@@ -19,3 +21,7 @@
     </div>
   </div>
 </template>
+
+<script setup lang="ts">
+import SharedStyleBadge from '@/components/SharedStyleBadge.js'
+</script>

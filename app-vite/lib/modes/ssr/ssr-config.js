@@ -48,6 +48,8 @@ export const quasarSsrConfig = {
       },
       build: {
         ssrManifest: true,
+        // needed by createSsrManifest() to resolve the CSS of shared chunks
+        manifest: true,
         outDir: join(quasarConf.build.distDir, 'client')
       }
     })
