@@ -5,11 +5,11 @@
         <q-menu>
           <q-list role="menu" style="min-width: 100px">
             <q-item clickable v-close-popup>
-              <q-item-section>New tab</q-item-section>
+              <q-item-section no-wrap>New tab</q-item-section>
             </q-item>
             <!-- #region -->
             <q-item clickable v-close-popup>
-              <q-item-section>New incognito tab</q-item-section>
+              <q-item-section no-wrap>New incognito tab</q-item-section>
             </q-item>
             <q-separator />
             <q-item clickable v-close-popup>
@@ -27,7 +27,7 @@
             </q-item>
             <q-separator />
             <q-item clickable v-close-popup>
-              <q-item-section>Help &amp; Feedback</q-item-section>
+              <q-item-section no-wrap>Help &amp; Feedback</q-item-section>
             </q-item>
             <!-- #endregion -->
           </q-list>
@@ -38,15 +38,15 @@
         <q-menu auto-close>
           <q-list role="menu" style="min-width: 100px">
             <q-item clickable>
-              <q-item-section>New tab</q-item-section>
+              <q-item-section no-wrap>New tab</q-item-section>
             </q-item>
             <!-- #region -->
             <q-item clickable>
-              <q-item-section>New incognito tab</q-item-section>
+              <q-item-section no-wrap>New incognito tab</q-item-section>
             </q-item>
             <q-separator />
             <q-item clickable>
-              <q-item-section>Recent tabs</q-item-section>
+              <q-item-section no-wrap>Recent tabs</q-item-section>
             </q-item>
             <q-item clickable>
               <q-item-section>History</q-item-section>
@@ -60,7 +60,7 @@
             </q-item>
             <q-separator />
             <q-item clickable>
-              <q-item-section>Help &amp; Feedback</q-item-section>
+              <q-item-section no-wrap>Help &amp; Feedback</q-item-section>
             </q-item>
             <!-- #endregion -->
           </q-list>

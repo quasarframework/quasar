@@ -7,18 +7,18 @@
         style="width: 280px"
         aria-haspopup="menu"
       >
-        <q-menu fit>
+        <q-menu fit auto-close>
           <q-list role="menu" style="min-width: 100px">
             <q-item clickable>
-              <q-item-section>New tab</q-item-section>
+              <q-item-section no-wrap>New tab</q-item-section>
             </q-item>
             <!-- #region -->
             <q-item clickable>
-              <q-item-section>New incognito tab</q-item-section>
+              <q-item-section no-wrap>New incognito tab</q-item-section>
             </q-item>
             <q-separator />
             <q-item clickable>
-              <q-item-section>Recent tabs</q-item-section>
+              <q-item-section no-wrap>Recent tabs</q-item-section>
             </q-item>
             <q-item clickable>
               <q-item-section>History</q-item-section>
@@ -32,7 +32,7 @@
             </q-item>
             <q-separator />
             <q-item clickable>
-              <q-item-section>Help &amp; Feedback</q-item-section>
+              <q-item-section no-wrap>Help &amp; Feedback</q-item-section>
             </q-item>
             <!-- #endregion -->
           </q-list>
@@ -40,18 +40,18 @@
       </q-btn>
 
       <q-btn color="brown" label="Max Height Menu" aria-haspopup="menu">
-        <q-menu max-height="130px">
+        <q-menu max-height="130px" auto-close>
           <q-list role="menu" style="min-width: 100px">
             <q-item clickable>
-              <q-item-section>New tab</q-item-section>
+              <q-item-section no-wrap>New tab</q-item-section>
             </q-item>
             <!-- #region -->
             <q-item clickable>
-              <q-item-section>New incognito tab</q-item-section>
+              <q-item-section no-wrap>New incognito tab</q-item-section>
             </q-item>
             <q-separator />
             <q-item clickable>
-              <q-item-section>Recent tabs</q-item-section>
+              <q-item-section no-wrap>Recent tabs</q-item-section>
             </q-item>
             <q-item clickable>
               <q-item-section>History</q-item-section>
@@ -65,7 +65,7 @@
             </q-item>
             <q-separator />
             <q-item clickable>
-              <q-item-section>Help &amp; Feedback</q-item-section>
+              <q-item-section no-wrap>Help &amp; Feedback</q-item-section>
             </q-item>
             <!-- #endregion -->
           </q-list>
@@ -73,7 +73,7 @@
       </q-btn>
 
       <q-btn color="indigo" label="Max Width Menu" aria-haspopup="menu">
-        <q-menu max-width="80px">
+        <q-menu max-width="80px" auto-close>
           <q-list role="menu" style="min-width: 100px">
             <q-item clickable>
               <q-item-section>

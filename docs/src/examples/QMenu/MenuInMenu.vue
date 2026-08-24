@@ -26,14 +26,16 @@
                     clickable
                     aria-haspopup="menu"
                   >
-                    <q-item-section>Submenu Label</q-item-section>
+                    <q-item-section no-wrap>Submenu Label</q-item-section>
                     <q-item-section side>
                       <q-icon name="keyboard_arrow_right" />
                     </q-item-section>
                     <q-menu auto-close anchor="top end" self="top start">
                       <q-list role="menu">
                         <q-item v-for="n in 3" :key="n" dense clickable>
-                          <q-item-section>3rd level Label</q-item-section>
+                          <q-item-section no-wrap
+                            >3rd level Label</q-item-section
+                          >
                         </q-item>
                       </q-list>
                     </q-menu>
@@ -83,14 +85,16 @@
                       clickable
                       aria-haspopup="menu"
                     >
-                      <q-item-section>Submenu Label</q-item-section>
+                      <q-item-section no-wrap>Submenu Label</q-item-section>
                       <q-item-section side>
                         <q-icon name="keyboard_arrow_right" />
                       </q-item-section>
                       <q-menu auto-close anchor="top end" self="top start">
                         <q-list role="menu" dense>
                           <q-item v-for="n in 3" :key="n" clickable>
-                            <q-item-section>3rd level Label</q-item-section>
+                            <q-item-section no-wrap
+                              >3rd level Label</q-item-section
+                            >
                           </q-item>
                         </q-list>
                       </q-menu>
@@ -124,7 +128,7 @@
               </q-item>
               <q-separator />
               <q-item clickable v-close-popup>
-                <q-item-section>Select All</q-item-section>
+                <q-item-section no-wrap>Select All</q-item-section>
               </q-item>
             </q-list>
           </q-menu>

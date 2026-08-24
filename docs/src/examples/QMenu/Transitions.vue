@@ -5,14 +5,14 @@
         <q-menu transition-show="flip-right" transition-hide="flip-left">
           <q-list role="menu" style="min-width: 100px">
             <q-item clickable>
-              <q-item-section>Having fun</q-item-section>
+              <q-item-section no-wrap>Having fun</q-item-section>
             </q-item>
             <q-item clickable>
-              <q-item-section>Crazy for transitions</q-item-section>
+              <q-item-section no-wrap>Crazy for transitions</q-item-section>
             </q-item>
             <q-separator />
             <q-item clickable>
-              <q-item-section>Mind blown</q-item-section>
+              <q-item-section no-wrap>Mind blown</q-item-section>
             </q-item>
           </q-list>
         </q-menu>
@@ -22,14 +22,14 @@
         <q-menu transition-show="scale" transition-hide="scale">
           <q-list role="menu" style="min-width: 100px">
             <q-item clickable>
-              <q-item-section>Having fun</q-item-section>
+              <q-item-section no-wrap>Having fun</q-item-section>
             </q-item>
             <q-item clickable>
-              <q-item-section>Crazy for transitions</q-item-section>
+              <q-item-section no-wrap>Crazy for transitions</q-item-section>
             </q-item>
             <q-separator />
             <q-item clickable>
-              <q-item-section>Mind blown</q-item-section>
+              <q-item-section no-wrap>Mind blown</q-item-section>
             </q-item>
           </q-list>
         </q-menu>
@@ -39,14 +39,14 @@
         <q-menu transition-show="jump-down" transition-hide="jump-up">
           <q-list role="menu" style="min-width: 100px">
             <q-item clickable>
-              <q-item-section>Having fun</q-item-section>
+              <q-item-section no-wrap>Having fun</q-item-section>
             </q-item>
             <q-item clickable>
-              <q-item-section>Crazy for transitions</q-item-section>
+              <q-item-section no-wrap>Crazy for transitions</q-item-section>
             </q-item>
             <q-separator />
             <q-item clickable>
-              <q-item-section>Mind blown</q-item-section>
+              <q-item-section no-wrap>Mind blown</q-item-section>
             </q-item>
           </q-list>
         </q-menu>
@@ -56,14 +56,14 @@
         <q-menu transition-show="rotate" transition-hide="rotate">
           <q-list role="menu" style="min-width: 100px">
             <q-item clickable>
-              <q-item-section>Having fun</q-item-section>
+              <q-item-section no-wrap>Having fun</q-item-section>
             </q-item>
             <q-item clickable>
-              <q-item-section>Crazy for transitions</q-item-section>
+              <q-item-section no-wrap>Crazy for transitions</q-item-section>
             </q-item>
             <q-separator />
             <q-item clickable>
-              <q-item-section>Mind blown</q-item-section>
+              <q-item-section no-wrap>Mind blown</q-item-section>
             </q-item>
           </q-list>
         </q-menu>
