@@ -1,5 +1,6 @@
 import { flushPromises, mount } from '@vue/test-utils'
 import { afterEach, describe, expect, test, vi } from 'vitest'
+import { defineComponent, h } from 'vue'
 
 import { getRouter } from 'testing/runtime/router.js'
 
@@ -51,6 +52,27 @@ function getColumnTexts(wrapper, colIndex = 0) {
   return wrapper
     .findAll('tbody tr')
     .map(row => row.findAll('td')[colIndex].text())
+}
+
+// a slot child that reports its own mount/unmount, so that a test can tell
+// a moved vnode (key honored) from a recreated one (key ignored)
+function getLifecycleTracker() {
+  const log = []
+
+  const component = defineComponent({
+    props: { rowId: { type: Number, required: true } },
+    mounted() {
+      log.push(`mount:${this.rowId}`)
+    },
+    unmounted() {
+      log.push(`unmount:${this.rowId}`)
+    },
+    render() {
+      return h('span', String(this.rowId))
+    }
+  })
+
+  return { log, component }
 }
 
 function getFirstThAriaSort(wrapper) {
@@ -1658,6 +1680,37 @@ describe('[QTable API]', () => {
 
         expect(slotScope).toStrictEqual(bodyCommonScopeShape)
       })
+
+      test('honors the key set on the slot content', async () => {
+        const { log, component } = getLifecycleTracker()
+
+        const wrapper = mountTable(
+          { grid: true, rowKey: 'id', pagination: { rowsPerPage: 0 } },
+          {
+            slots: {
+              item: scope => [
+                h(component, { key: scope.key, rowId: scope.row.id })
+              ]
+            }
+          }
+        )
+
+        expect(log).toEqual([
+          'mount:1',
+          'mount:2',
+          'mount:3',
+          'mount:4',
+          'mount:5',
+          'mount:6',
+          'mount:7'
+        ])
+
+        log.length = 0
+        await wrapper.setProps({ rows: getRows().filter(row => row.id !== 3) })
+
+        // the rows after the removed one keep their instances
+        expect(log).toEqual(['unmount:3'])
+      })
     })
 
     describe('[(slot)body]', () => {
@@ -1686,6 +1739,39 @@ describe('[QTable API]', () => {
           __trClass: expect.any(String),
           __trStyle: expect.any(String)
         })
+      })
+
+      test('honors the key set on the slot content', async () => {
+        const { log, component } = getLifecycleTracker()
+
+        const wrapper = mountTable(
+          { rowKey: 'id', pagination: { rowsPerPage: 0 } },
+          {
+            slots: {
+              body: scope => [
+                h('tr', { key: scope.key }, [
+                  h('td', [h(component, { rowId: scope.row.id })])
+                ])
+              ]
+            }
+          }
+        )
+
+        expect(log).toEqual([
+          'mount:1',
+          'mount:2',
+          'mount:3',
+          'mount:4',
+          'mount:5',
+          'mount:6',
+          'mount:7'
+        ])
+
+        log.length = 0
+        await wrapper.setProps({ rows: getRows().filter(row => row.id !== 3) })
+
+        // the rows after the removed one keep their instances
+        expect(log).toEqual(['unmount:3'])
       })
     })
 

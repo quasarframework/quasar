@@ -1170,7 +1170,7 @@ export default /*#__PURE__*/ createComponent({
           class: ['q-table__grid-content row', props.cardContainerClass],
           style: props.cardContainerStyle
         },
-        computedRows.value.map((row, pageIndex) =>
+        computedRows.value.flatMap((row, pageIndex) =>
           item(
             getBodyScope({
               key: getRowKey.value(row),
