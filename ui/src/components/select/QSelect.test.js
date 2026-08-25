@@ -2957,6 +2957,42 @@ describe('[QSelect API]', () => {
     })
   })
 
+  describe('[Generic]', () => {
+    // the displayed value sits in a nowrap span.ellipsis, so the field's
+    // min-content width is the whole text: it must not become a floor that
+    // pushes the field past its parent instead of truncating (#18015)
+    const longValue =
+      'a selected value that is far too long to fit into a narrow parent'
+
+    function mountInParent(parentClass) {
+      return mount(
+        defineComponent({
+          render() {
+            return h('div', { class: parentClass, style: { width: '200px' } }, [
+              h(QSelect, { modelValue: longValue, options: [longValue] })
+            ])
+          }
+        })
+      )
+    }
+
+    test.each([
+      ['row', 'main'],
+      ['column', 'cross']
+    ])('truncates a long value inside a .%s parent (%s axis)', parentClass => {
+      const wrapper = mountInParent(parentClass)
+
+      const parentWidth = wrapper.element.getBoundingClientRect().width
+      const fieldWidth = wrapper
+        .get('.q-select')
+        .element.getBoundingClientRect().width
+      const value = wrapper.get('.q-field__native > span.ellipsis').element
+
+      expect(fieldWidth).toBeLessThanOrEqual(parentWidth)
+      expect(value.scrollWidth).toBeGreaterThan(value.clientWidth)
+    })
+  })
+
   describe('[Accessibility]', () => {
     test.each([
       ['focus target', false],
