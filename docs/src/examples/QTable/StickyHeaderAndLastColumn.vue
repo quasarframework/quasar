@@ -177,6 +177,8 @@ const rows = [
     z-index: 2
     /* bg color is important; just specify one */
     background: #00b4ff
+    /* covers any sub-pixel gap between sticky cells */
+    box-shadow: -1px 0 0 #00b4ff
 
   /* this will be the loading indicator */
   thead tr:last-child th
@@ -193,6 +195,8 @@ const rows = [
 
   td:last-child
     z-index: 1
+    /* covers any sub-pixel gap between sticky cells */
+    box-shadow: 0 -1px 0 #00b4ff
 
   td:last-child, th:last-child
     position: sticky

@@ -62,6 +62,8 @@
   z-index: 1
   background-color: black
   color: white
+  /* covers any sub-pixel gap between sticky cells */
+  box-shadow: -1px 0 0 black
 
 .thead-custom-sticky tr:last-child > *
   top: 0

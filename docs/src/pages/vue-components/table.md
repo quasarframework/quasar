@@ -150,6 +150,8 @@ Sticky headers and columns are achieved through CSS with `position: sticky`. Thi
 
 ::: tip
 Pay attention to the code in the "style" section in the following examples, especially around `position: sticky`.
+
+The browser paints each sticky cell independently and table cells can have fractional sizes, so on some display scalings or browser zoom levels (Windows 125% scaling, for example) hairline gaps can appear between sticky cells, revealing the content scrolled behind them. The 1px `box-shadow` in the same color as the cell background that you will see in the examples below covers such gaps.
 :::
 
 <DocExample title="Sticky header" file="StickyHeader" />

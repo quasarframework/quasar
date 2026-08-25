@@ -176,4 +176,6 @@ const rows = [
     position: sticky
     right: 0
     z-index: 1
+    /* covers any sub-pixel gap between sticky cells */
+    box-shadow: 0 -1px 0 #00b4ff
 </style>

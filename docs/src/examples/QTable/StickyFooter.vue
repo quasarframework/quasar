@@ -191,4 +191,6 @@ for (const field of ['calories', 'fat', 'carbs', 'protein', 'sodium']) {
     position: sticky
     z-index: 1
     bottom: 0
+    /* covers any sub-pixel gap between sticky cells */
+    box-shadow: -1px 0 0 #00b4ff
 </style>

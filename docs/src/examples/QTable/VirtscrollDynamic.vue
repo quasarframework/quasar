@@ -219,6 +219,8 @@ function onScroll({ to, ref: compRef }) {
   thead tr th
     position: sticky
     z-index: 1
+    /* covers any sub-pixel gap between sticky cells */
+    box-shadow: -1px 0 0 #00b4ff
   /* this will be the loading indicator */
   thead tr:last-child th
     /* height of all previous header rows */
