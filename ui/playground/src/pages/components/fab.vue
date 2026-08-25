@@ -93,6 +93,31 @@
           <q-fab-action color="amber" @click="notify('mail')" icon="mail" />
           <q-fab-action color="amber" @click="notify('alarm')" icon="alarm" />
         </q-fab>
+
+        <p class="caption desktop-only" style="margin-top: 50px">
+          Hover the FABs below (the second one with 300ms show / 600ms hide
+          delays):
+        </p>
+
+        <q-fab hover color="teal" icon="keyboard_arrow_right" direction="right">
+          <q-fab-action color="primary" @click="notify('mail')" icon="mail" />
+          <q-fab-action color="primary" @click="notify('alarm')" icon="alarm" />
+        </q-fab>
+
+        <br />
+
+        <q-fab
+          hover
+          :hover-delay="300"
+          :hover-hide-delay="600"
+          color="teal"
+          glossy
+          icon="keyboard_arrow_left"
+          direction="left"
+        >
+          <q-fab-action color="primary" @click="notify('mail')" icon="mail" />
+          <q-fab-action color="primary" @click="notify('alarm')" icon="alarm" />
+        </q-fab>
       </div>
 
       <p class="caption" style="margin-bottom: 100px">

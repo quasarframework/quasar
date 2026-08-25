@@ -1,5 +1,5 @@
-import { mount } from '@vue/test-utils'
-import { describe, expect, test } from 'vitest'
+import { flushPromises, mount } from '@vue/test-utils'
+import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 
 import { getRouter } from 'testing/runtime/router.js'
 
@@ -17,6 +17,17 @@ function mountFab(props = {}, slots = {}, global = {}) {
     props,
     slots,
     global
+  })
+}
+
+function withFakeTimers() {
+  beforeEach(() => {
+    vi.useFakeTimers()
+  })
+
+  afterEach(() => {
+    vi.clearAllTimers()
+    vi.useRealTimers()
   })
 }
 
@@ -440,6 +451,98 @@ describe('[QFab API]', () => {
         const wrapper = mountFab({ verticalActionsAlign: 'right' })
 
         expect(wrapper.classes()).toContain('q-fab--align-right')
+      })
+    })
+
+    describe('[(prop)hover]', () => {
+      withFakeTimers()
+
+      test('type Boolean has effect', async () => {
+        const wrapper = mountFab({ hover: true })
+
+        await wrapper.trigger('pointerenter', { pointerType: 'mouse' })
+
+        expect(wrapper.classes()).toContain('q-fab--opened')
+
+        await wrapper.trigger('pointerleave', { pointerType: 'mouse' })
+        await vi.runAllTimersAsync()
+        await flushPromises()
+
+        expect(wrapper.classes()).toContain('q-fab--closed')
+      })
+
+      test('a touch pointer does not trigger it', async () => {
+        const wrapper = mountFab({ hover: true })
+
+        await wrapper.trigger('pointerenter', { pointerType: 'touch' })
+        await vi.runAllTimersAsync()
+
+        expect(wrapper.classes()).toContain('q-fab--closed')
+      })
+
+      test('the pointer returning during the grace period keeps it open', async () => {
+        const wrapper = mountFab({ hover: true })
+
+        await wrapper.trigger('pointerenter', { pointerType: 'mouse' })
+        await wrapper.trigger('pointerleave', { pointerType: 'mouse' })
+        await wrapper.trigger('pointerenter', { pointerType: 'mouse' })
+        await vi.runAllTimersAsync()
+        await flushPromises()
+
+        expect(wrapper.classes()).toContain('q-fab--opened')
+      })
+
+      test('a click landing while the actions animate in does not close it', async () => {
+        const wrapper = mountFab({ hover: true })
+
+        await wrapper.trigger('pointerenter', { pointerType: 'mouse' })
+        await getTrigger(wrapper).trigger('click')
+
+        expect(wrapper.classes()).toContain('q-fab--opened')
+
+        // once the actions have fully shown, a click plain-toggles again
+        await vi.advanceTimersByTimeAsync(500)
+        await getTrigger(wrapper).trigger('click')
+        await flushPromises()
+
+        expect(wrapper.classes()).toContain('q-fab--closed')
+      })
+    })
+
+    describe('[(prop)hover-delay]', () => {
+      withFakeTimers()
+
+      test('type Number has effect', async () => {
+        const wrapper = mountFab({ hover: true, hoverDelay: 500 })
+
+        await wrapper.trigger('pointerenter', { pointerType: 'mouse' })
+        await vi.advanceTimersByTimeAsync(499)
+
+        expect(wrapper.classes()).toContain('q-fab--closed')
+
+        await vi.advanceTimersByTimeAsync(1)
+        await flushPromises()
+
+        expect(wrapper.classes()).toContain('q-fab--opened')
+      })
+    })
+
+    describe('[(prop)hover-hide-delay]', () => {
+      withFakeTimers()
+
+      test('type Number has effect', async () => {
+        const wrapper = mountFab({ hover: true, hoverHideDelay: 500 })
+
+        await wrapper.trigger('pointerenter', { pointerType: 'mouse' })
+        await wrapper.trigger('pointerleave', { pointerType: 'mouse' })
+        await vi.advanceTimersByTimeAsync(499)
+
+        expect(wrapper.classes()).toContain('q-fab--opened')
+
+        await vi.advanceTimersByTimeAsync(1)
+        await flushPromises()
+
+        expect(wrapper.classes()).toContain('q-fab--closed')
       })
     })
 

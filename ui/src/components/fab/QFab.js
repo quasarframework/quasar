@@ -1,4 +1,4 @@
-import { computed, h, provide, ref } from 'vue'
+import { computed, h, provide, ref, watch } from 'vue'
 
 import QBtn from '../btn/QBtn.js'
 import QIcon from '../icon/QIcon.js'
@@ -6,6 +6,7 @@ import QIcon from '../icon/QIcon.js'
 import useQuasar from '../../composables/use-quasar/use-quasar.js'
 import useFab, { getFabBtnProps, useFabProps } from './use-fab.js'
 import useId from '../../composables/use-id/use-id.js'
+import useTimeout from '../../composables/use-timeout/use-timeout.js'
 import useModelToggle, {
   useModelToggleEmits,
   useModelToggleProps
@@ -17,6 +18,9 @@ import { fabKey } from '../../utils/private.symbols/symbols.js'
 
 const directions = ['up', 'right', 'down', 'left']
 const alignValues = ['left', 'center', 'right']
+
+// must track the .18s show transition of .q-fab__actions (QFab.sass)
+const hoverShowDuration = 180
 
 export default /*#__PURE__*/ createComponent({
   name: 'QFab',
@@ -40,6 +44,16 @@ export default /*#__PURE__*/ createComponent({
       validator: v => directions.includes(v)
     },
 
+    hover: Boolean,
+    hoverDelay: {
+      type: Number,
+      default: 0
+    },
+    hoverHideDelay: {
+      type: Number,
+      default: 150
+    },
+
     persistent: Boolean,
 
     verticalActionsAlign: {
@@ -61,10 +75,61 @@ export default /*#__PURE__*/ createComponent({
 
     const hideOnRouteChange = computed(() => !props.persistent)
 
-    const { hide, toggle } = useModelToggle({
+    const { show, hide, toggle } = useModelToggle({
       showing,
       hideOnRouteChange
     })
+
+    const { removeTimeout, registerTimeout } = useTimeout()
+
+    // when the current "show" was hover-triggered, the moment it happened
+    let hoverShownAt = 0
+
+    // opened or closed by any means: a pending hover show/hide is now moot
+    watch(showing, removeTimeout)
+
+    function hoverShow(evt) {
+      // touch has no hover; a tap keeps acting through the click toggle
+      if (evt.pointerType === 'touch') return
+
+      removeTimeout()
+
+      if (showing.value) return
+
+      if (props.hoverDelay > 0) {
+        registerTimeout(() => {
+          hoverShownAt = Date.now()
+          show(evt)
+        }, props.hoverDelay)
+      } else {
+        hoverShownAt = Date.now()
+        show(evt)
+      }
+    }
+
+    function hoverHide(evt) {
+      if (evt.pointerType === 'touch') return
+
+      removeTimeout()
+
+      if (showing.value) {
+        registerTimeout(() => {
+          hide(evt)
+        }, props.hoverHideDelay)
+      }
+    }
+
+    function onTriggerClick(evt) {
+      // on real hardware the pointer reaches the trigger before any click
+      // can, so with "hover" on the actions are still animating in when a
+      // move-and-click gesture's click lands; that click must not dismiss
+      // what the very same gesture just opened
+      if (showing.value && Date.now() - hoverShownAt < hoverShowDuration) {
+        return
+      }
+
+      toggle(evt)
+    }
 
     const slotScope = computed(() => ({ opened: showing.value }))
 
@@ -80,6 +145,12 @@ export default /*#__PURE__*/ createComponent({
         'q-fab__actions flex no-wrap inline' +
         ` q-fab__actions--${props.direction}` +
         ` q-fab__actions--${showing.value ? 'opened' : 'closed'}`
+    )
+
+    const onEvents = computed(() =>
+      props.hover
+        ? { onPointerenter: hoverShow, onPointerleave: hoverHide }
+        : {}
     )
 
     // deliberately no role on the actions container: its children are
@@ -158,7 +229,8 @@ export default /*#__PURE__*/ createComponent({
       h(
         'div',
         {
-          class: classes.value
+          class: classes.value,
+          ...onEvents.value
         },
         [
           h(
@@ -175,7 +247,7 @@ export default /*#__PURE__*/ createComponent({
               // ARIA role and the actions container claims none
               'aria-expanded': showing.value ? 'true' : 'false',
               'aria-controls': targetUid.value,
-              onClick: toggle
+              onClick: onTriggerClick
             },
             getTriggerContent
           ),

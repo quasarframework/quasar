@@ -34,6 +34,14 @@ If you want a non-expandable FAB, all you need is a round button – wrapped in 
 
 <DocExample title="Expandable" file="Expandable" />
 
+### Hover <q-badge label="v2.27+" />
+
+With the `hover` prop the FAB also opens when the pointer hovers it and closes once the pointer has left both the main button and the actions. The `hover-hide-delay` prop controls the grace period in which the pointer can travel between the two (or return) before the FAB closes, while `hover-delay` postpones the opening.
+
+Click/tap and keyboard interactions keep toggling the FAB as usual, so touch devices (which have no hover) simply fall back to them; this also means that clicking the main button (or activating it with <kbd>Enter</kbd>) while the FAB is hover-shown closes it. The one exception is a click that lands while the actions are still animating into view: it is ignored, so a single move-and-click gesture cannot close the FAB that the very same gesture just opened.
+
+<DocExample title="Hover" file="Hover" />
+
 ### Internal labels
 
 <DocExample title="Internal label" file="InternalLabel" />
