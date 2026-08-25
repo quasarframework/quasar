@@ -39,7 +39,7 @@ export class AppDevserver extends AppTool {
       quasarConf.preFetch,
       quasarConf.build.publicPath,
       quasarConf.build.vueRouterMode,
-      ...(quasarConf.ctx.ssr
+      ...(quasarConf.ctx.mode.ssr
         ? [
             quasarConf.ssr.pwa,
             quasarConf.ssr.middlewares,
@@ -48,7 +48,7 @@ export class AppDevserver extends AppTool {
             quasarConf.ssr.manualStoreHydration,
             quasarConf.ssr.manualPostHydrationTrigger
           ]
-        : quasarConf.ctx.ssg
+        : quasarConf.ctx.mode.ssg
           ? [
               quasarConf.ssg.pwa,
               quasarConf.ssg.manualStoreSsrContextInjection,
@@ -142,21 +142,24 @@ export class AppDevserver extends AppTool {
       quasarConf.pwa.workboxMode,
       quasarConf.pwa.swFilename,
       quasarConf.build,
-      quasarConf.ctx.ssr && quasarConf.ssr.pwaOfflineHtmlFilename,
-      quasarConf.ctx.ssg && quasarConf.ssg.pwaOfflineHtmlFilename,
+      quasarConf.ctx.mode.ssr && quasarConf.ssr.pwaOfflineHtmlFilename,
+      quasarConf.ctx.mode.ssg && quasarConf.ssg.pwaOfflineHtmlFilename,
       quasarConf.pwa.workboxMode === 'GenerateSW'
         ? [
             quasarConf.pwa.extendPWAGenerateSWOptions,
-            quasarConf.ctx.ssr && quasarConf.ssr.extendSSRGenerateSWOptions,
-            quasarConf.ctx.ssg && quasarConf.ssg.extendSSGGenerateSWOptions
+            quasarConf.ctx.mode.ssr &&
+              quasarConf.ssr.extendSSRGenerateSWOptions,
+            quasarConf.ctx.mode.ssg && quasarConf.ssg.extendSSGGenerateSWOptions
           ]
         : [
             quasarConf.pwa.extendPWAInjectManifestOptions,
             quasarConf.pwa.extendPWACustomSWConf,
             quasarConf.sourceFiles.pwaServiceWorker,
             quasarConf.metaConf.clientEnvDefineList,
-            quasarConf.ctx.ssr && quasarConf.ssr.extendSSRInjectManifestOptions,
-            quasarConf.ctx.ssg && quasarConf.ssg.extendSSGInjectManifestOptions
+            quasarConf.ctx.mode.ssr &&
+              quasarConf.ssr.extendSSRInjectManifestOptions,
+            quasarConf.ctx.mode.ssg &&
+              quasarConf.ssg.extendSSGInjectManifestOptions
           ]
     ])
   }
