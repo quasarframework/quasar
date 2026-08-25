@@ -12,16 +12,17 @@ let registered = 0,
   vpPendingUpdate = false,
   bodyLeft,
   bodyTop,
+  pinnedBody = false,
   routePath,
   closeTimer = null
 
-// notified when the lock releases WITHOUT emitting a scroll event --
-// either the route changed while locked (no scroll restore happens), or
-// the saved position is the one the page already sits at (the lock pins
-// the page at top, so a position saved at top restores as a no-op);
-// consumers that suppress scroll work while locked (QLayout,
-// QInfiniteScroll) re-sync through this since no scroll event will ever
-// fire for them
+// notified when the lock releases WITHOUT emitting a scroll event -- the
+// clipped page never lost its position, the route changed while locked (no
+// scroll restore happens), or the saved position is the one the page
+// already sits at (a pinned page sits at top, so a position saved at top
+// restores as a no-op); consumers that suppress scroll work while locked
+// (QLayout, QInfiniteScroll) re-sync through this since no scroll event
+// will ever fire for them
 const releaseListeners = new Set()
 
 export function addPreventScrollReleaseListener(fn) {
@@ -77,32 +78,38 @@ function apply(action) {
     hasViewport = window.visualViewport !== void 0
 
   if (action === 'add') {
-    const { overflowY, overflowX } = window.getComputedStyle(body)
-
     scrollPositionX = getHorizontalScrollPosition(window)
     scrollPositionY = getVerticalScrollPosition(window)
-    bodyLeft = body.style.left
-    bodyTop = body.style.top
 
     routePath = window.location.pathname
 
-    body.style.left = `-${scrollPositionX}px`
-    body.style.top = `-${scrollPositionY}px`
+    const classList = ['q-document--prevent-scroll']
 
-    if (
-      overflowX !== 'hidden' &&
-      (overflowX === 'scroll' || body.scrollWidth > window.innerWidth)
-    ) {
-      body.classList.add('q-body--force-scrollbar-x')
-    }
-    if (
-      overflowY !== 'hidden' &&
-      (overflowY === 'scroll' || body.scrollHeight > window.innerHeight)
-    ) {
-      body.classList.add('q-body--force-scrollbar-y')
+    pinnedBody = client.is.ios
+
+    if (pinnedBody) {
+      // iOS pans the page by touch whatever the viewport says, so the body
+      // gets pinned in place instead; sticky content cannot survive that
+      // (it ends up inside a fixed subtree), but nothing else holds there
+      bodyLeft = body.style.left
+      bodyTop = body.style.top
+      body.style.left = `-${scrollPositionX}px`
+      body.style.top = `-${scrollPositionY}px`
+      classList.push('q-document--pin-body')
+    } else {
+      // clipping the viewport leaves the page in flow and at its scroll
+      // position, so position: sticky content keeps sticking (#18183)
+      classList.push('q-document--clip-scroll')
+
+      // a classic scrollbar takes up layout space that the clipped viewport
+      // stops painting, and the page would shift sideways into it; overlay
+      // scrollbars take up none, so they need no gutter
+      if (window.innerWidth - document.documentElement.clientWidth > 0) {
+        classList.push('q-document--reserve-scrollbar')
+      }
     }
 
-    document.documentElement.classList.add('q-document--prevent-scroll')
+    document.documentElement.classList.add(...classList)
     document.qScrollPrevented = true
 
     if (client.is.ios) {
@@ -151,21 +158,28 @@ function apply(action) {
       }
     }
 
-    document.documentElement.classList.remove('q-document--prevent-scroll')
-    body.classList.remove(
-      'q-body--force-scrollbar-x',
-      'q-body--force-scrollbar-y'
+    document.documentElement.classList.remove(
+      'q-document--prevent-scroll',
+      'q-document--clip-scroll',
+      'q-document--reserve-scrollbar',
+      'q-document--pin-body'
     )
 
     document.qScrollPrevented = false
 
-    body.style.left = bodyLeft
-    body.style.top = bodyTop
+    if (pinnedBody) {
+      body.style.left = bodyLeft
+      body.style.top = bodyTop
+    }
 
-    // scroll back only if the route path has not changed AND the page is
-    // not already at the saved position (scrollTo emits nothing then);
-    // when no scroll event can fire, notify the release listeners instead
+    // only a pinned page has a position to scroll back to, and only when
+    // the route path has not changed AND the page is not already at the
+    // saved position (scrollTo emits nothing then); a clipped page kept
+    // its position all along, and if the app moved it meanwhile that move
+    // is not ours to undo. When no scroll event can fire, notify the
+    // release listeners instead
     if (
+      pinnedBody &&
       window.location.pathname === routePath &&
       (getHorizontalScrollPosition(window) !== scrollPositionX ||
         getVerticalScrollPosition(window) !== scrollPositionY)

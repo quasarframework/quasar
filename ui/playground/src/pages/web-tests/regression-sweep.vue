@@ -326,6 +326,17 @@
       </div>
     </div>
 
+    <!-- S27: #18183 sticky content vs the page scroll lock; mounted only
+         while the scenario runs, so the bar cannot cover other fixtures -->
+    <template v-if="s27on">
+      <div class="s27-wrap">
+        <div class="s27-sticky">S27 sticky</div>
+      </div>
+      <q-dialog v-model="s27dlg">
+        <div class="bg-white q-pa-md">S27 dialog</div>
+      </q-dialog>
+    </template>
+
     <!-- S19: #12994 reveal QHeader must reappear when a route change
          happens while the Loading plugin keeps the page scroll-locked.
          Own window-scrolling layout: the bug lives in the non-container
@@ -405,6 +416,8 @@ function s26onHold() {
 function s26onRepeat() {
   s26counts.repeat++
 }
+const s27on = ref(false)
+const s27dlg = ref(false)
 // the "Multiple masks" docs pattern (docs/src/examples/QInput/MaskMultiple.vue)
 const s18mask = computed(() =>
   s18model.value !== null && s18model.value.length > 10
@@ -992,11 +1005,11 @@ async function s18() {
   )
 }
 
-// S19: #12994 -- while the Loading plugin holds the scroll lock, QLayout
-// suppresses the lock's synthetic scroll-to-top (#7012); when a route
-// change happens under the lock, the unlock skips the scroll restore, so
-// the layout used to keep the stale pre-navigation scroll state and a
-// reveal QHeader never reappeared at the top of the new page
+// S19: #12994 -- QLayout suppresses page scrolls for as long as the
+// Loading plugin holds the scroll lock (#7012); when a route change
+// happens under the lock, the unlock skips the scroll restore, so the
+// layout used to keep the stale pre-navigation scroll state and a reveal
+// QHeader never reappeared at the top of the new page
 async function s19() {
   s19on.value = true
   // scroll anchoring (Firefox especially) can nudge the position back up
@@ -1029,9 +1042,14 @@ async function s19() {
   const path = window.location.pathname
   $q.loading.show({ delay: 0 })
   await settle(400)
-  // a route change as prevent-scroll sees one: the pathname moves on
-  // while the lock is held (no popstate, the router stays put)
+  // a navigation as prevent-scroll sees one: the pathname moves on while
+  // the lock is held (no popstate, the router stays put) and the router's
+  // scroll behavior takes the new route to the top. That scroll is the
+  // navigation's, not the lock's -- the lock only clips the viewport and
+  // leaves the page where it is (#18183) -- and QLayout has to re-sync
+  // with it once the lock lifts
   history.pushState({}, '', path + '/s19-nav')
+  window.scrollTo(0, 0)
   $q.loading.hide()
   await settle(500)
 
@@ -1495,6 +1513,65 @@ async function s26() {
   )
 }
 
+// S27: #18183 -- the page scroll lock must leave the page in the flow. A
+// pinned (position: fixed) body puts sticky content inside a fixed subtree,
+// where Firefox stops applying the sticky offset and draws the element at
+// its static -- scrolled-away -- position, so it vanishes for as long as
+// the dialog is open. Clipping the viewport instead keeps both the scroll
+// position and the sticky bar exactly where they were
+async function s27() {
+  s27on.value = true
+  // the verdict panel above grows with every report, and scroll anchoring
+  // would compensate for it with real scrolls mid-measurement
+  document.documentElement.style.overflowAnchor = 'none'
+  await settle(300)
+
+  const bar = document.querySelector('.s27-sticky')
+  const wrap = document.querySelector('.s27-wrap')
+
+  // park the viewport in the middle of the tall block, where the bar has
+  // travelled with the page and is stuck to the top of the viewport
+  window.scrollTo(
+    0,
+    Math.round(window.scrollY + wrap.getBoundingClientRect().top + 800)
+  )
+  await settle(300)
+
+  const stuckTop = () => Math.abs(Math.round(bar.getBoundingClientRect().top))
+  const stuckBefore = stuckTop() <= 2
+  const yBefore = Math.round(window.scrollY)
+
+  s27dlg.value = true
+  await settle(400)
+
+  // iOS has no alternative to pinning the body, so there the contract is
+  // only that the page comes back on release; everywhere else the page may
+  // not move at all and the bar has to stay stuck while the dialog is open
+  const pinned = $q.platform.is.ios
+  const whileOpen =
+    pinned ||
+    (stuckTop() <= 2 && Math.abs(Math.round(window.scrollY) - yBefore) <= 2)
+
+  s27dlg.value = false
+  await settle(500)
+
+  const restored =
+    stuckTop() <= 2 && Math.abs(Math.round(window.scrollY) - yBefore) <= 2
+
+  s27on.value = false
+  document.documentElement.style.overflowAnchor = ''
+  await settle(200)
+  window.scrollTo(0, 0)
+  await settle(200)
+
+  report(
+    'S27 18183 sticky content survives the scroll lock',
+    stuckBefore && whileOpen && restored,
+    `stuck=${stuckBefore} whileOpen=${whileOpen} restored=${restored}` +
+      (pinned ? ' (pinned lock)' : '')
+  )
+}
+
 async function runAll() {
   lines.value = []
   results.length = 0
@@ -1527,7 +1604,8 @@ async function runAll() {
     s23,
     s24,
     s25,
-    s26
+    s26,
+    s27
   ]
   for (const scenario of scenarios) {
     try {
@@ -1580,6 +1658,17 @@ onMounted(() => {
   border: 1px dashed #ccc;
   padding: 8px;
   margin-bottom: 8px;
+}
+/* S27 probe: a tall block whose sticky bar stays pinned to the top of the
+   viewport while the page is scrolled through it */
+.s27-wrap {
+  height: 2000px;
+}
+.s27-sticky {
+  position: sticky;
+  top: 0;
+  height: 40px;
+  background: rgba(0, 128, 0, 0.4);
 }
 /* S14 probes: same declared offsets, one inside a QScrollArea and one not,
    so the two rects must agree. pointer-events stay off so they can never

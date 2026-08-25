@@ -342,7 +342,7 @@ describe('[QInfiniteScroll API]', () => {
   })
 
   describe('[Generic]', () => {
-    test('does not poll while an overlay scroll-locks the page', async () => {
+    test('does not poll while an overlay scroll-locks the page', () => {
       // give the page real overflowing content, so window scrolling works
       const filler = document.createElement('div')
       filler.style.height = '3000px'
@@ -364,19 +364,18 @@ describe('[QInfiniteScroll API]', () => {
         // a Dialog or an overlay Drawer opens...
         preventScroll(true)
 
-        // ...pinning the window scroll position at 0, which reverse mode
-        // would misread as "scrolled to the top" and load over and over
-        await expect.poll(() => window.scrollY).toBe(0)
+        // ...and the page can still end up at the top while it is up: the
+        // app navigating underneath, or the lock pinning the page there on
+        // iOS. Reverse mode would misread that as "scrolled to the top"
+        // and load over and over
+        window.scrollTo(0, 0)
         window.dispatchEvent(new Event('scroll'))
 
         expect(wrapper.emitted()).not.toHaveProperty('load')
 
-        // closing the overlay restores the scroll position and polling
+        // closing the overlay brings polling back -- through the release
+        // listeners, since the page sits where no scroll event can fire
         preventScroll(false)
-        await expect.poll(() => window.scrollY).toBeGreaterThan(500)
-
-        window.scrollTo(0, 100)
-        window.dispatchEvent(new Event('scroll'))
 
         expect(wrapper.emitted('load')).toHaveLength(1)
       } finally {

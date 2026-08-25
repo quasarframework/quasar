@@ -7,9 +7,11 @@ import preventScroll, {
   removePreventScrollReleaseListener
 } from './prevent-scroll.js'
 
-const forceScrollbarClasses = [
-  'q-body--force-scrollbar-x',
-  'q-body--force-scrollbar-y'
+const lockClasses = [
+  'q-document--prevent-scroll',
+  'q-document--clip-scroll',
+  'q-document--reserve-scrollbar',
+  'q-document--pin-body'
 ]
 
 const restoreFns = []
@@ -22,8 +24,7 @@ afterEach(() => {
   vi.restoreAllMocks()
   vi.useRealTimers()
 
-  document.documentElement.classList.remove('q-document--prevent-scroll')
-  document.body.classList.remove(...forceScrollbarClasses)
+  document.documentElement.classList.remove(...lockClasses)
   document.body.removeAttribute('style')
 })
 
@@ -118,23 +119,57 @@ describe('[preventScroll API]', () => {
         expect(scrollTo).not.toHaveBeenCalled()
       })
 
-      test('locks the body in place at the current scroll position', () => {
+      test('clips the viewport, leaving the page where it is', async () => {
         makeDocumentScrollable()
         window.scrollTo(30, 180)
 
         preventScroll(true)
 
+        expect(
+          document.documentElement.classList.contains('q-document--clip-scroll')
+        ).toBe(true)
+
+        // the page stays in the flow, so it keeps its scroll position and
+        // needs no compensating body offsets -- that is what keeps
+        // position: sticky content sticking while locked (#18183)
+        expect(document.body.style.left).toBe('')
+        expect(document.body.style.top).toBe('')
+
+        // a body taken out of the flow only gets clamped to the top on the
+        // next frames, so give the position the same window to prove that
+        // nothing clamps it here
+        await new Promise(resolve => {
+          requestAnimationFrame(() => requestAnimationFrame(resolve))
+        })
+
+        expect(window.scrollX).toBe(30)
+        expect(window.scrollY).toBe(180)
+      })
+
+      test('pins the body at the current scroll position on iOS', () => {
+        // iOS keeps panning a clipped page by touch, so there the body is
+        // pinned instead and the offsets stand in for the lost scrolling
+        mockPlatform({ ios: true, nativeMobile: false })
+        makeDocumentScrollable()
+        window.scrollTo(30, 180)
+
+        preventScroll(true)
+
+        expect(
+          document.documentElement.classList.contains('q-document--pin-body')
+        ).toBe(true)
         expect(document.body.style.left).toBe('-30px')
         expect(document.body.style.top).toBe('-180px')
       })
 
       test('restores the previous body offsets and scroll position', async () => {
+        // only the pinned (iOS) lock can lose the position: the body leaves
+        // the flow, so the browser clamps the page to the top
+        mockPlatform({ ios: true, nativeMobile: false })
         makeDocumentScrollable()
         document.body.style.left = '5px'
         document.body.style.top = '10px'
         window.scrollTo(30, 180)
-
-        const scrollTo = vi.spyOn(window, 'scrollTo')
 
         preventScroll(true)
 
@@ -142,6 +177,10 @@ describe('[preventScroll API]', () => {
         // position to 0 asynchronously; the restore is only observable
         // once the position got genuinely lost
         await expect.poll(() => window.scrollY).toBe(0)
+
+        // spied on only now: acquiring the lock scrolls the page itself
+        // on iOS, and those calls are not the restore under test
+        const scrollTo = vi.spyOn(window, 'scrollTo')
 
         preventScroll(false)
 
@@ -168,31 +207,44 @@ describe('[preventScroll API]', () => {
         expect(scrollTo).not.toHaveBeenCalled()
       })
 
-      test.each([
-        ['both axes', { width: 5000, height: 5000 }, forceScrollbarClasses],
-        [
-          'the vertical axis only',
-          { width: 50, height: 5000 },
-          ['q-body--force-scrollbar-y']
-        ],
-        ['neither axis', null, []]
-      ])('forces the scrollbar for %s', (_, fillerSize, expectedClasses) => {
-        // real body content decides which axes overflow the viewport
-        if (fillerSize !== null) makeDocumentScrollable(fillerSize)
+      test('reserves the gutter of a scrollbar that took up layout space', () => {
+        makeDocumentScrollable()
+        // the headless browser hides its scrollbars, so a classic one --
+        // the only kind that shrinks the viewport -- has to be faked
+        mockProperty(
+          document.documentElement,
+          'clientWidth',
+          window.innerWidth - 15
+        )
 
         preventScroll(true)
 
         expect(
-          forceScrollbarClasses.filter(cls =>
-            document.body.classList.contains(cls)
+          document.documentElement.classList.contains(
+            'q-document--reserve-scrollbar'
           )
-        ).toStrictEqual(expectedClasses)
+        ).toBe(true)
 
         preventScroll(false)
 
         expect(
-          forceScrollbarClasses.some(cls =>
-            document.body.classList.contains(cls)
+          document.documentElement.classList.contains(
+            'q-document--reserve-scrollbar'
+          )
+        ).toBe(false)
+      })
+
+      test('reserves no gutter when the scrollbar took up no space', () => {
+        // overlay scrollbars leave the viewport width alone, so there is
+        // nothing to reserve for them
+        makeDocumentScrollable()
+        mockProperty(document.documentElement, 'clientWidth', window.innerWidth)
+
+        preventScroll(true)
+
+        expect(
+          document.documentElement.classList.contains(
+            'q-document--reserve-scrollbar'
           )
         ).toBe(false)
       })
@@ -363,6 +415,9 @@ describe('[preventScroll API]', () => {
       })
 
       test('does not notify when the restore emits a scroll event', async () => {
+        // the pinned (iOS) lock is the one that loses the position and so
+        // has one to scroll back to on release
+        mockPlatform({ ios: true, nativeMobile: false })
         makeDocumentScrollable()
         window.scrollTo(30, 180)
 
