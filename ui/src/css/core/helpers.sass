@@ -18,17 +18,30 @@
 
 .q-document--prevent-scroll
   overscroll-behavior: none !important
+
+// The default lock: clipping the viewport leaves the page in flow and at
+// its scroll position, so position: sticky content keeps sticking (#18183)
+// and there is no scroll position to lose and restore
+.q-document--clip-scroll
+  overflow: hidden !important
+
+// A clipped viewport stops painting its classic scrollbar, which would let
+// the page shift sideways into the freed space; reserving the gutter keeps
+// the layout still. Overlay scrollbars take up no space to begin with, so
+// the class is only applied when a scrollbar really occupied some
+.q-document--reserve-scrollbar
+  scrollbar-gutter: stable !important
+
+// iOS pans the page by touch no matter how the viewport is clipped, so
+// there the body gets pinned in place instead -- at the cost of sticky
+// content, which cannot stick inside a fixed subtree
+.q-document--pin-body
   body
     position: fixed !important
 
 /* body */
 .q-body--fullscreen-mixin
   position: fixed !important
-
-.q-body--force-scrollbar-x
-  overflow-x: scroll
-.q-body--force-scrollbar-y
-  overflow-y: scroll
 
 .q-no-input-spinner
   appearance: textfield !important
