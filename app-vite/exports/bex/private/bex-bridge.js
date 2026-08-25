@@ -1,6 +1,21 @@
 const portNameRE = /^background$|^app$|^content@/
-const { runtime } =
+const { runtime, tabs } =
   import.meta.env.QUASAR_TARGET === 'firefox' ? browser : chrome
+
+/**
+ * One-off runtime message broadcast by the background script on each of
+ * its (re)starts so that previously connected bridges re-establish their
+ * ports. Needed because an MV3 background script gets terminated by the
+ * browser when idle, taking all of its ports down with it.
+ */
+const reviveSignature = '@quasar:bex:revive'
+
+/**
+ * How long (in ms) send() waits for a not-yet-registered target port
+ * before giving up. Covers the small window in which ports re-register
+ * after a background script restart.
+ */
+const waitForPortTimeout = 1000
 
 /**
  * @param {number} max
@@ -42,6 +57,12 @@ export class BexBridge {
   #debug = false
   /** @type {string} */
   #banner
+  /** @type {boolean} */
+  #wasConnected = false
+  /** @type {Promise<void> | null} */
+  #connectPromise = null
+  /** @type {{ portName: string, resolve: (available: boolean) => void, timer: ReturnType<typeof setTimeout> }[]} */
+  #portWaiters = []
 
   /**
    * @param {{ type: 'background' | 'content' | 'app', name?: string, debug?: boolean }} options
@@ -66,8 +87,26 @@ export class BexBridge {
     if (type !== 'background') {
       this.on('@quasar:ports', ({ payload }) => {
         this.portList = payload.portList
+        this.#notifyPortWaiters()
         if (payload.removed !== void 0) {
           this.#cleanupPort(payload.removed)
+        }
+      })
+
+      /**
+       * The background script broadcasts this one-off message on each of
+       * its (re)starts; if we were connected to a previous background
+       * instance, re-establish the connection with the new one.
+       */
+      runtime.onMessage.addListener(message => {
+        if (
+          message === reviveSignature &&
+          this.#wasConnected &&
+          !this.isConnected
+        ) {
+          this.connectToBackground().catch(err => {
+            this.warn('Failed to reconnect to the background script.', err)
+          })
         }
       })
 
@@ -108,6 +147,12 @@ export class BexBridge {
       this.log(`Opened connection with ${port.name}.`)
       this.#onPortChange({ added: port.name })
     })
+
+    /**
+     * If this is a background script restart with clients still out
+     * there, ask them to re-establish their ports.
+     */
+    this.#revivePortClients()
   }
 
   /**
@@ -124,6 +169,18 @@ export class BexBridge {
       throw 'The bridge is already connected'
     }
 
+    // an already in-progress connection attempt is shared
+    this.#connectPromise ||= this.#connectToBackground().finally(() => {
+      this.#connectPromise = null
+    })
+
+    await this.#connectPromise
+  }
+
+  /**
+   * @returns {Promise<void>}
+   */
+  async #connectToBackground() {
     const portToBackground = runtime.connect({ name: this.portName })
     const { promise, resolve, reject } = Promise.withResolvers()
 
@@ -148,7 +205,7 @@ export class BexBridge {
       ) {
         this.isConnected = false
         portToBackground.onMessage.removeListener(onPacket)
-        portToBackground.onMessage.removeListener(onDisconnect)
+        portToBackground.onDisconnect.removeListener(onDisconnect)
         reject('Could not connect to the background script.')
         return
       }
@@ -172,6 +229,7 @@ export class BexBridge {
     portToBackground.onDisconnect.addListener(onDisconnect)
 
     await promise
+    this.#wasConnected = true
   }
 
   /**
@@ -191,6 +249,8 @@ export class BexBridge {
     this.portMap.background.disconnect()
     delete this.portMap.background
     this.isConnected = false
+    // an explicit disconnect also opts out of the auto-reconnect behavior
+    this.#wasConnected = false
     return Promise.resolve()
   }
 
@@ -289,9 +349,20 @@ export class BexBridge {
    */
   async send({ event, to, payload } = {}) {
     if (!this.isConnected) {
-      throw new Error(
-        'Tried to send message but the bridge is not connected. Please connect it first.'
-      )
+      if (!this.#wasConnected) {
+        throw new Error(
+          'Tried to send message but the bridge is not connected. Please connect it first.'
+        )
+      }
+
+      /**
+       * The connection was lost without an explicit disconnect (in MV3
+       * the background script gets terminated when idle, taking all of
+       * its ports down with it), so re-establish it transparently.
+       * Connecting also wakes up the background script, which in turn
+       * asks all of its other previously connected clients to reconnect.
+       */
+      await this.connectToBackground()
     }
 
     if (!event) {
@@ -302,7 +373,10 @@ export class BexBridge {
       throw new Error('Tried to send message with no "to" prop specified')
     }
 
-    if (!this.portList.includes(to)) {
+    if (
+      !this.portList.includes(to) &&
+      (await this.#waitForPort(to)) === false
+    ) {
       throw new Error(
         this.#type === 'background'
           ? `Tried to send message to "${to}" but there is no such port registered`
@@ -386,6 +460,7 @@ export class BexBridge {
    */
   #onPortChange(reason) {
     this.portList = Object.keys(this.portMap)
+    this.#notifyPortWaiters()
     const list = ['background', ...this.portList]
 
     for (const portName of this.portList) {
@@ -400,6 +475,83 @@ export class BexBridge {
         this.warn(`Failed to inform "${portName}" about the port list.`, err)
       })
     }
+  }
+
+  /**
+   * Should be used only by the background script.
+   *
+   * The clients cannot be reached through ports (none are available on a
+   * fresh background script start), so one-off runtime messages are used.
+   */
+  async #revivePortClients() {
+    // reach the app (popup / devtools / options / extension pages)
+    runtime.sendMessage(reviveSignature).catch(() => {
+      // no app page is listening
+    })
+
+    if (tabs === void 0) return
+
+    let tabList
+
+    try {
+      tabList = await tabs.query({})
+    } catch (err) {
+      this.warn(
+        'Failed to query the tabs to revive the content script connections.',
+        err
+      )
+      return
+    }
+
+    // reach the content scripts
+    for (const { id } of tabList) {
+      if (id !== void 0) {
+        tabs.sendMessage(id, reviveSignature).catch(() => {
+          // no content script is listening on this tab
+        })
+      }
+    }
+  }
+
+  /**
+   * The requested port might be just about to (re)register itself (e.g.
+   * the background script was revived and its clients are re-establishing
+   * their ports), so wait a short while for it before giving up.
+   *
+   * @param {string} portName
+   * @returns {Promise<boolean>} whether the port became available
+   */
+  #waitForPort(portName) {
+    const { promise, resolve } = Promise.withResolvers()
+
+    const waiter = {
+      portName,
+      resolve,
+      timer: setTimeout(() => {
+        this.#portWaiters = this.#portWaiters.filter(entry => entry !== waiter)
+        resolve(false)
+      }, waitForPortTimeout)
+    }
+
+    this.#portWaiters.push(waiter)
+    return promise
+  }
+
+  #notifyPortWaiters() {
+    if (this.#portWaiters.length === 0) return
+
+    const pendingWaiters = []
+
+    for (const waiter of this.#portWaiters) {
+      if (this.portList.includes(waiter.portName)) {
+        clearTimeout(waiter.timer)
+        waiter.resolve(true)
+      } else {
+        pendingWaiters.push(waiter)
+      }
+    }
+
+    this.#portWaiters = pendingWaiters
   }
 
   /**

@@ -186,6 +186,11 @@ export interface BexBridge {
   /**
    * Connect to the background script.
    *
+   * Can be called again to reconnect after the connection is lost
+   * (e.g. the background script was terminated by the browser while idle).
+   * Calls made while a connection attempt is already in progress share
+   * that same attempt.
+   *
    * @see {@link BexBridge.isConnected} for checking the connection status
    *
    * @throws {string} if the bridge is already connected
@@ -203,6 +208,13 @@ export interface BexBridge {
 
   /**
    * Send a message to the specified bridge.
+   *
+   * If the connection to the background script was lost (in MV3 the
+   * background script gets terminated by the browser when idle, taking
+   * all of its ports down with it), the bridge transparently reconnects
+   * before sending. Should the target port not be registered (yet), the
+   * bridge waits a short while (1s) for it to appear before rejecting,
+   * covering ports that re-register after a background script restart.
    *
    * @example
    * const result = await bridge.send({

@@ -21,6 +21,20 @@ The use of the BEX bridge is optional for each part of the BEX, however if you w
 Treat every bridge message as untrusted input, especially messages originating from a content script that interacts with arbitrary web pages. Validate the event name, sender, payload shape, URLs, and identifiers before using extension permissions or accessing stored data. Expose narrow operations instead of a generic privileged command, and request only the manifest permissions and host access your extension needs.
 :::
 
+## Background script lifetime <q-badge label="@quasar/app-vite v3.8.1+" />
+
+With Manifest v3, the background script runs as a service worker (or as an event page on Firefox) which the browser terminates after a short period of inactivity (roughly 30 seconds on Chrome). All bridge connections go down with it. This is by design, and extension stores disallow the "keep-alive" tricks that prevent the termination, so the bridge handles it transparently instead:
+
+- Whenever the background script starts up again (any extension event wakes it up, including a bridge client connecting to it), its bridge asks all previously connected app and content script bridges to re-establish their connections.
+- If an app or content script bridge that was connected loses its connection, its next `bridge.send()` call automatically reconnects first (which also wakes up the background script) instead of rejecting.
+- A `bridge.send()` call targeting a port that is not registered (yet) waits for up to one second for that port to appear before rejecting, which covers the ports re-registering right after a background script restart.
+
+Bridges disconnected explicitly through `bridge.disconnectFromBackground()` opt out of the automatic reconnection.
+
+::: tip
+Any state held in your background script's memory is lost on each termination. Persist what needs to survive with `chrome.storage` instead of plain variables.
+:::
+
 ## The Bridge
 
 The bridge is a Promise-based event system shared by the BEX contexts. It lets each context listen for events, send messages to a specific connected port, and return synchronous or asynchronous responses.
