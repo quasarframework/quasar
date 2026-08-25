@@ -109,6 +109,8 @@ return {
     /**
      * Manually call $q.onSSRHydrated() instead of letting Quasar CLI do it.
      * This announces that client-side code should takeover.
+     * Needed when a Suspense boundary delays hydration (async setup());
+     * call the hook from the boundary's @resolve instead.
      * @default ssg.manualPostHydrationTrigger (when configured), otherwise false
      */
     manualPostHydrationTrigger?: boolean;
@@ -333,6 +335,19 @@ export default {
   }
 }
 ```
+
+One case where you actually need this is when a [Suspense](https://vuejs.org/guide/built-ins/suspense.html) boundary wraps a component with an async `setup()`. Vue hydrates that subtree only after the async dependencies settle, so the default trigger (which fires when the App wrapper component gets mounted) runs too early. Screen-dependent components inside the boundary (QPage, QImg, ...) then hydrate against live screen measurements instead of the values that the server rendered with, and Vue logs hydration mismatch warnings. Set `ssr.manualPostHydrationTrigger: true` and trigger the hook from the Suspense boundary instead:
+
+```html
+<!-- the template hosting your Suspense boundary -->
+<router-view v-slot="{ Component }">
+  <suspense @resolve="$q.onSSRHydrated()">
+    <component :is="Component" />
+  </suspense>
+</router-view>
+```
+
+Calling it on every resolve is safe. Only the first call has any effect.
 
 ## Node.js Webserver
 

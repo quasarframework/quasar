@@ -72,6 +72,8 @@ export interface QuasarSsrConfiguration {
   /**
    * Manually call $q.onSSRHydrated() instead of letting Quasar CLI do it.
    * This announces that client-side code should takeover.
+   * Needed when a Suspense boundary delays hydration (async setup());
+   * call the hook from the boundary's @resolve instead.
    * @default ssg.manualPostHydrationTrigger (when configured), otherwise false
    */
   manualPostHydrationTrigger?: boolean;
