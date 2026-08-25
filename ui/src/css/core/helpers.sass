@@ -46,6 +46,15 @@
     -webkit-text-decoration: underline dashed currentColor 1px /* Safari */
 
 body.electron
+  // Drag regions are geometric window-level carve-outs that ignore
+  // stacking order, so overlay content overlapping a drag region would
+  // lose its overlapping area to window dragging; carve out the bounded
+  // content elements only -- portal containers can be full-viewport
+  // (dialogs) and would disable dragging entirely while open; must
+  // precede .q-electron-drag so an explicit drag on the same element
+  // wins the cascade tie
+  .q-menu, .q-dialog__inner > *, .q-notification, .q-tooltip
+    -webkit-app-region: no-drag
   .q-electron-drag
     user-select: none
     -webkit-user-select: none
