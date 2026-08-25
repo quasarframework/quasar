@@ -8,6 +8,7 @@ export default /*#__PURE__*/ createComponent({
 
   props: {
     props: Object,
+    colName: String,
     autoWidth: Boolean,
     noHover: Boolean
   },
@@ -27,7 +28,7 @@ export default /*#__PURE__*/ createComponent({
         return h('td', { class: classes.value }, hSlot(slots.default))
       }
 
-      const name = vm.vnode.key
+      const name = props.colName !== void 0 ? props.colName : vm.vnode.key
       const col =
         (props.props.colsMap !== void 0 ? props.props.colsMap[name] : null) ||
         props.props.col

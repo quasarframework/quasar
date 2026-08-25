@@ -11,6 +11,14 @@
       "category": "general"
     },
 
+    "col-name": {
+      "type": "String",
+      "desc": "The 'name' of the column this cell belongs to; Overrides relying on the Vue 'key' attribute, which cannot cross a wrapper component; Only meaningful when used in QTable's 'body' slot",
+      "examples": ["# col-name=\"desc\""],
+      "category": "general",
+      "addedIn": "v2.27"
+    },
+
     "auto-width": {
       "type": "Boolean",
       "desc": "Tries to shrink column width size; Useful for columns with a checkbox/radio/toggle",

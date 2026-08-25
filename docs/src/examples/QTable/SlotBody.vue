@@ -10,40 +10,40 @@
     >
       <template v-slot:body="props">
         <q-tr :props="props" @click="onRowClick(props.row)">
-          <q-td key="name" :props="props">
+          <q-td col-name="name" :props="props">
             {{ props.row.name }}
           </q-td>
-          <q-td key="calories" :props="props">
+          <q-td col-name="calories" :props="props">
             <q-badge color="green">
               {{ props.row.calories }}
             </q-badge>
           </q-td>
-          <q-td key="fat" :props="props">
+          <q-td col-name="fat" :props="props">
             <q-badge color="purple">
               {{ props.row.fat }}
             </q-badge>
           </q-td>
-          <q-td key="carbs" :props="props">
+          <q-td col-name="carbs" :props="props">
             <q-badge color="orange">
               {{ props.row.carbs }}
             </q-badge>
           </q-td>
-          <q-td key="protein" :props="props">
+          <q-td col-name="protein" :props="props">
             <q-badge color="primary">
               {{ props.row.protein }}
             </q-badge>
           </q-td>
-          <q-td key="sodium" :props="props">
+          <q-td col-name="sodium" :props="props">
             <q-badge color="teal">
               {{ props.row.sodium }}
             </q-badge>
           </q-td>
-          <q-td key="calcium" :props="props">
+          <q-td col-name="calcium" :props="props">
             <q-badge color="accent">
               {{ props.row.calcium }}
             </q-badge>
           </q-td>
-          <q-td key="iron" :props="props">
+          <q-td col-name="iron" :props="props">
             <q-badge color="amber">
               {{ props.row.iron }}
             </q-badge>

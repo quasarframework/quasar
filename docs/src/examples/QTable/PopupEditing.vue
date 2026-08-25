@@ -11,7 +11,7 @@
     >
       <template v-slot:body="props">
         <q-tr :props="props">
-          <q-td key="name" :props="props">
+          <q-td col-name="name" :props="props">
             {{ props.row.name }}
             <q-popup-edit v-model="props.row.name" v-slot="scope">
               <q-input
@@ -23,7 +23,7 @@
               />
             </q-popup-edit>
           </q-td>
-          <q-td key="calories" :props="props">
+          <q-td col-name="calories" :props="props">
             {{ props.row.calories }}
             <q-popup-edit
               v-model="props.row.calories"
@@ -39,13 +39,13 @@
               />
             </q-popup-edit>
           </q-td>
-          <q-td key="fat" :props="props">
+          <q-td col-name="fat" :props="props">
             <div class="text-pre-wrap">{{ props.row.fat }}</div>
             <q-popup-edit v-model="props.row.fat" v-slot="scope">
               <q-input type="textarea" v-model="scope.value" dense autofocus />
             </q-popup-edit>
           </q-td>
-          <q-td key="carbs" :props="props">
+          <q-td col-name="carbs" :props="props">
             {{ props.row.carbs }}
             <q-popup-edit
               v-model="props.row.carbs"
@@ -63,10 +63,10 @@
               />
             </q-popup-edit>
           </q-td>
-          <q-td key="protein" :props="props">{{ props.row.protein }}</q-td>
-          <q-td key="sodium" :props="props">{{ props.row.sodium }}</q-td>
-          <q-td key="calcium" :props="props">{{ props.row.calcium }}</q-td>
-          <q-td key="iron" :props="props">{{ props.row.iron }}</q-td>
+          <q-td col-name="protein" :props="props">{{ props.row.protein }}</q-td>
+          <q-td col-name="sodium" :props="props">{{ props.row.sodium }}</q-td>
+          <q-td col-name="calcium" :props="props">{{ props.row.calcium }}</q-td>
+          <q-td col-name="iron" :props="props">{{ props.row.iron }}</q-td>
         </q-tr>
       </template>
     </q-table>

@@ -339,6 +339,10 @@ The example below shows how you can use a slot to customize the entire row:
 
 <DocExample title="Body slot" file="SlotBody" />
 
+::: tip
+When used in the `body` slot, each QTd needs to know which column it belongs to. Set its `col-name` prop (v2.27+) to the column's `name` from the `columns` definition, as in the example above. The Vue `key` attribute is also supported for backwards compatibility, but since `key` is a reserved attribute Vue does not pass it along through `$attrs`, so it cannot be used when wrapping QTd inside a custom component. The same applies to QTh in the `header` slot.
+:::
+
 Below, we use a slot which gets applied to each body cell:
 
 <DocExample title="Body-cell slot" file="SlotBodyCell" />

@@ -100,7 +100,7 @@ A frameless window needs a draggable region. Use the `q-electron-drag` and `q-el
 
 The class allows the user to drag the window from that region.
 
-Interactive children must not trigger dragging. [QBtn](/vue-components/button) is excluded automatically, and so is overlay content (menus, dialogs, notifications, tooltips) that would otherwise be unclickable where it overlaps the drag region (v2.26.1+); add `q-electron-drag--exception` to other interactive children.
+Interactive children must not trigger dragging. [QBtn](/vue-components/button) is excluded automatically, and so is overlay content (menus, dialogs, notifications, tooltips) that would otherwise be unclickable where it overlaps the drag region (v2.27+); add `q-electron-drag--exception` to other interactive children.
 
 Example of adding an exception to an icon:
 

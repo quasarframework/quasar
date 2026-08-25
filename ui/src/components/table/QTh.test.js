@@ -44,6 +44,27 @@ describe('[QTh API]', () => {
       })
     })
 
+    describe('[(prop)col-name]', () => {
+      test('type String has effect', async () => {
+        const wrapper = mount(QTh, {
+          props: {
+            props: {
+              col: { __thClass: 'th-fallback', headerStyle: {} },
+              colsMap: {
+                desc: { __thClass: 'th-desc', headerStyle: {} }
+              }
+            }
+          }
+        })
+
+        expect(wrapper.classes()).toContain('th-fallback')
+
+        await wrapper.setProps({ colName: 'desc' })
+
+        expect(wrapper.classes()).toContain('th-desc')
+      })
+    })
+
     describe('[(prop)auto-width]', () => {
       test('type Boolean has effect', () => {
         const wrapper = mount(QTh, {

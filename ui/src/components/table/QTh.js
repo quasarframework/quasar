@@ -12,6 +12,7 @@ export default /*#__PURE__*/ createComponent({
 
   props: {
     props: Object,
+    colName: String,
     autoWidth: Boolean
   },
 
@@ -46,7 +47,7 @@ export default /*#__PURE__*/ createComponent({
       }
 
       let col, child
-      const name = vm.vnode.key
+      const name = props.colName !== void 0 ? props.colName : vm.vnode.key
 
       if (name !== null) {
         col = props.props.colsMap[name]

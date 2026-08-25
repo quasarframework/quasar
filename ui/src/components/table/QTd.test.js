@@ -1,5 +1,6 @@
 import { mount } from '@vue/test-utils'
 import { describe, expect, test } from 'vitest'
+import { h } from 'vue'
 
 import QTd from './QTd.js'
 
@@ -24,6 +25,57 @@ describe('[QTd API]', () => {
 
         expect(wrapper.classes()).toContain('status-active')
         expect(wrapper.attributes('style')).toContain('opacity: 1')
+      })
+    })
+
+    describe('[(prop)col-name]', () => {
+      test('type String has effect', async () => {
+        const row = { desc: 'Ice cream' }
+        const wrapper = mount(QTd, {
+          props: {
+            props: {
+              row,
+              colsMap: {
+                desc: {
+                  __tdClass: () => 'td-desc',
+                  __tdStyle: () => ({})
+                }
+              }
+            }
+          }
+        })
+
+        expect(wrapper.find('td').exists()).toBe(false)
+
+        await wrapper.setProps({ colName: 'desc' })
+
+        expect(wrapper.get('td').classes()).toContain('td-desc')
+      })
+
+      test('resolves the column through a wrapper component, unlike the Vue key attribute', () => {
+        const WrapperTd = {
+          inheritAttrs: false,
+          setup(_, { attrs, slots }) {
+            return () => h(QTd, attrs, slots)
+          }
+        }
+
+        const wrapper = mount(WrapperTd, {
+          attrs: {
+            colName: 'desc',
+            props: {
+              row: { desc: 'Ice cream' },
+              colsMap: {
+                desc: {
+                  __tdClass: () => 'td-desc',
+                  __tdStyle: () => ({})
+                }
+              }
+            }
+          }
+        })
+
+        expect(wrapper.get('td').classes()).toContain('td-desc')
       })
     })
 
