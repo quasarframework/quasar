@@ -43,40 +43,38 @@ export class QuasarModeDevserver extends AppDevserver {
       quasarConf.bex.extendBexScriptsConf,
 
       // extends 'rolldown' diff
-      ...diffMap.rolldown(quasarConf)
+      ...diffMap.rolldown(quasarConf, diffMap)
     ])
-  }
 
-  run(quasarConf, __isRetry) {
-    const { diff, queue } = super.run(quasarConf, __isRetry)
+    this.registerRunSteps([
+      {
+        diff: 'distDir',
+        fn: this.#onDistDir.bind(this)
+      },
 
-    if (diff('vueDevtools', quasarConf)) {
-      return queue(() => this.installVueDevtools(quasarConf))
-    }
+      {
+        diff: 'bexManifest',
+        fn: this.#compileBexManifest.bind(this)
+      },
 
-    if (diff('distDir', quasarConf)) {
-      return queue(() => this.#onDistDir(quasarConf))
-    }
+      {
+        diff: 'bexScripts',
+        fn: this.#compileBexScripts.bind(this)
+      },
 
-    if (diff('bexManifest', quasarConf)) {
-      return queue(() => this.#compileBexManifest(quasarConf, queue))
-    }
+      {
+        diff: 'htmlTemplate',
+        fn: quasarConf => {
+          this.clientNeedsReload = true
+          updateHtmlVariables(quasarConf)
+        }
+      },
 
-    if (diff('bexScripts', quasarConf)) {
-      return queue(() => this.#compileBexScripts(quasarConf))
-    }
-
-    if (diff('htmlTemplate', quasarConf)) {
-      this.clientNeedsReload = true
-      updateHtmlVariables(quasarConf)
-    }
-
-    if (diff('vite', quasarConf)) {
-      this.clientNeedsReload = false
-      return queue(() => this.#runVite(quasarConf, queue))
-    }
-
-    if (this.clientNeedsReload) this.reloadClient()
+      {
+        diff: 'vite',
+        fn: this.#runVite.bind(this)
+      }
+    ])
   }
 
   async #onDistDir(quasarConf) {
@@ -105,7 +103,7 @@ export class QuasarModeDevserver extends AppDevserver {
     fse.writeFileSync(join(indexHtmlDir, 'index.html'), '', 'utf8')
   }
 
-  async #compileBexManifest(quasarConf, queue) {
+  async #compileBexManifest(quasarConf, diffName) {
     if (this.#manifestWatcher !== null) {
       const watcher = this.#manifestWatcher
       this.#manifestWatcher = null
@@ -114,6 +112,7 @@ export class QuasarModeDevserver extends AppDevserver {
 
     const { err: manifestErr, scriptList: manifestScriptList } =
       await createManifest(quasarConf)
+
     if (manifestErr !== void 0) process.exit(1)
 
     const setScripts = jsList => {
@@ -131,31 +130,38 @@ export class QuasarModeDevserver extends AppDevserver {
       ignoreInitial: true
     }).on(
       'change',
-      debounce(async () => {
-        const { err, scriptList } = await createManifest(quasarConf)
-        if (err !== void 0) return
+      debounce(() => {
+        this.queue(diffName, async latestQuasarConf => {
+          const { err, scriptList } = await createManifest(latestQuasarConf)
+          if (err !== void 0) return
 
-        const newSnapshot = setScripts(scriptList)
+          const newSnapshot = setScripts(scriptList)
+          if (newSnapshot === scriptSnapshot) {
+            updateClient()
+            return
+          }
 
-        if (newSnapshot === scriptSnapshot) {
-          updateClient()
-          return
-        }
-
-        scriptSnapshot = newSnapshot
-        queue(() => this.#compileBexScripts(quasarConf).then(updateClient))
+          scriptSnapshot = newSnapshot
+          this.queue('bexScripts', (localLatestQuasarConf, localDiffName) =>
+            this.#compileBexScripts(localLatestQuasarConf, localDiffName).then(
+              updateClient
+            )
+          )
+        })
       }, 500)
     )
   }
 
-  async #compileBexScripts(quasarConf) {
+  async #compileBexScripts(quasarConf, diffName) {
     await this.clearWatcherList(this.#scriptWatcherList, () => {
       this.#scriptWatcherList.length = 0
     })
 
     const onRebuild = () => {
-      this.printBanner(quasarConf)
-      this.#reloadExtension()
+      this.queue(diffName, latestQuasarConf => {
+        this.printBanner(latestQuasarConf)
+        this.#reloadExtension()
+      })
     }
 
     for (const entry of this.#scriptList) {
@@ -171,7 +177,9 @@ export class QuasarModeDevserver extends AppDevserver {
     }
   }
 
-  async #runVite(quasarConf, queue) {
+  async #runVite(quasarConf, diffName) {
+    this.clientNeedsReload = false
+
     await this.clearWatcherList(this.#viteWatcherList, () => {
       this.#viteWatcherList.length = 0
     })
@@ -182,7 +190,7 @@ export class QuasarModeDevserver extends AppDevserver {
       await this.buildWithVite('BEX UI', viteConfig)
 
       this.#viteWatcherList.push(
-        this.#getAppSourceWatcher(quasarConf, viteConfig, queue),
+        this.#getAppSourceWatcher(viteConfig, diffName),
         this.#getPublicDirWatcher(quasarConf)
       )
     } else {
@@ -227,7 +235,7 @@ export class QuasarModeDevserver extends AppDevserver {
   }
 
   // firefox only
-  #getAppSourceWatcher(quasarConf, viteConfig, queue) {
+  #getAppSourceWatcher(viteConfig, diffName) {
     const watcher = chokidarWatch(
       [this.ctx.appPaths.srcDir, this.ctx.appPaths.resolve.app('index.html')],
       {
@@ -236,9 +244,9 @@ export class QuasarModeDevserver extends AppDevserver {
     )
 
     const rebuild = debounce(() => {
-      queue(() =>
+      this.queue(diffName, latestQuasarConf =>
         this.buildWithVite('BEX UI', viteConfig).then(() => {
-          this.printBanner(quasarConf)
+          this.printBanner(latestQuasarConf)
         })
       )
     }, 500)

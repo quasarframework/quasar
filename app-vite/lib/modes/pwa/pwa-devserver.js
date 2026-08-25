@@ -2,7 +2,6 @@ import { createServer } from 'vite'
 import { watch as chokidarWatch } from 'chokidar'
 
 import { AppDevserver } from '../../app-devserver.js'
-import { openBrowser } from '../../utils/open-browser.js'
 import { quasarPwaConfig } from './pwa-config.js'
 import { buildPwaServiceWorker, injectPwaManifest } from './pwa-utils.js'
 import { updateHtmlVariables } from '../../plugins/vite.html.js'
@@ -14,58 +13,53 @@ export class QuasarModeDevserver extends AppDevserver {
   #pwaManifestWatcher = null
   #pwaServiceWorkerWatcher = null
 
-  run(quasarConf, __isRetry) {
-    const { diff, queue } = super.run(quasarConf, __isRetry)
+  constructor(opts) {
+    super(opts)
 
-    if (diff('vueDevtools', quasarConf)) {
-      return queue(() => this.installVueDevtools(quasarConf))
-    }
+    this.registerRunSteps([
+      {
+        diff: 'pwaManifest',
+        fn: this.#compilePwaManifest.bind(this)
+      },
 
-    // also update ssr-devserver.js when changing here
-    if (diff('pwaManifest', quasarConf)) {
-      this.clientNeedsReload = false
-      return queue(() => this.#compilePwaManifest(quasarConf))
-    }
+      {
+        diff: 'pwaServiceWorker',
+        fn: this.#compilePwaServiceWorker.bind(this)
+      },
 
-    // also update ssr-devserver.js when changing here
-    if (diff('pwaServiceWorker', quasarConf)) {
-      this.clientNeedsReload = false
-      return queue(() => this.#compilePwaServiceWorker(quasarConf, queue))
-    }
+      {
+        diff: 'htmlTemplate',
+        fn: quasarConf => {
+          this.clientNeedsReload = true
+          updateHtmlVariables(quasarConf)
+        }
+      },
 
-    if (diff('htmlTemplate', quasarConf)) {
-      this.clientNeedsReload = true
-      updateHtmlVariables(quasarConf)
-    }
+      {
+        diff: 'vite',
+        fn: this.#runVite.bind(this)
+      },
 
-    // also update ssr-devserver.js when changing here
-    if (diff('vite', quasarConf)) {
-      this.clientNeedsReload = false
-      return queue(() => this.#runVite(quasarConf, diff('viteUrl', quasarConf)))
-    }
-
-    if (this.clientNeedsReload) this.reloadClient()
+      {
+        diff: 'viteUrl',
+        fn: this.openBrowser.bind(this)
+      }
+    ])
   }
 
-  async #runVite(quasarConf, urlDiffers) {
+  async #runVite(quasarConf) {
+    this.clientNeedsReload = false
+
     const viteConfig = await quasarPwaConfig.vite(quasarConf)
     const server = await createServer(viteConfig)
 
     await this.rebootClient(server)
 
     this.printBanner(quasarConf)
-
-    if (urlDiffers && quasarConf.metaConf.openBrowser) {
-      const { metaConf } = quasarConf
-      openBrowser({
-        url: metaConf.APP_URL,
-        opts: metaConf.openBrowser !== true ? metaConf.openBrowser : false
-      })
-    }
   }
 
-  // also update ssr-devserver.js when changing here
-  async #compilePwaManifest(quasarConf) {
+  // also update ssr-devserver.js & ssg-devserver.js when changing here
+  async #compilePwaManifest(quasarConf, diffName) {
     if (this.#pwaManifestWatcher !== null) {
       const watcher = this.#pwaManifestWatcher
       this.#pwaManifestWatcher = null
@@ -92,18 +86,20 @@ export class QuasarModeDevserver extends AppDevserver {
       }
     ).on(
       'change',
-      debounce(async () => {
-        await inject()
-        updateHtmlVariables(quasarConf)
-        this.reloadClient()
+      debounce(() => {
+        this.queue(diffName, async latestQuasarConf => {
+          await inject()
+          updateHtmlVariables(latestQuasarConf)
+          this.reloadClient()
+        })
       }, 550)
     )
 
     await inject()
   }
 
-  // also update ssr-devserver.js when changing here
-  async #compilePwaServiceWorker(quasarConf, queue) {
+  // also update ssr-devserver.js & ssg-devserver.js when changing here
+  async #compilePwaServiceWorker(quasarConf, diffName) {
     if (this.#pwaServiceWorkerWatcher !== null) {
       const watcher = this.#pwaServiceWorkerWatcher
       this.#pwaServiceWorkerWatcher = null
@@ -118,8 +114,8 @@ export class QuasarModeDevserver extends AppDevserver {
         'InjectManifest Custom SW',
         rolldownConfig,
         () => {
-          queue(() =>
-            buildPwaServiceWorker(quasarConf, workboxConfig).then(() =>
+          this.queue(diffName, latestQuasarConf =>
+            buildPwaServiceWorker(latestQuasarConf, workboxConfig).then(() =>
               this.reloadClient()
             )
           )

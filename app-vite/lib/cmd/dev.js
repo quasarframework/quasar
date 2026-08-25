@@ -3,7 +3,7 @@ if (process.env.NODE_ENV === void 0) {
 }
 
 import { getArgv } from '../utils/get-argv.js'
-import { log } from '../utils/logger.js'
+import { log, warn } from '../utils/logger.js'
 
 const argv = getArgv({
   mode: { type: 'string', short: 'm', default: 'spa' },
@@ -105,7 +105,10 @@ await ctx.appExt.runAppExtensionHook('beforeDev', async hook => {
 
 const onQuasarConfChange = qConf => {
   log('Applying quasar.config changes...')
-  devServer.run(qConf)
+  devServer.run(qConf).catch(err => {
+    console.error(err)
+    warn('Applying the quasar.config changes failed')
+  })
 }
 
 await devServer.run(quasarConf)

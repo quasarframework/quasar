@@ -108,36 +108,33 @@ export class QuasarModeDevserver extends AppDevserver {
       quasarConf.metaConf.clientEnvDefineList,
 
       // extends 'rolldown' diff
-      ...diffMap.rolldown(quasarConf)
+      ...diffMap.rolldown(quasarConf, diffMap)
+    ])
+
+    this.registerRunSteps([
+      {
+        diff: 'htmlTemplate',
+        fn: quasarConf => {
+          this.clientNeedsReload = true
+          updateHtmlVariables(quasarConf)
+        }
+      },
+
+      {
+        diff: 'vite',
+        fn: this.#runVite.bind(this)
+      },
+
+      {
+        diff: 'electron',
+        fn: this.#runElectronFiles.bind(this)
+      }
     ])
   }
 
-  run(quasarConf, __isRetry) {
-    const { diff, queue } = super.run(quasarConf, __isRetry)
-
-    if (diff('vueDevtools', quasarConf)) {
-      return queue(() => this.installVueDevtools(quasarConf))
-    }
-
-    if (diff('htmlTemplate', quasarConf)) {
-      this.clientNeedsReload = true
-      updateHtmlVariables(quasarConf)
-    }
-
-    if (diff('vite', quasarConf)) {
-      this.clientNeedsReload = false
-      return queue(() => this.#runVite(quasarConf))
-    }
-
-    if (diff('electron', quasarConf)) {
-      this.clientNeedsReload = false
-      return queue(() => this.#runElectronFiles(quasarConf))
-    }
-
-    if (this.clientNeedsReload) this.reloadClient()
-  }
-
   async #runVite(quasarConf) {
+    this.clientNeedsReload = false
+
     const viteConfig = await quasarElectronConfig.vite(quasarConf)
     const server = await createServer(viteConfig)
 
@@ -145,6 +142,8 @@ export class QuasarModeDevserver extends AppDevserver {
   }
 
   async #runElectronFiles(quasarConf) {
+    this.clientNeedsReload = false
+
     await this.clearWatcherList(this.#watcherList, () => {
       this.#watcherList.length = 0
     })

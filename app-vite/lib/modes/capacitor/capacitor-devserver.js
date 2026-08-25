@@ -27,34 +27,31 @@ export class QuasarModeDevserver extends AppDevserver {
       quasarConf.metaConf.APP_URL,
       quasarConf.capacitor
     ])
-  }
 
-  run(quasarConf, __isRetry) {
-    const { diff, queue } = super.run(quasarConf, __isRetry)
+    this.registerRunSteps([
+      {
+        diff: 'htmlTemplate',
+        fn: quasarConf => {
+          this.clientNeedsReload = true
+          updateHtmlVariables(quasarConf)
+        }
+      },
 
-    if (diff('vueDevtools', quasarConf)) {
-      return queue(() => this.installVueDevtools(quasarConf))
-    }
+      {
+        diff: 'vite',
+        fn: this.#runVite.bind(this)
+      },
 
-    if (diff('htmlTemplate', quasarConf)) {
-      this.clientNeedsReload = true
-      updateHtmlVariables(quasarConf)
-    }
-
-    if (diff('vite', quasarConf)) {
-      this.clientNeedsReload = false
-      return queue(() => this.#runVite(quasarConf))
-    }
-
-    if (diff('capacitor', quasarConf)) {
-      this.clientNeedsReload = false
-      return queue(() => this.#runCapacitor(quasarConf))
-    }
-
-    if (this.clientNeedsReload) this.reloadClient()
+      {
+        diff: 'capacitor',
+        fn: this.#runCapacitor.bind(this)
+      }
+    ])
   }
 
   async #runVite(quasarConf) {
+    this.clientNeedsReload = false
+
     const viteConfig = await quasarCapacitorConfig.vite(quasarConf)
     const server = await createServer(viteConfig)
 
@@ -62,7 +59,9 @@ export class QuasarModeDevserver extends AppDevserver {
   }
 
   async #runCapacitor(quasarConf) {
+    this.clientNeedsReload = false
     this.#stopCapacitor()
+
     await this.#capacitorConfigFile.prepare(quasarConf, this.#target)
 
     const { appPaths, cacheProxy } = this.ctx

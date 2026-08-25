@@ -18,11 +18,6 @@ export class QuasarModeDevserver extends AppDevserver {
   constructor(opts) {
     super(opts)
 
-    this.registerDiff('cordova', quasarConf => [
-      quasarConf.metaConf.APP_URL,
-      quasarConf.cordova
-    ])
-
     this.#target = this.ctx.targetName
 
     if (this.#target === 'android') {
@@ -32,34 +27,36 @@ export class QuasarModeDevserver extends AppDevserver {
     onShutdown(() => {
       this.#stopCordova()
     })
-  }
 
-  run(quasarConf, __isRetry) {
-    const { diff, queue } = super.run(quasarConf, __isRetry)
+    this.registerDiff('cordova', quasarConf => [
+      quasarConf.metaConf.APP_URL,
+      quasarConf.cordova
+    ])
 
-    if (diff('vueDevtools', quasarConf)) {
-      return queue(() => this.installVueDevtools(quasarConf))
-    }
+    this.registerRunSteps([
+      {
+        diff: 'htmlTemplate',
+        fn: quasarConf => {
+          this.clientNeedsReload = true
+          updateHtmlVariables(quasarConf)
+        }
+      },
 
-    if (diff('htmlTemplate', quasarConf)) {
-      this.clientNeedsReload = true
-      updateHtmlVariables(quasarConf)
-    }
+      {
+        diff: 'vite',
+        fn: this.#runVite.bind(this)
+      },
 
-    if (diff('vite', quasarConf)) {
-      this.clientNeedsReload = false
-      return queue(() => this.#runVite(quasarConf))
-    }
-
-    if (diff('cordova', quasarConf)) {
-      this.clientNeedsReload = false
-      return queue(() => this.#runCordova(quasarConf))
-    }
-
-    if (this.clientNeedsReload) this.reloadClient()
+      {
+        diff: 'cordova',
+        fn: this.#runCordova.bind(this)
+      }
+    ])
   }
 
   async #runVite(quasarConf) {
+    this.clientNeedsReload = false
+
     const viteConfig = await quasarCordovaConfig.vite(quasarConf)
     const server = await createServer(viteConfig)
 
@@ -67,6 +64,7 @@ export class QuasarModeDevserver extends AppDevserver {
   }
 
   async #runCordova(quasarConf) {
+    this.clientNeedsReload = false
     this.#stopCordova()
 
     await this.#runCordovaCommand(quasarConf, [
