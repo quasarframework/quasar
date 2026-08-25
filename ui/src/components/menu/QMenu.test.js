@@ -1,6 +1,7 @@
 import { flushPromises, mount } from '@vue/test-utils'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
-import { defineComponent, h } from 'vue'
+import { KeepAlive, defineComponent, h } from 'vue'
+import { useRoute } from 'vue-router'
 
 import { getRouter } from 'testing/runtime/router.js'
 import { client } from '../../plugins/platform/Platform.js'
@@ -1671,6 +1672,57 @@ describe('[QMenu API]', () => {
       expect(getMenu().style.top).toBe('170px')
 
       await vi.runAllTimersAsync()
+    })
+
+    test('finishes a pending hide when its keep-alive page deactivates', async () => {
+      const router = await getRouter(['/home', '/account'])
+      const onHide = vi.fn()
+      const getPortalEl = () =>
+        document.body.querySelector('[id^="q-portal--menu"]')
+
+      const KeptAlivePage = defineComponent({
+        name: 'KeptAlivePage',
+        setup() {
+          return () =>
+            h('div', { class: 'my-anchor', tabindex: 0 }, [
+              h(QMenu, { modelValue: true, onHide }, () => 'Menu content')
+            ])
+        }
+      })
+
+      const Host = defineComponent({
+        name: 'Host',
+        setup() {
+          const route = useRoute()
+
+          return () =>
+            h(KeepAlive, null, {
+              default: () => (route.path === '/home' ? h(KeptAlivePage) : null)
+            })
+        }
+      })
+
+      await router.push('/home')
+
+      activeWrapper = mount(Host, {
+        attachTo: document.body,
+        global: {
+          plugins: [router]
+        }
+      })
+      await flushPromises()
+      await vi.runAllTimersAsync()
+
+      expect(getPortalEl()).not.toBe(null)
+
+      // routing away hides the menu and deactivates the page holding it
+      // within the same tick, which cancels the hide transition's timer
+      await router.push('/account')
+      await flushPromises()
+      await vi.runAllTimersAsync()
+
+      expect(onHide).toHaveBeenCalledTimes(1)
+      expect(getPortalEl()).toBe(null)
     })
   })
 

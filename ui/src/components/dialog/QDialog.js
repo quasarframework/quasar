@@ -4,6 +4,7 @@ import {
   getCurrentInstance,
   h,
   onBeforeUnmount,
+  onDeactivated,
   ref,
   watch
 } from 'vue'
@@ -109,7 +110,8 @@ export default /*#__PURE__*/ createComponent({
     let shakeTimeout = null,
       refocusTarget = null,
       isMaximized = false,
-      avoidAutoClose = false
+      avoidAutoClose = false,
+      finishTransition = null
 
     const hideOnRouteChange = computed(
       () => !props.persistent && !props.noRouteDismiss && !props.seamless
@@ -194,6 +196,25 @@ export default /*#__PURE__*/ createComponent({
       }
     })
 
+    // The tail of a show/hide transition (portal teardown, the 'show'/
+    // 'hide' event) runs on a timer that useTimeout cancels when a
+    // <keep-alive> page holding this dialog gets deactivated. Keep the
+    // finisher at hand so deactivation can run it right away, or else
+    // the portal is left in the DOM and the model stays stuck (#18201).
+    // Should removeTimeout() if this gets removed.
+    function registerTransitionEnd(fn) {
+      finishTransition = () => {
+        finishTransition = null
+        fn()
+      }
+
+      registerTimeout(finishTransition, props.transitionDuration)
+    }
+
+    onDeactivated(() => {
+      finishTransition?.()
+    })
+
     function handleShow(evt) {
       addToHistory()
 
@@ -212,8 +233,7 @@ export default /*#__PURE__*/ createComponent({
         registerTick(focus)
       }
 
-      // should removeTimeout() if this gets removed
-      registerTimeout(() => {
+      registerTransitionEnd(() => {
         if ($q.platform.is.ios) {
           if (!props.seamless && document.activeElement) {
             const { top, bottom } =
@@ -247,7 +267,7 @@ export default /*#__PURE__*/ createComponent({
         showPortal(true) // done showing portal
         animating.value = false
         emit('show', evt)
-      }, props.transitionDuration)
+      })
     }
 
     function handleHide(evt) {
@@ -269,12 +289,11 @@ export default /*#__PURE__*/ createComponent({
         })
       }
 
-      // should removeTimeout() if this gets removed
-      registerTimeout(() => {
+      registerTransitionEnd(() => {
         hidePortal(true) // done hiding, now destroy
         animating.value = false
         emit('hide', evt)
-      }, props.transitionDuration)
+      })
     }
 
     function handleRouteChange() {

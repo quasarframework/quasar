@@ -9,7 +9,8 @@ import {
   vi
 } from 'vitest'
 
-import { defineComponent, h } from 'vue'
+import { KeepAlive, defineComponent, h } from 'vue'
+import { useRoute } from 'vue-router'
 
 import QDialog from './QDialog.js'
 import useFullscreen, {
@@ -1156,6 +1157,53 @@ describe('[QDialog API]', () => {
         'q-animate--scale'
       )
       expect(wrapper.emitted()).not.toHaveProperty('shake')
+    })
+
+    test('finishes a pending hide when its keep-alive page deactivates', async () => {
+      const router = await getRouter(['/home', '/account'])
+      const onHide = vi.fn()
+      const getPortalEl = () =>
+        document.body.querySelector('[id^="q-portal--dialog"]')
+
+      const KeptAlivePage = defineComponent({
+        name: 'KeptAlivePage',
+        setup() {
+          return () => h(QDialog, { modelValue: true, onHide }, () => 'content')
+        }
+      })
+
+      const Host = defineComponent({
+        name: 'Host',
+        setup() {
+          const route = useRoute()
+
+          return () =>
+            h(KeepAlive, null, {
+              default: () => (route.path === '/home' ? h(KeptAlivePage) : null)
+            })
+        }
+      })
+
+      await router.push('/home')
+
+      wrapper = mount(Host, {
+        global: {
+          plugins: [router]
+        }
+      })
+      await flushPromises()
+      await vi.runAllTimers()
+
+      expect(getPortalEl()).not.toBe(null)
+
+      // routing away hides the dialog and deactivates the page holding it
+      // within the same tick, which cancels the hide transition's timer
+      await router.push('/account')
+      await flushPromises()
+      await vi.runAllTimers()
+
+      expect(onHide).toHaveBeenCalledTimes(1)
+      expect(getPortalEl()).toBe(null)
     })
   })
 })
