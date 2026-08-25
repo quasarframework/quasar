@@ -5,6 +5,7 @@ import {
   nextTick,
   onBeforeUnmount,
   onBeforeUpdate,
+  onMounted,
   onUpdated,
   ref,
   watch
@@ -191,6 +192,7 @@ export default /*#__PURE__*/ createComponent({
     let filterTimer = null,
       inputValueTimer = null,
       innerValueCache,
+      prefetchDone = false,
       hasDialog,
       userInputValue,
       filterId = null,
@@ -511,6 +513,10 @@ export default /*#__PURE__*/ createComponent({
     )
 
     watch(() => props.fillInput, resetInputValue)
+
+    // not immediate: the initial run happens in onMounted, since filtering
+    // must not be triggered while the component is still setting up
+    watch(innerValue, prefetchUnmappedOptions)
 
     watch(menu, updateMenu)
 
@@ -1265,7 +1271,10 @@ export default /*#__PURE__*/ createComponent({
           }
         },
         () => {
-          if (state.focused.value && filterId === localFilterId) {
+          if (
+            (keepClosed || state.focused.value) &&
+            filterId === localFilterId
+          ) {
             clearTimeout(filterId)
             state.innerLoading.value = false
             innerLoadingIndicator.value = false
@@ -1274,6 +1283,31 @@ export default /*#__PURE__*/ createComponent({
           if (menu.value) menu.value = false
         }
       )
+    }
+
+    // mapOptions has nothing to look the model up into while the options are
+    // still lazy loading, so the field would display the raw model value;
+    // ask the filter handler for them once, without opening the menu
+    function prefetchUnmappedOptions() {
+      if (
+        prefetchDone ||
+        props.onFilter === void 0 ||
+        !props.mapOptions ||
+        // options are already in: an empty filter won't add a missing value
+        virtualScrollLength.value !== 0 ||
+        // a model holding whole options already carries its labels
+        innerValue.value.every(opt => Object(opt) === opt)
+      ) {
+        return
+      }
+
+      prefetchDone = true
+
+      // innerLoading is only turned off on the tick after the options land,
+      // so the innerValue watcher skips resetInputValue() -- do it here
+      filter('', true, () => {
+        resetInputValue()
+      })
     }
 
     function getMenu() {
@@ -1569,6 +1603,7 @@ export default /*#__PURE__*/ createComponent({
 
     onBeforeUpdate(updatePreState)
     onUpdated(updateMenuPosition)
+    onMounted(prefetchUnmappedOptions)
 
     updatePreState()
 
