@@ -710,4 +710,27 @@ describe('[QScrollArea API]', () => {
       expect(getContainer(wrapper).attributes('tabindex')).toBe('-1')
     })
   })
+
+  describe('[Generic]', () => {
+    test('vertical thumb sits on the left side in RTL', async () => {
+      // the RTL stylesheet flips the class-based bar to the left edge, so
+      // the thumb's inline side inset must flip with it (#17943)
+      const wrapper = mountScrollArea({
+        visible: true,
+        horizontalOffset: [10, 20]
+      })
+      await setupScrollableArea(wrapper)
+
+      wrapper.vm.$q.lang.rtl = true
+
+      try {
+        await nextTick()
+
+        expect(getVerticalThumb(wrapper).$style('left')).toBe('10px')
+        expect(getVerticalThumb(wrapper).$style('right')).toBe('')
+      } finally {
+        wrapper.vm.$q.lang.rtl = false
+      }
+    })
+  })
 })

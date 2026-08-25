@@ -190,7 +190,8 @@ export default /*#__PURE__*/ createComponent({
       ...props.verticalThumbStyle,
       top: `${scroll.vertical.thumbStart.value}px`,
       height: `${scroll.vertical.thumbSize.value}px`,
-      right: `${props.horizontalOffset[1]}px`
+      [$q.lang.rtl ? 'left' : 'right']:
+        `${props.horizontalOffset[$q.lang.rtl ? 0 : 1]}px`
     }))
     scroll.vertical.thumbClass = computed(
       () =>
