@@ -2,6 +2,7 @@ import { enableAutoUnmount, flushPromises, mount } from '@vue/test-utils'
 import { afterEach, describe, expect, test, vi } from 'vitest'
 import { defineComponent, h } from 'vue'
 
+import Platform from '../../plugins/platform/Platform.js'
 import QDialog from '../dialog/QDialog.js'
 import QMenu from '../menu/QMenu.js'
 import QSelect from './QSelect.js'
@@ -3169,6 +3170,46 @@ describe('[QSelect API]', () => {
       await flushPromises()
 
       expect(target.attributes('aria-expanded')).toBe('true')
+    })
+
+    test('keeps keyboard option navigation working on mobile platforms', async () => {
+      // hardware keyboards exist on mobile devices too (BT keyboards,
+      // DPAD, desktop-mode webviews), so option focus must follow the
+      // arrow keys there as well (#16599)
+      const original = {
+        mobile: Platform.is.mobile,
+        desktop: Platform.is.desktop
+      }
+      Object.assign(Platform.is, { mobile: true, desktop: false })
+
+      try {
+        // "menu" behavior keeps the keydown target in the field; the
+        // handling is shared with the dialog's in-portal focus target
+        const wrapper = mountSelect({ behavior: 'menu' })
+        const target = wrapper.get('.q-select__focus-target')
+
+        // first press opens the menu, second one focuses the first option
+        await target.trigger('keydown', { keyCode: 40 })
+        await flushPromises()
+        await target.trigger('keydown', { keyCode: 40 })
+        await flushPromises()
+
+        expect(target.attributes('aria-activedescendant')).toBe(
+          `${target.attributes('id')}_0`
+        )
+
+        const portal = wrapper.findComponent({ name: 'QPortal' })
+        expect(portal.findAll('.q-item')[0].classes()).toContain(
+          'q-manual-focusable--focused'
+        )
+
+        await target.trigger('keydown', { keyCode: 13 })
+        await flushPromises()
+
+        expect(wrapper.emitted('update:modelValue').at(-1)).toEqual(['a'])
+      } finally {
+        Object.assign(Platform.is, original)
+      }
     })
 
     test('keeps the popup inside a modal dialog for assistive tech', async () => {

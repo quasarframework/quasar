@@ -636,8 +636,6 @@ export default /*#__PURE__*/ createComponent({
     }
 
     function setOptionIndex(index) {
-      if (!$q.platform.is.desktop) return
-
       const val = index !== -1 && index < virtualScrollLength.value ? index : -1
 
       if (optionIndex.value !== val) {
