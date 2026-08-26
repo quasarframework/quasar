@@ -5,7 +5,6 @@ import {
   h,
   nextTick,
   onBeforeUnmount,
-  onDeactivated,
   ref,
   watch
 } from 'vue'
@@ -27,7 +26,7 @@ import useTransition, {
   useTransitionProps
 } from '../../composables/private.use-transition/use-transition.js'
 import useTick from '../../composables/use-tick/use-tick.js'
-import useTimeout from '../../composables/use-timeout/use-timeout.js'
+import useTransitionEnd from '../../composables/private.use-transition-end/use-transition-end.js'
 
 import { createComponent } from '../../utils/private.create/create.js'
 import {
@@ -141,7 +140,6 @@ export default /*#__PURE__*/ createComponent({
       stopAnchorTracking,
       avoidAutoClose,
       hoverTimer = null,
-      finishTransition = null,
       // set while the current "show" was triggered by hovering the anchor,
       // in which case the menu must leave focus wherever it already is
       hoverShown = false
@@ -159,7 +157,7 @@ export default /*#__PURE__*/ createComponent({
 
     const isDark = useDark(props, $q)
     const { registerTick, removeTick } = useTick()
-    const { registerTimeout } = useTimeout()
+    const { registerTransitionEnd } = useTransitionEnd(props)
     const { transitionProps, transitionStyle } = useTransition(props)
     const { localScrollTarget, changeScrollEvent, unconfigureScrollTarget } =
       useScrollTarget(props, configureScrollTarget)
@@ -358,25 +356,6 @@ export default /*#__PURE__*/ createComponent({
         clearHoverTimer()
       }
     }
-
-    // The tail of a show/hide transition (portal teardown, the 'show'/
-    // 'hide' event) runs on a timer that useTimeout cancels when a
-    // <keep-alive> page holding this menu gets deactivated. Keep the
-    // finisher at hand so deactivation can run it right away, or else
-    // the portal is left in the DOM and the model stays stuck (#18201).
-    // Should removeTimeout() if this gets removed.
-    function registerTransitionEnd(fn) {
-      finishTransition = () => {
-        finishTransition = null
-        fn()
-      }
-
-      registerTimeout(finishTransition, props.transitionDuration)
-    }
-
-    onDeactivated(() => {
-      finishTransition?.()
-    })
 
     function handleShow(evt) {
       // a hover-triggered open must not steal focus from wherever the

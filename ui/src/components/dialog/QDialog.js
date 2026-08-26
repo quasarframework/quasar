@@ -4,14 +4,13 @@ import {
   getCurrentInstance,
   h,
   onBeforeUnmount,
-  onDeactivated,
   ref,
   watch
 } from 'vue'
 
 import useQuasar from '../../composables/use-quasar/use-quasar.js'
 import useHistory from '../../composables/private.use-history/use-history.js'
-import useTimeout from '../../composables/use-timeout/use-timeout.js'
+import useTransitionEnd from '../../composables/private.use-transition-end/use-transition-end.js'
 import useTick from '../../composables/use-tick/use-tick.js'
 import useModelToggle, {
   useModelToggleEmits,
@@ -110,15 +109,14 @@ export default /*#__PURE__*/ createComponent({
     let shakeTimeout = null,
       refocusTarget = null,
       isMaximized = false,
-      avoidAutoClose = false,
-      finishTransition = null
+      avoidAutoClose = false
 
     const hideOnRouteChange = computed(
       () => !props.persistent && !props.noRouteDismiss && !props.seamless
     )
 
     const { preventBodyScroll } = usePreventScroll()
-    const { registerTimeout } = useTimeout()
+    const { registerTransitionEnd } = useTransitionEnd(props)
     const { registerTick, removeTick } = useTick()
 
     const { transitionProps, transitionStyle } = useTransition(
@@ -194,25 +192,6 @@ export default /*#__PURE__*/ createComponent({
         removeFocusout(onFocusChange)
         removeEscapeKey(onEscapeKey)
       }
-    })
-
-    // The tail of a show/hide transition (portal teardown, the 'show'/
-    // 'hide' event) runs on a timer that useTimeout cancels when a
-    // <keep-alive> page holding this dialog gets deactivated. Keep the
-    // finisher at hand so deactivation can run it right away, or else
-    // the portal is left in the DOM and the model stays stuck (#18201).
-    // Should removeTimeout() if this gets removed.
-    function registerTransitionEnd(fn) {
-      finishTransition = () => {
-        finishTransition = null
-        fn()
-      }
-
-      registerTimeout(finishTransition, props.transitionDuration)
-    }
-
-    onDeactivated(() => {
-      finishTransition?.()
     })
 
     function handleShow(evt) {
