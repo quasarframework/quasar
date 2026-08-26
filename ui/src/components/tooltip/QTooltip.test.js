@@ -4,6 +4,7 @@ import { KeepAlive, defineComponent, h } from 'vue'
 import { useRoute } from 'vue-router'
 
 import { getRouter } from 'testing/runtime/router.js'
+import Platform from '../../plugins/platform/Platform.js'
 import { validatePosition } from '../../utils/private.position-engine/position-engine.js'
 import QTooltip from './QTooltip.js'
 
@@ -860,6 +861,31 @@ describe('[QTooltip API]', () => {
 
       expect(getTooltip().id).toBe('tip-b')
       expect(getAnchor(wrapper).attributes('aria-describedby')).toBe('tip-b')
+    })
+
+    test('ESC dismisses the tooltip on mobile platforms too (WCAG 1.4.13)', async () => {
+      // hybrid devices (iPad with a keyboard) parse as mobile but
+      // still need keyboard dismissal
+      const original = {
+        mobile: Platform.is.mobile,
+        desktop: Platform.is.desktop
+      }
+      Object.assign(Platform.is, { mobile: true, desktop: false })
+
+      try {
+        const wrapper = mountTooltip()
+        await showTooltip(wrapper)
+        expect(getTooltip()).not.toBeNull()
+
+        // the shared escape stack only fires on a full keydown+keyup pair
+        window.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 27 }))
+        window.dispatchEvent(new KeyboardEvent('keyup', { keyCode: 27 }))
+        await vi.runAllTimersAsync()
+
+        expect(getTooltip()).toBeNull()
+      } finally {
+        Object.assign(Platform.is, original)
+      }
     })
   })
 })

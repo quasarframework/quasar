@@ -1,4 +1,3 @@
-import { client } from '../../plugins/platform/Platform.js'
 import { isKeyCode } from '../private.keyboard/key-composition.js'
 
 const handlers = []
@@ -30,13 +29,13 @@ function update(action) {
   escDown = false
 }
 
+// registered on every platform: hardware keyboards exist on mobile
+// devices too, and without one the ESC keyup simply never fires
 export function addEscapeKey(fn) {
-  if (client.is.desktop) {
-    handlers.push(fn)
+  handlers.push(fn)
 
-    if (handlers.length === 1) {
-      update('addEventListener')
-    }
+  if (handlers.length === 1) {
+    update('addEventListener')
   }
 }
 

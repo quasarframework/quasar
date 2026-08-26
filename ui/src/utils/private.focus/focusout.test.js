@@ -1,5 +1,6 @@
 import { afterEach, describe, expect, test, vi } from 'vitest'
 
+import { client } from '../../plugins/platform/Platform.js'
 import { addFocusout, removeFocusout } from './focusout.js'
 
 let fnList = []
@@ -64,6 +65,28 @@ describe('[focusout API]', () => {
 
         expect(fnFirst).toHaveBeenCalledTimes(1)
         expect(fnFirst).toHaveBeenCalledWith(evtSecond)
+      })
+
+      test('registers on mobile platforms too', () => {
+        // a hardware keyboard can Tab focus out of a modal on mobile
+        // devices too, so focus containment must be armed there as well
+        const original = {
+          mobile: client.is.mobile,
+          desktop: client.is.desktop
+        }
+        Object.assign(client.is, { mobile: true, desktop: false })
+
+        try {
+          const fn = createTestFn()
+          addFocusout(fn)
+
+          const evt = triggerEvt()
+
+          expect(fn).toHaveBeenCalledTimes(1)
+          expect(fn).toHaveBeenCalledWith(evt)
+        } finally {
+          Object.assign(client.is, original)
+        }
       })
 
       test('triggers only on focusin evt', () => {

@@ -32,7 +32,7 @@ Decorative elements are hidden from AT: every [QIcon](/vue-components/icon#acces
 - **<kbd>Escape</kbd> dismissal** works as a chain: only the top-most open popup (dialog, menu, tooltip, drawer in overlay mode) reacts, closing popups one at a time. Persistent popups shake or ignore instead of closing.
 - **Horizontal arrow keys are RTL-aware** throughout ([RTL support](/options/rtl-support)) — tabs, radio groups, sliders, date navigation, editor toolbar and splitter all mirror direction under RTL language packs.
 
-Note that Escape handling and focus recapture are desktop-mode behaviors; on mobile platforms, dismissal is wired to the platform back button through Quasar's History plugin (Capacitor/Cordova builds).
+Escape handling and focus recapture are active on every platform, so hybrid devices (an iPad with a keyboard, an Android device with a mouse) get the full keyboard behavior; without a hardware keyboard they simply never trigger. On Capacitor/Cordova builds, dismissal is additionally wired to the platform back button through Quasar's History plugin.
 
 ### Focus management
 

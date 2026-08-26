@@ -181,24 +181,23 @@ export default /*#__PURE__*/ createComponent({
       'tooltip'
     )
 
-    // independent of the touch handling above: a hybrid device
-    // (touchscreen laptop) needs both dismissal methods
-    if (!$q.platform.is.mobile) {
-      // dismiss with the ESC key (WCAG 1.4.13) without moving focus;
-      // uses the shared escape stack so only the top-most popup reacts
-      watch(
-        () =>
-          // trigger only if it doesn't have external model
-          // or else only if the model can be updated (otherwise respect the external model)
-          (props.modelValue === null || props['onUpdate:modelValue']) &&
-          showing.value === true &&
-          props.persistent !== true,
-        val => {
-          const fn = val === true ? addEscapeKey : removeEscapeKey
-          fn(onEscapeKey)
-        }
-      )
-    }
+    // independent of the touch handling above: hybrid devices
+    // (touchscreen laptop, iPad with a keyboard) need both
+    // dismissal methods, so no platform gate here.
+    // Dismiss with the ESC key (WCAG 1.4.13) without moving focus;
+    // uses the shared escape stack so only the top-most popup reacts
+    watch(
+      () =>
+        // trigger only if it doesn't have external model
+        // or else only if the model can be updated (otherwise respect the external model)
+        (props.modelValue === null || props['onUpdate:modelValue']) &&
+        showing.value === true &&
+        props.persistent !== true,
+      val => {
+        const fn = val === true ? addEscapeKey : removeEscapeKey
+        fn(onEscapeKey)
+      }
+    )
 
     function handleShow(evt) {
       showPortal()

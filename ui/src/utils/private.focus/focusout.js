@@ -1,18 +1,17 @@
-import { client } from '../../plugins/platform/Platform.js'
-
 const handlers = []
 
 function trigger(e) {
   handlers.at(-1)(e)
 }
 
+// registered on every platform: a hardware keyboard can Tab focus out
+// of a modal on mobile devices too, and the handlers only run while a
+// popup that owns the focus is open
 export function addFocusout(fn) {
-  if (client.is.desktop) {
-    handlers.push(fn)
+  handlers.push(fn)
 
-    if (handlers.length === 1) {
-      document.body.addEventListener('focusin', trigger)
-    }
+  if (handlers.length === 1) {
+    document.body.addEventListener('focusin', trigger)
   }
 }
 
