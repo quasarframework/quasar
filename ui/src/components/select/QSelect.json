@@ -274,6 +274,13 @@
       "category": "selection"
     },
 
+    "no-chip-remove": {
+      "type": "Boolean",
+      "desc": "Hide the remove icon of the QChips (when 'use-chips' is enabled) and disable removing the last selection with Backspace; Does not affect 'clearable' behavior",
+      "category": "selection",
+      "addedIn": "v2.28"
+    },
+
     "use-input": {
       "type": "Boolean",
       "desc": "Use an input tag where users can type",

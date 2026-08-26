@@ -1953,6 +1953,36 @@ describe('[QSelect API]', () => {
         expect(portal.find('.q-select__dialog').exists()).toBe(true)
       })
     })
+
+    describe('[(prop)no-chip-remove]', () => {
+      test('type Boolean has effect', async () => {
+        const wrapper = mountSelect({
+          modelValue: ['a', 'b'],
+          multiple: true,
+          useInput: true,
+          useChips: true
+        })
+
+        expect(wrapper.find('.q-chip__icon--remove').exists()).toBe(true)
+
+        await wrapper.get('input').trigger('keydown', { keyCode: 8 })
+        expect(wrapper.emitted('update:modelValue').at(-1)).toEqual([['a']])
+
+        await wrapper.setProps({ noChipRemove: true })
+        await flushPromises()
+
+        expect(wrapper.find('.q-chip__icon--remove').exists()).toBe(false)
+
+        await wrapper.get('input').trigger('keydown', { keyCode: 8 })
+        expect(wrapper.emitted('update:modelValue')).toHaveLength(1)
+
+        // it only targets the chip affordances; 'clearable' keeps
+        // its own Backspace behavior
+        await wrapper.setProps({ clearable: true })
+        await wrapper.get('input').trigger('keydown', { keyCode: 8 })
+        expect(wrapper.emitted('update:modelValue')).toHaveLength(2)
+      })
+    })
   })
 
   describe('[Slots]', () => {

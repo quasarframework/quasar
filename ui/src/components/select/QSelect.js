@@ -121,6 +121,7 @@ export default /*#__PURE__*/ createComponent({
 
     useInput: Boolean,
     useChips: Boolean,
+    noChipRemove: Boolean,
 
     newValueMode: {
       type: String,
@@ -818,7 +819,7 @@ export default /*#__PURE__*/ createComponent({
       // backspace
       if (
         e.keyCode === 8 &&
-        (props.useChips || props.clearable) &&
+        ((props.useChips && !props.noChipRemove) || props.clearable) &&
         !props.hideSelected &&
         inputValue.value.length === 0
       ) {
@@ -1017,6 +1018,7 @@ export default /*#__PURE__*/ createComponent({
             {
               key: 'option-' + i,
               removable:
+                !props.noChipRemove &&
                 state.editable.value &&
                 isOptionDisabled.value(scope.opt) !== true,
               dense: true,

@@ -151,6 +151,10 @@ You can dynamically load new options when scroll reaches the end:
 
 <DocExample title="Chips as display value" file="DisplayChips" />
 
+The chips also act as a removal affordance: their remove icon takes an option out of the selection and, when the inner input is empty, so does the <kbd>Backspace</kbd> key. If the selection should only be changed through the list of options, use the `no-chip-remove` prop to disable both.
+
+<DocExample title="Chips without removal (v2.28+)" file="DisplayChipsNoRemove" />
+
 <DocExample title="Selected-item slot" file="DisplaySelectedItemSlot" />
 
 ## Filtering and autocomplete
@@ -265,7 +269,7 @@ Notice the infinite scroll in place which renders additional options as the user
 When QSelect is focused:
 
 - pressing <kbd>Enter</kbd>, <kbd>Arrow Down</kbd> (or <kbd>Space</kbd> if `use-input` is not set) will open the list of options
-- if `use-chips` is set:
+- if `use-chips` is set (and `no-chip-remove` is not):
   - pressing <kbd>Shift</kbd> + <kbd>Tab</kbd> will navigate backwards through the QChips (if a QChip is selected <kbd>Tab</kbd> will navigate forward through the QChips)
   - pressing <kbd>Enter</kbd> when a QChip is selected will remove that option from the selection
   - pressing <kbd>Backspace</kbd> will remove the last option from the selection (when `use-input` is set the input should be empty)
