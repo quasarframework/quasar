@@ -1641,7 +1641,12 @@ export default /*#__PURE__*/ createComponent({
       if (e !== void 0 && e.qSelectHandled !== true) stop(e)
       emit('popupHide', e)
       state.hasPopupOpen = false
-      state.onControlFocusout(e)
+      // focus can leave the control while the popup is still open
+      // (clicking non-focusable popup content, like the no-option slot),
+      // which makes the control focusout skip its own reset; this late
+      // focusout only settles once the popup is gone, so it must carry
+      // the same reset (#16135)
+      state.onControlFocusout(e, resetInputValue)
     }
 
     function updatePreState() {

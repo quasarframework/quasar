@@ -1564,6 +1564,51 @@ describe('[QSelect API]', () => {
         expect(wrapper.vm.getOptionIndex()).toBe(1)
         expect(wrapper.get('input').attributes('aria-expanded')).toBe('true')
       })
+
+      test('resets the input when focus leaves through the popup content', async () => {
+        const wrapper = mountSelect(
+          {
+            useInput: true,
+            inputDebounce: 0,
+            options: [],
+            onFilter: (val, update) => {
+              update(() => {})
+            }
+          },
+          { slots: { 'no-option': () => 'no-results' } }
+        )
+        const input = wrapper.get('input')
+
+        input.element.focus()
+        await flushPromises()
+
+        input.element.value = 'abc'
+        await input.trigger('input')
+        await flushPromises()
+        await flushTimers()
+
+        const menuEl = document.querySelector('.q-menu')
+        expect(menuEl.textContent).toBe('no-results')
+
+        // clicking the non-focusable no-option content moves focus off
+        // the input while the popup is still open
+        menuEl.dispatchEvent(new MouseEvent('mousedown', { bubbles: true }))
+        input.element.blur()
+        menuEl.dispatchEvent(new MouseEvent('click', { bubbles: true }))
+        await flushPromises()
+        await flushTimers()
+
+        // ...and only then does clicking outside close the popup
+        document.body.dispatchEvent(
+          new MouseEvent('mousedown', { bubbles: true })
+        )
+        await flushPromises()
+        await flushTimers()
+
+        expect(document.querySelector('.q-menu')).toBeNull()
+        expect(wrapper.emitted('blur')).toHaveLength(1)
+        expect(input.element.value).toBe('')
+      })
     })
 
     describe('[(prop)maxlength]', () => {
