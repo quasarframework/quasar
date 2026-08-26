@@ -1353,6 +1353,48 @@ describe('[QSelect API]', () => {
       })
     })
 
+    describe('[(prop)no-option-label]', () => {
+      test('type String has effect', async () => {
+        const byDefault = mountSelect({ options: [] })
+
+        // without it (and without a no-option slot) there is nothing
+        // to display, so the popup does not show up at all
+        byDefault.vm.showPopup()
+        await flushPromises()
+        expect(byDefault.findComponent({ name: 'QPortal' }).exists()).toBe(
+          false
+        )
+
+        const wrapper = mountSelect({
+          options: [],
+          noOptionLabel: 'nothing-to-show'
+        })
+
+        wrapper.vm.showPopup()
+        await flushPromises()
+
+        const item = wrapper
+          .findComponent({ name: 'QPortal' })
+          .get('.q-menu .q-item')
+
+        expect(item.text()).toBe('nothing-to-show')
+        expect(item.get('.q-item__section').classes()).toContain('text-grey')
+      })
+
+      test('is overridden by the no-option slot', async () => {
+        const wrapper = mountSelect(
+          { options: [], noOptionLabel: 'nothing-to-show' },
+          { slots: { 'no-option': () => 'slot-content' } }
+        )
+
+        wrapper.vm.showPopup()
+        await flushPromises()
+
+        const menu = wrapper.findComponent({ name: 'QPortal' }).get('.q-menu')
+        expect(menu.text()).toBe('slot-content')
+      })
+    })
+
     describe('[(prop)menu-shrink]', () => {
       test('type Boolean has effect', () => {
         const byDefault = mountSelect()

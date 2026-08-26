@@ -184,6 +184,14 @@
       "category": "options"
     },
 
+    "no-option-label": {
+      "type": "String",
+      "desc": "Message to display in the menu when there are no options to show; Gets overridden by the 'no-option' slot, which should be used instead when custom content or per-instance markup is needed",
+      "examples": ["'No results'"],
+      "category": "options",
+      "addedIn": "v2.28"
+    },
+
     "menu-shrink": {
       "type": "Boolean",
       "desc": "Allow the options list to be narrower than the field (only in menu mode)",

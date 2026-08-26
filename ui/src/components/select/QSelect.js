@@ -111,6 +111,8 @@ export default /*#__PURE__*/ createComponent({
 
     optionsCover: Boolean,
 
+    noOptionLabel: String,
+
     menuShrink: Boolean,
     menuAnchor: String,
     menuSelf: String,
@@ -300,6 +302,12 @@ export default /*#__PURE__*/ createComponent({
     )
 
     const noOptions = computed(() => virtualScrollLength.value === 0)
+
+    // called from non-reactive contexts (event handlers, onBeforeUpdate)
+    // as well, so a plain function instead of a computed
+    function hasNoOptionDisplay() {
+      return slots['no-option'] !== void 0 || props.noOptionLabel !== void 0
+    }
 
     const selectedString = computed(() =>
       innerValue.value.map(opt => getOptionLabel.value(opt)).join(', ')
@@ -1056,8 +1064,18 @@ export default /*#__PURE__*/ createComponent({
 
     function getAllOptions() {
       if (noOptions.value) {
-        return slots['no-option'] !== void 0
-          ? slots['no-option']({ inputValue: inputValue.value })
+        if (slots['no-option'] !== void 0) {
+          return slots['no-option']({ inputValue: inputValue.value })
+        }
+
+        return props.noOptionLabel !== void 0
+          ? [
+              h(QItem, () =>
+                h(QItemSection, { class: 'text-grey' }, () =>
+                  h(QItemLabel, () => props.noOptionLabel)
+                )
+              )
+            ]
           : void 0
       }
 
@@ -1544,7 +1562,7 @@ export default /*#__PURE__*/ createComponent({
 
       if (props.onFilter !== void 0) {
         filter(inputValue.value)
-      } else if (!noOptions.value || slots['no-option'] !== void 0) {
+      } else if (!noOptions.value || hasNoOptionDisplay()) {
         menu.value = true
         menuRef.value?.show(e)
       }
@@ -1632,7 +1650,7 @@ export default /*#__PURE__*/ createComponent({
           ? false
           : props.behavior !== 'menu' &&
             (props.useInput
-              ? slots['no-option'] !== void 0 ||
+              ? hasNoOptionDisplay() ||
                 props.onFilter !== void 0 ||
                 !noOptions.value
               : true)
@@ -1713,7 +1731,7 @@ export default /*#__PURE__*/ createComponent({
           state.editable.value &&
           (dialog.value || // dialog always has menu displayed, so need to render it
             !noOptions.value ||
-            slots['no-option'] !== void 0)
+            hasNoOptionDisplay())
         ) {
           return hasDialog ? getDialog() : getMenu()
         } else if (state.hasPopupOpen) {

@@ -119,7 +119,7 @@ Here is another example where we add a QToggle to each option. The possibilities
 
 <DocExample title="Object options" file="OptionQToggle" />
 
-By default, when there are no options, the menu won't appear. But you can customize this scenario and specify what the menu should display.
+By default, when there are no options, the menu won't appear. But you can customize this scenario and specify what the menu should display. For a plain text message, the `no-option-label` prop (v2.28+) is enough; use the `no-option` slot (it overrides the prop) when you need custom content:
 
 <DocExample title="No options slot" file="OptionNoneSlot" />
 
