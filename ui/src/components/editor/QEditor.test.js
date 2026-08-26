@@ -4,6 +4,8 @@ import { nextTick } from 'vue'
 
 import langEn from '../../../lang/en-US.js'
 
+import Platform from '../../plugins/platform/Platform.js'
+import QTooltip from '../tooltip/QTooltip.js'
 import QEditor from './QEditor.js'
 
 /**
@@ -971,6 +973,30 @@ describe('[QEditor API]', () => {
         expect(wrapper.find('.q-editor__link-input').exists()).toBe(true)
       }
     )
+
+    test('toolbar tooltips render on mobile platforms too', async () => {
+      // hybrids (iPad with a mouse) parse as mobile but can hover,
+      // and QTooltip handles each pointer type on its own now
+      const original = {
+        mobile: Platform.is.mobile,
+        desktop: Platform.is.desktop
+      }
+      Object.assign(Platform.is, { mobile: true, desktop: false })
+
+      try {
+        const wrapper = mountEditor({
+          toolbar: [['save']],
+          definitions: {
+            save: { tip: 'Save your work', icon: 'save', handler: () => {} }
+          }
+        })
+        await flushToolbar()
+
+        expect(wrapper.findComponent(QTooltip).exists()).toBe(true)
+      } finally {
+        Object.assign(Platform.is, original)
+      }
+    })
   })
 
   describe('[Accessibility]', () => {

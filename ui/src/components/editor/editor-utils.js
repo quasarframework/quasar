@@ -46,7 +46,7 @@ function getBtn(eVm, btn, clickHandler, active, tabAttrs) {
         : false),
     child = []
 
-  if (eVm.$q.platform.is.desktop && (btn.tip || btn.htmlTip)) {
+  if (btn.tip || btn.htmlTip) {
     const Key = btn.key
       ? h('div', [h('small', `(CTRL + ${String.fromCodePoint(btn.key)})`)])
       : null
