@@ -603,6 +603,9 @@ export default /*#__PURE__*/ createComponent({
       const optValue = getOptionValue.value(opt)
 
       if (!props.multiple) {
+        // captured before hidePopup() resets it
+        const closesDialog = !keepOpen && dialog.value
+
         if (!keepOpen) {
           updateInputValue(
             props.fillInput ? getOptionLabel.value(opt) : '',
@@ -613,7 +616,11 @@ export default /*#__PURE__*/ createComponent({
           hidePopup()
         }
 
-        targetRef.value?.focus()
+        // when the selection closes the options dialog, targetRef still
+        // points at the in-dialog control (the portal is being destroyed,
+        // taking focus down with it); QDialog's refocus puts focus on the
+        // outside control instead, so it must not be stolen back here
+        if (!closesDialog) targetRef.value?.focus()
 
         if (
           innerValue.value.length === 0 ||
@@ -1436,6 +1443,7 @@ export default /*#__PURE__*/ createComponent({
                         'q-select__dialog-close' +
                         (props.color !== void 0 ? ` text-${props.color}` : ''),
                       type: 'button',
+                      tabindex: 0,
                       onClick: hidePopup
                     },
                     $q.lang.label.close
@@ -1502,11 +1510,29 @@ export default /*#__PURE__*/ createComponent({
       onControlPopupHide(e)
 
       if (dialogRef.value !== null) {
-        dialogRef.value.__updateRefocusTarget(
-          state.rootRef.value.querySelector(
-            '.q-field__native > [tabindex]:last-child'
-          )
-        )
+        // while the dialog is open the outside control is not the target,
+        // so its input carries no tabindex attribute; select it by class
+        // (a native input takes programmatic focus without the attribute,
+        // and it becomes the target again on the post-hide render) - a
+        // [tabindex] selector matches nothing at this point, dropping the
+        // refocus and leaving focus on body after dismissal.
+        // On mobile platforms a use-input control is a real text input,
+        // and restoring focus onto it after a touch-driven close would
+        // pop the software keyboard the user just dismissed, so there the
+        // refocus only follows keyboard-initiated closes (ESC, or Enter
+        // on the close button, which is a click carrying detail 0)
+        const refocusTarget =
+          !$q.platform.is.mobile ||
+          !props.useInput ||
+          (e !== void 0 &&
+            (e.type.indexOf('key') === 0 ||
+              (e.type === 'click' && e.detail === 0)))
+            ? state.rootRef.value.querySelector(
+                '.q-field__native > .q-select__focus-target, .q-field__native > .q-field__input'
+              )
+            : null
+
+        dialogRef.value.__updateRefocusTarget(refocusTarget)
       }
 
       state.focused.value = false
