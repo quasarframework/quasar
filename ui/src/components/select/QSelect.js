@@ -1386,6 +1386,10 @@ export default /*#__PURE__*/ createComponent({
           ref: dialogRef,
           modelValue: dialog.value,
           position: props.useInput ? 'top' : void 0,
+          // the select manages focus itself; QDialog's own handling
+          // would blur the control focused during the opening gesture,
+          // dismissing the iOS keyboard it acquired (#16196)
+          noFocus: true,
           transitionShow: transitionShowComputed,
           transitionHide: props.transitionHide,
           transitionDuration: props.transitionDuration,
@@ -1478,6 +1482,13 @@ export default /*#__PURE__*/ createComponent({
 
       if (hasDialog) {
         state.onControlFocusin(e)
+
+        // focus the (still outside) control before the dialog portal
+        // raises its focus wait flag, so it runs inside the user
+        // gesture; iOS only shows the software keyboard for a focus
+        // applied within user activation, and it then keeps it up
+        // across the later handoff to the in-dialog control (#16196)
+        state.focus()
 
         // show through QDialog itself to hand `e` over to the popup
         // events; the ref is null while the flipped model is what first

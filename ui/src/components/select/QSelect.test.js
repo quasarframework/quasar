@@ -1952,6 +1952,37 @@ describe('[QSelect API]', () => {
         expect(portal.find('.q-menu').exists()).toBe(false)
         expect(portal.find('.q-select__dialog').exists()).toBe(true)
       })
+
+      test('value "dialog" hands focus from the control to the dialog (#16196)', async () => {
+        const wrapper = mountSelect(
+          { behavior: 'dialog', transitionDuration: 0 },
+          { attachTo: document.body }
+        )
+        const control = wrapper.get('.q-field__control')
+
+        control.element.dispatchEvent(
+          new MouseEvent('click', { bubbles: true })
+        )
+
+        // the control is focused synchronously inside the opening
+        // interaction, or iOS never raises its software keyboard
+        expect(document.activeElement).toBe(
+          wrapper.get('.q-select__focus-target').element
+        )
+
+        await flushPromises()
+        await flushTimers()
+        await flushPromises()
+
+        // after the show transition the focus has moved on to the
+        // control rendered inside the dialog
+        const portal = wrapper.findComponent({ name: 'QPortal' })
+        const dialog = portal.get('.q-select__dialog')
+
+        expect(dialog.element.contains(document.activeElement)).toBe(true)
+
+        wrapper.unmount()
+      })
     })
 
     describe('[(prop)no-chip-remove]', () => {
