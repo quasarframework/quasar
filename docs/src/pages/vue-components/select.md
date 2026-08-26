@@ -59,6 +59,8 @@ In the example below there's a few transitions showcased. For a full list of tra
 
 By default QSelect shows the list of options as a menu on desktop and as a dialog on mobiles. You can force one behavior by using the `behavior` property.
 
+The dialog mode renders a "Close" button (label taken from the [Quasar Language Pack](/options/quasar-language-packs)) inside the dialog's control, so users are not forced to tap on the backdrop in order to dismiss it. The button picks up the `color` prop, can be further styled through its `q-select__dialog-close` CSS class, or removed altogether with the `hide-dialog-close` prop.
+
 ::: warning
 Please note that on iOS menu behavior might generate problems, especially when used in combination with `use-input` prop. You can use a conditional `behavior` prop like `:behavior="$q.platform.is.ios ? 'dialog' : 'menu'"` to use dialog mode only on iOS.
 :::

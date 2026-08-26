@@ -2,6 +2,7 @@ import { enableAutoUnmount, flushPromises, mount } from '@vue/test-utils'
 import { afterEach, describe, expect, test, vi } from 'vitest'
 import { defineComponent, h } from 'vue'
 
+import langEn from '../../../lang/en-US.js'
 import Platform from '../../plugins/platform/Platform.js'
 import QDialog from '../dialog/QDialog.js'
 import QMenu from '../menu/QMenu.js'
@@ -2227,6 +2228,38 @@ describe('[QSelect API]', () => {
 
         wrapper.unmount()
       })
+
+      test('value "dialog" renders a close button that dismisses the dialog (#6858)', async () => {
+        const wrapper = mountSelect({
+          behavior: 'dialog',
+          transitionDuration: 0
+        })
+
+        wrapper.vm.showPopup()
+        await flushPromises()
+
+        const portal = wrapper.findComponent({ name: 'QPortal' })
+        const closeBtn = portal.get('.q-select__dialog-close')
+
+        // a native button inside the in-dialog control, so it sits in
+        // the natural tab order and never below the software keyboard
+        expect(closeBtn.element.tagName).toBe('BUTTON')
+        expect(closeBtn.text()).toBe(langEn.label.close)
+
+        // it follows the component's color
+        await wrapper.setProps({ color: 'orange' })
+        expect(portal.get('.q-select__dialog-close').classes()).toContain(
+          'text-orange'
+        )
+
+        await closeBtn.trigger('click')
+        await flushPromises()
+        await flushTimers()
+        await flushPromises()
+
+        expect(wrapper.find('.q-select__dialog').exists()).toBe(false)
+        expect(wrapper.emitted('popupHide')).toHaveLength(1)
+      })
     })
 
     describe('[(prop)no-chip-remove]', () => {
@@ -2294,6 +2327,26 @@ describe('[QSelect API]', () => {
         await flushPromises()
 
         expect(onFilterOptOut).not.toHaveBeenCalled()
+      })
+    })
+
+    describe('[(prop)hide-dialog-close]', () => {
+      test('type Boolean has effect', async () => {
+        const wrapper = mountSelect({
+          behavior: 'dialog',
+          transitionDuration: 0
+        })
+
+        wrapper.vm.showPopup()
+        await flushPromises()
+
+        const portal = wrapper.findComponent({ name: 'QPortal' })
+        expect(portal.find('.q-select__dialog-close').exists()).toBe(true)
+
+        await wrapper.setProps({ hideDialogClose: true })
+        await flushPromises()
+
+        expect(portal.find('.q-select__dialog-close').exists()).toBe(false)
       })
     })
   })

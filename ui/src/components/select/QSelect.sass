@@ -48,6 +48,18 @@
       position: relative
       background: inherit
 
+  &__dialog-close
+    color: var(--q-primary)
+    background: transparent
+    align-self: stretch
+    outline: 0
+    border: 0
+    padding: 0 4px
+    font-size: $button-font-size
+    font-weight: $button-font-weight
+    text-decoration: none
+    cursor: pointer
+
 // addressbar always gets shown, so need to slim this down
 body.mobile:not(.native-mobile) .q-select__dialog
   max-height: calc(100vh - 108px) !important

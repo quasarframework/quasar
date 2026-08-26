@@ -142,6 +142,13 @@
       "category": "content|behavior"
     },
 
+    "hide-dialog-close": {
+      "type": "Boolean",
+      "desc": "Hide the close button rendered inside the control when the options are displayed as a dialog",
+      "category": "content|behavior",
+      "addedIn": "v2.28"
+    },
+
     "dropdown-icon": {
       "extends": "icon"
     },

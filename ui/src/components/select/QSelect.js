@@ -97,6 +97,7 @@ export default /*#__PURE__*/ createComponent({
 
     hideSelected: Boolean,
     hideDropdownIcon: Boolean,
+    hideDialogClose: Boolean,
     fillInput: Boolean,
 
     maxValues: [Number, String],
@@ -1416,7 +1417,26 @@ export default /*#__PURE__*/ createComponent({
             ...slots,
             rawControl: () => state.getControl(true),
             before: void 0,
-            after: void 0
+            after: void 0,
+            append: props.hideDialogClose
+              ? slots.append
+              : () => {
+                  const closeBtn = h(
+                    'button',
+                    {
+                      class:
+                        'q-select__dialog-close' +
+                        (props.color !== void 0 ? ` text-${props.color}` : ''),
+                      type: 'button',
+                      onClick: hidePopup
+                    },
+                    $q.lang.label.close
+                  )
+
+                  return slots.append !== void 0
+                    ? [...slots.append(), closeBtn]
+                    : [closeBtn]
+                }
           }
         )
       ]
