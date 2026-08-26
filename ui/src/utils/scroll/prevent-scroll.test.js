@@ -249,32 +249,7 @@ describe('[preventScroll API]', () => {
         ).toBe(false)
       })
 
-      test('keeps iOS scrollable through a scroll listener when there is no visual viewport', () => {
-        const addEventListener = vi.spyOn(window, 'addEventListener')
-        const removeEventListener = vi.spyOn(window, 'removeEventListener')
-        mockPlatform({ ios: true, nativeMobile: false })
-        mockProperty(window, 'visualViewport', void 0)
-
-        preventScroll(true)
-
-        expect(addEventListener).toHaveBeenCalledExactlyOnceWith(
-          'scroll',
-          expect.any(Function),
-          listenOpts.passiveCapture
-        )
-
-        const handler = addEventListener.mock.calls[0][1]
-
-        preventScroll(false)
-
-        expect(removeEventListener).toHaveBeenCalledExactlyOnceWith(
-          'scroll',
-          handler,
-          listenOpts.passiveCapture
-        )
-      })
-
-      test('watches the iOS visual viewport when it is available', () => {
+      test('watches the iOS visual viewport', () => {
         mockPlatform({ ios: true, nativeMobile: false })
         const viewport = spyVisualViewport()
 
@@ -371,7 +346,6 @@ describe('[preventScroll API]', () => {
       test('defers the removal on native iOS and cancels it when re-requested', () => {
         vi.useFakeTimers()
         mockPlatform({ ios: true, nativeMobile: true })
-        mockProperty(window, 'visualViewport', void 0)
 
         preventScroll(true)
         preventScroll(false)

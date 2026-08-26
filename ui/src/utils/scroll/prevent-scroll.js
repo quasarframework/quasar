@@ -12,7 +12,9 @@ let registered = 0,
   vpPendingUpdate = false,
   bodyLeft,
   bodyTop,
-  pinnedBody = false,
+  // captured at lock time (tests mock the platform per-test); the iOS
+  // lock pins the body, every other platform's clips the viewport
+  isIos = false,
   routePath,
   closeTimer = null
 
@@ -31,14 +33,6 @@ export function addPreventScrollReleaseListener(fn) {
 
 export function removePreventScrollReleaseListener(fn) {
   releaseListeners.delete(fn)
-}
-
-function onAppleScroll(e) {
-  if (e.target === document) {
-    // required, otherwise iOS blocks further scrolling
-    // until the mobile scrollbar dissappears
-    document.scrollingElement.scrollTop = document.scrollingElement.scrollTop // oxlint-disable-line
-  }
 }
 
 function onAppleResize(evt) {
@@ -74,20 +68,17 @@ function onAppleResize(evt) {
 }
 
 function apply(action) {
-  const body = document.body,
-    hasViewport = window.visualViewport !== void 0
+  const body = document.body
 
   if (action === 'add') {
     scrollPositionX = getHorizontalScrollPosition(window)
     scrollPositionY = getVerticalScrollPosition(window)
-
     routePath = window.location.pathname
+    isIos = client.is.ios
 
     const classList = ['q-document--prevent-scroll']
 
-    pinnedBody = client.is.ios
-
-    if (pinnedBody) {
+    if (isIos) {
       // iOS pans the page by touch whatever the viewport says, so the body
       // gets pinned in place instead; sticky content cannot survive that
       // (it ends up inside a fixed subtree), but nothing else holds there
@@ -112,50 +103,34 @@ function apply(action) {
     document.documentElement.classList.add(...classList)
     document.qScrollPrevented = true
 
-    if (client.is.ios) {
-      if (hasViewport) {
-        window.scrollTo(0, 0)
-        window.visualViewport.addEventListener(
-          'resize',
-          onAppleResize,
-          listenOpts.passiveCapture
-        )
-        window.visualViewport.addEventListener(
-          'scroll',
-          onAppleResize,
-          listenOpts.passiveCapture
-        )
-        window.scrollTo(0, 0)
-      } else {
-        window.addEventListener(
-          'scroll',
-          onAppleScroll,
-          listenOpts.passiveCapture
-        )
-      }
+    if (isIos) {
+      window.scrollTo(0, 0)
+      window.visualViewport.addEventListener(
+        'resize',
+        onAppleResize,
+        listenOpts.passiveCapture
+      )
+      window.visualViewport.addEventListener(
+        'scroll',
+        onAppleResize,
+        listenOpts.passiveCapture
+      )
+      window.scrollTo(0, 0)
     }
   } else {
     // action === 'remove'
 
-    if (client.is.ios) {
-      if (hasViewport) {
-        window.visualViewport.removeEventListener(
-          'resize',
-          onAppleResize,
-          listenOpts.passiveCapture
-        )
-        window.visualViewport.removeEventListener(
-          'scroll',
-          onAppleResize,
-          listenOpts.passiveCapture
-        )
-      } else {
-        window.removeEventListener(
-          'scroll',
-          onAppleScroll,
-          listenOpts.passiveCapture
-        )
-      }
+    if (isIos) {
+      window.visualViewport.removeEventListener(
+        'resize',
+        onAppleResize,
+        listenOpts.passiveCapture
+      )
+      window.visualViewport.removeEventListener(
+        'scroll',
+        onAppleResize,
+        listenOpts.passiveCapture
+      )
     }
 
     document.documentElement.classList.remove(
@@ -167,7 +142,7 @@ function apply(action) {
 
     document.qScrollPrevented = false
 
-    if (pinnedBody) {
+    if (isIos) {
       body.style.left = bodyLeft
       body.style.top = bodyTop
     }
@@ -179,7 +154,7 @@ function apply(action) {
     // is not ours to undo. When no scroll event can fire, notify the
     // release listeners instead
     if (
-      pinnedBody &&
+      isIos &&
       window.location.pathname === routePath &&
       (getHorizontalScrollPosition(window) !== scrollPositionX ||
         getVerticalScrollPosition(window) !== scrollPositionY)
@@ -217,7 +192,7 @@ export default function preventScroll(state) {
 
     action = 'remove'
 
-    if (client.is.ios && client.is.nativeMobile) {
+    if (isIos && client.is.nativeMobile) {
       if (closeTimer !== null) clearTimeout(closeTimer)
       closeTimer = setTimeout(() => {
         apply(action)
