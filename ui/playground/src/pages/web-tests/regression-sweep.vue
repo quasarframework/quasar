@@ -329,6 +329,7 @@
     <!-- S27: #18183 sticky content vs the page scroll lock; mounted only
          while the scenario runs, so the bar cannot cover other fixtures -->
     <template v-if="s27on">
+      <div class="s27-fixed" />
       <div class="s27-wrap">
         <div class="s27-sticky">S27 sticky</div>
       </div>
@@ -1528,6 +1529,10 @@ async function s27() {
 
   const bar = document.querySelector('.s27-sticky')
   const wrap = document.querySelector('.s27-wrap')
+  // Mobile Safari offsets viewport-anchored rects by its collapsing browser
+  // chrome (S14 hit the same), so "stuck to the top" means "level with a
+  // position: fixed; top: 0 probe", not "rect.top is 0"
+  const fixedRef = document.querySelector('.s27-fixed')
 
   // park the viewport in the middle of the tall block, where the bar has
   // travelled with the page and is stuck to the top of the viewport
@@ -1537,7 +1542,12 @@ async function s27() {
   )
   await settle(300)
 
-  const stuckTop = () => Math.abs(Math.round(bar.getBoundingClientRect().top))
+  const stuckTop = () =>
+    Math.abs(
+      Math.round(
+        bar.getBoundingClientRect().top - fixedRef.getBoundingClientRect().top
+      )
+    )
   const stuckBefore = stuckTop() <= 2
   const yBefore = Math.round(window.scrollY)
 
@@ -1659,8 +1669,17 @@ onMounted(() => {
   padding: 8px;
   margin-bottom: 8px;
 }
-/* S27 probe: a tall block whose sticky bar stays pinned to the top of the
-   viewport while the page is scrolled through it */
+/* S27 probes: a tall block whose sticky bar stays pinned to the top of the
+   viewport while the page is scrolled through it, measured against a fixed
+   top-of-viewport reference (Mobile Safari's collapsing chrome offsets
+   viewport-anchored rects, so an absolute 0 cannot be asserted) */
+.s27-fixed {
+  position: fixed;
+  top: 0;
+  height: 0;
+  width: 0;
+  pointer-events: none;
+}
 .s27-wrap {
   height: 2000px;
 }
