@@ -81,9 +81,8 @@
     .q-avatar
       border-radius: ($generic-border-radius - 1px) 0 0 ($generic-border-radius - 1px)
 
-body.desktop
-  .q-chip--clickable:focus
+  &--clickable:focus-visible
     box-shadow: $shadow-1
-  &.body--dark
-    .q-chip--clickable:focus
-      box-shadow: $dark-shadow-1
+
+body.body--dark .q-chip--clickable:focus-visible
+  box-shadow: $dark-shadow-1

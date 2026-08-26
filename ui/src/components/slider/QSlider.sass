@@ -229,8 +229,7 @@
     .q-slider__selection
       opacity: 0
 
-  &--focus,
-  body.desktop &.q-slider--editable .q-slider__track-container:hover
+  &--focus
     .q-slider__focus-ring
       background: currentColor
       transform: scale3d(1.55, 1.55, 1)
@@ -239,6 +238,17 @@
     .q-slider__inner,
     .q-slider__selection
       opacity: 1
+
+  @media (any-hover: hover)
+    &.q-slider--editable .q-slider__track-container:hover
+      .q-slider__focus-ring
+        background: currentColor
+        transform: scale3d(1.55, 1.55, 1)
+        opacity: .25
+      .q-slider__thumb,
+      .q-slider__inner,
+      .q-slider__selection
+        opacity: 1
 
   &--inactive
     .q-slider__thumb
@@ -263,9 +273,10 @@
     &.q-slider--label .q-slider__thumb-shape
       transform: scale(0) !important
 
-  body.desktop &.q-slider--enabled .q-slider__track-container:hover
-    .q-slider__pin
-      opacity: 1
+  @media (any-hover: hover)
+    &.q-slider--enabled .q-slider__track-container:hover
+      .q-slider__pin
+        opacity: 1
 
   &--label
     &.q-slider--active,
