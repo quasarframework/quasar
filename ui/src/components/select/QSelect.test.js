@@ -1648,6 +1648,124 @@ describe('[QSelect API]', () => {
         // the model value is looked up in the options to get its label
         expect(wrapper.get('.q-field__native').text()).toBe('B')
       })
+
+      test('asks the filter handler for lazy loaded options (#17983)', async () => {
+        const onFilter = vi.fn()
+        const wrapper = mountSelect({
+          modelValue: 2,
+          options: [],
+          mapOptions: true,
+          emitValue: true,
+          onFilter
+        })
+
+        await flushPromises()
+
+        // there is nothing to map the model against yet, so the options
+        // get requested right away, with the menu kept closed
+        expect(onFilter).toHaveBeenCalledOnce()
+        expect(onFilter.mock.calls[0][0]).toBe('')
+        expect(wrapper.findComponent({ name: 'QPortal' }).exists()).toBe(false)
+
+        await wrapper.setProps({ options: objectOptions })
+        onFilter.mock.calls[0][1]()
+        await flushPromises()
+
+        expect(wrapper.get('.q-field__native').text()).toBe('B')
+        expect(wrapper.findComponent({ name: 'QPortal' }).exists()).toBe(false)
+      })
+
+      test('only asks for options it cannot map', async () => {
+        const onFilter = vi.fn()
+
+        // the options are already loaded
+        mountSelect({
+          modelValue: 2,
+          options: objectOptions,
+          mapOptions: true,
+          emitValue: true,
+          onFilter
+        })
+
+        // there is no model value to map
+        mountSelect({
+          modelValue: null,
+          options: [],
+          mapOptions: true,
+          emitValue: true,
+          onFilter
+        })
+
+        // no mapping was asked for
+        mountSelect({
+          modelValue: 2,
+          options: [],
+          emitValue: true,
+          onFilter
+        })
+
+        // the model holds whole options, which carry their own labels
+        mountSelect({
+          modelValue: objectOptions[1],
+          options: [],
+          mapOptions: true,
+          onFilter
+        })
+
+        await flushPromises()
+
+        expect(onFilter).not.toHaveBeenCalled()
+      })
+
+      test('maps a model value that arrives after mounting', async () => {
+        const onFilter = vi.fn()
+        const wrapper = mountSelect({
+          modelValue: null,
+          options: [],
+          mapOptions: true,
+          emitValue: true,
+          onFilter
+        })
+
+        await flushPromises()
+
+        expect(onFilter).not.toHaveBeenCalled()
+
+        await wrapper.setProps({ modelValue: 2 })
+        await flushPromises()
+
+        expect(onFilter).toHaveBeenCalledOnce()
+
+        // a value the loaded options do not hold must not keep asking
+        await wrapper.setProps({ modelValue: 4 })
+        await flushPromises()
+
+        expect(onFilter).toHaveBeenCalledOnce()
+      })
+
+      test('fills the input with the mapped label', async () => {
+        const onFilter = vi.fn()
+        const wrapper = mountSelect({
+          modelValue: 2,
+          options: [],
+          mapOptions: true,
+          emitValue: true,
+          useInput: true,
+          fillInput: true,
+          hideSelected: true,
+          onFilter
+        })
+
+        await flushPromises()
+
+        expect(wrapper.get('input').element.value).toBe('2')
+
+        await wrapper.setProps({ options: objectOptions })
+        onFilter.mock.calls[0][1]()
+        await flushPromises()
+
+        expect(wrapper.get('input').element.value).toBe('B')
+      })
     })
 
     describe('[(prop)disable-tab-selection]', () => {
@@ -2012,6 +2130,44 @@ describe('[QSelect API]', () => {
         await wrapper.setProps({ clearable: true })
         await wrapper.get('input').trigger('keydown', { keyCode: 8 })
         expect(wrapper.emitted('update:modelValue')).toHaveLength(2)
+      })
+    })
+
+    describe('[(prop)no-option-prefetch]', () => {
+      test('type Boolean has effect', async () => {
+        const prefetchProps = {
+          modelValue: 2,
+          options: [],
+          mapOptions: true,
+          emitValue: true
+        }
+
+        const onFilter = vi.fn()
+        mountSelect({ ...prefetchProps, onFilter })
+
+        await flushPromises()
+
+        // without the prop, the unmappable model value gets the options
+        // requested right away (see the map-options tests)
+        expect(onFilter).toHaveBeenCalledOnce()
+
+        const onFilterOptOut = vi.fn()
+        const wrapper = mountSelect({
+          ...prefetchProps,
+          noOptionPrefetch: true,
+          onFilter: onFilterOptOut
+        })
+
+        await flushPromises()
+
+        expect(onFilterOptOut).not.toHaveBeenCalled()
+        expect(wrapper.get('.q-field__native').text()).toBe('2')
+
+        // a model value arriving later must not request them either
+        await wrapper.setProps({ modelValue: 3 })
+        await flushPromises()
+
+        expect(onFilterOptOut).not.toHaveBeenCalled()
       })
     })
   })
@@ -3114,6 +3270,27 @@ describe('[QSelect API]', () => {
       // and scroll-drags would drag the highlight around on hybrids
       await hoverWith(items[0], 'touch')
       expect(wrapper.vm.getOptionIndex()).toBe(2)
+    })
+
+    test('drops the loading state when an unfocused filtering is aborted', async () => {
+      const onFilter = vi.fn((val, update, abort) => {
+        abort()
+      })
+
+      // mapping the model value triggers a filtering while the component
+      // is not focused; aborting it has to clear the loading indicator
+      const wrapper = mountSelect({
+        modelValue: 2,
+        options: [],
+        mapOptions: true,
+        emitValue: true,
+        onFilter
+      })
+
+      await flushPromises()
+
+      expect(onFilter).toHaveBeenCalledOnce()
+      expect(wrapper.find('.q-field__append .q-spinner').exists()).toBe(false)
     })
   })
 

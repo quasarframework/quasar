@@ -133,6 +133,10 @@ The following example shows a glimpse of how you can play with lazy loading the 
 While options are being loaded, the default loading spinner takes the place of the dropdown icon so the field keeps a constant width. For this reason, when `hide-dropdown-icon` is used the default spinner is not displayed at all (it would make the field's width jump); supply a `loading` slot if you still want an inline indicator in that case.
 :::
 
+::: tip
+When the model already holds a value and `map-options` is used, there is nothing to map it against until the options get loaded, so the field would display the raw value. Starting with Quasar v2.28, QSelect asks for the options on its own in this case: it calls your `@filter` handler once with an empty search string and without opening the menu, so the correct label shows up without any user interaction. The same happens when the model value arrives later (a record loaded from the server, for instance). A value that the loaded options do not contain is not requested again. Should you not want this behavior (when the parent component loads the options itself, for example), opt out with the `no-option-prefetch` prop.
+:::
+
 You can dynamically load new options when scroll reaches the end:
 
 <DocExample title="Dynamic loading options" file="OptionsDynamic" />

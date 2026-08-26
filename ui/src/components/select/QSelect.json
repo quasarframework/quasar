@@ -312,6 +312,13 @@
       "category": "options"
     },
 
+    "no-option-prefetch": {
+      "type": "Boolean",
+      "desc": "Do not automatically call the 'filter' handler when the (lazy loaded) options are needed to map a preloaded model value through 'map-options'; the field displays the raw model value until the options get loaded",
+      "category": "options",
+      "addedIn": "v2.28"
+    },
+
     "disable-tab-selection": {
       "type": "Boolean",
       "desc": "Prevents the tab key from confirming the currently hovered option",
@@ -628,7 +635,7 @@
     },
 
     "filter": {
-      "desc": "Emitted when user wants to filter a value",
+      "desc": "Emitted when user wants to filter a value; Also emitted (with an empty input value) by QSelect itself when it needs the lazy loaded options to map a preloaded model value through 'map-options' (opt out with 'no-option-prefetch')",
       "params": {
         "inputValue": {
           "type": "String",
