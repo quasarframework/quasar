@@ -397,9 +397,12 @@ export default /*#__PURE__*/ createComponent({
         if (!disable) {
           if (optionIndex.value === index) itemProps.focused = true
 
-          if ($q.platform.is.desktop) {
-            itemProps.onMousemove = () => {
-              if (menu.value) setOptionIndex(index)
+          // per-interaction gate instead of a UA sniff, so hybrids
+          // (iPad with trackpad, pen hover) get the hover highlight
+          // while a tap's own pointermove cannot move it
+          itemProps.onPointermove = evt => {
+            if (evt.pointerType !== 'touch' && menu.value) {
+              setOptionIndex(index)
             }
           }
         }

@@ -2992,6 +2992,34 @@ describe('[QSelect API]', () => {
       expect(fieldWidth).toBeLessThanOrEqual(parentWidth)
       expect(value.scrollWidth).toBeGreaterThan(value.clientWidth)
     })
+
+    test('hover highlight follows mouse and pen pointers, but never touch', async () => {
+      const wrapper = mountSelect()
+      const portal = await openPopup(wrapper)
+      const items = portal.findAll('.q-item')
+
+      // test-utils' trigger cannot assign init-only PointerEvent fields,
+      // so dispatch real events instead
+      async function hoverWith(item, pointerType) {
+        item.element.dispatchEvent(
+          new PointerEvent('pointermove', { pointerType, bubbles: true })
+        )
+        await flushPromises()
+      }
+
+      await hoverWith(items[1], 'mouse')
+      expect(wrapper.vm.getOptionIndex()).toBe(1)
+      expect(items[1].classes()).toContain('q-manual-focusable--focused')
+
+      // pen hover (hovering stylus) drives the highlight too
+      await hoverWith(items[2], 'pen')
+      expect(wrapper.vm.getOptionIndex()).toBe(2)
+
+      // a touch contact's own pointermove must not move it, or taps
+      // and scroll-drags would drag the highlight around on hybrids
+      await hoverWith(items[0], 'touch')
+      expect(wrapper.vm.getOptionIndex()).toBe(2)
+    })
   })
 
   describe('[Accessibility]', () => {
