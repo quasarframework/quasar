@@ -1158,10 +1158,19 @@ export default /*#__PURE__*/ createComponent({
       }
 
       if (props.onFilter !== void 0) {
-        filterTimer = setTimeout(() => {
-          filterTimer = null
-          filter(inputValue.value)
-        }, props.inputDebounce)
+        if (hasDialog && !dialog.value) {
+          // typing on the closed control must open the options dialog,
+          // as it opens the menu in menu mode (#15976); showPopup()
+          // filters with the just-set inputValue, and the input event
+          // carries the user activation iOS needs for the keyboard
+          // handoff (#16196)
+          showPopup(e)
+        } else {
+          filterTimer = setTimeout(() => {
+            filterTimer = null
+            filter(inputValue.value)
+          }, props.inputDebounce)
+        }
       }
     }
 

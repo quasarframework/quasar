@@ -2101,6 +2101,45 @@ describe('[QSelect API]', () => {
 
         wrapper.unmount()
       })
+
+      test('value "dialog" opens when typing on the closed control (#15976)', async () => {
+        const onFilter = vi.fn()
+        const wrapper = mountSelect(
+          {
+            behavior: 'dialog',
+            useInput: true,
+            autofocus: true,
+            transitionDuration: 0,
+            onFilter
+          },
+          { attachTo: document.body }
+        )
+
+        await flushPromises()
+
+        // autofocus alone must NOT open the dialog
+        expect(wrapper.findComponent({ name: 'QPortal' }).exists()).toBe(false)
+
+        const input = wrapper.get('input')
+        input.element.value = 'b'
+        await input.trigger('input')
+        await flushPromises()
+        await flushTimers()
+        await flushPromises()
+
+        const portal = wrapper.findComponent({ name: 'QPortal' })
+        const dialog = portal.get('.q-select__dialog')
+
+        // the dialog opened and filtered with the typed text right away,
+        // without waiting for the input debounce
+        expect(onFilter).toHaveBeenCalledOnce()
+        expect(onFilter.mock.calls[0][0]).toBe('b')
+
+        // the typed text carried over to the in-dialog control
+        expect(dialog.get('input').element.value).toBe('b')
+
+        wrapper.unmount()
+      })
     })
 
     describe('[(prop)no-chip-remove]', () => {
