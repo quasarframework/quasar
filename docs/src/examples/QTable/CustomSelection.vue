@@ -19,7 +19,6 @@
 </template>
 
 <script setup>
-import { useQuasar } from 'quasar'
 import { ref, useTemplateRef } from 'vue'
 
 const columns = [
@@ -166,8 +165,6 @@ const rows = [
   // #endregion
 ]
 
-const $q = useQuasar()
-
 const selected = ref([])
 const lastIndex = ref(null)
 const tableRef = useTemplateRef('tableRef')
@@ -189,7 +186,9 @@ function onSelection({ rows: rowsList, added, evt }) {
   lastIndex.value = rowIndex
   document.getSelection().removeAllRanges()
 
-  if ($q.platform.is.mobile) {
+  // a touch tap has no modifier keys, so it toggles like ctrl+click;
+  // mouse/pen clicks (hybrids included) keep the modifier semantics
+  if (evt?.pointerType === 'touch') {
     evt = { ctrlKey: true }
   } else if (
     evt !== Object(evt) ||
