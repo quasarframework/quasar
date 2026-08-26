@@ -2498,6 +2498,21 @@ describe('[QSelect API]', () => {
         const [evt] = eventList.popupShow[0]
         expect(evt).$any([expect.any(Event), void 0])
       })
+
+      test('carries the event of the opening interaction (#14678)', async () => {
+        const wrapper = mountSelect()
+
+        await wrapper.get('.q-field__control').trigger('click')
+        await flushPromises()
+
+        const eventList = wrapper.emitted()
+        expect(eventList).toHaveProperty('popupShow')
+        expect(eventList.popupShow).toHaveLength(1)
+
+        const [evt] = eventList.popupShow[0]
+        expect(evt).toBeInstanceOf(Event)
+        expect(evt.type).toBe('click')
+      })
     })
 
     describe('[(event)popup-hide]', () => {
@@ -2518,6 +2533,25 @@ describe('[QSelect API]', () => {
 
         const [evt] = eventList.popupHide[0]
         expect(evt).$any([expect.any(Event), void 0])
+      })
+
+      test('carries the event of the dismissing interaction (#14678)', async () => {
+        const wrapper = mountSelect()
+        const control = wrapper.get('.q-field__control')
+
+        await control.trigger('click')
+        await flushPromises()
+
+        await control.trigger('click')
+        await flushPromises()
+
+        const eventList = wrapper.emitted()
+        expect(eventList).toHaveProperty('popupHide')
+        expect(eventList.popupHide).toHaveLength(1)
+
+        const [evt] = eventList.popupHide[0]
+        expect(evt).toBeInstanceOf(Event)
+        expect(evt.type).toBe('click')
       })
     })
   })

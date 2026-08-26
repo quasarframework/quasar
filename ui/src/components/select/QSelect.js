@@ -708,7 +708,7 @@ export default /*#__PURE__*/ createComponent({
       if (isKeyCode(e, 27) && menu.value) {
         stop(e)
         // on ESC we need to close the dialog also
-        hidePopup()
+        hidePopup(e)
         resetInputValue()
       }
 
@@ -793,7 +793,7 @@ export default /*#__PURE__*/ createComponent({
 
       // tab
       if (e.keyCode === 9 && !tabShouldSelect) {
-        closeMenu()
+        closeMenu(e)
         return
       }
 
@@ -812,7 +812,7 @@ export default /*#__PURE__*/ createComponent({
         !menu.value
       ) {
         stopAndPrevent(e)
-        showPopup()
+        showPopup(e)
         return
       }
 
@@ -982,9 +982,9 @@ export default /*#__PURE__*/ createComponent({
       }
 
       if (menu.value) {
-        closeMenu()
+        closeMenu(e)
       } else if (!state.innerLoading.value) {
-        showPopup()
+        showPopup(e)
       }
     }
 
@@ -1442,13 +1442,19 @@ export default /*#__PURE__*/ createComponent({
       setVirtualScrollSize()
     }
 
-    function closeMenu() {
+    function closeMenu(e) {
       if (dialog.value) return
 
       optionIndex.value = -1
 
       if (menu.value) {
+        // hide through QMenu itself (with the model already in sync so
+        // its watcher no-ops) to hand `e` over to the popup events;
+        // menuRef is null in dialog mode, where menu only gates the
+        // in-dialog options list
+        if (e !== void 0) e.qSelectHandled = true
         menu.value = false
+        menuRef.value?.hide(e)
       }
 
       if (!state.focused.value) {
@@ -1468,9 +1474,17 @@ export default /*#__PURE__*/ createComponent({
     function showPopup(e) {
       if (!state.editable.value) return
 
+      if (e !== void 0) e.qSelectHandled = true
+
       if (hasDialog) {
         state.onControlFocusin(e)
+
+        // show through QDialog itself to hand `e` over to the popup
+        // events; the ref is null while the flipped model is what first
+        // renders it, and then mounting processes the (eventless) show
         dialog.value = true
+        dialogRef.value?.show(e)
+
         nextTick(() => {
           state.focus()
         })
@@ -1482,12 +1496,18 @@ export default /*#__PURE__*/ createComponent({
         filter(inputValue.value)
       } else if (!noOptions.value || slots['no-option'] !== void 0) {
         menu.value = true
+        menuRef.value?.show(e)
       }
     }
 
-    function hidePopup() {
-      dialog.value = false
-      closeMenu()
+    function hidePopup(e) {
+      if (dialog.value) {
+        if (e !== void 0) e.qSelectHandled = true
+        dialog.value = false
+        dialogRef.value?.hide(e)
+      }
+
+      closeMenu(e)
     }
 
     function resetInputValue() {
@@ -1540,14 +1560,17 @@ export default /*#__PURE__*/ createComponent({
     }
 
     function onControlPopupShow(e) {
-      if (e !== void 0) stop(e)
+      // an event stamped by our own control handlers is still
+      // mid-dispatch (the popup processes it synchronously), so only
+      // popup-initiated events (click-outside, ESC plugin) get stopped
+      if (e !== void 0 && e.qSelectHandled !== true) stop(e)
       emit('popupShow', e)
       state.hasPopupOpen = true
       state.onControlFocusin(e)
     }
 
     function onControlPopupHide(e) {
-      if (e !== void 0) stop(e)
+      if (e !== void 0 && e.qSelectHandled !== true) stop(e)
       emit('popupHide', e)
       state.hasPopupOpen = false
       state.onControlFocusout(e)
@@ -1644,7 +1667,7 @@ export default /*#__PURE__*/ createComponent({
         onFocusout(e) {
           state.onControlFocusout(e, () => {
             resetInputValue()
-            closeMenu()
+            closeMenu(e)
           })
         },
         onClick(e) {
@@ -1652,7 +1675,7 @@ export default /*#__PURE__*/ createComponent({
           prevent(e)
 
           if (!hasDialog && menu.value) {
-            closeMenu()
+            closeMenu(e)
             targetRef.value?.focus()
             return
           }

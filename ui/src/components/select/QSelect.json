@@ -680,7 +680,9 @@
       "desc": "Emitted when the select options menu or dialog is shown.",
       "params": {
         "evt": {
-          "extends": "evt"
+          "extends": "evt",
+          "required": false,
+          "desc": "JS event object; Is undefined when the popup is not triggered by a direct user interaction (e.g. it opens as an async filter resolves or through the showPopup method)"
         }
       }
     },
@@ -689,7 +691,9 @@
       "desc": "Emitted when the select options menu or dialog is hidden.",
       "params": {
         "evt": {
-          "extends": "evt"
+          "extends": "evt",
+          "required": false,
+          "desc": "JS event object; Is undefined when the popup is not dismissed by a direct user interaction (e.g. it closes because an option got selected or through the hidePopup method)"
         }
       }
     },
