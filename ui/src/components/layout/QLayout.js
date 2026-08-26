@@ -93,9 +93,10 @@ export default /*#__PURE__*/ createComponent({
         suppressedScroll = null
         applyPageScroll(info)
       } else {
-        // scroll-lock acquisition scrolls the page to top; that synthetic
-        // move must stay invisible (#7012) unless the lock later releases
-        // without restoring the position (#12994) -- so buffer it
+        // scrolls under the lock stay invisible: the pinned (iOS) lock's
+        // own synthetic scroll-to-top (#7012) or an app navigation's
+        // scroll -- buffered, and applied only if the lock releases
+        // without restoring the position (#12994)
         suppressedScroll = info
       }
     }

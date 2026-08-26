@@ -101,14 +101,17 @@ export default /*#__PURE__*/ createComponent({
       // needs an explicit scroll-target on the overlay's own scrollable
       // element; until it gets one, polling stays off (trigger() still works).
       //
-      // A Dialog or an overlay Drawer also scroll-locks the page (body
-      // becomes position:fixed), which pins the window scroll position at 0.
-      // Reverse mode reads that as "scrolled to the top", so each done()
-      // would trigger the next load for as long as the overlay stays open.
-      // Skip polling while locked: polling resumes on release, through the
-      // restore's scroll event or, when the page sat at top so no event can
-      // fire, through the prevent-scroll release listeners. Element scroll
-      // targets keep their own geometry under the lock, so they stay live.
+      // A Dialog or an overlay Drawer also scroll-locks the page. The lock
+      // clips the viewport (the page keeps its scroll position, though the
+      // app can still move it, e.g. a navigation) and on iOS pins the body,
+      // which puts the window scroll position at 0. Reverse mode would read
+      // a page at top as "scrolled to the top", so each done() would
+      // trigger the next load for as long as the overlay stays open. Skip
+      // polling while locked: polling resumes on release, through the
+      // pinned lock's restoring scroll event or, when no scroll event can
+      // fire (the clipped page never moved), through the prevent-scroll
+      // release listeners. Element scroll targets keep their own geometry
+      // under the lock, so they stay live.
       if (localScrollTarget === window) {
         if (inFixedSubtree) {
           // the placement may have changed since it was measured (the
