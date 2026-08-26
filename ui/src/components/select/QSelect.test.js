@@ -3227,9 +3227,25 @@ describe('[QSelect API]', () => {
         )
 
         const portal = wrapper.findComponent({ name: 'QPortal' })
-        expect(portal.findAll('.q-item')[0].classes()).toContain(
-          'q-manual-focusable--focused'
-        )
+        const focusedItem = portal.findAll('.q-item')[0]
+        expect(focusedItem.classes()).toContain('q-manual-focusable--focused')
+
+        // the focused state must also PAINT under a mobile body class,
+        // where hover/:focus feedback is deliberately suppressed
+        const hadDesktop = document.body.classList.contains('desktop')
+        document.body.classList.remove('desktop')
+        document.body.classList.add('mobile')
+
+        try {
+          const helper = focusedItem.element.querySelector('.q-focus-helper')
+          // snap past the opacity transition so the computed value is final
+          helper.style.transition = 'none'
+
+          expect(getComputedStyle(helper).opacity).toBe('0.22')
+        } finally {
+          document.body.classList.remove('mobile')
+          if (hadDesktop) document.body.classList.add('desktop')
+        }
 
         await target.trigger('keydown', { keyCode: 13 })
         await flushPromises()
