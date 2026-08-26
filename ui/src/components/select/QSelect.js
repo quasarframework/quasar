@@ -1382,10 +1382,18 @@ export default /*#__PURE__*/ createComponent({
       stop(e)
       targetRef.value?.focus()
       dialogFieldFocused.value = true
-      window.scrollTo(
-        window.pageXOffset || window.scrollX || document.body.scrollLeft || 0,
-        0
-      )
+
+      // only iOS needs the snap back to top: its pinned-body scroll lock
+      // holds the window at 0 but the software keyboard can still push it;
+      // everywhere else the clip lock keeps the page at its real scroll
+      // position, which this call would throw away for good (the clip
+      // release does not restore scroll)
+      if ($q.platform.is.ios) {
+        window.scrollTo(
+          window.pageXOffset || window.scrollX || document.body.scrollLeft || 0,
+          0
+        )
+      }
     }
 
     function onDialogFieldBlur(e) {

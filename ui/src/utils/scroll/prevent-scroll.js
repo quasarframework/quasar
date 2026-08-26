@@ -18,6 +18,20 @@ let registered = 0,
   routePath,
   closeTimer = null
 
+// The lock strategy leaks into other components; when changing it, re-check
+// every consumer that assumes how the page behaves while locked:
+// - QSelect onDialogFieldFocus: iOS-only window.scrollTo(x, 0), valid only
+//   while the iOS lock pins the body at top (under the clip lock the same
+//   call would wipe a scroll position that release never restores)
+// - QDialog handleShow transitionEnd: iOS-only scrollingElement/
+//   scrollIntoView writes, same pinned-body assumption
+// - QLayout + QInfiniteScroll: suppress scroll work while
+//   document.qScrollPrevented is set and re-sync through the release
+//   listeners below
+// - QDrawer: skips updateBelowBreakpoint on totalWidth changes while
+//   locked (dormant under the clip lock since the reserved scrollbar
+//   gutter keeps the width stable at lock time)
+
 // notified when the lock releases WITHOUT emitting a scroll event -- the
 // clipped page never lost its position, the route changed while locked (no
 // scroll restore happens), or the saved position is the one the page
