@@ -5,6 +5,7 @@ import {
   h,
   nextTick,
   onBeforeUnmount,
+  onDeactivated,
   ref,
   watch
 } from 'vue'
@@ -140,6 +141,7 @@ export default /*#__PURE__*/ createComponent({
       stopAnchorTracking,
       avoidAutoClose,
       hoverTimer = null,
+      finishTransition = null,
       // set while the current "show" was triggered by hovering the anchor,
       // in which case the menu must leave focus wherever it already is
       hoverShown = false
@@ -357,6 +359,25 @@ export default /*#__PURE__*/ createComponent({
       }
     }
 
+    // The tail of a show/hide transition (portal teardown, the 'show'/
+    // 'hide' event) runs on a timer that useTimeout cancels when a
+    // <keep-alive> page holding this menu gets deactivated. Keep the
+    // finisher at hand so deactivation can run it right away, or else
+    // the portal is left in the DOM and the model stays stuck (#18201).
+    // Should removeTimeout() if this gets removed.
+    function registerTransitionEnd(fn) {
+      finishTransition = () => {
+        finishTransition = null
+        fn()
+      }
+
+      registerTimeout(finishTransition, props.transitionDuration)
+    }
+
+    onDeactivated(() => {
+      finishTransition?.()
+    })
+
     function handleShow(evt) {
       // a hover-triggered open must not steal focus from wherever the
       // user currently is, nor hand it anywhere when hiding
@@ -428,8 +449,7 @@ export default /*#__PURE__*/ createComponent({
         if (!props.noFocus && !hoverShown) focus()
       })
 
-      // should removeTimeout() if this gets removed
-      registerTimeout(() => {
+      registerTransitionEnd(() => {
         // required in order to avoid the "double-tap needed" issue
         if ($q.platform.is.ios) {
           // if auto-close, then this click should
@@ -441,7 +461,7 @@ export default /*#__PURE__*/ createComponent({
         updatePosition()
         showPortal(true) // done showing portal
         emit('show', evt)
-      }, props.transitionDuration)
+      })
     }
 
     function handleHide(evt) {
@@ -470,11 +490,10 @@ export default /*#__PURE__*/ createComponent({
         })
       }
 
-      // should removeTimeout() if this gets removed
-      registerTimeout(() => {
+      registerTransitionEnd(() => {
         hidePortal(true) // done hiding, now destroy
         emit('hide', evt)
-      }, props.transitionDuration)
+      })
     }
 
     function handleRouteChange() {

@@ -4,6 +4,7 @@ import {
   getCurrentInstance,
   h,
   onBeforeUnmount,
+  onDeactivated,
   ref,
   watch
 } from 'vue'
@@ -121,6 +122,7 @@ export default /*#__PURE__*/ createComponent({
       observer,
       removeNonSelectableTimer,
       hasNonSelectable = false,
+      finishTransition = null,
       // the pointerType of the contact interaction (touch or a pressed
       // stylus) driving the current show, if any; the hide side needs it
       // because its events can't tell us themselves
@@ -198,6 +200,25 @@ export default /*#__PURE__*/ createComponent({
       )
     }
 
+    // The tail of a show/hide transition (portal teardown, the 'show'/
+    // 'hide' event) runs on a timer that useTimeout cancels when a
+    // <keep-alive> page holding this tooltip gets deactivated. Keep the
+    // finisher at hand so deactivation can run it right away, or else
+    // the portal is left behind in the DOM (#18201).
+    // Should removeTimeout() if this gets removed.
+    function registerTransitionEnd(fn) {
+      finishTransition = () => {
+        finishTransition = null
+        fn()
+      }
+
+      registerTimeout(finishTransition, props.transitionDuration)
+    }
+
+    onDeactivated(() => {
+      finishTransition?.()
+    })
+
     function handleShow(evt) {
       showPortal()
       addAriaDescription()
@@ -247,11 +268,10 @@ export default /*#__PURE__*/ createComponent({
         )
       }
 
-      // should removeTimeout() if this gets removed
-      registerTimeout(() => {
+      registerTransitionEnd(() => {
         showPortal(true) // done showing portal
         emit('show', evt)
-      }, props.transitionDuration)
+      })
     }
 
     function handleHide(evt) {
@@ -260,11 +280,10 @@ export default /*#__PURE__*/ createComponent({
 
       anchorCleanup()
 
-      // should removeTimeout() if this gets removed
-      registerTimeout(() => {
+      registerTransitionEnd(() => {
         hidePortal(true) // done hiding, now destroy
         emit('hide', evt)
-      }, props.transitionDuration)
+      })
     }
 
     function anchorCleanup() {
