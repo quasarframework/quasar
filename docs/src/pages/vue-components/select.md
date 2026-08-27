@@ -69,6 +69,20 @@ Please note that on iOS menu behavior might generate problems, especially when u
 
 <DocExample title="Show options in dialog" file="BehaviorDialog" />
 
+### Hover to open <q-badge label="v2.28+" />
+
+With the `hover` prop the options also open when the pointer hovers the select and close once the pointer has left both the select and its options menu. The `hover-hide-delay` prop controls the grace period in which the pointer can travel between the two (or return) before the options close, while `hover-delay` postpones the opening.
+
+Click/tap and keyboard interactions keep toggling the options as usual, so touch devices (which have no hover) simply fall back to them; this also means that clicking a hover-opened select closes its options. The one exception is a click that lands while the options are still animating into view: it focuses the select and keeps them open, so a single move-and-click gesture cannot close what it just opened.
+
+A hover-triggered open does not focus the select, so it emits no `@focus`/`@blur` and does not trigger lazy validation rules on a pointer merely passing over; the select only gets focused (upgrading the open to a regular one, which no longer closes when the pointer leaves) when the user actually clicks or tabs into it.
+
+::: warning
+The prop only applies while the options show up as a menu; it has no effect with `behavior="dialog"`, nor on mobile platforms unless `behavior="menu"` is used.
+:::
+
+<DocExample title="Hover to open" file="Hover" />
+
 ## The model
 
 ::: danger

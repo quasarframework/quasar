@@ -42,6 +42,8 @@ import useKeyComposition from '../../composables/private.use-key-composition/use
 import { createComponent } from '../../utils/private.create/create.js'
 import { isDeepEqual } from '../../utils/is/is.js'
 import { prevent, stop, stopAndPrevent } from '../../utils/event/event.js'
+import { getPortalProxy } from '../../utils/private.portal/portal.js'
+import { getParentProxy } from '../../utils/private.vm/vm.js'
 import { normalizeToInterval } from '../../utils/format/format.js'
 import {
   isKeyCode,
@@ -163,6 +165,16 @@ export default /*#__PURE__*/ createComponent({
       default: 'default'
     },
 
+    hover: Boolean,
+    hoverDelay: {
+      type: Number,
+      default: 0
+    },
+    hoverHideDelay: {
+      type: Number,
+      default: 150
+    },
+
     // override of useVirtualScrollProps > virtualScrollItemSize (no default)
     virtualScrollItemSize: useVirtualScrollProps.virtualScrollItemSize.type,
 
@@ -196,6 +208,13 @@ export default /*#__PURE__*/ createComponent({
 
     let filterTimer = null,
       inputValueTimer = null,
+      hoverTimer = null,
+      // set while the current popup "show" was triggered by hovering the
+      // control (and not yet upgraded to a focused open), in which case
+      // focus must stay wherever it already is
+      hoverShown = false,
+      // when the current "show" was hover-triggered, the moment it happened
+      hoverShownAt = 0,
       innerValueCache,
       prefetchPending = false,
       hasDialog,
@@ -1239,7 +1258,10 @@ export default /*#__PURE__*/ createComponent({
     }
 
     function filter(val, keepClosed, afterUpdateFn) {
-      if (props.onFilter === void 0 || (!keepClosed && !state.focused.value)) {
+      if (
+        props.onFilter === void 0 ||
+        (!keepClosed && !state.focused.value && !hoverShown)
+      ) {
         return
       }
 
@@ -1272,7 +1294,7 @@ export default /*#__PURE__*/ createComponent({
         val,
         (fn, afterFn) => {
           if (
-            (keepClosed || state.focused.value) &&
+            (keepClosed || state.focused.value || hoverShown) &&
             filterId === localFilterId
           ) {
             clearTimeout(filterId)
@@ -1311,7 +1333,7 @@ export default /*#__PURE__*/ createComponent({
         },
         () => {
           if (
-            (keepClosed || state.focused.value) &&
+            (keepClosed || state.focused.value || hoverShown) &&
             filterId === localFilterId
           ) {
             clearTimeout(filterId)
@@ -1370,7 +1392,14 @@ export default /*#__PURE__*/ createComponent({
           onScrollPassive: onVirtualScrollEvt,
           onBeforeShow: onControlPopupShow,
           onBeforeHide: onMenuBeforeHide,
-          onShow: onMenuShow
+          onShow: onMenuShow,
+          // fall-through attrs, landing on the menu's content element
+          ...(props.hover
+            ? {
+                onPointerenter: onMenuContentPointerenter,
+                onPointerleave: onMenuContentPointerleave
+              }
+            : {})
         },
         getAllOptions
       )
@@ -1560,6 +1589,9 @@ export default /*#__PURE__*/ createComponent({
     function closeMenu(e) {
       if (dialog.value) return
 
+      clearHoverTimer()
+      hoverShown = false
+
       optionIndex.value = -1
 
       if (menu.value) {
@@ -1586,8 +1618,117 @@ export default /*#__PURE__*/ createComponent({
       }
     }
 
+    function clearHoverTimer() {
+      if (hoverTimer !== null) {
+        clearTimeout(hoverTimer)
+        hoverTimer = null
+      }
+    }
+
+    // is the pointer still over the select's own scope: its control, the
+    // options menu, or a popup opened from within the options (the latter
+    // is rendered in a sibling portal, never a DOM descendant of the menu)
+    function hoverWithinScope(el) {
+      if (el === null || el === void 0) return false
+
+      const menuContent =
+        menuRef.value !== null ? menuRef.value.contentEl : null
+
+      if (
+        (state.controlRef.value !== null &&
+          state.controlRef.value.contains(el)) ||
+        (menuContent !== null && menuContent.contains(el))
+      ) {
+        return true
+      }
+
+      let portalProxy = getPortalProxy(el)
+      while (portalProxy !== void 0 && portalProxy !== null) {
+        if (portalProxy === proxy) return true
+        portalProxy = getParentProxy(portalProxy)
+      }
+
+      return false
+    }
+
+    function scheduleHoverHide(evt) {
+      clearHoverTimer()
+
+      if (!hoverShown || hoverWithinScope(evt.relatedTarget)) return
+
+      hoverTimer = setTimeout(() => {
+        hoverTimer = null
+        hidePopup(evt)
+      }, props.hoverHideDelay)
+    }
+
+    function hoverShow(evt) {
+      if (
+        props.onFilter === void 0 &&
+        noOptions.value &&
+        !hasNoOptionDisplay()
+      ) {
+        return
+      }
+
+      hoverShown = true
+      hoverShownAt = Date.now()
+      evt.qSelectHandled = true
+
+      // mirrors showPopup()'s menu branch, minus the focus handling: a
+      // pointer merely passing over the control must not steal focus from
+      // wherever the user currently is
+      if (props.onFilter !== void 0) {
+        filter(inputValue.value)
+      } else {
+        menu.value = true
+        menuRef.value?.show(evt)
+      }
+    }
+
+    function onControlPointerenter(evt) {
+      // touch has no hover; a tap keeps acting through the click toggle
+      if (props.hover !== true || evt.pointerType === 'touch') return
+
+      clearHoverTimer()
+
+      if (hasDialog || hoverShown || menu.value || !state.editable.value) {
+        return
+      }
+
+      if (props.hoverDelay > 0) {
+        hoverTimer = setTimeout(() => {
+          hoverTimer = null
+          hoverShow(evt)
+        }, props.hoverDelay)
+      } else {
+        hoverShow(evt)
+      }
+    }
+
+    function onControlPointerleave(evt) {
+      if (props.hover !== true || evt.pointerType === 'touch') return
+
+      scheduleHoverHide(evt)
+    }
+
+    function onMenuContentPointerenter(evt) {
+      if (evt.pointerType !== 'touch') {
+        clearHoverTimer()
+      }
+    }
+
+    function onMenuContentPointerleave(evt) {
+      if (evt.pointerType !== 'touch') {
+        scheduleHoverHide(evt)
+      }
+    }
+
     function showPopup(e) {
       if (!state.editable.value) return
+
+      clearHoverTimer()
+      hoverShown = false
 
       if (e !== void 0) e.qSelectHandled = true
 
@@ -1688,7 +1829,9 @@ export default /*#__PURE__*/ createComponent({
       if (e !== void 0 && e.qSelectHandled !== true) stop(e)
       emit('popupShow', e)
       state.hasPopupOpen = true
-      state.onControlFocusin(e)
+      // a hover-triggered open leaves focus (and with it the focused
+      // state, its styling and the focus/blur emits) wherever it already is
+      if (!hoverShown) state.onControlFocusin(e)
     }
 
     function onControlPopupHide(e) {
@@ -1740,6 +1883,7 @@ export default /*#__PURE__*/ createComponent({
     onBeforeUnmount(() => {
       if (filterTimer !== null) clearTimeout(filterTimer)
       if (inputValueTimer !== null) clearTimeout(inputValueTimer)
+      if (hoverTimer !== null) clearTimeout(hoverTimer)
     })
 
     // expose public methods
@@ -1801,6 +1945,11 @@ export default /*#__PURE__*/ createComponent({
 
       controlEvents: {
         onFocusin(e) {
+          // a real focus upgrades a hover-shown popup to a regular
+          // focused open: from here on it closes like any other (blur,
+          // ESC, selection), not by the pointer leaving
+          clearHoverTimer()
+          hoverShown = false
           state.onControlFocusin(e)
         },
         onFocusout(e) {
@@ -1814,13 +1963,32 @@ export default /*#__PURE__*/ createComponent({
           prevent(e)
 
           if (!hasDialog && menu.value) {
+            // on real hardware the pointer reaches the control before any
+            // click can, so with "hover" on, the menu is still animating
+            // in when a move-and-click gesture's click lands; that click
+            // must not dismiss what the very same gesture just opened:
+            // it upgrades the show to a focused open instead
+            if (
+              hoverShown &&
+              Date.now() - hoverShownAt <
+                (props.transitionDuration !== void 0
+                  ? Number(props.transitionDuration)
+                  : 300)
+            ) {
+              hoverShown = false
+              state.focus()
+              return
+            }
+
             closeMenu(e)
             targetRef.value?.focus()
             return
           }
 
           showPopup(e)
-        }
+        },
+        onPointerenter: onControlPointerenter,
+        onPointerleave: onControlPointerleave
       },
 
       getControl: fromDialog => {

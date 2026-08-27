@@ -2262,6 +2262,301 @@ describe('[QSelect API]', () => {
       })
     })
 
+    describe('[(prop)hover]', () => {
+      function getControl(wrapper) {
+        return wrapper.get('.q-field__control')
+      }
+
+      function hoverEnter(wrapper) {
+        return getControl(wrapper).trigger('pointerenter', {
+          pointerType: 'mouse'
+        })
+      }
+
+      function hoverLeave(wrapper, relatedTarget = null) {
+        getControl(wrapper).element.dispatchEvent(
+          new PointerEvent('pointerleave', {
+            pointerType: 'mouse',
+            relatedTarget
+          })
+        )
+        return flushPromises()
+      }
+
+      function getMenuContent(wrapper) {
+        const portal = wrapper.findComponent({ name: 'QPortal' })
+        if (!portal.exists()) return null
+
+        const menu = portal.find('.q-menu')
+        return menu.exists() ? menu.element : null
+      }
+
+      test('type Boolean has effect', async () => {
+        const wrapper = mountSelect({
+          hover: true,
+          hoverHideDelay: 0,
+          transitionDuration: 0
+        })
+
+        await hoverEnter(wrapper)
+        expect(getMenuContent(wrapper)).not.toBeNull()
+
+        await hoverLeave(wrapper)
+        await flushTimers()
+        await flushPromises()
+
+        expect(getMenuContent(wrapper)).toBeNull()
+
+        // without the prop, hovering must not open the options
+        await wrapper.setProps({ hover: false })
+        await hoverEnter(wrapper)
+
+        expect(getMenuContent(wrapper)).toBeNull()
+      })
+
+      test('a touch pointer does not trigger it', async () => {
+        const wrapper = mountSelect({ hover: true, transitionDuration: 0 })
+
+        await getControl(wrapper).trigger('pointerenter', {
+          pointerType: 'touch'
+        })
+
+        expect(getMenuContent(wrapper)).toBeNull()
+      })
+
+      test('does not steal focus, nor emit @focus, when opening', async () => {
+        const button = document.createElement('button')
+        document.body.append(button)
+
+        try {
+          const wrapper = mountSelect(
+            { hover: true, transitionDuration: 0 },
+            { attachTo: document.body }
+          )
+
+          button.focus()
+          await hoverEnter(wrapper)
+          await flushTimers()
+          await flushPromises()
+
+          expect(getMenuContent(wrapper)).not.toBeNull()
+          expect(document.activeElement).toBe(button)
+          expect(wrapper.emitted('focus')).toBeUndefined()
+          expect(wrapper.get('.q-field').classes()).not.toContain(
+            'q-field--focused'
+          )
+
+          wrapper.unmount()
+        } finally {
+          button.remove()
+        }
+      })
+
+      test('moving the pointer into the options menu keeps it open', async () => {
+        const wrapper = mountSelect({
+          hover: true,
+          hoverHideDelay: 0,
+          transitionDuration: 0
+        })
+
+        await hoverEnter(wrapper)
+
+        const menuContent = getMenuContent(wrapper)
+        expect(menuContent).not.toBeNull()
+
+        // the relatedTarget of a real crossing is the element entered
+        await hoverLeave(wrapper, menuContent)
+        await flushTimers()
+        await flushPromises()
+
+        expect(getMenuContent(wrapper)).not.toBeNull()
+
+        // leaving the menu for a foreign target closes it
+        menuContent.dispatchEvent(
+          new PointerEvent('pointerleave', { pointerType: 'mouse' })
+        )
+        await flushTimers()
+        await flushPromises()
+
+        expect(getMenuContent(wrapper)).toBeNull()
+      })
+
+      test('clicking the control of a fully shown hover menu toggles it closed', async () => {
+        const wrapper = mountSelect(
+          { hover: true, transitionDuration: 0 },
+          { attachTo: document.body }
+        )
+
+        await hoverEnter(wrapper)
+        expect(getMenuContent(wrapper)).not.toBeNull()
+
+        // with transition-duration 0 the show is never "still animating"
+        await getControl(wrapper).trigger('click')
+        await flushPromises()
+
+        expect(getMenuContent(wrapper)).toBeNull()
+
+        wrapper.unmount()
+      })
+
+      test('a click while the menu still animates in upgrades to a focused open', async () => {
+        vi.useFakeTimers()
+
+        try {
+          const wrapper = mountSelect(
+            { hover: true, transitionDuration: 300 },
+            { attachTo: document.body }
+          )
+
+          await hoverEnter(wrapper)
+          expect(getMenuContent(wrapper)).not.toBeNull()
+
+          // the move-and-click gesture's click lands right after the
+          // pointerenter, while the menu is still animating into view
+          await getControl(wrapper).trigger('click')
+
+          expect(getMenuContent(wrapper)).not.toBeNull()
+
+          // the deferred focus lands once the show transition settles
+          await vi.runAllTimersAsync()
+          await flushPromises()
+
+          expect(getMenuContent(wrapper)).not.toBeNull()
+          expect(wrapper.emitted('focus')).toHaveLength(1)
+          expect(document.activeElement).toBe(
+            wrapper.get('.q-select__focus-target').element
+          )
+
+          // once upgraded, the pointer leaving must not close it anymore
+          await hoverLeave(wrapper)
+          await vi.runAllTimersAsync()
+          await flushPromises()
+
+          expect(getMenuContent(wrapper)).not.toBeNull()
+
+          wrapper.unmount()
+        } finally {
+          vi.useRealTimers()
+        }
+      })
+
+      test('runs the filter of an unfocused select', async () => {
+        const onFilter = vi.fn((val, update) => {
+          update(() => {})
+        })
+        const wrapper = mountSelect({
+          hover: true,
+          transitionDuration: 0,
+          onFilter
+        })
+
+        await hoverEnter(wrapper)
+        await flushPromises()
+
+        expect(onFilter).toHaveBeenCalledOnce()
+        expect(getMenuContent(wrapper)).not.toBeNull()
+        expect(wrapper.emitted('focus')).toBeUndefined()
+      })
+
+      test('has no effect with behavior "dialog"', async () => {
+        const wrapper = mountSelect({
+          hover: true,
+          behavior: 'dialog',
+          transitionDuration: 0
+        })
+
+        await hoverEnter(wrapper)
+        await flushTimers()
+        await flushPromises()
+
+        expect(wrapper.findComponent({ name: 'QPortal' }).exists()).toBe(false)
+      })
+    })
+
+    describe('[(prop)hover-delay]', () => {
+      test('type Number has effect', async () => {
+        vi.useFakeTimers()
+
+        try {
+          const wrapper = mountSelect({
+            hover: true,
+            hoverDelay: 300,
+            transitionDuration: 0
+          })
+
+          await wrapper.get('.q-field__control').trigger('pointerenter', {
+            pointerType: 'mouse'
+          })
+
+          vi.advanceTimersByTime(299)
+          await flushPromises()
+          expect(wrapper.findComponent({ name: 'QPortal' }).exists()).toBe(
+            false
+          )
+
+          vi.advanceTimersByTime(1)
+          await flushPromises()
+          expect(
+            wrapper.findComponent({ name: 'QPortal' }).find('.q-menu').exists()
+          ).toBe(true)
+        } finally {
+          vi.useRealTimers()
+        }
+      })
+    })
+
+    describe('[(prop)hover-hide-delay]', () => {
+      test('type Number has effect', async () => {
+        vi.useFakeTimers()
+
+        try {
+          const wrapper = mountSelect({
+            hover: true,
+            hoverHideDelay: 300,
+            transitionDuration: 0
+          })
+
+          const control = wrapper.get('.q-field__control')
+
+          await control.trigger('pointerenter', { pointerType: 'mouse' })
+          expect(
+            wrapper.findComponent({ name: 'QPortal' }).find('.q-menu').exists()
+          ).toBe(true)
+
+          control.element.dispatchEvent(
+            new PointerEvent('pointerleave', { pointerType: 'mouse' })
+          )
+
+          // the grace period keeps it up...
+          vi.advanceTimersByTime(299)
+          await flushPromises()
+          expect(
+            wrapper.findComponent({ name: 'QPortal' }).find('.q-menu').exists()
+          ).toBe(true)
+
+          // ...and re-entering within it cancels the hide
+          await control.trigger('pointerenter', { pointerType: 'mouse' })
+          await vi.runAllTimersAsync()
+          await flushPromises()
+          expect(
+            wrapper.findComponent({ name: 'QPortal' }).find('.q-menu').exists()
+          ).toBe(true)
+
+          control.element.dispatchEvent(
+            new PointerEvent('pointerleave', { pointerType: 'mouse' })
+          )
+          vi.advanceTimersByTime(300)
+          await vi.runAllTimersAsync()
+          await flushPromises()
+          expect(wrapper.findComponent({ name: 'QPortal' }).exists()).toBe(
+            false
+          )
+        } finally {
+          vi.useRealTimers()
+        }
+      })
+    })
+
     describe('[(prop)no-chip-remove]', () => {
       test('type Boolean has effect', async () => {
         const wrapper = mountSelect({
