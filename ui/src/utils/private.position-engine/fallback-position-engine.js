@@ -51,10 +51,13 @@ export function applyPosition({
   centerShift = null
 }) {
   if (client.is.ios) {
-    // uses the q-position-engine CSS class
+    // uses the q-position-engine CSS class; no visualViewport (an
+    // iOS-simulating test environment) degrades to the CSS vars'
+    // built-in 0 defaults
 
     const bodyStyle = document.body.style
-    const { offsetLeft: left, offsetTop: top } = window.visualViewport
+    const { offsetLeft: left = 0, offsetTop: top = 0 } =
+      window.visualViewport ?? {}
 
     if (left !== vpLeft) {
       bodyStyle.setProperty('--q-pe-left', left + 'px')

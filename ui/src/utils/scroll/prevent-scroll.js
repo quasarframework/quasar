@@ -119,12 +119,14 @@ function apply(action) {
 
     if (isIos) {
       window.scrollTo(0, 0)
-      window.visualViewport.addEventListener(
+      // no visualViewport (an iOS-simulating test environment) only
+      // loses the keyboard-shrink scrollTop correction
+      window.visualViewport?.addEventListener(
         'resize',
         onAppleResize,
         listenOpts.passiveCapture
       )
-      window.visualViewport.addEventListener(
+      window.visualViewport?.addEventListener(
         'scroll',
         onAppleResize,
         listenOpts.passiveCapture
@@ -135,12 +137,12 @@ function apply(action) {
     // action === 'remove'
 
     if (isIos) {
-      window.visualViewport.removeEventListener(
+      window.visualViewport?.removeEventListener(
         'resize',
         onAppleResize,
         listenOpts.passiveCapture
       )
-      window.visualViewport.removeEventListener(
+      window.visualViewport?.removeEventListener(
         'scroll',
         onAppleResize,
         listenOpts.passiveCapture

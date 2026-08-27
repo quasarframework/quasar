@@ -25,9 +25,18 @@ function changeGlobalListeners(fnProp) {
     // only the visual viewport: no scroll event fires anywhere for those
     // steps, yet position:fixed popups stay pinned to the pre-scroll
     // viewport, so the subscribers must also run on visual viewport
-    // moves to read a settled offsetTop/offsetLeft
-    window.visualViewport[fnProp]('scroll', onViewportMove, listenOpts.passive)
-    window.visualViewport[fnProp]('resize', onViewportMove, listenOpts.passive)
+    // moves to read a settled offsetTop/offsetLeft; no visualViewport
+    // (an iOS-simulating test environment) only loses that re-anchoring
+    window.visualViewport?.[fnProp](
+      'scroll',
+      onViewportMove,
+      listenOpts.passive
+    )
+    window.visualViewport?.[fnProp](
+      'resize',
+      onViewportMove,
+      listenOpts.passive
+    )
   }
 }
 
