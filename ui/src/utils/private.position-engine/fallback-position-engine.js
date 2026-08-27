@@ -1,12 +1,15 @@
-import { getScrollbarWidth } from '../scroll/scroll.js'
 import { client } from '../../plugins/platform/Platform.js'
+import { listenOpts } from '../event/event.js'
 
 /**
- * The JS positioning engine: measures the anchor and the popup, then
- * writes pixel top/left styles. The position is only valid for the
- * moment it was computed, so its callers re-run it on every scroll step
- * (use-scroll-target), on anchor motion (trackAnchorMotion) and on
- * viewport changes.
+ * The JS positioning engine: expresses a placement decided by the
+ * shared boundary pass (position-engine.js) through pixel top/left
+ * styles. A written position is only valid for the moment it was
+ * computed, so its callers re-express the SAME frozen placement
+ * (applyPosition) on every scroll step (addScrollTracking) and on
+ * anchor motion (trackAnchorMotion) — the popup stays glued to its
+ * anchor and scrolls off-screen with it, exactly like the native
+ * engine's; only viewport/placement-prop changes re-open the decision.
  *
  * Serves every browser outside position-engine.js' supportsCssAnchor()
  * gate; the ones inside it run anchor-position-engine.js instead.
@@ -14,249 +17,206 @@ import { client } from '../../plugins/platform/Platform.js'
 
 let vpLeft, vpTop
 
-export function getAnchorProps(el, offset) {
-  let { top, left, right, bottom, width, height } = el.getBoundingClientRect()
-
-  if (offset !== void 0) {
-    top -= offset[1]
-    left -= offset[0]
-    bottom += offset[1]
-    right += offset[0]
-
-    width += offset[0]
-    height += offset[1]
-  }
-
-  return {
-    top,
-    bottom,
-    height,
-    left,
-    right,
-    width,
-    middle: left + (right - left) / 2,
-    center: top + (bottom - top) / 2
-  }
-}
-
-function getAbsoluteAnchorProps(el, absoluteOffset, offset) {
-  let { top, left } = el.getBoundingClientRect()
-
-  top += absoluteOffset.top
-  left += absoluteOffset.left
-
-  if (offset !== void 0) {
-    top += offset[1]
-    left += offset[0]
-  }
-
-  return {
-    top,
-    bottom: top + 1,
-    height: 1,
-    left,
-    right: left + 1,
-    width: 1,
-    middle: left,
-    center: top
-  }
-}
-
-function getTargetProps(width, height) {
-  return {
-    top: 0,
-    center: height / 2,
-    bottom: height,
-    left: 0,
-    middle: width / 2,
-    right: width
-  }
-}
-
-function getTopLeftProps(anchorProps, targetProps, anchorOrigin, selfOrigin) {
-  return {
-    top: anchorProps[anchorOrigin.vertical] - targetProps[selfOrigin.vertical],
-    left:
-      anchorProps[anchorOrigin.horizontal] - targetProps[selfOrigin.horizontal]
-  }
-}
-
-export function setPosition(cfg, retryNumber = 0) {
-  if (
-    cfg.targetEl === null ||
-    cfg.anchorEl === null ||
-    retryNumber > 5 // we should try only a few times
-  ) {
-    return
-  }
-
-  // some browsers report zero height or width because
-  // we are trying too early to get these dimensions
-  if (cfg.targetEl.offsetHeight === 0 || cfg.targetEl.offsetWidth === 0) {
-    setTimeout(() => {
-      setPosition(cfg, retryNumber + 1)
-    }, 10)
-    return
-  }
-
-  const {
-    targetEl,
-    offset,
-    anchorEl,
-    anchorOrigin,
-    selfOrigin,
-    absoluteOffset,
-    fit,
-    cover,
-    maxHeight,
-    maxWidth
-  } = cfg
-
+/**
+ * Writes the pixel styles for one placement pass. anchorOrigin/
+ * selfOrigin arrive decision-resolved (post applyBoundary /
+ * applyPointBoundary) and capHeight/capWidth carry the decision's size
+ * caps; maxHeight/maxWidth stay the raw props, which alone bound the
+ * fit/cover minimum sizes (mirroring the native engine, where the
+ * min() expressions are built from the props while the caps overwrite
+ * only the max sizes).
+ *
+ * A centered popup on a centered anchor line (anchor-center on the
+ * native engine) shifts to stay inside the viewport, but the browser
+ * computes that shift at LAYOUT time only: scrolling merely translates
+ * the popup 1:1 with its anchor afterwards. Mirrored here through
+ * `centerShift`: a decision pass (null) computes and returns the
+ * shift, a tracking pass re-applies the frozen one it is handed.
+ *
+ * `point` positions relative to a coordinate inside the anchor (touch
+ * position / context menu) instead of the anchor's box.
+ */
+export function applyPosition({
+  targetEl: el,
+  anchorEl,
+  anchorOrigin,
+  selfOrigin,
+  offset,
+  point,
+  fit,
+  cover,
+  maxHeight,
+  maxWidth,
+  capHeight,
+  capWidth,
+  centerShift = null
+}) {
   if (client.is.ios && window.visualViewport !== void 0) {
     // uses the q-position-engine CSS class
 
-    const el = document.body.style
+    const bodyStyle = document.body.style
     const { offsetLeft: left, offsetTop: top } = window.visualViewport
 
     if (left !== vpLeft) {
-      el.setProperty('--q-pe-left', left + 'px')
+      bodyStyle.setProperty('--q-pe-left', left + 'px')
       vpLeft = left
     }
     if (top !== vpTop) {
-      el.setProperty('--q-pe-top', top + 'px')
+      bodyStyle.setProperty('--q-pe-top', top + 'px')
       vpTop = top
     }
   }
 
-  // scroll position might change
-  // if max-height/-width changes, so we
-  // need to restore it after we calculate
-  // the new positioning
-  const { scrollLeft, scrollTop } = targetEl
+  // the popup's own scroll position might reset if its max size
+  // changes; restore it after the writes
+  const { scrollLeft, scrollTop } = el
 
-  const anchorProps =
-    absoluteOffset === void 0
-      ? getAnchorProps(anchorEl, cover ? [0, 0] : offset)
-      : getAbsoluteAnchorProps(anchorEl, absoluteOffset, offset)
+  const rect = anchorEl.getBoundingClientRect()
+  const useOffset = offset !== void 0 && cover !== true
+  const ox = useOffset ? offset[0] : 0
+  const oy = useOffset ? offset[1] : 0
 
-  /**
-   * We "reset" the critical CSS properties
-   * so we can take an accurate measurement.
-   *
-   * Ensure that targetEl has a max-width & max-height
-   * set in CSS and that the value does NOT exceeds 100vw/vh.
-   * All users of the position-engine (currently QMenu & QTooltip)
-   * have CSS for this.
-   */
-  Object.assign(targetEl.style, {
-    top: 0,
-    left: 0,
+  const style = {
+    // is removed on this first positioning (q-position-engine CSS class)
+    visibility: 'visible',
+    maxHeight: capHeight ?? maxHeight,
+    maxWidth: capWidth ?? maxWidth,
     minWidth: null,
-    minHeight: null,
-    maxWidth,
-    maxHeight,
-    visibility: 'visible'
-  })
+    minHeight: null
+  }
 
-  const { offsetWidth: origElWidth, offsetHeight: origElHeight } = targetEl
-  const { elWidth, elHeight } =
-    fit || cover
-      ? {
-          elWidth: Math.max(anchorProps.width, origElWidth),
-          elHeight: cover
-            ? Math.max(anchorProps.height, origElHeight)
-            : origElHeight
-        }
-      : { elWidth: origElWidth, elHeight: origElHeight }
+  if (fit === true || cover === true) {
+    style.minWidth = maxWidth
+      ? `min(${rect.width}px, ${maxWidth})`
+      : rect.width + 'px'
 
-  let elStyle = { maxWidth, maxHeight }
-
-  if (fit || cover) {
-    elStyle.minWidth = anchorProps.width + 'px'
-    if (cover) {
-      elStyle.minHeight = anchorProps.height + 'px'
+    if (cover === true) {
+      style.minHeight = maxHeight
+        ? `min(${rect.height}px, ${maxHeight})`
+        : rect.height + 'px'
     }
   }
 
-  Object.assign(targetEl.style, elStyle)
+  Object.assign(el.style, style)
 
-  const targetProps = getTargetProps(elWidth, elHeight)
-  let props = getTopLeftProps(
-    anchorProps,
-    targetProps,
-    anchorOrigin,
-    selfOrigin
-  )
+  const { offsetWidth: width, offsetHeight: height } = el
+  const { clientWidth: VW, clientHeight: VH } = document.documentElement
+  const shift = { top: 0, left: 0 }
+  let top, left
 
-  if (absoluteOffset === void 0 || offset === void 0) {
-    applyBoundaries(props, anchorProps, targetProps, anchorOrigin, selfOrigin)
+  if (point !== void 0) {
+    const lineY = rect.top + point.top + oy
+    const lineX = rect.left + point.left + ox
+
+    top =
+      selfOrigin.vertical === 'bottom'
+        ? lineY - height
+        : selfOrigin.vertical === 'center'
+          ? lineY - height / 2
+          : lineY
+    left =
+      selfOrigin.horizontal === 'right'
+        ? lineX - width
+        : selfOrigin.horizontal === 'middle'
+          ? lineX - width / 2
+          : lineX
   } else {
-    // we have touch position or context menu with offset
-    const { top, left } = props // cache initial values
-
-    // apply initial boundaries
-    applyBoundaries(props, anchorProps, targetProps, anchorOrigin, selfOrigin)
-
-    let hasChanged = false
-
-    // did it flip vertically?
-    if (props.top !== top) {
-      hasChanged = true
-      const offsetY = 2 * offset[1]
-      anchorProps.center = anchorProps.top -= offsetY
-      anchorProps.bottom -= offsetY + 2
+    // the offset-expanded anchor box, same as the decision pass'
+    const A = {
+      top: rect.top - oy,
+      bottom: rect.bottom + oy,
+      center: rect.top + (rect.bottom - rect.top) / 2,
+      left: rect.left - ox,
+      right: rect.right + ox,
+      middle: rect.left + (rect.right - rect.left) / 2
     }
 
-    // did it flip horizontally?
-    if (props.left !== left) {
-      hasChanged = true
-      const offsetX = 2 * offset[0]
-      anchorProps.middle = anchorProps.left -= offsetX
-      anchorProps.right -= offsetX + 2
+    const lineY = A[anchorOrigin.vertical]
+
+    if (selfOrigin.vertical === 'center') {
+      top = lineY - height / 2
+
+      if (anchorOrigin.vertical === 'center') {
+        shift.top =
+          centerShift !== null
+            ? centerShift.top
+            : Math.max(0, Math.min(top, VH - height)) - top
+        top += shift.top
+      }
+    } else {
+      top = lineY - (selfOrigin.vertical === 'bottom' ? height : 0)
     }
 
-    if (hasChanged) {
-      // re-calculate props with the new anchor
-      props = getTopLeftProps(
-        anchorProps,
-        targetProps,
-        anchorOrigin,
-        selfOrigin
-      )
+    const lineX = A[anchorOrigin.horizontal]
 
-      // and re-apply boundaries
-      applyBoundaries(props, anchorProps, targetProps, anchorOrigin, selfOrigin)
-    }
-  }
+    if (selfOrigin.horizontal === 'middle') {
+      left = lineX - width / 2
 
-  elStyle = {
-    top: props.top + 'px',
-    left: props.left + 'px'
-  }
-
-  if (props.maxHeight !== void 0) {
-    elStyle.maxHeight = props.maxHeight + 'px'
-
-    if (anchorProps.height > props.maxHeight) {
-      elStyle.minHeight = elStyle.maxHeight
-    }
-  }
-  if (props.maxWidth !== void 0) {
-    elStyle.maxWidth = props.maxWidth + 'px'
-
-    if (anchorProps.width > props.maxWidth) {
-      elStyle.minWidth = elStyle.maxWidth
+      if (anchorOrigin.horizontal === 'middle') {
+        shift.left =
+          centerShift !== null
+            ? centerShift.left
+            : Math.max(0, Math.min(left, VW - width)) - left
+        left += shift.left
+      }
+    } else {
+      left = lineX - (selfOrigin.horizontal === 'right' ? width : 0)
     }
   }
 
-  Object.assign(targetEl.style, elStyle)
+  el.style.top = top + 'px'
+  el.style.left = left + 'px'
 
-  // restore scroll position
-  if (targetEl.scrollTop !== scrollTop) {
-    targetEl.scrollTop = scrollTop
+  if (el.scrollTop !== scrollTop) {
+    el.scrollTop = scrollTop
   }
-  if (targetEl.scrollLeft !== scrollLeft) {
-    targetEl.scrollLeft = scrollLeft
+  if (el.scrollLeft !== scrollLeft) {
+    el.scrollLeft = scrollLeft
+  }
+
+  return shift
+}
+
+/**
+ * One capture-phase document listener tracks every scrolling container
+ * at once — nested ones included, which per-container listeners could
+ * never cover — and fans out to the shown popups. Each subscriber
+ * filters out scrolls originating inside its own popup (they never move
+ * its anchor) and re-expresses its frozen placement for the rest.
+ */
+const scrollSubscribers = new Set()
+
+function onViewportMove(evt) {
+  scrollSubscribers.forEach(fn => {
+    fn(evt)
+  })
+}
+
+function changeGlobalListeners(fnProp) {
+  document[fnProp]('scroll', onViewportMove, listenOpts.passiveCapture)
+
+  if (client.is.ios && window.visualViewport !== void 0) {
+    // with the soft keyboard open (or while pinch-zoomed), iOS scrolls
+    // only the visual viewport: no scroll event fires anywhere for those
+    // steps, yet position:fixed popups stay pinned to the pre-scroll
+    // viewport, so the subscribers must also run on visual viewport
+    // moves to read a settled offsetTop/offsetLeft
+    window.visualViewport[fnProp]('scroll', onViewportMove, listenOpts.passive)
+    window.visualViewport[fnProp]('resize', onViewportMove, listenOpts.passive)
+  }
+}
+
+export function addScrollTracking(fn) {
+  if (scrollSubscribers.size === 0) {
+    changeGlobalListeners('addEventListener')
+  }
+
+  scrollSubscribers.add(fn)
+}
+
+export function removeScrollTracking(fn) {
+  if (scrollSubscribers.delete(fn) && scrollSubscribers.size === 0) {
+    changeGlobalListeners('removeEventListener')
   }
 }
 
@@ -308,82 +268,6 @@ export function trackAnchorMotion(getAnchorEl, onMove, duration) {
     if (rafId !== null) {
       cancelAnimationFrame(rafId)
       rafId = null
-    }
-  }
-}
-
-function applyBoundaries(
-  props,
-  anchorProps,
-  targetProps,
-  anchorOrigin,
-  selfOrigin
-) {
-  const currentHeight = targetProps.bottom,
-    currentWidth = targetProps.right,
-    margin = getScrollbarWidth(),
-    innerHeight = window.innerHeight - margin,
-    innerWidth = document.body.clientWidth
-
-  if (props.top < 0 || props.top + currentHeight > innerHeight) {
-    if (selfOrigin.vertical === 'center') {
-      props.top =
-        anchorProps[anchorOrigin.vertical] > innerHeight / 2
-          ? Math.max(0, innerHeight - currentHeight)
-          : 0
-      props.maxHeight = Math.min(currentHeight, innerHeight)
-    } else if (anchorProps[anchorOrigin.vertical] > innerHeight / 2) {
-      const anchorY = Math.min(
-        innerHeight,
-        anchorOrigin.vertical === 'center'
-          ? anchorProps.center
-          : anchorOrigin.vertical === selfOrigin.vertical
-            ? anchorProps.bottom
-            : anchorProps.top
-      )
-      props.maxHeight = Math.min(currentHeight, anchorY)
-      props.top = Math.max(0, anchorY - currentHeight)
-    } else {
-      props.top = Math.max(
-        0,
-        anchorOrigin.vertical === 'center'
-          ? anchorProps.center
-          : anchorOrigin.vertical === selfOrigin.vertical
-            ? anchorProps.top
-            : anchorProps.bottom
-      )
-      props.maxHeight = Math.min(currentHeight, innerHeight - props.top)
-    }
-  }
-
-  if (props.left < 0 || props.left + currentWidth > innerWidth) {
-    props.maxWidth = Math.min(currentWidth, innerWidth)
-    if (selfOrigin.horizontal === 'middle') {
-      props.left =
-        anchorProps[anchorOrigin.horizontal] > innerWidth / 2
-          ? Math.max(0, innerWidth - currentWidth)
-          : 0
-    } else if (anchorProps[anchorOrigin.horizontal] > innerWidth / 2) {
-      const anchorX = Math.min(
-        innerWidth,
-        anchorOrigin.horizontal === 'middle'
-          ? anchorProps.middle
-          : anchorOrigin.horizontal === selfOrigin.horizontal
-            ? anchorProps.right
-            : anchorProps.left
-      )
-      props.maxWidth = Math.min(currentWidth, anchorX)
-      props.left = Math.max(0, anchorX - props.maxWidth)
-    } else {
-      props.left = Math.max(
-        0,
-        anchorOrigin.horizontal === 'middle'
-          ? anchorProps.middle
-          : anchorOrigin.horizontal === selfOrigin.horizontal
-            ? anchorProps.left
-            : anchorProps.right
-      )
-      props.maxWidth = Math.min(currentWidth, innerWidth - props.left)
     }
   }
 }

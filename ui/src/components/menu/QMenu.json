@@ -80,11 +80,6 @@
       "category": "position"
     },
 
-    "scroll-target": {
-      "extends": "scroll-target",
-      "desc": "CSS selector or DOM element to be used as a custom scroll container instead of the auto detected one; Only used by the JS positioning fallback of browsers without CSS anchor positioning support (on the others the browser tracks any scrolling container natively, with no listeners)"
-    },
-
     "touch-position": {
       "type": "Boolean",
       "desc": "Allows for the target position to be set by the mouse position, when the target of the menu is either clicked or touched",
@@ -196,7 +191,7 @@
 
   "methods": {
     "updatePosition": {
-      "desc": "On browsers with CSS anchor positioning support the browser keeps the menu positioned against its target automatically and this method only re-checks whether the intended placement still fits the viewport; on the JS positioning fallback of other browsers it recomputes the position for the custom scenarios which Quasar cannot detect without significant performance drawbacks",
+      "desc": "The menu follows its target automatically (through any scrolling container) and this method only re-checks whether the intended placement still fits the viewport (which side the menu opens to and its maximum size); call it for the scenarios Quasar cannot detect, e.g. after replacing the menu's content while it is shown",
       "params": null,
       "returns": null
     },

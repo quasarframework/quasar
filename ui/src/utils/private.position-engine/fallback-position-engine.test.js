@@ -1,10 +1,10 @@
 import { afterEach, describe, expect, test, vi } from 'vitest'
 
 import { client } from '../../plugins/platform/Platform.js'
-import { getScrollbarWidth } from '../scroll/scroll.js'
 import {
-  getAnchorProps,
-  setPosition,
+  addScrollTracking,
+  applyPosition,
+  removeScrollTracking,
   trackAnchorMotion
 } from './fallback-position-engine.js'
 
@@ -76,18 +76,9 @@ function createTarget({ width = 150, height = 50 } = {}) {
 }
 
 /**
- * The viewport exactly as the position engine sees it.
- */
-function viewportSize() {
-  return {
-    width: document.body.clientWidth,
-    height: window.innerHeight - getScrollbarWidth()
-  }
-}
-
-/**
  * Builds a config where the anchor is a real 100x30 box at (100, 100) and
- * the target a real 150x50 one, laid out in the actual viewport.
+ * the target a real 150x50 one, laid out in the actual viewport. The
+ * origins arrive decision-resolved, exactly like the components pass them.
  */
 function createConfig({
   anchorRect = { top: 100, left: 100, width: 100, height: 30 },
@@ -105,250 +96,273 @@ function createConfig({
 
 describe('[fallbackPositionEngine API]', () => {
   describe('[Functions]', () => {
-    describe('[(function)getAnchorProps]', () => {
-      test('derives the middle and center out of the bounding rect', () => {
-        const el = createAnchor({
-          top: 100,
-          left: 200,
-          width: 100,
-          height: 40
-        })
-
-        expect(getAnchorProps(el)).toStrictEqual({
-          top: 100,
-          bottom: 140,
-          height: 40,
-          left: 200,
-          right: 300,
-          width: 100,
-          middle: 250,
-          center: 120
-        })
-      })
-
-      test('inflates the anchor by the supplied offset', () => {
-        const el = createAnchor({
-          top: 100,
-          left: 200,
-          width: 100,
-          height: 40
-        })
-
-        expect(getAnchorProps(el, [10, 5])).toStrictEqual({
-          top: 95,
-          bottom: 145,
-          height: 45,
-          left: 190,
-          right: 310,
-          width: 110,
-          middle: 250,
-          center: 120
-        })
-      })
-    })
-
-    describe('[(function)setPosition]', () => {
-      test.each([
-        ['the target is gone', { targetEl: null }],
-        ['the anchor is gone', { anchorEl: null }]
-      ])('does nothing when %s', (_, override) => {
-        vi.useFakeTimers()
-        const cfg = { ...createConfig(), ...override }
-
-        expect(setPosition(cfg)).toBeUndefined()
-        expect(vi.getTimerCount()).toBe(0)
-      })
-
+    describe('[(function)applyPosition]', () => {
       test('places the target right under the anchor', () => {
         const cfg = createConfig()
 
-        setPosition(cfg)
+        applyPosition(cfg)
 
+        const rect = cfg.targetEl.getBoundingClientRect()
+        expect(rect.top).toBe(130)
+        expect(rect.left).toBe(100)
         expect(cfg.targetEl.style.top).toBe('130px')
-        expect(cfg.targetEl.style.left).toBe('100px')
         expect(cfg.targetEl.style.visibility).toBe('visible')
       })
 
-      test('honors the anchor and self origins', () => {
+      test('honors the resolved anchor and self origins', () => {
+        const cfg = createConfig({
+          anchorOrigin: { vertical: 'bottom', horizontal: 'right' },
+          selfOrigin: { vertical: 'bottom', horizontal: 'right' }
+        })
+
+        applyPosition(cfg)
+
+        const rect = cfg.targetEl.getBoundingClientRect()
+        // target bottom at 130, right at 200
+        expect(rect.top).toBe(80)
+        expect(rect.left).toBe(50)
+      })
+
+      test('offsets the anchor when an offset is supplied', () => {
+        const cfg = createConfig({ offset: [5, 10] })
+
+        applyPosition(cfg)
+
+        const rect = cfg.targetEl.getBoundingClientRect()
+        expect(rect.top).toBe(140)
+        expect(rect.left).toBe(95)
+      })
+
+      test('expresses the placement even off-screen, with no re-clamping', () => {
+        const cfg = createConfig({
+          anchorRect: { top: -200, left: 100, width: 100, height: 30 }
+        })
+
+        applyPosition(cfg)
+
+        // the popup follows the anchor out instead of staying visible
+        expect(cfg.targetEl.getBoundingClientRect().top).toBe(-170)
+      })
+
+      test('applies the decision caps on top of the prop max sizes', () => {
+        const cfg = createConfig({
+          anchorOrigin: { vertical: 'top', horizontal: 'left' },
+          selfOrigin: { vertical: 'bottom', horizontal: 'left' },
+          capHeight: '40px'
+        })
+
+        applyPosition(cfg)
+
+        expect(cfg.targetEl.style.maxHeight).toBe('40px')
+
+        // the capped (40px) box hangs from the anchor's top edge
+        const rect = cfg.targetEl.getBoundingClientRect()
+        expect(rect.height).toBe(40)
+        expect(rect.top).toBe(60)
+      })
+
+      test('clamps a centered popup on a decision pass (anchor-center parity)', () => {
+        const cfg = createConfig({
+          anchorRect: { top: 100, left: 0, width: 40, height: 30 },
+          anchorOrigin: { vertical: 'bottom', horizontal: 'middle' },
+          selfOrigin: { vertical: 'top', horizontal: 'middle' }
+        })
+
+        const shift = applyPosition(cfg)
+
+        // centered on x=20 the 150px target would start at -55; native
+        // anchor-center clamps it to the edge at layout time
+        expect(cfg.targetEl.getBoundingClientRect().left).toBe(0)
+        expect(shift).toStrictEqual({ top: 0, left: 55 })
+      })
+
+      test('tracking re-applies the frozen center shift instead of re-clamping', () => {
         const cfg = createConfig({
           anchorOrigin: { vertical: 'center', horizontal: 'middle' },
           selfOrigin: { vertical: 'center', horizontal: 'middle' }
         })
 
-        // anchor center/middle is (115, 150), target center/middle is (25, 75)
-        setPosition(cfg)
+        // decision pass over an on-screen anchor: nothing to shift
+        const shift = applyPosition(cfg)
+        expect(shift).toStrictEqual({ top: 0, left: 0 })
 
-        expect(cfg.targetEl.style.top).toBe('90px')
-        expect(cfg.targetEl.style.left).toBe('75px')
+        // the anchor scrolls far off-screen; a tracking pass keeps the
+        // frozen shift, so the popup follows instead of staying visible
+        // (native anchor-center only translates with the scroll too)
+        cfg.anchorEl.style.top = '-500px'
+        applyPosition({ ...cfg, centerShift: shift })
+
+        // anchor center at -485, target height 50
+        expect(cfg.targetEl.getBoundingClientRect().top).toBe(-510)
       })
 
-      test('offsets the anchor when an offset is supplied', () => {
-        const cfg = createConfig({ offset: [10, 5] })
-
-        setPosition(cfg)
-
-        expect(cfg.targetEl.style.top).toBe('135px')
-        expect(cfg.targetEl.style.left).toBe('90px')
-      })
-
-      test('flips above the anchor when there is no room below', () => {
-        const { height } = viewportSize()
-        // the 30px tall anchor sits so close to the bottom edge that the
-        // 50px tall target cannot fit below it anymore
-        const anchorTop = height - 68
+      test('does not clamp a centered self origin on an edge line', () => {
         const cfg = createConfig({
-          anchorRect: { top: anchorTop, left: 100, width: 100, height: 30 }
+          anchorRect: { top: 100, left: 0, width: 40, height: 30 },
+          anchorOrigin: { vertical: 'bottom', horizontal: 'left' },
+          selfOrigin: { vertical: 'top', horizontal: 'middle' }
         })
 
-        setPosition(cfg)
+        applyPosition(cfg)
 
-        // it must not overflow the viewport anymore
-        const top = Number.parseFloat(cfg.targetEl.style.top)
-        const maxHeight = Number.parseFloat(cfg.targetEl.style.maxHeight)
-
-        expect(top).toBe(anchorTop - 50)
-        expect(top + maxHeight).toBeLessThanOrEqual(height)
-      })
-
-      test('shrinks the target when it cannot fit the viewport at all', () => {
-        const { height } = viewportSize()
-        const cfg = createConfig({
-          anchorRect: { top: 300, left: 100, width: 100, height: 30 },
-          targetSize: { width: 150, height: 2000 }
-        })
-
-        setPosition(cfg)
-
-        expect(cfg.targetEl.style.top).toBe('330px')
-        expect(cfg.targetEl.style.maxHeight).toBe(`${height - 330}px`)
-      })
-
-      test('keeps the target inside the viewport horizontally', () => {
-        const { width } = viewportSize()
-        // a 30px wide anchor near the right edge, so the 150px wide
-        // target would overflow the viewport
-        const cfg = createConfig({
-          anchorRect: { top: 100, left: width - 44, width: 30, height: 30 }
-        })
-
-        setPosition(cfg)
-
-        const left = Number.parseFloat(cfg.targetEl.style.left)
-        const maxWidth = Number.parseFloat(cfg.targetEl.style.maxWidth)
-
-        expect(left).toBeGreaterThanOrEqual(0)
-        expect(left + maxWidth).toBeLessThanOrEqual(width)
+        // the native path uses a plain -50% translate here, unclamped
+        expect(cfg.targetEl.getBoundingClientRect().left).toBe(-75)
       })
 
       test('matches the anchor width when fitting', () => {
         const cfg = createConfig({
-          fit: true,
-          anchorRect: { top: 100, left: 100, width: 300, height: 30 }
+          anchorRect: { top: 100, left: 100, width: 300, height: 30 },
+          fit: true
         })
 
-        setPosition(cfg)
+        applyPosition(cfg)
 
         expect(cfg.targetEl.style.minWidth).toBe('300px')
-        expect(cfg.targetEl.style.minHeight).toBe('')
+        expect(cfg.targetEl.getBoundingClientRect().width).toBe(300)
       })
 
-      test('matches the anchor box when covering', () => {
+      test('matches the anchor box and drops the offset when covering', () => {
         const cfg = createConfig({
+          anchorRect: { top: 100, left: 100, width: 300, height: 80 },
           cover: true,
-          offset: [10, 5],
-          anchorRect: { top: 100, left: 100, width: 300, height: 30 }
+          offset: [10, 10]
         })
 
-        setPosition(cfg)
+        applyPosition(cfg)
 
-        expect(cfg.targetEl.style.minWidth).toBe('300px')
-        expect(cfg.targetEl.style.minHeight).toBe('30px')
-
-        // covering ignores the offset
-        expect(cfg.targetEl.style.top).toBe('130px')
-        expect(cfg.targetEl.style.left).toBe('100px')
+        const rect = cfg.targetEl.getBoundingClientRect()
+        expect(rect.width).toBe(300)
+        expect(rect.height).toBe(80)
+        // the offset is ignored while covering
+        expect(rect.top).toBe(180)
       })
 
-      test('treats an absolute offset as a 1x1 anchor', () => {
+      test('anchors a point popup to the coordinates inside the anchor', () => {
         const cfg = createConfig({
-          anchorRect: { top: 10, left: 20, width: 0, height: 0 },
-          absoluteOffset: { top: 200, left: 300 },
-          offset: [5, 7]
+          point: { top: 20, left: 30 }
         })
 
-        setPosition(cfg)
+        applyPosition(cfg)
 
-        // the 1x1 anchor sits at (10 + 200 + 7, 20 + 300 + 5)
-        expect(cfg.targetEl.style.top).toBe('218px')
-        expect(cfg.targetEl.style.left).toBe('325px')
+        const rect = cfg.targetEl.getBoundingClientRect()
+        expect(rect.top).toBe(120)
+        expect(rect.left).toBe(130)
       })
 
-      test('re-anchors an absolutely offset target when it flips', () => {
-        const { height } = viewportSize()
-        // a "touch position" so close to the bottom edge that the 50px
-        // tall target cannot fit below it
-        const pointerTop = height - 28
+      test('mirrors a point popup around the coordinates when the self origin says so', () => {
         const cfg = createConfig({
-          anchorRect: { top: 0, left: 0, width: 0, height: 0 },
-          absoluteOffset: { top: pointerTop, left: 300 },
-          offset: [5, 7]
+          point: { top: 20, left: 30 },
+          selfOrigin: { vertical: 'bottom', horizontal: 'right' }
         })
 
-        setPosition(cfg)
+        applyPosition(cfg)
 
-        const top = Number.parseFloat(cfg.targetEl.style.top)
-        const maxHeight = Number.parseFloat(cfg.targetEl.style.maxHeight)
-
-        // it sits above the pointer, clear of the offset it was pushed by
-        expect(top).toBeLessThan(pointerTop)
-        expect(top + maxHeight).toBeLessThanOrEqual(height)
-      })
-
-      test('retries until the target reports its dimensions', () => {
-        vi.useFakeTimers()
-        const cfg = createConfig({ targetSize: { width: 0, height: 0 } })
-
-        setPosition(cfg)
-
-        vi.advanceTimersByTime(10)
-        expect(cfg.targetEl.style.top).toBe('')
-
-        cfg.targetEl.style.width = '150px'
-        cfg.targetEl.style.height = '50px'
-        vi.advanceTimersByTime(10)
-
-        expect(cfg.targetEl.style.top).toBe('130px')
-      })
-
-      test('gives up retrying after a few attempts', () => {
-        vi.useFakeTimers()
-        const cfg = createConfig({ targetSize: { width: 0, height: 0 } })
-
-        setPosition(cfg)
-        vi.advanceTimersByTime(10 * 20)
-
-        expect(vi.getTimerCount()).toBe(0)
-        expect(cfg.targetEl.style.top).toBe('')
+        const rect = cfg.targetEl.getBoundingClientRect()
+        expect(rect.bottom).toBe(120)
+        expect(rect.right).toBe(130)
       })
 
       test('publishes the iOS visual viewport offsets as CSS variables', () => {
-        const originalIos = client.is.ios
-        client.is.ios = true
-        restoreFns.push(() => {
-          client.is.ios = originalIos
-        })
+        mockProperty(client.is, 'ios', true)
+        mockProperty(window.visualViewport, 'offsetLeft', 5)
+        mockProperty(window.visualViewport, 'offsetTop', 7)
 
-        // the real visualViewport only reports non-zero offsets during a
-        // pinch-zoom, which cannot be driven deterministically here
-        mockProperty(window, 'visualViewport', {
-          offsetLeft: 13,
-          offsetTop: 27
-        })
+        applyPosition(createConfig())
 
-        setPosition(createConfig())
+        expect(document.body.style.getPropertyValue('--q-pe-left')).toBe('5px')
+        expect(document.body.style.getPropertyValue('--q-pe-top')).toBe('7px')
+      })
+    })
 
-        expect(document.body.style.getPropertyValue('--q-pe-left')).toBe('13px')
-        expect(document.body.style.getPropertyValue('--q-pe-top')).toBe('27px')
+    describe('[(function)addScrollTracking]', () => {
+      test('fans a scroll from any container out to every subscriber', () => {
+        const container = document.createElement('div')
+        document.body.append(container)
+        nodes.push(container)
+
+        const first = vi.fn()
+        const second = vi.fn()
+
+        addScrollTracking(first)
+        addScrollTracking(second)
+
+        try {
+          // a nested container no per-element listener was ever bound to
+          container.dispatchEvent(new Event('scroll'))
+
+          expect(first).toHaveBeenCalledTimes(1)
+          expect(second).toHaveBeenCalledTimes(1)
+          expect(first.mock.calls[0][0].target).toBe(container)
+        } finally {
+          removeScrollTracking(first)
+          removeScrollTracking(second)
+        }
+      })
+
+      test('installs one shared document listener, refcounted', () => {
+        const addSpy = vi.spyOn(document, 'addEventListener')
+        const first = vi.fn()
+        const second = vi.fn()
+
+        addScrollTracking(first)
+        addScrollTracking(second)
+
+        try {
+          const scrollRegistrations = addSpy.mock.calls.filter(
+            call => call[0] === 'scroll'
+          )
+          expect(scrollRegistrations).toHaveLength(1)
+          expect(scrollRegistrations[0][2]).toMatchObject({
+            capture: true,
+            passive: true
+          })
+        } finally {
+          removeScrollTracking(first)
+          removeScrollTracking(second)
+        }
+      })
+    })
+
+    describe('[(function)removeScrollTracking]', () => {
+      test('stops the removed subscriber while others stay live', () => {
+        const removed = vi.fn()
+        const kept = vi.fn()
+
+        addScrollTracking(removed)
+        addScrollTracking(kept)
+        removeScrollTracking(removed)
+
+        try {
+          document.dispatchEvent(new Event('scroll'))
+
+          expect(removed).not.toHaveBeenCalled()
+          expect(kept).toHaveBeenCalledTimes(1)
+        } finally {
+          removeScrollTracking(kept)
+        }
+      })
+
+      test('drops the document listener with the last subscriber', () => {
+        const removeSpy = vi.spyOn(document, 'removeEventListener')
+        const first = vi.fn()
+        const second = vi.fn()
+
+        addScrollTracking(first)
+        addScrollTracking(second)
+
+        removeScrollTracking(first)
+        expect(
+          removeSpy.mock.calls.filter(call => call[0] === 'scroll')
+        ).toHaveLength(0)
+
+        removeScrollTracking(second)
+        expect(
+          removeSpy.mock.calls.filter(call => call[0] === 'scroll')
+        ).toHaveLength(1)
+
+        document.dispatchEvent(new Event('scroll'))
+        expect(first).not.toHaveBeenCalled()
+        expect(second).not.toHaveBeenCalled()
       })
     })
 

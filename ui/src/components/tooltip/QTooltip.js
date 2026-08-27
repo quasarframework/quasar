@@ -12,7 +12,6 @@ import useQuasar from '../../composables/use-quasar/use-quasar.js'
 import useAnchor, {
   useAnchorStaticProps
 } from '../../composables/private.use-anchor/use-anchor.js'
-import useScrollTarget from '../../composables/private.use-scroll-target/use-scroll-target.js'
 import useModelToggle, {
   useModelToggleEmits,
   useModelToggleProps
@@ -26,7 +25,6 @@ import useTransitionEnd from '../../composables/private.use-transition-end/use-t
 import useId from '../../composables/use-id/use-id.js'
 
 import { createComponent } from '../../utils/private.create/create.js'
-import { getScrollTarget, scrollTargetProp } from '../../utils/scroll/scroll.js'
 import { addEvt, cleanEvt } from '../../utils/event/event.js'
 import {
   addEscapeKey,
@@ -35,19 +33,21 @@ import {
 import { clearSelection } from '../../utils/private.selection/selection.js'
 import { hSlot } from '../../utils/private.render/render.js'
 import {
+  applyBoundary,
   parsePosition,
   supportsCssAnchor,
   validateOffset,
   validatePosition
 } from '../../utils/private.position-engine/position-engine.js'
 import {
-  applyBoundary,
   getPositionStyle,
   removeAnchorName,
   setAnchorName
 } from '../../utils/private.position-engine/anchor-position-engine.js'
 import {
-  setPosition,
+  addScrollTracking,
+  applyPosition,
+  removeScrollTracking,
   trackAnchorMotion
 } from '../../utils/private.position-engine/fallback-position-engine.js'
 
@@ -101,12 +101,16 @@ function useCssAnchorEngine(
     return style
   })
 
-  const releaseAnchor = () => {
-    if (namedAnchorEl !== null) {
-      removeAnchorName(namedAnchorEl)
-      namedAnchorEl = null
+  const releaseAnchor = hidingInProgress => {
+    // hidingInProgress keeps the anchor name until the leave transition
+    // is done (the tooltip would lose its position mid-animation)
+    if (!hidingInProgress) {
+      if (namedAnchorEl !== null) {
+        removeAnchorName(namedAnchorEl)
+        namedAnchorEl = null
+      }
+      anchorName.value = ''
     }
-    anchorName.value = ''
   }
 
   // with CSS anchor positioning the browser owns the tracking and JS
@@ -140,7 +144,7 @@ function useCssAnchorEngine(
       // a rapid re-show can land while the previous hide transition
       // still holds the name; reuse it instead of acquiring twice
       if (namedAnchorEl !== anchorEl.value) {
-        releaseAnchor()
+        releaseAnchor(false)
         namedAnchorEl = anchorEl.value
         anchorName.value = setAnchorName(namedAnchorEl)
       }
@@ -153,44 +157,96 @@ function useCssAnchorEngine(
 
 function useFallbackEngine(
   props,
-  { anchorEl, innerRef, anchorOrigin, selfOrigin, registerTick, hide }
+  { anchorEl, innerRef, anchorOrigin, selfOrigin, registerTick }
 ) {
-  let observer, stopAnchorTracking
+  let observer,
+    stopAnchorTracking,
+    // overflow correction (flip/cap), decided on first paint; the
+    // tooltip stays invisible until the first pass ran
+    boundary = null,
+    // the anchor-center viewport shift, frozen at decision time like
+    // the native engine freezes it at layout time
+    centerShift = null,
+    retries = 0
 
-  // On the fallback engine this is the actual
-  // positioning pass, re-run on every relevant DOM change.
-  const updatePosition = () => {
-    setPosition({
+  // re-expresses the frozen placement against the anchor's current
+  // rect: cheap enough to run on every scroll step and anchor move
+  const track = () => {
+    if (innerRef.value === null || anchorEl.value === null) return
+
+    centerShift = applyPosition({
       targetEl: innerRef.value,
-      offset: props.offset,
       anchorEl: anchorEl.value,
-      anchorOrigin: anchorOrigin.value,
-      selfOrigin: selfOrigin.value,
+      anchorOrigin:
+        boundary !== null ? boundary.anchorOrigin : anchorOrigin.value,
+      selfOrigin: boundary !== null ? boundary.selfOrigin : selfOrigin.value,
+      offset: props.offset,
       maxHeight: props.maxHeight,
-      maxWidth: props.maxWidth
+      maxWidth: props.maxWidth,
+      capHeight: boundary !== null ? boundary.maxHeight : null,
+      capWidth: boundary !== null ? boundary.maxWidth : null,
+      centerShift
     })
   }
 
-  const configureScrollTarget = () => {
-    if (anchorEl.value !== null || props.scrollTarget !== void 0) {
-      localScrollTarget.value = getScrollTarget(
-        anchorEl.value,
-        props.scrollTarget
-      )
-      const fn = props.noParentEvent ? updatePosition : hide
+  // the placement decision, with the same lifecycle as the native
+  // engine's: re-run only per show, on demand and on
+  // screen/placement-prop changes
+  const updatePosition = () => {
+    const el = innerRef.value
+    if (el === null || anchorEl.value === null) return
 
-      changeScrollEvent(localScrollTarget.value, fn)
+    // some browsers report zero size when measuring too early
+    if (el.offsetWidth === 0 || el.offsetHeight === 0) {
+      if (retries < 5) {
+        retries++
+        setTimeout(updatePosition, 10)
+      }
+      return
     }
+    retries = 0
+
+    // a first pass at the intended placement, then the boundary verdict
+    boundary = null
+    centerShift = null
+    track()
+    boundary = applyBoundary({
+      el,
+      anchorEl: anchorEl.value,
+      anchorOrigin: anchorOrigin.value,
+      selfOrigin: selfOrigin.value,
+      offset: props.offset,
+      maxHeight: props.maxHeight,
+      maxWidth: props.maxWidth
+    })
+    // the pass the frozen placement (boundary verdict + anchor-center
+    // shift) is taken from
+    centerShift = null
+    track()
   }
 
-  const { localScrollTarget, changeScrollEvent, unconfigureScrollTarget } =
-    useScrollTarget(props, configureScrollTarget)
+  const onScroll = evt => {
+    // a scroll inside the tooltip itself never moves its anchor; the
+    // iOS visual viewport events carry a non-node target
+    if (
+      innerRef.value !== null &&
+      (!(evt.target instanceof Node) || !innerRef.value.contains(evt.target))
+    ) {
+      track()
+    }
+  }
 
   return {
     positionStyle: { value: '' },
 
     updatePosition,
     handleShow() {
+      boundary = null
+      centerShift = null
+      retries = 0
+
+      addScrollTracking(onScroll)
+
       // should removeTick() if this gets removed
       registerTick(() => {
         observer?.disconnect()
@@ -199,7 +255,9 @@ function useFallbackEngine(
           return
         }
 
-        observer = new MutationObserver(() => updatePosition())
+        // content changes re-express the placement (the native engine
+        // gets this through its live anchor()/translate expressions)
+        observer = new MutationObserver(track)
         observer.observe(innerRef.value, {
           attributes: false,
           childList: true,
@@ -207,7 +265,6 @@ function useFallbackEngine(
           subtree: true
         })
         updatePosition()
-        configureScrollTarget()
 
         // the anchor itself may still be animating when the tooltip
         // opens (focus/hover styles moving it, an entering parent);
@@ -215,12 +272,12 @@ function useFallbackEngine(
         // moving anchor would leave the tooltip permanently offset
         stopAnchorTracking = trackAnchorMotion(
           () => anchorEl.value,
-          updatePosition,
+          track,
           props.transitionDuration
         )
       })
     },
-    releaseAnchor() {
+    releaseAnchor(hidingInProgress) {
       if (observer !== void 0) {
         observer.disconnect()
         observer = void 0
@@ -231,7 +288,14 @@ function useFallbackEngine(
         stopAnchorTracking = void 0
       }
 
-      unconfigureScrollTarget()
+      // hidingInProgress keeps the scroll tracking until the leave
+      // transition is done (the tooltip would lose its position
+      // mid-animation), like the native engine holds its anchor name
+      if (!hidingInProgress) {
+        removeScrollTracking(onScroll)
+        boundary = null
+        centerShift = null
+      }
     }
   }
 }
@@ -279,8 +343,6 @@ export default /*#__PURE__*/ createComponent({
       default: () => [14, 14],
       validator: validateOffset
     },
-
-    scrollTarget: scrollTargetProp,
 
     delay: {
       type: Number,
@@ -370,8 +432,7 @@ export default /*#__PURE__*/ createComponent({
         innerRef,
         anchorOrigin,
         selfOrigin,
-        registerTick,
-        hide
+        registerTick
       }
     )
 
@@ -423,7 +484,7 @@ export default /*#__PURE__*/ createComponent({
 
       registerTransitionEnd(() => {
         hidePortal(true) // done hiding, now destroy
-        if (viaCssAnchor) posEngine.releaseAnchor()
+        posEngine.releaseAnchor(false)
         emit('hide', evt)
       })
     }
@@ -434,12 +495,7 @@ export default /*#__PURE__*/ createComponent({
         stopPositionWatcher = void 0
       }
 
-      if (!viaCssAnchor || !hidingInProgress) {
-        // for css anchor, hidingInProgress keeps the anchor name until
-        // the leave transition is done
-        // (the tooltip would lose its position mid-animation)
-        posEngine.releaseAnchor()
-      }
+      posEngine.releaseAnchor(hidingInProgress)
 
       removeEscapeKey(onEscapeKey)
       contactType = null

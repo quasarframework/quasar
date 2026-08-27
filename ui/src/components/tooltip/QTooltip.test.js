@@ -350,57 +350,6 @@ describe('[QTooltip API]', () => {
       })
     })
 
-    describe('[(prop)scroll-target]', () => {
-      // the prop only matters to the JS positioning fallback (the CSS
-      // anchor positioning path listens to nothing), so it is forced here
-      beforeEach(() => {
-        engineOverride.forceJsFallback = true
-      })
-
-      test('type String has effect', async () => {
-        const target = document.createElement('div')
-        target.id = 'my-scroll-target'
-        target.classList.add('scroll')
-        document.body.append(target)
-
-        const addSpy = vi.spyOn(target, 'addEventListener')
-
-        try {
-          const wrapper = mountTooltip({ scrollTarget: '#my-scroll-target' })
-          await showTooltip(wrapper)
-
-          expect(addSpy).toHaveBeenCalledWith(
-            'scroll',
-            expect.any(Function),
-            expect.anything()
-          )
-        } finally {
-          target.remove()
-        }
-      })
-
-      test('type Element has effect', async () => {
-        const target = document.createElement('div')
-        target.classList.add('scroll')
-        document.body.append(target)
-
-        const addSpy = vi.spyOn(target, 'addEventListener')
-
-        try {
-          const wrapper = mountTooltip({ scrollTarget: target })
-          await showTooltip(wrapper)
-
-          expect(addSpy).toHaveBeenCalledWith(
-            'scroll',
-            expect.any(Function),
-            expect.anything()
-          )
-        } finally {
-          target.remove()
-        }
-      })
-    })
-
     describe('[(prop)delay]', () => {
       test('type Number has effect', async () => {
         const wrapper = mountTooltip({ delay: 500 })
@@ -630,20 +579,34 @@ describe('[QTooltip API]', () => {
         ).toBe('')
       })
 
-      test('hides when the anchor container scrolls', async () => {
-        // the fallback cannot cheaply follow the anchor on scroll, so
-        // it closes instead; the CSS anchor positioning path tracks the
-        // anchor natively and keeps the tooltip shown
+      test('tracks its anchor on a container scroll instead of hiding', async () => {
         const wrapper = mountTooltip()
+        Object.assign(getAnchor(wrapper).element.style, {
+          position: 'fixed',
+          top: '100px',
+          left: '100px',
+          width: '100px',
+          height: '50px'
+        })
 
         await showTooltip(wrapper)
-        expect(getTooltip()).not.toBeNull()
+        expect(getTooltip().style.top).toBe('164px')
 
-        window.dispatchEvent(new Event('scroll'))
+        // the anchor lands somewhere else by the time a scroll comes in
+        getAnchor(wrapper).element.style.top = '80px'
+        document.dispatchEvent(new Event('scroll'))
         await flushPromises()
-        await vi.runAllTimersAsync()
 
-        expect(getTooltip()).toBeNull()
+        // the tooltip stays shown, glued to the anchor's new spot
+        expect(getTooltip()).not.toBeNull()
+        expect(getTooltip().style.top).toBe('144px')
+
+        // ...but a scroll inside its own content is no signal
+        getAnchor(wrapper).element.style.top = '100px'
+        getTooltip().dispatchEvent(new Event('scroll'))
+        await flushPromises()
+
+        expect(getTooltip().style.top).toBe('144px')
       })
 
       test('follows an anchor still moving while the enter transition plays', async () => {

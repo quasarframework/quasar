@@ -1120,10 +1120,9 @@ async function s21() {
   const tt = () => document.querySelector('.q-tooltip') !== null
   const nonSel = () => document.body.classList.contains('non-selectable')
 
-  // tooltips hide on any scroll-target scroll BY DESIGN, and Blink/Gecko
-  // scroll anchoring compensates for the growing verdict panel above with
-  // real scroll events mid-scenario (WebKit has no scroll anchoring, so
-  // only 2 of the 3 engines would fail); pin the page for the duration
+  // Blink/Gecko scroll anchoring compensates for the growing verdict
+  // panel above with real scroll events mid-scenario, moving the anchor
+  // while the scenario measures; pin the page for the duration
   document.documentElement.style.overflowAnchor = 'none'
   anchor.scrollIntoView({ block: 'center' })
   await settle(300)

@@ -377,7 +377,56 @@
         </q-card-section>
 
         <q-card-section>
-          <p v-for="n in 15" :key="n">
+          <p v-for="n in 10" :key="'dfsf' + n">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum
+            repellendus sit voluptate voluptas eveniet porro. Rerum blanditiis
+            perferendis totam, ea at omnis vel numquam exercitationem aut, natus
+            minima, porro labore.
+          </p>
+
+          <div class="q-gutter-md q-mb-md">
+            <q-btn label="Menu" color="primary">
+              <q-menu>
+                <q-list style="min-width: 100px">
+                  <q-item v-for="n in 20" :key="n" clickable v-close-popup>
+                    <q-item-section>Label</q-item-section>
+                  </q-item>
+                </q-list>
+              </q-menu>
+            </q-btn>
+
+            <q-btn label="Menu Cover" color="primary">
+              <q-menu cover>
+                <q-list style="min-width: 100px">
+                  <q-item v-for="n in 20" :key="n" clickable v-close-popup>
+                    <q-item-section>Label</q-item-section>
+                  </q-item>
+                </q-list>
+              </q-menu>
+            </q-btn>
+
+            <q-btn label="Menu Hover" color="primary">
+              <q-menu hover>
+                <q-list style="min-width: 100px">
+                  <q-item v-for="n in 20" :key="n" clickable v-close-popup>
+                    <q-item-section>Label</q-item-section>
+                  </q-item>
+                </q-list>
+              </q-menu>
+            </q-btn>
+
+            <q-btn label="Menu Cover+Hover" color="primary">
+              <q-menu cover hover>
+                <q-list style="min-width: 100px">
+                  <q-item v-for="n in 20" :key="n" clickable v-close-popup>
+                    <q-item-section>Label</q-item-section>
+                  </q-item>
+                </q-list>
+              </q-menu>
+            </q-btn>
+          </div>
+
+          <p v-for="n in 10" :key="'utytur' + n">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum
             repellendus sit voluptate voluptas eveniet porro. Rerum blanditiis
             perferendis totam, ea at omnis vel numquam exercitationem aut, natus

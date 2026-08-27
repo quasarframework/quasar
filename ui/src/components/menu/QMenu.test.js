@@ -703,57 +703,6 @@ describe('[QMenu API]', () => {
       })
     })
 
-    describe('[(prop)scroll-target]', () => {
-      // the prop only matters to the JS positioning fallback (the CSS
-      // anchor positioning path listens to nothing), so it is forced here
-      beforeEach(() => {
-        engineOverride.forceJsFallback = true
-      })
-
-      test('type Element has effect', async () => {
-        const target = document.createElement('div')
-        target.classList.add('scroll')
-        document.body.append(target)
-
-        const addSpy = vi.spyOn(target, 'addEventListener')
-
-        try {
-          const wrapper = mountMenu({ scrollTarget: target })
-          await showMenu(wrapper)
-
-          expect(addSpy).toHaveBeenCalledWith(
-            'scroll',
-            expect.any(Function),
-            expect.anything()
-          )
-        } finally {
-          target.remove()
-        }
-      })
-
-      test('type String has effect', async () => {
-        const target = document.createElement('div')
-        target.id = 'my-scroll-target'
-        target.classList.add('scroll')
-        document.body.append(target)
-
-        const addSpy = vi.spyOn(target, 'addEventListener')
-
-        try {
-          const wrapper = mountMenu({ scrollTarget: '#my-scroll-target' })
-          await showMenu(wrapper)
-
-          expect(addSpy).toHaveBeenCalledWith(
-            'scroll',
-            expect.any(Function),
-            expect.anything()
-          )
-        } finally {
-          target.remove()
-        }
-      })
-    })
-
     describe('[(prop)touch-position]', () => {
       test('type Boolean has effect', async () => {
         const wrapper = mountMenu({ touchPosition: true })
@@ -1554,6 +1503,120 @@ describe('[QMenu API]', () => {
         expect(getMenu().style.top).toBe('170px')
 
         await vi.runAllTimersAsync()
+      })
+
+      test('stays glued to its scrolled-away anchor instead of staying visible', async () => {
+        // the anchor sits inside a small scrollable container
+        const container = document.createElement('div')
+        Object.assign(container.style, {
+          position: 'fixed',
+          top: '0px',
+          left: '0px',
+          width: '300px',
+          height: '200px',
+          overflow: 'auto'
+        })
+        document.body.append(container)
+
+        const wrapper = mountMenu(
+          void 0,
+          {
+            default: () =>
+              h('div', { style: { width: '50px', height: '20px' } })
+          },
+          { attachTo: container }
+        )
+        Object.assign(getAnchor(wrapper).element.style, {
+          marginTop: '100px',
+          width: '100px',
+          height: '50px'
+        })
+        const spacer = document.createElement('div')
+        spacer.style.height = '1000px'
+        container.append(spacer)
+
+        try {
+          await showMenu(wrapper)
+
+          const before = getMenuRect()
+
+          // any scrolling container is tracked, no helper class involved
+          container.scrollTop = 60
+          container.dispatchEvent(new Event('scroll'))
+          expect(getMenuRect().top).toBe(before.top - 60)
+
+          // scrolling the anchor out takes the menu out with it: the
+          // frozen placement is re-expressed, never re-clamped on screen
+          container.scrollTop = 500
+          container.dispatchEvent(new Event('scroll'))
+          expect(getMenuRect().top).toBe(before.top - 500)
+        } finally {
+          container.remove()
+        }
+      })
+
+      test('a cover menu follows its scrolled-away anchor too', async () => {
+        // cover means centered-on-centered axes (the anchor-center path),
+        // whose viewport shift must stay frozen while scrolling
+        const container = document.createElement('div')
+        Object.assign(container.style, {
+          position: 'fixed',
+          top: '0px',
+          left: '0px',
+          width: '300px',
+          height: '200px',
+          overflow: 'auto'
+        })
+        document.body.append(container)
+
+        const wrapper = mountMenu(
+          { cover: true },
+          {
+            default: () =>
+              h('div', { style: { width: '50px', height: '20px' } })
+          },
+          { attachTo: container }
+        )
+        Object.assign(getAnchor(wrapper).element.style, {
+          marginTop: '100px',
+          width: '100px',
+          height: '50px'
+        })
+        const spacer = document.createElement('div')
+        spacer.style.height = '1000px'
+        container.append(spacer)
+
+        try {
+          await showMenu(wrapper)
+
+          const before = getMenuRect()
+          // covering the anchor's box
+          expect(before.top).toBe(100)
+
+          container.scrollTop = 500
+          container.dispatchEvent(new Event('scroll'))
+
+          // stays glued off-screen instead of pinning to the viewport
+          expect(getMenuRect().top).toBe(before.top - 500)
+        } finally {
+          container.remove()
+        }
+      })
+
+      test('ignores scrolls originating inside its own content', async () => {
+        const wrapper = await mountPositionedMenu()
+        expect(getMenu().style.top).toBe('150px')
+
+        // the anchor moves, but nothing has announced it yet
+        getAnchor(wrapper).element.style.top = '120px'
+
+        // a scroll inside the menu's own scrollable content is no signal
+        getMenu().dispatchEvent(new Event('scroll'))
+        expect(getMenu().style.top).toBe('150px')
+
+        // ...while a scroll anywhere else is
+        document.dispatchEvent(new Event('scroll'))
+        expect(getMenu().style.top).toBe('170px')
       })
     })
 
