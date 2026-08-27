@@ -92,7 +92,8 @@
     },
 
     "scroll-target": {
-      "extends": "scroll-target"
+      "extends": "scroll-target",
+      "desc": "CSS selector or DOM element to be used as a custom scroll container instead of the auto detected one; Only used by the JS positioning fallback of browsers without CSS anchor positioning support (on the others the Tooltip tracks its target natively instead of hiding on scroll, with no listeners)"
     },
 
     "delay": {
@@ -124,7 +125,7 @@
 
   "methods": {
     "updatePosition": {
-      "desc": "There are some custom scenarios for which Quasar cannot automatically reposition the tooltip without significant performance drawbacks so the optimal solution is for you to call this method when you need it",
+      "desc": "On browsers with CSS anchor positioning support the browser keeps the Tooltip positioned against its target automatically and this method only re-checks whether the intended placement still fits the viewport; on the JS positioning fallback of other browsers it recomputes the position for the custom scenarios which Quasar cannot detect without significant performance drawbacks",
       "params": null,
       "returns": null
     }

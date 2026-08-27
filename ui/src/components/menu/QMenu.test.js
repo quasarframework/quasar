@@ -12,6 +12,23 @@ import useFullscreen, {
 import QDialog from '../dialog/QDialog.js'
 import QMenu from './QMenu.js'
 
+// the test browser is a Chromium, so QMenu takes the CSS anchor
+// positioning path by default; flipping this flag before mounting
+// forces the JS positioning fallback of non-supporting browsers instead
+const engineOverride = vi.hoisted(() => ({ forceJsFallback: false }))
+
+vi.mock(
+  '../../utils/private.position-engine/position-engine.js',
+  async importOriginal => {
+    const mod = await importOriginal()
+    return {
+      ...mod,
+      supportsCssAnchor: () =>
+        engineOverride.forceJsFallback ? false : mod.supportsCssAnchor()
+    }
+  }
+)
+
 const FullscreenChild = defineComponent({
   name: 'FullscreenChild',
   props: useFullscreenProps,
@@ -55,6 +72,7 @@ afterEach(() => {
   vi.clearAllTimers()
   vi.useRealTimers()
   vi.restoreAllMocks()
+  engineOverride.forceJsFallback = false
 })
 
 /**
@@ -146,6 +164,15 @@ async function mountPositionedMenu(props) {
   await showMenu(wrapper)
 
   return wrapper
+}
+
+/**
+ * Where the menu really is: the position is expressed through anchor()
+ * insets that only the layout engine resolves, so tests assert the
+ * resulting geometry instead of style strings.
+ */
+function getMenuRect() {
+  return getMenu().getBoundingClientRect()
 }
 
 async function pressEscapeKey() {
@@ -422,13 +449,12 @@ describe('[QMenu API]', () => {
         const wrapper = await mountPositionedMenu({ fit: true })
 
         // the menu is never narrower than its anchor
-        expect(getMenu().style.minWidth).toBe('100px')
-        expect(getMenu().style.minHeight).toBe('')
+        expect(getMenuRect().width).toBe(100)
+        expect(getMenuRect().height).toBe(20)
 
         await wrapper.setProps({ menuProps: {} })
-        getMenuComponent(wrapper).vm.updatePosition()
 
-        expect(getMenu().style.minWidth).toBe('')
+        expect(getMenuRect().width).toBe(50)
       })
     })
 
@@ -436,34 +462,33 @@ describe('[QMenu API]', () => {
       test('type Boolean has effect', async () => {
         await mountPositionedMenu({ cover: true })
 
-        const style = getMenu().style
-
         // the menu covers the anchor, so it takes over both of its sizes
         // and gets centered on it
-        expect(style.minWidth).toBe('100px')
-        expect(style.minHeight).toBe('50px')
-        expect(style.top).toBe('100px')
-        expect(style.left).toBe('100px')
+        const rect = getMenuRect()
+        expect(rect.top).toBe(100)
+        expect(rect.left).toBe(100)
+        expect(rect.width).toBe(100)
+        expect(rect.height).toBe(50)
       })
     })
 
     describe('[(prop)anchor]', () => {
       const anchorPositionList = [
-        ['top left', '100px', '100px'],
-        ['top middle', '100px', '150px'],
-        ['top right', '100px', '200px'],
-        ['top start', '100px', '100px'],
-        ['top end', '100px', '200px'],
-        ['center left', '125px', '100px'],
-        ['center middle', '125px', '150px'],
-        ['center right', '125px', '200px'],
-        ['center start', '125px', '100px'],
-        ['center end', '125px', '200px'],
-        ['bottom left', '150px', '100px'],
-        ['bottom middle', '150px', '150px'],
-        ['bottom right', '150px', '200px'],
-        ['bottom start', '150px', '100px'],
-        ['bottom end', '150px', '200px']
+        ['top left', 100, 100],
+        ['top middle', 100, 150],
+        ['top right', 100, 200],
+        ['top start', 100, 100],
+        ['top end', 100, 200],
+        ['center left', 125, 100],
+        ['center middle', 125, 150],
+        ['center right', 125, 200],
+        ['center start', 125, 100],
+        ['center end', 125, 200],
+        ['bottom left', 150, 100],
+        ['bottom middle', 150, 150],
+        ['bottom right', 150, 200],
+        ['bottom start', 150, 100],
+        ['bottom end', 150, 200]
       ]
 
       /**
@@ -477,8 +502,9 @@ describe('[QMenu API]', () => {
 
         await mountPositionedMenu({ anchor: propVal })
 
-        expect(getMenu().style.top).toBe(top)
-        expect(getMenu().style.left).toBe(left)
+        const rect = getMenuRect()
+        expect(rect.top).toBe(top)
+        expect(rect.left).toBe(left)
       }
 
       test('value "top left" has effect', async () => {
@@ -554,21 +580,21 @@ describe('[QMenu API]', () => {
 
     describe('[(prop)self]', () => {
       const selfPositionList = [
-        ['top left', '150px', '100px'],
-        ['top middle', '150px', '75px'],
-        ['top right', '150px', '50px'],
-        ['top start', '150px', '100px'],
-        ['top end', '150px', '50px'],
-        ['center left', '140px', '100px'],
-        ['center middle', '140px', '75px'],
-        ['center right', '140px', '50px'],
-        ['center start', '140px', '100px'],
-        ['center end', '140px', '50px'],
-        ['bottom left', '130px', '100px'],
-        ['bottom middle', '130px', '75px'],
-        ['bottom right', '130px', '50px'],
-        ['bottom start', '130px', '100px'],
-        ['bottom end', '130px', '50px']
+        ['top left', 150, 100],
+        ['top middle', 150, 75],
+        ['top right', 150, 50],
+        ['top start', 150, 100],
+        ['top end', 150, 50],
+        ['center left', 140, 100],
+        ['center middle', 140, 75],
+        ['center right', 140, 50],
+        ['center start', 140, 100],
+        ['center end', 140, 50],
+        ['bottom left', 130, 100],
+        ['bottom middle', 130, 75],
+        ['bottom right', 130, 50],
+        ['bottom start', 130, 100],
+        ['bottom end', 130, 50]
       ]
 
       /**
@@ -582,8 +608,9 @@ describe('[QMenu API]', () => {
 
         await mountPositionedMenu({ self: propVal })
 
-        expect(getMenu().style.top).toBe(top)
-        expect(getMenu().style.left).toBe(left)
+        const rect = getMenuRect()
+        expect(rect.top).toBe(top)
+        expect(rect.left).toBe(left)
       }
 
       test('value "top left" has effect', async () => {
@@ -661,8 +688,9 @@ describe('[QMenu API]', () => {
 
         // the anchor is inflated by the offset, so the default
         // "bottom start" attaching point moves accordingly
-        expect(getMenu().style.top).toBe('180px')
-        expect(getMenu().style.left).toBe('80px')
+        const rect = getMenuRect()
+        expect(rect.top).toBe(180)
+        expect(rect.left).toBe(80)
       })
 
       test('only accepts two numbers', () => {
@@ -676,6 +704,12 @@ describe('[QMenu API]', () => {
     })
 
     describe('[(prop)scroll-target]', () => {
+      // the prop only matters to the JS positioning fallback (the CSS
+      // anchor positioning path listens to nothing), so it is forced here
+      beforeEach(() => {
+        engineOverride.forceJsFallback = true
+      })
+
       test('type Element has effect', async () => {
         const target = document.createElement('div')
         target.classList.add('scroll')
@@ -731,8 +765,9 @@ describe('[QMenu API]', () => {
         )
 
         // the menu latches onto the pointer instead of onto the anchor
-        expect(getMenu().style.top).toBe('301px')
-        expect(getMenu().style.left).toBe('200px')
+        const rect = getMenuRect()
+        expect(rect.top).toBe(300)
+        expect(rect.left).toBe(200)
       })
 
       test('is ignored by hover-triggered shows', async () => {
@@ -752,8 +787,9 @@ describe('[QMenu API]', () => {
         await flushPromises()
         await vi.runAllTimersAsync()
 
-        expect(getMenu().style.top).toBe('150px')
-        expect(getMenu().style.left).toBe('100px')
+        const rect = getMenuRect()
+        expect(rect.top).toBe(150)
+        expect(rect.left).toBe(100)
       })
     })
 
@@ -1365,18 +1401,22 @@ describe('[QMenu API]', () => {
       test('should be callable', async () => {
         const wrapper = await mountPositionedMenu()
 
-        // the anchor moved without any of the watched dependencies changing
+        // an anchor move needs no call at all: the browser tracks it
         Object.assign(getAnchor(wrapper).element.style, {
           top: '200px',
           left: '300px'
         })
 
+        let rect = getMenuRect()
+        expect(rect.top).toBe(250)
+        expect(rect.left).toBe(300)
+
+        // the method stays callable (re-checks the placement decision)
         expect(getMenuComponent(wrapper).vm.updatePosition()).toBeUndefined()
 
-        const style = getMenu().style
-        expect(style.visibility).toBe('visible')
-        expect(style.top).toBe('250px')
-        expect(style.left).toBe('300px')
+        rect = getMenuRect()
+        expect(rect.top).toBe(250)
+        expect(rect.left).toBe(300)
       })
     })
 
@@ -1431,41 +1471,90 @@ describe('[QMenu API]', () => {
   })
 
   describe('[Generic]', () => {
-    test('follows visual viewport moves while showing on iOS', async () => {
-      // iOS scrolls only the visual viewport while the soft keyboard is
-      // open (or while pinch-zoomed): no window scroll event fires, yet
-      // position:fixed popups stay pinned to the pre-scroll viewport,
-      // so the popup must re-anchor on visual viewport scroll/resize
-      const originalIos = client.is.ios
-      client.is.ios = true
+    describe('JS positioning fallback', () => {
+      // what browsers without CSS anchor positioning support get
+      beforeEach(() => {
+        engineOverride.forceJsFallback = true
+      })
 
-      const addSpy = vi.spyOn(window.visualViewport, 'addEventListener')
-      const removeSpy = vi.spyOn(window.visualViewport, 'removeEventListener')
+      test('positions the menu through the JS engine', async () => {
+        const wrapper = await mountPositionedMenu()
 
-      try {
-        const wrapper = mountMenu()
-        await showMenu(wrapper)
+        // same resulting geometry as the native path (bottom start /
+        // top start), reached through measured pixel styles instead
+        // of anchor() insets
+        const rect = getMenuRect()
+        expect(rect.top).toBe(150)
+        expect(rect.left).toBe(100)
 
-        for (const evt of ['scroll', 'resize']) {
-          expect(addSpy).toHaveBeenCalledWith(
-            evt,
-            expect.any(Function),
-            expect.anything()
-          )
+        expect(getMenu().classList.contains('q-position-engine')).toBe(true)
+        expect(getMenu().style.top).toBe('150px')
+        expect(
+          getAnchor(wrapper).element.style.getPropertyValue('anchor-name')
+        ).toBe('')
+      })
+
+      test('follows visual viewport moves while showing on iOS', async () => {
+        // iOS scrolls only the visual viewport while the soft keyboard is
+        // open (or while pinch-zoomed): no window scroll event fires, yet
+        // position:fixed popups stay pinned to the pre-scroll viewport,
+        // so the popup must re-anchor on visual viewport scroll/resize
+        const originalIos = client.is.ios
+        client.is.ios = true
+
+        const addSpy = vi.spyOn(window.visualViewport, 'addEventListener')
+        const removeSpy = vi.spyOn(window.visualViewport, 'removeEventListener')
+
+        try {
+          const wrapper = mountMenu()
+          await showMenu(wrapper)
+
+          for (const evt of ['scroll', 'resize']) {
+            expect(addSpy).toHaveBeenCalledWith(
+              evt,
+              expect.any(Function),
+              expect.anything()
+            )
+          }
+
+          await hideMenu(wrapper)
+
+          for (const evt of ['scroll', 'resize']) {
+            expect(removeSpy).toHaveBeenCalledWith(
+              evt,
+              expect.any(Function),
+              expect.anything()
+            )
+          }
+        } finally {
+          client.is.ios = originalIos
         }
+      })
 
-        await hideMenu(wrapper)
+      test('follows an anchor still moving while the enter transition plays', async () => {
+        const wrapper = mountMenu(void 0, {
+          default: () => h('div', { style: { width: '50px', height: '20px' } })
+        })
+        setAnchorRect(wrapper)
 
-        for (const evt of ['scroll', 'resize']) {
-          expect(removeSpy).toHaveBeenCalledWith(
-            evt,
-            expect.any(Function),
-            expect.anything()
-          )
-        }
-      } finally {
-        client.is.ios = originalIos
-      }
+        getMenuComponent(wrapper).vm.show()
+        await flushPromises()
+        // let the show tick take the initial measurement
+        await vi.advanceTimersByTimeAsync(50)
+
+        // positioned below the anchor (bottom start / top start)
+        expect(getMenu().style.top).toBe('150px')
+
+        // the anchor springs to a new spot mid-transition, the way a push
+        // QBtn returns from its :active translate after the opening click
+        getAnchor(wrapper).element.style.top = '120px'
+        // ...and the menu follows while still inside the enter transition
+        await vi.advanceTimersByTimeAsync(100)
+
+        expect(getMenu().style.top).toBe('170px')
+
+        await vi.runAllTimersAsync()
+      })
     })
 
     test('stays open when clicking inside a fullscreen-detached child (issue #18512)', async () => {
@@ -1568,86 +1657,93 @@ describe('[QMenu API]', () => {
       expect(document.querySelector('.q-dialog')).toBeNull()
     })
 
-    test('follows its anchor through a fullscreen detach and back (issue #18513)', async () => {
-      activeWrapper = mount(
-        defineComponent({
-          setup() {
-            return () =>
-              h(
-                FullscreenAnchorHost,
-                // positioned, and pushed away from where the detached
-                // geometry will land so the reposition is observable
-                { style: 'position: relative; margin-top: 300px' },
-                () =>
-                  h(
-                    'div',
-                    {
-                      class: 'my-anchor',
-                      style:
-                        'position: absolute; top: 40px; left: 30px;' +
-                        ' width: 100px; height: 50px'
-                    },
-                    [
-                      h(QMenu, null, () =>
-                        h('div', { style: 'width: 50px; height: 20px' })
-                      )
-                    ]
-                  )
-              )
-          }
-        }),
-        { attachTo: document.body }
-      )
-      const wrapper = activeWrapper
+    test.each([
+      ['CSS anchor positioning', false],
+      ['the JS positioning fallback', true]
+    ])(
+      'follows its anchor through a fullscreen detach and back on %s (issue #18513)',
+      async (_, forceJsFallback) => {
+        engineOverride.forceJsFallback = forceJsFallback
+        activeWrapper = mount(
+          defineComponent({
+            setup() {
+              return () =>
+                h(
+                  FullscreenAnchorHost,
+                  // positioned, and pushed away from where the detached
+                  // geometry will land so the reposition is observable
+                  { style: 'position: relative; margin-top: 300px' },
+                  () =>
+                    h(
+                      'div',
+                      {
+                        class: 'my-anchor',
+                        style:
+                          'position: absolute; top: 40px; left: 30px;' +
+                          ' width: 100px; height: 50px'
+                      },
+                      [
+                        h(QMenu, null, () =>
+                          h('div', { style: 'width: 50px; height: 20px' })
+                        )
+                      ]
+                    )
+                )
+            }
+          }),
+          { attachTo: document.body }
+        )
+        const wrapper = activeWrapper
 
-      await showMenu(wrapper)
+        await showMenu(wrapper)
 
-      const beforeTop = getMenu().style.top
-      const host = wrapper.findComponent(FullscreenAnchorHost)
+        const beforeTop = getMenuRect().top
+        const host = wrapper.findComponent(FullscreenAnchorHost)
 
-      host.vm.setFullscreen()
-      // the suite loads no CSS, so emulate what the fullscreen class does
-      // to the detached element
-      Object.assign(host.vm.$el.style, {
-        position: 'fixed',
-        top: '0',
-        left: '0',
-        width: '500px',
-        height: '400px',
-        margin: '0'
-      })
-      await flushAnimationFrames()
+        host.vm.setFullscreen()
+        // the suite loads no CSS, so emulate what the fullscreen class does
+        // to the detached element
+        Object.assign(host.vm.$el.style, {
+          position: 'fixed',
+          top: '0',
+          left: '0',
+          width: '500px',
+          height: '400px',
+          margin: '0'
+        })
+        await flushAnimationFrames()
 
-      // the menu is still open...
-      const menuEl = getMenu()
-      expect(menuEl).not.toBeNull()
+        // the menu is still open...
+        const menuEl = getMenu()
+        expect(menuEl).not.toBeNull()
 
-      // ...repositioned onto the moved anchor (bottom start / top start)...
-      const anchorRect = getAnchor(wrapper).element.getBoundingClientRect()
-      expect(menuEl.style.top).toBe(`${anchorRect.bottom}px`)
-      expect(menuEl.style.left).toBe(`${anchorRect.left}px`)
-      expect(menuEl.style.top).not.toBe(beforeTop)
+        // ...repositioned onto the moved anchor (bottom start / top start)...
+        const anchorRect = getAnchor(wrapper).element.getBoundingClientRect()
+        expect(getMenuRect().top).toBe(anchorRect.bottom)
+        expect(getMenuRect().left).toBe(anchorRect.left)
+        expect(getMenuRect().top).not.toBe(beforeTop)
 
-      // ...and its portal paints above the detached element
-      // (same z-index: later in DOM order wins)
-      let portalNode = menuEl
-      while (portalNode.parentElement !== document.body) {
-        portalNode = portalNode.parentElement
+        // ...and its portal paints above the detached element
+        // (same z-index: later in DOM order wins)
+        let portalNode = menuEl
+        while (portalNode.parentElement !== document.body) {
+          portalNode = portalNode.parentElement
+        }
+        expect(
+          host.vm.$el.compareDocumentPosition(portalNode) &
+            Node.DOCUMENT_POSITION_FOLLOWING
+        ).toBeTruthy()
+
+        host.vm.exitFullscreen()
+        host.vm.$el.style.cssText = 'position: relative; margin-top: 300px'
+        await flushAnimationFrames()
+
+        // restored: still open, tracking the anchor at its original position
+        const restoredRect = getAnchor(wrapper).element.getBoundingClientRect()
+        expect(getMenu()).not.toBeNull()
+        expect(getMenuRect().top).toBe(restoredRect.bottom)
       }
-      expect(
-        host.vm.$el.compareDocumentPosition(portalNode) &
-          Node.DOCUMENT_POSITION_FOLLOWING
-      ).toBeTruthy()
-
-      host.vm.exitFullscreen()
-      host.vm.$el.style.cssText = 'position: relative; margin-top: 300px'
-      await flushAnimationFrames()
-
-      // restored: still open, tracking the anchor at its original position
-      const restoredRect = getAnchor(wrapper).element.getBoundingClientRect()
-      expect(getMenu()).not.toBeNull()
-      expect(getMenu().style.top).toBe(`${restoredRect.bottom}px`)
-    })
+    )
 
     test('follows an anchor still moving while the enter transition plays', async () => {
       const wrapper = mountMenu(void 0, {
@@ -1657,19 +1753,18 @@ describe('[QMenu API]', () => {
 
       getMenuComponent(wrapper).vm.show()
       await flushPromises()
-      // let the show tick take the initial measurement
+      // let the show tick run the placement pass
       await vi.advanceTimersByTimeAsync(50)
 
       // positioned below the anchor (bottom start / top start)
-      expect(getMenu().style.top).toBe('150px')
+      expect(getMenuRect().top).toBe(150)
 
       // the anchor springs to a new spot mid-transition, the way a push
-      // QBtn returns from its :active translate after the opening click
+      // QBtn returns from its :active translate after the opening click;
+      // the browser re-anchors without any engine involvement
       getAnchor(wrapper).element.style.top = '120px'
-      // ...and the menu follows while still inside the enter transition
-      await vi.advanceTimersByTimeAsync(100)
 
-      expect(getMenu().style.top).toBe('170px')
+      expect(getMenuRect().top).toBe(170)
 
       await vi.runAllTimersAsync()
     })

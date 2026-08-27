@@ -752,8 +752,9 @@ describe('[QBtnDropdown API]', () => {
 
         // "fit" sizes the menu to its anchor: the full 100px wide
         // component, not the narrower toggle button hosting it
-        expect(getMenu().style.minWidth).toBe('100px')
-        expect(getMenu().style.top).toBe('150px')
+        const rect = getMenu().getBoundingClientRect()
+        expect(rect.width).toBe(100)
+        expect(rect.top).toBe(150)
       })
     })
 
@@ -883,8 +884,8 @@ describe('[QBtnDropdown API]', () => {
       test('type Boolean has effect', async () => {
         await mountPositionedBtnDropdown()
 
-        expect(getMenu().style.top).toBe('150px')
-        expect(getMenu().style.minHeight).toBe('')
+        expect(getMenu().getBoundingClientRect().top).toBe(150)
+        expect(getMenu().getBoundingClientRect().height).toBe(20)
 
         activeWrapper.unmount()
         await vi.runAllTimersAsync()
@@ -892,8 +893,8 @@ describe('[QBtnDropdown API]', () => {
         await mountPositionedBtnDropdown({ cover: true })
 
         // the menu now sits on top of the button
-        expect(getMenu().style.top).toBe('100px')
-        expect(getMenu().style.minHeight).toBe('50px')
+        expect(getMenu().getBoundingClientRect().top).toBe(100)
+        expect(getMenu().getBoundingClientRect().height).toBe(50)
       })
     })
 
@@ -1118,8 +1119,9 @@ describe('[QBtnDropdown API]', () => {
 
         await mountPositionedBtnDropdown({ menuAnchor: propVal })
 
-        expect(getMenu().style.top).toBe(top)
-        expect(getMenu().style.left).toBe(left)
+        const rect = getMenu().getBoundingClientRect()
+        expect(rect.top).toBe(Number.parseInt(top, 10))
+        expect(rect.left).toBe(Number.parseInt(left, 10))
       }
 
       test('value "top left" has effect', async () => {
@@ -1213,8 +1215,9 @@ describe('[QBtnDropdown API]', () => {
 
         await mountPositionedBtnDropdown({ menuSelf: propVal })
 
-        expect(getMenu().style.top).toBe(top)
-        expect(getMenu().style.left).toBe(left)
+        const rect = getMenu().getBoundingClientRect()
+        expect(rect.top).toBe(Number.parseInt(top, 10))
+        expect(rect.left).toBe(Number.parseInt(left, 10))
       }
 
       test('value "top left" has effect', async () => {
@@ -1282,10 +1285,13 @@ describe('[QBtnDropdown API]', () => {
       test('type Array has effect', async () => {
         await mountPositionedBtnDropdown({ menuOffset: [20, 30] })
 
-        // the button is inflated by the offset, so the default
-        // "bottom end" attaching point moves accordingly
-        expect(getMenu().style.top).toBe('180px')
-        expect(getMenu().style.minWidth).toBe('120px')
+        // the anchor box is inflated by the offset, so the default
+        // "bottom end" attaching point moves accordingly, while "fit"
+        // keeps the menu as wide as the button itself
+        const rect = getMenu().getBoundingClientRect()
+        expect(rect.top).toBe(180)
+        expect(rect.right).toBe(220)
+        expect(rect.width).toBe(100)
       })
     })
 

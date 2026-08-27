@@ -59,16 +59,264 @@ import {
 
 import {
   parsePosition,
-  setPosition,
-  trackAnchorMotion,
+  supportsCssAnchor,
   validateOffset,
   validatePosition
 } from '../../utils/private.position-engine/position-engine.js'
+import {
+  applyBoundary,
+  getPositionStyle,
+  removeAnchorName,
+  setAnchorName
+} from '../../utils/private.position-engine/anchor-position-engine.js'
+import {
+  setPosition,
+  trackAnchorMotion
+} from '../../utils/private.position-engine/fallback-position-engine.js'
 
 const tabbableSelector =
   'a[href], button:not([disabled]), input:not([disabled]),' +
   ' select:not([disabled]), textarea:not([disabled]),' +
   ' [tabindex]:not([tabindex^="-"])'
+
+function useCssAnchorEngine(
+  props,
+  { anchorEl, innerRef, anchorOrigin, selfOrigin }
+) {
+  let namedAnchorEl = null
+
+  const anchorName = ref('')
+  // set while the popup is anchored to a coordinate (touch position /
+  // context menu) instead of the anchor's box: { top, left } relative
+  // to the anchor's top-left corner
+  const anchorPoint = ref(null)
+  // overflow correction for point mode, measured on first paint
+  const pointSelf = ref(null)
+  // overflow correction for box mode (flip/cap), measured on first
+  // paint; the popup stays invisible until the first pass ran
+  const boundary = ref(null)
+  const positioned = ref(false)
+
+  const positionStyle = computed(() => {
+    if (anchorName.value === '') return ''
+
+    const b = anchorPoint.value === null ? boundary.value : null
+
+    const style = getPositionStyle({
+      anchorName: anchorName.value,
+      anchorOrigin: b !== null ? b.anchorOrigin : anchorOrigin.value,
+      selfOrigin:
+        anchorPoint.value !== null
+          ? (pointSelf.value ?? selfOrigin.value)
+          : b !== null
+            ? b.selfOrigin
+            : selfOrigin.value,
+      offset: props.offset,
+      point: anchorPoint.value ?? void 0,
+      fit: props.fit,
+      cover: props.cover,
+      maxHeight: props.maxHeight,
+      maxWidth: props.maxWidth
+    })
+
+    if (b !== null) {
+      if (b.maxHeight !== null) style.maxHeight = b.maxHeight
+      if (b.maxWidth !== null) style.maxWidth = b.maxWidth
+    }
+
+    if (!positioned.value) {
+      // hidden until the first boundary pass; lifted synchronously
+      // there so the focus handoff never targets a hidden node
+      style.visibility = 'hidden'
+    }
+
+    return style
+  })
+
+  // with CSS anchor positioning the browser owns the tracking and JS
+  // only decides the placement: once per show, on demand (public
+  // method, e.g. QSelect filtering) and on screen/prop changes
+  const updatePosition = () => {
+    const el = innerRef.value
+    if (el === null || anchorEl.value === null) return
+
+    if (anchorPoint.value === null) {
+      boundary.value = applyBoundary({
+        el,
+        anchorEl: anchorEl.value,
+        anchorOrigin: anchorOrigin.value,
+        selfOrigin: selfOrigin.value,
+        offset: props.offset,
+        cover: props.cover,
+        maxHeight: props.maxHeight,
+        maxWidth: props.maxWidth
+      })
+    } else {
+      // point mode (touch position / context menu) mirrors around
+      // the pointer instead of the anchor's box
+      el.style.visibility = ''
+
+      const rect = el.getBoundingClientRect()
+      const { clientWidth, clientHeight } = document.documentElement
+      let { vertical, horizontal } = pointSelf.value ?? selfOrigin.value
+      const [ox = 0, oy = 0] = props.offset ?? []
+      const point = { ...anchorPoint.value }
+      let changed = false
+
+      if (vertical === 'top' && rect.bottom > clientHeight) {
+        vertical = 'bottom'
+        point.top -= 2 * oy
+        changed = true
+      } else if (vertical === 'bottom' && rect.top < 0) {
+        vertical = 'top'
+        point.top += 2 * oy
+        changed = true
+      }
+
+      if (horizontal === 'left' && rect.right > clientWidth) {
+        horizontal = 'right'
+        point.left -= 2 * ox
+        changed = true
+      } else if (horizontal === 'right' && rect.left < 0) {
+        horizontal = 'left'
+        point.left += 2 * ox
+        changed = true
+      }
+
+      if (changed) {
+        pointSelf.value = { vertical, horizontal }
+        anchorPoint.value = point
+      }
+    }
+
+    positioned.value = true
+  }
+
+  const releaseAnchor = hidingInProgress => {
+    // hidingInProgress keeps the anchor name until the leave transition is
+    // done (the popup would lose its position mid-animation)
+    if (!hidingInProgress) {
+      if (namedAnchorEl !== null) {
+        removeAnchorName(namedAnchorEl)
+        namedAnchorEl = null
+      }
+      anchorName.value = ''
+    }
+  }
+
+  return {
+    anchorPoint,
+    positionStyle,
+
+    releaseAnchor,
+    updatePosition,
+    handleShow() {
+      anchorPoint.value = null
+      pointSelf.value = null
+      boundary.value = null
+      positioned.value = false
+
+      // a rapid re-show can land while the previous hide transition
+      // still holds the name; reuse it instead of acquiring twice
+      if (namedAnchorEl !== anchorEl.value) {
+        releaseAnchor(false)
+        namedAnchorEl = anchorEl.value
+        anchorName.value = setAnchorName(namedAnchorEl)
+      }
+    }
+  }
+}
+
+function useFallbackEngine(
+  props,
+  { anchorEl, innerRef, showing, anchorOrigin, selfOrigin }
+) {
+  // On the fallback engine this is the actual positioning pass,
+  // re-run on every scroll step and anchor move.
+  const updatePosition = () => {
+    setPosition({
+      targetEl: innerRef.value,
+      offset: props.offset,
+      anchorEl: anchorEl.value,
+      anchorOrigin: anchorOrigin.value,
+      selfOrigin: selfOrigin.value,
+      absoluteOffset: state.absoluteOffset,
+      fit: props.fit,
+      cover: props.cover,
+      maxHeight: props.maxHeight,
+      maxWidth: props.maxWidth
+    })
+  }
+
+  const configureScrollTarget = () => {
+    if (anchorEl.value !== null || props.scrollTarget !== void 0) {
+      localScrollTarget.value = getScrollTarget(
+        anchorEl.value,
+        props.scrollTarget
+      )
+      changeScrollEvent(localScrollTarget.value, updatePosition)
+    }
+  }
+
+  const { localScrollTarget, changeScrollEvent, unconfigureScrollTarget } =
+    useScrollTarget(props, configureScrollTarget)
+
+  const onDetachedFullscreenChange = () => {
+    // useFullscreen() moved a subtree to <body> (or moved it back); if the
+    // anchor traveled with it, the position measured at show time and the
+    // scroll target bound to the old ancestor chain are both stale (#18513).
+    // The notification fires before the DOM settles (enter: before the
+    // fullscreen styles apply; exit: before the element is restored), so
+    // re-measure only after the move and the re-render are done.
+    // Only wired on the fallback engine: CSS anchor positioning keeps
+    // tracking the anchor wherever it travels.
+    nextTick(() => {
+      requestAnimationFrame(() => {
+        if (
+          !showing.value ||
+          anchorEl.value === null ||
+          !anchorEl.value.isConnected
+        ) {
+          return
+        }
+
+        unconfigureScrollTarget()
+        configureScrollTarget()
+        updatePosition()
+      })
+    })
+  }
+
+  const releaseAnchor = hidingInProgress => {
+    state.absoluteOffset = void 0
+
+    if (state.stopAnchorTracking !== void 0) {
+      state.stopAnchorTracking()
+      state.stopAnchorTracking = void 0
+    }
+
+    if (hidingInProgress || showing.value) {
+      removeDetachedFullscreenListener(onDetachedFullscreenChange)
+      unconfigureScrollTarget()
+    }
+  }
+
+  const state = {
+    absoluteOffset: void 0,
+    stopAnchorTracking: void 0,
+    positionStyle: { value: '' },
+
+    updatePosition,
+    releaseAnchor,
+    handleShow() {
+      addDetachedFullscreenListener(onDetachedFullscreenChange)
+      configureScrollTarget()
+      state.absoluteOffset = void 0
+    }
+  }
+
+  return state
+}
 
 export default /*#__PURE__*/ createComponent({
   name: 'QMenu',
@@ -134,10 +382,8 @@ export default /*#__PURE__*/ createComponent({
   emits: [...useModelToggleEmits, 'click', 'escapeKey'],
 
   setup(props, { slots, emit, attrs }) {
-    let refocusTarget = null,
-      absoluteOffset,
-      unwatchPosition,
-      stopAnchorTracking,
+    let stopPositionWatcher,
+      refocusTarget = null,
       avoidAutoClose,
       hoverTimer = null,
       // set while the current "show" was triggered by hovering the anchor,
@@ -147,6 +393,10 @@ export default /*#__PURE__*/ createComponent({
     const vm = getCurrentInstance()
     const { proxy } = vm
     const $q = useQuasar()
+
+    // frozen per instance: which of the two positioning engines drives
+    // this menu (native CSS anchor positioning vs the JS fallback)
+    const viaCssAnchor = supportsCssAnchor()
 
     const innerRef = ref(null)
     const showing = ref(false)
@@ -159,8 +409,6 @@ export default /*#__PURE__*/ createComponent({
     const { registerTick, removeTick } = useTick()
     const { registerTransitionEnd } = useTransitionEnd(props)
     const { transitionProps, transitionStyle } = useTransition(props)
-    const { localScrollTarget, changeScrollEvent, unconfigureScrollTarget } =
-      useScrollTarget(props, configureScrollTarget)
 
     const { anchorEl, canShow, anchorEvents } = useAnchor({
       showing,
@@ -229,8 +477,21 @@ export default /*#__PURE__*/ createComponent({
         : parsePosition(props.self || 'top start', $q.lang.rtl)
     )
 
+    const posEngine = (viaCssAnchor ? useCssAnchorEngine : useFallbackEngine)(
+      props,
+      {
+        anchorEl,
+        innerRef,
+        showing,
+        anchorOrigin,
+        selfOrigin
+      }
+    )
+
     const menuClass = computed(
       () =>
+        'q-menu scroll' +
+        (viaCssAnchor ? '' : ' q-position-engine') +
         (props.square ? ' q-menu--square' : '') +
         (isDark() ? ' q-menu--dark q-dark' : '')
     )
@@ -368,12 +629,9 @@ export default /*#__PURE__*/ createComponent({
         props.noRefocus || hoverShown ? null : document.activeElement
 
       addFocusout(onFocusout)
-      addDetachedFullscreenListener(onDetachedFullscreenChange)
 
       showPortal()
-      configureScrollTarget()
-
-      absoluteOffset = void 0
+      posEngine.handleShow()
 
       // touch-position latches onto the coordinates of a deliberate
       // click/tap; a hover-show's pointerenter only carries the point
@@ -387,23 +645,27 @@ export default /*#__PURE__*/ createComponent({
 
         if (pos.left !== void 0) {
           const { top, left } = anchorEl.value.getBoundingClientRect()
-          absoluteOffset = { left: pos.left - left, top: pos.top - top }
+          const point = { left: pos.left - left, top: pos.top - top }
+
+          if (viaCssAnchor) {
+            posEngine.anchorPoint.value = point
+          } else {
+            posEngine.absoluteOffset = point
+          }
         }
       }
 
-      if (unwatchPosition === void 0) {
-        unwatchPosition = watch(
+      if (stopPositionWatcher === void 0) {
+        // with CSS anchor positioning the anchor() styles adapt on their
+        // own and only the frozen flip/cap decision needs re-checking; the
+        // fallback engine recomputes the whole position
+        stopPositionWatcher = watch(
           () =>
-            $q.screen.width +
-            '|' +
-            $q.screen.height +
-            '|' +
-            props.self +
-            '|' +
-            props.anchor +
-            '|' +
-            $q.lang.rtl,
-          updatePosition
+            `${$q.screen.width}|${$q.screen.height}|${props.self}|` +
+            `${props.anchor}|${$q.lang.rtl}`,
+          () => {
+            if (showing.value) posEngine.updatePosition()
+          }
         )
       }
 
@@ -413,17 +675,19 @@ export default /*#__PURE__*/ createComponent({
 
       // should removeTick() if this gets removed
       registerTick(() => {
-        updatePosition()
+        posEngine.updatePosition()
 
-        // the anchor itself may still be animating (e.g. a push QBtn
-        // springing back from :active after the click that opened us),
-        // so follow it while the enter transition plays out — otherwise
-        // the transition-end updatePosition() lands as a visible snap
-        stopAnchorTracking = trackAnchorMotion(
-          () => anchorEl.value,
-          updatePosition,
-          props.transitionDuration
-        )
+        if (!viaCssAnchor) {
+          // the anchor itself may still be animating (e.g. a push QBtn
+          // springing back from :active after the click that opened us),
+          // so follow it while the enter transition plays out — otherwise
+          // the transition-end updatePosition() lands as a visible snap
+          posEngine.stopAnchorTracking = trackAnchorMotion(
+            () => anchorEl.value,
+            posEngine.updatePosition,
+            props.transitionDuration
+          )
+        }
 
         if (!props.noFocus && !hoverShown) focus()
       })
@@ -437,7 +701,7 @@ export default /*#__PURE__*/ createComponent({
           innerRef.value.click()
         }
 
-        updatePosition()
+        if (!viaCssAnchor) posEngine.updatePosition()
         showPortal(true) // done showing portal
         emit('show', evt)
       })
@@ -448,7 +712,6 @@ export default /*#__PURE__*/ createComponent({
 
       removeTick()
       hidePortal()
-
       anchorCleanup(true)
 
       if (
@@ -471,6 +734,7 @@ export default /*#__PURE__*/ createComponent({
 
       registerTransitionEnd(() => {
         hidePortal(true) // done hiding, now destroy
+        if (viaCssAnchor) posEngine.releaseAnchor(false)
         emit('hide', evt)
       })
     }
@@ -479,40 +743,23 @@ export default /*#__PURE__*/ createComponent({
       refocusTarget = null
     }
 
-    function anchorCleanup(hiding) {
+    function anchorCleanup(hidingInProgress) {
       clearHoverTimer()
-      absoluteOffset = void 0
+      posEngine.releaseAnchor(hidingInProgress)
 
-      if (unwatchPosition !== void 0) {
-        unwatchPosition()
-        unwatchPosition = void 0
+      if (stopPositionWatcher !== void 0) {
+        stopPositionWatcher()
+        stopPositionWatcher = void 0
       }
 
-      if (stopAnchorTracking !== void 0) {
-        stopAnchorTracking()
-        stopAnchorTracking = void 0
-      }
-
-      if (hiding || showing.value) {
+      if (hidingInProgress || showing.value) {
         removeFocusout(onFocusout)
-        removeDetachedFullscreenListener(onDetachedFullscreenChange)
-        unconfigureScrollTarget()
         removeClickOutside(clickOutsideProps)
         removeEscapeKey(onEscapeKey)
       }
 
-      if (!hiding) {
+      if (!hidingInProgress) {
         refocusTarget = null
-      }
-    }
-
-    function configureScrollTarget() {
-      if (anchorEl.value !== null || props.scrollTarget !== void 0) {
-        localScrollTarget.value = getScrollTarget(
-          anchorEl.value,
-          props.scrollTarget
-        )
-        changeScrollEvent(localScrollTarget.value, updatePosition)
       }
     }
 
@@ -592,45 +839,6 @@ export default /*#__PURE__*/ createComponent({
       hide(evt)
     }
 
-    function onDetachedFullscreenChange() {
-      // useFullscreen() moved a subtree to <body> (or moved it back); if the
-      // anchor traveled with it, the position measured at show time and the
-      // scroll target bound to the old ancestor chain are both stale (#18513).
-      // The notification fires before the DOM settles (enter: before the
-      // fullscreen styles apply; exit: before the element is restored), so
-      // re-measure only after the move and the re-render are done.
-      nextTick(() => {
-        requestAnimationFrame(() => {
-          if (
-            !showing.value ||
-            anchorEl.value === null ||
-            !anchorEl.value.isConnected
-          ) {
-            return
-          }
-
-          unconfigureScrollTarget()
-          configureScrollTarget()
-          updatePosition()
-        })
-      })
-    }
-
-    function updatePosition() {
-      setPosition({
-        targetEl: innerRef.value,
-        offset: props.offset,
-        anchorEl: anchorEl.value,
-        anchorOrigin: anchorOrigin.value,
-        selfOrigin: selfOrigin.value,
-        absoluteOffset,
-        fit: props.fit,
-        cover: props.cover,
-        maxHeight: props.maxHeight,
-        maxWidth: props.maxWidth
-      })
-    }
-
     function renderPortalContent() {
       return h(Transition, transitionProps(), () =>
         showing.value
@@ -660,11 +868,12 @@ export default /*#__PURE__*/ createComponent({
                       )
                     }
                   : {}),
-                class: [
-                  'q-menu q-position-engine scroll' + menuClass.value,
-                  attrs.class
+                class: [menuClass.value, attrs.class],
+                style: [
+                  attrs.style,
+                  transitionStyle(),
+                  posEngine.positionStyle.value
                 ],
-                style: [attrs.style, transitionStyle()],
                 ...onEvents.value
               },
               hSlot(slots.default)
@@ -674,11 +883,11 @@ export default /*#__PURE__*/ createComponent({
     }
 
     onBeforeUnmount(() => {
-      anchorCleanup()
+      anchorCleanup(false)
     })
 
     // expose public methods
-    Object.assign(proxy, { focus, updatePosition })
+    Object.assign(proxy, { focus, updatePosition: posEngine.updatePosition })
 
     // internal: how a descendant hover menu notifies this one that the
     // pointer left it (see hoverHide)

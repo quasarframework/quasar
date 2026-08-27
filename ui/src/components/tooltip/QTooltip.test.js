@@ -8,6 +8,23 @@ import Platform from '../../plugins/platform/Platform.js'
 import { validatePosition } from '../../utils/private.position-engine/position-engine.js'
 import QTooltip from './QTooltip.js'
 
+// the test browser is a Chromium, so QTooltip takes the CSS anchor
+// positioning path by default; flipping this flag before mounting
+// forces the JS positioning fallback of non-supporting browsers instead
+const engineOverride = vi.hoisted(() => ({ forceJsFallback: false }))
+
+vi.mock(
+  '../../utils/private.position-engine/position-engine.js',
+  async importOriginal => {
+    const mod = await importOriginal()
+    return {
+      ...mod,
+      supportsCssAnchor: () =>
+        engineOverride.forceJsFallback ? false : mod.supportsCssAnchor()
+    }
+  }
+)
+
 let activeWrapper
 
 beforeEach(() => {
@@ -20,6 +37,7 @@ afterEach(() => {
   vi.clearAllTimers()
   vi.useRealTimers()
   vi.restoreAllMocks()
+  engineOverride.forceJsFallback = false
 })
 
 /**
@@ -333,6 +351,12 @@ describe('[QTooltip API]', () => {
     })
 
     describe('[(prop)scroll-target]', () => {
+      // the prop only matters to the JS positioning fallback (the CSS
+      // anchor positioning path listens to nothing), so it is forced here
+      beforeEach(() => {
+        engineOverride.forceJsFallback = true
+      })
+
       test('type String has effect', async () => {
         const target = document.createElement('div')
         target.id = 'my-scroll-target'
@@ -555,10 +579,9 @@ describe('[QTooltip API]', () => {
         expect(getTooltipComponent(wrapper).vm.updatePosition()).toBeUndefined()
 
         const style = getTooltip().style
-        expect(style.visibility).toBe('visible')
+        expect(style.visibility).toBe('')
         expect(style.maxHeight).toBe('100px')
         expect(style.top).not.toBe('')
-        expect(style.left).not.toBe('')
       })
     })
   })
@@ -578,6 +601,81 @@ describe('[QTooltip API]', () => {
   })
 
   describe('[Generic]', () => {
+    describe('JS positioning fallback', () => {
+      // what browsers without CSS anchor positioning support get
+      beforeEach(() => {
+        engineOverride.forceJsFallback = true
+      })
+
+      test('positions the tooltip through the JS engine', async () => {
+        const wrapper = mountTooltip()
+        Object.assign(getAnchor(wrapper).element.style, {
+          position: 'fixed',
+          top: '100px',
+          left: '100px',
+          width: '100px',
+          height: '50px'
+        })
+
+        await showTooltip(wrapper)
+
+        // same resulting placement as the native path (bottom middle /
+        // top middle with the default [14, 14] offset), reached through
+        // measured pixel styles instead of anchor() insets
+        expect(getTooltip().getBoundingClientRect().top).toBe(164)
+        expect(getTooltip().style.top).toBe('164px')
+        expect(getTooltip().classList.contains('q-position-engine')).toBe(true)
+        expect(
+          getAnchor(wrapper).element.style.getPropertyValue('anchor-name')
+        ).toBe('')
+      })
+
+      test('hides when the anchor container scrolls', async () => {
+        // the fallback cannot cheaply follow the anchor on scroll, so
+        // it closes instead; the CSS anchor positioning path tracks the
+        // anchor natively and keeps the tooltip shown
+        const wrapper = mountTooltip()
+
+        await showTooltip(wrapper)
+        expect(getTooltip()).not.toBeNull()
+
+        window.dispatchEvent(new Event('scroll'))
+        await flushPromises()
+        await vi.runAllTimersAsync()
+
+        expect(getTooltip()).toBeNull()
+      })
+
+      test('follows an anchor still moving while the enter transition plays', async () => {
+        const wrapper = mountTooltip()
+        Object.assign(getAnchor(wrapper).element.style, {
+          position: 'fixed',
+          top: '100px',
+          left: '100px',
+          width: '100px',
+          height: '50px'
+        })
+
+        getTooltipComponent(wrapper).vm.show()
+        await flushPromises()
+        // let the show tick take the initial measurement
+        await vi.advanceTimersByTimeAsync(50)
+
+        // bottom middle / top middle with the default [14, 14] offset
+        expect(getTooltip().style.top).toBe('164px')
+
+        // the anchor moves while the tooltip is still transitioning in;
+        // there is no transition-end re-measure, so only live tracking
+        // keeps it from ending up permanently offset
+        getAnchor(wrapper).element.style.top = '120px'
+        await vi.advanceTimersByTimeAsync(100)
+
+        expect(getTooltip().style.top).toBe('184px')
+
+        await vi.runAllTimersAsync()
+      })
+    })
+
     test('follows an anchor still moving while the enter transition plays', async () => {
       const wrapper = mountTooltip()
       Object.assign(getAnchor(wrapper).element.style, {
@@ -590,19 +688,17 @@ describe('[QTooltip API]', () => {
 
       getTooltipComponent(wrapper).vm.show()
       await flushPromises()
-      // let the show tick take the initial measurement
+      // let the show tick run the placement pass
       await vi.advanceTimersByTimeAsync(50)
 
       // bottom middle / top middle with the default [14, 14] offset
-      expect(getTooltip().style.top).toBe('164px')
+      expect(getTooltip().getBoundingClientRect().top).toBe(164)
 
       // the anchor moves while the tooltip is still transitioning in;
-      // there is no transition-end re-measure, so only live tracking
-      // keeps it from ending up permanently offset
+      // the browser re-anchors without any engine involvement
       getAnchor(wrapper).element.style.top = '120px'
-      await vi.advanceTimersByTimeAsync(100)
 
-      expect(getTooltip().style.top).toBe('184px')
+      expect(getTooltip().getBoundingClientRect().top).toBe(184)
 
       await vi.runAllTimersAsync()
     })
