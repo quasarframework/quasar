@@ -50,7 +50,7 @@ export function applyPosition({
   capWidth,
   centerShift = null
 }) {
-  if (client.is.ios && window.visualViewport !== void 0) {
+  if (client.is.ios) {
     // uses the q-position-engine CSS class
 
     const bodyStyle = document.body.style

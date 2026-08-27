@@ -218,10 +218,7 @@ export default /*#__PURE__*/ createComponent({
             const { top, bottom } =
                 document.activeElement.getBoundingClientRect(),
               { innerHeight } = window,
-              height =
-                window.visualViewport !== void 0
-                  ? window.visualViewport.height
-                  : innerHeight
+              height = window.visualViewport?.height ?? innerHeight
 
             if (top > 0 && bottom > height / 2) {
               document.scrollingElement.scrollTop = Math.min(

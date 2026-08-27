@@ -20,7 +20,7 @@ function onViewportMove(evt) {
 function changeGlobalListeners(fnProp) {
   document[fnProp]('scroll', onViewportMove, listenOpts.passiveCapture)
 
-  if (client.is.ios && window.visualViewport !== void 0) {
+  if (client.is.ios) {
     // with the soft keyboard open (or while pinch-zoomed), iOS scrolls
     // only the visual viewport: no scroll event fires anywhere for those
     // steps, yet position:fixed popups stay pinned to the pre-scroll
