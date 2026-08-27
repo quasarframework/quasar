@@ -2,7 +2,8 @@
   "mixins": [
     "components/btn/use-btn",
     "composables/private.use-model-toggle/use-model-toggle",
-    "composables/private.use-transition/use-transition"
+    "composables/private.use-transition/use-transition",
+    "composables/private.use-hover/use-hover"
   ],
 
   "meta": {
@@ -75,27 +76,19 @@
     },
 
     "hover": {
-      "type": "Boolean",
       "desc": "Also opens the dropdown when the pointer hovers the button (in split mode: either one of the two buttons) and closes it when the pointer leaves both the button and the menu; Click/tap and keyboard interactions keep toggling as usual (touch devices fall back to them), so activating the toggle closes a hover-shown dropdown, unless it is still animating into view (which keeps a single move-and-click gesture from closing what it just opened); A hover-opened dropdown does not switch focus on itself",
-      "category": "behavior",
       "addedIn": "v2.26"
     },
 
     "hover-delay": {
-      "type": "Number",
       "desc": "Delay (in milliseconds) between the pointer entering the button and the dropdown showing up; Requires the 'hover' prop",
-      "default": "0",
       "__runtimeDefault": true,
-      "category": "behavior",
       "addedIn": "v2.26"
     },
 
     "hover-hide-delay": {
-      "type": "Number",
       "desc": "Grace period (in milliseconds) in which the pointer can re-enter the button or the menu before the dropdown gets closed; Requires the 'hover' prop",
-      "default": "150",
       "__runtimeDefault": true,
-      "category": "behavior",
       "addedIn": "v2.26"
     },
 

@@ -6,7 +6,9 @@ import QIcon from '../icon/QIcon.js'
 import useQuasar from '../../composables/use-quasar/use-quasar.js'
 import useFab, { getFabBtnProps, useFabProps } from './use-fab.js'
 import useId from '../../composables/use-id/use-id.js'
-import useTimeout from '../../composables/use-timeout/use-timeout.js'
+import useHover, {
+  useHoverProps
+} from '../../composables/private.use-hover/use-hover.js'
 import useModelToggle, {
   useModelToggleEmits,
   useModelToggleProps
@@ -44,15 +46,7 @@ export default /*#__PURE__*/ createComponent({
       validator: v => directions.includes(v)
     },
 
-    hover: Boolean,
-    hoverDelay: {
-      type: Number,
-      default: 0
-    },
-    hoverHideDelay: {
-      type: Number,
-      default: 150
-    },
+    ...useHoverProps,
 
     persistent: Boolean,
 
@@ -80,44 +74,22 @@ export default /*#__PURE__*/ createComponent({
       hideOnRouteChange
     })
 
-    const { removeTimeout, registerTimeout } = useTimeout()
-
     // when the current "show" was hover-triggered, the moment it happened
     let hoverShownAt = 0
 
-    // opened or closed by any means: a pending hover show/hide is now moot
-    watch(showing, removeTimeout)
-
-    function hoverShow(evt) {
-      // touch has no hover; a tap keeps acting through the click toggle
-      if (evt.pointerType === 'touch') return
-
-      removeTimeout()
-
-      if (showing.value) return
-
-      if (props.hoverDelay > 0) {
-        registerTimeout(() => {
-          hoverShownAt = Date.now()
-          show(evt)
-        }, props.hoverDelay)
-      } else {
+    const { clearHoverTimer, hoverShow, hoverHide } = useHover({
+      props,
+      canShow: () => !showing.value,
+      show: evt => {
         hoverShownAt = Date.now()
         show(evt)
-      }
-    }
+      },
+      canHide: () => showing.value,
+      hide
+    })
 
-    function hoverHide(evt) {
-      if (evt.pointerType === 'touch') return
-
-      removeTimeout()
-
-      if (showing.value) {
-        registerTimeout(() => {
-          hide(evt)
-        }, props.hoverHideDelay)
-      }
-    }
+    // opened or closed by any means: a pending hover show/hide is now moot
+    watch(showing, clearHoverTimer)
 
     function onTriggerClick(evt) {
       // on real hardware the pointer reaches the trigger before any click

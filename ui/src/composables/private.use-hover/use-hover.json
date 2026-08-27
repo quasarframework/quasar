@@ -1,0 +1,23 @@
+{
+  "props": {
+    "hover": {
+      "type": "Boolean",
+      "desc": "Also opens the popup when the pointer hovers its target and closes it when the pointer leaves both the target and the popup; Click/tap and keyboard interactions keep toggling as usual (touch devices fall back to them)",
+      "category": "behavior"
+    },
+
+    "hover-delay": {
+      "type": "Number",
+      "desc": "Delay (in milliseconds) between the pointer entering the target and the popup showing up; Requires the 'hover' prop",
+      "default": "0",
+      "category": "behavior"
+    },
+
+    "hover-hide-delay": {
+      "type": "Number",
+      "desc": "Grace period (in milliseconds) in which the pointer can re-enter the target or the popup before it gets closed; Requires the 'hover' prop",
+      "default": "150",
+      "category": "behavior"
+    }
+  }
+}

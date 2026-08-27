@@ -26,6 +26,9 @@ import useTransition, {
 } from '../../composables/private.use-transition/use-transition.js'
 import useTick from '../../composables/use-tick/use-tick.js'
 import useTransitionEnd from '../../composables/private.use-transition-end/use-transition-end.js'
+import useHover, {
+  useHoverProps
+} from '../../composables/private.use-hover/use-hover.js'
 
 import { createComponent } from '../../utils/private.create/create.js'
 import {
@@ -432,15 +435,7 @@ export default /*#__PURE__*/ createComponent({
 
     touchPosition: Boolean,
 
-    hover: Boolean,
-    hoverDelay: {
-      type: Number,
-      default: 0
-    },
-    hoverHideDelay: {
-      type: Number,
-      default: 150
-    },
+    ...useHoverProps,
 
     maxHeight: {
       type: String,
@@ -458,7 +453,6 @@ export default /*#__PURE__*/ createComponent({
     let stopPositionWatcher,
       refocusTarget = null,
       avoidAutoClose,
-      hoverTimer = null,
       // set while the current "show" was triggered by hovering the anchor,
       // in which case the menu must leave focus wherever it already is
       hoverShown = false
@@ -491,9 +485,6 @@ export default /*#__PURE__*/ createComponent({
       getPopupRole: () => attrs.role
     })
 
-    // referenced by name when useAnchor wires the anchor's hover events
-    Object.assign(anchorEvents, { hoverShow, hoverHide })
-
     const { show, hide } = useModelToggle({
       showing,
       canShow,
@@ -510,6 +501,22 @@ export default /*#__PURE__*/ createComponent({
       hideOnRouteChange,
       processOnMount: true
     })
+
+    const {
+      clearHoverTimer,
+      hoverShow,
+      scheduleHoverHide,
+      onHoverContentEnter
+    } = useHover({
+      props,
+      canShow: () => !showing.value,
+      show,
+      canHide: evt => showing.value && !hoverWithinScope(evt.relatedTarget),
+      hide
+    })
+
+    // referenced by name when useAnchor wires the anchor's hover events
+    Object.assign(anchorEvents, { hoverShow, hoverHide })
 
     const { showPortal, hidePortal, portalIsAccessible, renderPortal } =
       usePortal(vm, innerRef, renderPortalContent, 'menu')
@@ -610,13 +617,6 @@ export default /*#__PURE__*/ createComponent({
       })
     }
 
-    function clearHoverTimer() {
-      if (hoverTimer !== null) {
-        clearTimeout(hoverTimer)
-        hoverTimer = null
-      }
-    }
-
     // is the pointer still over the menu's own scope: its anchor, its
     // content, or a popup opened from within it? (the latter is rendered
     // in a sibling portal, so it is never a DOM descendant of the content)
@@ -639,35 +639,6 @@ export default /*#__PURE__*/ createComponent({
       return false
     }
 
-    function scheduleHoverHide(evt) {
-      clearHoverTimer()
-
-      if (!showing.value || hoverWithinScope(evt.relatedTarget)) return
-
-      hoverTimer = setTimeout(() => {
-        hoverTimer = null
-        hide(evt)
-      }, props.hoverHideDelay)
-    }
-
-    function hoverShow(evt) {
-      // touch has no hover; a tap keeps acting through the click toggle
-      if (evt.pointerType === 'touch') return
-
-      clearHoverTimer()
-
-      if (showing.value) return
-
-      if (props.hoverDelay > 0) {
-        hoverTimer = setTimeout(() => {
-          hoverTimer = null
-          show(evt)
-        }, props.hoverDelay)
-      } else {
-        show(evt)
-      }
-    }
-
     function hoverHide(evt) {
       if (evt.pointerType === 'touch') return
 
@@ -682,12 +653,6 @@ export default /*#__PURE__*/ createComponent({
           parent.__qHoverHide?.(evt)
         }
         parent = getParentProxy(parent)
-      }
-    }
-
-    function onHoverContentEnter(evt) {
-      if (evt.pointerType !== 'touch') {
-        clearHoverTimer()
       }
     }
 

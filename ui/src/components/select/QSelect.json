@@ -2,7 +2,8 @@
   "mixins": [
     "composables/private.use-field/use-field",
     "components/virtual-scroll/use-virtual-scroll",
-    "composables/use-form/private.use-form"
+    "composables/use-form/private.use-form",
+    "composables/private.use-hover/use-hover"
   ],
 
   "meta": {
@@ -418,25 +419,17 @@
     },
 
     "hover": {
-      "type": "Boolean",
       "desc": "Also opens the options menu when the pointer hovers the control and closes it when the pointer leaves both the control and the menu; Click/tap and keyboard interactions keep toggling as usual (touch devices fall back to them), so clicking the control closes a hover-shown menu, unless it is still animating into view (in which case the click focuses the select and keeps the menu, so a single move-and-click gesture cannot close what it just opened); A hover-triggered open does not focus the select (and thus emits no @focus/@blur), until the user actually clicks or tabs into it; Only applies when the select shows its options as a menu (so not with 'behavior=dialog', nor on mobile platforms without 'behavior=menu')",
-      "category": "behavior",
       "addedIn": "v2.28"
     },
 
     "hover-delay": {
-      "type": "Number",
       "desc": "Delay (in milliseconds) between the pointer entering the control and the options showing up; Requires the 'hover' prop",
-      "default": "0",
-      "category": "behavior",
       "addedIn": "v2.28"
     },
 
     "hover-hide-delay": {
-      "type": "Number",
       "desc": "Grace period (in milliseconds) in which the pointer can re-enter the control or the options menu before it gets closed; Requires the 'hover' prop",
-      "default": "150",
-      "category": "behavior",
       "addedIn": "v2.28"
     },
 

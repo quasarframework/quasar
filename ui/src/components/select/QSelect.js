@@ -38,6 +38,9 @@ import {
   useFormProps
 } from '../../composables/use-form/private.use-form.js'
 import useKeyComposition from '../../composables/private.use-key-composition/use-key-composition.js'
+import useHover, {
+  useHoverProps
+} from '../../composables/private.use-hover/use-hover.js'
 
 import { createComponent } from '../../utils/private.create/create.js'
 import { isDeepEqual } from '../../utils/is/is.js'
@@ -165,15 +168,7 @@ export default /*#__PURE__*/ createComponent({
       default: 'default'
     },
 
-    hover: Boolean,
-    hoverDelay: {
-      type: Number,
-      default: 0
-    },
-    hoverHideDelay: {
-      type: Number,
-      default: 150
-    },
+    ...useHoverProps,
 
     // override of useVirtualScrollProps > virtualScrollItemSize (no default)
     virtualScrollItemSize: useVirtualScrollProps.virtualScrollItemSize.type,
@@ -208,7 +203,6 @@ export default /*#__PURE__*/ createComponent({
 
     let filterTimer = null,
       inputValueTimer = null,
-      hoverTimer = null,
       // set while the current popup "show" was triggered by hovering the
       // control (and not yet upgraded to a focused open), in which case
       // focus must stay wherever it already is
@@ -1396,8 +1390,8 @@ export default /*#__PURE__*/ createComponent({
           // fall-through attrs, landing on the menu's content element
           ...(props.hover
             ? {
-                onPointerenter: onMenuContentPointerenter,
-                onPointerleave: onMenuContentPointerleave
+                onPointerenter: onHoverContentEnter,
+                onPointerleave: hoverHide
               }
             : {})
         },
@@ -1618,13 +1612,6 @@ export default /*#__PURE__*/ createComponent({
       }
     }
 
-    function clearHoverTimer() {
-      if (hoverTimer !== null) {
-        clearTimeout(hoverTimer)
-        hoverTimer = null
-      }
-    }
-
     // is the pointer still over the select's own scope: its control, the
     // options menu, or a popup opened from within the options (the latter
     // is rendered in a sibling portal, never a DOM descendant of the menu)
@@ -1651,18 +1638,17 @@ export default /*#__PURE__*/ createComponent({
       return false
     }
 
-    function scheduleHoverHide(evt) {
-      clearHoverTimer()
+    const { clearHoverTimer, hoverShow, hoverHide, onHoverContentEnter } =
+      useHover({
+        props,
+        canShow: () =>
+          !hasDialog && !hoverShown && !menu.value && state.editable.value,
+        show: hoverShowPopup,
+        canHide: evt => hoverShown && !hoverWithinScope(evt.relatedTarget),
+        hide: hidePopup
+      })
 
-      if (!hoverShown || hoverWithinScope(evt.relatedTarget)) return
-
-      hoverTimer = setTimeout(() => {
-        hoverTimer = null
-        hidePopup(evt)
-      }, props.hoverHideDelay)
-    }
-
-    function hoverShow(evt) {
+    function hoverShowPopup(evt) {
       if (
         props.onFilter === void 0 &&
         noOptions.value &&
@@ -1683,44 +1669,6 @@ export default /*#__PURE__*/ createComponent({
       } else {
         menu.value = true
         menuRef.value?.show(evt)
-      }
-    }
-
-    function onControlPointerenter(evt) {
-      // touch has no hover; a tap keeps acting through the click toggle
-      if (props.hover !== true || evt.pointerType === 'touch') return
-
-      clearHoverTimer()
-
-      if (hasDialog || hoverShown || menu.value || !state.editable.value) {
-        return
-      }
-
-      if (props.hoverDelay > 0) {
-        hoverTimer = setTimeout(() => {
-          hoverTimer = null
-          hoverShow(evt)
-        }, props.hoverDelay)
-      } else {
-        hoverShow(evt)
-      }
-    }
-
-    function onControlPointerleave(evt) {
-      if (props.hover !== true || evt.pointerType === 'touch') return
-
-      scheduleHoverHide(evt)
-    }
-
-    function onMenuContentPointerenter(evt) {
-      if (evt.pointerType !== 'touch') {
-        clearHoverTimer()
-      }
-    }
-
-    function onMenuContentPointerleave(evt) {
-      if (evt.pointerType !== 'touch') {
-        scheduleHoverHide(evt)
       }
     }
 
@@ -1883,7 +1831,6 @@ export default /*#__PURE__*/ createComponent({
     onBeforeUnmount(() => {
       if (filterTimer !== null) clearTimeout(filterTimer)
       if (inputValueTimer !== null) clearTimeout(inputValueTimer)
-      if (hoverTimer !== null) clearTimeout(hoverTimer)
     })
 
     // expose public methods
@@ -1987,8 +1934,8 @@ export default /*#__PURE__*/ createComponent({
 
           showPopup(e)
         },
-        onPointerenter: onControlPointerenter,
-        onPointerleave: onControlPointerleave
+        onPointerenter: hoverShow,
+        onPointerleave: hoverHide
       },
 
       getControl: fromDialog => {
