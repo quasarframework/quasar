@@ -1,13 +1,12 @@
 import { client } from '../../plugins/platform/Platform.js'
-import { listenOpts } from '../event/event.js'
 
 /**
  * The JS positioning engine: expresses a placement decided by the
  * shared boundary pass (position-engine.js) through pixel top/left
  * styles. A written position is only valid for the moment it was
  * computed, so its callers re-express the SAME frozen placement
- * (applyPosition) on every scroll step (addScrollTracking) and on
- * anchor motion (trackAnchorMotion) — the popup stays glued to its
+ * (applyPosition) on every scroll step (private.scroll-tracking) and
+ * on anchor motion (trackAnchorMotion) — the popup stays glued to its
  * anchor and scrolls off-screen with it, exactly like the native
  * engine's; only viewport/placement-prop changes re-open the decision.
  *
@@ -175,49 +174,6 @@ export function applyPosition({
   }
 
   return shift
-}
-
-/**
- * One capture-phase document listener tracks every scrolling container
- * at once — nested ones included, which per-container listeners could
- * never cover — and fans out to the shown popups. Each subscriber
- * filters out scrolls originating inside its own popup (they never move
- * its anchor) and re-expresses its frozen placement for the rest.
- */
-const scrollSubscribers = new Set()
-
-function onViewportMove(evt) {
-  scrollSubscribers.forEach(fn => {
-    fn(evt)
-  })
-}
-
-function changeGlobalListeners(fnProp) {
-  document[fnProp]('scroll', onViewportMove, listenOpts.passiveCapture)
-
-  if (client.is.ios && window.visualViewport !== void 0) {
-    // with the soft keyboard open (or while pinch-zoomed), iOS scrolls
-    // only the visual viewport: no scroll event fires anywhere for those
-    // steps, yet position:fixed popups stay pinned to the pre-scroll
-    // viewport, so the subscribers must also run on visual viewport
-    // moves to read a settled offsetTop/offsetLeft
-    window.visualViewport[fnProp]('scroll', onViewportMove, listenOpts.passive)
-    window.visualViewport[fnProp]('resize', onViewportMove, listenOpts.passive)
-  }
-}
-
-export function addScrollTracking(fn) {
-  if (scrollSubscribers.size === 0) {
-    changeGlobalListeners('addEventListener')
-  }
-
-  scrollSubscribers.add(fn)
-}
-
-export function removeScrollTracking(fn) {
-  if (scrollSubscribers.delete(fn) && scrollSubscribers.size === 0) {
-    changeGlobalListeners('removeEventListener')
-  }
 }
 
 /**

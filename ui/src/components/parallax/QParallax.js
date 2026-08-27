@@ -4,6 +4,10 @@ import { createComponent } from '../../utils/private.create/create.js'
 import { height, offset } from '../../utils/dom/dom.js'
 import frameDebounce from '../../utils/frame-debounce/frame-debounce.js'
 import { getScrollTarget, scrollTargetProp } from '../../utils/scroll/scroll.js'
+import {
+  addScrollTracking,
+  removeScrollTracking
+} from '../../utils/private.scroll-tracking/scroll-tracking.js'
 import { hSlot } from '../../utils/private.render/render.js'
 import { listenOpts } from '../../utils/event/event.js'
 
@@ -103,10 +107,25 @@ export default /*#__PURE__*/ createComponent({
       if (isWorking) updatePos()
     }
 
+    function onAnyScroll(evt) {
+      // updatePos() measures fresh viewport rects, so a scroll in ANY
+      // ancestor container moves the parallax, not just one in the
+      // designated one (which only defines the box the percentage is
+      // computed against); a scroll inside the parallax's own content
+      // never moves it, and the iOS visual viewport events carry a
+      // non-node target
+      if (
+        !(evt.target instanceof Node) ||
+        !rootRef.value.contains(evt.target)
+      ) {
+        updatePos()
+      }
+    }
+
     function start() {
       isWorking = true
       localScrollTarget = getScrollTarget(rootRef.value, props.scrollTarget)
-      localScrollTarget.addEventListener('scroll', updatePos, passive)
+      addScrollTracking(onAnyScroll)
       window.addEventListener('resize', resizeHandler, passive)
       updatePos()
     }
@@ -114,7 +133,7 @@ export default /*#__PURE__*/ createComponent({
     function stop() {
       if (isWorking) {
         isWorking = false
-        localScrollTarget.removeEventListener('scroll', updatePos, passive)
+        removeScrollTracking(onAnyScroll)
         window.removeEventListener('resize', resizeHandler, passive)
         localScrollTarget = void 0
         setPos.cancel()

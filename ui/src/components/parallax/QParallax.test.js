@@ -99,34 +99,41 @@ describe('[QParallax API]', () => {
     })
 
     describe('[(prop)scroll-target]', () => {
+      // the target defines the container box the scroll percentage is
+      // computed against; the default (the whole viewport) is much
+      // taller than the 200px target, so the parallax offset differs
+      function transformWith(props) {
+        const wrapper = mount(QParallax, { props: { height: 100, ...props } })
+        const transform = updateMedia(wrapper).style.transform
+        wrapper.unmount()
+        return transform
+      }
+
+      function styleTarget(target) {
+        Object.assign(target.style, {
+          position: 'fixed',
+          top: '0px',
+          width: '100px',
+          height: '200px'
+        })
+      }
+
       test('type Element has effect', () => {
         const target = createScrollTarget()
-        const addEventListener = vi.spyOn(target, 'addEventListener')
+        styleTarget(target)
 
-        mount(QParallax, {
-          props: { scrollTarget: target }
-        })
-
-        expect(addEventListener).toHaveBeenCalledWith(
-          'scroll',
-          expect.any(Function),
-          expect.anything()
+        expect(transformWith({ scrollTarget: target })).not.toBe(
+          transformWith({})
         )
       })
 
       test('type String has effect', () => {
         const target = createScrollTarget('parallax-scroll-target')
-        const addEventListener = vi.spyOn(target, 'addEventListener')
+        styleTarget(target)
 
-        mount(QParallax, {
-          props: { scrollTarget: '#parallax-scroll-target' }
-        })
-
-        expect(addEventListener).toHaveBeenCalledWith(
-          'scroll',
-          expect.any(Function),
-          expect.anything()
-        )
+        expect(
+          transformWith({ scrollTarget: '#parallax-scroll-target' })
+        ).not.toBe(transformWith({}))
       })
     })
   })
@@ -194,6 +201,32 @@ describe('[QParallax API]', () => {
         const [percentage] = eventList.scroll[0]
         expect(percentage).toBeTypeOf('number')
       })
+    })
+  })
+
+  describe('[Generic]', () => {
+    test('updates on a scroll from any container, none designated', () => {
+      const wrapper = mount(QParallax, { props: { height: 100 } })
+      const media = updateMedia(wrapper)
+      const before = media.style.transform
+
+      // the parallax box has moved (some ancestor scrolled) by the time
+      // a scroll comes in from a container the component never saw
+      wrapper.get('.q-parallax').element.getBoundingClientRect = () => ({
+        top: 200,
+        left: 0,
+        right: 100,
+        bottom: 300,
+        width: 100,
+        height: 100
+      })
+
+      const container = createScrollTarget()
+      container.dispatchEvent(new Event('scroll'))
+      vi.advanceTimersToNextFrame()
+
+      expect(media.style.transform).not.toBe(before)
+      wrapper.unmount()
     })
   })
 })

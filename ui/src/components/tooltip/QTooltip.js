@@ -45,11 +45,13 @@ import {
   setAnchorName
 } from '../../utils/private.position-engine/anchor-position-engine.js'
 import {
-  addScrollTracking,
   applyPosition,
-  removeScrollTracking,
   trackAnchorMotion
 } from '../../utils/private.position-engine/fallback-position-engine.js'
+import {
+  addScrollTracking,
+  removeScrollTracking
+} from '../../utils/private.scroll-tracking/scroll-tracking.js'
 
 let nonSelectableCount = 0
 

@@ -16,7 +16,7 @@ QParallax takes care of a lot of quirks, including image/video size which can ac
 ## Usage
 
 ::: tip Scrolling container
-Please read [here](/vue-components/scroll-observer#determining-scrolling-container) about how Quasar determines the container to attach scrolling events to.
+QParallax reacts to scrolling in any container on the page. The auto detected scrolling container (see [here](/vue-components/scroll-observer#determining-scrolling-container) about how Quasar determines it) only defines the box the scroll percentage is computed against; use the `scroll-target` prop when the detection picks the wrong one.
 :::
 
 ### Image background

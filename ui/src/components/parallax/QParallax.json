@@ -32,7 +32,8 @@
     },
 
     "scroll-target": {
-      "extends": "scroll-target"
+      "extends": "scroll-target",
+      "desc": "CSS selector or DOM element to be used as the container box the scroll percentage is computed against, instead of the auto detected one; the scrolling itself is detected in any scrolling container"
     }
   },
 
