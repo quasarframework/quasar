@@ -56,12 +56,6 @@ export default /*#__PURE__*/ createComponent({
         : trigger
     )
 
-    const hasDirective = computed(
-      () =>
-        !props.disable &&
-        (!isRuntimeSsrPreHydration.value || !props.once || !props.ssrPrerender)
-    )
-
     const directives = computed(() => [
       [Intersection, intersectionProps.value, void 0, { once: props.once }]
     ])
@@ -117,7 +111,11 @@ export default /*#__PURE__*/ createComponent({
         { class: 'q-intersection' },
         child,
         'main',
-        hasDirective.value,
+        // must not depend on transient state: hDir bakes it into the vnode
+        // key, and a flip re-creates the whole content (#17099-class; a
+        // once + ssrPrerender instance used to remount right after the
+        // client takeover)
+        !props.disable,
         () => directives.value
       )
     }
