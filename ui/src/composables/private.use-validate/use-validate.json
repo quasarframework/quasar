@@ -9,7 +9,7 @@
     "error": {
       "type": ["Boolean", "null"],
       "default": "null",
-      "desc": "Does field have validation errors?",
+      "desc": "Does field have validation errors?; Setting it to a Boolean (even false) reserves the bottom space for the error message so the layout does not shift when the error appears; leave it at null (the default) when not using external validation, or use 'hide-bottom-space' to not reserve the space",
       "category": "validation"
     },
 
