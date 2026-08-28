@@ -1,4 +1,4 @@
-import { computed, getCurrentInstance, h, ref, watch } from 'vue'
+import { Fragment, computed, getCurrentInstance, h, ref, watch } from 'vue'
 
 import QTh from './QTh.js'
 
@@ -507,11 +507,19 @@ export default /*#__PURE__*/ createComponent({
           const bodyCellCol = slots[`body-cell-${col.name}`],
             slot = bodyCellCol !== void 0 ? bodyCellCol : bodyCell
 
+          // key by column so that cell vnodes produced by different
+          // slot templates never get patched against each other
+          // (their patchFlags are only valid within their own template)
           return slot !== void 0
-            ? slot(getBodyCellScope({ key, row, pageIndex, col }))
+            ? h(
+                Fragment,
+                { key: col.name },
+                slot(getBodyCellScope({ key, row, pageIndex, col }))
+              )
             : h(
                 'td',
                 {
+                  key: col.name,
                   class: col.__tdClass(row),
                   style: col.__tdStyle(row)
                 },
@@ -586,12 +594,26 @@ export default /*#__PURE__*/ createComponent({
         getTBodyTR(row, body, pageIndex)
       )
 
+      // keyed so that when the row list shrinks/grows, the body rows
+      // never get patched against these slots' rows (see the body cells)
       return h(
         'tbody',
         [
-          topRow?.({ cols: computedCols.value }),
+          topRow !== void 0
+            ? h(
+                Fragment,
+                { key: 'top-row' },
+                topRow({ cols: computedCols.value })
+              )
+            : null,
           ...child,
-          bottomRow?.({ cols: computedCols.value })
+          bottomRow !== void 0
+            ? h(
+                Fragment,
+                { key: 'bottom-row' },
+                bottomRow({ cols: computedCols.value })
+              )
+            : null
         ].flat()
       )
     }
@@ -681,7 +703,15 @@ export default /*#__PURE__*/ createComponent({
       let child
 
       if (hasSelection) {
-        child = [topSelection(marginalsScope.value)].flat()
+        // keyed so that toggling the selection cannot patch this slot's
+        // content against the top-left/title controls (see the body cells)
+        child = [
+          h(
+            Fragment,
+            { key: 'top-selection' },
+            topSelection(marginalsScope.value)
+          )
+        ]
       } else {
         child = []
 
@@ -757,8 +787,9 @@ export default /*#__PURE__*/ createComponent({
           slot = headerCellCol !== void 0 ? headerCellCol : headerCell,
           slotProps = getHeaderScope({ col })
 
+        // keyed for the same reason as the body cells
         return slot !== void 0
-          ? slot(slotProps)
+          ? h(Fragment, { key: col.name }, slot(slotProps))
           : h(
               QTh,
               {
@@ -867,14 +898,20 @@ export default /*#__PURE__*/ createComponent({
             : props.noDataLabel || $q.lang.table.noData
 
         const noData = slots['no-data']
+        // keyed so that a filter/rows change cannot patch this slot's
+        // content against the bottom slot's (see the body cells)
         const children =
           noData !== void 0
             ? [
-                noData({
-                  message,
-                  icon: $q.iconSet.table.warning,
-                  filter: props.filter
-                })
+                h(
+                  Fragment,
+                  { key: 'no-data' },
+                  noData({
+                    message,
+                    icon: $q.iconSet.table.warning,
+                    filter: props.filter
+                  })
+                )
               ]
             : [
                 h(QIcon, {
@@ -894,7 +931,9 @@ export default /*#__PURE__*/ createComponent({
       const bottom = slots.bottom
 
       if (bottom !== void 0) {
-        return h('div', { class: bottomClass }, [bottom(marginalsScope.value)])
+        return h('div', { class: bottomClass }, [
+          h(Fragment, { key: 'bottom' }, bottom(marginalsScope.value))
+        ])
       }
 
       const child =

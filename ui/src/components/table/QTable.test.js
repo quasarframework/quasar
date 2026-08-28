@@ -6,6 +6,8 @@ import { getRouter } from 'testing/runtime/router.js'
 
 import QTable from './QTable.js'
 import QVirtualScroll from '../virtual-scroll/QVirtualScroll.js'
+import TableWithPerColumnSlots from './test/TableWithPerColumnSlots.vue'
+import TableWithSwappableSlots from './test/TableWithSwappableSlots.vue'
 
 const defaultColumns = [
   {
@@ -690,6 +692,34 @@ describe('[QTable API]', () => {
         expect(headerTexts).toHaveLength(2)
         expect(headerTexts[0]).toContain('Dessert')
         expect(headerTexts[1]).toContain('Calories')
+      })
+
+      // toggling visibility must not patch one column's slot content
+      // against another column's (#16047)
+      test('per-column slot content survives toggling', async () => {
+        const rows = getRows()
+        const wrapper = mount(TableWithPerColumnSlots, {
+          props: {
+            rows,
+            columns: defaultColumns,
+            rowKey: 'id',
+            visibleColumns: ['name', 'calories']
+          }
+        })
+
+        expect(wrapper.get('thead th').classes()).toContain('header-name')
+        expect(wrapper.get('tbody td').classes()).toContain('cell-name')
+
+        await wrapper.setProps({ visibleColumns: ['calories'] })
+
+        const th = wrapper.get('thead th')
+        expect(th.classes()).toContain('header-calories')
+        expect(th.text()).toBe(defaultColumns[1].label)
+
+        const td = wrapper.get('tbody td')
+        expect(td.classes()).toContain('cell-calories')
+        expect(td.attributes('data-value')).toBe(String(rows[0].calories))
+        expect(td.text()).toBe(String(rows[0].calories))
       })
     })
 
@@ -2004,6 +2034,27 @@ describe('[QTable API]', () => {
           cols: expect.any(Array)
         })
       })
+
+      // emptying the rows must not patch a body row against the
+      // bottom-row slot's content (#16047)
+      test('survives the body rows emptying', async () => {
+        const wrapper = mount(TableWithSwappableSlots, {
+          props: { rows: getRows(), columns: defaultColumns, rowKey: 'id' }
+        })
+
+        expect(wrapper.get('tbody tr:first-child').classes()).toContain(
+          'body-row'
+        )
+        expect(wrapper.get('tbody tr:last-child').classes()).toContain(
+          'bottom-row'
+        )
+
+        await wrapper.setProps({ rows: [] })
+
+        const tr = wrapper.get('tbody tr')
+        expect(tr.classes()).toContain('bottom-row')
+        expect(tr.text()).toBe('totals')
+      })
     })
 
     describe('[(slot)footer]', () => {
@@ -2188,6 +2239,31 @@ describe('[QTable API]', () => {
 
         expect(slotScope).toStrictEqual(marginalScopeShape)
       })
+
+      // gaining a selection must not patch the top-left slot's content
+      // against this slot's (#16047)
+      test('survives replacing the top-left slot', async () => {
+        const rows = getRows()
+        const wrapper = mount(TableWithSwappableSlots, {
+          props: {
+            rows,
+            columns: defaultColumns,
+            rowKey: 'id',
+            selection: 'multiple',
+            selected: []
+          }
+        })
+
+        const top = wrapper.get('.q-table__top')
+        expect(top.find('.top-left').exists()).toBe(true)
+        expect(top.find('.top-sel').exists()).toBe(false)
+
+        await wrapper.setProps({ selected: [rows[0]] })
+
+        expect(top.find('.top-left').exists()).toBe(false)
+        const sel = top.get('.top-sel')
+        expect(sel.text()).toBe('selection')
+      })
     })
 
     describe('[(slot)no-data]', () => {
@@ -2215,6 +2291,23 @@ describe('[QTable API]', () => {
           icon: expect.any(String),
           filter: 'find-me'
         })
+      })
+
+      // emptying the rows must not patch the bottom slot's content
+      // against this slot's (#16047)
+      test('survives replacing the bottom slot', async () => {
+        const wrapper = mount(TableWithSwappableSlots, {
+          props: { rows: getRows(), columns: defaultColumns, rowKey: 'id' }
+        })
+
+        expect(wrapper.find('.bottom-marginal').exists()).toBe(true)
+        expect(wrapper.find('.nodata-marginal').exists()).toBe(false)
+
+        await wrapper.setProps({ rows: [] })
+
+        expect(wrapper.find('.bottom-marginal').exists()).toBe(false)
+        const noData = wrapper.get('.nodata-marginal')
+        expect(noData.text()).toBe('empty')
       })
     })
   })
