@@ -214,7 +214,9 @@ export default /*#__PURE__*/ createComponent({
     // if no page scrollbar is already present
     if (!__QUASAR_SSR_SERVER__ && getScrollbarWidth() > 0) {
       let timer = null
-      const el = document.body
+      // the class must sit on the root element: scrollbar-width reaches the
+      // viewport scrollbar only from there, never from body (#17122)
+      const el = document.documentElement
 
       const restoreScrollbar = () => {
         timer = null
