@@ -1,0 +1,42 @@
+{
+  "props": {
+    "done-icon": {
+      "extends": "icon",
+      "desc": "Icon name following Quasar convention; If 'none' (String) is used as value, then it will defer to prefix or the regular icon for this state; Make sure you have the icon library installed unless you are using 'img:' prefix",
+      "category": "header"
+    },
+
+    "done-color": {
+      "extends": "color",
+      "category": "header"
+    },
+
+    "active-icon": {
+      "extends": "icon",
+      "desc": "Icon name following Quasar convention; If 'none' (String) is used as value, then it will defer to prefix or the regular icon for this state; Make sure you have the icon library installed unless you are using 'img:' prefix",
+      "category": "header"
+    },
+
+    "active-color": {
+      "extends": "color",
+      "category": "header"
+    },
+
+    "error-icon": {
+      "extends": "icon",
+      "desc": "Icon name following Quasar convention; If 'none' (String) is used as value, then it will defer to prefix or the regular icon for this state; Make sure you have the icon library installed unless you are using 'img:' prefix",
+      "category": "header"
+    },
+
+    "error-color": {
+      "extends": "color",
+      "category": "header"
+    },
+
+    "header-nav": {
+      "type": "Boolean",
+      "desc": "Allow navigation through the header",
+      "category": "behavior"
+    }
+  }
+}

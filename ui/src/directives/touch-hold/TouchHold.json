@@ -61,18 +61,15 @@
 
   "modifiers": {
     "capture": {
-      "type": "Boolean",
-      "desc": "Use capture for touchstart event"
+      "extends": "capture"
     },
 
     "mouse": {
-      "type": "Boolean",
-      "desc": "Listen for mouse events too"
+      "extends": "mouse"
     },
 
     "mouseCapture": {
-      "type": "Boolean",
-      "desc": "Use capture for mousedown event"
+      "extends": "mouseCapture"
     }
   }
 }

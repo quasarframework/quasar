@@ -188,12 +188,6 @@
     }
   },
 
-  "slots": {
-    "default": {
-      "desc": "This is where additional buttons can go"
-    }
-  },
-
   "events": {
     "update:model-value": {
       "extends": "update:model-value",

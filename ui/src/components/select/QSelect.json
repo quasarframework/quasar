@@ -76,86 +76,15 @@
     },
 
     "option-value": {
-      "type": ["Function", "String"],
-      "desc": "Property of option which holds the 'value'; If using a function then for best performance, reference it from your scope and do not define it inline",
-      "default": "'value'",
-      "__runtimeDefault": true,
-      "params": {
-        "option": {
-          "type": ["String", "Object"],
-          "desc": "The current option being processed",
-          "examples": [
-            "'Tesla'",
-            "'iPhone'",
-            "{ label: 'Tesla', value: 'car', cannotSelect: true }"
-          ]
-        }
-      },
-      "returns": {
-        "type": "Any",
-        "desc": "Value of the current option",
-        "examples": ["'car'", "34"]
-      },
-      "examples": [
-        "'modelNumber'",
-        "item => (item === null ? null : item.modelNumber)"
-      ],
-      "category": "options"
+      "extends": "option-value"
     },
 
     "option-label": {
-      "type": ["Function", "String"],
-      "desc": "Property of option which holds the 'label'; If using a function then for best performance, reference it from your scope and do not define it inline",
-      "default": "'label'",
-      "__runtimeDefault": true,
-      "params": {
-        "option": {
-          "type": ["String", "Object"],
-          "desc": "The current option being processed",
-          "examples": [
-            "'Tesla'",
-            "'iPhone'",
-            "{ label: 'Tesla', value: 'car', cannotSelect: true }"
-          ]
-        }
-      },
-      "returns": {
-        "type": "String",
-        "desc": "Label of the current option",
-        "examples": ["'Tesla'", "'iPhone'"]
-      },
-      "examples": [
-        "'itemName'",
-        "item => (item === null ? 'Null value' : item.itemName)"
-      ],
-      "category": "options"
+      "extends": "option-label"
     },
 
     "option-disable": {
-      "type": ["Function", "String"],
-      "desc": "Property of option which tells it's disabled; The value of the property must be a Boolean; If using a function then for best performance, reference it from your scope and do not define it inline",
-      "default": "'disable'",
-      "__runtimeDefault": true,
-      "params": {
-        "option": {
-          "type": ["String", "Object"],
-          "desc": "The current option being processed",
-          "examples": [
-            "'Tesla'",
-            "'iPhone'",
-            "{ label: 'Tesla', value: 'car', cannotSelect: true }"
-          ]
-        }
-      },
-      "returns": {
-        "type": "Boolean",
-        "desc": "If true, the current option will be disabled"
-      },
-      "examples": [
-        "item => (item === null ? true : item.cannotSelect)",
-        "# option-disable=\"cannotSelect\""
-      ],
-      "category": "options"
+      "extends": "option-disable"
     },
 
     "hide-selected": {
@@ -330,22 +259,11 @@
     },
 
     "input-class": {
-      "type": ["String", "Array", "Object"],
-      "tsType": "VueClassProp",
-      "desc": "Class definitions to be attributed to the underlying input tag",
-      "examples": ["'my-special-class'", "{ 'my-special-class': true }"],
-      "category": "style"
+      "extends": "input-class"
     },
 
     "input-style": {
-      "type": ["String", "Array", "Object"],
-      "tsType": "VueStyleProp",
-      "desc": "Style definitions to be attributed to the underlying input tag",
-      "examples": [
-        "'background-color: #ff0000'",
-        "{ backgroundColor: '#ff0000' }"
-      ],
-      "category": "style"
+      "extends": "input-style"
     },
 
     "tabindex": {

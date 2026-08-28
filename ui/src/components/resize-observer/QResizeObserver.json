@@ -5,11 +5,9 @@
 
   "props": {
     "debounce": {
-      "type": ["String", "Number"],
-      "desc": "Debounce amount (in milliseconds)",
+      "extends": "debounce",
       "default": "100",
-      "examples": ["0", "'530'"],
-      "category": "behavior"
+      "examples": ["0", "'530'"]
     }
   },
 

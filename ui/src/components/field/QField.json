@@ -7,9 +7,7 @@
 
   "props": {
     "maxlength": {
-      "type": ["String", "Number"],
-      "desc": "Specify a max length of model",
-      "category": "model"
+      "extends": "maxlength"
     },
 
     "tag": {

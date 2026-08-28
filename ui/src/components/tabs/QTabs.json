@@ -64,10 +64,7 @@
     },
 
     "content-class": {
-      "type": "String",
-      "desc": "Class definitions to be attributed to the content wrapper",
-      "examples": ["'my-special-class'"],
-      "category": "style"
+      "extends": "content-class"
     },
 
     "active-class": {
@@ -123,9 +120,7 @@
     },
 
     "no-caps": {
-      "type": "Boolean",
-      "desc": "Turns off capitalizing all letters within the tab (which is the default)",
-      "category": "content"
+      "extends": "tab-no-caps"
     },
 
     "dense": {

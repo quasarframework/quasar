@@ -59,9 +59,7 @@
     },
 
     "maxlength": {
-      "type": ["String", "Number"],
-      "desc": "Specify a max length of model",
-      "category": "model"
+      "extends": "maxlength"
     },
 
     "autogrow": {
@@ -71,22 +69,11 @@
     },
 
     "input-class": {
-      "type": ["String", "Array", "Object"],
-      "tsType": "VueClassProp",
-      "desc": "Class definitions to be attributed to the underlying input tag",
-      "examples": ["'my-special-class'", "{ 'my-special-class': true }"],
-      "category": "style"
+      "extends": "input-class"
     },
 
     "input-style": {
-      "type": ["String", "Array", "Object"],
-      "tsType": "VueStyleProp",
-      "desc": "Style definitions to be attributed to the underlying input tag",
-      "examples": [
-        "'background-color: #ff0000'",
-        "{ backgroundColor: '#ff0000' }"
-      ],
-      "category": "style"
+      "extends": "input-style"
     },
 
     "name": {

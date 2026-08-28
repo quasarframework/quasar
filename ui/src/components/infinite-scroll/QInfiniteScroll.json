@@ -12,10 +12,8 @@
     },
 
     "debounce": {
-      "type": ["String", "Number"],
-      "desc": "Debounce amount (in milliseconds)",
-      "default": "100",
-      "category": "behavior"
+      "extends": "debounce",
+      "default": "100"
     },
 
     "initial-index": {
@@ -117,9 +115,7 @@
     },
 
     "updateScrollTarget": {
-      "desc": "Updates the scroll target; Useful when the parent elements change so that the scrolling target also changes",
-      "params": null,
-      "returns": null
+      "extends": "updateScrollTarget"
     }
   }
 }

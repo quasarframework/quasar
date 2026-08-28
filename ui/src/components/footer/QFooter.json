@@ -1,15 +1,12 @@
 {
+  "mixins": ["components/header/use-header-footer"],
+
   "meta": {
     "docsUrl": "https://v2.quasar.dev/layout/header-and-footer"
   },
 
   "props": {
     "model-value": {
-      "extends": "model-value",
-      "type": "Boolean",
-      "desc": "Model of the component defining if it is shown or hidden to the user; Either use this property (along with a listener for 'update:modelValue' event) OR use v-model directive",
-      "default": "true",
-      "required": false,
       "examples": ["# v-model=\"footerState\""]
     },
 
@@ -17,10 +14,6 @@
       "type": "Boolean",
       "desc": "Enable 'reveal' mode; Takes into account user scroll to temporarily show/hide footer",
       "category": "behavior"
-    },
-
-    "bordered": {
-      "extends": "bordered"
     },
 
     "elevated": {
@@ -35,25 +28,5 @@
       "default": "50",
       "category": "behavior"
     }
-  },
-
-  "slots": {
-    "default": {
-      "desc": "Default slot in the devland unslotted content of the component; Suggestion: QToolbar"
-    }
-  },
-
-  "events": {
-    "reveal": {
-      "desc": "Emitted when 'reveal' state gets changed",
-      "params": {
-        "value": {
-          "type": "Boolean",
-          "desc": "New 'reveal' state"
-        }
-      }
-    },
-
-    "focusin": { "internal": true }
   }
 }

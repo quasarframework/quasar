@@ -150,6 +150,147 @@
     "evt": {
       "type": "Event",
       "desc": "JS event object"
+    },
+
+    "option-value": {
+      "type": ["Function", "String"],
+      "desc": "Property of option which holds the 'value'; If using a function then for best performance, reference it from your scope and do not define it inline",
+      "default": "'value'",
+      "__runtimeDefault": true,
+      "params": {
+        "option": {
+          "type": ["String", "Object"],
+          "desc": "The current option being processed",
+          "examples": [
+            "'Tesla'",
+            "'iPhone'",
+            "{ label: 'Tesla', value: 'car', cannotSelect: true }"
+          ]
+        }
+      },
+      "returns": {
+        "type": "Any",
+        "desc": "Value of the current option",
+        "examples": ["'car'", "34"]
+      },
+      "examples": [
+        "'modelNumber'",
+        "item => (item === null ? null : item.modelNumber)"
+      ],
+      "category": "options"
+    },
+
+    "option-label": {
+      "type": ["Function", "String"],
+      "desc": "Property of option which holds the 'label'; If using a function then for best performance, reference it from your scope and do not define it inline",
+      "default": "'label'",
+      "__runtimeDefault": true,
+      "params": {
+        "option": {
+          "type": ["String", "Object"],
+          "desc": "The current option being processed",
+          "examples": [
+            "'Tesla'",
+            "'iPhone'",
+            "{ label: 'Tesla', value: 'car', cannotSelect: true }"
+          ]
+        }
+      },
+      "returns": {
+        "type": "String",
+        "desc": "Label of the current option",
+        "examples": ["'Tesla'", "'iPhone'"]
+      },
+      "examples": [
+        "'itemName'",
+        "item => (item === null ? 'Null value' : item.itemName)"
+      ],
+      "category": "options"
+    },
+
+    "option-disable": {
+      "type": ["Function", "String"],
+      "desc": "Property of option which tells it's disabled; The value of the property must be a Boolean; If using a function then for best performance, reference it from your scope and do not define it inline",
+      "default": "'disable'",
+      "__runtimeDefault": true,
+      "params": {
+        "option": {
+          "type": ["String", "Object"],
+          "desc": "The current option being processed",
+          "examples": [
+            "'Tesla'",
+            "'iPhone'",
+            "{ label: 'Tesla', value: 'car', cannotSelect: true }"
+          ]
+        }
+      },
+      "returns": {
+        "type": "Boolean",
+        "desc": "If true, the current option will be disabled"
+      },
+      "examples": [
+        "item => (item === null ? true : item.cannotSelect)",
+        "# option-disable=\"cannotSelect\""
+      ],
+      "category": "options"
+    },
+
+    "input-class": {
+      "type": ["String", "Array", "Object"],
+      "tsType": "VueClassProp",
+      "desc": "Class definitions to be attributed to the underlying input tag",
+      "examples": ["'my-special-class'", "{ 'my-special-class': true }"],
+      "category": "style"
+    },
+
+    "input-style": {
+      "type": ["String", "Array", "Object"],
+      "tsType": "VueStyleProp",
+      "desc": "Style definitions to be attributed to the underlying input tag",
+      "examples": [
+        "'background-color: #ff0000'",
+        "{ backgroundColor: '#ff0000' }"
+      ],
+      "category": "style"
+    },
+
+    "maxlength": {
+      "type": ["String", "Number"],
+      "desc": "Specify a max length of model",
+      "category": "model"
+    },
+
+    "debounce": {
+      "type": ["String", "Number"],
+      "desc": "Debounce amount (in milliseconds)",
+      "category": "behavior"
+    },
+
+    "table-separator": {
+      "type": "String",
+      "desc": "Use a separator/border between rows, columns or all cells",
+      "default": "'horizontal'",
+      "values": ["'horizontal'", "'vertical'", "'cell'", "'none'"],
+      "category": "content"
+    },
+
+    "wrap-cells": {
+      "type": "Boolean",
+      "desc": "Wrap text within table cells",
+      "category": "content"
+    },
+
+    "content-class": {
+      "type": "String",
+      "desc": "Class definitions to be attributed to the content wrapper",
+      "examples": ["'my-special-class'"],
+      "category": "style"
+    },
+
+    "tab-no-caps": {
+      "type": "Boolean",
+      "desc": "Turns off capitalizing all letters within the tab (which is the default)",
+      "category": "content"
     }
   },
 
@@ -227,6 +368,51 @@
           "required": true
         }
       }
+    },
+
+    "navigation-click": {
+      "desc": "Emitted when the component is clicked",
+      "params": {
+        "evt": {
+          "extends": "evt",
+          "desc": "JS event object; If you are using route navigation ('to'/'replace' props) and you want to cancel navigation then call evt.preventDefault() synchronously in your event handler"
+        },
+        "go": {
+          "type": "Function",
+          "desc": "Available ONLY if you are using route navigation ('to'/'replace' props); When you need to control the time at which the component should trigger the route navigation then call evt.preventDefault() synchronously and then call this function at your convenience; Useful if you have async work to be done before the actual route navigation or if you want to redirect somewhere else",
+          "required": false,
+          "addedIn": "v2.9",
+          "params": {
+            "opts": {
+              "type": "Object",
+              "desc": "Optional options",
+              "required": false,
+              "definition": {
+                "to": {
+                  "type": ["String", "Object"],
+                  "desc": "Equivalent to Vue Router <router-link> 'to' property; Specify it explicitly otherwise it will be set with same value as component's 'to' prop",
+                  "required": false,
+                  "examples": ["'/home/dashboard'", "{ name: 'my-route-name' }"]
+                },
+                "replace": {
+                  "type": "Boolean",
+                  "desc": "Equivalent to Vue Router <router-link> 'replace' property; Specify it explicitly otherwise it will be set with same value as component's 'replace' prop",
+                  "required": false
+                },
+                "returnRouterError": {
+                  "type": "Boolean",
+                  "desc": "Return the router error, if any; Otherwise the returned Promise will always fulfill",
+                  "required": false
+                }
+              }
+            }
+          },
+          "returns": {
+            "type": "Promise<any>",
+            "desc": "Returns the router's navigation promise"
+          }
+        }
+      }
     }
   },
 
@@ -262,6 +448,39 @@
         }
       },
       "returns": null
+    },
+
+    "updateScrollTarget": {
+      "desc": "Updates the scroll target; Useful when the parent elements change so that the scrolling target also changes",
+      "params": null,
+      "returns": null
+    }
+  },
+
+  "modifiers": {
+    "capture": {
+      "type": "Boolean",
+      "desc": "Use capture for touchstart event"
+    },
+
+    "mouse": {
+      "type": "Boolean",
+      "desc": "Listen for mouse events too"
+    },
+
+    "mouseCapture": {
+      "type": "Boolean",
+      "desc": "Use capture for mousedown event"
+    },
+
+    "horizontal": {
+      "type": "Boolean",
+      "desc": "Catch horizontal (left/right) movement"
+    },
+
+    "vertical": {
+      "type": "Boolean",
+      "desc": "Catch vertical (up/down) movement"
     }
   }
 }

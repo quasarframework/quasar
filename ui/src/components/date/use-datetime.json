@@ -1,6 +1,12 @@
 {
   "mixins": ["composables/use-form/private.use-form"],
 
+  "slots": {
+    "default": {
+      "desc": "This is where additional buttons can go"
+    }
+  },
+
   "props": {
     "landscape": {
       "type": "Boolean",

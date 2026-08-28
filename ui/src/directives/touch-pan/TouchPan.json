@@ -119,18 +119,15 @@
     },
 
     "capture": {
-      "type": "Boolean",
-      "desc": "Use capture for touchstart event"
+      "extends": "capture"
     },
 
     "mouse": {
-      "type": "Boolean",
-      "desc": "Listen for mouse events too"
+      "extends": "mouse"
     },
 
     "mouseCapture": {
-      "type": "Boolean",
-      "desc": "Use capture for mousedown event"
+      "extends": "mouseCapture"
     },
 
     "mouseAllDir": {
@@ -144,13 +141,11 @@
     },
 
     "horizontal": {
-      "type": "Boolean",
-      "desc": "Catch horizontal (left/right) movement"
+      "extends": "horizontal"
     },
 
     "vertical": {
-      "type": "Boolean",
-      "desc": "Catch vertical (up/down) movement"
+      "extends": "vertical"
     },
 
     "up": {

@@ -79,22 +79,13 @@
     },
 
     "input-class": {
-      "type": ["String", "Array", "Object"],
-      "tsType": "VueClassProp",
-      "desc": "Class definitions to be attributed to the underlying selection container",
-      "examples": ["'my-special-class'", "{ 'my-special-class': true }"],
-      "category": "style"
+      "extends": "input-class",
+      "desc": "Class definitions to be attributed to the underlying selection container"
     },
 
     "input-style": {
-      "type": ["String", "Array", "Object"],
-      "tsType": "VueStyleProp",
-      "desc": "Style definitions to be attributed to the underlying selection container",
-      "examples": [
-        "'background-color: #ff0000'",
-        "{ backgroundColor: '#ff0000' }"
-      ],
-      "category": "style"
+      "extends": "input-style",
+      "desc": "Style definitions to be attributed to the underlying selection container"
     },
 
     "name": {

@@ -62,9 +62,7 @@
     },
 
     "updateScrollTarget": {
-      "desc": "Updates the scroll target; Useful when the parent elements change so that the scrolling target also changes",
-      "params": null,
-      "returns": null
+      "extends": "updateScrollTarget"
     }
   }
 }

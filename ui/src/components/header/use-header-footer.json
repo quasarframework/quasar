@@ -1,0 +1,35 @@
+{
+  "props": {
+    "model-value": {
+      "extends": "model-value",
+      "type": "Boolean",
+      "desc": "Model of the component defining if it is shown or hidden to the user; Either use this property (along with a listener for 'update:modelValue' event) OR use v-model directive",
+      "default": "true",
+      "required": false
+    },
+
+    "bordered": {
+      "extends": "bordered"
+    }
+  },
+
+  "slots": {
+    "default": {
+      "desc": "Default slot in the devland unslotted content of the component; Suggestion: QToolbar"
+    }
+  },
+
+  "events": {
+    "reveal": {
+      "desc": "Emitted when 'reveal' state gets changed",
+      "params": {
+        "value": {
+          "type": "Boolean",
+          "desc": "New 'reveal' state"
+        }
+      }
+    },
+
+    "focusin": { "internal": true }
+  }
+}

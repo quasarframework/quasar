@@ -429,17 +429,11 @@
     },
 
     "separator": {
-      "type": "String",
-      "desc": "Use a separator/border between rows, columns or all cells",
-      "default": "'horizontal'",
-      "values": ["'horizontal'", "'vertical'", "'cell'", "'none'"],
-      "category": "content"
+      "extends": "table-separator"
     },
 
     "wrap-cells": {
-      "type": "Boolean",
-      "desc": "Wrap text within table cells",
-      "category": "content"
+      "extends": "wrap-cells"
     },
 
     "binary-state-sort": {
