@@ -1,6 +1,7 @@
 import { getCurrentInstance, ref } from 'vue'
 
 import getEmitsObject from '../../utils/private.get-emits-object/get-emits-object.js'
+import { getDismissReason } from '../../utils/private.dialog/dismiss-reason.js'
 
 // To be used for the custom component
 // used on a Dialog plugin
@@ -36,16 +37,7 @@ export default function useDialogPluginComponent() {
   }
 
   function onDialogHide(evt) {
-    emit(
-      'hide',
-      dismissReason !== null
-        ? dismissReason
-        : evt === void 0
-          ? 'programmatic'
-          : evt.type.indexOf('key') === 0
-            ? 'escape'
-            : 'backdrop'
-    )
+    emit('hide', dismissReason !== null ? dismissReason : getDismissReason(evt))
   }
 
   // expose public methods required by Dialog plugin

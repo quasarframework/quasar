@@ -57,6 +57,59 @@ describe('[BottomSheet API]', () => {
 
         expect(document.querySelector('.q-bottom-sheet--grid')).toBe(null)
       })
+
+      describe('dismissal reason', () => {
+        const showBottomSheet = async () => {
+          mountPlugin()
+
+          const onCancel = vi.fn()
+
+          const api = BottomSheet.create({
+            title: 'Share',
+            actions: [{ label: 'Facebook', icon: 'share' }]
+          }).onCancel(onCancel)
+
+          await nextTick()
+          await nextTick()
+
+          return { api, onCancel }
+        }
+
+        const settle = async () => {
+          vi.runAllTimers()
+          await nextTick()
+        }
+
+        test('passes "backdrop" when the backdrop is clicked', async () => {
+          const { onCancel } = await showBottomSheet()
+
+          document
+            .querySelector('.q-dialog__backdrop')
+            .dispatchEvent(new MouseEvent('mousedown', { button: 0 }))
+          await settle()
+
+          expect(onCancel).toHaveBeenCalledExactlyOnceWith('backdrop')
+        })
+
+        test('passes "escape" when the ESC key is pressed', async () => {
+          const { onCancel } = await showBottomSheet()
+
+          window.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 27 }))
+          window.dispatchEvent(new KeyboardEvent('keyup', { keyCode: 27 }))
+          await settle()
+
+          expect(onCancel).toHaveBeenCalledExactlyOnceWith('escape')
+        })
+
+        test('passes "programmatic" when hidden through the API', async () => {
+          const { api, onCancel } = await showBottomSheet()
+
+          api.hide()
+          await settle()
+
+          expect(onCancel).toHaveBeenCalledExactlyOnceWith('programmatic')
+        })
+      })
     })
   })
 })

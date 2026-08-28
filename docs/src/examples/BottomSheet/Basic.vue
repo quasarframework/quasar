@@ -73,8 +73,10 @@ function show(grid) {
     .onOk(action => {
       console.log('Action chosen:', action.id)
     })
-    .onCancel(() => {
-      console.log('Dismissed')
+    .onCancel(reason => {
+      // reason (Quasar v2.28+) is 'backdrop',
+      // 'escape' or 'programmatic'
+      console.log('Dismissed:', reason)
     })
     .onDismiss(() => {
       console.log('I am triggered on both OK and Cancel')

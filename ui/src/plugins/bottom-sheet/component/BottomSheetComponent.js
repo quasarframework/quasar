@@ -12,6 +12,7 @@ import QItem from '../../../components/item/QItem.js'
 import QItemSection from '../../../components/item/QItemSection.js'
 
 import { createComponent } from '../../../utils/private.create/create.js'
+import { getDismissReason } from '../../../utils/private.dialog/dismiss-reason.js'
 import useQuasar from '../../../composables/use-quasar/use-quasar.js'
 import useDark, {
   useDarkProps
@@ -54,8 +55,8 @@ export default /*#__PURE__*/ createComponent({
       hide()
     }
 
-    function onHide() {
-      emit('hide')
+    function onHide(evt) {
+      emit('hide', getDismissReason(evt))
     }
 
     function getGrid() {
