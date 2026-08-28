@@ -134,9 +134,7 @@
     "webpack-merge": "^6.0.1"
   },
   "engines": {
-    "node": ">= 10.18.1",
-    "npm": ">= 6.13.4",
-    "yarn": ">= 1.21.1"
+    "node": ">= 22.0.0"
   },
   "web-types": "dist/web-types/web-types.json"
 }

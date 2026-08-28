@@ -14,16 +14,22 @@ const tableData = []
 export const BUILD_TARGETS = getBuildTargets()
 
 function getBuildTargets() {
+  // the Baseline Widely Available minima (snapshot of August 2026);
+  // refresh on release trains with:
+  //   pnpm --dir docs exec browserslist "baseline widely available"
+  // docs/src/pages/start/browser-support.md mirrors these versions
   const targets = [
-    { name: 'chrome', major: 111 },
-    { name: 'edge', major: 111 },
-    { name: 'firefox', major: 114 },
-    { name: 'safari', major: 16, minor: 4 },
-    { name: 'ios', major: 16, minor: 4 }
+    { name: 'chrome', major: 121 },
+    { name: 'edge', major: 121 },
+    { name: 'firefox', major: 123 },
+    { name: 'safari', major: 17, minor: 2 },
+    { name: 'ios', major: 17, minor: 2 }
   ]
 
   return {
-    ROLLDOWN_NODE: 'node20',
+    // keep in sync with the package.json "engines" field and with
+    // @quasar/app-vite's default node build target
+    ROLLDOWN_NODE: 'node22',
 
     ROLLDOWN_BROWSER: targets.map(
       target =>
