@@ -3,7 +3,69 @@
     "components/btn/use-btn",
     "composables/private.use-model-toggle/use-model-toggle",
     "composables/private.use-transition/use-transition",
-    "composables/private.use-hover/use-hover"
+    "composables/private.use-hover/use-hover",
+
+    {
+      "from": "components/menu/QMenu",
+      "include": {
+        "props": [
+          "cover",
+          "persistent",
+          "no-esc-dismiss",
+          "no-route-dismiss",
+          "auto-close",
+          "no-refocus",
+          "no-focus",
+          "anchor",
+          "self",
+          "offset"
+        ]
+      },
+      "rename": {
+        "props": {
+          "anchor": "menu-anchor",
+          "self": "menu-self",
+          "offset": "menu-offset"
+        }
+      },
+      "overrides": {
+        "props": {
+          "cover": {
+            "desc": "Allows the menu to cover the button. When used, the 'menu-self' prop is no longer effective"
+          },
+
+          "no-refocus": {
+            "desc": "(Accessibility) When the dropdown gets hidden, do not refocus on the DOM element that previously had focus",
+            "addedIn": "v2.18"
+          },
+
+          "no-focus": {
+            "desc": "(Accessibility) When the dropdown gets shown, do not switch focus on it",
+            "addedIn": "v2.18"
+          },
+
+          "menu-anchor": {
+            "default": "'bottom end'"
+          },
+
+          "menu-self": {
+            "default": "'top end'"
+          }
+        }
+      }
+    },
+
+    {
+      "from": "components/btn/QBtn",
+      "include": { "slots": ["loading"] },
+      "overrides": {
+        "slots": {
+          "loading": {
+            "addedIn": "v2.8"
+          }
+        }
+      }
+    }
   ],
 
   "meta": {
@@ -63,18 +125,6 @@
       "category": "style"
     },
 
-    "cover": {
-      "type": "Boolean",
-      "desc": "Allows the menu to cover the button. When used, the 'menu-self' prop is no longer effective",
-      "category": "position"
-    },
-
-    "persistent": {
-      "type": "Boolean",
-      "desc": "Allows the menu to not be dismissed by a click/tap outside of the menu or by hitting the ESC key; Also, an app route change won't dismiss it",
-      "category": "behavior"
-    },
-
     "hover": {
       "desc": "Also opens the dropdown when the pointer hovers the button (in split mode: either one of the two buttons) and closes it when the pointer leaves both the button and the menu; Click/tap and keyboard interactions keep toggling as usual (touch devices fall back to them), so activating the toggle closes a hover-shown dropdown, unless it is still animating into view (which keeps a single move-and-click gesture from closing what it just opened); A hover-opened dropdown does not switch focus on itself",
       "addedIn": "v2.26"
@@ -90,94 +140,6 @@
       "desc": "Grace period (in milliseconds) in which the pointer can re-enter the button or the menu before the dropdown gets closed; Requires the 'hover' prop",
       "__runtimeDefault": true,
       "addedIn": "v2.26"
-    },
-
-    "no-esc-dismiss": {
-      "type": "Boolean",
-      "desc": "User cannot dismiss the popup by hitting ESC key; No need to set it if 'persistent' prop is also set",
-      "category": "behavior",
-      "addedIn": "v2.18"
-    },
-
-    "no-route-dismiss": {
-      "type": "Boolean",
-      "desc": "Changing route app won't dismiss the popup; No need to set it if 'persistent' prop is also set",
-      "category": "behavior"
-    },
-
-    "auto-close": {
-      "type": "Boolean",
-      "desc": "Allows any click/tap in the menu to close it; Useful instead of attaching events to each menu item that should close the menu on click/tap",
-      "category": "behavior"
-    },
-
-    "no-refocus": {
-      "type": "Boolean",
-      "desc": "(Accessibility) When the dropdown gets hidden, do not refocus on the DOM element that previously had focus",
-      "category": "behavior",
-      "addedIn": "v2.18"
-    },
-
-    "no-focus": {
-      "type": "Boolean",
-      "desc": "(Accessibility) When the dropdown gets shown, do not switch focus on it",
-      "category": "behavior",
-      "addedIn": "v2.18"
-    },
-
-    "menu-anchor": {
-      "type": "String",
-      "desc": "Two values setting the starting position or anchor point of the menu relative to its target",
-      "values": [
-        "'top left'",
-        "'top middle'",
-        "'top right'",
-        "'top start'",
-        "'top end'",
-        "'center left'",
-        "'center middle'",
-        "'center right'",
-        "'center start'",
-        "'center end'",
-        "'bottom left'",
-        "'bottom middle'",
-        "'bottom right'",
-        "'bottom start'",
-        "'bottom end'"
-      ],
-      "default": "'bottom end'",
-      "category": "position"
-    },
-
-    "menu-self": {
-      "type": "String",
-      "desc": "Two values setting the menu's own position relative to its target",
-      "values": [
-        "'top left'",
-        "'top middle'",
-        "'top right'",
-        "'top start'",
-        "'top end'",
-        "'center left'",
-        "'center middle'",
-        "'center right'",
-        "'center start'",
-        "'center end'",
-        "'bottom left'",
-        "'bottom middle'",
-        "'bottom right'",
-        "'bottom start'",
-        "'bottom end'"
-      ],
-      "default": "'top end'",
-      "category": "position"
-    },
-
-    "menu-offset": {
-      "type": "Array",
-      "desc": "An array of two numbers (in pixels) which expands the anchor element's bounding box outward horizontally and vertically; the menu is then positioned against the expanded box, so the visible effect depends on the 'anchor'/'self' points in use",
-      "examples": ["[8, 8]", "[5, 10]"],
-      "category": "position"
     },
 
     "toggle-aria-label": {
@@ -204,11 +166,6 @@
 
     "label": {
       "desc": "Customize main button's content through this slot, unless you're using the 'icon' and 'label' props"
-    },
-
-    "loading": {
-      "desc": "Override the default QSpinner when in 'loading' state",
-      "addedIn": "v2.8"
     },
 
     "toggle": {

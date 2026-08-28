@@ -610,6 +610,7 @@ function isSerializable(value) {
  *     "from": "components/menu/QMenu",
  *     "include?": { "props": "all", "events": ["escape-key"] },
  *     "exclude?": { "props": ["separate-close-popup"] },
+ *     "rename?": { "props": { "anchor": "menu-anchor" } },
  *     "overrideAll?": {
  *       "props": {
  *         "passthrough": true,
@@ -634,9 +635,15 @@ function isSerializable(value) {
  *   present means a strict allowlist (unlisted sections are not
  *   pulled); omitted means everything. Each section is "all" or an
  *   Array of entry names. "exclude" prunes after "include".
- * - Every name in "include"/"exclude"/"overrides" is existence-checked
- *   against the source, and an override must target an actually pulled
- *   entry, so a renamed/removed source entry fails the build here.
+ * - "rename" (also keyed by section) maps a source entry name to the
+ *   name it gets on the pulling file (e.g. QMenu's "anchor" pulled as
+ *   "menu-anchor"). It applies after "include"/"exclude" (which use
+ *   source names); "overrides" and "explicitOverrideForAll" use the
+ *   final (renamed) names.
+ * - Every name in "include"/"exclude"/"rename"/"overrides" is
+ *   existence-checked against the source, and an override must target
+ *   an actually pulled entry, so a renamed/removed source entry fails
+ *   the build here.
  * - "overrideAll" merges its keys into every pulled entry of that
  *   section; "overrides" > "overrideAll" > pulled definition. Inside an
  *   override, "__delete" (Array) removes inherited keys.
@@ -657,6 +664,7 @@ const objectMixinKeys = [
   'from',
   'include',
   'exclude',
+  'rename',
   'overrideAll',
   'overrides',
   'explicitOverrideForAll'
@@ -671,6 +679,16 @@ const objectMixinAffixRE = /^__(\w+)__(prefix|suffix)$/
 
 const objectMixinSourceCache = new Map()
 const objectMixinSourcePending = new Set()
+
+function stripUndefinedMarkers(obj) {
+  for (const key of Object.keys(obj)) {
+    if (obj[key] === void 0) {
+      delete obj[key]
+    } else if (Object(obj[key]) === obj[key]) {
+      stripUndefinedMarkers(obj[key])
+    }
+  }
+}
 
 function getObjectMixinSource(from, printErrorAndExit) {
   const apiTypeEntry = objectMixinApiTypes.find(([prefix]) =>
@@ -773,7 +791,8 @@ function applyObjectMixins(api, objectMixins, mainFile) {
     const include = readFilter(mixin.include, 'include')
     const exclude = readFilter(mixin.exclude, 'exclude')
 
-    // section -> Set(names); insertion order follows the source file
+    // section -> Map(final name -> source name);
+    // insertion order follows the source file
     const selected = {}
     const includedSections =
       include === null ? sourceSections : Object.keys(include)
@@ -792,7 +811,7 @@ function applyObjectMixins(api, objectMixins, mainFile) {
         }
       }
 
-      selected[section] = new Set(names)
+      selected[section] = new Map(names.map(name => [name, name]))
     }
 
     if (exclude !== null) {
@@ -820,12 +839,67 @@ function applyObjectMixins(api, objectMixins, mainFile) {
       }
     }
 
+    if (mixin.rename !== void 0) {
+      if (
+        Object(mixin.rename) !== mixin.rename ||
+        Array.isArray(mixin.rename)
+      ) {
+        printErrorAndExit('"rename" must be an Object keyed by section')
+      }
+
+      for (const section of Object.keys(mixin.rename)) {
+        if (selected[section] === void 0) {
+          printErrorAndExit(
+            `"rename" > "${section}" has no effect (nothing is pulled from that section)`
+          )
+        }
+
+        const sectionRenames = mixin.rename[section]
+
+        if (Object(sectionRenames) !== sectionRenames) {
+          printErrorAndExit(`"rename" > "${section}" must be an Object`)
+        }
+
+        for (const sourceName of Object.keys(sectionRenames)) {
+          const finalName = sectionRenames[sourceName]
+
+          if (typeof finalName !== 'string' || finalName.length === 0) {
+            printErrorAndExit(
+              `"rename" > "${section}" > "${sourceName}" must map to a non-empty String`
+            )
+          }
+
+          if (!selected[section].has(sourceName)) {
+            printErrorAndExit(
+              `"rename" > "${section}" > "${sourceName}" does not target a pulled entry`
+            )
+          }
+
+          if (selected[section].has(finalName)) {
+            printErrorAndExit(
+              `"rename" > "${section}" > "${sourceName}" -> "${finalName}" collides with another pulled entry`
+            )
+          }
+        }
+
+        // re-key while preserving the source file's insertion order
+        selected[section] = new Map(
+          [...selected[section]].map(([finalName, sourceName]) => [
+            sectionRenames[sourceName] !== void 0
+              ? sectionRenames[sourceName]
+              : finalName,
+            sourceName
+          ])
+        )
+      }
+    }
+
     // internal entries never travel; definitions of the target file
     // itself (own JSON or string-form mixins) always win over pulls
     for (const section of Object.keys(selected)) {
-      for (const name of selected[section]) {
+      for (const [name, sourceName] of selected[section]) {
         if (
-          source[section][name].internal === true ||
+          source[section][sourceName].internal === true ||
           api[section]?.[name] !== void 0
         ) {
           selected[section].delete(name)
@@ -885,7 +959,7 @@ function applyObjectMixins(api, objectMixins, mainFile) {
       const missing = []
 
       for (const section of Object.keys(selected)) {
-        for (const name of selected[section]) {
+        for (const name of selected[section].keys()) {
           if (overrides?.[section]?.[name] === void 0) {
             missing.push(`"${section}" > "${name}"`)
           }
@@ -930,18 +1004,15 @@ function applyObjectMixins(api, objectMixins, mainFile) {
     for (const section of Object.keys(selected)) {
       const oAll = overrideAll?.[section]
 
-      for (const name of selected[section]) {
-        const def = structuredClone(source[section][name])
+      for (const [name, sourceName] of selected[section]) {
+        const def = structuredClone(source[section][sourceName])
         const oItem = overrides?.[section]?.[name]
         const entryLabel = `"${section}" > "${name}"`
 
         // the source went through parseObject already, which leaves
-        // undefined-valued markers (e.g. "required") behind
-        for (const key of Object.keys(def)) {
-          if (def[key] === void 0) {
-            delete def[key]
-          }
-        }
+        // undefined-valued markers (e.g. "required") behind, at any
+        // nesting level (e.g. method "params")
+        stripUndefinedMarkers(def)
 
         if (oAll !== void 0) applyPlainKeys(def, oAll)
         if (oItem !== void 0) applyPlainKeys(def, oItem)

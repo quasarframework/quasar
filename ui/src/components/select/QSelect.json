@@ -3,7 +3,34 @@
     "composables/private.use-field/use-field",
     "components/virtual-scroll/use-virtual-scroll",
     "composables/use-form/private.use-form",
-    "composables/private.use-hover/use-hover"
+    "composables/private.use-hover/use-hover",
+
+    {
+      "from": "components/menu/QMenu",
+      "include": { "props": ["anchor", "self", "offset"] },
+      "rename": {
+        "props": {
+          "anchor": "menu-anchor",
+          "self": "menu-self",
+          "offset": "menu-offset"
+        }
+      },
+      "overrides": {
+        "props": {
+          "menu-anchor": {
+            "desc": "Two values setting the starting position or anchor point of the options list relative to the field (only in menu mode)"
+          },
+
+          "menu-self": {
+            "desc": "Two values setting the options list's own position relative to its target (only in menu mode)"
+          },
+
+          "menu-offset": {
+            "desc": "An array of two numbers (in pixels) which expands the anchor element's bounding box outward horizontally and vertically; the options list is then positioned against the expanded box, so the visible effect depends on the 'anchor'/'self' points in use (only in menu mode)"
+          }
+        }
+      }
+    }
   ],
 
   "meta": {
@@ -204,59 +231,6 @@
       "type": "Boolean",
       "desc": "Allow the options list to be narrower than the field (only in menu mode)",
       "category": "options"
-    },
-
-    "menu-anchor": {
-      "type": "String",
-      "desc": "Two values setting the starting position or anchor point of the options list relative to the field (only in menu mode)",
-      "values": [
-        "'top left'",
-        "'top middle'",
-        "'top right'",
-        "'top start'",
-        "'top end'",
-        "'center left'",
-        "'center middle'",
-        "'center right'",
-        "'center start'",
-        "'center end'",
-        "'bottom left'",
-        "'bottom middle'",
-        "'bottom right'",
-        "'bottom start'",
-        "'bottom end'"
-      ],
-      "category": "position"
-    },
-
-    "menu-self": {
-      "type": "String",
-      "desc": "Two values setting the options list's own position relative to its target (only in menu mode)",
-      "values": [
-        "'top left'",
-        "'top middle'",
-        "'top right'",
-        "'top start'",
-        "'top end'",
-        "'center left'",
-        "'center middle'",
-        "'center right'",
-        "'center start'",
-        "'center end'",
-        "'bottom left'",
-        "'bottom middle'",
-        "'bottom right'",
-        "'bottom start'",
-        "'bottom end'"
-      ],
-      "category": "position"
-    },
-
-    "menu-offset": {
-      "type": "Array",
-      "desc": "An array of two numbers (in pixels) which expands the anchor element's bounding box outward horizontally and vertically; the options list is then positioned against the expanded box, so the visible effect depends on the 'anchor'/'self' points in use (only in menu mode)",
-      "examples": ["[8, 8]", "[5, 10]"],
-      "category": "position"
     },
 
     "popup-content-class": {

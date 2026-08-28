@@ -6,6 +6,14 @@
       "overrideAll": {
         "props": { "passthrough": true },
         "events": { "passthrough": true }
+      },
+      "overrides": {
+        "props": {
+          "cover": {
+            "passthrough": false,
+            "default": "true"
+          }
+        }
       }
     }
   ],
@@ -80,13 +88,6 @@
 
     "disable": {
       "extends": "disable"
-    },
-
-    "cover": {
-      "type": "Boolean",
-      "default": "true",
-      "desc": "Allows the menu to cover its target. When used, the 'self' and 'fit' props are no longer effective",
-      "category": "position"
     }
   },
 

@@ -1,7 +1,23 @@
 {
   "mixins": [
     "composables/private.use-size/use-size",
-    "composables/use-form/private.use-form"
+    "composables/use-form/private.use-form",
+
+    {
+      "from": "components/circular-progress/QCircularProgress",
+      "include": {
+        "props": [
+          "instant-feedback",
+          "center-color",
+          "track-color",
+          "font-size",
+          "rounded",
+          "thickness",
+          "angle",
+          "show-value"
+        ]
+      }
+    }
   ],
 
   "meta": {
@@ -57,58 +73,8 @@
       "category": "behavior"
     },
 
-    "instant-feedback": {
-      "type": "Boolean",
-      "desc": "No animation when model changes",
-      "category": "behavior"
-    },
-
     "color": {
       "extends": "color"
-    },
-
-    "center-color": {
-      "extends": "color",
-      "desc": "Color name for the center part of the component from the Quasar Color Palette"
-    },
-
-    "track-color": {
-      "extends": "color",
-      "desc": "Color name for the track of the component from the Quasar Color Palette"
-    },
-
-    "font-size": {
-      "type": "String",
-      "desc": "Size of text in CSS units, including unit name. Suggestion: use 'em' units to sync with component size",
-      "examples": ["'1em'", "'16px'", "'2rem'"],
-      "category": "style"
-    },
-
-    "rounded": {
-      "type": "Boolean",
-      "desc": "Rounding the arc of progress",
-      "category": "style",
-      "addedIn": "v2.8.4"
-    },
-
-    "thickness": {
-      "type": "Number",
-      "default": "0.2",
-      "desc": "Thickness of progress arc as a ratio (0.0 < x < 1.0) of component size",
-      "category": "style"
-    },
-
-    "angle": {
-      "type": "Number",
-      "desc": "Angle to rotate progress arc by",
-      "default": "0",
-      "category": "content"
-    },
-
-    "show-value": {
-      "type": "Boolean",
-      "desc": "Enables the default slot and uses it (if available), otherwise it displays the 'value' prop as text; Make sure the text has enough space to be displayed inside the component",
-      "category": "content|behavior"
     },
 
     "tabindex": {
