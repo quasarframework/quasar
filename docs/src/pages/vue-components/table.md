@@ -202,6 +202,10 @@ The example below shows how virtual scroll can be used along with a sticky heade
 
 <DocExample title="Virtual scroll with sticky header" file="VirtscrollSticky" />
 
+Sticky columns work with virtual scroll too, with one precaution: scope any positional `td` selector (like `td:first-child`) to the data rows, as in the example below. Virtual scroll emulates the full height of the list through two hidden filler rows (`q-virtual-scroll__padding`), and their cells match such selectors as well; making them sticky breaks scrolling (dragging the scrollbar would run away to the end of the table).
+
+<DocExample title="Virtual scroll with sticky header and column" file="VirtscrollStickyColumn" />
+
 There are 2 utility CSS classes that control VirtualScroll size calculation:
 
 - Use `q-virtual-scroll--with-prev` class on an element rendered by the VirtualScroll to indicate that the element should be grouped with the previous one (main use case is for multiple table rows generated from the same row of data).

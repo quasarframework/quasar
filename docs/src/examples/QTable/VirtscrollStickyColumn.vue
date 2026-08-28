@@ -1,20 +1,31 @@
 <template>
   <div class="q-pa-md">
     <q-table
-      class="my-sticky-last-column-table"
+      class="my-sticky-virtscroll-column-table"
+      virtual-scroll
       flat
       bordered
+      v-model:pagination="pagination"
+      :rows-per-page-options="[0]"
+      :virtual-scroll-sticky-size-start="48"
+      row-key="index"
       title="Treats"
       :rows="rows"
       :columns="columns"
-      row-key="name"
     />
   </div>
 </template>
 
 <script setup>
+import { ref } from 'vue'
+
 const columns = [
   // #region
+  {
+    name: 'index',
+    label: '#',
+    field: 'index'
+  },
   {
     name: 'name',
     required: true,
@@ -52,7 +63,7 @@ const columns = [
   // #endregion
 ]
 
-const rows = [
+const seed = [
   // #region
   {
     name: 'Frozen Yogurt',
@@ -156,29 +167,71 @@ const rows = [
   }
   // #endregion
 ]
+
+// we generate lots of rows here
+const rows = []
+for (let i = 0; i < 1000; i++) {
+  rows.push(...seed.map(r => ({ ...r })))
+}
+rows.forEach((row, index) => {
+  row.index = index
+})
+
+const pagination = ref({
+  rowsPerPage: 0
+})
 </script>
 
 <style lang="sass">
-.my-sticky-last-column-table
+.my-sticky-virtscroll-column-table
+  /* height or max-height is important */
+  height: 410px
+
   /* specifying max-width so the example can
     highlight the sticky column on any browser window */
   max-width: 600px
 
-  thead tr:last-child th:last-child
+  .q-table__top,
+  .q-table__bottom
+    background-color: #00b4ff
+
+  thead tr th
+    position: sticky
+    /* higher than z-index for td below */
+    z-index: 2
     /* bg color is important for th; just specify one */
     background-color: #00b4ff
+    /* covers any sub-pixel gap between sticky cells */
+    box-shadow: -1px 0 0 #00b4ff
+  /* this will be the loading indicator */
+  thead tr:last-child th
+    /* height of all previous header rows */
+    top: 48px
+  thead tr:first-child th
+    top: 0
+  thead tr:first-child th:first-child
+    /* highest z-index */
+    z-index: 3
 
-  /* the tbody:not() part keeps the td rules off the hidden
-    q-virtual-scroll__padding filler rows, should you also
-    enable virtual-scroll; styling those breaks scrolling */
-  tbody:not(.q-virtual-scroll__padding) td:last-child
-    background-color: #00b4ff
-
-  th:last-child,
-  tbody:not(.q-virtual-scroll__padding) td:last-child
+  th:first-child
     position: sticky
-    right: 0
+    left: 0
+
+  /* scoping td rules to the data rows keeps them off the cells
+    inside the two hidden q-virtual-scroll__padding filler rows
+    through which virtual scroll emulates the list's full height;
+    styling those (especially with position sticky) breaks scrolling */
+  tbody:not(.q-virtual-scroll__padding) td:first-child
+    position: sticky
+    left: 0
     z-index: 1
+    /* bg color is important for td; just specify one */
+    background-color: #00b4ff
     /* covers any sub-pixel gap between sticky cells */
     box-shadow: 0 -1px 0 #00b4ff
+
+  /* prevent scrolling behind sticky top row on focus */
+  tbody
+    /* height of all previous header rows */
+    scroll-margin-top: 48px
 </style>
