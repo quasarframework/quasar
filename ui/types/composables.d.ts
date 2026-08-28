@@ -8,17 +8,23 @@ export function useAnimationFrame(): {
   removeAnimationFrame: () => void;
 };
 
+export type DialogDismissReason =
+  | "cancel"
+  | "backdrop"
+  | "escape"
+  | "programmatic";
+
 interface useDialogPluginComponent {
   <T = any>(): {
     dialogRef: Ref<QDialog | null>;
-    onDialogHide: () => void;
+    onDialogHide: (evt?: Event) => void;
     onDialogOK: (payload?: T) => void;
     onDialogCancel: () => void;
   };
   emits: ["ok", "hide"];
   emitsObject: {
     ok: (payload?: any) => true;
-    hide: () => true;
+    hide: (reason?: DialogDismissReason) => true;
   };
 }
 

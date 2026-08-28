@@ -15,7 +15,10 @@ export default function useDialogPluginComponent() {
   // function is called returns dialogRef variable
   const dialogRef = ref(null)
 
+  let dismissReason = null
+
   function show() {
+    dismissReason = null
     dialogRef.value.show()
   }
   function hide() {
@@ -27,8 +30,22 @@ export default function useDialogPluginComponent() {
     hide()
   }
 
-  function onDialogHide() {
-    emit('hide')
+  function onDialogCancel() {
+    dismissReason = 'cancel'
+    hide()
+  }
+
+  function onDialogHide(evt) {
+    emit(
+      'hide',
+      dismissReason !== null
+        ? dismissReason
+        : evt === void 0
+          ? 'programmatic'
+          : evt.type.indexOf('key') === 0
+            ? 'escape'
+            : 'backdrop'
+    )
   }
 
   // expose public methods required by Dialog plugin
@@ -38,7 +55,7 @@ export default function useDialogPluginComponent() {
     dialogRef,
     onDialogHide,
     onDialogOK,
-    onDialogCancel: hide
+    onDialogCancel
   }
 }
 

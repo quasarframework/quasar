@@ -132,7 +132,7 @@ export function createDialog(
       })
     }
 
-    const onHide = () => {
+    const onHide = reason => {
       app.unmount(el)
       removeGlobalNode(el)
       app = null
@@ -140,7 +140,7 @@ export function createDialog(
 
       if (!emittedOK) {
         cancelFns.forEach(fn => {
-          fn()
+          fn(reason)
         })
       }
     }

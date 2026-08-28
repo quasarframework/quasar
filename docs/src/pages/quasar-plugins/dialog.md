@@ -70,6 +70,16 @@ This is not an exhaustive list of what you can do with Dialogs as Quasar Plugins
 
 <DocExample title="Other options" file="OtherOptions" />
 
+### Dismissal reason <q-badge label="v2.28+" />
+
+The `onCancel` callback receives the reason for the dismissal: `cancel` (the Cancel button), `backdrop`, `escape` (the ESC key) or `programmatic` (hidden through code, which includes an app route change).
+
+The `onDismiss` callback receives the same reason, except when the dialog gets closed through OK, in which case it receives the payload that `onOk` callbacks get.
+
+When invoking a custom component (see the sections below), the reason mirrors the payload of your component's `hide` event: the [useDialogPluginComponent](/vue-composables/use-dialog-plugin-component) composable emits the values above for you, while a hand-written component decides its own payload (or none).
+
+<DocExample title="Dismissal reason" file="DismissReason" />
+
 ### Native attributes
 
 You can also supply native HTML attributes to the inner QInput or QOptionGroup components, like in the example below.

@@ -12,6 +12,8 @@ The useDialogPluginComponent composable is part of [Quasar Dialog Plugin](/quasa
 
 This composable is to be used on the custom components which a Dialog plugin is invoked with. It will bootstrap all the necessary communication of the component with the plugin.
 
+Starting with Quasar v2.28, the composable also reports the dismissal reason: the `hide` event that it emits (and which the plugin forwards to the `onCancel`/`onDismiss` chained callbacks) carries `'cancel'` (closed through `onDialogCancel`), `'backdrop'` (a click/tap outside, including through QDialog's `auto-close`), `'escape'` (the ESC key) or `'programmatic'` (hidden through code, which includes an app route change).
+
 ## Syntax
 
 ```html

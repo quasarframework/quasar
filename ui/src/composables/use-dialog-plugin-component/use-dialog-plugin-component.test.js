@@ -44,7 +44,47 @@ describe('[useDialogPluginComponent API]', () => {
         expect(dialog.hide).toHaveBeenCalledTimes(3)
 
         result.onDialogHide()
-        expect(wrapper.emitted('hide')).toStrictEqual([[]])
+        expect(wrapper.emitted('hide')).toStrictEqual([['cancel']])
+      })
+
+      test('emits the dismissal reason with the hide event', () => {
+        let result
+
+        const wrapper = mount(
+          defineComponent({
+            render: () => h('div'),
+            emits: useDialogPluginComponent.emits,
+            setup() {
+              result = useDialogPluginComponent()
+              return result
+            }
+          })
+        )
+
+        const dialog = {
+          show: vi.fn(),
+          hide: vi.fn()
+        }
+        result.dialogRef.value = dialog
+
+        result.onDialogHide()
+        result.onDialogHide({ type: 'keyup' })
+        result.onDialogHide({ type: 'mousedown' })
+
+        result.onDialogCancel()
+        result.onDialogHide({ type: 'mousedown' })
+
+        // showing again resets the recorded Cancel action
+        wrapper.vm.show()
+        result.onDialogHide()
+
+        expect(wrapper.emitted('hide')).toStrictEqual([
+          ['programmatic'],
+          ['escape'],
+          ['backdrop'],
+          ['cancel'],
+          ['programmatic']
+        ])
       })
     })
   })

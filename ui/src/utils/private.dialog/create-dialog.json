@@ -74,8 +74,25 @@
                 "type": "Function",
                 "desc": "Tell what to do",
                 "required": true,
-                "params": null,
-                "returns": null
+                "params": {
+                  "reason": {
+                    "type": "String",
+                    "desc": "Why the dialog got dismissed: Cancel button, backdrop click, ESC key, or hidden through code (which includes an app route change); With a custom component, it mirrors the payload of the component's 'hide' event",
+                    "values": [
+                      "'cancel'",
+                      "'backdrop'",
+                      "'escape'",
+                      "'programmatic'"
+                    ],
+                    "required": false,
+                    "addedIn": "v2.28"
+                  }
+                },
+                "returns": null,
+                "examples": [
+                  "() => console.log('Cancelled')",
+                  "reason => { if (reason === 'cancel') { console.log('Cancel button was clicked') } }"
+                ]
               }
             },
             "returns": {
@@ -94,7 +111,14 @@
                 "type": "Function",
                 "desc": "Tell what to do",
                 "required": true,
-                "params": null,
+                "params": {
+                  "payload": {
+                    "type": "Any",
+                    "desc": "When closed through OK, the same payload the onOk callback receives; Otherwise the dismissal reason ('cancel', 'backdrop', 'escape' or 'programmatic')",
+                    "required": false,
+                    "addedIn": "v2.28"
+                  }
+                },
                 "returns": null
               }
             },

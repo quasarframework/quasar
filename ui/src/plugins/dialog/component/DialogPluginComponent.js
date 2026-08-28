@@ -1,4 +1,4 @@
-import { computed, getCurrentInstance, h, ref, toRaw, watch } from 'vue'
+import { computed, h, ref, toRaw, watch } from 'vue'
 
 import QDialog from '../../../components/dialog/QDialog.js'
 import QBtn from '../../../components/btn/QBtn.js'
@@ -15,6 +15,7 @@ import QSpinner from '../../../components/spinner/QSpinner.js'
 
 import { createComponent } from '../../../utils/private.create/create.js'
 import useQuasar from '../../../composables/use-quasar/use-quasar.js'
+import useDialogPluginComponent from '../../../composables/use-dialog-plugin-component/use-dialog-plugin-component.js'
 import useDark, {
   useDarkProps
 } from '../../../composables/private.use-dark/use-dark.js'
@@ -56,13 +57,13 @@ export default /*#__PURE__*/ createComponent({
 
   emits: ['ok', 'hide'],
 
-  setup(props, { emit }) {
-    const { proxy } = getCurrentInstance()
+  setup(props) {
     const $q = useQuasar()
 
     const isDark = useDark(props, $q)
 
-    const dialogRef = ref(null)
+    const { dialogRef, onDialogHide, onDialogOK, onDialogCancel } =
+      useDialogPluginComponent()
 
     const model = ref(
       props.prompt !== void 0
@@ -158,31 +159,14 @@ export default /*#__PURE__*/ createComponent({
       ripple: false,
       ...(isObject(props.cancel) ? props.cancel : { flat: true }),
       'data-autofocus': (props.focus === 'cancel' && !hasForm.value) || void 0,
-      onClick: onCancel
+      onClick: onDialogCancel
     }))
 
     watch(() => props.prompt && props.prompt.model, onUpdateModel)
     watch(() => props.options && props.options.model, onUpdateModel)
 
-    function show() {
-      dialogRef.value.show()
-    }
-
-    function hide() {
-      dialogRef.value.hide()
-    }
-
     function onOk() {
-      emit('ok', toRaw(model.value))
-      hide()
-    }
-
-    function onCancel() {
-      hide()
-    }
-
-    function onDialogHide() {
-      emit('hide')
+      onDialogOK(toRaw(model.value))
     }
 
     function onUpdateModel(val) {
@@ -307,9 +291,6 @@ export default /*#__PURE__*/ createComponent({
         )
       ]
     }
-
-    // expose public methods
-    Object.assign(proxy, { show, hide })
 
     return () =>
       h(
