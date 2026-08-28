@@ -36,6 +36,11 @@ export default /*#__PURE__*/ createComponent({
     const $q = useQuasar()
 
     const svgStyle = computed(() => {
+      // the indeterminate spin used to override this transform anyway
+      // (it lived on the svg); now that it spins the circle instead,
+      // the base transform must not reappear underneath it
+      if (props.indeterminate) return null
+
       const angle = ($q.lang.rtl ? -1 : 1) * props.angle
 
       return {
