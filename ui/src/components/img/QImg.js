@@ -22,6 +22,12 @@ import useTimeout from '../../composables/use-timeout/use-timeout.js'
 
 const defaultRatio = 1.7778 /* 16/9 */
 
+function getNaturalRatio(target) {
+  return target.naturalHeight === 0
+    ? 0.5
+    : target.naturalWidth / target.naturalHeight
+}
+
 export default /*#__PURE__*/ createComponent({
   name: 'QImg',
 
@@ -113,6 +119,8 @@ export default /*#__PURE__*/ createComponent({
     const isLoading = ref(false)
     const hasError = ref(false)
 
+    let ratioRafId = null
+
     const classes = computed(
       () => `q-img q-img--${props.noNativeMenu ? 'no-' : ''}menu`
     )
@@ -157,11 +165,28 @@ export default /*#__PURE__*/ createComponent({
       if (vmIsDestroyed(vm)) return
 
       removeLoadTimeout()
+      naturalRatio.value = getNaturalRatio(target)
 
-      naturalRatio.value =
-        target.naturalHeight === 0
-          ? 0.5
-          : target.naturalWidth / target.naturalHeight
+      // WebKit derives an SVG's naturalWidth/naturalHeight from the img's
+      // current CSS box, so a load event racing layout can report the
+      // initial-ratio filler's shape instead of the file's; the getters
+      // become intrinsic-consistent after a frame renders (#15652)
+      if (ratioRafId !== null) {
+        cancelAnimationFrame(ratioRafId)
+      }
+      ratioRafId = requestAnimationFrame(() => {
+        ratioRafId = requestAnimationFrame(() => {
+          ratioRafId = null
+          if (vmIsDestroyed(vm)) return
+
+          const ratio = getNaturalRatio(target)
+          // the box-derived getters carry sub-pixel quantization noise,
+          // so only a meaningful drift is a misreported ratio
+          if (Math.abs(ratio - naturalRatio.value) > naturalRatio.value / 100) {
+            naturalRatio.value = ratio
+          }
+        })
+      })
 
       waitForCompleteness(target, 1)
     }

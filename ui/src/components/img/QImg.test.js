@@ -546,4 +546,33 @@ describe('[QImg API]', () => {
       })
     })
   })
+
+  describe('[Generic]', () => {
+    test('re-reads the natural size a frame after load', async () => {
+      // WebKit reports an SVG's natural size from the img's current CSS
+      // box when the load event races layout (#15652); QImg re-reads the
+      // getters after a double-rAF, mocked here to replay that correction
+      const rafQueue = []
+      vi.spyOn(window, 'requestAnimationFrame').mockImplementation(cb =>
+        rafQueue.push(cb)
+      )
+
+      const wrapper = mountImg({ src: realImgSrc(4, 1), loading: 'eager' })
+
+      await waitForLoad(wrapper)
+
+      expect(wrapper.element.firstElementChild.style.paddingBottom).toBe('25%')
+
+      const img = wrapper.get('img').element
+      Object.defineProperty(img, 'naturalWidth', { get: () => 500 })
+      Object.defineProperty(img, 'naturalHeight', { get: () => 100 })
+
+      while (rafQueue.length !== 0) {
+        rafQueue.shift()()
+      }
+      await flushPromises()
+
+      expect(wrapper.element.firstElementChild.style.paddingBottom).toBe('20%')
+    })
+  })
 })
