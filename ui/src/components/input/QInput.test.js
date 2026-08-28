@@ -1022,6 +1022,55 @@ describe('[QInput API]', () => {
           vi.useRealTimers()
         }
       })
+
+      test('keeps the trailing space typed with v-model.trim (#17663)', async () => {
+        vi.useFakeTimers()
+
+        try {
+          const wrapper = mountInput(
+            {
+              modelValue: '',
+              modelModifiers: { trim: true },
+              debounce: 500,
+              // the parent's v-model side
+              'onUpdate:modelValue': val => {
+                wrapper.setProps({ modelValue: val })
+              }
+            },
+            { attachTo: document.body }
+          )
+          const input = wrapper.get('input').element
+          input.focus()
+
+          input.value = 'asdf '
+          input.dispatchEvent(
+            new InputEvent('input', { bubbles: true, inputType: 'insertText' })
+          )
+
+          // wait past the debounce: the emission fires
+          // (Vue applies the trim modifier inside emit itself)
+          vi.advanceTimersByTime(600)
+          await flushPromises()
+
+          expect(wrapper.emitted('update:modelValue').at(-1)).toEqual(['asdf'])
+          // the focused control must still show the trailing space
+          expect(input.value).toBe('asdf ')
+
+          input.value = 'asdf asdf'
+          input.dispatchEvent(
+            new InputEvent('input', { bubbles: true, inputType: 'insertText' })
+          )
+          vi.advanceTimersByTime(600)
+          await flushPromises()
+
+          expect(wrapper.emitted('update:modelValue').at(-1)).toEqual([
+            'asdf asdf'
+          ])
+          expect(input.value).toBe('asdf asdf')
+        } finally {
+          vi.useRealTimers()
+        }
+      })
     })
 
     describe('[(prop)maxlength]', () => {
