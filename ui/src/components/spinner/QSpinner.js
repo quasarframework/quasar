@@ -26,16 +26,16 @@ export default /*#__PURE__*/ createComponent({
       return h(
         'svg',
         {
-          class: getSpinnerClass(props.color) + ' q-spinner-mat',
+          class: getSpinnerClass(props.color, 'mat'),
           width: cSize,
           height: cSize,
-          viewBox: '25 25 50 50'
+          viewBox: '0 0 50 50'
         },
         [
           h('circle', {
             class: 'path',
-            cx: '50',
-            cy: '50',
+            cx: '25',
+            cy: '25',
             r: '20',
             fill: 'none',
             stroke: 'currentColor',

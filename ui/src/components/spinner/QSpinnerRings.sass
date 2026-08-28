@@ -1,0 +1,30 @@
+
+.q-spinner-rings
+  circle
+    animation: q-rings-expand 3s linear infinite
+  circle:nth-of-type(3)
+    animation: q-rings-center 1.5s linear infinite
+
+@keyframes q-rings-expand
+  0%
+    r: 6px
+    stroke-opacity: 1
+    stroke-width: 2px
+  100%
+    r: 22px
+    stroke-opacity: 0
+    stroke-width: 0
+
+@keyframes q-rings-center
+  0%, 100%
+    r: 6px
+  16.67%
+    r: 1px
+  33.33%
+    r: 2px
+  50%
+    r: 3px
+  66.67%
+    r: 4px
+  83.33%
+    r: 5px

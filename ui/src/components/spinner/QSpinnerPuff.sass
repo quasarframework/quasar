@@ -1,0 +1,15 @@
+
+.q-spinner-puff circle
+  animation: q-puff-expand 1.8s cubic-bezier(.165, .84, .44, 1) infinite, q-puff-fade 1.8s cubic-bezier(.3, .61, .355, 1) infinite
+
+@keyframes q-puff-expand
+  0%
+    r: 1px
+  100%
+    r: 20px
+
+@keyframes q-puff-fade
+  0%
+    stroke-opacity: 1
+  100%
+    stroke-opacity: 0

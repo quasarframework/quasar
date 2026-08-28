@@ -12,6 +12,10 @@ export function getSpinnerSize(size) {
   return size in useSizeDefaults ? `${useSizeDefaults[size]}px` : size
 }
 
-export function getSpinnerClass(color) {
-  return 'q-spinner' + (color ? ` text-${color}` : '')
+export function getSpinnerClass(color, name) {
+  return (
+    'q-spinner' +
+    (name ? ` q-spinner-${name}` : '') +
+    (color ? ` text-${color}` : '')
+  )
 }

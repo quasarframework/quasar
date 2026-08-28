@@ -39,6 +39,16 @@ describe('[spinnerUtils API]', () => {
       test('has correct return value when color is defined', () => {
         expect(getSpinnerClass('red')).toBe('q-spinner text-red')
       })
+
+      test('has correct return value when name is defined', () => {
+        expect(getSpinnerClass(void 0, 'mat')).toBe('q-spinner q-spinner-mat')
+      })
+
+      test('has correct return value when color and name are defined', () => {
+        expect(getSpinnerClass('red', 'ios')).toBe(
+          'q-spinner q-spinner-ios text-red'
+        )
+      })
     })
   })
 })

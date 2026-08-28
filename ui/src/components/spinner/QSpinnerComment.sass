@@ -1,0 +1,26 @@
+
+.q-spinner-comment
+  circle:nth-of-type(1)
+    animation: q-comment-typing1 1s linear infinite
+  circle:nth-of-type(2)
+    animation: q-comment-typing2 1s linear infinite
+  circle:nth-of-type(3)
+    animation: q-comment-typing3 1s linear infinite
+
+@keyframes q-comment-typing1
+  0%
+    opacity: 0
+  20%, 100%
+    opacity: 1
+
+@keyframes q-comment-typing2
+  0%, 20%
+    opacity: 0
+  40%, 100%
+    opacity: 1
+
+@keyframes q-comment-typing3
+  0%, 40%
+    opacity: 0
+  60%, 100%
+    opacity: 1

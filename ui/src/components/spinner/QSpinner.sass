@@ -1,14 +1,18 @@
 
 .q-spinner
   vertical-align: middle
+  // relies on the root svg's explicit width/height: they keep the box
+  // identical under the size containment applied while offscreen
+  content-visibility: auto
 
 .q-spinner-mat
-  animation: q-spin 2s linear infinite
-  transform-origin: center center
   .path
     stroke-dasharray: 1, 200 #{"/* rtl:ignore */"}
     stroke-dashoffset: 0 #{"/* rtl:ignore */"}
-    animation: q-mat-dash 1.5s ease-in-out infinite
+    // SVG elements default to transform-origin 0 0; pin the rotation
+    // to the circle's center (viewBox units)
+    transform-origin: 25px 25px
+    animation: q-spin 2s linear infinite, q-mat-dash 1.5s ease-in-out infinite
 
 @keyframes q-spin
   0%
