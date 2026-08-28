@@ -3718,6 +3718,16 @@ describe('[QSelect API]', () => {
       expect(value.scrollWidth).toBeGreaterThan(value.clientWidth)
     })
 
+    // .ellipsis is an implementation detail; q-select__selected-value is the
+    // stable hook user CSS may target to restyle the displayed value (#17973)
+    test('displayed value carries the q-select__selected-value styling hook', () => {
+      const wrapper = mountSelect({ modelValue: stringOptions[0] })
+      const value = wrapper.get('.q-field__native > .q-select__selected-value')
+
+      expect(value.text()).toBe(stringOptions[0])
+      expect(value.classes()).toContain('ellipsis')
+    })
+
     test('hover highlight follows mouse and pen pointers, but never touch', async () => {
       const wrapper = mountSelect()
       const portal = await openPopup(wrapper)

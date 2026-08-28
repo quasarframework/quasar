@@ -167,6 +167,8 @@ You can dynamically load new options when scroll reaches the end:
 
 ## The display value
 
+By default, the selected value is rendered as a single non-wrapping line, truncated with an ellipsis when there is not enough room for it. Should you need to restyle it (allow it to wrap, for example), target its `q-select__selected-value` CSS class (v2.28+).
+
 <DocExample title="Custom display value" file="DisplayCustomValue" />
 
 <DocExample title="Chips as display value" file="DisplayChips" />

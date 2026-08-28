@@ -1076,7 +1076,7 @@ export default /*#__PURE__*/ createComponent({
 
       return [
         h('span', {
-          class: 'ellipsis',
+          class: 'q-select__selected-value ellipsis',
           [valueAsHtml.value ? 'innerHTML' : 'textContent']:
             ariaCurrentValue.value
         })
