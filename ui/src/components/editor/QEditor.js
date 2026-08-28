@@ -418,43 +418,46 @@ export default /*#__PURE__*/ createComponent({
           : buttonDef.value
 
       return props.toolbar.map(group =>
-        group.map(token => {
-          if (token.options) {
-            return {
-              type: 'dropdown',
-              icon: token.icon,
-              label: token.label,
-              size: 'sm',
-              dense: true,
-              fixedLabel: token.fixedLabel,
-              fixedIcon: token.fixedIcon,
-              highlight: token.highlight,
-              list: token.list,
-              // an unknown option is ignored, the same way that
-              // an unknown plain token is
-              options: token.options
-                .map(item => def[item])
-                .filter(item => item !== void 0)
+        // drop holes/undefined tokens (stray comma in the definition) #16940
+        group
+          .filter(token => token !== void 0)
+          .map(token => {
+            if (token.options) {
+              return {
+                type: 'dropdown',
+                icon: token.icon,
+                label: token.label,
+                size: 'sm',
+                dense: true,
+                fixedLabel: token.fixedLabel,
+                fixedIcon: token.fixedIcon,
+                highlight: token.highlight,
+                list: token.list,
+                // an unknown option is ignored, the same way that
+                // an unknown plain token is
+                options: token.options
+                  .map(item => def[item])
+                  .filter(item => item !== void 0)
+              }
             }
-          }
 
-          const obj = def[token]
+            const obj = def[token]
 
-          if (obj) {
-            return obj.type === 'no-state' ||
-              (userDef[token] &&
-                (obj.cmd === void 0 ||
-                  (buttonDef.value[obj.cmd] &&
-                    buttonDef.value[obj.cmd].type === 'no-state')))
-              ? obj
-              : { type: 'toggle', ...obj }
-          }
+            if (obj) {
+              return obj.type === 'no-state' ||
+                (userDef[token] &&
+                  (obj.cmd === void 0 ||
+                    (buttonDef.value[obj.cmd] &&
+                      buttonDef.value[obj.cmd].type === 'no-state')))
+                ? obj
+                : { type: 'toggle', ...obj }
+            }
 
-          return {
-            type: 'slot',
-            slot: token
-          }
-        })
+            return {
+              type: 'slot',
+              slot: token
+            }
+          })
       )
     })
 

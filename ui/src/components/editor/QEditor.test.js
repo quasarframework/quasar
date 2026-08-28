@@ -371,6 +371,25 @@ describe('[QEditor API]', () => {
         expect(wrapper.find('.q-editor__toolbar').exists()).toBe(false)
       })
 
+      test('ignores holes in a group (#16940)', async () => {
+        // a stray comma in the definition creates an array hole,
+        // e.g. :toolbar="[ [ 'bold', , 'italic' ] ]"
+        const sparseGroup = ['bold', 'italic']
+        sparseGroup.length = 3
+
+        const wrapper = mountEditor({ toolbar: [sparseGroup, ['viewsource']] })
+        await flushToolbar()
+
+        expect(getToolbarButtons(wrapper)).toHaveLength(3)
+
+        // entering source view scans the groups with find(), which,
+        // unlike the render path, visits holes
+        await getToolbarButtons(wrapper)[2].trigger('click')
+        await flushToolbar()
+
+        expect(getToolbarButtons(wrapper)).toHaveLength(1)
+      })
+
       test('only accepts non-empty groups', () => {
         const { validator, default: getDefault } = QEditor.props.toolbar
 
