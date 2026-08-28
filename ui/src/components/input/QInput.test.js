@@ -1133,6 +1133,30 @@ describe('[QInput API]', () => {
           vi.useRealTimers()
         }
       })
+
+      test('defers past the debounce window when v-model.lazy is set', async () => {
+        vi.useFakeTimers()
+
+        try {
+          const wrapper = mountInput({
+            modelValue: '',
+            modelModifiers: { lazy: true },
+            debounce: 100
+          })
+          const input = wrapper.get('input')
+
+          input.element.value = 'a'
+          await input.trigger('input')
+
+          vi.advanceTimersByTime(500)
+          expect(wrapper.emitted('update:modelValue')).toBeUndefined()
+
+          await input.trigger('change')
+          expect(wrapper.emitted('update:modelValue')).toEqual([['a']])
+        } finally {
+          vi.useRealTimers()
+        }
+      })
     })
 
     describe('[(prop)maxlength]', () => {
@@ -1629,6 +1653,125 @@ describe('[QInput API]', () => {
       expect(onUpdateModelValue).toHaveBeenCalledOnce()
       expect(onUpdateModelValue).toHaveBeenLastCalledWith('2023/')
       expect(input.element.value).toBe('2023/')
+    })
+
+    // v-model.lazy: Vue hands the modifier over through `modelModifiers`
+    // and leaves the deferral to the component (#18023)
+
+    test('holds the model emission until the change event with v-model.lazy (#18023)', async () => {
+      const wrapper = mountInput({
+        modelValue: '',
+        modelModifiers: { lazy: true }
+      })
+      const input = wrapper.get('input')
+
+      for (const value of ['a', 'ab', 'abc']) {
+        input.element.value = value
+        await input.trigger('input')
+      }
+
+      expect(wrapper.emitted('update:modelValue')).toBeUndefined()
+
+      // the pending text must survive a re-render
+      await wrapper.setProps({ label: 'still typing' })
+      expect(input.element.value).toBe('abc')
+
+      await input.trigger('change')
+      expect(wrapper.emitted('update:modelValue')).toEqual([['abc']])
+    })
+
+    test('flushes the pending v-model.lazy value on blur', async () => {
+      const wrapper = mountInput({
+        modelValue: '',
+        modelModifiers: { lazy: true }
+      })
+      const input = wrapper.get('input')
+
+      input.element.value = 'abc'
+      await input.trigger('input')
+      expect(wrapper.emitted('update:modelValue')).toBeUndefined()
+
+      await input.trigger('blur')
+      expect(wrapper.emitted('update:modelValue')).toEqual([['abc']])
+    })
+
+    test('drops the pending v-model.lazy value when the model changes externally', async () => {
+      const wrapper = mountInput({
+        modelValue: '',
+        modelModifiers: { lazy: true }
+      })
+      const input = wrapper.get('input')
+
+      input.element.value = 'abc'
+      await input.trigger('input')
+
+      await wrapper.setProps({ modelValue: 'xyz' })
+      expect(input.element.value).toBe('xyz')
+
+      await input.trigger('change')
+      await input.trigger('blur')
+      expect(wrapper.emitted('update:modelValue')).toBeUndefined()
+    })
+
+    test('emits the masked value on change with v-model.lazy', async () => {
+      const wrapper = mountInput({
+        modelValue: '',
+        mask: '###-###',
+        modelModifiers: { lazy: true }
+      })
+      const input = wrapper.get('input')
+
+      input.element.value = '111111'
+      await input.trigger('input', { inputType: 'insertText' })
+
+      expect(wrapper.emitted('update:modelValue')).toBeUndefined()
+      expect(input.element.value).toBe('111-111')
+
+      await input.trigger('change')
+      expect(wrapper.emitted('update:modelValue')).toEqual([['111-111']])
+    })
+
+    test('keeps the masked display while a v-model.lazy unmasked value is pending', async () => {
+      const wrapper = mountInput({
+        modelValue: '',
+        mask: '###-###',
+        unmaskedValue: true,
+        modelModifiers: { lazy: true }
+      })
+      const input = wrapper.get('input')
+
+      input.element.value = '111111'
+      await input.trigger('input', { inputType: 'insertText' })
+
+      // the innerValue-driven re-render already ran here; the field
+      // must keep showing the masked text, not the raw emit value
+      expect(input.element.value).toBe('111-111')
+
+      await input.trigger('change')
+      expect(wrapper.emitted('update:modelValue')).toEqual([['111111']])
+    })
+
+    test('keeps the masked display after an IME composition with v-model.lazy', async () => {
+      const wrapper = mountInput({
+        modelValue: '',
+        mask: '####/##/##',
+        modelModifiers: { lazy: true }
+      })
+      const input = wrapper.get('input')
+
+      await input.trigger('compositionstart')
+      input.element.value = '2023'
+      await input.trigger('input', {
+        data: '3',
+        inputType: 'insertCompositionText'
+      })
+      await input.trigger('compositionend', { data: '3' })
+
+      expect(wrapper.emitted('update:modelValue')).toBeUndefined()
+      expect(input.element.value).toBe('2023/')
+
+      await input.trigger('change')
+      expect(wrapper.emitted('update:modelValue')).toEqual([['2023/']])
     })
   })
 

@@ -19,8 +19,8 @@
 
     "model-modifiers": {
       "type": "Object",
-      "desc": "Modifiers supplied by Vue for the component's v-model binding",
-      "examples": ["{ trim: true }"],
+      "desc": "Modifiers supplied by Vue for the component's v-model binding; 'lazy' defers the model update until the change event/blur, while 'trim' and 'number' are applied by Vue itself",
+      "examples": ["{ trim: true }", "{ lazy: true }"],
       "internal": true
     },
 

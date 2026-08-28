@@ -201,7 +201,9 @@ export default /*#__PURE__*/ createComponent({
     watch(
       () => props.modelValue,
       v => {
-        if (emitTimer !== null) {
+        // any pending emission (debounced or lazy; a lazy one holds no
+        // timer) is stale once the model changed underneath it
+        if (emitValueFn !== void 0) {
           cancelPendingValueEmission()
           typedNumber = false
           stopValueWatcher = false
@@ -381,16 +383,25 @@ export default /*#__PURE__*/ createComponent({
         temp.value = val
       }
 
-      if (props.debounce !== void 0) {
-        if (emitTimer !== null) clearTimeout(emitTimer)
-        // while the emission is pending, temp.value keeps the typed text
-        // rendered; a masked control renders from innerValue instead (and
-        // with unmasked-value `val` is the raw value rather than the
-        // displayed text), so there temp must be dropped: an IME pass may
-        // have left its raw snapshot in it, which would shadow innerValue
-        // and rewrite the field on the next re-render
+      // while an emission is pending, temp.value keeps the typed text
+      // rendered; a masked control renders from innerValue instead (and
+      // with unmasked-value `val` is the raw value rather than the
+      // displayed text), so there temp must be dropped: an IME pass may
+      // have left its raw snapshot in it, which would shadow innerValue
+      // and rewrite the field on the next re-render
+      const holdTemp = () => {
         if (hasMask.value) delete temp.value
         else temp.value = val
+      }
+
+      if (props.modelModifiers?.lazy === true) {
+        // v-model.lazy: the emission stays pending until the change event
+        // or the blur handler invokes emitValueFn; a debounce timer could
+        // only fire earlier than that, so none is scheduled
+        holdTemp()
+      } else if (props.debounce !== void 0) {
+        if (emitTimer !== null) clearTimeout(emitTimer)
+        holdTemp()
         emitTimer = setTimeout(emitValueFn, props.debounce)
       } else {
         emitValueFn()
