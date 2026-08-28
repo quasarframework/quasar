@@ -678,4 +678,40 @@ describe('[QVirtualScroll API]', () => {
       })
     })
   })
+
+  describe('[Generic]', () => {
+    test('positions instantly when the scroller has scroll-behavior smooth (#18168)', async () => {
+      const wrapper = await mountVirtualScroll(
+        { virtualScrollSliceSize: 12 },
+        {},
+        { attrs: { style: 'height: 200px; scroll-behavior: smooth' } }
+      )
+
+      wrapper.vm.scrollTo(300, 'start-force')
+      await settle()
+
+      const el = wrapper.element
+      const pos = el.scrollTop
+
+      // the jump happened instantly: already well past the scrollport
+      expect(pos).toBeGreaterThan(200)
+
+      // ...and it is not animating towards it across frames
+      await settle()
+      await settle()
+      expect(el.scrollTop).toBe(pos)
+
+      // a smooth animation's intermediate scroll events would get
+      // mistaken for user scrolling and re-slice away from the target;
+      // wait out several debounced (35ms) scroll handler cycles and
+      // verify the position and the slice held
+      await new Promise(resolve => {
+        setTimeout(resolve, 150)
+      })
+      await settle()
+
+      expect(el.scrollTop).toBe(pos)
+      expect(getRenderedIndexes(wrapper)).toContain(300)
+    })
+  })
 })

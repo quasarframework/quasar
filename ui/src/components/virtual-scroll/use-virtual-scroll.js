@@ -169,6 +169,8 @@ function setScroll(parent, scroll, horizontal, rtl) {
   }
 
   if (parent === window) {
+    let left, top
+
     if (horizontal) {
       if (rtl) {
         scroll =
@@ -176,24 +178,28 @@ function setScroll(parent, scroll, horizontal, rtl) {
             ? document.body.scrollWidth - document.documentElement.clientWidth
             : 0) - scroll
       }
-      window.scrollTo(
-        scroll,
-        window.pageYOffset || window.scrollY || document.body.scrollTop || 0
-      )
+      left = scroll
+      top = window.pageYOffset || window.scrollY || document.body.scrollTop || 0
     } else {
-      window.scrollTo(
-        window.pageXOffset || window.scrollX || document.body.scrollLeft || 0,
-        scroll
-      )
+      left =
+        window.pageXOffset || window.scrollX || document.body.scrollLeft || 0
+      top = scroll
     }
+
+    // behavior "instant" so that a scroller with CSS
+    // "scroll-behavior: smooth" doesn't turn this positioning into an
+    // animation, whose intermediate scroll events would get mistaken
+    // for user scrolling (#18168)
+    window.scrollTo({ left, top, behavior: 'instant' })
   } else if (horizontal) {
     if (rtl) {
       scroll =
         (rtlHasScrollBug ? parent.scrollWidth - parent.offsetWidth : 0) - scroll
     }
-    parent.scrollLeft = scroll
+
+    parent.scrollTo({ left: scroll, behavior: 'instant' })
   } else {
-    parent.scrollTop = scroll
+    parent.scrollTo({ top: scroll, behavior: 'instant' })
   }
 }
 
