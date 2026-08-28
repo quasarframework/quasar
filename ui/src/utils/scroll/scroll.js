@@ -37,15 +37,11 @@ export function getScrollWidth(el) {
 }
 
 export function getVerticalScrollPosition(scrollTarget) {
-  return scrollTarget === window
-    ? window.pageYOffset || window.scrollY || document.body.scrollTop || 0
-    : scrollTarget.scrollTop
+  return scrollTarget === window ? window.scrollY : scrollTarget.scrollTop
 }
 
 export function getHorizontalScrollPosition(scrollTarget) {
-  return scrollTarget === window
-    ? window.pageXOffset || window.scrollX || document.body.scrollLeft || 0
-    : scrollTarget.scrollLeft
+  return scrollTarget === window ? window.scrollX : scrollTarget.scrollLeft
 }
 
 // oxlint-disable-next-line default-param-last
@@ -96,10 +92,7 @@ export function animHorizontalScrollTo(el, to, duration = 0, rawPrevTime) {
 
 function setScroll(scrollTarget, offset) {
   if (scrollTarget === window) {
-    window.scrollTo(
-      window.pageXOffset || window.scrollX || document.body.scrollLeft || 0,
-      offset
-    )
+    window.scrollTo(window.scrollX, offset)
     return
   }
   scrollTarget.scrollTop = offset
@@ -107,10 +100,7 @@ function setScroll(scrollTarget, offset) {
 
 function setHorizontalScroll(scrollTarget, offset) {
   if (scrollTarget === window) {
-    window.scrollTo(
-      offset,
-      window.pageYOffset || window.scrollY || document.body.scrollTop || 0
-    )
+    window.scrollTo(offset, window.scrollY)
     return
   }
   scrollTarget.scrollLeft = offset

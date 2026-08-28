@@ -90,8 +90,7 @@ function getScrollDetails(
 
   if (horizontal) {
     if (parent === window) {
-      details.scrollStart =
-        window.pageXOffset || window.scrollX || document.body.scrollLeft || 0
+      details.scrollStart = window.scrollX
       details.scrollViewSize += document.documentElement.clientWidth
     } else {
       details.scrollStart = parentCalc.scrollLeft
@@ -106,8 +105,7 @@ function getScrollDetails(
     }
   } else {
     if (parent === window) {
-      details.scrollStart =
-        window.pageYOffset || window.scrollY || document.body.scrollTop || 0
+      details.scrollStart = window.scrollY
       details.scrollViewSize += document.documentElement.clientHeight
     } else {
       details.scrollStart = parentCalc.scrollTop
@@ -179,10 +177,9 @@ function setScroll(parent, scroll, horizontal, rtl) {
             : 0) - scroll
       }
       left = scroll
-      top = window.pageYOffset || window.scrollY || document.body.scrollTop || 0
+      top = window.scrollY
     } else {
-      left =
-        window.pageXOffset || window.scrollX || document.body.scrollLeft || 0
+      left = window.scrollX
       top = scroll
     }
 

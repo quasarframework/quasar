@@ -1419,10 +1419,7 @@ export default /*#__PURE__*/ createComponent({
       // position, which this call would throw away for good (the clip
       // release does not restore scroll)
       if ($q.platform.is.ios) {
-        window.scrollTo(
-          window.pageXOffset || window.scrollX || document.body.scrollLeft || 0,
-          0
-        )
+        window.scrollTo(window.scrollX, 0)
       }
     }
 

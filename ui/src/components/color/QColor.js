@@ -572,17 +572,14 @@ export default /*#__PURE__*/ createComponent({
 
     function onSpectrumClick(evt) {
       changeSpectrum(
-        evt.pageX - window.pageXOffset,
-        evt.pageY - window.pageYOffset,
+        evt.pageX - window.scrollX,
+        evt.pageY - window.scrollY,
         true
       )
     }
 
     function onActivate(evt) {
-      changeSpectrum(
-        evt.pageX - window.pageXOffset,
-        evt.pageY - window.pageYOffset
-      )
+      changeSpectrum(evt.pageX - window.scrollX, evt.pageY - window.scrollY)
     }
 
     function updateErrorIcon(val) {

@@ -12,11 +12,11 @@ beforeEach(() => {
   removeEventListener = vi.spyOn(window, 'removeEventListener')
 
   Object.defineProperties(window, {
-    pageXOffset: {
+    scrollX: {
       configurable: true,
       value: 12
     },
-    pageYOffset: {
+    scrollY: {
       configurable: true,
       value: 45
     }
@@ -25,6 +25,10 @@ beforeEach(() => {
 
 afterEach(() => {
   vi.restoreAllMocks()
+  // remove the own-property shadows so the Window.prototype
+  // getters take over again
+  delete window.scrollX
+  delete window.scrollY
 })
 
 describe('[Scroll API]', () => {
