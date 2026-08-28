@@ -27,7 +27,9 @@ function validateComponent(comp) {
     return Promise.resolve({ valid: false, comp, err })
   }
 
-  return typeof valid.then === 'function'
+  // a nullish return (broken validate() contract)
+  // must fail the component, not break the form
+  return typeof valid?.then === 'function'
     ? valid.then(
         isValid => ({ valid: isValid, comp }),
         err => ({ valid: false, comp, err })

@@ -364,6 +364,25 @@ describe('[QForm API]', () => {
           errorSpy.mockRestore()
         }
       )
+
+      test.each([
+        ['not greedy', {}],
+        ['greedy', { greedy: true }]
+      ])(
+        'reports a child whose validate() returns nullish when %s',
+        async (_, props) => {
+          const broken = createValidationComponent({
+            validate: vi.fn(() => void 0)
+          })
+          const wrapper = mount(QForm, { props })
+          register(wrapper, broken)
+
+          await expect(wrapper.vm.validate()).resolves.toBe(false)
+
+          expect(wrapper.emitted('validationError')[0][0]).toBe(broken)
+          expect(broken.focus).toHaveBeenCalledTimes(1)
+        }
+      )
     })
 
     describe('[(method)resetValidation]', () => {
