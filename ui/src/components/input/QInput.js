@@ -383,7 +383,14 @@ export default /*#__PURE__*/ createComponent({
 
       if (props.debounce !== void 0) {
         if (emitTimer !== null) clearTimeout(emitTimer)
-        temp.value = val
+        // while the emission is pending, temp.value keeps the typed text
+        // rendered; a masked control renders from innerValue instead (and
+        // with unmasked-value `val` is the raw value rather than the
+        // displayed text), so there temp must be dropped: an IME pass may
+        // have left its raw snapshot in it, which would shadow innerValue
+        // and rewrite the field on the next re-render
+        if (hasMask.value) delete temp.value
+        else temp.value = val
         emitTimer = setTimeout(emitValueFn, props.debounce)
       } else {
         emitValueFn()

@@ -1071,6 +1071,68 @@ describe('[QInput API]', () => {
           vi.useRealTimers()
         }
       })
+
+      test('keeps the masked display while an unmasked-value emission is debounced', async () => {
+        vi.useFakeTimers()
+
+        try {
+          const wrapper = mountInput({
+            modelValue: '',
+            mask: '###-###',
+            unmaskedValue: true,
+            debounce: 100
+          })
+          const input = wrapper.get('input')
+
+          input.element.value = '111111'
+          await input.trigger('input', { inputType: 'insertText' })
+
+          // the innerValue-driven re-render already ran here; the field
+          // must keep showing the masked text, not the raw emit value
+          expect(input.element.value).toBe('111-111')
+
+          vi.advanceTimersByTime(100)
+          expect(wrapper.emitted('update:modelValue')).toEqual([['111111']])
+
+          await wrapper.vm.$nextTick()
+          expect(input.element.value).toBe('111-111')
+        } finally {
+          vi.useRealTimers()
+        }
+      })
+
+      test('keeps the masked display after an IME composition while the emission is debounced', async () => {
+        vi.useFakeTimers()
+
+        try {
+          const wrapper = mountInput({
+            modelValue: '',
+            mask: '####/##/##',
+            debounce: 100
+          })
+          const input = wrapper.get('input')
+
+          await input.trigger('compositionstart')
+          input.element.value = '2023'
+          await input.trigger('input', {
+            data: '3',
+            inputType: 'insertCompositionText'
+          })
+          await input.trigger('compositionend', { data: '3' })
+
+          // the composition snapshot left in temp must not shadow the
+          // masked value on the re-render
+          expect(input.element.value).toBe('2023/')
+
+          vi.advanceTimersByTime(100)
+          expect(wrapper.emitted('update:modelValue')).toEqual([['2023/']])
+
+          await wrapper.vm.$nextTick()
+          expect(input.element.value).toBe('2023/')
+        } finally {
+          vi.useRealTimers()
+        }
+      })
     })
 
     describe('[(prop)maxlength]', () => {
