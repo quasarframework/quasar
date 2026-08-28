@@ -107,6 +107,7 @@ const gettingStarted = {
         { name: 'UMD / Standalone', path: '/start/umd' }
       ]
     },
+    { name: 'Browser Support', path: '/start/browser-support' },
     { name: 'How to use Vue', path: '/start/how-to-use-vue' },
     { name: 'Playground', path: '/start/playground' },
     { name: 'VS Code Configuration', path: '/start/vs-code-configuration' }

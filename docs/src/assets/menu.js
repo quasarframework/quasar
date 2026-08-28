@@ -10,6 +10,11 @@ export default [
     path: 'api-explorer'
   },
   {
+    name: 'Browser Support',
+    icon: 'public',
+    path: 'start/browser-support'
+  },
+  {
     name: 'How to contribute',
     icon: 'code',
     path: 'how-to-contribute',
