@@ -14,8 +14,9 @@ afterEach(() => {
   wrapper = void 0
 })
 
-// QTable owns "columns"/"rows"/"tableColspan"; the composable only declares
-// "visibleColumns" but reads the others off the same props object
+// QTable owns "columns"/"rows"/"tableColspan"/"columnSortOrder"; the
+// composable only declares "visibleColumns" but reads the others off the
+// same props object
 const hostProps = {
   ...useTableColumnSelectionProps,
   columns: Array,
@@ -23,7 +24,11 @@ const hostProps = {
     type: Array,
     default: () => []
   },
-  tableColspan: [Number, String]
+  tableColspan: [Number, String],
+  columnSortOrder: {
+    type: String,
+    default: 'ad'
+  }
 }
 
 function mountColumnSelection({
@@ -183,6 +188,53 @@ describe('[tableColumnSelection API]', () => {
 
         paginationRef.value = { sortBy: 'name', descending: true }
         expect(getCol(computedCols, 'name').__thClass).toContain('sort-desc')
+      })
+
+      test('previews a descending-first sort order on unsorted columns', () => {
+        const { computedCols, paginationRef } = mountColumnSelection({
+          props: {
+            columns: [
+              { ...columns[0], sortOrder: 'da' },
+              { name: 'fat', field: 'fat', sortable: true },
+              columns[1]
+            ]
+          }
+        })
+
+        // unsorted "da" column previews descending; "ad" one does not
+        expect(getCol(computedCols, 'name').__thClass).toContain('sort-desc')
+        expect(getCol(computedCols, 'fat').__thClass).not.toContain('sort-desc')
+        // a non-sortable column never gets the preview
+        expect(getCol(computedCols, 'age').__thClass).not.toContain('sort-desc')
+
+        // once actually sorted, the real sort state wins over the preview
+        paginationRef.value = { sortBy: 'name', descending: false }
+        expect(getCol(computedCols, 'name').__thClass).toContain('sorted')
+        expect(getCol(computedCols, 'name').__thClass).not.toContain(
+          'sort-desc'
+        )
+      })
+
+      test('previews the table-wide descending-first sort order', () => {
+        const { computedCols } = mountColumnSelection({
+          props: { columns, columnSortOrder: 'da' }
+        })
+
+        expect(getCol(computedCols, 'name').__thClass).toContain('sort-desc')
+        expect(getCol(computedCols, 'age').__thClass).not.toContain('sort-desc')
+      })
+
+      test('lets a column sortOrder win over the table-wide one', () => {
+        const { computedCols } = mountColumnSelection({
+          props: {
+            columns: [{ ...columns[0], sortOrder: 'ad' }],
+            columnSortOrder: 'da'
+          }
+        })
+
+        expect(getCol(computedCols, 'name').__thClass).not.toContain(
+          'sort-desc'
+        )
       })
 
       test('exposes the sorting state for assistive technologies', () => {

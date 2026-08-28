@@ -62,7 +62,10 @@ export function useTableColumnSelection(
           (col.sortable ? ' sortable' : '') +
           (col.name === sortBy
             ? ` sorted ${descending ? 'sort-desc' : ''}`
-            : ''),
+            : // preview the first-click sort direction on hover
+              col.sortable && (col.sortOrder || props.columnSortOrder) === 'da'
+              ? ' sort-desc'
+              : ''),
 
         __tdStyle:
           col.style !== void 0
