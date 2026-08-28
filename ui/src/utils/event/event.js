@@ -1,25 +1,12 @@
 export const listenOpts = {
-  hasPassive: false,
-  passiveCapture: true,
-  notPassiveCapture: true
-}
+  // kept for backward compatibility (the support detection is gone)
+  hasPassive: true,
 
-try {
-  const opts = Object.defineProperty({}, 'passive', {
-    // oxlint-disable-next-line getter-return
-    get() {
-      Object.assign(listenOpts, {
-        hasPassive: true,
-        passive: { passive: true },
-        notPassive: { passive: false },
-        passiveCapture: { passive: true, capture: true },
-        notPassiveCapture: { passive: false, capture: true }
-      })
-    }
-  })
-  window.addEventListener('qtest', null, opts)
-  window.removeEventListener('qtest', null, opts)
-} catch {}
+  passive: { passive: true },
+  notPassive: { passive: false },
+  passiveCapture: { passive: true, capture: true },
+  notPassiveCapture: { passive: false, capture: true }
+}
 
 export function noop() {}
 
@@ -50,27 +37,9 @@ export function position(e) {
   }
 }
 
+// kept for backward compatibility, but not used anymore
 export function getEventPath(e) {
-  if (e.path) {
-    return e.path
-  }
-  if (e.composedPath) {
-    return e.composedPath()
-  }
-
-  const path = []
-  let el = e.target
-
-  while (el) {
-    path.push(el)
-
-    if (el.tagName === 'HTML') {
-      path.push(document, window)
-      return path
-    }
-
-    el = el.parentElement
-  }
+  return e.composedPath()
 }
 
 // Reasonable defaults

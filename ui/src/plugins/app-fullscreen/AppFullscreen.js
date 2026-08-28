@@ -1,8 +1,6 @@
 import { createReactivePlugin } from '../../utils/private.create/create.js'
 import { changeGlobalNodesTarget } from '../../utils/private.config/nodes.js'
 
-const prefixes = {}
-
 function assignFn(fn) {
   Object.assign(Plugin, {
     request: fn,
@@ -11,19 +9,9 @@ function assignFn(fn) {
   })
 }
 
-function getFullscreenElement() {
-  return (
-    document.fullscreenElement ||
-    document.mozFullScreenElement ||
-    document.webkitFullscreenElement ||
-    document.msFullscreenElement ||
-    null
-  )
-}
-
 function updateEl() {
   const newEl = (Plugin.activeEl = Plugin.isActive
-    ? getFullscreenElement()
+    ? document.fullscreenElement
     : null)
 
   changeGlobalNodesTarget(
@@ -34,16 +22,6 @@ function updateEl() {
 function togglePluginState() {
   Plugin.isActive = !Plugin.isActive
   updateEl()
-}
-
-// needed for consistency across browsers
-function promisify(target, fn) {
-  try {
-    const res = target[fn]()
-    return res === void 0 ? Promise.resolve() : res
-  } catch (err) {
-    return Promise.reject(err)
-  }
 }
 
 const Plugin = /*#__PURE__*/ createReactivePlugin(
@@ -63,14 +41,9 @@ const Plugin = /*#__PURE__*/ createReactivePlugin(
 if (__QUASAR_SSR_SERVER__) {
   assignFn(() => Promise.resolve())
 } else {
-  prefixes.request = [
-    'requestFullscreen',
-    'msRequestFullscreen',
-    'mozRequestFullScreen',
-    'webkitRequestFullscreen'
-  ].find(request => document.documentElement[request] !== void 0)
-
-  Plugin.isCapable = prefixes.request !== void 0
+  // the Fullscreen API is still unavailable on some platforms
+  // (e.g. iPhone Safari)
+  Plugin.isCapable = document.documentElement.requestFullscreen !== void 0
 
   if (!Plugin.isCapable) {
     // it means the browser does NOT support it
@@ -90,13 +63,11 @@ if (__QUASAR_SSR_SERVER__) {
             ? Plugin.exit()
             : Promise.resolve()
 
-        return queue.finally(() => promisify(el, prefixes.request))
+        return queue.finally(() => el.requestFullscreen())
       },
 
       exit() {
-        return Plugin.isActive
-          ? promisify(document, prefixes.exit)
-          : Promise.resolve()
+        return Plugin.isActive ? document.exitFullscreen() : Promise.resolve()
       },
 
       toggle(target) {
@@ -104,23 +75,10 @@ if (__QUASAR_SSR_SERVER__) {
       }
     })
 
-    prefixes.exit = [
-      'exitFullscreen',
-      'msExitFullscreen',
-      'mozCancelFullScreen',
-      'webkitExitFullscreen'
-    ].find(exit => document[exit])
-
-    Plugin.isActive = Boolean(getFullscreenElement())
+    Plugin.isActive = Boolean(document.fullscreenElement)
     if (Plugin.isActive) updateEl()
 
-    ;[
-      'onfullscreenchange',
-      'onmsfullscreenchange',
-      'onwebkitfullscreenchange'
-    ].forEach(evt => {
-      document[evt] = togglePluginState
-    })
+    document.addEventListener('fullscreenchange', togglePluginState)
   }
 }
 

@@ -261,9 +261,6 @@ export default /*#__PURE__*/ createComponent({
       // is it already destroyed?
       if (rootRef.value === null) return
 
-      // needed for IE (because it emits blur when focusing button from focus helper)
-      if (e?.type === 'blur' && document.activeElement === rootRef.value) return
-
       if (e?.type === 'keyup') {
         if (keyboardTarget === rootRef.value && isKeyCode(e, [13, 32])) {
           // for click trigger

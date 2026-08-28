@@ -8,7 +8,23 @@ const targets = []
 
 beforeEach(() => {
   vi.useFakeTimers()
-  vi.stubGlobal('IntersectionObserver', void 0)
+  // a synchronous, always-intersecting stand-in, so the component
+  // starts right on mount and stays deterministic under fake timers
+  vi.stubGlobal(
+    'IntersectionObserver',
+    class {
+      constructor(cb) {
+        this.cb = cb
+      }
+
+      observe() {
+        this.cb([{ isIntersecting: true }])
+      }
+
+      unobserve() {}
+      disconnect() {}
+    }
+  )
 })
 
 afterEach(() => {

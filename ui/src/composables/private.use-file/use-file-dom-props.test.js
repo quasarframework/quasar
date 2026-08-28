@@ -68,31 +68,6 @@ describe('[useFileDomProps API]', () => {
         expect(result.value.files).toStrictEqual(files)
       })
 
-      test('uses the ClipboardEvent fallback when DataTransfer is unavailable', () => {
-        Reflect.deleteProperty(window, 'DataTransfer')
-
-        vi.stubGlobal(
-          'ClipboardEvent',
-          class {
-            constructor() {
-              this.clipboardData = {
-                files: [],
-                items: {
-                  add: file => {
-                    this.clipboardData.files.push(file)
-                  }
-                }
-              }
-            }
-          }
-        )
-
-        const file = new File(['content'], 'example.txt')
-        const result = useFileDomProps({ modelValue: file })
-
-        expect(result).$ref({ files: [file] })
-      })
-
       test('returns an undefined files value when browser file-transfer APIs are unavailable', () => {
         Reflect.deleteProperty(window, 'DataTransfer')
         Reflect.deleteProperty(window, 'ClipboardEvent')

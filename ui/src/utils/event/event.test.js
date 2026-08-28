@@ -12,32 +12,22 @@ afterEach(() => {
 describe('[event API]', () => {
   describe('[Variables]', () => {
     describe('[(variable)listenOpts]', () => {
-      test('advertises passive support detection', () => {
+      test('advertises passive support', () => {
         expect(listenOpts).toBeTypeOf('object')
-        expect(listenOpts.hasPassive).toBeTypeOf('boolean')
+        expect(listenOpts.hasPassive).toBe(true)
       })
 
-      test('exposes capture variants usable by addEventListener', () => {
-        // when passive is unsupported the values degrade to the boolean
-        // "useCapture" form, which addEventListener also accepts
-        expect(listenOpts.passiveCapture).$any([
-          true,
-          { passive: true, capture: true }
-        ])
-        expect(listenOpts.notPassiveCapture).$any([
-          true,
-          { passive: false, capture: true }
-        ])
-      })
-
-      test('exposes the non-capture variants only when passive is supported', () => {
-        if (listenOpts.hasPassive === true) {
-          expect(listenOpts.passive).toStrictEqual({ passive: true })
-          expect(listenOpts.notPassive).toStrictEqual({ passive: false })
-        } else {
-          expect(listenOpts.passive).toBeUndefined()
-          expect(listenOpts.notPassive).toBeUndefined()
-        }
+      test('exposes options objects usable by addEventListener', () => {
+        expect(listenOpts.passive).toStrictEqual({ passive: true })
+        expect(listenOpts.notPassive).toStrictEqual({ passive: false })
+        expect(listenOpts.passiveCapture).toStrictEqual({
+          passive: true,
+          capture: true
+        })
+        expect(listenOpts.notPassiveCapture).toStrictEqual({
+          passive: false,
+          capture: true
+        })
       })
     })
   })
@@ -115,21 +105,7 @@ describe('[event API]', () => {
     })
 
     describe('[(function)getEventPath]', () => {
-      test('returns the "path" property when available', () => {
-        const path = [document.createElement('div')]
-
-        expect(event.getEventPath({ path })).toBe(path)
-      })
-
-      test('calls composedPath() when there is no "path"', () => {
-        const path = [document.createElement('div')]
-        const composedPath = vi.fn(() => path)
-
-        expect(event.getEventPath({ composedPath })).toBe(path)
-        expect(composedPath).toHaveBeenCalledTimes(1)
-      })
-
-      test('walks up the DOM tree as a last resort', () => {
+      test('returns the event composedPath()', () => {
         const parent = document.createElement('div')
         const target = document.createElement('span')
 
@@ -137,7 +113,13 @@ describe('[event API]', () => {
         document.body.append(parent)
 
         try {
-          expect(event.getEventPath({ target })).toStrictEqual([
+          let path
+          target.addEventListener('click', e => {
+            path = event.getEventPath(e)
+          })
+          target.dispatchEvent(new Event('click', { bubbles: true }))
+
+          expect(path).toStrictEqual([
             target,
             parent,
             document.body,
@@ -148,12 +130,6 @@ describe('[event API]', () => {
         } finally {
           parent.remove()
         }
-      })
-
-      test('returns undefined when the target is detached from the document', () => {
-        const target = document.createElement('span')
-
-        expect(event.getEventPath({ target })).toBeUndefined()
       })
     })
 

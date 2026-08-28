@@ -27,7 +27,6 @@ import {
   setVerticalScrollPosition
 } from '../../utils/scroll/scroll.js'
 import { hMergeSlot } from '../../utils/private.render/render.js'
-import { rtlHasScrollBug } from '../../utils/private.rtl/rtl.js'
 import debounce from '../../utils/debounce/debounce.js'
 
 const axisList = ['vertical', 'horizontal']
@@ -47,6 +46,10 @@ const panOpts = {
 }
 
 const getMinThumbSize = size => (size >= 250 ? 50 : Math.ceil(size / 5))
+
+// converts between logical and native horizontal scroll positions
+// (in RTL the two are negated mirrors of each other)
+const getHorizontalPosition = (position, rtl) => (rtl ? -position : position)
 
 function isValidAxis(axis, methodName) {
   if (axisList.includes(axis)) return true
@@ -214,7 +217,8 @@ export default /*#__PURE__*/ createComponent({
         return 0
       }
       const p = between(
-        getHorizontalLogicalPosition(scroll.horizontal.position.value) / diff,
+        getHorizontalPosition(scroll.horizontal.position.value, $q.lang.rtl) /
+          diff,
         0,
         1
       )
@@ -377,7 +381,7 @@ export default /*#__PURE__*/ createComponent({
 
         panRefPos =
           axis === 'horizontal'
-            ? getHorizontalLogicalPosition(data.position.value)
+            ? getHorizontalPosition(data.position.value, $q.lang.rtl)
             : data.position.value
         panning.value = true
       } else if (!panning.value) {
@@ -398,7 +402,7 @@ export default /*#__PURE__*/ createComponent({
       const pos = panRefPos + direction * distance * multiplier
 
       setScroll(
-        axis === 'horizontal' ? getHorizontalNativePosition(pos) : pos,
+        axis === 'horizontal' ? getHorizontalPosition(pos, $q.lang.rtl) : pos,
         axis
       )
     }
@@ -429,9 +433,10 @@ export default /*#__PURE__*/ createComponent({
           )
           setScroll(
             isHorizontalRtl
-              ? getHorizontalNativePosition(
+              ? getHorizontalPosition(
                   percentage *
-                    Math.max(0, data.size.value - container[axis].value)
+                    Math.max(0, data.size.value - container[axis].value),
+                  $q.lang.rtl
                 )
               : percentage *
                   Math.max(0, data.size.value - container[axis].value),
@@ -460,28 +465,6 @@ export default /*#__PURE__*/ createComponent({
 
     function setScroll(offset, axis) {
       targetRef.value[dirProps[axis].scroll] = offset
-    }
-
-    function getHorizontalLogicalPosition(position, rtl = $q.lang.rtl) {
-      if (!rtl) return position
-
-      return rtlHasScrollBug
-        ? Math.max(
-            0,
-            scroll.horizontal.size.value - container.horizontal.value
-          ) - position
-        : -position
-    }
-
-    function getHorizontalNativePosition(position, rtl = $q.lang.rtl) {
-      if (!rtl) return position
-
-      return rtlHasScrollBug
-        ? Math.max(
-            0,
-            scroll.horizontal.size.value - container.horizontal.value
-          ) - position
-        : -position
     }
 
     let mouseEventTimer = null
@@ -518,11 +501,8 @@ export default /*#__PURE__*/ createComponent({
         if (targetRef.value !== null) {
           setHorizontalScrollPosition(
             targetRef.value,
-            getHorizontalNativePosition(
-              getHorizontalLogicalPosition(
-                scroll.horizontal.position.value,
-                oldRtl
-              ),
+            getHorizontalPosition(
+              getHorizontalPosition(scroll.horizontal.position.value, oldRtl),
               rtl
             )
           )
@@ -571,7 +551,9 @@ export default /*#__PURE__*/ createComponent({
 
         localSetScrollPosition(
           axis,
-          axis === 'horizontal' ? getHorizontalNativePosition(offset) : offset,
+          axis === 'horizontal'
+            ? getHorizontalPosition(offset, $q.lang.rtl)
+            : offset,
           duration
         )
       }

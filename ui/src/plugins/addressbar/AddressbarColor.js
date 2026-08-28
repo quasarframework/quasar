@@ -2,12 +2,6 @@ import { client } from '../platform/Platform.js'
 import { noop } from '../../utils/event/event.js'
 import getCssVar from '../../utils/css-var/get-css-var.js'
 
-let metaValue
-
-function getProp() {
-  return client.is.winphone ? 'msapplication-navbutton-color' : 'theme-color' // Safari, Chrome, ...
-}
-
 function getMetaTag(v) {
   const els = document.getElementsByTagName('META')
   for (const i in els) {
@@ -18,17 +12,12 @@ function getMetaTag(v) {
 }
 
 function setColor(hexColor) {
-  if (metaValue === void 0) {
-    // cache it
-    metaValue = getProp()
-  }
-
-  let metaTag = getMetaTag(metaValue)
+  let metaTag = getMetaTag('theme-color')
   const newTag = metaTag === void 0
 
   if (newTag) {
     metaTag = document.createElement('meta')
-    metaTag.setAttribute('name', metaValue)
+    metaTag.setAttribute('name', 'theme-color')
   }
 
   metaTag.setAttribute('content', hexColor)
@@ -43,7 +32,6 @@ export default {
     !__QUASAR_SSR_SERVER__ &&
     client.is.mobile &&
     (client.is.nativeMobile ||
-      client.is.winphone ||
       client.is.safari ||
       client.is.webkit ||
       client.is.vivaldi)

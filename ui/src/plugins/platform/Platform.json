@@ -115,15 +115,7 @@
         },
         "edge": {
           "type": "Boolean",
-          "desc": "Whether the browser is Microsoft Edge Legacy"
-        },
-        "edgeChromium": {
-          "type": "Boolean",
-          "desc": "Whether the browser is Microsoft Edge (Chromium)"
-        },
-        "ie": {
-          "type": "Boolean",
-          "desc": "Whether the browser is Internet Explorer"
+          "desc": "Whether the browser is Microsoft Edge"
         },
         "webkit": {
           "type": "Boolean",
@@ -149,18 +141,6 @@
         "ipod": {
           "type": "Boolean",
           "desc": "Whether the device is an iPod"
-        },
-        "kindle": {
-          "type": "Boolean",
-          "desc": "Whether the device is a Kindle"
-        },
-        "winphone": {
-          "type": "Boolean",
-          "desc": "Whether the operating system is Windows Phone"
-        },
-        "silk": {
-          "type": "Boolean",
-          "desc": "Whether the browser is Amazon Silk"
         }
       },
       "examples": [

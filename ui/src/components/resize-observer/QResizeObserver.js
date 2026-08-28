@@ -1,24 +1,7 @@
-import {
-  getCurrentInstance,
-  h,
-  nextTick,
-  onBeforeUnmount,
-  onMounted
-} from 'vue'
-
-import useHydration from '../../composables/use-hydration/use-hydration.js'
+import { getCurrentInstance, nextTick, onBeforeUnmount, onMounted } from 'vue'
 
 import { createComponent } from '../../utils/private.create/create.js'
-import { listenOpts, noop } from '../../utils/event/event.js'
-
-const hasObserver = typeof ResizeObserver !== 'undefined'
-const resizeProps = hasObserver
-  ? {}
-  : {
-      style:
-        'display:block;position:absolute;top:0;left:0;right:0;bottom:0;height:100%;width:100%;overflow:hidden;pointer-events:none;z-index:-1;',
-      url: 'about:blank'
-    }
+import { noop } from '../../utils/event/event.js'
 
 export default /*#__PURE__*/ createComponent({
   name: 'QResizeObserver',
@@ -72,106 +55,39 @@ export default /*#__PURE__*/ createComponent({
     // expose public method
     proxy.trigger = trigger
 
-    if (hasObserver) {
-      let observer,
-        isDestroyed = false
-
-      // initialize as soon as possible
-      const init = stop => {
-        if (isDestroyed) return
-
-        targetEl = proxy.$el.parentNode
-
-        if (targetEl) {
-          observer = new ResizeObserver(trigger)
-          observer.observe(targetEl)
-          emitEvent()
-        } else if (!stop) {
-          nextTick(() => {
-            init(true)
-          })
-        }
-      }
-
-      onMounted(() => {
-        init()
-      })
-
-      onBeforeUnmount(() => {
-        isDestroyed = true
-
-        if (timer !== null) clearTimeout(timer)
-
-        if (observer !== void 0) {
-          if (observer.disconnect !== void 0) {
-            observer.disconnect()
-          } else if (targetEl) {
-            // FF for Android
-            observer.unobserve(targetEl)
-          }
-        }
-      })
-
-      return noop
-    }
-
-    // no observer, so fallback to old iframe method
-    const { isHydrated } = useHydration()
-
-    let curDocView,
+    let observer,
       isDestroyed = false
 
-    const cleanup = () => {
-      if (timer !== null) {
-        clearTimeout(timer)
-        timer = null
-      }
+    // initialize as soon as possible
+    const init = stop => {
+      if (isDestroyed) return
 
-      if (curDocView !== void 0) {
-        // iOS is fuzzy, need to check it first
-        if (curDocView.removeEventListener !== void 0) {
-          curDocView.removeEventListener('resize', trigger, listenOpts.passive)
-        }
-        curDocView = void 0
-      }
-    }
+      targetEl = proxy.$el.parentNode
 
-    const onObjLoad = () => {
-      cleanup()
-
-      if (targetEl?.contentDocument) {
-        curDocView = targetEl.contentDocument.defaultView
-        curDocView.addEventListener('resize', trigger, listenOpts.passive)
+      if (targetEl) {
+        observer = new ResizeObserver(trigger)
+        observer.observe(targetEl)
         emitEvent()
+      } else if (!stop) {
+        nextTick(() => {
+          init(true)
+        })
       }
     }
 
     onMounted(() => {
-      nextTick(() => {
-        if (isDestroyed) return
-
-        targetEl = proxy.$el
-        if (targetEl) onObjLoad()
-      })
+      init()
     })
 
     onBeforeUnmount(() => {
       isDestroyed = true
-      cleanup()
+      if (timer !== null) clearTimeout(timer)
+      if (observer) {
+        observer.disconnect()
+        observer = null
+      }
     })
 
-    return () => {
-      if (isHydrated.value) {
-        return h('object', {
-          class: 'q--avoid-card-border',
-          style: resizeProps.style,
-          tabindex: -1, // fix for Firefox
-          type: 'text/html',
-          data: resizeProps.url,
-          'aria-hidden': 'true',
-          onLoad: onObjLoad
-        })
-      }
-    }
+    return noop
   }
 })

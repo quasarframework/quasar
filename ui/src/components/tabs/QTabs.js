@@ -20,7 +20,6 @@ import useTimeout from '../../composables/use-timeout/use-timeout.js'
 import { createComponent } from '../../utils/private.create/create.js'
 import { hSlot } from '../../utils/private.render/render.js'
 import { tabsKey } from '../../utils/private.symbols/symbols.js'
-import { rtlHasScrollBug } from '../../utils/private.rtl/rtl.js'
 
 function getIndicatorClass(color, top, vertical) {
   const pos = vertical ? ['left', 'right'] : ['top', 'bottom']
@@ -188,7 +187,6 @@ export default /*#__PURE__*/ createComponent({
     )
 
     const isRTL = computed(() => !props.vertical && $q.lang.rtl === true)
-    const rtlPosCorrection = computed(() => !rtlHasScrollBug && isRTL.value)
 
     watch(isRTL, updateArrows)
 
@@ -354,11 +352,11 @@ export default /*#__PURE__*/ createComponent({
     }
 
     function scrollToStart() {
-      animScrollTo(rtlPosCorrection.value ? Number.MAX_SAFE_INTEGER : 0)
+      animScrollTo(isRTL.value ? Number.MAX_SAFE_INTEGER : 0)
     }
 
     function scrollToEnd() {
-      animScrollTo(rtlPosCorrection.value ? 0 : Number.MAX_SAFE_INTEGER)
+      animScrollTo(isRTL.value ? 0 : Number.MAX_SAFE_INTEGER)
     }
 
     function stopAnimScroll() {
@@ -412,7 +410,7 @@ export default /*#__PURE__*/ createComponent({
     // with a computed variable by directly applying the minimal
     // number of instructions on get/set functions
     const posFn = computed(() =>
-      rtlPosCorrection.value
+      isRTL.value
         ? {
             get: content => Math.abs(content.scrollLeft),
             set: (content, pos) => {

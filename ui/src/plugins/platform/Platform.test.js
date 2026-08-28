@@ -98,18 +98,13 @@ describe('[Platform API]', () => {
           safari: expect.any(Boolean),
           vivaldi: expect.any(Boolean),
           edge: expect.any(Boolean),
-          edgeChromium: expect.any(Boolean),
-          ie: expect.any(Boolean),
           webkit: expect.any(Boolean),
 
           android: expect.any(Boolean),
           ios: expect.any(Boolean),
           ipad: expect.any(Boolean),
           iphone: expect.any(Boolean),
-          ipod: expect.any(Boolean),
-          kindle: expect.any(Boolean),
-          winphone: expect.any(Boolean),
-          silk: expect.any(Boolean)
+          ipod: expect.any(Boolean)
         }
 
         const actualKeys = Object.keys(Platform.is)
@@ -149,24 +144,15 @@ describe('[Platform API]', () => {
         expect(platform.is.safari).toBe(false)
       })
 
-      test.each([
-        [
-          'uses the explicit Opera version',
-          'Opera/9.80 (Windows NT 6.1; WOW64) Presto/2.12.388 Version/12.18',
-          '12.18'
-        ],
-        [
-          'falls back to the Opera token version',
-          'Opera/9.80 (Windows NT 6.1; WOW64) Presto/2.12.388',
-          '9.80'
-        ]
-      ])('%s', async (_, userAgent, version) => {
-        const platform = await loadPlatformForUserAgent(userAgent)
+      test('detects Opera through its OPR token', async () => {
+        const platform = await loadPlatformForUserAgent(
+          'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36 OPR/106.0.0.0'
+        )
 
         expect(platform.is).toMatchObject({
           name: 'opera',
           opera: true,
-          version
+          version: '106.0.0.0'
         })
       })
     })

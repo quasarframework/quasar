@@ -45,21 +45,7 @@ function getSafariMatch(userAgent) {
     : null
 }
 
-const operaAgentRE = /(?:^|\s)opera\/([\w.]+)/
-const operaVersionRE = /(?:^|\s)version\/([\w.]+)/
-function getOperaMatch(userAgent) {
-  const operaMatch = operaAgentRE.exec(userAgent)
-  if (operaMatch === null) return null
-
-  const versionMatch = operaVersionRE.exec(userAgent)
-
-  return {
-    browser: 'opera',
-    version: versionMatch?.[1] || operaMatch[1]
-  }
-}
-
-const edgeRE = /(edg|edge|edga|edgios)\/([\w.]+)/
+const edgeRE = /(edg|edga|edgios)\/([\w.]+)/
 const oprRE = /(opr)[\/]([\w.]+)/
 const vivaldiRE = /(vivaldi)[\/]([\w.]+)/
 const chromeRE = /(chrome|crios)[\/]([\w.]+)/
@@ -82,20 +68,7 @@ function getMatch(userAgent, platformMatch) {
       }
     }
 
-    match = firefoxRE.exec(userAgent) || webkitRE.exec(userAgent)
-
-    if (match === null) {
-      const operaMatch = getOperaMatch(userAgent)
-
-      if (operaMatch !== null) {
-        return {
-          ...operaMatch,
-          platform: platformMatch[0] || ''
-        }
-      }
-
-      match = []
-    }
+    match = firefoxRE.exec(userAgent) || webkitRE.exec(userAgent) || []
   }
 
   return {
@@ -108,9 +81,6 @@ function getMatch(userAgent, platformMatch) {
 const ipadRE = /(ipad)/
 const ipodRE = /(ipod)/
 const iphoneRE = /(iphone)/
-const windowsPhoneRE = /(windows phone)/
-const kindleRE = /(kindle)/
-const silkRE = /(silk)/
 const androidRE = /(android)/
 const winRE = /(win)/ // "windows" is too generic and can be used in other platforms' UA
 const macRE = /(mac)/
@@ -120,10 +90,7 @@ function getPlatformMatch(userAgent) {
   return (
     ipadRE.exec(userAgent) ||
     ipodRE.exec(userAgent) ||
-    windowsPhoneRE.exec(userAgent) ||
     iphoneRE.exec(userAgent) ||
-    kindleRE.exec(userAgent) ||
-    silkRE.exec(userAgent) ||
     androidRE.exec(userAgent) ||
     winRE.exec(userAgent) ||
     macRE.exec(userAgent) ||
@@ -163,18 +130,13 @@ function getPlatform(UA) {
     safari: false,
     vivaldi: false,
     edge: false,
-    edgeChromium: false,
-    ie: false,
     webkit: false,
 
     android: false,
     ios: false,
     ipad: false,
     iphone: false,
-    ipod: false,
-    kindle: false,
-    winphone: false,
-    silk: false
+    ipod: false
   }
 
   if (matched.browser) {
@@ -187,20 +149,12 @@ function getPlatform(UA) {
     browser[matched.platform] = true
   }
 
-  if (browser['windows phone']) {
-    browser.winphone = true
-    delete browser['windows phone']
-  }
-
   const knownMobiles =
     browser.android ||
     browser.ios ||
     browser.ipad ||
     browser.iphone ||
-    browser.ipod ||
-    browser.kindle ||
-    browser.silk ||
-    browser.winphone
+    browser.ipod
 
   // These are all considered mobile platforms, meaning they run a mobile browser
   if (knownMobiles === true || userAgent.includes('mobile')) {
@@ -253,20 +207,6 @@ function getPlatform(UA) {
   if (browser.opr) {
     matched.browser = 'opera'
     browser.opera = true
-  }
-
-  // Some browsers are marked as Safari but are not
-  if (browser.safari) {
-    if (browser.android) {
-      matched.browser = 'android'
-      browser.android = true
-    } else if (browser.kindle) {
-      matched.browser = 'kindle'
-      browser.kindle = true
-    } else if (browser.silk) {
-      matched.browser = 'silk'
-      browser.silk = true
-    }
   }
 
   // Assign the name and platform variable
@@ -362,9 +302,7 @@ function getPlatform(UA) {
   return browser
 }
 
-const userAgent = __QUASAR_SSR_SERVER__
-  ? ''
-  : navigator.userAgent || navigator.vendor || window.opera
+const userAgent = __QUASAR_SSR_SERVER__ ? '' : navigator.userAgent
 
 const ssrClient = {
   has: {

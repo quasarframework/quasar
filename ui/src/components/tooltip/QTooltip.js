@@ -599,11 +599,8 @@ export default /*#__PURE__*/ createComponent({
       if (!el) return
 
       // only react to keyboard focus, not to focus coming from a pointer,
-      // so the tooltip doesn't pop up when the target is clicked;
-      // guard the call for engines that don't support :focus-visible
-      try {
-        if (el.matches(':focus-visible') === false) return
-      } catch {}
+      // so the tooltip doesn't pop up when the target is clicked
+      if (!el.matches(':focus-visible')) return
 
       delayShow(evt)
     }

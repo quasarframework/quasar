@@ -85,19 +85,15 @@ The following properties are available to the Platform object. It's not an exhau
 | `Platform.is.ipad`                | Boolean | Is the app running on an iPad?                                                  |
 | `Platform.is.iphone`              | Boolean | Is the app running on an iPhone?                                                |
 | `Platform.is.ipod`                | Boolean | Is the app running on an iPod?                                                  |
-| `Platform.is.kindle`              | Boolean | Is the app running on a Kindle device?                                          |
 | `Platform.is.linux`               | Boolean | Is the code running on a device with the Linux operating system?                |
 | `Platform.is.mac`                 | Boolean | Is the code running on a device with the MacOS operating system?                |
 | `Platform.is.win`                 | Boolean | Is the code running on a device with the Windows operating system?              |
-| `Platform.is.winphone`            | Boolean | Is the code running on a Windows Phone device?                                  |
-| `Platform.is.silk`                | Boolean | Is the code running the Kindle Silk browser?                                    |
 | `Platform.is.chrome`              | Boolean | Is the code running inside the Google Chrome browser?                           |
 | `Platform.is.firefox`             | Boolean | Is the code running inside the Firefox browser?                                 |
 | `Platform.is.opera`               | Boolean | Is the code running inside the Opera browser?                                   |
 | `Platform.is.safari`              | Boolean | Is the code running inside the Apple Safari browser?                            |
 | `Platform.is.vivaldi`             | Boolean | Is the code running inside the Vivaldi browser?                                 |
 | `Platform.is.edge`                | Boolean | Is the code running inside the Microsoft Edge browser?                          |
-| `Platform.is.ie`                  | Boolean | Is the code running inside the Microsoft Internet Explorer browser?             |
 | `Platform.is.webkit`              | Boolean | Is the code running on Webkit or webkit-based?                                  |
 | `Platform.has.touch`              | Boolean | Is the code running on a touch capable screen?                                  |
 | `Platform.within.iframe`          | Boolean | Is the app running within an IFRAME?                                            |

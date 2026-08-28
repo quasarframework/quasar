@@ -18,15 +18,17 @@ Object.defineProperty(document, 'fullscreenElement', {
 export function mockedRequestFullscreen(el = document.documentElement) {
   fullscreenEl = el
   mockedToggleFullscreen()
+  return Promise.resolve()
 }
 
 export function mockedExitFullscreen() {
   fullscreenEl = null
   mockedToggleFullscreen()
+  return Promise.resolve()
 }
 
 export function mockedToggleFullscreen() {
-  document.onfullscreenchange()
+  document.dispatchEvent(new Event('fullscreenchange'))
 }
 
 export function createMockedEl() {
@@ -37,6 +39,7 @@ export function createMockedEl() {
   el.requestFullscreen = vi.fn(() => {
     fullscreenEl = el
     mockedToggleFullscreen()
+    return Promise.resolve()
   })
 
   el.exitFullscreen = mockedExitFullscreen

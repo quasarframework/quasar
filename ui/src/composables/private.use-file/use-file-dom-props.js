@@ -5,12 +5,7 @@ export default function useFileDomProps(props, typeGuard) {
     const model = props.modelValue
 
     try {
-      const dt =
-        'DataTransfer' in window
-          ? new DataTransfer()
-          : 'ClipboardEvent' in window
-            ? new ClipboardEvent('').clipboardData
-            : void 0
+      const dt = new DataTransfer()
 
       if (Object(model) === model) {
         ;('length' in model ? [...model] : [model]).forEach(file => {

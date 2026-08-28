@@ -159,16 +159,12 @@ export default /*#__PURE__*/ createComponent({
       onResize()
       mediaEl.style.display = 'initial'
 
-      if (window.IntersectionObserver !== void 0) {
-        observer = new IntersectionObserver(entries => {
-          const fn = entries[0].isIntersecting ? start : stop
-          fn()
-        })
+      observer = new IntersectionObserver(entries => {
+        const fn = entries[0].isIntersecting ? start : stop
+        fn()
+      })
 
-        observer.observe(rootRef.value)
-      } else {
-        start()
-      }
+      observer.observe(rootRef.value)
     })
 
     onBeforeUnmount(() => {

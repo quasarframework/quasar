@@ -15,7 +15,6 @@ import useQuasar from '../../composables/use-quasar/use-quasar.js'
 
 import debounce from '../../utils/debounce/debounce.js'
 import { noop } from '../../utils/event/event.js'
-import { rtlHasScrollBug } from '../../utils/private.rtl/rtl.js'
 
 const aggBucketSize = 1000
 
@@ -99,9 +98,7 @@ function getScrollDetails(
     details.scrollMaxSize = parentCalc.scrollWidth
 
     if (rtl) {
-      details.scrollStart =
-        (rtlHasScrollBug ? details.scrollMaxSize - details.scrollViewSize : 0) -
-        details.scrollStart
+      details.scrollStart = -details.scrollStart
     }
   } else {
     if (parent === window) {
@@ -171,10 +168,7 @@ function setScroll(parent, scroll, horizontal, rtl) {
 
     if (horizontal) {
       if (rtl) {
-        scroll =
-          (rtlHasScrollBug
-            ? document.body.scrollWidth - document.documentElement.clientWidth
-            : 0) - scroll
+        scroll = -scroll
       }
       left = scroll
       top = window.scrollY
@@ -190,8 +184,7 @@ function setScroll(parent, scroll, horizontal, rtl) {
     window.scrollTo({ left, top, behavior: 'instant' })
   } else if (horizontal) {
     if (rtl) {
-      scroll =
-        (rtlHasScrollBug ? parent.scrollWidth - parent.offsetWidth : 0) - scroll
+      scroll = -scroll
     }
 
     parent.scrollTo({ left: scroll, behavior: 'instant' })
