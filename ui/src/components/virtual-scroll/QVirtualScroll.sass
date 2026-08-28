@@ -16,6 +16,12 @@
     background: linear-gradient(rgba(255,255,255,0), rgba(255,255,255,0) 20%, rgba(128, 128, 128, .03) 20%, rgba(128, 128, 128, .08) 50%, rgba(128, 128, 128, .03) 80%, rgba(255,255,255,0) 80%, rgba(255,255,255,0)) #{"/* rtl:ignore */"}
     background-size: var(--q-virtual-scroll-item-width, 100%) var(--q-virtual-scroll-item-height, 50px) #{"/* rtl:ignore */"}
 
+    td
+      // sticky-column recipes (td:first-child) must not reach these cells:
+      // re-slicing mutates a sticky padding cell mid scrollbar-thumb-drag,
+      // which makes Chromium re-anchor the drag and run to the end (#17107)
+      position: static !important
+
     .q-table &
       tr
         height: 0 !important
