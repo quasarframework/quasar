@@ -154,6 +154,12 @@ The role of debouncing is for times when you watch the model and do expensive op
 
 <DocExample title="Debounce model" file="Debouncing" />
 
+### Lazy model update
+
+Use the `v-model.lazy` modifier when the model should be updated only after the user finishes editing (on the native `change` event or when the input loses focus) instead of on every keystroke, matching the modifier's behavior on a native `<input>`. While this modifier is in use, the `debounce` prop is ignored.
+
+<DocExample title="Lazy model" file="LazyModel" />
+
 ### Loading state
 
 <DocExample title="Loading state" file="LoadingState" />
