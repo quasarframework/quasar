@@ -39,6 +39,11 @@ function run(script) {
       })
     }
 
+    child.on('error', err => {
+      console.log(`[${script}] failed to spawn: ${err.message}`)
+      resolve(1)
+    })
+
     child.on('exit', code => {
       console.log(`[${script}] exited with code ${code}`)
       resolve(code ?? 1)
