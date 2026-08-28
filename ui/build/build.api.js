@@ -21,6 +21,112 @@ const dest = resolveToRoot('dist/api')
 
 const extendApi = readJsonFile(resolveToRoot('src/api.extends.json'))
 
+// "__<key>__prefix" / "__<key>__suffix" keys append to the (inherited)
+// String value of <key> instead of replacing it; usable in object-form
+// mixin "overrideAll"/"overrides" and directly on any API entry
+const affixRE = /^__(\w+)__(prefix|suffix)$/
+
+// entries of api.extends.json can themselves use "extends" (referencing
+// another entry of the same section); pre-flatten them once so lookups
+// always hit fully resolved definitions
+for (const masterType of Object.keys(extendApi)) {
+  const section = extendApi[masterType]
+  const resolving = new Set()
+
+  const resolveEntry = name => {
+    const entry = section[name]
+
+    if (!Object.hasOwn(entry, 'extends')) return entry
+
+    if (resolving.has(name)) {
+      logError(
+        `build.api.js: api.extends.json -> "${masterType}" > "${name}" has a circular "extends" reference`
+      )
+      process.exit(1)
+    }
+
+    if (section[entry.extends] === void 0) {
+      logError(
+        `build.api.js: api.extends.json -> "${masterType}" > "${name}" extends "${entry.extends}" which does not exist`
+      )
+      process.exit(1)
+    }
+
+    resolving.add(name)
+    const base = resolveEntry(entry.extends)
+    resolving.delete(name)
+
+    section[name] = merge({}, base, entry)
+    delete section[name].extends
+
+    return section[name]
+  }
+
+  for (const name of Object.keys(section)) {
+    resolveEntry(name)
+  }
+}
+
+// top-level "extends" of an API file is resolved per file, BEFORE mixin
+// merging, so that referencing a definition beats mixin-inherited keys
+// (the entry's own literal keys still beat both); nested "extends"
+// (params, definition, scope, ...) keeps resolving during validation
+const topLevelExtendsSections = {
+  props: 'props',
+  computedProps: 'props',
+  value: 'props',
+  arg: 'props',
+  modifiers: 'modifiers',
+  slots: 'slots',
+  events: 'events',
+  methods: 'methods'
+}
+
+function resolveTopLevelExtends(api, file) {
+  const resolveOne = (entry, masterType, label) => {
+    if (Object(entry) !== entry || !Object.hasOwn(entry, 'extends')) {
+      return entry
+    }
+
+    const base = extendApi[masterType][entry.extends]
+
+    if (base === void 0) {
+      logError(
+        `build.api.js: ${relativeToRoot(file)} -> "${label}" extends ` +
+          `"${entry.extends}" which does not exists`
+      )
+      process.exit(1)
+    }
+
+    const resolved = merge({}, base, entry)
+    delete resolved.extends
+    return resolved
+  }
+
+  for (const section of Object.keys(topLevelExtendsSections)) {
+    if (api[section] === void 0) continue
+
+    const masterType = topLevelExtendsSections[section]
+    if (extendApi[masterType] === void 0) continue
+
+    if (section === 'value' || section === 'arg') {
+      api[section] = resolveOne(api[section], masterType, section)
+      continue
+    }
+
+    const target = api[section]
+    if (Object(target) !== target) continue
+
+    for (const name of Object.keys(target)) {
+      target[name] = resolveOne(
+        target[name],
+        masterType,
+        `${section}" > "${name}`
+      )
+    }
+  }
+}
+
 const passthroughValues = [true, false, 'child']
 
 const slotRE = /slots\[\s*['"](\S+)['"]\s*\]|slots\.([A-Za-z]+)/g
@@ -675,7 +781,6 @@ const objectMixinApiTypes = [
   ['plugins/', 'plugin'],
   ['directives/', 'directive']
 ]
-const objectMixinAffixRE = /^__(\w+)__(prefix|suffix)$/
 
 const objectMixinSourceCache = new Map()
 const objectMixinSourcePending = new Set()
@@ -976,7 +1081,7 @@ function applyObjectMixins(api, objectMixins, mainFile) {
 
     const applyPlainKeys = (def, spec) => {
       for (const key of Object.keys(spec)) {
-        if (!objectMixinAffixRE.test(key)) {
+        if (!affixRE.test(key)) {
           def[key] = structuredClone(spec[key])
         }
       }
@@ -984,7 +1089,7 @@ function applyObjectMixins(api, objectMixins, mainFile) {
 
     const applyAffixes = (def, spec, skipKeys, entryLabel) => {
       for (const key of Object.keys(spec)) {
-        const match = objectMixinAffixRE.exec(key)
+        const match = affixRE.exec(key)
         if (match === null) continue
 
         const [, target, kind] = match
@@ -1024,7 +1129,7 @@ function applyObjectMixins(api, objectMixins, mainFile) {
             oItem === void 0
               ? []
               : Object.keys(oItem).map(key => {
-                  const match = objectMixinAffixRE.exec(key)
+                  const match = affixRE.exec(key)
                   return match === null ? key : match[1]
                 })
           )
@@ -1082,6 +1187,7 @@ function getApiWithMixins(api, mainFile) {
     }
 
     const content = readJsonFile(mixinFile)
+    resolveTopLevelExtends(content, mixinFile)
 
     api = merge(
       {},
@@ -1281,6 +1387,31 @@ function parseObject({
 
     // now delete the __delete prop itself (we don't need it in the final API)
     delete obj.__delete
+  }
+
+  // apply "__<key>__prefix" / "__<key>__suffix" onto the (inherited) base value
+  for (const key of Object.keys(obj)) {
+    const affixMatch = affixRE.exec(key)
+    if (affixMatch === null) continue
+
+    const [, affixTarget, affixKind] = affixMatch
+
+    if (typeof obj[key] !== 'string') {
+      printErrorAndExit(`"${key}" must be a String`)
+    }
+
+    if (typeof obj[affixTarget] !== 'string') {
+      printErrorAndExit(
+        `"${key}" targets "${affixTarget}" which is not a String`
+      )
+    }
+
+    obj[affixTarget] =
+      affixKind === 'prefix'
+        ? obj[key] + obj[affixTarget]
+        : obj[affixTarget] + obj[key]
+
+    delete obj[key]
   }
 
   let type
@@ -1703,6 +1834,8 @@ function getExposedMethodNames(content) {
 
 function parseAPI(file, apiType) {
   let api = readJsonFile(file)
+
+  resolveTopLevelExtends(api, file)
 
   if (api.mixins !== void 0) {
     api = getApiWithMixins(api, file)

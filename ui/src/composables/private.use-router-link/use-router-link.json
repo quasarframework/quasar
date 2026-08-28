@@ -1,10 +1,7 @@
 {
   "props": {
     "to": {
-      "type": ["String", "Object"],
-      "desc": "Equivalent to Vue Router <router-link> 'to' property; Superseded by 'href' prop if used",
-      "examples": ["'/home/dashboard'", "{ name: 'my-route-name' }"],
-      "category": "navigation"
+      "extends": "router-link-to"
     },
 
     "exact": {
@@ -14,9 +11,7 @@
     },
 
     "replace": {
-      "type": "Boolean",
-      "desc": "Equivalent to Vue Router <router-link> 'replace' property; Superseded by 'href' prop if used",
-      "category": "navigation"
+      "extends": "router-link-replace"
     },
 
     "active-class": {

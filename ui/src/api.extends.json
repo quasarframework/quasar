@@ -287,6 +287,23 @@
       "category": "style"
     },
 
+    "field-name": {
+      "desc": "Used to specify the name of the control; Useful if dealing with forms; If not specified, it takes the value of 'for' prop, if it exists"
+    },
+
+    "router-link-to": {
+      "type": ["String", "Object"],
+      "desc": "Equivalent to Vue Router <router-link> 'to' property; Superseded by 'href' prop if used",
+      "examples": ["'/home/dashboard'", "{ name: 'my-route-name' }"],
+      "category": "navigation"
+    },
+
+    "router-link-replace": {
+      "type": "Boolean",
+      "desc": "Equivalent to Vue Router <router-link> 'replace' property; Superseded by 'href' prop if used",
+      "category": "navigation"
+    },
+
     "tab-no-caps": {
       "type": "Boolean",
       "desc": "Turns off capitalizing all letters within the tab (which is the default)",
