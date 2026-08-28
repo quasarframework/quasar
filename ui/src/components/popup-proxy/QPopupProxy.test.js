@@ -86,6 +86,24 @@ function mountPopup(props = {}, options = {}) {
   })
 }
 
+function getMenuAttr(props, attrName) {
+  return mountPopup(props).getComponent(QMenuStub).vm.$attrs[attrName]
+}
+
+function getDialogAttr(props, attrName) {
+  const { width, height } = Screen
+
+  Screen.width = 400
+  Screen.height = 400
+
+  const value = mountPopup(props).getComponent(QDialogStub).vm.$attrs[attrName]
+
+  Screen.width = width
+  Screen.height = height
+
+  return value
+}
+
 function createTarget(className) {
   const target = document.createElement('div')
   target.className = className
@@ -193,6 +211,388 @@ describe('[QPopupProxy API]', () => {
 
         expect(wrapper.findComponent(QMenuStub).exists()).toBe(true)
         expect(wrapper.vm.currentComponent.type).toBe('menu')
+      })
+    })
+
+    describe('[(prop)persistent]', () => {
+      test('type Boolean has effect', () => {
+        expect(getMenuAttr({}, 'persistent')).toBeUndefined()
+        expect(getMenuAttr({ persistent: true }, 'persistent')).toBe(true)
+        expect(getDialogAttr({ persistent: true }, 'persistent')).toBe(true)
+      })
+    })
+
+    describe('[(prop)no-esc-dismiss]', () => {
+      test('type Boolean has effect', () => {
+        expect(getMenuAttr({ noEscDismiss: true }, 'noEscDismiss')).toBe(true)
+        expect(getDialogAttr({ noEscDismiss: true }, 'noEscDismiss')).toBe(true)
+      })
+    })
+
+    describe('[(prop)no-route-dismiss]', () => {
+      test('type Boolean has effect', () => {
+        expect(getMenuAttr({ noRouteDismiss: true }, 'noRouteDismiss')).toBe(
+          true
+        )
+        expect(getDialogAttr({ noRouteDismiss: true }, 'noRouteDismiss')).toBe(
+          true
+        )
+      })
+    })
+
+    describe('[(prop)auto-close]', () => {
+      test('type Boolean has effect', () => {
+        expect(getMenuAttr({ autoClose: true }, 'autoClose')).toBe(true)
+        expect(getDialogAttr({ autoClose: true }, 'autoClose')).toBe(true)
+      })
+    })
+
+    describe('[(prop)square]', () => {
+      test('type Boolean has effect', () => {
+        expect(getMenuAttr({ square: true }, 'square')).toBe(true)
+        expect(getDialogAttr({ square: true }, 'square')).toBe(true)
+      })
+    })
+
+    describe('[(prop)no-refocus]', () => {
+      test('type Boolean has effect', () => {
+        expect(getMenuAttr({ noRefocus: true }, 'noRefocus')).toBe(true)
+        expect(getDialogAttr({ noRefocus: true }, 'noRefocus')).toBe(true)
+      })
+    })
+
+    describe('[(prop)no-focus]', () => {
+      test('type Boolean has effect', () => {
+        expect(getMenuAttr({ noFocus: true }, 'noFocus')).toBe(true)
+        expect(getDialogAttr({ noFocus: true }, 'noFocus')).toBe(true)
+      })
+    })
+
+    describe('[(prop)transition-show]', () => {
+      test('type String has effect', () => {
+        expect(getMenuAttr({ transitionShow: 'scale' }, 'transitionShow')).toBe(
+          'scale'
+        )
+        expect(
+          getDialogAttr({ transitionShow: 'scale' }, 'transitionShow')
+        ).toBe('scale')
+      })
+    })
+
+    describe('[(prop)transition-hide]', () => {
+      test('type String has effect', () => {
+        expect(getMenuAttr({ transitionHide: 'scale' }, 'transitionHide')).toBe(
+          'scale'
+        )
+        expect(
+          getDialogAttr({ transitionHide: 'scale' }, 'transitionHide')
+        ).toBe('scale')
+      })
+    })
+
+    describe('[(prop)transition-duration]', () => {
+      test('type String has effect', () => {
+        expect(
+          getMenuAttr({ transitionDuration: '500' }, 'transitionDuration')
+        ).toBe('500')
+        expect(
+          getDialogAttr({ transitionDuration: '500' }, 'transitionDuration')
+        ).toBe('500')
+      })
+
+      test('type Number has effect', () => {
+        expect(
+          getMenuAttr({ transitionDuration: 500 }, 'transitionDuration')
+        ).toBe(500)
+        expect(
+          getDialogAttr({ transitionDuration: 500 }, 'transitionDuration')
+        ).toBe(500)
+      })
+    })
+
+    describe('[(prop)dark]', () => {
+      test('type Boolean has effect', () => {
+        expect(getMenuAttr({ dark: true }, 'dark')).toBe(true)
+      })
+
+      test('type null has effect', () => {
+        expect(getMenuAttr({ dark: null }, 'dark')).toBeNull()
+      })
+    })
+
+    describe('[(prop)fit]', () => {
+      test('type Boolean has effect', () => {
+        expect(getMenuAttr({ fit: true }, 'fit')).toBe(true)
+      })
+    })
+
+    describe('[(prop)cover]', () => {
+      test('type Boolean has effect', () => {
+        expect(getMenuAttr({ cover: true }, 'cover')).toBe(true)
+      })
+    })
+
+    describe('[(prop)anchor]', () => {
+      function testAnchor(value) {
+        expect(getMenuAttr({ anchor: value }, 'anchor')).toBe(value)
+      }
+
+      test('value "top left" has effect', () => {
+        testAnchor('top left')
+      })
+
+      test('value "top middle" has effect', () => {
+        testAnchor('top middle')
+      })
+
+      test('value "top right" has effect', () => {
+        testAnchor('top right')
+      })
+
+      test('value "top start" has effect', () => {
+        testAnchor('top start')
+      })
+
+      test('value "top end" has effect', () => {
+        testAnchor('top end')
+      })
+
+      test('value "center left" has effect', () => {
+        testAnchor('center left')
+      })
+
+      test('value "center middle" has effect', () => {
+        testAnchor('center middle')
+      })
+
+      test('value "center right" has effect', () => {
+        testAnchor('center right')
+      })
+
+      test('value "center start" has effect', () => {
+        testAnchor('center start')
+      })
+
+      test('value "center end" has effect', () => {
+        testAnchor('center end')
+      })
+
+      test('value "bottom left" has effect', () => {
+        testAnchor('bottom left')
+      })
+
+      test('value "bottom middle" has effect', () => {
+        testAnchor('bottom middle')
+      })
+
+      test('value "bottom right" has effect', () => {
+        testAnchor('bottom right')
+      })
+
+      test('value "bottom start" has effect', () => {
+        testAnchor('bottom start')
+      })
+
+      test('value "bottom end" has effect', () => {
+        testAnchor('bottom end')
+      })
+    })
+
+    describe('[(prop)self]', () => {
+      function testSelf(value) {
+        expect(getMenuAttr({ self: value }, 'self')).toBe(value)
+      }
+
+      test('value "top left" has effect', () => {
+        testSelf('top left')
+      })
+
+      test('value "top middle" has effect', () => {
+        testSelf('top middle')
+      })
+
+      test('value "top right" has effect', () => {
+        testSelf('top right')
+      })
+
+      test('value "top start" has effect', () => {
+        testSelf('top start')
+      })
+
+      test('value "top end" has effect', () => {
+        testSelf('top end')
+      })
+
+      test('value "center left" has effect', () => {
+        testSelf('center left')
+      })
+
+      test('value "center middle" has effect', () => {
+        testSelf('center middle')
+      })
+
+      test('value "center right" has effect', () => {
+        testSelf('center right')
+      })
+
+      test('value "center start" has effect', () => {
+        testSelf('center start')
+      })
+
+      test('value "center end" has effect', () => {
+        testSelf('center end')
+      })
+
+      test('value "bottom left" has effect', () => {
+        testSelf('bottom left')
+      })
+
+      test('value "bottom middle" has effect', () => {
+        testSelf('bottom middle')
+      })
+
+      test('value "bottom right" has effect', () => {
+        testSelf('bottom right')
+      })
+
+      test('value "bottom start" has effect', () => {
+        testSelf('bottom start')
+      })
+
+      test('value "bottom end" has effect', () => {
+        testSelf('bottom end')
+      })
+    })
+
+    describe('[(prop)offset]', () => {
+      test('type Array has effect', () => {
+        const offset = [8, 8]
+
+        expect(getMenuAttr({ offset }, 'offset')).toStrictEqual(offset)
+      })
+    })
+
+    describe('[(prop)touch-position]', () => {
+      test('type Boolean has effect', () => {
+        expect(getMenuAttr({ touchPosition: true }, 'touchPosition')).toBe(true)
+      })
+    })
+
+    describe('[(prop)hover]', () => {
+      test('type Boolean has effect', () => {
+        expect(getMenuAttr({ hover: true }, 'hover')).toBe(true)
+      })
+    })
+
+    describe('[(prop)hover-delay]', () => {
+      test('type Number has effect', () => {
+        expect(getMenuAttr({ hoverDelay: 300 }, 'hoverDelay')).toBe(300)
+      })
+    })
+
+    describe('[(prop)hover-hide-delay]', () => {
+      test('type Number has effect', () => {
+        expect(getMenuAttr({ hoverHideDelay: 300 }, 'hoverHideDelay')).toBe(300)
+      })
+    })
+
+    describe('[(prop)max-height]', () => {
+      test('type String has effect', () => {
+        // the Menu gets a default, the Dialog does not
+        expect(getMenuAttr({}, 'maxHeight')).toBe('99vh')
+        expect(getDialogAttr({}, 'maxHeight')).toBeUndefined()
+
+        expect(getMenuAttr({ maxHeight: '200px' }, 'maxHeight')).toBe('200px')
+      })
+    })
+
+    describe('[(prop)max-width]', () => {
+      test('type String has effect', () => {
+        expect(getMenuAttr({ maxWidth: '300px' }, 'maxWidth')).toBe('300px')
+      })
+
+      test('type null has effect', () => {
+        expect(getMenuAttr({ maxWidth: null }, 'maxWidth')).toBeNull()
+      })
+    })
+
+    describe('[(prop)no-backdrop-dismiss]', () => {
+      test('type Boolean has effect', () => {
+        expect(
+          getDialogAttr({ noBackdropDismiss: true }, 'noBackdropDismiss')
+        ).toBe(true)
+      })
+    })
+
+    describe('[(prop)seamless]', () => {
+      test('type Boolean has effect', () => {
+        expect(getDialogAttr({ seamless: true }, 'seamless')).toBe(true)
+      })
+    })
+
+    describe('[(prop)backdrop-filter]', () => {
+      test('type String has effect', () => {
+        expect(
+          getDialogAttr({ backdropFilter: 'blur(4px)' }, 'backdropFilter')
+        ).toBe('blur(4px)')
+      })
+    })
+
+    describe('[(prop)maximized]', () => {
+      test('type Boolean has effect', () => {
+        expect(getDialogAttr({ maximized: true }, 'maximized')).toBe(true)
+      })
+    })
+
+    describe('[(prop)full-width]', () => {
+      test('type Boolean has effect', () => {
+        expect(getDialogAttr({ fullWidth: true }, 'fullWidth')).toBe(true)
+      })
+    })
+
+    describe('[(prop)full-height]', () => {
+      test('type Boolean has effect', () => {
+        expect(getDialogAttr({ fullHeight: true }, 'fullHeight')).toBe(true)
+      })
+    })
+
+    describe('[(prop)position]', () => {
+      function testPosition(value) {
+        expect(getDialogAttr({ position: value }, 'position')).toBe(value)
+      }
+
+      test('value "standard" has effect', () => {
+        testPosition('standard')
+      })
+
+      test('value "top" has effect', () => {
+        testPosition('top')
+      })
+
+      test('value "right" has effect', () => {
+        testPosition('right')
+      })
+
+      test('value "bottom" has effect', () => {
+        testPosition('bottom')
+      })
+
+      test('value "left" has effect', () => {
+        testPosition('left')
+      })
+    })
+
+    describe('[(prop)no-shake]', () => {
+      test('type Boolean has effect', () => {
+        expect(getDialogAttr({ noShake: true }, 'noShake')).toBe(true)
+      })
+    })
+
+    describe('[(prop)allow-focus-outside]', () => {
+      test('type Boolean has effect', () => {
+        expect(
+          getDialogAttr({ allowFocusOutside: true }, 'allowFocusOutside')
+        ).toBe(true)
       })
     })
   })

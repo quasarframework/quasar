@@ -35,12 +35,12 @@ On the example below, click on the icon in the input.
 
 ### Pass-through props
 
-Keep in mind that all props from both [QMenu](/vue-components/menu) and [QDialog](/vue-components/dialog) are passed through via this component. So props like `offset` or `transition-show` (as a mere example) can be used in conjunction with QPopupProxy.
+Keep in mind that all props from both [QMenu](/vue-components/menu) and [QDialog](/vue-components/dialog) are passed through via this component. So props like `offset` or `transition-show` (as a mere example) can be used in conjunction with QPopupProxy. The only exception is `separate-close-popup`, which QPopupProxy manages internally.
 
 <DocExample title="Props from QMenu or QDialog" file="Passthrough" />
 
-::: warning
-QPopupProxy treats some components ([QDate](/vue-components/date), [QTime](/vue-components/time), [QCarousel](/vue-components/carousel) and [QColor](/vue-components/color-picker)) as special ones and forces `cover: true` and `maxHeight: '99vh'` on them. If you don't want this behavior just place a `div` as the first level child of QPopupProxy.
+::: tip
+When a Menu is used, QPopupProxy applies a default `max-height` of `99vh` to it. Set the `max-height` prop to override this.
 :::
 
 ## Accessibility <q-badge label="v2.25+" />
