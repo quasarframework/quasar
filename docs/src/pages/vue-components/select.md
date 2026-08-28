@@ -294,7 +294,7 @@ When QSelect is focused:
 - if `use-chips` is set (and `no-chip-remove` is not):
   - pressing <kbd>Shift</kbd> + <kbd>Tab</kbd> will navigate backwards through the QChips (if a QChip is selected <kbd>Tab</kbd> will navigate forward through the QChips)
   - pressing <kbd>Enter</kbd> when a QChip is selected will remove that option from the selection
-  - pressing <kbd>Backspace</kbd> will remove the last option from the selection (when `use-input` is set the input should be empty)
+  - pressing <kbd>Backspace</kbd> will remove the last option from the selection, unless that option is disabled (when `use-input` is set the input should be empty)
 - pressing <kbd>Backspace</kbd> when `clearable` is set then:
   - it clears the model (with `null` value) for single selection
   - it removes the last added value for multiple selection

@@ -1148,6 +1148,31 @@ describe('[QSelect API]', () => {
         expect(portal.findAll('.q-item')[1].classes()).toContain('disabled')
         expect(wrapper.vm.isOptionDisabled(options[1])).toBe(true)
       })
+
+      test('shields a disabled option from Backspace removal (#15645)', async () => {
+        const wrapper = mountSelect({
+          modelValue: [options[0], options[1]],
+          options,
+          optionDisable: 'off',
+          multiple: true,
+          useInput: true,
+          useChips: true
+        })
+
+        // the disabled option's chip has no remove icon, so Backspace
+        // must not remove it either
+        expect(wrapper.findAll('.q-chip__icon--remove')).toHaveLength(1)
+
+        await wrapper.get('input').trigger('keydown', { keyCode: 8 })
+        expect(wrapper.emitted('update:modelValue')).toBeUndefined()
+
+        // clearable's Backspace clears regardless, like its clear icon
+        await wrapper.setProps({ clearable: true })
+        await wrapper.get('input').trigger('keydown', { keyCode: 8 })
+        expect(wrapper.emitted('update:modelValue').at(-1)).toEqual([
+          [options[0]]
+        ])
+      })
     })
 
     describe('[(prop)hide-selected]', () => {

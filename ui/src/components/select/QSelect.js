@@ -859,10 +859,18 @@ export default /*#__PURE__*/ createComponent({
         !props.hideSelected &&
         inputValue.value.length === 0
       ) {
-        if (props.multiple && Array.isArray(props.modelValue)) {
-          removeAtIndex(props.modelValue.length - 1)
-        } else if (!props.multiple && props.modelValue !== null) {
-          emit('update:modelValue', null)
+        if (
+          // a disabled option's chip has no remove affordance, so the
+          // chip-armed removal skips it too; clearable clears regardless,
+          // matching its clear icon
+          props.clearable ||
+          isOptionDisabled.value(innerValue.value.at(-1)) !== true
+        ) {
+          if (props.multiple && Array.isArray(props.modelValue)) {
+            removeAtIndex(props.modelValue.length - 1)
+          } else if (!props.multiple && props.modelValue !== null) {
+            emit('update:modelValue', null)
+          }
         }
 
         return
