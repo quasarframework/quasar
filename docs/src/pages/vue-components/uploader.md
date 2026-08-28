@@ -260,6 +260,30 @@ public class UploadRest {
 <q-uploader field-name="file" url="YOUR_URL_BACK/upload" with-credentials />
 ```
 
+### PHP/Laravel
+
+Below is a [Laravel](https://laravel.com/docs/master/requests#files) example. Attribute `field-name="image"` is mapping with `$request->file('image')`, which also makes the file directly addressable in Laravel's validation rules.
+
+```
+// PHP (controller)
+class UploadController extends Controller
+{
+    public function upload(Request $request)
+    {
+        $request->validate([
+            'image' => 'required|mimes:jpg,jpeg,png|max:2048'
+        ]);
+
+        $path = $request->file('image')->store('uploads');
+
+        return $path;
+    }
+}
+
+// html
+<q-uploader field-name="image" url="YOUR_URL_BACK/upload" accept=".jpg, .jpeg, .png" />
+```
+
 ### Python/Flask
 
 ```
