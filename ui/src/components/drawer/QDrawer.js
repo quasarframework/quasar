@@ -352,13 +352,17 @@ export default /*#__PURE__*/ createComponent({
     })
 
     const contentCloseDirective = computed(() => {
-      // if belowBreakpoint.value === true && props.noSwipeClose !== true
+      // if props.noSwipeClose !== true
       const dir = $q.lang.rtl ? otherSide.value : props.side
 
       return [
         [
           TouchPan,
-          onClosePan,
+          // TouchPan only acquires gestures while its value is a function,
+          // so above the breakpoint it gets disabled in place; keying the
+          // directive on belowBreakpoint instead would remount the whole
+          // drawer content on every breakpoint crossing (#17099)
+          belowBreakpoint.value ? onClosePan : void 0,
           void 0,
           {
             [dir]: true,
@@ -770,7 +774,7 @@ export default /*#__PURE__*/ createComponent({
           },
           content,
           'contentclose',
-          !props.noSwipeClose && belowBreakpoint.value,
+          !props.noSwipeClose,
           () => contentCloseDirective.value
         )
       )

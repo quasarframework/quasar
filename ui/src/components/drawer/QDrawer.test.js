@@ -1,6 +1,6 @@
 import { flushPromises, mount } from '@vue/test-utils'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
-import { defineComponent, h } from 'vue'
+import { defineComponent, h, onMounted, onUnmounted } from 'vue'
 
 import { getRouter } from 'testing/runtime/router.js'
 import QLayout from '../layout/QLayout.js'
@@ -114,6 +114,30 @@ async function mountReadyDrawer(drawerProps, slots, mountOptions) {
   const wrapper = mountDrawer(drawerProps, slots, mountOptions)
   await settle()
   return wrapper
+}
+
+/**
+ * A slot child that counts its own lifecycle, to prove the drawer never
+ * re-creates its content.
+ */
+function makeContentProbe() {
+  const counters = { setup: 0, mounted: 0, unmounted: 0 }
+
+  const Probe = defineComponent({
+    name: 'DrawerContentProbe',
+    setup() {
+      counters.setup++
+      onMounted(() => {
+        counters.mounted++
+      })
+      onUnmounted(() => {
+        counters.unmounted++
+      })
+      return () => h('div', 'probe')
+    }
+  })
+
+  return { counters, Probe }
 }
 
 async function pressEscapeKey() {
@@ -862,6 +886,61 @@ describe('[QDrawer API]', () => {
       // both occupy space on the layout, so they coexist
       expect(leftAside.$style('transform')).toBe('translateX(0px)')
       expect(rightAside.$style('transform')).toBe('translateX(0px)')
+    })
+
+    // the mobile/desktop transition must keep the content's component
+    // instances alive, otherwise they lose all their state
+    test('keeps the content instance across a breakpoint crossing', async () => {
+      const { counters, Probe } = makeContentProbe()
+      const wrapper = mountDrawer(
+        { modelValue: true },
+        { default: () => h(Probe) }
+      )
+      await settle()
+      await setLayoutWidth(wrapper, 1500)
+
+      await setLayoutWidth(wrapper, 500)
+
+      // the close pan gesture arms and disarms in place instead of the
+      // directive detaching (which would re-create the aside)
+      expect(getDrawer(wrapper).element.__qtouchpan.handler).toBeTypeOf(
+        'function'
+      )
+
+      await setLayoutWidth(wrapper, 1500)
+
+      expect(getDrawer(wrapper).element.__qtouchpan.handler).toBeUndefined()
+      expect(getDrawer(wrapper).classes()).toContain('q-drawer--standard')
+      expect(counters).toEqual({ setup: 1, mounted: 1, unmounted: 0 })
+    })
+
+    // a containerized layout only learns its width after mount, so its
+    // drawer always starts below the breakpoint and transitions right
+    // away, which used to re-create the content (#17099)
+    test('mounts containerized-layout content only once', async () => {
+      const { counters, Probe } = makeContentProbe()
+      const wrapper = mountDrawer(
+        {},
+        { default: () => h(Probe) },
+        {
+          props: {
+            drawerProps: { modelValue: true },
+            layoutProps: { container: true }
+          }
+        }
+      )
+      await settle()
+
+      // in container mode the layout renders an extra QResizeObserver for
+      // the container element itself; the page one is the last
+      wrapper
+        .findAllComponents({ name: 'QResizeObserver' })
+        .at(-1)
+        .vm.$emit('resize', { width: 1200, height: 600 })
+      await settle()
+
+      expect(getDrawer(wrapper).classes()).toContain('q-drawer--standard')
+      expect(counters).toEqual({ setup: 1, mounted: 1, unmounted: 0 })
     })
   })
 
