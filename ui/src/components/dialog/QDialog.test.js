@@ -872,6 +872,33 @@ describe('[QDialog API]', () => {
         const [evt] = eventList.hide[0]
         expect(evt).toBe(event)
       })
+
+      test('receives the keyup event when dismissed through ESC key', async () => {
+        wrapper = mount(QDialog, {
+          props: {
+            modelValue: true,
+            'onUpdate:modelValue': val => {
+              wrapper.setProps({ modelValue: val })
+            }
+          }
+        })
+
+        await flushPromises()
+        await vi.runAllTimers()
+
+        await triggerEscKey(wrapper)
+
+        await flushPromises()
+        await vi.runAllTimers()
+
+        const eventList = wrapper.emitted()
+        expect(eventList).toHaveProperty('hide')
+        expect(eventList.hide).toHaveLength(1)
+
+        const [evt] = eventList.hide[0]
+        expect(evt.type).toBe('keyup')
+        expect(evt.keyCode).toBe(27)
+      })
     })
 
     describe('[(event)before-hide]', () => {

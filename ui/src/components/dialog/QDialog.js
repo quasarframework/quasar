@@ -334,13 +334,13 @@ export default /*#__PURE__*/ createComponent({
       }
     }
 
-    function onEscapeKey() {
+    function onEscapeKey(evt) {
       if (!props.seamless) {
         if (props.persistent || props.noEscDismiss) {
           if (!props.maximized && !props.noShake) shake()
         } else {
           emit('escapeKey')
-          hide()
+          hide(evt)
         }
       }
     }
