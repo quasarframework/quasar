@@ -133,8 +133,10 @@ Dialog.create({
   }
 }).onOk(() => {
   console.log('OK')
-}).onCancel(() => {
-  console.log('Cancel')
+}).onCancel(reason => {
+  // reason (Quasar v2.28+) is 'cancel', 'backdrop',
+  // 'escape' or 'programmatic'
+  console.log('Cancel', reason)
 }).onDismiss(() => {
   console.log('Called on OK or Cancel')
 })
@@ -161,8 +163,10 @@ setup () {
     }
   }).onOk(() => {
     console.log('OK')
-  }).onCancel(() => {
-    console.log('Cancel')
+  }).onCancel(reason => {
+    // reason (Quasar v2.28+) is 'cancel', 'backdrop',
+    // 'escape' or 'programmatic'
+    console.log('Cancel', reason)
   }).onDismiss(() => {
     console.log('Called on OK or Cancel')
   })
@@ -215,7 +219,10 @@ We will be using the [useDialogPluginComponent](/vue-composables/use-dialog-plug
   const { dialogRef, onDialogHide, onDialogOK, onDialogCancel } =
     useDialogPluginComponent()
   // dialogRef      - Vue ref to be applied to QDialog
-  // onDialogHide   - Function to be used as handler for @hide on QDialog
+  // onDialogHide   - Function to be used as handler for @hide on QDialog;
+  //                    bind it directly (no wrapping) so it receives QDialog's
+  //                    event and can forward the dismissal reason to the
+  //                    chained onCancel/onDismiss callbacks (Quasar v2.28+)
   // onDialogOK     - Function to call to settle dialog with "ok" outcome
   //                    example: onDialogOK() - no payload
   //                    example: onDialogOK({ /*...*/ }) - with payload
@@ -286,10 +293,14 @@ We will be using the [useDialogPluginComponent](/vue-composables/use-dialog-plug
       const { dialogRef, onDialogHide, onDialogOK, onDialogCancel } =
         useDialogPluginComponent()
       // dialogRef      - Vue ref to be applied to QDialog
-      // onDialogHide   - Function to be used as handler for @hide on QDialog
+      // onDialogHide   - Function to be used as handler for @hide on QDialog;
+      //                    bind it directly (no wrapping) so it receives
+      //                    QDialog's event and can forward the dismissal
+      //                    reason to the chained onCancel/onDismiss
+      //                    callbacks (Quasar v2.28+)
       // onDialogOK     - Function to call to settle dialog with "ok" outcome
       //                    example: onDialogOK() - no payload
-      //                    example: onDialogOK({ /*.../* }) - with payload
+      //                    example: onDialogOK({ /*...*/ }) - with payload
       // onDialogCancel - Function to call to settle dialog with "cancel" outcome
 
       return {
@@ -361,10 +372,17 @@ emits: {
       'hide'
     ],
 
+    data() {
+      return {
+        dismissReason: null
+      }
+    },
+
     methods: {
       // following method is REQUIRED
       // (don't change its name --> "show")
       show() {
+        this.dismissReason = null
         this.$refs.dialog.show()
       },
 
@@ -374,10 +392,22 @@ emits: {
         this.$refs.dialog.hide()
       },
 
-      onDialogHide() {
+      onDialogHide(evt) {
         // required to be emitted
-        // when QDialog emits "hide" event
-        this.$emit('hide')
+        // when QDialog emits "hide" event;
+        // the payload reaches the plugin's chained
+        // onCancel/onDismiss callbacks as the
+        // dismissal reason (Quasar v2.28+)
+        this.$emit(
+          'hide',
+          this.dismissReason !== null
+            ? this.dismissReason
+            : evt === undefined
+              ? 'programmatic'
+              : evt.type.indexOf('key') === 0
+                ? 'escape'
+                : 'backdrop'
+        )
       },
 
       onOKClick() {
@@ -392,13 +422,16 @@ emits: {
       },
 
       onCancelClick() {
-        // we just need to hide the dialog
+        // record the reason, then hide the dialog
+        this.dismissReason = 'cancel'
         this.hide()
       }
     }
   }
 </script>
 ```
+
+The dismissal-reason plumbing above (`dismissReason` and the `hide` payload) is optional: a plain `this.$emit('hide')` still works, but then the chained `onCancel`/`onDismiss` callbacks receive no reason. The [useDialogPluginComponent](/vue-composables/use-dialog-plugin-component) composable handles all of it for you.
 
 ## Cordova/Capacitor back button
 
