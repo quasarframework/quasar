@@ -1,5 +1,50 @@
 {
-  "mixins": ["components/virtual-scroll/use-virtual-scroll"],
+  "mixins": [
+    "components/virtual-scroll/use-virtual-scroll",
+
+    {
+      "from": "components/item/QList",
+      "include": { "props": "all" },
+      "overrideAll": {
+        "props": {
+          "passthrough": true,
+          "category": "list",
+          "__desc__suffix": "; Only applies when a QList is used (see 'type')"
+        }
+      },
+      "overrides": {
+        "props": {
+          "dense": {
+            "desc": "Dense mode; occupies less space",
+            "category": "list|table"
+          },
+
+          "dark": {
+            "desc": "Notify the component that the background is a dark color",
+            "category": "list|table"
+          },
+
+          "bordered": {
+            "desc": "Applies a default border to the component",
+            "category": "list|table"
+          }
+        }
+      }
+    },
+
+    {
+      "from": "components/markup-table/QMarkupTable",
+      "include": { "props": "all" },
+      "exclude": { "props": ["dense", "dark", "bordered"] },
+      "overrideAll": {
+        "props": {
+          "passthrough": true,
+          "category": "table",
+          "__desc__suffix": "; Only applies when a QMarkupTable is used (see 'type')"
+        }
+      }
+    }
+  ],
 
   "meta": {
     "docsUrl": "https://v2.quasar.dev/vue-components/virtual-scroll"
@@ -57,6 +102,14 @@
 
     "scroll-target": {
       "extends": "scroll-target"
+    },
+
+    "separator": {
+      "type": ["Boolean", "String"],
+      "desc": "When a QList is used (see 'type'), a Boolean applying a separator between contained items; When a QMarkupTable is used, a String ('horizontal', 'vertical', 'cell' or 'none'; default is 'horizontal') using a separator/border between rows, columns or all cells",
+      "examples": ["true", "'cell'"],
+      "category": "list|table",
+      "passthrough": true
     }
   },
 

@@ -1,5 +1,121 @@
 {
-  "mixins": ["composables/private.use-anchor/use-anchor"],
+  "mixins": [
+    "composables/private.use-anchor/use-anchor",
+
+    {
+      "from": "components/menu/QMenu",
+      "include": { "props": "all", "events": "all" },
+      "exclude": { "props": ["separate-close-popup"] },
+      "overrideAll": {
+        "props": {
+          "passthrough": true,
+          "category": "menu",
+          "__desc__suffix": "; Only applies when a Menu is used (see 'breakpoint')"
+        },
+        "events": {
+          "passthrough": true
+        }
+      },
+      "overrides": {
+        "props": {
+          "max-height": {
+            "type": "String",
+            "default": "'99vh'"
+          },
+
+          "persistent": {
+            "desc": "Allows the popup to not be dismissed by a click/tap outside of it or by hitting the ESC key; Also, an app route change won't dismiss it",
+            "category": "dialog|menu"
+          },
+
+          "no-esc-dismiss": {
+            "desc": "User cannot dismiss the popup by hitting ESC key; No need to set it if 'persistent' prop is also set",
+            "category": "dialog|menu",
+            "__delete": ["addedIn"]
+          },
+
+          "no-route-dismiss": {
+            "desc": "Changing route app won't dismiss the popup; No need to set it if 'persistent' prop is also set",
+            "category": "dialog|menu"
+          },
+
+          "auto-close": {
+            "desc": "Any click/tap inside of the popup will close it",
+            "category": "dialog|menu"
+          },
+
+          "square": {
+            "desc": "Forces content to have squared borders",
+            "category": "dialog|menu"
+          },
+
+          "no-refocus": {
+            "desc": "(Accessibility) When the popup gets hidden, do not refocus on the DOM element that previously had focus",
+            "category": "dialog|menu"
+          },
+
+          "no-focus": {
+            "desc": "(Accessibility) When the popup gets shown, do not switch focus on it",
+            "category": "dialog|menu"
+          },
+
+          "transition-show": {
+            "desc": "One of Quasar's embedded transitions; When a Menu is used it defaults to 'fade'; When a Dialog is used the default depends on 'position' (see 'breakpoint')",
+            "category": "dialog|menu",
+            "__delete": ["default"]
+          },
+
+          "transition-hide": {
+            "desc": "One of Quasar's embedded transitions; When a Menu is used it defaults to 'fade'; When a Dialog is used the default depends on 'position' (see 'breakpoint')",
+            "category": "dialog|menu",
+            "__delete": ["default"]
+          },
+
+          "transition-duration": {
+            "desc": "Transition duration (in milliseconds, without unit)",
+            "category": "dialog|menu"
+          }
+        },
+
+        "events": {
+          "escape-key": {
+            "desc": "Emitted when ESC key is pressed; Does not get emitted if the popup is 'persistent' or it has 'no-esc-dismiss' set"
+          }
+        }
+      }
+    },
+
+    {
+      "from": "components/dialog/QDialog",
+      "include": { "props": "all", "events": "all" },
+      "exclude": {
+        "props": [
+          "persistent",
+          "no-esc-dismiss",
+          "no-route-dismiss",
+          "auto-close",
+          "square",
+          "no-refocus",
+          "no-focus",
+          "transition-show",
+          "transition-hide",
+          "transition-duration"
+        ],
+        "events": ["escape-key"]
+      },
+      "overrideAll": {
+        "props": {
+          "passthrough": true,
+          "category": "dialog",
+          "__desc__suffix": "; Only applies when a Dialog is used (see 'breakpoint')"
+        },
+        "events": {
+          "passthrough": true,
+          "__desc__suffix": "; Only applies when a Dialog is used (see 'breakpoint')"
+        }
+      }
+    }
+  ],
 
   "meta": {
     "docsUrl": "https://v2.quasar.dev/vue-components/popup-proxy"
@@ -20,285 +136,6 @@
       "desc": "Breakpoint (in pixels) of window width/height (whichever is smaller) from where a Menu will get to be used instead of a Dialog",
       "default": "450",
       "category": "behavior"
-    },
-
-    "persistent": {
-      "type": "Boolean",
-      "desc": "Allows the popup to not be dismissed by a click/tap outside of it or by hitting the ESC key; Also, an app route change won't dismiss it",
-      "category": "dialog|menu",
-      "passthrough": true
-    },
-
-    "no-esc-dismiss": {
-      "type": "Boolean",
-      "desc": "User cannot dismiss the popup by hitting ESC key; No need to set it if 'persistent' prop is also set",
-      "category": "dialog|menu",
-      "passthrough": true
-    },
-
-    "no-route-dismiss": {
-      "type": "Boolean",
-      "desc": "Changing route app won't dismiss the popup; No need to set it if 'persistent' prop is also set",
-      "category": "dialog|menu",
-      "passthrough": true
-    },
-
-    "auto-close": {
-      "type": "Boolean",
-      "desc": "Any click/tap inside of the popup will close it",
-      "category": "dialog|menu",
-      "passthrough": true
-    },
-
-    "square": {
-      "type": "Boolean",
-      "desc": "Forces content to have squared borders",
-      "category": "dialog|menu",
-      "passthrough": true
-    },
-
-    "no-refocus": {
-      "type": "Boolean",
-      "desc": "(Accessibility) When the popup gets hidden, do not refocus on the DOM element that previously had focus",
-      "category": "dialog|menu",
-      "passthrough": true
-    },
-
-    "no-focus": {
-      "type": "Boolean",
-      "desc": "(Accessibility) When the popup gets shown, do not switch focus on it",
-      "category": "dialog|menu",
-      "passthrough": true
-    },
-
-    "transition-show": {
-      "extends": "transition",
-      "desc": "One of Quasar's embedded transitions; When a Menu is used it defaults to 'fade'; When a Dialog is used the default depends on 'position' (see 'breakpoint')",
-      "category": "dialog|menu",
-      "passthrough": true
-    },
-
-    "transition-hide": {
-      "extends": "transition",
-      "desc": "One of Quasar's embedded transitions; When a Menu is used it defaults to 'fade'; When a Dialog is used the default depends on 'position' (see 'breakpoint')",
-      "category": "dialog|menu",
-      "passthrough": true
-    },
-
-    "transition-duration": {
-      "type": ["String", "Number"],
-      "desc": "Transition duration (in milliseconds, without unit)",
-      "default": "300",
-      "category": "dialog|menu",
-      "passthrough": true
-    },
-
-    "dark": {
-      "extends": "dark",
-      "desc": "Notify the component that the background is a dark color; Only applies when a Menu is used (see 'breakpoint')",
-      "category": "menu",
-      "passthrough": true
-    },
-
-    "fit": {
-      "type": "Boolean",
-      "desc": "Allows the menu to match at least the full width of its target; Only applies when a Menu is used (see 'breakpoint')",
-      "category": "menu",
-      "passthrough": true
-    },
-
-    "cover": {
-      "type": "Boolean",
-      "desc": "Allows the menu to cover its target. When used, the 'self' and 'fit' props are no longer effective; Only applies when a Menu is used (see 'breakpoint')",
-      "category": "menu",
-      "passthrough": true
-    },
-
-    "anchor": {
-      "type": "String",
-      "desc": "Two values setting the starting position or anchor point of the menu relative to its target; Only applies when a Menu is used (see 'breakpoint')",
-      "values": [
-        "'top left'",
-        "'top middle'",
-        "'top right'",
-        "'top start'",
-        "'top end'",
-        "'center left'",
-        "'center middle'",
-        "'center right'",
-        "'center start'",
-        "'center end'",
-        "'bottom left'",
-        "'bottom middle'",
-        "'bottom right'",
-        "'bottom start'",
-        "'bottom end'"
-      ],
-      "category": "menu",
-      "passthrough": true
-    },
-
-    "self": {
-      "type": "String",
-      "desc": "Two values setting the menu's own position relative to its target; Only applies when a Menu is used (see 'breakpoint')",
-      "values": [
-        "'top left'",
-        "'top middle'",
-        "'top right'",
-        "'top start'",
-        "'top end'",
-        "'center left'",
-        "'center middle'",
-        "'center right'",
-        "'center start'",
-        "'center end'",
-        "'bottom left'",
-        "'bottom middle'",
-        "'bottom right'",
-        "'bottom start'",
-        "'bottom end'"
-      ],
-      "category": "menu",
-      "passthrough": true
-    },
-
-    "offset": {
-      "type": "Array",
-      "desc": "An array of two numbers (in pixels) which expands the anchor element's bounding box outward horizontally and vertically; the menu is then positioned against the expanded box, so the visible effect depends on the 'anchor'/'self' points in use; Only applies when a Menu is used (see 'breakpoint')",
-      "examples": ["[8, 8]", "[5, 10]"],
-      "category": "menu",
-      "passthrough": true
-    },
-
-    "touch-position": {
-      "type": "Boolean",
-      "desc": "Allows for the target position to be set by the mouse position, when the target of the menu is either clicked or touched; Only applies when a Menu is used (see 'breakpoint')",
-      "category": "menu",
-      "passthrough": true
-    },
-
-    "hover": {
-      "type": "Boolean",
-      "desc": "Also opens the menu when the pointer hovers its target and closes it when the pointer leaves both the target and the menu; Click/tap and keyboard interactions keep toggling as usual (touch devices fall back to them), so activating the target closes a hover-shown menu, unless it is still animating into view (which keeps a single move-and-click gesture from closing what it just opened); A hover-opened menu does not switch focus on itself and ignores 'touch-position'; Mutually exclusive with 'context-menu', which takes precedence; Only applies when a Menu is used (see 'breakpoint')",
-      "category": "menu",
-      "passthrough": true,
-      "addedIn": "v2.26"
-    },
-
-    "hover-delay": {
-      "type": "Number",
-      "desc": "Delay (in milliseconds) between the pointer entering the target and the menu showing up; Requires the 'hover' prop; Only applies when a Menu is used (see 'breakpoint')",
-      "default": "0",
-      "category": "menu",
-      "passthrough": true,
-      "addedIn": "v2.26"
-    },
-
-    "hover-hide-delay": {
-      "type": "Number",
-      "desc": "Grace period (in milliseconds) in which the pointer can re-enter the target or the menu before it gets closed; Requires the 'hover' prop; Only applies when a Menu is used (see 'breakpoint')",
-      "default": "150",
-      "category": "menu",
-      "passthrough": true,
-      "addedIn": "v2.26"
-    },
-
-    "max-height": {
-      "extends": "size",
-      "type": "String",
-      "desc": "The maximum height of the menu; Size in CSS units, including unit name; Only applies when a Menu is used (see 'breakpoint')",
-      "default": "'99vh'",
-      "category": "menu",
-      "passthrough": true
-    },
-
-    "max-width": {
-      "extends": "size",
-      "type": ["String", "null"],
-      "desc": "The maximum width of the menu; Size in CSS units, including unit name; Only applies when a Menu is used (see 'breakpoint')",
-      "default": "null",
-      "category": "menu",
-      "passthrough": true
-    },
-
-    "no-backdrop-dismiss": {
-      "type": "Boolean",
-      "desc": "User cannot dismiss the dialog by clicking outside of it; No need to set it if 'persistent' prop is also set; Only applies when a Dialog is used (see 'breakpoint')",
-      "category": "dialog",
-      "passthrough": true
-    },
-
-    "seamless": {
-      "type": "Boolean",
-      "desc": "Put the dialog into seamless mode; Does not use a backdrop so user is able to interact with the rest of the page too; Only applies when a Dialog is used (see 'breakpoint')",
-      "category": "dialog",
-      "passthrough": true
-    },
-
-    "backdrop-filter": {
-      "type": "String",
-      "desc": "Apply a backdrop filter; The value needs to be the same as in the CSS specs for backdrop-filter; The examples are not an exhaustive list; Only applies when a Dialog is used (see 'breakpoint')",
-      "examples": [
-        "'blur(4px)'",
-        "'blur(4px) saturate(150%)'",
-        "'brightness(60%)'",
-        "'invert(70%)'",
-        "'grayscale(100%)'",
-        "'contrast(40%)'",
-        "'hue-rotate(120deg)'",
-        "'sepia(90%)'",
-        "'saturate(80%)'",
-        "'none'"
-      ],
-      "category": "dialog",
-      "passthrough": true,
-      "addedIn": "v2.15"
-    },
-
-    "maximized": {
-      "type": "Boolean",
-      "desc": "Put the dialog into maximized mode; Only applies when a Dialog is used (see 'breakpoint')",
-      "category": "dialog",
-      "passthrough": true
-    },
-
-    "full-width": {
-      "type": "Boolean",
-      "desc": "The dialog will try to render with same width as the window; Only applies when a Dialog is used (see 'breakpoint')",
-      "category": "dialog",
-      "passthrough": true
-    },
-
-    "full-height": {
-      "type": "Boolean",
-      "desc": "The dialog will try to render with same height as the window; Only applies when a Dialog is used (see 'breakpoint')",
-      "category": "dialog",
-      "passthrough": true
-    },
-
-    "position": {
-      "type": "String",
-      "desc": "Stick the dialog to one of the sides (top, right, bottom or left); Only applies when a Dialog is used (see 'breakpoint')",
-      "default": "'standard'",
-      "values": ["'standard'", "'top'", "'right'", "'bottom'", "'left'"],
-      "category": "dialog",
-      "passthrough": true
-    },
-
-    "no-shake": {
-      "type": "Boolean",
-      "desc": "Do not shake up the dialog to catch user's attention; Only applies when a Dialog is used (see 'breakpoint')",
-      "category": "dialog",
-      "passthrough": true,
-      "addedIn": "v2.1.1"
-    },
-
-    "allow-focus-outside": {
-      "type": "Boolean",
-      "desc": "Allow elements outside of the dialog to be focusable; By default, for accessibility reasons, QDialog does not allow outer focus; Only applies when a Dialog is used (see 'breakpoint')",
-      "category": "dialog",
-      "passthrough": true,
-      "addedIn": "v2.7.2"
     }
   },
 

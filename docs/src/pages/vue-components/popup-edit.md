@@ -10,7 +10,7 @@ related:
 
 The QPopupEdit component can be used to edit a value “in place”, like for example a cell in QTable. By default, a cell is displayed as a String, then if you are using QPopupEdit and a user clicks/taps on the table cell, a popup will open where the user will be able to edit the value using a textfield.
 
-This component injects a [QMenu](/vue-components/menu) into its parent DOM element and enables the behavior described above, so **it can be used anywhere**, not only in QTable.
+This component injects a [QMenu](/vue-components/menu) into its parent DOM element and enables the behavior described above, so **it can be used anywhere**, not only in QTable. QMenu's props are passed through via this component (except for `model-value`, which is QPopupEdit's own edited model), along with QMenu's `escape-key` event.
 
 <DocApi file="QPopupEdit" />
 

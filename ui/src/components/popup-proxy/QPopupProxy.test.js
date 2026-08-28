@@ -25,7 +25,15 @@ function createPopupStub(name) {
         default: true
       }
     },
-    emits: ['beforeShow', 'show', 'beforeHide', 'hide', 'update:modelValue'],
+    emits: [
+      'beforeShow',
+      'show',
+      'beforeHide',
+      'hide',
+      'update:modelValue',
+      'escapeKey',
+      'shake'
+    ],
     setup(props, { emit, expose, slots }) {
       const showing = ref(props.modelValue)
 
@@ -668,6 +676,31 @@ describe('[QPopupProxy API]', () => {
         wrapper.vm.hide(evt)
 
         expect(wrapper.emitted('hide')).toStrictEqual([[evt]])
+      })
+    })
+
+    describe('[(event)escape-key]', () => {
+      test('is emitting', () => {
+        const onEscapeKey = vi.fn()
+        const wrapper = mountPopup({ onEscapeKey })
+
+        wrapper.getComponent(QMenuStub).vm.$emit('escapeKey')
+
+        expect(onEscapeKey).toHaveBeenCalledTimes(1)
+      })
+    })
+
+    describe('[(event)shake]', () => {
+      test('is emitting', () => {
+        Screen.width = 400
+        Screen.height = 400
+
+        const onShake = vi.fn()
+        const wrapper = mountPopup({ onShake })
+
+        wrapper.getComponent(QDialogStub).vm.$emit('shake')
+
+        expect(onShake).toHaveBeenCalledTimes(1)
       })
     })
   })

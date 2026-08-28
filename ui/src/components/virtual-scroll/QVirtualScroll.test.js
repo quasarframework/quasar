@@ -3,6 +3,8 @@ import { afterEach, describe, expect, test, vi } from 'vitest'
 import { h } from 'vue'
 
 import QVirtualScroll from './QVirtualScroll.js'
+import QList from '../item/QList.js'
+import QMarkupTable from '../markup-table/QMarkupTable.js'
 
 const items = Array.from({ length: 500 }, (_, index) => `Item ${index}`)
 
@@ -386,6 +388,129 @@ describe('[QVirtualScroll API]', () => {
 
         expect(wrapper.classes()).toContain('scroll')
         expect(wrapper.attributes('tabindex')).toBe('0')
+      })
+    })
+
+    describe('[(prop)separator]', () => {
+      test('type Boolean has effect', async () => {
+        const wrapper = await mountVirtualScroll({ separator: true })
+
+        expect(wrapper.getComponent(QList).props('separator')).toBe(true)
+      })
+
+      test('type String has effect', async () => {
+        const wrapper = await mountVirtualScroll({
+          type: 'table',
+          separator: 'cell'
+        })
+
+        expect(wrapper.getComponent(QMarkupTable).props('separator')).toBe(
+          'cell'
+        )
+      })
+    })
+
+    describe('[(prop)bordered]', () => {
+      test('type Boolean has effect', async () => {
+        const listWrapper = await mountVirtualScroll({ bordered: true })
+        const tableWrapper = await mountVirtualScroll({
+          type: 'table',
+          bordered: true
+        })
+
+        expect(listWrapper.getComponent(QList).props('bordered')).toBe(true)
+        expect(tableWrapper.getComponent(QMarkupTable).props('bordered')).toBe(
+          true
+        )
+      })
+    })
+
+    describe('[(prop)dense]', () => {
+      test('type Boolean has effect', async () => {
+        const listWrapper = await mountVirtualScroll({ dense: true })
+        const tableWrapper = await mountVirtualScroll({
+          type: 'table',
+          dense: true
+        })
+
+        expect(listWrapper.getComponent(QList).props('dense')).toBe(true)
+        expect(tableWrapper.getComponent(QMarkupTable).props('dense')).toBe(
+          true
+        )
+      })
+    })
+
+    describe('[(prop)dark]', () => {
+      test('type Boolean has effect', async () => {
+        const listWrapper = await mountVirtualScroll({ dark: true })
+        const tableWrapper = await mountVirtualScroll({
+          type: 'table',
+          dark: true
+        })
+
+        expect(listWrapper.getComponent(QList).props('dark')).toBe(true)
+        expect(tableWrapper.getComponent(QMarkupTable).props('dark')).toBe(true)
+      })
+
+      test('type null has effect', async () => {
+        const wrapper = await mountVirtualScroll({ dark: null })
+
+        expect(wrapper.getComponent(QList).props('dark')).toBeNull()
+      })
+    })
+
+    describe('[(prop)padding]', () => {
+      test('type Boolean has effect', async () => {
+        const wrapper = await mountVirtualScroll({ padding: true })
+
+        expect(wrapper.getComponent(QList).props('padding')).toBe(true)
+      })
+    })
+
+    describe('[(prop)tag]', () => {
+      test('type String has effect', async () => {
+        const wrapper = await mountVirtualScroll({ tag: 'ul' })
+
+        expect(wrapper.getComponent(QList).props('tag')).toBe('ul')
+        expect(wrapper.get('ul.q-list').element.tagName).toBe('UL')
+      })
+    })
+
+    describe('[(prop)role]', () => {
+      test('type String has effect', async () => {
+        const wrapper = await mountVirtualScroll({ role: 'listbox' })
+
+        expect(wrapper.getComponent(QList).props('role')).toBe('listbox')
+      })
+    })
+
+    describe('[(prop)flat]', () => {
+      test('type Boolean has effect', async () => {
+        const wrapper = await mountVirtualScroll({ type: 'table', flat: true })
+
+        expect(wrapper.getComponent(QMarkupTable).props('flat')).toBe(true)
+      })
+    })
+
+    describe('[(prop)square]', () => {
+      test('type Boolean has effect', async () => {
+        const wrapper = await mountVirtualScroll({
+          type: 'table',
+          square: true
+        })
+
+        expect(wrapper.getComponent(QMarkupTable).props('square')).toBe(true)
+      })
+    })
+
+    describe('[(prop)wrap-cells]', () => {
+      test('type Boolean has effect', async () => {
+        const wrapper = await mountVirtualScroll({
+          type: 'table',
+          wrapCells: true
+        })
+
+        expect(wrapper.getComponent(QMarkupTable).props('wrapCells')).toBe(true)
       })
     })
   })

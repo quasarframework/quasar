@@ -60,6 +60,14 @@ function getPopupEdit(wrapper) {
   return wrapper.findComponent(QPopupEdit)
 }
 
+function getMenu(wrapper) {
+  return wrapper.findComponent({ name: 'QMenu' })
+}
+
+function getMenuProp(props, propName) {
+  return getMenu(mountPopupEdit(props)).props(propName)
+}
+
 function getAnchor(wrapper) {
   return wrapper.get('.my-anchor')
 }
@@ -658,6 +666,135 @@ describe('[QPopupEdit API]', () => {
         expect(getPopup().style.maxWidth).toBe(propVal)
       })
     })
+
+    describe('[(prop)hover]', () => {
+      test('type Boolean has effect', () => {
+        expect(getMenuProp({ hover: true }, 'hover')).toBe(true)
+      })
+    })
+
+    describe('[(prop)hover-delay]', () => {
+      test('type Number has effect', () => {
+        expect(getMenuProp({ hoverDelay: 300 }, 'hoverDelay')).toBe(300)
+      })
+    })
+
+    describe('[(prop)hover-hide-delay]', () => {
+      test('type Number has effect', () => {
+        expect(getMenuProp({ hoverHideDelay: 300 }, 'hoverHideDelay')).toBe(300)
+      })
+    })
+
+    describe('[(prop)transition-show]', () => {
+      test('type String has effect', () => {
+        expect(getMenuProp({ transitionShow: 'scale' }, 'transitionShow')).toBe(
+          'scale'
+        )
+      })
+    })
+
+    describe('[(prop)transition-hide]', () => {
+      test('type String has effect', () => {
+        expect(getMenuProp({ transitionHide: 'scale' }, 'transitionHide')).toBe(
+          'scale'
+        )
+      })
+    })
+
+    describe('[(prop)transition-duration]', () => {
+      test('type String has effect', () => {
+        expect(
+          getMenuProp({ transitionDuration: '500' }, 'transitionDuration')
+        ).toBe('500')
+      })
+
+      test('type Number has effect', () => {
+        expect(
+          getMenuProp({ transitionDuration: 500 }, 'transitionDuration')
+        ).toBe(500)
+      })
+    })
+
+    describe('[(prop)target]', () => {
+      test('type Boolean has effect', () => {
+        expect(getMenuProp({ target: false }, 'target')).toBe(false)
+      })
+
+      test('type String has effect', () => {
+        const target = document.createElement('div')
+        target.className = 'my-target'
+        document.body.append(target)
+
+        expect(getMenuProp({ target: '.my-target' }, 'target')).toBe(
+          '.my-target'
+        )
+
+        target.remove()
+      })
+
+      test('type Element has effect', () => {
+        const target = document.createElement('div')
+        document.body.append(target)
+
+        expect(getMenuProp({ target }, 'target')).toBe(target)
+
+        target.remove()
+      })
+    })
+
+    describe('[(prop)no-parent-event]', () => {
+      test('type Boolean has effect', () => {
+        expect(getMenuProp({ noParentEvent: true }, 'noParentEvent')).toBe(true)
+      })
+    })
+
+    describe('[(prop)context-menu]', () => {
+      test('type Boolean has effect', () => {
+        expect(getMenuProp({ contextMenu: true }, 'contextMenu')).toBe(true)
+      })
+    })
+
+    describe('[(prop)dark]', () => {
+      test('type Boolean has effect', () => {
+        expect(getMenuProp({ dark: true }, 'dark')).toBe(true)
+      })
+
+      test('type null has effect', () => {
+        expect(getMenuProp({ dark: null }, 'dark')).toBeNull()
+      })
+    })
+
+    describe('[(prop)no-esc-dismiss]', () => {
+      test('type Boolean has effect', () => {
+        expect(getMenuProp({ noEscDismiss: true }, 'noEscDismiss')).toBe(true)
+      })
+    })
+
+    describe('[(prop)no-route-dismiss]', () => {
+      test('type Boolean has effect', () => {
+        expect(getMenuProp({ noRouteDismiss: true }, 'noRouteDismiss')).toBe(
+          true
+        )
+      })
+    })
+
+    describe('[(prop)auto-close]', () => {
+      test('type Boolean has effect', () => {
+        expect(getMenuProp({ autoClose: true }, 'autoClose')).toBe(true)
+      })
+    })
+
+    describe('[(prop)no-refocus]', () => {
+      test('type Boolean has effect', () => {
+        expect(getMenuProp({ noRefocus: true }, 'noRefocus')).toBe(true)
+      })
+    })
+
+    describe('[(prop)no-focus]', () => {
+      test('type Boolean has effect', () => {
+        expect(getMenuProp({ noFocus: true }, 'noFocus')).toBe(true)
+      })
+    })
   })
 
   describe('[Slots]', () => {
@@ -830,6 +967,17 @@ describe('[QPopupEdit API]', () => {
         expect(initialValue).toBe('any-value')
 
         expect(eventList.save).toBeUndefined()
+      })
+    })
+
+    describe('[(event)escape-key]', () => {
+      test('is emitting', () => {
+        const onEscapeKey = vi.fn()
+        const wrapper = mountPopupEdit({ onEscapeKey })
+
+        getMenu(wrapper).vm.$emit('escapeKey')
+
+        expect(onEscapeKey).toHaveBeenCalledTimes(1)
       })
     })
   })

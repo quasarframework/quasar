@@ -10,7 +10,7 @@ related:
 
 The QVirtualScroll component allows you to display only a part of a long list of items and update the visible items as the user scrolls in the container. This has several advantages: only visible items are rendered, so the smallest number of nodes are in the DOM tree at any given point in time and the memory consumption is kept at its lowest.
 
-There are currently two types of QVirtualScroll: "list" (using QItems) and "table" (using a tabular style to display rows of data).
+There are currently two types of QVirtualScroll: "list" (using QItems) and "table" (using a tabular style to display rows of data). The props of the underlying component ([QList](/vue-components/list-and-list-items) for "list", [QMarkupTable](/vue-components/markup-table) for "table") are passed through via this component.
 
 <DocApi file="QVirtualScroll" />
 
