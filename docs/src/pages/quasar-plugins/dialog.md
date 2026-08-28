@@ -241,11 +241,11 @@ We will be using the [useDialogPluginComponent](/vue-composables/use-dialog-plug
 
 If you want to define `emits` in Object form, then (requires Quasar v2.2.5+):
 
-```
+```js
 defineEmits({
   // REQUIRED; need to specify some events that your
   // component will emit through useDialogPluginComponent()
-  ...useDialogPluginComponent.emitsObject,
+  ...useDialogPluginComponent.emitsObject
 
   // ...your own definitions
 })
@@ -330,7 +330,7 @@ We will be using the [useDialogPluginComponent](/vue-composables/use-dialog-plug
 
 If you want to define `emits` in Object form, then (requires Quasar v2.2.5+):
 
-```
+```js
 emits: {
   // REQUIRED; need to specify some events that your
   // component will emit through useDialogPluginComponent()
@@ -432,6 +432,95 @@ emits: {
 ```
 
 The dismissal-reason plumbing above (`dismissReason` and the `hide` payload) is optional: a plain `this.$emit('hide')` still works, but then the chained `onCancel`/`onDismiss` callbacks receive no reason. The [useDialogPluginComponent](/vue-composables/use-dialog-plugin-component) composable handles all of it for you.
+
+### Example: async submission
+
+The built-in dialog settles as soon as its OK button is clicked. When submitting must wait on an asynchronous operation (saving to a server, for example), invoke a custom component instead: nothing forces you to call `onDialogOK()` right away, so you can keep the dialog open with the submit button in a loading state, settle it only when the operation succeeds and keep it open to display the error when it fails.
+
+Notice the `:persistent="submitting"` below. It prevents the user from dismissing the dialog (backdrop click or ESC) while the operation is still in flight.
+
+```html
+<template>
+  <q-dialog ref="dialogRef" :persistent="submitting" @hide="onDialogHide">
+    <q-card class="q-dialog-plugin">
+      <q-card-section>
+        <q-input
+          v-model="name"
+          label="Name"
+          :disable="submitting"
+          :error="error !== null"
+          :error-message="error"
+        />
+      </q-card-section>
+
+      <q-card-actions align="right">
+        <q-btn
+          flat
+          color="primary"
+          label="Cancel"
+          :disable="submitting"
+          @click="onDialogCancel"
+        />
+        <q-btn
+          color="primary"
+          label="Save"
+          :loading="submitting"
+          @click="onSaveClick"
+        />
+      </q-card-actions>
+    </q-card>
+  </q-dialog>
+</template>
+
+<script setup>
+  import { ref } from 'vue'
+  import { useDialogPluginComponent } from 'quasar'
+
+  defineEmits([
+    // REQUIRED; need to specify some events that your
+    // component will emit through useDialogPluginComponent()
+    ...useDialogPluginComponent.emits
+  ])
+
+  const { dialogRef, onDialogHide, onDialogOK, onDialogCancel } =
+    useDialogPluginComponent()
+
+  const name = ref('')
+  const submitting = ref(false)
+  const error = ref(null)
+
+  async function onSaveClick() {
+    submitting.value = true
+    error.value = null
+
+    try {
+      // replace with your own async operation (fetch/axios/etc)
+      const result = await api.save({ name: name.value })
+
+      // settle the dialog with an "ok" outcome only now;
+      // the payload reaches the chained onOk() callbacks
+      // and the dialog hides automatically
+      onDialogOK(result)
+    } catch (err) {
+      // the dialog stays open; display the error
+      error.value = err.message
+    } finally {
+      submitting.value = false
+    }
+  }
+</script>
+```
+
+The invoking side does not change in any way:
+
+```js
+$q.dialog({
+  component: SaveDialog
+}).onOk(result => {
+  // the payload passed to onDialogOK() above
+  console.log('saved', result)
+})
+```
 
 ## Cordova/Capacitor back button
 
