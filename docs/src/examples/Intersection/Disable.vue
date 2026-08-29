@@ -1,0 +1,62 @@
+<template>
+  <div class="relative-position">
+    <div class="example-area q-pa-lg scroll">
+      <div class="example-filler" />
+
+      <div
+        v-intersection="enabled ? onIntersection : false"
+        class="example-observed text-center rounded-borders"
+      >
+        Observed Element
+      </div>
+
+      <div class="example-filler" />
+    </div>
+
+    <div
+      class="example-state rounded-borders absolute-top q-mt-md q-ml-md q-mr-lg text-white"
+      :class="visibleClass"
+    >
+      <div class="text-center">{{ visible ? 'Visible' : 'Hidden' }}</div>
+
+      <q-toggle v-model="enabled" label="Observe" dense />
+    </div>
+  </div>
+</template>
+
+<script setup>
+import { computed, ref } from 'vue'
+
+const enabled = ref(true)
+const visible = ref(false)
+
+const visibleClass = computed(
+  () => `bg-${visible.value ? 'positive' : 'negative'}`
+)
+
+function onIntersection(entry) {
+  visible.value = entry.isIntersecting
+}
+</script>
+
+<style lang="sass" scoped>
+.example-state
+  background: #ccc
+  font-size: 20px
+  color: #282a37
+  padding: 10px
+  opacity: 0.8
+
+.example-observed
+  width: 100%
+  font-size: 20px
+  color: #ccc
+  background: #424242
+  padding: 10px
+
+.example-area
+  height: 300px
+
+.example-filler
+  height: 500px
+</style>

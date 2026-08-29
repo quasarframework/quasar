@@ -4,10 +4,11 @@
   },
 
   "value": {
-    "type": ["Object", "Function"],
-    "desc": "Function to call when scrolling occurs (identical to description of 'handler' prop of the Object form); If using the Object form, it is HIGHLY recommended to reference it from your vue component scope, otherwise the directive update cycle will continuously recreate the observer which hits performance hard",
+    "type": ["Boolean", "Object", "Function"],
+    "desc": "Boolean false to disable the directive (the observer is dropped and recreated when a handler is supplied again); Function to call when scrolling occurs (identical to description of 'handler' prop of the Object form); If using the Object form, it is HIGHLY recommended to reference it from your vue component scope, otherwise the directive update cycle will continuously recreate the observer which hits performance hard",
     "examples": [
       "# v-intersection=\"myFunction\"",
+      "# v-intersection=\"isEnabled ? myFunction : false\"",
       "# v-intersection=\"{ handler: myFunction, cfg: { root: myScrollingParentEl, rootMargin: '10px 20px 30px 40px', threshold: [0, 0.25, 0.5, 0.75, 1] } }\""
     ],
 

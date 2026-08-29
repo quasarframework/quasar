@@ -1,4 +1,4 @@
-import { Transition, nextTick } from 'vue'
+import { Transition, defineComponent, h, nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 
@@ -181,6 +181,39 @@ describe('[QIntersection API]', () => {
 
         expect(wrapper.text()).toBe('Hidden content')
         expect(observers).toHaveLength(0)
+      })
+
+      test('toggling it keeps the content mounted', async () => {
+        const mountedFn = vi.fn()
+        const unmountedFn = vi.fn()
+        const Probe = defineComponent({
+          name: 'ContentProbe',
+          mounted: mountedFn,
+          unmounted: unmountedFn,
+          render: () => h('span', 'Visible content')
+        })
+
+        const wrapper = mount(QIntersection, {
+          slots: { default: () => h(Probe) }
+        })
+
+        show()
+        await nextTick()
+
+        const contentEl = wrapper.get('span').element
+        expect(mountedFn).toHaveBeenCalledOnce()
+
+        await wrapper.setProps({ disable: true })
+
+        expect(unmountedFn).not.toHaveBeenCalled()
+        expect(wrapper.get('span').element).toBe(contentEl)
+        expect(observers[0].disconnect).toHaveBeenCalledOnce()
+
+        await wrapper.setProps({ disable: false })
+
+        expect(unmountedFn).not.toHaveBeenCalled()
+        expect(wrapper.get('span').element).toBe(contentEl)
+        expect(observers).toHaveLength(2)
       })
     })
   })

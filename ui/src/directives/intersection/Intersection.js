@@ -9,6 +9,16 @@ const defaultCfg = {
 }
 
 function update(el, ctx, value) {
+  // the cached cfg is what a re-enable rebuilds the observer from, and a
+  // queued callback must find no handler left to run
+  if (value === false) {
+    ctx.observer?.disconnect()
+    ctx.observer = void 0
+    ctx.cfg = void 0
+    ctx.handler = void 0
+    return
+  }
+
   let handler, cfg, changed
 
   if (typeof value === 'function') {
