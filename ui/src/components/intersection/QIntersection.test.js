@@ -67,9 +67,10 @@ describe('[QIntersection API]', () => {
       })
 
       test('toggling disable does not re-arm it', async () => {
+        const slotContent = 'Visible content'
         const wrapper = mount(QIntersection, {
           props: { once: true },
-          slots: { default: () => 'Visible content' }
+          slots: { default: () => slotContent }
         })
 
         show()
@@ -80,7 +81,7 @@ describe('[QIntersection API]', () => {
 
         // once means once: re-enabling must not start observing again
         expect(observers).toHaveLength(1)
-        expect(wrapper.text()).toBe('Visible content')
+        expect(wrapper.text()).toBe(slotContent)
       })
     })
 
