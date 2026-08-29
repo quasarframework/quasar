@@ -55,6 +55,28 @@ describe('[Intersection API]', () => {
       expect(observers[0].disconnect).toHaveBeenCalledOnce()
     })
 
+    test('as Boolean false leaves no handler for a queued entry', async () => {
+      const handler = vi.fn(() => true)
+      const value = ref(handler)
+      const TestComponent = defineComponent({
+        render: () => withDirectives(h('div'), [[Intersection, value.value]])
+      })
+
+      mount(TestComponent)
+      const observer = observers[0]
+
+      value.value = false
+      await nextTick()
+
+      // the observer callback reads the ctx at call time, so an entry queued
+      // before the disable must find no handler and no observer to touch
+      observer.callback([{ isIntersecting: true, rootBounds: {} }])
+      observer.callback([{ isIntersecting: true, rootBounds: null }])
+
+      expect(handler).not.toHaveBeenCalled()
+      expect(observer.unobserve).not.toHaveBeenCalled()
+    })
+
     test('as Object', () => {
       const handler = vi.fn(() => true)
       const root = document.createElement('div')
