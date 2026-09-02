@@ -404,19 +404,19 @@ export default /*#__PURE__*/ createComponent({
         // from lg to xs
         lastDesktopState = showing.value
         if (showing.value) hide(false)
+      } else if (showing.value) {
+        // from xs to lg; a drawer opened below the breakpoint holds the
+        // body scroll lock and the backdrop, both of which must go
+        // regardless of how it was left on desktop (#16651)
+        applyPosition(0)
+        applyBackdrop(0)
+        cleanup()
       } else if (
         !props.overlay &&
         props.behavior !== 'mobile' &&
         lastDesktopState !== false
       ) {
-        // from xs to lg
-        if (showing.value) {
-          applyPosition(0)
-          applyBackdrop(0)
-          cleanup()
-        } else {
-          show(false)
-        }
+        show(false)
       }
     })
 

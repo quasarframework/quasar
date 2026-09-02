@@ -914,6 +914,56 @@ describe('[QDrawer API]', () => {
       expect(counters).toEqual({ setup: 1, mounted: 1, unmounted: 0 })
     })
 
+    // a drawer opened below the breakpoint locks the body scroll; the
+    // lock must go when it turns into a desktop drawer, even if it was
+    // closed when it last crossed into mobile mode (#16651)
+    test('releases the body scroll lock when a mobile-opened drawer turns desktop', async () => {
+      const wrapper = await mountReadyDrawer({
+        modelValue: false,
+        behavior: 'mobile'
+      })
+
+      await setDrawerProps(wrapper, { modelValue: true, behavior: 'mobile' })
+      await settle()
+      expect(document.qScrollPrevented).toBe(true)
+
+      await setDrawerProps(wrapper, { modelValue: true, behavior: 'desktop' })
+      await settle()
+
+      expect(getDrawer(wrapper).classes()).toContain('q-drawer--standard')
+      expect(document.qScrollPrevented).toBe(false)
+    })
+
+    // the model and the behavior both following the screen size: the
+    // model shows the drawer while still in mobile mode, then the
+    // behavior turns it into a desktop one within the same update
+    test('releases the body scroll lock when model and behavior flip together', async () => {
+      const onUpdate = vi.fn()
+      const wrapper = await mountReadyDrawer({
+        modelValue: true,
+        behavior: 'desktop',
+        'onUpdate:modelValue': onUpdate
+      })
+
+      await setDrawerProps(wrapper, {
+        modelValue: false,
+        behavior: 'mobile',
+        'onUpdate:modelValue': onUpdate
+      })
+      await settle()
+      expect(document.qScrollPrevented).toBe(false)
+
+      await setDrawerProps(wrapper, {
+        modelValue: true,
+        behavior: 'desktop',
+        'onUpdate:modelValue': onUpdate
+      })
+      await settle()
+
+      expect(getDrawer(wrapper).classes()).toContain('q-drawer--standard')
+      expect(document.qScrollPrevented).toBe(false)
+    })
+
     // a containerized layout only learns its width after mount, so its
     // drawer always starts below the breakpoint and transitions right
     // away, which used to re-create the content (#17099)
