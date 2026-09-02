@@ -50,6 +50,10 @@ Do not mistake "position" prop with the show/hide animation. If you want a custo
 
 <DocExample title="Maximized" file="Maximized" />
 
+::: tip iOS
+On iOS the soft keyboard does not shrink the page, so a dialog (especially a bottom-anchored one) could end up under it when one of its fields gets focused. QDialog keeps itself within the visible part of the screen while the keyboard is open.
+:::
+
 ### Various content
 
 Dialogs can contain any content. Some examples:

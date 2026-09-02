@@ -17,6 +17,7 @@ import useFullscreen, {
   useFullscreenProps
 } from '../../composables/private.use-fullscreen/use-fullscreen.js'
 import { getRouter } from 'testing/runtime/router.js'
+import { client } from '../../plugins/platform/Platform.js'
 import DialogWrapper from './test/DialogWrapper.vue'
 
 const FullscreenChild = defineComponent({
@@ -58,6 +59,48 @@ async function triggerEscKey(localWrapper) {
   const portal = await localWrapper.findComponent({ name: 'QPortal' })
   await portal.trigger('keydown', { keyCode: 27 })
   await portal.trigger('keyup', { keyCode: 27 })
+}
+
+// iOS reports the soft keyboard only through the visual viewport: the
+// layout viewport (innerHeight) keeps its size, the visual one shrinks
+// and may scroll within it
+function mockIosVisualViewport() {
+  const originalIos = client.is.ios
+  const mocked = []
+
+  client.is.ios = true
+
+  const restore = () => {
+    client.is.ios = originalIos
+    mocked.forEach(key => {
+      delete window.visualViewport[key]
+    })
+  }
+
+  const setViewport = async ({ offsetTop = 0, height, scale = 1 }) => {
+    Object.entries({ offsetTop, height, scale }).forEach(([key, value]) => {
+      Object.defineProperty(window.visualViewport, key, {
+        configurable: true,
+        value
+      })
+      mocked.push(key)
+    })
+
+    window.visualViewport.dispatchEvent(new Event('resize'))
+    await flushPromises()
+  }
+
+  return { restore, setViewport }
+}
+
+async function getShownInner(props) {
+  wrapper = mount(QDialog, {
+    props: { modelValue: true, ...props },
+    slots: { default: () => 'content' }
+  })
+  await flushPromises()
+
+  return wrapper.findComponent({ name: 'QPortal' }).get('.q-dialog__inner')
 }
 
 function createFocusEl() {
@@ -1184,6 +1227,129 @@ describe('[QDialog API]', () => {
         'q-animate--scale'
       )
       expect(wrapper.emitted()).not.toHaveProperty('shake')
+    })
+
+    describe('iOS soft keyboard', () => {
+      const KEYBOARD_HEIGHT = 300
+      const REVEAL_SCROLL = 40
+
+      test.each([
+        [
+          'standard',
+          { top: `${REVEAL_SCROLL}px`, bottom: `${KEYBOARD_HEIGHT}px` }
+        ],
+        ['left', { top: `${REVEAL_SCROLL}px`, bottom: `${KEYBOARD_HEIGHT}px` }],
+        ['top', { top: `${REVEAL_SCROLL}px`, bottom: '' }],
+        ['bottom', { top: '', bottom: `${KEYBOARD_HEIGHT}px` }]
+      ])(
+        'keeps a "%s" dialog inside the visual viewport while the keyboard is open',
+        async (position, expected) => {
+          const { restore, setViewport } = mockIosVisualViewport()
+
+          try {
+            const inner = await getShownInner({ position })
+            const visibleHeight =
+              window.innerHeight - KEYBOARD_HEIGHT - REVEAL_SCROLL
+
+            expect(inner.classes()).not.toContain('q-dialog__inner--keyboard')
+
+            // the keyboard opens and iOS scrolls the visual viewport a bit
+            await setViewport({
+              offsetTop: REVEAL_SCROLL,
+              height: visibleHeight
+            })
+
+            expect(inner.classes()).toContain('q-dialog__inner--keyboard')
+            expect(inner.element.style.top).toBe(expected.top)
+            expect(inner.element.style.bottom).toBe(expected.bottom)
+            expect(
+              inner.element.style.getPropertyValue('--q-dialog-viewport-height')
+            ).toBe(`${visibleHeight}px`)
+
+            // the keyboard closes
+            await setViewport({ height: window.innerHeight })
+
+            expect(inner.classes()).not.toContain('q-dialog__inner--keyboard')
+            expect(inner.element.style.top).toBe('')
+            expect(inner.element.style.bottom).toBe('')
+            expect(
+              inner.element.style.getPropertyValue('--q-dialog-viewport-height')
+            ).toBe('')
+          } finally {
+            restore()
+          }
+        }
+      )
+
+      test('leaves a pinch-zoomed dialog alone', async () => {
+        const { restore, setViewport } = mockIosVisualViewport()
+
+        try {
+          const inner = await getShownInner()
+
+          await setViewport({
+            offsetTop: REVEAL_SCROLL,
+            height: window.innerHeight / 2,
+            scale: 2
+          })
+
+          expect(inner.classes()).not.toContain('q-dialog__inner--keyboard')
+          expect(inner.element.style.top).toBe('')
+          expect(inner.element.style.bottom).toBe('')
+        } finally {
+          restore()
+        }
+      })
+
+      test('stops following the visual viewport once hidden and picks up an already open keyboard when shown', async () => {
+        const { restore, setViewport } = mockIosVisualViewport()
+        const removeSpy = vi.spyOn(window.visualViewport, 'removeEventListener')
+
+        try {
+          await getShownInner({ position: 'bottom' })
+
+          await wrapper.setProps({ modelValue: false })
+          await flushPromises()
+
+          for (const evt of ['scroll', 'resize']) {
+            expect(removeSpy).toHaveBeenCalledWith(
+              evt,
+              expect.any(Function),
+              expect.anything()
+            )
+          }
+
+          await setViewport({ height: window.innerHeight - KEYBOARD_HEIGHT })
+
+          await wrapper.setProps({ modelValue: true })
+          await flushPromises()
+
+          const inner = wrapper
+            .findComponent({ name: 'QPortal' })
+            .get('.q-dialog__inner')
+
+          expect(inner.classes()).toContain('q-dialog__inner--keyboard')
+          expect(inner.element.style.bottom).toBe(`${KEYBOARD_HEIGHT}px`)
+        } finally {
+          restore()
+        }
+      })
+
+      test('does not track the visual viewport off iOS', async () => {
+        const { restore, setViewport } = mockIosVisualViewport()
+        client.is.ios = false
+
+        try {
+          const inner = await getShownInner({ position: 'bottom' })
+
+          await setViewport({ height: window.innerHeight - KEYBOARD_HEIGHT })
+
+          expect(inner.classes()).not.toContain('q-dialog__inner--keyboard')
+          expect(inner.element.style.bottom).toBe('')
+        } finally {
+          restore()
+        }
+      })
     })
 
     test('finishes a pending hide when its keep-alive page deactivates', async () => {

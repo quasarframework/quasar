@@ -24,6 +24,7 @@ import usePreventScroll from '../../composables/private.use-prevent-scroll/use-p
 
 import { createComponent } from '../../utils/private.create/create.js'
 import { childHasFocus } from '../../utils/dom/dom.js'
+import { listenOpts } from '../../utils/event/event.js'
 import { hSlot } from '../../utils/private.render/render.js'
 import {
   addEscapeKey,
@@ -105,11 +106,19 @@ export default /*#__PURE__*/ createComponent({
     const innerRef = ref(null)
     const showing = ref(false)
     const animating = ref(false)
+    // iOS keeps position:fixed content attached to the layout viewport,
+    // which the soft keyboard never shrinks: only the visual viewport gets
+    // shorter (and scrolls within the layout one to reveal a field focused
+    // by a user tap, never one focused programmatically, like autofocus).
+    // While the keyboard is up, the inner element is inset to the visual
+    // viewport so the dialog cannot end up under the keyboard.
+    const viewportInset = ref(null)
 
     let shakeTimeout = null,
       refocusTarget = null,
       isMaximized = false,
-      avoidAutoClose = false
+      avoidAutoClose = false,
+      viewportTracked = false
 
     const hideOnRouteChange = computed(
       () => !props.persistent && !props.noRouteDismiss && !props.seamless
@@ -158,6 +167,7 @@ export default /*#__PURE__*/ createComponent({
         ` q-dialog__inner--${props.maximized ? 'maximized' : 'minimized'}` +
         ` q-dialog__inner--${props.position} ${positionClass[props.position]}` +
         (animating.value ? ' q-dialog__inner--animating' : '') +
+        (viewportInset.value !== null ? ' q-dialog__inner--keyboard' : '') +
         (props.fullWidth ? ' q-dialog__inner--fullwidth' : '') +
         (props.fullHeight ? ' q-dialog__inner--fullheight' : '') +
         (props.square ? ' q-dialog__inner--square' : '')
@@ -194,6 +204,64 @@ export default /*#__PURE__*/ createComponent({
       }
     })
 
+    function updateViewportInset() {
+      const { offsetTop, height, scale } = window.visualViewport
+      const { innerHeight } = window
+
+      // while pinch-zoomed the visual viewport is always shorter than the
+      // layout one and iOS keeps the focused field in view by itself
+      if (Math.abs(scale - 1) > 0.01 || innerHeight - height < 1) {
+        viewportInset.value = null
+        return
+      }
+
+      const top = Math.round(offsetTop)
+      const bottom = Math.round(innerHeight - offsetTop - height)
+      const current = viewportInset.value
+
+      if (
+        current === null ||
+        current.top !== top ||
+        current.bottom !== bottom
+      ) {
+        viewportInset.value = { top, bottom, height: Math.round(height) }
+      }
+    }
+
+    function trackViewport(add) {
+      const fn = add ? 'addEventListener' : 'removeEventListener'
+
+      viewportTracked = add
+
+      // no visualViewport (an iOS-simulating test environment) only
+      // loses the keyboard inset
+      window.visualViewport?.[fn](
+        'resize',
+        updateViewportInset,
+        listenOpts.passive
+      )
+      window.visualViewport?.[fn](
+        'scroll',
+        updateViewportInset,
+        listenOpts.passive
+      )
+
+      if (add && window.visualViewport !== void 0) updateViewportInset()
+      else viewportInset.value = null
+    }
+
+    function getInnerStyle() {
+      const inset = viewportInset.value
+
+      if (inset === null) return transitionStyle()
+
+      return (
+        `${transitionStyle()};--q-dialog-viewport-height:${inset.height}px` +
+        (props.position !== 'bottom' ? `;top:${inset.top}px` : '') +
+        (props.position !== 'top' ? `;bottom:${inset.bottom}px` : '')
+      )
+    }
+
     function handleShow(evt) {
       addToHistory()
 
@@ -205,6 +273,8 @@ export default /*#__PURE__*/ createComponent({
       updateMaximized(props.maximized)
       showPortal()
       animating.value = true
+
+      if ($q.platform.is.ios) trackViewport(true)
 
       if (props.noFocus) removeTick()
       else {
@@ -354,6 +424,8 @@ export default /*#__PURE__*/ createComponent({
       if (hiding || showing.value) {
         updateMaximized(false)
 
+        if (viewportTracked) trackViewport(false)
+
         if (!props.seamless) {
           preventBodyScroll(false)
           removeFocusout(onFocusChange)
@@ -472,7 +544,7 @@ export default /*#__PURE__*/ createComponent({
                   {
                     ref: innerRef,
                     class: classes.value,
-                    style: transitionStyle(),
+                    style: getInnerStyle(),
                     tabindex: -1,
                     ...onEvents.value
                   },

@@ -28,7 +28,7 @@
     &--minimized
       padding: 24px
       > div
-        max-height: calc(100dvh - 48px)
+        max-height: calc(var(--q-dialog-viewport-height, 100dvh) - 48px)
 
     &--maximized
       > div
@@ -80,7 +80,7 @@ body.q-safe-area-padding .q-dialog__inner
   padding-top: var(--q-safe-area-inset-top) !important
   padding-bottom: var(--q-safe-area-inset-bottom) !important
   > div
-    max-height: calc(100dvh - var(--q-safe-area-inset-top) - var(--q-safe-area-inset-bottom)) !important
+    max-height: calc(var(--q-dialog-viewport-height, 100dvh) - var(--q-safe-area-inset-top) - var(--q-safe-area-inset-bottom)) !important
 
   // an edge-anchored dialog meets the screen edge and carries the inset
   // itself, so its own background runs under the status bar / home
@@ -93,6 +93,13 @@ body.q-safe-area-padding .q-dialog__inner
     padding-bottom: 0 !important
     > div
       padding-bottom: var(--q-safe-area-inset-bottom)
+
+  // the soft keyboard covers the home indicator, so the inset
+  // reserved for it no longer applies
+  &--keyboard
+    padding-bottom: 0 !important
+    &.q-dialog__inner--bottom > div
+      padding-bottom: 0
 
 @media (max-width: $breakpoint-xs-max)
   .q-dialog__inner
