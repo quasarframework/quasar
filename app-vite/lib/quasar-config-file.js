@@ -269,7 +269,10 @@ async function onAddress({ host, port }, mode) {
       )
     } else if (err.message === 'ERROR_NETWORK_ADDRESS_NOT_AVAIL') {
       warn(
-        'Invalid host specified. No network address matches. Please specify another one.'
+        'Invalid devServer host: no local network address matches it. The host is the address' +
+          ' the dev server binds to, so it must be a local IP or hostname. To reach the dev server' +
+          ' through a tunnel or any other public hostname, keep the default host and list that' +
+          ' hostname in quasar.config file > devServer > allowedHosts instead.'
       )
     } else {
       warn('Unknown network error occurred')

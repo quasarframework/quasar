@@ -46,6 +46,35 @@ Treat this as a temporary change and remove the entry once you are done, especia
 Never use `allowedHosts: true` (which accepts any `Host` header) as a shortcut: it opens your dev server to DNS rebinding attacks, where a website that some other tab of your browser visits can reach your app and read whatever it serves.
 :::
 
+## Testing a Capacitor app through a tunnel
+
+A tunnel is also a handy way to run the native app on a phone that is not on your local network, or to get a secure context (HTTPS) for APIs such as the camera or geolocation.
+
+Do not put the tunnel's hostname into `devServer.host`. That option is the address the dev server binds to, so it must be a local IP or hostname; a public hostname fails with "Invalid devServer host: no local network address matches it". Keep the default host and instead allow the tunnel's hostname as shown above, then point the native app at the tunnel by setting `server.url` in your Capacitor config. Quasar only fills in `server.url` when you have not set it yourself (see [defineCapacitorConfig](/quasar-cli-vite/developing-capacitor-apps/configuring-capacitor#the-definecapacitorconfig-helper)):
+
+```js /quasar.config file
+devServer: {
+  allowedHosts: ['b8ootd-ip-157-211-195-182.tunnelmole.com']
+}
+```
+
+```ts /src-capacitor/capacitor.config.ts
+import { defineCapacitorConfig } from '@quasar/app-vite/capacitor'
+
+export default defineCapacitorConfig({
+  appId: 'org.example.app',
+  appName: 'My App',
+  server: {
+    url:
+      process.env.QUASAR_DEV === 'true'
+        ? 'https://b8ootd-ip-157-211-195-182.tunnelmole.com'
+        : undefined
+  }
+})
+```
+
+Hot module reloading follows the page's origin, so it works through the tunnel without further configuration.
+
 ## Using Tunnelmole
 
 Tunnelmole will work on any machine with Node.js 16+ installed and has no non-JavaScript dependencies.
