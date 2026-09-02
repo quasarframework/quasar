@@ -85,6 +85,11 @@ const tabbableSelector =
   ' select:not([disabled]), textarea:not([disabled]),' +
   ' [tabindex]:not([tabindex^="-"])'
 
+function restoreScroll(el, scrollTop, scrollLeft) {
+  if (el.scrollTop !== scrollTop) el.scrollTop = scrollTop
+  if (el.scrollLeft !== scrollLeft) el.scrollLeft = scrollLeft
+}
+
 function useCssAnchorEngine(
   props,
   { anchorEl, innerRef, anchorOrigin, selfOrigin }
@@ -147,6 +152,10 @@ function useCssAnchorEngine(
     if (el === null || anchorEl.value === null) return
 
     if (anchorPoint.value === null) {
+      // the pass measures with the caps lifted, which clamps the scroll
+      // offset of content that fits meanwhile (#18534)
+      const { scrollTop, scrollLeft } = el
+
       boundary.value = applyBoundary({
         el,
         anchorEl: anchorEl.value,
@@ -157,6 +166,8 @@ function useCssAnchorEngine(
         maxHeight: props.maxHeight,
         maxWidth: props.maxWidth
       })
+
+      restoreScroll(el, scrollTop, scrollLeft)
     } else {
       // point mode (touch position / context menu) mirrors around
       // the pointer instead of the anchor's box
@@ -281,7 +292,11 @@ function useFallbackEngine(
     retries = 0
 
     // a first pass at the intended placement also applies the fit/cover
-    // min sizes the decision measures with
+    // min sizes the decision measures with; both passes run with the
+    // caps lifted, which clamps the scroll offset of content that fits
+    // meanwhile (#18534)
+    const { scrollTop, scrollLeft } = el
+
     if (anchorPoint === null) {
       boundary = null
       centerShift = null
@@ -316,6 +331,8 @@ function useFallbackEngine(
     // shift) is taken from
     centerShift = null
     track()
+
+    restoreScroll(el, scrollTop, scrollLeft)
   }
 
   const onScroll = evt => {

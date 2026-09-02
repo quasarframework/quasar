@@ -227,6 +227,54 @@ async function expectNaturalWidthAtTheRightEdge() {
   expect(rect.height).toBe(height)
 }
 
+/**
+ * Shared by both positioning engines: re-checking the placement (what
+ * the updatePosition() method does, e.g. from QSelect on every one of
+ * its re-renders) must not lose the scroll position of a capped popup
+ * (#18534). The anchor sits mid-viewport with content that overflows
+ * the space on either side but fits the popup's CSS max-height, so the
+ * pass' natural-size measurement (caps lifted) is exactly the moment the
+ * content stops overflowing and layout clamps the scroll offset to 0.
+ */
+async function expectScrollKeptAcrossUpdatePosition() {
+  const viewportHeight = document.documentElement.clientHeight
+  const wrapper = mountMenu(void 0, {
+    default: () =>
+      h('div', {
+        style: {
+          width: '50px',
+          height: `${Math.round(viewportHeight * 0.6)}px`
+        }
+      })
+  })
+  Object.assign(getAnchor(wrapper).element.style, {
+    position: 'fixed',
+    top: `${Math.round(viewportHeight / 2)}px`,
+    left: '8px',
+    width: '100px',
+    height: '30px'
+  })
+
+  await showMenu(wrapper)
+
+  const menu = getMenu()
+  // flipped above the anchor and capped to the space there
+  expect(getMenuRect().bottom).toBeCloseTo(
+    getAnchor(wrapper).element.getBoundingClientRect().top,
+    0
+  )
+  expect(menu.style.maxHeight).not.toBe('')
+
+  menu.scrollTop = 20
+  expect(menu.scrollTop).toBe(20)
+
+  getMenuComponent(wrapper).vm.updatePosition()
+  expect(menu.scrollTop).toBe(20)
+
+  await flushAnimationFrames()
+  expect(menu.scrollTop).toBe(20)
+}
+
 async function pressEscapeKey() {
   window.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 27 }))
   window.dispatchEvent(new KeyboardEvent('keyup', { keyCode: 27 }))
@@ -1508,6 +1556,10 @@ describe('[QMenu API]', () => {
       test('keeps its natural width when flipped away from the right edge', async () => {
         await expectNaturalWidthAtTheRightEdge()
       })
+
+      test('keeps its scroll position when the placement is re-checked', async () => {
+        await expectScrollKeptAcrossUpdatePosition()
+      })
     })
 
     describe('JS positioning fallback', () => {
@@ -1518,6 +1570,10 @@ describe('[QMenu API]', () => {
 
       test('keeps its natural width when flipped away from the right edge', async () => {
         await expectNaturalWidthAtTheRightEdge()
+      })
+
+      test('keeps its scroll position when the placement is re-checked', async () => {
+        await expectScrollKeptAcrossUpdatePosition()
       })
 
       test('positions the menu through the JS engine', async () => {

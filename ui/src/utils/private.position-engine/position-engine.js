@@ -109,7 +109,12 @@ export function parsePosition(pos, rtl) {
  * the returned origins/caps are then EXPRESSED is the engines'
  * business: anchor() insets on the native engine, pixel top/left on the
  * fallback; either way the popup keeps tracking its anchor and only the
- * flip/cap decision itself is frozen at measure time.
+ * flip/cap decision itself is frozen at measure time. The element does
+ * leave the pass already at the decided caps though: measuring lifts
+ * them, content that then fits has its scroll offset clamped to 0 by
+ * layout, and the engines restore the offset right after the pass
+ * (#18534), which needs the popup scrollable again by then (the native
+ * engine's own expression of the caps only lands on the next render).
  *
  * A "center"/"middle" self origin axis is skipped: when its anchor line
  * is centered too it clamps at the viewport edges instead (natively via
@@ -215,6 +220,9 @@ export function applyBoundary({
     res.anchorOrigin = { vertical: av, horizontal: ah }
     res.selfOrigin = { vertical: sv, horizontal: sh }
   }
+
+  if (res.maxHeight !== null) el.style.maxHeight = res.maxHeight
+  if (res.maxWidth !== null) el.style.maxWidth = res.maxWidth
 
   return res
 }

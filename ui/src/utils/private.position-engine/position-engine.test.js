@@ -278,6 +278,32 @@ describe('[positionEngine API]', () => {
         expect(el.style.visibility).toBe('')
       })
 
+      test('leaves the element at the caps it decided', () => {
+        // the engines restore the popup's scroll offset right after the
+        // pass, which needs the popup scrollable again by then (#18534)
+        const { clientWidth: viewportWidth, clientHeight: viewportHeight } =
+          document.documentElement
+        const anchorEl = createAnchor({
+          top: viewportHeight - 60,
+          left: viewportWidth - 120,
+          width: 100,
+          height: 30
+        })
+        const el = createTarget({ width: 5000, height: 5000 })
+
+        const res = applyBoundary({
+          el,
+          anchorEl,
+          anchorOrigin: origin('bottom left'),
+          selfOrigin: origin('top left')
+        })
+
+        expect(res.maxHeight).not.toBeNull()
+        expect(res.maxWidth).not.toBeNull()
+        expect(el.style.maxHeight).toBe(res.maxHeight)
+        expect(el.style.maxWidth).toBe(res.maxWidth)
+      })
+
       test('expands the anchor by the offset before measuring the space', () => {
         const viewportHeight = document.documentElement.clientHeight
         const anchorEl = createAnchor({

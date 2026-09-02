@@ -69,10 +69,6 @@ export function applyPosition({
     }
   }
 
-  // the popup's own scroll position might reset if its max size
-  // changes; restore it after the writes
-  const { scrollLeft, scrollTop } = el
-
   const rect = anchorEl.getBoundingClientRect()
   const useOffset = offset !== void 0 && cover !== true
   const ox = useOffset ? offset[0] : 0
@@ -168,13 +164,6 @@ export function applyPosition({
 
   el.style.top = top + 'px'
   el.style.left = left + 'px'
-
-  if (el.scrollTop !== scrollTop) {
-    el.scrollTop = scrollTop
-  }
-  if (el.scrollLeft !== scrollLeft) {
-    el.scrollLeft = scrollLeft
-  }
 
   return shift
 }
