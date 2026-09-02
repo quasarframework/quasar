@@ -96,6 +96,18 @@ function prepareApp(app, uiOpts, pluginOpts) {
 export default __QUASAR_SSR_SERVER__
   ? // oxlint-disable-next-line default-param-last
     function installQuasar(parentApp, opts = {}, ssrContext) {
+      if (!isObject(ssrContext)) {
+        // this build is what Node resolves the "quasar" package to (its
+        // "node" export condition), so a non-SSR Node environment such
+        // as Vitest with jsdom loads it too and ends up here
+        throw new Error(
+          '[Quasar] The SSR server build was installed without an ssrContext.' +
+            ' Outside of an SSR app (e.g. Vitest with jsdom) alias "quasar" to' +
+            ' "quasar/dist/quasar.client.js", or add @quasar/vite-plugin to the' +
+            ' Vite/Vitest config, which sets that alias while serving.'
+        )
+      }
+
       const $q = {
         version: __QUASAR_VERSION__,
         config: opts.config || {}

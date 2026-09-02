@@ -81,6 +81,39 @@ import VitePluginUsage from './VitePluginUsage.vue'
 
 The full list of options can be found [here](https://github.com/quasarframework/quasar/blob/dev/vite-plugin/index.d.ts).
 
+## Testing with Vitest
+
+Node resolves the `quasar` package through its `node` export condition, which points to the SSR server build. Vitest does the same, so a test setup that does not go through our Vite plugin loads that build and Quasar refuses to install (`The SSR server build was installed without an ssrContext`).
+
+Keep `quasar()` from `@quasar/vite-plugin` in the Vite config that Vitest uses. While serving (Vitest counts as serving) the plugin aliases `quasar` to the client build. If your tests have their own `vitest.config.js`, add the plugin there as well:
+
+```js
+// vitest.config.js
+import { defineConfig } from 'vitest/config'
+import vue from '@vitejs/plugin-vue'
+import { quasar, transformAssetUrls } from '@quasar/vite-plugin'
+
+export default defineConfig({
+  plugins: [vue({ template: { transformAssetUrls } }), quasar()],
+  test: {
+    environment: 'jsdom'
+  }
+})
+```
+
+Then install Quasar into `@vue/test-utils` so every `mount()` gets the `$q` object:
+
+```js
+import { config, mount } from '@vue/test-utils'
+import { Quasar } from 'quasar'
+
+config.global.plugins.unshift([Quasar, {/* Quasar plugin options */}])
+```
+
+::: tip
+Quasar CLI projects should use the official [@quasar/testing-unit-vitest](/quasar-cli-vite/testing-and-auditing) App Extension instead, which wires all of this up.
+:::
+
 ## RTL support
 
 For enabling, please check out our [RTL Support](/options/rtl-support) page and follow the instructions.
