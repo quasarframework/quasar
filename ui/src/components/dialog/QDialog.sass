@@ -87,6 +87,18 @@ body.q-safe-area-padding .q-dialog__inner
   > div
     max-height: calc(100vh - var(--q-safe-area-inset-top) - var(--q-safe-area-inset-bottom)) !important
 
+  // an edge-anchored dialog meets the screen edge and carries the inset
+  // itself, so its own background runs under the status bar / home
+  // indicator while its content stays clear of them
+  &--top
+    padding-top: 0 !important
+    > div
+      padding-top: var(--q-safe-area-inset-top)
+  &--bottom
+    padding-bottom: 0 !important
+    > div
+      padding-bottom: var(--q-safe-area-inset-bottom)
+
 @media (max-width: $breakpoint-xs-max)
   .q-dialog__inner
     &--top, &--bottom
