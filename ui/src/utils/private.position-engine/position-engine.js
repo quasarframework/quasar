@@ -101,8 +101,12 @@ export function parsePosition(pos, rtl) {
  * placement fits the viewport, measured once per show (and on demand
  * through updatePosition()). A placement that overflows gets its
  * origins mirrored towards the roomier side — the anchor's expanded box
- * edges swap sides — and, when its natural size exceeds even the space
- * that placement has, a max size capped to that space. A popup that fits
+ * edges swap sides — unless the intended side has at least as much room
+ * (the room is measured from the anchor line each placement would use,
+ * not from the anchor's edge against the viewport middle, which used
+ * to flip an anchor straddling the middle towards the SMALLER side,
+ * #16443) and, when its natural size exceeds even the space that
+ * placement has, a max size capped to that space. A popup that fits
  * the mirrored side stays uncapped: a cap at its own measured size would
  * round a fractional natural size down (offsetWidth/offsetHeight are
  * integers) and wrap or scroll content that fit before the flip. How
@@ -176,18 +180,28 @@ export function applyBoundary({
     if (top < 0 || top + height > VH) {
       changed = true
 
+      // the two placements of this axis: popup top edge at the "below"
+      // line or popup bottom edge at the "above" line (one of them is
+      // the intended placement); the roomier one wins, the intended
+      // one on a tie (#16443)
+      const [avBelow, avAbove] =
+        av === 'center'
+          ? ['center', 'center']
+          : av === sv
+            ? ['top', 'bottom']
+            : ['bottom', 'top']
+      const spaceBelow = VH - Math.max(0, A[avBelow])
+      const spaceAbove = Math.min(VH, A[avAbove])
       let space
 
-      if (A[av] > VH / 2) {
-        // roomier above: popup bottom edge at the mirrored line
-        av = av === 'center' ? 'center' : av === sv ? 'bottom' : 'top'
-        sv = 'bottom'
-        space = Math.min(VH, A[av])
-      } else {
-        // roomier below: popup top edge at the mirrored line
-        av = av === 'center' ? 'center' : av === sv ? 'top' : 'bottom'
+      if (sv === 'top' ? spaceBelow >= spaceAbove : spaceBelow > spaceAbove) {
+        av = avBelow
         sv = 'top'
-        space = VH - Math.max(0, A[av])
+        space = spaceBelow
+      } else {
+        av = avAbove
+        sv = 'bottom'
+        space = spaceAbove
       }
 
       if (space < height) res.maxHeight = space + 'px'
@@ -200,16 +214,24 @@ export function applyBoundary({
     if (left < 0 || left + width > VW) {
       changed = true
 
+      const [ahRight, ahLeft] =
+        ah === 'middle'
+          ? ['middle', 'middle']
+          : ah === sh
+            ? ['left', 'right']
+            : ['right', 'left']
+      const spaceRight = VW - Math.max(0, A[ahRight])
+      const spaceLeft = Math.min(VW, A[ahLeft])
       let space
 
-      if (A[ah] > VW / 2) {
-        ah = ah === 'middle' ? 'middle' : ah === sh ? 'right' : 'left'
-        sh = 'right'
-        space = Math.min(VW, A[ah])
-      } else {
-        ah = ah === 'middle' ? 'middle' : ah === sh ? 'left' : 'right'
+      if (sh === 'left' ? spaceRight >= spaceLeft : spaceRight > spaceLeft) {
+        ah = ahRight
         sh = 'left'
-        space = VW - Math.max(0, A[ah])
+        space = spaceRight
+      } else {
+        ah = ahLeft
+        sh = 'right'
+        space = spaceLeft
       }
 
       if (space < width) res.maxWidth = space + 'px'

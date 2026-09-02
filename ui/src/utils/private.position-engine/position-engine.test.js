@@ -207,6 +207,78 @@ describe('[positionEngine API]', () => {
         expect(res.maxHeight).toBe(`${viewportHeight - 60}px`)
       })
 
+      test('keeps the intended side while it has at least as much room', () => {
+        // the anchor straddles the viewport middle: its bottom edge is
+        // below the middle, yet there is more room below than above
+        // (#16443)
+        const viewportHeight = document.documentElement.clientHeight
+        const anchorHeight = 36
+        const top = viewportHeight / 2 - anchorHeight + 4
+        const anchorEl = createAnchor({
+          top,
+          left: 100,
+          width: 100,
+          height: anchorHeight
+        })
+
+        const res = applyBoundary({
+          el: createTarget({ height: 5000 }),
+          anchorEl,
+          anchorOrigin: origin('bottom left'),
+          selfOrigin: origin('top left')
+        })
+
+        expect(res.anchorOrigin.vertical).toBe('bottom')
+        expect(res.selfOrigin.vertical).toBe('top')
+        expect(res.maxHeight).toBe(`${viewportHeight - top - anchorHeight}px`)
+      })
+
+      test('keeps the intended side on a tie', () => {
+        const { clientWidth: viewportWidth, clientHeight: viewportHeight } =
+          document.documentElement
+        const anchorEl = createAnchor({
+          top: viewportHeight / 2 - 18,
+          left: viewportWidth / 2 - 50,
+          width: 100,
+          height: 36
+        })
+        const anchorOrigin = origin('top right')
+        const selfOrigin = origin('bottom right')
+
+        const res = applyBoundary({
+          el: createTarget({ width: 5000, height: 5000 }),
+          anchorEl,
+          anchorOrigin,
+          selfOrigin
+        })
+
+        expect(res.anchorOrigin).toStrictEqual(anchorOrigin)
+        expect(res.selfOrigin).toStrictEqual(selfOrigin)
+        expect(res.maxHeight).toBe(`${viewportHeight / 2 - 18}px`)
+        expect(res.maxWidth).toBe(`${viewportWidth / 2 + 50}px`)
+      })
+
+      test('flips a straddling anchor once the mirrored side is roomier', () => {
+        const viewportWidth = document.documentElement.clientWidth
+        const anchorEl = createAnchor({
+          top: 100,
+          left: viewportWidth / 2 - 4,
+          width: 100,
+          height: 30
+        })
+
+        const res = applyBoundary({
+          el: createTarget({ width: 5000 }),
+          anchorEl,
+          anchorOrigin: origin('bottom left'),
+          selfOrigin: origin('top left')
+        })
+
+        expect(res.anchorOrigin.horizontal).toBe('right')
+        expect(res.selfOrigin.horizontal).toBe('right')
+        expect(res.maxWidth).toBe(`${viewportWidth / 2 + 96}px`)
+      })
+
       test('flips towards the left and caps the width at the right edge', () => {
         const viewportWidth = document.documentElement.clientWidth
         const anchorEl = createAnchor({
