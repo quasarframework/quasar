@@ -1,4 +1,4 @@
-import { afterEach, describe, expect, test } from 'vitest'
+import { afterEach, describe, expect, onTestFinished, test } from 'vitest'
 import { mount } from '@vue/test-utils'
 import { defineComponent, getCurrentInstance, h, nextTick, ref } from 'vue'
 
@@ -13,7 +13,7 @@ afterEach(() => {
   portalProxyList.length = 0
 })
 
-function mountPortal({ onGlobalDialog = false, type = 'menu' } = {}) {
+function mountPortal({ onGlobalDialog = false, type = 'menu', visible } = {}) {
   let portal, portalProxy
 
   const PortalHarness = defineComponent({
@@ -57,7 +57,14 @@ function mountPortal({ onGlobalDialog = false, type = 'menu' } = {}) {
           name: 'QGlobalDialog',
           setup: () => () => h(PortalHarness)
         })
-      : PortalHarness
+      : visible !== void 0
+        ? // unmounts the harness through Vue's own patching, unlike
+          // wrapper.unmount() which detaches the root element first
+          defineComponent({
+            name: 'HarnessToggle',
+            setup: () => () => (visible.value ? h(PortalHarness) : null)
+          })
+        : PortalHarness
 
   wrapper = mount(RootComponent)
 
@@ -151,6 +158,107 @@ describe('[usePortal API]', () => {
         expect(portal.portalIsActive).$ref(false)
         expect(portalProxyList.includes(portalProxy)).toBe(false)
         expect(wrapper.find('[data-test="portal-content"]').exists()).toBe(true)
+      })
+    })
+  })
+
+  describe('[Generic]', () => {
+    // a QField hosting a menu/dialog inside its control hears these on the
+    // control (see use-field), so they must bubble from a node that sits in
+    // the field's markup while the popup opens, closes or gets unmounted
+    describe('field notification', () => {
+      function listenOnBody() {
+        const log = []
+        const onEvt = evt => {
+          log.push([evt.type, evt.bubbles, evt.target, evt.target.isConnected])
+        }
+
+        document.body.addEventListener('popup-show', onEvt)
+        document.body.addEventListener('popup-hide', onEvt)
+
+        onTestFinished(() => {
+          document.body.removeEventListener('popup-show', onEvt)
+          document.body.removeEventListener('popup-hide', onEvt)
+        })
+
+        return log
+      }
+
+      test.each(['menu', 'dialog'])(
+        'a %s dispatches bubbling popup-show/popup-hide from its placeholder node',
+        async type => {
+          const log = listenOnBody()
+          const { portal, portalProxy } = mountPortal({ type })
+          const placeholder = portalProxy.$el
+
+          portal.showPortal()
+          // already active: no second notification
+          portal.showPortal()
+          await nextTick()
+
+          expect(log).toEqual([['popup-show', true, placeholder, true]])
+
+          portal.showPortal(true)
+          expect(log).toHaveLength(1)
+
+          portal.hidePortal(false)
+          expect(log).toEqual([
+            ['popup-show', true, placeholder, true],
+            ['popup-hide', true, placeholder, true]
+          ])
+
+          // done hiding: no second notification
+          portal.hidePortal(true)
+          await nextTick()
+          expect(log).toHaveLength(2)
+        }
+      )
+
+      test('a silent show (hover-shown menu) never notifies, hide included', async () => {
+        const log = listenOnBody()
+        const { portal } = mountPortal()
+
+        portal.showPortal(false, true)
+        await nextTick()
+        portal.showPortal(true)
+        portal.hidePortal(false)
+        portal.hidePortal(true)
+        await nextTick()
+
+        expect(log).toEqual([])
+      })
+
+      test('a tooltip never notifies (it does not take focus)', async () => {
+        const log = listenOnBody()
+        const { portal } = mountPortal({ type: 'tooltip' })
+
+        portal.showPortal()
+        await nextTick()
+        portal.showPortal(true)
+        portal.hidePortal(false)
+        portal.hidePortal(true)
+        await nextTick()
+
+        expect(log).toEqual([])
+      })
+
+      test('a popup unmounted while open notifies from a still connected node', async () => {
+        const log = listenOnBody()
+        const visible = ref(true)
+        const { portal, portalProxy } = mountPortal({ visible })
+        const placeholder = portalProxy.$el
+
+        portal.showPortal()
+        await nextTick()
+
+        visible.value = false
+        await nextTick()
+
+        expect(log).toEqual([
+          ['popup-show', true, placeholder, true],
+          ['popup-hide', true, placeholder, true]
+        ])
+        expect(portal.portalIsActive).$ref(false)
       })
     })
   })

@@ -1,6 +1,8 @@
 import { flushPromises, mount } from '@vue/test-utils'
 import { describe, expect, test, vi } from 'vitest'
+import { h } from 'vue'
 
+import QPopupProxy from '../popup-proxy/QPopupProxy.js'
 import QInput from './QInput.js'
 
 function mountInput(props = {}, options = {}) {
@@ -1772,6 +1774,105 @@ describe('[QInput API]', () => {
 
       await input.trigger('change')
       expect(wrapper.emitted('update:modelValue')).toEqual([['2023/']])
+    })
+
+    // a menu/dialog opened from inside the control (the QDate-in-a-QInput
+    // docs pattern) takes focus away from the native input; the field must
+    // stay focused (no blur, no lazy validation) for as long as the popup
+    // is open, as it did in v1 (#9779)
+    describe('popup opened from inside the control', () => {
+      function mountWithPopup(props) {
+        return mountInput(
+          { modelValue: '', ...props },
+          {
+            slots: {
+              append: () =>
+                h(QPopupProxy, { transitionDuration: 0 }, () =>
+                  h('div', { 'data-test': 'popup-content' }, 'Pick a date')
+                )
+            }
+          }
+        )
+      }
+
+      function getPopupContent() {
+        return document.querySelector('[data-test="popup-content"]')
+      }
+
+      async function showPopup(wrapper) {
+        wrapper.findComponent(QPopupProxy).vm.show()
+
+        // the menu grabs focus once its show transition is done
+        await vi.waitFor(() => {
+          expect(getPopupContent()).not.toBeNull()
+          expect(
+            getPopupContent().parentElement.contains(document.activeElement)
+          ).toBe(true)
+        })
+        await flushTimers()
+      }
+
+      async function hidePopup(wrapper, evt) {
+        wrapper.findComponent(QPopupProxy).vm.hide(evt)
+
+        await vi.waitFor(() => {
+          expect(getPopupContent()).toBeNull()
+        })
+        await flushTimers()
+      }
+
+      test('keeps the field focused while open and hands focus back on close', async () => {
+        const wrapper = mountWithPopup({
+          lazyRules: true,
+          rules: [val => val.length !== 0 || 'Required']
+        })
+        const input = wrapper.get('input').element
+
+        input.focus()
+        await flushPromises()
+        expect(wrapper.classes()).toContain('q-field--focused')
+
+        await showPopup(wrapper)
+
+        expect(input).not.toBe(document.activeElement)
+        expect(wrapper.classes()).toContain('q-field--focused')
+        expect(wrapper.classes()).not.toContain('q-field--error')
+        expect(wrapper.emitted('blur')).toBeUndefined()
+
+        await hidePopup(wrapper)
+
+        expect(document.activeElement).toBe(input)
+        expect(wrapper.classes()).toContain('q-field--focused')
+        expect(wrapper.classes()).not.toContain('q-field--error')
+        expect(wrapper.emitted('blur')).toBeUndefined()
+
+        // leaving the field for real still blurs it and runs the lazy rule
+        input.blur()
+        await flushTimers()
+
+        expect(wrapper.emitted('blur')).toHaveLength(1)
+        expect(wrapper.classes()).not.toContain('q-field--focused')
+        await vi.waitFor(() => {
+          expect(wrapper.classes()).toContain('q-field--error')
+        })
+      })
+
+      test('blurs the field when the popup closes without handing focus back', async () => {
+        const wrapper = mountWithPopup()
+
+        wrapper.get('input').element.focus()
+        await flushPromises()
+        await showPopup(wrapper)
+
+        expect(wrapper.emitted('blur')).toBeUndefined()
+
+        // a click-outside close leaves focus wherever the click put it
+        await hidePopup(wrapper, { type: 'click', qClickOutside: true })
+
+        expect(wrapper.element.contains(document.activeElement)).toBe(false)
+        expect(wrapper.emitted('blur')).toHaveLength(1)
+        expect(wrapper.classes()).not.toContain('q-field--focused')
+      })
     })
   })
 

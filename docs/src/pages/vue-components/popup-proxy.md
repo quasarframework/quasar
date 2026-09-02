@@ -29,7 +29,7 @@ Use your browsers development tools to toggle the device between mobile or deskt
 
 ### Breakpoint
 
-On the example below, click on the icon in the input.
+On the example below, click on the icon in the input. The QInput stays focused for as long as the popup is open, whichever of the two components got rendered.
 
 <DocExample title="Breakpoint @600px" file="Breakpoint" />
 

@@ -153,7 +153,7 @@ You can reset the validation by calling `resetValidation()` method on the QField
 
 <DocExample title="Maximum value" file="ValidationMaxValue" />
 
-If you set `lazy-rules`, validation triggers when the field loses focus; while an error is displayed, the field re-validates on each change so the error clears as soon as the value becomes valid. If `lazy-rules` is set to `ondemand` String, then validation will be triggered only when component's validate() method is manually called or when the wrapper QForm submits itself.
+If you set `lazy-rules`, validation triggers when the field loses focus; while an error is displayed, the field re-validates on each change so the error clears as soon as the value becomes valid. A menu or dialog opened from inside the field (a QPopupProxy in the `append` slot, for instance) keeps the field focused for as long as it is open, so it does not count as losing focus. If `lazy-rules` is set to `ondemand` String, then validation will be triggered only when component's validate() method is manually called or when the wrapper QForm submits itself.
 
 <DocExample title="Lazy rules" file="ValidationLazy" />
 

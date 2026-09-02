@@ -851,6 +851,38 @@ describe('[QMenu API]', () => {
         expect(getMenu()).toBeNull()
       })
 
+      // a hosting QField listens for these to keep its focused state
+      // while a popup owns focus (see use-portal); a hover-shown menu
+      // owns none, so the field must hear nothing
+      test('leaves a hosting field alone (no popup-show/popup-hide)', async () => {
+        const wrapper = mountMenu({ hover: true })
+        const heard = []
+        const onEvt = evt => heard.push(evt.type)
+
+        getAnchor(wrapper).element.addEventListener('popup-show', onEvt)
+        getAnchor(wrapper).element.addEventListener('popup-hide', onEvt)
+
+        await getAnchor(wrapper).trigger('pointerenter', {
+          pointerType: 'mouse'
+        })
+        await flushPromises()
+        expect(getMenu()).not.toBeNull()
+
+        await getAnchor(wrapper).trigger('pointerleave', {
+          pointerType: 'mouse'
+        })
+        await vi.runAllTimersAsync()
+        expect(getMenu()).toBeNull()
+
+        expect(heard).toEqual([])
+
+        // a regular open of the same menu does notify
+        await showMenu(wrapper, new MouseEvent('click'))
+        await hideMenu(wrapper)
+
+        expect(heard).toEqual(['popup-show', 'popup-hide'])
+      })
+
       test('does not steal focus when opening', async () => {
         const button = document.createElement('button')
         document.body.append(button)

@@ -668,7 +668,7 @@ export default /*#__PURE__*/ createComponent({
 
       addFocusout(onFocusout)
 
-      showPortal()
+      showPortal(false, hoverShown)
       posEngine.handleShow()
 
       // touch-position latches onto the coordinates of a deliberate

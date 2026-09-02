@@ -228,7 +228,9 @@ export default function useField(state) {
   if (state.controlEvents === void 0) {
     state.controlEvents = {
       onFocusin: onControlFocusin,
-      onFocusout: onControlFocusout
+      onFocusout: onControlFocusout,
+      onPopupShow: onControlPopupShow,
+      onPopupHide: onControlPopupHide
     }
   }
 
@@ -478,6 +480,18 @@ export default function useField(state) {
 
       then?.()
     }, 0)
+  }
+
+  // a menu/dialog rendered inside the control (see use-portal) takes
+  // focus for as long as it is open; the field stays focused meanwhile
+  function onControlPopupShow(e) {
+    state.hasPopupOpen = true
+    onControlFocusin(e)
+  }
+
+  function onControlPopupHide(e) {
+    state.hasPopupOpen = false
+    onControlFocusout(e)
   }
 
   function clearValue(e) {
