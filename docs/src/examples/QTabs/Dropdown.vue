@@ -6,11 +6,11 @@
         <q-tab name="alarms" label="Alarms" />
         <q-btn-dropdown auto-close stretch flat label="More...">
           <q-list>
-            <q-item clickable @click="tab = 'movies'">
+            <q-item @click="tab = 'movies'">
               <q-item-section>Movies</q-item-section>
             </q-item>
 
-            <q-item clickable @click="tab = 'photos'">
+            <q-item @click="tab = 'photos'">
               <q-item-section>Photos</q-item-section>
             </q-item>
           </q-list>
@@ -22,11 +22,11 @@
         <q-tab name="alarms" label="Alarms" icon="alarm" />
         <q-btn-dropdown auto-close stretch flat icon="more" label="More...">
           <q-list>
-            <q-item clickable @click="tab = 'movies'">
+            <q-item @click="tab = 'movies'">
               <q-item-section>Movies</q-item-section>
             </q-item>
 
-            <q-item clickable @click="tab = 'photos'">
+            <q-item @click="tab = 'photos'">
               <q-item-section>Photos</q-item-section>
             </q-item>
           </q-list>
@@ -47,11 +47,11 @@
           </template>
 
           <q-list>
-            <q-item clickable @click="tab = 'movies'">
+            <q-item @click="tab = 'movies'">
               <q-item-section>Movies</q-item-section>
             </q-item>
 
-            <q-item clickable @click="tab = 'photos'">
+            <q-item @click="tab = 'photos'">
               <q-item-section>Photos</q-item-section>
             </q-item>
           </q-list>
@@ -77,11 +77,11 @@
           label="More..."
         >
           <q-list>
-            <q-item clickable @click="tab = 'movies'">
+            <q-item @click="tab = 'movies'">
               <q-item-section>Movies</q-item-section>
             </q-item>
 
-            <q-item clickable @click="tab = 'photos'">
+            <q-item @click="tab = 'photos'">
               <q-item-section>Photos</q-item-section>
             </q-item>
           </q-list>

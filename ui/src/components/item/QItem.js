@@ -31,7 +31,16 @@ export default /*#__PURE__*/ createComponent({
       default: null
     },
 
-    clickable: Boolean,
+    clickable: {
+      type: Boolean,
+      default: null
+    },
+    // declared as a prop (and "click" left out of emits, as the API
+    // validator forbids declaring both) so the presence of a click
+    // listener is observable: it implies clickability when the
+    // clickable prop is not set
+    onClick: Function,
+
     dense: Boolean,
     insetLevel: Number,
 
@@ -43,7 +52,7 @@ export default /*#__PURE__*/ createComponent({
     manualFocus: Boolean
   },
 
-  emits: ['click', 'keyup'],
+  emits: ['keyup'],
 
   setup(props, { slots, emit }) {
     const $q = useQuasar()
@@ -56,7 +65,12 @@ export default /*#__PURE__*/ createComponent({
     const blurTargetRef = ref(null)
 
     const isActionable = computed(
-      () => props.clickable || hasLink.value || props.tag === 'label'
+      () =>
+        (props.clickable === null
+          ? props.onClick !== void 0
+          : props.clickable) ||
+        hasLink.value ||
+        props.tag === 'label'
     )
 
     const isClickable = computed(() => !props.disable && isActionable.value)

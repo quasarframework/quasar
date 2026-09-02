@@ -1,26 +1,13 @@
 <template>
   <div class="q-pa-md">
-    <q-chip
-      clickable
-      @click="onClick"
-      color="primary"
-      text-color="white"
-      icon="event"
-    >
+    <q-chip @click="onClick" color="primary" text-color="white" icon="event">
       Add to calendar
     </q-chip>
-    <q-chip clickable @click="onClick" icon="bookmark"> Bookmark </q-chip>
-    <q-chip
-      clickable
-      @click="onClick"
-      color="teal"
-      text-color="white"
-      icon="bookmark"
-    >
+    <q-chip @click="onClick" icon="bookmark"> Bookmark </q-chip>
+    <q-chip @click="onClick" color="teal" text-color="white" icon="bookmark">
       Bookmark
     </q-chip>
     <q-chip
-      clickable
       @click="onClick"
       color="red"
       text-color="white"
@@ -28,7 +15,6 @@
       label="Set alarm"
     />
     <q-chip
-      clickable
       @click="onClick"
       color="orange"
       text-color="white"

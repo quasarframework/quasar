@@ -60,7 +60,15 @@ export default /*#__PURE__*/ createComponent({
 
     square: Boolean,
     outline: Boolean,
-    clickable: Boolean,
+    clickable: {
+      type: Boolean,
+      default: null
+    },
+    // declared as a prop (and "click" left out of emits, as the API
+    // validator forbids declaring both) so the presence of a click
+    // listener is observable: it implies clickability when the
+    // clickable prop is not set
+    onClick: Function,
     removable: Boolean,
 
     removeAriaLabel: String,
@@ -74,7 +82,7 @@ export default /*#__PURE__*/ createComponent({
     }
   },
 
-  emits: ['update:modelValue', 'update:selected', 'remove', 'click'],
+  emits: ['update:modelValue', 'update:selected', 'remove'],
 
   setup(props, { slots, emit }) {
     const $q = useQuasar()
@@ -94,7 +102,10 @@ export default /*#__PURE__*/ createComponent({
     )
 
     const isActionable = computed(
-      () => props.clickable || props.selected !== null
+      () =>
+        (props.clickable === null
+          ? props.onClick !== void 0
+          : props.clickable) || props.selected !== null
     )
     const isClickable = computed(() => !props.disable && isActionable.value)
 

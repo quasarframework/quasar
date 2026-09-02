@@ -12,11 +12,11 @@
       </template>
 
       <q-list role="menu">
-        <q-item clickable v-close-popup @click="onItemClick">
+        <q-item v-close-popup @click="onItemClick">
           <q-item-section>Save as...</q-item-section>
         </q-item>
 
-        <q-item clickable v-close-popup @click="onItemClick">
+        <q-item v-close-popup @click="onItemClick">
           <q-item-section>Save a copy</q-item-section>
         </q-item>
       </q-list>

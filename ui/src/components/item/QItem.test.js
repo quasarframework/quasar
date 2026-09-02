@@ -235,6 +235,33 @@ describe('[QItem API]', () => {
         expect(target.attributes('tabindex')).toBe('0')
         expect(wrapper.find('.q-focus-helper').exists()).toBe(true)
       })
+
+      test('a click listener implies clickability when the prop is not set', async () => {
+        const onClick = vi.fn()
+        const wrapper = mount(QItem, {
+          props: { onClick }
+        })
+        const target = wrapper.get('.q-item')
+
+        expect(target.classes()).toContain('q-item--clickable')
+        expect(target.attributes('role')).toBe('button')
+        expect(target.attributes('tabindex')).toBe('0')
+
+        await target.trigger('click')
+
+        expect(onClick).toHaveBeenCalledTimes(1)
+      })
+
+      test('an explicit false wins over a click listener', () => {
+        const wrapper = mount(QItem, {
+          props: { clickable: false, onClick: () => {} }
+        })
+        const target = wrapper.get('.q-item')
+
+        expect(target.classes()).not.toContain('q-item--clickable')
+        expect(target.attributes('role')).toBeUndefined()
+        expect(target.attributes('tabindex')).toBeUndefined()
+      })
     })
 
     describe('[(prop)dense]', () => {
@@ -368,18 +395,17 @@ describe('[QItem API]', () => {
     describe('[(event)click]', () => {
       test('is emitting', async () => {
         const router = await getRouter('/destination')
+        const onClick = vi.fn()
         const wrapper = mount(QItem, {
-          props: { to: '/destination' },
+          props: { to: '/destination', onClick },
           global: { plugins: [router] }
         })
 
         await wrapper.trigger('click')
 
-        const eventList = wrapper.emitted()
-        expect(eventList).toHaveProperty('click')
-        expect(eventList.click).toHaveLength(1)
+        expect(onClick).toHaveBeenCalledTimes(1)
 
-        const [evt, go] = eventList.click[0]
+        const [evt, go] = onClick.mock.calls[0]
         expect(evt).toBeInstanceOf(Event)
         expect(go).toBeTypeOf('function')
       })
@@ -388,16 +414,19 @@ describe('[QItem API]', () => {
 
   describe('[Accessibility]', () => {
     test('a non-interactive item carries no pointer listeners', async () => {
-      const wrapper = mount(QItem)
+      const onClick = vi.fn()
+      const wrapper = mount(QItem, {
+        props: { clickable: false, onClick }
+      })
       const target = wrapper.get('.q-item')
 
       // WCAG checkers flag click listeners on non-focusable elements,
-      // so a plain (non-clickable) item must not react to activation
+      // so a non-clickable item must not react to activation
       await target.trigger('click')
       await target.trigger('keydown', { keyCode: 13 })
       await target.trigger('keyup', { keyCode: 13 })
 
-      expect(wrapper.emitted('click')).toBeUndefined()
+      expect(onClick).not.toHaveBeenCalled()
       expect(target.attributes('tabindex')).toBeUndefined()
 
       // bubbled key events still reach the "keyup" emit contract
@@ -405,8 +434,9 @@ describe('[QItem API]', () => {
     })
 
     test('a clickable item activates through the keyboard', async () => {
+      const onClick = vi.fn()
       const wrapper = mount(QItem, {
-        props: { clickable: true },
+        props: { clickable: true, onClick },
         attachTo: document.body
       })
       const target = wrapper.get('.q-item')
@@ -414,7 +444,7 @@ describe('[QItem API]', () => {
       target.element.focus()
       await target.trigger('keyup', { keyCode: 13 })
 
-      expect(wrapper.emitted('click')).toHaveLength(1)
+      expect(onClick).toHaveBeenCalledTimes(1)
     })
 
     test('derives its default ARIA role from the wrapping QList', () => {

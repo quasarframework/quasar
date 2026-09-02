@@ -32,6 +32,10 @@ List Items have the following pre-built child components:
 
 <DocExample title="Basic" file="Basic" />
 
+::: tip
+A QItem with a `@click` listener is clickable by default (v2.29+): it gets the hover effects, keyboard activation and its `click` event without the `clickable` prop. Set `clickable` explicitly only when there is no listener (a `v-close-popup` entry, for example) or when you need to toggle the behavior through a boolean; an explicit `clickable="false"` wins over the listener.
+:::
+
 <DocExample title="Force dark mode" file="Dark" />
 
 <DocExample title="Dense" file="Dense" />
@@ -100,10 +104,10 @@ You can also delay, cancel or redirect navigation, as seen below. For a more in-
 
 QList exposes itself with the [WAI-ARIA `list` role](https://www.w3.org/TR/wai-aria-1.2/#list) by default (implicitly so when rendered as `ul`/`ol` through the `tag` prop) and the `role` prop overrides that. Each QItem derives its default role from the QList wrapping it:
 
-| QItem                      | inside default QList   | inside QList with `role="menu"`/`"menubar"` | outside QList / other QList `role` |
-| -------------------------- | ---------------------- | ------------------------------------------- | ---------------------------------- |
-| with `clickable` or a link | `button` / native link | `menuitem`                                  | `button` / native link             |
-| non-interactive            | `listitem`             | none                                        | none                               |
+| QItem                                           | inside default QList   | inside QList with `role="menu"`/`"menubar"` | outside QList / other QList `role` |
+| ----------------------------------------------- | ---------------------- | ------------------------------------------- | ---------------------------------- |
+| with `clickable`, a `@click` listener or a link | `button` / native link | `menuitem`                                  | `button` / native link             |
+| non-interactive                                 | `listitem`             | none                                        | none                               |
 
 This keeps the produced markup valid: ARIA's `list` may only own `listitem` children (which in turn require a list parent, so a standalone QItem claims no role), while `menu`/`menubar` may only own `menuitem`-type entries — declaring the role once on the QList is enough, as in the "Basic" example of [QMenu's Accessibility section](/vue-components/menu#accessibility). The `role` prop on QItem overrides the derived role for a single item (e.g. `menuitemcheckbox`/`menuitemradio` for toggle entries — managing `aria-checked` is then up to you).
 

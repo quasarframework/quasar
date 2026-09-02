@@ -77,7 +77,7 @@
 
                 <q-separator />
 
-                <q-item clickable v-close-popup @click="closeApp">
+                <q-item v-close-popup @click="closeApp">
                   <q-item-section>Quit</q-item-section>
                 </q-item>
               </q-list>

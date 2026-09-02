@@ -43,7 +43,6 @@
           :key="chipIndex"
           :label="chip.label"
           :color="chipColor[chipIndex]"
-          clickable
           text-color="white"
           @click="chip.onClick"
         />

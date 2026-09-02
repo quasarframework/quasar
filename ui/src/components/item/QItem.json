@@ -18,8 +18,9 @@
     },
 
     "clickable": {
-      "type": "Boolean",
-      "desc": "Is QItem clickable? If it's the case, then it will add hover effects and emit 'click' events",
+      "type": ["Boolean", "null"],
+      "default": "null",
+      "desc": "Is QItem clickable? If it's the case, then it will add hover effects and emit 'click' events; when not set, the item is clickable if a 'click' listener is attached (a link or a 'label' tag always make it clickable)",
       "category": "state"
     },
 

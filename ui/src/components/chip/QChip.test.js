@@ -384,6 +384,31 @@ describe('[QChip API]', () => {
 
         expect(target.$computedStyle('cursor')).toBe('pointer')
       })
+
+      test('a click listener implies clickability when the prop is not set', async () => {
+        const onClick = vi.fn()
+        const wrapper = mount(QChip, {
+          props: { onClick }
+        })
+        const target = wrapper.get('.q-chip')
+
+        expect(target.classes()).toContain('q-chip--clickable')
+        expect(target.attributes('tabindex')).toBe('0')
+
+        await target.trigger('click')
+
+        expect(onClick).toHaveBeenCalledTimes(1)
+      })
+
+      test('an explicit false wins over a click listener', () => {
+        const wrapper = mount(QChip, {
+          props: { clickable: false, onClick: () => {} }
+        })
+        const target = wrapper.get('.q-chip')
+
+        expect(target.classes()).not.toContain('q-chip--clickable')
+        expect(target.attributes('tabindex')).toBeUndefined()
+      })
     })
 
     describe('[(prop)removable]', () => {
@@ -562,74 +587,64 @@ describe('[QChip API]', () => {
   describe('[Events]', () => {
     describe('[(event)click]', () => {
       test('is emitting when clickable', async () => {
+        const onClick = vi.fn()
         const wrapper = mount(QChip, {
-          props: {
-            clickable: true
-          }
+          props: { clickable: true, onClick }
         })
 
         await wrapper.trigger('click')
 
-        const eventList = wrapper.emitted()
-        expect(eventList).toHaveProperty('click')
-        expect(eventList.click).toHaveLength(1)
+        expect(onClick).toHaveBeenCalledTimes(1)
 
-        const [evt] = eventList.click[0]
+        const [evt] = onClick.mock.calls[0]
         expect(evt).toBeInstanceOf(Event)
       })
 
       test('is emitting when selected', async () => {
+        const onClick = vi.fn()
         const wrapper = mount(QChip, {
-          props: {
-            selected: true
-          }
+          props: { selected: true, onClick }
         })
 
         await wrapper.trigger('click')
 
-        const eventList = wrapper.emitted()
-        expect(eventList).toHaveProperty('click')
-        expect(eventList.click).toHaveLength(1)
+        expect(onClick).toHaveBeenCalledTimes(1)
 
-        const [evt] = eventList.click[0]
+        const [evt] = onClick.mock.calls[0]
         expect(evt).toBeInstanceOf(Event)
       })
 
-      test('is NOT emitting when not clickable or removable', async () => {
-        const wrapper = mount(QChip)
+      test('is NOT emitting when clickable is explicitly false', async () => {
+        const onClick = vi.fn()
+        const wrapper = mount(QChip, {
+          props: { clickable: false, onClick }
+        })
 
         await wrapper.trigger('click')
 
-        const eventList = wrapper.emitted()
-        expect(eventList).not.toHaveProperty('click')
+        expect(onClick).not.toHaveBeenCalled()
       })
 
       test('is NOT emitting when disable + clickable', async () => {
+        const onClick = vi.fn()
         const wrapper = mount(QChip, {
-          props: {
-            clickable: true,
-            disable: true
-          }
+          props: { clickable: true, disable: true, onClick }
         })
 
         await wrapper.trigger('click')
 
-        const eventList = wrapper.emitted()
-        expect(eventList).not.toHaveProperty('click')
+        expect(onClick).not.toHaveBeenCalled()
       })
 
       test('is NOT emitting when disable + selected', async () => {
+        const onClick = vi.fn()
         const wrapper = mount(QChip, {
-          props: {
-            selected: true,
-            disable: true
-          }
+          props: { selected: true, disable: true, onClick }
         })
 
         await wrapper.trigger('click')
 
-        const eventList = wrapper.emitted()
-        expect(eventList).not.toHaveProperty('click')
+        expect(onClick).not.toHaveBeenCalled()
       })
     })
 

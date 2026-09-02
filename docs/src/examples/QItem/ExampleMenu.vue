@@ -2,7 +2,6 @@
   <div class="q-pa-md" style="max-width: 250px">
     <q-list bordered padding class="rounded-borders text-primary">
       <q-item
-        clickable
         v-ripple
         :active="link === 'inbox'"
         @click="link = 'inbox'"
@@ -17,7 +16,6 @@
 
       <!-- #region -->
       <q-item
-        clickable
         v-ripple
         :active="link === 'outbox'"
         @click="link = 'outbox'"
@@ -31,7 +29,6 @@
       </q-item>
 
       <q-item
-        clickable
         v-ripple
         :active="link === 'trash'"
         @click="link = 'trash'"
@@ -47,7 +44,6 @@
       <q-separator spaced />
 
       <q-item
-        clickable
         v-ripple
         :active="link === 'settings'"
         @click="link = 'settings'"
@@ -61,7 +57,6 @@
       </q-item>
 
       <q-item
-        clickable
         v-ripple
         :active="link === 'help'"
         @click="link = 'help'"
