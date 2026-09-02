@@ -78,7 +78,7 @@ function getScrollDetails(
       parent === window
         ? document.scrollingElement || document.documentElement
         : parent,
-    propElSize = horizontal ? 'offsetWidth' : 'offsetHeight',
+    propRectSize = horizontal ? 'width' : 'height',
     details = {
       scrollStart: 0,
       scrollViewSize: -stickyStart - stickyEnd,
@@ -118,7 +118,7 @@ function getScrollDetails(
       el = el.previousElementSibling
     ) {
       if (!el.classList.contains('q-virtual-scroll--skip')) {
-        details.offsetStart += el[propElSize]
+        details.offsetStart += el.getBoundingClientRect()[propRectSize]
       }
     }
   }
@@ -130,7 +130,7 @@ function getScrollDetails(
       el = el.nextElementSibling
     ) {
       if (!el.classList.contains('q-virtual-scroll--skip')) {
-        details.offsetEnd += el[propElSize]
+        details.offsetEnd += el.getBoundingClientRect()[propRectSize]
       }
     }
   }
@@ -626,9 +626,14 @@ export function useVirtualScroll({
           el => el.classList && !el.classList.contains('q-virtual-scroll--skip')
         ),
         childrenLength = children.length,
+        // measured through the layout rect rather than offsetWidth/Height:
+        // those round to integers, and an item with a fractional size (a
+        // dense QTable row with its separator is 28.5px) would then drift
+        // half a pixel per item between the paddings and the real content,
+        // shifting the rows on every re-slice (#15754)
         sizeFn = props.virtualScrollHorizontal
           ? el => el.getBoundingClientRect().width
-          : el => el.offsetHeight
+          : el => el.getBoundingClientRect().height
 
       let index = from,
         size,

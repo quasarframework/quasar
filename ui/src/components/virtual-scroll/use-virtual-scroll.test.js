@@ -30,7 +30,8 @@ function runFramesSynchronously() {
  * padding/content structure that padVirtualScroll() builds.
  *
  * The container gets an explicit 96px height (4 default-sized items) and
- * every item is sized to virtualScrollItemSize, so the slice math out of
+ * every item is sized to virtualScrollItemSize (or to itemHeight, for
+ * items rendered taller/shorter than announced), so the slice math out of
  * the real browser layout stays deterministic.
  */
 function mountVirtualScroll({ length = 100, tag = 'div', ...props } = {}) {
@@ -40,7 +41,8 @@ function mountVirtualScroll({ length = 100, tag = 'div', ...props } = {}) {
     defineComponent({
       props: {
         ...useVirtualScrollProps,
-        length: { type: Number, default: 0 }
+        length: { type: Number, default: 0 },
+        itemHeight: Number
       },
 
       emits: ['virtualScroll'],
@@ -71,7 +73,9 @@ function mountVirtualScroll({ length = 100, tag = 'div', ...props } = {}) {
                 {
                   key: i,
                   class: 'my-item',
-                  style: { height: `${componentProps.virtualScrollItemSize}px` }
+                  style: {
+                    height: `${componentProps.itemHeight ?? componentProps.virtualScrollItemSize}px`
+                  }
                 },
                 [tag === 'tbody' ? h('td', `item ${i}`) : `item ${i}`]
               )
@@ -281,6 +285,36 @@ describe('[useVirtualScroll API]', () => {
         expect(before.$style('height')).toBe('0px')
         // the 88 items that are not rendered
         expect(after.$style('height')).toBe(`${88 * 24}px`)
+      })
+
+      test('pads with the exact size of the items scrolled out', async () => {
+        vi.useFakeTimers()
+        runFramesSynchronously()
+        // announced as 24px but laid out at 24.5px, like a dense QTable
+        // row with its separator (28.5px): the padding standing in for
+        // the items above the slice must match their real height or the
+        // visible items shift on every re-slice (#15754)
+        const virtualScroll = mountVirtualScroll({
+          length: 30,
+          virtualScrollItemSize: 24,
+          itemHeight: 24.5
+        })
+
+        virtualScroll.localResetVirtualScroll(0)
+        await nextTick()
+        await nextTick()
+
+        // scroll to the 9th item, i.e. past the first slice's start
+        wrapper.get('.scroll-target').element.scrollTop = 8 * 24.5
+        virtualScroll.onVirtualScrollEvt()
+        vi.advanceTimersByTime(35)
+        await nextTick()
+
+        const { from } = virtualScroll.virtualScrollSliceRange.value
+        expect(from).toBeGreaterThan(0)
+
+        const [before] = getPaddings()
+        expect(before.$style('height')).toBe(`${from * 24.5}px`)
       })
 
       test('never slices past the end of the list', async () => {

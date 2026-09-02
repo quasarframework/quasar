@@ -40,7 +40,7 @@
       :visible-columns="visibleColumns"
       row-key="index"
       virtual-scroll
-      :virtual-scroll-sticky-start="dense ? 24 : 48"
+      :virtual-scroll-sticky-size-start="dense ? 28 : 48"
       v-model:selected="selected"
       :rows-per-page-options="[0]"
     />
@@ -75,7 +75,7 @@
       :visible-columns="visibleColumns"
       row-key="index"
       :virtual-scroll="pagination.rowsPerPage === 0"
-      :virtual-scroll-sticky-start="dense ? 24 : 48"
+      :virtual-scroll-sticky-size-start="dense ? 28 : 48"
       @virtual-scroll="onVirtualScroll"
       v-model:pagination="pagination"
     >
@@ -123,7 +123,7 @@
       :visible-columns="visibleColumns"
       row-key="index"
       virtual-scroll
-      :virtual-scroll-sticky-start="dense ? 24 : 48"
+      :virtual-scroll-sticky-size-start="dense ? 28 : 48"
       v-model:pagination="pagination"
     >
       <template v-slot:header="props">
