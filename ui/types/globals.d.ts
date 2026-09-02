@@ -1,6 +1,7 @@
 import { QuasarIconSet } from "./icon-set";
 import { HasBex, HasCapacitor, HasCordova, HasSsrOrSsg } from "./feature-flag";
 import { QuasarLanguage } from "./lang";
+import { LangGetClosestIsoNameMethodType } from "./api/lang";
 
 // We cannot reference directly Capacitor/Cordova types
 //  or they would generate TS errors for Vue CLI users
@@ -22,11 +23,19 @@ export interface GlobalQuasarLanguage extends QuasarLanguageInstance {
   set(lang: QuasarLanguage): void;
   /** Returns undefined when it cannot determine current browser locale or when running on server in SSR mode. */
   getLocale(): string | undefined;
+  /**
+   * Picks, from a list of language pack names, the one that best matches a locale.
+   * Returns undefined when no entry shares the locale's language (or when the locale is undefined).
+   */
+  getClosestIsoName: LangGetClosestIsoNameMethodType;
 }
 
 export interface GlobalQuasarLanguageSingleton
   extends
-    Pick<GlobalQuasarLanguage, "isoName" | "nativeName" | "getLocale">,
+    Pick<
+      GlobalQuasarLanguage,
+      "isoName" | "nativeName" | "getLocale" | "getClosestIsoName"
+    >,
     HasSsrOrSsg<
       { set(lang: QuasarLanguage, ssrContext: any): void },
       { set(lang: QuasarLanguage): void }

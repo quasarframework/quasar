@@ -383,5 +383,87 @@ describe('[Lang API]', () => {
         ])
       })
     })
+
+    describe('[(method)getClosestIsoName]', () => {
+      test('should be callable', () => {
+        const wrapper = mountPlugin()
+
+        expect(Lang.getClosestIsoName('es-MX', ['de', 'en-US', 'es'])).toBe(
+          'es'
+        )
+        expect(
+          wrapper.vm.$q.lang.getClosestIsoName('es-MX', ['de', 'en-US', 'es'])
+        ).toBe('es')
+      })
+
+      test('returns the exact entry regardless of casing and separator', () => {
+        expect(Lang.getClosestIsoName('en_us', ['de', 'en-US'])).toBe('en-US')
+        expect(Lang.getClosestIsoName('SR-CYRL', ['sr', 'sr-Cyrl'])).toBe(
+          'sr-Cyrl'
+        )
+        expect(Lang.getClosestIsoName('de-de', ['de', 'de_DE'])).toBe('de_DE')
+      })
+
+      test('falls back to progressively less specific tags', () => {
+        expect(Lang.getClosestIsoName('de-AT', ['de', 'de-CH', 'de-DE'])).toBe(
+          'de'
+        )
+        expect(
+          Lang.getClosestIsoName('sr-Cyrl-RS', ['sr', 'sr-Cyrl', 'sr-Latn'])
+        ).toBe('sr-Cyrl')
+        expect(Lang.getClosestIsoName('sr-Cyrl-RS', ['sr', 'sr-Latn'])).toBe(
+          'sr'
+        )
+      })
+
+      test('prefers the script over the region and can drop the script', () => {
+        expect(Lang.getClosestIsoName('sr-Latn-RS', ['sr-RS', 'sr-Latn'])).toBe(
+          'sr-Latn'
+        )
+        expect(Lang.getClosestIsoName('zh-Hant-TW', ['zh-CN', 'zh-TW'])).toBe(
+          'zh-TW'
+        )
+      })
+
+      test('infers the likely script and region when no tag is a prefix', () => {
+        expect(Lang.getClosestIsoName('zh', ['zh-CN', 'zh-TW'])).toBe('zh-CN')
+        expect(Lang.getClosestIsoName('zh-Hant', ['zh-CN', 'zh-TW'])).toBe(
+          'zh-TW'
+        )
+        expect(Lang.getClosestIsoName('zh-SG', ['zh-TW', 'zh-CN'])).toBe(
+          'zh-CN'
+        )
+        expect(Lang.getClosestIsoName('pt', ['pt-PT', 'pt-BR'])).toBe('pt-BR')
+        expect(Lang.getClosestIsoName('de-AT', ['de-CH', 'de-DE'])).toBe(
+          'de-DE'
+        )
+        expect(Lang.getClosestIsoName('es-MX', ['es-AR', 'es-ES'])).toBe(
+          'es-ES'
+        )
+      })
+
+      test('prefers the least specific pack on a tie', () => {
+        expect(Lang.getClosestIsoName('en-AU', ['en-GB', 'en'])).toBe('en')
+        expect(Lang.getClosestIsoName('fr-BE', ['fr-CA', 'fr-CH'])).toBe(
+          'fr-CA'
+        )
+      })
+
+      test('returns undefined when no entry shares the language', () => {
+        expect(Lang.getClosestIsoName('ja', ['de', 'en-US'])).toBeUndefined()
+        expect(Lang.getClosestIsoName('ja', [])).toBeUndefined()
+        expect(Lang.getClosestIsoName(void 0, ['ja'])).toBeUndefined()
+      })
+
+      test('ignores entries that are not well-formed tags', () => {
+        expect(Lang.getClosestIsoName('sr-Cyrl', ['sr-CYR', 'sr-Cyrl'])).toBe(
+          'sr-Cyrl'
+        )
+        expect(Lang.getClosestIsoName('sr', ['what ever', 'sr-Latn'])).toBe(
+          'sr-Latn'
+        )
+        expect(Lang.getClosestIsoName('my', ['mm', 'my'])).toBe('my')
+      })
+    })
   })
 })

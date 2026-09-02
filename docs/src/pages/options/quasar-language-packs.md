@@ -102,9 +102,37 @@ Then register this boot file into the `/quasar.config` file:
 boot: ['quasar-lang-pack']
 ```
 
+#### Matching a locale to a Language Pack
+
+Language Packs are named after [BCP 47](https://www.rfc-editor.org/info/bcp47) language tags. A pack carries a region subtag only when Quasar ships more than one translation of that language (`de`, `de-CH`, `de-DE`; `pt`, `pt-BR`; `zh-CN`, `zh-TW`). Every other language has a single, region-neutral pack (`es`, `fr`, `it`, ...) which serves all of its regions.
+
+So a locale like `es-MX` or `fr-CA` has no pack of its own. Instead of maintaining a map from your app's locales to pack names, hand the locale and the packs you ship to `Lang.getClosestIsoName()` <q-badge label="v2.29+" />. It returns the closest entry (`es-MX` gives `es`, `sr-Cyrl-RS` gives `sr-Cyrl`, `zh-Hant` gives `zh-TW`, plain `pt` gives `pt-BR`) or `undefined` when none shares the language:
+
+```js
+import { defineBoot } from '#q-app'
+import { Lang } from 'quasar'
+
+const langList = import.meta.glob('../../node_modules/quasar/lang/*.js')
+const langFile = Object.fromEntries(
+  Object.keys(langList).map(path => [path.match(/([^/]+)\.js$/)[1], path])
+)
+
+export default defineBoot(async () => {
+  const langIso = Lang.getClosestIsoName(
+    Lang.getLocale(),
+    Object.keys(langFile)
+  )
+
+  if (langIso !== void 0) {
+    const lang = await langList[langFile[langIso]]()
+    Lang.set(lang.default)
+  }
+})
+```
+
 ### Dynamical (SSR/SSG)
 
-When dealing with SSR/SSG, we can't use singleton objects because that would pollute sessions. As a result, as opposed to the dynamical example above (read it first!), you must also specify the `ssrContext` from your boot file:
+When dealing with SSR/SSG, we can't use singleton objects because that would pollute sessions. As a result, as opposed to the dynamical example above (read it first!), you must also specify the `ssrContext` from your boot file. Note that `Lang.getLocale()` returns `undefined` on the server, so derive the locale from the request (its `Accept-Language` header or a cookie) before handing it to `Lang.getClosestIsoName()`:
 
 ```js With @quasar/app-vite
 import { defineBoot } from '#q-app'
@@ -244,3 +272,5 @@ setup () {
   $q.lang.getLocale() // returns a string
 }
 ```
+
+The browser locale is rarely the name of a Language Pack (a user in Mexico reports `es-MX`, but the pack is `es`). To pick the closest pack your app ships, see [Matching a locale to a Language Pack](#matching-a-locale-to-a-language-pack) above.

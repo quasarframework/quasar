@@ -2,6 +2,7 @@ export * from "./api/vue-prop-types";
 export * from "./api/color";
 export * from "./api/cookies";
 export * from "./api/dialog";
+export * from "./api/lang";
 export * from "./api/qfile";
 export * from "./api/qform";
 export * from "./api/qinput";

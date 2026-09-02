@@ -1545,6 +1545,31 @@
         "desc": "Browser locale ISO name",
         "examples": ["'en-US'"]
       }
+    },
+
+    "getClosestIsoName": {
+      "addedIn": "v2.29",
+      "tsType": "LangGetClosestIsoNameMethodType",
+      "desc": "Pick, from a list of language pack names, the one that best matches a locale: an exact match, then progressively less specific tags (the script outranks the region), then the pack whose likely script and region agree best; use it to map a browser or user locale to one of the packs your app ships",
+      "params": {
+        "locale": {
+          "type": ["String", "undefined"],
+          "desc": "BCP 47 language tag (an underscore separator is accepted too); undefined yields undefined, so the result of getLocale() can be passed directly",
+          "required": true,
+          "examples": ["'es-MX'", "'sr-Cyrl-RS'", "void 0"]
+        },
+        "isoNames": {
+          "type": "Array",
+          "desc": "Language pack names (their isoName) to choose from; the entries are returned as given",
+          "required": true,
+          "examples": ["['de', 'en-US', 'es']"]
+        }
+      },
+      "returns": {
+        "type": ["String", "undefined"],
+        "desc": "The best matching entry of the list; undefined when no entry shares the locale's language",
+        "examples": ["'es'"]
+      }
     }
   }
 }
