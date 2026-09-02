@@ -490,6 +490,38 @@ describe('[QTabs API]', () => {
     })
   })
 
+  describe('[Generic]', () => {
+    const threeTabList = [
+      { name: 'one', label: 'Tab' },
+      { name: 'two', label: 'Tab' },
+      { name: 'three', label: 'Tab' }
+    ]
+
+    test('turns scrollable when the tabs overflow the container', async () => {
+      const wrapper = mountTabs({}, threeTabList, { style: 'width: 100px' })
+
+      await waitForContainerMeasurement()
+
+      expect(wrapper.classes()).toContain('q-tabs--scrollable')
+      expect(getContent(wrapper).classes()).toContain(
+        'q-tabs__content--align-left'
+      )
+    })
+
+    test('stays justified when the tabs exactly fill the container', async () => {
+      // 440px split among three tabs gives fractional widths whose rounded
+      // sum exceeds the container by a pixel (#18532)
+      const wrapper = mountTabs({}, threeTabList, { style: 'width: 440px' })
+
+      await waitForContainerMeasurement()
+
+      expect(wrapper.classes()).toContain('q-tabs--not-scrollable')
+      expect(getContent(wrapper).classes()).toContain(
+        'q-tabs__content--align-justify'
+      )
+    })
+  })
+
   describe('[Accessibility]', () => {
     const navTabList = [
       { name: 'one', label: 'One' },

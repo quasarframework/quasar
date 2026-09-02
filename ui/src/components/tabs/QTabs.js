@@ -180,11 +180,7 @@ export default /*#__PURE__*/ createComponent({
         (props.contentClass !== void 0 ? ` ${props.contentClass}` : '')
     )
 
-    const domProps = computed(() =>
-      props.vertical
-        ? { container: 'height', content: 'offsetHeight' }
-        : { container: 'width', content: 'offsetWidth' }
-    )
+    const sizeProp = computed(() => (props.vertical ? 'height' : 'width'))
 
     const isRTL = computed(() => !props.vertical && $q.lang.rtl === true)
 
@@ -227,7 +223,7 @@ export default /*#__PURE__*/ createComponent({
       // it can be called faster than component being initialized
       // so we need to protect against that case
       // (one example of such case is the docs release notes page)
-      if (domProps.value === void 0 || contentRef.value === null) return
+      if (contentRef.value === null) return
 
       // We measure the content as the sum of the children sizes rather than
       // reading scrollWidth/scrollHeight, because that only reports overflow
@@ -237,13 +233,20 @@ export default /*#__PURE__*/ createComponent({
       // client size and the arrows never show up (#17847). WebKit does report
       // it, hence the engine split. The sum also avoids the transiently
       // oversized scrollWidth that used to raise a phantom arrow (#7667).
-      const size = domSize[domProps.value.container],
+      //
+      // The children are measured with subpixel precision: offsetWidth
+      // rounds each tab to a whole pixel, and a justified row of fractional
+      // tabs then sums to a pixel more than the container it exactly fills,
+      // which flipped scrollable on and dropped the justify stretch at every
+      // third pixel of width (#18532). Overflow under a pixel is not visible,
+      // so it is never treated as scrollable.
+      const size = domSize[sizeProp.value],
         scrollSize = Array.prototype.reduce.call(
           contentRef.value.children,
-          (acc, el) => acc + (el[domProps.value.content] || 0),
+          (acc, el) => acc + el.getBoundingClientRect()[sizeProp.value],
           0
         ),
-        scroll = size > 0 && scrollSize > size // no tab -> size is 0 in Chrome
+        scroll = size > 0 && scrollSize - size > 1 // no tab -> size is 0 in Chrome
 
       scrollable.value = scroll
 
