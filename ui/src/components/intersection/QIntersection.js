@@ -1,11 +1,11 @@
-import { Transition, computed, h, ref } from 'vue'
+import { Transition, computed, h, ref, withDirectives } from 'vue'
 
 import { isRuntimeSsrPreHydration } from '../../plugins/platform/Platform.js'
 
 import Intersection from '../../directives/intersection/Intersection.js'
 
 import { createComponent } from '../../utils/private.create/create.js'
-import { hDir, hSlot } from '../../utils/private.render/render.js'
+import { hSlot } from '../../utils/private.render/render.js'
 
 export default /*#__PURE__*/ createComponent({
   name: 'QIntersection',
@@ -111,15 +111,11 @@ export default /*#__PURE__*/ createComponent({
           ]
         : getContent()
 
-      return hDir(
-        props.tag,
-        { class: 'q-intersection' },
-        child,
-        'main',
-        // hDir bakes this into the vnode key, so a flip re-creates the whole
-        // content (#17099); disabling goes through the directive value (#12668)
-        true,
-        () => directives.value
+      // disabling goes through the directive value instead of detaching
+      // the directive (which would re-create the whole content; #12668)
+      return withDirectives(
+        h(props.tag, { class: 'q-intersection' }, child),
+        directives.value
       )
     }
   }
