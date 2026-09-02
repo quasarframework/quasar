@@ -1,5 +1,6 @@
+import { defineComponent, h } from 'vue'
 import { flushPromises, mount } from '@vue/test-utils'
-import { describe, expect, test } from 'vitest'
+import { describe, expect, test, vi } from 'vitest'
 
 import QChip, { defaultSizes } from './QChip.js'
 
@@ -511,6 +512,34 @@ describe('[QChip API]', () => {
         await flushPromises()
 
         expect(wrapper.get('.q-chip').classes()).toContain('disabled')
+      })
+
+      test('toggling it keeps the content mounted and mutes the ripple', async () => {
+        const unmountedFn = vi.fn()
+        const Probe = defineComponent({
+          name: 'ContentProbe',
+          unmounted: unmountedFn,
+          render: () => h('span', 'Content')
+        })
+
+        const wrapper = mount(QChip, {
+          slots: { default: () => h(Probe) }
+        })
+        const contentEl = wrapper.get('span').element
+
+        await wrapper.setProps({ disable: true })
+        await wrapper.trigger('click')
+
+        expect(unmountedFn).not.toHaveBeenCalled()
+        expect(wrapper.get('span').element).toBe(contentEl)
+        expect(wrapper.find('.q-ripple').exists()).toBe(false)
+
+        await wrapper.setProps({ disable: false })
+        await wrapper.trigger('click')
+
+        expect(unmountedFn).not.toHaveBeenCalled()
+        expect(wrapper.get('span').element).toBe(contentEl)
+        expect(wrapper.find('.q-ripple').exists()).toBe(true)
       })
     })
   })

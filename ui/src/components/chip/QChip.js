@@ -1,4 +1,4 @@
-import { computed, h } from 'vue'
+import { computed, h, withDirectives } from 'vue'
 
 import QIcon from '../icon/QIcon.js'
 
@@ -15,7 +15,7 @@ import {
 
 import { createComponent } from '../../utils/private.create/create.js'
 import { stopAndPrevent } from '../../utils/event/event.js'
-import { hDir, hMergeSlotSafely } from '../../utils/private.render/render.js'
+import { hMergeSlotSafely } from '../../utils/private.render/render.js'
 
 function preventSpace(e) {
   if (e.keyCode === 32) stopAndPrevent(e)
@@ -246,14 +246,11 @@ export default /*#__PURE__*/ createComponent({
         })
       }
 
-      return hDir(
-        'div',
-        data,
-        getContent(),
-        'ripple',
-        props.ripple !== false && !props.disable,
-        () => [[Ripple, props.ripple]]
-      )
+      // same shape as QBtn: Ripple stays attached and is switched off through
+      // its value, so toggling disable never re-creates the content
+      return withDirectives(h('div', data, getContent()), [
+        [Ripple, props.disable || props.ripple === false ? false : props.ripple]
+      ])
     }
   }
 })

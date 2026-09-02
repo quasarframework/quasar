@@ -1,6 +1,6 @@
-import { nextTick } from 'vue'
+import { defineComponent, h, nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
-import { describe, expect, test } from 'vitest'
+import { describe, expect, test, vi } from 'vitest'
 
 import { getMainEvent } from 'testing/runtime/directive.js'
 
@@ -95,10 +95,49 @@ describe('[QPullToRefresh API]', () => {
     })
 
     describe('[(prop)disable]', () => {
-      test('type Boolean has effect', () => {
+      test('type Boolean has effect', async () => {
         const wrapper = mountPullToRefresh({ disable: true })
+        const target = wrapper.get('.q-pull-to-refresh')
 
-        expect(getPanContext(wrapper)).toBeUndefined()
+        await target.trigger('mousedown', { button: 0 })
+
+        expect(getPanContext(wrapper).event).toBeUndefined()
+
+        await wrapper.setProps({ disable: false })
+        await target.trigger('mousedown', { button: 0 })
+
+        expect(getPanContext(wrapper).event).toBeDefined()
+
+        wrapper.unmount()
+      })
+
+      test('toggling it keeps the content mounted', async () => {
+        const unmountedFn = vi.fn()
+        const Probe = defineComponent({
+          name: 'ContentProbe',
+          unmounted: unmountedFn,
+          render: () => h('span', 'Content')
+        })
+
+        const wrapper = mountPullToRefresh({}, { default: () => h(Probe) })
+        const contentEl = wrapper.get('span').element
+
+        await wrapper.setProps({ disable: true })
+
+        expect(unmountedFn).not.toHaveBeenCalled()
+        expect(wrapper.get('span').element).toBe(contentEl)
+
+        await wrapper.setProps({ disable: false })
+
+        expect(unmountedFn).not.toHaveBeenCalled()
+        expect(wrapper.get('span').element).toBe(contentEl)
+
+        startPull(wrapper)
+        await nextTick()
+
+        expect(wrapper.get('.q-pull-to-refresh__content').classes()).toContain(
+          'no-pointer-events'
+        )
       })
     })
 

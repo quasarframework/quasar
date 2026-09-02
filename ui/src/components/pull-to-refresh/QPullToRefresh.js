@@ -5,7 +5,8 @@ import {
   onBeforeUnmount,
   onMounted,
   ref,
-  watch
+  watch,
+  withDirectives
 } from 'vue'
 
 import QIcon from '../icon/QIcon.js'
@@ -22,7 +23,7 @@ import {
 } from '../../utils/scroll/scroll.js'
 import { between } from '../../utils/format/format.js'
 import { prevent } from '../../utils/event/event.js'
-import { hDir, hSlot } from '../../utils/private.render/render.js'
+import { hSlot } from '../../utils/private.render/render.js'
 
 const PULLER_HEIGHT = 40,
   OFFSET_TOP = 20
@@ -124,14 +125,16 @@ export default /*#__PURE__*/ createComponent({
     }
 
     const directives = computed(() => {
-      // if props.disable === false
       const modifiers = { down: true }
 
       if (!props.noMouse) {
         modifiers.mouse = true
       }
 
-      return [[TouchPan, pull, void 0, modifiers]]
+      // TouchPan only acquires gestures while its value is a function, so
+      // disabling happens in place; detaching the directive would re-create
+      // the whole content (#12668-class)
+      return [[TouchPan, props.disable ? void 0 : pull, void 0, modifiers]]
     })
 
     const contentClass = computed(
@@ -216,13 +219,9 @@ export default /*#__PURE__*/ createComponent({
         )
       ]
 
-      return hDir(
-        'div',
-        { class: 'q-pull-to-refresh' },
-        child,
-        'main',
-        !props.disable,
-        () => directives.value
+      return withDirectives(
+        h('div', { class: 'q-pull-to-refresh' }, child),
+        directives.value
       )
     }
   }
