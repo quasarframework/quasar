@@ -101,8 +101,12 @@ export function parsePosition(pos, rtl) {
  * placement fits the viewport, measured once per show (and on demand
  * through updatePosition()). A placement that overflows gets its
  * origins mirrored towards the roomier side — the anchor's expanded box
- * edges swap sides — and a max size capped to the space that placement
- * has. How the returned origins/caps are then EXPRESSED is the engines'
+ * edges swap sides — and, when its natural size exceeds even the space
+ * that placement has, a max size capped to that space. A popup that fits
+ * the mirrored side stays uncapped: a cap at its own measured size would
+ * round a fractional natural size down (offsetWidth/offsetHeight are
+ * integers) and wrap or scroll content that fit before the flip. How
+ * the returned origins/caps are then EXPRESSED is the engines'
  * business: anchor() insets on the native engine, pixel top/left on the
  * fallback; either way the popup keeps tracking its anchor and only the
  * flip/cap decision itself is frozen at measure time.
@@ -124,7 +128,12 @@ export function applyBoundary({
 }) {
   // natural size: lift a previous pass' caps before measuring, while
   // the max-height/max-width props legitimately bound the natural size;
-  // also the initial render is kept invisible until this pass ran
+  // also the initial render is kept invisible until this pass ran.
+  // The popups' `width: max-content` CSS keeps the measurement honest
+  // while an inset is already live (an anchor() or pixel left/top from
+  // the intended placement): a shrink-to-fit box would squeeze into the
+  // inset-modified containing block near the far viewport edge and the
+  // squeezed width would then be frozen as the cap (#18533)
   el.style.maxHeight = maxHeight || ''
   el.style.maxWidth = maxWidth || ''
   el.style.visibility = ''
@@ -162,17 +171,21 @@ export function applyBoundary({
     if (top < 0 || top + height > VH) {
       changed = true
 
+      let space
+
       if (A[av] > VH / 2) {
         // roomier above: popup bottom edge at the mirrored line
         av = av === 'center' ? 'center' : av === sv ? 'bottom' : 'top'
         sv = 'bottom'
-        res.maxHeight = Math.min(height, Math.min(VH, A[av])) + 'px'
+        space = Math.min(VH, A[av])
       } else {
         // roomier below: popup top edge at the mirrored line
         av = av === 'center' ? 'center' : av === sv ? 'top' : 'bottom'
         sv = 'top'
-        res.maxHeight = Math.min(height, VH - Math.max(0, A[av])) + 'px'
+        space = VH - Math.max(0, A[av])
       }
+
+      if (space < height) res.maxHeight = space + 'px'
     }
   }
 
@@ -182,15 +195,19 @@ export function applyBoundary({
     if (left < 0 || left + width > VW) {
       changed = true
 
+      let space
+
       if (A[ah] > VW / 2) {
         ah = ah === 'middle' ? 'middle' : ah === sh ? 'right' : 'left'
         sh = 'right'
-        res.maxWidth = Math.min(width, Math.min(VW, A[ah])) + 'px'
+        space = Math.min(VW, A[ah])
       } else {
         ah = ah === 'middle' ? 'middle' : ah === sh ? 'left' : 'right'
         sh = 'left'
-        res.maxWidth = Math.min(width, VW - Math.max(0, A[ah])) + 'px'
+        space = VW - Math.max(0, A[ah])
       }
+
+      if (space < width) res.maxWidth = space + 'px'
     }
   }
 

@@ -228,6 +228,32 @@ describe('[positionEngine API]', () => {
         expect(res.maxWidth).toBe(`${viewportWidth - 20}px`)
       })
 
+      test('leaves a popup that fits the mirrored side uncapped', () => {
+        // a cap at the popup's own measured size would round a
+        // fractional natural size down (offsetWidth/offsetHeight are
+        // integers) and wrap or scroll content that fit before the flip
+        const { clientWidth: viewportWidth, clientHeight: viewportHeight } =
+          document.documentElement
+        const anchorEl = createAnchor({
+          top: viewportHeight - 60,
+          left: viewportWidth - 120,
+          width: 100,
+          height: 30
+        })
+
+        const res = applyBoundary({
+          el: createTarget({ width: 150.5, height: 50.5 }),
+          anchorEl,
+          anchorOrigin: origin('bottom left'),
+          selfOrigin: origin('top left')
+        })
+
+        expect(res.anchorOrigin).toStrictEqual(origin('top right'))
+        expect(res.selfOrigin).toStrictEqual(origin('bottom right'))
+        expect(res.maxHeight).toBeNull()
+        expect(res.maxWidth).toBeNull()
+      })
+
       test('measures the natural size by lifting previous caps', () => {
         const anchorEl = createAnchor({
           top: 100,

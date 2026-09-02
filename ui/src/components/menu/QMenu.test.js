@@ -175,6 +175,58 @@ function getMenuRect() {
   return getMenu().getBoundingClientRect()
 }
 
+const wrappingContent = () =>
+  h(
+    'div',
+    { style: { padding: '16px' } },
+    'Are you sure you want to close the system?'
+  )
+
+/**
+ * Mounts a menu with wrapping text content on a 60x30 anchor pinned 8px
+ * from the top of the viewport at the given horizontal inset.
+ */
+async function mountWrappingMenuAt(inset) {
+  const wrapper = mountMenu(void 0, { default: wrappingContent })
+  Object.assign(getAnchor(wrapper).element.style, {
+    position: 'fixed',
+    top: '8px',
+    width: '60px',
+    height: '30px',
+    ...inset
+  })
+
+  await showMenu(wrapper)
+
+  return wrapper
+}
+
+/**
+ * Shared by both positioning engines: a menu flipped away from the right
+ * viewport edge must keep the width it has when opening freely, instead
+ * of shrinking into the space its intended (overflowing) placement left
+ * it and freezing that as its cap (#18533).
+ */
+async function expectNaturalWidthAtTheRightEdge() {
+  const reference = await mountWrappingMenuAt({ left: '8px' })
+  const { width, height } = getMenuRect()
+  reference.unmount()
+
+  const wrapper = await mountWrappingMenuAt({ right: '8px' })
+  const rect = getMenuRect()
+
+  // flipped: its right edge sits on the anchor's right edge, at its
+  // free-opening width (up to the sub-pixel snapping layout applies to
+  // the fractional pixel left the JS engine writes)
+  expect(rect.right).toBeCloseTo(
+    getAnchor(wrapper).element.getBoundingClientRect().right,
+    0
+  )
+  expect(rect.width).toBeCloseTo(width, 0)
+  // and the text did not wrap into extra lines
+  expect(rect.height).toBe(height)
+}
+
 async function pressEscapeKey() {
   window.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 27 }))
   window.dispatchEvent(new KeyboardEvent('keyup', { keyCode: 27 }))
@@ -1420,10 +1472,20 @@ describe('[QMenu API]', () => {
   })
 
   describe('[Generic]', () => {
+    describe('viewport boundary', () => {
+      test('keeps its natural width when flipped away from the right edge', async () => {
+        await expectNaturalWidthAtTheRightEdge()
+      })
+    })
+
     describe('JS positioning fallback', () => {
       // what browsers without CSS anchor positioning support get
       beforeEach(() => {
         engineOverride.forceJsFallback = true
+      })
+
+      test('keeps its natural width when flipped away from the right edge', async () => {
+        await expectNaturalWidthAtTheRightEdge()
       })
 
       test('positions the menu through the JS engine', async () => {
