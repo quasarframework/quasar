@@ -75,7 +75,7 @@ QDrawer runs in one of two behaviors, and a number of its props mean different t
 | Body scroll         | untouched                            | locked while the drawer is shown   |
 | `mini` mode         | applies                              | ignored                            |
 
-The `breakpoint` prop (default: 1023) decides which of the two is used: the drawer is in "mobile" behavior for as long as the width of the layout is smaller than or equal to it. Note that this is the width of the layout, which is the width of the window unless you are using a containerized QLayout.
+The `breakpoint` prop (default: 1023) decides which of the two is used: the drawer is in "mobile" behavior for as long as the width of the layout is smaller than or equal to it. Note that this is the width of the layout: the width of the window (the same one that `$q.screen` and the CSS breakpoints see, whether or not a page scrollbar is showing) or, for a containerized QLayout, the width of the container.
 
 Set the `behavior` prop to "desktop" or "mobile" to pin the drawer into one of them regardless of the width. Its default value ("default") is the dynamic switch described above.
 

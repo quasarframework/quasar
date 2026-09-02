@@ -156,7 +156,12 @@ export default /*#__PURE__*/ createComponent({
       height,
       containerHeight,
       scrollbarWidth,
-      totalWidth: computed(() => width.value + scrollbarWidth.value),
+      // a standard layout is as wide as the window, which a page
+      // scrollbar never changes; a containerized one is as wide as its
+      // page plus its own scrollbar (#5606, #15506)
+      totalWidth: computed(() =>
+        props.container ? width.value + scrollbarWidth.value : $q.screen.width
+      ),
 
       rows: computed(() => {
         const rows = props.view.toLowerCase().split(' ')

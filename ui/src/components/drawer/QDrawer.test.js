@@ -3,6 +3,7 @@ import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import { defineComponent, h, onMounted, onUnmounted } from 'vue'
 
 import { getRouter } from 'testing/runtime/router.js'
+import Screen from '../../plugins/screen/Screen.js'
 import QLayout from '../layout/QLayout.js'
 import QDrawer from './QDrawer.js'
 
@@ -10,6 +11,8 @@ let activeWrapper
 
 beforeEach(() => {
   vi.useFakeTimers()
+  Screen.width = 1024
+  Screen.height = 768
 })
 
 afterEach(() => {
@@ -100,12 +103,21 @@ function setDrawerProps(wrapper, drawerProps) {
 }
 
 /**
- * The layout learns about its width through a QResizeObserver, which is
- * what decides whether the drawer is below its breakpoint or not.
+ * A standard layout is as wide as the window, which is what decides
+ * whether the drawer is below its breakpoint or not.
  */
 async function setLayoutWidth(wrapper, width) {
+  Screen.width = width
+  await settle()
+}
+
+/**
+ * What the layout's own QResizeObserver reports as the page width.
+ */
+async function setPageWidth(wrapper, width) {
   wrapper
-    .getComponent({ name: 'QResizeObserver' })
+    .findAllComponents({ name: 'QResizeObserver' })
+    .at(-1)
     .vm.$emit('resize', { width, height: 600 })
   await settle()
 }
@@ -981,16 +993,29 @@ describe('[QDrawer API]', () => {
       )
       await settle()
 
-      // in container mode the layout renders an extra QResizeObserver for
-      // the container element itself; the page one is the last
-      wrapper
-        .findAllComponents({ name: 'QResizeObserver' })
-        .at(-1)
-        .vm.$emit('resize', { width: 1200, height: 600 })
-      await settle()
+      // a containerized layout is as wide as its page (plus its own
+      // scrollbar), not as wide as the window
+      await setPageWidth(wrapper, 1200)
 
       expect(getDrawer(wrapper).classes()).toContain('q-drawer--standard')
       expect(counters).toEqual({ setup: 1, mounted: 1, unmounted: 0 })
+    })
+
+    // a page scrollbar narrows the page but not the window, so it must
+    // not move the drawer's breakpoint (#15506) nor flip the drawer
+    // back and forth when its own layout padding toggles it (#5606)
+    test('measures a standard layout by the window width', async () => {
+      const wrapper = await mountReadyDrawer({ modelValue: true })
+      await setLayoutWidth(wrapper, 1024)
+
+      await setPageWidth(wrapper, 1024 - 17)
+
+      expect(getDrawer(wrapper).classes()).toContain('q-drawer--standard')
+
+      await setLayoutWidth(wrapper, 1023)
+      await setPageWidth(wrapper, 1023)
+
+      expect(getDrawer(wrapper).classes()).toContain('q-drawer--mobile')
     })
   })
 
