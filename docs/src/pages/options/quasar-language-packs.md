@@ -102,11 +102,11 @@ Then register this boot file into the `/quasar.config` file:
 boot: ['quasar-lang-pack']
 ```
 
-#### Matching a locale to a Language Pack
+#### Matching a locale to a Language Pack <q-badge label="v2.29+" />
 
 Language Packs are named after [BCP 47](https://www.rfc-editor.org/info/bcp47) language tags. A pack carries a region subtag only when Quasar ships more than one translation of that language (`de`, `de-CH`, `de-DE`; `pt`, `pt-BR`; `zh-CN`, `zh-TW`). Every other language has a single, region-neutral pack (`es`, `fr`, `it`, ...) which serves all of its regions.
 
-So a locale like `es-MX` or `fr-CA` has no pack of its own. Instead of maintaining a map from your app's locales to pack names, hand the locale and the packs you ship to `Lang.getClosestIsoName()` <q-badge label="v2.29+" />. It returns the closest entry (`es-MX` gives `es`, `sr-Cyrl-RS` gives `sr-Cyrl`, `zh-Hant` gives `zh-TW`, plain `pt` gives `pt-BR`) or `undefined` when none shares the language:
+So a locale like `es-MX` or `fr-CA` has no pack of its own. Instead of maintaining a map from your app's locales to pack names, hand the locale and the packs you ship to `Lang.getClosestIsoName()`. It returns the closest entry (`es-MX` gives `es`, `sr-Cyrl-RS` gives `sr-Cyrl`, `zh-Hant` gives `zh-TW`, plain `pt` gives `pt-BR`) or `undefined` when none shares the language:
 
 ```js
 import { defineBoot } from '#q-app'
