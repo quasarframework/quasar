@@ -63,6 +63,12 @@ By passing in an Object as the directive's value (instead of a Function), you ca
 
 <DocExample title="Supplying configuration Object" file="ObjectForm" no-edit />
 
+### Disable
+
+Passing in Boolean `false` instead of a Function or an Object disables the directive: the Intersection Observer is dropped until a handler is supplied again. The DOM element is untouched in the process, so whatever it wraps keeps its state.
+
+<DocExample title="Disable" file="Disable" no-edit />
+
 ### Advanced
 
 Below is a more advanced example of what you can do. The code takes advantage of the HTML `data` attribute. Basically, by setting `data-id` with the index of the element in a loop, this can be retrieved via the passed in `entry` to the handler as `entry.target.dataset.id`. If you are unfamiliar with the `data` attribute you can read more [here](https://developer.mozilla.org/en-US/docs/Learn/HTML/Howto/Use_data_attributes) about using it.

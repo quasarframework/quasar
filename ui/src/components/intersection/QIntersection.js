@@ -57,7 +57,12 @@ export default /*#__PURE__*/ createComponent({
     )
 
     const directives = computed(() => [
-      [Intersection, intersectionProps.value, void 0, { once: props.once }]
+      [
+        Intersection,
+        props.disable ? false : intersectionProps.value,
+        void 0,
+        { once: props.once }
+      ]
     ])
 
     const transitionStyle = computed(
@@ -111,11 +116,9 @@ export default /*#__PURE__*/ createComponent({
         { class: 'q-intersection' },
         child,
         'main',
-        // must not depend on transient state: hDir bakes it into the vnode
-        // key, and a flip re-creates the whole content (#17099-class; a
-        // once + ssrPrerender instance used to remount right after the
-        // client takeover)
-        !props.disable,
+        // hDir bakes this into the vnode key, so a flip re-creates the whole
+        // content (#17099); disabling goes through the directive value (#12668)
+        true,
         () => directives.value
       )
     }
