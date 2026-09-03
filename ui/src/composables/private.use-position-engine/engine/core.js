@@ -204,7 +204,7 @@ export function applyBoundary({
         space = spaceAbove
       }
 
-      if (space < height) res.maxHeight = space + 'px'
+      res.maxHeight = space + 'px'
     }
   }
 
@@ -234,7 +234,7 @@ export function applyBoundary({
         space = spaceLeft
       }
 
-      if (space < width) res.maxWidth = space + 'px'
+      res.maxWidth = space + 'px'
     }
   }
 

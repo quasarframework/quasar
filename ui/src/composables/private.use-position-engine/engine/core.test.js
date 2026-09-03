@@ -302,10 +302,12 @@ describe('[core API]', () => {
         expect(res.maxWidth).toBe(`${viewportWidth - 20}px`)
       })
 
-      test('leaves a popup that fits the mirrored side uncapped', () => {
-        // a cap at the popup's own measured size would round a
-        // fractional natural size down (offsetWidth/offsetHeight are
-        // integers) and wrap or scroll content that fit before the flip
+      test('caps a popup that fits the mirrored side at the available space', () => {
+        // the cap is the fractional space (getBoundingClientRect), never
+        // the popup's own measured size (offsetWidth/offsetHeight are
+        // integers): rounding that down would wrap or scroll content
+        // that fit before the flip. Content that grows after this pass
+        // still needs a bound, so the flipped side always gets one (#18536)
         const { clientWidth: viewportWidth, clientHeight: viewportHeight } =
           document.documentElement
         const anchorEl = createAnchor({
@@ -324,8 +326,8 @@ describe('[core API]', () => {
 
         expect(res.anchorOrigin).toStrictEqual(origin('top right'))
         expect(res.selfOrigin).toStrictEqual(origin('bottom right'))
-        expect(res.maxHeight).toBeNull()
-        expect(res.maxWidth).toBeNull()
+        expect(res.maxHeight).toBe(`${viewportHeight - 60}px`)
+        expect(res.maxWidth).toBe(`${viewportWidth - 20}px`)
       })
 
       test('measures the natural size by lifting previous caps', () => {
