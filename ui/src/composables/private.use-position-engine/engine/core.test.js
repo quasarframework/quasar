@@ -330,6 +330,31 @@ describe('[core API]', () => {
         expect(res.maxWidth).toBe(`${viewportWidth - 20}px`)
       })
 
+      test('keeps a smaller caller maxHeight/maxWidth in force through min()', () => {
+        // the flipped-side space can be roomier than a caller-supplied
+        // maxHeight/maxWidth prop; the cap must not widen back to it
+        const { clientWidth: viewportWidth, clientHeight: viewportHeight } =
+          document.documentElement
+        const anchorEl = createAnchor({
+          top: viewportHeight - 60,
+          left: viewportWidth - 120,
+          width: 100,
+          height: 30
+        })
+
+        const res = applyBoundary({
+          el: createTarget({ width: 150.5, height: 50.5 }),
+          anchorEl,
+          anchorOrigin: origin('bottom left'),
+          selfOrigin: origin('top left'),
+          maxHeight: '200px',
+          maxWidth: '300px'
+        })
+
+        expect(res.maxHeight).toBe(`min(${viewportHeight - 60}px, 200px)`)
+        expect(res.maxWidth).toBe(`min(${viewportWidth - 20}px, 300px)`)
+      })
+
       test('measures the natural size by lifting previous caps', () => {
         const anchorEl = createAnchor({
           top: 100,

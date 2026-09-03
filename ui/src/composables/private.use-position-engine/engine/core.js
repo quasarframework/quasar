@@ -204,7 +204,9 @@ export function applyBoundary({
         space = spaceAbove
       }
 
-      res.maxHeight = space + 'px'
+      // combined through CSS min(), never JS, so a smaller caller maxHeight
+      // prop stays in force instead of being widened back to `space`
+      res.maxHeight = maxHeight ? `min(${space}px, ${maxHeight})` : `${space}px`
     }
   }
 
@@ -234,7 +236,7 @@ export function applyBoundary({
         space = spaceLeft
       }
 
-      res.maxWidth = space + 'px'
+      res.maxWidth = maxWidth ? `min(${space}px, ${maxWidth})` : `${space}px`
     }
   }
 
