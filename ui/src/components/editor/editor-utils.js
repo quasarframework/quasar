@@ -28,7 +28,16 @@ function getGroup(children) {
   return h('div', { class: 'q-editor__toolbar-group' }, children)
 }
 
+// commands that only read the content; a "readonly" editor keeps offering
+// them, while "disable" takes the whole toolbar out of play
+const readonlySafeCmdList = ['fullscreen', 'print', 'viewsource']
+
 function isBtnDisabled(eVm, btn) {
+  if (eVm.props.disable === true) return true
+  if (eVm.props.readonly === true && !readonlySafeCmdList.includes(btn.cmd)) {
+    return true
+  }
+
   return btn.disable
     ? typeof btn.disable === 'function'
       ? btn.disable(eVm)

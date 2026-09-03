@@ -537,7 +537,7 @@ export default /*#__PURE__*/ createComponent({
     const classes = computed(
       () =>
         `q-editor q-editor--${isViewingSource.value ? 'source' : 'default'}` +
-        (props.disable ? ' disabled' : '') +
+        (props.disable ? ' q-editor--disabled' : '') +
         (inFullscreen.value ? ' fullscreen column' : '') +
         (props.square ? ' q-editor--square no-border-radius' : '') +
         (props.flat ? ' q-editor--flat' : '') +
@@ -550,7 +550,8 @@ export default /*#__PURE__*/ createComponent({
       'q-editor__content',
       {
         col: inFullscreen.value,
-        'overflow-auto': inFullscreen.value || props.maxHeight
+        'overflow-auto': inFullscreen.value || props.maxHeight,
+        disabled: props.disable
       }
     ])
 
@@ -843,7 +844,9 @@ export default /*#__PURE__*/ createComponent({
           'div',
           {
             key: 'toolbar_ctainer',
-            class: 'q-editor__toolbars-container'
+            class:
+              'q-editor__toolbars-container' +
+              (props.disable ? ' disabled' : '')
           },
           bars
         )

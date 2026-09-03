@@ -154,7 +154,9 @@ describe('[QEditor API]', () => {
 
     describe('[(prop)readonly]', () => {
       test('type Boolean has effect', async () => {
-        const wrapper = mountEditor()
+        const wrapper = mountEditor({
+          toolbar: [['bold', 'fullscreen', 'print', 'viewsource']]
+        })
         await flushToolbar()
 
         expect(getContent(wrapper).attributes('contenteditable')).toBe('true')
@@ -163,7 +165,16 @@ describe('[QEditor API]', () => {
 
         expect(getContent(wrapper).attributes('contenteditable')).toBe('false')
         // unlike "disable", it does not dim the whole editor
-        expect(wrapper.classes()).not.toContain('disabled')
+        expect(wrapper.classes()).not.toContain('q-editor--disabled')
+
+        // the commands that would alter the content are out, the ones
+        // that only read it stay available
+        const [bold, ...readOnlySafe] = getToolbarButtons(wrapper)
+
+        expect(bold.attributes('aria-disabled')).toBe('true')
+        readOnlySafe.forEach(button => {
+          expect(button.attributes('aria-disabled')).toBeUndefined()
+        })
       })
     })
 
@@ -242,9 +253,21 @@ describe('[QEditor API]', () => {
 
         await wrapper.setProps({ disable: true })
 
-        expect(wrapper.classes()).toContain('disabled')
+        // the dimming sits on the inner elements, so that the root can
+        // stay opaque and cover the page behind it when in fullscreen
+        expect(wrapper.classes()).toContain('q-editor--disabled')
+        expect(wrapper.classes()).not.toContain('disabled')
+        expect(
+          wrapper.get('.q-editor__toolbars-container').classes()
+        ).toContain('disabled')
+
+        expect(getContent(wrapper).classes()).toContain('disabled')
         expect(getContent(wrapper).attributes('aria-disabled')).toBe('true')
         expect(getContent(wrapper).attributes('contenteditable')).toBe('false')
+
+        getToolbarButtons(wrapper).forEach(button => {
+          expect(button.attributes('aria-disabled')).toBe('true')
+        })
       })
     })
 

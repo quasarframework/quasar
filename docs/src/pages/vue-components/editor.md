@@ -50,6 +50,12 @@ Your content is only touched once you commit an URL — by pressing <kbd>Enter</
 
 The command behaves the same wherever you put it, including inside one of the [dropdowns](#dropdowns) described below.
 
+## Read-only and disabled
+
+The `readonly` prop stops the content from being edited, so every toolbar command that would alter it is disabled. The commands that only read the content stay available: `fullscreen`, `print` and `viewsource`, which lets a read-only QEditor still work as a viewer.
+
+The `disable` prop takes the whole component out of play instead: the content is not editable, the entire toolbar is disabled and the editor is dimmed.
+
 ## Dropdowns
 
 ### Types of dropdowns

@@ -1,8 +1,15 @@
 <template>
   <div class="q-pa-md q-gutter-sm">
+    <div class="q-gutter-md q-mb-md">
+      <q-toggle v-model="readonly" label="Readonly" />
+      <q-toggle v-model="disable" label="Disable" />
+    </div>
+
     <q-editor
       v-model="qeditor"
       :dense="$q.screen.lt.md"
+      :readonly="readonly"
+      :disable="disable"
       @dropdown-before-show="dropdownBeforeShow"
       @dropdown-before-hide="dropdownBeforeHide"
       @dropdown-hide="dropdownHide"
@@ -89,6 +96,9 @@
 </template>
 <script setup>
 import { ref } from 'vue'
+
+const readonly = ref(false)
+const disable = ref(false)
 
 const qeditor = ref(
   '<pre>Check out the two different types of dropdowns' +
