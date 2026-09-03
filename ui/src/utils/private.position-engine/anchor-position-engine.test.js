@@ -275,6 +275,45 @@ describe('[anchorPositionEngine API]', () => {
         })
       })
 
+      test('offsets a point popup the way it grows', () => {
+        const cfg = {
+          anchorName: '--q-pe-test',
+          anchorOrigin: origin('bottom left'),
+          point: { top: 40, left: 60 },
+          offset: [5, 10]
+        }
+
+        // growing down/right clears the point in the positive direction
+        expect(
+          getPositionStyle({ ...cfg, selfOrigin: origin('top left') })
+        ).toMatchObject({
+          top: 'calc(anchor(top) + 50px)',
+          left: 'calc(anchor(left) + 65px)'
+        })
+
+        // ...and growing up/left in the negative one, or the popup
+        // would open onto the pointer instead of clearing it
+        expect(
+          getPositionStyle({
+            ...cfg,
+            selfOrigin: { vertical: 'bottom', horizontal: 'right' }
+          })
+        ).toMatchObject({
+          bottom: 'calc(anchor(top) - 30px)',
+          right: 'calc(anchor(left) - 55px)'
+        })
+
+        // a centered axis has no growth direction and takes the
+        // positive one
+        expect(
+          getPositionStyle({ ...cfg, selfOrigin: origin('center middle') })
+        ).toMatchObject({
+          top: 'calc(anchor(top) + 50px)',
+          left: 'calc(anchor(left) + 65px)',
+          translate: '-50% -50%'
+        })
+      })
+
       test('the browser keeps the popup glued to a moving anchor', async () => {
         const anchorEl = createAnchor({
           top: 100,

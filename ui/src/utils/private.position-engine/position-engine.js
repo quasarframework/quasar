@@ -250,13 +250,27 @@ export function applyBoundary({
 }
 
 /**
+ * The offset a point-mode axis applies: unlike box mode, where the
+ * offset expands the anchor's box, here it displaces the popup from the
+ * point in the direction the popup grows, so it clears the pointer on
+ * whichever side it opens. A centered axis straddles the point and has
+ * no growth direction, so it takes the positive one, where a cursor
+ * glyph's body sits relative to its hotspot.
+ */
+export function pointOffset(self, offset) {
+  return self === 'bottom' || self === 'right' ? -offset : offset
+}
+
+/**
  * Point-mode companion of applyBoundary, for a popup opening from a
- * coordinate inside its anchor (touch position / context menu): an
- * overflowing side mirrors around the point, which itself moves by
- * twice the offset so the popup clears the pointer on the other side
- * too. Returns null while the current sides fit, otherwise the flipped
- * selfOrigin plus the adjusted point. A center/middle self origin axis
- * is left alone, like applyBoundary does.
+ * coordinate inside its anchor (touch position / cursor position /
+ * context menu): an overflowing side mirrors around the point, which
+ * stays put because the offset re-signs itself with the flipped origin.
+ * A center/middle self origin axis has no other side to mirror to and
+ * shifts to stay inside the viewport instead, mirroring what
+ * applyBoundary's centered axes get natively from anchor-center.
+ * Returns null while the placement needs no correction, otherwise the
+ * resolved selfOrigin plus the point (only a centered axis moves it).
  */
 export function applyPointBoundary({
   el,
@@ -273,27 +287,39 @@ export function applyPointBoundary({
   const res = { top: point.top, left: point.left }
   let changed = false
 
-  const lineY = rect.top + point.top + oy
+  const lineY = rect.top + point.top + pointOffset(vertical, oy)
 
-  if (vertical === 'top' && lineY + height > VH) {
+  if (vertical === 'center') {
+    const top = lineY - height / 2
+    const shift = Math.max(0, Math.min(top, VH - height)) - top
+
+    if (shift !== 0) {
+      res.top += shift
+      changed = true
+    }
+  } else if (vertical === 'top' && lineY + height > VH) {
     vertical = 'bottom'
-    res.top -= 2 * oy
     changed = true
   } else if (vertical === 'bottom' && lineY - height < 0) {
     vertical = 'top'
-    res.top += 2 * oy
     changed = true
   }
 
-  const lineX = rect.left + point.left + ox
+  const lineX = rect.left + point.left + pointOffset(horizontal, ox)
 
-  if (horizontal === 'left' && lineX + width > VW) {
+  if (horizontal === 'middle') {
+    const left = lineX - width / 2
+    const shift = Math.max(0, Math.min(left, VW - width)) - left
+
+    if (shift !== 0) {
+      res.left += shift
+      changed = true
+    }
+  } else if (horizontal === 'left' && lineX + width > VW) {
     horizontal = 'right'
-    res.left -= 2 * ox
     changed = true
   } else if (horizontal === 'right' && lineX - width < 0) {
     horizontal = 'left'
-    res.left += 2 * ox
     changed = true
   }
 

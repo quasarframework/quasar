@@ -4,6 +4,7 @@ import {
   applyBoundary,
   applyPointBoundary,
   parsePosition,
+  pointOffset,
   supportsCssAnchor,
   validateOffset,
   validatePosition
@@ -418,6 +419,20 @@ describe('[positionEngine API]', () => {
       })
     })
 
+    describe('[(function)pointOffset]', () => {
+      test('signs the offset by the direction the popup grows', () => {
+        // away from the point on the side the popup opens towards
+        expect(pointOffset('top', 6)).toBe(6)
+        expect(pointOffset('left', 6)).toBe(6)
+        expect(pointOffset('bottom', 6)).toBe(-6)
+        expect(pointOffset('right', 6)).toBe(-6)
+
+        // a straddling axis has no direction of its own
+        expect(pointOffset('center', 6)).toBe(6)
+        expect(pointOffset('middle', 6)).toBe(6)
+      })
+    })
+
     describe('[(function)applyPointBoundary]', () => {
       test('returns null while the intended sides fit', () => {
         const anchorEl = createAnchor({
@@ -437,7 +452,7 @@ describe('[positionEngine API]', () => {
         expect(res).toBeNull()
       })
 
-      test('mirrors vertically and moves the point by twice the offset', () => {
+      test('mirrors vertically around the point', () => {
         const viewportHeight = document.documentElement.clientHeight
         const anchorEl = createAnchor({
           top: viewportHeight - 40,
@@ -454,11 +469,13 @@ describe('[positionEngine API]', () => {
           offset: [4, 6]
         })
 
+        // only the origin flips: the offset re-signs itself with it, so
+        // the popup clears the point by the same 6px on the other side
         expect(res.selfOrigin).toStrictEqual({
           vertical: 'bottom',
           horizontal: 'left'
         })
-        expect(res.point).toStrictEqual({ top: 20 - 12, left: 10 })
+        expect(res.point).toStrictEqual({ top: 20, left: 10 })
       })
 
       test('mirrors horizontally at the right viewport edge', () => {
@@ -482,7 +499,7 @@ describe('[positionEngine API]', () => {
           vertical: 'top',
           horizontal: 'right'
         })
-        expect(res.point).toStrictEqual({ top: 10, left: 20 - 8 })
+        expect(res.point).toStrictEqual({ top: 10, left: 20 })
       })
 
       test('mirrors back when a flipped side stops fitting', () => {
@@ -503,10 +520,29 @@ describe('[positionEngine API]', () => {
         })
 
         expect(res.selfOrigin.vertical).toBe('top')
-        expect(res.point.top).toBe(10 + 12)
+        expect(res.point.top).toBe(10)
       })
 
-      test('leaves centered axes alone', () => {
+      test('returns null while a centered axis needs no shift', () => {
+        const anchorEl = createAnchor({
+          top: 100,
+          left: 100,
+          width: 100,
+          height: 50
+        })
+
+        const res = applyPointBoundary({
+          el: createTarget(),
+          anchorEl,
+          point: { top: 25, left: 50 },
+          selfOrigin: origin('center middle'),
+          offset: [4, 6]
+        })
+
+        expect(res).toBeNull()
+      })
+
+      test('shifts a centered axis back inside the viewport', () => {
         const viewportHeight = document.documentElement.clientHeight
         const anchorEl = createAnchor({
           top: viewportHeight - 20,
@@ -515,15 +551,71 @@ describe('[positionEngine API]', () => {
           height: 30
         })
 
+        // the popup is centered on a point 10px into an anchor whose top
+        // sits 20px above the viewport bottom, plus the 6px offset a
+        // centered axis takes in the positive direction, so it hangs off
+        // by half its height minus the 4px of room left below
         const res = applyPointBoundary({
-          el: createTarget({ height: 400 }),
+          el: createTarget({ height: 100 }),
           anchorEl,
           point: { top: 10, left: 10 },
-          selfOrigin: origin('center middle'),
+          selfOrigin: origin('center left'),
           offset: [4, 6]
         })
 
-        expect(res).toBeNull()
+        expect(res.selfOrigin).toStrictEqual({
+          vertical: 'center',
+          horizontal: 'left'
+        })
+        expect(res.point.top).toBe(10 - 46)
+      })
+
+      test('shifts a centered axis away from the right viewport edge', () => {
+        const viewportWidth = document.documentElement.clientWidth
+        const anchorEl = createAnchor({
+          top: 100,
+          left: viewportWidth - 20,
+          width: 10,
+          height: 30
+        })
+
+        const res = applyPointBoundary({
+          el: createTarget({ width: 100 }),
+          anchorEl,
+          point: { top: 10, left: 5 },
+          selfOrigin: origin('top middle'),
+          offset: [4, 6]
+        })
+
+        expect(res.selfOrigin).toStrictEqual({
+          vertical: 'top',
+          horizontal: 'middle'
+        })
+        expect(res.point.left).toBe(5 - 39)
+      })
+
+      test('pins a centered axis larger than the viewport to its start', () => {
+        const viewportHeight = document.documentElement.clientHeight
+        const anchorEl = createAnchor({
+          top: 100,
+          left: 100,
+          width: 100,
+          height: 30
+        })
+
+        const res = applyPointBoundary({
+          el: createTarget({ height: viewportHeight + 100 }),
+          anchorEl,
+          point: { top: 10, left: 10 },
+          selfOrigin: origin('center left'),
+          offset: [4, 6]
+        })
+
+        // top edge at the viewport top: the point sits half a popup
+        // height above it, less the offset it carries
+        expect(res.point.top).toBe(
+          (viewportHeight + 100) / 2 - anchorEl.getBoundingClientRect().top - 6
+        )
       })
     })
   })

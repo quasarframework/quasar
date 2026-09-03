@@ -257,6 +257,37 @@ describe('[fallbackPositionEngine API]', () => {
         expect(rect.right).toBe(130)
       })
 
+      test('offsets a point popup the way it grows', () => {
+        // growing up/left, so the offset has to clear the point in the
+        // negative direction or the popup opens onto the pointer
+        const cfg = createConfig({
+          point: { top: 20, left: 30 },
+          selfOrigin: { vertical: 'bottom', horizontal: 'right' },
+          offset: [5, 10]
+        })
+
+        applyPosition(cfg)
+
+        const rect = cfg.targetEl.getBoundingClientRect()
+        expect(rect.bottom).toBe(110)
+        expect(rect.right).toBe(125)
+      })
+
+      test('offsets a centered point popup in the positive direction', () => {
+        const cfg = createConfig({
+          point: { top: 20, left: 30 },
+          selfOrigin: { vertical: 'center', horizontal: 'middle' },
+          offset: [5, 10]
+        })
+
+        applyPosition(cfg)
+
+        // the 150x50 target centered on (135, 130)
+        const rect = cfg.targetEl.getBoundingClientRect()
+        expect(rect.top).toBe(105)
+        expect(rect.left).toBe(60)
+      })
+
       test('publishes the iOS visual viewport offsets as CSS variables', () => {
         mockProperty(client.is, 'ios', true)
         mockProperty(window.visualViewport, 'offsetLeft', 5)

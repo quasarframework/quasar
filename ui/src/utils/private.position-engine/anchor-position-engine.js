@@ -8,6 +8,8 @@
  * every other browser runs fallback-position-engine.js instead.
  */
 
+import { pointOffset } from './position-engine.js'
+
 /**
  * The browser tracks a CSS anchor for us, but `anchor-name` must live on
  * the anchor element itself, which is app-owned DOM. Popups therefore
@@ -164,8 +166,8 @@ export function getPositionStyle({
   }
 
   if (point !== void 0) {
-    const top = point.top + oy,
-      left = point.left + ox
+    const top = point.top + pointOffset(selfOrigin.vertical, oy),
+      left = point.left + pointOffset(selfOrigin.horizontal, ox)
 
     if (selfOrigin.vertical === 'bottom') {
       style.bottom = calcExpr('top', -top)

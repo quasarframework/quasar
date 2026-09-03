@@ -1,4 +1,5 @@
 import { client } from '../../plugins/platform/Platform.js'
+import { pointOffset } from './position-engine.js'
 
 /**
  * The JS positioning engine: expresses a placement decided by the
@@ -103,8 +104,9 @@ export function applyPosition({
   let top, left
 
   if (point !== void 0) {
-    const lineY = rect.top + point.top + oy
-    const lineX = rect.left + point.left + ox
+    const lineY = rect.top + point.top + pointOffset(selfOrigin.vertical, oy)
+    const lineX =
+      rect.left + point.left + pointOffset(selfOrigin.horizontal, ox)
 
     top =
       selfOrigin.vertical === 'bottom'
