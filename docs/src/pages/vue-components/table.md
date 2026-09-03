@@ -245,6 +245,8 @@ Please note that columns marked as `required` (in the column definition) cannot 
 
 ::: tip
 Below is an example with the user being able to edit “in place” with the help of **QPopupEdit** component. Please note that we are using the `body` scoped slot. **QPopupEdit** won’t work with cell scoped slots.
+
+QPopupEdit edits one cell at a time. To edit a whole row at once, or to offer per row actions (like Edit and Remove), render your own buttons in a `body-cell` scoped slot and open a [QDialog](/vue-components/dialog) holding a form for that row.
 :::
 
 <DocExample title="Popup editing" file="PopupEditing" />
