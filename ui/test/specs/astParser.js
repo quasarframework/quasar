@@ -15,9 +15,39 @@ function getAstAssignmentPattern(node, canComment) {
   return left + right
 }
 
+function getAstObjectPatternKey(prop) {
+  if (prop.computed) {
+    return `[${getAstParam(prop.key, false)}]`
+  }
+
+  // a string key keeps its quotes ('onUpdate:modelValue')
+  return prop.key.type === 'Literal' ? prop.key.raw : prop.key.name
+}
+
+// renders the destructuring as the object literal a call site would
+// pass: `{ a, b: c, d: 0 }` for `{ a, b: c, d = 0 }`; the key names each
+// property, so a default value needs no /* name */ comment
 function getAstObjectPattern(node, canComment) {
   const body = node.properties
-    .map(prop => getAstParam(prop.value, canComment))
+    .map(prop => {
+      if (prop.type === 'RestElement') {
+        return getAstParam(prop, canComment)
+      }
+
+      const key = getAstObjectPatternKey(prop)
+      const { value } = prop
+
+      if (value.type === 'Identifier' && value.name === key) {
+        return key
+      }
+
+      const rendered =
+        value.type === 'AssignmentPattern'
+          ? getAstParam(value.right, false)
+          : getAstParam(value, canComment)
+
+      return `${key}: ${rendered}`
+    })
     .join(', ')
 
   return `{ ${body} }`
@@ -245,6 +275,10 @@ export function readAstJson(ctx) {
   nodeList.forEach(node => {
     if (node.type === 'ExportNamedDeclaration') {
       if (node.declaration === null && node.specifiers !== void 0) {
+        // export { ... } from '...': a pass-through of another module's
+        // exports, which that module's own test file covers
+        if (node.source !== null) return
+
         // export { ... }
 
         node.specifiers.forEach(specifier => {
