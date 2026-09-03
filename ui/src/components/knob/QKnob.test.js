@@ -1,5 +1,6 @@
 import { mount } from '@vue/test-utils'
-import { describe, expect, test } from 'vitest'
+import { describe, expect, test, vi } from 'vitest'
+import { defineComponent, h } from 'vue'
 
 import QKnob from './QKnob.js'
 
@@ -228,6 +229,52 @@ describe('[QKnob API]', () => {
         expect(target.classes()).toContain('disabled')
         expect(target.attributes('aria-disabled')).toBe('true')
         expect(target.attributes('tabindex')).toBeUndefined()
+      })
+
+      test('blocks the pan gesture', async () => {
+        const wrapper = mountKnob({ disable: true })
+        const target = wrapper.get('.q-knob')
+
+        await target.trigger('mousedown', { button: 0 })
+
+        expect(target.element.__qtouchpan.event).toBeUndefined()
+
+        await wrapper.setProps({ disable: false })
+        await target.trigger('mousedown', { button: 0 })
+
+        expect(target.element.__qtouchpan.event).toBeDefined()
+
+        wrapper.unmount()
+      })
+
+      test('toggling it keeps the default slot content mounted', async () => {
+        const unmountedFn = vi.fn()
+        const Probe = defineComponent({
+          name: 'KnobProbe',
+          unmounted: unmountedFn,
+          render: () => h('span', 'Knob content')
+        })
+
+        const wrapper = mountKnob(
+          { showValue: true },
+          { slots: { default: () => h(Probe) } }
+        )
+        const probeEl = wrapper.get('span').element
+
+        await wrapper.setProps({ disable: true })
+
+        expect(unmountedFn).not.toHaveBeenCalled()
+        expect(wrapper.get('span').element).toBe(probeEl)
+
+        await wrapper.setProps({ readonly: true, disable: false })
+
+        expect(unmountedFn).not.toHaveBeenCalled()
+        expect(wrapper.get('span').element).toBe(probeEl)
+
+        await wrapper.setProps({ readonly: false })
+
+        expect(unmountedFn).not.toHaveBeenCalled()
+        expect(wrapper.get('span').element).toBe(probeEl)
       })
     })
 

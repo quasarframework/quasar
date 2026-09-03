@@ -190,6 +190,32 @@ describe('[QStepper API]', () => {
 
         expect(wrapper.emitted('update:modelValue')).toStrictEqual([['step-b']])
       })
+
+      test('toggling it keeps the panel content mounted', async () => {
+        const wrapper = mountStepper({ swipeable: false })
+        const container = wrapper.get('.q-stepper__content')
+        const panel = wrapper.get('[data-step="StepA"]')
+
+        await panel.trigger('click')
+        await container.trigger('mousedown', { button: 0 })
+
+        expect(panel.text()).toBe('1')
+        expect(container.element.__qtouchswipe.event).toBeUndefined()
+
+        await wrapper.setProps({ swipeable: true })
+
+        expect(wrapper.get('[data-step="StepA"]').element).toBe(panel.element)
+        expect(panel.text()).toBe('1')
+
+        await container.trigger('mousedown', { button: 0 })
+
+        expect(container.element.__qtouchswipe.event).toBeDefined()
+
+        await wrapper.setProps({ swipeable: false })
+
+        expect(wrapper.get('[data-step="StepA"]').element).toBe(panel.element)
+        expect(panel.text()).toBe('1')
+      })
     })
 
     describe('[(prop)vertical]', () => {

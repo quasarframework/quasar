@@ -1,4 +1,11 @@
-import { computed, h, onBeforeUnmount, onMounted, watch } from 'vue'
+import {
+  computed,
+  h,
+  onBeforeUnmount,
+  onMounted,
+  watch,
+  withDirectives
+} from 'vue'
 
 import QBtn from '../btn/QBtn.js'
 
@@ -17,7 +24,7 @@ import useFullscreen, {
 
 import { createComponent } from '../../utils/private.create/create.js'
 import { isNumber } from '../../utils/is/is.js'
-import { hDir, hMergeSlot } from '../../utils/private.render/render.js'
+import { hMergeSlot } from '../../utils/private.render/render.js'
 import { stopAndPrevent } from '../../utils/event/event.js'
 
 const navigationPositionOptions = ['top', 'right', 'bottom', 'left']
@@ -399,13 +406,13 @@ export default /*#__PURE__*/ createComponent({
           style: style.value
         },
         [
-          hDir(
-            'div',
-            { class: 'q-carousel__slides-container' },
-            getPanelContent(),
-            'sl-cont',
-            props.swipeable,
-            () => panelDirectives.value
+          withDirectives(
+            h(
+              'div',
+              { class: 'q-carousel__slides-container' },
+              getPanelContent()
+            ),
+            panelDirectives.value
           ),
           ...getContent()
         ]

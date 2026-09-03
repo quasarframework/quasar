@@ -97,7 +97,10 @@ export default function usePanel() {
   const panelDirectives = computed(() => [
     [
       TouchSwipe,
-      onSwipe,
+      // TouchSwipe only acquires gestures while its value is a function;
+      // detaching the directive instead would re-create every panel on a
+      // swipeable toggle (#12668)
+      props.swipeable ? onSwipe : void 0,
       void 0,
       {
         horizontal: !props.vertical,

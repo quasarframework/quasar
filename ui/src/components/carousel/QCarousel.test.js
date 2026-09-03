@@ -218,6 +218,32 @@ describe('[QCarousel API]', () => {
           ['slide-b']
         ])
       })
+
+      test('toggling it keeps the panel content mounted', async () => {
+        const wrapper = mountCarousel({ swipeable: false })
+        const container = wrapper.get('.q-carousel__slides-container')
+        const panel = wrapper.get('[data-slide="SlideA"]')
+
+        await panel.trigger('click')
+        await container.trigger('mousedown', { button: 0 })
+
+        expect(panel.text()).toBe('1')
+        expect(container.element.__qtouchswipe.event).toBeUndefined()
+
+        await wrapper.setProps({ swipeable: true })
+
+        expect(wrapper.get('[data-slide="SlideA"]').element).toBe(panel.element)
+        expect(panel.text()).toBe('1')
+
+        await container.trigger('mousedown', { button: 0 })
+
+        expect(container.element.__qtouchswipe.event).toBeDefined()
+
+        await wrapper.setProps({ swipeable: false })
+
+        expect(wrapper.get('[data-slide="SlideA"]').element).toBe(panel.element)
+        expect(panel.text()).toBe('1')
+      })
     })
 
     describe('[(prop)vertical]', () => {

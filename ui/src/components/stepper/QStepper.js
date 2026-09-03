@@ -1,4 +1,4 @@
-import { computed, h, provide } from 'vue'
+import { computed, h, provide, withDirectives } from 'vue'
 
 import StepHeader from './StepHeader.js'
 
@@ -13,7 +13,7 @@ import usePanel, {
 
 import { createComponent } from '../../utils/private.create/create.js'
 import { stepperKey } from '../../utils/private.symbols/symbols.js'
-import { hDir, hMergeSlot, hSlot } from '../../utils/private.render/render.js'
+import { hMergeSlot, hSlot } from '../../utils/private.render/render.js'
 
 const camelRE = /(-\w)/g
 
@@ -131,13 +131,13 @@ export default /*#__PURE__*/ createComponent({
 
         top,
 
-        hDir(
-          'div',
-          { class: 'q-stepper__content q-panel-parent' },
-          getPanelContent(),
-          'cont',
-          props.swipeable,
-          () => panelDirectives.value
+        withDirectives(
+          h(
+            'div',
+            { class: 'q-stepper__content q-panel-parent' },
+            getPanelContent()
+          ),
+          panelDirectives.value
         )
       ]
     }

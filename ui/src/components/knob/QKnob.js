@@ -1,4 +1,11 @@
-import { computed, getCurrentInstance, h, ref, watch } from 'vue'
+import {
+  computed,
+  getCurrentInstance,
+  h,
+  ref,
+  watch,
+  withDirectives
+} from 'vue'
 
 import QCircularProgress from '../circular-progress/QCircularProgress.js'
 import TouchPan from '../../directives/touch-pan/TouchPan.js'
@@ -6,7 +13,6 @@ import TouchPan from '../../directives/touch-pan/TouchPan.js'
 import { createComponent } from '../../utils/private.create/create.js'
 import { position, stopAndPrevent } from '../../utils/event/event.js'
 import { between, normalizeToInterval } from '../../utils/format/format.js'
-import { hDir } from '../../utils/private.render/render.js'
 
 import useQuasar from '../../composables/use-quasar/use-quasar.js'
 import {
@@ -173,7 +179,15 @@ export default /*#__PURE__*/ createComponent({
     }
 
     const directives = computed(() => [
-      [TouchPan, pan, void 0, { prevent: true, stop: true, mouse: true }]
+      [
+        TouchPan,
+        // TouchPan only acquires gestures while its value is a function;
+        // detaching the directive instead would re-create the default slot
+        // content on every disable/readonly toggle (#12668)
+        editable.value ? pan : void 0,
+        void 0,
+        { prevent: true, stop: true, mouse: true }
+      ]
     ])
 
     function updateCenterPosition() {
@@ -309,14 +323,7 @@ export default /*#__PURE__*/ createComponent({
         child.internal = getNameInput
       }
 
-      return hDir(
-        QCircularProgress,
-        data,
-        child,
-        'knob',
-        editable.value,
-        () => directives.value
-      )
+      return withDirectives(h(QCircularProgress, data, child), directives.value)
     }
   }
 })

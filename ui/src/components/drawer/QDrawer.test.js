@@ -540,16 +540,39 @@ describe('[QDrawer API]', () => {
 
     describe('[(prop)no-swipe-close]', () => {
       test('type Boolean has effect', async () => {
-        const wrapper = await mountReadyDrawer({ behavior: 'mobile' })
-
-        expect(getDrawer(wrapper).element.__qtouchpan).toBeDefined()
-
-        await setDrawerProps(wrapper, {
+        const wrapper = await mountReadyDrawer({
           behavior: 'mobile',
           noSwipeClose: true
         })
+        const drawer = getDrawer(wrapper)
 
-        expect(getDrawer(wrapper).element.__qtouchpan).toBeUndefined()
+        await drawer.trigger('mousedown', { button: 0 })
+
+        expect(drawer.element.__qtouchpan.event).toBeUndefined()
+
+        await setDrawerProps(wrapper, { behavior: 'mobile' })
+        await drawer.trigger('mousedown', { button: 0 })
+
+        expect(drawer.element.__qtouchpan.event).toBeDefined()
+      })
+
+      test('toggling it keeps the drawer content mounted', async () => {
+        const { counters, Probe } = makeContentProbe()
+        const wrapper = await mountReadyDrawer(
+          { behavior: 'mobile', modelValue: true },
+          { default: () => h(Probe) }
+        )
+
+        expect(counters).toStrictEqual({ setup: 1, mounted: 1, unmounted: 0 })
+
+        await setDrawerProps(wrapper, {
+          behavior: 'mobile',
+          modelValue: true,
+          noSwipeClose: true
+        })
+        await setDrawerProps(wrapper, { behavior: 'mobile', modelValue: true })
+
+        expect(counters).toStrictEqual({ setup: 1, mounted: 1, unmounted: 0 })
       })
     })
 

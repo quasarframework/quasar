@@ -1,4 +1,4 @@
-import { computed } from 'vue'
+import { computed, h, withDirectives } from 'vue'
 
 import useQuasar from '../../composables/use-quasar/use-quasar.js'
 import useDark, {
@@ -10,7 +10,6 @@ import usePanel, {
 } from '../../composables/private.use-panel/use-panel.js'
 
 import { createComponent } from '../../utils/private.create/create.js'
-import { hDir } from '../../utils/private.render/render.js'
 
 export default /*#__PURE__*/ createComponent({
   name: 'QTabPanels',
@@ -37,13 +36,9 @@ export default /*#__PURE__*/ createComponent({
     return () => {
       updatePanelsList(slots)
 
-      return hDir(
-        'div',
-        { class: classes.value },
-        getPanelContent(),
-        'pan',
-        props.swipeable,
-        () => panelDirectives.value
+      return withDirectives(
+        h('div', { class: classes.value }, getPanelContent()),
+        panelDirectives.value
       )
     }
   }
