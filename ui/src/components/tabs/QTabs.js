@@ -175,7 +175,7 @@ export default /*#__PURE__*/ createComponent({
 
     const innerClass = computed(
       () =>
-        'q-tabs__content scroll--mobile row no-wrap items-center self-stretch hide-scrollbar relative-position ' +
+        'q-tabs__content row no-wrap items-center self-stretch hide-scrollbar relative-position ' +
         alignClass.value +
         (props.contentClass !== void 0 ? ` ${props.contentClass}` : '')
     )

@@ -29,7 +29,7 @@ Works great along with [QTabPanels](/vue-components/tab-panels), a component whi
 ::: tip TIPS
 
 - QTabs can be scrolled horizontally when the width is longer than the container width. Adjust your browser accordingly to see this in action.
-- On a desktop you will see chevrons on either side that can be clicked.
+- On a desktop you will see chevrons on either side that can be clicked. The tabs also follow a scroll gesture along their axis, like a horizontal trackpad swipe or a tilt of the mouse wheel.
 - On a mobile, you can pan the tabs with your finger.
 - If you want to force arrows to be visible on mobile use `mobile-arrows` prop.
 

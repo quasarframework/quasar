@@ -508,6 +508,23 @@ describe('[QTabs API]', () => {
       )
     })
 
+    test('lets the tab strip scroll natively along its own axis only', async () => {
+      const horizontal = mountTabs({}, threeTabList, { style: 'width: 100px' })
+      const vertical = mountTabs({ vertical: true }, threeTabList, {
+        style: 'height: 60px'
+      })
+
+      await waitForContainerMeasurement()
+
+      const horizontalStyle = getComputedStyle(getContent(horizontal).element)
+      expect(horizontalStyle.overflowX).toBe('auto')
+      expect(horizontalStyle.overflowY).toBe('hidden')
+
+      const verticalStyle = getComputedStyle(getContent(vertical).element)
+      expect(verticalStyle.overflowY).toBe('auto')
+      expect(verticalStyle.overflowX).toBe('hidden')
+    })
+
     test('stays justified when the tabs exactly fill the container', async () => {
       // 440px split among three tabs gives fractional widths whose rounded
       // sum exceeds the container by a pixel (#18532)
