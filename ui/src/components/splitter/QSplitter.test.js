@@ -1,6 +1,6 @@
-import { nextTick } from 'vue'
+import { defineComponent, h, nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
-import { describe, expect, test } from 'vitest'
+import { describe, expect, test, vi } from 'vitest'
 
 import QSplitter from './QSplitter.js'
 
@@ -26,8 +26,12 @@ function getSeparator(wrapper) {
   return wrapper.get('.q-splitter__separator')
 }
 
+function getPanContext(wrapper) {
+  return wrapper.get('.q-splitter__separator-area').element.__qtouchpan
+}
+
 function getPanHandler(wrapper) {
-  return wrapper.get('.q-splitter__separator-area').element.__qtouchpan.handler
+  return getPanContext(wrapper).handler
 }
 
 function startPan(wrapper) {
@@ -125,14 +129,45 @@ describe('[QSplitter API]', () => {
     })
 
     describe('[(prop)disable]', () => {
-      test('type Boolean has effect', () => {
+      test('type Boolean has effect', async () => {
         const wrapper = mountSplitter({ disable: true })
+        const area = wrapper.get('.q-splitter__separator-area')
 
         expect(wrapper.classes()).toContain('q-splitter--disabled')
         expect(getSeparator(wrapper).attributes('aria-disabled')).toBe('true')
-        expect(
-          wrapper.get('.q-splitter__separator-area').element.__qtouchpan
-        ).toBeUndefined()
+
+        await area.trigger('mousedown', { button: 0 })
+
+        expect(getPanContext(wrapper).event).toBeUndefined()
+
+        await wrapper.setProps({ disable: false })
+        await area.trigger('mousedown', { button: 0 })
+
+        expect(getPanContext(wrapper).event).toBeDefined()
+
+        wrapper.unmount()
+      })
+
+      test('toggling it keeps the separator content mounted', async () => {
+        const unmountedFn = vi.fn()
+        const Probe = defineComponent({
+          name: 'SeparatorProbe',
+          unmounted: unmountedFn,
+          render: () => h('span', 'Separator content')
+        })
+
+        const wrapper = mountSplitter({}, { separator: () => h(Probe) })
+        const probeEl = wrapper.get('span').element
+
+        await wrapper.setProps({ disable: true })
+
+        expect(unmountedFn).not.toHaveBeenCalled()
+        expect(wrapper.get('span').element).toBe(probeEl)
+
+        await wrapper.setProps({ disable: false })
+
+        expect(unmountedFn).not.toHaveBeenCalled()
+        expect(wrapper.get('span').element).toBe(probeEl)
       })
     })
 
