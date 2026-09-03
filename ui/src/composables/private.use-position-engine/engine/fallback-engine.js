@@ -252,8 +252,10 @@ export function useFallbackEngine(
     // context menu / cursor position) instead of the anchor's box:
     // { top, left } relative to the anchor's top-left corner
     anchorPoint = null,
-    // overflow correction for point mode, decided on first paint
-    pointSelf = null,
+    // overflow correction for point mode (mirror/shift), decided on
+    // first paint; like `boundary`, re-derived from the intended
+    // placement on every pass
+    pointBoundary = null,
     // overflow correction for box mode (flip/cap), decided on first
     // paint; the popup stays invisible until the first pass ran
     boundary = null,
@@ -268,19 +270,20 @@ export function useFallbackEngine(
     if (innerRef.value === null || anchorEl.value === null) return
 
     const b = anchorPoint === null ? boundary : null
+    const p = anchorPoint !== null ? pointBoundary : null
 
     centerShift = applyPosition({
       targetEl: innerRef.value,
       anchorEl: anchorEl.value,
       anchorOrigin: b !== null ? b.anchorOrigin : anchorOrigin.value,
       selfOrigin:
-        anchorPoint !== null
-          ? (pointSelf ?? selfOrigin.value)
+        p !== null
+          ? p.selfOrigin
           : b !== null
             ? b.selfOrigin
             : selfOrigin.value,
       offset: props.offset,
-      point: anchorPoint ?? void 0,
+      point: p !== null ? p.point : (anchorPoint ?? void 0),
       fit: props.fit,
       cover: props.cover,
       maxHeight: props.maxHeight,
@@ -326,19 +329,16 @@ export function useFallbackEngine(
         maxWidth: props.maxWidth
       })
     } else {
+      pointBoundary = null
+      centerShift = null
       track()
-      const res = applyPointBoundary({
+      pointBoundary = applyPointBoundary({
         el,
         anchorEl: anchorEl.value,
         point: anchorPoint,
-        selfOrigin: pointSelf ?? selfOrigin.value,
+        selfOrigin: selfOrigin.value,
         offset: props.offset
       })
-
-      if (res !== null) {
-        pointSelf = res.selfOrigin
-        anchorPoint = res.point
-      }
     }
 
     // the pass the frozen placement (boundary verdict + anchor-center
@@ -389,10 +389,11 @@ export function useFallbackEngine(
     updatePosition,
     setAnchorPoint(point) {
       anchorPoint = point
+      pointBoundary = null
     },
     handleShow() {
       anchorPoint = null
-      pointSelf = null
+      pointBoundary = null
       boundary = null
       centerShift = null
       retries = 0
@@ -451,7 +452,7 @@ export function useFallbackEngine(
       if (!hidingInProgress) {
         removeScrollTracking(onScroll)
         anchorPoint = null
-        pointSelf = null
+        pointBoundary = null
         boundary = null
         centerShift = null
       }

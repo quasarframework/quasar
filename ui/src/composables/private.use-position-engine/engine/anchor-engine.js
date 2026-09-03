@@ -239,8 +239,10 @@ export function useCssAnchorEngine(
   // context menu / cursor position) instead of the anchor's box:
   // { top, left } relative to the anchor's top-left corner
   const anchorPoint = ref(null)
-  // overflow correction for point mode, measured on first paint
-  const pointSelf = ref(null)
+  // overflow correction for point mode (mirror/shift), measured on
+  // first paint; like `boundary`, re-derived from the intended
+  // placement on every pass
+  const pointBoundary = ref(null)
   // overflow correction for box mode (flip/cap), measured on first
   // paint; the popup stays invisible until the first pass ran
   const boundary = ref(null)
@@ -250,18 +252,19 @@ export function useCssAnchorEngine(
     if (anchorName.value === '') return ''
 
     const b = anchorPoint.value === null ? boundary.value : null
+    const p = anchorPoint.value !== null ? pointBoundary.value : null
 
     const style = getPositionStyle({
       anchorName: anchorName.value,
       anchorOrigin: b !== null ? b.anchorOrigin : anchorOrigin.value,
       selfOrigin:
-        anchorPoint.value !== null
-          ? (pointSelf.value ?? selfOrigin.value)
+        p !== null
+          ? p.selfOrigin
           : b !== null
             ? b.selfOrigin
             : selfOrigin.value,
       offset: props.offset,
-      point: anchorPoint.value ?? void 0,
+      point: p !== null ? p.point : (anchorPoint.value ?? void 0),
       fit: props.fit,
       cover: props.cover,
       maxHeight: props.maxHeight,
@@ -308,18 +311,13 @@ export function useCssAnchorEngine(
       // anchor's box
       el.style.visibility = ''
 
-      const res = applyPointBoundary({
+      pointBoundary.value = applyPointBoundary({
         el,
         anchorEl: anchorEl.value,
         point: anchorPoint.value,
-        selfOrigin: pointSelf.value ?? selfOrigin.value,
+        selfOrigin: selfOrigin.value,
         offset: props.offset
       })
-
-      if (res !== null) {
-        pointSelf.value = res.selfOrigin
-        anchorPoint.value = res.point
-      }
     }
 
     positioned.value = true
@@ -345,10 +343,11 @@ export function useCssAnchorEngine(
     releaseAnchor,
     setAnchorPoint(point) {
       anchorPoint.value = point
+      pointBoundary.value = null
     },
     handleShow() {
       anchorPoint.value = null
-      pointSelf.value = null
+      pointBoundary.value = null
       boundary.value = null
       positioned.value = false
 

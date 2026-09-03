@@ -29,6 +29,7 @@ afterEach(() => {
   wrapper?.unmount()
   wrapper = void 0
   engineOverride.forceJsFallback = false
+  vi.useRealTimers()
 })
 
 const anchorBox = { top: 100, left: 100, width: 200, height: 100 }
@@ -37,8 +38,12 @@ const anchorBox = { top: 100, left: 100, width: 200, height: 100 }
  * A minimal popup: the composable driving a fixed box rendered inside a
  * pinned anchor (100,100 / 200x100, so its center is at 200,150).
  */
-function mountPopup({ trackContent = false, popupProps = {} } = {}) {
-  let engine
+function mountPopup({
+  trackContent = false,
+  popupProps = {},
+  popupStyle = {}
+} = {}) {
+  let engine, anchorEl
   const showing = ref(false)
   const innerRef = ref(null)
   const content = ref('content')
@@ -56,7 +61,7 @@ function mountPopup({ trackContent = false, popupProps = {} } = {}) {
 
     setup(props) {
       const $q = useQuasar()
-      const { anchorEl } = useAnchor({ showing })
+      ;({ anchorEl } = useAnchor({ showing }))
 
       engine = usePositionEngine({
         props,
@@ -78,6 +83,7 @@ function mountPopup({ trackContent = false, popupProps = {} } = {}) {
                 class: engine.viaCssAnchor ? '' : 'q-position-engine',
                 style: [
                   { position: 'fixed', width: 'max-content' },
+                  popupStyle,
                   engine.positionStyle.value
                 ]
               },
@@ -112,6 +118,9 @@ function mountPopup({ trackContent = false, popupProps = {} } = {}) {
   return {
     get engine() {
       return engine
+    },
+    get anchorEl() {
+      return anchorEl
     },
     anchor: wrapper.get('.anchor').element,
     content,
@@ -247,6 +256,223 @@ describe('[usePositionEngine API]', () => {
           expect(rect.width).toBeGreaterThan(width)
           expect(rect.left + rect.width / 2).toBeCloseTo(200, 0)
         })
+      })
+    })
+  })
+
+  describe('[Generic]', () => {
+    function createAnchor(style) {
+      const el = document.createElement('div')
+      Object.assign(el.style, { position: 'fixed', ...style })
+      document.body.append(el)
+      return el
+    }
+
+    describe('anchor bookkeeping', () => {
+      test('a re-show during the leave transition keeps the anchor name and releases it once', async () => {
+        const popup = mountPopup()
+        const { anchor, engine } = popup
+
+        await popup.show()
+        const name = anchor.style.getPropertyValue('anchor-name')
+        expect(name).toMatch(/^--q-/)
+
+        // hide, then show again before the leave transition ended
+        engine.releaseAnchor(true)
+        await popup.show()
+        expect(anchor.style.getPropertyValue('anchor-name')).toBe(name)
+
+        // the second hide runs the full teardown
+        await popup.hide()
+        expect(anchor.style.getPropertyValue('anchor-name')).toBe('')
+
+        // nothing left to release
+        engine.releaseAnchor(false)
+        expect(anchor.style.getPropertyValue('anchor-name')).toBe('')
+      })
+
+      test('switching anchors between shows releases the previous one', async () => {
+        const popup = mountPopup()
+        const { anchor, engine } = popup
+        // before the popup in tree order, like a portal's anchor always is
+        // (an anchor that comes later is not one the browser accepts)
+        const other = createAnchor({
+          top: '300px',
+          left: '300px',
+          width: '100px',
+          height: '50px'
+        })
+        document.body.prepend(other)
+
+        try {
+          await popup.show()
+          expect(anchor.style.getPropertyValue('anchor-name')).toMatch(/^--q-/)
+
+          engine.releaseAnchor(true)
+          popup.anchorEl.value = other
+          const el = await popup.show()
+
+          expect(anchor.style.getPropertyValue('anchor-name')).toBe('')
+          expect(other.style.getPropertyValue('anchor-name')).toMatch(/^--q-/)
+          expectPlacedAt(el, { top: 350, centerX: 350 })
+
+          await popup.hide()
+          expect(other.style.getPropertyValue('anchor-name')).toBe('')
+        } finally {
+          other.remove()
+        }
+      })
+
+      test('teardown and repositioning are no-ops before any show', () => {
+        const popup = mountPopup()
+
+        expect(() => {
+          popup.engine.updatePosition()
+          popup.engine.releaseAnchor(true)
+          popup.engine.releaseAnchor(false)
+        }).not.toThrow()
+        expect(popup.anchor.style.getPropertyValue('anchor-name')).toBe('')
+      })
+    })
+
+    describe('JS fallback', () => {
+      test('retries a decision on content that has no size yet', async () => {
+        vi.useFakeTimers()
+        engineOverride.forceJsFallback = true
+        const popup = mountPopup({ popupStyle: { display: 'none' } })
+
+        const el = await popup.show()
+        expect(el.style.top).toBe('')
+
+        // measurable from the third attempt on
+        await vi.advanceTimersByTimeAsync(20)
+        el.style.display = 'block'
+        await vi.advanceTimersByTimeAsync(10)
+
+        expectPlacedAt(el, { top: 200, centerX: 200 })
+      })
+
+      test('gives up on content that never gets a size', async () => {
+        vi.useFakeTimers()
+        engineOverride.forceJsFallback = true
+        const popup = mountPopup({ popupStyle: { display: 'none' } })
+
+        const el = await popup.show()
+        await vi.advanceTimersByTimeAsync(1000)
+
+        expect(vi.getTimerCount()).toBe(0)
+        expect(el.style.top).toBe('')
+
+        // a later explicit pass starts over
+        el.style.display = 'block'
+        popup.engine.updatePosition()
+        expectPlacedAt(el, { top: 200, centerX: 200 })
+      })
+
+      test('ignores scrolls that happen inside the popup itself', async () => {
+        engineOverride.forceJsFallback = true
+        const popup = mountPopup()
+
+        const el = await popup.show()
+        const inner = document.createElement('div')
+        el.append(inner)
+
+        popup.anchor.style.top = '300px'
+        inner.dispatchEvent(new Event('scroll', { bubbles: true }))
+        expectPlacedAt(el, { top: 200, centerX: 200 })
+
+        document.dispatchEvent(new Event('scroll'))
+        expectPlacedAt(el, { top: 400, centerX: 200 })
+      })
+
+      test('stops following content changes once hidden', async () => {
+        engineOverride.forceJsFallback = true
+        const popup = mountPopup({ trackContent: true })
+
+        const el = await popup.show()
+        popup.engine.releaseAnchor(true)
+        popup.engine.releaseAnchor(false)
+
+        const { left } = el.getBoundingClientRect()
+        popup.content.value = 'content that got quite a bit wider'
+        await nextTick()
+        await new Promise(resolve => {
+          setTimeout(resolve, 30)
+        })
+
+        expect(el.getBoundingClientRect().left).toBe(left)
+      })
+    })
+
+    describe('point mode re-decision', () => {
+      // the anchor sits at the viewport bottom; a popup opening below the
+      // pointer overflows and mirrors above it
+      async function showFlippedAtBottom() {
+        const popup = mountPopup({ popupStyle: { height: '100px' } })
+        popup.anchor.style.top = '700px'
+
+        const el = await popup.show(
+          new PointerEvent('click', { clientX: 250, clientY: 750 })
+        )
+
+        expect(el.getBoundingClientRect().bottom).toBeCloseTo(750, 0)
+        return { popup, el }
+      }
+
+      // like box mode, the decision restarts from the intended placement:
+      // once there is room below the pointer again, the popup opens there
+      async function expectFlipBack({ popup, el }) {
+        popup.anchor.style.top = '100px'
+        popup.engine.updatePosition()
+        await flushPromises()
+
+        expectPlacedAt(el, { top: 150, centerX: 250 })
+      }
+
+      test('returns to the intended side once it fits (native)', async () => {
+        await expectFlipBack(await showFlippedAtBottom())
+      })
+
+      test('returns to the intended side once it fits (JS fallback)', async () => {
+        engineOverride.forceJsFallback = true
+        await expectFlipBack(await showFlippedAtBottom())
+      })
+
+      // a centered axis shifts inside the viewport instead of mirroring;
+      // the shift must not stick to the pointer coordinates
+      async function showShiftedAtRightEdge() {
+        const popup = mountPopup({
+          popupProps: { self: 'center middle' },
+          popupStyle: { width: '200px' }
+        })
+        popup.anchor.style.left = '1000px'
+
+        const el = await popup.show(
+          new PointerEvent('click', { clientX: 1190, clientY: 150 })
+        )
+
+        const rect = el.getBoundingClientRect()
+        expect(rect.right).toBeCloseTo(document.documentElement.clientWidth, 0)
+        return { popup, el }
+      }
+
+      async function expectRecentered({ popup, el }) {
+        popup.anchor.style.left = '500px'
+        popup.engine.updatePosition()
+        await flushPromises()
+
+        const rect = el.getBoundingClientRect()
+        expect(rect.top + rect.height / 2).toBeCloseTo(150, 0)
+        expect(rect.left + rect.width / 2).toBeCloseTo(690, 0)
+      }
+
+      test('re-centers on the pointer once there is room (native)', async () => {
+        await expectRecentered(await showShiftedAtRightEdge())
+      })
+
+      test('re-centers on the pointer once there is room (JS fallback)', async () => {
+        engineOverride.forceJsFallback = true
+        await expectRecentered(await showShiftedAtRightEdge())
       })
     })
   })
