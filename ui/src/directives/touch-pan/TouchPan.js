@@ -385,8 +385,12 @@ export default /*#__PURE__*/ createDirective(
                   ctx,
                   true
                 )
+                // the mouse cleanup defers this call; read the handler now so
+                // an updated() that disarms the directive meanwhile (value no
+                // longer a function) still delivers the final payload
+                const { handler } = ctx
                 const fn = () => {
-                  ctx.handler(payload)
+                  handler(payload)
                 }
 
                 if (ctx.styleCleanup !== void 0) {

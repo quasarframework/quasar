@@ -1,6 +1,6 @@
 import { mount } from '@vue/test-utils'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
-import { defineComponent, h, withDirectives } from 'vue'
+import { defineComponent, h, nextTick, ref, withDirectives } from 'vue'
 
 import { getMainEvent } from 'testing/runtime/directive.js'
 
@@ -115,6 +115,55 @@ describe('[TouchPan API]', () => {
 
       expect(wrapper.element.__qtouchpan.handler).toBeUndefined()
       expect(wrapper.element.__qtouchpan.event).toBeUndefined()
+    })
+
+    test('switching to undefined mid-pan still delivers the final payload', async () => {
+      const handler = vi.fn(() => true)
+      const value = ref(handler)
+      const TestComponent = defineComponent({
+        setup() {
+          return () =>
+            withDirectives(h('div'), [
+              [TouchPan, value.value, void 0, { mouse: true }]
+            ])
+        }
+      })
+      const wrapper = mount(TestComponent)
+
+      wrapper.element.dispatchEvent(
+        new MouseEvent('mousedown', {
+          bubbles: true,
+          button: 0,
+          cancelable: true,
+          clientX: 0,
+          clientY: 0
+        })
+      )
+      document.dispatchEvent(
+        new MouseEvent('mousemove', {
+          bubbles: true,
+          cancelable: true,
+          clientX: 40,
+          clientY: 5
+        })
+      )
+
+      expect(handler).toHaveBeenLastCalledWith(
+        expect.objectContaining({ isFirst: true, isFinal: false })
+      )
+
+      value.value = void 0
+      await nextTick()
+
+      expect(wrapper.element.__qtouchpan.handler).toBeUndefined()
+      expect(wrapper.element.__qtouchpan.event).toBeUndefined()
+
+      // the mouse style cleanup defers the final call by 50ms
+      vi.advanceTimersByTime(50)
+
+      expect(handler).toHaveBeenLastCalledWith(
+        expect.objectContaining({ isFirst: false, isFinal: true })
+      )
     })
   })
 
