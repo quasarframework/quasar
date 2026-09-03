@@ -21,7 +21,9 @@ import { fabKey } from '../../utils/private.symbols/symbols.js'
 const directions = ['up', 'right', 'down', 'left']
 const alignValues = ['left', 'center', 'right']
 
-// must track the .18s show transition of .q-fab__actions (QFab.sass)
+// must track the .18s show transition of the .q-fab__actions children
+// (QFab.sass); deliberately ignores the stagger, which only delays the
+// actions further out and not the ones the pointer is already over
 const hoverShowDuration = 180
 
 export default /*#__PURE__*/ createComponent({
@@ -49,6 +51,11 @@ export default /*#__PURE__*/ createComponent({
     ...useHoverProps,
 
     persistent: Boolean,
+
+    stagger: {
+      type: Number,
+      default: 40
+    },
 
     verticalActionsAlign: {
       type: String,
@@ -130,7 +137,8 @@ export default /*#__PURE__*/ createComponent({
     // (menus permit nothing but menuitem* children)
     const actionAttrs = computed(() => {
       const attrs = {
-        id: targetUid.value
+        id: targetUid.value,
+        style: `--q-fab-stagger: ${props.stagger}ms`
       }
 
       if (!showing.value) {

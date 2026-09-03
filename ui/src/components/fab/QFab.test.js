@@ -546,6 +546,29 @@ describe('[QFab API]', () => {
       })
     })
 
+    describe('[(prop)stagger]', () => {
+      test('type Number has effect', () => {
+        const wrapper = mountFab({ stagger: 120 })
+        const actions = wrapper.get('.q-fab__actions').element
+
+        expect(actions.style.getPropertyValue('--q-fab-stagger')).toBe('120ms')
+      })
+
+      test('default value', () => {
+        const wrapper = mountFab()
+        const actions = wrapper.get('.q-fab__actions').element
+
+        expect(actions.style.getPropertyValue('--q-fab-stagger')).toBe('40ms')
+      })
+
+      test('value 0 has effect', () => {
+        const wrapper = mountFab({ stagger: 0 })
+        const actions = wrapper.get('.q-fab__actions').element
+
+        expect(actions.style.getPropertyValue('--q-fab-stagger')).toBe('0ms')
+      })
+    })
+
     describe('[(prop)persistent]', () => {
       test('type Boolean has effect', async () => {
         const router = await getRouter(['/one', '/two'])

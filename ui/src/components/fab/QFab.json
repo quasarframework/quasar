@@ -59,6 +59,14 @@
       "addedIn": "v2.27"
     },
 
+    "stagger": {
+      "type": "Number",
+      "desc": "Number of milliseconds between the show/hide animation of one Fab Action and the next one; The cascade runs outwards from the main button when opening and back towards it when closing; Use 0 to animate all Fab Actions at once",
+      "default": "40",
+      "category": "behavior",
+      "addedIn": "v2.30"
+    },
+
     "persistent": {
       "type": "Boolean",
       "desc": "By default, Fab Actions are hidden when user navigates to another route and this prop disables this behavior",

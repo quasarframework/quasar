@@ -78,6 +78,12 @@ The default padding for QFab is "md" and for QFabAction is "sm". However, you ca
 
 <DocExample title="Square style" file="SquareStyle" />
 
+### Animating the actions <q-badge label="v2.30+" />
+
+The sub-actions stay in the DOM at all times. Opening the FAB toggles an `--opened` / `--closed` state class on their container and each action fades and scales into place from there, one after the other. The `stagger` prop sets how many milliseconds apart consecutive actions animate: the cascade runs outwards from the main button when opening and back towards it when closing, whatever the `direction` is. Use `0` to animate them all at once.
+
+<DocExample title="Staggered actions" file="StaggeredActions" />
+
 ### Slots <q-badge label="v2.4+" />
 
 Notice the slots for QFab and the slots for QFabAction below:

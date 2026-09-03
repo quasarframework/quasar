@@ -89,8 +89,6 @@
 
   &__actions
     position: absolute
-    opacity: 0
-    transition: transform .18s ease-in, opacity .18s ease-in
     pointer-events: none
     align-items: center
     justify-content: center
@@ -100,34 +98,33 @@
     .q-btn
       margin: 5px
 
+    // a closed action is a disabled QBtn and .q-btn.disabled pins its
+    // opacity with !important, so the fade has to go through filter
+    > *
+      filter: opacity(0)
+      transform: scale(.4)
+      transition: filter .18s ease-out, transform .18s ease-out
+
     // physical direction, not text-based: don't let rtlcss mirror it
     &--right
-      transform-origin: 0 50% #{"/* rtl:ignore */"}
-      transform: scale(.4) translateX(-62px) #{"/* rtl:ignore */"}
       height: 56px
       left: 100% #{"/* rtl:ignore */"}
       margin-left: 9px #{"/* rtl:ignore */"}
       flex-direction: row #{"/* rtl:row-reverse */"}
 
     &--left
-      transform-origin: 100% 50% #{"/* rtl:ignore */"}
-      transform: scale(.4) translateX(62px) #{"/* rtl:ignore */"}
       height: 56px
       right: 100% #{"/* rtl:ignore */"}
       margin-right: 9px #{"/* rtl:ignore */"}
       flex-direction: row-reverse #{"/* rtl:row */"}
 
     &--up
-      transform-origin: 50% 100%
-      transform: scale(.4) translateY(62px)
       width: 56px
       bottom: 100%
       margin-bottom: 9px
       flex-direction: column-reverse
 
     &--down
-      transform-origin: 50% 0
-      transform: scale(.4) translateY(-62px)
       width: 56px
       top: 100%
       margin-top: 9px
@@ -137,11 +134,20 @@
       left: 50%
       margin-left: -28px
 
+    // DOM order runs outwards from the trigger in every direction, so the
+    // cascade opens away from it and closes back towards it. Engines
+    // without sibling-index() drop just this declaration and animate the
+    // actions together.
     &--opened
-      opacity: 1
-      // needed when rtlcss is enabled
-      transform: scale(1) translate(0.1px, 0)
       pointer-events: all
+
+      > *
+        filter: opacity(1)
+        transform: scale(1)
+        transition-delay: calc(var(--q-fab-stagger) * (sibling-index() - 1))
+
+    &--closed > *
+      transition-delay: calc(var(--q-fab-stagger) * (sibling-count() - sibling-index()))
 
   &--align-left
     > .q-fab__actions
