@@ -92,6 +92,45 @@ async function hideTooltip(wrapper) {
   await vi.runAllTimersAsync()
 }
 
+/**
+ * Mounts a tooltip on a 200x100 anchor pinned at (100, 100), the fixed
+ * geometry the cursor-position cases reason about.
+ */
+function mountTooltipOnPinnedAnchor(props) {
+  const wrapper = mountTooltip(props)
+
+  Object.assign(getAnchor(wrapper).element.style, {
+    position: 'fixed',
+    top: '100px',
+    left: '100px',
+    width: '200px',
+    height: '100px'
+  })
+
+  return wrapper
+}
+
+/**
+ * Dispatches a real PointerEvent, the only way to carry coordinates
+ * (test-utils' trigger() cannot write the read-only clientX/clientY).
+ * Defaults to (250, 150), the pinned anchor's center.
+ */
+function dispatchPointer(
+  wrapper,
+  type,
+  { left = 250, top = 150, ...rest } = {}
+) {
+  getAnchor(wrapper).element.dispatchEvent(
+    new PointerEvent(type, { clientX: left, clientY: top, ...rest })
+  )
+}
+
+async function enterAt(wrapper, evtProps) {
+  dispatchPointer(wrapper, 'pointerenter', evtProps)
+  await vi.runAllTimersAsync()
+  await flushPromises()
+}
+
 const wrappingContent = () =>
   h(
     'div',
@@ -407,6 +446,34 @@ describe('[QTooltip API]', () => {
       })
     })
 
+    describe('[(prop)cursor-position]', () => {
+      test('type Boolean has effect', async () => {
+        const wrapper = mountTooltipOnPinnedAnchor()
+
+        await enterAt(wrapper)
+
+        // without the prop: bottom middle / top middle of the anchor's
+        // box, offset by the default [14, 14]
+        const boxRect = getTooltip().getBoundingClientRect()
+        expect(boxRect.top).toBe(214)
+        expect(boxRect.left + boxRect.width / 2).toBeCloseTo(200, 0)
+
+        await getAnchor(wrapper).trigger('pointerleave')
+        await vi.runAllTimersAsync()
+
+        await wrapper.setProps({ tooltipProps: { cursorPosition: true } })
+        await flushPromises()
+
+        await enterAt(wrapper)
+
+        // with it: the same origins, but around the pointer instead,
+        // cleared by the default [14, 14] offset on both axes
+        const rect = getTooltip().getBoundingClientRect()
+        expect(rect.top).toBe(164)
+        expect(rect.left + rect.width / 2).toBeCloseTo(264, 0)
+      })
+    })
+
     describe('[(prop)delay]', () => {
       test('type Number has effect', async () => {
         const wrapper = mountTooltip({ delay: 500 })
@@ -610,6 +677,126 @@ describe('[QTooltip API]', () => {
     describe('viewport boundary', () => {
       test('keeps its natural width when flipped away from the right edge', async () => {
         await expectNaturalWidthAtTheRightEdge()
+      })
+    })
+
+    describe('cursor position', () => {
+      test('waits for the pointer to settle, then freezes there', async () => {
+        const wrapper = mountTooltipOnPinnedAnchor({ cursorPosition: true })
+
+        dispatchPointer(wrapper, 'pointerenter')
+        await vi.advanceTimersByTimeAsync(80)
+
+        // still sweeping across the anchor: nothing is shown yet, and
+        // the wait restarts around wherever the pointer went
+        expect(getTooltip()).toBeNull()
+
+        dispatchPointer(wrapper, 'pointermove', { left: 180, top: 130 })
+        await vi.advanceTimersByTimeAsync(80)
+
+        expect(getTooltip()).toBeNull()
+
+        await vi.runAllTimersAsync()
+        await flushPromises()
+
+        const rect = getTooltip().getBoundingClientRect()
+        expect(rect.top).toBe(144)
+        expect(rect.left + rect.width / 2).toBeCloseTo(194, 0)
+
+        // the placement is frozen: a pointer moving on does not drag it
+        dispatchPointer(wrapper, 'pointermove', { left: 260, top: 190 })
+        await vi.runAllTimersAsync()
+        await flushPromises()
+
+        expect(getTooltip().getBoundingClientRect().top).toBe(144)
+      })
+
+      test('ignores pointer jitter while settling', async () => {
+        const wrapper = mountTooltipOnPinnedAnchor({ cursorPosition: true })
+
+        dispatchPointer(wrapper, 'pointerenter')
+        await vi.advanceTimersByTimeAsync(80)
+
+        // a sensor that keeps reporting tiny movements must neither
+        // postpone the tooltip nor move the coordinates it opens at
+        for (let i = 0; i < 5; i++) {
+          dispatchPointer(wrapper, 'pointermove', {
+            left: 250 + (i % 2 ? 2 : -2),
+            top: 150 + (i % 2 ? -3 : 3)
+          })
+          await vi.advanceTimersByTimeAsync(10)
+        }
+
+        await flushPromises()
+
+        expect(getTooltip().getBoundingClientRect().top).toBe(164)
+      })
+
+      test('opens right away at the contact point of a touch', async () => {
+        const wrapper = mountTooltipOnPinnedAnchor({ cursorPosition: true })
+
+        // a finger is already down when it "enters", so there is no
+        // approach to wait out
+        dispatchPointer(wrapper, 'pointerenter', {
+          pointerType: 'touch',
+          isPrimary: true
+        })
+        await vi.advanceTimersByTimeAsync(50)
+        await flushPromises()
+
+        // shown well before the settle window a hovering pointer waits
+        expect(getTooltip().getBoundingClientRect().top).toBe(164)
+      })
+
+      test('falls back to the anchor box when no pointer is involved', async () => {
+        const wrapper = mountTooltipOnPinnedAnchor({ cursorPosition: true })
+
+        // keyboard focus reports no coordinates
+        getAnchor(wrapper).element.focus()
+        getAnchor(wrapper).element.dispatchEvent(
+          new FocusEvent('focusin', { bubbles: true })
+        )
+        await vi.runAllTimersAsync()
+        await flushPromises()
+
+        expect(getTooltip().getBoundingClientRect().top).toBe(214)
+
+        await hideTooltip(wrapper)
+
+        // ...and neither does the model
+        await showTooltip(wrapper)
+
+        expect(getTooltip().getBoundingClientRect().top).toBe(214)
+      })
+
+      test('mirrors around the pointer at a viewport edge', async () => {
+        const wrapper = mountTooltipOnPinnedAnchor({ cursorPosition: true })
+        const bottom = document.documentElement.clientHeight
+
+        getAnchor(wrapper).element.style.top = `${bottom - 100}px`
+
+        await enterAt(wrapper, { top: bottom - 20 })
+
+        // no room below the pointer, so the tooltip opens above it,
+        // clearing it by the offset on that side too
+        expect(getTooltip().getBoundingClientRect().bottom).toBe(bottom - 34)
+      })
+
+      test('keeps tracking the anchor it was opened from', async () => {
+        engineOverride.forceJsFallback = true
+
+        const wrapper = mountTooltipOnPinnedAnchor({ cursorPosition: true })
+
+        await enterAt(wrapper)
+        expect(getTooltip().style.top).toBe('164px')
+
+        // the point is anchor-relative, so a scrolled-away anchor takes
+        // the frozen placement with it
+        getAnchor(wrapper).element.style.top = '60px'
+        document.dispatchEvent(new Event('scroll'))
+        await flushPromises()
+
+        expect(getTooltip().style.top).toBe('124px')
       })
     })
 

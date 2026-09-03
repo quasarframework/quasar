@@ -25,7 +25,7 @@ import useTransitionEnd from '../../composables/private.use-transition-end/use-t
 import useId from '../../composables/use-id/use-id.js'
 
 import { createComponent } from '../../utils/private.create/create.js'
-import { addEvt, cleanEvt } from '../../utils/event/event.js'
+import { addEvt, cleanEvt, position } from '../../utils/event/event.js'
 import {
   addEscapeKey,
   removeEscapeKey
@@ -34,6 +34,7 @@ import { clearSelection } from '../../utils/private.selection/selection.js'
 import { hSlot } from '../../utils/private.render/render.js'
 import {
   applyBoundary,
+  applyPointBoundary,
   parsePosition,
   supportsCssAnchor,
   validateOffset,
@@ -55,6 +56,14 @@ import {
 
 let nonSelectableCount = 0
 
+// cursor-position freezes the tooltip at the pointer, so it waits for
+// the pointer to settle before showing: a coordinate latched mid-sweep
+// is one the pointer has already left. Both are what a native `title`
+// does, and the tolerance is what keeps a jittery sensor, a trackpad or
+// a hand tremor from postponing the tooltip forever.
+const cursorSettleDelay = 100
+const cursorSettleTolerance = 4
+
 // a finger, or a stylus pressed to the screen (buttons is 0 while it
 // merely hovers): both start native text selection when held, unlike
 // a hovering pointer, so both need the touch UX
@@ -72,6 +81,12 @@ function useCssAnchorEngine(
   let namedAnchorEl = null
 
   const anchorName = ref('')
+  // set while the tooltip is anchored to a coordinate (cursor position)
+  // instead of the anchor's box: { top, left } relative to the anchor's
+  // top-left corner
+  const anchorPoint = ref(null)
+  // overflow correction for point mode, measured on first paint
+  const pointSelf = ref(null)
   // overflow correction (flip/cap), measured on first paint; the
   // tooltip stays invisible until the first pass ran
   const boundary = ref(null)
@@ -80,13 +95,19 @@ function useCssAnchorEngine(
   const positionStyle = computed(() => {
     if (anchorName.value === '') return ''
 
-    const b = boundary.value
+    const b = anchorPoint.value === null ? boundary.value : null
 
     const style = getPositionStyle({
       anchorName: anchorName.value,
       anchorOrigin: b !== null ? b.anchorOrigin : anchorOrigin.value,
-      selfOrigin: b !== null ? b.selfOrigin : selfOrigin.value,
+      selfOrigin:
+        anchorPoint.value !== null
+          ? (pointSelf.value ?? selfOrigin.value)
+          : b !== null
+            ? b.selfOrigin
+            : selfOrigin.value,
       offset: props.offset,
+      point: anchorPoint.value ?? void 0,
       maxHeight: props.maxHeight,
       maxWidth: props.maxWidth
     })
@@ -119,17 +140,37 @@ function useCssAnchorEngine(
   // only decides the placement: once per show, on demand and on
   // screen/prop changes.
   const updatePosition = () => {
-    if (innerRef.value === null || anchorEl.value === null) return
+    const el = innerRef.value
+    if (el === null || anchorEl.value === null) return
 
-    boundary.value = applyBoundary({
-      el: innerRef.value,
-      anchorEl: anchorEl.value,
-      anchorOrigin: anchorOrigin.value,
-      selfOrigin: selfOrigin.value,
-      offset: props.offset,
-      maxHeight: props.maxHeight,
-      maxWidth: props.maxWidth
-    })
+    if (anchorPoint.value === null) {
+      boundary.value = applyBoundary({
+        el,
+        anchorEl: anchorEl.value,
+        anchorOrigin: anchorOrigin.value,
+        selfOrigin: selfOrigin.value,
+        offset: props.offset,
+        maxHeight: props.maxHeight,
+        maxWidth: props.maxWidth
+      })
+    } else {
+      // point mode (cursor position) mirrors or shifts around the
+      // pointer instead of the anchor's box
+      el.style.visibility = ''
+
+      const res = applyPointBoundary({
+        el,
+        anchorEl: anchorEl.value,
+        point: anchorPoint.value,
+        selfOrigin: pointSelf.value ?? selfOrigin.value,
+        offset: props.offset
+      })
+
+      if (res !== null) {
+        pointSelf.value = res.selfOrigin
+        anchorPoint.value = res.point
+      }
+    }
 
     positioned.value = true
   }
@@ -139,7 +180,12 @@ function useCssAnchorEngine(
 
     releaseAnchor,
     updatePosition,
+    setAnchorPoint(point) {
+      anchorPoint.value = point
+    },
     handleShow() {
+      anchorPoint.value = null
+      pointSelf.value = null
       boundary.value = null
       positioned.value = false
 
@@ -163,6 +209,12 @@ function useFallbackEngine(
 ) {
   let observer,
     stopAnchorTracking,
+    // set while the tooltip is anchored to a coordinate (cursor
+    // position) instead of the anchor's box: { top, left } relative to
+    // the anchor's top-left corner
+    anchorPoint = null,
+    // overflow correction for point mode, decided on first paint
+    pointSelf = null,
     // overflow correction (flip/cap), decided on first paint; the
     // tooltip stays invisible until the first pass ran
     boundary = null,
@@ -176,17 +228,24 @@ function useFallbackEngine(
   const track = () => {
     if (innerRef.value === null || anchorEl.value === null) return
 
+    const b = anchorPoint === null ? boundary : null
+
     centerShift = applyPosition({
       targetEl: innerRef.value,
       anchorEl: anchorEl.value,
-      anchorOrigin:
-        boundary !== null ? boundary.anchorOrigin : anchorOrigin.value,
-      selfOrigin: boundary !== null ? boundary.selfOrigin : selfOrigin.value,
+      anchorOrigin: b !== null ? b.anchorOrigin : anchorOrigin.value,
+      selfOrigin:
+        anchorPoint !== null
+          ? (pointSelf ?? selfOrigin.value)
+          : b !== null
+            ? b.selfOrigin
+            : selfOrigin.value,
       offset: props.offset,
+      point: anchorPoint ?? void 0,
       maxHeight: props.maxHeight,
       maxWidth: props.maxWidth,
-      capHeight: boundary !== null ? boundary.maxHeight : null,
-      capWidth: boundary !== null ? boundary.maxWidth : null,
+      capHeight: b !== null ? b.maxHeight : null,
+      capWidth: b !== null ? b.maxWidth : null,
       centerShift
     })
   }
@@ -209,18 +268,35 @@ function useFallbackEngine(
     retries = 0
 
     // a first pass at the intended placement, then the boundary verdict
-    boundary = null
-    centerShift = null
-    track()
-    boundary = applyBoundary({
-      el,
-      anchorEl: anchorEl.value,
-      anchorOrigin: anchorOrigin.value,
-      selfOrigin: selfOrigin.value,
-      offset: props.offset,
-      maxHeight: props.maxHeight,
-      maxWidth: props.maxWidth
-    })
+    if (anchorPoint === null) {
+      boundary = null
+      centerShift = null
+      track()
+      boundary = applyBoundary({
+        el,
+        anchorEl: anchorEl.value,
+        anchorOrigin: anchorOrigin.value,
+        selfOrigin: selfOrigin.value,
+        offset: props.offset,
+        maxHeight: props.maxHeight,
+        maxWidth: props.maxWidth
+      })
+    } else {
+      track()
+      const res = applyPointBoundary({
+        el,
+        anchorEl: anchorEl.value,
+        point: anchorPoint,
+        selfOrigin: pointSelf ?? selfOrigin.value,
+        offset: props.offset
+      })
+
+      if (res !== null) {
+        pointSelf = res.selfOrigin
+        anchorPoint = res.point
+      }
+    }
+
     // the pass the frozen placement (boundary verdict + anchor-center
     // shift) is taken from
     centerShift = null
@@ -242,7 +318,12 @@ function useFallbackEngine(
     positionStyle: { value: '' },
 
     updatePosition,
+    setAnchorPoint(point) {
+      anchorPoint = point
+    },
     handleShow() {
+      anchorPoint = null
+      pointSelf = null
       boundary = null
       centerShift = null
       retries = 0
@@ -295,6 +376,8 @@ function useFallbackEngine(
       // mid-animation), like the native engine holds its anchor name
       if (!hidingInProgress) {
         removeScrollTracking(onScroll)
+        anchorPoint = null
+        pointSelf = null
         boundary = null
         centerShift = null
       }
@@ -346,6 +429,8 @@ export default /*#__PURE__*/ createComponent({
       validator: validateOffset
     },
 
+    cursorPosition: Boolean,
+
     delay: {
       type: Number,
       default: 0
@@ -369,6 +454,9 @@ export default /*#__PURE__*/ createComponent({
       // stylus) driving the current show, if any; the hide side needs it
       // because its events can't tell us themselves
       contactType = null,
+      // while a cursor-position show is waiting for the pointer to
+      // settle: the coordinates the wait is measured from
+      settlePoint = null,
       describedBy
 
     const vm = getCurrentInstance()
@@ -416,7 +504,8 @@ export default /*#__PURE__*/ createComponent({
       delayShow,
       delayHide,
       onFocusin,
-      onPointerdown
+      onPointerdown,
+      onCursorMove
     })
 
     const { showPortal, hidePortal, renderPortal } = usePortal(
@@ -457,9 +546,27 @@ export default /*#__PURE__*/ createComponent({
     )
 
     function handleShow(evt) {
+      cleanEvt(anchorEvents, 'cursorTemp')
+
       showPortal()
       addAriaDescription()
       posEngine.handleShow()
+
+      // the event that opened the tooltip carries the coordinates to
+      // open at; a keyboard focus or a bare model toggle carries none
+      // and keeps the anchor-relative placement
+      if (props.cursorPosition && evt !== void 0 && anchorEl.value !== null) {
+        const pos = position(evt)
+
+        if (pos.left !== void 0) {
+          const { top, left } = anchorEl.value.getBoundingClientRect()
+
+          posEngine.setAnchorPoint({
+            left: pos.left - left,
+            top: pos.top - top
+          })
+        }
+      }
 
       if (stopPositionWatcher === void 0) {
         // with CSS anchor positioning the anchor() styles adapt on their
@@ -502,6 +609,7 @@ export default /*#__PURE__*/ createComponent({
       removeEscapeKey(onEscapeKey)
       contactType = null
       cleanEvt(anchorEvents, 'tooltipTemp')
+      cleanEvt(anchorEvents, 'cursorTemp')
       removeAriaDescription()
       setNonSelectable(false)
     }
@@ -513,13 +621,61 @@ export default /*#__PURE__*/ createComponent({
       // break tooltips for everyone dispatching them (tests included)
       if (evt.pointerType === 'touch' && evt.isPrimary === false) return
 
-      if (isContactPointer(evt)) {
+      const contact = isContactPointer(evt)
+
+      if (contact) {
         engageContact(evt)
+      }
+
+      // a contact pointer has no approach to wait out (its "enter" is
+      // already the deliberate press) and a keyboard focus reports no
+      // coordinates at all, so only a hovering pointer settles
+      if (props.cursorPosition && !contact) {
+        const pos = position(evt)
+
+        if (pos.left !== void 0) {
+          settlePoint = pos
+
+          addEvt(anchorEvents, 'cursorTemp', [
+            [anchorEl.value, 'pointermove', 'onCursorMove', 'passive']
+          ])
+
+          settleShow(evt)
+          return
+        }
       }
 
       registerTimeout(() => {
         show(evt)
       }, props.delay)
+    }
+
+    function settleShow(evt) {
+      // the show the pointer has to stay put for; an explicit delay
+      // longer than the settle window still wins
+      registerTimeout(
+        () => {
+          show(evt)
+        },
+        Math.max(props.delay, cursorSettleDelay)
+      )
+    }
+
+    function onCursorMove(evt) {
+      const pos = position(evt)
+
+      // a pointer resting inside the tolerance square keeps both the
+      // coordinates and the pending show; leaving it restarts the wait
+      // around where the pointer went
+      if (
+        Math.abs(pos.left - settlePoint.left) <= cursorSettleTolerance &&
+        Math.abs(pos.top - settlePoint.top) <= cursorSettleTolerance
+      ) {
+        return
+      }
+
+      settlePoint = pos
+      settleShow(evt)
     }
 
     function engageContact(evt) {
@@ -567,6 +723,10 @@ export default /*#__PURE__*/ createComponent({
       ) {
         return
       }
+
+      // a pointer leaving before it ever settled: no show to wait for
+      // anymore (the hide below takes over the shared timer slot)
+      cleanEvt(anchorEvents, 'cursorTemp')
 
       if (contactType !== null) {
         const liftedPen =

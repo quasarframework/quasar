@@ -91,6 +91,13 @@
       "category": "position"
     },
 
+    "cursor-position": {
+      "type": "Boolean",
+      "desc": "Position the Tooltip at the pointer instead of relative to its target; the pointer must settle for a moment first, and the position is then frozen for as long as the Tooltip stays shown. Ignored when the Tooltip is shown through keyboard focus or its model, since neither reports a pointer position",
+      "addedIn": "v2.30",
+      "category": "position"
+    },
+
     "delay": {
       "type": "Number",
       "desc": "Configure Tooltip to appear with delay",

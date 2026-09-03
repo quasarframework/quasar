@@ -50,6 +50,12 @@ The final position of QTooltip popup is calculated so that it will be displayed 
 
 For horizontal positioning you can use `start` and `end` when you want to automatically take into account if on RTL or non-RTL. `start` and `end` mean "left" for non-RTL and "right" for RTL.
 
+<script doc>
+import TooltipPositioning from './TooltipPositioning.vue'
+</script>
+
+<TooltipPositioning />
+
 ::: tip
 The `offset` prop does not translate the popup by a number of pixels. It expands the **anchor element's bounding box** outward: `offset[0]` moves that box's `left` edge to the left and its `right` edge to the right, while `offset[1]` moves `top` up and `bottom` down. The popup's `self` point is then aligned to the `anchor` point of the expanded box, and only after that is the result clamped to the available screen real estate.
 
@@ -61,11 +67,17 @@ Two consequences are worth knowing, because both make an `offset` look like it i
 In short, to place the popup at a fixed pixel distance from one side of the anchor element, name that side in `anchor` instead of relying on `middle`/`center`.
 :::
 
-<script doc>
-import TooltipPositioning from './TooltipPositioning.vue'
-</script>
+#### Following the pointer <q-badge label="v2.30+" />
 
-<TooltipPositioning />
+On a large trigger, a popup placed against the anchor element's box ends up far from what the user is actually pointing at. The `cursor-position` prop places QTooltip at the pointer instead: `anchor` is then ignored, since the pointer itself is the anchor point, while `self` and `offset` keep working.
+
+The `offset` reads differently in this mode, and more simply: with no anchor box to expand, it is the distance between the pointer and the tooltip, applied in the direction the tooltip grows away from it. A `self` naming a `top`/`left` edge grows down and right, so it clears the pointer that way; `bottom`/`right` grows up and left and clears it the other way; and a `middle`/`center` axis, which straddles the pointer and has no direction of its own, takes the positive one, where a mouse cursor's body sits below and right of the spot it points at. Unlike the anchor-box mode above, every `self` value therefore takes both offset values.
+
+The tooltip waits for the pointer to settle before showing, so that a pointer sweeping across the trigger does not open it at a coordinate it has already left. Small movements are tolerated, and a `delay` longer than the settle window still wins. Once shown, the position is frozen: it stays where it opened and follows the trigger through scrolling, rather than trailing the pointer around.
+
+Two shows report no pointer position at all and keep the regular `anchor`-relative placement: a keyboard focus, and a `v-model` toggle. A touch or stylus press opens at the contact point without waiting, since a press is already deliberate.
+
+<DocExample title="Positioned at the cursor" file="CursorPosition" />
 
 ## Accessibility <q-badge label="v2.25+" />
 
