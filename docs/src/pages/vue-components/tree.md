@@ -109,7 +109,7 @@ In the example below, sibling nodes get contracted when one gets expanded.
 
 ### Selection vs ticking, expansion
 
-- Selection (through QTree `selected` prop) refers to the currently selected node (gets highlighted with different background).
+- Selection (through QTree `selected` prop) refers to the currently selected node. By default only its label color changes (see the `selected-color` prop); the node header also gets the `q-tree__node--selected` CSS class, so you can style it further (a background, for example) with your own CSS.
 - Ticking (through QTree `ticked` prop) refers to the checkbox associated with each node.
 - Expansion (through QTree `expanded` prop) refers to the nodes that are expanded.
 
