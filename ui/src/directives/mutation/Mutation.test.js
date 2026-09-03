@@ -1,6 +1,6 @@
 import { mount } from '@vue/test-utils'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
-import { defineComponent, h, withDirectives } from 'vue'
+import { defineComponent, h, nextTick, ref, withDirectives } from 'vue'
 
 import Mutation from './Mutation.js'
 
@@ -78,6 +78,84 @@ describe('[Mutation API]', () => {
 
       expect(handler).toHaveBeenCalledWith(mutations)
       expect(wrapper.element.__qmutation).toBeDefined()
+    })
+
+    test('as Boolean', async () => {
+      const handler = vi.fn(() => true)
+      const value = ref(false)
+      const TestComponent = defineComponent({
+        render: () => withDirectives(h('div'), [[Mutation, value.value]])
+      })
+
+      const wrapper = mount(TestComponent)
+
+      expect(observers).toHaveLength(0)
+      expect(wrapper.element.__qmutation).toBeDefined()
+
+      value.value = handler
+      await nextTick()
+
+      expect(observers).toHaveLength(1)
+      expect(observers[0].observe).toHaveBeenCalledWith(
+        wrapper.element,
+        expect.any(Object)
+      )
+
+      value.value = false
+      await nextTick()
+
+      expect(observers).toHaveLength(1)
+      expect(observers[0].disconnect).toHaveBeenCalledOnce()
+
+      value.value = handler
+      await nextTick()
+
+      expect(observers).toHaveLength(2)
+      expect(observers[1].observe).toHaveBeenCalledWith(
+        wrapper.element,
+        expect.any(Object)
+      )
+    })
+
+    test('as undefined', async () => {
+      const handler = vi.fn(() => true)
+      const value = ref(handler)
+      const TestComponent = defineComponent({
+        render: () => withDirectives(h('div'), [[Mutation, value.value]])
+      })
+
+      mount(TestComponent)
+
+      expect(observers).toHaveLength(1)
+
+      value.value = void 0
+      await nextTick()
+
+      expect(observers).toHaveLength(1)
+      expect(observers[0].disconnect).toHaveBeenCalledOnce()
+    })
+
+    test('swapping the handler keeps the observer', async () => {
+      const first = vi.fn(() => true)
+      const second = vi.fn(() => true)
+      const value = ref(first)
+      const TestComponent = defineComponent({
+        render: () => withDirectives(h('div'), [[Mutation, value.value]])
+      })
+
+      mount(TestComponent)
+      const mutations = [{ type: 'attributes' }]
+
+      value.value = second
+      await nextTick()
+
+      expect(observers).toHaveLength(1)
+      expect(observers[0].disconnect).not.toHaveBeenCalled()
+
+      observers[0].callback(mutations)
+
+      expect(first).not.toHaveBeenCalled()
+      expect(second).toHaveBeenCalledWith(mutations)
     })
   })
 

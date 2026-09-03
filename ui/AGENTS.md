@@ -43,6 +43,16 @@ then root `pnpm test`.
   is the catch-all for other non-API behavior. These two are the only
   valid hand-written categories (see `test/README.md`).
 
+## Directives
+
+- Never add or remove a directive across renders (conditional
+  `withDirectives()`, a vnode key that flips with the condition): Vue does
+  not mount a directive that appears on an already-mounted vnode. Keep it
+  attached and gate its VALUE. TouchPan/TouchSwipe/TouchHold/TouchRepeat/
+  Scroll/ScrollFire/Intersection/Mutation disarm on a non-function value;
+  Ripple and ClosePopup disarm on `false` only (ClosePopup treats
+  `undefined` as depth 1).
+
 ## Accessibility
 
 Component a11y work (roles, `aria-*` state, keyboard maps, focus

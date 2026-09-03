@@ -4,9 +4,12 @@
   },
 
   "value": {
-    "type": ["Function"],
-    "desc": "Function to call when mutation occurs; It is HIGHLY recommended to reference it from your vue component scope, otherwise the directive update cycle will continuously recreate the observer which hits performance hard",
-    "examples": ["# v-mutation=\"myHandler\""],
+    "type": ["Boolean", "Function"],
+    "desc": "Boolean false (or undefined) to disable the directive (the observer is dropped and recreated when a handler is supplied again); Function to call when mutation occurs",
+    "examples": [
+      "# v-mutation=\"myHandler\"",
+      "# v-mutation=\"isEnabled ? myHandler : false\""
+    ],
 
     "returns": {
       "type": "Boolean",

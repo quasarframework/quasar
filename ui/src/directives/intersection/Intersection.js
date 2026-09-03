@@ -10,10 +10,13 @@ const defaultCfg = {
 
 function update(el, ctx, value) {
   // the cached cfg is what a re-enable rebuilds the observer from, and a
-  // queued callback must find no handler left to run
-  if (value === false) {
-    ctx.observer?.disconnect()
-    ctx.observer = void 0
+  // queued callback must find no handler left to run; undefined disables
+  // too, matching the touch directives, so a gated value never throws
+  if (value === false || value === void 0) {
+    if (ctx.observer !== void 0) {
+      ctx.observer.disconnect()
+      ctx.observer = void 0
+    }
     ctx.cfg = void 0
     ctx.handler = void 0
     return
@@ -41,6 +44,9 @@ function update(el, ctx, value) {
   ctx.observer?.disconnect()
 
   ctx.observer = new IntersectionObserver(([entry]) => {
+    // unlike MutationObserver, disconnect() does not drop the entries an
+    // observer already queued, so the notify task can still deliver them
+    // after a disable landed in between; those must find no handler to run
     if (typeof ctx.handler === 'function') {
       // if observed element is part of a vue transition
       // then we need to be careful...

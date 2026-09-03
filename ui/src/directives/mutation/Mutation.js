@@ -11,15 +11,28 @@ const defaultCfg = {
 }
 
 function update(el, ctx, value) {
-  ctx.handler = value
-  ctx.observer?.disconnect()
+  // a non-function value (false, undefined) disables in place: the observer
+  // is dropped until a handler is supplied again, and a handler swap only
+  // replaces the callback target instead of rebuilding the observer
+  if (typeof value !== 'function') {
+    ctx.handler = void 0
+    if (ctx.observer !== void 0) {
+      ctx.observer.disconnect()
+      ctx.observer = void 0
+    }
+    return
+  }
 
+  ctx.handler = value
+
+  if (ctx.observer !== void 0) return
+
+  // no handler guard needed here (unlike v-intersection): disconnect()
+  // empties the record queue, so the callback only ever runs while armed
   ctx.observer = new MutationObserver(list => {
-    if (typeof ctx.handler === 'function') {
-      const res = ctx.handler(list)
-      if (res === false || ctx.once === true) {
-        destroy(el)
-      }
+    const res = ctx.handler(list)
+    if (res === false || ctx.once === true) {
+      destroy(el)
     }
   })
 

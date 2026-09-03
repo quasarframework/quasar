@@ -65,7 +65,7 @@ By passing in an Object as the directive's value (instead of a Function), you ca
 
 ### Disable
 
-Passing in Boolean `false` instead of a Function or an Object disables the directive: the Intersection Observer is dropped until a handler is supplied again. The DOM element is untouched in the process, so whatever it wraps keeps its state.
+Passing in Boolean `false` (or `undefined`) instead of a Function or an Object disables the directive: the Intersection Observer is dropped until a handler is supplied again. The DOM element is untouched in the process, so whatever it wraps keeps its state.
 
 <DocExample title="Disable" file="Disable" no-edit />
 

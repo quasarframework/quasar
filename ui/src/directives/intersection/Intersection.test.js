@@ -55,6 +55,31 @@ describe('[Intersection API]', () => {
       expect(observers[0].disconnect).toHaveBeenCalledOnce()
     })
 
+    test('as undefined', async () => {
+      const handler = vi.fn(() => true)
+      const value = ref(void 0)
+      const TestComponent = defineComponent({
+        render: () => withDirectives(h('div'), [[Intersection, value.value]])
+      })
+
+      const wrapper = mount(TestComponent)
+
+      expect(observers).toHaveLength(0)
+      expect(wrapper.element.__qvisible).toBeDefined()
+
+      value.value = handler
+      await nextTick()
+
+      expect(observers).toHaveLength(1)
+      expect(observers[0].observe).toHaveBeenCalledWith(wrapper.element)
+
+      value.value = void 0
+      await nextTick()
+
+      expect(observers).toHaveLength(1)
+      expect(observers[0].disconnect).toHaveBeenCalledOnce()
+    })
+
     test('as Boolean false leaves no handler for a queued entry', async () => {
       const handler = vi.fn(() => true)
       const value = ref(handler)
