@@ -61,6 +61,20 @@ When you want to inhibit TouchHold, you can do so by stopping propagation of the
 
 However, if you are using `capture` or `mouseCapture` modifiers then events will first reach the TouchHold directive then the inner content, so TouchHold will still trigger.
 
+### Events after TouchHold triggers
+
+Once the wait time is up and TouchHold triggers, the directive consumes the event that ends the gesture, so that a long press does not also count as a tap or as a click, be it on the element itself or on any of its parents. For touch events this is `touchend` (whose default action, the emulated `click`, gets cancelled as well) and for mouse events this is `click`.
+
+This means that a `@touchend` listener on the element will not be called after TouchHold has triggered. It is still called when the user lifts the finger before the wait time is up. Should you need it in both cases, listen for it in the capture phase:
+
+```html
+<div v-touch-hold="userHasHold" @touchend.capture="userHasLifted">
+  <!-- ...content -->
+</div>
+```
+
+Mouse events are not affected the same way: `@mousedown` and `@mouseup` are always called, only the subsequent `@click` is suppressed.
+
 ## Note on HMR
 
 Due to performance reasons, not all of the modifiers are reactive. Some require a window/page/component refresh to get updated. Please check the API card for the modifiers which are not marked as reactive.
