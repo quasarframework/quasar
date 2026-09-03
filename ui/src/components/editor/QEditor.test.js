@@ -26,6 +26,7 @@ afterEach(() => {
   }
 
   document.getSelection().removeAllRanges()
+  vi.useRealTimers()
   vi.restoreAllMocks()
 })
 
@@ -55,6 +56,10 @@ function getToolbar(wrapper) {
 
 function getToolbarButtons(wrapper) {
   return wrapper.findAll('.q-editor__toolbar .q-btn')
+}
+
+function getDropdown(wrapper) {
+  return wrapper.findComponent({ name: 'QBtnDropdown' })
 }
 
 // the toolbar refresh is timer based
@@ -568,6 +573,105 @@ describe('[QEditor API]', () => {
         expect(getToolbarButtons(wrapper)[0].classes()).toContain(
           'q-btn--rounded'
         )
+      })
+    })
+
+    describe('[(prop)dropdown-hover]', () => {
+      test('type Boolean has effect', async () => {
+        const wrapper = mountEditor(
+          { toolbar: [[fontDropdown]] },
+          { attachTo: document.body }
+        )
+        await flushToolbar()
+
+        await getDropdown(wrapper).trigger('pointerenter', {
+          pointerType: 'mouse'
+        })
+        await flushDropdown()
+
+        expect(document.querySelector('.q-menu')).toBeNull()
+
+        await wrapper.setProps({ dropdownHover: true })
+        await flushToolbar()
+
+        await getDropdown(wrapper).trigger('pointerenter', {
+          pointerType: 'mouse'
+        })
+        await flushDropdown()
+
+        expect(document.querySelector('.q-menu')).not.toBeNull()
+
+        await getDropdown(wrapper).trigger('pointerleave', {
+          pointerType: 'mouse'
+        })
+        await flushDropdown()
+
+        expect(document.querySelector('.q-menu')).toBeNull()
+      })
+    })
+
+    describe('[(prop)dropdown-hover-delay]', () => {
+      test('type Number has effect', async () => {
+        const propVal = 500
+        const wrapper = mountEditor(
+          {
+            toolbar: [[fontDropdown]],
+            dropdownHover: true,
+            dropdownHoverDelay: propVal
+          },
+          { attachTo: document.body }
+        )
+        await flushToolbar()
+
+        vi.useFakeTimers()
+
+        await getDropdown(wrapper).trigger('pointerenter', {
+          pointerType: 'mouse'
+        })
+        await vi.advanceTimersByTimeAsync(propVal - 1)
+
+        expect(document.querySelector('.q-menu')).toBeNull()
+
+        await vi.advanceTimersByTimeAsync(1)
+        await flushPromises()
+
+        expect(document.querySelector('.q-menu')).not.toBeNull()
+      })
+    })
+
+    describe('[(prop)dropdown-hover-hide-delay]', () => {
+      test('type Number has effect', async () => {
+        const propVal = 500
+        const wrapper = mountEditor(
+          {
+            toolbar: [[fontDropdown]],
+            dropdownHover: true,
+            dropdownHoverHideDelay: propVal
+          },
+          { attachTo: document.body }
+        )
+        await flushToolbar()
+
+        await getDropdown(wrapper).trigger('pointerenter', {
+          pointerType: 'mouse'
+        })
+        await flushDropdown()
+
+        expect(document.querySelector('.q-menu')).not.toBeNull()
+
+        vi.useFakeTimers()
+
+        await getDropdown(wrapper).trigger('pointerleave', {
+          pointerType: 'mouse'
+        })
+        await vi.advanceTimersByTimeAsync(propVal - 1)
+
+        expect(document.querySelector('.q-menu')).not.toBeNull()
+
+        await vi.advanceTimersByTimeAsync(1)
+        await flushPromises()
+
+        expect(document.querySelector('.q-menu')).toBeNull()
       })
     })
 

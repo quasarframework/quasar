@@ -78,6 +78,10 @@ export default /*#__PURE__*/ createComponent({
     toolbarPush: Boolean,
     toolbarRounded: Boolean,
 
+    dropdownHover: Boolean,
+    dropdownHoverDelay: Number,
+    dropdownHoverHideDelay: Number,
+
     paragraphTag: {
       type: String,
       validator: v => ['div', 'p'].includes(v),

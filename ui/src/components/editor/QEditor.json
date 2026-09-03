@@ -1,5 +1,40 @@
 {
-  "mixins": ["composables/private.use-fullscreen/use-fullscreen"],
+  "mixins": [
+    "composables/private.use-fullscreen/use-fullscreen",
+
+    {
+      "from": "composables/private.use-hover/use-hover",
+      "explicitOverrideForAll": true,
+      "rename": {
+        "props": {
+          "hover": "dropdown-hover",
+          "hover-delay": "dropdown-hover-delay",
+          "hover-hide-delay": "dropdown-hover-hide-delay"
+        }
+      },
+      "overrideAll": {
+        "props": {
+          "category": "toolbar|behavior",
+          "addedIn": "v2.30"
+        }
+      },
+      "overrides": {
+        "props": {
+          "dropdown-hover": {
+            "desc": "Toolbar dropdowns also open when the pointer hovers their button and close when it leaves both the button and the menu; Click/tap and keyboard interactions keep toggling as usual (touch devices fall back to them)"
+          },
+          "dropdown-hover-delay": {
+            "desc": "Delay (in milliseconds) between the pointer entering a toolbar dropdown's button and the dropdown showing up; Requires the 'dropdown-hover' prop",
+            "__runtimeDefault": true
+          },
+          "dropdown-hover-hide-delay": {
+            "desc": "Grace period (in milliseconds) in which the pointer can re-enter a toolbar dropdown's button or its menu before the dropdown gets closed; Requires the 'dropdown-hover' prop",
+            "__runtimeDefault": true
+          }
+        }
+      }
+    }
+  ],
 
   "meta": {
     "docsUrl": "https://v2.quasar.dev/vue-components/editor"

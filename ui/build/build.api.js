@@ -202,6 +202,20 @@ const topSections = {
       arg: val => Object(val) === val || "'arg' must be an Object",
       modifiers: val => parseObjectWithPascalCaseProps(val, 'modifiers')
     }
+  },
+
+  composable: {
+    rootProps: [], // computed after this declaration
+    rootValidations: {
+      addedIn: parseAddedIn,
+      quasarConfOptions: val =>
+        parseObjectWithPascalCaseProps(val, 'quasarConfOptions'),
+      props: val => parseObjectWithKebabCaseProps(val, 'props'),
+      slots: val => Object(val) === val || "'slots' must be an Object", // TODO Qv3: kebabCase
+      events: val => parseObjectWithKebabCaseProps(val, 'events'),
+      methods: val => parseObjectWithPascalCaseProps(val, 'methods'),
+      computedProps: val => parseObjectWithPascalCaseProps(val, 'computedProps')
+    }
   }
 }
 Object.keys(topSections).forEach(section => {
@@ -779,7 +793,8 @@ const objectMixinSectionBlocklist = ['meta', 'addedIn', 'quasarConfOptions']
 const objectMixinApiTypes = [
   ['components/', 'component'],
   ['plugins/', 'plugin'],
-  ['directives/', 'directive']
+  ['directives/', 'directive'],
+  ['composables/', 'composable']
 ]
 
 const objectMixinSourceCache = new Map()
@@ -802,7 +817,7 @@ function getObjectMixinSource(from, printErrorAndExit) {
 
   if (apiTypeEntry === void 0) {
     printErrorAndExit(
-      '"from" must point to a component, plugin or directive API file'
+      '"from" must point to a component, plugin, directive or composable API file'
     )
   }
 
@@ -1848,7 +1863,10 @@ function parseAPI(file, apiType) {
     process.exit(1)
   }
 
-  if (api.meta === void 0 || api.meta.docsUrl === void 0) {
+  if (
+    apiType !== 'composable' &&
+    (api.meta === void 0 || api.meta.docsUrl === void 0)
+  ) {
     printErrorAndExit('API file does not contain meta > docsUrl')
   }
 

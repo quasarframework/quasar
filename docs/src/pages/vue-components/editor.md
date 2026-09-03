@@ -135,6 +135,14 @@ User can pick only one option from each dropdown.
 />
 ```
 
+### Opening dropdowns on hover <q-badge label="v2.30+" />
+
+The `dropdown-hover` prop also opens a toolbar dropdown when the pointer hovers its button, and closes it once the pointer leaves both the button and the menu. Click, tap and keyboard interactions keep toggling as usual, and touch devices fall back to them since there is no hover there.
+
+`dropdown-hover-delay` (0 by default) is how long the pointer has to rest on a button before its dropdown opens, which keeps the toolbar quiet while the pointer is only passing over it. `dropdown-hover-hide-delay` (150 by default) is the grace period in which the pointer can re-enter the button or its menu before the dropdown closes, so a slightly off-target move across the gap does not dismiss it.
+
+<DocExample title="Dropdowns on hover" file="DropdownHover" />
+
 ## Accessibility <q-badge label="v2.25+" />
 
 ### Keyboard navigation
