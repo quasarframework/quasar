@@ -5,7 +5,7 @@ import { useRoute } from 'vue-router'
 
 import { getRouter } from 'testing/runtime/router.js'
 import Platform from '../../plugins/platform/Platform.js'
-import { validatePosition } from '../../utils/private.position-engine/position-engine.js'
+import { validatePosition } from '../../composables/private.use-position-engine/use-position-engine.js'
 import QTooltip from './QTooltip.js'
 
 // the test browser is a Chromium, so QTooltip takes the CSS anchor
@@ -14,7 +14,7 @@ import QTooltip from './QTooltip.js'
 const engineOverride = vi.hoisted(() => ({ forceJsFallback: false }))
 
 vi.mock(
-  '../../utils/private.position-engine/position-engine.js',
+  '../../composables/private.use-position-engine/engine/core.js',
   async importOriginal => {
     const mod = await importOriginal()
     return {

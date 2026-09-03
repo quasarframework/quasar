@@ -3,8 +3,8 @@ const partsFirst = ['top', 'center', 'bottom'],
 
 /**
  * Decides which of the two positioning engines drives a popup:
- * anchor-position-engine.js (native CSS anchor positioning, zero
- * listeners) where this returns true, fallback-position-engine.js
+ * anchor-engine.js (native CSS anchor positioning, zero
+ * listeners) where this returns true, fallback-engine.js
  * (measure + pixel top/left, scroll listeners) everywhere else.
  *
  * The native path is deliberately gated to Chromium engines (identified
@@ -324,4 +324,14 @@ export function applyPointBoundary({
   }
 
   return changed ? { selfOrigin: { vertical, horizontal }, point: res } : null
+}
+
+/**
+ * Both engines' boundary pass measures with the size caps lifted, which
+ * clamps the scroll offset of content that fits meanwhile (#18534);
+ * they put it back right after.
+ */
+export function restoreScroll(el, scrollTop, scrollLeft) {
+  if (el.scrollTop !== scrollTop) el.scrollTop = scrollTop
+  if (el.scrollLeft !== scrollLeft) el.scrollLeft = scrollLeft
 }

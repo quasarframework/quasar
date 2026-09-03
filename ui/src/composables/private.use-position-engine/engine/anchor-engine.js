@@ -4,11 +4,18 @@
  * insets), so the browser keeps it glued to its anchor through any
  * scroll, layout shift, resize or animation with zero listeners.
  *
- * Only used where position-engine.js' supportsCssAnchor() says so;
- * every other browser runs fallback-position-engine.js instead.
+ * Only used where core.js' supportsCssAnchor() says so;
+ * every other browser runs fallback-engine.js instead.
  */
 
-import { pointOffset } from './position-engine.js'
+import { computed, ref } from 'vue'
+
+import {
+  applyBoundary,
+  applyPointBoundary,
+  pointOffset,
+  restoreScroll
+} from './core.js'
 
 /**
  * The browser tracks a CSS anchor for us, but `anchor-name` must live on
@@ -214,4 +221,144 @@ export function getPositionStyle({
   }
 
   return style
+}
+
+/**
+ * Native CSS anchor positioning: the browser owns the tracking and JS
+ * only decides the placement (once per show, on demand through
+ * updatePosition() and on screen/placement-prop changes).
+ */
+export function useCssAnchorEngine(
+  props,
+  { anchorEl, innerRef, anchorOrigin, selfOrigin }
+) {
+  let namedAnchorEl = null
+
+  const anchorName = ref('')
+  // set while the popup is anchored to a coordinate (touch position /
+  // context menu / cursor position) instead of the anchor's box:
+  // { top, left } relative to the anchor's top-left corner
+  const anchorPoint = ref(null)
+  // overflow correction for point mode, measured on first paint
+  const pointSelf = ref(null)
+  // overflow correction for box mode (flip/cap), measured on first
+  // paint; the popup stays invisible until the first pass ran
+  const boundary = ref(null)
+  const positioned = ref(false)
+
+  const positionStyle = computed(() => {
+    if (anchorName.value === '') return ''
+
+    const b = anchorPoint.value === null ? boundary.value : null
+
+    const style = getPositionStyle({
+      anchorName: anchorName.value,
+      anchorOrigin: b !== null ? b.anchorOrigin : anchorOrigin.value,
+      selfOrigin:
+        anchorPoint.value !== null
+          ? (pointSelf.value ?? selfOrigin.value)
+          : b !== null
+            ? b.selfOrigin
+            : selfOrigin.value,
+      offset: props.offset,
+      point: anchorPoint.value ?? void 0,
+      fit: props.fit,
+      cover: props.cover,
+      maxHeight: props.maxHeight,
+      maxWidth: props.maxWidth
+    })
+
+    if (b !== null) {
+      if (b.maxHeight !== null) style.maxHeight = b.maxHeight
+      if (b.maxWidth !== null) style.maxWidth = b.maxWidth
+    }
+
+    if (!positioned.value) {
+      // hidden until the first boundary pass; lifted synchronously
+      // there so a focus handoff never targets a hidden node
+      style.visibility = 'hidden'
+    }
+
+    return style
+  })
+
+  const updatePosition = () => {
+    const el = innerRef.value
+    if (el === null || anchorEl.value === null) return
+
+    if (anchorPoint.value === null) {
+      // the pass measures with the caps lifted, which clamps the scroll
+      // offset of content that fits meanwhile (#18534)
+      const { scrollTop, scrollLeft } = el
+
+      boundary.value = applyBoundary({
+        el,
+        anchorEl: anchorEl.value,
+        anchorOrigin: anchorOrigin.value,
+        selfOrigin: selfOrigin.value,
+        offset: props.offset,
+        cover: props.cover,
+        maxHeight: props.maxHeight,
+        maxWidth: props.maxWidth
+      })
+
+      restoreScroll(el, scrollTop, scrollLeft)
+    } else {
+      // point mode mirrors or shifts around the pointer instead of the
+      // anchor's box
+      el.style.visibility = ''
+
+      const res = applyPointBoundary({
+        el,
+        anchorEl: anchorEl.value,
+        point: anchorPoint.value,
+        selfOrigin: pointSelf.value ?? selfOrigin.value,
+        offset: props.offset
+      })
+
+      if (res !== null) {
+        pointSelf.value = res.selfOrigin
+        anchorPoint.value = res.point
+      }
+    }
+
+    positioned.value = true
+  }
+
+  const releaseAnchor = hidingInProgress => {
+    // hidingInProgress keeps the anchor name until the leave transition
+    // is done (the popup would lose its position mid-animation)
+    if (!hidingInProgress) {
+      if (namedAnchorEl !== null) {
+        removeAnchorName(namedAnchorEl)
+        namedAnchorEl = null
+      }
+      anchorName.value = ''
+    }
+  }
+
+  return {
+    positionStyle,
+
+    updatePosition,
+    handleTick: updatePosition,
+    releaseAnchor,
+    setAnchorPoint(point) {
+      anchorPoint.value = point
+    },
+    handleShow() {
+      anchorPoint.value = null
+      pointSelf.value = null
+      boundary.value = null
+      positioned.value = false
+
+      // a rapid re-show can land while the previous hide transition
+      // still holds the name; reuse it instead of acquiring twice
+      if (namedAnchorEl !== anchorEl.value) {
+        releaseAnchor(false)
+        namedAnchorEl = anchorEl.value
+        anchorName.value = setAnchorName(namedAnchorEl)
+      }
+    }
+  }
 }

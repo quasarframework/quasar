@@ -5,7 +5,7 @@ import { useRoute } from 'vue-router'
 
 import { getRouter } from 'testing/runtime/router.js'
 import { client } from '../../plugins/platform/Platform.js'
-import { validatePosition } from '../../utils/private.position-engine/position-engine.js'
+import { validatePosition } from '../../composables/private.use-position-engine/use-position-engine.js'
 import useFullscreen, {
   useFullscreenProps
 } from '../../composables/private.use-fullscreen/use-fullscreen.js'
@@ -18,7 +18,7 @@ import QMenu from './QMenu.js'
 const engineOverride = vi.hoisted(() => ({ forceJsFallback: false }))
 
 vi.mock(
-  '../../utils/private.position-engine/position-engine.js',
+  '../../composables/private.use-position-engine/engine/core.js',
   async importOriginal => {
     const mod = await importOriginal()
     return {

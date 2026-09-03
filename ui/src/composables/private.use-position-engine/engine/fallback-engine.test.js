@@ -1,7 +1,13 @@
 import { afterEach, describe, expect, test, vi } from 'vitest'
+import { computed, ref } from 'vue'
 
-import { client } from '../../plugins/platform/Platform.js'
-import { applyPosition, trackAnchorMotion } from './fallback-position-engine.js'
+import { client } from '../../../plugins/platform/Platform.js'
+import { parsePosition } from './core.js'
+import {
+  applyPosition,
+  trackAnchorMotion,
+  useFallbackEngine
+} from './fallback-engine.js'
 
 const nodes = []
 const restoreFns = []
@@ -89,7 +95,7 @@ function createConfig({
   }
 }
 
-describe('[fallbackPositionEngine API]', () => {
+describe('[fallbackEngine API]', () => {
   describe('[Functions]', () => {
     describe('[(function)applyPosition]', () => {
       test('places the target right under the anchor', () => {
@@ -386,6 +392,115 @@ describe('[fallbackPositionEngine API]', () => {
         await sleep(100)
 
         expect(onMove).not.toHaveBeenCalled()
+      })
+    })
+
+    describe('[(function)useFallbackEngine]', () => {
+      const props = {
+        offset: void 0,
+        maxHeight: null,
+        maxWidth: null,
+        transitionDuration: 0
+      }
+
+      function createEngine({
+        anchorEl = null,
+        target = null,
+        anchor = 'bottom left',
+        self = 'top left',
+        trackContent = false
+      } = {}) {
+        return useFallbackEngine(props, {
+          anchorEl: ref(anchorEl),
+          innerRef: ref(target),
+          showing: ref(true),
+          anchorOrigin: computed(() => parsePosition(anchor, false)),
+          selfOrigin: computed(() => parsePosition(self, false)),
+          trackContent
+        })
+      }
+
+      test('has correct return value', () => {
+        const engine = createEngine()
+
+        expect(engine).toStrictEqual({
+          positionStyle: { value: '' },
+          track: expect.any(Function),
+          updatePosition: expect.any(Function),
+          setAnchorPoint: expect.any(Function),
+          handleShow: expect.any(Function),
+          handleTick: expect.any(Function),
+          releaseAnchor: expect.any(Function)
+        })
+      })
+
+      test('positions on the tick and re-expresses the placement on scroll', () => {
+        const anchorEl = createAnchor({
+          top: 100,
+          left: 100,
+          width: 100,
+          height: 30
+        })
+        const target = createTarget()
+        const engine = createEngine({ anchorEl, target })
+
+        engine.handleShow()
+        engine.handleTick()
+
+        let rect = target.getBoundingClientRect()
+        expect(rect.top).toBe(130)
+        expect(rect.left).toBe(100)
+        expect(target.style.visibility).toBe('visible')
+
+        anchorEl.style.top = '200px'
+        document.dispatchEvent(new Event('scroll'))
+        rect = target.getBoundingClientRect()
+        expect(rect.top).toBe(230)
+
+        // the leave transition still tracks; done hiding stops it
+        engine.releaseAnchor(true)
+        anchorEl.style.top = '100px'
+        document.dispatchEvent(new Event('scroll'))
+        expect(target.getBoundingClientRect().top).toBe(130)
+
+        engine.releaseAnchor(false)
+        anchorEl.style.top = '200px'
+        document.dispatchEvent(new Event('scroll'))
+        expect(target.getBoundingClientRect().top).toBe(130)
+      })
+
+      test('re-expresses the placement on content changes when asked to', async () => {
+        const anchorEl = createAnchor({
+          top: 100,
+          left: 100,
+          width: 100,
+          height: 30
+        })
+        const target = createTarget()
+        target.style.width = 'max-content'
+        target.textContent = 'content'
+
+        const engine = createEngine({
+          anchorEl,
+          target,
+          anchor: 'bottom middle',
+          self: 'top middle',
+          trackContent: true
+        })
+
+        engine.handleShow()
+        engine.handleTick()
+
+        const { width } = target.getBoundingClientRect()
+        target.textContent = 'content that got quite a bit wider'
+
+        await vi.waitFor(() => {
+          const rect = target.getBoundingClientRect()
+          expect(rect.width).toBeGreaterThan(width)
+          expect(rect.left + rect.width / 2).toBeCloseTo(150, 0)
+        })
+
+        engine.releaseAnchor(false)
       })
     })
   })

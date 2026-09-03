@@ -5,10 +5,11 @@ import {
   applyPointBoundary,
   parsePosition,
   pointOffset,
+  restoreScroll,
   supportsCssAnchor,
   validateOffset,
   validatePosition
-} from './position-engine.js'
+} from './core.js'
 
 const nodes = []
 
@@ -56,7 +57,7 @@ function createTarget({ width = 150, height = 50 } = {}) {
 
 const origin = pos => parsePosition(pos, false)
 
-describe('[positionEngine API]', () => {
+describe('[core API]', () => {
   describe('[Functions]', () => {
     describe('[(function)supportsCssAnchor]', () => {
       test('reports the Chromium test browser as supported', () => {
@@ -616,6 +617,38 @@ describe('[positionEngine API]', () => {
         expect(res.point.top).toBe(
           (viewportHeight + 100) / 2 - anchorEl.getBoundingClientRect().top - 6
         )
+      })
+    })
+
+    describe('[(function)restoreScroll]', () => {
+      test('puts back the scroll offset a measuring pass clamped', () => {
+        const el = document.createElement('div')
+        Object.assign(el.style, {
+          overflow: 'auto',
+          width: '100px',
+          height: '100px'
+        })
+        const content = document.createElement('div')
+        Object.assign(content.style, { width: '300px', height: '300px' })
+        el.append(content)
+        document.body.append(el)
+        nodes.push(el)
+
+        el.scrollTop = 50
+        el.scrollLeft = 40
+
+        // a pass with the caps lifted: everything fits, so layout clamps
+        // the offset to 0 and shrinking back does not bring it back
+        el.style.width = '400px'
+        el.style.height = '400px'
+        expect(el.scrollTop).toBe(0)
+        el.style.width = '100px'
+        el.style.height = '100px'
+        expect(el.scrollTop).toBe(0)
+
+        restoreScroll(el, 50, 40)
+        expect(el.scrollTop).toBe(50)
+        expect(el.scrollLeft).toBe(40)
       })
     })
   })

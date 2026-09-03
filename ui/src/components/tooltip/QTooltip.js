@@ -23,6 +23,11 @@ import useTransition, {
 import useTick from '../../composables/use-tick/use-tick.js'
 import useTransitionEnd from '../../composables/private.use-transition-end/use-transition-end.js'
 import useId from '../../composables/use-id/use-id.js'
+import usePositionEngine, {
+  parsePosition,
+  validateOffset,
+  validatePosition
+} from '../../composables/private.use-position-engine/use-position-engine.js'
 
 import { createComponent } from '../../utils/private.create/create.js'
 import { addEvt, cleanEvt, position } from '../../utils/event/event.js'
@@ -32,27 +37,6 @@ import {
 } from '../../utils/private.keyboard/escape-key.js'
 import { clearSelection } from '../../utils/private.selection/selection.js'
 import { hSlot } from '../../utils/private.render/render.js'
-import {
-  applyBoundary,
-  applyPointBoundary,
-  parsePosition,
-  supportsCssAnchor,
-  validateOffset,
-  validatePosition
-} from '../../utils/private.position-engine/position-engine.js'
-import {
-  getPositionStyle,
-  removeAnchorName,
-  setAnchorName
-} from '../../utils/private.position-engine/anchor-position-engine.js'
-import {
-  applyPosition,
-  trackAnchorMotion
-} from '../../utils/private.position-engine/fallback-position-engine.js'
-import {
-  addScrollTracking,
-  removeScrollTracking
-} from '../../utils/private.scroll-tracking/scroll-tracking.js'
 
 let nonSelectableCount = 0
 
@@ -72,317 +56,6 @@ function isContactPointer(evt) {
     evt.pointerType === 'touch' ||
     (evt.pointerType === 'pen' && evt.buttons !== 0)
   )
-}
-
-function useCssAnchorEngine(
-  props,
-  { anchorEl, innerRef, anchorOrigin, selfOrigin, registerTick }
-) {
-  let namedAnchorEl = null
-
-  const anchorName = ref('')
-  // set while the tooltip is anchored to a coordinate (cursor position)
-  // instead of the anchor's box: { top, left } relative to the anchor's
-  // top-left corner
-  const anchorPoint = ref(null)
-  // overflow correction for point mode, measured on first paint
-  const pointSelf = ref(null)
-  // overflow correction (flip/cap), measured on first paint; the
-  // tooltip stays invisible until the first pass ran
-  const boundary = ref(null)
-  const positioned = ref(false)
-
-  const positionStyle = computed(() => {
-    if (anchorName.value === '') return ''
-
-    const b = anchorPoint.value === null ? boundary.value : null
-
-    const style = getPositionStyle({
-      anchorName: anchorName.value,
-      anchorOrigin: b !== null ? b.anchorOrigin : anchorOrigin.value,
-      selfOrigin:
-        anchorPoint.value !== null
-          ? (pointSelf.value ?? selfOrigin.value)
-          : b !== null
-            ? b.selfOrigin
-            : selfOrigin.value,
-      offset: props.offset,
-      point: anchorPoint.value ?? void 0,
-      maxHeight: props.maxHeight,
-      maxWidth: props.maxWidth
-    })
-
-    if (b !== null) {
-      if (b.maxHeight !== null) style.maxHeight = b.maxHeight
-      if (b.maxWidth !== null) style.maxWidth = b.maxWidth
-    }
-
-    if (!positioned.value) {
-      style.visibility = 'hidden'
-    }
-
-    return style
-  })
-
-  const releaseAnchor = hidingInProgress => {
-    // hidingInProgress keeps the anchor name until the leave transition
-    // is done (the tooltip would lose its position mid-animation)
-    if (!hidingInProgress) {
-      if (namedAnchorEl !== null) {
-        removeAnchorName(namedAnchorEl)
-        namedAnchorEl = null
-      }
-      anchorName.value = ''
-    }
-  }
-
-  // with CSS anchor positioning the browser owns the tracking and JS
-  // only decides the placement: once per show, on demand and on
-  // screen/prop changes.
-  const updatePosition = () => {
-    const el = innerRef.value
-    if (el === null || anchorEl.value === null) return
-
-    if (anchorPoint.value === null) {
-      boundary.value = applyBoundary({
-        el,
-        anchorEl: anchorEl.value,
-        anchorOrigin: anchorOrigin.value,
-        selfOrigin: selfOrigin.value,
-        offset: props.offset,
-        maxHeight: props.maxHeight,
-        maxWidth: props.maxWidth
-      })
-    } else {
-      // point mode (cursor position) mirrors or shifts around the
-      // pointer instead of the anchor's box
-      el.style.visibility = ''
-
-      const res = applyPointBoundary({
-        el,
-        anchorEl: anchorEl.value,
-        point: anchorPoint.value,
-        selfOrigin: pointSelf.value ?? selfOrigin.value,
-        offset: props.offset
-      })
-
-      if (res !== null) {
-        pointSelf.value = res.selfOrigin
-        anchorPoint.value = res.point
-      }
-    }
-
-    positioned.value = true
-  }
-
-  return {
-    positionStyle,
-
-    releaseAnchor,
-    updatePosition,
-    setAnchorPoint(point) {
-      anchorPoint.value = point
-    },
-    handleShow() {
-      anchorPoint.value = null
-      pointSelf.value = null
-      boundary.value = null
-      positioned.value = false
-
-      // a rapid re-show can land while the previous hide transition
-      // still holds the name; reuse it instead of acquiring twice
-      if (namedAnchorEl !== anchorEl.value) {
-        releaseAnchor(false)
-        namedAnchorEl = anchorEl.value
-        anchorName.value = setAnchorName(namedAnchorEl)
-      }
-
-      // should removeTick() if this gets removed
-      registerTick(updatePosition)
-    }
-  }
-}
-
-function useFallbackEngine(
-  props,
-  { anchorEl, innerRef, anchorOrigin, selfOrigin, registerTick }
-) {
-  let observer,
-    stopAnchorTracking,
-    // set while the tooltip is anchored to a coordinate (cursor
-    // position) instead of the anchor's box: { top, left } relative to
-    // the anchor's top-left corner
-    anchorPoint = null,
-    // overflow correction for point mode, decided on first paint
-    pointSelf = null,
-    // overflow correction (flip/cap), decided on first paint; the
-    // tooltip stays invisible until the first pass ran
-    boundary = null,
-    // the anchor-center viewport shift, frozen at decision time like
-    // the native engine freezes it at layout time
-    centerShift = null,
-    retries = 0
-
-  // re-expresses the frozen placement against the anchor's current
-  // rect: cheap enough to run on every scroll step and anchor move
-  const track = () => {
-    if (innerRef.value === null || anchorEl.value === null) return
-
-    const b = anchorPoint === null ? boundary : null
-
-    centerShift = applyPosition({
-      targetEl: innerRef.value,
-      anchorEl: anchorEl.value,
-      anchorOrigin: b !== null ? b.anchorOrigin : anchorOrigin.value,
-      selfOrigin:
-        anchorPoint !== null
-          ? (pointSelf ?? selfOrigin.value)
-          : b !== null
-            ? b.selfOrigin
-            : selfOrigin.value,
-      offset: props.offset,
-      point: anchorPoint ?? void 0,
-      maxHeight: props.maxHeight,
-      maxWidth: props.maxWidth,
-      capHeight: b !== null ? b.maxHeight : null,
-      capWidth: b !== null ? b.maxWidth : null,
-      centerShift
-    })
-  }
-
-  // the placement decision, with the same lifecycle as the native
-  // engine's: re-run only per show, on demand and on
-  // screen/placement-prop changes
-  const updatePosition = () => {
-    const el = innerRef.value
-    if (el === null || anchorEl.value === null) return
-
-    // some browsers report zero size when measuring too early
-    if (el.offsetWidth === 0 || el.offsetHeight === 0) {
-      if (retries < 5) {
-        retries++
-        setTimeout(updatePosition, 10)
-      }
-      return
-    }
-    retries = 0
-
-    // a first pass at the intended placement, then the boundary verdict
-    if (anchorPoint === null) {
-      boundary = null
-      centerShift = null
-      track()
-      boundary = applyBoundary({
-        el,
-        anchorEl: anchorEl.value,
-        anchorOrigin: anchorOrigin.value,
-        selfOrigin: selfOrigin.value,
-        offset: props.offset,
-        maxHeight: props.maxHeight,
-        maxWidth: props.maxWidth
-      })
-    } else {
-      track()
-      const res = applyPointBoundary({
-        el,
-        anchorEl: anchorEl.value,
-        point: anchorPoint,
-        selfOrigin: pointSelf ?? selfOrigin.value,
-        offset: props.offset
-      })
-
-      if (res !== null) {
-        pointSelf = res.selfOrigin
-        anchorPoint = res.point
-      }
-    }
-
-    // the pass the frozen placement (boundary verdict + anchor-center
-    // shift) is taken from
-    centerShift = null
-    track()
-  }
-
-  const onScroll = evt => {
-    // a scroll inside the tooltip itself never moves its anchor; the
-    // iOS visual viewport events carry a non-node target
-    if (
-      innerRef.value !== null &&
-      (!(evt.target instanceof Node) || !innerRef.value.contains(evt.target))
-    ) {
-      track()
-    }
-  }
-
-  return {
-    positionStyle: { value: '' },
-
-    updatePosition,
-    setAnchorPoint(point) {
-      anchorPoint = point
-    },
-    handleShow() {
-      anchorPoint = null
-      pointSelf = null
-      boundary = null
-      centerShift = null
-      retries = 0
-
-      addScrollTracking(onScroll)
-
-      // should removeTick() if this gets removed
-      registerTick(() => {
-        observer?.disconnect()
-        if (innerRef.value === null) {
-          observer = void 0
-          return
-        }
-
-        // content changes re-express the placement (the native engine
-        // gets this through its live anchor()/translate expressions)
-        observer = new MutationObserver(track)
-        observer.observe(innerRef.value, {
-          attributes: false,
-          childList: true,
-          characterData: true,
-          subtree: true
-        })
-        updatePosition()
-
-        // the anchor itself may still be animating when the tooltip
-        // opens (focus/hover styles moving it, an entering parent);
-        // unlike QMenu there is no transition-end re-measure, so a
-        // moving anchor would leave the tooltip permanently offset
-        stopAnchorTracking = trackAnchorMotion(
-          () => anchorEl.value,
-          track,
-          props.transitionDuration
-        )
-      })
-    },
-    releaseAnchor(hidingInProgress) {
-      if (observer !== void 0) {
-        observer.disconnect()
-        observer = void 0
-      }
-
-      if (stopAnchorTracking !== void 0) {
-        stopAnchorTracking()
-        stopAnchorTracking = void 0
-      }
-
-      // hidingInProgress keeps the scroll tracking until the leave
-      // transition is done (the tooltip would lose its position
-      // mid-animation), like the native engine holds its anchor name
-      if (!hidingInProgress) {
-        removeScrollTracking(onScroll)
-        anchorPoint = null
-        pointSelf = null
-        boundary = null
-        centerShift = null
-      }
-    }
-  }
 }
 
 export default /*#__PURE__*/ createComponent({
@@ -447,8 +120,7 @@ export default /*#__PURE__*/ createComponent({
   emits: [...useModelToggleEmits],
 
   setup(props, { slots, emit, attrs }) {
-    let stopPositionWatcher,
-      removeNonSelectableTimer,
+    let removeNonSelectableTimer,
       hasNonSelectable = false,
       // the pointerType of the contact interaction (touch or a pressed
       // stylus) driving the current show, if any; the hide side needs it
@@ -461,10 +133,6 @@ export default /*#__PURE__*/ createComponent({
 
     const vm = getCurrentInstance()
     const $q = useQuasar()
-
-    // frozen per instance: which of the two positioning engines drives
-    // this tooltip (native CSS anchor positioning vs the JS fallback)
-    const viaCssAnchor = supportsCssAnchor()
 
     const innerRef = ref(null)
     const showing = ref(false)
@@ -516,16 +184,18 @@ export default /*#__PURE__*/ createComponent({
     )
 
     const { registerTick, removeTick } = useTick()
-    const posEngine = (viaCssAnchor ? useCssAnchorEngine : useFallbackEngine)(
+    const posEngine = usePositionEngine({
       props,
-      {
-        anchorEl,
-        innerRef,
-        anchorOrigin,
-        selfOrigin,
-        registerTick
-      }
-    )
+      $q,
+      anchorEl,
+      innerRef,
+      showing,
+      anchorOrigin,
+      selfOrigin,
+      // a tooltip's content can change while shown (live values) and
+      // there is no transition-end re-measure to catch it
+      trackContent: true
+    })
 
     // independent of the touch handling above: hybrid devices
     // (touchscreen laptop, iPad with a keyboard) need both
@@ -550,35 +220,14 @@ export default /*#__PURE__*/ createComponent({
 
       showPortal()
       addAriaDescription()
-      posEngine.handleShow()
 
       // the event that opened the tooltip carries the coordinates to
-      // open at; a keyboard focus or a bare model toggle carries none
-      // and keeps the anchor-relative placement
-      if (props.cursorPosition && evt !== void 0 && anchorEl.value !== null) {
-        const pos = position(evt)
+      // open at; a bare model toggle carries none and keeps the
+      // anchor-relative placement
+      posEngine.handleShow(props.cursorPosition ? evt : void 0)
 
-        if (pos.left !== void 0) {
-          const { top, left } = anchorEl.value.getBoundingClientRect()
-
-          posEngine.setAnchorPoint({
-            left: pos.left - left,
-            top: pos.top - top
-          })
-        }
-      }
-
-      if (stopPositionWatcher === void 0) {
-        // with CSS anchor positioning the anchor() styles adapt on their
-        // own and only the frozen flip/cap decision needs re-checking; the
-        // fallback engine recomputes the whole position
-        stopPositionWatcher = watch(
-          () =>
-            `${$q.screen.width}|${$q.screen.height}|${props.self}|` +
-            `${props.anchor}|${$q.lang.rtl}`,
-          posEngine.updatePosition
-        )
-      }
+      // should removeTick() if this gets removed
+      registerTick(posEngine.handleTick)
 
       registerTransitionEnd(() => {
         showPortal(true) // done showing portal
@@ -599,11 +248,6 @@ export default /*#__PURE__*/ createComponent({
     }
 
     function anchorCleanup(hidingInProgress) {
-      if (stopPositionWatcher !== void 0) {
-        stopPositionWatcher()
-        stopPositionWatcher = void 0
-      }
-
       posEngine.releaseAnchor(hidingInProgress)
 
       removeEscapeKey(onEscapeKey)
@@ -844,7 +488,7 @@ export default /*#__PURE__*/ createComponent({
               ref: innerRef,
               class: [
                 'q-tooltip q-tooltip--style no-pointer-events' +
-                  (viaCssAnchor ? '' : ' q-position-engine'),
+                  (posEngine.viaCssAnchor ? '' : ' q-position-engine'),
                 attrs.class
               ],
               style: [

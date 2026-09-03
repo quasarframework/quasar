@@ -1,11 +1,13 @@
 import { afterEach, describe, expect, test, vi } from 'vitest'
+import { computed, ref } from 'vue'
 
-import { parsePosition } from './position-engine.js'
+import { parsePosition } from './core.js'
 import {
   getPositionStyle,
   removeAnchorName,
-  setAnchorName
-} from './anchor-position-engine.js'
+  setAnchorName,
+  useCssAnchorEngine
+} from './anchor-engine.js'
 
 const nodes = []
 
@@ -72,7 +74,7 @@ function nextFrame() {
 
 const origin = pos => parsePosition(pos, false)
 
-describe('[anchorPositionEngine API]', () => {
+describe('[anchorEngine API]', () => {
   describe('[Functions]', () => {
     describe('[(function)setAnchorName]', () => {
       test('names the element through an inline anchor-name', () => {
@@ -346,6 +348,106 @@ describe('[anchorPositionEngine API]', () => {
         expect(rect.left).toBe(150)
 
         removeAnchorName(anchorEl)
+      })
+    })
+
+    describe('[(function)useCssAnchorEngine]', () => {
+      const props = { offset: void 0, maxHeight: null, maxWidth: null }
+
+      function createEngine({
+        anchorEl = null,
+        target = null,
+        anchor = 'bottom left',
+        self = 'top left'
+      } = {}) {
+        return useCssAnchorEngine(props, {
+          anchorEl: ref(anchorEl),
+          innerRef: ref(target),
+          anchorOrigin: computed(() => origin(anchor)),
+          selfOrigin: computed(() => origin(self))
+        })
+      }
+
+      test('has correct return value', () => {
+        const engine = createEngine()
+
+        expect(engine).toStrictEqual({
+          positionStyle: expect.any(Object),
+          updatePosition: expect.any(Function),
+          handleTick: expect.any(Function),
+          releaseAnchor: expect.any(Function),
+          setAnchorPoint: expect.any(Function),
+          handleShow: expect.any(Function)
+        })
+
+        // nothing to express before a show named the anchor
+        expect(engine.positionStyle.value).toBe('')
+      })
+
+      test('names the anchor on show and decides the placement on the tick', async () => {
+        const anchorEl = createAnchor({
+          top: 100,
+          left: 100,
+          width: 100,
+          height: 30
+        })
+        const target = createTarget()
+        const engine = createEngine({ anchorEl, target })
+
+        engine.handleShow()
+        expect(anchorEl.style.getPropertyValue('anchor-name')).toMatch(/^--q-/)
+
+        // hidden until the first boundary pass
+        let style = engine.positionStyle.value
+        expect(style.positionAnchor).toBe(
+          anchorEl.style.getPropertyValue('anchor-name')
+        )
+        expect(style.visibility).toBe('hidden')
+        applyStyle(target, style)
+
+        engine.handleTick()
+        style = engine.positionStyle.value
+        expect(style.visibility).toBeUndefined()
+        applyStyle(target, style)
+
+        await nextFrame()
+        expect(getComputedStyle(target).visibility).toBe('visible')
+        const rect = target.getBoundingClientRect()
+        expect(rect.top).toBe(130)
+        expect(rect.left).toBe(100)
+
+        // the name is held through the leave transition and released
+        // once it is done
+        engine.releaseAnchor(true)
+        expect(anchorEl.style.getPropertyValue('anchor-name')).toMatch(/^--q-/)
+
+        engine.releaseAnchor(false)
+        expect(anchorEl.style.getPropertyValue('anchor-name')).toBe('')
+        expect(engine.positionStyle.value).toBe('')
+      })
+
+      test('positions around the anchor point instead of the box', async () => {
+        const anchorEl = createAnchor({
+          top: 100,
+          left: 100,
+          width: 100,
+          height: 30
+        })
+        const target = createTarget()
+        const engine = createEngine({ anchorEl, target })
+
+        engine.handleShow()
+        engine.setAnchorPoint({ top: 10, left: 20 })
+        applyStyle(target, engine.positionStyle.value)
+        engine.handleTick()
+        applyStyle(target, engine.positionStyle.value)
+
+        await nextFrame()
+        const rect = target.getBoundingClientRect()
+        expect(rect.top).toBe(110)
+        expect(rect.left).toBe(120)
+
+        engine.releaseAnchor(false)
       })
     })
   })
