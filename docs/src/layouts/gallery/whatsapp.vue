@@ -280,8 +280,8 @@ function setCurrentConversation(index) {
 .WAL
   width: 100%
   height: 100%
-  padding-top: 20px
-  padding-bottom: 20px
+  padding-top: var(--q-safe-area-inset-top, 20px)
+  padding-bottom: var(--q-safe-area-inset-bottom, 20px)
 
   &:before
     content: ''
@@ -308,7 +308,8 @@ function setCurrentConversation(index) {
 
 @media (max-width: 850px)
   .WAL
-    padding: 0
+    padding-top: var(--q-safe-area-inset-top, 0px)
+    padding-bottom: var(--q-safe-area-inset-bottom, 0px)
     &__layout
       width: 100%
       border-radius: 0
