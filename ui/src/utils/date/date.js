@@ -12,19 +12,51 @@ const MILLISECONDS_IN_DAY = 86_400_000,
   reverseToken =
     /(\[[^\]]*\])|do|d{1,4}|Mo|M{1,4}|m{1,2}|wo|w{1,2}|Qo|Do|DDDo|D{1,4}|YY(?:YY)?|GG(?:GG)?|H{1,2}|h{1,2}|s{1,2}|S{1,3}|Z{1,2}|a{1,2}|[AQExX]|([.*+:?^,\s${}()|\\]+)/g,
   escapeRegexRE = /[.*+?^${}()|[\]\\]/g,
-  regexStore = new Map()
+  regexStore = new Map(),
+  localeStore = new WeakMap()
 
 function escapeRegex(str) {
   return str.replaceAll(escapeRegexRE, String.raw`\$&`)
 }
 
-function getRegexData(mask, dateLocale) {
+function getLocaleData(dateLocale) {
+  const cached = localeStore.get(dateLocale)
+  if (cached !== void 0) {
+    return cached
+  }
+
+  // same shortening that the "dd" formatting token applies
+  const daysMinList = dateLocale.days.map(day => day.slice(0, 2))
+
   const days = '(' + dateLocale.days.map(escapeRegex).join('|') + ')',
+    daysMin = '(' + daysMinList.map(escapeRegex).join('|') + ')',
     daysShort = '(' + dateLocale.daysShort.map(escapeRegex).join('|') + ')',
     months = '(' + dateLocale.months.map(escapeRegex).join('|') + ')',
     monthsShort = '(' + dateLocale.monthsShort.map(escapeRegex).join('|') + ')'
 
-  const key = [mask, days, daysShort, months, monthsShort].join('|')
+  const entry = {
+    days,
+    daysMin,
+    daysShort,
+    months,
+    monthsShort,
+    daysMinList,
+    // some locales (zh-CN and friends) shorten every day to the same
+    // two characters, so "dd" cannot identify a day there
+    daysMinAreUnique: new Set(daysMinList).size === daysMinList.length,
+    key: [days, daysShort, months, monthsShort].join('|')
+  }
+
+  localeStore.set(dateLocale, entry)
+
+  return entry
+}
+
+function getRegexData(mask, dateLocale) {
+  const localeData = getLocaleData(dateLocale),
+    { days, daysMin, daysShort, months, monthsShort } = localeData
+
+  const key = mask + '|' + localeData.key
 
   if (regexStore.has(key)) {
     return regexStore.get(key)
@@ -133,19 +165,33 @@ function getRegexData(mask, dateLocale) {
         return String.raw`(a\.m\.|p\.m\.)`
       }
 
+      case 'dd': {
+        if (localeData.daysMinAreUnique) {
+          map.dd = index
+        }
+        return daysMin
+      }
       case 'ddd': {
+        map.ddd = index
         return daysShort
       }
       case 'dddd': {
+        map.dddd = index
         return days
       }
-      case 'Q':
-      case 'd':
+      case 'Q': {
+        return String.raw`(\d{1})`
+      }
+      case 'd': {
+        map.d = index
+        return String.raw`(\d{1})`
+      }
       case 'E': {
+        map.E = index
         return String.raw`(\d{1})`
       }
       case 'do': {
-        index++
+        map.d = index++ // bumping to d
         return String.raw`(\d{1}(st|nd|rd|th))`
       }
       case 'Qo': {
@@ -160,20 +206,24 @@ function getRegexData(mask, dateLocale) {
         return String.raw`(\d{1,3}(st|nd|rd|th))`
       }
       case 'w': {
+        map.w = index
         return String.raw`(\d{1,2})`
       }
       case 'wo': {
-        index++
+        map.w = index++ // bumping to w
         return String.raw`(\d{1,2}(st|nd|rd|th))`
       }
       case 'ww': {
+        map.w = index // bumping to w
         return String.raw`(\d{2})`
       }
 
       case 'GG': {
+        map.GG = index
         return String.raw`(-?\d{1,2})`
       }
       case 'GGGG': {
+        map.GGGG = index
         return String.raw`(-?\d{1,4})`
       }
 
@@ -208,6 +258,9 @@ function getRegexData(mask, dateLocale) {
   })
 
   const res = { map, regex: new RegExp('^' + regexText) }
+
+  // masks can be generated on the fly, so guard against unbounded growth
+  if (regexStore.size > 100) regexStore.clear()
   regexStore.set(key, res)
 
   return res
@@ -362,6 +415,46 @@ export function adjustDate(date, rawMod, utc) {
   return t
 }
 
+function getExtractedISODay(match, map, langOpts) {
+  if (map.E !== void 0) {
+    return Number.parseInt(match[map.E], 10)
+  }
+
+  if (map.d !== void 0) {
+    const day = Number.parseInt(match[map.d], 10)
+    return day === 0 ? 7 : day
+  }
+
+  if (map.dddd !== void 0) {
+    return langOpts.days.indexOf(match[map.dddd]) || 7
+  }
+
+  if (map.ddd !== void 0) {
+    return langOpts.daysShort.indexOf(match[map.ddd]) || 7
+  }
+
+  if (map.dd !== void 0) {
+    return getLocaleData(langOpts).daysMinList.indexOf(match[map.dd]) || 7
+  }
+
+  // ISO weeks start on Monday
+  return 1
+}
+
+function getISOWeekDate(weekYear, week, isoDay) {
+  // January 4th always belongs to the ISO week 1, so counting from
+  // the Monday of its week lands on the requested day
+  const jan4 = new Date(weekYear, 0, 4),
+    date = new Date(
+      weekYear,
+      0,
+      4 - ((jan4.getDay() + 6) % 7) + (week - 1) * 7 + (isoDay - 1)
+    )
+
+  // rejects week 53 of a year that only has 52 of them
+  return getWeekOfYear(date) === week ? date : null
+}
+
 export function extractDate(str, mask, dateLocale) {
   const d = __splitDate(str, mask, dateLocale)
 
@@ -464,6 +557,32 @@ export function __splitDate(str, mask, dateLocale, calendar, defaultModel) {
           : jalaaliMonthLength(date.year, date.month)
 
       if (date.day > maxDay) return date
+    }
+
+    if (map.w !== void 0 && date.day === null) {
+      const week = Number.parseInt(match[map.w], 10)
+      if (week < 1 || week > 53) return date
+
+      let weekYear = date.year
+
+      if (map.GGGG !== void 0) {
+        weekYear = Number.parseInt(match[map.GGGG], 10)
+      } else if (map.GG !== void 0) {
+        const y = Number.parseInt(match[map.GG], 10)
+        weekYear = y < 0 ? y : 2000 + y
+      }
+
+      if (weekYear === null) return date
+
+      const isoDay = getExtractedISODay(match, map, langOpts)
+      if (isoDay < 1 || isoDay > 7) return date
+
+      const weekDate = getISOWeekDate(weekYear, week, isoDay)
+      if (weekDate === null) return date
+
+      date.year = weekDate.getFullYear()
+      date.month = weekDate.getMonth() + 1
+      date.day = weekDate.getDate()
     }
 
     if (map.H !== void 0) {

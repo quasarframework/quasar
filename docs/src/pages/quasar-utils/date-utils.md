@@ -467,6 +467,46 @@ const parsed = date.extractDate('2024-02-30', 'YYYY-MM-DD')
 console.log(Number.isNaN(parsed.getTime())) // true
 ```
 
+### Extracting ISO week dates <q-badge label="v2.30+" />
+
+A mask that carries a week number (`w`, `wo` or `ww`) is resolved as an [ISO week date](https://en.wikipedia.org/wiki/ISO_week_date), so `formatDate()` output round-trips back into the same day:
+
+```js
+import { date } from 'quasar'
+
+date.extractDate('2020-W40-7', 'GGGG-[W]ww-E')
+// Sunday, October 4th 2020
+```
+
+The year comes from `GG`/`GGGG` when the mask has one, otherwise from `YY`/`YYYY`. Prefer the ISO week year tokens: for the days around January 1st the calendar year and the ISO week year differ, and pairing `YYYY` with `ww` then resolves to a day in the wrong week.
+
+The weekday comes from whichever of `E`, `d`, `do`, `dd`, `ddd` or `dddd` the mask carries. Masks without a weekday resolve to the Monday that starts the week, since ISO weeks start on Monday:
+
+```js
+date.extractDate('2020-40', 'YYYY-ww')
+// Monday, September 28th 2020
+```
+
+Weeks are always interpreted per ISO 8601 (weeks start on Monday, week 1 is the one holding January 4th), matching what `formatDate()` writes and what `getWeekOfYear()` returns. The language pack in use does not shift them, and neither does the `first-day-of-week` property of QDate, which only affects how a calendar is displayed.
+
+An impossible week is an `Invalid Date`, including week 53 of a year that only has 52 of them:
+
+```js
+const parsed = date.extractDate('2021-W53', 'GGGG-[W]ww')
+console.log(Number.isNaN(parsed.getTime())) // true
+```
+
+When a mask carries both a week number and a full calendar date, the calendar date wins:
+
+```js
+date.extractDate('2021-W52 2022-01-01', 'GGGG-[W]ww YYYY-MM-DD')
+// January 1st 2022
+```
+
+::: warning
+The `dd` token shortens a day name to its first two characters, which is not unique in every language (Chinese shortens all seven days to the same two characters). Where the current language pack is ambiguous that way, `dd` is matched but ignored, and the date resolves to the Monday of the week. Use `ddd`, `dddd` or `E` for a weekday that parses everywhere.
+:::
+
 With optional custom locale:
 
 Custom day and month names are matched literally, including any regular

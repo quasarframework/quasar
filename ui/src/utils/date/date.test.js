@@ -219,7 +219,96 @@ describe('[date API]', () => {
         ).toBe(Date.UTC(2024, 1, 29, 13, 5))
       })
 
-      test('matches but ignores ISO week year tokens', () => {
+      test('resolves an ISO week date into a calendar date', () => {
+        const value = new Date(2020, 9, 4)
+
+        expect(
+          date.extractDate(
+            date.formatDate(value, 'GGGG-[W]ww-E'),
+            'GGGG-[W]ww-E'
+          )
+        ).toStrictEqual(value)
+      })
+
+      test.each(['E', 'd', 'do', 'dd', 'ddd', 'dddd'])(
+        'resolves the weekday of an ISO week date from the %s token',
+        token => {
+          const value = new Date(2020, 9, 4),
+            mask = 'GGGG-[W]ww-' + token
+
+          expect(
+            date.extractDate(date.formatDate(value, mask), mask)
+          ).toStrictEqual(value)
+        }
+      )
+
+      test('resolves to Monday when the mask carries no weekday', () => {
+        const value = new Date(2020, 9, 4),
+          result = date.extractDate(
+            date.formatDate(value, 'GGGG-[W]ww'),
+            'GGGG-[W]ww'
+          )
+
+        expect([
+          date.getDayOfWeek(result),
+          date.getWeekOfYear(result),
+          date.getISOWeekYear(result)
+        ]).toStrictEqual([
+          1,
+          date.getWeekOfYear(value),
+          date.getISOWeekYear(value)
+        ])
+      })
+
+      test('accepts a calendar year in place of the ISO week year', () => {
+        const value = new Date(2020, 9, 4)
+
+        expect(
+          date.extractDate(date.formatDate(value, 'YY-ww-E'), 'YY-ww-E')
+        ).toStrictEqual(value)
+      })
+
+      test('round-trips every day of a year through an ISO week date', () => {
+        const mask = 'GGGG-[W]ww-E',
+          failed = []
+
+        let day = new Date(2020, 0, 1)
+
+        while (day.getFullYear() === 2020) {
+          const result = date.extractDate(date.formatDate(day, mask), mask)
+
+          if (result.getTime() !== day.getTime()) {
+            failed.push(date.formatDate(day, 'YYYY-MM-DD'))
+          }
+
+          day = date.addToDate(day, { days: 1 })
+        }
+
+        expect(failed).toStrictEqual([])
+      })
+
+      test('ignores the dd token when a locale shortens every day alike', async () => {
+        const { default: enUS } = await import('quasar/lang/en-US.js')
+        const locale = {
+          ...enUS.date,
+          days: enUS.date.days.map(day => 'XX' + day)
+        }
+
+        const value = new Date(2020, 9, 4),
+          mask = 'GGGG-[W]ww-dd',
+          result = date.extractDate(
+            date.formatDate(value, mask, locale),
+            mask,
+            locale
+          )
+
+        expect([
+          date.getDayOfWeek(result),
+          date.getWeekOfYear(result)
+        ]).toStrictEqual([1, date.getWeekOfYear(value)])
+      })
+
+      test('lets an explicit calendar date win over ISO week tokens', () => {
         expect(
           date.extractDate('2021-W52 2022-01-01', 'GGGG-[W]ww YYYY-MM-DD')
         ).toStrictEqual(new Date(2022, 0, 1))
@@ -236,7 +325,12 @@ describe('[date API]', () => {
         ['2024-02-29 13:60', 'YYYY-MM-DD HH:mm'],
         ['2024-02-29 13:05:60', 'YYYY-MM-DD HH:mm:ss'],
         ['2024-02-29 00:05 PM', 'YYYY-MM-DD hh:mm A'],
-        ['2024-02-29 13:05 +2460', 'YYYY-MM-DD HH:mm ZZ']
+        ['2024-02-29 13:05 +2460', 'YYYY-MM-DD HH:mm ZZ'],
+        ['2020-W00', 'GGGG-[W]ww'],
+        ['2020-W54', 'GGGG-[W]ww'],
+        ['2021-W53', 'GGGG-[W]ww'],
+        ['2020-W40-8', 'GGGG-[W]ww-E'],
+        ['40', 'ww']
       ])('returns Invalid Date for %o with mask %s', (value, mask) => {
         const result = date.extractDate(value, mask)
 
