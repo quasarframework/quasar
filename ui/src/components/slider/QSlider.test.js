@@ -713,13 +713,33 @@ describe('[QSlider API]', () => {
           'true'
         )
         expect(getTrackContainer(wrapper).attributes('tabindex')).toBe('-1')
-        expect(getTrackContainer(wrapper).element.__qtouchpan).toBeUndefined()
         // nothing gets submitted while disabled
         expect(wrapper.find('input[type="hidden"]').exists()).toBe(false)
 
         await getTrackContainer(wrapper).trigger('keydown', { keyCode: 39 })
 
         expect(wrapper.emitted('update:modelValue')).toBeUndefined()
+      })
+
+      test('toggling it disarms the pan in place', async () => {
+        const wrapper = mountSlider({ disable: true })
+        const trackContainer = getTrackContainer(wrapper)
+        const thumbEl = wrapper.get('.q-slider__thumb').element
+
+        await trackContainer.trigger('mousedown', { button: 0 })
+
+        expect(trackContainer.element.__qtouchpan.event).toBeUndefined()
+
+        await wrapper.setProps({ disable: false })
+
+        expect(getTrackContainer(wrapper).element).toBe(trackContainer.element)
+        expect(wrapper.get('.q-slider__thumb').element).toBe(thumbEl)
+
+        await trackContainer.trigger('mousedown', { button: 0 })
+
+        expect(trackContainer.element.__qtouchpan.event).toBeDefined()
+
+        wrapper.unmount()
       })
     })
 
@@ -1105,12 +1125,16 @@ describe('[QSlider API]', () => {
       expect(wrapper.emitted('update:modelValue').at(-1)).toStrictEqual([1])
     })
 
-    test('an inverted inner range makes the component non-editable', () => {
+    test('an inverted inner range makes the component non-editable', async () => {
       const wrapper = mountSlider({ innerMin: 60, innerMax: 40 })
+      const trackContainer = getTrackContainer(wrapper)
 
       expect(wrapper.classes()).not.toContain('q-slider--editable')
-      expect(getTrackContainer(wrapper).attributes('tabindex')).toBe('-1')
-      expect(getTrackContainer(wrapper).element.__qtouchpan).toBeUndefined()
+      expect(trackContainer.attributes('tabindex')).toBe('-1')
+
+      await trackContainer.trigger('mousedown', { button: 0 })
+
+      expect(trackContainer.element.__qtouchpan.event).toBeUndefined()
     })
 
     test('a zero-length track renders safely', () => {

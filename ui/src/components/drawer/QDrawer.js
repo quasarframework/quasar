@@ -31,7 +31,7 @@ import {
   addEscapeKey,
   removeEscapeKey
 } from '../../utils/private.keyboard/escape-key.js'
-import { hDir, hSlot } from '../../utils/private.render/render.js'
+import { hSlot } from '../../utils/private.render/render.js'
 import {
   emptyRenderFn,
   layoutKey
@@ -372,13 +372,15 @@ export default /*#__PURE__*/ createComponent({
     })
 
     const backdropCloseDirective = computed(() => {
-      // if showing.value === true && props.noSwipeBackdrop !== true
       const dir = $q.lang.rtl ? otherSide.value : props.side
 
       return [
         [
           TouchPan,
-          onClosePan,
+          // disarmed in place while hidden or with no-swipe-backdrop, so the
+          // backdrop element persists across open/close instead of being
+          // re-created on every toggle
+          showing.value && !props.noSwipeBackdrop ? onClosePan : void 0,
           void 0,
           {
             [dir]: true,
@@ -710,19 +712,15 @@ export default /*#__PURE__*/ createComponent({
         }
 
         child.push(
-          hDir(
-            'div',
-            {
+          withDirectives(
+            h('div', {
               ref: 'backdrop',
               class: backdropClass.value,
               style: backdropStyle.value,
               'aria-hidden': 'true',
               onClick: hide
-            },
-            void 0,
-            'backdrop',
-            !props.noSwipeBackdrop && showing.value,
-            () => backdropCloseDirective.value
+            }),
+            backdropCloseDirective.value
           )
         )
       }

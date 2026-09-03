@@ -1,4 +1,11 @@
-import { computed, getCurrentInstance, h, onBeforeUnmount, ref } from 'vue'
+import {
+  computed,
+  getCurrentInstance,
+  h,
+  onBeforeUnmount,
+  ref,
+  withDirectives
+} from 'vue'
 
 import TouchPan from '../../directives/touch-pan/TouchPan.js'
 
@@ -14,7 +21,6 @@ import {
 import { between } from '../../utils/format/format.js'
 import { position } from '../../utils/event/event.js'
 import { isNumber, isObject } from '../../utils/is/is.js'
-import { hDir } from '../../utils/private.render/render.js'
 
 const markerPrefixClass = 'q-slider__marker-labels'
 const defaultMarkerConvertFn = v => ({ value: v })
@@ -424,7 +430,10 @@ export default function useSlider({
   const panDirective = computed(() => [
     [
       TouchPan,
-      onPan,
+      // TouchPan only acquires gestures while its value is a function;
+      // detaching the directive instead would re-create the track and its
+      // thumbs on every disable/readonly toggle
+      editable.value ? onPan : void 0,
       void 0,
       {
         [orientation.value]: true,
@@ -658,27 +667,27 @@ export default function useSlider({
     injectThumb(trackContent)
 
     const content = [
-      hDir(
-        'div',
-        {
-          key: 'trackC',
-          class: trackContainerClass.value,
-          tabindex: trackContainerTabindex.value,
-          ...trackContainerEvents.value
-        },
-        [
-          h(
-            'div',
-            {
-              class: trackClass.value,
-              style: trackStyle.value
-            },
-            trackContent
-          )
-        ],
-        'slide',
-        editable.value,
-        () => panDirective.value
+      withDirectives(
+        h(
+          'div',
+          {
+            key: 'trackC',
+            class: trackContainerClass.value,
+            tabindex: trackContainerTabindex.value,
+            ...trackContainerEvents.value
+          },
+          [
+            h(
+              'div',
+              {
+                class: trackClass.value,
+                style: trackStyle.value
+              },
+              trackContent
+            )
+          ]
+        ),
+        panDirective.value
       )
     ]
 

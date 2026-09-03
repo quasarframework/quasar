@@ -362,6 +362,27 @@ describe('[QColor API]', () => {
 
         expect(wrapper.emitted('update:modelValue')).toBeUndefined()
       })
+
+      test('toggling it disarms the spectrum pan in place', async () => {
+        const wrapper = mountColor({ disable: true })
+        const spectrum = wrapper.get('.q-color-picker__spectrum')
+
+        await spectrum.trigger('mousedown', { button: 0 })
+
+        expect(spectrum.element.__qtouchpan.event).toBeUndefined()
+
+        await wrapper.setProps({ disable: false })
+
+        expect(wrapper.get('.q-color-picker__spectrum').element).toBe(
+          spectrum.element
+        )
+
+        await spectrum.trigger('mousedown', { button: 0 })
+
+        expect(spectrum.element.__qtouchpan.event).toBeDefined()
+
+        wrapper.unmount()
+      })
     })
 
     describe('[(prop)readonly]', () => {

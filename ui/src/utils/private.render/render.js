@@ -1,5 +1,3 @@
-import { h, withDirectives } from 'vue'
-
 export function hSlot(slot, otherwise) {
   return slot !== void 0 ? slot() || otherwise : otherwise
 }
@@ -33,14 +31,4 @@ export function hMergeSlotSafely(slot, source) {
 
   // oxlint-disable-next-line unicorn/prefer-spread
   return source !== void 0 ? source.concat(slot()) : slot()
-}
-
-/*
- * (String)  key       - unique vnode key
- * (Boolean) condition - should change ONLY when adding/removing directive
- */
-export function hDir(tag, data, children, key, condition, getDirsFn) {
-  data.key = key + condition
-  const vnode = h(tag, data, children)
-  return condition ? withDirectives(vnode, getDirsFn()) : vnode
 }

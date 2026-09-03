@@ -734,7 +734,12 @@ describe('[QRange API]', () => {
         expect(wrapper.classes()).not.toContain('q-slider--editable')
         expect(wrapper.attributes('aria-disabled')).toBe('true')
         expect(getMinThumb(wrapper).attributes('tabindex')).toBe('-1')
-        expect(getTrackContainer(wrapper).element.__qtouchpan).toBeUndefined()
+
+        await getTrackContainer(wrapper).trigger('mousedown', { button: 0 })
+
+        expect(
+          getTrackContainer(wrapper).element.__qtouchpan.event
+        ).toBeUndefined()
         // nothing gets submitted while disabled
         expect(wrapper.find('input[type="hidden"]').exists()).toBe(false)
 
@@ -1446,7 +1451,12 @@ describe('[QRange API]', () => {
 
       expect(wrapper.classes()).not.toContain('q-slider--editable')
       expect(getMinThumb(wrapper).attributes('tabindex')).toBe('-1')
-      expect(getTrackContainer(wrapper).element.__qtouchpan).toBeUndefined()
+
+      await getTrackContainer(wrapper).trigger('mousedown', { button: 0 })
+
+      expect(
+        getTrackContainer(wrapper).element.__qtouchpan.event
+      ).toBeUndefined()
 
       await focusAndPress(getMinThumb(wrapper))
 

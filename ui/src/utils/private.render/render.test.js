@@ -1,14 +1,6 @@
 import { describe, expect, test } from 'vitest'
-import { flushPromises, mount } from '@vue/test-utils'
-import { ref } from 'vue'
 
-import {
-  hDir,
-  hMergeSlot,
-  hMergeSlotSafely,
-  hSlot,
-  hUniqueSlot
-} from './render.js'
+import { hMergeSlot, hMergeSlotSafely, hSlot, hUniqueSlot } from './render.js'
 
 describe('[render API]', () => {
   describe('[Functions]', () => {
@@ -123,49 +115,6 @@ describe('[render API]', () => {
         const z = ['z']
         const result = hMergeSlotSafely(() => z)
         expect(result).toBe(z)
-      })
-    })
-
-    describe('[(function)hDir]', () => {
-      test('correctly mounts/unmounts directive', async () => {
-        let directiveIsMounted = false
-        const condition = ref(true)
-
-        const directive = {
-          name: 'custom-directive',
-          beforeMount() {
-            directiveIsMounted = true
-          },
-          beforeUnmount() {
-            directiveIsMounted = false
-          }
-        }
-
-        const wrapper = mount({
-          setup: () => () =>
-            hDir(
-              'div',
-              { class: 'div-class' },
-              ['child'],
-              'key',
-              condition.value,
-              () => [[directive]]
-            )
-        })
-
-        expect(directiveIsMounted).toBe(true)
-        expect(wrapper.html()).toBe('<div class="div-class">child</div>')
-
-        condition.value = false
-        await flushPromises()
-
-        expect(directiveIsMounted).toBe(false)
-        expect(wrapper.html()).toBe('<div class="div-class">child</div>')
-
-        condition.value = true
-        await flushPromises()
-        expect(directiveIsMounted).toBe(true)
-        expect(wrapper.html()).toBe('<div class="div-class">child</div>')
       })
     })
   })

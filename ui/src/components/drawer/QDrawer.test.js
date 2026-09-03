@@ -580,21 +580,49 @@ describe('[QDrawer API]', () => {
       test('type Boolean has effect', async () => {
         const wrapper = await mountReadyDrawer({
           behavior: 'mobile',
-          modelValue: true
-        })
-
-        const backdrop = wrapper.get('.q-drawer__backdrop')
-        expect(backdrop.element.__qtouchpan).toBeDefined()
-
-        await setDrawerProps(wrapper, {
-          behavior: 'mobile',
           modelValue: true,
           noSwipeBackdrop: true
         })
+        const backdrop = wrapper.get('.q-drawer__backdrop')
 
-        expect(
-          wrapper.get('.q-drawer__backdrop').element.__qtouchpan
-        ).toBeUndefined()
+        await backdrop.trigger('mousedown', { button: 0 })
+
+        expect(backdrop.element.__qtouchpan.event).toBeUndefined()
+
+        await setDrawerProps(wrapper, { behavior: 'mobile', modelValue: true })
+        await backdrop.trigger('mousedown', { button: 0 })
+
+        expect(backdrop.element.__qtouchpan.event).toBeDefined()
+      })
+
+      test('the backdrop element persists across open/close', async () => {
+        const wrapper = await mountReadyDrawer({
+          behavior: 'mobile',
+          modelValue: true
+        })
+        const backdrop = wrapper.get('.q-drawer__backdrop')
+
+        expect(backdrop.classes()).not.toContain('hidden')
+
+        await setDrawerProps(wrapper, { behavior: 'mobile', modelValue: false })
+        await settle()
+
+        expect(wrapper.get('.q-drawer__backdrop').element).toBe(
+          backdrop.element
+        )
+        expect(backdrop.classes()).toContain('hidden')
+
+        await backdrop.trigger('mousedown', { button: 0 })
+
+        expect(backdrop.element.__qtouchpan.event).toBeUndefined()
+
+        await setDrawerProps(wrapper, { behavior: 'mobile', modelValue: true })
+        await settle()
+
+        expect(wrapper.get('.q-drawer__backdrop').element).toBe(
+          backdrop.element
+        )
+        expect(backdrop.classes()).not.toContain('hidden')
       })
     })
   })

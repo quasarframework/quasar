@@ -1,4 +1,12 @@
-import { computed, getCurrentInstance, h, nextTick, ref, watch } from 'vue'
+import {
+  computed,
+  getCurrentInstance,
+  h,
+  nextTick,
+  ref,
+  watch,
+  withDirectives
+} from 'vue'
 
 import TouchPan from '../../directives/touch-pan/TouchPan.js'
 
@@ -33,7 +41,6 @@ import {
   rgbToString,
   textToRgb
 } from '../../utils/colors/colors.js'
-import { hDir } from '../../utils/private.render/render.js'
 
 const palette = [
   'rgb(255,204,204)',
@@ -294,7 +301,10 @@ export default /*#__PURE__*/ createComponent({
     const spectrumDirective = computed(() => [
       [
         TouchPan,
-        onSpectrumPan,
+        // TouchPan only acquires gestures while its value is a function;
+        // detaching the directive instead would re-create the spectrum
+        // markup on every disable/readonly toggle
+        editable.value ? onSpectrumPan : void 0,
         void 0,
         { prevent: true, stop: true, mouse: true }
       ]
@@ -837,14 +847,7 @@ export default /*#__PURE__*/ createComponent({
       }
 
       return [
-        hDir(
-          'div',
-          data,
-          child,
-          'spec',
-          editable.value,
-          () => spectrumDirective.value
-        ),
+        withDirectives(h('div', data, child), spectrumDirective.value),
         h('div', { class: 'q-color-picker__sliders' }, sliders)
       ]
     }
