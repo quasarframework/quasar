@@ -59,6 +59,18 @@ When you want to inhibit TouchSwipe, you can do so by stopping propagation of th
 
 However, if you are using `capture` or `mouseCapture` modifiers then events will first reach the TouchHold directive then the inner content, so TouchSwipe will still trigger.
 
+### Events after TouchSwipe triggers
+
+Once a swipe is recognized, the directive consumes the events that follow it, so that a swipe does not also count as a tap or as a click, be it on the element itself or on any of its parents. It stops every subsequent `touchmove` / `mousemove` and then the event that ends the gesture: `touchend` for touch events and `mouseup` for mouse events.
+
+This means that `@touchmove`, `@touchend` and `@mouseup` listeners on the element will not be called after a swipe has been recognized. They are still called when the movement does not qualify as a swipe. Should you need them in both cases, listen for them in the capture phase:
+
+```html
+<div v-touch-swipe="userHasSwiped" @touchend.capture="userHasLifted">
+  <!-- ...content -->
+</div>
+```
+
 ## Note on HMR
 
 Due to performance reasons, not all of the modifiers are reactive. Some require a window/page/component refresh to get updated. Please check the API card for the modifiers which are not marked as reactive.
