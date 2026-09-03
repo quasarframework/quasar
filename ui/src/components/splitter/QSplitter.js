@@ -1,4 +1,4 @@
-import { computed, h, nextTick, ref, watch } from 'vue'
+import { computed, h, nextTick, ref, watch, withDirectives } from 'vue'
 
 import TouchPan from '../../directives/touch-pan/TouchPan.js'
 
@@ -9,7 +9,7 @@ import useDark, {
 import useId from '../../composables/use-id/use-id.js'
 
 import { createComponent } from '../../utils/private.create/create.js'
-import { hDir, hMergeSlot, hSlot } from '../../utils/private.render/render.js'
+import { hMergeSlot, hSlot } from '../../utils/private.render/render.js'
 import { stopAndPrevent } from '../../utils/event/event.js'
 
 export default /*#__PURE__*/ createComponent({
@@ -149,7 +149,9 @@ export default /*#__PURE__*/ createComponent({
     const sepDirective = computed(() => [
       [
         TouchPan,
-        pan,
+        // TouchPan only acquires while its value is a function; detaching the
+        // directive instead would re-create the separator content (#12668)
+        props.disable ? void 0 : pan,
         void 0,
         {
           [props.horizontal ? 'vertical' : 'horizontal']: true,
@@ -293,13 +295,13 @@ export default /*#__PURE__*/ createComponent({
             onKeydown: props.disable ? void 0 : onSeparatorKeydown
           },
           [
-            hDir(
-              'div',
-              { class: 'q-splitter__separator-area absolute-full' },
-              hSlot(slots.separator),
-              'sep',
-              !props.disable,
-              () => sepDirective.value
+            withDirectives(
+              h(
+                'div',
+                { class: 'q-splitter__separator-area absolute-full' },
+                hSlot(slots.separator)
+              ),
+              sepDirective.value
             )
           ]
         ),
