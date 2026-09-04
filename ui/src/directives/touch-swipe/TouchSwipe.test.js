@@ -1,8 +1,6 @@
-import { mount } from '@vue/test-utils'
+import { flushPromises, mount } from '@vue/test-utils'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
-import { defineComponent, h, withDirectives } from 'vue'
-
-import { getMainEvent } from 'testing/runtime/directive.js'
+import { defineComponent, h, ref, withDirectives } from 'vue'
 
 import { client } from '../../plugins/platform/Platform.js'
 import TouchSwipe from './TouchSwipe.js'
@@ -28,12 +26,17 @@ afterEach(() => {
 
 function mountTouchSwipe(modifiers = 'mouse', handler = vi.fn()) {
   const modifierMap = Object.fromEntries(
-    modifiers.split('.').map(mod => [mod, true])
+    modifiers
+      .split('.')
+      .filter(mod => mod !== '')
+      .map(mod => [mod, true])
   )
   const TestComponent = defineComponent({
     setup() {
       return () =>
-        withDirectives(h('div'), [[TouchSwipe, handler, void 0, modifierMap]])
+        withDirectives(h('div', [h('span')]), [
+          [TouchSwipe, handler, void 0, modifierMap]
+        ])
     }
   })
 
@@ -43,8 +46,8 @@ function mountTouchSwipe(modifiers = 'mouse', handler = vi.fn()) {
   }
 }
 
-function dispatchMouseSwipe(wrapper, x, y) {
-  wrapper.element.dispatchEvent(
+function mouseDown(el) {
+  el.dispatchEvent(
     new MouseEvent('mousedown', {
       bubbles: true,
       button: 0,
@@ -53,6 +56,10 @@ function dispatchMouseSwipe(wrapper, x, y) {
       clientY: 0
     })
   )
+}
+
+function dispatchMouseSwipe(wrapper, x, y) {
+  mouseDown(wrapper.element)
   vi.advanceTimersByTime(100)
   document.dispatchEvent(
     new MouseEvent('mousemove', {
@@ -69,6 +76,34 @@ function dispatchMouseSwipe(wrapper, x, y) {
       clientY: y
     })
   )
+}
+
+function touch(el, type, x = 0, y = 0) {
+  el.dispatchEvent(
+    new TouchEvent(type, {
+      bubbles: true,
+      cancelable: true,
+      touches:
+        type === 'touchend'
+          ? []
+          : [new Touch({ identifier: 1, target: el, clientX: x, clientY: y })]
+    })
+  )
+}
+
+function dispatchTouchSwipe(el, x, y) {
+  touch(el, 'touchstart')
+  vi.advanceTimersByTime(100)
+  touch(el, 'touchmove', x, y)
+  touch(el, 'touchend')
+}
+
+// a child that keeps the press to itself: only a capture-phase
+// listener on the element still sees it
+function stopAtChild(wrapper, type) {
+  wrapper.get('span').element.addEventListener(type, evt => {
+    evt.stopPropagation()
+  })
 }
 
 function expectDirection(modifier, expected) {
@@ -146,21 +181,33 @@ describe('[TouchSwipe API]', () => {
     describe('[(modifier)capture]', () => {
       test('has effect', () => {
         client.has.touch = true
-        const { wrapper } = mountTouchSwipe('capture')
+        const bubble = mountTouchSwipe('')
+        const capture = mountTouchSwipe('capture')
 
-        expect(
-          getMainEvent(wrapper.element.__qtouchswipe, 'touchstart')[3]
-        ).toBe('passiveCapture')
+        stopAtChild(bubble.wrapper, 'touchstart')
+        stopAtChild(capture.wrapper, 'touchstart')
+
+        dispatchTouchSwipe(bubble.wrapper.get('span').element, 100, 5)
+        dispatchTouchSwipe(capture.wrapper.get('span').element, 100, 5)
+
+        expect(bubble.handler).not.toHaveBeenCalled()
+        expect(capture.handler).toHaveBeenCalledWith(
+          expect.objectContaining({ direction: 'right', touch: true })
+        )
       })
     })
 
     describe('[(modifier)mouse]', () => {
       test('has effect', () => {
-        const { wrapper } = mountTouchSwipe()
+        client.has.touch = true
+        const touchOnly = mountTouchSwipe('')
+        const withMouse = mountTouchSwipe()
 
-        expect(
-          getMainEvent(wrapper.element.__qtouchswipe, 'mousedown')[3]
-        ).toBe('passive')
+        dispatchMouseSwipe(touchOnly.wrapper, 100, 5)
+        dispatchMouseSwipe(withMouse.wrapper, 100, 5)
+
+        expect(touchOnly.handler).not.toHaveBeenCalled()
+        expect(withMouse.handler).toHaveBeenCalledTimes(1)
       })
 
       test('shields the page from pointer events only while swiping', () => {
@@ -209,11 +256,27 @@ describe('[TouchSwipe API]', () => {
 
     describe('[(modifier)mouseCapture]', () => {
       test('has effect', () => {
-        const { wrapper } = mountTouchSwipe('mouse.mouseCapture')
+        const bubble = mountTouchSwipe()
+        const capture = mountTouchSwipe('mouse.mouseCapture')
 
-        expect(
-          getMainEvent(wrapper.element.__qtouchswipe, 'mousedown')[3]
-        ).toBe('passiveCapture')
+        stopAtChild(bubble.wrapper, 'mousedown')
+        stopAtChild(capture.wrapper, 'mousedown')
+
+        mouseDown(bubble.wrapper.get('span').element)
+        mouseDown(capture.wrapper.get('span').element)
+        vi.advanceTimersByTime(100)
+        document.dispatchEvent(
+          new MouseEvent('mousemove', {
+            bubbles: true,
+            cancelable: true,
+            clientX: 100,
+            clientY: 5
+          })
+        )
+        document.dispatchEvent(new MouseEvent('mouseup', { bubbles: true }))
+
+        expect(bubble.handler).not.toHaveBeenCalled()
+        expect(capture.handler).toHaveBeenCalledTimes(1)
       })
     })
 
@@ -259,6 +322,108 @@ describe('[TouchSwipe API]', () => {
       test('has effect', () => {
         expectDirection('left', { left: true })
       })
+    })
+  })
+
+  describe('[Generic]', () => {
+    test('follows the modifiers when they change at runtime', async () => {
+      const handler = vi.fn()
+      const modifiers = ref({ mouse: true, left: true })
+      const TestComponent = defineComponent({
+        setup() {
+          return () =>
+            withDirectives(h('div'), [
+              [TouchSwipe, handler, void 0, modifiers.value]
+            ])
+        }
+      })
+      const wrapper = mount(TestComponent)
+
+      dispatchMouseSwipe(wrapper, 100, 5)
+
+      expect(handler).not.toHaveBeenCalled()
+
+      modifiers.value = { mouse: true, right: true }
+      await flushPromises()
+
+      dispatchMouseSwipe(wrapper, 100, 5)
+
+      expect(handler).toHaveBeenCalledWith(
+        expect.objectContaining({ direction: 'right' })
+      )
+    })
+
+    test('an undefined value mid-gesture drops the gesture', async () => {
+      const handler = vi.fn()
+      const value = ref(handler)
+      const TestComponent = defineComponent({
+        setup() {
+          return () =>
+            withDirectives(h('div'), [
+              [TouchSwipe, value.value, void 0, { mouse: true }]
+            ])
+        }
+      })
+      const wrapper = mount(TestComponent)
+
+      mouseDown(wrapper.element)
+      value.value = void 0
+      await flushPromises()
+      vi.advanceTimersByTime(100)
+      document.dispatchEvent(
+        new MouseEvent('mousemove', {
+          bubbles: true,
+          cancelable: true,
+          clientX: 100,
+          clientY: 5
+        })
+      )
+      document.dispatchEvent(new MouseEvent('mouseup', { bubbles: true }))
+
+      expect(handler).not.toHaveBeenCalled()
+
+      value.value = handler
+      await flushPromises()
+      dispatchMouseSwipe(wrapper, 100, 5)
+
+      expect(handler).toHaveBeenCalledTimes(1)
+    })
+
+    test('lets go of everything on unmount', () => {
+      client.has.touch = true
+      const { handler, wrapper } = mountTouchSwipe()
+      const el = wrapper.element
+
+      // a swipe in progress: the page shield is up
+      mouseDown(el)
+      vi.advanceTimersByTime(100)
+      document.dispatchEvent(
+        new MouseEvent('mousemove', {
+          bubbles: true,
+          cancelable: true,
+          clientX: 100,
+          clientY: 5
+        })
+      )
+
+      expect(handler).toHaveBeenCalledTimes(1)
+      expect(
+        document.body.classList.contains('no-pointer-events--children')
+      ).toBe(true)
+
+      wrapper.unmount()
+
+      expect(
+        document.body.classList.contains('no-pointer-events--children')
+      ).toBe(false)
+      expect(document.body.classList.contains('non-selectable')).toBe(false)
+
+      document.dispatchEvent(new MouseEvent('mouseup', { bubbles: true }))
+      dispatchMouseSwipe(wrapper, 100, 5)
+      dispatchTouchSwipe(el, 100, 5)
+
+      expect(handler).toHaveBeenCalledTimes(1)
+      expect(el.__qtouchswipe).toBeUndefined()
     })
   })
 })
