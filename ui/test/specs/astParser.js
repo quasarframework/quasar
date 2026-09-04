@@ -74,7 +74,8 @@ function getAstParam(param, canComment) {
   }
 
   if (param.type === 'Literal') {
-    return String(param.value)
+    // the source form keeps a string's quotes
+    return param.raw ?? String(param.value)
   }
 
   if (param.type === 'NewExpression') {
