@@ -1,6 +1,6 @@
-import { mount } from '@vue/test-utils'
+import { flushPromises, mount } from '@vue/test-utils'
 import { describe, expect, test, vi } from 'vitest'
-import { defineComponent, h, withDirectives } from 'vue'
+import { defineComponent, h, ref, withDirectives } from 'vue'
 
 import Morph from './Morph.js'
 
@@ -153,6 +153,123 @@ describe('[Morph API]', () => {
       test('has effect', () => {
         expectModifier('tween')
       })
+    })
+  })
+
+  describe('[Generic]', () => {
+    const invisible = el => el.classList.contains('q-morph--invisible')
+
+    // two members of one group, 'one' active; a unique group per test
+    // since the groups are module-level state
+    function mountGroup(group, model, cls) {
+      const TestComponent = defineComponent({
+        render: () =>
+          h('div', [
+            withDirectives(
+              h('div', {
+                id: 'one',
+                class: cls.value,
+                style: 'width: 40px; height: 40px'
+              }),
+              [[Morph, model.value, `one:${group}:50`]]
+            ),
+            withDirectives(
+              h('div', {
+                id: 'two',
+                class: cls.value,
+                style: 'width: 80px; height: 80px'
+              }),
+              [[Morph, model.value, `two:${group}:50`]]
+            )
+          ])
+      })
+
+      const wrapper = mount(TestComponent, { attachTo: document.body })
+
+      return {
+        wrapper,
+        one: wrapper.get('#one').element,
+        two: wrapper.get('#two').element
+      }
+    }
+
+    test('morphs to the member that becomes active', async () => {
+      const model = ref('one')
+      const { wrapper, one, two } = mountGroup('generic-morph', model, ref('a'))
+
+      expect(invisible(one)).toBe(false)
+      expect(invisible(two)).toBe(true)
+
+      model.value = 'two'
+      await flushPromises()
+
+      await vi.waitFor(() => {
+        expect(invisible(one)).toBe(true)
+        expect(invisible(two)).toBe(false)
+      })
+
+      wrapper.unmount()
+    })
+
+    test('keeps the visibility class when the element class binding changes', async () => {
+      const cls = ref('a')
+      const { wrapper, one, two } = mountGroup('generic-class', ref('one'), cls)
+
+      cls.value = 'b'
+      await flushPromises()
+
+      expect(one.className).toBe('b')
+      expect(two.className).toBe('b q-morph--invisible')
+
+      wrapper.unmount()
+    })
+
+    test('sets the visibility class before mount on elements without a class binding', () => {
+      const seen = {}
+      const Spy = {
+        beforeMount(el) {
+          seen[el.id] = invisible(el)
+        }
+      }
+      const TestComponent = defineComponent({
+        render: () =>
+          h('div', [
+            withDirectives(h('div', { id: 'one' }), [
+              [Morph, 'one', 'one:generic-created'],
+              [Spy]
+            ]),
+            withDirectives(h('div', { id: 'two' }), [
+              [Morph, 'one', 'two:generic-created'],
+              [Spy]
+            ])
+          ])
+      })
+
+      const wrapper = mount(TestComponent)
+
+      expect(seen).toEqual({ one: false, two: true })
+      expect(invisible(wrapper.get('#one').element)).toBe(false)
+      expect(invisible(wrapper.get('#two').element)).toBe(true)
+
+      wrapper.unmount()
+    })
+
+    test('forgets the group once its last member unmounts', () => {
+      const first = mountGroup('generic-unmount', ref('one'), ref('a'))
+
+      expect(invisible(first.two)).toBe(true)
+
+      first.wrapper.unmount()
+
+      expect(invisible(first.two)).toBe(false)
+
+      // a fresh group: the active member shows without a morph
+      const second = mountGroup('generic-unmount', ref('two'), ref('a'))
+
+      expect(invisible(second.one)).toBe(true)
+      expect(invisible(second.two)).toBe(false)
+
+      second.wrapper.unmount()
     })
   })
 })
