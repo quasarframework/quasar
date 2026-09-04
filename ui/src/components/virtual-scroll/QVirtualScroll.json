@@ -119,7 +119,7 @@
         "details": {
           "definition": {
             "ref": {
-              "type": "Component",
+              "type": "ComponentInstance",
               "tsType": "QVirtualScroll",
               "desc": "Vue reference to the QVirtualScroll"
             }

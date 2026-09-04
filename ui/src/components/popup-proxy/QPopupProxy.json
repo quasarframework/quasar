@@ -195,7 +195,7 @@
           "values": ["'dialog'", "'menu'"]
         },
         "ref": {
-          "type": "Component",
+          "type": "ComponentInstance",
           "tsType": "QPopupProxyInnerComponent",
           "desc": "The actual component (QMenu or QDialog); Access it directly, without '.value'"
         }

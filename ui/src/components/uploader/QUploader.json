@@ -81,7 +81,7 @@
       "desc": "Slot for custom header; Scope is the QUploader instance itself",
       "scope": {
         "...self": {
-          "type": "Component",
+          "type": "ComponentInstance",
           "tsType": "QUploader",
           "desc": "QUploader instance"
         }
@@ -92,7 +92,7 @@
       "desc": "Slot for custom list; Scope is the QUploader instance itself",
       "scope": {
         "...self": {
-          "type": "Component",
+          "type": "ComponentInstance",
           "tsType": "QUploader",
           "desc": "QUploader instance"
         }

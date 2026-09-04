@@ -2187,7 +2187,7 @@
               "values": ["'increase'", "'decrease'"]
             },
             "ref": {
-              "type": "Component",
+              "type": "ComponentInstance",
               "required": true,
               "desc": "Vue reference to the underlying QVirtualScroll instance"
             }

@@ -108,7 +108,7 @@
         },
 
         "ref": {
-          "type": "Component",
+          "type": "ComponentInstance",
           "tsType": "QFile",
           "desc": "Reference to the QFile component"
         }
@@ -125,7 +125,7 @@
         },
 
         "ref": {
-          "type": "Component",
+          "type": "ComponentInstance",
           "tsType": "QFile",
           "desc": "Reference to the QFile component"
         }

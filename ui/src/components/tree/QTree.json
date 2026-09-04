@@ -269,7 +269,7 @@
           "addedIn": "v2.25"
         },
         "tree": {
-          "type": "Component",
+          "type": "ComponentInstance",
           "tsType": "QTree",
           "desc": "QTree instance"
         },
@@ -313,7 +313,7 @@
           "addedIn": "v2.25"
         },
         "tree": {
-          "type": "Component",
+          "type": "ComponentInstance",
           "tsType": "QTree",
           "desc": "QTree instance"
         },
@@ -357,7 +357,7 @@
           "addedIn": "v2.25"
         },
         "tree": {
-          "type": "Component",
+          "type": "ComponentInstance",
           "tsType": "QTree",
           "desc": "QTree instance"
         },
@@ -401,7 +401,7 @@
           "addedIn": "v2.25"
         },
         "tree": {
-          "type": "Component",
+          "type": "ComponentInstance",
           "tsType": "QTree",
           "desc": "QTree instance"
         },
@@ -540,7 +540,7 @@
               "values": ["'increase'", "'decrease'"]
             },
             "ref": {
-              "type": "Component",
+              "type": "ComponentInstance",
               "tsType": "QTree",
               "required": true,
               "desc": "Vue reference to the QTree"

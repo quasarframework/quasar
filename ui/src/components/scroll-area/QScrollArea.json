@@ -132,7 +132,7 @@
           "desc": "An object containing scroll information",
           "definition": {
             "ref": {
-              "type": "Component",
+              "type": "ComponentInstance",
               "tsType": "QScrollArea",
               "required": true,
               "desc": "Vue reference to the QScrollArea which triggered the event"
