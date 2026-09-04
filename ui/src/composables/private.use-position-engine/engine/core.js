@@ -105,12 +105,16 @@ export function parsePosition(pos, rtl) {
  * (the room is measured from the anchor line each placement would use,
  * not from the anchor's edge against the viewport middle, which used
  * to flip an anchor straddling the middle towards the SMALLER side,
- * #16443) and, when its natural size exceeds even the space that
- * placement has, a max size capped to that space. A popup that fits
- * the mirrored side stays uncapped: a cap at its own measured size would
- * round a fractional natural size down (offsetWidth/offsetHeight are
- * integers) and wrap or scroll content that fit before the flip. How
- * the returned origins/caps are then EXPRESSED is the engines'
+ * #16443) and a max size capped to that space, whether or not its
+ * natural size already fit there: content can grow after this pass,
+ * and the flipped side has already anchored the popup's far edge, so a
+ * popup left uncapped there would grow past the opposite viewport edge
+ * with no scroll position able to reveal the overflow (#18536). The cap
+ * is the fractional space itself (getBoundingClientRect), never the
+ * popup's own measured size, so it never rounds a fractional natural
+ * size down (offsetWidth/offsetHeight are integers) and wraps or
+ * scrolls content that fit before the flip. How the returned
+ * origins/caps are then EXPRESSED is the engines'
  * business: anchor() insets on the native engine, pixel top/left on the
  * fallback; either way the popup keeps tracking its anchor and only the
  * flip/cap decision itself is frozen at measure time. The element does
@@ -204,7 +208,9 @@ export function applyBoundary({
         space = spaceAbove
       }
 
-      if (space < height) res.maxHeight = space + 'px'
+      // combined through CSS min(), never JS, so a smaller caller maxHeight
+      // prop stays in force instead of being widened back to `space` (#18536)
+      res.maxHeight = maxHeight ? `min(${space}px, ${maxHeight})` : `${space}px`
     }
   }
 
@@ -234,7 +240,7 @@ export function applyBoundary({
         space = spaceLeft
       }
 
-      if (space < width) res.maxWidth = space + 'px'
+      res.maxWidth = maxWidth ? `min(${space}px, ${maxWidth})` : `${space}px`
     }
   }
 
