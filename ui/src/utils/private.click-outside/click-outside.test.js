@@ -49,6 +49,12 @@ function mousedownOn(el) {
   el.dispatchEvent(new MouseEvent('mousedown', { bubbles: true }))
 }
 
+function pointerdownOn(el, pointerType = 'mouse') {
+  el.dispatchEvent(
+    new PointerEvent('pointerdown', { bubbles: true, pointerType })
+  )
+}
+
 // Detach a child of parentEl to <body> the way useFullscreen().setFullscreen()
 // does: leave a filler node behind and register the pairing.
 function detachFullscreenChild(parentEl) {
@@ -78,6 +84,7 @@ afterEach(() => {
   createdEls.forEach(el => el.remove())
   createdEls.length = 0
   vi.restoreAllMocks()
+  vi.useRealTimers()
 })
 
 describe('[clickOutside API]', () => {
@@ -215,6 +222,50 @@ describe('[clickOutside API]', () => {
         mousedownOn(dialogEl)
 
         expect(outer.onClickOutside).not.toHaveBeenCalled()
+      })
+    })
+
+    describe('[(function)addClickOutside] pointerdown fallback (issue #12575)', () => {
+      test('a pointerdown whose compatibility mousedown got suppressed still closes the popup', () => {
+        vi.useFakeTimers()
+        const menu = pushMenu()
+
+        pointerdownOn(createEl())
+
+        // a normal press delivers its mousedown in the same task,
+        // so the fallback must wait for it
+        expect(menu.onClickOutside).not.toHaveBeenCalled()
+
+        vi.runAllTimers()
+
+        expect(menu.onClickOutside).toHaveBeenCalledTimes(1)
+        expect(menu.onClickOutside.mock.calls[0][0].type).toBe('pointerdown')
+      })
+
+      test('a pointerdown followed by its mousedown closes the popup once', () => {
+        vi.useFakeTimers()
+        const menu = pushMenu()
+        const el = createEl()
+
+        pointerdownOn(el)
+        mousedownOn(el)
+
+        expect(menu.onClickOutside).toHaveBeenCalledTimes(1)
+        expect(menu.onClickOutside.mock.calls[0][0].type).toBe('mousedown')
+
+        vi.runAllTimers()
+
+        expect(menu.onClickOutside).toHaveBeenCalledTimes(1)
+      })
+
+      test('a touch pointerdown arms no fallback (its touchstart is never suppressed)', () => {
+        vi.useFakeTimers()
+        const menu = pushMenu()
+
+        pointerdownOn(createEl(), 'touch')
+        vi.runAllTimers()
+
+        expect(menu.onClickOutside).not.toHaveBeenCalled()
       })
     })
 

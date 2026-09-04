@@ -4,7 +4,7 @@ import { clickIsInDetachedFullscreen } from '../private.focus/detached-fullscree
 
 let timer = null
 
-const { notPassiveCapture } = listenOpts,
+const { notPassiveCapture, passiveCapture } = listenOpts,
   registeredList = []
 
 function globalHandler(evt) {
@@ -83,10 +83,27 @@ function globalHandler(evt) {
   }
 }
 
+// a page that cancels pointerdown (Cesium does it on every mouse press)
+// suppresses the compatibility mousedown per the Pointer Events spec, so
+// globalHandler() never runs and the popup stays open (#12575); a mouse or
+// pen pointerdown therefore arms a fallback that the mousedown of a normal
+// press cancels in the same task; the compatibility touchstart is never
+// suppressed, so touch keeps its own path (and its click-through prevention)
+function onPointerdown(evt) {
+  if (evt.pointerType === 'touch') return
+
+  if (timer !== null) clearTimeout(timer)
+  timer = setTimeout(() => {
+    timer = null
+    globalHandler(evt)
+  }, 0)
+}
+
 export function addClickOutside(clickOutsideProps) {
   registeredList.push(clickOutsideProps)
 
   if (registeredList.length === 1) {
+    document.addEventListener('pointerdown', onPointerdown, passiveCapture)
     document.addEventListener('mousedown', globalHandler, notPassiveCapture)
     document.addEventListener('touchstart', globalHandler, notPassiveCapture)
   }
@@ -104,6 +121,7 @@ export function removeClickOutside(clickOutsideProps) {
     timer = null
   }
 
+  document.removeEventListener('pointerdown', onPointerdown, passiveCapture)
   document.removeEventListener('mousedown', globalHandler, notPassiveCapture)
   document.removeEventListener('touchstart', globalHandler, notPassiveCapture)
 }
