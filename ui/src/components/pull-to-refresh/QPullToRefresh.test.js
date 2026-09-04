@@ -2,8 +2,6 @@ import { defineComponent, h, nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, test, vi } from 'vitest'
 
-import { getMainEvent } from 'testing/runtime/directive.js'
-
 import { client } from '../../plugins/platform/Platform.js'
 import QPullToRefresh from './QPullToRefresh.js'
 
@@ -81,13 +79,19 @@ describe('[QPullToRefresh API]', () => {
         try {
           const withMouse = mountPullToRefresh()
           const withoutMouse = mountPullToRefresh({ noMouse: true })
+          const press = { bubbles: true, button: 0, cancelable: true }
 
-          expect(
-            getMainEvent(getPanContext(withMouse), 'mousedown')
-          ).toBeDefined()
-          expect(
-            getMainEvent(getPanContext(withoutMouse), 'mousedown')
-          ).toBeUndefined()
+          withMouse
+            .get('.q-pull-to-refresh')
+            .element.dispatchEvent(new MouseEvent('mousedown', press))
+          withoutMouse
+            .get('.q-pull-to-refresh')
+            .element.dispatchEvent(new MouseEvent('mousedown', press))
+
+          expect(getPanContext(withMouse).event).toBeDefined()
+          expect(getPanContext(withoutMouse).event).toBeUndefined()
+
+          document.dispatchEvent(new MouseEvent('mouseup', { bubbles: true }))
         } finally {
           client.has.touch = origTouch
         }

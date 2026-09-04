@@ -2,8 +2,6 @@ import { mount } from '@vue/test-utils'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import { defineComponent, h, nextTick, ref, withDirectives } from 'vue'
 
-import { getMainEvent } from 'testing/runtime/directive.js'
-
 import { client } from '../../plugins/platform/Platform.js'
 import TouchPan from './TouchPan.js'
 
@@ -28,12 +26,17 @@ afterEach(() => {
 
 function mountTouchPan(modifiers = 'mouse', handler = vi.fn(() => true)) {
   const modifierMap = Object.fromEntries(
-    modifiers.split('.').map(mod => [mod, true])
+    modifiers
+      .split('.')
+      .filter(mod => mod !== '')
+      .map(mod => [mod, true])
   )
   const TestComponent = defineComponent({
     setup() {
       return () =>
-        withDirectives(h('div'), [[TouchPan, handler, void 0, modifierMap]])
+        withDirectives(h('div', [h('span')]), [
+          [TouchPan, handler, void 0, modifierMap]
+        ])
     }
   })
 
@@ -43,8 +46,8 @@ function mountTouchPan(modifiers = 'mouse', handler = vi.fn(() => true)) {
   }
 }
 
-function dispatchMousePan(wrapper, x, y) {
-  wrapper.element.dispatchEvent(
+function mouseDown(el) {
+  el.dispatchEvent(
     new MouseEvent('mousedown', {
       bubbles: true,
       button: 0,
@@ -53,6 +56,21 @@ function dispatchMousePan(wrapper, x, y) {
       clientY: 0
     })
   )
+}
+
+function mouseMove(x, y) {
+  document.dispatchEvent(
+    new MouseEvent('mousemove', {
+      bubbles: true,
+      cancelable: true,
+      clientX: x,
+      clientY: y
+    })
+  )
+}
+
+function dispatchMousePan(wrapper, x, y) {
+  mouseDown(wrapper.element)
   document.dispatchEvent(
     new MouseEvent('mousemove', {
       bubbles: true,
@@ -68,6 +86,31 @@ function dispatchMousePan(wrapper, x, y) {
       clientY: y
     })
   )
+}
+
+function touchEvent(el, type, x = 0, y = 0) {
+  return new TouchEvent(type, {
+    bubbles: true,
+    cancelable: true,
+    touches:
+      type === 'touchend'
+        ? []
+        : [new Touch({ identifier: 1, target: el, clientX: x, clientY: y })]
+  })
+}
+
+function dispatchTouchPan(el, x, y) {
+  el.dispatchEvent(touchEvent(el, 'touchstart'))
+  el.dispatchEvent(touchEvent(el, 'touchmove', x, y))
+  el.dispatchEvent(touchEvent(el, 'touchend'))
+}
+
+// a child that keeps the press to itself: only a capture-phase
+// listener on the element still sees it
+function stopAtChild(wrapper, type) {
+  wrapper.get('span').element.addEventListener(type, evt => {
+    evt.stopPropagation()
+  })
 }
 
 function expectDirection(modifier, expected) {
@@ -170,59 +213,93 @@ describe('[TouchPan API]', () => {
   describe('[Modifiers]', () => {
     describe('[(modifier)stop]', () => {
       test('has effect', () => {
-        const { wrapper } = mountTouchPan('stop.mouse')
-        const event = new MouseEvent('touchstart', {
-          cancelable: true,
-          clientX: 0,
-          clientY: 0
-        })
+        client.has.touch = true
+        const plain = mountTouchPan('')
+        const stop = mountTouchPan('stop')
+        const plainSeen = vi.fn()
+        const stopSeen = vi.fn()
 
-        wrapper.element.__qtouchpan.start(event, false)
+        plain.wrapper.element.parentElement.addEventListener(
+          'touchstart',
+          plainSeen
+        )
+        stop.wrapper.element.parentElement.addEventListener(
+          'touchstart',
+          stopSeen
+        )
 
-        expect(event.cancelBubble).toBe(true)
+        plain.wrapper.element.dispatchEvent(
+          touchEvent(plain.wrapper.element, 'touchstart')
+        )
+        stop.wrapper.element.dispatchEvent(
+          touchEvent(stop.wrapper.element, 'touchstart')
+        )
+
+        expect(plainSeen).toHaveBeenCalledTimes(1)
+        expect(stopSeen).not.toHaveBeenCalled()
       })
     })
 
     describe('[(modifier)prevent]', () => {
       test('has effect', () => {
-        const { wrapper } = mountTouchPan('prevent.mouse')
-        const ctx = wrapper.element.__qtouchpan
-        const startEvent = new MouseEvent('touchstart', {
-          cancelable: true,
-          clientX: 0,
-          clientY: 0
-        })
-        const moveEvent = new MouseEvent('touchmove', {
-          cancelable: true,
-          clientX: 20,
-          clientY: 5
-        })
+        client.has.touch = true
+        const plain = mountTouchPan('')
+        const prevent = mountTouchPan('prevent')
 
-        ctx.start(startEvent, false)
-        ctx.move(moveEvent)
+        plain.wrapper.element.dispatchEvent(
+          touchEvent(plain.wrapper.element, 'touchstart')
+        )
+        const plainMove = touchEvent(plain.wrapper.element, 'touchmove', 20, 5)
+        plain.wrapper.element.dispatchEvent(plainMove)
 
-        expect(moveEvent.defaultPrevented).toBe(true)
+        prevent.wrapper.element.dispatchEvent(
+          touchEvent(prevent.wrapper.element, 'touchstart')
+        )
+        const preventMove = touchEvent(
+          prevent.wrapper.element,
+          'touchmove',
+          20,
+          5
+        )
+        prevent.wrapper.element.dispatchEvent(preventMove)
+
+        expect(plain.handler).toHaveBeenCalledTimes(1)
+        expect(plainMove.defaultPrevented).toBe(false)
+        expect(prevent.handler).toHaveBeenCalledTimes(1)
+        expect(preventMove.defaultPrevented).toBe(true)
       })
     })
 
     describe('[(modifier)capture]', () => {
       test('has effect', () => {
         client.has.touch = true
-        const { wrapper } = mountTouchPan('capture')
+        const bubble = mountTouchPan('')
+        const capture = mountTouchPan('capture')
 
-        expect(getMainEvent(wrapper.element.__qtouchpan, 'touchstart')[3]).toBe(
-          'passiveCapture'
+        stopAtChild(bubble.wrapper, 'touchstart')
+        stopAtChild(capture.wrapper, 'touchstart')
+
+        dispatchTouchPan(bubble.wrapper.get('span').element, 40, 5)
+        dispatchTouchPan(capture.wrapper.get('span').element, 40, 5)
+
+        expect(bubble.handler).not.toHaveBeenCalled()
+        expect(capture.handler).toHaveBeenCalledWith(
+          expect.objectContaining({ direction: 'right', touch: true })
         )
       })
     })
 
     describe('[(modifier)mouse]', () => {
       test('has effect', () => {
-        const { wrapper } = mountTouchPan()
+        client.has.touch = true
+        const touchOnly = mountTouchPan('')
+        const withMouse = mountTouchPan()
 
-        expect(getMainEvent(wrapper.element.__qtouchpan, 'mousedown')[3]).toBe(
-          'passive'
-        )
+        dispatchMousePan(touchOnly.wrapper, 40, 5)
+        dispatchMousePan(withMouse.wrapper, 40, 5)
+
+        expect(touchOnly.handler).not.toHaveBeenCalled()
+        expect(withMouse.handler).toHaveBeenCalled()
       })
 
       test('shields the page from pointer events only while panning', () => {
@@ -270,11 +347,21 @@ describe('[TouchPan API]', () => {
 
     describe('[(modifier)mouseCapture]', () => {
       test('has effect', () => {
-        const { wrapper } = mountTouchPan('mouse.mouseCapture')
+        const bubble = mountTouchPan()
+        const capture = mountTouchPan('mouse.mouseCapture')
 
-        expect(getMainEvent(wrapper.element.__qtouchpan, 'mousedown')[3]).toBe(
-          'passiveCapture'
-        )
+        stopAtChild(bubble.wrapper, 'mousedown')
+        stopAtChild(capture.wrapper, 'mousedown')
+
+        mouseDown(bubble.wrapper.get('span').element)
+        mouseMove(40, 5)
+        document.dispatchEvent(new MouseEvent('mouseup', { bubbles: true }))
+        mouseDown(capture.wrapper.get('span').element)
+        mouseMove(40, 5)
+        document.dispatchEvent(new MouseEvent('mouseup', { bubbles: true }))
+
+        expect(bubble.handler).not.toHaveBeenCalled()
+        expect(capture.handler).toHaveBeenCalled()
       })
     })
 
@@ -355,6 +442,115 @@ describe('[TouchPan API]', () => {
       test('has effect', () => {
         expectDirection('left', { left: true })
       })
+    })
+  })
+
+  describe('[Generic]', () => {
+    test('follows the modifiers when they change at runtime', async () => {
+      const handler = vi.fn(() => true)
+      const modifiers = ref({ mouse: true, left: true })
+      const TestComponent = defineComponent({
+        setup() {
+          return () =>
+            withDirectives(h('div'), [
+              [TouchPan, handler, void 0, modifiers.value]
+            ])
+        }
+      })
+      const wrapper = mount(TestComponent)
+
+      dispatchMousePan(wrapper, 40, 5)
+
+      expect(handler).not.toHaveBeenCalled()
+
+      modifiers.value = { mouse: true, right: true }
+      await nextTick()
+
+      dispatchMousePan(wrapper, 40, 5)
+
+      expect(handler).toHaveBeenCalledWith(
+        expect.objectContaining({ direction: 'right' })
+      )
+    })
+
+    test('re-emits a press it did not claim to the element under it', () => {
+      const { handler, wrapper } = mountTouchPan('right.mouse')
+      const seen = vi.fn()
+      wrapper.element.parentElement.addEventListener('mousedown', seen)
+
+      // the pan stops the original press right away (an upper
+      // v-touch-pan must not see it) ...
+      mouseDown(wrapper.element)
+
+      expect(seen).not.toHaveBeenCalled()
+
+      // ... and re-emits a clone once the gesture turns out not
+      // to be one of its directions
+      mouseMove(5, 40)
+
+      expect(handler).not.toHaveBeenCalled()
+      expect(seen).toHaveBeenCalledTimes(1)
+      expect(seen.mock.calls[0][0].qClonedBy).toStrictEqual([
+        wrapper.element.__qtouchpan.uid
+      ])
+    })
+
+    test('a handler returning false ends the pan', () => {
+      const handler = vi.fn(() => false)
+      const { wrapper } = mountTouchPan('mouse', handler)
+
+      mouseDown(wrapper.element)
+      mouseMove(40, 5)
+
+      expect(wrapper.element.__qtouchpan.event).toBeUndefined()
+      expect(document.body.classList.contains('non-selectable')).toBe(false)
+
+      // the mouse style cleanup defers the final call by 50ms
+      vi.advanceTimersByTime(50)
+
+      expect(handler).toHaveBeenLastCalledWith(
+        expect.objectContaining({ isFinal: true })
+      )
+
+      const calls = handler.mock.calls.length
+      mouseMove(80, 5)
+      document.dispatchEvent(new MouseEvent('mouseup', { bubbles: true }))
+
+      expect(handler).toHaveBeenCalledTimes(calls)
+    })
+
+    test('delivers the final payload when unmounted mid-pan', () => {
+      const { handler, wrapper } = mountTouchPan()
+      const el = wrapper.element
+
+      mouseDown(el)
+      mouseMove(40, 5)
+
+      expect(handler).toHaveBeenLastCalledWith(
+        expect.objectContaining({ isFirst: true, isFinal: false })
+      )
+      expect(document.documentElement.style.cursor).toBe('grabbing')
+
+      wrapper.unmount()
+
+      expect(document.documentElement.style.cursor).toBe('')
+      expect(
+        document.body.classList.contains('no-pointer-events--children')
+      ).toBe(false)
+
+      // the mouse style cleanup defers the final call by 50ms
+      vi.advanceTimersByTime(50)
+
+      expect(handler).toHaveBeenLastCalledWith(
+        expect.objectContaining({ isFinal: true })
+      )
+
+      mouseMove(80, 5)
+      document.dispatchEvent(new MouseEvent('mouseup', { bubbles: true }))
+      dispatchMousePan(wrapper, 40, 5)
+
+      expect(handler).toHaveBeenCalledTimes(2)
+      expect(el.__qtouchpan).toBeUndefined()
     })
   })
 })
