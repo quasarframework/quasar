@@ -34,11 +34,12 @@ function handleSwipe({ evt, ...newInfo }) {
 <style lang="sass" scoped>
 .custom-area
   width: 90%
-  height: 220px
+  height: 180px
   border-radius: 3px
   padding: 8px
 
 .custom-info pre
   width: 180px
   font-size: 12px
+  line-height: 1.2
 </style>

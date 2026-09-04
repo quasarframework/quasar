@@ -30,11 +30,12 @@ function handleHold({ evt, ...newInfo }) {
 <style lang="sass" scoped>
 .custom-area
   width: 90%
-  height: 200px
+  height: 170px
   border-radius: 3px
   padding: 8px
 
 .custom-info pre
   width: 190px
   font-size: 12px
+  line-height: 1.2
 </style>

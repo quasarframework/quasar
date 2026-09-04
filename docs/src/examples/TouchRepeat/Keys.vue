@@ -29,7 +29,7 @@ function handleRepeat({ evt, ...newInfo }) {
 <style lang="sass" scoped>
 .custom-area
   width: 96%
-  height: 250px
+  height: 210px
   border-radius: 3px
   padding: 8px
 
@@ -40,4 +40,5 @@ function handleRepeat({ evt, ...newInfo }) {
 .custom-info pre
   width: 190px
   font-size: 12px
+  line-height: 1.2
 </style>
