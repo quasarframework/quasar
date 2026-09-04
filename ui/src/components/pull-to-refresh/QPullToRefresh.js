@@ -9,8 +9,7 @@ import {
   withDirectives
 } from 'vue'
 
-import QIcon from '../icon/QIcon.js'
-import QSpinner from '../spinner/QSpinner.js'
+import PullToRefreshPuller from './PullToRefreshPuller.js'
 import TouchPan from '../../directives/touch-pan/TouchPan.js'
 
 import useQuasar from '../../composables/use-quasar/use-quasar.js'
@@ -54,17 +53,7 @@ export default /*#__PURE__*/ createComponent({
     const animating = ref(false)
     const positionCSS = ref({})
 
-    const style = computed(() => ({
-      opacity: pullRatio.value,
-      transform: `translateY(${pullPosition.value}px) rotate(${pullRatio.value * 360}deg)`
-    }))
-
-    const classes = computed(
-      () =>
-        'q-pull-to-refresh__puller row flex-center' +
-        (animating.value ? ' q-pull-to-refresh__puller--animating' : '') +
-        (props.bgColor !== void 0 ? ` bg-${props.bgColor}` : '')
-    )
+    const store = { state, pullRatio, pullPosition, animating, positionCSS }
 
     function pull(event) {
       if (event.isFinal) {
@@ -184,45 +173,19 @@ export default /*#__PURE__*/ createComponent({
     // expose public methods
     Object.assign(proxy, { trigger, updateScrollTarget })
 
-    return () => {
-      const child = [
-        h('div', { class: contentClass.value }, hSlot(slots.default)),
+    return () =>
+      withDirectives(
+        h('div', { class: 'q-pull-to-refresh' }, [
+          h('div', { class: contentClass.value }, hSlot(slots.default)),
 
-        h(
-          'div',
-          {
-            class:
-              'q-pull-to-refresh__puller-container fixed row flex-center no-pointer-events z-top',
-            style: positionCSS.value
-          },
-          [
-            h(
-              'div',
-              {
-                class: classes.value,
-                style: style.value
-              },
-              [
-                state.value !== 'refreshing'
-                  ? h(QIcon, {
-                      name: props.icon || $q.iconSet.pullToRefresh.icon,
-                      color: props.color,
-                      size: '32px'
-                    })
-                  : h(QSpinner, {
-                      size: '24px',
-                      color: props.color
-                    })
-              ]
-            )
-          ]
-        )
-      ]
-
-      return withDirectives(
-        h('div', { class: 'q-pull-to-refresh' }, child),
+          h(PullToRefreshPuller, {
+            store,
+            color: props.color,
+            bgColor: props.bgColor,
+            icon: props.icon || $q.iconSet.pullToRefresh.icon
+          })
+        ]),
         directives.value
       )
-    }
   }
 })

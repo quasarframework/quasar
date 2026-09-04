@@ -31,13 +31,19 @@ function getPanContext(wrapper) {
   return wrapper.get('.q-pull-to-refresh').element.__qtouchpan
 }
 
-function startPull(wrapper) {
+function pan(wrapper, payload) {
   return getPanContext(wrapper).handler({
     direction: 'down',
     distance: { x: 0, y: 30 },
     evt: new Event('touchmove', { cancelable: true }),
-    isFirst: true
+    isFirst: false,
+    isFinal: false,
+    ...payload
   })
+}
+
+function startPull(wrapper) {
+  return pan(wrapper, { isFirst: true })
 }
 
 describe('[QPullToRefresh API]', () => {
@@ -230,6 +236,31 @@ describe('[QPullToRefresh API]', () => {
         wrapper.unmount()
         scrollTarget.remove()
       })
+    })
+  })
+
+  describe('[Generic]', () => {
+    test('the moves of a pull do not re-render the content', async () => {
+      const contentRenders = vi.fn(() => h('span', 'Content'))
+      const wrapper = mountPullToRefresh({}, { default: contentRenders })
+
+      startPull(wrapper)
+      await nextTick()
+
+      const rendersOnceStarted = contentRenders.mock.calls.length
+      const puller = wrapper.get('.q-pull-to-refresh__puller')
+      const transform = puller.element.style.transform
+
+      for (let y = 40; y <= 100; y += 20) {
+        pan(wrapper, { distance: { x: 0, y } })
+        await nextTick()
+      }
+
+      expect(puller.element.style.transform).not.toBe(transform)
+      expect(contentRenders).toHaveBeenCalledTimes(rendersOnceStarted)
+
+      pan(wrapper, { isFinal: true })
+      await nextTick()
     })
   })
 })
