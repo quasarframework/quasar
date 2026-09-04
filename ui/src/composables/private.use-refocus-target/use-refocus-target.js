@@ -1,7 +1,7 @@
-import { computed, h, ref } from 'vue'
+import { computed, h, shallowRef } from 'vue'
 
 export default function useRefocusTarget(props, rootRef) {
-  const refocusRef = ref(null)
+  const refocusRef = shallowRef(null)
 
   const refocusTargetEl = computed(() => {
     if (props.disable) return null

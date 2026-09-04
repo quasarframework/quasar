@@ -1,4 +1,4 @@
-import { getCurrentInstance, ref } from 'vue'
+import { getCurrentInstance, shallowRef } from 'vue'
 
 import getEmitsObject from '../../utils/private.get-emits-object/get-emits-object.js'
 import { getDismissReason } from '../../utils/private.dialog/dismiss-reason.js'
@@ -14,7 +14,7 @@ export default function useDialogPluginComponent() {
   // <q-dialog ref="dialogRef" ...
   // make sure that the setup() in which this
   // function is called returns dialogRef variable
-  const dialogRef = ref(null)
+  const dialogRef = shallowRef(null)
 
   let dismissReason = null
 

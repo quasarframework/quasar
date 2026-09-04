@@ -73,8 +73,8 @@ export default /*#__PURE__*/ createComponent({
     const isFetching = ref(false)
     const isWorking = ref(true)
     const suppressAnchoring = ref(false)
-    const rootRef = ref(null)
-    const sentinelRef = ref(null)
+    const rootRef = shallowRef(null)
+    const sentinelRef = shallowRef(null)
     const scrollTargetRef = shallowRef(null)
 
     const store = { isFetching }

@@ -1,4 +1,4 @@
-import { computed, getCurrentInstance, h, ref } from 'vue'
+import { computed, getCurrentInstance, h, shallowRef } from 'vue'
 
 import { client } from '../../plugins/platform/Platform.js'
 import { stop, stopAndPrevent } from '../../utils/event/event.js'
@@ -45,7 +45,7 @@ export default function useFile({
 }) {
   const { props, emit, proxy } = getCurrentInstance()
 
-  const dndRef = ref(null)
+  const dndRef = shallowRef(null)
 
   const extensions = computed(() =>
     props.accept !== void 0

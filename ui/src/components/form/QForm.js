@@ -6,7 +6,7 @@ import {
   onDeactivated,
   onMounted,
   provide,
-  ref
+  shallowRef
 } from 'vue'
 
 import { createComponent } from '../../utils/private.create/create.js'
@@ -53,7 +53,7 @@ export default /*#__PURE__*/ createComponent({
 
   setup(props, { slots, emit }) {
     const vm = getCurrentInstance()
-    const rootRef = ref(null)
+    const rootRef = shallowRef(null)
 
     let validateIndex = 0
     const registeredComponents = []

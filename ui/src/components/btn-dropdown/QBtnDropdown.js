@@ -1,4 +1,12 @@
-import { computed, getCurrentInstance, h, onMounted, ref, watch } from 'vue'
+import {
+  computed,
+  getCurrentInstance,
+  h,
+  onMounted,
+  ref,
+  shallowRef,
+  watch
+} from 'vue'
 
 import QIcon from '../icon/QIcon.js'
 import QBtn from '../btn/QBtn.js'
@@ -84,7 +92,7 @@ export default /*#__PURE__*/ createComponent({
     const $q = useQuasar()
 
     const showing = ref(props.modelValue)
-    const menuRef = ref(null)
+    const menuRef = shallowRef(null)
     const targetUid = useId()
 
     const ariaAttrs = computed(() => {

@@ -1,4 +1,4 @@
-import { h, ref } from 'vue'
+import { h, ref, shallowRef } from 'vue'
 
 import QAjaxBar from '../../components/ajax-bar/QAjaxBar.js'
 import { createChildApp } from '../../install-quasar.js'
@@ -8,7 +8,7 @@ import { noop } from '../../utils/event/event.js'
 import { createGlobalNode } from '../../utils/private.config/nodes.js'
 import { isObject } from '../../utils/is/is.js'
 
-const barRef = ref(null)
+const barRef = shallowRef(null)
 
 const Plugin = /*#__PURE__*/ createReactivePlugin(
   {

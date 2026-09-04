@@ -5,7 +5,7 @@ import {
   nextTick,
   onBeforeUnmount,
   onMounted,
-  ref,
+  shallowRef,
   watch
 } from 'vue'
 
@@ -83,7 +83,7 @@ export default /*#__PURE__*/ createComponent({
       emitTimer = null,
       emitValueFn
 
-    const inputRef = ref(null)
+    const inputRef = shallowRef(null)
     const nameProp = useFormInputNameAttr(props)
 
     const {

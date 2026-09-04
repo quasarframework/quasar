@@ -1,4 +1,4 @@
-import { computed, h, ref, toRaw } from 'vue'
+import { computed, h, shallowRef, toRaw } from 'vue'
 
 import QRadio from '../radio/QRadio.js'
 import QCheckbox from '../checkbox/QCheckbox.js'
@@ -85,7 +85,7 @@ export default /*#__PURE__*/ createComponent({
     const isDark = useDark(props, $q)
     const component = computed(() => components[props.type])
 
-    const rootRef = ref(null)
+    const rootRef = shallowRef(null)
 
     const getOptionValue = computed(() =>
       getPropValueFn(props.optionValue, 'value')

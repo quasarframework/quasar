@@ -8,6 +8,7 @@ import {
   onMounted,
   onUpdated,
   ref,
+  shallowRef,
   watch
 } from 'vue'
 
@@ -219,11 +220,11 @@ export default /*#__PURE__*/ createComponent({
       searchBuffer,
       searchBufferExp
 
-    const inputRef = ref(null)
-    const targetRef = ref(null)
-    const menuRef = ref(null)
-    const dialogRef = ref(null)
-    const menuContentRef = ref(null)
+    const inputRef = shallowRef(null)
+    const targetRef = shallowRef(null)
+    const menuRef = shallowRef(null)
+    const dialogRef = shallowRef(null)
+    const menuContentRef = shallowRef(null)
 
     const nameProp = useFormInputNameAttr(props)
 

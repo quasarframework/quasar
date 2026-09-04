@@ -8,6 +8,7 @@ import {
   onBeforeUnmount,
   onDeactivated,
   ref,
+  shallowRef,
   watch
 } from 'vue'
 
@@ -287,9 +288,9 @@ export function useVirtualScroll({
   const virtualScrollPaddingAfter = ref(0)
   const virtualScrollSliceSizeComputed = ref({})
 
-  const beforeRef = ref(null)
-  const afterRef = ref(null)
-  const contentRef = ref(null)
+  const beforeRef = shallowRef(null)
+  const afterRef = shallowRef(null)
+  const contentRef = shallowRef(null)
 
   const virtualScrollSliceRange = ref({ from: 0, to: 0 })
 

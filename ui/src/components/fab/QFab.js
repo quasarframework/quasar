@@ -1,4 +1,4 @@
-import { computed, h, provide, ref, watch } from 'vue'
+import { computed, h, provide, ref, shallowRef, watch } from 'vue'
 
 import QBtn from '../btn/QBtn.js'
 import QIcon from '../icon/QIcon.js'
@@ -67,7 +67,7 @@ export default /*#__PURE__*/ createComponent({
   emits: useModelToggleEmits,
 
   setup(props, { slots }) {
-    const triggerRef = ref(null)
+    const triggerRef = shallowRef(null)
     const showing = ref(props.modelValue === true)
     const targetUid = useId()
 

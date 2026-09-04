@@ -1,4 +1,11 @@
-import { Fragment, computed, getCurrentInstance, h, ref, watch } from 'vue'
+import {
+  Fragment,
+  computed,
+  getCurrentInstance,
+  h,
+  shallowRef,
+  watch
+} from 'vue'
 
 import QTh from './QTh.js'
 
@@ -172,8 +179,8 @@ export default /*#__PURE__*/ createComponent({
         : row => row[props.rowKey]
     )
 
-    const rootRef = ref(null)
-    const virtScrollRef = ref(null)
+    const rootRef = shallowRef(null)
+    const virtScrollRef = shallowRef(null)
     const hasVirtScroll = computed(() => !props.grid && props.virtualScroll)
 
     const cardDefaultClass = computed(

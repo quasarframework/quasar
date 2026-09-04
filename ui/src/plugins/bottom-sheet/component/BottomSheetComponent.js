@@ -1,4 +1,4 @@
-import { getCurrentInstance, h, ref } from 'vue'
+import { getCurrentInstance, h, shallowRef } from 'vue'
 
 import QDialog from '../../../components/dialog/QDialog.js'
 
@@ -40,7 +40,7 @@ export default /*#__PURE__*/ createComponent({
     const { proxy } = getCurrentInstance()
     const isDark = useDark(props, useQuasar())
 
-    const dialogRef = ref(null)
+    const dialogRef = shallowRef(null)
 
     function show() {
       dialogRef.value.show()

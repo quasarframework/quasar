@@ -5,6 +5,7 @@ import {
   h,
   nextTick,
   ref,
+  shallowRef,
   watch
 } from 'vue'
 
@@ -143,8 +144,8 @@ export default /*#__PURE__*/ createComponent({
     const formAttrs = useFormAttrs(props)
     const injectFormInput = useFormInject(formAttrs)
 
-    const blurTargetRef = ref(null)
-    const roverRef = ref(null)
+    const blurTargetRef = shallowRef(null)
+    const roverRef = shallowRef(null)
     const innerMask = ref(getMask())
     const innerLocale = ref(getLocale())
 

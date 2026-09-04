@@ -5,7 +5,7 @@ import {
   onBeforeUnmount,
   onDeactivated,
   onMounted,
-  ref,
+  shallowRef,
   watch
 } from 'vue'
 
@@ -55,7 +55,7 @@ export default /*#__PURE__*/ createComponent({
 
   setup(props, { slots, attrs }) {
     let localScrollTarget
-    const rootRef = ref(null)
+    const rootRef = shallowRef(null)
 
     const virtualScrollLength = computed(() =>
       props.itemsSize >= 0 && props.itemsFn !== void 0

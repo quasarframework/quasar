@@ -7,6 +7,7 @@ import {
   onDeactivated,
   provide,
   ref,
+  shallowRef,
   watch
 } from 'vue'
 
@@ -99,8 +100,8 @@ export default /*#__PURE__*/ createComponent({
       removeTimeout: removeScrollToTabTimeout
     } = useTimeout()
 
-    const rootRef = ref(null)
-    const contentRef = ref(null)
+    const rootRef = shallowRef(null)
+    const contentRef = shallowRef(null)
 
     const currentModel = ref(props.modelValue)
     const scrollable = ref(false)

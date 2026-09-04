@@ -8,7 +8,8 @@ import {
   onBeforeUnmount,
   onDeactivated,
   onMounted,
-  ref
+  ref,
+  shallowRef
 } from 'vue'
 
 import QIcon from '../../components/icon/QIcon.js'
@@ -124,9 +125,9 @@ export function useFieldState({
     splitAttrs: useSplitAttrs(),
     targetUid,
 
-    rootRef: ref(null),
-    targetRef: ref(null),
-    controlRef: ref(null)
+    rootRef: shallowRef(null),
+    targetRef: shallowRef(null),
+    controlRef: shallowRef(null)
 
     /**
      * user supplied additionals:

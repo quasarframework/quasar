@@ -4,7 +4,7 @@ import {
   h,
   onBeforeUnmount,
   onBeforeUpdate,
-  ref,
+  shallowRef,
   withDirectives
 } from 'vue'
 
@@ -49,7 +49,7 @@ export default /*#__PURE__*/ createComponent({
     const isDark = useDark(props, $q)
     const { getCache } = useRenderCache()
 
-    const contentRef = ref(null)
+    const contentRef = shallowRef(null)
 
     let timer = null,
       pan = {},

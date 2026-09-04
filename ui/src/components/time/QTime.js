@@ -5,6 +5,7 @@ import {
   h,
   nextTick,
   ref,
+  shallowRef,
   watch,
   withDirectives
 } from 'vue'
@@ -161,7 +162,7 @@ export default /*#__PURE__*/ createComponent({
 
     let draggingClockRect, dragCache
 
-    const clockRef = ref(null)
+    const clockRef = shallowRef(null)
 
     const mask = computed(() => getMask())
     const locale = computed(() => getLocale())

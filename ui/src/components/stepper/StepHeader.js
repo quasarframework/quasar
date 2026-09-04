@@ -1,4 +1,4 @@
-import { computed, h, ref, withDirectives } from 'vue'
+import { computed, h, shallowRef, withDirectives } from 'vue'
 
 import QIcon from '../icon/QIcon.js'
 import Ripple from '../../directives/ripple/Ripple.js'
@@ -23,7 +23,7 @@ export default /*#__PURE__*/ createComponent({
 
   setup(props, { attrs }) {
     const $q = useQuasar()
-    const blurRef = ref(null)
+    const blurRef = shallowRef(null)
 
     const isActive = computed(
       () => props.stepper.modelValue === props.step.name

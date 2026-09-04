@@ -5,6 +5,7 @@ import {
   h,
   onBeforeUnmount,
   ref,
+  shallowRef,
   watch
 } from 'vue'
 
@@ -134,7 +135,7 @@ export default /*#__PURE__*/ createComponent({
     const vm = getCurrentInstance()
     const $q = useQuasar()
 
-    const innerRef = ref(null)
+    const innerRef = shallowRef(null)
     const showing = ref(false)
     const targetUid = useId()
     // attrs is not reactive, so the custom id must be resolved on

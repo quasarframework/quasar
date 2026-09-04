@@ -1,4 +1,4 @@
-import { h, onBeforeUnmount, onMounted, ref, watch } from 'vue'
+import { h, onBeforeUnmount, onMounted, ref, shallowRef, watch } from 'vue'
 
 import { createComponent } from '../../utils/private.create/create.js'
 import { height, offset } from '../../utils/dom/dom.js'
@@ -36,9 +36,9 @@ export default /*#__PURE__*/ createComponent({
 
   setup(props, { slots, emit }) {
     const percentScrolled = ref(0)
-    const rootRef = ref(null)
-    const mediaParentRef = ref(null)
-    const mediaRef = ref(null)
+    const rootRef = shallowRef(null)
+    const mediaParentRef = shallowRef(null)
+    const mediaRef = shallowRef(null)
 
     let isWorking = false,
       mediaEl,

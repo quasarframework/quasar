@@ -4,6 +4,7 @@ import {
   onBeforeUnmount,
   ref,
   shallowReactive,
+  shallowRef,
   vShow,
   watch,
   withDirectives
@@ -89,7 +90,7 @@ export default /*#__PURE__*/ createComponent({
       props.modelValue !== null ? props.modelValue : props.defaultOpened
     )
 
-    const blurTargetRef = ref(null)
+    const blurTargetRef = shallowRef(null)
     const targetUid = useId()
 
     const { show, hide, toggle } = useModelToggle({ showing })

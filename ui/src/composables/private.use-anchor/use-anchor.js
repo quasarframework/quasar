@@ -3,7 +3,7 @@ import {
   nextTick,
   onBeforeUnmount,
   onMounted,
-  ref,
+  shallowRef,
   watch
 } from 'vue'
 
@@ -94,7 +94,7 @@ export default function useAnchor({
 }) {
   const { props, proxy, emit } = getCurrentInstance()
 
-  const anchorEl = ref(null)
+  const anchorEl = shallowRef(null)
 
   // the anchor is a foreign DOM node (never rendered by us), so its popup
   // ARIA gets applied imperatively; each attribute is managed only when

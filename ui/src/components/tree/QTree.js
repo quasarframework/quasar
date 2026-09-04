@@ -10,6 +10,7 @@ import {
   onMounted,
   provide,
   ref,
+  shallowRef,
   vShow,
   watch,
   withDirectives
@@ -747,7 +748,7 @@ export default /*#__PURE__*/ createComponent({
         : props.virtualScrollItemSize
     )
 
-    const rootRef = ref(null)
+    const rootRef = shallowRef(null)
     let localScrollTarget
 
     function getVirtualScrollEl() {

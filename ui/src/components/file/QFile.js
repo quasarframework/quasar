@@ -1,4 +1,4 @@
-import { computed, getCurrentInstance, h, ref } from 'vue'
+import { computed, getCurrentInstance, h, ref, shallowRef } from 'vue'
 
 import QChip from '../chip/QChip.js'
 
@@ -63,7 +63,7 @@ export default /*#__PURE__*/ createComponent({
 
     const state = useFieldState()
 
-    const inputRef = ref(null)
+    const inputRef = shallowRef(null)
     const dnd = ref(false)
     const nameProp = useFormInputNameAttr(props)
 

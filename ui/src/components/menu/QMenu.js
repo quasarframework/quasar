@@ -5,6 +5,7 @@ import {
   h,
   onBeforeUnmount,
   ref,
+  shallowRef,
   watch
 } from 'vue'
 
@@ -127,7 +128,7 @@ export default /*#__PURE__*/ createComponent({
     const { proxy } = vm
     const $q = useQuasar()
 
-    const innerRef = ref(null)
+    const innerRef = shallowRef(null)
     const showing = ref(false)
 
     const hideOnRouteChange = computed(

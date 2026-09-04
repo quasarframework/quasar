@@ -6,6 +6,7 @@ import {
   onBeforeUnmount,
   onMounted,
   ref,
+  shallowRef,
   watch
 } from 'vue'
 
@@ -119,8 +120,8 @@ export default /*#__PURE__*/ createComponent({
     const { inFullscreen, toggleFullscreen } = useFullscreen()
     const splitAttrs = useSplitAttrs()
 
-    const rootRef = ref(null)
-    const contentRef = ref(null)
+    const rootRef = shallowRef(null)
+    const contentRef = shallowRef(null)
 
     const editLinkUrl = ref(null)
     const isViewingSource = ref(false)

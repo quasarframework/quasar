@@ -1,4 +1,4 @@
-import { computed, getCurrentInstance, h, ref, watch } from 'vue'
+import { computed, getCurrentInstance, h, ref, shallowRef, watch } from 'vue'
 
 import QDialog from '../dialog/QDialog.js'
 import QMenu from '../menu/QMenu.js'
@@ -30,7 +30,7 @@ export default /*#__PURE__*/ createComponent({
     const $q = useQuasar()
 
     const showing = ref(false)
-    const popupRef = ref(null)
+    const popupRef = shallowRef(null)
     const breakpoint = computed(() => Number.parseInt(props.breakpoint, 10))
 
     const { canShow } = useAnchor({ showing, avoidEmit: true })

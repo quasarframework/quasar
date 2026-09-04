@@ -1,4 +1,4 @@
-import { computed, getCurrentInstance, h, nextTick, ref } from 'vue'
+import { computed, getCurrentInstance, h, nextTick, ref, shallowRef } from 'vue'
 
 import QMenu from '../menu/QMenu.js'
 import QBtn from '../btn/QBtn.js'
@@ -57,7 +57,7 @@ export default /*#__PURE__*/ createComponent({
     const { proxy } = getCurrentInstance()
     const $q = useQuasar()
 
-    const menuRef = ref(null)
+    const menuRef = shallowRef(null)
 
     const initialValue = ref('')
     const currentModel = ref('')

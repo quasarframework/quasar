@@ -4,7 +4,7 @@ import {
   getCurrentInstance,
   h,
   onBeforeUnmount,
-  ref,
+  shallowRef,
   withDirectives
 } from 'vue'
 
@@ -66,8 +66,8 @@ export default /*#__PURE__*/ createComponent({
       isActionable
     } = useBtn(props)
 
-    const rootRef = ref(null)
-    const blurTargetRef = ref(null)
+    const rootRef = shallowRef(null)
+    const blurTargetRef = shallowRef(null)
 
     let localTouchTargetEl = null,
       avoidMouseRipple,

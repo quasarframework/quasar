@@ -1,4 +1,13 @@
-import { computed, h, onUnmounted, provide, reactive, ref, watch } from 'vue'
+import {
+  computed,
+  h,
+  onUnmounted,
+  provide,
+  reactive,
+  ref,
+  shallowRef,
+  watch
+} from 'vue'
 
 import { isRuntimeSsrPreHydration } from '../../plugins/platform/Platform.js'
 
@@ -37,7 +46,7 @@ export default /*#__PURE__*/ createComponent({
   setup(props, { slots, emit }) {
     const $q = useQuasar()
 
-    const rootRef = ref(null)
+    const rootRef = shallowRef(null)
 
     // page related
     const height = ref($q.screen.height)

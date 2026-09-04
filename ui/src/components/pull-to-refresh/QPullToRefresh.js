@@ -5,6 +5,7 @@ import {
   onBeforeUnmount,
   onMounted,
   ref,
+  shallowRef,
   watch,
   withDirectives
 } from 'vue'
@@ -83,7 +84,7 @@ export default /*#__PURE__*/ createComponent({
     // the same scroller, the layout header over the page's top
     // padding...), so the exact decision is still the scroll position
     // read at pull start.
-    const sentinelRef = ref(null)
+    const sentinelRef = shallowRef(null)
     const { isIntersecting: contentEdgeVisible } = useIntersection({
       target: sentinelRef
     })

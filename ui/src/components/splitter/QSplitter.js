@@ -1,4 +1,4 @@
-import { computed, h, nextTick, ref, watch, withDirectives } from 'vue'
+import { computed, h, nextTick, shallowRef, watch, withDirectives } from 'vue'
 
 import TouchPan from '../../directives/touch-pan/TouchPan.js'
 
@@ -58,10 +58,10 @@ export default /*#__PURE__*/ createComponent({
     const $q = useQuasar()
     const isDark = useDark(props, $q)
 
-    const rootRef = ref(null)
+    const rootRef = shallowRef(null)
     const sideRefs = {
-      before: ref(null),
-      after: ref(null)
+      before: shallowRef(null),
+      after: shallowRef(null)
     }
 
     const panelId = useId()

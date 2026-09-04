@@ -1,4 +1,4 @@
-import { computed, getCurrentInstance, h, ref, toRaw } from 'vue'
+import { computed, getCurrentInstance, h, shallowRef, toRaw } from 'vue'
 
 import useQuasar from '../../composables/use-quasar/use-quasar.js'
 import useDark, {
@@ -65,7 +65,7 @@ export default function useCheckbox(type, getInner) {
 
   const isDark = useDark(props, $q)
 
-  const rootRef = ref(null)
+  const rootRef = shallowRef(null)
   const { refocusTargetEl, refocusTarget } = useRefocusTarget(props, rootRef)
 
   const modelIsArray = computed(

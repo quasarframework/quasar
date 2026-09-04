@@ -1,4 +1,4 @@
-import { computed, h, ref, watch } from 'vue'
+import { computed, h, ref, shallowRef, watch } from 'vue'
 
 import useQuasar from '../../composables/use-quasar/use-quasar.js'
 import { useFormAttrs } from '../../composables/use-form/private.use-form.js'
@@ -50,7 +50,7 @@ export default /*#__PURE__*/ createComponent({
       formAttrs: useFormAttrs(props)
     })
 
-    const rootRef = ref(null)
+    const rootRef = shallowRef(null)
     const curRatio = ref(0)
     const model = ref(0)
 

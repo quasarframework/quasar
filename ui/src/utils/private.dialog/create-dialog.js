@@ -1,4 +1,4 @@
-import { h, nextTick, ref } from 'vue'
+import { h, nextTick, shallowRef } from 'vue'
 
 import { createChildApp } from '../../install-quasar.js'
 import { createGlobalNode, removeGlobalNode } from '../private.config/nodes.js'
@@ -59,7 +59,7 @@ export function createDialog(
 
     let vm
     let emittedOK = false
-    const dialogRef = ref(null)
+    const dialogRef = shallowRef(null)
     const el = createGlobalNode(false, 'dialog')
 
     const applyState = cmd => {

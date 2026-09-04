@@ -4,6 +4,7 @@ import {
   h,
   nextTick,
   ref,
+  shallowRef,
   watch,
   withDirectives
 } from 'vue'
@@ -200,8 +201,8 @@ export default /*#__PURE__*/ createComponent({
     const isDark = useDark(props, $q)
     const { getCache } = useRenderCache()
 
-    const spectrumRef = ref(null)
-    const errorIconRef = ref(null)
+    const spectrumRef = shallowRef(null)
+    const errorIconRef = shallowRef(null)
 
     const forceHex = computed(() =>
       props.formatModel === 'auto' ? null : props.formatModel.includes('hex')

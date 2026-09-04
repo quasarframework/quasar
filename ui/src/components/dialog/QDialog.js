@@ -5,6 +5,7 @@ import {
   h,
   onBeforeUnmount,
   ref,
+  shallowRef,
   watch
 } from 'vue'
 
@@ -102,8 +103,8 @@ export default /*#__PURE__*/ createComponent({
     const vm = getCurrentInstance()
     const $q = useQuasar()
 
-    const rootElRef = ref(null)
-    const innerRef = ref(null)
+    const rootElRef = shallowRef(null)
+    const innerRef = shallowRef(null)
     const showing = ref(false)
     const animating = ref(false)
     // iOS keeps position:fixed content attached to the layout viewport,

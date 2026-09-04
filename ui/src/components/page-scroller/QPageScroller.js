@@ -1,4 +1,12 @@
-import { Transition, computed, h, onBeforeUnmount, ref, watch } from 'vue'
+import {
+  Transition,
+  computed,
+  h,
+  onBeforeUnmount,
+  ref,
+  shallowRef,
+  watch
+} from 'vue'
 
 import useQuasar from '../../composables/use-quasar/use-quasar.js'
 import usePageSticky, {
@@ -40,7 +48,7 @@ export default /*#__PURE__*/ createComponent({
   setup(props, { slots, emit }) {
     const $q = useQuasar()
     const { $layout, getStickyContent } = usePageSticky()
-    const rootRef = ref(null)
+    const rootRef = shallowRef(null)
 
     let heightWatcher
 

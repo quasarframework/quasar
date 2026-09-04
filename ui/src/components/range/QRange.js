@@ -1,4 +1,4 @@
-import { computed, h, ref, watch } from 'vue'
+import { computed, h, ref, shallowRef, watch } from 'vue'
 
 import useQuasar from '../../composables/use-quasar/use-quasar.js'
 import useSlider, {
@@ -72,7 +72,7 @@ export default /*#__PURE__*/ createComponent({
       })
     })
 
-    const rootRef = ref(null)
+    const rootRef = shallowRef(null)
     const curMinRatio = ref(0)
     const curMaxRatio = ref(0)
     const model = ref({ min: 0, max: 0 })
@@ -310,7 +310,7 @@ export default /*#__PURE__*/ createComponent({
       props.dragRange || props.dragOnlyRange ? state.tabindex.value : null
     )
 
-    const minThumbRef = ref(null)
+    const minThumbRef = shallowRef(null)
     const minEvents = computed(() => getEvents('min'))
     const getMinThumb = methods.getThumbRenderFn({
       focusValue: 'min',

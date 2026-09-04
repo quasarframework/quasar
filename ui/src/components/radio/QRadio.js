@@ -1,4 +1,4 @@
-import { computed, getCurrentInstance, h, ref, toRaw } from 'vue'
+import { computed, getCurrentInstance, h, shallowRef, toRaw } from 'vue'
 
 import QIcon from '../icon/QIcon.js'
 
@@ -77,7 +77,7 @@ export default /*#__PURE__*/ createComponent({
 
     const isDark = useDark(props, $q)
 
-    const rootRef = ref(null)
+    const rootRef = shallowRef(null)
     const { refocusTargetEl, refocusTarget } = useRefocusTarget(props, rootRef)
 
     const isTrue = computed(() => toRaw(props.modelValue) === toRaw(props.val))

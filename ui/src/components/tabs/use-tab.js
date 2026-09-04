@@ -5,7 +5,7 @@ import {
   inject,
   onBeforeUnmount,
   onMounted,
-  ref,
+  shallowRef,
   withDirectives
 } from 'vue'
 
@@ -63,9 +63,9 @@ export default function useTab(props, slots, emit, routeData) {
 
   const { proxy } = getCurrentInstance()
 
-  const blurTargetRef = ref(null)
-  const rootRef = ref(null)
-  const tabIndicatorRef = ref(null)
+  const blurTargetRef = shallowRef(null)
+  const rootRef = shallowRef(null)
+  const tabIndicatorRef = shallowRef(null)
 
   function getRipple() {
     return props.disable || props.ripple === false

@@ -1,4 +1,4 @@
-import { KeepAlive, computed, h, inject, ref } from 'vue'
+import { KeepAlive, computed, h, inject, shallowRef } from 'vue'
 
 import QSlideTransition from '../slide-transition/QSlideTransition.js'
 import StepHeader from './StepHeader.js'
@@ -81,7 +81,7 @@ export default /*#__PURE__*/ createComponent({
 
     const { getCache } = useRenderCache()
 
-    const rootRef = ref(null)
+    const rootRef = shallowRef(null)
 
     const isActive = computed(() => $stepper.value.modelValue === props.name)
 

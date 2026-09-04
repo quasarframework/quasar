@@ -6,6 +6,7 @@ import {
   onBeforeUnmount,
   provide,
   ref,
+  shallowRef,
   watch
 } from 'vue'
 
@@ -107,8 +108,8 @@ export function getRenderer(getPlugin, expose) {
   const editable = computed(() => !props.disable && !props.readonly)
   const dnd = ref(false)
 
-  const rootRef = ref(null)
-  const inputRef = ref(null)
+  const rootRef = shallowRef(null)
+  const inputRef = shallowRef(null)
 
   const state = {
     files: ref([]),

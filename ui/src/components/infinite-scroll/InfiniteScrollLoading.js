@@ -1,4 +1,4 @@
-import { h, onMounted, onUpdated, ref } from 'vue'
+import { h, onMounted, onUpdated, shallowRef } from 'vue'
 
 import { createComponent } from '../../utils/private.create/create.js'
 import { hSlot } from '../../utils/private.render/render.js'
@@ -12,7 +12,7 @@ export default /*#__PURE__*/ createComponent({
   props: ['store'],
 
   setup(props, { slots }) {
-    const rootRef = ref(null)
+    const rootRef = shallowRef(null)
 
     // we need to pause svg animations (if any) when hiding
     // otherwise the browser will keep on recalculating the style

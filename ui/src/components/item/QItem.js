@@ -1,4 +1,4 @@
-import { computed, h, inject, ref } from 'vue'
+import { computed, h, inject, shallowRef } from 'vue'
 
 import useQuasar from '../../composables/use-quasar/use-quasar.js'
 import useDark, {
@@ -61,8 +61,8 @@ export default /*#__PURE__*/ createComponent({
     const { hasLink, linkAttrs, linkClass, linkTag, navigateOnClick } =
       useRouterLink()
 
-    const rootRef = ref(null)
-    const blurTargetRef = ref(null)
+    const rootRef = shallowRef(null)
+    const blurTargetRef = shallowRef(null)
 
     const isActionable = computed(
       () =>

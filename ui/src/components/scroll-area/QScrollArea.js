@@ -6,6 +6,7 @@ import {
   onBeforeUnmount,
   onDeactivated,
   ref,
+  shallowRef,
   watch
 } from 'vue'
 
@@ -115,13 +116,13 @@ export default /*#__PURE__*/ createComponent({
 
     const scroll = {
       vertical: {
-        ref: ref(null),
+        ref: shallowRef(null),
         position: ref(0),
         size: ref(0)
       },
 
       horizontal: {
-        ref: ref(null),
+        ref: shallowRef(null),
         position: ref(0),
         size: ref(0)
       }
@@ -135,7 +136,7 @@ export default /*#__PURE__*/ createComponent({
     let timer = null,
       panRefPos
 
-    const targetRef = ref(null)
+    const targetRef = shallowRef(null)
 
     const classes = computed(
       () => 'q-scrollarea' + (isDark() ? ' q-scrollarea--dark' : '')
