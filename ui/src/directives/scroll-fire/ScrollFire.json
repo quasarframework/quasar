@@ -5,7 +5,7 @@
 
   "value": {
     "type": ["Function", "undefined"],
-    "desc": "Function to call when scrolling and element comes into the viewport (use undefined to disable)",
+    "desc": "Function to call (once) when the element comes into view; the element is watched through a shared IntersectionObserver, so it also fires when it becomes visible without scrolling (use undefined to disable; re-assign a function after disabling to arm it again)",
     "params": {
       "el": {
         "type": "Element",
@@ -14,5 +14,13 @@
     },
     "returns": null,
     "examples": ["el => { console.log('Element:', el) }"]
+  },
+
+  "arg": {
+    "type": "Number",
+    "desc": "Fraction of the element (0 to 1) that must be visible before firing; 0 (the default) fires as soon as any part of it is visible, 1 only once it is fully visible",
+    "default": "0",
+    "examples": ["# v-scroll-fire:0.5", "# v-scroll-fire:1"],
+    "addedIn": "v2.30"
   }
 }

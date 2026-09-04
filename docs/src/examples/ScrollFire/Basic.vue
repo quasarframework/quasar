@@ -6,11 +6,26 @@
     </p>
     <p v-for="n in 10" :key="n">{{ lorem }}</p>
 
-    <p>Scroll Fire below. Reload page to see the bounce effect again.</p>
+    <p>
+      Scroll Fire below: the first logo bounces as soon as any part of it shows
+      up, the second one only once it is fully visible. Reload the page to see
+      the effect again.
+    </p>
     <p class="text-center">
       <img
         alt="Quasar logo"
         v-scroll-fire="bounceImage"
+        src="https://cdn.quasar.dev/logo-v2/svg/logo.svg"
+        style="height: 100px; width: 100px"
+      />
+    </p>
+
+    <p>{{ lorem }}</p>
+
+    <p class="text-center">
+      <img
+        alt="Quasar logo"
+        v-scroll-fire:1="bounceImage"
         src="https://cdn.quasar.dev/logo-v2/svg/logo.svg"
         style="height: 100px; width: 100px"
       />
@@ -25,7 +40,7 @@ const lorem =
   'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
 
 function bounceImage(el) {
-  // in this example, when the `<div>` comes into view,
+  // in this example, when the image comes into view,
   // we bounce it for 2 seconds
 
   el.classList.add('animate-bounce')

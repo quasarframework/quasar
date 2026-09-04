@@ -1,23 +1,41 @@
 import { createDirective } from '../../utils/private.create/create.js'
-import debounce from '../../utils/debounce/debounce.js'
-import { height, offset } from '../../utils/dom/dom.js'
-import { getScrollTarget } from '../../utils/scroll/scroll.js'
-import { listenOpts } from '../../utils/event/event.js'
+import {
+  observe,
+  unobserve
+} from '../../utils/private.intersection/intersection.js'
 import getSSRProps from '../../utils/private.noop-ssr-directive-transform/noop-ssr-directive-transform.js'
 
-const { passive } = listenOpts
+function getThreshold(arg) {
+  return arg === void 0 ? 0 : Math.min(1, Math.max(0, Number(arg) || 0))
+}
 
-function update(ctx, { value, oldValue }) {
+// shared by every element: the entry carries the element and the
+// element carries its subscriber
+function onEntry(entry) {
+  const el = entry.target
+  const sub = el.__qintersection
+
+  if (entry.isIntersecting && entry.intersectionRatio >= sub.threshold) {
+    sub.fn(el)
+    return false
+  }
+}
+
+function update(el, sub, { value, oldValue, arg }) {
   if (typeof value !== 'function') {
-    ctx.scrollTarget.removeEventListener('scroll', ctx.scroll, passive)
+    unobserve(el)
     return
   }
 
-  ctx.handler = value
+  sub.fn = value
+  sub.threshold = getThreshold(arg)
+
+  // a fired element re-arms only when it was disabled in between
   if (typeof oldValue !== 'function') {
-    ctx.scrollTarget.addEventListener('scroll', ctx.scroll, passive)
-    ctx.scroll()
+    sub.done = false
   }
+
+  observe(el, sub, null, '0px', sub.threshold)
 }
 
 export default /*#__PURE__*/ createDirective(
@@ -27,47 +45,34 @@ export default /*#__PURE__*/ createDirective(
         name: 'scroll-fire',
 
         mounted(el, binding) {
-          const ctx = {
-            scrollTarget: getScrollTarget(el),
-            scroll: debounce(() => {
-              let containerBottom, elBottom
-
-              if (ctx.scrollTarget === window) {
-                elBottom = el.getBoundingClientRect().bottom
-                containerBottom = window.innerHeight
-              } else {
-                elBottom = offset(el).top + height(el)
-                containerBottom =
-                  offset(ctx.scrollTarget).top + height(ctx.scrollTarget)
-              }
-
-              if (elBottom > 0 && elBottom < containerBottom) {
-                ctx.scrollTarget.removeEventListener(
-                  'scroll',
-                  ctx.scroll,
-                  passive
-                )
-                ctx.handler(el)
-              }
-            }, 25)
+          const sub = {
+            handler: onEntry,
+            once: false,
+            pool: void 0,
+            done: false,
+            fn: void 0,
+            threshold: 0
           }
 
-          update(ctx, binding)
-
-          el.__qscrollfire = ctx
+          el.__qscrollfire = sub
+          update(el, sub, binding)
         },
 
         updated(el, binding) {
-          if (binding.value !== binding.oldValue) {
-            update(el.__qscrollfire, binding)
+          const sub = el.__qscrollfire
+
+          if (
+            sub !== void 0 &&
+            (binding.value !== binding.oldValue ||
+              sub.threshold !== getThreshold(binding.arg))
+          ) {
+            update(el, sub, binding)
           }
         },
 
         beforeUnmount(el) {
-          const ctx = el.__qscrollfire
-          ctx.scrollTarget.removeEventListener('scroll', ctx.scroll, passive)
-          ctx.scroll.cancel()
-          delete el.__qscrollfire
+          unobserve(el)
+          el.__qscrollfire = void 0
         }
       }
 )
