@@ -244,6 +244,12 @@ const typeMap = {
     expectMatcher: 'expect.any(Object)'
   },
 
+  ComponentInstance: {
+    createValue: () => 'mount({ render: () => null }).vm',
+    createExpectCall: ({ ref }) => `expect(${ref}).toBeTypeOf('object')`,
+    expectMatcher: 'expect.any(Object)'
+  },
+
   null: {
     valueRegex: /^null$/,
     createValue: () => 'null',

@@ -389,6 +389,33 @@ describe('[QVirtualScroll API]', () => {
         expect(wrapper.classes()).toContain('scroll')
         expect(wrapper.attributes('tabindex')).toBe('0')
       })
+
+      test('type ComponentInstance has effect', async () => {
+        // the instance stands for its root element, the scroll container
+        const holder = mount(
+          {
+            // closed, as a script setup component is: its ref is the expose proxy
+            setup(_, { expose }) {
+              expose({})
+              return () => h('div', { class: 'scroll' })
+            }
+          },
+          { attachTo: document.body }
+        )
+        const addSpy = vi.spyOn(holder.element, 'addEventListener')
+
+        await mountVirtualScroll(
+          { scrollTarget: holder.vm },
+          {},
+          { attachTo: holder.element }
+        )
+
+        expect(addSpy).toHaveBeenCalledWith(
+          'scroll',
+          expect.any(Function),
+          expect.anything()
+        )
+      })
     })
 
     describe('[(prop)separator]', () => {

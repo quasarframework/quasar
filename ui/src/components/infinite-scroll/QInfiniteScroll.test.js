@@ -193,6 +193,33 @@ describe('[QInfiniteScroll API]', () => {
         target.scrollTop = 450
         await loaded(wrapper)
       })
+
+      test('type ComponentInstance has effect', async () => {
+        // the instance stands for its root element, the scroll container
+        const holder = mount(
+          {
+            // closed, as a script setup component is: its ref is the expose proxy
+            setup(_, { expose }) {
+              expose({})
+              return () =>
+                h('div', {
+                  style: 'height: 100px; width: 100px; overflow: auto;'
+                })
+            }
+          },
+          { attachTo: document.body }
+        )
+        wrappers.push(holder)
+
+        const { wrapper } = mountInfiniteScroll(
+          { scrollTarget: holder.vm },
+          {},
+          holder.element
+        )
+
+        holder.element.scrollTop = 450
+        await loaded(wrapper)
+      })
     })
 
     describe('[(prop)disable]', () => {

@@ -1,4 +1,5 @@
 import { mount } from '@vue/test-utils'
+import { h } from 'vue'
 import { afterEach, describe, expect, test, vi } from 'vitest'
 
 import QScrollObserver from './QScrollObserver.js'
@@ -135,6 +136,38 @@ describe('[QScrollObserver API]', () => {
           expect.any(Function),
           expect.anything()
         )
+      })
+
+      test('type ComponentInstance has effect', () => {
+        // the instance stands for its root element, the scroll container
+        const holder = mount(
+          {
+            // closed, as a script setup component is: its ref is the expose proxy
+            setup(_, { expose }) {
+              expose({})
+              return () =>
+                h(
+                  'div',
+                  { style: 'width: 200px; height: 200px; overflow: auto;' },
+                  [h('div', { style: 'width: 500px; height: 500px;' })]
+                )
+            }
+          },
+          { attachTo: document.body }
+        )
+        const addEventListener = vi.spyOn(holder.element, 'addEventListener')
+
+        mount(QScrollObserver, {
+          props: { scrollTarget: holder.vm }
+        })
+
+        expect(addEventListener).toHaveBeenCalledWith(
+          'scroll',
+          expect.any(Function),
+          expect.anything()
+        )
+
+        holder.unmount()
       })
     })
   })

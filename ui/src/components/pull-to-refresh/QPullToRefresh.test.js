@@ -331,6 +331,36 @@ describe('[QPullToRefresh API]', () => {
         wrapper.unmount()
         scrollTarget.remove()
       })
+
+      test('type ComponentInstance has effect', async () => {
+        // the instance stands for its root element, a scroll container
+        // scrolled 10px down
+        const holder = mount(
+          {
+            // closed, as a script setup component is: its ref is the expose proxy
+            setup(_, { expose }) {
+              expose({})
+              return () =>
+                h('div', { style: 'height: 50px; overflow: auto;' }, [
+                  h('div', { style: 'height: 200px' })
+                ])
+            }
+          },
+          { attachTo: document.body }
+        )
+        holder.element.scrollTop = 10
+
+        const wrapper = mountPullToRefresh({ scrollTarget: holder.vm })
+        await armed(wrapper)
+
+        expect(startPull(wrapper)).toBe(false)
+        expect(
+          wrapper.get('.q-pull-to-refresh__content').classes()
+        ).not.toContain('no-pointer-events')
+
+        wrapper.unmount()
+        holder.unmount()
+      })
     })
   })
 

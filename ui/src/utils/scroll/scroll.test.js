@@ -1,4 +1,6 @@
+import { mount } from '@vue/test-utils'
 import { afterEach, describe, expect, test, vi } from 'vitest'
+import { defineComponent, h } from 'vue'
 
 import {
   animHorizontalScrollTo,
@@ -118,7 +120,7 @@ describe('[scroll API]', () => {
   describe('[Variables]', () => {
     describe('[(variable)scrollTargetProp]', () => {
       test('is defined correctly', () => {
-        expect(scrollTargetProp).toStrictEqual([Element, String])
+        expect(scrollTargetProp).toStrictEqual([Element, String, Object])
 
         // it must be usable as a Vue prop type
         expect({ target: { type: scrollTargetProp } }).$props()
@@ -136,6 +138,36 @@ describe('[scroll API]', () => {
         expect(getScrollTarget(document.body, '#explicit-scroll-target')).toBe(
           el
         )
+      })
+
+      test('resolves a component instance to its root element', () => {
+        const { el } = createScrollElement()
+        const wrapper = mount(
+          defineComponent({ render: () => h('div', { class: 'scroll' }) }),
+          { attachTo: el }
+        )
+
+        expect(getScrollTarget(document.body, wrapper.vm)).toBe(wrapper.element)
+
+        wrapper.unmount()
+      })
+
+      test('falls back to auto detection for a component without a root element', () => {
+        const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
+        const { el: ancestor } = createScrollElement({ className: 'scroll' })
+        const child = document.createElement('div')
+        ancestor.append(child)
+        const wrapper = mount(
+          defineComponent({ render: () => [h('span'), h('span')] }),
+          { attachTo: child }
+        )
+
+        expect(getScrollTarget(child, wrapper.vm)).toBe(ancestor)
+        expect(warn).toHaveBeenCalledExactlyOnceWith(
+          expect.stringContaining('scroll-target')
+        )
+
+        wrapper.unmount()
       })
 
       test.each([

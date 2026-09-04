@@ -287,6 +287,36 @@ describe('[QTable API]', () => {
           'scroll'
         )
       })
+
+      test('type ComponentInstance has effect', async () => {
+        // the instance stands for its root element, the scroll container
+        const holder = mount(
+          {
+            // closed, as a script setup component is: its ref is the expose proxy
+            setup(_, { expose }) {
+              expose({})
+              return () => h('div', { class: 'scroll', style: 'height: 200px' })
+            }
+          },
+          { attachTo: document.body }
+        )
+        const wrapper = mountTable({
+          rows: getBigRows(50),
+          virtualScroll: true,
+          pagination: { rowsPerPage: 0 }
+        })
+
+        expect(wrapper.get('.q-table__middle').classes()).toContain('scroll')
+
+        await wrapper.setProps({ virtualScrollTarget: holder.vm })
+        await flushPromises()
+
+        expect(wrapper.get('.q-table__middle').classes()).not.toContain(
+          'scroll'
+        )
+
+        holder.unmount()
+      })
     })
 
     describe('[(prop)virtual-scroll-slice-size]', () => {

@@ -146,6 +146,7 @@ const apiValueRegex = {
   RegExp: /^\/.*\/[gimuy]*$/,
   Element: /(^document\.|^\..+|^#.+|.+El$|\$refs)/,
   Component: /^[A-Z][A-Za-z]+$/,
+  ComponentInstance: /\$refs/,
   'Promise<any>': apiValuePromiseRegex,
   'Promise<void>': apiValuePromiseRegex,
   'Promise<boolean>': apiValuePromiseRegex,
@@ -295,6 +296,7 @@ function parseObjectWithKebabCaseProps(obj, objName) {
 
 const nativeTypes = [
   'Component',
+  'ComponentInstance',
   'Error',
   'Element',
   'File',
@@ -686,6 +688,7 @@ const typeList = [
   'Promise<object>',
   'Error',
   'Component',
+  'ComponentInstance',
   'null',
   'undefined'
 ]

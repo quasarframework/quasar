@@ -151,6 +151,27 @@ describe('[QParallax API]', () => {
           transformWith({ scrollTarget: '#parallax-scroll-target' })
         ).not.toBe(transformWith({}))
       })
+
+      test('type ComponentInstance has effect', () => {
+        // the instance stands for its root element, the scroll container
+        const holder = mount(
+          {
+            // closed, as a script setup component is: its ref is the expose proxy
+            setup(_, { expose }) {
+              expose({})
+              return () => h('div', {})
+            }
+          },
+          { attachTo: document.body }
+        )
+        styleTarget(holder.element)
+
+        expect(transformWith({ scrollTarget: holder.vm })).not.toBe(
+          transformWith({})
+        )
+
+        holder.unmount()
+      })
     })
   })
 

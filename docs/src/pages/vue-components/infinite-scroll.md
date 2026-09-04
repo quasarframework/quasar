@@ -40,7 +40,7 @@ Please read [here](/vue-components/scroll-observer#determining-scrolling-contain
 
 - Works best when placed as direct child of the Vue component rendering your Page
 - If you change the parent of this component, don't forget to call `updateScrollTarget()` on the QInfiniteScroll Vue reference.
-- If you need to specify the scroll target inner element (because the auto detected one is not the desired one) pass a CSS selector (as string) or the DOM element in the `scroll-target` prop
+- If you need to specify the scroll target inner element (because the auto detected one is not the desired one) pass a CSS selector (as string), the DOM element or a Vue component reference (which stands for its root element) in the `scroll-target` prop
 - The `offset` is measured against the scroll target's visible area, so a scrolling container that is not detected (nor specified) as the scroll target only reveals the end of the content as it actually scrolls into view; there, loading starts as if `offset` were 0
 
 ::: warning

@@ -69,7 +69,7 @@ A more involved example below, playing with sticky headers and footers.
 
 ### Scroll target
 
-If you need to specify the scroll target (because the auto detected one is not the desired one) pass a CSS selector (as string) or the DOM element to the `scroll-target` prop.
+If you need to specify the scroll target (because the auto detected one is not the desired one) pass a CSS selector (as string), the DOM element or a Vue component reference (which stands for its root element) to the `scroll-target` prop.
 
 If you need to use the virtual list with the whole page as the scrolling element then please set `scroll-target="body"`.
 

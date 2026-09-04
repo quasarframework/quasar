@@ -672,6 +672,39 @@ describe('[QTree API]', () => {
         wrapper.unmount()
         container.remove()
       })
+
+      test('type ComponentInstance has effect', async () => {
+        // the instance stands for its root element, the scroll container
+        const holder = mount(
+          {
+            // closed, as a script setup component is: its ref is the expose proxy
+            setup(_, { expose }) {
+              expose({})
+              return () => h('div', { style: 'height: 210px; overflow: auto' })
+            }
+          },
+          { attachTo: document.body }
+        )
+
+        const wrapper = mountVirtualTree(
+          { virtualScrollTarget: holder.vm },
+          { attachTo: holder.element, attrs: {} }
+        )
+        await flushPromises()
+
+        expect(wrapper.classes()).not.toContain('scroll')
+
+        const firstLabel = getLabels(wrapper)[0]
+
+        holder.element.scrollTop = holder.element.scrollHeight
+        holder.element.dispatchEvent(new Event('scroll'))
+        await settleVirtualScroll()
+
+        expect(getLabels(wrapper)[0]).not.toBe(firstLabel)
+
+        wrapper.unmount()
+        holder.unmount()
+      })
     })
 
     describe('[(prop)virtual-scroll-item-size]', () => {

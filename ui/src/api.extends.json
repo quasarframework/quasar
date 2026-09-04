@@ -125,12 +125,13 @@
     },
 
     "scroll-target": {
-      "type": ["Element", "String"],
-      "desc": "CSS selector or DOM element to be used as a custom scroll container instead of the auto detected one",
+      "type": ["Element", "String", "ComponentInstance"],
+      "desc": "CSS selector, DOM element or Vue component reference (standing for its root element) to be used as a custom scroll container instead of the auto detected one",
       "examples": [
         ".scroll-target-class",
         "#scroll-target-id",
         "$refs.scrollTarget",
+        "$refs.scrollAreaComponent",
         "document.body"
       ],
       "category": "behavior"

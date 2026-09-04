@@ -43,6 +43,7 @@ function write(fileContent, text = '') {
 const typeMap = new Map([
   ['Any', 'any'],
   ['Component', 'Component'],
+  ['ComponentInstance', 'ComponentPublicInstance'],
   ['VNode', 'VNode'], // VNode is exclusive to slot type generation here, it can't and doesn't need to be used in JSON API files
   ['String', 'string'],
   ['Boolean', 'boolean'],

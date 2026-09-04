@@ -1,8 +1,9 @@
 import { css, getElement } from '../dom/dom.js'
 
+// a Vue component instance stands for its root element (Object)
 export const scrollTargetProp = __QUASAR_SSR_SERVER__
   ? {} /* SSR/SSG does not know about Element */
-  : [Element, String]
+  : [Element, String, Object]
 
 const scrollTargets = __QUASAR_SSR_SERVER__
   ? []
@@ -16,6 +17,21 @@ const scrollTargets = __QUASAR_SSR_SERVER__
 
 export function getScrollTarget(el, targetEl) {
   let target = getElement(targetEl)
+
+  if (
+    target !== void 0 &&
+    target !== window &&
+    !(target instanceof Element) &&
+    !scrollTargets.includes(target)
+  ) {
+    // a component with a fragment root (no root element) or a plain
+    // object; the auto detected container is the best that can be done
+    console.warn(
+      '[Quasar] scroll-target: the specified value is not an Element nor' +
+        ' a component with a root element; falling back to auto detection'
+    )
+    target = void 0
+  }
 
   if (target === void 0) {
     if (el === void 0 || el === null) {
