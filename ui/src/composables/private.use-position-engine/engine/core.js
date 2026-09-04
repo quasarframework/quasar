@@ -113,7 +113,12 @@ export function parsePosition(pos, rtl) {
  * is the fractional space itself (getBoundingClientRect), never the
  * popup's own measured size, so it never rounds a fractional natural
  * size down (offsetWidth/offsetHeight are integers) and wraps or
- * scrolls content that fit before the flip. How the returned
+ * scrolls content that fit before the flip; and it is combined (CSS
+ * min()) with the bound the popup already has, read as the computed
+ * max size once the previous caps are lifted: a max-height/max-width
+ * prop, the popups' own stylesheet ceilings or the app's CSS. An inline
+ * cap replaces them all, so a flip towards a side roomier than that
+ * bound would otherwise widen the popup past it. How the returned
  * origins/caps are then EXPRESSED is the engines'
  * business: anchor() insets on the native engine, pixel top/left on the
  * fallback; either way the popup keeps tracking its anchor and only the
@@ -152,6 +157,8 @@ export function applyBoundary({
   el.style.visibility = ''
 
   const { offsetWidth: width, offsetHeight: height } = el
+  // the bound the popup has without a cap (prop, stylesheet, app CSS)
+  const bound = getComputedStyle(el)
   const rect = anchorEl.getBoundingClientRect()
   const [ox, oy] = offset !== void 0 && cover !== true ? offset : [0, 0]
 
@@ -208,9 +215,13 @@ export function applyBoundary({
         space = spaceAbove
       }
 
-      // combined through CSS min(), never JS, so a smaller caller maxHeight
-      // prop stays in force instead of being widened back to `space` (#18536)
-      res.maxHeight = maxHeight ? `min(${space}px, ${maxHeight})` : `${space}px`
+      // combined through CSS min(), never JS (the bound may be any CSS
+      // length), so a smaller bound stays in force instead of being
+      // widened back to `space` (#18536)
+      res.maxHeight =
+        bound.maxHeight === 'none'
+          ? `${space}px`
+          : `min(${space}px, ${bound.maxHeight})`
     }
   }
 
@@ -240,7 +251,10 @@ export function applyBoundary({
         space = spaceLeft
       }
 
-      res.maxWidth = maxWidth ? `min(${space}px, ${maxWidth})` : `${space}px`
+      res.maxWidth =
+        bound.maxWidth === 'none'
+          ? `${space}px`
+          : `min(${space}px, ${bound.maxWidth})`
     }
   }
 

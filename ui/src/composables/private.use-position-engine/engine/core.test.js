@@ -333,6 +333,7 @@ describe('[core API]', () => {
       test('keeps a smaller caller maxHeight/maxWidth in force through min()', () => {
         // the flipped-side space can be roomier than a caller-supplied
         // maxHeight/maxWidth prop; the cap must not widen back to it
+        // (the prop is read back as the popup's computed bound)
         const { clientWidth: viewportWidth, clientHeight: viewportHeight } =
           document.documentElement
         const anchorEl = createAnchor({
@@ -353,6 +354,46 @@ describe('[core API]', () => {
 
         expect(res.maxHeight).toBe(`min(${viewportHeight - 60}px, 200px)`)
         expect(res.maxWidth).toBe(`min(${viewportWidth - 20}px, 300px)`)
+      })
+
+      test('keeps a smaller stylesheet max-height/max-width in force through min()', () => {
+        // the popups' own stylesheet ceilings (and any app CSS override
+        // of them) bound the popup just like the props do; an inline cap
+        // would replace them, so the bound is read as the computed value
+        // once the previous caps are lifted (#18536)
+        const { clientWidth: viewportWidth, clientHeight: viewportHeight } =
+          document.documentElement
+        const anchorEl = createAnchor({
+          top: viewportHeight - 60,
+          left: viewportWidth - 120,
+          width: 100,
+          height: 30
+        })
+        const style = document.createElement('style')
+        style.textContent =
+          '.q-bound-test { max-height: 20vh; max-width: 30vw }'
+        document.head.append(style)
+        nodes.push(style)
+
+        const el = createTarget({ width: 150.5, height: 50.5 })
+        el.classList.add('q-bound-test')
+        // a previous pass' cap is lifted before the bound is read
+        el.style.maxHeight = '10px'
+        el.style.maxWidth = '10px'
+
+        const res = applyBoundary({
+          el,
+          anchorEl,
+          anchorOrigin: origin('bottom left'),
+          selfOrigin: origin('top left')
+        })
+
+        expect(res.maxHeight).toBe(
+          `min(${viewportHeight - 60}px, ${viewportHeight * 0.2}px)`
+        )
+        expect(res.maxWidth).toBe(
+          `min(${viewportWidth - 20}px, ${viewportWidth * 0.3}px)`
+        )
       })
 
       test('measures the natural size by lifting previous caps', () => {
