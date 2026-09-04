@@ -20,6 +20,25 @@ function getDepth(value) {
   return Number.parseInt(value, 10) || 0
 }
 
+function onClick(evt) {
+  const el = evt.currentTarget
+  const depth = el.__qclosepopup
+
+  // allow @click to be emitted
+  if (depth !== 0) {
+    setTimeout(() => {
+      const proxy = getPortalProxy(el)
+      if (proxy !== void 0) {
+        closePortals(proxy, evt, depth)
+      }
+    }, 0)
+  }
+}
+
+function onKeyup(evt) {
+  if (isKeyCode(evt, 13)) onClick(evt)
+}
+
 export default /*#__PURE__*/ createDirective(
   __QUASAR_SSR_SERVER__
     ? { name: 'close-popup', getSSRProps }
@@ -27,43 +46,21 @@ export default /*#__PURE__*/ createDirective(
         name: 'close-popup',
 
         beforeMount(el, { value }) {
-          const ctx = {
-            depth: getDepth(value),
-
-            handler(evt) {
-              // allow @click to be emitted
-              if (ctx.depth !== 0) {
-                setTimeout(() => {
-                  const proxy = getPortalProxy(el)
-                  if (proxy !== void 0) {
-                    closePortals(proxy, evt, ctx.depth)
-                  }
-                }, 0)
-              }
-            },
-
-            handlerKey(evt) {
-              if (isKeyCode(evt, 13)) ctx.handler(evt)
-            }
-          }
-
-          el.__qclosepopup = ctx
-
-          el.addEventListener('click', ctx.handler)
-          el.addEventListener('keyup', ctx.handlerKey)
+          el.__qclosepopup = getDepth(value)
+          el.addEventListener('click', onClick)
+          el.addEventListener('keyup', onKeyup)
         },
 
         updated(el, { value, oldValue }) {
           if (value !== oldValue) {
-            el.__qclosepopup.depth = getDepth(value)
+            el.__qclosepopup = getDepth(value)
           }
         },
 
         beforeUnmount(el) {
-          const ctx = el.__qclosepopup
-          el.removeEventListener('click', ctx.handler)
-          el.removeEventListener('keyup', ctx.handlerKey)
-          delete el.__qclosepopup
+          el.removeEventListener('click', onClick)
+          el.removeEventListener('keyup', onKeyup)
+          el.__qclosepopup = void 0
         }
       }
 )
