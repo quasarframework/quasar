@@ -29,29 +29,27 @@ An example of such needed CSS would be, for example, a fixed height or at least 
 If using the `transition` prop, it is required that the content be wrapped in one and only one element.
 :::
 
-::: tip
-There are edge cases where the default viewport won't work. For instance, when your code is hosted in an iframe (like Codepen). This is where you need to use the `root` property. It allows you to define an alternative to the viewport as your root (through its DOM element). It is important to keep in mind that root needs to be an ancestor of the observed element.
-:::
-
 ### Basic
 
-<DocExample title="Basic" file="Basic" scrollable no-edit />
+<DocExample title="Basic" file="Basic" scrollable />
 
 ### With transition
 
 In the example below we used a Quasar transition. For a full list, please head to [Transitions](/options/transitions) page.
 
-<DocExample title="With transition" file="Transition" scrollable no-edit />
+<DocExample title="With transition" file="Transition" scrollable />
 
-<DocExample title="A list with transition" file="List" scrollable no-edit />
+<DocExample title="A list with transition" file="List" scrollable />
 
 ### Only once
 
 Triggering only once means, however, that you lose the benefit of freeing up the DOM tree. The content will remain in DOM regardless of visibility.
 
-<DocExample title="Triggering only once" file="Once" scrollable no-edit />
+<DocExample title="Triggering only once" file="Once" scrollable />
 
-The example below uses the `root` property and therefore can be seen in a Codepen (which hosts in an iframe).
+### Custom root
+
+By default, visibility is judged against the browser viewport. The `root` property makes an ancestor element the viewport instead, which is what you want when `margin` should be measured from that element's edges, or when the element is expected to be off-screen itself (like a scrolling panel that gets revealed later).
 
 <DocExample title="Root viewport" file="Root" />
 

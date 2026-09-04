@@ -194,22 +194,22 @@ describe('[intersection API]', () => {
         expect(observer.disconnect).toHaveBeenCalledOnce()
       })
 
-      test('re-observes an attached element that reports no root bounds', () => {
+      // Chromium and WebKit withhold rootBounds from a cross-origin iframe
+      // (Codepen and the like), for every entry of an implicit root
+      test('delivers an entry that reports no root bounds', () => {
         const el = createElement()
         document.body.append(el)
         const sub = createSubscriber()
 
         observe(el, sub)
         const [observer] = observers
+        const entry = { target: el, isIntersecting: true, rootBounds: null }
 
-        observer.callback(
-          [{ target: el, isIntersecting: true, rootBounds: null }],
-          observer
-        )
+        observer.callback([entry], observer)
 
-        expect(sub.handler).not.toHaveBeenCalled()
-        expect(observer.unobserve).toHaveBeenCalledExactlyOnceWith(el)
-        expect(observer.observe).toHaveBeenCalledTimes(2)
+        expect(sub.handler).toHaveBeenCalledExactlyOnceWith(entry)
+        expect(observer.unobserve).not.toHaveBeenCalled()
+        expect(observer.observe).toHaveBeenCalledOnce()
         expect(el.__qintersection).toBe(sub)
       })
 

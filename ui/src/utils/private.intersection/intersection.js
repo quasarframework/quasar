@@ -39,14 +39,6 @@ function onEntries(entries, observer) {
     // moved to another observer can still receive entries from this one
     if (sub === void 0 || sub.pool.observer !== observer) continue
 
-    // if observed element is part of a vue transition
-    // then we need to be careful...
-    if (entry.rootBounds === null && document.body.contains(el)) {
-      observer.unobserve(el)
-      observer.observe(el)
-      continue
-    }
-
     // the handler runs first: with once, the intersecting entry that
     // retires the element is the one it must see
     if (
