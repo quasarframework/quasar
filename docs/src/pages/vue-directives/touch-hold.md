@@ -74,7 +74,3 @@ This means that a `@touchend` listener on the element will not be called after T
 ```
 
 Mouse events are not affected the same way: `@mousedown` and `@mouseup` are always called, only the subsequent `@click` is suppressed.
-
-## Note on HMR
-
-Due to performance reasons, not all of the modifiers are reactive. Some require a window/page/component refresh to get updated. Please check the API card for the modifiers which are not marked as reactive.

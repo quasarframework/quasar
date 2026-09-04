@@ -448,7 +448,7 @@ describe('[TouchPan API]', () => {
   describe('[Generic]', () => {
     test('follows the modifiers when they change at runtime', async () => {
       const handler = vi.fn(() => true)
-      const modifiers = ref({ mouse: true, left: true })
+      const modifiers = ref({ left: true })
       const TestComponent = defineComponent({
         setup() {
           return () =>
@@ -458,6 +458,14 @@ describe('[TouchPan API]', () => {
         }
       })
       const wrapper = mount(TestComponent)
+
+      // no mouse modifier on a device without touch: inert
+      dispatchMousePan(wrapper, -40, 5)
+
+      expect(handler).not.toHaveBeenCalled()
+
+      modifiers.value = { mouse: true, left: true }
+      await nextTick()
 
       dispatchMousePan(wrapper, 40, 5)
 
@@ -471,6 +479,15 @@ describe('[TouchPan API]', () => {
       expect(handler).toHaveBeenCalledWith(
         expect.objectContaining({ direction: 'right' })
       )
+
+      // preserveCursor is read from the new modifiers too
+      modifiers.value = { mouse: true, right: true, preserveCursor: true }
+      await nextTick()
+      document.documentElement.style.cursor = 'crosshair'
+
+      dispatchMousePan(wrapper, 40, 5)
+
+      expect(document.documentElement.style.cursor).toBe('crosshair')
     })
 
     test('re-emits a press it did not claim to the element under it', () => {

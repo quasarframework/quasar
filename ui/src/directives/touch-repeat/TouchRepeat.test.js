@@ -368,6 +368,44 @@ describe('[TouchRepeat API]', () => {
       expect(handler).toHaveBeenCalledTimes(2)
     })
 
+    test('follows the argument and the modifiers when they change at runtime', async () => {
+      const handler = vi.fn()
+      const arg = ref(void 0)
+      const modifiers = ref({ mouse: true })
+      const TestComponent = defineComponent({
+        setup() {
+          return () =>
+            withDirectives(h('div'), [
+              [TouchRepeat, handler, arg.value, modifiers.value]
+            ])
+        }
+      })
+      const wrapper = mount(TestComponent)
+      const el = wrapper.element
+
+      keyDown(el, 13)
+
+      expect(handler).not.toHaveBeenCalled()
+
+      modifiers.value = { enter: true }
+      arg.value = '100'
+      await flushPromises()
+
+      // the mouse listener is gone, the keyboard one is on, and
+      // the first repeat now waits for the new initial delay
+      mouseDown(el)
+      keyDown(el, 13)
+
+      expect(handler).not.toHaveBeenCalled()
+
+      vi.advanceTimersByTime(100)
+
+      expect(handler).toHaveBeenCalledTimes(1)
+      expect(handler).toHaveBeenLastCalledWith(
+        expect.objectContaining({ keyboard: true, keyCode: 13 })
+      )
+    })
+
     test('lets go of everything on unmount', () => {
       client.has.touch = true
       const { handler, wrapper } = mountTouchRepeat({

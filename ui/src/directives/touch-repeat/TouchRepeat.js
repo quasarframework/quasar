@@ -14,18 +14,18 @@ import getSSRProps from '../../utils/private.noop-ssr-directive-transform/noop-s
 
 const { passive, passiveCapture, notPassive, notPassiveCapture } = listenOpts
 
-const keyCodes = {
-    esc: 27,
-    tab: 9,
-    enter: 13,
-    space: 32,
-    up: 38,
-    left: 37,
-    right: 39,
-    down: 40,
-    delete: [8, 46]
-  },
-  keyRegex = new RegExp(`^([\\d+]+|${Object.keys(keyCodes).join('|')})$`, 'i')
+const keyCodes = new Map([
+  ['esc', 27],
+  ['tab', 9],
+  ['enter', 13],
+  ['space', 32],
+  ['up', 38],
+  ['left', 37],
+  ['right', 39],
+  ['down', 40],
+  ['delete', [8, 46]]
+])
+const keyCodeRegex = /^[\d+]+$/
 
 const defaultDurations = [0, 600, 300]
 
@@ -33,31 +33,92 @@ function parseKeyboard(modifiers) {
   const keyboard = []
 
   for (const key in modifiers) {
-    if (keyRegex.test(key)) {
-      const parsedKey = Number.parseInt(key, 10)
-      const keyCode = Number.isNaN(parsedKey)
-        ? keyCodes[key.toLowerCase()]
-        : parsedKey
+    const keyCode = keyCodes.get(key.toLowerCase())
 
+    if (keyCode !== void 0) {
       if (Array.isArray(keyCode)) {
         keyboard.push(...keyCode)
-      } else if (keyCode !== void 0) {
+      } else {
         keyboard.push(keyCode)
       }
+    } else if (keyCodeRegex.test(key)) {
+      keyboard.push(Number.parseInt(key, 10))
     }
   }
 
   return keyboard
 }
 
-function parseDurations(arg) {
-  if (typeof arg !== 'string' || arg.length === 0) return defaultDurations
+function parseArg(ctx, arg) {
+  ctx.arg = arg
+
+  if (typeof arg !== 'string' || arg.length === 0) {
+    ctx.durations = defaultDurations
+    return
+  }
 
   const durations = arg.split(':')
   for (let i = 0; i < durations.length; i++) {
     durations[i] = Number.parseInt(durations[i], 10)
   }
-  return durations
+  ctx.durations = durations
+}
+
+// (re)binds the press start listeners to what the modifiers ask for,
+// touching only the ones whose options changed
+function bind(el, ctx, modifiers) {
+  ctx.modifiers = modifiers
+  ctx.keyboard = parseKeyboard(modifiers)
+
+  const mouseOpts = modifiers.mouse
+    ? // account for UMD too where modifiers will be lowercased to work
+      modifiers.mouseCapture || modifiers.mousecapture
+      ? passiveCapture
+      : passive
+    : null
+
+  if (mouseOpts !== ctx.mouseOpts) {
+    if (ctx.mouseOpts !== null) {
+      el.removeEventListener('mousedown', onMouseStart, ctx.mouseOpts)
+    }
+    if (mouseOpts !== null) {
+      el.addEventListener('mousedown', onMouseStart, mouseOpts)
+    }
+    ctx.mouseOpts = mouseOpts
+  }
+
+  const touchOpts = client.has.touch
+    ? modifiers.capture
+      ? passiveCapture
+      : passive
+    : null
+
+  if (touchOpts !== ctx.touchOpts) {
+    if (ctx.touchOpts !== null) {
+      el.removeEventListener('touchstart', onTouchStart, ctx.touchOpts)
+    }
+    if (touchOpts !== null) {
+      el.addEventListener('touchstart', onTouchStart, touchOpts)
+    }
+    ctx.touchOpts = touchOpts
+  }
+
+  const keyOpts =
+    ctx.keyboard.length !== 0
+      ? modifiers.keyCapture || modifiers.keycapture
+        ? notPassiveCapture
+        : notPassive
+      : null
+
+  if (keyOpts !== ctx.keyOpts) {
+    if (ctx.keyOpts !== null) {
+      el.removeEventListener('keydown', onKeyboardStart, ctx.keyOpts)
+    }
+    if (keyOpts !== null) {
+      el.addEventListener('keydown', onKeyboardStart, keyOpts)
+    }
+    ctx.keyOpts = keyOpts
+  }
 }
 
 function removeBodyNonSelectable() {
@@ -252,19 +313,13 @@ export default /*#__PURE__*/ createDirective(
         name: 'touch-repeat',
 
         beforeMount(el, { modifiers, value, arg }) {
-          const keyboard = parseKeyboard(modifiers)
-          const hasTouch = client.has.touch
-
-          // early return, we don't need to do anything
-          if (!modifiers.mouse && !hasTouch && keyboard.length === 0) {
-            return
-          }
-
           const ctx = {
             handleEvent,
             handler: value,
-            keyboard,
-            durations: parseDurations(arg),
+            arg: void 0,
+            durations: defaultDurations,
+            modifiers: void 0,
+            keyboard: void 0,
             mouseOpts: null,
             touchOpts: null,
             keyOpts: null,
@@ -278,62 +333,45 @@ export default /*#__PURE__*/ createDirective(
           }
 
           el.__qtouchrepeat = ctx
+          parseArg(ctx, arg)
+          bind(el, ctx, modifiers)
 
-          if (modifiers.mouse) {
-            // account for UMD too where modifiers will be lowercased to work
-            ctx.mouseOpts =
-              modifiers.mouseCapture || modifiers.mousecapture
-                ? passiveCapture
-                : passive
-            el.addEventListener('mousedown', onMouseStart, ctx.mouseOpts)
-          }
-
-          if (hasTouch) {
-            ctx.touchOpts = modifiers.capture ? passiveCapture : passive
-            el.addEventListener('touchstart', onTouchStart, ctx.touchOpts)
+          if (ctx.touchOpts !== null) {
             el.addEventListener('touchend', noop, passiveCapture)
-          }
-
-          if (keyboard.length !== 0) {
-            // account for UMD too where modifiers will be lowercased to work
-            ctx.keyOpts =
-              modifiers.keyCapture || modifiers.keycapture
-                ? notPassiveCapture
-                : notPassive
-            el.addEventListener('keydown', onKeyboardStart, ctx.keyOpts)
           }
         },
 
-        updated(el, { oldValue, value }) {
+        updated(el, { oldValue, value, arg, modifiers }) {
           const ctx = el.__qtouchrepeat
 
-          if (ctx !== void 0 && oldValue !== value) {
+          if (oldValue !== value) {
             if (typeof value !== 'function') end(ctx)
             ctx.handler = value
           }
+
+          if (arg !== ctx.arg) parseArg(ctx, arg)
+          if (modifiers !== ctx.modifiers) bind(el, ctx, modifiers)
         },
 
         beforeUnmount(el) {
           const ctx = el.__qtouchrepeat
 
-          if (ctx !== void 0) {
-            end(ctx)
+          end(ctx)
 
-            if (ctx.mouseOpts !== null) {
-              el.removeEventListener('mousedown', onMouseStart, ctx.mouseOpts)
-            }
-
-            if (ctx.touchOpts !== null) {
-              el.removeEventListener('touchstart', onTouchStart, ctx.touchOpts)
-              el.removeEventListener('touchend', noop, passiveCapture)
-            }
-
-            if (ctx.keyOpts !== null) {
-              el.removeEventListener('keydown', onKeyboardStart, ctx.keyOpts)
-            }
-
-            el.__qtouchrepeat = void 0
+          if (ctx.mouseOpts !== null) {
+            el.removeEventListener('mousedown', onMouseStart, ctx.mouseOpts)
           }
+
+          if (ctx.touchOpts !== null) {
+            el.removeEventListener('touchstart', onTouchStart, ctx.touchOpts)
+            el.removeEventListener('touchend', noop, passiveCapture)
+          }
+
+          if (ctx.keyOpts !== null) {
+            el.removeEventListener('keydown', onKeyboardStart, ctx.keyOpts)
+          }
+
+          el.__qtouchrepeat = void 0
         }
       }
 )

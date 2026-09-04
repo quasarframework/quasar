@@ -326,18 +326,27 @@ describe('[TouchSwipe API]', () => {
   })
 
   describe('[Generic]', () => {
-    test('follows the modifiers when they change at runtime', async () => {
+    test('follows the argument and the modifiers when they change at runtime', async () => {
       const handler = vi.fn()
-      const modifiers = ref({ mouse: true, left: true })
+      const arg = ref(void 0)
+      const modifiers = ref({ left: true })
       const TestComponent = defineComponent({
         setup() {
           return () =>
             withDirectives(h('div'), [
-              [TouchSwipe, handler, void 0, modifiers.value]
+              [TouchSwipe, handler, arg.value, modifiers.value]
             ])
         }
       })
       const wrapper = mount(TestComponent)
+
+      // no mouse modifier on a device without touch: inert
+      dispatchMouseSwipe(wrapper, -100, 5)
+
+      expect(handler).not.toHaveBeenCalled()
+
+      modifiers.value = { mouse: true, left: true }
+      await flushPromises()
 
       dispatchMouseSwipe(wrapper, 100, 5)
 
@@ -351,6 +360,15 @@ describe('[TouchSwipe API]', () => {
       expect(handler).toHaveBeenCalledWith(
         expect.objectContaining({ direction: 'right' })
       )
+
+      // a higher desktop distance threshold: the same movement no
+      // longer qualifies
+      arg.value = '0.06:6:150'
+      await flushPromises()
+
+      dispatchMouseSwipe(wrapper, 100, 5)
+
+      expect(handler).toHaveBeenCalledTimes(1)
     })
 
     test('an undefined value mid-gesture drops the gesture', async () => {

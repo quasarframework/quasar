@@ -23,8 +23,13 @@ const { passive, passiveCapture, notPassive, notPassiveCapture } = listenOpts
 // desktop min distance until deciding if it's a swipe or not
 const defaultSensitivity = [0.06, 6, 50]
 
-function parseArg(arg) {
-  if (typeof arg !== 'string' || arg.length === 0) return defaultSensitivity
+function parseArg(ctx, arg) {
+  ctx.arg = arg
+
+  if (typeof arg !== 'string' || arg.length === 0) {
+    ctx.sensitivity = defaultSensitivity
+    return
+  }
 
   const data = [...defaultSensitivity]
   const parts = arg.split(':')
@@ -34,7 +39,50 @@ function parseArg(arg) {
     if (v) data[i] = v
   }
 
-  return data
+  ctx.sensitivity = data
+}
+
+// (re)binds the gesture start listeners to what the modifiers ask for,
+// touching only the ones whose options changed
+function bind(el, ctx, modifiers) {
+  ctx.modifiers = modifiers
+  ctx.direction = getModifierDirections(modifiers)
+
+  // account for UMD too where modifiers will be lowercased to work
+  const mouseCapture = modifiers.mouseCapture || modifiers.mousecapture
+  const mouseOpts = modifiers.mouse
+    ? mouseCapture
+      ? passiveCapture
+      : passive
+    : null
+
+  ctx.mouseMoveOpts = mouseCapture ? notPassiveCapture : notPassive
+
+  if (mouseOpts !== ctx.mouseOpts) {
+    if (ctx.mouseOpts !== null) {
+      el.removeEventListener('mousedown', onMouseStart, ctx.mouseOpts)
+    }
+    if (mouseOpts !== null) {
+      el.addEventListener('mousedown', onMouseStart, mouseOpts)
+    }
+    ctx.mouseOpts = mouseOpts
+  }
+
+  const touchOpts = client.has.touch
+    ? modifiers.capture
+      ? passiveCapture
+      : passive
+    : null
+
+  if (touchOpts !== ctx.touchOpts) {
+    if (ctx.touchOpts !== null) {
+      el.removeEventListener('touchstart', onTouchStart, ctx.touchOpts)
+    }
+    if (touchOpts !== null) {
+      el.addEventListener('touchstart', onTouchStart, touchOpts)
+    }
+    ctx.touchOpts = touchOpts
+  }
 }
 
 // the element listeners are shared by every element: the element is
@@ -45,7 +93,8 @@ function onMouseStart(evt) {
 
   if (shouldStart(evt, ctx) && leftClick(evt)) {
     ctx.target = document
-    document.addEventListener('mousemove', ctx, ctx.mouseMoveOpts)
+    ctx.moveOpts = ctx.mouseMoveOpts
+    document.addEventListener('mousemove', ctx, ctx.moveOpts)
     document.addEventListener('mouseup', ctx, notPassiveCapture)
     start(ctx, evt, true)
   }
@@ -216,7 +265,7 @@ function end(ctx, evt) {
   if (event === void 0) return
 
   if (event.mouse) {
-    target.removeEventListener('mousemove', ctx, ctx.mouseMoveOpts)
+    target.removeEventListener('mousemove', ctx, ctx.moveOpts)
     target.removeEventListener('mouseup', ctx, notPassiveCapture)
   } else {
     target.removeEventListener('touchmove', ctx, notPassiveCapture)
@@ -252,78 +301,61 @@ export default /*#__PURE__*/ createDirective(
         name: 'touch-swipe',
 
         beforeMount(el, { value, arg, modifiers }) {
-          const hasTouch = client.has.touch
-
-          // early return, we don't need to do anything
-          if (!modifiers.mouse && !hasTouch) return
-
           const ctx = {
             handleEvent,
             el,
             handler: value,
-            sensitivity: parseArg(arg),
-            modifiers,
-            direction: getModifierDirections(modifiers),
+            arg: void 0,
+            sensitivity: void 0,
+            modifiers: void 0,
+            direction: void 0,
             mouseOpts: null,
             mouseMoveOpts: null,
             touchOpts: null,
             // the gesture listeners' target while a gesture is tracked
             target: null,
+            moveOpts: null,
             event: void 0,
             styled: false
           }
 
           el.__qtouchswipe = ctx
+          parseArg(ctx, arg)
+          bind(el, ctx, modifiers)
 
-          if (modifiers.mouse) {
-            // account for UMD too where modifiers will be lowercased to work
-            const capture = modifiers.mouseCapture || modifiers.mousecapture
-            ctx.mouseOpts = capture ? passiveCapture : passive
-            ctx.mouseMoveOpts = capture ? notPassiveCapture : notPassive
-            el.addEventListener('mousedown', onMouseStart, ctx.mouseOpts)
-          }
-
-          if (hasTouch) {
-            ctx.touchOpts = modifiers.capture ? passiveCapture : passive
-            el.addEventListener('touchstart', onTouchStart, ctx.touchOpts)
+          if (ctx.touchOpts !== null) {
             // cannot be passive (ex: iOS scroll)
             el.addEventListener('touchmove', noop, notPassiveCapture)
           }
         },
 
-        updated(el, { oldValue, value, modifiers }) {
+        updated(el, { oldValue, value, arg, modifiers }) {
           const ctx = el.__qtouchswipe
 
-          if (ctx !== void 0) {
-            if (oldValue !== value) {
-              if (typeof value !== 'function') end(ctx)
-              ctx.handler = value
-            }
-
-            if (modifiers !== ctx.modifiers) {
-              ctx.modifiers = modifiers
-              ctx.direction = getModifierDirections(modifiers)
-            }
+          if (oldValue !== value) {
+            if (typeof value !== 'function') end(ctx)
+            ctx.handler = value
           }
+
+          if (arg !== ctx.arg) parseArg(ctx, arg)
+          if (modifiers !== ctx.modifiers) bind(el, ctx, modifiers)
         },
 
         beforeUnmount(el) {
           const ctx = el.__qtouchswipe
 
-          if (ctx !== void 0) {
-            end(ctx)
+          end(ctx)
 
-            if (ctx.mouseOpts !== null) {
-              el.removeEventListener('mousedown', onMouseStart, ctx.mouseOpts)
-            }
-
-            if (ctx.touchOpts !== null) {
-              el.removeEventListener('touchstart', onTouchStart, ctx.touchOpts)
-              el.removeEventListener('touchmove', noop, notPassiveCapture)
-            }
-
-            el.__qtouchswipe = void 0
+          if (ctx.mouseOpts !== null) {
+            el.removeEventListener('mousedown', onMouseStart, ctx.mouseOpts)
           }
+
+          if (ctx.touchOpts !== null) {
+            el.removeEventListener('touchstart', onTouchStart, ctx.touchOpts)
+            el.removeEventListener('touchmove', noop, notPassiveCapture)
+          }
+
+          el.__qtouchswipe = void 0
         }
       }
 )

@@ -85,7 +85,3 @@ This means that a `@touchend` listener on the element will not be called after T
 ```
 
 The `click` and `keyup` events are stopped at the document level, before they can reach your element, so the capture phase does not help there. Mouse events are otherwise unaffected: `@mousedown` and `@mouseup` are always called, only the subsequent `@click` is suppressed.
-
-## Note on HMR
-
-Due to performance reasons, not all of the modifiers are reactive. Some require a window/page/component refresh to get updated. Please check the API card for the modifiers which are not marked as reactive.

@@ -17,6 +17,64 @@ function parseNumber(val, fallback) {
   return Number.parseInt(val, 10) || fallback
 }
 
+function parseArg(ctx, arg) {
+  ctx.arg = arg
+
+  let duration = 600,
+    touchSensitivity = 5,
+    mouseSensitivity = 7
+
+  if (typeof arg === 'string' && arg.length !== 0) {
+    const parts = arg.split(':')
+    duration = parseNumber(parts[0], duration)
+    touchSensitivity = parseNumber(parts[1], touchSensitivity)
+    mouseSensitivity = parseNumber(parts[2], mouseSensitivity)
+  }
+
+  ctx.duration = duration
+  ctx.touchSensitivity = touchSensitivity
+  ctx.mouseSensitivity = mouseSensitivity
+}
+
+// (re)binds the press start listeners to what the modifiers ask for,
+// touching only the ones whose options changed
+function bind(el, ctx, modifiers) {
+  ctx.modifiers = modifiers
+
+  const mouseOpts = modifiers.mouse
+    ? // account for UMD too where modifiers will be lowercased to work
+      modifiers.mouseCapture || modifiers.mousecapture
+      ? passiveCapture
+      : passive
+    : null
+
+  if (mouseOpts !== ctx.mouseOpts) {
+    if (ctx.mouseOpts !== null) {
+      el.removeEventListener('mousedown', onMouseStart, ctx.mouseOpts)
+    }
+    if (mouseOpts !== null) {
+      el.addEventListener('mousedown', onMouseStart, mouseOpts)
+    }
+    ctx.mouseOpts = mouseOpts
+  }
+
+  const touchOpts = client.has.touch
+    ? modifiers.capture
+      ? passiveCapture
+      : passive
+    : null
+
+  if (touchOpts !== ctx.touchOpts) {
+    if (ctx.touchOpts !== null) {
+      el.removeEventListener('touchstart', onTouchStart, ctx.touchOpts)
+    }
+    if (touchOpts !== null) {
+      el.addEventListener('touchstart', onTouchStart, touchOpts)
+    }
+    ctx.touchOpts = touchOpts
+  }
+}
+
 function removeBodyNonSelectable() {
   document.body.classList.remove('non-selectable')
 }
@@ -148,28 +206,14 @@ export default /*#__PURE__*/ createDirective(
         name: 'touch-hold',
 
         beforeMount(el, { value, arg, modifiers }) {
-          const hasTouch = client.has.touch
-
-          // early return, we don't need to do anything
-          if (!modifiers.mouse && !hasTouch) return
-
-          let duration = 600,
-            touchSensitivity = 5,
-            mouseSensitivity = 7
-
-          if (typeof arg === 'string' && arg.length !== 0) {
-            const parts = arg.split(':')
-            duration = parseNumber(parts[0], duration)
-            touchSensitivity = parseNumber(parts[1], touchSensitivity)
-            mouseSensitivity = parseNumber(parts[2], mouseSensitivity)
-          }
-
           const ctx = {
             handleEvent,
             handler: value,
-            duration,
-            touchSensitivity,
-            mouseSensitivity,
+            arg: void 0,
+            duration: 0,
+            touchSensitivity: 0,
+            mouseSensitivity: 0,
+            modifiers: void 0,
             mouseOpts: null,
             touchOpts: null,
             // the press listeners' target while a press is tracked
@@ -184,49 +228,41 @@ export default /*#__PURE__*/ createDirective(
           }
 
           el.__qtouchhold = ctx
+          parseArg(ctx, arg)
+          bind(el, ctx, modifiers)
 
-          if (modifiers.mouse) {
-            // account for UMD too where modifiers will be lowercased to work
-            ctx.mouseOpts =
-              modifiers.mouseCapture || modifiers.mousecapture
-                ? passiveCapture
-                : passive
-            el.addEventListener('mousedown', onMouseStart, ctx.mouseOpts)
-          }
-
-          if (hasTouch) {
-            ctx.touchOpts = modifiers.capture ? passiveCapture : passive
-            el.addEventListener('touchstart', onTouchStart, ctx.touchOpts)
+          if (ctx.touchOpts !== null) {
             el.addEventListener('touchend', noop, notPassiveCapture)
           }
         },
 
-        updated(el, { oldValue, value }) {
+        updated(el, { oldValue, value, arg, modifiers }) {
           const ctx = el.__qtouchhold
 
-          if (ctx !== void 0 && oldValue !== value) {
+          if (oldValue !== value) {
             if (typeof value !== 'function') end(ctx)
             ctx.handler = value
           }
+
+          if (arg !== ctx.arg) parseArg(ctx, arg)
+          if (modifiers !== ctx.modifiers) bind(el, ctx, modifiers)
         },
 
         beforeUnmount(el) {
           const ctx = el.__qtouchhold
 
-          if (ctx !== void 0) {
-            end(ctx)
+          end(ctx)
 
-            if (ctx.mouseOpts !== null) {
-              el.removeEventListener('mousedown', onMouseStart, ctx.mouseOpts)
-            }
-
-            if (ctx.touchOpts !== null) {
-              el.removeEventListener('touchstart', onTouchStart, ctx.touchOpts)
-              el.removeEventListener('touchend', noop, notPassiveCapture)
-            }
-
-            el.__qtouchhold = void 0
+          if (ctx.mouseOpts !== null) {
+            el.removeEventListener('mousedown', onMouseStart, ctx.mouseOpts)
           }
+
+          if (ctx.touchOpts !== null) {
+            el.removeEventListener('touchstart', onTouchStart, ctx.touchOpts)
+            el.removeEventListener('touchend', noop, notPassiveCapture)
+          }
+
+          el.__qtouchhold = void 0
         }
       }
 )

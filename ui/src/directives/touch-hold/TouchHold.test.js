@@ -271,6 +271,54 @@ describe('[TouchHold API]', () => {
       expect(handler).toHaveBeenCalledTimes(1)
     })
 
+    test('follows the argument and the modifiers when they change at runtime', async () => {
+      client.has.touch = true
+      const handler = vi.fn()
+      const arg = ref(void 0)
+      const modifiers = ref({})
+      const TestComponent = defineComponent({
+        setup() {
+          return () =>
+            withDirectives(h('div'), [
+              [TouchHold, handler, arg.value, modifiers.value]
+            ])
+        }
+      })
+      const wrapper = mount(TestComponent)
+      const el = wrapper.element
+
+      // no mouse modifier: a press with the mouse is not a hold
+      mouseDown(el)
+      vi.advanceTimersByTime(600)
+
+      expect(handler).not.toHaveBeenCalled()
+
+      modifiers.value = { mouse: true }
+      arg.value = '100'
+      await flushPromises()
+
+      mouseDown(el)
+      vi.advanceTimersByTime(100)
+
+      expect(handler).toHaveBeenCalledTimes(1)
+      document.dispatchEvent(new MouseEvent('click', { cancelable: true }))
+
+      // back to touch only: the mouse listener is gone again
+      modifiers.value = {}
+      await flushPromises()
+
+      mouseDown(el)
+      vi.advanceTimersByTime(600)
+
+      expect(handler).toHaveBeenCalledTimes(1)
+
+      touch(el, 'touchstart')
+      vi.advanceTimersByTime(100)
+
+      expect(handler).toHaveBeenCalledTimes(2)
+      touch(el, 'touchend')
+    })
+
     test('lets go of everything on unmount', () => {
       client.has.touch = true
       const { handler, wrapper } = mountTouchHold({ mouse: true })

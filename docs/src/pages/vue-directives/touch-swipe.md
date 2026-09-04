@@ -70,7 +70,3 @@ This means that `@touchmove`, `@touchend` and `@mouseup` listeners on the elemen
   <!-- ...content -->
 </div>
 ```
-
-## Note on HMR
-
-Due to performance reasons, not all of the modifiers are reactive. Some require a window/page/component refresh to get updated. Please check the API card for the modifiers which are not marked as reactive.

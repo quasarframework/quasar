@@ -126,7 +126,9 @@ function getChanges(evt, ctx, isFinal) {
   }
 }
 
-function setModifiers(ctx, modifiers) {
+// (re)binds the gesture start listeners to what the modifiers ask for,
+// touching only the ones whose options changed
+function bind(el, ctx, modifiers) {
   ctx.modifiers = modifiers
   ctx.direction = getModifierDirections(modifiers)
   ctx.stop = modifiers.stop === true
@@ -136,6 +138,38 @@ function setModifiers(ctx, modifiers) {
     modifiers.mouseAllDir === true || modifiers.mousealldir === true
   ctx.preserveCursor =
     modifiers.preserveCursor === true || modifiers.preservecursor === true
+
+  const mouseOpts = modifiers.mouse
+    ? modifiers.mouseCapture || modifiers.mousecapture
+      ? passiveCapture
+      : passive
+    : null
+
+  if (mouseOpts !== ctx.mouseOpts) {
+    if (ctx.mouseOpts !== null) {
+      el.removeEventListener('mousedown', onMouseStart, ctx.mouseOpts)
+    }
+    if (mouseOpts !== null) {
+      el.addEventListener('mousedown', onMouseStart, mouseOpts)
+    }
+    ctx.mouseOpts = mouseOpts
+  }
+
+  const touchOpts = client.has.touch
+    ? modifiers.capture
+      ? passiveCapture
+      : passive
+    : null
+
+  if (touchOpts !== ctx.touchOpts) {
+    if (ctx.touchOpts !== null) {
+      el.removeEventListener('touchstart', onTouchStart, ctx.touchOpts)
+    }
+    if (touchOpts !== null) {
+      el.addEventListener('touchstart', onTouchStart, touchOpts)
+    }
+    ctx.touchOpts = touchOpts
+  }
 }
 
 // the element listeners are shared by every element: the element is
@@ -416,11 +450,6 @@ export default /*#__PURE__*/ createDirective(
         name: 'touch-pan',
 
         beforeMount(el, { value, modifiers }) {
-          const hasTouch = client.has.touch
-
-          // early return, we don't need to do anything
-          if (!modifiers.mouse && !hasTouch) return
-
           const ctx = {
             handleEvent,
             el,
@@ -443,21 +472,10 @@ export default /*#__PURE__*/ createDirective(
             cursor: void 0
           }
 
-          setModifiers(ctx, modifiers)
           el.__qtouchpan = ctx
+          bind(el, ctx, modifiers)
 
-          if (modifiers.mouse) {
-            // account for UMD too where modifiers will be lowercased to work
-            ctx.mouseOpts =
-              modifiers.mouseCapture || modifiers.mousecapture
-                ? passiveCapture
-                : passive
-            el.addEventListener('mousedown', onMouseStart, ctx.mouseOpts)
-          }
-
-          if (hasTouch) {
-            ctx.touchOpts = modifiers.capture ? passiveCapture : passive
-            el.addEventListener('touchstart', onTouchStart, ctx.touchOpts)
+          if (ctx.touchOpts !== null) {
             // cannot be passive (ex: iOS scroll)
             el.addEventListener('touchmove', noop, notPassiveCapture)
           }
@@ -466,37 +484,31 @@ export default /*#__PURE__*/ createDirective(
         updated(el, { oldValue, value, modifiers }) {
           const ctx = el.__qtouchpan
 
-          if (ctx !== void 0) {
-            if (oldValue !== value) {
-              if (typeof value !== 'function') end(ctx)
-              ctx.handler = value
-            }
-
-            if (modifiers !== ctx.modifiers) {
-              setModifiers(ctx, modifiers)
-            }
+          if (oldValue !== value) {
+            if (typeof value !== 'function') end(ctx)
+            ctx.handler = value
           }
+
+          if (modifiers !== ctx.modifiers) bind(el, ctx, modifiers)
         },
 
         beforeUnmount(el) {
           const ctx = el.__qtouchpan
 
-          if (ctx !== void 0) {
-            // emit the end event when the directive is destroyed while active
-            // this is only needed in TouchPan because the rest of the touch directives do not emit an end event
-            end(ctx)
+          // emit the end event when the directive is destroyed while active
+          // this is only needed in TouchPan because the rest of the touch directives do not emit an end event
+          end(ctx)
 
-            if (ctx.mouseOpts !== null) {
-              el.removeEventListener('mousedown', onMouseStart, ctx.mouseOpts)
-            }
-
-            if (ctx.touchOpts !== null) {
-              el.removeEventListener('touchstart', onTouchStart, ctx.touchOpts)
-              el.removeEventListener('touchmove', noop, notPassiveCapture)
-            }
-
-            el.__qtouchpan = void 0
+          if (ctx.mouseOpts !== null) {
+            el.removeEventListener('mousedown', onMouseStart, ctx.mouseOpts)
           }
+
+          if (ctx.touchOpts !== null) {
+            el.removeEventListener('touchstart', onTouchStart, ctx.touchOpts)
+            el.removeEventListener('touchmove', noop, notPassiveCapture)
+          }
+
+          el.__qtouchpan = void 0
         }
       }
 )
