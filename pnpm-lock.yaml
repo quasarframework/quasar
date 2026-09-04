@@ -308,7 +308,7 @@ importers:
         specifier: ^4.4.2
         version: 4.4.3
       quasar:
-        specifier: ^2.29.0
+        specifier: ^2.30.0
         version: link:../ui
       shiki:
         specifier: ^4.4.2

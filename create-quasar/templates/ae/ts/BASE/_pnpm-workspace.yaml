@@ -10,7 +10,7 @@ publishBranch: dev
 catalog:
   "@quasar/app-vite": "^3.8.1"
   "@quasar/extras": "^2.0.4"
-  "quasar": "^2.29.0"
+  "quasar": "^2.30.0"
   "vue": "^3.5.39"
 
 allowBuilds:
