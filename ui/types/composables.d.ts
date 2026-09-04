@@ -58,6 +58,7 @@ export function useIntersection(
   options?: MaybeRefOrGetter<UseIntersectionOptions>
 ): {
   isIntersecting: Ref<boolean>;
+  refresh: () => void;
   stop: () => void;
 };
 

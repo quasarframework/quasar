@@ -320,6 +320,28 @@ describe('[useIntersection API]', () => {
         expect(observers).toHaveLength(1)
       })
 
+      test('refresh() observes the element anew', () => {
+        const { el, refresh } = mountTarget()
+        const [observer] = observers
+
+        refresh()
+
+        expect(observer.unobserve).toHaveBeenCalledExactlyOnceWith(el)
+        expect(observer.observe).toHaveBeenCalledTimes(2)
+        expect(observers).toHaveLength(1)
+      })
+
+      test('refresh() is a no-op without an element', () => {
+        const { refresh, stop } = mountTarget()
+        const [observer] = observers
+
+        stop()
+        refresh()
+
+        expect(observer.observe).toHaveBeenCalledOnce()
+        expect(observers).toHaveLength(1)
+      })
+
       test('releases the element on unmount', () => {
         const { wrapper } = mountTarget()
         const [observer] = observers
@@ -364,6 +386,28 @@ describe('[useIntersection API]', () => {
 
       area.scrollTop = 0
       await vi.waitFor(() => expect(state.isIntersecting.value).toBe(false))
+    })
+
+    test('refresh() delivers the unchanged state again', async () => {
+      const onIntersect = vi.fn()
+      let state
+      mount(
+        defineComponent({
+          setup() {
+            state = useIntersection({ onIntersect })
+            return () => h('div', { style: 'height: 20px' })
+          }
+        }),
+        { attachTo: document.body }
+      )
+
+      await vi.waitFor(() => expect(onIntersect).toHaveBeenCalledOnce())
+      expect(state.isIntersecting.value).toBe(true)
+
+      state.refresh()
+
+      await vi.waitFor(() => expect(onIntersect).toHaveBeenCalledTimes(2))
+      expect(onIntersect.mock.calls[1][0].isIntersecting).toBe(true)
     })
   })
 })

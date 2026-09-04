@@ -8,10 +8,13 @@ import {
   onDeactivated,
   onMounted,
   ref,
+  shallowRef,
   watch
 } from 'vue'
 
 import InfiniteScrollLoading from './InfiniteScrollLoading.js'
+
+import useIntersection from '../../composables/use-intersection/use-intersection.js'
 
 import { createComponent } from '../../utils/private.create/create.js'
 import debounce from '../../utils/debounce/debounce.js'
@@ -27,10 +30,7 @@ import {
   addPreventScrollReleaseListener,
   removePreventScrollReleaseListener
 } from '../../utils/scroll/prevent-scroll.js'
-import { listenOpts } from '../../utils/event/event.js'
 import { hUniqueSlot } from '../../utils/private.render/render.js'
-
-const { passive } = listenOpts
 
 function isInFixedSubtree(el) {
   while (el !== null && el !== document.body) {
@@ -74,75 +74,107 @@ export default /*#__PURE__*/ createComponent({
     const isWorking = ref(true)
     const suppressAnchoring = ref(false)
     const rootRef = ref(null)
+    const sentinelRef = ref(null)
+    const scrollTargetRef = shallowRef(null)
 
     const store = { isFetching }
 
     let index = props.initialIndex
-    let localScrollTarget, poll
+    let poll
     let inFixedSubtree = false
 
     const rootClasses = computed(
       () =>
         'q-infinite-scroll' +
+        (props.reverse ? ' q-infinite-scroll--reverse' : '') +
         (suppressAnchoring.value ? ' q-infinite-scroll--no-anchoring' : '')
     )
 
+    // the scroll target is resolved before the observer first runs (both
+    // happen on mount, in this order), so that it observes with the
+    // right root from the start
+    onMounted(() => {
+      setDebounce(props.debounce)
+      resolveScrollTarget()
+    })
+
+    // A sentinel marks the end of the content the loads extend, and the
+    // observer reports when it comes within `offset` of the scroll
+    // target's visible area (the target is the observer's root, so the
+    // margin grows its own box; the page's margin grows the viewport). No
+    // scroll listener: nothing runs while the user scrolls through the
+    // content, and no scroll position gets read, which makes the check
+    // immune to a scroll lock pinning the page (the content sits where it
+    // sat).
+    const { isIntersecting, refresh } = useIntersection(() => {
+      const target = scrollTargetRef.value
+
+      return {
+        target: sentinelRef,
+        // a scroll target outside the component's ancestry cannot clip
+        // it, so the viewport decides then
+        root:
+          target !== null && target !== window && target.contains(rootRef.value)
+            ? target
+            : null,
+        rootMargin: props.reverse
+          ? `${props.offset}px 0px 0px 0px`
+          : `0px 0px ${props.offset}px 0px`,
+        disabled: props.disable || !isWorking.value,
+        onIntersect
+      }
+    })
+
+    function onIntersect(entry) {
+      if (entry.isIntersecting) {
+        poll()
+      }
+    }
+
     function immediatePoll() {
-      if (props.disable || isFetching.value || !isWorking.value) {
+      if (
+        props.disable ||
+        isFetching.value ||
+        !isWorking.value ||
+        !isIntersecting.value
+      ) {
         return
       }
 
-      // A window scroll target cannot react to content rendered inside a
-      // position:fixed subtree (a Dialog, a fullscreen overlay): the content
-      // never contributes to the document's scroll extent, so the forward
-      // load condition would hold forever and runaway-load. Such a placement
-      // needs an explicit scroll-target on the overlay's own scrollable
-      // element; until it gets one, polling stays off (trigger() still works).
-      //
-      // A Dialog or an overlay Drawer also scroll-locks the page. The lock
-      // clips the viewport (the page keeps its scroll position, though the
-      // app can still move it, e.g. a navigation) and on iOS pins the body,
-      // which puts the window scroll position at 0. Reverse mode would read
-      // a page at top as "scrolled to the top", so each done() would
-      // trigger the next load for as long as the overlay stays open. Skip
-      // polling while locked: polling resumes on release, through the
-      // pinned lock's restoring scroll event or, when no scroll event can
-      // fire (the clipped page never moved), through the prevent-scroll
-      // release listeners. Element scroll targets keep their own geometry
-      // under the lock, so they stay live.
-      if (localScrollTarget === window) {
+      if (scrollTargetRef.value === window) {
+        // The page cannot scroll content rendered inside a position:fixed
+        // subtree (a Dialog, a fullscreen overlay), so the end of the
+        // content stays where it is whatever gets loaded, and each load
+        // would bring the next. Such a placement needs an explicit
+        // scroll-target on the overlay's own scrollable element; until it
+        // gets one, loading stays off (trigger() still works). The
+        // placement may have changed since it was measured (the ancestor
+        // lost its fixed positioning), so re-check while dormant to come
+        // back without requiring an updateScrollTarget() call.
         if (inFixedSubtree) {
-          // the placement may have changed since it was measured (the
-          // ancestor lost its fixed positioning), so re-check while dormant
-          // to come back without requiring an updateScrollTarget() call
           inFixedSubtree = isInFixedSubtree(rootRef.value)
         }
 
+        // A Dialog or an overlay Drawer scroll-locks the page. The content
+        // does not move under the lock, but on iOS the lock pins the body,
+        // and a page pinned that way cannot be scrolled: reverse mode could
+        // not compensate for the content it prepends, so the end of it
+        // would stay in view and each done() would load again. Wait for
+        // the release instead (the prevent-scroll release listener below).
         if (inFixedSubtree || document.qScrollPrevented === true) {
           return
         }
       }
 
-      const scrollHeight = getScrollHeight(localScrollTarget),
-        scrollPosition = getVerticalScrollPosition(localScrollTarget),
-        containerHeight = height(localScrollTarget)
-
-      if (!props.reverse) {
-        if (
-          Math.round(scrollPosition + containerHeight + props.offset) >=
-          Math.round(scrollHeight)
-        ) {
-          trigger()
-        }
-      } else if (Math.round(scrollPosition) <= props.offset) {
-        trigger()
-      }
+      trigger()
     }
 
     function trigger() {
       if (props.disable || isFetching.value || !isWorking.value) {
         return
       }
+
+      const target = scrollTargetRef.value
 
       index++
       isFetching.value = true
@@ -158,19 +190,19 @@ export default /*#__PURE__*/ createComponent({
         suppressAnchoring.value = true
       }
 
-      const heightBefore = getScrollHeight(localScrollTarget)
+      const heightBefore = getScrollHeight(target)
 
       emit('load', index, isDone => {
         if (isWorking.value) {
           isFetching.value = false
           nextTick(() => {
             if (props.reverse) {
-              const heightAfter = getScrollHeight(localScrollTarget),
-                scrollPosition = getVerticalScrollPosition(localScrollTarget),
+              const heightAfter = getScrollHeight(target),
+                scrollPosition = getVerticalScrollPosition(target),
                 heightDifference = heightAfter - heightBefore
 
               setVerticalScrollPosition(
-                localScrollTarget,
+                target,
                 scrollPosition + heightDifference
               )
             }
@@ -179,8 +211,10 @@ export default /*#__PURE__*/ createComponent({
 
             if (isDone === true) {
               stop()
-            } else if (rootRef.value?.closest('body')) {
-              poll()
+            } else {
+              // the loaded content may not have pushed the sentinel out of
+              // reach, in which case the observer has nothing new to report
+              refresh()
             }
           })
         }
@@ -192,12 +226,12 @@ export default /*#__PURE__*/ createComponent({
     }
 
     function resume() {
-      if (!isWorking.value) {
+      if (isWorking.value) {
+        refresh()
+      } else {
+        // observing starts again with a report of the current state
         isWorking.value = true
-        localScrollTarget.addEventListener('scroll', poll, passive)
       }
-
-      immediatePoll()
     }
 
     function stop() {
@@ -206,21 +240,16 @@ export default /*#__PURE__*/ createComponent({
         isFetching.value = false
         // a load that never calls done() must not leave anchoring off forever
         suppressAnchoring.value = false
-        localScrollTarget.removeEventListener('scroll', poll, passive)
-        poll?.cancel?.()
+        poll.cancel?.()
       }
     }
 
-    function updateScrollTarget() {
-      if (localScrollTarget && isWorking.value) {
-        localScrollTarget.removeEventListener('scroll', poll, passive)
-      }
-
+    function resolveScrollTarget() {
+      const target = getScrollTarget(rootRef.value, props.scrollTarget)
       const wasInFixedSubtree = inFixedSubtree
 
-      localScrollTarget = getScrollTarget(rootRef.value, props.scrollTarget)
-      inFixedSubtree =
-        localScrollTarget === window && isInFixedSubtree(rootRef.value)
+      scrollTargetRef.value = target
+      inFixedSubtree = target === window && isInFixedSubtree(rootRef.value)
 
       if (inFixedSubtree && !wasInFixedSubtree) {
         console.warn(
@@ -231,21 +260,19 @@ export default /*#__PURE__*/ createComponent({
         )
       }
 
-      if (isWorking.value) {
-        localScrollTarget.addEventListener('scroll', poll, passive)
-
-        if (props.reverse && !inFixedSubtree) {
-          const scrollHeight = getScrollHeight(localScrollTarget),
-            containerHeight = height(localScrollTarget)
-
-          setVerticalScrollPosition(
-            localScrollTarget,
-            scrollHeight - containerHeight
-          )
-        }
-
-        immediatePoll()
+      // reverse mode starts scrolled to the bottom; from a fixed overlay
+      // that would scroll the page behind it instead
+      if (isWorking.value && props.reverse && !inFixedSubtree) {
+        setVerticalScrollPosition(
+          target,
+          getScrollHeight(target) - height(target)
+        )
       }
+    }
+
+    function updateScrollTarget() {
+      resolveScrollTarget()
+      refresh()
     }
 
     function setIndex(newIndex) {
@@ -255,20 +282,11 @@ export default /*#__PURE__*/ createComponent({
     function setDebounce(val) {
       val = Number.parseInt(val, 10)
 
-      const oldPoll = poll
-
+      poll?.cancel?.()
       poll =
         val <= 0
           ? immediatePoll
           : debounce(immediatePoll, Number.isNaN(val) ? 100 : val)
-
-      if (localScrollTarget && isWorking.value) {
-        if (oldPoll !== void 0) {
-          localScrollTarget.removeEventListener('scroll', oldPoll, passive)
-        }
-
-        localScrollTarget.addEventListener('scroll', poll, passive)
-      }
     }
 
     const renderLoadingSlot = computed(() => !props.disable && isWorking.value)
@@ -281,45 +299,34 @@ export default /*#__PURE__*/ createComponent({
       }
     )
 
-    watch(
-      () => props.reverse,
-      () => {
-        if (!isFetching.value && isWorking.value) {
-          immediatePoll()
-        }
-      }
-    )
-
     watch(() => props.scrollTarget, updateScrollTarget)
     watch(() => props.debounce, setDebounce)
 
     let scrollPos = false
 
     onActivated(() => {
-      if (scrollPos !== false && localScrollTarget) {
-        setVerticalScrollPosition(localScrollTarget, scrollPos)
+      if (scrollPos !== false && scrollTargetRef.value !== null) {
+        setVerticalScrollPosition(scrollTargetRef.value, scrollPos)
       }
     })
 
     onDeactivated(() => {
-      scrollPos = localScrollTarget
-        ? getVerticalScrollPosition(localScrollTarget)
-        : false
+      scrollPos =
+        scrollTargetRef.value !== null
+          ? getVerticalScrollPosition(scrollTargetRef.value)
+          : false
     })
 
     onBeforeUnmount(() => {
-      if (isWorking.value) {
-        localScrollTarget.removeEventListener('scroll', poll, passive)
-      }
+      poll?.cancel?.()
     })
 
     if (!__QUASAR_SSR_SERVER__) {
-      // when a scroll lock releases with the page already at the saved
-      // position no scroll event fires, so the poll skipped while locked
-      // (see immediatePoll) has to be re-run through this channel
+      // the lock releases without a scroll event when the page never
+      // moved, so the poll skipped while locked has to be re-run here
       const onScrollLockRelease = () => {
-        if (localScrollTarget === window) {
-          immediatePoll()
+        if (scrollTargetRef.value === window) {
+          refresh()
         }
       }
 
@@ -330,16 +337,11 @@ export default /*#__PURE__*/ createComponent({
       })
     }
 
-    onMounted(() => {
-      setDebounce(props.debounce)
-      updateScrollTarget()
-    })
-
     // expose public methods
     const vm = getCurrentInstance()
     Object.assign(vm.proxy, {
       poll: () => {
-        poll?.()
+        refresh()
       },
       trigger,
       stop,
@@ -351,12 +353,18 @@ export default /*#__PURE__*/ createComponent({
 
     return () => {
       const child = hUniqueSlot(slots.default, [])
+      const sentinel = h('div', {
+        ref: sentinelRef,
+        class: 'q-infinite-scroll__sentinel'
+      })
 
       if (renderLoadingSlot.value) {
         child[props.reverse ? 'unshift' : 'push'](
           h(InfiniteScrollLoading, { store }, { default: slots.loading })
         )
       }
+
+      child[props.reverse ? 'unshift' : 'push'](sentinel)
 
       return h(
         'div',

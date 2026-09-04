@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 
-import { observe, unobserve } from './intersection.js'
+import { observe, reobserve, unobserve } from './intersection.js'
 
 let observers
 let elements
@@ -223,6 +223,33 @@ describe('[intersection API]', () => {
         expect(() => {
           observer.callback([entryFor(stray)], observer)
         }).not.toThrow()
+      })
+    })
+
+    describe('[(function)reobserve]', () => {
+      test('observes the element anew on its own observer', () => {
+        const el = createElement()
+        const sub = createSubscriber()
+
+        observe(el, sub)
+        const [observer] = observers
+
+        reobserve(el)
+
+        expect(observer.unobserve).toHaveBeenCalledExactlyOnceWith(el)
+        expect(observer.observe).toHaveBeenCalledTimes(2)
+        expect(observer.disconnect).not.toHaveBeenCalled()
+        expect(el.__qintersection).toBe(sub)
+        expect(observers).toHaveLength(1)
+      })
+
+      test('is a no-op for an element that is not observed', () => {
+        const el = createElement()
+
+        expect(() => {
+          reobserve(el)
+        }).not.toThrow()
+        expect(observers).toHaveLength(0)
       })
     })
 

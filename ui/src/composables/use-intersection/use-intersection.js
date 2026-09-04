@@ -9,13 +9,14 @@ import {
 
 import {
   observe,
+  reobserve,
   unobserve
 } from '../../utils/private.intersection/intersection.js'
 import { noop } from '../../utils/event/event.js'
 
 /*
  * Usage:
- *    const { isIntersecting, stop } = useIntersection(options)
+ *    const { isIntersecting, refresh, stop } = useIntersection(options)
  *
  * options - plain object, ref or getter of:
  *    target      - ref (or getter) of an Element or a component instance;
@@ -113,6 +114,13 @@ export default function useIntersection(options) {
 
   return {
     isIntersecting,
+
+    // delivers the current state again, even unchanged
+    refresh() {
+      if (el !== null) {
+        reobserve(el)
+      }
+    },
 
     stop() {
       sub.done = true

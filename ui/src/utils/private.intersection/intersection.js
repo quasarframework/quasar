@@ -111,6 +111,17 @@ export function observe(
   pool.observer.observe(el)
 }
 
+// an observer only reports changes, so a state that holds through a
+// layout change is never delivered again; observing anew delivers it
+export function reobserve(el) {
+  const sub = el.__qintersection
+  if (sub === void 0) return
+
+  const { observer } = sub.pool
+  observer.unobserve(el)
+  observer.observe(el)
+}
+
 export function unobserve(el) {
   const sub = el.__qintersection
   if (sub === void 0) return
