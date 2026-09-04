@@ -13,6 +13,7 @@ import PullToRefreshPuller from './PullToRefreshPuller.js'
 import TouchPan from '../../directives/touch-pan/TouchPan.js'
 
 import useQuasar from '../../composables/use-quasar/use-quasar.js'
+import useIntersection from '../../composables/use-intersection/use-intersection.js'
 
 import { createComponent } from '../../utils/private.create/create.js'
 import {
@@ -54,6 +55,19 @@ export default /*#__PURE__*/ createComponent({
     const positionCSS = ref({})
 
     const store = { state, pullRatio, pullPosition, animating, positionCSS }
+
+    // A pull can only start while the start of the content is on screen,
+    // so TouchPan stays disarmed (no touchmove listener, which would block
+    // the scroll on its first move) whenever it is not. The observer is
+    // only a pre-filter: the sentinel is visible for as long as the
+    // component's edge is, which is not the same as the scroll target
+    // sitting at its end (content above the component in the same
+    // scroller, the layout header over the page's top padding...), so
+    // the exact decision is still the scroll position read at pull start.
+    const sentinelRef = ref(null)
+    const { isIntersecting: contentEdgeVisible } = useIntersection({
+      target: sentinelRef
+    })
 
     function pull(event) {
       if (event.isFinal) {
@@ -123,7 +137,14 @@ export default /*#__PURE__*/ createComponent({
       // TouchPan only acquires gestures while its value is a function, so
       // disabling happens in place; detaching the directive would re-create
       // the whole content (#12668-class)
-      return [[TouchPan, props.disable ? void 0 : pull, void 0, modifiers]]
+      return [
+        [
+          TouchPan,
+          props.disable || !contentEdgeVisible.value ? void 0 : pull,
+          void 0,
+          modifiers
+        ]
+      ]
     })
 
     const contentClass = computed(
@@ -176,6 +197,8 @@ export default /*#__PURE__*/ createComponent({
     return () =>
       withDirectives(
         h('div', { class: 'q-pull-to-refresh' }, [
+          h('div', { ref: sentinelRef, class: 'q-pull-to-refresh__sentinel' }),
+
           h('div', { class: contentClass.value }, hSlot(slots.default)),
 
           h(PullToRefreshPuller, {

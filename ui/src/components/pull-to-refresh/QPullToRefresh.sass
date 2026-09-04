@@ -1,6 +1,14 @@
 .q-pull-to-refresh
   position: relative
 
+  &__sentinel
+    position: absolute
+    top: 0
+    left: 0
+    width: 1px
+    height: 1px
+    pointer-events: none
+
   &__puller
     border-radius: 50%
     width: 40px

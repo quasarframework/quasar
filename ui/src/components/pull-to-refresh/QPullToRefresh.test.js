@@ -31,6 +31,13 @@ function getPanContext(wrapper) {
   return wrapper.get('.q-pull-to-refresh').element.__qtouchpan
 }
 
+// TouchPan is armed once the observer reports the content's edge on screen
+function armed(wrapper) {
+  return vi.waitFor(() => {
+    expect(getPanContext(wrapper).handler).toBeTypeOf('function')
+  })
+}
+
 function pan(wrapper, payload) {
   return getPanContext(wrapper).handler({
     direction: 'down',
@@ -75,7 +82,7 @@ describe('[QPullToRefresh API]', () => {
     })
 
     describe('[(prop)no-mouse]', () => {
-      test('type Boolean has effect', () => {
+      test('type Boolean has effect', async () => {
         // without touch support, TouchPan does not bind at all when noMouse
         // is set; pretend the device has touch so that the pan context exists
         // and only the mousedown binding differs
@@ -86,6 +93,9 @@ describe('[QPullToRefresh API]', () => {
           const withMouse = mountPullToRefresh()
           const withoutMouse = mountPullToRefresh({ noMouse: true })
           const press = { bubbles: true, button: 0, cancelable: true }
+
+          await armed(withMouse)
+          await armed(withoutMouse)
 
           withMouse
             .get('.q-pull-to-refresh')
@@ -114,6 +124,7 @@ describe('[QPullToRefresh API]', () => {
         expect(getPanContext(wrapper).event).toBeUndefined()
 
         await wrapper.setProps({ disable: false })
+        await armed(wrapper)
         await target.trigger('mousedown', { button: 0 })
 
         expect(getPanContext(wrapper).event).toBeDefined()
@@ -142,6 +153,7 @@ describe('[QPullToRefresh API]', () => {
         expect(unmountedFn).not.toHaveBeenCalled()
         expect(wrapper.get('span').element).toBe(contentEl)
 
+        await armed(wrapper)
         startPull(wrapper)
         await nextTick()
 
@@ -156,7 +168,7 @@ describe('[QPullToRefresh API]', () => {
         const scrollTarget = createScrollTarget()
 
         const wrapper = mountPullToRefresh({ scrollTarget })
-        await nextTick()
+        await armed(wrapper)
 
         expect(startPull(wrapper)).toBe(false)
         expect(
@@ -173,7 +185,7 @@ describe('[QPullToRefresh API]', () => {
         const wrapper = mountPullToRefresh({
           scrollTarget: '.pull-scroll-target'
         })
-        await nextTick()
+        await armed(wrapper)
 
         expect(startPull(wrapper)).toBe(false)
         expect(
@@ -225,10 +237,11 @@ describe('[QPullToRefresh API]', () => {
     })
 
     describe('[(method)updateScrollTarget]', () => {
-      test('should be callable', () => {
+      test('should be callable', async () => {
         const scrollTarget = createScrollTarget()
 
         const wrapper = mountPullToRefresh({ scrollTarget })
+        await armed(wrapper)
 
         expect(wrapper.vm.updateScrollTarget()).toBeUndefined()
         expect(startPull(wrapper)).toBe(false)
@@ -240,10 +253,35 @@ describe('[QPullToRefresh API]', () => {
   })
 
   describe('[Generic]', () => {
+    test('TouchPan stays disarmed while the content edge is scrolled out of view', async () => {
+      const scrollTarget = document.createElement('div')
+      scrollTarget.style.cssText = 'height: 50px; overflow: auto;'
+      document.body.append(scrollTarget)
+
+      const wrapper = mount(QPullToRefresh, {
+        attachTo: scrollTarget,
+        slots: { default: () => h('div', { style: 'height: 200px' }) }
+      })
+
+      await armed(wrapper)
+
+      scrollTarget.scrollTop = 10
+      await vi.waitFor(() => {
+        expect(getPanContext(wrapper).handler).toBeUndefined()
+      })
+
+      scrollTarget.scrollTop = 0
+      await armed(wrapper)
+
+      wrapper.unmount()
+      scrollTarget.remove()
+    })
+
     test('the moves of a pull do not re-render the content', async () => {
       const contentRenders = vi.fn(() => h('span', 'Content'))
       const wrapper = mountPullToRefresh({}, { default: contentRenders })
 
+      await armed(wrapper)
       startPull(wrapper)
       await nextTick()
 
