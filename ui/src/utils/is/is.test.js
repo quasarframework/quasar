@@ -107,6 +107,15 @@ describe('[is API]', () => {
       ])('distinguishes %s instances by content', (_, a, b) => {
         expect(is.deepEqual(a, b)).toBe(false)
       })
+
+      test('handles objects without Object.prototype', () => {
+        const a = Object.assign(Object.create(null), { value: 1 })
+        const b = Object.assign(Object.create(null), { value: 1 })
+        const c = Object.assign(Object.create(null), { value: 2 })
+
+        expect(is.deepEqual(a, b)).toBe(true)
+        expect(is.deepEqual(a, c)).toBe(false)
+      })
     })
 
     describe('[(function)object]', () => {
