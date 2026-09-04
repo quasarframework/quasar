@@ -1,5 +1,11 @@
 // oxlint-disable no-eq-null
 
+function toByteView(v) {
+  return v.constructor === ArrayBuffer
+    ? new Uint8Array(v)
+    : new Uint8Array(v.buffer, v.byteOffset, v.byteLength)
+}
+
 export function isDeepEqual(a, b) {
   if (a === b) return true
 
@@ -68,19 +74,15 @@ export function isDeepEqual(a, b) {
       return true
     }
 
-    if (a.constructor === ArrayBuffer) {
-      return isDeepEqual(new Uint8Array(a), new Uint8Array(b))
+    if (a.constructor === ArrayBuffer || a.constructor === DataView) {
+      if (a.byteLength !== b.byteLength) return false
+
+      // neither has indexed access, so compare their exposed byte ranges
+      a = toByteView(a)
+      b = toByteView(b)
     }
 
-    if (a.constructor === DataView) {
-      return isDeepEqual(
-        new Uint8Array(a.buffer, a.byteOffset, a.byteLength),
-        new Uint8Array(b.buffer, b.byteOffset, b.byteLength)
-      )
-    }
-
-    // oxlint-disable-next-line eqeqeq
-    if (a.buffer != null && a.buffer.constructor === ArrayBuffer) {
+    if (ArrayBuffer.isView(a)) {
       length = a.length
 
       if (length !== b.length) return false

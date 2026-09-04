@@ -16,6 +16,12 @@ describe('[is API]', () => {
         ['Date', new Date(150), new Date(150)],
         ['RegExp', /./, /./],
         ['ArrayBuffer', Uint8Array.of(1).buffer, Uint8Array.of(1).buffer],
+        ['Uint8Array', Uint8Array.of(1, 2), Uint8Array.of(1, 2)],
+        [
+          'object with a buffer property',
+          { buffer: new ArrayBuffer(2) },
+          { buffer: new ArrayBuffer(2) }
+        ],
         [
           'DataView',
           new DataView(Uint8Array.of(0, 1, 0).buffer, 1, 1),
@@ -81,10 +87,22 @@ describe('[is API]', () => {
 
       test.each([
         ['ArrayBuffer', Uint8Array.of(1).buffer, Uint8Array.of(2).buffer],
+        ['ArrayBuffer (length)', new ArrayBuffer(1), new ArrayBuffer(2)],
         [
           'DataView',
           new DataView(Uint8Array.of(1).buffer),
           new DataView(Uint8Array.of(2).buffer)
+        ],
+        [
+          'DataView (length)',
+          new DataView(new ArrayBuffer(2), 0, 1),
+          new DataView(new ArrayBuffer(2), 0, 2)
+        ],
+        ['Uint8Array', Uint8Array.of(1), Uint8Array.of(2)],
+        [
+          'object with a buffer property',
+          { buffer: Uint8Array.of(1).buffer },
+          { buffer: Uint8Array.of(2).buffer }
         ]
       ])('distinguishes %s instances by content', (_, a, b) => {
         expect(is.deepEqual(a, b)).toBe(false)
