@@ -100,6 +100,27 @@ describe('[Morph API]', () => {
 
       wrapper.unmount()
     })
+
+    test('as Object keeps the modifiers it does not name', () => {
+      const TestComponent = defineComponent({
+        setup() {
+          const val = { model: 'item', resize: false }
+          return () =>
+            withDirectives(h('div'), [
+              [Morph, val, 'item:modifier-keep', { tween: true, resize: true }]
+            ])
+        }
+      })
+
+      const wrapper = mount(TestComponent)
+
+      expect(wrapper.element.__qmorph.opts).toMatchObject({
+        tween: true,
+        resize: false
+      })
+
+      wrapper.unmount()
+    })
   })
 
   describe('[Argument]', () => {

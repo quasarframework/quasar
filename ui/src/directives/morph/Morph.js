@@ -142,7 +142,6 @@ function updateValue(ctx, value, classPatched) {
   if (Object(value) === value) {
     model = String(value.model)
     updateArgs(value, ctx)
-    updateModifiers(value, ctx)
   } else {
     model = String(value)
   }
