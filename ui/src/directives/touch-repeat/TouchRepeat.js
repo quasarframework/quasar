@@ -2,9 +2,8 @@ import { client } from '../../plugins/platform/Platform.js'
 
 import { createDirective } from '../../utils/private.create/create.js'
 import {
-  addEvt,
-  cleanEvt,
   leftClick,
+  listenOpts,
   noop,
   position,
   stopAndPrevent
@@ -12,6 +11,8 @@ import {
 import { clearSelection } from '../../utils/private.selection/selection.js'
 import { isKeyCode } from '../../utils/private.keyboard/key-composition.js'
 import getSSRProps from '../../utils/private.noop-ssr-directive-transform/noop-ssr-directive-transform.js'
+
+const { passive, passiveCapture, notPassive, notPassiveCapture } = listenOpts
 
 const keyCodes = {
     esc: 27,
@@ -26,13 +27,222 @@ const keyCodes = {
   },
   keyRegex = new RegExp(`^([\\d+]+|${Object.keys(keyCodes).join('|')})$`, 'i')
 
-function shouldEnd(evt, origin) {
-  const { top, left } = position(evt)
-  return Math.abs(left - origin.left) >= 7 || Math.abs(top - origin.top) >= 7
+const defaultDurations = [0, 600, 300]
+
+function parseKeyboard(modifiers) {
+  const keyboard = []
+
+  for (const key in modifiers) {
+    if (keyRegex.test(key)) {
+      const parsedKey = Number.parseInt(key, 10)
+      const keyCode = Number.isNaN(parsedKey)
+        ? keyCodes[key.toLowerCase()]
+        : parsedKey
+
+      if (Array.isArray(keyCode)) {
+        keyboard.push(...keyCode)
+      } else if (keyCode !== void 0) {
+        keyboard.push(keyCode)
+      }
+    }
+  }
+
+  return keyboard
+}
+
+function parseDurations(arg) {
+  if (typeof arg !== 'string' || arg.length === 0) return defaultDurations
+
+  const durations = arg.split(':')
+  for (let i = 0; i < durations.length; i++) {
+    durations[i] = Number.parseInt(durations[i], 10)
+  }
+  return durations
 }
 
 function removeBodyNonSelectable() {
   document.body.classList.remove('non-selectable')
+}
+
+// the element listeners are shared by every element: the element is
+// the event's currentTarget and its context hangs off it; the context
+// itself listens for the rest of the press (EventListener interface)
+function onMouseStart(evt) {
+  const ctx = evt.currentTarget.__qtouchrepeat
+
+  if (
+    ctx.event === void 0 &&
+    typeof ctx.handler === 'function' &&
+    leftClick(evt)
+  ) {
+    ctx.target = document
+    document.addEventListener('mousemove', ctx, passiveCapture)
+    document.addEventListener('click', ctx, notPassiveCapture)
+    start(ctx, evt, true, false)
+  }
+}
+
+function onKeyboardStart(evt) {
+  const el = evt.currentTarget,
+    ctx = el.__qtouchrepeat
+
+  if (typeof ctx.handler === 'function' && isKeyCode(evt, ctx.keyboard)) {
+    if (ctx.durations[0] === 0 || ctx.event !== void 0) {
+      stopAndPrevent(evt)
+      el.focus()
+      if (ctx.event !== void 0) return
+    }
+
+    ctx.target = document
+    document.addEventListener('keyup', ctx, notPassiveCapture)
+    document.addEventListener('click', ctx, notPassiveCapture)
+    start(ctx, evt, false, true)
+  }
+}
+
+function onTouchStart(evt) {
+  const ctx = evt.currentTarget.__qtouchrepeat
+
+  if (ctx.event === void 0 && typeof ctx.handler === 'function') {
+    const { target } = evt
+    ctx.target = target
+    target.addEventListener('touchmove', ctx, passiveCapture)
+    target.addEventListener('touchcancel', ctx, notPassiveCapture)
+    target.addEventListener('touchend', ctx, notPassiveCapture)
+    start(ctx, evt, false, false)
+  }
+}
+
+function handleEvent(evt) {
+  if (evt.type === 'mousemove' || evt.type === 'touchmove') {
+    move(this, evt)
+  } else {
+    end(this, evt)
+  }
+}
+
+function suppressStyles(ctx) {
+  ctx.styled = true
+  document.body.classList.add('non-selectable')
+  clearSelection()
+}
+
+function restoreStyles(ctx) {
+  if (ctx.styled) {
+    ctx.styled = false
+    document.documentElement.style.cursor = ''
+    // delay needed otherwise selection still occurs
+    clearSelection()
+    setTimeout(removeBodyNonSelectable, 10)
+  }
+}
+
+function start(ctx, evt, mouse, keyboard) {
+  ctx.evt = evt
+  ctx.origin = keyboard ? void 0 : position(evt)
+
+  // a touch long-press starts native text selection right away
+  // (on any touch-capable device, not just mobile UAs), so it
+  // gets suppressed immediately; mouse/keyboard interactions
+  // wait for the first repeat below to avoid flashing styles
+  // on a quick click
+  if (!mouse && !keyboard) {
+    suppressStyles(ctx)
+  }
+
+  ctx.event = {
+    touch: !mouse && !keyboard,
+    mouse,
+    keyboard,
+    startTime: Date.now(),
+    repeatCount: 0
+  }
+
+  if (ctx.durations[0] === 0) {
+    tick(ctx)
+  } else {
+    ctx.timer = setTimeout(tick, ctx.durations[0], ctx)
+  }
+}
+
+function tick(ctx) {
+  ctx.timer = void 0
+
+  const { event } = ctx
+
+  if (event === void 0) return
+
+  if (event.repeatCount === 0) {
+    event.evt = ctx.evt
+
+    if (event.keyboard) {
+      event.keyCode = ctx.evt.keyCode
+    } else {
+      event.position = ctx.origin
+    }
+
+    if (!event.touch) {
+      document.documentElement.style.cursor = 'pointer'
+      suppressStyles(ctx)
+    }
+  }
+
+  event.duration = Date.now() - event.startTime
+  event.repeatCount += 1
+
+  ctx.handler(event)
+
+  const { durations } = ctx
+  const last = durations.length - 1
+  const index = last < event.repeatCount ? last : event.repeatCount
+
+  ctx.timer = setTimeout(tick, durations[index], ctx)
+}
+
+function move(ctx, evt) {
+  if (ctx.event !== void 0 && ctx.timer !== void 0) {
+    const { top, left } = position(evt)
+
+    if (
+      Math.abs(left - ctx.origin.left) >= 7 ||
+      Math.abs(top - ctx.origin.top) >= 7
+    ) {
+      clearTimeout(ctx.timer)
+      ctx.timer = void 0
+    }
+  }
+}
+
+function end(ctx, evt) {
+  const { event, target } = ctx
+
+  if (event === void 0) return
+
+  restoreStyles(ctx)
+  if (evt !== void 0 && event.repeatCount > 0) {
+    stopAndPrevent(evt)
+  }
+
+  if (event.mouse) {
+    target.removeEventListener('mousemove', ctx, passiveCapture)
+    target.removeEventListener('click', ctx, notPassiveCapture)
+  } else if (event.keyboard) {
+    target.removeEventListener('keyup', ctx, notPassiveCapture)
+    target.removeEventListener('click', ctx, notPassiveCapture)
+  } else {
+    target.removeEventListener('touchmove', ctx, passiveCapture)
+    target.removeEventListener('touchcancel', ctx, notPassiveCapture)
+    target.removeEventListener('touchend', ctx, notPassiveCapture)
+  }
+
+  if (ctx.timer !== void 0) {
+    clearTimeout(ctx.timer)
+    ctx.timer = void 0
+  }
+
+  ctx.event = void 0
+  ctx.evt = void 0
+  ctx.target = null
 }
 
 export default /*#__PURE__*/ createDirective(
@@ -42,221 +252,55 @@ export default /*#__PURE__*/ createDirective(
         name: 'touch-repeat',
 
         beforeMount(el, { modifiers, value, arg }) {
-          const keyboard = Object.keys(modifiers).reduce((acc, key) => {
-            if (keyRegex.test(key)) {
-              const parsedKey = Number.parseInt(key, 10)
-              const keyCode = Number.isNaN(parsedKey)
-                ? keyCodes[key.toLowerCase()]
-                : parsedKey
-
-              if (keyCode !== void 0) {
-                acc.push(...[keyCode].flat())
-              }
-            }
-            return acc
-          }, [])
+          const keyboard = parseKeyboard(modifiers)
+          const hasTouch = client.has.touch
 
           // early return, we don't need to do anything
-          if (!modifiers.mouse && !client.has.touch && keyboard.length === 0) {
+          if (!modifiers.mouse && !hasTouch && keyboard.length === 0) {
             return
           }
 
-          const durations =
-            typeof arg === 'string' && arg.length !== 0
-              ? arg.split(':').map(val => Number.parseInt(val, 10))
-              : [0, 600, 300]
-
-          const durationsLast = durations.length - 1
-
           const ctx = {
-            keyboard,
+            handleEvent,
             handler: value,
-
-            noop,
-
-            mouseStart(evt) {
-              if (
-                ctx.event === void 0 &&
-                typeof ctx.handler === 'function' &&
-                leftClick(evt)
-              ) {
-                addEvt(ctx, 'temp', [
-                  [document, 'mousemove', 'move', 'passiveCapture'],
-                  [document, 'click', 'end', 'notPassiveCapture']
-                ])
-                ctx.start(evt, true)
-              }
-            },
-
-            keyboardStart(evt) {
-              if (
-                typeof ctx.handler === 'function' &&
-                isKeyCode(evt, keyboard)
-              ) {
-                if (durations[0] === 0 || ctx.event !== void 0) {
-                  stopAndPrevent(evt)
-                  el.focus()
-                  if (ctx.event !== void 0) return
-                }
-
-                addEvt(ctx, 'temp', [
-                  [document, 'keyup', 'end', 'notPassiveCapture'],
-                  [document, 'click', 'end', 'notPassiveCapture']
-                ])
-                ctx.start(evt, false, true)
-              }
-            },
-
-            touchStart(evt) {
-              if (evt.target !== void 0 && typeof ctx.handler === 'function') {
-                const target = evt.target
-                addEvt(ctx, 'temp', [
-                  [target, 'touchmove', 'move', 'passiveCapture'],
-                  [target, 'touchcancel', 'end', 'notPassiveCapture'],
-                  [target, 'touchend', 'end', 'notPassiveCapture']
-                ])
-                ctx.start(evt)
-              }
-            },
-
-            start(evt, mouseEvent, keyboardEvent) {
-              if (!keyboardEvent) ctx.origin = position(evt)
-
-              function styleCleanup(withDelay) {
-                ctx.styleCleanup = void 0
-                document.documentElement.style.cursor = ''
-
-                if (withDelay === true) {
-                  clearSelection()
-                  setTimeout(removeBodyNonSelectable, 10)
-                } else {
-                  removeBodyNonSelectable()
-                }
-              }
-
-              // a touch long-press starts native text selection right away
-              // (on any touch-capable device, not just mobile UAs), so it
-              // gets suppressed immediately; mouse/keyboard interactions
-              // wait for the first repeat below to avoid flashing styles
-              // on a quick click
-              if (!mouseEvent && !keyboardEvent) {
-                document.body.classList.add('non-selectable')
-                clearSelection()
-                ctx.styleCleanup = styleCleanup
-              }
-
-              ctx.event = {
-                touch: !mouseEvent && !keyboardEvent,
-                mouse: mouseEvent === true,
-                keyboard: keyboardEvent === true,
-                startTime: Date.now(),
-                repeatCount: 0
-              }
-
-              const fn = () => {
-                ctx.timer = void 0
-
-                if (ctx.event === void 0) return
-
-                if (ctx.event.repeatCount === 0) {
-                  ctx.event.evt = evt
-
-                  if (keyboardEvent) {
-                    ctx.event.keyCode = evt.keyCode
-                  } else {
-                    ctx.event.position = position(evt)
-                  }
-
-                  if (!ctx.event.touch) {
-                    document.documentElement.style.cursor = 'pointer'
-                    document.body.classList.add('non-selectable')
-                    clearSelection()
-                    ctx.styleCleanup = styleCleanup
-                  }
-                }
-
-                ctx.event.duration = Date.now() - ctx.event.startTime
-                ctx.event.repeatCount += 1
-
-                ctx.handler(ctx.event)
-
-                const index =
-                  durationsLast < ctx.event.repeatCount
-                    ? durationsLast
-                    : ctx.event.repeatCount
-
-                ctx.timer = setTimeout(fn, durations[index])
-              }
-
-              if (durations[0] === 0) {
-                fn()
-              } else {
-                ctx.timer = setTimeout(fn, durations[0])
-              }
-            },
-
-            move(evt) {
-              if (
-                ctx.event !== void 0 &&
-                ctx.timer !== void 0 &&
-                shouldEnd(evt, ctx.origin)
-              ) {
-                clearTimeout(ctx.timer)
-                ctx.timer = void 0
-              }
-            },
-
-            end(evt) {
-              if (ctx.event === void 0) return
-
-              ctx.styleCleanup?.(true)
-              if (evt !== void 0 && ctx.event.repeatCount > 0) {
-                stopAndPrevent(evt)
-              }
-
-              cleanEvt(ctx, 'temp')
-
-              if (ctx.timer !== void 0) {
-                clearTimeout(ctx.timer)
-                ctx.timer = void 0
-              }
-
-              ctx.event = void 0
-            }
+            keyboard,
+            durations: parseDurations(arg),
+            mouseOpts: null,
+            touchOpts: null,
+            keyOpts: null,
+            // the press listeners' target while a press is tracked
+            target: null,
+            event: void 0,
+            evt: void 0,
+            origin: void 0,
+            timer: void 0,
+            styled: false
           }
 
           el.__qtouchrepeat = ctx
 
           if (modifiers.mouse) {
             // account for UMD too where modifiers will be lowercased to work
-            const capture =
-              modifiers.mouseCapture || modifiers.mousecapture ? 'Capture' : ''
-
-            addEvt(ctx, 'main', [
-              [el, 'mousedown', 'mouseStart', `passive${capture}`]
-            ])
+            ctx.mouseOpts =
+              modifiers.mouseCapture || modifiers.mousecapture
+                ? passiveCapture
+                : passive
+            el.addEventListener('mousedown', onMouseStart, ctx.mouseOpts)
           }
 
-          if (client.has.touch) {
-            addEvt(ctx, 'main', [
-              [
-                el,
-                'touchstart',
-                'touchStart',
-                `passive${modifiers.capture ? 'Capture' : ''}`
-              ],
-              [el, 'touchend', 'noop', 'passiveCapture']
-            ])
+          if (hasTouch) {
+            ctx.touchOpts = modifiers.capture ? passiveCapture : passive
+            el.addEventListener('touchstart', onTouchStart, ctx.touchOpts)
+            el.addEventListener('touchend', noop, passiveCapture)
           }
 
           if (keyboard.length !== 0) {
             // account for UMD too where modifiers will be lowercased to work
-            const capture =
-              modifiers.keyCapture || modifiers.keycapture ? 'Capture' : ''
-
-            addEvt(ctx, 'main', [
-              [el, 'keydown', 'keyboardStart', `notPassive${capture}`]
-            ])
+            ctx.keyOpts =
+              modifiers.keyCapture || modifiers.keycapture
+                ? notPassiveCapture
+                : notPassive
+            el.addEventListener('keydown', onKeyboardStart, ctx.keyOpts)
           }
         },
 
@@ -264,7 +308,7 @@ export default /*#__PURE__*/ createDirective(
           const ctx = el.__qtouchrepeat
 
           if (ctx !== void 0 && oldValue !== value) {
-            if (typeof value !== 'function') ctx.end()
+            if (typeof value !== 'function') end(ctx)
             ctx.handler = value
           }
         },
@@ -273,14 +317,22 @@ export default /*#__PURE__*/ createDirective(
           const ctx = el.__qtouchrepeat
 
           if (ctx !== void 0) {
-            if (ctx.timer !== void 0) clearTimeout(ctx.timer)
+            end(ctx)
 
-            cleanEvt(ctx, 'main')
-            cleanEvt(ctx, 'temp')
+            if (ctx.mouseOpts !== null) {
+              el.removeEventListener('mousedown', onMouseStart, ctx.mouseOpts)
+            }
 
-            ctx.styleCleanup?.()
+            if (ctx.touchOpts !== null) {
+              el.removeEventListener('touchstart', onTouchStart, ctx.touchOpts)
+              el.removeEventListener('touchend', noop, passiveCapture)
+            }
 
-            delete el.__qtouchrepeat
+            if (ctx.keyOpts !== null) {
+              el.removeEventListener('keydown', onKeyboardStart, ctx.keyOpts)
+            }
+
+            el.__qtouchrepeat = void 0
           }
         }
       }

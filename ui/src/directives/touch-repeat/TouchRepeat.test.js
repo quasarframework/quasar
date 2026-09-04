@@ -1,8 +1,6 @@
-import { mount } from '@vue/test-utils'
+import { flushPromises, mount } from '@vue/test-utils'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
-import { defineComponent, h, withDirectives } from 'vue'
-
-import { getMainEvent } from 'testing/runtime/directive.js'
+import { defineComponent, h, ref, withDirectives } from 'vue'
 
 import { client } from '../../plugins/platform/Platform.js'
 import TouchRepeat from './TouchRepeat.js'
@@ -28,7 +26,7 @@ function mountTouchRepeat(modifiers, options = {}) {
   const TestComponent = defineComponent({
     setup() {
       return () =>
-        withDirectives(h('div'), [
+        withDirectives(h('div', [h('span')]), [
           [TouchRepeat, handler, options.arg, modifiers]
         ])
     }
@@ -40,8 +38,8 @@ function mountTouchRepeat(modifiers, options = {}) {
   }
 }
 
-function dispatchMouseDown(wrapper) {
-  wrapper.element.dispatchEvent(
+function mouseDown(el) {
+  el.dispatchEvent(
     new MouseEvent('mousedown', {
       bubbles: true,
       button: 0,
@@ -50,6 +48,31 @@ function dispatchMouseDown(wrapper) {
       clientY: 20
     })
   )
+}
+
+function keyDown(el, keyCode) {
+  el.dispatchEvent(
+    new KeyboardEvent('keydown', { bubbles: true, cancelable: true, keyCode })
+  )
+}
+
+function touch(el, type) {
+  el.dispatchEvent(
+    new TouchEvent(type, {
+      bubbles: true,
+      cancelable: true,
+      touches:
+        type === 'touchend' ? [] : [new Touch({ identifier: 1, target: el })]
+    })
+  )
+}
+
+// a child that keeps the press to itself: only a capture-phase
+// listener on the element still sees it
+function stopAtChild(wrapper, type) {
+  wrapper.get('span').element.addEventListener(type, evt => {
+    evt.stopPropagation()
+  })
 }
 
 function expectKeyboard(modifier, expected) {
@@ -65,7 +88,7 @@ describe('[TouchRepeat API]', () => {
     test('as Function', () => {
       const { handler, wrapper } = mountTouchRepeat({ mouse: true })
 
-      dispatchMouseDown(wrapper)
+      mouseDown(wrapper.element)
 
       expect(handler).toHaveBeenCalledWith(
         expect.objectContaining({
@@ -85,7 +108,7 @@ describe('[TouchRepeat API]', () => {
     test('as undefined', () => {
       const { wrapper } = mountTouchRepeat({ mouse: true }, { handler: void 0 })
 
-      dispatchMouseDown(wrapper)
+      mouseDown(wrapper.element)
 
       expect(wrapper.element.__qtouchrepeat.handler).toBeUndefined()
       expect(wrapper.element.__qtouchrepeat.event).toBeUndefined()
@@ -99,7 +122,7 @@ describe('[TouchRepeat API]', () => {
         { arg: '100:40:20' }
       )
 
-      dispatchMouseDown(wrapper)
+      mouseDown(wrapper.element)
       vi.advanceTimersByTime(99)
 
       expect(handler).not.toHaveBeenCalled()
@@ -120,47 +143,63 @@ describe('[TouchRepeat API]', () => {
     describe('[(modifier)capture]', () => {
       test('has effect', () => {
         client.has.touch = true
-        const { wrapper } = mountTouchRepeat({ capture: true })
+        const bubble = mountTouchRepeat({})
+        const capture = mountTouchRepeat({ capture: true })
 
-        expect(
-          getMainEvent(wrapper.element.__qtouchrepeat, 'touchstart')[3]
-        ).toBe('passiveCapture')
+        stopAtChild(bubble.wrapper, 'touchstart')
+        stopAtChild(capture.wrapper, 'touchstart')
+
+        touch(bubble.wrapper.get('span').element, 'touchstart')
+        touch(capture.wrapper.get('span').element, 'touchstart')
+
+        expect(bubble.handler).not.toHaveBeenCalled()
+        expect(capture.handler).toHaveBeenCalledTimes(1)
       })
     })
 
     describe('[(modifier)mouse]', () => {
       test('has effect', () => {
-        const { wrapper } = mountTouchRepeat({ mouse: true })
+        client.has.touch = true
+        const touchOnly = mountTouchRepeat({})
+        const withMouse = mountTouchRepeat({ mouse: true })
 
-        expect(
-          getMainEvent(wrapper.element.__qtouchrepeat, 'mousedown')[3]
-        ).toBe('passive')
+        mouseDown(touchOnly.wrapper.element)
+        mouseDown(withMouse.wrapper.element)
+
+        expect(touchOnly.handler).not.toHaveBeenCalled()
+        expect(withMouse.handler).toHaveBeenCalledTimes(1)
       })
     })
 
     describe('[(modifier)mouseCapture]', () => {
       test('has effect', () => {
-        const { wrapper } = mountTouchRepeat({
-          mouse: true,
-          mouseCapture: true
-        })
+        const bubble = mountTouchRepeat({ mouse: true })
+        const capture = mountTouchRepeat({ mouse: true, mouseCapture: true })
 
-        expect(
-          getMainEvent(wrapper.element.__qtouchrepeat, 'mousedown')[3]
-        ).toBe('passiveCapture')
+        stopAtChild(bubble.wrapper, 'mousedown')
+        stopAtChild(capture.wrapper, 'mousedown')
+
+        mouseDown(bubble.wrapper.get('span').element)
+        mouseDown(capture.wrapper.get('span').element)
+
+        expect(bubble.handler).not.toHaveBeenCalled()
+        expect(capture.handler).toHaveBeenCalledTimes(1)
       })
     })
 
     describe('[(modifier)keyCapture]', () => {
       test('has effect', () => {
-        const { wrapper } = mountTouchRepeat({
-          enter: true,
-          keyCapture: true
-        })
+        const bubble = mountTouchRepeat({ enter: true })
+        const capture = mountTouchRepeat({ enter: true, keyCapture: true })
 
-        expect(getMainEvent(wrapper.element.__qtouchrepeat, 'keydown')[3]).toBe(
-          'notPassiveCapture'
-        )
+        stopAtChild(bubble.wrapper, 'keydown')
+        stopAtChild(capture.wrapper, 'keydown')
+
+        keyDown(bubble.wrapper.get('span').element, 13)
+        keyDown(capture.wrapper.get('span').element, 13)
+
+        expect(bubble.handler).not.toHaveBeenCalled()
+        expect(capture.handler).toHaveBeenCalledTimes(1)
       })
     })
 
@@ -232,7 +271,7 @@ describe('[TouchRepeat API]', () => {
 
       // a mouse press waits for the first repeat, so a quick
       // click never flashes the suppression styles
-      dispatchMouseDown(wrapper)
+      mouseDown(wrapper.element)
 
       expect(document.body.classList.contains('non-selectable')).toBe(false)
 
@@ -247,21 +286,110 @@ describe('[TouchRepeat API]', () => {
 
       // a touch press starts native selection on ANY touch-capable
       // device, so it is suppressed right away
-      wrapper.element.dispatchEvent(
-        new TouchEvent('touchstart', {
-          bubbles: true,
-          touches: [new Touch({ identifier: 1, target: wrapper.element })]
-        })
-      )
+      touch(wrapper.element, 'touchstart')
 
       expect(document.body.classList.contains('non-selectable')).toBe(true)
 
-      wrapper.element.dispatchEvent(
-        new TouchEvent('touchend', { bubbles: true, touches: [] })
-      )
+      touch(wrapper.element, 'touchend')
       vi.advanceTimersByTime(50)
 
       expect(document.body.classList.contains('non-selectable')).toBe(false)
+    })
+
+    test('repeats while a key is held and stops on its release', () => {
+      const { handler, wrapper } = mountTouchRepeat(
+        { space: true },
+        { arg: '0:100' }
+      )
+
+      keyDown(wrapper.element, 32)
+
+      expect(handler).toHaveBeenCalledWith(
+        expect.objectContaining({ keyboard: true, keyCode: 32, repeatCount: 1 })
+      )
+
+      // the browser's own key repeat must not start a second run
+      keyDown(wrapper.element, 32)
+      vi.advanceTimersByTime(100)
+
+      expect(handler).toHaveBeenCalledTimes(2)
+
+      const keyup = new KeyboardEvent('keyup', {
+        cancelable: true,
+        keyCode: 32
+      })
+      document.dispatchEvent(keyup)
+      vi.advanceTimersByTime(300)
+
+      expect(handler).toHaveBeenCalledTimes(2)
+      expect(keyup.defaultPrevented).toBe(true)
+    })
+
+    test('stops repeating once the press moves away', () => {
+      const { handler, wrapper } = mountTouchRepeat({ mouse: true })
+
+      mouseDown(wrapper.element)
+      document.dispatchEvent(
+        new MouseEvent('mousemove', { clientX: 10, clientY: 30 })
+      )
+      vi.advanceTimersByTime(1000)
+
+      expect(handler).toHaveBeenCalledTimes(1)
+    })
+
+    test('an undefined value mid-press stops the repeats', async () => {
+      const handler = vi.fn()
+      const value = ref(handler)
+      const TestComponent = defineComponent({
+        setup() {
+          return () =>
+            withDirectives(h('div'), [
+              [TouchRepeat, value.value, void 0, { mouse: true }]
+            ])
+        }
+      })
+      const wrapper = mount(TestComponent)
+
+      mouseDown(wrapper.element)
+
+      expect(handler).toHaveBeenCalledTimes(1)
+
+      value.value = void 0
+      await flushPromises()
+      vi.advanceTimersByTime(1000)
+
+      expect(handler).toHaveBeenCalledTimes(1)
+      expect(document.body.classList.contains('non-selectable')).toBe(false)
+
+      value.value = handler
+      await flushPromises()
+      mouseDown(wrapper.element)
+
+      expect(handler).toHaveBeenCalledTimes(2)
+    })
+
+    test('lets go of everything on unmount', () => {
+      client.has.touch = true
+      const { handler, wrapper } = mountTouchRepeat({
+        mouse: true,
+        enter: true
+      })
+      const el = wrapper.element
+
+      mouseDown(el)
+      wrapper.unmount()
+      vi.advanceTimersByTime(1000)
+
+      expect(handler).toHaveBeenCalledTimes(1)
+      expect(document.body.classList.contains('non-selectable')).toBe(false)
+      expect(document.documentElement.style.cursor).toBe('')
+
+      mouseDown(el)
+      touch(el, 'touchstart')
+      keyDown(el, 13)
+
+      expect(handler).toHaveBeenCalledTimes(1)
+      expect(el.__qtouchrepeat).toBeUndefined()
     })
   })
 })
