@@ -1,8 +1,6 @@
-import { mount } from '@vue/test-utils'
+import { flushPromises, mount } from '@vue/test-utils'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
-import { defineComponent, h, withDirectives } from 'vue'
-
-import { getMainEvent } from 'testing/runtime/directive.js'
+import { defineComponent, h, ref, withDirectives } from 'vue'
 
 import { client } from '../../plugins/platform/Platform.js'
 import TouchHold from './TouchHold.js'
@@ -27,7 +25,9 @@ function mountTouchHold(modifiers, options = {}) {
   const TestComponent = defineComponent({
     setup() {
       return () =>
-        withDirectives(h('div'), [[TouchHold, handler, options.arg, modifiers]])
+        withDirectives(h('div', [h('span')]), [
+          [TouchHold, handler, options.arg, modifiers]
+        ])
     }
   })
 
@@ -37,19 +37,37 @@ function mountTouchHold(modifiers, options = {}) {
   }
 }
 
+function mouseDown(el, opts) {
+  el.dispatchEvent(
+    new MouseEvent('mousedown', { bubbles: true, button: 0, ...opts })
+  )
+}
+
+function touch(el, type, identifier = 1) {
+  el.dispatchEvent(
+    new TouchEvent(type, {
+      bubbles: true,
+      cancelable: true,
+      touches:
+        type === 'touchend' ? [] : [new Touch({ identifier, target: el })]
+    })
+  )
+}
+
+// a child that keeps the press to itself: only a capture-phase
+// listener on the element still sees it
+function stopAtChild(wrapper, type) {
+  wrapper.get('span').element.addEventListener(type, evt => {
+    evt.stopPropagation()
+  })
+}
+
 describe('[TouchHold API]', () => {
   describe('[Value]', () => {
     test('as Function', () => {
       const { handler, wrapper } = mountTouchHold({ mouse: true })
 
-      wrapper.element.dispatchEvent(
-        new MouseEvent('mousedown', {
-          bubbles: true,
-          button: 0,
-          clientX: 10,
-          clientY: 20
-        })
-      )
+      mouseDown(wrapper.element, { clientX: 10, clientY: 20 })
       vi.advanceTimersByTime(600)
 
       expect(handler).toHaveBeenCalledWith(
@@ -70,12 +88,7 @@ describe('[TouchHold API]', () => {
     test('as undefined', () => {
       const { wrapper } = mountTouchHold({ mouse: true }, { handler: void 0 })
 
-      wrapper.element.dispatchEvent(
-        new MouseEvent('mousedown', {
-          bubbles: true,
-          button: 0
-        })
-      )
+      mouseDown(wrapper.element)
 
       expect(wrapper.element.__qtouchhold.handler).toBeUndefined()
       expect(wrapper.element.__qtouchhold.timer).toBeUndefined()
@@ -97,34 +110,50 @@ describe('[TouchHold API]', () => {
     describe('[(modifier)capture]', () => {
       test('has effect', () => {
         client.has.touch = true
-        const { wrapper } = mountTouchHold({ capture: true })
+        const bubble = mountTouchHold({})
+        const capture = mountTouchHold({ capture: true })
 
-        expect(
-          getMainEvent(wrapper.element.__qtouchhold, 'touchstart')[3]
-        ).toBe('passiveCapture')
+        stopAtChild(bubble.wrapper, 'touchstart')
+        stopAtChild(capture.wrapper, 'touchstart')
+
+        touch(bubble.wrapper.get('span').element, 'touchstart')
+        touch(capture.wrapper.get('span').element, 'touchstart')
+        vi.advanceTimersByTime(600)
+
+        expect(bubble.handler).not.toHaveBeenCalled()
+        expect(capture.handler).toHaveBeenCalledTimes(1)
       })
     })
 
     describe('[(modifier)mouse]', () => {
       test('has effect', () => {
-        const { wrapper } = mountTouchHold({ mouse: true })
+        client.has.touch = true
+        const touchOnly = mountTouchHold({})
+        const withMouse = mountTouchHold({ mouse: true })
 
-        expect(getMainEvent(wrapper.element.__qtouchhold, 'mousedown')[3]).toBe(
-          'passive'
-        )
+        mouseDown(touchOnly.wrapper.element)
+        mouseDown(withMouse.wrapper.element)
+        vi.advanceTimersByTime(600)
+
+        expect(touchOnly.handler).not.toHaveBeenCalled()
+        expect(withMouse.handler).toHaveBeenCalledTimes(1)
       })
     })
 
     describe('[(modifier)mouseCapture]', () => {
       test('has effect', () => {
-        const { wrapper } = mountTouchHold({
-          mouse: true,
-          mouseCapture: true
-        })
+        const bubble = mountTouchHold({ mouse: true })
+        const capture = mountTouchHold({ mouse: true, mouseCapture: true })
 
-        expect(getMainEvent(wrapper.element.__qtouchhold, 'mousedown')[3]).toBe(
-          'passiveCapture'
-        )
+        stopAtChild(bubble.wrapper, 'mousedown')
+        stopAtChild(capture.wrapper, 'mousedown')
+
+        mouseDown(bubble.wrapper.get('span').element)
+        mouseDown(capture.wrapper.get('span').element)
+        vi.advanceTimersByTime(600)
+
+        expect(bubble.handler).not.toHaveBeenCalled()
+        expect(capture.handler).toHaveBeenCalledTimes(1)
       })
     })
   })
@@ -135,31 +164,130 @@ describe('[TouchHold API]', () => {
       const { wrapper } = mountTouchHold({ mouse: true })
 
       // a held mouse button selects nothing, so nothing to suppress
-      wrapper.element.dispatchEvent(
-        new MouseEvent('mousedown', { bubbles: true, button: 0 })
-      )
+      mouseDown(wrapper.element)
 
       expect(document.body.classList.contains('non-selectable')).toBe(false)
 
-      document.dispatchEvent(new MouseEvent('mouseup'))
+      document.dispatchEvent(new MouseEvent('click'))
 
       // a touch hold starts native selection on ANY touch-capable
       // device, so it is suppressed right from the press
-      wrapper.element.dispatchEvent(
-        new TouchEvent('touchstart', {
-          bubbles: true,
-          touches: [new Touch({ identifier: 1, target: wrapper.element })]
-        })
-      )
+      touch(wrapper.element, 'touchstart')
 
       expect(document.body.classList.contains('non-selectable')).toBe(true)
 
-      wrapper.element.dispatchEvent(
-        new TouchEvent('touchend', { bubbles: true, touches: [] })
-      )
+      touch(wrapper.element, 'touchend')
       vi.advanceTimersByTime(50)
 
       expect(document.body.classList.contains('non-selectable')).toBe(false)
+    })
+
+    test('cancels the hold once the press moves past the sensitivity', () => {
+      const { handler, wrapper } = mountTouchHold({ mouse: true })
+
+      mouseDown(wrapper.element, { clientX: 10, clientY: 10 })
+      document.dispatchEvent(
+        new MouseEvent('mousemove', { clientX: 17, clientY: 10 })
+      )
+      vi.advanceTimersByTime(600)
+
+      expect(handler).not.toHaveBeenCalled()
+
+      // the release still ends the press, so the next one is tracked
+      document.dispatchEvent(new MouseEvent('click'))
+      mouseDown(wrapper.element, { clientX: 10, clientY: 10 })
+      document.dispatchEvent(
+        new MouseEvent('mousemove', { clientX: 16, clientY: 10 })
+      )
+      vi.advanceTimersByTime(600)
+
+      expect(handler).toHaveBeenCalledTimes(1)
+    })
+
+    test('swallows the click that ends a triggered hold', () => {
+      const { handler, wrapper } = mountTouchHold({ mouse: true })
+
+      mouseDown(wrapper.element)
+      vi.advanceTimersByTime(600)
+
+      expect(handler).toHaveBeenCalledTimes(1)
+
+      const click = new MouseEvent('click', { cancelable: true })
+      document.dispatchEvent(click)
+
+      expect(click.defaultPrevented).toBe(true)
+
+      // an untriggered press leaves its click alone
+      mouseDown(wrapper.element)
+      const quick = new MouseEvent('click', { cancelable: true })
+      document.dispatchEvent(quick)
+
+      expect(quick.defaultPrevented).toBe(false)
+      expect(handler).toHaveBeenCalledTimes(1)
+    })
+
+    test('tracks one press at a time', () => {
+      client.has.touch = true
+      const { handler, wrapper } = mountTouchHold({})
+
+      touch(wrapper.element, 'touchstart', 1)
+      touch(wrapper.element, 'touchstart', 2)
+      vi.advanceTimersByTime(600)
+
+      expect(handler).toHaveBeenCalledTimes(1)
+
+      touch(wrapper.element, 'touchend')
+      touch(wrapper.element, 'touchstart', 3)
+      vi.advanceTimersByTime(600)
+
+      expect(handler).toHaveBeenCalledTimes(2)
+    })
+
+    test('an undefined value mid-press cancels the hold', async () => {
+      const handler = vi.fn()
+      const value = ref(handler)
+      const TestComponent = defineComponent({
+        setup() {
+          return () =>
+            withDirectives(h('div'), [
+              [TouchHold, value.value, void 0, { mouse: true }]
+            ])
+        }
+      })
+      const wrapper = mount(TestComponent)
+
+      mouseDown(wrapper.element)
+      value.value = void 0
+      await flushPromises()
+      vi.advanceTimersByTime(600)
+
+      expect(handler).not.toHaveBeenCalled()
+
+      value.value = handler
+      await flushPromises()
+      mouseDown(wrapper.element)
+      vi.advanceTimersByTime(600)
+
+      expect(handler).toHaveBeenCalledTimes(1)
+    })
+
+    test('lets go of everything on unmount', () => {
+      client.has.touch = true
+      const { handler, wrapper } = mountTouchHold({ mouse: true })
+      const el = wrapper.element
+
+      touch(el, 'touchstart')
+      wrapper.unmount()
+
+      expect(document.body.classList.contains('non-selectable')).toBe(false)
+
+      vi.advanceTimersByTime(600)
+      touch(el, 'touchstart')
+      mouseDown(el)
+      vi.advanceTimersByTime(600)
+
+      expect(handler).not.toHaveBeenCalled()
+      expect(el.__qtouchhold).toBeUndefined()
     })
   })
 })
