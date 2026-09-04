@@ -47,6 +47,12 @@ The following are a few examples, but not an exhaustive list:
 
 <DocExample title="With direction links" file="DirectionLinks" />
 
+### Custom ellipsis <q-badge label="v2.30+" />
+
+The `ellipsis` slot replaces the "..." buttons. Spread its `btnProps` onto your own QBtn to keep the default look, then attach whatever behavior you need: below, a [QPopupEdit](/vue-components/popup-edit) lets the user type the page number instead of jumping to the next hidden page. Bind the slot's `onClick` (or `to` when using `to-fn`) if you also want the default navigation.
+
+<DocExample title="Go to page with QPopupEdit" file="EllipsisSlot" />
+
 ## Accessibility <q-badge label="v2.25+" />
 
 QPagination renders as a `navigation` landmark. The first/previous/next/last buttons get localized `aria-label`s from the [Quasar Language Pack](/options/quasar-language-packs) in use, the numbered buttons are labeled with the page they lead to, and the active page's button is marked with `aria-current="page"`. The landmark itself is named from the same language pack (`pagination.label`); pass your own `aria-label` (it falls through to the root element) to tell several paginations on one page apart. It also carries `aria-disabled` at all times, reporting `true` or `false` according to the `disable` prop.
