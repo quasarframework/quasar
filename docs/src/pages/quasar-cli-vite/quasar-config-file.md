@@ -244,6 +244,10 @@ extras?: (QuasarIconSets | QuasarFonts)[];
 framework?: {
   /**
    * @see - QuasarConfOptions tab in API cards throughout the docs
+   *
+   * A spinner (config > loading > spinner, config > notify > spinner)
+   * is referred to by its name here (e.g. 'QSpinnerGears'), as the
+   * config file cannot import components
    */
   config?: SerializableConfiguration<QuasarUIConfiguration>;
   /**

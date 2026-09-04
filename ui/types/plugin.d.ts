@@ -9,6 +9,15 @@ export interface QuasarComponents {}
 export interface QuasarDirectives {}
 export interface QuasarPlugins {}
 
+/**
+ * Names of the spinner components (e.g. 'QSpinnerGears'); the quasar.config
+ * file refers to a spinner by its name, as it cannot import components.
+ */
+export type QuasarSpinners = Extract<
+  keyof QuasarComponents,
+  `QSpinner${string}`
+>;
+
 export interface QuasarPluginOptions {
   lang?: QuasarLanguage;
   config?: QuasarUIConfiguration;

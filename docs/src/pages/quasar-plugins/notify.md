@@ -166,6 +166,20 @@ dismiss()
 
 There are two ways of setting default configuration that will apply to all Notifications: through quasar.config file > framework > config > notify Object (see Installation section) or programmatically (see below).
 
+```js
+// quasar.config file
+framework: {
+  config: {
+    notify: {
+      // the config file cannot import components,
+      // so a spinner is referred to by its name
+      spinner: 'QSpinnerHourglass'
+      // ...other Notify options
+    }
+  }
+}
+```
+
 We'll describe setting the defaults through a [@quasar/app-vite Boot File](/quasar-cli-vite/boot-files) (works the same anywhere in your code, but a boot file ensures this is run before your app starts):
 
 First we create the boot file. Let's name it "notify-defaults.js".

@@ -7,6 +7,18 @@ import type {
   QuasarUIConfiguration
 } from "quasar";
 
+/**
+ * The spinner names are derived here rather than imported (`QuasarSpinners`
+ * exists in quasar v2.30+ only), so the config keeps its typing on an older
+ * quasar; a components list without spinners falls back to any string
+ */
+type QuasarSpinnerName =
+  Extract<keyof QuasarComponents, `QSpinner${string}`> extends infer T
+    ? [T] extends [never]
+      ? string
+      : T
+    : never;
+
 type AnyFn = (...args: any) => any;
 type SerializableConfiguration<T> = {
   [K in keyof T as AnyFn extends T[K] ? never : K]: object extends T[K]
@@ -14,12 +26,39 @@ type SerializableConfiguration<T> = {
     : T[K];
 };
 
+/**
+ * The config file cannot import components, so a spinner is referred to
+ * by its name (e.g. 'QSpinnerGears') and gets imported for you
+ */
+type SpinnerByName<T, TSpinner> = Omit<
+  SerializableConfiguration<NonNullable<T>>,
+  "spinner"
+> & {
+  /**
+   * One of the Quasar spinners, by name
+   *
+   * @see https://v2.quasar.dev/vue-components/spinners
+   * @example 'QSpinnerGears'
+   */
+  spinner?: TSpinner;
+};
+type SerializableUIConfiguration = Omit<
+  SerializableConfiguration<QuasarUIConfiguration>,
+  "loading" | "notify"
+> & {
+  loading?: SpinnerByName<QuasarUIConfiguration["loading"], QuasarSpinnerName>;
+  notify?: SpinnerByName<
+    QuasarUIConfiguration["notify"],
+    boolean | QuasarSpinnerName
+  >;
+};
+
 export interface QuasarFrameworkConfiguration {
   /**
    * @see - QuasarConfOptions tab in API cards throughout the docs
    * @type options {@link QuasarUIConfiguration}
    */
-  config?: SerializableConfiguration<QuasarUIConfiguration>;
+  config?: SerializableUIConfiguration;
   /**
    * One of the Quasar IconSets
    *

@@ -140,3 +140,17 @@ Please remember that calling `Loading.hide()` with no parameters will hide all t
 ### Setting Up Defaults
 
 Should you wish to set up some defaults, rather than specifying them each time, you can do so by using quasar.config file > framework > config > loading: {...} or by calling `Loading.setDefaults({...})` or `$q.loading.setDefaults({...})`.
+
+```js
+// quasar.config file
+framework: {
+  config: {
+    loading: {
+      // the config file cannot import components,
+      // so a spinner is referred to by its name
+      spinner: 'QSpinnerGears'
+      // ...other Loading options
+    }
+  }
+}
+```
