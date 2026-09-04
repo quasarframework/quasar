@@ -1,5 +1,3 @@
-// oxlint-disable no-eq-null
-
 function toByteView(v) {
   return v.constructor === ArrayBuffer
     ? new Uint8Array(v)
