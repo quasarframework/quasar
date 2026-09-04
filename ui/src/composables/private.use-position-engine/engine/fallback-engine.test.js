@@ -107,7 +107,84 @@ describe('[fallbackEngine API]', () => {
         expect(rect.top).toBe(130)
         expect(rect.left).toBe(100)
         expect(cfg.targetEl.style.top).toBe('130px')
+        expect(cfg.targetEl.style.bottom).toBe('')
+        expect(cfg.targetEl.style.right).toBe('')
+        expect(cfg.targetEl.style.translate).toBe('')
         expect(cfg.targetEl.style.visibility).toBe('visible')
+      })
+
+      test('hangs a bottom/right self origin from bottom/right insets', () => {
+        // like the native engine's anchor() insets, so content growing
+        // between two passes grows away from the anchor line instead of
+        // over it
+        const { clientWidth: viewportWidth, clientHeight: viewportHeight } =
+          document.documentElement
+        const cfg = createConfig({
+          anchorOrigin: { vertical: 'bottom', horizontal: 'right' },
+          selfOrigin: { vertical: 'bottom', horizontal: 'right' }
+        })
+
+        applyPosition(cfg)
+
+        const { style } = cfg.targetEl
+        expect(style.bottom).toBe(`${viewportHeight - 130}px`)
+        expect(style.right).toBe(`${viewportWidth - 200}px`)
+        expect(style.top).toBe('')
+        expect(style.left).toBe('')
+
+        // content grows without another pass
+        style.height = '120px'
+        style.width = '300px'
+
+        const rect = cfg.targetEl.getBoundingClientRect()
+        expect(rect.bottom).toBe(130)
+        expect(rect.right).toBe(200)
+        expect(rect.top).toBe(10)
+      })
+
+      test('straddles the anchor line through a translate when centered', () => {
+        // anchor-center / -50% translate natively: growth keeps the center
+        const cfg = createConfig({
+          anchorOrigin: { vertical: 'center', horizontal: 'middle' },
+          selfOrigin: { vertical: 'center', horizontal: 'middle' }
+        })
+
+        applyPosition(cfg)
+
+        const { style } = cfg.targetEl
+        expect(style.translate).toBe('-50% -50%')
+        // anchor center at (150, 115)
+        expect(style.top).toBe('115px')
+        expect(style.left).toBe('150px')
+
+        style.height = '120px'
+        style.width = '300px'
+
+        const rect = cfg.targetEl.getBoundingClientRect()
+        expect(rect.top + rect.height / 2).toBe(115)
+        expect(rect.left + rect.width / 2).toBe(150)
+      })
+
+      test('clears the insets of a previous pass when the self origin changes', () => {
+        const cfg = createConfig({
+          anchorOrigin: { vertical: 'bottom', horizontal: 'right' },
+          selfOrigin: { vertical: 'bottom', horizontal: 'right' }
+        })
+
+        applyPosition(cfg)
+        applyPosition({
+          ...cfg,
+          anchorOrigin: { vertical: 'bottom', horizontal: 'middle' },
+          selfOrigin: { vertical: 'top', horizontal: 'middle' }
+        })
+
+        const { style } = cfg.targetEl
+        expect(style.bottom).toBe('')
+        expect(style.right).toBe('')
+        expect(style.top).toBe('130px')
+        expect(style.left).toBe('150px')
+        // '-50% 0', serialized
+        expect(style.translate).toBe('-50%')
       })
 
       test('honors the resolved anchor and self origins', () => {
@@ -304,6 +381,32 @@ describe('[fallbackEngine API]', () => {
         expect(document.body.style.getPropertyValue('--q-pe-left')).toBe('5px')
         expect(document.body.style.getPropertyValue('--q-pe-top')).toBe('7px')
       })
+
+      test('shifts an inset by the published offsets whichever edge it is written from', () => {
+        // the q-position-engine class turns the offsets into margins; an
+        // inset written from the end edge needs the mirrored margin
+        document.body.style.setProperty('--q-pe-left', '5px')
+        document.body.style.setProperty('--q-pe-top', '7px')
+
+        const cfg = createConfig()
+        cfg.targetEl.classList.add('q-position-engine')
+
+        applyPosition(cfg)
+
+        let rect = cfg.targetEl.getBoundingClientRect()
+        expect(rect.top).toBe(137)
+        expect(rect.left).toBe(105)
+
+        applyPosition({
+          ...cfg,
+          anchorOrigin: { vertical: 'bottom', horizontal: 'right' },
+          selfOrigin: { vertical: 'bottom', horizontal: 'right' }
+        })
+
+        rect = cfg.targetEl.getBoundingClientRect()
+        expect(rect.bottom).toBe(137)
+        expect(rect.right).toBe(205)
+      })
     })
     describe('[(function)trackAnchorMotion]', () => {
       const sleep = ms =>
@@ -491,13 +594,16 @@ describe('[fallbackEngine API]', () => {
         engine.handleShow()
         engine.handleTick()
 
+        // the content pass re-expresses the placement against the
+        // anchor's CURRENT rect (the centering itself is CSS)
+        anchorEl.style.left = '200px'
         const { width } = target.getBoundingClientRect()
         target.textContent = 'content that got quite a bit wider'
 
         await vi.waitFor(() => {
           const rect = target.getBoundingClientRect()
           expect(rect.width).toBeGreaterThan(width)
-          expect(rect.left + rect.width / 2).toBeCloseTo(150, 0)
+          expect(rect.left + rect.width / 2).toBeCloseTo(250, 0)
         })
 
         engine.releaseAnchor(false)

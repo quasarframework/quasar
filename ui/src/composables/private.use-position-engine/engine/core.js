@@ -5,7 +5,7 @@ const partsFirst = ['top', 'center', 'bottom'],
  * Decides which of the two positioning engines drives a popup:
  * anchor-engine.js (native CSS anchor positioning, zero
  * listeners) where this returns true, fallback-engine.js
- * (measure + pixel top/left, scroll listeners) everywhere else.
+ * (measure + pixel insets, scroll listeners) everywhere else.
  *
  * The native path is deliberately gated to Chromium engines (identified
  * through the Chromium-only userAgentData API): it is the only family
@@ -120,7 +120,7 @@ export function parsePosition(pos, rtl) {
  * cap replaces them all, so a flip towards a side roomier than that
  * bound would otherwise widen the popup past it. How the returned
  * origins/caps are then EXPRESSED is the engines'
- * business: anchor() insets on the native engine, pixel top/left on the
+ * business: anchor() insets on the native engine, pixel insets on the
  * fallback; either way the popup keeps tracking its anchor and only the
  * flip/cap decision itself is frozen at measure time. The element does
  * leave the pass already at the decided caps though: measuring lifts

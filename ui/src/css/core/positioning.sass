@@ -100,7 +100,11 @@ body.q-safe-area-padding .fullscreen
 
 /* internal: */
 .q-position-engine
+  // the visual viewport offset (iOS pinch-zoom) shifts the popup by the
+  // same amount whichever edge its inset is written from
   margin-top: var(--q-pe-top, 0) !important
   margin-left: var(--q-pe-left, 0) !important
+  margin-bottom: calc(-1 * var(--q-pe-top, 0px)) !important
+  margin-right: calc(-1 * var(--q-pe-left, 0px)) !important
   will-change: auto
   visibility: hidden // needed for animation - is removed on first positioning

@@ -393,14 +393,15 @@ describe('[usePositionEngine API]', () => {
         popup.engine.releaseAnchor(true)
         popup.engine.releaseAnchor(false)
 
-        const { left } = el.getBoundingClientRect()
+        // a content pass still running would follow the moved anchor
+        popup.anchor.style.top = '300px'
         popup.content.value = 'content that got quite a bit wider'
         await nextTick()
         await new Promise(resolve => {
           setTimeout(resolve, 30)
         })
 
-        expect(el.getBoundingClientRect().left).toBe(left)
+        expectPlacedAt(el, { top: 200, centerX: 200 })
       })
     })
 

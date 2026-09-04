@@ -18,8 +18,13 @@ import {
 
 /**
  * The JS positioning engine: expresses a placement decided by the
- * shared boundary pass (core.js) through pixel top/left
- * styles. A written position is only valid for the moment it was
+ * shared boundary pass (core.js) through pixel insets, written from
+ * the edge the self origin anchors (top or bottom, left or right) like
+ * the native engine's anchor() insets, so content that grows between
+ * two passes grows away from the anchor line instead of over it; a
+ * centered self origin straddles its line through a -50% translate
+ * (anchor-center / translate natively).
+ * A written position is only valid for the moment it was
  * computed, so its callers re-express the SAME frozen placement
  * (applyPosition) on every scroll step (private.scroll-tracking) and
  * on anchor motion (trackAnchorMotion) — the popup stays glued to its
@@ -116,25 +121,11 @@ export function applyPosition({
   const { offsetWidth: width, offsetHeight: height } = el
   const { clientWidth: VW, clientHeight: VH } = document.documentElement
   const shift = { top: 0, left: 0 }
-  let top, left
+  let lineY, lineX
 
   if (point !== void 0) {
-    const lineY = rect.top + point.top + pointOffset(selfOrigin.vertical, oy)
-    const lineX =
-      rect.left + point.left + pointOffset(selfOrigin.horizontal, ox)
-
-    top =
-      selfOrigin.vertical === 'bottom'
-        ? lineY - height
-        : selfOrigin.vertical === 'center'
-          ? lineY - height / 2
-          : lineY
-    left =
-      selfOrigin.horizontal === 'right'
-        ? lineX - width
-        : selfOrigin.horizontal === 'middle'
-          ? lineX - width / 2
-          : lineX
+    lineY = rect.top + point.top + pointOffset(selfOrigin.vertical, oy)
+    lineX = rect.left + point.left + pointOffset(selfOrigin.horizontal, ox)
   } else {
     // the offset-expanded anchor box, same as the decision pass'
     const A = {
@@ -146,41 +137,54 @@ export function applyPosition({
       middle: rect.left + (rect.right - rect.left) / 2
     }
 
-    const lineY = A[anchorOrigin.vertical]
-
-    if (selfOrigin.vertical === 'center') {
-      top = lineY - height / 2
-
-      if (anchorOrigin.vertical === 'center') {
-        shift.top =
-          centerShift !== null
-            ? centerShift.top
-            : Math.max(0, Math.min(top, VH - height)) - top
-        top += shift.top
-      }
-    } else {
-      top = lineY - (selfOrigin.vertical === 'bottom' ? height : 0)
-    }
-
-    const lineX = A[anchorOrigin.horizontal]
-
-    if (selfOrigin.horizontal === 'middle') {
-      left = lineX - width / 2
-
-      if (anchorOrigin.horizontal === 'middle') {
-        shift.left =
-          centerShift !== null
-            ? centerShift.left
-            : Math.max(0, Math.min(left, VW - width)) - left
-        left += shift.left
-      }
-    } else {
-      left = lineX - (selfOrigin.horizontal === 'right' ? width : 0)
-    }
+    lineY = A[anchorOrigin.vertical]
+    lineX = A[anchorOrigin.horizontal]
   }
 
-  el.style.top = top + 'px'
-  el.style.left = left + 'px'
+  // one inset per axis, from the edge the self origin anchors; the
+  // other edge is cleared so a re-decided origin never leaves both set
+  const pos = { top: '', bottom: '', left: '', right: '' }
+  let tx = '0',
+    ty = '0'
+
+  if (selfOrigin.vertical === 'center') {
+    if (point === void 0 && anchorOrigin.vertical === 'center') {
+      const top = lineY - height / 2
+
+      shift.top =
+        centerShift !== null
+          ? centerShift.top
+          : Math.max(0, Math.min(top, VH - height)) - top
+    }
+
+    pos.top = lineY + shift.top + 'px'
+    ty = '-50%'
+  } else if (selfOrigin.vertical === 'bottom') {
+    pos.bottom = VH - lineY + 'px'
+  } else {
+    pos.top = lineY + 'px'
+  }
+
+  if (selfOrigin.horizontal === 'middle') {
+    if (point === void 0 && anchorOrigin.horizontal === 'middle') {
+      const left = lineX - width / 2
+
+      shift.left =
+        centerShift !== null
+          ? centerShift.left
+          : Math.max(0, Math.min(left, VW - width)) - left
+    }
+
+    pos.left = lineX + shift.left + 'px'
+    tx = '-50%'
+  } else if (selfOrigin.horizontal === 'right') {
+    pos.right = VW - lineX + 'px'
+  } else {
+    pos.left = lineX + 'px'
+  }
+
+  pos.translate = tx === '0' && ty === '0' ? '' : `${tx} ${ty}`
+  Object.assign(el.style, pos)
 
   return shift
 }
@@ -238,7 +242,7 @@ export function trackAnchorMotion(getAnchorEl, onMove, duration) {
 }
 
 /**
- * The JS fallback: pixel top/left, re-expressed on every scroll step
+ * The JS fallback: pixel insets, re-expressed on every scroll step
  * and anchor move; the placement decision itself has the same
  * lifecycle as the native engine's.
  */
