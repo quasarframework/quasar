@@ -57,11 +57,11 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, useTemplateRef } from 'vue'
 
 const itemsRef = ref([{}, {}, {}, {}, {}, {}, {}])
 const itemsId = ref([{}, {}, {}, {}, {}, {}, {}])
-const scrollTargetRef = ref(null)
+const scrollTargetRef = useTemplateRef('scrollTargetRef')
 
 function onLoadRef(index, done) {
   setTimeout(() => {

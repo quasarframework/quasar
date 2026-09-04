@@ -35,9 +35,9 @@
 </template>
 
 <script setup>
-import { onMounted, ref, watch } from 'vue'
+import { onMounted, ref, useTemplateRef, watch } from 'vue'
 
-const treeRef = ref(null)
+const treeRef = useTemplateRef('treeRef')
 const ticked = ref(['Good recipe'])
 const indeterminate = ref([])
 

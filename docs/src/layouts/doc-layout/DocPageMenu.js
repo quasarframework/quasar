@@ -9,7 +9,7 @@ import {
 } from 'quasar'
 
 import { mdiMenuDown } from '@quasar/extras/mdi-v7'
-import { h, onBeforeUpdate, ref, watch, withDirectives } from 'vue'
+import { h, onBeforeUpdate, shallowRef, watch, withDirectives } from 'vue'
 import { useRoute } from 'vue-router'
 
 import Menu from '@/assets/menu.js'
@@ -36,7 +36,7 @@ export default {
     const $route = useRoute()
     const routePath = $route.path
 
-    const rootRef = ref(null)
+    const rootRef = shallowRef(null)
 
     watch(
       () => $route.path,

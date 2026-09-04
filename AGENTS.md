@@ -38,6 +38,9 @@ acts on. Exception: procedures that must be followed exactly (e.g.
   options, possibly-`undefined` values, project functions (their
   implementation can drift to non-boolean returns and silently break
   truthiness-based call sites).
+- A ref that holds a DOM element or a component instance/definition is
+  never a `ref()`: `shallowRef(null)` in render-function code,
+  `useTemplateRef()` in SFCs (`<script setup>` and `setup()` alike).
 
 ## Generated Quasar configuration
 

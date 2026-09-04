@@ -27,9 +27,9 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { useTemplateRef } from 'vue'
 
-const myListRef = ref(null)
+const myListRef = useTemplateRef('myListRef')
 </script>
 
 <style lang="sass" scoped>

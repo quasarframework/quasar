@@ -34,10 +34,10 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, useTemplateRef } from 'vue'
 
 const itemsMenu = ref([{}, {}, {}, {}, {}, {}, {}])
-const scrollTargetRef = ref(null)
+const scrollTargetRef = useTemplateRef('scrollTargetRef')
 
 function onLoadMenu(index, done) {
   if (index > 1) {

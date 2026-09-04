@@ -19,10 +19,11 @@ On the server-side of SSR or SSG modes, the composable never observes anything: 
 ## Syntax
 
 ```js
+import { useTemplateRef } from 'vue'
 import { useIntersection } from 'quasar'
 
 setup () {
-  const target = ref(null) // template ref of an Element or a component
+  const target = useTemplateRef('target') // an Element or a component
 
   const { isIntersecting, refresh, stop } = useIntersection({
     // all optional:
@@ -149,10 +150,10 @@ To observe a specific element or child component instead, hand over a template r
 </template>
 
 <script setup>
-  import { ref } from 'vue'
+  import { useTemplateRef } from 'vue'
   import { useIntersection } from 'quasar'
 
-  const chartRef = ref(null)
+  const chartRef = useTemplateRef('chartRef')
 
   const { isIntersecting } = useIntersection({
     target: chartRef,

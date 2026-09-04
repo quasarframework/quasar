@@ -125,7 +125,14 @@
 </template>
 
 <script setup>
-import { computed, inject, markRaw, onMounted, ref, useTemplateRef } from 'vue'
+import {
+  computed,
+  inject,
+  onMounted,
+  ref,
+  shallowRef,
+  useTemplateRef
+} from 'vue'
 import { openURL } from 'quasar'
 
 import { fabCodepen, fabGithub } from '@quasar/extras/fontawesome-v7'
@@ -154,7 +161,7 @@ const docStore = useDocStore()
 const examples = inject('_q_ex')
 
 const codepenRef = useTemplateRef('codepenRef')
-const component = ref(null)
+const component = shallowRef(null)
 const currentTab = ref('Template')
 const expanded = ref(false)
 const source = ref({
@@ -289,11 +296,11 @@ if (import.meta.env.QUASAR_CLIENT) {
       })
 
       glob[`../examples/${examples.name}/${props.file}.vue`]().then(comp => {
-        component.value = markRaw(comp)
+        component.value = comp
       })
     } else {
       examples.runtime.then(glob => {
-        component.value = markRaw(glob[props.file])
+        component.value = glob[props.file]
       })
     }
   })
