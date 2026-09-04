@@ -27,7 +27,7 @@
             Guarding text above QPullToRefresh
           </div>
           <component
-            :is="scrollArea ? 'QScrollArea' : 'div'"
+            :is="scrollArea ? QScrollArea : 'div'"
             :class="scrollClass"
           >
             <q-pull-to-refresh
@@ -35,6 +35,7 @@
               color="primary"
               @refresh="refresh"
               :disable="disable"
+              :side="side"
             >
               <q-select
                 v-model="selectModel"
@@ -45,8 +46,8 @@
               <div class="bg-white overflow-hidden-y">
                 <div>
                   <div class="caption bg-yellow-6">
-                    Pull down to refresh on the content below. On desktop it
-                    works by dragging the content down.
+                    Pull from the selected side to refresh on the content below.
+                    On desktop it works by dragging the content.
                   </div>
 
                   <div class="caption bg-yellow-6">
@@ -55,6 +56,13 @@
                     <q-toggle v-model="guardTop" label="Show Top Guard" />
                     <q-toggle v-model="guardBottom" label="Show Bottom Guard" />
                     <q-toggle v-model="disable" label="Disable" />
+                    <q-btn-toggle
+                      v-model="side"
+                      dense
+                      no-caps
+                      toggle-color="primary"
+                      :options="sideOptions"
+                    />
                     <q-toggle v-model="scroll" label="Scroll" />
                     <q-toggle v-model="scrollArea" label="QScrollArea" />
                   </div>
@@ -101,7 +109,7 @@
 </style>
 
 <script setup>
-import { useQuasar } from 'quasar'
+import { QScrollArea, useQuasar } from 'quasar'
 import { computed, nextTick, ref, watch } from 'vue'
 
 const $q = useQuasar()
@@ -114,6 +122,11 @@ const guardBottom = ref(true)
 const header = ref(true)
 const footer = ref(true)
 const disable = ref(false)
+const side = ref('top')
+const sideOptions = ['top', 'bottom', 'left', 'right'].map(value => ({
+  label: value,
+  value
+}))
 const scroll = ref(false)
 const scrollArea = ref(false)
 const selectModel = ref(null)

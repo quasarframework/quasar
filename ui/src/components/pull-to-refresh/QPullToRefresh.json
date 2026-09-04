@@ -25,6 +25,15 @@
       "category": "behavior"
     },
 
+    "side": {
+      "type": "String",
+      "desc": "Side of the content the pull starts from; the refresh is triggered by pulling from that edge towards the inside of the content, while the scroll target is scrolled to that edge; 'bottom' suits messenger-styled content, where the newest entries sit at the bottom",
+      "values": ["'top'", "'bottom'", "'left'", "'right'"],
+      "default": "'top'",
+      "category": "behavior",
+      "addedIn": "v2.30"
+    },
+
     "disable": {
       "extends": "disable"
     },

@@ -10,3 +10,10 @@ export const basic = {
   render: () =>
     h(QPullToRefresh, { onRefresh: () => {} }, () => h('div', 'content'))
 }
+
+export const bottom = {
+  render: () =>
+    h(QPullToRefresh, { side: 'bottom', onRefresh: () => {} }, () =>
+      h('div', 'content')
+    )
+}

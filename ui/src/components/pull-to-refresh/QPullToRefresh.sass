@@ -1,13 +1,35 @@
 .q-pull-to-refresh
   position: relative
 
+  // a 1px strip along the pulled side
   &__sentinel
     position: absolute
-    top: 0
-    left: 0
-    width: 1px
-    height: 1px
     pointer-events: none
+
+  &--top &__sentinel, &--bottom &__sentinel
+    left: 0
+    right: 0
+    height: 1px
+
+  // a block only grows with its content vertically; pulled sideways, the
+  // root has to span content that overflows sideways for its edge (and
+  // the sentinel on it) to be the content's edge
+  &--left, &--right
+    min-width: fit-content
+
+  &--left &__sentinel, &--right &__sentinel
+    top: 0
+    bottom: 0
+    width: 1px
+
+  &--top &__sentinel
+    top: 0
+  &--bottom &__sentinel
+    bottom: 0
+  &--left &__sentinel
+    left: 0
+  &--right &__sentinel
+    right: 0
 
   &__puller
     border-radius: 50%

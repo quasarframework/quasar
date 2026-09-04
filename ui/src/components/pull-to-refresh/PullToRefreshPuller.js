@@ -11,12 +11,17 @@ import { createComponent } from '../../utils/private.create/create.js'
  * QPullToRefresh content.
  */
 export default /*#__PURE__*/ createComponent({
-  props: ['store', 'color', 'bgColor', 'icon'],
+  props: ['store', 'side', 'color', 'bgColor', 'icon'],
 
   setup(props) {
     return () => {
-      const { store } = props
-      const ratio = store.pullRatio.value
+      const { store, side } = props
+      // the puller travels (and spins) away from the side it pulls from
+      const opacity = store.pullRatio.value
+      const transform =
+        `translate${side === 'left' || side === 'right' ? 'X' : 'Y'}` +
+        `(${(side === 'bottom' || side === 'right' ? -1 : 1) * store.pullPosition.value}px)` +
+        ` rotate(${opacity * 360}deg)`
 
       return h(
         'div',
@@ -36,8 +41,8 @@ export default /*#__PURE__*/ createComponent({
                   : '') +
                 (props.bgColor !== void 0 ? ` bg-${props.bgColor}` : ''),
               style: {
-                opacity: ratio,
-                transform: `translateY(${store.pullPosition.value}px) rotate(${ratio * 360}deg)`
+                opacity,
+                transform
               }
             },
             [

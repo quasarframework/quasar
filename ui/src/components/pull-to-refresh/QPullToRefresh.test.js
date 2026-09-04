@@ -12,19 +12,48 @@ function mountPullToRefresh(props = {}, slots = {}) {
   })
 }
 
-// a real scroll container, scrolled 10px down
-function createScrollTarget(className) {
+// a real scroll container
+function createScrollContainer(className) {
   const scrollTarget = document.createElement('div')
   if (className !== void 0) scrollTarget.className = className
   scrollTarget.style.cssText = 'height: 50px; overflow: auto;'
+  document.body.append(scrollTarget)
+  return scrollTarget
+}
+
+// a real scroll container with its own content, scrolled 10px down
+function createScrollTarget(className) {
+  const scrollTarget = createScrollContainer(className)
 
   const content = document.createElement('div')
   content.style.height = '200px'
   scrollTarget.append(content)
 
-  document.body.append(scrollTarget)
   scrollTarget.scrollTop = 10
   return scrollTarget
+}
+
+// mounts the component as the sole content of a real scroll container
+// (scrolling both ways)
+function mountInScrollContainer(props) {
+  const scrollTarget = createScrollContainer('scroll')
+  scrollTarget.style.width = '50px'
+
+  const wrapper = mount(QPullToRefresh, {
+    props,
+    attachTo: scrollTarget,
+    slots: {
+      default: () => h('div', { style: 'height: 200px; width: 200px' })
+    }
+  })
+
+  return { wrapper, scrollTarget }
+}
+
+function disarmed(wrapper) {
+  return vi.waitFor(() => {
+    expect(getPanContext(wrapper).handler).toBeUndefined()
+  })
 }
 
 function getPanContext(wrapper) {
@@ -111,6 +140,113 @@ describe('[QPullToRefresh API]', () => {
         } finally {
           client.has.touch = origTouch
         }
+      })
+    })
+
+    describe('[(prop)side]', () => {
+      // the pull goes from the side towards the inside of the content
+      // (never the other way), while the scroll target sits at that side
+      // (and not at the far edge of the axis)
+      const sides = {
+        top: { direction: 'down', wrong: 'up', away: 'bottom' },
+        bottom: { direction: 'up', wrong: 'down', away: 'top' },
+        left: { direction: 'right', wrong: 'left', away: 'right' },
+        right: { direction: 'left', wrong: 'right', away: 'left' }
+      }
+
+      async function scrollTo(scrollTarget, side) {
+        scrollTarget.scrollTop = side === 'bottom' ? 1000 : 0
+        scrollTarget.scrollLeft = side === 'right' ? 1000 : 0
+        await nextTick()
+      }
+
+      async function expectSide(side) {
+        const { direction, wrong, away } = sides[side]
+        const { wrapper, scrollTarget } = mountInScrollContainer({ side })
+
+        expect(getPanContext(wrapper).direction[direction]).toBe(true)
+        expect(wrapper.get('.q-pull-to-refresh').classes()).toContain(
+          `q-pull-to-refresh--${side}`
+        )
+
+        await scrollTo(scrollTarget, away)
+        await disarmed(wrapper)
+
+        await scrollTo(scrollTarget, side)
+        await armed(wrapper)
+
+        expect(pan(wrapper, { isFirst: true, direction: wrong })).toBe(false)
+        expect(
+          wrapper.get('.q-pull-to-refresh__content').classes()
+        ).not.toContain('no-pointer-events')
+
+        // scrolled a bit away from the side, the right gesture is refused too
+        const axis =
+          away === 'top' || away === 'bottom' ? 'scrollTop' : 'scrollLeft'
+        scrollTarget[axis] += away === 'bottom' || away === 'right' ? 10 : -10
+        expect(pan(wrapper, { isFirst: true, direction })).toBe(false)
+
+        await scrollTo(scrollTarget, side)
+        expect(pan(wrapper, { isFirst: true, direction })).not.toBe(false)
+        await nextTick()
+
+        expect(wrapper.get('.q-pull-to-refresh__content').classes()).toContain(
+          'no-pointer-events'
+        )
+
+        // the container spans the pulled side of what the scroll
+        // container shows of the (larger) content
+        const { style } = wrapper.get(
+          '.q-pull-to-refresh__puller-container'
+        ).element
+        const visible = scrollTarget.getBoundingClientRect()
+        const doc = document.documentElement
+        const expected = {
+          top: visible.top + scrollTarget.clientTop,
+          left: visible.left + scrollTarget.clientLeft,
+          bottom:
+            doc.clientHeight -
+            (visible.top + scrollTarget.clientTop + scrollTarget.clientHeight),
+          right:
+            doc.clientWidth -
+            (visible.left + scrollTarget.clientLeft + scrollTarget.clientWidth)
+        }
+        expect(Number.parseFloat(style[side])).toBeCloseTo(expected[side], 3)
+        expect(style[away]).toBe('')
+        if (side === 'top' || side === 'bottom') {
+          expect(Number.parseFloat(style.left)).toBeCloseTo(expected.left, 3)
+          expect(Number.parseFloat(style.width)).toBeCloseTo(
+            scrollTarget.clientWidth,
+            3
+          )
+        } else {
+          expect(Number.parseFloat(style.top)).toBeCloseTo(expected.top, 3)
+          expect(Number.parseFloat(style.height)).toBeCloseTo(
+            scrollTarget.clientHeight,
+            3
+          )
+        }
+
+        pan(wrapper, { isFinal: true })
+        await nextTick()
+
+        wrapper.unmount()
+        scrollTarget.remove()
+      }
+
+      test('type String has effect', async () => {
+        for (const side of Object.keys(sides)) {
+          await expectSide(side)
+        }
+      })
+
+      test('defaults to top', () => {
+        const wrapper = mountPullToRefresh()
+
+        expect(getPanContext(wrapper).direction.down).toBe(true)
+        expect(wrapper.get('.q-pull-to-refresh').classes()).toContain(
+          'q-pull-to-refresh--top'
+        )
       })
     })
 
@@ -254,21 +390,12 @@ describe('[QPullToRefresh API]', () => {
 
   describe('[Generic]', () => {
     test('TouchPan stays disarmed while the content edge is scrolled out of view', async () => {
-      const scrollTarget = document.createElement('div')
-      scrollTarget.style.cssText = 'height: 50px; overflow: auto;'
-      document.body.append(scrollTarget)
-
-      const wrapper = mount(QPullToRefresh, {
-        attachTo: scrollTarget,
-        slots: { default: () => h('div', { style: 'height: 200px' }) }
-      })
+      const { wrapper, scrollTarget } = mountInScrollContainer()
 
       await armed(wrapper)
 
       scrollTarget.scrollTop = 10
-      await vi.waitFor(() => {
-        expect(getPanContext(wrapper).handler).toBeUndefined()
-      })
+      await disarmed(wrapper)
 
       scrollTarget.scrollTop = 0
       await armed(wrapper)

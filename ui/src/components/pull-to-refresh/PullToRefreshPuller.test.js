@@ -51,6 +51,31 @@ describe('[PullToRefreshPuller API]', () => {
         )
       })
 
+      test('travels away from the pulled side', () => {
+        const { store, puller } = mountPuller({ side: 'top' })
+        const position = store.pullPosition.value
+        const angle = store.pullRatio.value * 360
+
+        expect(puller.element.style.transform).toBe(
+          `translateY(${position}px) rotate(${angle}deg)`
+        )
+
+        wrapper.unmount()
+        expect(
+          mountPuller({ side: 'bottom' }).puller.element.style.transform
+        ).toBe(`translateY(-${position}px) rotate(${angle}deg)`)
+
+        wrapper.unmount()
+        expect(
+          mountPuller({ side: 'left' }).puller.element.style.transform
+        ).toBe(`translateX(${position}px) rotate(${angle}deg)`)
+
+        wrapper.unmount()
+        expect(
+          mountPuller({ side: 'right' }).puller.element.style.transform
+        ).toBe(`translateX(-${position}px) rotate(${angle}deg)`)
+      })
+
       test('shows the icon while pulling and a spinner while refreshing', async () => {
         const { store, puller } = mountPuller({ color: 'primary' })
 
