@@ -116,6 +116,19 @@ describe('[is API]', () => {
         expect(is.deepEqual(a, b)).toBe(true)
         expect(is.deepEqual(a, c)).toBe(false)
       })
+
+      test.each(['valueOf', 'toString'])(
+        'uses %s only when both objects override it',
+        method => {
+          const a = { value: 1 }
+          const b = Object.assign(Object.create({ [method]: () => 'custom' }), {
+            value: 1
+          })
+
+          expect(is.deepEqual(a, b)).toBe(true)
+          expect(is.deepEqual(b, a)).toBe(true)
+        }
+      )
     })
 
     describe('[(function)object]', () => {
