@@ -41,10 +41,16 @@ export default /*#__PURE__*/ createComponent({
   emits: ['click'],
 
   setup(props, { slots, emit }) {
-    const $fab = inject(fabKey, () => ({
-      showing: { value: true },
-      onChildClick: noop
-    }))
+    // the factory flag is required: without it Vue injects this function
+    // as-is, leaving a QFabAction used outside a QFab with no fallback
+    const $fab = inject(
+      fabKey,
+      () => ({
+        showing: { value: true },
+        onChildClick: noop
+      }),
+      true
+    )
 
     const { formClass, stacked, labelProps } = useFab(props, $fab.showing)
 

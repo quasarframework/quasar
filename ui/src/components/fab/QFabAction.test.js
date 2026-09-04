@@ -492,5 +492,24 @@ describe('[QFabAction API]', () => {
         expect(rendered).not.toContain(name)
       }
     })
+
+    test('falls back to a standalone state outside of a QFab', async () => {
+      const wrapper = mount(QFabAction, {
+        props: {
+          externalLabel: true,
+          hideLabel: null,
+          label: 'Create'
+        }
+      })
+
+      expect(getButton(wrapper).attributes('aria-disabled')).toBeUndefined()
+      expect(getLabel(wrapper).classes()).not.toContain(
+        'q-fab__label--external-hidden'
+      )
+
+      await getButton(wrapper).trigger('click')
+
+      expect(wrapper.emitted('click')).toHaveLength(1)
+    })
   })
 })
