@@ -1,8 +1,12 @@
 import { Transition, defineComponent, h, nextTick } from 'vue'
-import { mount } from '@vue/test-utils'
+import { enableAutoUnmount, mount } from '@vue/test-utils'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 
 import QIntersection from './QIntersection.js'
+
+// observers are pooled per config, so every test must give its element
+// back or the next test would silently reuse this one's observer
+enableAutoUnmount(afterEach)
 
 let observers
 
@@ -29,12 +33,16 @@ afterEach(() => {
 })
 
 function show(observer = observers[0]) {
-  observer.callback([
-    {
-      isIntersecting: true,
-      rootBounds: {}
-    }
-  ])
+  observer.callback(
+    [
+      {
+        target: observer.observe.mock.lastCall[0],
+        isIntersecting: true,
+        rootBounds: {}
+      }
+    ],
+    observer
+  )
 }
 
 describe('[QIntersection API]', () => {

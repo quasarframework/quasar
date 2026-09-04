@@ -5,7 +5,7 @@
 
   "value": {
     "type": ["Boolean", "Object", "Function"],
-    "desc": "Boolean false (or undefined) to disable the directive (the observer is dropped and recreated when a handler is supplied again); Function to call when scrolling occurs (identical to description of 'handler' prop of the Object form); If using the Object form, it is HIGHLY recommended to reference it from your vue component scope, otherwise the directive update cycle will continuously recreate the observer which hits performance hard",
+    "desc": "Boolean false (or undefined) to disable the directive (the element stops being observed until a handler is supplied again); Function to call when scrolling occurs (identical to description of 'handler' prop of the Object form); Elements sharing the same 'cfg' share one Intersection Observer, and the Object form is compared by its option values, so an inline Object literal costs nothing extra",
     "examples": [
       "# v-intersection=\"myFunction\"",
       "# v-intersection=\"isEnabled ? myFunction : false\"",

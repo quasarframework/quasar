@@ -1,78 +1,146 @@
 import { createDirective } from '../../utils/private.create/create.js'
-import { isDeepEqual } from '../../utils/is/is.js'
 import getSSRProps from '../../utils/private.noop-ssr-directive-transform/noop-ssr-directive-transform.js'
 
-const defaultCfg = {
-  threshold: 0,
-  root: null,
-  rootMargin: '0px'
+// one IntersectionObserver per distinct (root, rootMargin, threshold),
+// shared by every element observed with it: the browser charges each
+// observer its own pass per frame, so N single-element observers scale
+// far worse than one observer with N targets
+const pools = new Map() // root -> Map<key, pool>
+
+function sameThreshold(a, b) {
+  if (a === b) return true
+  if (!Array.isArray(a) || !Array.isArray(b) || a.length !== b.length) {
+    return false
+  }
+
+  for (let i = 0; i < a.length; i++) {
+    if (a[i] !== b[i]) return false
+  }
+
+  return true
+}
+
+function onEntries(entries, observer) {
+  for (const entry of entries) {
+    const el = entry.target
+    const ctx = el.__qvisible
+
+    // unlike MutationObserver, disconnect()/unobserve() do not drop the
+    // entries an observer already queued, so a disabled, re-configured or
+    // destroyed element can still receive entries from its former observer
+    if (ctx === void 0 || ctx.pool?.observer !== observer) continue
+
+    // if observed element is part of a vue transition
+    // then we need to be careful...
+    if (entry.rootBounds === null && document.body.contains(el)) {
+      observer.unobserve(el)
+      observer.observe(el)
+      continue
+    }
+
+    // the handler runs first: with once, the intersecting entry that
+    // retires the element is the one it must see
+    if (ctx.handler(entry) === false || (ctx.once && entry.isIntersecting)) {
+      destroy(el)
+    }
+  }
+}
+
+function acquire(el, ctx, root, rootMargin, threshold) {
+  let byKey = pools.get(root)
+  if (byKey === void 0) {
+    byKey = new Map()
+    pools.set(root, byKey)
+  }
+
+  const key = `${rootMargin}|${threshold}`
+  let pool = byKey.get(key)
+  if (pool === void 0) {
+    pool = {
+      root,
+      rootMargin,
+      threshold,
+      key,
+      count: 0,
+      observer: new IntersectionObserver(onEntries, {
+        root,
+        rootMargin,
+        threshold
+      })
+    }
+    byKey.set(key, pool)
+  }
+
+  pool.count++
+  pool.observer.observe(el)
+  ctx.pool = pool
+}
+
+function release(el, ctx) {
+  const pool = ctx.pool
+  if (pool === void 0) return
+
+  ctx.pool = void 0
+
+  if (--pool.count === 0) {
+    pool.observer.disconnect()
+
+    const byKey = pools.get(pool.root)
+    byKey.delete(pool.key)
+    if (byKey.size === 0) pools.delete(pool.root)
+  } else {
+    pool.observer.unobserve(el)
+  }
 }
 
 function update(el, ctx, value) {
-  // the cached cfg is what a re-enable rebuilds the observer from, and a
-  // queued callback must find no handler left to run; undefined disables
-  // too, matching the touch directives, so a gated value never throws
+  // undefined disables too, matching the touch directives,
+  // so a gated value never throws
   if (value === false || value === void 0) {
-    if (ctx.observer !== void 0) {
-      ctx.observer.disconnect()
-      ctx.observer = void 0
-    }
-    ctx.cfg = void 0
+    release(el, ctx)
     ctx.handler = void 0
     return
   }
 
-  let handler, cfg, changed
+  let root = null
+  let rootMargin = '0px'
+  let threshold = 0
 
   if (typeof value === 'function') {
-    handler = value
-    changed = ctx.cfg !== defaultCfg
-    cfg = defaultCfg
+    ctx.handler = value
   } else {
-    handler = value.handler
-    cfg = { ...defaultCfg, ...value.cfg }
-    changed = ctx.cfg === void 0 || !isDeepEqual(ctx.cfg, cfg)
-  }
+    ctx.handler = value.handler
 
-  if (ctx.handler !== handler) {
-    ctx.handler = handler
-  }
-
-  if (!changed) return
-
-  ctx.cfg = cfg
-  ctx.observer?.disconnect()
-
-  ctx.observer = new IntersectionObserver(([entry]) => {
-    // unlike MutationObserver, disconnect() does not drop the entries an
-    // observer already queued, so the notify task can still deliver them
-    // after a disable landed in between; those must find no handler to run
-    if (typeof ctx.handler === 'function') {
-      // if observed element is part of a vue transition
-      // then we need to be careful...
-      if (entry.rootBounds === null && document.body.contains(el)) {
-        ctx.observer.unobserve(el)
-        ctx.observer.observe(el)
-        return
-      }
-
-      const res = ctx.handler(entry, ctx.observer)
-
-      if (res === false || (ctx.once && entry.isIntersecting)) {
-        destroy(el)
-      }
+    const cfg = value.cfg
+    if (cfg !== void 0) {
+      root = cfg.root ?? null
+      rootMargin = cfg.rootMargin ?? '0px'
+      threshold = cfg.threshold ?? 0
     }
-  }, cfg)
+  }
 
-  ctx.observer.observe(el)
+  const pool = ctx.pool
+  if (pool !== void 0) {
+    if (
+      pool.root === root &&
+      pool.rootMargin === rootMargin &&
+      sameThreshold(pool.threshold, threshold)
+    ) {
+      return
+    }
+
+    release(el, ctx)
+  }
+
+  acquire(el, ctx, root, rootMargin, threshold)
 }
 
 function destroy(el) {
   const ctx = el.__qvisible
 
   if (ctx !== void 0) {
-    ctx.observer?.disconnect()
-    delete el.__qvisible
+    release(el, ctx)
+    el.__qvisible = void 0
   }
 }
 
@@ -84,7 +152,9 @@ export default /*#__PURE__*/ createDirective(
 
         mounted(el, { modifiers, value }) {
           const ctx = {
-            once: modifiers.once === true
+            once: modifiers.once === true,
+            handler: void 0,
+            pool: void 0
           }
 
           update(el, ctx, value)

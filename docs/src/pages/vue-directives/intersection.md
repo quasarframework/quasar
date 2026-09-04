@@ -59,13 +59,13 @@ The directive can be used with the `once` modifier (ex: `v-intersection.once`). 
 
 ### Using an Object
 
-By passing in an Object as the directive's value (instead of a Function), you can control all the options (like threshold) of the Intersection Observer.
+By passing in an Object as the directive's value (instead of a Function), you can control all the options (like threshold) of the Intersection Observer. Elements using the same options share a single Intersection Observer under the hood, which is what keeps long lists cheap to scroll.
 
 <DocExample title="Supplying configuration Object" file="ObjectForm" no-edit />
 
 ### Disable
 
-Passing in Boolean `false` (or `undefined`) instead of a Function or an Object disables the directive: the Intersection Observer is dropped until a handler is supplied again. The DOM element is untouched in the process, so whatever it wraps keeps its state.
+Passing in Boolean `false` (or `undefined`) instead of a Function or an Object disables the directive: the element stops being observed until a handler is supplied again. The DOM element is untouched in the process, so whatever it wraps keeps its state.
 
 <DocExample title="Disable" file="Disable" no-edit />
 
