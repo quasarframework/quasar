@@ -1,22 +1,19 @@
 ---
 title: Intersection
-desc: The QIntersection vue component, a wrapper over Quasar's Intersection directive.
+desc: The QIntersection vue component, the wrapper-element counterpart of Quasar's Intersection directive and useIntersection composable.
 keys: QIntersection
 examples: QIntersection
 related:
   - /vue-directives/intersection
+  - /vue-composables/use-intersection
   - /options/transitions
 ---
 
-The QIntersection component is essentially a wrapper over the [Intersection directive](/vue-directives/intersection) with the added benefit that it handles the state by itself (does not require you to add it and handle it manually) and can optionally have a show/hide transition as well.
+The QIntersection component handles the visibility state by itself (does not require you to add it and handle it manually) and can optionally have a show/hide transition as well. It is built on the same engine as the [Intersection directive](/vue-directives/intersection) and the [useIntersection composable](/vue-composables/use-intersection): all three share one Intersection Observer per configuration, so long lists of QIntersection stay cheap to scroll.
 
 The main benefit of using QIntersection is, however, that the DOM tree is freed up of hidden nodes thus using the minimum possible RAM memory and making the page feel very snappy. As well, you can specify the `tag` property for the wrapper element to match your own needs, thus eliminating yet another DOM node.
 
 Under the hood, it uses the [Intersection Observer API](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API).
-
-::: warning
-Not all browsers support the Intersection Observer API. Most [modern browsers](https://caniuse.com/#search=intersection) do, but other browsers do not. If you need to support older browsers, you can install and import (into a boot file) the official W3C [polyfill](https://github.com/w3c/IntersectionObserver).
-:::
 
 <DocApi file="QIntersection" />
 

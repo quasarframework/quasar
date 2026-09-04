@@ -1,8 +1,8 @@
-import { Transition, computed, h, ref, withDirectives } from 'vue'
+import { Transition, computed, h, watch } from 'vue'
 
 import { isRuntimeSsrPreHydration } from '../../plugins/platform/Platform.js'
 
-import Intersection from '../../directives/intersection/Intersection.js'
+import useIntersection from '../../composables/use-intersection/use-intersection.js'
 
 import { createComponent } from '../../utils/private.create/create.js'
 import { hSlot } from '../../utils/private.render/render.js'
@@ -37,44 +37,34 @@ export default /*#__PURE__*/ createComponent({
   },
 
   setup(props, { slots, emit }) {
-    const showing = ref(
-      isRuntimeSsrPreHydration.value ? props.ssrPrerender : false
-    )
+    // observes the component's root element; disabling goes through
+    // the options instead of tearing down the observed element
+    // (which would re-create the content; #12668)
+    const { isIntersecting: showing } = useIntersection(() => ({
+      root: props.root,
+      rootMargin: props.margin,
+      threshold: props.threshold,
+      once: props.once,
+      disabled: props.disable
+    }))
 
-    const intersectionProps = computed(() =>
-      props.root !== void 0 ||
-      props.margin !== void 0 ||
-      props.threshold !== void 0
-        ? {
-            handler: trigger,
-            cfg: {
-              root: props.root,
-              rootMargin: props.margin,
-              threshold: props.threshold
-            }
-          }
-        : trigger
-    )
+    if (isRuntimeSsrPreHydration.value && props.ssrPrerender) {
+      showing.value = true
+    }
 
-    const directives = computed(() => [
-      [
-        Intersection,
-        props.disable ? false : intersectionProps.value,
-        void 0,
-        { once: props.once }
-      ]
-    ])
+    if (props.onVisibility !== void 0) {
+      watch(
+        showing,
+        value => {
+          emit('visibility', value)
+        },
+        { flush: 'sync' }
+      )
+    }
 
     const transitionStyle = computed(
       () => `--q-transition-duration: ${props.transitionDuration}ms`
     )
-
-    function trigger(entry) {
-      if (showing.value !== entry.isIntersecting) {
-        showing.value = entry.isIntersecting
-        if (props.onVisibility !== void 0) emit('visibility', showing.value)
-      }
-    }
 
     function getContent() {
       if (showing.value) {
@@ -111,12 +101,7 @@ export default /*#__PURE__*/ createComponent({
           ]
         : getContent()
 
-      // disabling goes through the directive value instead of detaching
-      // the directive (which would re-create the whole content; #12668)
-      return withDirectives(
-        h(props.tag, { class: 'q-intersection' }, child),
-        directives.value
-      )
+      return h(props.tag, { class: 'q-intersection' }, child)
     }
   }
 })

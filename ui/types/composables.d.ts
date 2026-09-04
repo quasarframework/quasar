@@ -1,6 +1,6 @@
 import { QDialog } from "quasar";
 import { MetaOptions } from "./meta";
-import { Ref } from "vue";
+import { ComponentPublicInstance, MaybeRefOrGetter, Ref } from "vue";
 import { QVueGlobals } from "./globals";
 
 export function useAnimationFrame(): {
@@ -40,6 +40,25 @@ export function useFormChild(options: UseFormChildOptions): void;
 
 export function useHydration(): {
   isHydrated: Ref<boolean>;
+};
+
+export interface UseIntersectionOptions {
+  target?: MaybeRefOrGetter<
+    Element | ComponentPublicInstance | null | undefined
+  >;
+  root?: Element | Document | null;
+  rootMargin?: string;
+  threshold?: number | number[];
+  once?: boolean;
+  disabled?: boolean;
+  onIntersect?: (entry: IntersectionObserverEntry) => boolean | void;
+}
+
+export function useIntersection(
+  options?: MaybeRefOrGetter<UseIntersectionOptions>
+): {
+  isIntersecting: Ref<boolean>;
+  stop: () => void;
 };
 
 export function useInterval(): {

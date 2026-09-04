@@ -681,6 +681,11 @@ export default [
         path: 'use-id'
       },
       {
+        name: 'useIntersection',
+        badge: 'new',
+        path: 'use-intersection'
+      },
+      {
         name: 'useInterval',
         path: 'use-interval'
       },

@@ -201,7 +201,10 @@ describe('[Intersection API]', () => {
         // the handler must see the very entry that retires the element
         expect(handler).toHaveBeenCalledExactlyOnceWith(entry)
         expect(observer.disconnect).toHaveBeenCalledOnce()
-        expect(wrapper.element.__qvisible).toBeUndefined()
+
+        // retired for good: a queued entry is dropped
+        observer.callback([entry], observer)
+        expect(handler).toHaveBeenCalledOnce()
       })
     })
   })
@@ -323,11 +326,11 @@ describe('[Intersection API]', () => {
 
       expect(observer.unobserve).toHaveBeenCalledExactlyOnceWith(b)
       expect(observer.disconnect).not.toHaveBeenCalled()
-      expect(b.__qvisible).toBeUndefined()
-      expect(a.__qvisible).toBeDefined()
+      expect(b.__qintersection).toBeUndefined()
+      expect(a.__qintersection).toBeDefined()
 
       observer.callback([entryFor(a)], observer)
-      expect(a.__qvisible).toBeDefined()
+      expect(a.__qintersection).toBeDefined()
     })
 
     test('once only retires its own element from the shared observer', () => {
@@ -419,12 +422,12 @@ describe('[Intersection API]', () => {
         // the initial delivery reports both as hidden
         await vi.waitFor(() => expect(seen(plainFn)).toEqual([false]))
         expect(seen(onceFn)).toEqual([false])
-        expect(onceEl.__qvisible).toBeDefined()
+        expect(onceEl.__qintersection).toBeDefined()
 
         await scrollAndDeliver(area, 350, plainFn)
 
         expect(seen(onceFn)).toEqual([false, true])
-        expect(onceEl.__qvisible).toBeUndefined()
+        expect(onceEl.__qintersection).toBeUndefined()
 
         // the sibling still shares the observer and keeps reporting
         await scrollAndDeliver(area, 0, plainFn)
@@ -444,7 +447,7 @@ describe('[Intersection API]', () => {
 
         // the initial (hidden) entry already returns false
         await vi.waitFor(() => expect(seen(stopFn)).toEqual([false]))
-        expect(wrapper.get('#stop').element.__qvisible).toBeUndefined()
+        expect(wrapper.get('#stop').element.__qintersection).toBeUndefined()
 
         await scrollAndDeliver(area, 350, plainFn)
 
