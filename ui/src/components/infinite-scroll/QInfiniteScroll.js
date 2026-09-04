@@ -11,6 +11,8 @@ import {
   watch
 } from 'vue'
 
+import InfiniteScrollLoading from './InfiniteScrollLoading.js'
+
 import { createComponent } from '../../utils/private.create/create.js'
 import debounce from '../../utils/debounce/debounce.js'
 import { height } from '../../utils/dom/dom.js'
@@ -26,7 +28,7 @@ import {
   removePreventScrollReleaseListener
 } from '../../utils/scroll/prevent-scroll.js'
 import { listenOpts } from '../../utils/event/event.js'
-import { hSlot, hUniqueSlot } from '../../utils/private.render/render.js'
+import { hUniqueSlot } from '../../utils/private.render/render.js'
 
 const { passive } = listenOpts
 
@@ -72,16 +74,12 @@ export default /*#__PURE__*/ createComponent({
     const isWorking = ref(true)
     const suppressAnchoring = ref(false)
     const rootRef = ref(null)
-    const loadingRef = ref(null)
+
+    const store = { isFetching }
 
     let index = props.initialIndex
     let localScrollTarget, poll
     let inFixedSubtree = false
-
-    const classes = computed(
-      () =>
-        'q-infinite-scroll__loading' + (isFetching.value ? '' : ' invisible')
-    )
 
     const rootClasses = computed(
       () =>
@@ -273,31 +271,7 @@ export default /*#__PURE__*/ createComponent({
       }
     }
 
-    function updateSvgAnimations(isRetry) {
-      if (renderLoadingSlot.value) {
-        if (loadingRef.value === null) {
-          if (!isRetry) {
-            nextTick(() => {
-              updateSvgAnimations(true)
-            })
-          }
-          return
-        }
-
-        // we need to pause svg animations (if any) when hiding
-        // otherwise the browser will keep on recalculating the style
-        const action = `${isFetching.value ? 'un' : ''}pauseAnimations`
-        ;[...loadingRef.value.getElementsByTagName('svg')].forEach(el => {
-          el[action]()
-        })
-      }
-    }
-
     const renderLoadingSlot = computed(() => !props.disable && isWorking.value)
-
-    watch([isFetching, renderLoadingSlot], () => {
-      updateSvgAnimations()
-    })
 
     watch(
       () => props.disable,
@@ -359,8 +333,6 @@ export default /*#__PURE__*/ createComponent({
     onMounted(() => {
       setDebounce(props.debounce)
       updateScrollTarget()
-
-      if (!isFetching.value) updateSvgAnimations()
     })
 
     // expose public methods
@@ -382,11 +354,7 @@ export default /*#__PURE__*/ createComponent({
 
       if (renderLoadingSlot.value) {
         child[props.reverse ? 'unshift' : 'push'](
-          h(
-            'div',
-            { ref: loadingRef, class: classes.value },
-            hSlot(slots.loading)
-          )
+          h(InfiniteScrollLoading, { store }, { default: slots.loading })
         )
       }
 

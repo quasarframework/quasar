@@ -1,4 +1,4 @@
-import { nextTick } from 'vue'
+import { h, nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterEach, describe, expect, test, vi } from 'vitest'
 
@@ -342,6 +342,28 @@ describe('[QInfiniteScroll API]', () => {
   })
 
   describe('[Generic]', () => {
+    test('a load does not re-render the content', async () => {
+      const contentRenders = vi.fn(() => h('span', 'Content'))
+      const { wrapper } = mountInfiniteScroll(
+        {},
+        { default: contentRenders, loading: () => 'Loading...' }
+      )
+
+      const loading = wrapper.get('.q-infinite-scroll__loading')
+      const renders = contentRenders.mock.calls.length
+
+      wrapper.vm.trigger()
+      await nextTick()
+
+      expect(loading.classes()).not.toContain('invisible')
+
+      wrapper.emitted().load[0][1]()
+      await nextTick()
+
+      expect(loading.classes()).toContain('invisible')
+      expect(contentRenders).toHaveBeenCalledTimes(renders)
+    })
+
     test('does not poll while an overlay scroll-locks the page', () => {
       // give the page real overflowing content, so window scrolling works
       const filler = document.createElement('div')
