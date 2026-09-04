@@ -1,20 +1,38 @@
 import { createDirective } from '../../utils/private.create/create.js'
 import { css } from '../../utils/dom/dom.js'
-import { addEvt, cleanEvt, position, stop } from '../../utils/event/event.js'
+import { listenOpts, position, stop } from '../../utils/event/event.js'
 import { isKeyCode } from '../../utils/private.keyboard/key-composition.js'
-import throttle from '../../utils/throttle/throttle.js'
 import getSSRProps from '../../utils/private.noop-ssr-directive-transform/noop-ssr-directive-transform.js'
 
 const enterDelay = 50
 // waits out the browser's tap-vs-scroll disambiguation, so a
 // flick-scroll started on the element gets cancelled before painting
 const touchEnterDelay = 100
+const keyThrottle = 300
+
+const { passive } = listenOpts
+
+// ctx.bound: which listener set is on the element
+// 0: none (disabled), 1: click mode, 2: early mode
+const listeners = [
+  [],
+  [
+    ['click', onStart],
+    ['keyup', onKey]
+  ],
+  [
+    ['pointerdown', onStart],
+    ['pointercancel', onCancel],
+    ['pointerleave', onCancel],
+    ['keydown', onKey]
+  ]
+]
 
 function showRipple(evt, el, ctx, forceCenter) {
-  if (ctx.modifiers.stop) stop(evt)
+  if (ctx.stop) stop(evt)
 
-  const color = ctx.modifiers.color,
-    center = ctx.modifiers.center || forceCenter === true,
+  const color = ctx.color,
+    center = ctx.center || forceCenter === true,
     node = document.createElement('span'),
     innerNode = document.createElement('span'),
     pos = position(evt),
@@ -98,14 +116,66 @@ function showRipple(evt, el, ctx, forceCenter) {
   )
 }
 
-function updateModifiers(ctx, { modifiers, value, arg }) {
-  const cfg = { ...ctx.cfg.ripple, ...modifiers, ...value }
-  ctx.modifiers = {
-    early: cfg.early === true,
-    stop: cfg.stop === true,
-    center: cfg.center === true,
-    color: cfg.color || arg,
-    keyCodes: [cfg.keyCodes || 13].flat()
+// the listeners are shared by every element: the element is the
+// event's currentTarget and its context hangs off it
+function onStart(evt) {
+  if (!evt.qSkipRipple) {
+    const el = evt.currentTarget
+    showRipple(evt, el, el.__qripple, evt.qKeyEvent === true)
+  }
+}
+
+function onKey(evt) {
+  const el = evt.currentTarget,
+    ctx = el.__qripple
+
+  if (!evt.qSkipRipple && isKeyCode(evt, ctx.keyCodes)) {
+    const now = Date.now()
+    if (now - ctx.keyTime >= keyThrottle) {
+      ctx.keyTime = now
+      showRipple(evt, el, ctx, true)
+    }
+  }
+}
+
+// the browser claimed the gesture (scroll/pan) or the pressed
+// pointer was dragged off, so it can no longer become a tap
+function onCancel(evt) {
+  if (evt.type === 'pointerleave' && evt.buttons === 0) return
+
+  const { ripples } = evt.currentTarget.__qripple
+
+  // backwards since cancel() may splice the list
+  for (let i = ripples.length - 1; i >= 0; i--) {
+    const ripple = ripples[i]
+    if (ripple.pointerId === evt.pointerId) {
+      ripple.cancel()
+    }
+  }
+}
+
+function setOptions(ctx, { modifiers, value, arg }) {
+  const cfg = { ...ctx.cfg, ...modifiers, ...value }
+  const keyCodes = cfg.keyCodes || 13
+
+  ctx.early = cfg.early === true
+  ctx.stop = cfg.stop === true
+  ctx.center = cfg.center === true
+  ctx.color = cfg.color || arg
+  ctx.keyCodes = Array.isArray(keyCodes) ? keyCodes.flat() : keyCodes
+}
+
+function bind(el, ctx) {
+  const bound = ctx.enabled ? (ctx.early ? 2 : 1) : 0
+
+  if (bound !== ctx.bound) {
+    for (const [name, fn] of listeners[ctx.bound]) {
+      el.removeEventListener(name, fn, passive)
+    }
+    for (const [name, fn] of listeners[bound]) {
+      el.addEventListener(name, fn, passive)
+    }
+    ctx.bound = bound
   }
 }
 
@@ -123,59 +193,21 @@ export default /*#__PURE__*/ createDirective(
           if (cfg.ripple === false) return
 
           const ctx = {
-            cfg,
+            cfg: cfg.ripple,
             enabled: binding.value !== false,
-            modifiers: {},
-            ripples: [],
-
-            start(evt) {
-              if (
-                ctx.enabled &&
-                !evt.qSkipRipple &&
-                evt.type === (ctx.modifiers.early ? 'pointerdown' : 'click')
-              ) {
-                showRipple(evt, el, ctx, evt.qKeyEvent === true)
-              }
-            },
-
-            // the browser claimed the gesture (scroll/pan) or the pressed
-            // pointer was dragged off, so it can no longer become a tap
-            cancel(evt) {
-              if (evt.type === 'pointerleave' && evt.buttons === 0) return
-
-              // backwards since cancel() may splice the list
-              for (let i = ctx.ripples.length - 1; i >= 0; i--) {
-                const ripple = ctx.ripples[i]
-                if (ripple.pointerId === evt.pointerId) {
-                  ripple.cancel()
-                }
-              }
-            },
-
-            keystart: throttle(evt => {
-              if (
-                ctx.enabled &&
-                !evt.qSkipRipple &&
-                isKeyCode(evt, ctx.modifiers.keyCodes) &&
-                evt.type === `key${ctx.modifiers.early ? 'down' : 'up'}`
-              ) {
-                showRipple(evt, el, ctx, true)
-              }
-            }, 300)
+            early: false,
+            stop: false,
+            center: false,
+            color: void 0,
+            keyCodes: 13,
+            keyTime: 0,
+            bound: 0,
+            ripples: []
           }
 
-          updateModifiers(ctx, binding)
-
+          setOptions(ctx, binding)
           el.__qripple = ctx
-
-          addEvt(ctx, 'main', [
-            [el, 'pointerdown', 'start', 'passive'],
-            [el, 'click', 'start', 'passive'],
-            [el, 'pointercancel', 'cancel', 'passive'],
-            [el, 'pointerleave', 'cancel', 'passive'],
-            [el, 'keydown', 'keystart', 'passive'],
-            [el, 'keyup', 'keystart', 'passive']
-          ])
+          bind(el, ctx)
         },
 
         updated(el, binding) {
@@ -185,8 +217,10 @@ export default /*#__PURE__*/ createDirective(
               ctx.enabled = binding.value !== false
 
               if (ctx.enabled && Object(binding.value) === binding.value) {
-                updateModifiers(ctx, binding)
+                setOptions(ctx, binding)
               }
+
+              bind(el, ctx)
             }
           }
         },
@@ -197,8 +231,9 @@ export default /*#__PURE__*/ createDirective(
             ctx.ripples.forEach(ripple => {
               ripple.abort()
             })
-            cleanEvt(ctx, 'main')
-            delete el.__qripple
+            ctx.enabled = false
+            bind(el, ctx)
+            el.__qripple = void 0
           }
         }
       }

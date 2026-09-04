@@ -356,5 +356,87 @@ describe('[Ripple API]', () => {
 
       expect(wrapper.find('.q-ripple').exists()).toBe(true)
     })
+
+    test('switches the trigger when early changes at runtime', async () => {
+      const val = ref({ early: false })
+      const TestComponent = defineComponent({
+        setup() {
+          return () => withDirectives(h('div'), [[Ripple, val.value]])
+        }
+      })
+
+      const wrapper = mount(TestComponent)
+
+      firePointer(wrapper, 'pointerdown', { pointerId: 7 })
+
+      expect(wrapper.find('.q-ripple').exists()).toBe(false)
+
+      await wrapper.trigger('click')
+
+      expect(wrapper.findAll('.q-ripple').length).toBe(1)
+
+      val.value = { early: true }
+      await flushPromises()
+
+      await wrapper.trigger('click')
+
+      expect(wrapper.findAll('.q-ripple').length).toBe(1)
+
+      firePointer(wrapper, 'pointerdown', { pointerId: 7 })
+
+      expect(wrapper.findAll('.q-ripple').length).toBe(2)
+    })
+
+    test('ignores every trigger while disabled and reacts again once re-enabled', async () => {
+      const val = ref(false)
+      const TestComponent = defineComponent({
+        setup() {
+          return () => withDirectives(h('div'), [[Ripple, val.value]])
+        }
+      })
+
+      const wrapper = mount(TestComponent)
+
+      await wrapper.trigger('click')
+      await wrapper.trigger('keyup', { keyCode: 13 })
+
+      expect(wrapper.find('.q-ripple').exists()).toBe(false)
+
+      val.value = true
+      await flushPromises()
+
+      await wrapper.trigger('keyup', { keyCode: 13 })
+
+      expect(wrapper.findAll('.q-ripple').length).toBe(1)
+
+      await wrapper.trigger('click')
+
+      expect(wrapper.findAll('.q-ripple').length).toBe(2)
+    })
+
+    test('throttles keyboard-triggered ripples', async () => {
+      vi.useFakeTimers()
+
+      try {
+        const TestComponent = defineComponent({
+          render: () => withDirectives(h('div'), [[Ripple]])
+        })
+
+        const wrapper = mount(TestComponent)
+
+        await wrapper.trigger('keyup', { keyCode: 13 })
+        await wrapper.trigger('keyup', { keyCode: 13 })
+
+        expect(wrapper.findAll('.q-ripple').length).toBe(1)
+
+        vi.advanceTimersByTime(300)
+
+        await wrapper.trigger('keyup', { keyCode: 13 })
+
+        expect(wrapper.findAll('.q-ripple').length).toBe(2)
+      } finally {
+        vi.useRealTimers()
+      }
+    })
   })
 })
