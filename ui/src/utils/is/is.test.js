@@ -15,6 +15,12 @@ describe('[is API]', () => {
         ['Infinity', Infinity, Infinity],
         ['Date', new Date(150), new Date(150)],
         ['RegExp', /./, /./],
+        ['ArrayBuffer', Uint8Array.of(1).buffer, Uint8Array.of(1).buffer],
+        [
+          'DataView',
+          new DataView(Uint8Array.of(0, 1, 0).buffer, 1, 1),
+          new DataView(Uint8Array.of(2, 1, 2).buffer, 1, 1)
+        ],
         ['Array', [1, 2, 3], [1, 2, 3]],
         [
           'Map',
@@ -70,6 +76,17 @@ describe('[is API]', () => {
         ['5, Set()', 5, new Set([5])],
         ['5, Fn', 5, () => 5]
       ])('deepEqual(%s)', (_, a, b) => {
+        expect(is.deepEqual(a, b)).toBe(false)
+      })
+
+      test.each([
+        ['ArrayBuffer', Uint8Array.of(1).buffer, Uint8Array.of(2).buffer],
+        [
+          'DataView',
+          new DataView(Uint8Array.of(1).buffer),
+          new DataView(Uint8Array.of(2).buffer)
+        ]
+      ])('distinguishes %s instances by content', (_, a, b) => {
         expect(is.deepEqual(a, b)).toBe(false)
       })
     })

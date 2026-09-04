@@ -68,6 +68,17 @@ export function isDeepEqual(a, b) {
       return true
     }
 
+    if (a.constructor === ArrayBuffer) {
+      return isDeepEqual(new Uint8Array(a), new Uint8Array(b))
+    }
+
+    if (a.constructor === DataView) {
+      return isDeepEqual(
+        new Uint8Array(a.buffer, a.byteOffset, a.byteLength),
+        new Uint8Array(b.buffer, b.byteOffset, b.byteLength)
+      )
+    }
+
     // oxlint-disable-next-line eqeqeq
     if (a.buffer != null && a.buffer.constructor === ArrayBuffer) {
       length = a.length
