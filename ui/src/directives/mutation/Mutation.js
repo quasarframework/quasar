@@ -44,7 +44,7 @@ function destroy(el) {
 
   if (ctx !== void 0) {
     ctx.observer?.disconnect()
-    delete el.__qmutation
+    el.__qmutation = void 0
   }
 }
 
