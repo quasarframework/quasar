@@ -158,6 +158,8 @@ function setOptions(ctx, { modifiers, value, arg }) {
   const cfg = { ...ctx.cfg, ...modifiers, ...value }
   const keyCodes = cfg.keyCodes || 13
 
+  ctx.arg = arg
+  ctx.modifiers = modifiers
   ctx.early = cfg.early === true
   ctx.stop = cfg.stop === true
   ctx.center = cfg.center === true
@@ -195,6 +197,8 @@ export default /*#__PURE__*/ createDirective(
           const ctx = {
             cfg: cfg.ripple,
             enabled: binding.value !== false,
+            arg: void 0,
+            modifiers: void 0,
             early: false,
             stop: false,
             center: false,
@@ -211,18 +215,23 @@ export default /*#__PURE__*/ createDirective(
         },
 
         updated(el, binding) {
-          if (binding.oldValue !== binding.value) {
-            const ctx = el.__qripple
-            if (ctx !== void 0) {
-              ctx.enabled = binding.value !== false
+          const ctx = el.__qripple
+          if (ctx === void 0) return
 
-              if (ctx.enabled && Object(binding.value) === binding.value) {
-                setOptions(ctx, binding)
-              }
+          const { value, oldValue, arg, modifiers } = binding
 
-              bind(el, ctx)
-            }
+          ctx.enabled = value !== false
+
+          if (
+            ctx.enabled &&
+            (value !== oldValue ||
+              arg !== ctx.arg ||
+              modifiers !== ctx.modifiers)
+          ) {
+            setOptions(ctx, binding)
           }
+
+          bind(el, ctx)
         },
 
         beforeUnmount(el) {

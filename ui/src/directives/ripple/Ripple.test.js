@@ -387,6 +387,67 @@ describe('[Ripple API]', () => {
       expect(wrapper.findAll('.q-ripple').length).toBe(2)
     })
 
+    test('follows the argument and the modifiers when they change at runtime', async () => {
+      const arg = ref('orange-5')
+      const modifiers = ref({})
+      const TestComponent = defineComponent({
+        setup() {
+          return () =>
+            withDirectives(h('div'), [
+              [Ripple, void 0, arg.value, modifiers.value]
+            ])
+        }
+      })
+
+      const wrapper = mount(TestComponent)
+
+      await wrapper.trigger('click')
+
+      expect(wrapper.findAll('.q-ripple').length).toBe(1)
+      expect(wrapper.get('.q-ripple').classes()).toContain('text-orange-5')
+
+      arg.value = 'red'
+      modifiers.value = { early: true }
+      await flushPromises()
+
+      // the click listener gave way to the early (pointerdown) one
+      await wrapper.trigger('click')
+
+      expect(wrapper.findAll('.q-ripple').length).toBe(1)
+
+      firePointer(wrapper, 'pointerdown', { pointerId: 7 })
+
+      const ripples = wrapper.findAll('.q-ripple')
+
+      expect(ripples.length).toBe(2)
+      expect(ripples[1].classes()).toContain('text-red')
+    })
+
+    test('drops the object options when the value goes back to true', async () => {
+      const val = ref({ color: 'red' })
+      const TestComponent = defineComponent({
+        setup() {
+          return () => withDirectives(h('div'), [[Ripple, val.value]])
+        }
+      })
+
+      const wrapper = mount(TestComponent)
+
+      await wrapper.trigger('click')
+
+      expect(wrapper.get('.q-ripple').classes()).toContain('text-red')
+
+      val.value = true
+      await flushPromises()
+
+      await wrapper.trigger('click')
+
+      const ripples = wrapper.findAll('.q-ripple')
+
+      expect(ripples.length).toBe(2)
+      expect(ripples[1].classes()).not.toContain('text-red')
+    })
+
     test('ignores every trigger while disabled and reacts again once re-enabled', async () => {
       const val = ref(false)
       const TestComponent = defineComponent({
