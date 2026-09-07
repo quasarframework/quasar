@@ -63,9 +63,12 @@ afterAll(() => {
   rmSync(workDir, { recursive: true, force: true })
 })
 
-function run(cmd, args) {
+function run(cmd, args, extraEnv) {
   return new Promise((resolve, reject) => {
-    const child = spawn(cmd, args, { cwd: appDir, env })
+    const child = spawn(cmd, args, {
+      cwd: appDir,
+      env: { ...env, ...extraEnv }
+    })
 
     let output = ''
     child.stdout.on('data', chunk => {
@@ -92,7 +95,13 @@ const stepTest = createStepTest()
 
 describe('[e2e] AE package lifecycle', () => {
   stepTest('installs the host app through the local registry', async () => {
-    const { code, output, repro } = await run('pnpm', ['install'])
+    // the same opt-out the CLI's packager sets: since pnpm 12 the very
+    // first install fails on sass' unapproved @parcel/watcher build
+    // script (the packages are installed regardless), and this step is
+    // about the registry, not about build approvals
+    const { code, output, repro } = await run('pnpm', ['install'], {
+      PNPM_CONFIG_STRICT_DEP_BUILDS: 'false'
+    })
 
     expect(code, output + repro).toBe(0)
     expect(existsSync(installedBin), repro).toBe(true)

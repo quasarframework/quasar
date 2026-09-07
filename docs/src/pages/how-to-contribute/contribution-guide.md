@@ -256,7 +256,7 @@ The Webpack-based CLI (`@quasar/app-webpack`) is maintained on its own branch of
 
 #### Development Setup
 
-You will need [Node.js](https://nodejs.org) version **v22.22+** (v24 is what our CI runs) along with [pnpm v11+](https://pnpm.io/).
+You will need [Node.js](https://nodejs.org) version **v22.22+** (v24 is what our CI runs) along with [pnpm v12+](https://pnpm.io/).
 
 After cloning the repo, run this in its root folder:
 

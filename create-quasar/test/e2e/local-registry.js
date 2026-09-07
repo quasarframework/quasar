@@ -1,5 +1,6 @@
 import { spawn } from 'node:child_process'
 import {
+  appendFileSync,
   cpSync,
   existsSync,
   mkdirSync,
@@ -96,8 +97,7 @@ export function assertLocalQuasarInstall(projectFolder) {
   // identical to the published one (the norm right after a release), so
   // additionally require installation PROVENANCE: the package manager's
   // own metadata must reference the local registry (npm records it in
-  // package-lock.json "resolved" URLs, yarn 1 in yarn.lock, pnpm in
-  // node_modules/.modules.yaml "registries").
+  // package-lock.json "resolved" URLs, yarn 1 in yarn.lock).
   const registryHost = process.env.E2E_REGISTRY_URL.replace(
     /^http:\/\//,
     ''
@@ -106,31 +106,52 @@ export function assertLocalQuasarInstall(projectFolder) {
   // <install root>/node_modules/quasar/dist/quasar.client.js
   const installRoot = join(installed, '../../../..')
   const provenanceFiles = [installRoot, projectFolder]
-    .flatMap(dir => [
-      join(dir, 'node_modules/.modules.yaml'),
-      join(dir, 'package-lock.json'),
-      join(dir, 'yarn.lock')
-    ])
+    .flatMap(dir => [join(dir, 'package-lock.json'), join(dir, 'yarn.lock')])
     .filter(file => existsSync(file))
 
-  if (provenanceFiles.length === 0) {
-    throw new Error(
-      `local registry: no package manager metadata found under ${projectFolder}` +
-        ' to prove the install went through the local registry'
-    )
-  }
-
   if (
-    !provenanceFiles.some(file =>
+    provenanceFiles.some(file =>
       readFileSync(file, 'utf8').includes(registryHost)
     )
   ) {
+    return
+  }
+
+  // pnpm leaves no trace of the registry in the project (since pnpm 12
+  // node_modules/.modules.yaml no longer records it, and its lockfile
+  // omits tarball URLs that match the configured registry), so the
+  // proof is the registry's own request log: it must have served the
+  // quasar package metadata to a resolver. Run-level rather than
+  // per-project, which still catches a package manager that ignores
+  // the redirected home altogether.
+  const isPnpm = [installRoot, projectFolder].some(dir =>
+    existsSync(join(dir, 'pnpm-lock.yaml'))
+  )
+  if (
+    isPnpm &&
+    /^GET \/quasar(?:[/?]|$)/m.test(
+      readFileSync(process.env.E2E_REGISTRY_LOG, 'utf8')
+    )
+  ) {
+    return
+  }
+
+  if (isPnpm) {
     throw new Error(
-      'local registry: the package manager metadata never references' +
-        ` ${registryHost} — the install bypassed the local registry` +
-        ` (checked: ${provenanceFiles.join(', ')})`
+      'local registry: the registry never served the quasar metadata,' +
+        ' the pnpm install bypassed it' +
+        ` (request log: ${process.env.E2E_REGISTRY_LOG})`
     )
   }
+
+  throw new Error(
+    provenanceFiles.length === 0
+      ? `local registry: no package manager metadata found under ${projectFolder}` +
+          ' to prove the install went through the local registry'
+      : 'local registry: the package manager metadata never references' +
+          ` ${registryHost}, the install bypassed the local registry` +
+          ` (checked: ${provenanceFiles.join(', ')})`
+  )
 }
 
 // Publishes an additional package directory into the running local
@@ -222,6 +243,14 @@ export async function setup() {
     web: { enable: false },
     // the default limit (10mb) rejects the @quasar/extras tarball
     max_body_size: '256mb'
+  })
+
+  // every request is journaled for assertLocalQuasarInstall(): the
+  // trace of which packages resolved through this registry
+  const requestLog = join(storageDir, 'requests.log')
+  writeFileSync(requestLog, '')
+  app.prependListener('request', req => {
+    appendFileSync(requestLog, `${req.method} ${req.url}\n`)
   })
 
   // an explicit high user-range port instead of an OS-assigned one
@@ -349,6 +378,7 @@ export async function setup() {
   // through their inherited environment (see the e2e-utils env objects)
   process.env.E2E_REGISTRY_URL = registryUrl
   process.env.E2E_REGISTRY_HOME = fakeHomeDir
+  process.env.E2E_REGISTRY_LOG = requestLog
 
   return teardown
 }
