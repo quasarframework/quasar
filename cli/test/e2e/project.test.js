@@ -42,7 +42,9 @@ describe('[e2e] project', () => {
       workDir
     )
     expect(code, output).toBe(0)
-    expect(existsSync(join(projectFolder, 'node_modules'))).toBe(true)
+    // a failed dependency install does not fail create-quasar, so it needs
+    // to be verified explicitly; the install's own error is in the output
+    expect(existsSync(join(projectFolder, 'node_modules')), output).toBe(true)
 
     // the install must have used the local monorepo packages,
     // never published ones

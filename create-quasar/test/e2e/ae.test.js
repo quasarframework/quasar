@@ -95,11 +95,13 @@ describe.each(getCombos().map(combo => [comboName(combo), combo]))(
           true
         )
 
-        // a failed dependency install does not fail the CLI,
-        // so it needs to be verified explicitly
-        expect(existsSync(join(projectFolder, 'node_modules')), repro()).toBe(
-          true
-        )
+        // a failed dependency install does not fail the CLI, so it needs
+        // to be verified explicitly; the install's own error is in the
+        // captured output
+        expect(
+          existsSync(join(projectFolder, 'node_modules')),
+          output + repro()
+        ).toBe(true)
 
         // --no-git skips the git repository initialization
         expect(existsSync(join(projectFolder, '.git')), repro()).toBe(false)
