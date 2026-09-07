@@ -196,9 +196,7 @@ function getElement(element) {
 }
 
 function isValidElement(element) {
-  return (
-    element && element.ownerDocument === document && element.parentNode !== null
-  )
+  return element && element.ownerDocument === document && element.isConnected
 }
 
 export default function morph(_options) {
@@ -477,7 +475,11 @@ export default function morph(_options) {
       // has fixed position we need to animate it as fixed
       let elToNeedsFixedPosition = elToPositioningType === 'fixed'
       let parent = elToParent
-      while (!elToNeedsFixedPosition && parent !== document) {
+      while (
+        !elToNeedsFixedPosition &&
+        parent !== null &&
+        parent !== document
+      ) {
         elToNeedsFixedPosition =
           window.getComputedStyle(parent).position === 'fixed'
         parent = parent.parentNode

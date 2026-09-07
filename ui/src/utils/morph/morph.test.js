@@ -538,6 +538,20 @@ describe('[morph API]', () => {
         expect(from.qMorphCancel).toBeUndefined()
       })
 
+      test('gives up when the destination subtree is detached', () => {
+        const { parent, from } = createScene()
+        const onEnd = vi.fn()
+
+        morph({ from, onEnd })
+        parent.remove()
+        flushFrames()
+
+        expect(parent.children).toHaveLength(1)
+        expect(getMorphStyleNodes()).toHaveLength(0)
+        expect(onEnd).not.toHaveBeenCalled()
+        expect(from.qMorphCancel).toBeUndefined()
+      })
+
       test('cancels a morph that is already running on the same element', () => {
         const { parent, from } = createScene()
 
