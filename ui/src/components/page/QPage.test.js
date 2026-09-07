@@ -1,4 +1,4 @@
-import { ref } from 'vue'
+import { h, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, test, vi } from 'vitest'
 
@@ -9,7 +9,7 @@ import {
 
 import QPage from './QPage.js'
 
-function mountPage(props = {}, slots = {}) {
+function mountPage({ attachTo, ...props } = {}, slots = {}) {
   const layout = {
     isContainer: ref(true),
     containerHeight: ref(720),
@@ -20,6 +20,7 @@ function mountPage(props = {}, slots = {}) {
   return {
     layout,
     wrapper: mount(QPage, {
+      attachTo,
       props,
       slots,
       global: {
@@ -63,6 +64,31 @@ describe('[QPage API]', () => {
 
         expect(wrapper.text()).toBe(slotContent)
       })
+    })
+  })
+
+  describe('[Generic]', () => {
+    test('keeps the vertical margins of its children inside the page (#9536)', () => {
+      const margin = 16
+      // no min-height, so the page is exactly as tall as its content
+      const { wrapper } = mountPage(
+        { attachTo: document.body, styleFn: () => ({}) },
+        {
+          default: () => [
+            h('div', { style: `margin-top: ${margin}px` }, 'first'),
+            h('div', { style: `margin-bottom: ${margin}px` }, 'last')
+          ]
+        }
+      )
+
+      const page = wrapper.element
+      const [first, last] = page.children
+      const pageRect = page.getBoundingClientRect()
+
+      expect(first.getBoundingClientRect().top).toBe(pageRect.top + margin)
+      expect(last.getBoundingClientRect().bottom).toBe(pageRect.bottom - margin)
+
+      wrapper.unmount()
     })
   })
 })

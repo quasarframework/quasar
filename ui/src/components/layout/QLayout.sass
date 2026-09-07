@@ -124,6 +124,12 @@
 .q-layout, .q-header, .q-footer, .q-page
   position: relative
 
+// a block formatting context keeps the children's vertical margins inside
+// the page (a collapsed-through margin would push it past its min-height);
+// zero specificity so any display utility on the page still wins
+:where(.q-page)
+  display: flow-root
+
 .q-page-sticky--shrink
   pointer-events: none
   > div

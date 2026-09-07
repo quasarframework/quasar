@@ -65,6 +65,8 @@ Since QPageContainer and QPage need a layout and QLayout by default manages the 
 
 A QPage needs a QLayout because QLayout controls all the offsets of a page, keeping account of the space that header/footer/drawer use, according to its `view` property configuration. By default, your QPage component will have a `min-height` CSS property set on it to ensure that the content fills the screen at all times, even when the content is just a few lines.
 
+QPage also establishes its own block formatting context (`display: flow-root`), so the vertical margins of its children (for example a `q-mt-md` on the first card) stay inside the page instead of collapsing through it. Otherwise the page would get pushed below its `min-height` and the window would show a scrollbar even when the content fits the screen.
+
 If you wish to tweak, or even remove this property, you can do so by using the `style-fn` property:
 
 ```html
