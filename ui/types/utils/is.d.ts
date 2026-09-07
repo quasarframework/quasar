@@ -1,4 +1,4 @@
-interface is {
+interface Is {
   /**
    * Recursively checks if one Object is equal to another.
    * Also supports Map, Set, ArrayBuffer, Regexp, Date, and many more.
@@ -64,4 +64,4 @@ interface is {
   number(val: unknown): val is number;
 }
 
-export declare const is: is;
+export declare const is: Is;

@@ -645,35 +645,35 @@ const layoutExport = computed(() => {
     code += `
     <q-header ${cfg.headerReveal ? 'reveal ' : ''}${cfg.headerSep !== 'none' ? cfg.headerSep + ' ' : ''}class="bg-primary text-white"${pick.navtabs ? ' height-hint="98"' : ''}>
       <q-toolbar>${
-            pick.left
-              ? `
+        pick.left
+          ? `
         <q-btn dense flat round icon="menu" @click="toggleLeftDrawer" />
 `
-              : ''
-          }
+          : ''
+      }
         <q-toolbar-title>
           <q-avatar>
             <img alt="Quasar logo" src="/logo/logo-mono-white.svg">
           </q-avatar>
           Title
         </q-toolbar-title>${
-              pick.right
-                ? `
+          pick.right
+            ? `
 
         <q-btn dense flat round icon="menu" @click="toggleRightDrawer" />`
-                : ''
-            }
+            : ''
+        }
       </q-toolbar>${
-            pick.navtabs
-              ? `
+        pick.navtabs
+          ? `
 
       <q-tabs align="left">
         <q-route-tab to="/page1" label="Page One" />
         <q-route-tab to="/page2" label="Page Two" />
         <q-route-tab to="/page3" label="Page Three" />
       </q-tabs>`
-              : ''
-          }
+          : ''
+      }
     </q-header>
 `
   }
@@ -725,13 +725,13 @@ const layoutExport = computed(() => {
 import { ref } from 'vue'
 
 ${
-          pick.left
-            ? `const leftDrawerOpen = ref(false)
+  pick.left
+    ? `const leftDrawerOpen = ref(false)
 toggleLeftDrawer () {
   leftDrawerOpen.value = !leftDrawerOpen.value
 }${pick.right ? '\n\n' : ''}`
-            : ''
-        }${
+    : ''
+}${
           pick.right
             ? `const rightDrawerOpen = ref(false)
 toggleRightDrawer () {

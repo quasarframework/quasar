@@ -14,7 +14,7 @@ export type DialogDismissReason =
   | "escape"
   | "programmatic";
 
-interface useDialogPluginComponent {
+interface UseDialogPluginComponent {
   <T = any>(): {
     dialogRef: Ref<QDialog | null>;
     onDialogHide: (evt?: Event) => void;
@@ -28,7 +28,7 @@ interface useDialogPluginComponent {
   };
 }
 
-export const useDialogPluginComponent: useDialogPluginComponent;
+export const useDialogPluginComponent: UseDialogPluginComponent;
 
 interface UseFormChildOptions {
   validate: () => boolean | Promise<boolean>;

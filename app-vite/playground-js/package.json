@@ -12,11 +12,12 @@
   "dependencies": {
     "@quasar/extras": "workspace:*",
     "quasar": "workspace:*",
-    "vue": "^3.5.41",
-    "vue-router": "^5.2.0"
+    "vue": "^3.5.42",
+    "vue-router": "^5.3.1"
   },
   "devDependencies": {
-    "@quasar/app-vite": "workspace:*"
+    "@quasar/app-vite": "workspace:*",
+    "vite": "^8.2.2"
   },
   "engines": {
     "node": ">= 26 || ^24 || ^22.12",

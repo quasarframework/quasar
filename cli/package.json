@@ -59,9 +59,9 @@
     "ci-info": "^4.4.0",
     "cross-spawn": "^7.0.6",
     "fs-extra": "^11.4.0",
-    "hono": "^4.13.0",
+    "hono": "^4.13.7",
     "kolorist": "^1.8.0",
-    "open": "^11.0.0"
+    "open": "^11.0.2"
   },
   "devDependencies": {
     "vitest": "^5.0.0"

@@ -159,6 +159,10 @@
     "unicorn/no-array-reduce": "off",
     "unicorn/no-abusive-eslint-disable": "off",
     "no-implicit-globals": "off",
+    "no-use-before-define": [
+      "error",
+      { "functions": false, "classes": false, "variables": false }
+    ],
 
     /** Pedantic rule overrides */
     "unicorn/explicit-length-check": [
@@ -247,6 +251,7 @@
         "vite-plugin/src/**",
         "vite-plugin/build/**",
         "docs/*.js",
+        "*.js",
         "docs/build/**",
         "docs/src-ssr/**"
       ],
