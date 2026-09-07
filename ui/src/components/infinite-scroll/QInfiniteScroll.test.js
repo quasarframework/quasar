@@ -484,6 +484,49 @@ describe('[QInfiniteScroll API]', () => {
       await notLoaded(wrapper, 2)
     })
 
+    test('the first load is decided at mount, not by the first report', async () => {
+      const target = createScrollTarget()
+      const showPlaceholder = ref(false)
+
+      // the app fetches its first page from @load and renders a
+      // placeholder taller than the container while that runs, from its
+      // own mounted hook -- before the observer gets to report
+      const wrapper = mount(
+        {
+          mounted() {
+            showPlaceholder.value = true
+          },
+          render() {
+            return h(
+              QInfiniteScroll,
+              { debounce: 0 },
+              { default: () => (showPlaceholder.value ? content()() : []) }
+            )
+          }
+        },
+        { attachTo: target }
+      )
+
+      wrappers.push(wrapper)
+
+      await loaded(wrapper.findComponent(QInfiniteScroll))
+    })
+
+    test('the first load does not wait on the debounce', () => {
+      const target = createScrollTarget()
+      const wrapper = mount(QInfiniteScroll, {
+        props: { debounce: 100 },
+        slots: { default: () => [] },
+        attachTo: target
+      })
+
+      wrappers.push(wrapper)
+
+      // the mount-time load is emitted before the timer it would run on,
+      // so a paused clock cannot hold up the first page
+      expect(loads(wrapper)).toHaveLength(1)
+    })
+
     test('the sentinel takes no room', () => {
       const { wrapper } = mountInfiniteScroll({}, { default: content(100) })
 

@@ -96,6 +96,21 @@ export default /*#__PURE__*/ createComponent({
     onMounted(() => {
       setDebounce(props.debounce)
       resolveScrollTarget()
+
+      // The observer's opening report cannot decide the first load: it
+      // lands a frame later, and the app may well have grown the content
+      // by then (a loading placeholder from its own onMounted, a
+      // nextTick, an async component). The report then reads "out of
+      // reach", and since an observer never re-reports a state that
+      // merely holds, an app whose first page is fetched from `@load`
+      // would wait forever for a load it never asked for. So the first
+      // one is decided here instead, off the DOM as it stands at mount,
+      // which is the moment the check has always been made at. Calling
+      // trigger() straight, rather than through the debounced poll, also
+      // keeps that first load off the clock.
+      if (!props.disable && isSentinelInReach() && !isLoadingSuspended()) {
+        trigger()
+      }
     })
 
     // A sentinel marks the end of the content the loads extend, and the
@@ -131,39 +146,93 @@ export default /*#__PURE__*/ createComponent({
       }
     }
 
+    // The reach test the observer applies, taken by hand: the sentinel
+    // clipped by every scrolling ancestor below the root, against the
+    // root's own box grown by `offset` on the loading side. An observer
+    // has no synchronous form and the first load cannot wait for one.
+    function isSentinelInReach() {
+      const el = sentinelRef.value
+      if (el === null) return false
+
+      const target = scrollTargetRef.value
+      const rootEl =
+        target !== null && target !== window && target.contains(rootRef.value)
+          ? target
+          : null
+
+      const {
+        top: rootTop,
+        bottom: rootBottom,
+        left: rootLeft,
+        right: rootRight
+      } = rootEl !== null
+        ? rootEl.getBoundingClientRect()
+        : {
+            top: 0,
+            bottom: document.documentElement.clientHeight,
+            left: 0,
+            right: document.documentElement.clientWidth
+          }
+
+      const rect = el.getBoundingClientRect()
+      let { top, bottom } = rect
+
+      for (
+        let node = el.parentElement;
+        node !== null && node !== rootEl;
+        node = node.parentElement
+      ) {
+        if (window.getComputedStyle(node).overflow === 'visible') continue
+
+        const clip = node.getBoundingClientRect()
+        if (clip.top > top) top = clip.top
+        if (clip.bottom < bottom) bottom = clip.bottom
+        if (top > bottom) return false
+      }
+
+      return (
+        bottom >= rootTop - (props.reverse ? props.offset : 0) &&
+        top <= rootBottom + (props.reverse ? 0 : props.offset) &&
+        rect.right >= rootLeft &&
+        rect.left <= rootRight
+      )
+    }
+
+    // the window-scroll-target placements a load must not fire from
+    function isLoadingSuspended() {
+      if (scrollTargetRef.value !== window) return false
+
+      // The page cannot scroll content rendered inside a position:fixed
+      // subtree (a Dialog, a fullscreen overlay), so the end of the
+      // content stays where it is whatever gets loaded, and each load
+      // would bring the next. Such a placement needs an explicit
+      // scroll-target on the overlay's own scrollable element; until it
+      // gets one, loading stays off (trigger() still works). The
+      // placement may have changed since it was measured (the ancestor
+      // lost its fixed positioning), so re-check while dormant to come
+      // back without requiring an updateScrollTarget() call.
+      if (inFixedSubtree) {
+        inFixedSubtree = isInFixedSubtree(rootRef.value)
+      }
+
+      // A Dialog or an overlay Drawer scroll-locks the page. The content
+      // does not move under the lock, but on iOS the lock pins the body,
+      // and a page pinned that way cannot be scrolled: reverse mode could
+      // not compensate for the content it prepends, so the end of it
+      // would stay in view and each done() would load again. Wait for
+      // the release instead (the prevent-scroll release listener below).
+      return inFixedSubtree || document.qScrollPrevented === true
+    }
+
     function immediatePoll() {
       if (
         props.disable ||
         isFetching.value ||
         !isWorking.value ||
-        !isIntersecting.value
+        !isIntersecting.value ||
+        isLoadingSuspended()
       ) {
         return
-      }
-
-      if (scrollTargetRef.value === window) {
-        // The page cannot scroll content rendered inside a position:fixed
-        // subtree (a Dialog, a fullscreen overlay), so the end of the
-        // content stays where it is whatever gets loaded, and each load
-        // would bring the next. Such a placement needs an explicit
-        // scroll-target on the overlay's own scrollable element; until it
-        // gets one, loading stays off (trigger() still works). The
-        // placement may have changed since it was measured (the ancestor
-        // lost its fixed positioning), so re-check while dormant to come
-        // back without requiring an updateScrollTarget() call.
-        if (inFixedSubtree) {
-          inFixedSubtree = isInFixedSubtree(rootRef.value)
-        }
-
-        // A Dialog or an overlay Drawer scroll-locks the page. The content
-        // does not move under the lock, but on iOS the lock pins the body,
-        // and a page pinned that way cannot be scrolled: reverse mode could
-        // not compensate for the content it prepends, so the end of it
-        // would stay in view and each done() would load again. Wait for
-        // the release instead (the prevent-scroll release listener below).
-        if (inFixedSubtree || document.qScrollPrevented === true) {
-          return
-        }
       }
 
       trigger()
