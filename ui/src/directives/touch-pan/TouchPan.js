@@ -483,6 +483,7 @@ export default /*#__PURE__*/ createDirective(
 
         updated(el, { oldValue, value, modifiers }) {
           const ctx = el.__qtouchpan
+          if (ctx === void 0) return
 
           if (oldValue !== value) {
             if (typeof value !== 'function') end(ctx)
@@ -494,6 +495,7 @@ export default /*#__PURE__*/ createDirective(
 
         beforeUnmount(el) {
           const ctx = el.__qtouchpan
+          if (ctx === void 0) return
 
           // emit the end event when the directive is destroyed while active
           // this is only needed in TouchPan because the rest of the touch directives do not emit an end event

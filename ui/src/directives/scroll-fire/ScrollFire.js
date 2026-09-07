@@ -71,8 +71,10 @@ export default /*#__PURE__*/ createDirective(
         },
 
         beforeUnmount(el) {
-          unobserve(el)
-          el.__qscrollfire = void 0
+          if (el.__qscrollfire !== void 0) {
+            unobserve(el)
+            el.__qscrollfire = void 0
+          }
         }
       }
 )

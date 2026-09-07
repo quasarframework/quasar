@@ -211,17 +211,22 @@ export default /*#__PURE__*/ createDirective(
         },
 
         updated(el, binding, vnode, prevVNode) {
-          // Vue writes className (dropping the class it does not
-          // own) only when the class prop changed, HMR included
-          updateValue(
-            el.__qmorph,
-            binding.value,
-            vnode.props?.class !== prevVNode.props?.class
-          )
+          const ctx = el.__qmorph
+          if (ctx !== void 0) {
+            // Vue writes className (dropping the class it does not
+            // own) only when the class prop changed, HMR included
+            updateValue(
+              ctx,
+              binding.value,
+              vnode.props?.class !== prevVNode.props?.class
+            )
+          }
         },
 
         beforeUnmount(el) {
           const ctx = el.__qmorph
+          if (ctx === void 0) return
+
           const group = morphGroups.get(ctx.group)
 
           if (group !== void 0) {

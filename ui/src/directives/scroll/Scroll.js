@@ -62,8 +62,8 @@ export default /*#__PURE__*/ createDirective(
 
         updated(el, binding) {
           if (
-            el.__qscrollTarget !== void 0 &&
-            binding.oldValue !== binding.value
+            binding.oldValue !== binding.value &&
+            el.__qscrollTarget !== void 0
           ) {
             update(el, binding.value)
           }

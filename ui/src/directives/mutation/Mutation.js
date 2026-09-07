@@ -66,9 +66,11 @@ export default /*#__PURE__*/ createDirective(
         },
 
         updated(el, { oldValue, value }) {
-          const ctx = el.__qmutation
-          if (ctx !== void 0 && oldValue !== value) {
-            update(el, ctx, value)
+          if (oldValue !== value) {
+            const ctx = el.__qmutation
+            if (ctx !== void 0) {
+              update(el, ctx, value)
+            }
           }
         },
 

@@ -57,12 +57,18 @@ export default /*#__PURE__*/ createDirective(
         },
 
         updated(el, binding) {
-          update(el, el.__qvisible, binding.value)
+          const ctx = el.__qvisible
+          if (ctx !== void 0) {
+            update(el, ctx, binding.value)
+          }
         },
 
         beforeUnmount(el) {
-          unobserve(el)
-          el.__qvisible = void 0
+          const ctx = el.__qvisible
+          if (ctx !== void 0) {
+            unobserve(el)
+            el.__qvisible = void 0
+          }
         }
       }
 )

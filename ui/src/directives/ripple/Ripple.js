@@ -213,28 +213,28 @@ export default /*#__PURE__*/ createDirective(
         updated(el, binding) {
           if (binding.oldValue !== binding.value) {
             const ctx = el.__qripple
-            if (ctx !== void 0) {
-              ctx.enabled = binding.value !== false
+            if (ctx === void 0) return
 
-              if (ctx.enabled && Object(binding.value) === binding.value) {
-                setOptions(ctx, binding)
-              }
+            ctx.enabled = binding.value !== false
 
-              bind(el, ctx)
+            if (ctx.enabled && Object(binding.value) === binding.value) {
+              setOptions(ctx, binding)
             }
+
+            bind(el, ctx)
           }
         },
 
         beforeUnmount(el) {
           const ctx = el.__qripple
-          if (ctx !== void 0) {
-            ctx.ripples.forEach(ripple => {
-              ripple.abort()
-            })
-            ctx.enabled = false
-            bind(el, ctx)
-            el.__qripple = void 0
-          }
+          if (ctx === void 0) return
+
+          ctx.ripples.forEach(ripple => {
+            ripple.abort()
+          })
+          ctx.enabled = false
+          bind(el, ctx)
+          el.__qripple = void 0
         }
       }
 )

@@ -238,6 +238,7 @@ export default /*#__PURE__*/ createDirective(
 
         updated(el, { oldValue, value, arg, modifiers }) {
           const ctx = el.__qtouchhold
+          if (ctx === void 0) return
 
           if (oldValue !== value) {
             if (typeof value !== 'function') end(ctx)
@@ -250,6 +251,7 @@ export default /*#__PURE__*/ createDirective(
 
         beforeUnmount(el) {
           const ctx = el.__qtouchhold
+          if (ctx === void 0) return
 
           end(ctx)
 

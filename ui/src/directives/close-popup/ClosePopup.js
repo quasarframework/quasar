@@ -52,15 +52,17 @@ export default /*#__PURE__*/ createDirective(
         },
 
         updated(el, { value, oldValue }) {
-          if (value !== oldValue) {
+          if (value !== oldValue && el.__qclosepopup !== void 0) {
             el.__qclosepopup = getDepth(value)
           }
         },
 
         beforeUnmount(el) {
-          el.removeEventListener('click', onClick)
-          el.removeEventListener('keyup', onKeyup)
-          el.__qclosepopup = void 0
+          if (el.__qclosepopup !== void 0) {
+            el.removeEventListener('click', onClick)
+            el.removeEventListener('keyup', onKeyup)
+            el.__qclosepopup = void 0
+          }
         }
       }
 )
