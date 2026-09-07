@@ -8,10 +8,12 @@ import {
   test,
   vi
 } from 'vitest'
-import { defineComponent, h, nextTick } from 'vue'
+import { cdp } from 'vitest/browser'
+import { defineComponent, h, shallowRef, withDirectives } from 'vue'
 
 import QDialog from '../../components/dialog/QDialog.js'
 import QMenu from '../../components/menu/QMenu.js'
+import ClosePopup from '../../directives/close-popup/ClosePopup.js'
 import usePortalRefocus from './use-portal-refocus.js'
 
 let wrapper
@@ -33,6 +35,40 @@ async function settle() {
   await flushPromises()
   await vi.runAllTimersAsync()
 }
+
+/**
+ * A real click, dispatched by the browser rather than by script: the
+ * browser runs a microtask checkpoint between the element's listeners,
+ * which is what puts a dialog's show ahead of the v-close-popup listener
+ * that follows it on the same element. The cursor is parked again
+ * afterwards (see test/vitest.setup.js).
+ */
+async function realClick(el) {
+  const { x, y, width, height } = el.getBoundingClientRect()
+  const mouse = params =>
+    cdp().send('Input.dispatchMouseEvent', {
+      x: Math.round(x + width / 2),
+      y: Math.round(y + height / 2),
+      button: 'left',
+      clickCount: 1,
+      ...params
+    })
+
+  await mouse({ type: 'mouseMoved', button: 'none' })
+  await mouse({ type: 'mousePressed' })
+  await mouse({ type: 'mouseReleased' })
+  await cdp().send('Input.dispatchMouseEvent', {
+    type: 'mouseMoved',
+    x: 1275,
+    y: 795
+  })
+}
+
+// the fake timers settle a portal's transition bookkeeping instantly,
+// but its CSS animation runs in real time; a real click on a still
+// scaling element would miss it, so the harness portals barely animate
+// (a zero duration would skip the opening phase altogether)
+const noTransition = { transitionDuration: 1 }
 
 const dialogContent = () => [
   h('input', { class: 'dialog-input', autofocus: true }),
@@ -77,21 +113,41 @@ function createControl() {
 }
 
 /**
- * A menu anchored on a focusable box, holding one focusable item, plus a
- * dialog with an autofocused input.
+ * A menu anchored on a focusable box, plus a dialog with an autofocused
+ * input. Clicking the menu's item opens the dialog and, through
+ * v-close-popup, closes the menu.
  */
 function mountMenuAndDialog(dialogProps) {
   wrapper = mount(
     defineComponent({
       setup() {
+        const dialogRef = shallowRef(null)
+
         return () =>
           h('div', [
             h('div', { class: 'anchor', tabindex: 0 }, [
-              h(QMenu, null, () =>
-                h('div', { class: 'item', tabindex: 0 }, 'Item')
+              h(QMenu, noTransition, () =>
+                withDirectives(
+                  h(
+                    'div',
+                    {
+                      class: 'item',
+                      tabindex: 0,
+                      onClick: () => {
+                        dialogRef.value.show()
+                      }
+                    },
+                    'Item'
+                  ),
+                  [[ClosePopup]]
+                )
               )
             ]),
-            h(QDialog, dialogProps, dialogContent)
+            h(
+              QDialog,
+              { ref: dialogRef, ...noTransition, ...dialogProps },
+              dialogContent
+            )
           ])
       }
     })
@@ -105,20 +161,43 @@ function mountMenuAndDialog(dialogProps) {
 }
 
 /**
- * Two dialogs: the first holds a focusable button, the second an
- * autofocused input; a focusable opener sits outside both.
+ * Two dialogs, with a focusable opener outside both. The first dialog's
+ * button opens the second and, through v-close-popup, closes the first.
  */
 function mountTwoDialogs() {
   wrapper = mount(
     defineComponent({
       setup() {
+        const dialogBRef = shallowRef(null)
+
         return () =>
           h('div', [
             h('button', { class: 'opener' }, 'Open'),
-            h(QDialog, { class: 'dialog-a' }, () =>
-              h('button', { class: 'dialog-a-btn' }, 'Open next')
+            // only a div child of the dialog's inner element takes
+            // pointer events; anything else lets clicks fall through to
+            // the backdrop
+            h(QDialog, { class: 'dialog-a', ...noTransition }, () =>
+              h('div', [
+                withDirectives(
+                  h(
+                    'button',
+                    {
+                      class: 'dialog-a-btn',
+                      onClick: () => {
+                        dialogBRef.value.show()
+                      }
+                    },
+                    'Open next'
+                  ),
+                  [[ClosePopup]]
+                )
+              ])
             ),
-            h(QDialog, { class: 'dialog-b' }, dialogContent)
+            h(
+              QDialog,
+              { class: 'dialog-b', ref: dialogBRef, ...noTransition },
+              dialogContent
+            )
           ])
       }
     })
@@ -131,19 +210,6 @@ function mountTwoDialogs() {
     dialogA: dialogA.vm,
     dialogB: dialogB.vm
   }
-}
-
-/**
- * Opens the portal on top the way a v-close-popup click does it: the
- * opener's show has already queued its autofocus (a browser-dispatched
- * event runs its microtasks between listeners) by the time the portal
- * underneath gets to hide.
- */
-async function showOverThenHide(opener, closer) {
-  opener.show()
-  await nextTick()
-  closer.hide()
-  await settle()
 }
 
 describe('[usePortalRefocus API]', () => {
@@ -218,11 +284,8 @@ describe('[usePortalRefocus API]', () => {
         menu.show()
         await settle()
 
-        const item = document.querySelector('.item')
-        item.focus()
-        expect(document.activeElement).toBe(item)
-
-        await showOverThenHide(dialog, menu)
+        await realClick(document.querySelector('.item'))
+        await settle()
 
         // the dialog's autofocus won over the menu's restore
         expect(document.activeElement).toBe(
@@ -245,11 +308,8 @@ describe('[usePortalRefocus API]', () => {
         dialogA.show()
         await settle()
 
-        const button = document.querySelector('.dialog-a-btn')
-        button.focus()
-        expect(document.activeElement).toBe(button)
-
-        await showOverThenHide(dialogB, dialogA)
+        await realClick(document.querySelector('.dialog-a-btn'))
+        await settle()
 
         expect(document.activeElement).toBe(
           document.querySelector('.dialog-input')
@@ -263,13 +323,14 @@ describe('[usePortalRefocus API]', () => {
       })
 
       test('restores focus itself when the portal opening on top takes none', async () => {
-        const { anchor, menu, dialog } = mountMenuAndDialog({ noFocus: true })
+        const { anchor, menu } = mountMenuAndDialog({ noFocus: true })
 
         anchor.focus()
         menu.show()
         await settle()
 
-        await showOverThenHide(dialog, menu)
+        await realClick(document.querySelector('.item'))
+        await settle()
 
         expect(document.querySelector('.dialog-input')).not.toBe(null)
         expect(document.activeElement).toBe(anchor)
