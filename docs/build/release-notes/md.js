@@ -6,7 +6,7 @@ import mdToken from '../md/md-plugin-token.js'
 import mdBlockquote from '../md/md-plugin-blockquote.js'
 
 const opts = {
-  html: true,
+  html: false,
   linkify: false,
   typographer: true,
   highlight
