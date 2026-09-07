@@ -21,6 +21,7 @@ import useTransition, {
   useTransitionProps
 } from '../../composables/private.use-transition/use-transition.js'
 import usePortal from '../../composables/private.use-portal/use-portal.js'
+import usePortalRefocus from '../../composables/private.use-portal-refocus/use-portal-refocus.js'
 import usePreventScroll from '../../composables/private.use-prevent-scroll/use-prevent-scroll.js'
 
 import { createComponent } from '../../utils/private.create/create.js'
@@ -116,7 +117,6 @@ export default /*#__PURE__*/ createComponent({
     const viewportInset = ref(null)
 
     let shakeTimeout = null,
-      refocusTarget = null,
       isMaximized = false,
       avoidAutoClose = false,
       viewportTracked = false
@@ -146,6 +146,17 @@ export default /*#__PURE__*/ createComponent({
 
     const { showPortal, hidePortal, portalIsAccessible, renderPortal } =
       usePortal(vm, innerRef, renderPortalContent, 'dialog')
+
+    const {
+      captureRefocusTarget,
+      setRefocusTarget,
+      clearRefocusTarget,
+      restoreFocus,
+      adoptRefocusTarget
+    } = usePortalRefocus(
+      props,
+      () => showing.value && !portalIsAccessible.value && !props.noFocus
+    )
 
     const { hide } = useModelToggle({
       showing,
@@ -266,10 +277,7 @@ export default /*#__PURE__*/ createComponent({
     function handleShow(evt) {
       addToHistory()
 
-      refocusTarget =
-        !props.noRefocus && document.activeElement !== null
-          ? document.activeElement
-          : null
+      captureRefocusTarget()
 
       updateMaximized(props.maximized)
       showPortal()
@@ -324,17 +332,7 @@ export default /*#__PURE__*/ createComponent({
       animating.value = true
       hidePortal()
 
-      if (refocusTarget !== null) {
-        const target =
-          (evt?.type.indexOf('key') === 0
-            ? refocusTarget.closest('[tabindex]:not([tabindex^="-"])')
-            : void 0) || refocusTarget
-
-        refocusTarget = null
-        addFocusFn(() => {
-          if (target.isConnected) target.focus({ preventScroll: true })
-        })
-      }
+      restoreFocus(evt)
 
       registerTransitionEnd(() => {
         hidePortal(true) // done hiding, now destroy
@@ -344,7 +342,7 @@ export default /*#__PURE__*/ createComponent({
     }
 
     function handleRouteChange() {
-      refocusTarget = null
+      clearRefocusTarget()
     }
 
     function focus(selector) {
@@ -435,7 +433,7 @@ export default /*#__PURE__*/ createComponent({
       }
 
       if (!hiding) {
-        refocusTarget = null
+        clearRefocusTarget()
       }
     }
 
@@ -496,9 +494,10 @@ export default /*#__PURE__*/ createComponent({
       shake,
 
       // private but needed by QSelect
-      __updateRefocusTarget(target) {
-        refocusTarget = target || null
-      },
+      __updateRefocusTarget: setRefocusTarget,
+
+      // private but needed by usePortalRefocus
+      __adoptRefocusTarget: adoptRefocusTarget,
 
       // private but needed by usePortal: while aria-modal is set,
       // assistive tech ignores content outside this element, so menu

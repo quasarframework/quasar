@@ -21,6 +21,7 @@ import useDark, {
   useDarkProps
 } from '../../composables/private.use-dark/use-dark.js'
 import usePortal from '../../composables/private.use-portal/use-portal.js'
+import usePortalRefocus from '../../composables/private.use-portal-refocus/use-portal-refocus.js'
 import useTransition, {
   useTransitionProps
 } from '../../composables/private.use-transition/use-transition.js'
@@ -118,8 +119,7 @@ export default /*#__PURE__*/ createComponent({
   emits: [...useModelToggleEmits, 'click', 'escapeKey'],
 
   setup(props, { slots, emit, attrs }) {
-    let refocusTarget = null,
-      avoidAutoClose,
+    let avoidAutoClose,
       // set while the current "show" was triggered by hovering the anchor,
       // in which case the menu must leave focus wherever it already is
       hoverShown = false
@@ -183,6 +183,21 @@ export default /*#__PURE__*/ createComponent({
 
     const { showPortal, hidePortal, portalIsAccessible, renderPortal } =
       usePortal(vm, innerRef, renderPortalContent, 'menu')
+
+    const {
+      captureRefocusTarget,
+      clearRefocusTarget,
+      restoreFocus,
+      restoreFocusSync,
+      adoptRefocusTarget
+    } = usePortalRefocus(
+      props,
+      () =>
+        showing.value &&
+        !portalIsAccessible.value &&
+        !props.noFocus &&
+        !hoverShown
+    )
 
     const clickOutsideProps = {
       anchorEl,
@@ -325,8 +340,7 @@ export default /*#__PURE__*/ createComponent({
 
       clearHoverTimer()
 
-      refocusTarget =
-        props.noRefocus || hoverShown ? null : document.activeElement
+      captureRefocusTarget(hoverShown)
 
       addFocusout(onFocusout)
 
@@ -372,21 +386,14 @@ export default /*#__PURE__*/ createComponent({
       anchorCleanup(true)
 
       if (
-        refocusTarget !== null &&
         // menu was hidden from code or ESC plugin
-        (evt === void 0 ||
-          // menu was not closed from a mouse or touch clickOutside
-          !evt.qClickOutside)
+        evt === void 0 ||
+        // menu was not closed from a mouse or touch clickOutside
+        !evt.qClickOutside
       ) {
-        const target =
-          (evt?.type.indexOf('key') === 0
-            ? refocusTarget.closest('[tabindex]:not([tabindex^="-"])')
-            : void 0) || refocusTarget
-
-        refocusTarget = null
-        addFocusFn(() => {
-          if (target.isConnected) target.focus({ preventScroll: true })
-        })
+        restoreFocus(evt)
+      } else {
+        clearRefocusTarget()
       }
 
       registerTransitionEnd(() => {
@@ -397,7 +404,7 @@ export default /*#__PURE__*/ createComponent({
     }
 
     function handleRouteChange() {
-      refocusTarget = null
+      clearRefocusTarget()
     }
 
     function anchorCleanup(hidingInProgress) {
@@ -411,7 +418,7 @@ export default /*#__PURE__*/ createComponent({
       }
 
       if (!hidingInProgress) {
-        refocusTarget = null
+        clearRefocusTarget()
       }
     }
 
@@ -479,15 +486,7 @@ export default /*#__PURE__*/ createComponent({
       // action runs — so the sequence continues from there, and keep our
       // focusout recapture from interfering with the handoff.
       removeFocusout(onFocusout)
-
-      if (refocusTarget !== null && refocusTarget.isConnected) {
-        const target =
-          refocusTarget.closest('[tabindex]:not([tabindex^="-"])') ||
-          refocusTarget
-        target.focus({ preventScroll: true })
-      }
-
-      refocusTarget = null
+      restoreFocusSync(evt)
       hide(evt)
     }
 
@@ -539,7 +538,13 @@ export default /*#__PURE__*/ createComponent({
     })
 
     // expose public methods
-    Object.assign(proxy, { focus, updatePosition: posEngine.updatePosition })
+    Object.assign(proxy, {
+      focus,
+      updatePosition: posEngine.updatePosition,
+
+      // private but needed by usePortalRefocus
+      __adoptRefocusTarget: adoptRefocusTarget
+    })
 
     // internal: how a descendant hover menu notifies this one that the
     // pointer left it (see hoverHide)
