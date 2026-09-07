@@ -96,11 +96,21 @@ export function isDeepEqual(a, b) {
       return a.source === b.source && a.flags === b.flags
     }
 
-    if (a.valueOf !== Object.prototype.valueOf) {
+    if (
+      typeof a.valueOf === 'function' &&
+      typeof b.valueOf === 'function' &&
+      a.valueOf !== Object.prototype.valueOf &&
+      b.valueOf !== Object.prototype.valueOf
+    ) {
       return a.valueOf() === b.valueOf()
     }
 
-    if (a.toString !== Object.prototype.toString) {
+    if (
+      typeof a.toString === 'function' &&
+      typeof b.toString === 'function' &&
+      a.toString !== Object.prototype.toString &&
+      b.toString !== Object.prototype.toString
+    ) {
       return a.toString() === b.toString()
     }
 
