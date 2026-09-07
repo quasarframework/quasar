@@ -5,6 +5,8 @@ import { defineComponent, h } from 'vue'
 import { getRouter } from 'testing/runtime/router.js'
 
 import QTable from './QTable.js'
+import QTh from './QTh.js'
+import QTd from './QTd.js'
 import QVirtualScroll from '../virtual-scroll/QVirtualScroll.js'
 import TableWithPerColumnSlots from './test/TableWithPerColumnSlots.vue'
 import TableWithSwappableSlots from './test/TableWithSwappableSlots.vue'
@@ -701,6 +703,94 @@ describe('[QTable API]', () => {
         expect(headerTexts()).toHaveLength(2)
         expect(headerTexts()[0]).toContain('Dessert')
         expect(headerTexts()[1]).toContain('Calories')
+      })
+
+      describe('(column)autoWidth', () => {
+        const autoWidthClass = 'q-table--col-auto-width'
+        const columns = [
+          { ...defaultColumns[0], autoWidth: true },
+          { ...defaultColumns[1], autoWidth: true, classes: 'my-cell' },
+          {
+            name: 'id',
+            label: 'Id',
+            field: 'id',
+            autoWidth: true,
+            classes: row => `my-row-${row.id}`
+          },
+          { name: 'wide', label: 'Wide', field: 'name' }
+        ]
+
+        function getCellClasses(wrapper, colIndex) {
+          return wrapper
+            .findAll('tbody tr')
+            .map(row => row.findAll('td')[colIndex].classes())
+        }
+
+        test('marks the header and body cells of the column', () => {
+          const wrapper = mountTable({ columns })
+          const headers = wrapper.findAll('thead th')
+
+          expect(headers[0].classes()).toContain(autoWidthClass)
+          expect(headers[3].classes()).not.toContain(autoWidthClass)
+
+          for (const cellClasses of getCellClasses(wrapper, 0)) {
+            expect(cellClasses).toContain(autoWidthClass)
+          }
+          for (const cellClasses of getCellClasses(wrapper, 3)) {
+            expect(cellClasses).not.toContain(autoWidthClass)
+          }
+        })
+
+        test('keeps the custom classes of the column', () => {
+          const wrapper = mountTable({ columns })
+          const rows = getRows()
+
+          expect(wrapper.findAll('thead th')[1].classes()).toContain(
+            autoWidthClass
+          )
+
+          getCellClasses(wrapper, 1).forEach(cellClasses => {
+            expect(cellClasses).toContain(autoWidthClass)
+            expect(cellClasses).toContain('my-cell')
+          })
+
+          getCellClasses(wrapper, 2).forEach((cellClasses, index) => {
+            expect(cellClasses).toContain(autoWidthClass)
+            expect(cellClasses).toContain(`my-row-${rows[index].id}`)
+          })
+        })
+
+        test('is honored by QTh and QTd fed with the slot props', () => {
+          const wrapper = mountTable(
+            { columns },
+            {
+              slots: {
+                header: scope =>
+                  h(
+                    'tr',
+                    scope.cols.map(col =>
+                      h(QTh, { key: col.name, props: scope }, () => col.label)
+                    )
+                  ),
+                body: scope =>
+                  h(
+                    'tr',
+                    scope.cols.map(col =>
+                      h(QTd, { key: col.name, props: scope }, () => col.value)
+                    )
+                  )
+              }
+            }
+          )
+
+          const headers = wrapper.findAll('thead th')
+          expect(headers[0].classes()).toContain(autoWidthClass)
+          expect(headers[3].classes()).not.toContain(autoWidthClass)
+
+          const cells = wrapper.get('tbody tr').findAll('td')
+          expect(cells[0].classes()).toContain(autoWidthClass)
+          expect(cells[3].classes()).not.toContain(autoWidthClass)
+        })
       })
     })
 

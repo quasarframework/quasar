@@ -43,6 +43,8 @@ export function useTableColumnSelection(
     return cols.map(col => {
       const align = col.align || 'right'
       const alignClass = `text-${align}`
+      const autoWidthClass =
+        col.autoWidth === true ? ' q-table--col-auto-width' : ''
 
       return {
         ...col,
@@ -58,6 +60,7 @@ export function useTableColumnSelection(
             : void 0,
         __thClass:
           alignClass +
+          autoWidthClass +
           (col.headerClasses !== void 0 ? ' ' + col.headerClasses : '') +
           (col.sortable ? ' sortable' : '') +
           (col.name === sortBy
@@ -77,9 +80,9 @@ export function useTableColumnSelection(
         __tdClass:
           col.classes !== void 0
             ? typeof col.classes !== 'function'
-              ? () => alignClass + ' ' + col.classes
-              : row => alignClass + ' ' + col.classes(row)
-            : () => alignClass
+              ? () => alignClass + autoWidthClass + ' ' + col.classes
+              : row => alignClass + autoWidthClass + ' ' + col.classes(row)
+            : () => alignClass + autoWidthClass
       }
     })
   })

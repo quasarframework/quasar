@@ -355,6 +355,10 @@
           "type": "String",
           "desc": "Classes to add on header cells of the column",
           "examples": ["'my-special-class'"]
+        },
+        "autoWidth": {
+          "type": "Boolean",
+          "desc": "Tries to shrink the column to the minimum width required by its content (header and body cells alike)"
         }
       }
     },

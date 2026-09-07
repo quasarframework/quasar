@@ -100,7 +100,11 @@ columns: [
 
     // header th:
     headerStyle: 'width: 500px',
-    headerClasses: 'my-special-class'
+    headerClasses: 'my-special-class',
+
+    // (optional) shrink both th and td to the minimum width
+    // required by their content
+    autoWidth: true
   },
   { name: 'calories', label: 'Calories', field: 'calories', sortable: true },
   { name: 'fat', label: 'Fat (g)', field: 'fat', sortable: true },
