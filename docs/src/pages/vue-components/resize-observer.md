@@ -1,5 +1,5 @@
 ---
-title: Resize Observer (for Element)
+title: Resize Observer
 desc: The QResizeObserver Vue component emits a 'resize' event whenever the wrapping DOM element changes its width or height.
 keys: QResizeObserver
 examples: QResizeObserver

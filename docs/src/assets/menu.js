@@ -307,7 +307,7 @@ export default [
         path: 'dialog'
       },
       {
-        name: 'Editor - WYSIWYG',
+        name: 'WYSIWYG Editor',
         path: 'editor'
       },
       {
@@ -386,7 +386,7 @@ export default [
         path: 'icon'
       },
       {
-        name: 'Img',
+        name: 'Image',
         path: 'img'
       },
       {
@@ -430,7 +430,7 @@ export default [
         listPath: 'observers',
         children: [
           {
-            name: 'Resize Observer (for Element)',
+            name: 'Resize Observer',
             path: 'resize-observer'
           },
           {
@@ -456,7 +456,7 @@ export default [
         path: 'popup-proxy'
       },
       {
-        name: 'Pull to refresh',
+        name: 'Pull to Refresh',
         path: 'pull-to-refresh'
       },
       {
@@ -551,47 +551,47 @@ export default [
     path: 'vue-directives',
     children: [
       {
-        name: 'Close Popup',
+        name: 'v-close-popup',
         path: 'close-popup'
       },
       {
-        name: 'Intersection',
+        name: 'v-intersection',
         path: 'intersection'
       },
       {
-        name: 'Material Ripples',
+        name: 'v-ripple',
         path: 'material-ripples'
       },
       {
-        name: 'Mutation',
+        name: 'v-mutation',
         path: 'mutation'
       },
       {
-        name: 'Morph',
+        name: 'v-morph',
         path: 'morph'
       },
       {
-        name: 'Scroll',
+        name: 'v-scroll',
         path: 'scroll'
       },
       {
-        name: 'Scroll Fire',
+        name: 'v-scroll-fire',
         path: 'scroll-fire'
       },
       {
-        name: 'Touch Hold',
+        name: 'v-touch-hold',
         path: 'touch-hold'
       },
       {
-        name: 'Touch Pan',
+        name: 'v-touch-pan',
         path: 'touch-pan'
       },
       {
-        name: 'Touch Repeat',
+        name: 'v-touch-repeat',
         path: 'touch-repeat'
       },
       {
-        name: 'Touch Swipe',
+        name: 'v-touch-swipe',
         path: 'touch-swipe'
       }
     ]

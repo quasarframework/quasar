@@ -1,5 +1,5 @@
 ---
-title: QSpace
+title: Space
 desc: The QSpace Vue component fills all the available space inside of a flexbox DOM element.
 keys: QSpace
 examples: QSpace

@@ -1,7 +1,7 @@
 ---
-title: Scroll Fire Directive
+title: v-scroll-fire directive
 desc: Vue directive that triggers an event when user scrolls and brings a component into view.
-keys: scroll-fire
+keys: scroll-fire,v-scroll-fire
 examples: ScrollFire
 related:
   - /vue-directives/scroll

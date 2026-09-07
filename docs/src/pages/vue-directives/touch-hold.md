@@ -1,7 +1,7 @@
 ---
-title: Touch Hold Directive
+title: v-touch-hold directive
 desc: Vue directive which triggers an event when the user touches and holds on a component or element for a specified amount of time.
-keys: touch-hold
+keys: touch-hold,v-touch-hold
 examples: TouchHold
 related:
   - /vue-directives/touch-swipe

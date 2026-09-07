@@ -1,7 +1,7 @@
 ---
-title: Intersection Directive
+title: v-intersection directive
 desc: Vue directive that uses Intersection Observer API to call a method when user scrolls and brings a component into or out of view.
-keys: intersection
+keys: intersection,v-intersection
 examples: Intersection
 related:
   - /vue-components/intersection

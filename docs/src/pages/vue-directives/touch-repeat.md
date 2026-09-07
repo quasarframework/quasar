@@ -1,7 +1,7 @@
 ---
-title: Touch Repeat Directive
+title: v-touch-repeat directive
 desc: Vue directive which triggers an event at specified intervals of time while the user touches and holds on a component or element.
-keys: touch-repeat
+keys: touch-repeat,v-touch-repeat
 examples: TouchRepeat
 related:
   - /vue-directives/touch-swipe

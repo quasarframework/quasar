@@ -1,7 +1,7 @@
 ---
-title: Mutation Directive
+title: v-mutation directive
 desc: Vue directive that uses Mutation Observer API to watch for changes being made to the DOM tree.
-keys: mutation
+keys: mutation,v-mutation
 examples: Mutation
 ---
 

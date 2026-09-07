@@ -1,7 +1,7 @@
 ---
-title: Touch Pan Directive
+title: v-touch-pan directive
 desc: Vue directive which triggers an event when the user drags the finger or mouse on a component or element.
-keys: touch-pan
+keys: touch-pan,v-touch-pan
 examples: TouchPan
 related:
   - /vue-directives/touch-swipe

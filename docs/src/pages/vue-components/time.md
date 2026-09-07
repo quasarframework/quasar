@@ -1,5 +1,5 @@
 ---
-title: QTime
+title: Time Picker
 desc: The QTime component provides a method to input time.
 keys: QTime
 examples: QTime

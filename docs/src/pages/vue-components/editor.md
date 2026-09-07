@@ -1,5 +1,5 @@
 ---
-title: Editor (WYSIWYG)
+title: WYSIWYG Editor
 desc: The QEditor Vue component is a WYSIWYG editor that enables writing and pasting HTML.
 keys: QEditor
 examples: QEditor

@@ -1,7 +1,7 @@
 ---
-title: Morph Directive
+title: v-morph directive
 desc: Vue directive that morphs between DOM elements or even between the two states of the same DOM element.
-keys: morph
+keys: morph,v-morph
 examples: Morph
 related:
   - /quasar-utils/morph-utils

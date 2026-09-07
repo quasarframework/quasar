@@ -1,7 +1,7 @@
 ---
-title: Material Ripples
+title: v-ripple directive
 desc: Vue directive for easily adding material ripples to your components and DOM elements.
-keys: material-ripple
+keys: material-ripple,ripple,v-ripple
 examples: Ripple
 ---
 

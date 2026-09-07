@@ -1,7 +1,7 @@
 ---
-title: Touch Swipe Directive
+title: v-touch-swipe directive
 desc: Vue directive which triggers an event when the user swipes with the finger or mouse on a component or element.
-keys: touch-swipe
+keys: touch-swipe,v-touch-swipe
 examples: TouchSwipe
 related:
   - /vue-directives/touch-repeat

@@ -1,5 +1,5 @@
 ---
-title: Pull to refresh
+title: Pull to Refresh
 desc: The QPullToRefresh Vue component allows the user to pull down in order to refresh or retrieve the newest content on a page.
 keys: QPullToRefresh
 examples: QPullToRefresh

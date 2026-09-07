@@ -1,5 +1,5 @@
 ---
-title: QDate
+title: Date Picker
 desc: The QDate Vue component provides a method to input dates from Gregorian or Persian calendars.
 keys: QDate
 examples: QDate

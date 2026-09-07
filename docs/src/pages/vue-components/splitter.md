@@ -1,5 +1,5 @@
 ---
-title: QSplitter
+title: Splitter
 desc: The QSplitter Vue component allow containers to be split vertically and/or horizontally through a draggable separator bar.
 keys: QSplitter
 examples: QSplitter

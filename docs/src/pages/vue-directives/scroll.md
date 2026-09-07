@@ -1,7 +1,7 @@
 ---
-title: Directive v-scroll
+title: v-scroll directive
 desc: Vue directive which triggers an event when user scrolls.
-keys: scroll
+keys: scroll,v-scroll
 related:
   - /vue-directives/scroll-fire
   - /vue-components/scroll-observer
