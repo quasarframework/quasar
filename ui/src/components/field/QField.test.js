@@ -568,8 +568,41 @@ describe('[QField API]', () => {
         await flushPromises()
 
         expect(getNative(wrapper).attributes('data-autofocus')).toBe('true')
-        // the native wrapper is what carries the tabindex, so it takes focus
+        // the focus lands on the slotted control, not on its wrapper
+        expect(wrapper.get('.my-control').element).toBe(document.activeElement)
+      })
+
+      test('focuses the control bound to the slot id', async () => {
+        const wrapper = mountControlField({ autofocus: true }, ({ id }) => [
+          h('button', { class: 'decoy' }),
+          h('input', { id, class: 'my-input' })
+        ])
+        await flushPromises()
+
+        expect(wrapper.get('.my-input').element).toBe(document.activeElement)
+      })
+
+      test('falls back to the first focusable element of the slot', async () => {
+        const wrapper = mountControlField({ autofocus: true }, () => [
+          h('span', 'Decoration'),
+          h('input', { type: 'hidden' }),
+          h('input', { disabled: true }),
+          h('input', { style: 'display: none' }),
+          h('input', { class: 'my-input' })
+        ])
+        await flushPromises()
+
+        expect(wrapper.get('.my-input').element).toBe(document.activeElement)
+      })
+
+      test('keeps the focus on the wrapper when nothing is focusable', async () => {
+        const wrapper = mountControlField({ autofocus: true }, () =>
+          h('span', 'Decoration')
+        )
+        await flushPromises()
+
         expect(getNative(wrapper).element).toBe(document.activeElement)
+        expect(wrapper.classes()).toContain('q-field--focused')
       })
     })
 
@@ -780,6 +813,21 @@ describe('[QField API]', () => {
         // the field element is resolved on access, so it points at the root
         expect(slotScope.field).toBe(wrapper.element)
       })
+
+      test('forwards native focus on the wrapper to the control', async () => {
+        // this is the path taken by QForm/QDialog/QMenu autofocus and by
+        // clicking the field around the control
+        const wrapper = mountControlField({}, ({ id }) =>
+          h('input', { id, class: 'my-input' })
+        )
+
+        getNative(wrapper).element.focus()
+        await flushPromises()
+
+        expect(wrapper.get('.my-input').element).toBe(document.activeElement)
+        expect(wrapper.classes()).toContain('q-field--focused')
+        expect(wrapper.emitted('focus')).toHaveLength(1)
+      })
     })
   })
 
@@ -905,7 +953,7 @@ describe('[QField API]', () => {
         expect(wrapper.vm.focus()).toBeUndefined()
         await flushPromises()
 
-        expect(getNative(wrapper).element).toBe(document.activeElement)
+        expect(wrapper.get('.my-control').element).toBe(document.activeElement)
       })
     })
 
@@ -915,12 +963,12 @@ describe('[QField API]', () => {
 
         wrapper.vm.focus()
         await flushPromises()
-        expect(getNative(wrapper).element).toBe(document.activeElement)
+        expect(wrapper.get('.my-control').element).toBe(document.activeElement)
 
         expect(wrapper.vm.blur()).toBeUndefined()
         await flushPromises()
 
-        expect(getNative(wrapper).element).not.toBe(document.activeElement)
+        expect(wrapper.element.contains(document.activeElement)).toBe(false)
       })
     })
   })

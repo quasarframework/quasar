@@ -165,6 +165,11 @@ const appendProps = {
   onClick: prevent
 }
 
+const nativeControlSelector =
+  'input:not([disabled]):not([type="hidden"]), select:not([disabled]), ' +
+  'textarea:not([disabled]), button:not([disabled]), a[href], ' +
+  '[tabindex]:not([disabled]), [contenteditable]:not([contenteditable="false"])'
+
 const controlContainerProps = {
   class:
     'q-field__control-container col relative-position row no-wrap q-anchor--skip'
@@ -439,6 +444,29 @@ export default function useField(state) {
     addFocusFn(focusHandler)
   }
 
+  // the "control" slot wrapper is focusable only so that focus can be
+  // handed to it from anywhere (autofocus, QForm/QDialog/QMenu autofocus,
+  // clearValue); it forwards that focus to the slotted control itself
+  function onNativeFocus(e) {
+    const wrapper = e.target
+    const bound =
+      state.targetUid.value !== null
+        ? document.getElementById(state.targetUid.value)
+        : null
+
+    if (bound !== null && wrapper.contains(bound)) {
+      bound.focus({ preventScroll: true })
+      if (document.activeElement === bound) return
+    }
+
+    // the first candidate that actually takes the focus wins
+    // (a hidden or otherwise unfocusable one is skipped)
+    for (const el of wrapper.querySelectorAll(nativeControlSelector)) {
+      el.focus({ preventScroll: true })
+      if (document.activeElement === el) return
+    }
+  }
+
   function blur() {
     removeFocusFn(focusHandler)
     const el = document.activeElement
@@ -632,7 +660,8 @@ export default function useField(state) {
             class: 'q-field__native row',
             tabindex: -1,
             ...state.splitAttrs.attributes.value,
-            'data-autofocus': props.autofocus || void 0
+            'data-autofocus': props.autofocus || void 0,
+            onFocus: onNativeFocus
           },
           slots.control(controlSlotScope.value)
         )
