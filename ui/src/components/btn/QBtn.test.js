@@ -941,6 +941,40 @@ describe('[QBtn API]', () => {
 
         expect(target.$computedStyle('border-radius')).toBe('50%')
       })
+
+      // the prop reaches the Ripple directive through its modifiers alone
+      test('centers the ripple', async () => {
+        const wrapper = mount(QBtn, {
+          props: { icon: 'star' },
+          attachTo: document.body
+        })
+
+        try {
+          await wrapper.trigger('click', { clientX: 0, clientY: 0 })
+          await wrapper.trigger('click', { clientX: 30, clientY: 20 })
+
+          const pressed = wrapper.findAll('.q-ripple__inner')
+
+          // a rectangle button ripples from wherever it was pressed
+          expect(pressed[0].element.style.transform).not.toBe(
+            pressed[1].element.style.transform
+          )
+
+          await wrapper.setProps({ round: true })
+          await flushPromises()
+
+          await wrapper.trigger('click', { clientX: 0, clientY: 0 })
+          await wrapper.trigger('click', { clientX: 30, clientY: 20 })
+
+          const centered = wrapper.findAll('.q-ripple__inner').slice(2)
+
+          expect(centered[0].element.style.transform).toBe(
+            centered[1].element.style.transform
+          )
+        } finally {
+          wrapper.unmount()
+        }
+      })
     })
 
     describe('[(prop)percentage]', () => {

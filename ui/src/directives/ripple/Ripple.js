@@ -154,9 +154,32 @@ function onCancel(evt) {
   }
 }
 
+// A compiled template builds a fresh modifiers object on every render of
+// the host (the compiler does not hoist the literal), so an identity
+// check alone would re-derive the options, and allocate, on every render
+// of every rippled element. What the object says is what matters, and it
+// can only say three things: the flags declared in Ripple.json, which is
+// the list to extend along with this one. Reading them beats walking the
+// keys and stays flat however many are set. A stable object from a
+// withDirectives() caller (QBtn, QChip, QTab, StepHeader) settles on the
+// first comparison, as does the shared empty object Vue substitutes for
+// a directive written without modifiers. An undeclared key dropped in
+// the modifiers slot still reaches setOptions() through the spread, but
+// no longer brings a re-read of its own: it belongs in the value.
+function modifiersChanged(a, b) {
+  return (
+    a !== b &&
+    (a.early !== b.early || a.stop !== b.stop || a.center !== b.center)
+  )
+}
+
 function setOptions(ctx, { modifiers, value, arg }) {
   const cfg = { ...ctx.cfg, ...modifiers, ...value }
   const keyCodes = cfg.keyCodes || 13
+
+  // kept for the comparisons the next update makes
+  ctx.arg = arg
+  ctx.modifiers = modifiers
 
   ctx.early = cfg.early === true
   ctx.stop = cfg.stop === true
@@ -195,6 +218,8 @@ export default /*#__PURE__*/ createDirective(
           const ctx = {
             cfg: cfg.ripple,
             enabled: binding.value !== false,
+            arg: void 0,
+            modifiers: void 0,
             early: false,
             stop: false,
             center: false,
@@ -210,19 +235,28 @@ export default /*#__PURE__*/ createDirective(
           bind(el, ctx)
         },
 
+        // the argument and the modifiers are read by setOptions() alone, so
+        // they only follow runtime changes if they take part in the decision
+        // to call it; the value cannot stand in for them, and a value going
+        // back to `true` has to drop what an earlier object set
         updated(el, binding) {
-          if (binding.oldValue !== binding.value) {
-            const ctx = el.__qripple
-            if (ctx === void 0) return
+          const ctx = el.__qripple
+          if (ctx === void 0) return
 
-            ctx.enabled = binding.value !== false
+          const { value, oldValue, arg, modifiers } = binding
 
-            if (ctx.enabled && Object(binding.value) === binding.value) {
-              setOptions(ctx, binding)
-            }
+          ctx.enabled = value !== false
 
-            bind(el, ctx)
+          if (
+            ctx.enabled &&
+            (value !== oldValue ||
+              arg !== ctx.arg ||
+              modifiersChanged(modifiers, ctx.modifiers))
+          ) {
+            setOptions(ctx, binding)
           }
+
+          bind(el, ctx)
         },
 
         beforeUnmount(el) {

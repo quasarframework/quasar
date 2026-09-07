@@ -203,6 +203,31 @@ describe('[Ripple API]', () => {
 
       expect(wrapper.get('.q-ripple').classes()).toContain('text-orange-5')
     })
+
+    test('going back to true drops what an object set', async () => {
+      const val = ref({ color: 'red' })
+      const TestComponent = defineComponent({
+        setup() {
+          return () => withDirectives(h('div'), [[Ripple, val.value]])
+        }
+      })
+
+      const wrapper = mount(TestComponent)
+
+      await wrapper.trigger('click')
+
+      expect(wrapper.get('.q-ripple').classes()).toContain('text-red')
+
+      val.value = true
+      await flushPromises()
+
+      await wrapper.trigger('click')
+
+      const ripples = wrapper.findAll('.q-ripple')
+
+      expect(ripples.length).toBe(2)
+      expect(ripples[1].classes()).not.toContain('text-red')
+    })
   })
 
   describe('[Argument]', () => {
@@ -216,6 +241,33 @@ describe('[Ripple API]', () => {
       await wrapper.trigger('click')
 
       expect(wrapper.get('.q-ripple').classes()).toContain('text-orange-5')
+    })
+
+    // the value stays undefined throughout, so only the argument can
+    // bring the new color
+    test('follows runtime changes', async () => {
+      const arg = ref('orange-5')
+      const TestComponent = defineComponent({
+        setup() {
+          return () => withDirectives(h('div'), [[Ripple, void 0, arg.value]])
+        }
+      })
+
+      const wrapper = mount(TestComponent)
+
+      await wrapper.trigger('click')
+
+      expect(wrapper.get('.q-ripple').classes()).toContain('text-orange-5')
+
+      arg.value = 'red'
+      await flushPromises()
+
+      await wrapper.trigger('click')
+
+      const ripples = wrapper.findAll('.q-ripple')
+
+      expect(ripples.length).toBe(2)
+      expect(ripples[1].classes()).toContain('text-red')
     })
   })
 
@@ -234,6 +286,40 @@ describe('[Ripple API]', () => {
         await wrapper.trigger('pointerdown')
 
         expect(wrapper.find('.q-ripple').exists()).toBe(true)
+      })
+
+      // neither the value nor the argument moves, so only the modifiers
+      // can switch the trigger
+      test('follows runtime changes', async () => {
+        const modifiers = ref({})
+        const TestComponent = defineComponent({
+          setup() {
+            return () =>
+              withDirectives(h('div'), [
+                [Ripple, void 0, void 0, modifiers.value]
+              ])
+          }
+        })
+
+        const wrapper = mount(TestComponent)
+
+        await wrapper.trigger('click')
+
+        expect(wrapper.findAll('.q-ripple').length).toBe(1)
+
+        modifiers.value = { early: true }
+        await flushPromises()
+
+        // the click listener gave way to the early (pointerdown) one
+        await wrapper.trigger('click')
+
+        expect(wrapper.findAll('.q-ripple').length).toBe(1)
+
+        wrapper.element.dispatchEvent(
+          new PointerEvent('pointerdown', { pointerId: 7 })
+        )
+
+        expect(wrapper.findAll('.q-ripple').length).toBe(2)
       })
     })
 
@@ -355,6 +441,34 @@ describe('[Ripple API]', () => {
       firePointer(wrapper, 'pointercancel', { pointerId: 7 })
 
       expect(wrapper.find('.q-ripple').exists()).toBe(true)
+    })
+
+    // a compiled template hands over a fresh modifiers object on every
+    // render of the host, and re-deriving the options for one that says
+    // the same thing would allocate on each of them (setOptions() builds
+    // a new keyCodes array every run)
+    test('does not re-derive for an equal but fresh modifiers object', async () => {
+      const tick = ref(0)
+      const val = { keyCodes: [65, 13] }
+      const TestComponent = defineComponent({
+        setup() {
+          return () =>
+            withDirectives(h('div', String(tick.value)), [
+              [Ripple, val, void 0, { center: true }]
+            ])
+        }
+      })
+
+      const wrapper = mount(TestComponent)
+      const { keyCodes } = wrapper.element.__qripple
+
+      for (let i = 1; i <= 5; i++) {
+        tick.value = i
+        await flushPromises()
+      }
+
+      expect(wrapper.element.__qripple.keyCodes).toBe(keyCodes)
+      expect(wrapper.element.__qripple.center).toBe(true)
     })
 
     test('switches the trigger when early changes at runtime', async () => {
