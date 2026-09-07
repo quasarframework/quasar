@@ -358,7 +358,8 @@
         },
         "autoWidth": {
           "type": "Boolean",
-          "desc": "Tries to shrink the column to the minimum width required by its content (header and body cells alike)"
+          "desc": "Tries to shrink the column to the minimum width required by its content (header and body cells alike)",
+          "addedIn": "v2.30.2"
         }
       }
     },
