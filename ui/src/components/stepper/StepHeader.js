@@ -58,40 +58,47 @@ export default /*#__PURE__*/ createComponent({
     // ...but only an enabled one is actually operable
     const headerNav = computed(() => !isDisable.value && isNavTarget.value)
 
-    const hasPrefix = computed(
-      () =>
-        props.step.prefix &&
-        (!isActive.value || props.stepper.activeIcon === 'none') &&
-        (!isError.value || props.stepper.errorIcon === 'none') &&
-        (!isDone.value || props.stepper.doneIcon === 'none')
-    )
-
-    const icon = computed(() => {
-      const defaultIcon = props.step.icon || props.stepper.inactiveIcon
-
+    // the state icon, by priority: an active step wins over an erroring one,
+    // which wins over a done one; the step's own prop wins over the stepper's;
+    // 'none' opts out of the state icon (deferring to the prefix, then to the
+    // default icon), while no state at all yields undefined
+    const stateIcon = computed(() => {
       if (isActive.value) {
-        const localIcon = props.step.activeIcon || props.stepper.activeIcon
-        return localIcon === 'none'
-          ? defaultIcon
-          : localIcon || $q.iconSet.stepper.active
+        return (
+          props.step.activeIcon ||
+          props.stepper.activeIcon ||
+          $q.iconSet.stepper.active
+        )
       }
 
       if (isError.value) {
-        const localIcon = props.step.errorIcon || props.stepper.errorIcon
-        return localIcon === 'none'
-          ? defaultIcon
-          : localIcon || $q.iconSet.stepper.error
+        return (
+          props.step.errorIcon ||
+          props.stepper.errorIcon ||
+          $q.iconSet.stepper.error
+        )
       }
 
-      if (!isDisable.value && isDone.value) {
-        const localIcon = props.step.doneIcon || props.stepper.doneIcon
-        return localIcon === 'none'
-          ? defaultIcon
-          : localIcon || $q.iconSet.stepper.done
+      if (isDone.value) {
+        return (
+          props.step.doneIcon ||
+          props.stepper.doneIcon ||
+          $q.iconSet.stepper.done
+        )
       }
-
-      return defaultIcon
     })
+
+    const hasPrefix = computed(
+      () =>
+        Boolean(props.step.prefix) &&
+        (stateIcon.value === void 0 || stateIcon.value === 'none')
+    )
+
+    const icon = computed(() =>
+      stateIcon.value !== void 0 && stateIcon.value !== 'none'
+        ? stateIcon.value
+        : props.step.icon || props.stepper.inactiveIcon
+    )
 
     const color = computed(() => {
       const errorColor = isError.value
