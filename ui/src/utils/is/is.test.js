@@ -129,6 +129,18 @@ describe('[is API]', () => {
           expect(is.deepEqual(b, a)).toBe(true)
         }
       )
+
+      test.each(['valueOf', 'toString'])(
+        'compares a non-callable %s as a regular key',
+        method => {
+          const a = { [method]: 42, value: 1 }
+          const b = { [method]: 42, value: 1 }
+          const c = { [method]: 43, value: 1 }
+
+          expect(is.deepEqual(a, b)).toBe(true)
+          expect(is.deepEqual(a, c)).toBe(false)
+        }
+      )
     })
 
     describe('[(function)object]', () => {

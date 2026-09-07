@@ -4,6 +4,15 @@ function toByteView(v) {
     : new Uint8Array(v.buffer, v.byteOffset, v.byteLength)
 }
 
+function hasCustomConversion(aFn, bFn, nativeFn) {
+  return (
+    typeof aFn === 'function' &&
+    aFn !== nativeFn &&
+    typeof bFn === 'function' &&
+    bFn !== nativeFn
+  )
+}
+
 export function isDeepEqual(a, b) {
   if (a === b) return true
 
@@ -96,20 +105,12 @@ export function isDeepEqual(a, b) {
       return a.source === b.source && a.flags === b.flags
     }
 
-    if (
-      typeof a.valueOf === 'function' &&
-      typeof b.valueOf === 'function' &&
-      a.valueOf !== Object.prototype.valueOf &&
-      b.valueOf !== Object.prototype.valueOf
-    ) {
+    if (hasCustomConversion(a.valueOf, b.valueOf, Object.prototype.valueOf)) {
       return a.valueOf() === b.valueOf()
     }
 
     if (
-      typeof a.toString === 'function' &&
-      typeof b.toString === 'function' &&
-      a.toString !== Object.prototype.toString &&
-      b.toString !== Object.prototype.toString
+      hasCustomConversion(a.toString, b.toString, Object.prototype.toString)
     ) {
       return a.toString() === b.toString()
     }
