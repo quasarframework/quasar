@@ -221,6 +221,7 @@ async function runCommand({
   cmd,
   args,
   cwd,
+  env,
   message,
   successMessage,
   errorMessage
@@ -232,7 +233,7 @@ async function runCommand({
     cwd,
     stdio: 'inherit',
     // Force colors so the captured error formatting isn't lost
-    env: { ...process.env, FORCE_COLOR: '1' }
+    env: { ...process.env, FORCE_COLOR: '1', ...env }
   })
 
   if (runner.error || runner.status) {
@@ -258,16 +259,18 @@ async function runCommand({
 async function installDeps(scope) {
   const hadError = await runCommand({
     cmd: scope.install,
-    args:
+    args: ['install'],
+    // pnpm >= 11 exits with an error when any dependency in the tree has a
+    // build script that was not approved (pnpm 10 only warned about it), even
+    // though the packages did get installed -- we would then wrongly declare
+    // the fresh project's install a failure. The user resolves those with
+    // "pnpm approve-builds" on their own time, and their own installs from
+    // here on keep enforcing it. The setting goes through the environment:
+    // pnpm 12 stopped honouring it as a "--config.<key>" param.
+    env:
       scope.install === 'pnpm'
-        ? // pnpm >= 11 exits with an error when any dependency in the tree has
-          // a build script that was not approved (pnpm 10 only warned about
-          // it), even though the packages did get installed -- we would then
-          // wrongly declare the fresh project's install a failure. The user
-          // resolves those with "pnpm approve-builds" on their own time, and
-          // their own installs from here on keep enforcing it.
-          ['install', '--config.strict-dep-builds=false']
-        : ['install'],
+        ? { PNPM_CONFIG_STRICT_DEP_BUILDS: 'false' }
+        : {},
     cwd: scope.projectFolder,
     message: `Installing dependencies using ${scope.install.toUpperCase()}...`,
     successMessage: 'Dependencies installed successfully!',
