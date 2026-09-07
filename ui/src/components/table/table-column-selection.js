@@ -42,9 +42,9 @@ export function useTableColumnSelection(
 
     return cols.map(col => {
       const align = col.align || 'right'
-      const alignClass = `text-${align}`
-      const autoWidthClass =
-        col.autoWidth === true ? ' q-table--col-auto-width' : ''
+      const baseClass =
+        `text-${align}` +
+        (col.autoWidth === true ? ' q-table--col-auto-width' : '')
 
       return {
         ...col,
@@ -59,8 +59,7 @@ export function useTableColumnSelection(
               : 'none'
             : void 0,
         __thClass:
-          alignClass +
-          autoWidthClass +
+          baseClass +
           (col.headerClasses !== void 0 ? ' ' + col.headerClasses : '') +
           (col.sortable ? ' sortable' : '') +
           (col.name === sortBy
@@ -80,9 +79,9 @@ export function useTableColumnSelection(
         __tdClass:
           col.classes !== void 0
             ? typeof col.classes !== 'function'
-              ? () => alignClass + autoWidthClass + ' ' + col.classes
-              : row => alignClass + autoWidthClass + ' ' + col.classes(row)
-            : () => alignClass + autoWidthClass
+              ? () => baseClass + ' ' + col.classes
+              : row => baseClass + ' ' + col.classes(row)
+            : () => baseClass
       }
     })
   })
