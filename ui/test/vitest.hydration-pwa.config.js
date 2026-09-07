@@ -6,6 +6,8 @@ import { playwright } from '@vitest/browser-playwright'
 
 import { quasar, transformAssetUrls } from '@quasar/vite-plugin'
 
+import { vitestDefineWorkaround } from './runtime/vitest-define-plugin.js'
+
 import { ssrRender } from './hydration/ssr-render-command.js'
 
 const rootFolder = import.meta.dirname
@@ -49,7 +51,9 @@ export default defineConfig(() => ({
       devTreeshaking: true,
       sassVariables: false,
       autoImportComponentCase: 'combined'
-    })
+    }),
+
+    vitestDefineWorkaround()
   ],
 
   resolve: {

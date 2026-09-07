@@ -7,6 +7,8 @@ import { playwright } from '@vitest/browser-playwright'
 
 import { quasar, transformAssetUrls } from '@quasar/vite-plugin'
 
+import { vitestDefineWorkaround } from './runtime/vitest-define-plugin.js'
+
 const rootFolder = import.meta.dirname
 const resolve = _path => join(rootFolder, _path)
 
@@ -41,7 +43,9 @@ export default defineConfig(() => ({
       devTreeshaking: true,
       sassVariables: false,
       autoImportComponentCase: 'combined'
-    })
+    }),
+
+    vitestDefineWorkaround()
   ],
 
   resolve: {

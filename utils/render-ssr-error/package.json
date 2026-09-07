@@ -47,7 +47,7 @@
     "prismjs": "^1.29.0",
     "quasar": "workspace:*",
     "vite": "^8.2.1",
-    "vitest": "^4.1.10",
+    "vitest": "^5.0.0",
     "vue": "^3.5.41",
     "vue-router": "^5.2.0"
   },

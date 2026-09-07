@@ -67,7 +67,7 @@ afterAll(() => {
 const extensionsFile = join(appDir, 'quasar.extensions.json')
 
 // the steps build on each other (list empty → invoke → list → uninvoke)
-describe.sequential('[ext.js]', () => {
+describe('[ext.js]', { concurrent: false }, () => {
   test('bare "quasar ext" reports no installed extensions', async () => {
     const { code, output } = await runQuasar(['ext'], appDir)
 
