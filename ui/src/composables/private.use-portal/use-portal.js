@@ -68,22 +68,22 @@ function getAriaModalEl(vm) {
 // You MUST specify "inheritAttrs: false" in your component
 
 export default function usePortal(vm, innerRef, renderPortalContent, type) {
-  // showing, including while in show/hide transition
-  const portalIsActive = ref(false)
-
-  // showing & not in any show/hide transition
-  const portalIsAccessible = ref(false)
-
   if (__QUASAR_SSR_SERVER__) {
     return {
-      portalIsActive,
-      portalIsAccessible,
+      portalIsActive: { value: false },
+      portalIsOpening: () => false,
 
       showPortal: noop,
       hidePortal: noop,
       renderPortal: noop
     }
   }
+
+  // showing, including while in show/hide transition
+  const portalIsActive = ref(false)
+
+  // in the show transition (nothing renders off it, so no ref)
+  let portalIsOpening = false
 
   let portalEl = null
   const focusObj = {}
@@ -116,11 +116,11 @@ export default function usePortal(vm, innerRef, renderPortalContent, type) {
   function showPortal(isReady, silent) {
     if (isReady) {
       removeFocusWaitFlag(focusObj)
-      portalIsAccessible.value = true
+      portalIsOpening = false
       return
     }
 
-    portalIsAccessible.value = false
+    portalIsOpening = true
 
     if (!portalIsActive.value) {
       if (!onGlobalDialog && portalEl === null) {
@@ -149,7 +149,7 @@ export default function usePortal(vm, innerRef, renderPortalContent, type) {
   }
 
   function hidePortal(isReady) {
-    portalIsAccessible.value = false
+    portalIsOpening = false
     notifyFieldHide()
 
     if (!isReady) return
@@ -188,7 +188,7 @@ export default function usePortal(vm, innerRef, renderPortalContent, type) {
     hidePortal,
 
     portalIsActive,
-    portalIsAccessible,
+    portalIsOpening: () => portalIsOpening,
 
     renderPortal: () =>
       onGlobalDialog

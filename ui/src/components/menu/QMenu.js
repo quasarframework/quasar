@@ -154,9 +154,7 @@ export default /*#__PURE__*/ createComponent({
       canHide(evt) {
         // if the menu is being hovered, then a click on the anchor
         // while it is opening should not close it
-        return hoverShown && !portalIsAccessible.value
-          ? evt?.type !== 'click'
-          : true
+        return hoverShown && portalIsOpening() ? evt?.type !== 'click' : true
       },
       handleShow,
       handleHide,
@@ -181,8 +179,12 @@ export default /*#__PURE__*/ createComponent({
     // referenced by name when useAnchor wires the anchor's hover events
     Object.assign(anchorEvents, { hoverShow, hoverHide })
 
-    const { showPortal, hidePortal, portalIsAccessible, renderPortal } =
-      usePortal(vm, innerRef, renderPortalContent, 'menu')
+    const { showPortal, hidePortal, portalIsOpening, renderPortal } = usePortal(
+      vm,
+      innerRef,
+      renderPortalContent,
+      'menu'
+    )
 
     const {
       captureRefocusTarget,
@@ -192,11 +194,7 @@ export default /*#__PURE__*/ createComponent({
       adoptRefocusTarget
     } = usePortalRefocus(
       props,
-      () =>
-        showing.value &&
-        !portalIsAccessible.value &&
-        !props.noFocus &&
-        !hoverShown
+      () => !props.noFocus && !hoverShown && portalIsOpening()
     )
 
     const clickOutsideProps = {

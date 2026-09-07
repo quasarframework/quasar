@@ -144,8 +144,12 @@ export default /*#__PURE__*/ createComponent({
           : '')
     )
 
-    const { showPortal, hidePortal, portalIsAccessible, renderPortal } =
-      usePortal(vm, innerRef, renderPortalContent, 'dialog')
+    const { showPortal, hidePortal, portalIsOpening, renderPortal } = usePortal(
+      vm,
+      innerRef,
+      renderPortalContent,
+      'dialog'
+    )
 
     const {
       captureRefocusTarget,
@@ -153,10 +157,7 @@ export default /*#__PURE__*/ createComponent({
       clearRefocusTarget,
       restoreFocus,
       adoptRefocusTarget
-    } = usePortalRefocus(
-      props,
-      () => showing.value && !portalIsAccessible.value && !props.noFocus
-    )
+    } = usePortalRefocus(props, () => !props.noFocus && portalIsOpening())
 
     const { hide } = useModelToggle({
       showing,
@@ -477,10 +478,12 @@ export default /*#__PURE__*/ createComponent({
     }
 
     function onFocusChange(evt) {
-      // the focus is not in a vue child component
+      // the focus is not in a vue child component;
+      // while opening, the autofocus has not landed yet. A hiding dialog
+      // never gets here: handleHide removes this handler synchronously
       if (
         !props.allowFocusOutside &&
-        portalIsAccessible.value &&
+        !portalIsOpening() &&
         !childHasFocus(innerRef.value, evt.target) &&
         !focusIsInDetachedFullscreen(innerRef.value, evt.target)
       ) {

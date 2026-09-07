@@ -78,7 +78,7 @@ describe('[usePortal API]', () => {
         const { portal, portalProxy } = mountPortal()
 
         expect(portal.portalIsActive).$ref(false)
-        expect(portal.portalIsAccessible).$ref(false)
+        expect(portal.portalIsOpening()).toBe(false)
         expect(portalProxy.__qPortal).toBe(true)
         expect(portalProxy.contentEl).toBe(
           wrapper.get('[data-test="portal-host"]').element
@@ -92,7 +92,7 @@ describe('[usePortal API]', () => {
         const portalNode = document.querySelector('[id^="q-portal--menu--"]')
 
         expect(portal.portalIsActive).$ref(true)
-        expect(portal.portalIsAccessible).$ref(false)
+        expect(portal.portalIsOpening()).toBe(true)
         expect(portalProxyList.length).toBe(1)
         expect(portalProxyList[0]).toBe(portalProxy)
         expect(portalNode).not.toBeNull()
@@ -102,19 +102,19 @@ describe('[usePortal API]', () => {
 
         portal.showPortal(true)
 
-        expect(portal.portalIsAccessible).$ref(true)
+        expect(portal.portalIsOpening()).toBe(false)
 
         portal.hidePortal(false)
 
         expect(portal.portalIsActive).$ref(true)
-        expect(portal.portalIsAccessible).$ref(false)
+        expect(portal.portalIsOpening()).toBe(false)
         expect(portalProxyList.includes(portalProxy)).toBe(true)
 
         portal.hidePortal(true)
         await nextTick()
 
         expect(portal.portalIsActive).$ref(false)
-        expect(portal.portalIsAccessible).$ref(false)
+        expect(portal.portalIsOpening()).toBe(false)
         expect(portalProxyList.includes(portalProxy)).toBe(false)
         expect(portalNode.isConnected).toBe(false)
       })
