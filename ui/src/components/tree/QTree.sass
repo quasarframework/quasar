@@ -84,16 +84,22 @@
   &__node--selected .q-tree__node-header-content
     color: $grey
 
-  &__icon,
-  &__node-header-content .q-icon
+  &__icon
     font-size: $tree-icon-font-size
+
+  // header slot content keeps sizing itself (a QBtn's icon follows the
+  // button size), so these defaults must lose every specificity tie
+  :where(&__node-header-content)
+    .q-icon
+      font-size: $tree-icon-font-size
+    .q-avatar
+      font-size: 28px
 
   &__img
     height: 42px
     border-radius: 2px
 
-  &__avatar, &__node-header-content .q-avatar
-    font-size: 28px
+  &__avatar
     border-radius: 50%
     width: 28px
     height: 28px

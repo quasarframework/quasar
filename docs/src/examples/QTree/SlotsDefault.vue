@@ -6,7 +6,6 @@
           <q-icon
             :name="prop.node.icon || 'share'"
             color="orange"
-            size="28px"
             class="q-mr-sm"
           />
           <div class="text-weight-bold text-primary">{{ prop.node.label }}</div>
