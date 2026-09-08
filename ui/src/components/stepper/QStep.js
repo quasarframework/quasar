@@ -14,7 +14,7 @@ import {
 } from '../../utils/private.symbols/symbols.js'
 import { hSlot } from '../../utils/private.render/render.js'
 
-function getStepWrapper(slots) {
+function getStepWrapper(slots, vertical) {
   return h(
     'div',
     {
@@ -24,7 +24,7 @@ function getStepWrapper(slots) {
       h(
         'div',
         {
-          class: 'q-stepper__step-inner'
+          class: `q-stepper__step-inner q-stepper__step-inner--${vertical ? 'vertical' : 'horizontal'}`
         },
         hSlot(slots.default)
       )
@@ -32,9 +32,10 @@ function getStepWrapper(slots) {
   )
 }
 
+// only used by the vertical keep-alive branch
 const PanelWrapper = {
   setup(_, { slots }) {
-    return () => getStepWrapper(slots)
+    return () => getStepWrapper(slots, true)
   }
 }
 
@@ -132,15 +133,22 @@ export default /*#__PURE__*/ createComponent({
         )
       }
 
-      return !vertical || isActive.value ? getStepWrapper(slots) : void 0
+      return !vertical || isActive.value
+        ? getStepWrapper(slots, vertical)
+        : void 0
     }
+
+    const classes = computed(
+      () =>
+        `q-stepper__step q-stepper__step--${$stepper.value.vertical ? 'vertical' : 'horizontal'}`
+    )
 
     return () =>
       h(
         'div',
         {
           ref: rootRef,
-          class: 'q-stepper__step',
+          class: classes.value,
           // steppers are not a WAI-ARIA tabs pattern (the active step is
           // conveyed through aria-current on the header instead)
           role: 'group',

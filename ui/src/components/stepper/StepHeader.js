@@ -130,6 +130,7 @@ export default /*#__PURE__*/ createComponent({
     const classes = computed(
       () =>
         'q-stepper__tab col-grow flex items-center no-wrap relative-position' +
+        ` q-stepper__tab--${props.stepper.vertical ? 'vertical' : 'horizontal'}` +
         (color.value !== void 0 ? ` text-${color.value}` : '') +
         (isError.value
           ? ' q-stepper__tab--error q-stepper__tab--error-with-' +

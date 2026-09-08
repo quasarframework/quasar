@@ -127,20 +127,33 @@
   &--bordered
     border: 1px solid $separator-color
 
-  &--horizontal
-    .q-stepper__step-inner
-      padding: 24px
+  &--horizontal > .q-stepper__nav
+    padding: 0 24px 24px
 
-    .q-stepper__tab:first-child
+  &--vertical
+    padding: 16px 0
+    > .q-stepper__nav
+      padding: 24px 24px 0
+
+  // orientation rules hang off the tab, step and step-inner instead of the
+  // stepper root so they can't leak into a stepper nested in the other
+  // orientation (a tab never contains a stepper); the only rules needing
+  // the step's position hop through the direct child for the same reason
+  &__step-inner--horizontal
+    padding: 24px
+  &__step-inner--vertical
+    padding: 0 24px 32px 60px
+
+  &__tab--horizontal
+    overflow: hidden
+    &:first-child
       border-top-left-radius: inherit
-    .q-stepper__tab:last-child
+    &:last-child
       border-top-right-radius: inherit
-    .q-stepper__tab:first-child .q-stepper__dot:before,
-    .q-stepper__tab:last-child .q-stepper__label:after,
-    .q-stepper__tab:last-child .q-stepper__dot:after
+    &:first-child .q-stepper__dot:before,
+    &:last-child .q-stepper__label:after,
+    &:last-child .q-stepper__dot:after
       display: none
-    .q-stepper__tab
-      overflow: hidden
     .q-stepper__line
       contain: layout
       &:before, &:after
@@ -158,23 +171,10 @@
       right: 100%
       margin-right: 8px
 
-    > .q-stepper__nav
-      padding: 0 24px 24px
-
-  &--vertical
-    padding: 16px 0
-
-    .q-stepper__tab
-      padding: 12px 24px
+  &__tab--vertical
+    padding: 12px 24px
     .q-stepper__title
       line-height: 18px
-    .q-stepper__step-inner
-      padding: 0 24px 32px 60px
-    > .q-stepper__nav
-      padding: 24px 24px 0
-
-    .q-stepper__step
-      overflow: hidden
     .q-stepper__dot
       margin-right: 12px
       &:before, &:after
@@ -190,10 +190,13 @@
     .q-stepper__dot:after
       top: 100%
       margin-top: 8px
-    .q-stepper__step:first-child .q-stepper__dot:before,
-    .q-stepper__step:last-child .q-stepper__dot:after
+
+  &__step--vertical
+    overflow: hidden
+    &:first-child > .q-stepper__tab .q-stepper__dot:before,
+    &:last-child > .q-stepper__tab .q-stepper__dot:after
       display: none
-    .q-stepper__step:last-child .q-stepper__step-inner
+    &:last-child > .q-stepper__step-content > .q-stepper__step-inner
       padding-bottom: 8px
 
   &--dark
@@ -201,14 +204,9 @@
     &.q-stepper--bordered,
     .q-stepper__header--border
       border-color: $separator-dark-color
-    &.q-stepper--horizontal
-      .q-stepper__line
-        &:before, &:after
-          background: $separator-dark-color
-    &.q-stepper--vertical
-      .q-stepper__dot
-        &:before, &:after
-          background: $separator-dark-color
+    .q-stepper__line
+      &:before, &:after
+        background: $separator-dark-color
     .q-stepper__tab
       &--disabled
         color: $separator-dark-color

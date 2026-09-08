@@ -229,6 +229,26 @@ describe('[QStepper API]', () => {
         expect(getHeaders(wrapper)).toHaveLength(3)
       })
 
+      test.each([
+        ['horizontal', {}],
+        ['vertical', { vertical: true }]
+      ])(
+        'marks the steps, headers and content with the orientation (%s)',
+        (orientation, props) => {
+          const wrapper = mountStepper(props)
+
+          expect(wrapper.get('.q-stepper__step').classes()).toContain(
+            `q-stepper__step--${orientation}`
+          )
+          expect(wrapper.get('.q-stepper__tab').classes()).toContain(
+            `q-stepper__tab--${orientation}`
+          )
+          expect(wrapper.get('.q-stepper__step-inner').classes()).toContain(
+            `q-stepper__step-inner--${orientation}`
+          )
+        }
+      )
+
       test('renders only the active step content', () => {
         const wrapper = mountStepper({ vertical: true })
 
@@ -664,6 +684,98 @@ describe('[QStepper API]', () => {
         expect(wrapper.emitted('update:modelValue')).toStrictEqual([['step-c']])
       })
     })
+  })
+
+  describe('[Generic]', () => {
+    function createNestedStepper(props) {
+      return defineComponent({
+        name: 'NestedStepper',
+        render: () =>
+          h(QStepper, { modelValue: 'inner-b', ...props }, () =>
+            ['inner-a', 'inner-b', 'inner-c'].map(name =>
+              h(QStep, { name, title: name.toUpperCase() }, () =>
+                h('div', name)
+              )
+            )
+          )
+      })
+    }
+
+    function mountWithNestedStepper(outerProps, innerProps) {
+      return mount(QStepper, {
+        attachTo: document.body,
+        props: { modelValue: 'step-a', ...outerProps },
+        slots: {
+          default: () => [
+            h(QStep, { name: 'step-a', title: 'STEP-A' }, () =>
+              h(createNestedStepper(innerProps))
+            ),
+            h(QStep, { name: 'step-b', title: 'STEP-B' }, () =>
+              h(createCounter('StepB'))
+            )
+          ]
+        }
+      })
+    }
+
+    // the connector lines are pseudo-elements, so their geometry is the only
+    // observable proof of which orientation a header ended up with
+    function getLayout(stepper) {
+      const pick = (el, pseudo) => {
+        const style = getComputedStyle(el, pseudo)
+        return [
+          'display',
+          'content',
+          'width',
+          'height',
+          'marginTop',
+          'marginRight',
+          'marginBottom',
+          'marginLeft'
+        ].map(prop => style[prop])
+      }
+
+      // the middle header has a connector on both sides in either orientation
+      const tab = stepper.findAll('.q-stepper__tab')[1].element
+      const dot = tab.querySelector('.q-stepper__dot')
+      const label = tab.querySelector('.q-stepper__label')
+
+      const tabStyle = getComputedStyle(tab)
+
+      return {
+        tab: [tabStyle.padding, tabStyle.overflow],
+        dotBefore: pick(dot, '::before'),
+        dotAfter: pick(dot, '::after'),
+        labelAfter: pick(label, '::after'),
+        step: getComputedStyle(stepper.get('.q-stepper__step').element)
+          .overflow,
+        stepInner: getComputedStyle(
+          stepper.get('.q-stepper__step-inner').element
+        ).padding
+      }
+    }
+
+    test.each([
+      ['vertical', 'horizontal', { vertical: true }, {}],
+      ['horizontal', 'vertical', {}, { vertical: true }]
+    ])(
+      'a %s stepper nested in a %s one keeps its own layout (#16516)',
+      (_, __, innerProps, outerProps) => {
+        const standalone = mount(createNestedStepper(innerProps), {
+          attachTo: document.body
+        })
+        const expected = getLayout(standalone)
+        standalone.unmount()
+
+        const wrapper = mountWithNestedStepper(outerProps, innerProps)
+
+        expect(getLayout(wrapper.get('.q-stepper .q-stepper'))).toStrictEqual(
+          expected
+        )
+
+        wrapper.unmount()
+      }
+    )
   })
 
   describe('[Accessibility]', () => {
