@@ -489,24 +489,46 @@ You can also make an icon point to an image URL instead of relying on any webfon
 **All icon related props of Quasar components can make use of this.**
 
 ```html
-<q-icon name="img:/logo/logo.svg" />
-<q-btn icon="img:/logo/logo.svg" ... />
-
-<!-- reference from /public: -->
-<q-icon name="img:my/path/to/some.svg" />
+<q-icon name="img:https://cdn.example.com/logo.svg" />
+<q-btn icon="img:https://cdn.example.com/logo.svg" ... />
 ```
-
-::: tip
-Remember that you can place images in your `/public` folder too and point to them. You don't always need a full URL.
-:::
 
 This is not restricted to SVG only. You can use whatever image type you want (png, jpg, ...):
 
 ```html
-<q-icon name="img:bla/bla/my.png" />
-<q-btn icon="img:bla/bla/my.jpg" ... />
-<q-input clearable clear-icon="img:bla/bla/my.gif" ... />
+<q-icon name="img:/icons/my.png" />
+<q-btn icon="img:/icons/my.jpg" ... />
+<q-input clearable clear-icon="img:/icons/my.gif" ... />
 ```
+
+### Public folder images
+
+Images placed in your `/public` folder are served as-is, so point to them with a root-relative URL (leading `/`). Avoid bare relative URLs such as `img:icons/my.svg`: the browser resolves those against the current page URL, so they break on nested routes.
+
+```html
+<!-- /public/icons/my.svg -->
+<q-icon name="img:/icons/my.svg" />
+```
+
+If your app is deployed under a sub-path, prefix the URL with `import.meta.env.BASE_URL` as explained in the [Handling Assets](/quasar-cli-vite/handling-assets#static-assets-public) page.
+
+### Bundled images
+
+The `~` and `@` prefixes that work on `<img src>` or QImg `src` do **not** work inside an icon prop. Vite (through the Vue compiler) only rewrites an attribute into an import when the whole value starts with `.`, `~` or `@`, and the `img:` prefix in front prevents that. An icon like `img:~assets/my.svg` would be requested verbatim by the browser and fail.
+
+To use an image that lives in `/src/assets` (or anywhere else Vite bundles from), import it and bind the prop:
+
+```vue
+<template>
+  <q-btn :icon="`img:${myIcon}`" />
+</template>
+
+<script setup>
+import myIcon from 'assets/my.svg'
+</script>
+```
+
+### Inline images
 
 It is also possible to inline the image (svg, png, jpeg, gif...) and dynamically change its style (svg):
 
