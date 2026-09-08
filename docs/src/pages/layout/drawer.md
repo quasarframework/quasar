@@ -42,7 +42,7 @@ Reach for `no-swipe-close` when your drawer holds components of your own that ne
 ::: warning
 The swipe-to-open gesture is served by an invisible strip (`.q-drawer__opener`) which is 15px wide, spans the full height of that side of the screen and sits above your page content, so it captures the pointer events landing in that band. If you have something anchored to the same edge (a QPageSticky, for instance), disable the strip with `no-swipe-open`.
 
-The strip and the backdrop claim the horizontal swipe for themselves (v2.30.2+): once the pan direction is known, the browser no longer runs its own edge gesture alongside it, so on iOS Safari the page stops sliding towards the previous or the next history entry while the drawer moves. A vertical swipe starting in the strip still scrolls the page.
+The strip and the backdrop claim the horizontal swipe for themselves (v2.31+): once the pan direction is known, the browser no longer runs its own edge gesture alongside it, so on iOS Safari the page stops sliding towards the previous or the next history entry while the drawer moves. A vertical swipe starting in the strip still scrolls the page.
 :::
 
 ::: warning
