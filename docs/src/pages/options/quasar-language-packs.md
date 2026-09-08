@@ -255,7 +255,7 @@ Although the Quasar Language Packs **are designed only for Quasar components int
 
 Check a Quasar Language Pack on [GitHub](https://github.com/quasarframework/quasar/tree/dev/ui/lang) to see the structure of `$q.lang`.
 
-A pack may also define a root-level `formatNumber` function <q-badge label="v2.31+" /> that renders an ASCII digit string in the language's own numerals (the `fa` and `fa-IR` packs render Persian digits). QDate, QTime and QPagination display their numbers through it, and you can use it for your own numbers too:
+A pack may also define a root-level `formatNumber` function (v2.31+) that renders an ASCII digit string in the language's own numerals (the `fa` and `fa-IR` packs render Persian digits). QDate, QTime and QPagination display their numbers through it, and you can use it for your own numbers too:
 
 ```
 {{ $q.lang.formatNumber?.('2026') ?? '2026' }}
