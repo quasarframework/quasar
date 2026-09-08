@@ -144,6 +144,13 @@
   &__step-inner--vertical
     padding: 0 24px 32px 60px
 
+  // a horizontal step's content leaving the panel is positioned absolutely
+  // by the transition; pinned to the panel's origin since its (emptied)
+  // step root may sit below the entering one
+  &__step-content--leaving
+    top: 0
+    left: 0
+
   &__tab--horizontal
     overflow: hidden
     &:first-child

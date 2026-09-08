@@ -44,6 +44,12 @@ If the QStep content also has images and you want to use swipe actions to naviga
 
 <DocExample title="Vertical" file="TypeVertical" />
 
+### Responsive
+
+The `vertical` prop can change at runtime. The steps and whatever they hold stay mounted across the switch, so a form the user is filling in keeps its state when the stepper adapts to the viewport.
+
+<DocExample title="Vertical below the md breakpoint" file="Responsive" />
+
 ### Header navigation
 
 <DocExample title="Non-linear header navigation" file="NonLinearNavigation" />

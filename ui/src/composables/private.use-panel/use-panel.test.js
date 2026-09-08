@@ -100,6 +100,7 @@ describe('[usePanel API]', () => {
 
         expect(controls).toStrictEqual({
           panelIndex: { value: expect.any(Number) },
+          panelTransition: expect.$ref(null),
           panelDirectives: expect.$ref(expect.any(Array)),
 
           updatePanelsList: expect.any(Function),

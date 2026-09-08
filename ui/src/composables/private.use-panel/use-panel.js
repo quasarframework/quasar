@@ -315,6 +315,7 @@ export default function usePanel() {
 
   return {
     panelIndex,
+    panelTransition,
     panelDirectives,
 
     updatePanelsList,

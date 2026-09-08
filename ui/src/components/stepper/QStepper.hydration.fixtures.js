@@ -18,3 +18,27 @@ export const basic = {
       )
     ])
 }
+
+export const vertical = {
+  render: () =>
+    h(
+      QStepper,
+      {
+        modelValue: 2,
+        vertical: true,
+        animated: true,
+        keepAlive: true,
+        'onUpdate:modelValue': () => {}
+      },
+      () => [
+        h(QStep, { name: 1, title: 'Step one', icon: 'settings' }, () =>
+          h('div', 'Step 1 content')
+        ),
+        h(
+          QStep,
+          { name: 2, title: 'Step two', icon: 'create_new_folder' },
+          () => h('div', 'Step 2 content')
+        )
+      ]
+    )
+}
