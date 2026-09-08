@@ -13,7 +13,7 @@
 
   "events": {
     "resize": {
-      "desc": "Parent element has resized (width or height changed)",
+      "desc": "Parent element has resized (outer width or height changed; padding and border included)",
       "params": {
         "size": {
           "type": "Object",

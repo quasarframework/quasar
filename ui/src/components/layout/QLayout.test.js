@@ -1,8 +1,11 @@
 import { defineComponent, h, inject, nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
-import { describe, expect, test } from 'vitest'
+import { describe, expect, test, vi } from 'vitest'
 
 import { layoutKey } from '../../utils/private.symbols/symbols.js'
+import QHeader from '../header/QHeader.js'
+import QPageContainer from '../page/QPageContainer.js'
+import QToolbar from '../toolbar/QToolbar.js'
 import QLayout from './QLayout.js'
 
 const LayoutProbe = defineComponent({
@@ -122,6 +125,46 @@ describe('[QLayout API]', () => {
 
         expect(wrapper.emitted('scrollHeight')).toStrictEqual([[900]])
       })
+    })
+  })
+
+  describe('[Generic]', () => {
+    test('page container follows padding added on the header itself', async () => {
+      const wrapper = mount(QLayout, {
+        attachTo: document.body,
+        props: { view: 'hHh lpR fFf' },
+        slots: {
+          default: () => [
+            h(QHeader, null, () => h(QToolbar, null, () => 'Title')),
+            h(QPageContainer, null, () => h('div', { style: 'height: 2000px' }))
+          ]
+        }
+      })
+
+      const header = wrapper.find('.q-header').element
+      const toolbar = wrapper.find('.q-toolbar').element
+      const pageContainer = wrapper.find('.q-page-container').element
+
+      // a content-box change is always observed; waiting for it to land
+      // settles the observer's debounce so the padding step below stands alone
+      toolbar.style.height = '80px'
+
+      await vi.waitFor(() => {
+        expect(pageContainer.style.paddingTop).toBe('80px')
+      })
+
+      const initialHeight = header.offsetHeight
+      expect(initialHeight).toBe(80)
+
+      // the shape of a user-land env(safe-area-inset-top) rule on .q-header
+      header.style.paddingTop = '44px'
+      expect(header.offsetHeight).toBe(initialHeight + 44)
+
+      await vi.waitFor(() => {
+        expect(pageContainer.style.paddingTop).toBe(`${initialHeight + 44}px`)
+      })
+
+      wrapper.unmount()
     })
   })
 })

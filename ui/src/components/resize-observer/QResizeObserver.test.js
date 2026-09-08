@@ -76,4 +76,41 @@ describe('[QResizeObserver API]', () => {
       })
     })
   })
+
+  describe('[Generic]', () => {
+    test('tracks a padding-only change of the observed parent', async () => {
+      const wrapper = mount(QResizeObserver, {
+        attachTo: document.body
+      })
+
+      await nextTick()
+
+      const eventList = wrapper.emitted()
+      expect(eventList.resize).toHaveLength(1)
+
+      const parent = wrapper.vm.$el.parentNode
+      parent.style.cssText =
+        'box-sizing: content-box; width: 120px; height: 80px;'
+
+      await vi.waitFor(() => {
+        expect(eventList.resize).toHaveLength(2)
+      })
+
+      // padding grows the border box but leaves the content box untouched
+      parent.style.padding = '10px 5px'
+
+      await vi.waitFor(() => {
+        expect(eventList.resize).toHaveLength(3)
+      })
+
+      const [size] = eventList.resize.at(-1)
+      expect(size).toStrictEqual({
+        height: parent.offsetHeight,
+        width: parent.offsetWidth
+      })
+      expect(size).toStrictEqual({ height: 100, width: 130 })
+
+      wrapper.unmount()
+    })
+  })
 })

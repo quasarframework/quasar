@@ -66,7 +66,11 @@ export default /*#__PURE__*/ createComponent({
 
       if (targetEl) {
         observer = new ResizeObserver(trigger)
-        observer.observe(targetEl)
+        // the emitted size is offsetWidth/offsetHeight (the border box), so
+        // observe that box too: a padding or border change on the target
+        // itself leaves the default content box untouched and would go
+        // unnoticed until an unrelated resize
+        observer.observe(targetEl, { box: 'border-box' })
         emitEvent()
       } else if (!stop) {
         nextTick(() => {

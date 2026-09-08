@@ -7,7 +7,7 @@ related:
   - /vue-components/scroll-observer
 ---
 
-QResizeObserver is a Quasar component that emits a `resize` event whenever the wrapping DOM element / component (defined as direct parent of QResizeObserver) changes its size (width and/or height). Note that no polling is involved, but overusing it is costly too.
+QResizeObserver is a Quasar component that emits a `resize` event whenever the wrapping DOM element / component (defined as direct parent of QResizeObserver) changes its size (width and/or height). The reported size is the element's outer size (padding and border included), so a padding change on the wrapping element itself is reported too. Note that no polling is involved, but overusing it is costly too.
 
 <DocApi file="QResizeObserver" />
 
@@ -19,4 +19,4 @@ Please note that QResizeObserver will issue an event as soon as it gets rendered
 
 ## Accessibility <q-badge label="v2.25+" />
 
-QResizeObserver renders nothing (on legacy browsers without the native ResizeObserver API it falls back to an `<object>` element that is hidden from assistive technology), so it has no accessibility surface.
+QResizeObserver renders nothing, so it has no accessibility surface.
