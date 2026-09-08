@@ -152,9 +152,7 @@ export default /*#__PURE__*/ createComponent({
     // display-only: the model string and every hash stay ASCII
     function fmtNum(value) {
       const str = String(value)
-      return innerLocale.value.formatNumber !== void 0
-        ? innerLocale.value.formatNumber(str)
-        : str
+      return innerLocale.value.formatNumber?.(str) ?? str
     }
 
     // roving tabindex for the calendar days: the day that currently

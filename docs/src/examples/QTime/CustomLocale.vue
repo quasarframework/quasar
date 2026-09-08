@@ -24,5 +24,9 @@ const myLocale = {
   firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
   format24h: true,
   pluralDay: 'dias'
+
+  // "formatNumber" is an optional root-level key of the language pack,
+  // so the ad-hoc locale has to carry it along with the date strings:
+  // formatNumber: val => val.replace(/\d/g, d => '٠١٢٣٤٥٦٧٨٩'[d])
 }
 </script>

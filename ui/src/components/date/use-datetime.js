@@ -50,9 +50,11 @@ export default function useDatetime(props, $q) {
   })
 
   function getLocale() {
-    return props.locale !== void 0
-      ? { ...$q.lang.date, ...props.locale }
-      : $q.lang.date
+    return {
+      formatNumber: $q.lang.formatNumber,
+      ...$q.lang.date,
+      ...props.locale
+    }
   }
 
   function getCurrentDate(dateOnly) {

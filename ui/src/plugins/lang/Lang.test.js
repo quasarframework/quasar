@@ -2,6 +2,7 @@ import { h } from 'vue'
 import { describe, expect, test } from 'vitest'
 import { mount } from '@vue/test-utils'
 
+import langEn from '../../../lang/en-US.js'
 import Lang from './Lang.js'
 
 const mountPlugin = () => mount({ render: () => h('div') })
@@ -178,6 +179,16 @@ describe('[Lang API]', () => {
 
   describe('[Methods]', () => {
     describe('[(method)set]', () => {
+      test('drops optional root keys the new pack does not define', () => {
+        const wrapper = mountPlugin()
+
+        Lang.set({ ...langEn, formatNumber: value => value })
+        expect(wrapper.vm.$q.lang.formatNumber).toBeTypeOf('function')
+
+        Lang.set(langEn)
+        expect(wrapper.vm.$q.lang.formatNumber).toBeUndefined()
+      })
+
       test('should be callable', () => {
         const wrapper = mountPlugin()
 

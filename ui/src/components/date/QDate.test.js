@@ -4,6 +4,7 @@ import { nextTick } from 'vue'
 
 import langEn from '../../../lang/en-US.js'
 import langFa from '../../../lang/fa-IR.js'
+import Lang from '../../plugins/lang/Lang.js'
 import QDate from './QDate.js'
 
 // a Wednesday-starting month with 28 days, so that the calendar
@@ -258,11 +259,32 @@ describe('[QDate API]', () => {
         expect(details).toStrictEqual({ year: 1995, month: 2, day: 10 })
       })
 
-      test('the fa-IR pack renders Persian digits', () => {
-        const wrapper = mountDate({ locale: langFa.date })
+      test('the locale prop overrides the pack-level formatNumber', () => {
+        Lang.set({ ...langEn, formatNumber: value => `[${value}]` })
 
-        expect(getDayCell(wrapper, '۲۳')).toBeDefined()
-        expect(getSubtitle(wrapper).text()).toBe('۱۹۹۵')
+        try {
+          expect(getSubtitle(mountDate()).text()).toBe('[1995]')
+
+          const wrapper = mountDate({
+            locale: { formatNumber: value => `(${value})` }
+          })
+          expect(getSubtitle(wrapper).text()).toBe('(1995)')
+        } finally {
+          Lang.set(langEn)
+        }
+      })
+
+      test('the fa-IR pack renders Persian digits', () => {
+        Lang.set(langFa)
+
+        try {
+          const wrapper = mountDate()
+
+          expect(getDayCell(wrapper, '۲۳')).toBeDefined()
+          expect(getSubtitle(wrapper).text()).toBe('۱۹۹۵')
+        } finally {
+          Lang.set(langEn)
+        }
       })
     })
 

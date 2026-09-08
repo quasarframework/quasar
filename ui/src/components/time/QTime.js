@@ -171,9 +171,7 @@ export default /*#__PURE__*/ createComponent({
     // aria-valuenow) stay ASCII
     function fmtNum(value) {
       const str = String(value)
-      return locale.value.formatNumber !== void 0
-        ? locale.value.formatNumber(str)
-        : str
+      return locale.value.formatNumber?.(str) ?? str
     }
 
     const defaultDateModel = computed(() => getDefaultDateModel())

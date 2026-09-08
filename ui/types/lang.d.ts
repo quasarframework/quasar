@@ -111,6 +111,9 @@ export interface QuasarLanguage {
   isoName: string;
   nativeName: string;
   rtl?: boolean;
+  // receives the ASCII digit string a component would display
+  // ("5", "05", "1403") and returns it in the locale's digits
+  formatNumber?: (value: string) => string;
   label: StringDictionary<QuasarLanguageGeneralLabel> & {
     expand: (label?: string | undefined) => string;
     collapse: (label?: string | undefined) => string;
@@ -145,9 +148,6 @@ export interface QuasarLanguage {
       date: Date,
       model: { year: number; month: number; day: number }
     ) => string;
-    // receives the ASCII digit string QDate/QTime would display
-    // ("5", "05", "1403") and returns it in the locale's digits
-    formatNumber?: (value: string) => string;
   };
   table: StringDictionary<QuasarLanguageTableLabel> & {
     selectedRecords: (rows: number) => string;

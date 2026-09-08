@@ -12,6 +12,7 @@ import useDatetime, {
 let wrapper
 
 const langDate = { days: ['Sunday'], firstDayOfWeek: 0 }
+const formatNumber = value => `[${value}]`
 
 afterEach(() => {
   wrapper?.unmount()
@@ -20,7 +21,7 @@ afterEach(() => {
 })
 
 // the composable takes $q as an argument, so a minimal stand-in is enough
-const $q = { lang: { date: langDate } }
+const $q = { lang: { formatNumber, date: langDate } }
 
 function mountDatetime(props = {}) {
   let api
@@ -117,17 +118,24 @@ describe('[useDatetime API]', () => {
       test('falls back to the Quasar language pack for the locale', () => {
         const { getLocale } = mountDatetime()
 
-        expect(getLocale()).toBe(langDate)
+        // the pack-level digit hook rides along with the date section
+        expect(getLocale()).toStrictEqual({ formatNumber, ...langDate })
       })
 
       test('merges a custom locale over the language pack', () => {
+        const customFormatNumber = value => `(${value})`
         const { getLocale } = mountDatetime({
-          locale: { firstDayOfWeek: 1 }
+          locale: { firstDayOfWeek: 1, formatNumber: customFormatNumber }
         })
 
-        expect(getLocale()).toStrictEqual({ ...langDate, firstDayOfWeek: 1 })
+        expect(getLocale()).toStrictEqual({
+          ...langDate,
+          firstDayOfWeek: 1,
+          formatNumber: customFormatNumber
+        })
         // the language pack itself must not be touched
         expect(langDate.firstDayOfWeek).toBe(0)
+        expect($q.lang.formatNumber).toBe(formatNumber)
       })
 
       test('returns today as a gregorian date with empty time parts', () => {

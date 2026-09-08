@@ -300,9 +300,15 @@ export default /*#__PURE__*/ createComponent({
       if (isKeyCode(e, 13)) updateModel()
     }
 
+    // display-only: the model and the input stay numeric
+    function fmtNum(value) {
+      const str = String(value)
+      return $q.lang.formatNumber?.(str) ?? str
+    }
+
     function getBtnData(cfg, page, active) {
       const data = {
-        'aria-label': page,
+        'aria-label': fmtNum(page),
         ...btnProps.value,
         ...cfg
       }
@@ -434,7 +440,7 @@ export default /*#__PURE__*/ createComponent({
                 key: 'bns',
                 style,
                 disable: props.disable,
-                label: minProp.value
+                label: fmtNum(minProp.value)
               },
               minProp.value,
               minProp.value === props.modelValue
@@ -449,7 +455,7 @@ export default /*#__PURE__*/ createComponent({
                 key: 'bne',
                 style,
                 disable: props.disable,
-                label: maxProp.value
+                label: fmtNum(maxProp.value)
               },
               maxProp.value,
               maxProp.value === props.modelValue
@@ -472,7 +478,7 @@ export default /*#__PURE__*/ createComponent({
                 key: `bpg${i}`,
                 style,
                 disable: props.disable,
-                label: i
+                label: fmtNum(i)
               },
               i,
               i === props.modelValue

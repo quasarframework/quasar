@@ -53,6 +53,10 @@ The `ellipsis` slot replaces the "..." buttons. Spread its `btnProps` onto your 
 
 <DocExample title="Go to page with QPopupEdit" file="EllipsisSlot" />
 
+### Localized digits <q-badge label="v2.31+" />
+
+The page numbers follow the `formatNumber` function of the active [language pack](/options/quasar-language-packs), when it defines one (see [QDate's localized digits](/vue-components/date#localized-digits)). The `fa` and `fa-IR` packs render Persian digits. The model and the `input` mode stay numeric.
+
 ## Accessibility <q-badge label="v2.25+" />
 
 QPagination renders as a `navigation` landmark. The first/previous/next/last buttons get localized `aria-label`s from the [Quasar Language Pack](/options/quasar-language-packs) in use, the numbered buttons are labeled with the page they lead to, and the active page's button is marked with `aria-current="page"`. The landmark itself is named from the same language pack (`pagination.label`); pass your own `aria-label` (it falls through to the root element) to tell several paginations on one page apart. It also carries `aria-disabled` at all times, reporting `true` or `false` according to the `disable` prop.

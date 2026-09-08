@@ -37,6 +37,25 @@
           "desc": "Whether the language is RTL (right-to-left)",
           "examples": ["false"]
         },
+        "formatNumber": {
+          "type": "Function",
+          "desc": "Renders a number displayed by a Quasar component (QDate, QTime, QPagination) in the locale's digits; receives the ASCII digit string, zero-padded where the component pads it",
+          "params": {
+            "value": {
+              "type": "String",
+              "desc": "The ASCII digit string the component would display",
+              "examples": ["'05'", "'1403'"]
+            }
+          },
+          "returns": {
+            "type": "String",
+            "desc": "The localized digit string",
+            "examples": ["'۰۵'", "'۱۴۰۳'"]
+          },
+          "examples": [
+            "value => value.replace(/\\d/g, digit => '۰۱۲۳۴۵۶۷۸۹'[digit])"
+          ]
+        },
         "label": {
           "type": "Object",
           "desc": "Generic labels",
@@ -289,25 +308,6 @@
               "type": "String",
               "desc": "Aria-label for the QTime 'now' button",
               "examples": ["'Current time'"]
-            },
-            "formatNumber": {
-              "type": "Function",
-              "desc": "Renders a number displayed by QDate/QTime (day, year, hour, minute, second) in the locale's digits; receives the ASCII digit string, zero-padded where the component pads it",
-              "params": {
-                "value": {
-                  "type": "String",
-                  "desc": "The ASCII digit string the component would display",
-                  "examples": ["'05'", "'1403'"]
-                }
-              },
-              "returns": {
-                "type": "String",
-                "desc": "The localized digit string",
-                "examples": ["'۰۵'", "'۱۴۰۳'"]
-              },
-              "examples": [
-                "value => value.replace(/\\d/g, digit => '۰۱۲۳۴۵۶۷۸۹'[digit])"
-              ]
             }
           }
         },
@@ -768,6 +768,25 @@
               "desc": "Whether the language is RTL (right-to-left)",
               "examples": ["false"]
             },
+            "formatNumber": {
+              "type": "Function",
+              "desc": "Renders a number displayed by a Quasar component (QDate, QTime, QPagination) in the locale's digits; receives the ASCII digit string, zero-padded where the component pads it",
+              "params": {
+                "value": {
+                  "type": "String",
+                  "desc": "The ASCII digit string the component would display",
+                  "examples": ["'05'", "'1403'"]
+                }
+              },
+              "returns": {
+                "type": "String",
+                "desc": "The localized digit string",
+                "examples": ["'۰۵'", "'۱۴۰۳'"]
+              },
+              "examples": [
+                "value => value.replace(/\\d/g, digit => '۰۱۲۳۴۵۶۷۸۹'[digit])"
+              ]
+            },
             "label": {
               "type": "Object",
               "desc": "Generic labels",
@@ -1046,25 +1065,6 @@
                   "type": "String",
                   "desc": "Aria-label for the QTime 'now' button",
                   "examples": ["'Current time'"]
-                },
-                "formatNumber": {
-                  "type": "Function",
-                  "desc": "Renders a number displayed by QDate/QTime (day, year, hour, minute, second) in the locale's digits; receives the ASCII digit string, zero-padded where the component pads it",
-                  "params": {
-                    "value": {
-                      "type": "String",
-                      "desc": "The ASCII digit string the component would display",
-                      "examples": ["'05'", "'1403'"]
-                    }
-                  },
-                  "returns": {
-                    "type": "String",
-                    "desc": "The localized digit string",
-                    "examples": ["'۰۵'", "'۱۴۰۳'"]
-                  },
-                  "examples": [
-                    "value => value.replace(/\\d/g, digit => '۰۱۲۳۴۵۶۷۸۹'[digit])"
-                  ]
                 }
               }
             },

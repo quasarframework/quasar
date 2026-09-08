@@ -5,6 +5,8 @@ import { h } from 'vue'
 import { getRouter } from 'testing/runtime/router.js'
 import QBtn from '../btn/QBtn.js'
 import QPagination from './QPagination.js'
+import langEn from '../../../lang/en-US.js'
+import Lang from '../../plugins/lang/Lang.js'
 
 let activeWrapper
 
@@ -770,6 +772,32 @@ describe('[QPagination API]', () => {
 
         expect(wrapper.emitted('update:modelValue')).toStrictEqual([[10]])
       })
+    })
+  })
+
+  describe('[Generic]', () => {
+    test('renders the page numbers in the language pack digits', () => {
+      const formatNumber = value =>
+        value.replaceAll(/\d/g, digit => 'abcdefghij'[digit])
+      const plainLabels = getPageLabels(mountPagination())
+
+      Lang.set({ ...langEn, formatNumber })
+
+      try {
+        const wrapper = mountPagination()
+
+        expect(getPageLabels(wrapper)).toEqual(plainLabels.map(formatNumber))
+        expect(getActiveButton(wrapper).attributes('aria-label')).toBe(
+          formatNumber('5')
+        )
+
+        // the input stays numeric
+        expect(
+          getInput(mountPagination({ input: true })).attributes('placeholder')
+        ).toBe('5 / 10')
+      } finally {
+        Lang.set(langEn)
+      }
     })
   })
 

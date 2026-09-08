@@ -11,6 +11,7 @@ export default {
   isoName: 'fa',
   nativeName: 'فارسی',
   rtl: true,
+  formatNumber,
   label: {
     clear: 'پاک‌سازی',
     ok: 'قبول',
@@ -43,7 +44,6 @@ export default {
     monthsShort,
     headerTitle: (date, model) =>
       `${days[date.getDay()]}، ${formatNumber(String(model.day))} ${monthsShort[model.month - 1]}`,
-    formatNumber,
     firstDayOfWeek: 6,
     format24h: true,
     pluralDay: 'روز',

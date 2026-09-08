@@ -168,6 +168,12 @@ const Plugin = /*#__PURE__*/ createReactivePlugin(
           el.setAttribute('lang', lang.isoName)
         }
 
+        // optional root keys (formatNumber) must not survive from
+        // the previous pack
+        for (const key of Object.keys(Plugin.__qLang)) {
+          if (!(key in lang)) delete Plugin.__qLang[key]
+        }
+
         Object.assign(Plugin.__qLang, lang)
       }
     },

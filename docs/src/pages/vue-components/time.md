@@ -83,7 +83,7 @@ If, for some reason, you need to use a custom ad-hoc locale rather than the curr
 
 <DocExample title="Custom ad-hoc locale" file="CustomLocale" overflow />
 
-The digits shown in the header and on the clock face follow the `date.formatNumber` function of the language pack, or of the `locale` prop, when one is defined (see [Localized digits](/vue-components/date#localized-digits)). The `fa` and `fa-IR` packs render Persian digits; the model always keeps ASCII digits.
+The digits shown in the header and on the clock face follow the `formatNumber` function of the language pack, or one passed through the `locale` prop, when one is defined (see [Localized digits](/vue-components/date#localized-digits)). The `fa` and `fa-IR` packs render Persian digits; the model always keeps ASCII digits.
 
 ### Coloring
 

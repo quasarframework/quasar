@@ -212,9 +212,9 @@ When using the persian calendar, the mask for QDate is forced to `YYYY/MM/DD`.
 
 #### Localized digits <q-badge label="v2.31+" />
 
-The day and year numbers that QDate displays (calendar cells, navigation, header, years view) follow the `date.formatNumber` function of the active language pack, or of the `locale` prop, when one is defined. The `fa` and `fa-IR` packs define it to render Persian digits, as the example above shows. The model always keeps ASCII digits (`1397/08/12`).
+The day and year numbers that QDate displays (calendar cells, navigation, header, years view) follow the `formatNumber` function of the active [language pack](/options/quasar-language-packs), or one passed through the `locale` prop, when one is defined. The `fa` and `fa-IR` packs define it to render Persian digits, as the example above shows. The model always keeps ASCII digits (`1397/08/12`).
 
-Any language pack or ad-hoc locale can opt in. The function receives the ASCII digit string that would be displayed (zero-padded where QTime pads it) and returns its localized rendering:
+Any language pack (root-level `formatNumber` key) or ad-hoc locale can opt in. The function receives the ASCII digit string that would be displayed (zero-padded where QTime pads it) and returns its localized rendering:
 
 ```js
 const myLocale = {
@@ -223,7 +223,7 @@ const myLocale = {
 }
 ```
 
-[QTime](/vue-components/time#custom-ad-hoc-locale) honors the same function for its header and clock face.
+[QTime](/vue-components/time#custom-ad-hoc-locale) honors the same function for its header and clock face, and [QPagination](/vue-components/pagination#localized-digits) for its page numbers.
 
 ### Native form submit
 
