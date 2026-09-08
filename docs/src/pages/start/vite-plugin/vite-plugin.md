@@ -114,6 +114,78 @@ config.global.plugins.unshift([Quasar, {/* Quasar plugin options */}])
 Quasar CLI projects should use the official [@quasar/testing-unit-vitest](/quasar-cli-vite/testing-and-auditing) App Extension instead, which wires all of this up.
 :::
 
+## Storybook
+
+[Storybook](https://storybook.js.org) builds your stories with its own Vite configuration, which knows nothing about `quasar.config` (Quasar CLI projects) or your `vite.config.js`. Two things are missing from it, and both come back by adding our Vite plugin to Storybook's config:
+
+- Quasar's Sass/SCSS variables. Without the plugin any `<style lang="sass">` using `$primary` fails with `SassError: Undefined variable`.
+- Quasar's own resolution of the `quasar` package (see the [Vitest section](#testing-with-vitest) above for why this matters).
+
+The `@storybook/vue3-vite` framework registers `@vitejs/plugin-vue` by itself, so only the Quasar plugin is left to add. The Vite version that Storybook pulls in must satisfy the requirements at the top of this page.
+
+```js
+// .storybook/main.js
+
+import { join } from 'node:path'
+import { mergeConfig } from 'vite'
+import { quasar } from '@quasar/vite-plugin'
+
+export default {
+  framework: '@storybook/vue3-vite',
+  stories: ['../src/**/*.stories.@(js|ts)'],
+
+  async viteFinal(config) {
+    return mergeConfig(config, {
+      plugins: [
+        quasar({
+          // your variables file; in a Quasar CLI project it is
+          // the one set in quasar.config > css > variables
+          sassVariables: join(
+            import.meta.dirname,
+            '../src/css/quasar.variables.sass'
+          )
+        })
+      ],
+
+      resolve: {
+        // the "@" alias that Quasar CLI projects rely on
+        alias: { '@': join(import.meta.dirname, '../src') }
+      }
+    })
+  }
+}
+```
+
+Then install Quasar into the Vue app that renders the stories and import the css, the same way your app's entry point does:
+
+```js
+// .storybook/preview.js
+
+import { setup } from '@storybook/vue3-vite'
+import { Quasar } from 'quasar'
+
+import '@quasar/extras/roboto-font/roboto-font.css'
+import '@quasar/extras/material-icons/material-icons.css'
+import 'quasar/src/css/index.sass'
+import '../src/css/app.scss'
+
+setup(app => {
+  app.use(Quasar, {
+    plugins: {} // import Quasar plugins and add here
+  })
+})
+
+export default {
+  parameters: {}
+}
+```
+
+::: tip Quasar CLI projects
+`quasar prepare` (also run by `postinstall`) generates `.quasar/quasar-user-options.js` from `quasar.config > framework`: the language pack, icon set, Quasar plugins and `config` object. Import it and pass it to `app.use(Quasar, quasarUserOptions)` instead of repeating those settings.
+:::
+
+Storybook renders components, not your app, so nothing else from `quasar.config` applies inside it: boot files do not run, `build.env` values are not in `import.meta.env`, custom `build.alias` entries need adding to the `resolve.alias` above, and the SSR, Capacitor, Cordova, Electron and BEX modes are out of reach. Whatever a story needs from a boot file (a router, a Pinia store, i18n) gets installed in the `setup()` callback above.
+
 ## RTL support
 
 For enabling, please check out our [RTL Support](/options/rtl-support) page and follow the instructions.
