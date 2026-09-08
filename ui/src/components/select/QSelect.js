@@ -214,6 +214,10 @@ export default /*#__PURE__*/ createComponent({
       prefetchPending = false,
       hasDialog,
       userInputValue,
+      // set while the highlighted option merely mirrors the model (placed
+      // by updateMenu() on open or after a filter), as opposed to one the
+      // user navigated or hovered to
+      optionIndexFromModel = false,
       filterId = null,
       defaultInputValue,
       transitionShowComputed,
@@ -681,6 +685,7 @@ export default /*#__PURE__*/ createComponent({
 
       if (optionIndex.value !== val) {
         optionIndex.value = val
+        optionIndexFromModel = false
       }
     }
 
@@ -991,7 +996,14 @@ export default /*#__PURE__*/ createComponent({
 
       if (e.keyCode !== 9) stopAndPrevent(e)
 
-      if (optionIndex.value !== -1 && optionIndex.value < optionsLength) {
+      if (
+        optionIndex.value !== -1 &&
+        optionIndex.value < optionsLength &&
+        // text the user typed to create a new value must not be hijacked
+        // by the highlight that only mirrors the model (#16514); one the
+        // user navigated or hovered to still wins
+        !(newValueModeValid && userInputValue && optionIndexFromModel)
+      ) {
         toggleOption(props.options[optionIndex.value])
         return
       }
@@ -1754,6 +1766,7 @@ export default /*#__PURE__*/ createComponent({
       }
 
       setOptionIndex(localOptionIndex)
+      optionIndexFromModel = localOptionIndex !== -1
     }
 
     function rerenderMenu(newLength, oldLength) {

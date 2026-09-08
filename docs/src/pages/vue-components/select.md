@@ -315,6 +315,7 @@ When the list of options is opened:
 - pressing <kbd>Enter</kbd> (or <kbd>Space</kbd> when `use-input` is not set, or <kbd>Tab</kbd> when `multiple` and `disable-tab-selection` are not set) when an option is selected in the list will:
   - select the option and close the list of options if `multiple` and `disable-tab-selection` are not set
   - toggle the option if `multiple` is set
+  - exception: when creating new values (`new-value-mode` prop or `@new-value` event), text you have typed takes precedence over the option that got highlighted automatically for mirroring the current value (upon opening the list or after filtering it); the typed text is then submitted as a new value; an option that you navigated or hovered to still gets selected instead
 
 ## Accessibility <q-badge label="v2.25+" />
 

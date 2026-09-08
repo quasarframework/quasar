@@ -1745,6 +1745,102 @@ describe('[QSelect API]', () => {
         // an already selected value gets removed
         expect(wrapper.emitted('update:modelValue').at(-1)).toEqual([[]])
       })
+
+      test('typed text wins over the highlight mirroring the model', async () => {
+        const wrapper = mountSelect({
+          modelValue: 'b',
+          useInput: true,
+          newValueMode: 'add-unique'
+        })
+        const input = wrapper.get('input')
+
+        await openPopup(wrapper)
+
+        // opening highlights the current value (#16514)
+        expect(wrapper.vm.getOptionIndex()).toBe(1)
+
+        input.element.value = 'new'
+        await input.trigger('input')
+        await flushPromises()
+
+        await input.trigger('keydown', { keyCode: 13 })
+        await flushPromises()
+
+        expect(wrapper.emitted('update:modelValue').at(-1)).toEqual(['new'])
+      })
+
+      test('typed text wins over the highlight restored by a filter', async () => {
+        const wrapper = mountSelect({
+          modelValue: 'b',
+          useInput: true,
+          inputDebounce: 0,
+          newValueMode: 'add-unique',
+          onFilter: (val, update) => {
+            update(() => {})
+          }
+        })
+        const input = wrapper.get('input')
+
+        input.element.focus()
+        await openPopup(wrapper)
+
+        input.element.value = 'new'
+        await input.trigger('input')
+        await flushPromises()
+        await flushTimers()
+
+        // the filter re-highlighted the current value
+        expect(wrapper.vm.getOptionIndex()).toBe(1)
+
+        await input.trigger('keydown', { keyCode: 13 })
+        await flushPromises()
+
+        expect(wrapper.emitted('update:modelValue').at(-1)).toEqual(['new'])
+      })
+
+      test('an option the user navigated to still wins over typed text', async () => {
+        const wrapper = mountSelect({
+          modelValue: 'b',
+          useInput: true,
+          newValueMode: 'add-unique'
+        })
+        const input = wrapper.get('input')
+
+        await openPopup(wrapper)
+
+        input.element.value = 'new'
+        await input.trigger('input')
+        await flushPromises()
+
+        await input.trigger('keydown', { keyCode: 40 })
+        await flushPromises()
+        expect(wrapper.vm.getOptionIndex()).toBe(2)
+
+        await input.trigger('keydown', { keyCode: 13 })
+        await flushPromises()
+
+        expect(wrapper.emitted('update:modelValue').at(-1)).toEqual(['c'])
+      })
+
+      test('the filled-in label of the current value does not count as typed text', async () => {
+        const wrapper = mountSelect({
+          modelValue: 'b',
+          useInput: true,
+          fillInput: true,
+          newValueMode: 'add'
+        })
+        const input = wrapper.get('input')
+
+        await openPopup(wrapper)
+        expect(input.element.value).toBe('b')
+
+        await input.trigger('keydown', { keyCode: 13 })
+        await flushPromises()
+
+        // the highlighted option is re-selected, no duplicate is added
+        expect(wrapper.emitted('update:modelValue')).toBeUndefined()
+        expect(wrapper.emitted('newValue')).toBeUndefined()
+      })
     })
 
     describe('[(prop)map-options]', () => {
