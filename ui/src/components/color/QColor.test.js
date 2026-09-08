@@ -505,5 +505,243 @@ describe('[QColor API]', () => {
           .attributes('aria-label')
       ).toBe(colorPicker.alpha)
     })
+
+    describe('palette swatches', () => {
+      // 12 swatches: the default 10-per-row layout leaves 2 on the second row
+      const swatches = [
+        '#ff0000',
+        '#00ff00',
+        '#0000ff',
+        '#ffff00',
+        '#ff00ff',
+        '#00ffff',
+        '#000000',
+        '#ffffff',
+        '#808080',
+        '#800000',
+        '#008000',
+        '#000080'
+      ]
+
+      function mountPalette(props = {}) {
+        return mount(QColor, {
+          attachTo: document.body,
+          props: {
+            modelValue: '#0000ff',
+            defaultView: 'palette',
+            palette: swatches,
+            ...props
+          }
+        })
+      }
+
+      function getTabStops(wrapper) {
+        return getPaletteCubes(wrapper)
+          .map((cube, index) =>
+            cube.attributes('tabindex') === '0' ? index : -1
+          )
+          .filter(index => index !== -1)
+      }
+
+      test('swatches are named buttons in a named group', () => {
+        const wrapper = mountPalette()
+
+        const group = wrapper.get('.q-color-picker__palette-rows')
+        expect(group.attributes('role')).toBe('group')
+        expect(group.attributes('aria-label')).toBe(langEn.colorPicker.palette)
+
+        const cubes = getPaletteCubes(wrapper)
+        expect(cubes).toHaveLength(swatches.length)
+        cubes.forEach((cube, index) => {
+          expect(cube.element.tagName).toBe('BUTTON')
+          expect(cube.attributes('type')).toBe('button')
+          expect(cube.attributes('aria-label')).toBe(swatches[index])
+        })
+
+        wrapper.unmount()
+      })
+
+      test('the swatch matching the model is pressed and owns the Tab stop', async () => {
+        // a duplicate of the model color: every copy is pressed, the
+        // first one owns the Tab stop
+        const wrapper = mountPalette({ palette: [...swatches, '#0000ff'] })
+
+        expect(getTabStops(wrapper)).toStrictEqual([2])
+        expect(
+          getPaletteCubes(wrapper).map(cube => cube.attributes('aria-pressed'))
+        ).toStrictEqual(
+          [...swatches, '#0000ff'].map(color =>
+            color === '#0000ff' ? 'true' : 'false'
+          )
+        )
+
+        // a model outside the palette falls back to the first swatch
+        await wrapper.setProps({ modelValue: '#123456' })
+        expect(getTabStops(wrapper)).toStrictEqual([0])
+        expect(
+          getPaletteCubes(wrapper).every(
+            cube => cube.attributes('aria-pressed') === 'false'
+          )
+        ).toBe(true)
+
+        wrapper.unmount()
+      })
+
+      test('arrow keys move focus without selecting; Home/End jump to the edges', async () => {
+        const wrapper = mountPalette()
+        const cubes = getPaletteCubes(wrapper)
+
+        cubes[2].element.focus()
+
+        await cubes[2].trigger('keydown', { keyCode: 39 })
+        expect(document.activeElement).toBe(cubes[3].element)
+        expect(getTabStops(wrapper)).toStrictEqual([3])
+
+        await cubes[3].trigger('keydown', { keyCode: 37 })
+        expect(document.activeElement).toBe(cubes[2].element)
+
+        await cubes[2].trigger('keydown', { keyCode: 35 })
+        expect(document.activeElement).toBe(cubes[11].element)
+
+        await cubes[11].trigger('keydown', { keyCode: 36 })
+        expect(document.activeElement).toBe(cubes[0].element)
+
+        // the edges are not wrapped
+        await cubes[0].trigger('keydown', { keyCode: 37 })
+        expect(document.activeElement).toBe(cubes[0].element)
+
+        expect(wrapper.emitted('update:modelValue')).toBeUndefined()
+
+        wrapper.unmount()
+      })
+
+      test('Up/Down move by one visual row', async () => {
+        const wrapper = mountPalette()
+        const cubes = getPaletteCubes(wrapper)
+
+        cubes[1].element.focus()
+
+        await cubes[1].trigger('keydown', { keyCode: 40 })
+        expect(document.activeElement).toBe(cubes[11].element)
+
+        await cubes[11].trigger('keydown', { keyCode: 38 })
+        expect(document.activeElement).toBe(cubes[1].element)
+
+        // no swatch below the first row's tail
+        await cubes[5].trigger('keydown', { keyCode: 40 })
+        expect(document.activeElement).toBe(cubes[1].element)
+
+        wrapper.unmount()
+      })
+
+      test('Left/Right follow the visual direction in RTL', async () => {
+        const wrapper = mountPalette()
+        const cubes = getPaletteCubes(wrapper)
+
+        wrapper.vm.$q.lang.rtl = true
+
+        try {
+          cubes[2].element.focus()
+
+          await cubes[2].trigger('keydown', { keyCode: 37 })
+          expect(document.activeElement).toBe(cubes[3].element)
+        } finally {
+          wrapper.vm.$q.lang.rtl = false
+          wrapper.unmount()
+        }
+      })
+
+      test('a disabled or readonly palette has no Tab stop', async () => {
+        const wrapper = mountPalette({ readonly: true })
+
+        expect(getTabStops(wrapper)).toStrictEqual([])
+
+        await wrapper.setProps({ readonly: false, disable: true })
+        expect(getTabStops(wrapper)).toStrictEqual([])
+
+        await wrapper.setProps({ disable: false })
+        expect(getTabStops(wrapper)).toStrictEqual([2])
+
+        wrapper.unmount()
+      })
+    })
+  })
+
+  describe('[Slots]', () => {
+    describe('[(slot)palette]', () => {
+      test('renders the content', () => {
+        let slotScope
+        const slotContent = 'some-slot-content'
+        const wrapper = mount(QColor, {
+          props: {
+            modelValue: 'some-string',
+            defaultView: 'palette'
+          },
+          slots: {
+            palette: scope => {
+              slotScope = scope
+              return slotContent
+            }
+          }
+        })
+
+        expect(wrapper.html()).toContain(slotContent)
+
+        expect(slotScope).toStrictEqual({
+          palette: expect.any(Array),
+          select: expect.any(Function),
+          editable: expect.any(Boolean)
+        })
+      })
+
+      test('replaces the default swatches and exposes the colors', () => {
+        const propVal = ['#019A9D', '#D9B801', 'rgb(23,120,0)']
+        let slotScope
+        const wrapper = mount(QColor, {
+          props: {
+            modelValue: '#ff0000',
+            defaultView: 'palette',
+            palette: propVal
+          },
+          slots: {
+            palette: scope => {
+              slotScope = scope
+              return 'swatches'
+            }
+          }
+        })
+
+        expect(getPaletteCubes(wrapper)).toHaveLength(0)
+        expect(slotScope.palette).toStrictEqual(propVal)
+        expect(slotScope.editable).toBe(true)
+      })
+
+      test('select() updates the model, unless disabled or readonly', async () => {
+        let slotScope
+        const wrapper = mount(QColor, {
+          props: {
+            modelValue: '#ff0000',
+            defaultView: 'palette'
+          },
+          slots: {
+            palette: scope => {
+              slotScope = scope
+              return 'swatches'
+            }
+          }
+        })
+
+        slotScope.select('#019A9D')
+        expect(wrapper.emitted('update:modelValue')).toStrictEqual([
+          ['#019a9d']
+        ])
+
+        await wrapper.setProps({ readonly: true })
+        expect(slotScope.editable).toBe(false)
+
+        slotScope.select('#D9B801')
+        expect(wrapper.emitted('update:modelValue')).toHaveLength(1)
+      })
+    })
   })
 })

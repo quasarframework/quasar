@@ -88,6 +88,37 @@
     }
   },
 
+  "slots": {
+    "palette": {
+      "desc": "Override the default swatches of the palette view; you decide the layout, labels and accessibility of the swatches",
+      "addedIn": "v2.31",
+      "scope": {
+        "palette": {
+          "type": "Array",
+          "desc": "The colors of the palette (the 'palette' prop, or the built-in list when the prop is not set)",
+          "examples": ["['#019A9D', '#D9B801', 'rgb(23,120,0)', '#B2028A']"]
+        },
+        "select": {
+          "type": "Function",
+          "desc": "Set the model to a color; does nothing while the component is disabled or readonly",
+          "params": {
+            "color": {
+              "type": "String",
+              "required": true,
+              "desc": "The color to select (hex, hexa, rgb or rgba string)",
+              "examples": ["'#019A9D'", "'rgb(23,120,0)'"]
+            }
+          },
+          "returns": null
+        },
+        "editable": {
+          "type": "Boolean",
+          "desc": "Whether the user can currently change the color (false while disabled or readonly)"
+        }
+      }
+    }
+  },
+
   "events": {
     "update:model-value": {
       "extends": "update:model-value",

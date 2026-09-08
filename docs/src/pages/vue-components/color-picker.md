@@ -47,6 +47,12 @@ You can also pick the default view, like in example below, where we also specify
 
 <DocExample title="Custom palette" file="CustomPalette" />
 
+### Palette slot <q-badge label="v2.31+" />
+
+The `palette` slot replaces the default swatches of the palette view while keeping the Spectrum and Tune views and the view switcher. Its scope carries the colors (`palette`), a `select(color)` function and an `editable` flag, so you decide the layout and the labels. The default swatches are keyboard and screen reader accessible (see the Accessibility section below); keep yours that way too.
+
+<DocExample title="Palette slot" file="PaletteSlot" />
+
 ### Force dark mode
 
 <DocExample title="Force dark mode" file="Dark" />
@@ -71,10 +77,12 @@ When dealing with a native form which has an `action` and a `method` (eg. when u
 
 ## Accessibility <q-badge label="v2.25+" />
 
-QColor is only partially accessible, and which view is active matters. The Tune view — native text/number inputs plus sliders — is the keyboard and screen reader path. The palette swatches and the spectrum panel, on the other hand, are pointer-only: they cannot be reached with the keyboard and expose nothing to assistive technology.
+QColor is only partially accessible, and which view is active matters. The Tune view (native text/number inputs plus sliders) and, since v2.31, the Palette view are the keyboard and screen reader paths. The spectrum panel, on the other hand, is pointer-only: it cannot be reached with the keyboard and exposes nothing to assistive technology.
+
+The palette swatches are buttons named by their color value, wrapped in a group carrying the localized `colorPicker.palette` label, and the swatch matching the current model is exposed as pressed. The palette holds a single <kbd>Tab</kbd> stop (the selected swatch, else the first one); the arrow keys move between swatches (<kbd>Up</kbd>/<kbd>Down</kbd> by one visual row), <kbd>Home</kbd>/<kbd>End</kbd> jump to the first/last swatch and <kbd>Enter</kbd>/<kbd>Space</kbd> pick the focused one. Swatches rendered through the `palette` slot are yours to make accessible.
 
 The parts that are exposed carry localized accessible names from the [Quasar Language Pack](/options/quasar-language-packs) (`colorPicker.*`): the view tabs, the header's color value field and the hue/opacity sliders, none of which the consumer can name from the outside.
 
 A `disable`d QColor exposes `aria-disabled="true"` on its root element.
 
-If your app needs accessible color input, start users in the Tune view (`default-view="tune"`) or provide an alternative way of entering the color (e.g. a plain [QInput](/vue-components/input) accepting a hex value).
+If your app needs accessible color input, start users in the Tune or Palette view (`default-view="tune"` or `default-view="palette"`) or provide an alternative way of entering the color (e.g. a plain [QInput](/vue-components/input) accepting a hex value).

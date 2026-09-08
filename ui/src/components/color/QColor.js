@@ -32,7 +32,7 @@ import {
 import { createComponent } from '../../utils/private.create/create.js'
 import { testPattern } from '../../utils/patterns/patterns.js'
 import throttle from '../../utils/throttle/throttle.js'
-import { stop } from '../../utils/event/event.js'
+import { stop, stopAndPrevent } from '../../utils/event/event.js'
 import {
   hexToRgb,
   hsvToRgb,
@@ -194,7 +194,7 @@ export default /*#__PURE__*/ createComponent({
 
   emits: ['update:modelValue', 'change'],
 
-  setup(props, { emit }) {
+  setup(props, { slots, emit }) {
     const { proxy } = getCurrentInstance()
     const $q = useQuasar()
 
@@ -203,6 +203,11 @@ export default /*#__PURE__*/ createComponent({
 
     const spectrumRef = shallowRef(null)
     const errorIconRef = shallowRef(null)
+    const swatchRoverRef = shallowRef(null)
+
+    // roving tabindex for the palette swatches: the swatch that
+    // currently owns the palette's single Tab stop
+    const focusedSwatch = ref(null)
 
     const forceHex = computed(() =>
       props.formatModel === 'auto' ? null : props.formatModel.includes('hex')
@@ -284,6 +289,41 @@ export default /*#__PURE__*/ createComponent({
         ? props.palette
         : palette
     )
+
+    const paletteRgb = computed(() =>
+      computedPalette.value.map(color =>
+        typeof color === 'string' &&
+        testPattern.anyColor(color.replaceAll(' ', ''))
+          ? textToRgb(color)
+          : null
+      )
+    )
+
+    // alpha is ignored: picking a swatch without one keeps the model's
+    function isModelColor(rgb) {
+      return (
+        rgb !== null &&
+        model.value.hex !== void 0 &&
+        rgb.r === model.value.r &&
+        rgb.g === model.value.g &&
+        rgb.b === model.value.b
+      )
+    }
+
+    const selectedSwatch = computed(() =>
+      paletteRgb.value.findIndex(isModelColor)
+    )
+
+    const swatchRover = computed(() => {
+      if (
+        focusedSwatch.value !== null &&
+        focusedSwatch.value < computedPalette.value.length
+      ) {
+        return focusedSwatch.value
+      }
+
+      return selectedSwatch.value !== -1 ? selectedSwatch.value : 0
+    })
 
     const classes = computed(
       () =>
@@ -555,6 +595,8 @@ export default /*#__PURE__*/ createComponent({
     }
 
     function onPalettePick(color) {
+      if (!editable.value) return
+
       const def = parseModel(color)
       const rgb = { r: def.r, g: def.g, b: def.b, a: def.a }
 
@@ -603,6 +645,48 @@ export default /*#__PURE__*/ createComponent({
 
     function setTopView(val) {
       topView.value = val
+    }
+
+    function onSwatchKeydown(e, index) {
+      const { keyCode } = e
+
+      if (keyCode < 35 || keyCode > 40) return
+
+      stopAndPrevent(e)
+
+      const last = computedPalette.value.length - 1
+      let target
+
+      if (keyCode === 36 /* Home */) {
+        target = 0
+      } else if (keyCode === 35 /* End */) {
+        target = last
+      } else {
+        let step
+
+        if (keyCode === 38 /* Up */ || keyCode === 40 /* Down */) {
+          // one visual row; measured so a restyled swatch width still
+          // lands on the swatch straight above/below
+          const el = e.target
+          const cols =
+            Math.max(
+              1,
+              Math.round(el.parentNode.clientWidth / el.offsetWidth)
+            ) || 1
+          step = (keyCode === 38 ? -1 : 1) * cols
+        } else {
+          // Left/Right follow the visual direction
+          step = (keyCode === 37 ? -1 : 1) * ($q.lang.rtl === true ? -1 : 1)
+        }
+
+        target = index + step
+        if (target < 0 || target > last) return
+      }
+
+      focusedSwatch.value = target
+      nextTick(() => {
+        swatchRoverRef.value?.focus()
+      })
     }
 
     function getHeader() {
@@ -969,14 +1053,37 @@ export default /*#__PURE__*/ createComponent({
     }
 
     function getPaletteTab() {
-      const fn = color =>
-        h('div', {
+      if (slots.palette !== void 0) {
+        return slots.palette({
+          palette: computedPalette.value,
+          select: onPalettePick,
+          editable: editable.value
+        })
+      }
+
+      const rover = swatchRover.value
+
+      const fn = (color, index) =>
+        h('button', {
+          type: 'button',
           class: 'q-color-picker__cube col-auto',
           style: { backgroundColor: color },
+          tabindex: editable.value && index === rover ? 0 : -1,
+          ref: index === rover ? swatchRoverRef : void 0,
+          'aria-label': color,
+          'aria-pressed': isModelColor(paletteRgb.value[index])
+            ? 'true'
+            : 'false',
           ...(editable.value
-            ? getCache('palette#' + color, {
+            ? getCache('palette#' + index, {
                 onClick: () => {
-                  onPalettePick(color)
+                  onPalettePick(computedPalette.value[index])
+                },
+                onFocus: () => {
+                  focusedSwatch.value = index
+                },
+                onKeydown: e => {
+                  onSwatchKeydown(e, index)
                 }
               })
             : {})
@@ -988,7 +1095,9 @@ export default /*#__PURE__*/ createComponent({
           {
             class:
               'row items-center q-color-picker__palette-rows' +
-              (editable.value ? ' q-color-picker__palette-rows--editable' : '')
+              (editable.value ? ' q-color-picker__palette-rows--editable' : ''),
+            role: 'group',
+            'aria-label': $q.lang.colorPicker?.palette
           },
           computedPalette.value.map(fn)
         )

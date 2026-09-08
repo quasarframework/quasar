@@ -10,3 +10,12 @@ export const basic = {
   render: () =>
     h(QColor, { modelValue: '#ff0000', 'onUpdate:modelValue': () => {} })
 }
+
+export const paletteView = {
+  render: () =>
+    h(QColor, {
+      modelValue: '#ff0000',
+      defaultView: 'palette',
+      'onUpdate:modelValue': () => {}
+    })
+}
