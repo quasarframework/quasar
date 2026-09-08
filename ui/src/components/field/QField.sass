@@ -183,7 +183,6 @@ $field-transition-label-right-up: .324s cubic-bezier(.4,0,.2,1)
     text-transform: inherit
     transform-origin: left top
     transition: transform $field-transition, max-width $field-transition-label-right-up
-    backface-visibility: hidden
 
     &:has(+ :is(.q-field__native, .q-field__input):is(
       :autofill,
@@ -229,7 +228,7 @@ $field-transition-label-right-up: .324s cubic-bezier(.4,0,.2,1)
         height: 2px
         top: auto
         transform-origin: center bottom
-        transform: scale3d(0, 1, 1)
+        transform: scaleX(0)
         background: currentColor
         transition: transform $field-transition
 
@@ -242,7 +241,7 @@ $field-transition-label-right-up: .324s cubic-bezier(.4,0,.2,1)
           opacity: 1
           background: rgba(0,0,0,.12)
         &:after
-          transform: scale3d(1, 1, 1)
+          transform: scaleX(1)
 
     &.q-field--dark
       .q-field__control, .q-field__control:before
@@ -290,7 +289,7 @@ $field-transition-label-right-up: .324s cubic-bezier(.4,0,.2,1)
       .q-field__control:after
         border-color: currentColor
         border-width: 2px
-        transform: scale3d(1, 1, 1)
+        transform: scaleX(1)
 
     &.q-field--readonly
       .q-field__control:before
@@ -312,13 +311,13 @@ $field-transition-label-right-up: .324s cubic-bezier(.4,0,.2,1)
         border-bottom-left-radius: inherit
         border-bottom-right-radius: inherit
         transform-origin: center bottom
-        transform: scale3d(0, 1, 1)
+        transform: scaleX(0)
         background: currentColor
         transition: transform $field-transition
 
     &.q-field--highlighted
       .q-field__control:after
-        transform: scale3d(1, 1, 1)
+        transform: scaleX(1)
 
     &.q-field--readonly
       .q-field__control:before
