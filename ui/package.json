@@ -96,11 +96,7 @@
     "test:watch": "vitest watch -c test/vitest.config.js",
     "pretest:watch:ui": "node build/ensure-fresh-build.js && playwright install chromium",
     "test:watch:ui": "vitest watch --ui -c test/vitest.config.js",
-    "precoverage": "node build/ensure-fresh-build.js && playwright install chromium",
-    "coverage": "vitest run --coverage -c test/vitest.config.js",
-    "pretest:specs": "node build/ensure-fresh-build.js",
     "test:specs": "node ./test/specs/script.js",
-    "pretest:specs:check": "node build/ensure-fresh-build.js",
     "test:specs:check": "node ./test/specs/script.js --check",
     "prepublishOnly": "pnpm build && pnpm test"
   },

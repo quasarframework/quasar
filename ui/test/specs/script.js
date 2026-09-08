@@ -53,6 +53,12 @@ const argv = { ...values, _: positionals }
 if (argv.help) showHelp()
 if (argv.ci === true) argv.check = true
 
+import { ensureFreshBuild } from '../../build/build-stamp.js'
+
+// the JSON resolver reads dist/api (mixins/extends flattened) and falls
+// back to the raw src JSON, whose inherited entries then look missing
+ensureFreshBuild()
+
 import { getTargetList } from './target.js'
 import { ignoredTestFiles } from './ignoredTestFiles.js'
 import { createCtx } from './ctx.js'
