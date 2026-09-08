@@ -122,8 +122,11 @@ describe('[vite.html.js] quasarViteIndexHtmlTransformPlugin()', () => {
     expect(html).toContain('src="https://cdn.example.com/x.js"')
   })
 
-  test('leaves relative href/src values untouched without publicPath', async () => {
-    const conf = makeQuasarConf({}, { publicPath: '' })
+  test.each([
+    ['without publicPath', ''],
+    ['for a relative publicPath', './']
+  ])('leaves relative href/src values untouched %s', async (_, publicPath) => {
+    const conf = makeQuasarConf({}, { publicPath })
     updateHtmlVariables(conf)
 
     const plugin = quasarViteIndexHtmlTransformPlugin(conf)

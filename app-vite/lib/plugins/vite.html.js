@@ -194,8 +194,10 @@ async function transformHtml(template, htmlVariables, quasarConf) {
   )
 
   // publicPath will be handled by Vite middleware
-  // if src/href are not relative, which is what we need
-  if (quasarConf.build.publicPath) {
+  // if src/href are not relative, which is what we need;
+  // a relative publicPath (or none, as for the hybrid modes)
+  // keeps the src/href relative to index.html instead
+  if (absoluteUrlRE.test(quasarConf.build.publicPath)) {
     html = injectPublicPath(html, '/')
   }
 

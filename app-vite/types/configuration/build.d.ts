@@ -118,6 +118,10 @@ interface QuasarStaticBuildConfiguration {
    * like _“<protocol>://<domain>/some/nested/folder”_ – in this case,
    * it means the distributables are in _“some/nested/folder”_ on your webserver.
    *
+   * Set it to `'./'` for a build with relative asset URLs, which can be served
+   * from any folder (SPA and PWA modes with Vue Router "hash" mode only;
+   * the dev server serves it from the root).
+   *
    * @default '/'
    */
   publicPath?: string;

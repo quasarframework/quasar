@@ -25,6 +25,8 @@ Common choices for web servers are [nginx](https://www.nginx.com/), [Caddy](http
 
 Hash-mode routing requires only static file hosting. History-mode routing also requires a fallback that serves `index.html` when a requested application route does not match a static file. Do not rewrite requests for existing assets.
 
+By default, the built `index.html` references its assets from the root of the domain (or from `build.publicPath` when you configure one). When the folder the app gets served from is not known at build time (an LMS package, a game portal, a container that is mounted at different paths), set `build.publicPath` to `'./'` and the build references its assets relative to `index.html` instead. This requires Vue Router "hash" mode and a URL that ends with a slash (or with `index.html`), because relative URLs resolve against the page's own folder. Links in `index.html` stay relative to it, and in your components prefix public folder files with `import.meta.env.BASE_URL` as described in [Handling Assets](/quasar-cli-vite/handling-assets#static-assets-public).
+
 An example config for nginx may look like this:
 
 ```nginx

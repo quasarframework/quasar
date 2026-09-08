@@ -5,7 +5,9 @@ import { afterAll, beforeAll, describe, expect, test } from 'vitest'
 import {
   QuasarConfigFile,
   formatPublicPath,
-  formatRouterBase
+  formatRouterBase,
+  getRelativePublicPathError,
+  resolvePublicPath
 } from './quasar-config-file.js'
 import { getCtx } from './utils/get-ctx.js'
 
@@ -57,7 +59,9 @@ describe('[quasar-config-file.js] formatPublicPath()', () => {
       'full URLs are kept, only slash-terminated',
       'https://cdn.acme.com/assets',
       'https://cdn.acme.com/assets/'
-    ]
+    ],
+    ['relative stays relative', './', './'],
+    ['relative gets slash-terminated', '.', './']
   ])('%s', (_, input, expected) => {
     expect(formatPublicPath(input)).toBe(expected)
   })
@@ -69,9 +73,101 @@ describe('[quasar-config-file.js] formatRouterBase()', () => {
     expect(formatRouterBase('')).toBe('')
   })
 
+  test('leaves the base to Vue Router for a relative publicPath', () => {
+    expect(formatRouterBase('./')).toBe('')
+  })
+
   test('extracts the path of a full URL', () => {
     expect(formatRouterBase('https://cdn.acme.com/assets/')).toBe('/assets/')
     expect(formatRouterBase('https://cdn.acme.com:8080/')).toBe('/')
+  })
+})
+
+describe('[quasar-config-file.js] resolvePublicPath()', () => {
+  test('non-web modes ignore publicPath', () => {
+    expect(
+      resolvePublicPath(
+        { publicPath: '/sub/' },
+        getCtx({ mode: 'electron', dev: true })
+      )
+    ).toBe('')
+  })
+
+  test('formats the web modes publicPath, root by default', () => {
+    expect(
+      resolvePublicPath(
+        { publicPath: 'sub' },
+        getCtx({ mode: 'ssr', prod: true })
+      )
+    ).toBe('/sub/')
+    expect(
+      resolvePublicPath(
+        { publicPath: void 0 },
+        getCtx({ mode: 'spa', prod: true })
+      )
+    ).toBe('/')
+  })
+
+  test.each(['spa', 'pwa'])('%s build: relative publicPath is kept', mode => {
+    expect(
+      resolvePublicPath({ publicPath: './' }, getCtx({ mode, prod: true }))
+    ).toBe('./')
+  })
+
+  test('dev: relative publicPath is served from the root', () => {
+    expect(
+      resolvePublicPath(
+        { publicPath: './' },
+        getCtx({ mode: 'spa', dev: true })
+      )
+    ).toBe('/')
+  })
+})
+
+describe('[quasar-config-file.js] getRelativePublicPathError()', () => {
+  test('accepts an absolute publicPath in any router mode', () => {
+    expect(
+      getRelativePublicPathError(
+        { publicPath: '/sub/', vueRouterMode: 'history' },
+        getCtx({ mode: 'spa', prod: true })
+      )
+    ).toBeUndefined()
+  })
+
+  test('ignores the non-web modes', () => {
+    expect(
+      getRelativePublicPathError(
+        { publicPath: './', vueRouterMode: 'history' },
+        getCtx({ mode: 'electron', prod: true })
+      )
+    ).toBeUndefined()
+  })
+
+  test.each(['spa', 'pwa'])('%s: relative publicPath with hash mode', mode => {
+    expect(
+      getRelativePublicPathError(
+        { publicPath: './', vueRouterMode: 'hash' },
+        getCtx({ mode, prod: true })
+      )
+    ).toBeUndefined()
+  })
+
+  test('relative publicPath rejects history mode', () => {
+    expect(
+      getRelativePublicPathError(
+        { publicPath: './', vueRouterMode: 'history' },
+        getCtx({ mode: 'spa', prod: true })
+      )
+    ).toMatch(/vueRouterMode "hash"/)
+  })
+
+  test.each(['ssr', 'ssg'])('relative publicPath rejects %s mode', mode => {
+    expect(
+      getRelativePublicPathError(
+        { publicPath: './', vueRouterMode: 'history' },
+        getCtx({ mode, prod: true })
+      )
+    ).toMatch(/SPA and PWA modes/)
   })
 })
 

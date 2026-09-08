@@ -108,6 +108,10 @@ function escapeHTMLAttribute(str) {
   return str ? str.replaceAll('"', '') : ''
 }
 
+// Vite's relative base shortcut: assets are referenced
+// relative to index.html, so the deploy path need not be known
+const relativePublicPath = './'
+
 // exported for testing purposes only
 export function formatPublicPath(publicPath) {
   if (!publicPath) return '/'
@@ -116,7 +120,9 @@ export function formatPublicPath(publicPath) {
     publicPath = `${publicPath}/`
   }
 
-  if (urlRegex.test(publicPath)) return publicPath
+  if (publicPath === relativePublicPath || urlRegex.test(publicPath)) {
+    return publicPath
+  }
 
   if (!publicPath.startsWith('/')) {
     publicPath = `/${publicPath}`
@@ -125,8 +131,42 @@ export function formatPublicPath(publicPath) {
   return publicPath
 }
 
+const nonWebModes = ['capacitor', 'cordova', 'electron', 'bex']
+
+// exported for testing purposes only;
+// returns why a relative publicPath cannot be used, if that is the case
+export function getRelativePublicPathError({ publicPath, vueRouterMode }, ctx) {
+  if (
+    nonWebModes.includes(ctx.modeName) ||
+    formatPublicPath(publicPath) !== relativePublicPath
+  ) {
+    return
+  }
+
+  if (!ctx.mode.spa && !ctx.mode.pwa) {
+    return `A relative build > publicPath ("${relativePublicPath}") is only supported by the SPA and PWA modes.`
+  }
+
+  if (vueRouterMode !== 'hash') {
+    return `A relative build > publicPath ("${relativePublicPath}") requires build > vueRouterMode "hash".`
+  }
+}
+
+// exported for testing purposes only
+export function resolvePublicPath({ publicPath }, ctx) {
+  if (nonWebModes.includes(ctx.modeName)) return ''
+
+  publicPath = formatPublicPath(publicPath)
+
+  // the dev server serves a relative base from the root, same as Vite does
+  return ctx.dev && publicPath === relativePublicPath ? '/' : publicPath
+}
+
 // exported for testing purposes only
 export function formatRouterBase(publicPath) {
+  // with a relative publicPath, Vue Router derives its base from the page URL
+  if (publicPath === relativePublicPath) return ''
+
   if (!publicPath || !publicPath.startsWith('http')) {
     return publicPath
   }
@@ -1305,15 +1345,18 @@ export class QuasarConfigFile {
       cfg.build.distDir = appPaths.resolve.app(cfg.build.distDir)
     }
 
-    cfg.build.publicPath =
-      cfg.build.publicPath &&
-      ['spa', 'pwa', 'ssr', 'ssg'].includes(this.#ctx.modeName)
-        ? formatPublicPath(cfg.build.publicPath)
-        : ['capacitor', 'cordova', 'electron', 'bex'].includes(
-              this.#ctx.modeName
-            )
-          ? ''
-          : '/'
+    const relativePublicPathError = getRelativePublicPathError(
+      cfg.build,
+      this.#ctx
+    )
+    if (relativePublicPathError !== void 0) {
+      if (this.#shouldFail) fatal(relativePublicPathError, 'FAIL')
+
+      warn(relativePublicPathError + ' Please fix it.\n')
+      return
+    }
+
+    cfg.build.publicPath = resolvePublicPath(cfg.build, this.#ctx)
 
     /* careful if you configure the following; make sure that you really know what you are doing */
     cfg.build.vueRouterBase =
