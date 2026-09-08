@@ -87,7 +87,9 @@ export default {
     palette: 'Palitra',
     value: 'Rang qiymati',
     hue: 'Tus',
-    alpha: 'Xiralik'
+    alpha: 'Xiralik',
+    saturation: "To'yinganlik",
+    brightness: 'Yorqinlik'
   },
   uploader: {
     addFiles: 'Fayllarni tanlash',

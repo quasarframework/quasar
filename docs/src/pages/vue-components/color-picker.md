@@ -77,12 +77,12 @@ When dealing with a native form which has an `action` and a `method` (eg. when u
 
 ## Accessibility <q-badge label="v2.25+" />
 
-QColor is only partially accessible, and which view is active matters. The Tune view (native text/number inputs plus sliders) and, since v2.31, the Palette view are the keyboard and screen reader paths. The spectrum panel, on the other hand, is pointer-only: it cannot be reached with the keyboard and exposes nothing to assistive technology.
+All three views are keyboard and screen reader accessible: the Tune view through its native text/number inputs plus sliders, and, since v2.31, the Spectrum view through its spectrum panel and the Palette view through its swatches.
+
+The spectrum panel is a slider (`role="slider"`) named by the localized `colorPicker.spectrum` label; since it drives two axes at once, its accessible value spells both out (`colorPicker.saturation` and `colorPicker.brightness`, e.g. "Saturation 40%, Brightness 70%"). It is a <kbd>Tab</kbd> stop: <kbd>Left</kbd>/<kbd>Right</kbd> change the saturation and <kbd>Up</kbd>/<kbd>Down</kbd> the brightness by one percent (ten with <kbd>Shift</kbd>), <kbd>Home</kbd>/<kbd>End</kbd> jump to zero/full saturation and <kbd>PageUp</kbd>/<kbd>PageDown</kbd> change the brightness by ten percent. Like the sliders next to it, the panel emits `change` once the key is released.
 
 The palette swatches are buttons named by their color value, wrapped in a group carrying the localized `colorPicker.palette` label, and the swatch matching the current model is exposed as pressed. The palette holds a single <kbd>Tab</kbd> stop (the selected swatch, else the first one); the arrow keys move between swatches (<kbd>Up</kbd>/<kbd>Down</kbd> by one visual row), <kbd>Home</kbd>/<kbd>End</kbd> jump to the first/last swatch and <kbd>Enter</kbd>/<kbd>Space</kbd> pick the focused one. Swatches rendered through the `palette` slot are yours to make accessible.
 
 The parts that are exposed carry localized accessible names from the [Quasar Language Pack](/options/quasar-language-packs) (`colorPicker.*`): the view tabs, the header's color value field and the hue/opacity sliders, none of which the consumer can name from the outside.
 
-A `disable`d QColor exposes `aria-disabled="true"` on its root element.
-
-If your app needs accessible color input, start users in the Tune or Palette view (`default-view="tune"` or `default-view="palette"`) or provide an alternative way of entering the color (e.g. a plain [QInput](/vue-components/input) accepting a hex value).
+A `disable`d QColor exposes `aria-disabled="true"` on its root element. A `readonly` or `disable`d picker also drops the spectrum panel and the swatches out of the Tab order, the way its sliders do, while the spectrum panel keeps reporting the current color with `aria-readonly`/`aria-disabled`.

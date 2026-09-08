@@ -82,7 +82,9 @@ export default {
     palette: 'לוח צבעים',
     value: 'ערך הצבע',
     hue: 'גוון',
-    alpha: 'אטימות'
+    alpha: 'אטימות',
+    saturation: 'רוויה',
+    brightness: 'בהירות'
   },
   uploader: {
     addFiles: 'בחר קבצים',

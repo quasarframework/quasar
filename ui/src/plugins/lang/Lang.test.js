@@ -98,7 +98,9 @@ describe('[Lang API]', () => {
             palette: expect.any(String),
             value: expect.any(String),
             hue: expect.any(String),
-            alpha: expect.any(String)
+            alpha: expect.any(String),
+            saturation: expect.any(String),
+            brightness: expect.any(String)
           },
           uploader: {
             addFiles: expect.any(String),
@@ -298,7 +300,9 @@ describe('[Lang API]', () => {
               palette: 'Palette',
               value: 'Color value',
               hue: 'Hue',
-              alpha: 'Opacity'
+              alpha: 'Opacity',
+              saturation: 'Saturation',
+              brightness: 'Brightness'
             },
             uploader: {
               addFiles: 'Pick files',

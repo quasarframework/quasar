@@ -80,7 +80,9 @@ export default {
     palette: 'Bảng màu',
     value: 'Giá trị màu',
     hue: 'Sắc màu',
-    alpha: 'Độ mờ đục'
+    alpha: 'Độ mờ đục',
+    saturation: 'Độ bão hòa',
+    brightness: 'Độ sáng'
   },
   uploader: {
     addFiles: 'Chọn tệp',

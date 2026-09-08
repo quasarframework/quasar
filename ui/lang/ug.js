@@ -83,7 +83,9 @@ export default {
     palette: 'رەڭ تاختىسى',
     value: 'رەڭ قىممىتى',
     hue: 'رەڭ تەڭشىكى',
-    alpha: 'سۈزۈكسىزلىك'
+    alpha: 'سۈزۈكسىزلىك',
+    saturation: 'تويۇنۇش',
+    brightness: 'يورۇقلۇق'
   },
   uploader: {
     addFiles: 'ھۆججەت تاللاش',

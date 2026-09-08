@@ -89,7 +89,9 @@ export default {
     palette: 'پالت',
     value: 'مقدار رنگ',
     hue: 'فام',
-    alpha: 'کدری'
+    alpha: 'کدری',
+    saturation: 'اشباع',
+    brightness: 'روشنایی'
   },
   uploader: {
     addFiles: 'انتخاب فایل‌ها',

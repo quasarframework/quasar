@@ -83,7 +83,9 @@ export default {
     palette: 'Paleta',
     value: 'Valor da cor',
     hue: 'Matiz',
-    alpha: 'Opacidade'
+    alpha: 'Opacidade',
+    saturation: 'Saturação',
+    brightness: 'Brilho'
   },
   uploader: {
     addFiles: 'Escolher ficheiros',

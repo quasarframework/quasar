@@ -80,7 +80,9 @@ export default {
     palette: 'Litaspjald',
     value: 'Litgildi',
     hue: 'Litblær',
-    alpha: 'Ógegnsæi'
+    alpha: 'Ógegnsæi',
+    saturation: 'Mettun',
+    brightness: 'Birta'
   },
   uploader: {
     addFiles: 'Velja skrár',

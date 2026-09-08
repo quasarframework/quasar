@@ -78,7 +78,9 @@ export default {
     palette: 'Paletta',
     value: 'Színérték',
     hue: 'Árnyalat',
-    alpha: 'Átlátszatlanság'
+    alpha: 'Átlátszatlanság',
+    saturation: 'Telítettség',
+    brightness: 'Fényerő'
   },
   uploader: {
     addFiles: 'Fájlok kiválasztása',

@@ -81,7 +81,9 @@ export default {
     palette: 'നിറപ്പലക',
     value: 'നിറത്തിന്റെ മൂല്യം',
     hue: 'വർണ്ണച്ഛായ',
-    alpha: 'അതാര്യത'
+    alpha: 'അതാര്യത',
+    saturation: 'സാച്ചുറേഷൻ',
+    brightness: 'തെളിച്ചം'
   },
   uploader: {
     addFiles: 'ഫയലുകൾ തിരഞ്ഞെടുക്കുക',

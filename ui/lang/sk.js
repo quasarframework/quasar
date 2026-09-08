@@ -85,7 +85,9 @@ export default {
     palette: 'Paleta',
     value: 'Hodnota farby',
     hue: 'Odtieň',
-    alpha: 'Krytie'
+    alpha: 'Krytie',
+    saturation: 'Sýtosť',
+    brightness: 'Jas'
   },
   uploader: {
     addFiles: 'Vybrať súbory',

@@ -78,7 +78,9 @@ export default {
     palette: 'Palett',
     value: 'Färgvärde',
     hue: 'Nyans',
-    alpha: 'Opacitet'
+    alpha: 'Opacitet',
+    saturation: 'Mättnad',
+    brightness: 'Ljusstyrka'
   },
   uploader: {
     addFiles: 'Välj filer',

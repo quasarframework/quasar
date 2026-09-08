@@ -170,6 +170,8 @@ export interface QuasarLanguage {
     value?: string;
     hue?: string;
     alpha?: string;
+    saturation?: string;
+    brightness?: string;
   };
   uploader?: {
     addFiles?: string;

@@ -80,7 +80,9 @@ export default {
     palette: 'Palitra',
     value: 'Rəng dəyəri',
     hue: 'Çalar',
-    alpha: 'Şəffaflıq'
+    alpha: 'Şəffaflıq',
+    saturation: 'Doyğunluq',
+    brightness: 'Parlaqlıq'
   },
   uploader: {
     addFiles: 'Fayl seç',

@@ -77,7 +77,9 @@ export default {
     palette: 'จานสี',
     value: 'ค่าสี',
     hue: 'เฉดสี',
-    alpha: 'ความทึบ'
+    alpha: 'ความทึบ',
+    saturation: 'ความอิ่มตัว',
+    brightness: 'ความสว่าง'
   },
   uploader: {
     addFiles: 'เลือกไฟล์',

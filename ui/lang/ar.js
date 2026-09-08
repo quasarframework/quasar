@@ -83,7 +83,9 @@ export default {
     palette: 'لوحة الألوان',
     value: 'قيمة اللون',
     hue: 'درجة اللون',
-    alpha: 'العتامة'
+    alpha: 'العتامة',
+    saturation: 'التشبع',
+    brightness: 'السطوع'
   },
   uploader: {
     addFiles: 'اختيار الملفات',

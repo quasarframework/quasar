@@ -78,7 +78,9 @@ export default {
     palette: 'Палета',
     value: 'Вредност на бојата',
     hue: 'Нијанса',
-    alpha: 'Непроѕирност'
+    alpha: 'Непроѕирност',
+    saturation: 'Заситеност',
+    brightness: 'Осветленост'
   },
   uploader: {
     addFiles: 'Избери датотеки',

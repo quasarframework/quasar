@@ -77,7 +77,9 @@ export default {
     palette: 'ក្តារពណ៌',
     value: 'តម្លៃពណ៌',
     hue: 'ពណ៌',
-    alpha: 'ភាពស្រអាប់'
+    alpha: 'ភាពស្រអាប់',
+    saturation: 'តិត្ថិភាព',
+    brightness: 'ពន្លឺ'
   },
   uploader: {
     addFiles: 'ជ្រើសរើសឯកសារ',

@@ -79,7 +79,9 @@ export default {
     palette: 'Palett',
     value: 'Värvi väärtus',
     hue: 'Värvitoon',
-    alpha: 'Läbipaistmatus'
+    alpha: 'Läbipaistmatus',
+    saturation: 'Küllastus',
+    brightness: 'Heledus'
   },
   uploader: {
     addFiles: 'Vali failid',

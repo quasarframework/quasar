@@ -91,7 +91,9 @@ export default {
     palette: 'Палитра',
     value: 'Түс мәні',
     hue: 'Реңк',
-    alpha: 'Мөлдірсіздік'
+    alpha: 'Мөлдірсіздік',
+    saturation: 'Қанықтық',
+    brightness: 'Жарықтық'
   },
   uploader: {
     addFiles: 'Файлдарды таңдау',

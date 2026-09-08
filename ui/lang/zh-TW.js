@@ -85,7 +85,9 @@ export default {
     palette: '調色盤',
     value: '顏色值',
     hue: '色相',
-    alpha: '不透明度'
+    alpha: '不透明度',
+    saturation: '飽和度',
+    brightness: '亮度'
   },
   uploader: {
     addFiles: '選擇檔案',

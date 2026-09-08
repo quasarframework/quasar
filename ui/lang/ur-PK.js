@@ -90,7 +90,9 @@ export default {
     palette: 'رنگ تختی',
     value: 'رنگ کی قدر',
     hue: 'رنگت',
-    alpha: 'دھندلاپن'
+    alpha: 'دھندلاپن',
+    saturation: 'گہرائی',
+    brightness: 'چمک'
   },
   uploader: {
     addFiles: 'فائلیں منتخب کریں',

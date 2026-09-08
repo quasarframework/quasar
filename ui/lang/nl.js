@@ -80,7 +80,9 @@ export default {
     palette: 'Palet',
     value: 'Kleurwaarde',
     hue: 'Kleurtoon',
-    alpha: 'Dekking'
+    alpha: 'Dekking',
+    saturation: 'Verzadiging',
+    brightness: 'Helderheid'
   },
   uploader: {
     addFiles: 'Bestanden kiezen',

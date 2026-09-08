@@ -78,7 +78,9 @@ export default {
     palette: 'Palett',
     value: 'Fargeverdi',
     hue: 'Fargetone',
-    alpha: 'Dekkevne'
+    alpha: 'Dekkevne',
+    saturation: 'Metning',
+    brightness: 'Lysstyrke'
   },
   uploader: {
     addFiles: 'Velg filer',

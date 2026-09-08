@@ -78,7 +78,9 @@ export default {
     palette: "Sa'y renda",
     value: "Sa'y repykue",
     hue: "Sa'y",
-    alpha: 'Hesakãỹ'
+    alpha: 'Hesakãỹ',
+    saturation: "Sa'y mbarete",
+    brightness: "Sa'y hesakã"
   },
   uploader: {
     addFiles: 'Eiporavo marandurenda',

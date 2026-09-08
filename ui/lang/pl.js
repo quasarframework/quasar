@@ -80,7 +80,9 @@ export default {
     palette: 'Paleta',
     value: 'Wartość koloru',
     hue: 'Odcień',
-    alpha: 'Krycie'
+    alpha: 'Krycie',
+    saturation: 'Nasycenie',
+    brightness: 'Jasność'
   },
   uploader: {
     addFiles: 'Wybierz pliki',

@@ -84,7 +84,9 @@ export default {
     palette: 'تەختەڕەنگ',
     value: 'بەهای ڕەنگ',
     hue: 'ڕەنگ',
-    alpha: 'ناڕوونی'
+    alpha: 'ناڕوونی',
+    saturation: 'تێری ڕەنگ',
+    brightness: 'ڕووناکی'
   },
   uploader: {
     addFiles: 'هەڵبژاردنی پەڕگەکان',

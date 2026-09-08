@@ -80,7 +80,9 @@ export default {
     palette: 'Paleta',
     value: 'Valor del color',
     hue: 'To',
-    alpha: 'Opacitat'
+    alpha: 'Opacitat',
+    saturation: 'Saturació',
+    brightness: 'Brillantor'
   },
   uploader: {
     addFiles: 'Tria fitxers',

@@ -94,7 +94,9 @@ export default {
     palette: 'Палітра',
     value: 'Значення кольору',
     hue: 'Відтінок',
-    alpha: 'Непрозорість'
+    alpha: 'Непрозорість',
+    saturation: 'Насиченість',
+    brightness: 'Яскравість'
   },
   uploader: {
     addFiles: 'Вибрати файли',

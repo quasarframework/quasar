@@ -80,7 +80,9 @@ export default {
     palette: 'အရောင်ပြား',
     value: 'အရောင်တန်ဖိုး',
     hue: 'အရောင်',
-    alpha: 'အလင်းပိတ်မှု'
+    alpha: 'အလင်းပိတ်မှု',
+    saturation: 'အရောင်စိုမှု',
+    brightness: 'တောက်ပမှု'
   },
   uploader: {
     addFiles: 'ဖိုင်များရွေးရန်',

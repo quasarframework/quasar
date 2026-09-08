@@ -81,7 +81,9 @@ export default {
     palette: 'Paletro',
     value: 'Kolora valoro',
     hue: 'Nuanco',
-    alpha: 'Maldiafaneco'
+    alpha: 'Maldiafaneco',
+    saturation: 'Saturiĝo',
+    brightness: 'Heleco'
   },
   uploader: {
     addFiles: 'Elekti dosierojn',

@@ -80,7 +80,9 @@ export default {
     palette: 'Palette',
     value: 'Faarfwäert',
     hue: 'Faarftoun',
-    alpha: 'Deckkraaft'
+    alpha: 'Deckkraaft',
+    saturation: 'Sättigung',
+    brightness: 'Hellegkeet'
   },
   uploader: {
     addFiles: 'Fichieren auswielen',

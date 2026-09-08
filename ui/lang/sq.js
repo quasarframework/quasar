@@ -80,7 +80,9 @@ export default {
     palette: 'Paleta',
     value: 'Vlera e ngjyrës',
     hue: 'Nuanca',
-    alpha: 'Patejdukshmëria'
+    alpha: 'Patejdukshmëria',
+    saturation: 'Ngopja',
+    brightness: 'Ndriçimi'
   },
   uploader: {
     addFiles: 'Zgjidh skedarët',

@@ -80,7 +80,9 @@ export default {
     palette: 'パレット',
     value: '色の値',
     hue: '色相',
-    alpha: '不透明度'
+    alpha: '不透明度',
+    saturation: '彩度',
+    brightness: '明度'
   },
   uploader: {
     addFiles: 'ファイルを選択',

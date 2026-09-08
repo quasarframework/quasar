@@ -78,7 +78,9 @@ export default {
     palette: 'Palet',
     value: 'Nilai warna',
     hue: 'Rona',
-    alpha: 'Kelegapan'
+    alpha: 'Kelegapan',
+    saturation: 'Ketepuan',
+    brightness: 'Kecerahan'
   },
   uploader: {
     addFiles: 'Pilih fail',

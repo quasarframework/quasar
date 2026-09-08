@@ -80,7 +80,9 @@ export default {
     palette: 'Palete',
     value: 'Krāsas vērtība',
     hue: 'Nokrāsa',
-    alpha: 'Necaurspīdīgums'
+    alpha: 'Necaurspīdīgums',
+    saturation: 'Piesātinājums',
+    brightness: 'Spilgtums'
   },
   uploader: {
     addFiles: 'Izvēlēties failus',

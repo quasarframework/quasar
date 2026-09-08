@@ -78,7 +78,9 @@ export default {
     palette: 'வண்ணத்தட்டு',
     value: 'வண்ண மதிப்பு',
     hue: 'நிறம்',
-    alpha: 'ஒளிபுகாநிலை'
+    alpha: 'ஒளிபுகாநிலை',
+    saturation: 'செறிவு',
+    brightness: 'பிரகாசம்'
   },
   uploader: {
     addFiles: 'கோப்புகளைத் தேர்ந்தெடு',

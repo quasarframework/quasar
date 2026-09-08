@@ -32,6 +32,7 @@ import {
 import { createComponent } from '../../utils/private.create/create.js'
 import { testPattern } from '../../utils/patterns/patterns.js'
 import throttle from '../../utils/throttle/throttle.js'
+import { between } from '../../utils/format/format.js'
 import { stop, stopAndPrevent } from '../../utils/event/event.js'
 import {
   hexToRgb,
@@ -339,6 +340,31 @@ export default /*#__PURE__*/ createComponent({
       props.disable ? { 'aria-disabled': 'true' } : {}
     )
 
+    // the spectrum is a WAI-ARIA slider over two axes: aria-valuenow
+    // carries the saturation, aria-valuetext spells out both
+    const spectrumAttrs = computed(() => {
+      const acc = {
+        role: 'slider',
+        tabindex: editable.value ? 0 : -1,
+        'aria-label': $q.lang.colorPicker?.spectrum,
+        'aria-valuemin': 0,
+        'aria-valuemax': 100,
+        'aria-valuenow': model.value.s,
+        'aria-valuetext':
+          model.value.hex === void 0
+            ? $q.lang.label.noValue
+            : getSpectrumValueText()
+      }
+
+      if (props.disable) {
+        acc['aria-disabled'] = 'true'
+      } else if (props.readonly) {
+        acc['aria-readonly'] = 'true'
+      }
+
+      return acc
+    })
+
     const spectrumDirective = computed(() => [
       [
         TouchPan,
@@ -438,19 +464,87 @@ export default /*#__PURE__*/ createComponent({
       let x = Math.min(width, Math.max(0, left - rect.left))
       if ($q.lang.rtl) x = width - x
 
-      const y = Math.min(height, Math.max(0, top - rect.top)),
-        s = Math.round((100 * x) / width),
-        v = Math.round(100 * Math.max(0, Math.min(1, -(y / height) + 1))),
-        rgb = hsvToRgb({
-          h: model.value.h,
-          s,
-          v,
-          a: hasAlpha.value ? model.value.a : void 0
-        })
+      const y = Math.min(height, Math.max(0, top - rect.top))
+
+      setSpectrum(
+        Math.round((100 * x) / width),
+        Math.round(100 * Math.max(0, Math.min(1, -(y / height) + 1))),
+        change
+      )
+    }
+
+    function setSpectrum(s, v, change) {
+      const rgb = hsvToRgb({
+        h: model.value.h,
+        s,
+        v,
+        a: hasAlpha.value ? model.value.a : void 0
+      })
 
       model.value.s = s
       model.value.v = v
       updateModel(rgb, change)
+    }
+
+    function getSpectrumValueText() {
+      const lang = $q.lang.colorPicker
+      const fmt = $q.lang.formatNumber
+      const s = String(model.value.s)
+      const v = String(model.value.v)
+      const sText = (fmt?.(s) ?? s) + '%'
+      const vText = (fmt?.(v) ?? v) + '%'
+
+      // a language pack predating the axis labels still gets the numbers
+      return lang?.saturation !== void 0 && lang.brightness !== void 0
+        ? `${lang.saturation} ${sText}, ${lang.brightness} ${vText}`
+        : `${sText}, ${vText}`
+    }
+
+    // keyboard edits step the spectrum in place; like QSlider, "change"
+    // fires once on keyup so key repeat does not flood it
+    let spectrumKeyPending = false
+
+    function onSpectrumKeydown(e) {
+      const { keyCode } = e
+
+      if (keyCode < 33 || keyCode > 40) return
+
+      stopAndPrevent(e)
+
+      let { s, v } = model.value
+      const step = e.shiftKey ? 10 : 1
+
+      if (keyCode === 36 /* Home */) {
+        s = 0
+      } else if (keyCode === 35 /* End */) {
+        s = 100
+      } else if (keyCode === 33 /* PageUp */) {
+        v += 10
+      } else if (keyCode === 34 /* PageDown */) {
+        v -= 10
+      } else if (keyCode === 38 /* Up */) {
+        v += step
+      } else if (keyCode === 40 /* Down */) {
+        v -= step
+      } else {
+        // Left/Right follow the visual direction, like QSlider does
+        s += (keyCode === 39 ? 1 : -1) * ($q.lang.rtl === true ? -1 : 1) * step
+      }
+
+      s = between(s, 0, 100)
+      v = between(v, 0, 100)
+
+      if (s === model.value.s && v === model.value.v) return
+
+      spectrumKeyPending = true
+      setSpectrum(s, v)
+    }
+
+    function onSpectrumKeyup(e) {
+      if (spectrumKeyPending && e.keyCode >= 33 && e.keyCode <= 40) {
+        spectrumKeyPending = false
+        emit('change', model.value[isOutputHex.value ? 'hex' : 'rgb'])
+      }
     }
 
     function onHue(val, change) {
@@ -781,11 +875,14 @@ export default /*#__PURE__*/ createComponent({
           animated: true
         },
         () => [
+          // every view carries its own Tab stop, so the panels' default
+          // one (there for panels without focusable content) is noise
           h(
             QTabPanel,
             {
               class: 'q-color-picker__spectrum-tab overflow-hidden',
-              name: 'spectrum'
+              name: 'spectrum',
+              tabindex: -1
             },
             getSpectrumTab
           ),
@@ -794,7 +891,8 @@ export default /*#__PURE__*/ createComponent({
             QTabPanel,
             {
               class: 'q-pa-md q-color-picker__tune-tab',
-              name: 'tune'
+              name: 'tune',
+              tabindex: -1
             },
             getTuneTab
           ),
@@ -803,7 +901,8 @@ export default /*#__PURE__*/ createComponent({
             QTabPanel,
             {
               class: 'q-color-picker__palette-tab',
-              name: 'palette'
+              name: 'palette',
+              tabindex: -1
             },
             getPaletteTab
           )
@@ -865,10 +964,13 @@ export default /*#__PURE__*/ createComponent({
           'q-color-picker__spectrum non-selectable relative-position cursor-pointer' +
           (editable.value ? '' : ' readonly'),
         style: spectrumStyle.value,
+        ...spectrumAttrs.value,
         ...(editable.value
           ? {
               onClick: onSpectrumClick,
-              onMousedown: onActivate
+              onMousedown: onActivate,
+              onKeydown: onSpectrumKeydown,
+              onKeyup: onSpectrumKeyup
             }
           : {})
       }

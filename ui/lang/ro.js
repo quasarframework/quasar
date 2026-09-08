@@ -78,7 +78,9 @@ export default {
     palette: 'Paletă',
     value: 'Valoarea culorii',
     hue: 'Nuanță',
-    alpha: 'Opacitate'
+    alpha: 'Opacitate',
+    saturation: 'Saturație',
+    brightness: 'Luminozitate'
   },
   uploader: {
     addFiles: 'Alege fișiere',

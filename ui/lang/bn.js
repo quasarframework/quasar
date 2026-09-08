@@ -81,7 +81,9 @@ export default {
     palette: 'প্যালেট',
     value: 'রঙের মান',
     hue: 'বর্ণ',
-    alpha: 'অস্বচ্ছতা'
+    alpha: 'অস্বচ্ছতা',
+    saturation: 'স্যাচুরেশন',
+    brightness: 'উজ্জ্বলতা'
   },
   uploader: {
     addFiles: 'ফাইল বাছুন',

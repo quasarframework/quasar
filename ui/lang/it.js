@@ -81,7 +81,9 @@ export default {
     palette: 'Tavolozza',
     value: 'Valore del colore',
     hue: 'Tonalità',
-    alpha: 'Opacità'
+    alpha: 'Opacità',
+    saturation: 'Saturazione',
+    brightness: 'Luminosità'
   },
   uploader: {
     addFiles: 'Scegli i file',

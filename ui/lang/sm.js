@@ -80,7 +80,9 @@ export default {
     palette: 'Laulau lanu',
     value: 'Tau o le lanu',
     hue: 'Lanu',
-    alpha: 'Mafiafia o le lanu'
+    alpha: 'Mafiafia o le lanu',
+    saturation: 'Malosi o le lanu',
+    brightness: 'Susulu o le lanu'
   },
   uploader: {
     addFiles: 'Filifili faila',

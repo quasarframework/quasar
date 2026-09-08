@@ -4,6 +4,12 @@ import { nextTick } from 'vue'
 
 import QColor from './QColor.js'
 import langEn from '../../../lang/en-US.js'
+import {
+  hsvToRgb,
+  rgbToHex,
+  rgbToHsv,
+  textToRgb
+} from '../../utils/colors/colors.js'
 
 function mountColor(props = {}) {
   return mount(QColor, {
@@ -20,6 +26,10 @@ function getHeaderInput(wrapper) {
 
 function getPaletteCubes(wrapper) {
   return wrapper.findAll('.q-color-picker__cube')
+}
+
+function getSpectrum(wrapper) {
+  return wrapper.get('.q-color-picker__spectrum')
 }
 
 function getHeaderTabLabels(wrapper) {
@@ -506,6 +516,20 @@ describe('[QColor API]', () => {
       ).toBe(colorPicker.alpha)
     })
 
+    test('the view panels add no Tab stop of their own', async () => {
+      const wrapper = mountColor()
+
+      const tabs = wrapper.findAll('.q-color-picker__footer [role="tab"]')
+
+      for (const [index, view] of ['spectrum', 'tune', 'palette'].entries()) {
+        await tabs[index].trigger('click')
+
+        const panel = wrapper.get('[role="tabpanel"]')
+        expect(panel.classes()).toContain(`q-color-picker__${view}-tab`)
+        expect(panel.attributes('tabindex')).toBe('-1')
+      }
+    })
+
     describe('palette swatches', () => {
       // 12 swatches: the default 10-per-row layout leaves 2 on the second row
       const swatches = [
@@ -661,6 +685,171 @@ describe('[QColor API]', () => {
 
         await wrapper.setProps({ disable: false })
         expect(getTabStops(wrapper)).toStrictEqual([2])
+
+        wrapper.unmount()
+      })
+    })
+
+    describe('spectrum panel', () => {
+      const { colorPicker } = langEn
+
+      // the hue stays put while the keyboard walks the spectrum, so
+      // every expected model derives from the start color's hue
+      function hexAt(startColor, s, v) {
+        const { h } = rgbToHsv(textToRgb(startColor))
+        return rgbToHex(hsvToRgb({ h, s, v }))
+      }
+
+      function valueText(s, v) {
+        return `${colorPicker.saturation} ${s}%, ${colorPicker.brightness} ${v}%`
+      }
+
+      function mountSpectrum(props = {}) {
+        return mount(QColor, {
+          attachTo: document.body,
+          props: { modelValue: '#ff0000', ...props }
+        })
+      }
+
+      function lastModel(wrapper) {
+        return wrapper.emitted('update:modelValue').at(-1)[0]
+      }
+
+      test('the panel is a named slider spelling out saturation and brightness', async () => {
+        const wrapper = mountSpectrum({ modelValue: '#808080' })
+        const spectrum = getSpectrum(wrapper)
+        const { s, v } = rgbToHsv(textToRgb('#808080'))
+
+        expect(spectrum.attributes('role')).toBe('slider')
+        expect(spectrum.attributes('tabindex')).toBe('0')
+        expect(spectrum.attributes('aria-label')).toBe(colorPicker.spectrum)
+        expect(spectrum.attributes('aria-valuemin')).toBe('0')
+        expect(spectrum.attributes('aria-valuemax')).toBe('100')
+        expect(spectrum.attributes('aria-valuenow')).toBe(String(s))
+        expect(spectrum.attributes('aria-valuetext')).toBe(valueText(s, v))
+
+        // no color yet: the numbers would mislead
+        await wrapper.setProps({ modelValue: '' })
+        expect(spectrum.attributes('aria-valuetext')).toBe(langEn.label.noValue)
+
+        wrapper.unmount()
+      })
+
+      test('arrows step saturation and brightness by one, ten with Shift', async () => {
+        const wrapper = mountSpectrum()
+        const spectrum = getSpectrum(wrapper)
+
+        spectrum.element.focus()
+
+        await spectrum.trigger('keydown', { keyCode: 37 })
+        expect(lastModel(wrapper)).toBe(hexAt('#ff0000', 99, 100))
+
+        await spectrum.trigger('keydown', { keyCode: 40 })
+        expect(lastModel(wrapper)).toBe(hexAt('#ff0000', 99, 99))
+
+        await spectrum.trigger('keydown', { keyCode: 37, shiftKey: true })
+        expect(lastModel(wrapper)).toBe(hexAt('#ff0000', 89, 99))
+
+        await spectrum.trigger('keydown', { keyCode: 40, shiftKey: true })
+        expect(lastModel(wrapper)).toBe(hexAt('#ff0000', 89, 89))
+
+        await spectrum.trigger('keydown', { keyCode: 39 })
+        await spectrum.trigger('keydown', { keyCode: 38 })
+        expect(lastModel(wrapper)).toBe(hexAt('#ff0000', 90, 90))
+
+        expect(spectrum.attributes('aria-valuenow')).toBe('90')
+        expect(spectrum.attributes('aria-valuetext')).toBe(valueText(90, 90))
+
+        wrapper.unmount()
+      })
+
+      test('Home/End set the saturation, PageUp/PageDown step the brightness by ten', async () => {
+        const wrapper = mountSpectrum()
+        const spectrum = getSpectrum(wrapper)
+
+        spectrum.element.focus()
+
+        await spectrum.trigger('keydown', { keyCode: 36 })
+        expect(lastModel(wrapper)).toBe(hexAt('#ff0000', 0, 100))
+
+        await spectrum.trigger('keydown', { keyCode: 35 })
+        expect(lastModel(wrapper)).toBe(hexAt('#ff0000', 100, 100))
+
+        await spectrum.trigger('keydown', { keyCode: 34 })
+        expect(lastModel(wrapper)).toBe(hexAt('#ff0000', 100, 90))
+
+        await spectrum.trigger('keydown', { keyCode: 33 })
+        expect(lastModel(wrapper)).toBe(hexAt('#ff0000', 100, 100))
+
+        wrapper.unmount()
+      })
+
+      test('the edges are clamped and change fires once, on keyup', async () => {
+        const wrapper = mountSpectrum()
+        const spectrum = getSpectrum(wrapper)
+
+        spectrum.element.focus()
+
+        // already at full saturation and brightness
+        await spectrum.trigger('keydown', { keyCode: 39 })
+        await spectrum.trigger('keydown', { keyCode: 38 })
+        await spectrum.trigger('keyup', { keyCode: 38 })
+        expect(wrapper.emitted('update:modelValue')).toBeUndefined()
+        expect(wrapper.emitted('change')).toBeUndefined()
+
+        // key repeat: two steps, one change
+        await spectrum.trigger('keydown', { keyCode: 40 })
+        await spectrum.trigger('keydown', { keyCode: 40 })
+        expect(wrapper.emitted('update:modelValue')).toHaveLength(2)
+        expect(wrapper.emitted('change')).toBeUndefined()
+
+        await spectrum.trigger('keyup', { keyCode: 40 })
+        expect(wrapper.emitted('change')).toStrictEqual([
+          [hexAt('#ff0000', 100, 98)]
+        ])
+
+        wrapper.unmount()
+      })
+
+      test('Left/Right follow the visual direction in RTL', async () => {
+        const wrapper = mountSpectrum({ modelValue: '#808080' })
+        const spectrum = getSpectrum(wrapper)
+        const { v } = rgbToHsv(textToRgb('#808080'))
+
+        wrapper.vm.$q.lang.rtl = true
+
+        try {
+          spectrum.element.focus()
+
+          await spectrum.trigger('keydown', { keyCode: 37 })
+          expect(lastModel(wrapper)).toBe(hexAt('#808080', 1, v))
+        } finally {
+          wrapper.vm.$q.lang.rtl = false
+          wrapper.unmount()
+        }
+      })
+
+      test('a disabled or readonly spectrum has no Tab stop and ignores keys', async () => {
+        const wrapper = mountSpectrum({ readonly: true })
+        const spectrum = getSpectrum(wrapper)
+
+        expect(spectrum.attributes('tabindex')).toBe('-1')
+        expect(spectrum.attributes('aria-readonly')).toBe('true')
+        expect(spectrum.attributes('aria-disabled')).toBeUndefined()
+
+        await spectrum.trigger('keydown', { keyCode: 40 })
+        expect(wrapper.emitted('update:modelValue')).toBeUndefined()
+
+        await wrapper.setProps({ readonly: false, disable: true })
+        expect(spectrum.attributes('tabindex')).toBe('-1')
+        expect(spectrum.attributes('aria-disabled')).toBe('true')
+        expect(spectrum.attributes('aria-readonly')).toBeUndefined()
+
+        await spectrum.trigger('keydown', { keyCode: 40 })
+        expect(wrapper.emitted('update:modelValue')).toBeUndefined()
+
+        await wrapper.setProps({ disable: false })
+        expect(spectrum.attributes('tabindex')).toBe('0')
 
         wrapper.unmount()
       })

@@ -456,6 +456,16 @@
               "type": "String",
               "desc": "Accessible name (aria-label) of the opacity slider",
               "examples": ["'Opacity'"]
+            },
+            "saturation": {
+              "type": "String",
+              "desc": "Label of the saturation axis in the spectrum panel's accessible value (aria-valuetext)",
+              "examples": ["'Saturation'"]
+            },
+            "brightness": {
+              "type": "String",
+              "desc": "Label of the brightness axis in the spectrum panel's accessible value (aria-valuetext)",
+              "examples": ["'Brightness'"]
             }
           }
         },
@@ -1230,6 +1240,18 @@
                   "desc": "Accessible name (aria-label) of the opacity slider",
                   "required": true,
                   "examples": ["'Opacity'"]
+                },
+                "saturation": {
+                  "type": "String",
+                  "desc": "Label of the saturation axis in the spectrum panel's accessible value (aria-valuetext)",
+                  "required": true,
+                  "examples": ["'Saturation'"]
+                },
+                "brightness": {
+                  "type": "String",
+                  "desc": "Label of the brightness axis in the spectrum panel's accessible value (aria-valuetext)",
+                  "required": true,
+                  "examples": ["'Brightness'"]
                 }
               }
             },

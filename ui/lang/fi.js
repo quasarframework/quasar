@@ -81,7 +81,9 @@ export default {
     palette: 'Paletti',
     value: 'Värin arvo',
     hue: 'Sävy',
-    alpha: 'Peittävyys'
+    alpha: 'Peittävyys',
+    saturation: 'Kylläisyys',
+    brightness: 'Kirkkaus'
   },
   uploader: {
     addFiles: 'Valitse tiedostot',

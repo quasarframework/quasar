@@ -83,7 +83,9 @@ export default {
     palette: 'Палитра',
     value: 'Ранг қиймати',
     hue: 'Тус',
-    alpha: 'Хиралик'
+    alpha: 'Хиралик',
+    saturation: 'Тўйинганлик',
+    brightness: 'Ёрқинлик'
   },
   uploader: {
     addFiles: 'Файлларни танлаш',

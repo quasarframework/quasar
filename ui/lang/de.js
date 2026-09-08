@@ -80,7 +80,9 @@ export default {
     palette: 'Palette',
     value: 'Farbwert',
     hue: 'Farbton',
-    alpha: 'Deckkraft'
+    alpha: 'Deckkraft',
+    saturation: 'Sättigung',
+    brightness: 'Helligkeit'
   },
   uploader: {
     addFiles: 'Dateien auswählen',

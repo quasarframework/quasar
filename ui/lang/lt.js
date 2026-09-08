@@ -101,7 +101,9 @@ export default {
     palette: 'Paletė',
     value: 'Spalvos reikšmė',
     hue: 'Atspalvis',
-    alpha: 'Nepermatomumas'
+    alpha: 'Nepermatomumas',
+    saturation: 'Sodrumas',
+    brightness: 'Ryškumas'
   },
   uploader: {
     addFiles: 'Pasirinkti failus',

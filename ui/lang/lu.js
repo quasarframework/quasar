@@ -80,7 +80,9 @@ export default {
     palette: 'Kibaya kya mikuba',
     value: 'Bukata bwa mukuba',
     hue: 'Mukuba',
-    alpha: 'Bukole bwa mukuba'
+    alpha: 'Bukole bwa mukuba',
+    saturation: 'Bukole bwa mukuba',
+    brightness: 'Kutoka kwa mukuba'
   },
   uploader: {
     addFiles: 'Sungula bifile',

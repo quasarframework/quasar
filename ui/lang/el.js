@@ -78,7 +78,9 @@ export default {
     palette: 'Παλέτα',
     value: 'Τιμή χρώματος',
     hue: 'Απόχρωση',
-    alpha: 'Αδιαφάνεια'
+    alpha: 'Αδιαφάνεια',
+    saturation: 'Κορεσμός',
+    brightness: 'Φωτεινότητα'
   },
   uploader: {
     addFiles: 'Επιλογή αρχείων',

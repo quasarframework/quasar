@@ -75,7 +75,9 @@ export default {
     palette: '팔레트',
     value: '색상 값',
     hue: '색조',
-    alpha: '불투명도'
+    alpha: '불투명도',
+    saturation: '채도',
+    brightness: '명도'
   },
   uploader: {
     addFiles: '파일 선택',

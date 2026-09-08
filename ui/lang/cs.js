@@ -94,7 +94,9 @@ export default {
     palette: 'Paleta',
     value: 'Hodnota barvy',
     hue: 'Odstín',
-    alpha: 'Krytí'
+    alpha: 'Krytí',
+    saturation: 'Sytost',
+    brightness: 'Jas'
   },
   uploader: {
     addFiles: 'Vybrat soubory',

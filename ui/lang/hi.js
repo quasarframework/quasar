@@ -76,7 +76,9 @@ export default {
     palette: 'रंगपट',
     value: 'रंग मान',
     hue: 'रंगत',
-    alpha: 'अपारदर्शिता'
+    alpha: 'अपारदर्शिता',
+    saturation: 'संतृप्ति',
+    brightness: 'चमक'
   },
   uploader: {
     addFiles: 'फ़ाइलें चुनें',

@@ -75,7 +75,9 @@ export default {
     palette: 'Palet',
     value: 'Renk değeri',
     hue: 'Renk tonu',
-    alpha: 'Matlık'
+    alpha: 'Matlık',
+    saturation: 'Doygunluk',
+    brightness: 'Parlaklık'
   },
   uploader: {
     addFiles: 'Dosya seç',

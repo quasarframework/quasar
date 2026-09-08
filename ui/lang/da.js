@@ -78,7 +78,9 @@ export default {
     palette: 'Palet',
     value: 'Farveværdi',
     hue: 'Farvetone',
-    alpha: 'Uigennemsigtighed'
+    alpha: 'Uigennemsigtighed',
+    saturation: 'Mætning',
+    brightness: 'Lysstyrke'
   },
   uploader: {
     addFiles: 'Vælg filer',

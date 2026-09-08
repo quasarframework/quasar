@@ -78,7 +78,9 @@ export default {
     palette: 'Paleta',
     value: 'Halaga ng kulay',
     hue: 'Kulay',
-    alpha: 'Kapal ng kulay'
+    alpha: 'Kapal ng kulay',
+    saturation: 'Katingkaran ng kulay',
+    brightness: 'Liwanag'
   },
   uploader: {
     addFiles: 'Pumili ng mga file',

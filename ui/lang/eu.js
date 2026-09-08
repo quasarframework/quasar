@@ -79,7 +79,9 @@ export default {
     palette: 'Paleta',
     value: 'Kolorearen balioa',
     hue: 'Ñabardura',
-    alpha: 'Opakutasuna'
+    alpha: 'Opakutasuna',
+    saturation: 'Saturazioa',
+    brightness: 'Distira'
   },
   uploader: {
     addFiles: 'Aukeratu fitxategiak',
