@@ -47,3 +47,30 @@ body.body--dark {
   background: #000;
 }
 ```
+
+## Shadows in Dark Mode <q-badge label="v2.31+" />
+
+While in Dark Mode, Quasar draws elevation with a light shadow color (the `shadow-N` helper classes as well as the shadows of components such as QCard, QMenu, QTable or the QLayout header, footer and drawers) instead of the black used in light mode. Both colors are CSS custom properties declared on `:root`, so you can change them without touching the Sass variables, which also makes them available to the UMD, Vite plugin and any other flavour consuming the prebuilt CSS:
+
+| Custom property         | Default | Description                      |
+| ----------------------- | ------- | -------------------------------- |
+| `--q-shadow-color`      | `#000`  | Shadow color while in light mode |
+| `--q-dark-shadow-color` | `#fff`  | Shadow color while in Dark Mode  |
+
+```css
+/* Dark shadows in Dark Mode too (the look Quasar had before v2.11) */
+body.body--dark {
+  --q-dark-shadow-color: #000;
+}
+
+/* Or no elevation shadows at all while in Dark Mode */
+body.body--dark {
+  --q-dark-shadow-color: transparent;
+}
+```
+
+Set them on `:root` or on `body` (a `body.body--dark` rule as above, or the [setCssVar](/style/color-palette#util-setcssvar) helper, which writes on `body`). The shadow tints are derived from them at the `body` level, so an override placed deeper in the DOM has no effect. Components with a dark surface (the `dark` prop) use `--q-dark-shadow-color` regardless of the Dark Mode status.
+
+::: tip
+Quasar CLI users can alternatively set the `$shadow-color` and `$dark-shadow-color` [Sass variables](/style/sass-scss-variables), which are the defaults of the custom properties above.
+:::

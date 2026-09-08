@@ -396,12 +396,12 @@ $z-max                : 9998 !default
 
 $shadow-color         : #000 !default
 $shadow-transition    : box-shadow .28s cubic-bezier(.4, 0, .2, 1) !default
-$inset-shadow         : 0 7px 9px -7px rgba($shadow-color, .7) inset !default
-$inset-shadow-down    : 0 -7px 9px -7px rgba($shadow-color, .7) inset !default
+$inset-shadow         : 0 7px 9px -7px var(--q-shadow-inset) inset !default
+$inset-shadow-down    : 0 -7px 9px -7px var(--q-shadow-inset) inset !default
 
-$elevation-umbra      : rgba($shadow-color, .2) !default
-$elevation-penumbra   : rgba($shadow-color, .14) !default
-$elevation-ambient    : rgba($shadow-color, .12) !default
+$elevation-umbra      : var(--q-shadow-umbra) !default
+$elevation-penumbra   : var(--q-shadow-penumbra) !default
+$elevation-ambient    : var(--q-shadow-ambient) !default
 
 $shadow-0  : 0 0 0 $elevation-umbra, 0 0 0 $elevation-penumbra, 0 0 0 $elevation-ambient !default
 $shadow-1  : 0 1px 3px $elevation-umbra, 0 1px 1px $elevation-penumbra, 0 2px 1px -1px $elevation-ambient !default
@@ -462,12 +462,12 @@ $shadow-up-24 : 0 -11px 15px -7px $elevation-umbra, 0 -24px 38px 3px $elevation-
 $shadows-up: ($shadow-up-1, $shadow-up-2, $shadow-up-3, $shadow-up-4, $shadow-up-5, $shadow-up-6, $shadow-up-7, $shadow-up-8, $shadow-up-9, $shadow-up-10, $shadow-up-11, $shadow-up-12, $shadow-up-13, $shadow-up-14, $shadow-up-15, $shadow-up-16, $shadow-up-17, $shadow-up-18, $shadow-up-19, $shadow-up-20, $shadow-up-21, $shadow-up-22, $shadow-up-23, $shadow-up-24)
 
 $dark-shadow-color         : #fff !default
-$inset-dark-shadow         : 0 7px 9px -7px rgba($dark-shadow-color, .7) inset !default
-$inset-dark-shadow-down    : 0 -7px 9px -7px rgba($dark-shadow-color, .7) inset !default
+$inset-dark-shadow         : 0 7px 9px -7px var(--q-dark-shadow-inset) inset !default
+$inset-dark-shadow-down    : 0 -7px 9px -7px var(--q-dark-shadow-inset) inset !default
 
-$elevation-dark-umbra      : rgba($dark-shadow-color, .2) !default
-$elevation-dark-penumbra   : rgba($dark-shadow-color, .14) !default
-$elevation-dark-ambient    : rgba($dark-shadow-color, .12) !default
+$elevation-dark-umbra      : var(--q-dark-shadow-umbra) !default
+$elevation-dark-penumbra   : var(--q-dark-shadow-penumbra) !default
+$elevation-dark-ambient    : var(--q-dark-shadow-ambient) !default
 
 $dark-shadow-0  : 0 0 0 $elevation-dark-umbra, 0 0 0 $elevation-dark-penumbra, 0 0 0 $elevation-dark-ambient !default
 $dark-shadow-1  : 0 1px 3px $elevation-dark-umbra, 0 1px 1px $elevation-dark-penumbra, 0 2px 1px -1px $elevation-dark-ambient !default
@@ -699,8 +699,8 @@ $toolbar-title-padding                    : 0 12px !default
 $tree-icon-font-size                      : 21px !default
 
 $layout-border                            : 1px solid $separator-color !default
-$layout-shadow                            : 0 0 10px 2px rgba($shadow-color,0.2), 0 0px 10px rgba($shadow-color,0.24) !default
-$layout-shadow-dark                       : 0 0 10px 2px rgba($dark-shadow-color,.2), 0 0px 10px rgba($dark-shadow-color,.24) !default
+$layout-shadow                            : 0 0 10px 2px var(--q-shadow-umbra), 0 0px 10px var(--q-shadow-layout) !default
+$layout-shadow-dark                       : 0 0 10px 2px var(--q-dark-shadow-umbra), 0 0px 10px var(--q-dark-shadow-layout) !default
 $layout-marginal-background               : var(--q-primary) !default
 $layout-marginal-color                    : #fff !default
 

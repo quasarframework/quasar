@@ -9,6 +9,21 @@
   --q-dark:         #{$dark}
   --q-dark-page:    #{$dark-page}
 
+  --q-shadow-color:      #{$shadow-color}
+  --q-dark-shadow-color: #{$dark-shadow-color}
+
+body
+  --q-shadow-umbra: color-mix(in srgb, var(--q-shadow-color) 20%, transparent)
+  --q-shadow-penumbra: color-mix(in srgb, var(--q-shadow-color) 14%, transparent)
+  --q-shadow-ambient: color-mix(in srgb, var(--q-shadow-color) 12%, transparent)
+  --q-shadow-inset: color-mix(in srgb, var(--q-shadow-color) 70%, transparent)
+  --q-shadow-layout: color-mix(in srgb, var(--q-shadow-color) 24%, transparent)
+  --q-dark-shadow-umbra: color-mix(in srgb, var(--q-dark-shadow-color) 20%, transparent)
+  --q-dark-shadow-penumbra: color-mix(in srgb, var(--q-dark-shadow-color) 14%, transparent)
+  --q-dark-shadow-ambient: color-mix(in srgb, var(--q-dark-shadow-color) 12%, transparent)
+  --q-dark-shadow-inset: color-mix(in srgb, var(--q-dark-shadow-color) 70%, transparent)
+  --q-dark-shadow-layout: color-mix(in srgb, var(--q-dark-shadow-color) 24%, transparent)
+
 .text-dark
   color: var(--q-dark) !important
 .bg-dark
