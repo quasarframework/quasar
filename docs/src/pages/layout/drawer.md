@@ -116,6 +116,8 @@ There are some CSS classes that will help you customize the drawer when dealing 
 
 You can also write your own CSS classes based on the fact that QDrawer has `q-drawer--standard` CSS class when in "normal" mode and `q-drawer--mini` when in "mini" mode. Also, when drawer is in "mobile" behavior, it gets `q-drawer--mobile` CSS class.
 
+QDrawer also exposes its current width (the `width` or the `mini-width` prop, whichever applies) as the `--q-drawer-width` CSS custom property on its root element, so your own CSS can size things relative to it.
+
 #### Mouseover/mouseout trigger
 
 Consider using QItems with routing props (like `to`) below. For demoing purposes these props have not been added as it would break the UMD version.

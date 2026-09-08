@@ -302,7 +302,7 @@ export default /*#__PURE__*/ createComponent({
 
     const style = computed(() => {
       const acc = {
-        width: `${size.value}px`,
+        '--q-drawer-width': `${size.value}px`,
         transform: `translateX(${flagContentPosition.value}px)`
       }
 

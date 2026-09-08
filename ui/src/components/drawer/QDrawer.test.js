@@ -5,6 +5,10 @@ import { defineComponent, h, onMounted, onUnmounted } from 'vue'
 import { getRouter } from 'testing/runtime/router.js'
 import { client } from '../../plugins/platform/Platform.js'
 import Screen from '../../plugins/screen/Screen.js'
+import QAvatar from '../avatar/QAvatar.js'
+import QIcon from '../icon/QIcon.js'
+import QItem from '../item/QItem.js'
+import QItemSection from '../item/QItemSection.js'
 import QLayout from '../layout/QLayout.js'
 import QDrawer from './QDrawer.js'
 
@@ -94,6 +98,14 @@ function getContent(wrapper) {
   return wrapper.get('.q-drawer__content')
 }
 
+/**
+ * The width the drawer hands to its CSS (and to user CSS) through the
+ * --q-drawer-width custom property.
+ */
+function getDrawerWidth(wrapper) {
+  return getDrawer(wrapper).element.style.getPropertyValue('--q-drawer-width')
+}
+
 async function settle() {
   await flushPromises()
   await vi.runAllTimersAsync()
@@ -174,6 +186,33 @@ function makeContentProbe() {
   })
 
   return { counters, Probe }
+}
+
+/**
+ * The usual navigation item: an icon (or an avatar) in its avatar
+ * section, then a label. Mini mode hides the label and keeps the icon.
+ */
+function iconItemSlot(sideContent) {
+  sideContent ||= () => h(QIcon, { name: 'inbox' })
+
+  return {
+    default: () =>
+      h(QItem, null, () => [
+        h(QItemSection, { avatar: true }, sideContent),
+        h(QItemSection, null, () => 'Inbox')
+      ])
+  }
+}
+
+/**
+ * How far the item's icon (or avatar) sits from each edge of the drawer's
+ * content box.
+ */
+function getIconInsets(wrapper) {
+  const content = getContent(wrapper).element.getBoundingClientRect()
+  const icon = wrapper.get('.q-icon, .q-avatar').element.getBoundingClientRect()
+
+  return { left: icon.left - content.left, right: content.right - icon.right }
 }
 
 async function pressEscapeKey() {
@@ -280,12 +319,14 @@ describe('[QDrawer API]', () => {
         const propVal = 250
         const wrapper = await mountReadyDrawer({ modelValue: true })
 
-        expect(getDrawer(wrapper).$style('width')).toBe('300px')
+        expect(getDrawerWidth(wrapper)).toBe('300px')
+        // which is what it renders at
+        expect(getComputedStyle(getDrawer(wrapper).element).width).toBe('300px')
 
         await setDrawerProps(wrapper, { modelValue: true, width: propVal })
         await settle()
 
-        expect(getDrawer(wrapper).$style('width')).toBe(`${propVal}px`)
+        expect(getDrawerWidth(wrapper)).toBe(`${propVal}px`)
       })
     })
 
@@ -301,7 +342,33 @@ describe('[QDrawer API]', () => {
         expect(getDrawer(wrapper).classes()).toContain('q-drawer--mini')
         expect(getDrawer(wrapper).classes()).not.toContain('q-drawer--standard')
         // the mini width takes over
-        expect(getDrawer(wrapper).$style('width')).toBe('57px')
+        expect(getDrawerWidth(wrapper)).toBe('57px')
+      })
+
+      test('keeps the item icon where the standard layout has it', async () => {
+        const wrapper = await mountReadyDrawer(
+          { modelValue: true, mini: true },
+          iconItemSlot()
+        )
+
+        const miniInset = getIconInsets(wrapper).left
+
+        await setDrawerProps(wrapper, { modelValue: true, mini: false })
+        await settle()
+
+        // the standard layout must not move the icon (nothing to
+        // "slide" while the drawer expands and contracts)
+        expect(getIconInsets(wrapper).left).toBe(miniInset)
+      })
+
+      test('centers whatever the item holds in its side section', async () => {
+        const wrapper = await mountReadyDrawer(
+          { modelValue: true, mini: true, bordered: true },
+          iconItemSlot(() => h(QAvatar, { color: 'primary' }, () => 'A'))
+        )
+
+        const insets = getIconInsets(wrapper)
+        expect(insets.left).toBe(insets.right)
       })
     })
 
@@ -310,7 +377,7 @@ describe('[QDrawer API]', () => {
         const propVal = 100
         const wrapper = await mountReadyDrawer({ modelValue: true, mini: true })
 
-        expect(getDrawer(wrapper).$style('width')).toBe('57px')
+        expect(getDrawerWidth(wrapper)).toBe('57px')
 
         await setDrawerProps(wrapper, {
           modelValue: true,
@@ -319,7 +386,17 @@ describe('[QDrawer API]', () => {
         })
         await settle()
 
-        expect(getDrawer(wrapper).$style('width')).toBe(`${propVal}px`)
+        expect(getDrawerWidth(wrapper)).toBe(`${propVal}px`)
+      })
+
+      test('centers the item icon within a custom width', async () => {
+        const wrapper = await mountReadyDrawer(
+          { modelValue: true, mini: true, miniWidth: 101, bordered: true },
+          iconItemSlot()
+        )
+
+        const insets = getIconInsets(wrapper)
+        expect(insets.left).toBe(insets.right)
       })
     })
 

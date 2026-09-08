@@ -60,6 +60,7 @@
   position: absolute
   top: 0
   bottom: 0
+  width: var(--q-drawer-width)
   background: #fff
   z-index: $z-side
 
@@ -90,6 +91,19 @@
 
   &-container:not(&--mini-animate) &--mini
     padding: 0 !important
+    .q-item
+      // The item centers its side section, so it must be exactly as wide
+      // as the standard layout reserves for one (16px padding + 40px avatar
+      // section = the default mini width minus the 1px border), or the
+      // icon lands on a fractional position and visibly moves once the
+      // standard layout takes over. Centering in the drawer's content box
+      // instead would be off by half a pixel in an unbordered drawer and,
+      // in a bordered one, by whatever the browser snaps the 1px border to
+      // on a display with a fractional scale factor (0.8px at 125%).
+      // A narrower container (a custom border width, a bordered list)
+      // falls back to centering within it, as before.
+      width: calc(var(--q-drawer-width) - 1px)
+      max-width: 100%
     .q-item, .q-item__section
       text-align: center
       justify-content: center
