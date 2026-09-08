@@ -71,6 +71,19 @@ describe('[debounce API]', () => {
         expect(callback).not.toHaveBeenCalled()
       })
 
+      test('debounces calls made from the immediate callback', () => {
+        const callback = vi.fn(() => {
+          if (callback.mock.calls.length === 1) fn()
+        })
+        const fn = debounce(callback, 100, true)
+
+        fn()
+        expect(callback).toHaveBeenCalledTimes(1)
+        vi.advanceTimersByTime(100)
+        fn()
+        expect(callback).toHaveBeenCalledTimes(2)
+      })
+
       test('should execute with correct args when called again from within timeout', () => {
         const callback = vi.fn()
         const fn = debounce(callback, 100)
