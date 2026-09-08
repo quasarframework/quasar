@@ -4064,5 +4064,37 @@ describe('[QSelect API]', () => {
       // outside of the dialog's element, listbox included (#17078)
       expect(dialogEl.contains(listboxEl)).toBe(true)
     })
+
+    test.each([
+      ['focus target', false],
+      ['use-input control', true]
+    ])(
+      'reflects focus on a readonly select through its %s',
+      async (_, useInput) => {
+        // readonly keeps the control in the tab order, so the field shows
+        // the keyboard focus like any other; the popup stays out of reach
+        const wrapper = mountSelect({
+          useInput,
+          readonly: true,
+          modelValue: 'a'
+        })
+        const target = wrapper.get('input[role="combobox"]')
+
+        target.element.focus()
+        await flushPromises()
+
+        expect(wrapper.classes()).toContain('q-field--focused')
+        expect(wrapper.emitted('focus')).toHaveLength(1)
+        expect(target.attributes('aria-expanded')).toBe('false')
+        expect(wrapper.findComponent({ name: 'QPortal' }).exists()).toBe(false)
+
+        target.element.blur()
+        await flushTimers()
+        await flushPromises()
+
+        expect(wrapper.classes()).not.toContain('q-field--focused')
+        expect(wrapper.emitted('blur')).toHaveLength(1)
+      }
+    )
   })
 })

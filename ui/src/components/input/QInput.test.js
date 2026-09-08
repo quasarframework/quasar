@@ -417,6 +417,27 @@ describe('[QInput API]', () => {
         expect(wrapper.classes()).toContain('q-field--error')
       })
 
+      test('value true validates a readonly field on blur too', async () => {
+        // only "disable" exempts a field from validation; a readonly one
+        // gets focused like any other, so tabbing through it reports its
+        // invalid value the same way QForm's submit would
+        const wrapper = mountInput({
+          modelValue: 'abcd',
+          readonly: true,
+          lazyRules: true,
+          rules: [maxThreeChars]
+        })
+        const input = wrapper.get('input')
+
+        input.element.focus()
+        input.element.blur()
+        await flushTimers()
+        await flushTimers()
+        await flushPromises()
+
+        expect(wrapper.classes()).toContain('q-field--error')
+      })
+
       test('value true clears a displayed error while typing (#17456)', async () => {
         const wrapper = mountInput({
           modelValue: 'abcd',
@@ -797,6 +818,28 @@ describe('[QInput API]', () => {
 
         expect(wrapper.classes()).toContain('q-field--readonly')
         expect(wrapper.get('input').element.readOnly).toBe(true)
+      })
+
+      test('keeps the field focused when readonly is dropped in the same tick as focus() (#16056)', async () => {
+        // the issue's handler shape: `readonly = false; input.focus()` in
+        // one go, so the focus event lands while the prop is still true
+        const wrapper = mountInput({
+          readonly: true,
+          label: 'Name',
+          modelValue: ''
+        })
+
+        const pending = wrapper.setProps({ readonly: false })
+        wrapper.vm.focus()
+        await pending
+        await flushTimers()
+        await flushPromises()
+
+        expect(document.activeElement).toBe(wrapper.get('input').element)
+        expect(wrapper.classes()).not.toContain('q-field--readonly')
+        expect(wrapper.classes()).toContain('q-field--focused')
+        expect(wrapper.classes()).toContain('q-field--float')
+        expect(wrapper.emitted('focus')).toHaveLength(1)
       })
     })
 
@@ -1942,6 +1985,39 @@ describe('[QInput API]', () => {
       expect(input.attributes('aria-describedby')).toBe(
         `external-help ${messageId}`
       )
+    })
+
+    test('reflects focus on a readonly input', async () => {
+      // a readonly control stays in the tab order, so the field has to
+      // show where the keyboard focus is; the hint hidden by hide-hint
+      // and the focus/blur events follow, as for any focused field
+      const hint = 'Cannot be changed'
+      const wrapper = mountInput({
+        readonly: true,
+        label: 'Name',
+        modelValue: '',
+        hint,
+        hideHint: true
+      })
+      const input = wrapper.get('input')
+
+      expect(input.attributes('tabindex')).toBe('0')
+      expect(wrapper.text()).not.toContain(hint)
+
+      input.element.focus()
+      await flushPromises()
+
+      expect(wrapper.classes()).toContain('q-field--focused')
+      expect(wrapper.classes()).toContain('q-field--float')
+      expect(wrapper.text()).toContain(hint)
+      expect(wrapper.emitted('focus')).toHaveLength(1)
+
+      input.element.blur()
+      await flushTimers()
+      await flushPromises()
+
+      expect(wrapper.classes()).not.toContain('q-field--focused')
+      expect(wrapper.emitted('blur')).toHaveLength(1)
     })
   })
 })

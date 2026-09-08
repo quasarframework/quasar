@@ -1041,5 +1041,27 @@ describe('[QField API]', () => {
       expect(slotScope.ariaDescribedby).toBe(messageId)
       expect(slotScope.ariaErrormessage).toBe(messageId)
     })
+
+    test('reflects focus inside a readonly field, never inside a disabled one', async () => {
+      const readonly = mountControlField({ readonly: true })
+
+      readonly.get('.my-control').element.focus()
+      await flushPromises()
+
+      expect(readonly.classes()).toContain('q-field--focused')
+      expect(readonly.emitted('focus')).toHaveLength(1)
+
+      // a disabled field's own native control refuses focus; a custom
+      // control that still takes it must not light the field up
+      const disabled = mountControlField({ disable: true })
+      const control = disabled.get('.my-control').element
+
+      control.focus()
+      await flushPromises()
+
+      expect(document.activeElement).toBe(control)
+      expect(disabled.classes()).not.toContain('q-field--focused')
+      expect(disabled.emitted('focus')).toBeUndefined()
+    })
   })
 })

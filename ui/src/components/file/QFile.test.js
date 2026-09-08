@@ -1410,5 +1410,27 @@ describe('[QFile API]', () => {
         `external-help ${messageId}`
       )
     })
+
+    test('reflects focus on a readonly field, never on a disabled one', async () => {
+      const readonly = mountFile({ readonly: true })
+
+      getNative(readonly).element.focus()
+      await flushPromises()
+
+      expect(readonly.classes()).toContain('q-field--focused')
+      expect(readonly.emitted('focus')).toHaveLength(1)
+
+      // the control wrapper keeps its tabindex while disabled, so it can
+      // still take focus; the field must not light up for it
+      const disabled = mountFile({ disable: true })
+      const control = getNative(disabled).element
+
+      control.focus()
+      await flushPromises()
+
+      expect(document.activeElement).toBe(control)
+      expect(disabled.classes()).not.toContain('q-field--focused')
+      expect(disabled.emitted('focus')).toBeUndefined()
+    })
   })
 })

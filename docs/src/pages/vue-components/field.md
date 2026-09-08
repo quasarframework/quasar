@@ -153,7 +153,7 @@ You can reset the validation by calling `resetValidation()` method on the QField
 
 <DocExample title="Maximum value" file="ValidationMaxValue" />
 
-If you set `lazy-rules`, validation triggers when the field loses focus; while an error is displayed, the field re-validates on each change so the error clears as soon as the value becomes valid. A menu or dialog opened from inside the field (a QPopupProxy in the `append` slot, for instance) keeps the field focused for as long as it is open, so it does not count as losing focus. If `lazy-rules` is set to `ondemand` String, then validation will be triggered only when component's validate() method is manually called or when the wrapper QForm submits itself.
+If you set `lazy-rules`, validation triggers when the field loses focus (a `readonly` field included, only a `disable`d field is exempt from validation); while an error is displayed, the field re-validates on each change so the error clears as soon as the value becomes valid. A menu or dialog opened from inside the field (a QPopupProxy in the `append` slot, for instance) keeps the field focused for as long as it is open, so it does not count as losing focus. If `lazy-rules` is set to `ondemand` String, then validation will be triggered only when component's validate() method is manually called or when the wrapper QForm submits itself.
 
 <DocExample title="Lazy rules" file="ValidationLazy" />
 
@@ -184,6 +184,8 @@ You can also customize the slot for error message:
 ## Accessibility <q-badge label="v2.25+" />
 
 QField renders as a native `<label>` wired through its `for` attribute to the enclosed control, using a generated SSR-safe id (overridable through the `for` prop), so clicking the label focuses the control and screen readers announce the field's name for it. A disabled field carries `aria-disabled` on the wrapper, and the clear icon shown by `clearable` is a keyboard-operable button — activated with <kbd>Enter</kbd> or <kbd>Space</kbd> — with a localized accessible name from the [Quasar Language Pack](/options/quasar-language-packs).
+
+A `readonly` field stays in the Tab order (its value can still be read and copied), so it shows the focused state like any other field (the highlight, the floated label, a `hide-hint` hint) and emits `@focus`/`@blur`; only a `disable`d field never counts as focused.
 
 Validation errors are announced as they appear: the error message renders with `role="alert"`, and while it is displayed the control also receives `aria-invalid` together with `aria-errormessage` and `aria-describedby` pointing at the message. These references are applied only while the message actually renders, so they never point at a missing element, and an `aria-describedby` you set yourself is merged with the error reference rather than replaced by it.
 

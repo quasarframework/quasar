@@ -478,7 +478,15 @@ export default function useField(state) {
       focusoutTimer = null
     }
 
-    if (state.editable.value && !state.focused.value) {
+    // the focused state mirrors DOM focus, readonly included: a readonly
+    // control is still in the tab order, so it must show where the
+    // keyboard focus is (and its emits/hint/lazy validation follow, as
+    // for any focused field); gating on readonly here also desynced the
+    // two whenever the prop dropped in the same tick as a focus() call
+    // (#16056). Only a disabled field never counts as focused: its
+    // native control refuses focus, and a focusable wrapper (QFile's,
+    // the control slot's) reaching it must not light the field up.
+    if (!props.disable && !state.focused.value) {
       state.focused.value = true
       emit('focus', e)
     }

@@ -337,7 +337,7 @@ Native HTML constraints (a `type` like "email" or "url", or a `pattern`/`require
 
 <DocExample title="Maximum length" file="ValidationMaxLength" />
 
-If you set `lazy-rules`, validation triggers when the field loses focus; while an error is displayed, the field re-validates on each change so the error clears as soon as the value becomes valid. A menu or dialog opened from inside the field (a QPopupProxy in the `append` slot, for instance) keeps the field focused for as long as it is open, so it does not count as losing focus. If `lazy-rules` is set to `ondemand` String, then validation will be triggered only when component's validate() method is manually called or when the wrapper QForm submits itself.
+If you set `lazy-rules`, validation triggers when the field loses focus (a `readonly` field included, only a `disable`d field is exempt from validation); while an error is displayed, the field re-validates on each change so the error clears as soon as the value becomes valid. A menu or dialog opened from inside the field (a QPopupProxy in the `append` slot, for instance) keeps the field focused for as long as it is open, so it does not count as losing focus. If `lazy-rules` is set to `ondemand` String, then validation will be triggered only when component's validate() method is manually called or when the wrapper QForm submits itself.
 
 <DocExample title="Lazy rules" file="ValidationLazy" />
 
@@ -371,7 +371,7 @@ You can also customize the slot for error message:
 
 QInput renders a native `<input>` (or `<textarea>`) inside the QField frame, so everything described in [QField's Accessibility section](/vue-components/field#accessibility) applies here: the label association through a generated SSR-safe id, error messages announced with `role="alert"` and referenced from the control through `aria-invalid`/`aria-errormessage`/`aria-describedby`, and the keyboard-operable clear button.
 
-The `label` prop is additionally exposed as `aria-label` on the native element — an `aria-label` or `aria-labelledby` attribute you set yourself takes precedence — while `disable` and `readonly` map to the native `disabled` and `readonly` attributes. Any other native attributes (`placeholder`, `autocomplete`, `inputmode`, ...) fall through to the native element as well.
+The `label` prop is additionally exposed as `aria-label` on the native element — an `aria-label` or `aria-labelledby` attribute you set yourself takes precedence — while `disable` and `readonly` map to the native `disabled` and `readonly` attributes (so a readonly input stays in the Tab order and shows the field's focused state when reached, as described on the QField page). Any other native attributes (`placeholder`, `autocomplete`, `inputmode`, ...) fall through to the native element as well.
 
 ## Native form submit
 

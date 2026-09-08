@@ -214,16 +214,27 @@ describe('[useField API]', () => {
         expect(wrapper.emitted('blur')).toBeUndefined()
       })
 
-      test.each([
-        ['disabled', { disable: true }],
-        ['readonly', { readonly: true }]
-      ])('does not take the focus while %s', (_, props) => {
-        const { state } = mountField(props)
+      test('does not take the focus while disabled', () => {
+        const { state } = mountField({ disable: true })
 
         state.controlEvents.onFocusin({})
 
         expect(state.focused.value).toBe(false)
         expect(wrapper.emitted('focus')).toBeUndefined()
+      })
+
+      test('takes the focus while readonly', () => {
+        // a readonly control stays in the tab order, so the focused state
+        // has to follow the DOM focus (and it must not depend on the prop's
+        // timing: dropping readonly in the same tick as a focus() call used
+        // to leave the field unfocused, #16056)
+        const focusEvent = {}
+        const { state } = mountField({ readonly: true })
+
+        state.controlEvents.onFocusin(focusEvent)
+
+        expect(state.focused.value).toBe(true)
+        expect(wrapper.emitted('focus')).toStrictEqual([[focusEvent]])
       })
 
       test('clears the value', async () => {
