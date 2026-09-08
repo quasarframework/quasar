@@ -126,24 +126,24 @@ $toggle-transition: .22s cubic-bezier(.4,0,.2,1)
       border-radius: 50%
       background: currentColor
       opacity: .12
-      transform: scale3d(0, 0, 1)
+      transform: scale(0)
       transition: transform $option-focus-transition
 
     &:focus-visible
       .q-toggle__thumb:before
-        transform: scale3d(2, 2, 1)
+        transform: scale(2)
 
     @media (any-hover: hover)
       &:hover
         .q-toggle__thumb:before
-          transform: scale3d(2, 2, 1)
+          transform: scale(2)
 
   &--dense:not(.disabled)
     &:focus-visible
       .q-toggle__thumb:before
-        transform: scale3d(1.5, 1.5, 1)
+        transform: scale(1.5)
 
     @media (any-hover: hover)
       &:hover
         .q-toggle__thumb:before
-          transform: scale3d(1.5, 1.5, 1)
+          transform: scale(1.5)

@@ -290,8 +290,8 @@ export default /*#__PURE__*/ createComponent({
           newPos = newEl.getBoundingClientRect()
 
         newEl.style.transform = props.vertical
-          ? `translate3d(0,${oldPos.top - newPos.top}px,0) scale3d(1,${newPos.height ? oldPos.height / newPos.height : 1},1)`
-          : `translate3d(${oldPos.left - newPos.left}px,0,0) scale3d(${newPos.width ? oldPos.width / newPos.width : 1},1,1)`
+          ? `translateY(${oldPos.top - newPos.top}px) scaleY(${newPos.height ? oldPos.height / newPos.height : 1})`
+          : `translateX(${oldPos.left - newPos.left}px) scaleX(${newPos.width ? oldPos.width / newPos.width : 1})`
 
         // allow scope updates to kick in (QRouteTab needs more time)
         registerAnimateTick(() => {

@@ -46,8 +46,8 @@ export default /*#__PURE__*/ createComponent({
       return {
         transform:
           props.reverse !== ($q.lang.rtl === true)
-            ? `scale3d(-1, 1, 1) rotate3d(0, 0, 1, ${-90 - angle}deg)`
-            : `rotate3d(0, 0, 1, ${angle - 90}deg)`
+            ? `scaleX(-1) rotate(${-90 - angle}deg)`
+            : `rotate(${angle - 90}deg)`
       }
     })
 

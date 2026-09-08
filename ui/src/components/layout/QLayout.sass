@@ -10,6 +10,7 @@
   .q-layout
     min-height: 100%
   > div
+    // 3D on purpose: keeps the layout on its own compositor layer
     transform: translate3d(0, 0, 0)
     > div
       min-height: 0
@@ -133,6 +134,7 @@
 .q-page-sticky--shrink
   pointer-events: none
   > div
+    // 3D on purpose: keeps the layout on its own compositor layer
     display: inline-block
     pointer-events: auto
 

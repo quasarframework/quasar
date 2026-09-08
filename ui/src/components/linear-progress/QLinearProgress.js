@@ -22,7 +22,7 @@ const getSizeStyle = /*#__PURE__*/ createSizeStyle({
 
 function width(val) {
   return {
-    transform: `scale3d(${val},1,1)`
+    transform: `scaleX(${val})`
   }
 }
 

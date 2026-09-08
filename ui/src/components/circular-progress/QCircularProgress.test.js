@@ -142,7 +142,7 @@ describe('[QCircularProgress API]', () => {
 
         expect(
           wrapper.get('.q-circular-progress__svg').attributes('style')
-        ).toContain('rotate3d(0, 0, 1, -45deg)')
+        ).toContain('rotate(-45deg)')
       })
     })
 
@@ -183,7 +183,7 @@ describe('[QCircularProgress API]', () => {
 
         expect(
           wrapper.get('.q-circular-progress__svg').attributes('style')
-        ).toContain('scale3d(-1, 1, 1)')
+        ).toContain('scaleX(-1)')
       })
     })
 

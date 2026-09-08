@@ -96,7 +96,8 @@ export default /*#__PURE__*/ createComponent({
     }
 
     let setPos = newOffset => {
-      // apply it immediately without any delay
+      // apply it immediately without any delay; 3D on purpose so the
+      // media keeps its compositor layer and scroll updates never repaint it
       mediaEl.style.transform = `translate3d(-50%,${Math.round(newOffset)}px,0)`
     }
 

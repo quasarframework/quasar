@@ -94,11 +94,11 @@ describe('[QKnob API]', () => {
         const wrapper = mountKnob()
         const svg = wrapper.get('svg')
 
-        expect(svg.$style('transform')).not.toContain('scale3d')
+        expect(svg.$style('transform')).not.toContain('scaleX')
 
         await wrapper.setProps({ reverse: true })
 
-        expect(svg.$style('transform')).toContain('scale3d(-1, 1, 1)')
+        expect(svg.$style('transform')).toContain('scaleX(-1)')
       })
     })
 

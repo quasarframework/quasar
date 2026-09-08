@@ -107,24 +107,24 @@ $checkbox-transition: .22s cubic-bezier(0,0,.2,1) 0ms
       border-radius: 50%
       background: currentColor
       opacity: .12
-      transform: scale3d(0, 0, 1)
+      transform: scale(0)
       transition: transform $option-focus-transition
 
     &:focus-visible
       .q-checkbox__inner:before
-        transform: scale3d(1, 1, 1)
+        transform: scale(1)
 
     @media (any-hover: hover)
       &:hover
         .q-checkbox__inner:before
-          transform: scale3d(1, 1, 1)
+          transform: scale(1)
 
   &--dense:not(.disabled)
     &:focus-visible
       .q-checkbox__inner:before
-        transform: scale3d(1.4, 1.4, 1)
+        transform: scale(1.4)
 
     @media (any-hover: hover)
       &:hover
         .q-checkbox__inner:before
-          transform: scale3d(1.4, 1.4, 1)
+          transform: scale(1.4)

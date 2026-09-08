@@ -31,7 +31,7 @@ function translate({ p, pos, active, horiz, reverse, dir }) {
       y = -1
     }
     return {
-      transform: `translate3d(${x * (p - 100)}%,${active ? 0 : y * -200}%,0)`
+      transform: `translate(${x * (p - 100)}%,${active ? 0 : y * -200}%)`
     }
   }
 
@@ -42,7 +42,7 @@ function translate({ p, pos, active, horiz, reverse, dir }) {
     x = -1
   }
   return {
-    transform: `translate3d(${active ? 0 : dir * x * -200}%,${y * (p - 100)}%,0)`
+    transform: `translate(${active ? 0 : dir * x * -200}%,${y * (p - 100)}%)`
   }
 }
 
