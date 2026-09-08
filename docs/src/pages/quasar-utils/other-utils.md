@@ -357,7 +357,7 @@ If your App uses JavaScript to accomplish taxing tasks, a debounce function is e
 
 Debouncing enforces that a function not be called again until a certain amount of time has passed without it being called. As in "execute this function only if 100 milliseconds have passed without it being called."
 
-With `immediate: true`, the wait period starts before the callback runs, so calls made from within that callback are debounced too.
+When `immediate` is `true`, the wait period starts before the callback runs, so calls made from within that callback are debounced too.
 
 A quick example: you have a resize listener on the window which does some element dimension calculations and (possibly) repositions a few elements. That isn't a heavy task in itself but being repeatedly fired after numerous resizes will really slow your App down. So why not limit the rate at which the function can fire?
 
