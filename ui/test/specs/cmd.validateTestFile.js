@@ -11,8 +11,12 @@ export async function cmdValidateTestFile({ ctx, testFile, argv }) {
     disallowWorkInProgress: true
   })
 
+  // both --check and --accept run unattended: validation errors are
+  // reported and fatal, since only a human can decide to "acknowledge"
+  const interactive = argv.check !== true && argv.accept !== true
+
   if (errors.length !== 0) {
-    if (argv.check !== true) {
+    if (interactive) {
       console.log('\n')
     }
 
@@ -29,7 +33,7 @@ export async function cmdValidateTestFile({ ctx, testFile, argv }) {
       console.warn(`       • (warning) ${warning}`)
     })
 
-    if (argv.check !== true) {
+    if (interactive) {
       console.log()
 
       const { action } = await prompts({
@@ -81,6 +85,14 @@ export async function cmdValidateTestFile({ ctx, testFile, argv }) {
   missingTests.forEach(test => {
     console.log(test.content)
   })
+
+  if (argv.accept === true) {
+    testFile.addTestCases(missingTests)
+    console.log(
+      `  🎉 Injected the missing test-case${pluralSuffix} into "${ctx.testFileRelative}"`
+    )
+    return
+  }
 
   const { action } = await prompts({
     type: 'select',

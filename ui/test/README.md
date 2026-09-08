@@ -50,6 +50,10 @@ $ pnpm test:specs --target <target_file>
 #   $ pnpm test:specs -t QBtn
 #   $ pnpm test:specs -t use-btn
 #   $ pnpm test:specs -t composable
+
+# Non-interactive (agents, scripts): create the file and inject every
+# missing test-case without prompting; exits 1 only on validation errors
+$ pnpm test:specs:accept --target <target_file>
 ```
 
 2. Edit the file, gradually removing the `.todo` suffix from the `test()` calls. Do not leave any `.todo()` or `.skip()` modifiers for all describe/test calls.
@@ -107,6 +111,9 @@ $ pnpm test:specs --target <target_file>
 # ...and it will prompt you to add
 # the missing tests or to add ignore statements
 # (and you can handle each of the issues separately)
+
+# ...or accept all of them without prompting:
+$ pnpm test:specs:accept --target <target_file>
 ```
 
 2. Edit the file, gradually removing the `.todo` suffix from the `test()` calls. Do not leave any `.todo()` or `.skip()` modifiers for all describe/test calls after you finish.
@@ -232,6 +239,11 @@ $ pnpm test:specs --dry-run
 
 # also do a test for existing files:
 $ pnpm test:specs:check
+# ...it should not output any errors
+
+# and the non-interactive accept mode, which must not
+# modify or create any file on a clean tree:
+$ pnpm test:specs:accept
 # ...it should not output any errors
 ```
 

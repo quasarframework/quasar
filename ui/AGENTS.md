@@ -7,11 +7,13 @@ Supplements the repo-root `AGENTS.md`. Run all commands from `/ui`, not
 
 Read `test/README.md` before creating or editing `src/**/*.test.js`.
 
-1. `pnpm test:specs --target <source_file>` (no extension); use a subpath
-   relative to `/ui/src` when a filename is ambiguous (`utils/date/date`,
-   not `date`).
-2. Accept every required case the Specs script offers; never skip or
-   ignore one merely to pass validation.
+1. `pnpm test:specs:accept --target <source_file>` (no extension); use a
+   subpath relative to `/ui/src` when a filename is ambiguous
+   (`utils/date/date`, not `date`). `--accept` creates the missing test
+   file and injects every missing test-case without prompting (the
+   interactive `pnpm test:specs` exits 1 at its first prompt without a
+   TTY); it still exits 1 on validation errors, which you must fix.
+2. Never delete or ignore a generated case merely to pass validation.
 3. Replace every generated `test.todo()` with a real behavioral test; no
    `.todo()`/`.skip()` may remain on any `describe()`/`test()`.
 4. Preserve the generated `describe()` statements and identifiers; align
@@ -21,8 +23,8 @@ Read `test/README.md` before creating or editing `src/**/*.test.js`.
    any test file.
 
 If the Specs script itself changes, also run the extra validation from
-`test/README.md`: `pnpm test:specs --dry-run`, `pnpm test:specs:check`,
-then root `pnpm test`.
+`test/README.md`: `pnpm test:specs --dry-run`, `pnpm test:specs:check`
+and `pnpm test:specs:accept` (must leave a clean tree untouched).
 
 ### Test design
 

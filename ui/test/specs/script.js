@@ -7,10 +7,12 @@ function showHelp() {
 
   Usage
     $ specs [--check] [-t <target>] [-g <json.path>]
+    $ specs [--accept] [-t <target>]
     $ specs [-t <target>] [-g <json.path>]
     $ specs [-d] [-t <target>]
 
     $ specs --check
+    $ specs --accept -t QIcon
 
     $ specs -t QIcon
     $ specs -t components
@@ -27,6 +29,10 @@ function showHelp() {
     --dry-run, -d       Dry-run test for create + validate (no output to files)
     --check, -c         Validate only: never prompt, never write, exit 1 on
                            the first problem (what "pnpm test" runs)
+    --accept, -a        Never prompt: create every missing test file and
+                           inject every missing test-case (as test.todo),
+                           exit 1 only on validation errors; meant for
+                           agents and other non-interactive runs
     --help, -h          Show this help message
   `)
   process.exit(0)
@@ -42,6 +48,7 @@ const { values, positionals } = parseArgs({
     // former name of --check; kept accepted so that muscle memory and
     // any out-of-tree invocation don't hit the strict-parse error
     ci: { type: 'boolean', default: false },
+    accept: { type: 'boolean', short: 'a', default: false },
     'dry-run': { type: 'boolean', short: 'd', default: false },
     help: { type: 'boolean', short: 'h' }
   },
@@ -52,6 +59,11 @@ const { values, positionals } = parseArgs({
 const argv = { ...values, _: positionals }
 if (argv.help) showHelp()
 if (argv.ci === true) argv.check = true
+
+if (argv.check === true && argv.accept === true) {
+  console.error('--check and --accept are mutually exclusive')
+  process.exit(1)
+}
 
 import { ensureFreshBuild } from '../../build/build-stamp.js'
 
@@ -104,7 +116,8 @@ for (const target of targetList) {
     // check mode never prompts, so report instead of offering to generate
     missingTestFileList.push(ctx)
   } else if (
-    (await cmdCreateTestFile({ ctx, testFile, ignoredTestFiles })) !== true
+    (await cmdCreateTestFile({ ctx, testFile, ignoredTestFiles, argv })) !==
+    true
   ) {
     missingTestFileList.push(ctx)
   }

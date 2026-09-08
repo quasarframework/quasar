@@ -2,11 +2,22 @@ import fse from 'fs-extra'
 import prompts from 'prompts'
 
 /**
- * Creates a test file (does NOT run in CI mode).
+ * Creates a test file (does NOT run in --check mode).
  * Returns true if the target ended up with a test file
  * or was added to the ignore list.
  */
-export async function cmdCreateTestFile({ ctx, testFile, ignoredTestFiles }) {
+export async function cmdCreateTestFile({
+  ctx,
+  testFile,
+  ignoredTestFiles,
+  argv
+}) {
+  if (argv.accept === true) {
+    fse.writeFileSync(ctx.testFileAbsolute, testFile.createContent(), 'utf8')
+    console.log(`  🎉 Created "${ctx.testFileRelative}"`)
+    return true
+  }
+
   const { action } = await prompts({
     type: 'select',
     name: 'action',

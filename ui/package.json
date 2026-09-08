@@ -98,6 +98,7 @@
     "test:watch:ui": "vitest watch --ui -c test/vitest.config.js",
     "test:specs": "node ./test/specs/script.js",
     "test:specs:check": "node ./test/specs/script.js --check",
+    "test:specs:accept": "node ./test/specs/script.js --accept",
     "prepublishOnly": "pnpm build && pnpm test"
   },
   "devDependencies": {
