@@ -345,7 +345,11 @@ export default /*#__PURE__*/ createComponent({
           void 0,
           {
             [dir]: true,
-            mouse: true
+            mouse: true,
+            // the strip sits on the screen edge, where iOS Safari runs
+            // its back/forward navigation swipe; cancelling the detected
+            // pan's touchmove is what keeps the browser out of it
+            prevent: true
           }
         ]
       ]
@@ -385,7 +389,10 @@ export default /*#__PURE__*/ createComponent({
           {
             [dir]: true,
             mouse: true,
-            mouseAllDir: true
+            mouseAllDir: true,
+            // the backdrop reaches the opposite screen edge, see the
+            // opener directive
+            prevent: true
           }
         ]
       ]

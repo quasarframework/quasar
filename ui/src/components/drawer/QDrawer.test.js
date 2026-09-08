@@ -3,6 +3,7 @@ import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import { defineComponent, h, onMounted, onUnmounted } from 'vue'
 
 import { getRouter } from 'testing/runtime/router.js'
+import { client } from '../../plugins/platform/Platform.js'
 import Screen from '../../plugins/screen/Screen.js'
 import QLayout from '../layout/QLayout.js'
 import QDrawer from './QDrawer.js'
@@ -126,6 +127,29 @@ async function mountReadyDrawer(drawerProps, slots, mountOptions) {
   const wrapper = mountDrawer(drawerProps, slots, mountOptions)
   await settle()
   return wrapper
+}
+
+/**
+ * A one-finger touch pan on an element, resolving to the touchmove so
+ * the test can see whether the gesture cancelled it.
+ */
+function touchPan(el, x, y) {
+  const touch = (type, clientX = 0, clientY = 0) =>
+    new TouchEvent(type, {
+      bubbles: true,
+      cancelable: true,
+      touches:
+        type === 'touchend'
+          ? []
+          : [new Touch({ identifier: 1, target: el, clientX, clientY })]
+    })
+
+  el.dispatchEvent(touch('touchstart'))
+  const move = touch('touchmove', x, y)
+  el.dispatchEvent(move)
+  el.dispatchEvent(touch('touchend'))
+
+  return move
 }
 
 /**
@@ -975,6 +999,34 @@ describe('[QDrawer API]', () => {
       expect(getDrawer(wrapper).element.__qtouchpan.handler).toBeUndefined()
       expect(getDrawer(wrapper).classes()).toContain('q-drawer--standard')
       expect(counters).toEqual({ setup: 1, mounted: 1, unmounted: 0 })
+    })
+
+    // the opener strip and the backdrop both reach a screen edge, where
+    // iOS Safari runs its back/forward navigation swipe alongside any
+    // page gesture unless the page cancels the touchmove once the pan is
+    // detected; a vertical move is left alone so the page still scrolls
+    test('cancels the detected horizontal touch pan on the opener and the backdrop', async () => {
+      client.has.touch = true
+
+      try {
+        const wrapper = await mountReadyDrawer({
+          behavior: 'mobile',
+          modelValue: true
+        })
+        const opener = wrapper.get('.q-drawer__opener').element
+        const backdrop = wrapper.get('.q-drawer__backdrop').element
+
+        expect(touchPan(backdrop, -30, 5).defaultPrevented).toBe(true)
+        expect(touchPan(backdrop, 5, 30).defaultPrevented).toBe(false)
+
+        await setDrawerProps(wrapper, { behavior: 'mobile', modelValue: false })
+        await settle()
+
+        expect(touchPan(opener, 30, 5).defaultPrevented).toBe(true)
+        expect(touchPan(opener, 5, 30).defaultPrevented).toBe(false)
+      } finally {
+        client.has.touch = false
+      }
     })
 
     // a drawer opened below the breakpoint locks the body scroll; the
