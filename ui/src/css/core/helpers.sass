@@ -34,8 +34,13 @@
 
 // iOS pans the page by touch no matter how the viewport is clipped, so
 // there the body gets pinned in place instead -- at the cost of sticky
-// content, which cannot stick inside a fixed subtree
+// content, which cannot stick inside a fixed subtree.
+// The pinned body leaves the flow, which would collapse the root element
+// to 0 height; a body background propagates to the canvas with the ROOT
+// box as its positioning area, so a gradient or cover-sized image would
+// stop painting and expose a blank canvas behind the popup (#16799)
 .q-document--pin-body
+  min-height: 100%
   body
     position: fixed !important
 

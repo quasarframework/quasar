@@ -162,6 +162,27 @@ describe('[preventScroll API]', () => {
         expect(document.body.style.top).toBe('-180px')
       })
 
+      test('keeps the root element as tall as the viewport while the body is pinned', () => {
+        // a pinned body leaves the flow; the root element must not collapse,
+        // since a body background propagates to the canvas with the root box
+        // as its positioning area (a gradient or cover-sized image would
+        // vanish, exposing a blank canvas behind the popup)
+        mockPlatform({ ios: true, nativeMobile: false })
+        makeDocumentScrollable()
+
+        preventScroll(true)
+
+        expect(document.documentElement.getBoundingClientRect().height).toBe(
+          window.innerHeight
+        )
+
+        preventScroll(false)
+
+        expect(
+          document.documentElement.getBoundingClientRect().height
+        ).toBeGreaterThan(window.innerHeight)
+      })
+
       test('restores the previous body offsets and scroll position', async () => {
         // only the pinned (iOS) lock can lose the position: the body leaves
         // the flow, so the browser clamps the page to the top
