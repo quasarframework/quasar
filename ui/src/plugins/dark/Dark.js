@@ -1,4 +1,10 @@
+import { isRuntimeSsrPreHydration } from '../platform/Platform.js'
 import { createReactivePlugin } from '../../utils/private.create/create.js'
+
+// the server cannot know the client's color scheme, so it renders 'auto'
+// as light and marks the <body> with this attribute; the client hydrates
+// in that same (light) state and only resolves 'auto' once it takes over
+const ssrAutoAttr = 'data-dark-auto'
 
 const Plugin = /*#__PURE__*/ createReactivePlugin(
   {
@@ -37,18 +43,16 @@ const Plugin = /*#__PURE__*/ createReactivePlugin(
       if (!__QUASAR_SSR_SERVER__) Plugin.set(!Plugin.isActive)
     },
 
-    install({ $q, ssrContext }) {
-      const dark = __QUASAR_SSR_CLIENT__
-        ? document.body.classList.contains('body--dark')
-        : $q.config.dark
-
+    install({ $q, ssrContext, onSSRHydrated }) {
       if (__QUASAR_SSR_SERVER__) {
+        const dark = $q.config.dark
+
         this.isActive = dark === true
 
         $q.dark = {
           isActive: false,
           mode: false,
-          set: val => {
+          set(val) {
             ssrContext._meta.bodyClasses =
               ssrContext._meta.bodyClasses
                 .replace(' body--light', '')
@@ -58,20 +62,58 @@ const Plugin = /*#__PURE__*/ createReactivePlugin(
             $q.dark.isActive = val === true
             $q.dark.mode = val
           },
-          toggle: () => {
+          toggle() {
             $q.dark.set(!$q.dark.isActive)
           }
         }
 
         $q.dark.set(dark)
+
+        // after the render: App.vue may still switch to an explicit
+        // value (e.g. from a cookie), which then needs no client
+        // resolution
+        ssrContext.onRendered(() => {
+          if ($q.dark.mode === 'auto') {
+            const meta = ssrContext._meta
+            meta.bodyAttrs +=
+              (meta.bodyAttrs.length !== 0 ? ' ' : '') + ssrAutoAttr
+          }
+        })
+
         return
       }
 
       $q.dark = this
 
-      if (!this.__installed) {
-        this.set(dark !== void 0 ? dark : false)
+      if (this.__installed) return
+
+      // a PWA shell boot (no server markup) starts from the config,
+      // like an SPA does
+      if (isRuntimeSsrPreHydration.value) {
+        if (document.body.hasAttribute(ssrAutoAttr)) {
+          // hydrate in the server's state (light markup and body class)
+          this.mode = 'auto'
+
+          onSSRHydrated.push(() => {
+            document.body.removeAttribute(ssrAutoAttr)
+
+            // unless the app already picked an explicit value meanwhile
+            if (this.mode === 'auto') {
+              this.set('auto')
+            }
+          })
+
+          return
+        }
+
+        // the server-emitted body class is the state the markup was
+        // rendered in (the config may have been overridden server-side,
+        // e.g. from a cookie)
+        this.set(document.body.classList.contains('body--dark'))
+        return
       }
+
+      this.set($q.config.dark ?? false)
     }
   }
 )

@@ -83,7 +83,7 @@ Dark.toggle()
 When on a SSR/SSG build:
 
 - Import `Dark` from 'quasar' method of using Dark mode will not error out but it will not work (won't do anything). But, you can use the [Inside of a Vue file](/quasar-plugins/dark#inside-of-a-vue-file) approach or the [Configuration](/quasar-plugins/dark#configuration) (recommended) approach.
-- It's preferred to avoid setting Dark mode to 'auto' for SSR/SSG builds. It's because the client dark mode preference cannot be inferred, so SSR/SSG will always render in light mode then when the client takes over, it will switch to Dark (if it will be the case). As a result, a quick flicker of the screen will occur.
+- The server cannot know the client's color scheme preference. With Dark mode set to `'auto'`, the page is rendered in light mode and the client resolves `'auto'` (and starts tracking the `prefers-color-scheme` media query) as soon as it takes over. Users preferring dark mode will see a quick light flash as a result. If you can know the preference server-side (e.g. from a cookie), prefer calling `$q.dark.set()` with it from `/src/App.vue` as shown above: the whole page then renders in the right mode from the start.
 
 ## Watching for status change
 

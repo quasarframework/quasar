@@ -8,7 +8,7 @@
   "quasarConfOptions": {
     "propName": "dark",
     "type": ["Boolean", "String"],
-    "desc": "\"'auto'\" uses the OS/browser preference. \"true\" forces dark mode. \"false\" forces light mode.",
+    "desc": "\"'auto'\" uses the OS/browser preference (on SSR/SSG builds it is resolved by the client once it takes over, the server rendering in light mode). \"true\" forces dark mode. \"false\" forces light mode.",
     "values": ["'auto'", "true", "false"]
   },
 

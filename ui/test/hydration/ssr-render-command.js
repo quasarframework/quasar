@@ -40,9 +40,15 @@ export async function ssrRender(_ctx, fixturesPath, exportName, userAgent) {
     )
   }
 
+  // like the webservers: the onRendered hooks (plugins such as Dark
+  // amend the body attributes from them) run once the render is done
+  const onRenderedList = []
   const ssrContext = {
     req: { headers: { 'user-agent': userAgent }, url: '/' },
-    res: {}
+    res: {},
+    onRendered: fn => {
+      onRenderedList.push(fn)
+    }
   }
 
   const app = createSSRApp(fixture)
@@ -53,6 +59,10 @@ export async function ssrRender(_ctx, fixturesPath, exportName, userAgent) {
   }
 
   const html = await renderToString(app, ssrContext)
+
+  onRenderedList.forEach(fn => {
+    fn()
+  })
 
   // what a real SSR webserver renders into the <html>/<body> tags —
   // plugins like Dark read it back on the client instead of the
