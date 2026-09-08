@@ -1,5 +1,4 @@
 import {
-  Transition,
   computed,
   getCurrentInstance,
   h,
@@ -196,8 +195,6 @@ const afterProps = {
   class: 'q-field__after q-field__marginal row no-wrap items-center',
   onClick: prevent
 }
-
-const messageTransitionProps = { name: 'q-transition--field-message' }
 
 const noErrorAriaAttrs = {}
 
@@ -676,6 +673,13 @@ export default function useField(state) {
     return node.concat(hSlot(slots.default))
   }
 
+  // the messages element is keyed by its content, so a hint/error swap
+  // re-creates it and the enter keyframe runs on that insertion alone;
+  // the initial render gets no animation class so nothing animates on
+  // page load (and no layer gets promoted per field)
+  let messageKey = null
+  let animateMessage = false
+
   function getBottom() {
     let msg, key
 
@@ -703,15 +707,10 @@ export default function useField(state) {
       return
     }
 
-    const main = h(
-      'div',
-      {
-        key,
-        id: hasError.value === true ? errorMessageId.value : void 0,
-        class: 'q-field__messages col'
-      },
-      msg
-    )
+    if (key !== messageKey) {
+      animateMessage = messageKey !== null
+      messageKey = key
+    }
 
     return h(
       'div',
@@ -722,9 +721,19 @@ export default function useField(state) {
         onClick: prevent
       },
       [
-        props.hideBottomSpace
-          ? main
-          : h(Transition, messageTransitionProps, () => main),
+        h(
+          'div',
+          {
+            key,
+            id: hasError.value === true ? errorMessageId.value : void 0,
+            class:
+              'q-field__messages col' +
+              (animateMessage && !props.hideBottomSpace
+                ? ' q-field__messages--animated'
+                : '')
+          },
+          msg
+        ),
 
         hasCounter
           ? h(

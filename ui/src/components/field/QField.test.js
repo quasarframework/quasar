@@ -270,6 +270,24 @@ describe('[QField API]', () => {
 
         expect(wrapper.get('.q-field__messages').text()).toBe(propVal)
       })
+
+      test('animates a message swap but not the initial render', async () => {
+        const wrapper = mountField({ hint: 'Some hint' })
+        const getMessages = () => wrapper.get('.q-field__messages')
+
+        expect(getMessages().classes()).not.toContain(
+          'q-field__messages--animated'
+        )
+
+        await wrapper.setProps({ hint: 'Another hint' })
+
+        expect(getMessages().classes()).toContain('q-field__messages--animated')
+
+        await wrapper.setProps({ error: true, errorMessage: 'Some error' })
+
+        expect(getMessages().text()).toBe('Some error')
+        expect(getMessages().classes()).toContain('q-field__messages--animated')
+      })
     })
 
     describe('[(prop)hide-hint]', () => {
@@ -492,6 +510,13 @@ describe('[QField API]', () => {
 
         expect(wrapper.classes()).not.toContain('q-field--with-bottom')
         expect(getBottom(wrapper).classes()).toContain('q-field__bottom--stale')
+
+        // no message animation either
+        await wrapper.setProps({ hint: 'Another hint' })
+
+        expect(wrapper.get('.q-field__messages').classes()).not.toContain(
+          'q-field__messages--animated'
+        )
       })
     })
 

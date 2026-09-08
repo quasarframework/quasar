@@ -48,6 +48,9 @@ $field-transition-label-right-up: .324s cubic-bezier(.4,0,.2,1)
   &__messages
     line-height: 1
 
+    &--animated
+      animation: q-field-message .6s cubic-bezier(.86,0,.07,1)
+
     > div
       word-break: break-word
       word-wrap: break-word
@@ -508,17 +511,10 @@ $field-transition-label-right-up: .324s cubic-bezier(.4,0,.2,1)
   &--square .q-field__control
     border-radius: 0 !important
 
-.q-transition--field-message
-  &-enter-active,
-  &-leave-active
-    transition: transform .6s cubic-bezier(.86,0,.07,1), opacity .6s cubic-bezier(.86,0,.07,1)
-
-  &-enter-from, &-leave-to
+@keyframes q-field-message
+  from
     opacity: 0
     transform: translateY(-10px)
-
-  &-leave-from, &-leave-active
-    position: absolute
 
 @keyframes q-field-label
   40%
