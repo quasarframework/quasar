@@ -145,6 +145,9 @@ export interface QuasarLanguage {
       date: Date,
       model: { year: number; month: number; day: number }
     ) => string;
+    // receives the ASCII digit string QDate/QTime would display
+    // ("5", "05", "1403") and returns it in the locale's digits
+    formatNumber?: (value: string) => string;
   };
   table: StringDictionary<QuasarLanguageTableLabel> & {
     selectedRecords: (rows: number) => string;

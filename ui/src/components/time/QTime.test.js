@@ -163,6 +163,50 @@ describe('[QTime API]', () => {
 
         expect(getHourLink(defaultWrapper).text()).toBe('--')
       })
+
+      test('formatNumber renders the header and the clock in its digits', async () => {
+        const formatNumber = value =>
+          value.replaceAll(/\d/g, digit => 'abcdefghij'[digit])
+        const wrapper = mountTime({ locale: { formatNumber } })
+
+        expect(getHourLink(wrapper).text()).toBe(formatNumber('10'))
+        expect(getMinuteLink(wrapper).text()).toBe(formatNumber('30'))
+
+        // the accessible value stays numeric
+        expect(getHourLink(wrapper).attributes('aria-valuenow')).toBe('10')
+
+        // the 12-hour clock face: 12, then 1 through 11
+        expect(getPositions(wrapper).map(pos => pos.text())).toEqual(
+          Array.from({ length: 12 }, (_, index) =>
+            formatNumber(String(index === 0 ? 12 : index))
+          )
+        )
+
+        // the model stays ASCII
+        await pressArrowRight(getHourLink(wrapper))
+        expect(wrapper.emitted('update:modelValue')[0][0]).toBe('11:30')
+
+        // an unset unit keeps its placeholder
+        const withSeconds = mountTime({
+          withSeconds: true,
+          locale: { formatNumber }
+        })
+        expect(getSecondLink(withSeconds).text()).toBe('--')
+      })
+
+      test('formatNumber keeps the zero padding', () => {
+        const formatNumber = value =>
+          value.replaceAll(/\d/g, digit => 'abcdefghij'[digit])
+        const wrapper = mountTime({
+          modelValue: '05:07',
+          format24h: true,
+          locale: { formatNumber }
+        })
+
+        expect(getHourLink(wrapper).text()).toBe(formatNumber('05'))
+        expect(getMinuteLink(wrapper).text()).toBe(formatNumber('07'))
+        expect(getPositions(wrapper)[0].text()).toBe(formatNumber('00'))
+      })
     })
 
     describe('[(prop)calendar]', () => {

@@ -167,6 +167,15 @@ export default /*#__PURE__*/ createComponent({
     const mask = computed(() => getMask())
     const locale = computed(() => getLocale())
 
+    // display-only: the model string and stringModel (which feeds
+    // aria-valuenow) stay ASCII
+    function fmtNum(value) {
+      const str = String(value)
+      return locale.value.formatNumber !== void 0
+        ? locale.value.formatNumber(str)
+        : str
+    }
+
     const defaultDateModel = computed(() => getDefaultDateModel())
 
     const model = __splitDate(
@@ -218,6 +227,17 @@ export default /*#__PURE__*/ createComponent({
                 ),
         minute: time.minute === null ? '--' : pad(time.minute),
         second: time.second === null ? '--' : pad(time.second)
+      }
+    })
+
+    const displayModel = computed(() => {
+      const units = stringModel.value
+      const format = value => (value === '--' ? value : fmtNum(value))
+
+      return {
+        hour: format(units.hour),
+        minute: format(units.minute),
+        second: format(units.second)
       }
     })
 
@@ -954,7 +974,7 @@ export default /*#__PURE__*/ createComponent({
             onKeydown: onKeydownHour,
             onKeyup: onKeyupHour
           },
-          stringModel.value.hour
+          displayModel.value.hour
         ),
 
         h('div', ':'),
@@ -979,7 +999,7 @@ export default /*#__PURE__*/ createComponent({
                 onClick: setView.minute
               }
             : { class: 'q-time__link' },
-          stringModel.value.minute
+          displayModel.value.minute
         )
       ]
 
@@ -1007,7 +1027,7 @@ export default /*#__PURE__*/ createComponent({
                   onClick: setView.second
                 }
               : { class: 'q-time__link' },
-            stringModel.value.second
+            displayModel.value.second
           )
         )
       }
@@ -1143,7 +1163,7 @@ export default /*#__PURE__*/ createComponent({
                                           ? ' q-time__clock-position--disable'
                                           : '')
                                   },
-                                  [h('span', pos.label)]
+                                  [h('span', fmtNum(pos.label))]
                                 )
                               )
                             ])

@@ -3,6 +3,7 @@ import { describe, expect, test } from 'vitest'
 import { nextTick } from 'vue'
 
 import langEn from '../../../lang/en-US.js'
+import langFa from '../../../lang/fa-IR.js'
 import QDate from './QDate.js'
 
 // a Wednesday-starting month with 28 days, so that the calendar
@@ -207,6 +208,61 @@ describe('[QDate API]', () => {
         const wrapper = mountDate({ locale: propVal })
 
         expect(getNavButton(wrapper, 'month').text()).toBe('Februarie')
+      })
+
+      test('formatNumber renders every displayed number in its digits', async () => {
+        const formatNumber = value =>
+          value.replaceAll(/\d/g, digit => 'abcdefghij'[digit])
+        const wrapper = mountDate({ locale: { formatNumber } })
+
+        expect(getDayCells(wrapper).map(cell => cell.text())).toEqual(
+          Array.from({ length: 28 }, (_, index) =>
+            formatNumber(String(index + 1))
+          )
+        )
+        expect(getNavButton(wrapper, 'year').text()).toBe(formatNumber('1995'))
+        expect(getSubtitle(wrapper).text()).toBe(formatNumber('1995'))
+        expect(getTitle(wrapper).text()).toBe(`Thu, Feb ${formatNumber('23')}`)
+
+        const selected = wrapper.find(
+          '.q-date__calendar-days .q-btn.bg-primary'
+        )
+        expect(selected.attributes('aria-label')).toBe(
+          `${formatNumber('23')} ${langEn.date.months[1]} ${formatNumber('1995')}`
+        )
+
+        await wrapper.setProps({
+          multiple: true,
+          modelValue: ['1995/02/23', '1995/02/24']
+        })
+        expect(getTitle(wrapper).text()).toBe(
+          `${formatNumber('2')} ${langEn.date.pluralDay}`
+        )
+
+        wrapper.vm.setView('Years')
+        await nextTick()
+        expect(
+          wrapper.findAll('.q-date__years .q-btn').map(btn => btn.text())
+        ).toContain(formatNumber('1995'))
+      })
+
+      test('formatNumber never reaches the model', async () => {
+        const formatNumber = value =>
+          value.replaceAll(/\d/g, digit => 'abcdefghij'[digit])
+        const wrapper = mountDate({ locale: { formatNumber } })
+
+        await getDayBtn(wrapper, formatNumber('10')).trigger('click')
+
+        const [value, , details] = wrapper.emitted('update:modelValue')[0]
+        expect(value).toBe('1995/02/10')
+        expect(details).toStrictEqual({ year: 1995, month: 2, day: 10 })
+      })
+
+      test('the fa-IR pack renders Persian digits', () => {
+        const wrapper = mountDate({ locale: langFa.date })
+
+        expect(getDayCell(wrapper, '۲۳')).toBeDefined()
+        expect(getSubtitle(wrapper).text()).toBe('۱۹۹۵')
       })
     })
 

@@ -10,7 +10,7 @@ import {
 
 // en-US is the canonical language-pack shape. These optional paths are
 // supported by runtime/types even though en-US does not need to declare them.
-const optionalPaths = new Set(['rtl', 'date.headerTitle'])
+const optionalPaths = new Set(['rtl', 'date.headerTitle', 'date.formatNumber'])
 
 // Keep old import paths working while advertising standards-compliant tags.
 // Remove these aliases in Quasar v3.
@@ -70,7 +70,10 @@ const stringProbes = {
 }
 
 const pathProbes = {
-  'date.headerTitle': [[new Date(2000, 0, 1), { year: 2000, month: 1, day: 1 }]]
+  'date.headerTitle': [
+    [new Date(2000, 0, 1), { year: 2000, month: 1, day: 1 }]
+  ],
+  'date.formatNumber': [['0'], ['05'], ['1403']]
 }
 
 // Machine-translation batches leave debris that no shape check can see:

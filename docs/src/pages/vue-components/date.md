@@ -198,7 +198,7 @@ More info: [QInput](/vue-components/input).
 
 ### Persian calendar
 
-You have to set `calendar` to `persian` to use this feature .
+You have to set `calendar` to `persian` to use this feature.
 
 ::: tip
 You can couple this with a Quasar [language pack](/options/quasar-language-packs) such as Persian (Farsi, `fa-IR`) to have the QDate strings translated too, for the full experience.
@@ -208,7 +208,22 @@ You can couple this with a Quasar [language pack](/options/quasar-language-packs
 When using the persian calendar, the mask for QDate is forced to `YYYY/MM/DD`.
 :::
 
-<q-btn href="https://codepen.io/rstoenescu/pen/MWKpbNa" target="_blank" label="See example" icon-right="launch" rel="noopener noreferrer" />
+<DocExample title="Persian calendar" file="Persian" overflow />
+
+#### Localized digits <q-badge label="v2.31+" />
+
+The day and year numbers that QDate displays (calendar cells, navigation, header, years view) follow the `date.formatNumber` function of the active language pack, or of the `locale` prop, when one is defined. The `fa` and `fa-IR` packs define it to render Persian digits, as the example above shows. The model always keeps ASCII digits (`1397/08/12`).
+
+Any language pack or ad-hoc locale can opt in. The function receives the ASCII digit string that would be displayed (zero-padded where QTime pads it) and returns its localized rendering:
+
+```js
+const myLocale = {
+  // ...the other locale fields
+  formatNumber: value => value.replace(/\d/g, digit => '০১২৩৪৫৬৭৮৯'[digit]) // Bengali digits
+}
+```
+
+[QTime](/vue-components/time#custom-ad-hoc-locale) honors the same function for its header and clock face.
 
 ### Native form submit
 

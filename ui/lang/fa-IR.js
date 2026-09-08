@@ -1,4 +1,7 @@
 const days = 'یکشنبه_دوشنبه_سه‌شنبه_چهارشنبه_پنجشنبه_جمعه_شنبه'.split('_')
+const persianDigits = '۰۱۲۳۴۵۶۷۸۹'
+const formatNumber = value =>
+  value.replaceAll(/\d/g, digit => persianDigits[digit])
 const monthsShort =
   'فروردین_اردیبهشت_خرداد_تیر_مرداد_شهریور_مهر_آبان_آذر_دی_بهمن_اسفند'.split(
     '_'
@@ -39,7 +42,8 @@ export default {
       ),
     monthsShort,
     headerTitle: (date, model) =>
-      `${days[date.getDay()]}، ${model.day} ${monthsShort[model.month - 1]}`,
+      `${days[date.getDay()]}، ${formatNumber(String(model.day))} ${monthsShort[model.month - 1]}`,
+    formatNumber,
     firstDayOfWeek: 6,
     format24h: true,
     pluralDay: 'روز',

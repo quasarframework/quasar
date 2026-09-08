@@ -149,6 +149,14 @@ export default /*#__PURE__*/ createComponent({
     const innerMask = ref(getMask())
     const innerLocale = ref(getLocale())
 
+    // display-only: the model string and every hash stay ASCII
+    function fmtNum(value) {
+      const str = String(value)
+      return innerLocale.value.formatNumber !== void 0
+        ? innerLocale.value.formatNumber(str)
+        : str
+    }
+
     // roving tabindex for the calendar days: the day that currently
     // owns the grid's single Tab stop, and the day to focus after a
     // keyboard-initiated month/year jump re-renders the view
@@ -300,7 +308,7 @@ export default /*#__PURE__*/ createComponent({
           ', ' +
           innerLocale.value.monthsShort[model.month - 1] +
           ' ' +
-          model.day +
+          fmtNum(model.day) +
           lineStr +
           '?'
         )
@@ -309,7 +317,7 @@ export default /*#__PURE__*/ createComponent({
       if (daysInModel.value === 0) return lineStr
 
       if (daysInModel.value > 1) {
-        return `${daysInModel.value} ${innerLocale.value.pluralDay}`
+        return `${fmtNum(daysInModel.value)} ${innerLocale.value.pluralDay}`
       }
 
       const model = daysModel.value[0]
@@ -326,7 +334,7 @@ export default /*#__PURE__*/ createComponent({
         ', ' +
         innerLocale.value.monthsShort[model.month - 1] +
         ' ' +
-        model.day
+        fmtNum(model.day)
       )
     })
 
@@ -369,16 +377,16 @@ export default /*#__PURE__*/ createComponent({
         return (
           month[from.month - 1] +
           (from.year !== to.year
-            ? ' ' + from.year + lineStr + month[to.month - 1] + ' '
+            ? ' ' + fmtNum(from.year) + lineStr + month[to.month - 1] + ' '
             : from.month !== to.month
               ? lineStr + month[to.month - 1]
               : '') +
           ' ' +
-          to.year
+          fmtNum(to.year)
         )
       }
 
-      return daysModel.value[0].year
+      return fmtNum(daysModel.value[0].year)
     })
 
     const dateArrow = computed(() => {
@@ -1484,7 +1492,7 @@ export default /*#__PURE__*/ createComponent({
                   cls: ' col'
                 }),
                 ...getNavigation({
-                  label: viewModel.value.year,
+                  label: fmtNum(viewModel.value.year),
                   type: 'Years',
                   key: viewModel.value.year,
                   dir: yearDirection.value,
@@ -1536,7 +1544,7 @@ export default /*#__PURE__*/ createComponent({
                                   unelevated: day.unelevated,
                                   color: day.color,
                                   textColor: day.textColor,
-                                  label: day.i,
+                                  label: fmtNum(day.i),
                                   tabindex:
                                     day.i === roverDay.value
                                       ? tabindex.value
@@ -1545,7 +1553,7 @@ export default /*#__PURE__*/ createComponent({
                                     day.i === roverDay.value
                                       ? roverRef
                                       : void 0,
-                                  'aria-label': `${day.i} ${innerLocale.value.months[viewModel.value.month - 1]} ${viewModel.value.year}`,
+                                  'aria-label': `${fmtNum(day.i)} ${innerLocale.value.months[viewModel.value.month - 1]} ${fmtNum(viewModel.value.year)}`,
                                   'aria-pressed':
                                     day.selected === true ||
                                     day.range !== void 0
@@ -1572,7 +1580,7 @@ export default /*#__PURE__*/ createComponent({
                                   ? () => h('div', { class: day.event })
                                   : null
                               )
-                            : h('div', String(day.i))
+                            : h('div', fmtNum(day.i))
                         ])
                       )
                     )
@@ -1630,7 +1638,7 @@ export default /*#__PURE__*/ createComponent({
           content.unshift(
             h('div', { class: 'row no-wrap full-width' }, [
               getNavigation({
-                label: viewModel.value.year,
+                label: fmtNum(viewModel.value.year),
                 type: 'Years',
                 key: viewModel.value.year,
                 dir: yearDirection.value,
@@ -1678,7 +1686,7 @@ export default /*#__PURE__*/ createComponent({
                       ? 'q-date__today'
                       : null,
                   flat: !active,
-                  label: i,
+                  label: fmtNum(i),
                   dense: true,
                   unelevated: active,
                   color: active ? computedColor.value : null,
