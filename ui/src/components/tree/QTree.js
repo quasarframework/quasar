@@ -11,14 +11,11 @@ import {
   provide,
   ref,
   shallowRef,
-  vShow,
-  watch,
-  withDirectives
+  watch
 } from 'vue'
 
 import QIcon from '../icon/QIcon.js'
 import QCheckbox from '../checkbox/QCheckbox.js'
-import QSlideTransition from '../slide-transition/QSlideTransition.js'
 import QSpinner from '../spinner/QSpinner.js'
 
 import {
@@ -27,6 +24,7 @@ import {
 } from '../virtual-scroll/use-virtual-scroll.js'
 
 import useQuasar from '../../composables/use-quasar/use-quasar.js'
+import useSlideTransition from '../../composables/private.use-slide-transition/use-slide-transition.js'
 import useDark, {
   useDarkProps
 } from '../../composables/private.use-dark/use-dark.js'
@@ -44,6 +42,8 @@ const treeCtxKey = Symbol('QTree')
 // one instance per node so that a state change re-renders only the
 // affected nodes; all of the logic lives in QTree's setup and comes
 // in through the injected context
+const hiddenStyle = { display: 'none' }
+
 const QTreeNode = createComponent({
   name: 'QTreeNode',
 
@@ -56,7 +56,9 @@ const QTreeNode = createComponent({
 
   setup(props) {
     const ctx = inject(treeCtxKey)
-    return () => ctx.renderNode(props.node)
+    const collapsible = ctx.useCollapsible(props)
+
+    return () => ctx.renderNode(props.node, collapsible)
   }
 })
 
@@ -203,7 +205,10 @@ export default /*#__PURE__*/ createComponent({
     filter: String,
     filterMethod: Function,
 
-    duration: {},
+    duration: {
+      type: Number,
+      default: 300
+    },
     noConnectors: Boolean,
     noTransition: Boolean,
 
@@ -1166,12 +1171,49 @@ export default /*#__PURE__*/ createComponent({
       ).map(child => h(QTreeNode, { key: child[props.nodeKey], node: child }))
     }
 
-    function onShow() {
-      emit('afterShow')
+    function onSlideEnd(event) {
+      emit(event === 'show' ? 'afterShow' : 'afterHide')
     }
 
-    function onHide() {
-      emit('afterHide')
+    // the collapsible of one QTreeNode: its element, the settled
+    // visibility Vue binds display to, and the slide that moves it
+    // there (flipping the visibility once a hide completes)
+    function useCollapsible(nodeProps) {
+      const elRef = shallowRef(null)
+      const expanded = computed(
+        () => getMetaRef(nodeProps.node[props.nodeKey]).value?.expanded === true
+      )
+      const hidden = ref(!expanded.value)
+      const { onEnter, onLeave } = useSlideTransition(
+        () => props.duration,
+        onSlideEnd
+      )
+
+      function hide() {
+        hidden.value = true
+      }
+
+      function slide() {
+        if (elRef.value !== null) onEnter(elRef.value)
+      }
+
+      watch(expanded, val => {
+        if (props.noTransition) {
+          hidden.value = !val
+        } else if (!val) {
+          if (elRef.value !== null) onLeave(elRef.value, hide)
+          else hide()
+        } else if (hidden.value) {
+          // shown once Vue has dropped the display: none
+          hidden.value = false
+          nextTick(slide)
+        } else {
+          // reopened while still sliding shut
+          slide()
+        }
+      })
+
+      return { elRef, hidden }
     }
 
     // shared by the nested layout (renderNode) and the virtual scroll
@@ -1314,7 +1356,7 @@ export default /*#__PURE__*/ createComponent({
       )
     }
 
-    function renderNode(node) {
+    function renderNode(node, collapsible) {
       const key = node[props.nodeKey],
         m = getMetaRef(key).value,
         header = node.header
@@ -1328,8 +1370,9 @@ export default /*#__PURE__*/ createComponent({
       }
 
       // an expanded node needs its collapsible rendered; a revealed one
-      // keeps it (hidden through v-show) so it can still animate -- unless
-      // transitions are off, where collapsed content renders as null
+      // keeps it (display: none once collapsed) so it can still animate
+      // -- unless transitions are off, where collapsed content renders
+      // as null
       const showCollapsible =
         m.expanded || (props.noTransition !== true && revealedKeys.has(key))
 
@@ -1390,44 +1433,32 @@ export default /*#__PURE__*/ createComponent({
                     ]
                   )
                 : null
-              : h(
-                  QSlideTransition,
-                  {
-                    duration: props.duration,
-                    onShow,
-                    onHide
-                  },
-                  () =>
-                    showCollapsible
-                      ? withDirectives(
-                          h(
-                            'div',
-                            {
-                              class:
-                                'q-tree__node-collapsible' +
-                                textColorClass.value,
-                              key: `${key}__q`
-                            },
-                            [
-                              body,
-                              h(
-                                'div',
-                                {
-                                  class:
-                                    'q-tree__children' +
-                                    (m.disabled === true
-                                      ? ' q-tree__node--disabled'
-                                      : ''),
-                                  role: 'group'
-                                },
-                                children
-                              )
-                            ]
-                          ),
-                          [[vShow, m.expanded]]
-                        )
-                      : null
-                )
+              : showCollapsible
+                ? h(
+                    'div',
+                    {
+                      ref: collapsible.elRef,
+                      class: 'q-tree__node-collapsible' + textColorClass.value,
+                      style: collapsible.hidden.value ? hiddenStyle : null,
+                      key: `${key}__q`
+                    },
+                    [
+                      body,
+                      h(
+                        'div',
+                        {
+                          class:
+                            'q-tree__children' +
+                            (m.disabled === true
+                              ? ' q-tree__node--disabled'
+                              : ''),
+                          role: 'group'
+                        },
+                        children
+                      )
+                    ]
+                  )
+                : null
             : body
         ]
       )
@@ -1742,7 +1773,7 @@ export default /*#__PURE__*/ createComponent({
       localResetVirtualScroll()
     }
 
-    provide(treeCtxKey, { renderNode })
+    provide(treeCtxKey, { renderNode, useCollapsible })
 
     // expose public methods
     Object.assign(proxy, {

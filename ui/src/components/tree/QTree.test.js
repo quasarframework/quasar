@@ -38,7 +38,7 @@ function getNodeHeaders(wrapper) {
 
 /**
  * The children of a collapsed node that was expanded before stay in
- * the DOM (hidden through v-show), so only the visible ones are of
+ * the DOM (with display: none), so only the visible ones are of
  * interest here.
  *
  * The inline display is all that needs looking at, and it avoids
@@ -509,19 +509,25 @@ describe('[QTree API]', () => {
 
     describe('[(prop)no-transition]', () => {
       test('type Boolean has effect', async () => {
-        const wrapper = mountTree({ expanded: ['fruits'] })
+        const wrapper = mountTree()
 
+        wrapper.vm.setExpanded('fruits', true)
+        await flushPromises()
+
+        // the test browser is a Chromium, so the slide is a Web Animation
         expect(
-          wrapper.findComponent({ name: 'QSlideTransition' }).exists()
-        ).toBe(true)
+          wrapper.get('.q-tree__node-collapsible').element.getAnimations()
+        ).toHaveLength(1)
 
+        wrapper.vm.setExpanded('fruits', false)
         await wrapper.setProps({ noTransition: true })
+        wrapper.vm.setExpanded('fruits', true)
+        await flushPromises()
 
         // the children are rendered straight away, with no animation
         expect(
-          wrapper.findComponent({ name: 'QSlideTransition' }).exists()
-        ).toBe(false)
-        expect(wrapper.find('.q-tree__node-collapsible').exists()).toBe(true)
+          wrapper.get('.q-tree__node-collapsible').element.getAnimations()
+        ).toHaveLength(0)
         expect(getLabels(wrapper)).toContain('Apple')
       })
     })
@@ -558,13 +564,16 @@ describe('[QTree API]', () => {
     describe('[(prop)duration]', () => {
       test('type Number has effect', async () => {
         const propVal = 1000
-        const wrapper = mountTree({ expanded: ['fruits'] })
+        const wrapper = mountTree({ duration: propVal })
 
-        await wrapper.setProps({ duration: propVal })
+        wrapper.vm.setExpanded('fruits', true)
+        await flushPromises()
 
-        expect(
-          wrapper.findComponent({ name: 'QSlideTransition' }).props('duration')
-        ).toBe(propVal)
+        // the test browser is a Chromium, so the slide is a Web Animation
+        const [animation] = wrapper
+          .get('.q-tree__node-collapsible')
+          .element.getAnimations()
+        expect(animation.effect.getTiming().duration).toBe(propVal)
       })
     })
 
@@ -1199,14 +1208,15 @@ describe('[QTree API]', () => {
 
     describe('[(event)after-show]', () => {
       test('is emitting', async () => {
-        const wrapper = mountTree()
+        vi.useFakeTimers()
+        const wrapper = mountTree({ duration: 10 })
 
         wrapper.vm.setExpanded('fruits', true)
         await flushPromises()
 
-        // the transition reports it once it has finished
-        wrapper.findComponent({ name: 'QSlideTransition' }).vm.$emit('show')
-        await nextTick()
+        // reported once the slide has finished
+        await vi.runAllTimersAsync()
+        vi.useRealTimers()
 
         const eventList = wrapper.emitted()
         expect(eventList).toHaveProperty('afterShow')
@@ -1217,10 +1227,19 @@ describe('[QTree API]', () => {
 
     describe('[(event)after-hide]', () => {
       test('is emitting', async () => {
-        const wrapper = mountTree({ expanded: ['fruits'] })
+        vi.useFakeTimers()
+        const wrapper = mountTree({ duration: 10 })
 
-        wrapper.findComponent({ name: 'QSlideTransition' }).vm.$emit('hide')
-        await nextTick()
+        wrapper.vm.setExpanded('fruits', true)
+        await flushPromises()
+        await vi.runAllTimersAsync()
+
+        wrapper.vm.setExpanded('fruits', false)
+        await flushPromises()
+
+        // reported once the slide has finished
+        await vi.runAllTimersAsync()
+        vi.useRealTimers()
 
         const eventList = wrapper.emitted()
         expect(eventList).toHaveProperty('afterHide')
@@ -1490,7 +1509,8 @@ describe('[QTree API]', () => {
 
   describe('[Generic]', () => {
     test('renders a collapsed subtree only after its first expansion', async () => {
-      const wrapper = mountTree()
+      // an instant toggle, so the collapse settles within the tick
+      const wrapper = mountTree({ duration: 0 })
 
       // never-expanded nodes have no collapsible content in the DOM
       expect(wrapper.find('.q-tree__node-collapsible').exists()).toBe(false)
@@ -1509,7 +1529,8 @@ describe('[QTree API]', () => {
       await nextTick()
 
       expect(getLabels(wrapper)).toStrictEqual(['Fruits', 'Bread'])
-      // once revealed it is kept alive (v-show) so collapsing can animate
+      // once revealed it is kept alive (display: none) so collapsing
+      // can animate
       expect(wrapper.findAll('.q-tree__node-collapsible')).toHaveLength(1)
     })
 
@@ -1858,9 +1879,7 @@ describe('[QTree API]', () => {
       await settleVirtualScroll()
 
       expect(getLabels(wrapper)).toStrictEqual(['Fruits', 'Bread'])
-      expect(wrapper.findComponent({ name: 'QSlideTransition' }).exists()).toBe(
-        false
-      )
+      expect(wrapper.find('.q-tree__node-collapsible').exists()).toBe(false)
 
       wrapper.vm.setExpanded('fruits', true)
       await settleVirtualScroll()
@@ -2077,7 +2096,8 @@ describe('[QTree API]', () => {
     })
 
     test('collapses an expanded parent node with ArrowLeft', async () => {
-      const wrapper = mountNavTree({ defaultExpandAll: true })
+      // an instant toggle, so the collapse settles within the tick
+      const wrapper = mountNavTree({ defaultExpandAll: true, duration: 0 })
 
       await keydown(getHeader(wrapper, 'Fruits'), 37)
 

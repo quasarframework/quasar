@@ -8,11 +8,6 @@ import useSlideTransition, {
   cssAutoHeightSupport
 } from './use-slide-transition.js'
 
-const engines = [
-  ['createNativeSlide', createNativeSlide],
-  ['createMeasuredSlide', createMeasuredSlide]
-]
-
 // a Transition fed the hooks directly, the way QStep uses them
 function mountHarness({
   create = useSlideTransition,
@@ -60,6 +55,101 @@ function expectSliding(create, el, duration) {
   }
 }
 
+// the behavior every engine shares, defined under each engine's own
+// describe (the Specs script only reads literal describe/test calls)
+function defineEngineTests(create) {
+  test('animates the height of the entering and leaving element', async () => {
+    const { wrapper } = mountHarness({ create, visible: false })
+
+    await wrapper.setData({ visible: true })
+
+    const content = wrapper.get('.content').element
+    expectSliding(create, content, 300)
+    expect(content.style.overflowY).toBe('hidden')
+
+    await vi.runAllTimersAsync()
+
+    expect(content.getAnimations()).toHaveLength(0)
+    expect(content.style.transition).toBe('')
+    expect(content.style.height).toBe('')
+    expect(content.style.overflowY).toBe('')
+
+    await wrapper.setData({ visible: false })
+
+    expectSliding(create, content, 300)
+    expect(content.style.overflowY).toBe('hidden')
+  })
+
+  test('reads the duration at every run', async () => {
+    const { wrapper, durationRef } = mountHarness({
+      create,
+      visible: false
+    })
+
+    await wrapper.setData({ visible: true })
+
+    // the leaving element outlives the wrapper's view of the tree
+    const content = wrapper.get('.content').element
+    expectSliding(create, content, 300)
+
+    await vi.runAllTimersAsync()
+
+    durationRef.value = 450
+
+    await wrapper.setData({ visible: false })
+
+    expect(content.isConnected).toBe(true)
+    expectSliding(create, content, 450)
+  })
+
+  test('reports show and hide through the given emit', async () => {
+    const emit = vi.fn()
+    const { wrapper } = mountHarness({ create, emit, visible: false })
+
+    await wrapper.setData({ visible: true })
+    await vi.runAllTimersAsync()
+
+    expect(emit).toHaveBeenLastCalledWith('show')
+
+    await wrapper.setData({ visible: false })
+    await vi.runAllTimersAsync()
+
+    expect(emit).toHaveBeenLastCalledWith('hide')
+    expect(emit).toHaveBeenCalledTimes(2)
+  })
+
+  test('emits nothing when an interrupted slide returns to its origin', async () => {
+    const emit = vi.fn()
+    const { wrapper } = mountHarness({
+      create,
+      emit,
+      keep: true,
+      visible: false
+    })
+
+    await wrapper.setData({ visible: true })
+    vi.advanceTimersByTime(100)
+
+    // interrupt the enter halfway through: hidden -> hidden overall
+    await wrapper.setData({ visible: false })
+    await vi.runAllTimersAsync()
+
+    expect(emit).not.toHaveBeenCalled()
+    expect(wrapper.get('.content').element.style.display).toBe('none')
+  })
+
+  test('works without an emit', async () => {
+    const { wrapper } = mountHarness({ create, visible: false })
+
+    await wrapper.setData({ visible: true })
+    await vi.runAllTimersAsync()
+    await wrapper.setData({ visible: false })
+    await vi.runAllTimersAsync()
+
+    expect(wrapper.find('.content').exists()).toBe(false)
+  })
+}
+
 describe('[useSlideTransition API]', () => {
   beforeEach(() => {
     vi.useFakeTimers()
@@ -69,121 +159,20 @@ describe('[useSlideTransition API]', () => {
     vi.useRealTimers()
   })
 
-  describe('[Functions]', () => {
-    describe('[(function)default]', () => {
-      test('can be used in a Vue Component', () => {
-        const { hooks } = mountHarness()
-
-        expect(hooks.onEnter).toBeTypeOf('function')
-        expect(hooks.onLeave).toBeTypeOf('function')
-      })
-
-      test('slides on a Web Animation where calc-size() is supported', async () => {
+  describe('[Variables]', () => {
+    describe('[(variable)cssAutoHeightSupport]', () => {
+      test('picks the Web Animation engine where calc-size() is supported', () => {
         // the test browser is a Chromium
         expect(cssAutoHeightSupport).toBe(true)
-
-        const { wrapper } = mountHarness({ visible: false })
-
-        await wrapper.setData({ visible: true })
-
-        expect(wrapper.get('.content').element.getAnimations()).toHaveLength(1)
+        expect(useSlideTransition).toBe(createNativeSlide)
       })
     })
+  })
 
-    describe.each(engines)('[(function)%s]', (_, create) => {
-      test('animates the height of the entering and leaving element', async () => {
-        const { wrapper } = mountHarness({ create, visible: false })
-
-        await wrapper.setData({ visible: true })
-
-        const content = wrapper.get('.content').element
-        expectSliding(create, content, 300)
-        expect(content.style.overflowY).toBe('hidden')
-
-        await vi.runAllTimersAsync()
-
-        expect(content.getAnimations()).toHaveLength(0)
-        expect(content.style.transition).toBe('')
-        expect(content.style.height).toBe('')
-        expect(content.style.overflowY).toBe('')
-
-        await wrapper.setData({ visible: false })
-
-        expectSliding(create, content, 300)
-        expect(content.style.overflowY).toBe('hidden')
-      })
-
-      test('reads the duration at every run', async () => {
-        const { wrapper, durationRef } = mountHarness({
-          create,
-          visible: false
-        })
-
-        await wrapper.setData({ visible: true })
-
-        // the leaving element outlives the wrapper's view of the tree
-        const content = wrapper.get('.content').element
-        expectSliding(create, content, 300)
-
-        await vi.runAllTimersAsync()
-
-        durationRef.value = 450
-
-        await wrapper.setData({ visible: false })
-
-        expect(content.isConnected).toBe(true)
-        expectSliding(create, content, 450)
-      })
-
-      test('reports show and hide through the given emit', async () => {
-        const emit = vi.fn()
-        const { wrapper } = mountHarness({ create, emit, visible: false })
-
-        await wrapper.setData({ visible: true })
-        await vi.runAllTimersAsync()
-
-        expect(emit).toHaveBeenLastCalledWith('show')
-
-        await wrapper.setData({ visible: false })
-        await vi.runAllTimersAsync()
-
-        expect(emit).toHaveBeenLastCalledWith('hide')
-        expect(emit).toHaveBeenCalledTimes(2)
-      })
-
-      test('emits nothing when an interrupted slide returns to its origin', async () => {
-        const emit = vi.fn()
-        const { wrapper } = mountHarness({
-          create,
-          emit,
-          keep: true,
-          visible: false
-        })
-
-        await wrapper.setData({ visible: true })
-        vi.advanceTimersByTime(100)
-
-        // interrupt the enter halfway through: hidden -> hidden overall
-        await wrapper.setData({ visible: false })
-        await vi.runAllTimersAsync()
-
-        expect(emit).not.toHaveBeenCalled()
-        expect(wrapper.get('.content').element.style.display).toBe('none')
-      })
-
-      test('works without an emit', async () => {
-        const { wrapper } = mountHarness({ create, visible: false })
-
-        await wrapper.setData({ visible: true })
-        await vi.runAllTimersAsync()
-        await wrapper.setData({ visible: false })
-        await vi.runAllTimersAsync()
-
-        expect(wrapper.find('.content').exists()).toBe(false)
-      })
-    })
-
+  describe('[Functions]', () => {
     describe('[(function)createNativeSlide]', () => {
+      defineEngineTests(createNativeSlide)
+
       test('settles on the finish event, clearing the timer fallback', async () => {
         const emit = vi.fn()
         const { wrapper } = mountHarness({
@@ -255,6 +244,31 @@ describe('[useSlideTransition API]', () => {
         expect(second.getAnimations()).toHaveLength(1)
         expect(second.getAnimations()[0].playbackRate).toBe(1)
       })
+    })
+
+    describe('[(function)createMeasuredSlide]', () => {
+      defineEngineTests(createMeasuredSlide)
+
+      test('measures the content height as the show target', async () => {
+        const { wrapper } = mountHarness({
+          create: createMeasuredSlide,
+          visible: false
+        })
+
+        await wrapper.setData({ visible: true })
+
+        const content = wrapper.get('.content').element
+        expect(content.style.height).toBe(`${content.scrollHeight}px`)
+      })
+    })
+  })
+
+  describe('[Generic]', () => {
+    test('can be used in a Vue Component', () => {
+      const { hooks } = mountHarness()
+
+      expect(hooks.onEnter).toBeTypeOf('function')
+      expect(hooks.onLeave).toBeTypeOf('function')
     })
   })
 })

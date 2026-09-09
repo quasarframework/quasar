@@ -229,7 +229,6 @@
       "type": "Number",
       "desc": "Toggle animation duration (in milliseconds); use 0 to disable the animation and toggle instantly",
       "default": "300",
-      "passthrough": "child",
       "category": "style"
     },
 

@@ -765,11 +765,7 @@ describe('[QExpansionItem API]', () => {
     describe('[(event)after-show]', () => {
       test('is emitting', async () => {
         vi.useFakeTimers()
-        // the slide transition has to run for real for this one
-        const wrapper = mountExpansionItem(
-          { duration: 10 },
-          { global: { stubs: { transition: false } } }
-        )
+        const wrapper = mountExpansionItem({ duration: 10 })
 
         wrapper.vm.show()
         await flushPromises()
@@ -782,10 +778,10 @@ describe('[QExpansionItem API]', () => {
     describe('[(event)after-hide]', () => {
       test('is emitting', async () => {
         vi.useFakeTimers()
-        const wrapper = mountExpansionItem(
-          { defaultOpened: true, duration: 10 },
-          { global: { stubs: { transition: false } } }
-        )
+        const wrapper = mountExpansionItem({
+          defaultOpened: true,
+          duration: 10
+        })
 
         wrapper.vm.hide()
         await flushPromises()

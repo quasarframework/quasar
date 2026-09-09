@@ -138,81 +138,83 @@ describe('[QSlideTransition API]', () => {
     })
   })
 
-  describe.each(engines)('[Generic] (%s)', (_, forceMeasured) => {
-    beforeEach(() => {
-      engineOverride.forceMeasured = forceMeasured
-    })
-
-    test('starts the height animation in the same frame', async () => {
-      const { wrapper } = mountTransition({ visible: false })
-
-      await wrapper.setData({ visible: true })
-
-      // the slide is applied synchronously by the enter hook -- no
-      // timer has run yet
-      const content = wrapper.get('.content')
-      expectSliding(content, 300)
-      expect(content.$style('overflow-y')).toBe('hidden')
-
-      if (forceMeasured) {
-        // the (non-zero) target height is the measured content height
-        expect(content.$style('height')).toMatch(/^[1-9]\d*px$/)
-      }
-    })
-
-    test('settles immediately with a zero duration', async () => {
-      const { wrapper, transition } = mountTransition({
-        visible: false,
-        duration: 0
+  describe('[Generic]', () => {
+    describe.each(engines)('%s', (_, forceMeasured) => {
+      beforeEach(() => {
+        engineOverride.forceMeasured = forceMeasured
       })
 
-      await wrapper.setData({ visible: true })
+      test('starts the height animation in the same frame', async () => {
+        const { wrapper } = mountTransition({ visible: false })
 
-      // no layout read, no timers -- the event arrives synchronously
-      expect(transition.emitted('show')).toHaveLength(1)
-      expect(vi.getTimerCount()).toBe(0)
+        await wrapper.setData({ visible: true })
 
-      expectSettled(wrapper.get('.content'))
+        // the slide is applied synchronously by the enter hook -- no
+        // timer has run yet
+        const content = wrapper.get('.content')
+        expectSliding(content, 300)
+        expect(content.$style('overflow-y')).toBe('hidden')
 
-      await wrapper.setData({ visible: false })
+        if (forceMeasured) {
+          // the (non-zero) target height is the measured content height
+          expect(content.$style('height')).toMatch(/^[1-9]\d*px$/)
+        }
+      })
 
-      expect(transition.emitted('hide')).toHaveLength(1)
-      expect(vi.getTimerCount()).toBe(0)
-    })
+      test('settles immediately with a zero duration', async () => {
+        const { wrapper, transition } = mountTransition({
+          visible: false,
+          duration: 0
+        })
 
-    test('emits nothing when an interrupted slide returns to its origin', async () => {
-      const { wrapper, transition } = mountTransition({ visible: false })
+        await wrapper.setData({ visible: true })
 
-      await wrapper.setData({ visible: true })
-      vi.advanceTimersByTime(100)
+        // no layout read, no timers -- the event arrives synchronously
+        expect(transition.emitted('show')).toHaveLength(1)
+        expect(vi.getTimerCount()).toBe(0)
 
-      // interrupt the enter halfway through: hidden -> hidden overall
-      await wrapper.setData({ visible: false })
-      await vi.runAllTimersAsync()
+        expectSettled(wrapper.get('.content'))
 
-      expect(transition.emitted('show')).toBeUndefined()
-      expect(transition.emitted('hide')).toBeUndefined()
-      expect(wrapper.find('.content').exists()).toBe(false)
-    })
+        await wrapper.setData({ visible: false })
 
-    test('cleans up the inline styles once the slide completes', async () => {
-      const { wrapper, transition } = mountTransition({ visible: false })
+        expect(transition.emitted('hide')).toHaveLength(1)
+        expect(vi.getTimerCount()).toBe(0)
+      })
 
-      await wrapper.setData({ visible: true })
-      await vi.runAllTimersAsync()
+      test('emits nothing when an interrupted slide returns to its origin', async () => {
+        const { wrapper, transition } = mountTransition({ visible: false })
 
-      expect(transition.emitted('show')).toHaveLength(1)
+        await wrapper.setData({ visible: true })
+        vi.advanceTimersByTime(100)
 
-      expectSettled(wrapper.get('.content'))
-    })
+        // interrupt the enter halfway through: hidden -> hidden overall
+        await wrapper.setData({ visible: false })
+        await vi.runAllTimersAsync()
 
-    test('does not animate the initial render without appear', async () => {
-      const { wrapper, transition } = mountTransition({ visible: true })
+        expect(transition.emitted('show')).toBeUndefined()
+        expect(transition.emitted('hide')).toBeUndefined()
+        expect(wrapper.find('.content').exists()).toBe(false)
+      })
 
-      await vi.runAllTimersAsync()
+      test('cleans up the inline styles once the slide completes', async () => {
+        const { wrapper, transition } = mountTransition({ visible: false })
 
-      expect(transition.emitted('show')).toBeUndefined()
-      expectSettled(wrapper.get('.content'))
+        await wrapper.setData({ visible: true })
+        await vi.runAllTimersAsync()
+
+        expect(transition.emitted('show')).toHaveLength(1)
+
+        expectSettled(wrapper.get('.content'))
+      })
+
+      test('does not animate the initial render without appear', async () => {
+        const { wrapper, transition } = mountTransition({ visible: true })
+
+        await vi.runAllTimersAsync()
+
+        expect(transition.emitted('show')).toBeUndefined()
+        expectSettled(wrapper.get('.content'))
+      })
     })
   })
 

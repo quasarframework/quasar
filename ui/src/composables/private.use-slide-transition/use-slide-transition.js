@@ -23,19 +23,19 @@ export const cssAutoHeightSupport =
   (typeof CSS !== 'undefined' && CSS.supports('height', contentHeight))
 
 /**
- * The JS enter/leave hooks of a height slide, for a Vue Transition
- * rendered with `css: false`.
+ * The enter/leave hooks of a height slide, shaped for a Vue Transition
+ * rendered with `css: false` (element, done) but usable on any element
+ * a component owns the visibility of: `done` is optional, and a slide
+ * that is interrupted on the same element is reversed without settling
+ * its `done` (a Transition has already cancelled it by then; a direct
+ * caller's would hide the content that is reopening).
  *
- * QSlideTransition wraps them as a component; QStep feeds them straight
- * into its own Transition so the vertical and horizontal orientations
- * share one Transition vnode (and the content inside survives a switch).
+ * QSlideTransition wraps them as a component; QStep feeds them into its
+ * own Transition so the vertical and horizontal orientations share one
+ * Transition vnode; QExpansionItem and QTree call them on their content
+ * element directly and bind `display: none` to the settled state.
  */
-export default function useSlideTransition(getDuration, emit = noop) {
-  return (cssAutoHeightSupport ? createNativeSlide : createMeasuredSlide)(
-    getDuration,
-    emit
-  )
-}
+export default cssAutoHeightSupport ? createNativeSlide : createMeasuredSlide
 
 export function createNativeSlide(getDuration, emit = noop) {
   let animation = null,
@@ -44,9 +44,6 @@ export function createNativeSlide(getDuration, emit = noop) {
   let timerFallback = null
 
   function cleanup() {
-    doneFn?.()
-    doneFn = null
-
     if (timerFallback !== null) {
       clearTimeout(timerFallback)
       timerFallback = null
@@ -58,21 +55,28 @@ export function createNativeSlide(getDuration, emit = noop) {
     animation = null
   }
 
+  function settle() {
+    cleanup()
+    doneFn?.()
+    doneFn = null
+  }
+
   function end(el, event) {
     el.style.overflowY = null
-    cleanup()
+    settle()
     if (event !== lastEvent) emit(event)
   }
 
   function slide(el, done, event, keyframes) {
     const duration = getDuration()
 
-    // an interrupted slide (v-show keeps the element) is reversed in
-    // place; a re-created element (v-if) starts its own
+    // an interrupted slide of the same element (v-show, direct callers)
+    // is reversed in place; the slide of a re-created element (v-if)
+    // settles and the new element starts its own
     const reversible = animation !== null && animation.effect.target === el
 
     if (animation !== null) {
-      doneFn()
+      if (!reversible) doneFn?.()
       clearTimeout(timerFallback)
     } else {
       lastEvent = event === 'show' ? 'hide' : 'show'
@@ -113,7 +117,7 @@ export function createNativeSlide(getDuration, emit = noop) {
   }
 
   onBeforeUnmount(() => {
-    if (animation !== null) cleanup()
+    if (animation !== null) settle()
   })
 
   return { onEnter, onLeave }
@@ -132,8 +136,6 @@ export function createMeasuredSlide(getDuration, emit = noop) {
     lastEvent
 
   function cleanup() {
-    doneFn?.()
-    doneFn = null
     animating = false
 
     if (timerFallback !== null) {
@@ -143,6 +145,20 @@ export function createMeasuredSlide(getDuration, emit = noop) {
 
     element?.removeEventListener('transitionend', animListener)
     animListener = null
+  }
+
+  function settle() {
+    cleanup()
+    doneFn?.()
+    doneFn = null
+  }
+
+  // the slide of another element settles when this one starts; one
+  // of the same element is retargeted below, its done left alone
+  function interrupt(el) {
+    if (element !== el) doneFn?.()
+    doneFn = null
+    cleanup()
   }
 
   function begin(el, height, done) {
@@ -165,22 +181,23 @@ export function createMeasuredSlide(getDuration, emit = noop) {
     el.style.overflowY = null
     el.style.height = null
     el.style.transition = null
-    cleanup()
+    settle()
     if (event !== lastEvent) emit(event)
   }
 
   function onEnter(el, done) {
     let pos = 0
-    element = el
 
     const wasAnimating = animating
     const duration = getDuration()
 
     if (wasAnimating) {
-      cleanup()
+      interrupt(el)
     } else {
       lastEvent = 'hide'
     }
+
+    element = el
 
     // nothing to animate: settle immediately, with no layout read
     // and no timers
@@ -211,16 +228,17 @@ export function createMeasuredSlide(getDuration, emit = noop) {
 
   function onLeave(el, done) {
     let pos
-    element = el
 
     const wasAnimating = animating
     const duration = getDuration()
 
     if (wasAnimating) {
-      cleanup()
+      interrupt(el)
     } else {
       lastEvent = 'show'
     }
+
+    element = el
 
     // nothing to animate: settle immediately, with no layout read
     // and no timers
@@ -250,7 +268,7 @@ export function createMeasuredSlide(getDuration, emit = noop) {
   }
 
   onBeforeUnmount(() => {
-    if (animating) cleanup()
+    if (animating) settle()
   })
 
   return { onEnter, onLeave }

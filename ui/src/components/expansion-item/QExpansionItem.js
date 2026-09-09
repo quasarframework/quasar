@@ -1,20 +1,18 @@
 import {
   computed,
   h,
+  nextTick,
   onBeforeUnmount,
   ref,
   shallowReactive,
   shallowRef,
-  vShow,
-  watch,
-  withDirectives
+  watch
 } from 'vue'
 
 import QItem from '../item/QItem.js'
 import QItemSection from '../item/QItemSection.js'
 import QItemLabel from '../item/QItemLabel.js'
 import QIcon from '../icon/QIcon.js'
-import QSlideTransition from '../slide-transition/QSlideTransition.js'
 import QSeparator from '../separator/QSeparator.js'
 
 import useQuasar from '../../composables/use-quasar/use-quasar.js'
@@ -22,6 +20,7 @@ import useDark, {
   useDarkProps
 } from '../../composables/private.use-dark/use-dark.js'
 import useId from '../../composables/use-id/use-id.js'
+import useSlideTransition from '../../composables/private.use-slide-transition/use-slide-transition.js'
 import { useRouterLinkProps } from '../../composables/private.use-router-link/use-router-link.js'
 import useModelToggle, {
   useModelToggleEmits,
@@ -62,7 +61,10 @@ export default /*#__PURE__*/ createComponent({
     expandIcon: String,
     expandedIcon: String,
     expandIconClass: [Array, String, Object],
-    duration: {},
+    duration: {
+      type: Number,
+      default: 300
+    },
 
     headerInsetLevel: Number,
     contentInsetLevel: Number,
@@ -91,9 +93,18 @@ export default /*#__PURE__*/ createComponent({
     )
 
     const blurTargetRef = shallowRef(null)
+    const contentRef = shallowRef(null)
     const targetUid = useId()
 
     const { show, hide, toggle } = useModelToggle({ showing })
+
+    // the settled visibility of the content: Vue binds display to it,
+    // the slide flips it once a hide completes
+    const contentHidden = ref(!showing.value)
+    const { onEnter, onLeave } = useSlideTransition(
+      () => props.duration,
+      onSlideEnd
+    )
 
     let uniqueId, exitGroup
 
@@ -105,14 +116,14 @@ export default /*#__PURE__*/ createComponent({
     )
 
     const contentStyle = computed(() => {
-      if (props.contentInsetLevel === void 0) {
-        return null
+      const style = contentHidden.value ? { display: 'none' } : {}
+
+      if (props.contentInsetLevel !== void 0) {
+        const dir = $q.lang.rtl ? 'Right' : 'Left'
+        style['padding' + dir] = props.contentInsetLevel * 56 + 'px'
       }
 
-      const dir = $q.lang.rtl ? 'Right' : 'Left'
-      return {
-        ['padding' + dir]: props.contentInsetLevel * 56 + 'px'
-      }
+      return style
     })
 
     const hasLink = computed(
@@ -191,13 +202,30 @@ export default /*#__PURE__*/ createComponent({
       stopAndPrevent(e)
     }
 
-    function onShow() {
-      emit('afterShow')
+    function onSlideEnd(event) {
+      emit(event === 'show' ? 'afterShow' : 'afterHide')
     }
 
-    function onHide() {
-      emit('afterHide')
+    function hideContent() {
+      contentHidden.value = true
     }
+
+    function slideContent() {
+      if (contentRef.value !== null) onEnter(contentRef.value)
+    }
+
+    watch(showing, val => {
+      if (!val) {
+        onLeave(contentRef.value, hideContent)
+      } else if (contentHidden.value) {
+        // shown once Vue has dropped the display: none
+        contentHidden.value = false
+        nextTick(slideContent)
+      } else {
+        // reopened while still sliding shut
+        slideContent()
+      }
+    })
 
     function enterGroup() {
       if (uniqueId === void 0) {
@@ -347,34 +375,19 @@ export default /*#__PURE__*/ createComponent({
       return h(QItem, data, getHeaderChild)
     }
 
-    function getTransitionChild() {
-      return withDirectives(
-        h(
-          'div',
-          {
-            key: 'e-content',
-            class: 'q-expansion-item__content relative-position',
-            style: contentStyle.value,
-            id: targetUid.value
-          },
-          hSlot(slots.default)
-        ),
-        [[vShow, showing.value]]
-      )
-    }
-
     function getContent() {
       const node = [
         getHeader(),
 
         h(
-          QSlideTransition,
+          'div',
           {
-            duration: props.duration,
-            onShow,
-            onHide
+            ref: contentRef,
+            class: 'q-expansion-item__content relative-position',
+            style: contentStyle.value,
+            id: targetUid.value
           },
-          getTransitionChild
+          hSlot(slots.default)
         )
       ]
 
