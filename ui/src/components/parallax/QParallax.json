@@ -67,5 +67,14 @@
         }
       }
     }
+  },
+
+  "methods": {
+    "refresh": {
+      "desc": "Re-evaluates what is settled at mount: the scrolling container and the way the media is moved along it, the media size and the position; call it after a change the component cannot observe on its own, like an ancestor changing its overflow, a media swap without a load event or a 'scroll-target' that appeared later",
+      "addedIn": "v2.32",
+      "params": null,
+      "returns": null
+    }
   }
 }

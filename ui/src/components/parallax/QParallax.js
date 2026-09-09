@@ -1,4 +1,5 @@
 import {
+  getCurrentInstance,
   h,
   onBeforeUnmount,
   onMounted,
@@ -102,16 +103,7 @@ export default /*#__PURE__*/ createComponent({
     )
 
     watch(() => props.speed, syncKeyframes)
-
-    watch(
-      () => props.scrollTarget,
-      () => {
-        stopTracking()
-        applyEngine()
-        syncTracking()
-      }
-    )
-
+    watch(() => props.scrollTarget, refresh)
     watch(() => props.onScroll, syncTracking)
 
     // runs once per frame (frame debounced on mount) while the parallax
@@ -210,6 +202,17 @@ export default /*#__PURE__*/ createComponent({
       }
     }
 
+    // re-decides everything settled at mount: the scroll target and the
+    // engine that fits it, the media size and the position; for changes
+    // the component cannot observe on its own (an ancestor's overflow,
+    // a media swap without a load event, a scroll-target appearing later)
+    function refresh() {
+      stopTracking()
+      applyEngine()
+      onResize()
+      syncTracking()
+    }
+
     function needsTracking() {
       return animation === null || props.onScroll !== void 0 || hasContentSlot
     }
@@ -288,6 +291,9 @@ export default /*#__PURE__*/ createComponent({
         syncTracking()
       }
     })
+
+    // expose public method
+    getCurrentInstance().proxy.refresh = refresh
 
     onBeforeUnmount(() => {
       stopTracking()

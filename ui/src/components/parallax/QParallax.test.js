@@ -479,4 +479,36 @@ describe('[QParallax API]', () => {
       wrapper.unmount()
     })
   })
+
+  describe('[Methods]', () => {
+    describe('[(method)refresh]', () => {
+      test('re-evaluates the engine after an ancestor changed its overflow', () => {
+        vi.stubGlobal('ViewTimeline', RealViewTimeline)
+
+        const box = createScrollTarget()
+        const wrapper = mount(QParallax, {
+          props: { height: 100 },
+          attachTo: box
+        })
+        const media = updateMedia(wrapper)
+
+        expect(getTimelineAnimation(wrapper)).not.toBeNull()
+
+        // a change the component cannot observe on its own
+        box.style.overflow = 'hidden'
+        wrapper.vm.refresh()
+        vi.advanceTimersToNextFrame()
+
+        expect(getTimelineAnimation(wrapper)).toBeNull()
+        expect(media.style.transform).toContain('translate(')
+
+        box.style.overflow = ''
+        wrapper.vm.refresh()
+
+        expect(getTimelineAnimation(wrapper)).not.toBeNull()
+        expect(media.style.transform).toBe('')
+        wrapper.unmount()
+      })
+    })
+  })
 })

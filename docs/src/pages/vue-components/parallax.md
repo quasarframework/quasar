@@ -45,6 +45,10 @@ For perf reasons, use the `content` slot only if you need the scope that it prov
 
 <DocExample title="Using the slot" file="ScopedSlot" />
 
+### Refreshing <q-badge label="v2.32+" />
+
+QParallax settles at mount which container it scrolls along, how large the media is and where it stands. Changes it cannot observe on its own are not picked up: an ancestor changing its `overflow`, a media swapped without a `load` event or a `scroll-target` that appears later. Call the `refresh()` method on the component (through a template ref) after such a change.
+
 ## Accessibility <q-badge label="v2.25+" />
 
 The default media image has no `alt` and there is no prop to set one — when the imagery is meaningful, use the `media` slot and supply your own attributes. The scroll-driven motion does not respect `prefers-reduced-motion`, so consider offering a reduced-motion alternative yourself. Also verify that text overlaid on the moving image keeps sufficient contrast throughout the scroll range.
