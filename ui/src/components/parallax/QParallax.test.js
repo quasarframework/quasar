@@ -1,12 +1,19 @@
-import { h } from 'vue'
+import { h, nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 
 import QParallax from './QParallax.js'
 
+// the test browser is a Chromium, so the media rides a view timeline by
+// default; hiding the API before mounting forces the JS scroll tracking
+// of non-supporting browsers (and of layouts a timeline cannot express)
+const RealViewTimeline = window.ViewTimeline
+
 const targets = []
+const observers = []
 
 beforeEach(() => {
+  vi.stubGlobal('ViewTimeline', void 0)
   vi.useFakeTimers()
   // a synchronous, always-intersecting stand-in, so the component
   // starts right on mount and stays deterministic under fake timers
@@ -15,6 +22,7 @@ beforeEach(() => {
     class {
       constructor(cb) {
         this.cb = cb
+        observers.push(this)
       }
 
       observe() {
@@ -29,9 +37,45 @@ beforeEach(() => {
 
 afterEach(() => {
   targets.splice(0).forEach(target => target.remove())
+  observers.splice(0)
   vi.unstubAllGlobals()
   vi.useRealTimers()
 })
+
+function nextFrame() {
+  return new Promise(resolve => {
+    requestAnimationFrame(() => {
+      requestAnimationFrame(resolve)
+    })
+  })
+}
+
+const gif = 'data:image/gif;base64,R0lGODlhAQABAAAAACw='
+
+// what the JS tracking would write for the current scroll position
+function expectedOffset(wrapper, container, mediaHeight, speed = 1) {
+  const root = wrapper.get('.q-parallax').element
+  const height = root.offsetHeight
+  const box = container.getBoundingClientRect()
+  const percent =
+    (box.bottom - root.getBoundingClientRect().top) / (height + box.height)
+  return (mediaHeight - height) * percent * speed
+}
+
+function getMedia(wrapper) {
+  return wrapper.get('.q-parallax__media > *').element
+}
+
+function mediaTranslateY(wrapper) {
+  return new DOMMatrix(getComputedStyle(getMedia(wrapper)).transform).m42
+}
+
+function getTimelineAnimation(wrapper) {
+  const list = getMedia(wrapper).getAnimations()
+  return list.length === 1 && list[0].timeline instanceof RealViewTimeline
+    ? list[0]
+    : null
+}
 
 function createScrollTarget(id) {
   const target = document.createElement('div')
@@ -107,7 +151,7 @@ describe('[QParallax API]', () => {
         const stationaryMedia = updateMedia(stationary)
         const movingMedia = updateMedia(moving)
 
-        expect(stationaryMedia.style.transform).toContain(', 0px, 0px)')
+        expect(stationaryMedia.style.transform).toBe('translate(-50%, 0px)')
         expect(movingMedia.style.transform).not.toBe(
           stationaryMedia.style.transform
         )
@@ -263,6 +307,175 @@ describe('[QParallax API]', () => {
       vi.advanceTimersToNextFrame()
 
       expect(media.style.transform).not.toBe(before)
+      wrapper.unmount()
+    })
+
+    test('rides a view timeline, with no JS tracking, when nothing scrollable is in between', async () => {
+      vi.unstubAllGlobals()
+      vi.useRealTimers()
+
+      // the auto detected scrolling container, tall enough inside to
+      // scroll the parallax through its box
+      const container = createScrollTarget()
+      container.className = 'scroll'
+      container.style.height = '300px'
+      const filler = () => {
+        const el = document.createElement('div')
+        el.style.height = '600px'
+        return el
+      }
+      container.append(filler())
+
+      const wrapper = mount(QParallax, {
+        props: { height: 100, speed: 0.5 },
+        slots: {
+          media: () => h('img', { src: gif, style: 'height: 400px' })
+        },
+        attachTo: container
+      })
+      container.append(filler())
+
+      // the movement spans the media's natural height, as the JS tracking
+      const media = getMedia(wrapper)
+      Object.defineProperty(media, 'naturalHeight', { value: 400 })
+      media.dispatchEvent(new Event('load'))
+      await nextFrame()
+
+      expect(getTimelineAnimation(wrapper)).not.toBeNull()
+      expect(media.style.transform).toBe('')
+      expect(observers).toHaveLength(0)
+
+      const samples = []
+      for (const y of [450, 550]) {
+        container.scrollTop = y
+        await nextFrame()
+        expect(mediaTranslateY(wrapper)).toBeCloseTo(
+          expectedOffset(wrapper, container, 400, 0.5),
+          0
+        )
+        samples.push(mediaTranslateY(wrapper))
+      }
+      expect(samples[0]).toBeGreaterThan(0)
+      expect(samples[1]).toBeGreaterThan(samples[0])
+
+      wrapper.unmount()
+      expect(media.getAnimations()).toHaveLength(0)
+    })
+
+    test('keeps the timeline keyframes in step with the media, height and speed', async () => {
+      vi.stubGlobal('ViewTimeline', RealViewTimeline)
+
+      const wrapper = mount(QParallax, { props: { height: 100, speed: 1 } })
+      updateMedia(wrapper, 300)
+
+      // the y component of the end keyframe's translate
+      const endShift = () =>
+        Number.parseFloat(
+          getTimelineAnimation(wrapper)
+            .effect.getKeyframes()[1]
+            .transform.split(',')[1]
+        )
+
+      expect(endShift()).toBe(200)
+
+      await wrapper.setProps({ speed: 0.5 })
+      expect(endShift()).toBe(100)
+
+      await wrapper.setProps({ height: 50 })
+      expect(endShift()).toBe(125)
+    })
+
+    test('measures the rendered media box while its natural size is unknown', () => {
+      vi.stubGlobal('ViewTimeline', RealViewTimeline)
+
+      // no src: naturalHeight is 0, the image fills the root through
+      // min-height: 100%, so the media has nothing to travel yet
+      const wrapper = mount(QParallax, { props: { height: 100 } })
+      const media = getMedia(wrapper)
+
+      expect(media.naturalHeight).toBe(0)
+      expect(media.offsetHeight).toBe(100)
+      expect(
+        getTimelineAnimation(wrapper).effect.getKeyframes()[1].transform
+      ).toMatch(/^translate\(-50%,\s*0px\)$/)
+    })
+
+    test('keeps the scroll percentage consumers served on the timeline path', () => {
+      vi.stubGlobal('ViewTimeline', RealViewTimeline)
+
+      const wrapper = mount(QParallax, {
+        props: { height: 100, onScroll: () => {} }
+      })
+      const media = updateMedia(wrapper)
+
+      expect(getTimelineAnimation(wrapper)).not.toBeNull()
+      expect(observers).toHaveLength(1)
+      expect(wrapper.emitted().scroll).toHaveLength(1)
+      // the browser moves the media, the tracking only reports, straight
+      // from the timeline's own progress
+      expect(media.style.transform).toBe('')
+      expect(wrapper.emitted().scroll[0][0]).toBe(
+        getTimelineAnimation(wrapper).timeline.currentTime.value / 100
+      )
+    })
+
+    test('starts and stops the tracking as a conditional content slot comes and goes', async () => {
+      vi.stubGlobal('ViewTimeline', RealViewTimeline)
+
+      const showContent = ref(false)
+      const wrapper = mount({
+        render: () =>
+          h(
+            QParallax,
+            { height: 100 },
+            showContent.value
+              ? { content: scope => String(scope.percentScrolled) }
+              : { default: () => 'static' }
+          )
+      })
+      updateMedia(wrapper)
+
+      // timeline driven, nothing consumes the percentage: no tracking
+      expect(getTimelineAnimation(wrapper)).not.toBeNull()
+      expect(observers).toHaveLength(0)
+
+      showContent.value = true
+      await nextTick()
+      vi.advanceTimersToNextFrame()
+      await nextTick()
+
+      expect(observers).toHaveLength(1)
+      expect(wrapper.get('.q-parallax__content').text()).toBe(
+        String(getTimelineAnimation(wrapper).timeline.currentTime.value / 100)
+      )
+
+      const removeSpy = vi.spyOn(window, 'removeEventListener')
+      showContent.value = false
+      await nextTick()
+
+      expect(wrapper.get('.q-parallax__content').text()).toBe('static')
+      expect(removeSpy).toHaveBeenCalledWith(
+        'resize',
+        expect.any(Function),
+        expect.anything()
+      )
+      removeSpy.mockRestore()
+    })
+
+    test('falls back to the JS tracking below an overflow hidden ancestor', () => {
+      vi.stubGlobal('ViewTimeline', RealViewTimeline)
+
+      const box = createScrollTarget()
+      box.style.overflow = 'hidden'
+
+      const wrapper = mount(QParallax, {
+        props: { height: 100 },
+        attachTo: box
+      })
+      const media = updateMedia(wrapper)
+
+      expect(getTimelineAnimation(wrapper)).toBeNull()
+      expect(media.style.transform).toContain('translate(')
       wrapper.unmount()
     })
   })

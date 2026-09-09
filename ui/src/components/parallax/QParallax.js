@@ -1,7 +1,15 @@
-import { h, onBeforeUnmount, onMounted, ref, shallowRef, watch } from 'vue'
+import {
+  h,
+  onBeforeUnmount,
+  onMounted,
+  onUpdated,
+  shallowReactive,
+  shallowRef,
+  watch
+} from 'vue'
 
 import { createComponent } from '../../utils/private.create/create.js'
-import { height, offset } from '../../utils/dom/dom.js'
+import { height } from '../../utils/dom/dom.js'
 import frameDebounce from '../../utils/frame-debounce/frame-debounce.js'
 import { getScrollTarget, scrollTargetProp } from '../../utils/scroll/scroll.js'
 import {
@@ -13,6 +21,38 @@ import { listenOpts } from '../../utils/event/event.js'
 
 const { passive } = listenOpts
 const mediaEvents = ['load', 'loadstart', 'loadedmetadata']
+
+function isScrollContainer(el) {
+  // a non-visible overflow-x forces overflow-y to auto, so one axis tells
+  const { overflowY } = getComputedStyle(el)
+  return overflowY !== 'visible' && overflowY !== 'clip'
+}
+
+/**
+ * Whether the media can ride a view timeline (the browser then moves it
+ * on its own thread, in step with the scroll, whatever the main thread
+ * is doing) instead of the JS scroll tracking. The timeline progresses
+ * against the nearest ancestor scroll container, while the JS
+ * percentage is computed against the auto detected (or designated)
+ * scroll target: the two agree only when nothing scrollable (an
+ * overflow: hidden wrapper counts) sits in between, otherwise the
+ * browser would bind the media to a box that never scrolls and freeze it.
+ */
+function canUseViewTimeline(el, scrollTarget) {
+  if (typeof ViewTimeline === 'undefined') return false
+
+  const stopAt = scrollTarget === window ? document.body : scrollTarget
+
+  for (
+    let node = el.parentElement;
+    node !== null && node !== stopAt;
+    node = node.parentElement
+  ) {
+    if (isScrollContainer(node)) return false
+  }
+
+  return stopAt === document.body || isScrollContainer(stopAt)
+}
 
 export default /*#__PURE__*/ createComponent({
   name: 'QParallax',
@@ -35,76 +75,103 @@ export default /*#__PURE__*/ createComponent({
   },
 
   setup(props, { slots, emit }) {
-    const percentScrolled = ref(0)
+    const contentSlotScope = shallowReactive({ percentScrolled: 0 })
     const rootRef = shallowRef(null)
     const mediaParentRef = shallowRef(null)
     const mediaRef = shallowRef(null)
 
     let isWorking = false,
+      isIntersecting = false,
+      hasContentSlot = false,
       mediaEl,
       mediaHeight,
       resizeHandler,
       observer,
-      localScrollTarget
+      localScrollTarget,
+      // the view timeline driven movement (see canUseViewTimeline); the
+      // JS tracking then only serves the consumers of the scroll
+      // percentage (the "scroll" event and the "content" slot)
+      animation = null
 
     watch(
       () => props.height,
       () => {
+        syncKeyframes()
         if (isWorking) updatePos()
       }
     )
 
+    watch(() => props.speed, syncKeyframes)
+
     watch(
       () => props.scrollTarget,
       () => {
-        if (isWorking) {
-          stop()
-          start()
-        }
+        stopTracking()
+        applyEngine()
+        syncTracking()
       }
     )
 
-    let update = percentage => {
-      percentScrolled.value = percentage
-      if (props.onScroll !== void 0) emit('scroll', percentage)
-    }
+    watch(() => props.onScroll, syncTracking)
 
-    function updatePos() {
-      let containerTop, containerHeight, containerBottom
+    // runs once per frame (frame debounced on mount) while the parallax
+    // is on screen: the scroll percentage of the root through the scroll
+    // target's box, from its top edge entering at the bottom (0) to its
+    // bottom edge leaving at the top (1); the timeline, when there is
+    // one, already holds it as its progress (the same number, past both
+    // ends included, at a fraction of the cost of the rects), so it is
+    // only measured for the JS tracking
+    let updatePos = () => {
+      let percent = animation?.timeline.currentTime?.value
 
-      if (localScrollTarget === window) {
-        containerTop = 0
-        containerBottom = containerHeight = window.innerHeight
+      if (percent !== void 0) {
+        percent /= 100
       } else {
-        containerTop = offset(localScrollTarget).top
-        containerHeight = height(localScrollTarget)
-        containerBottom = containerTop + containerHeight
+        let containerBottom, containerHeight
+
+        if (localScrollTarget === window) {
+          containerBottom = containerHeight = window.innerHeight
+        } else {
+          const rect = localScrollTarget.getBoundingClientRect()
+          containerBottom = rect.bottom
+          containerHeight = rect.height
+        }
+
+        percent =
+          (containerBottom - rootRef.value.getBoundingClientRect().top) /
+          (props.height + containerHeight)
       }
 
-      const top = offset(rootRef.value).top
-      const bottom = top + props.height
-
-      if (
-        observer !== void 0 ||
-        (bottom > containerTop && top < containerBottom)
-      ) {
-        const percent =
-          (containerBottom - top) / (props.height + containerHeight)
-        setPos((mediaHeight - props.height) * percent * props.speed)
-        update(percent)
+      if (animation === null) {
+        // the media keeps its compositor layer through will-change, so
+        // this write never repaints it
+        mediaEl.style.transform = `translate(-50%,${(mediaHeight - props.height) * percent * props.speed}px)`
       }
+
+      contentSlotScope.percentScrolled = percent
+      if (props.onScroll !== void 0) emit('scroll', percent)
     }
 
-    let setPos = newOffset => {
-      // apply it immediately without any delay; 3D on purpose so the
-      // media keeps its compositor layer and scroll updates never repaint it
-      mediaEl.style.transform = `translate3d(-50%,${Math.round(newOffset)}px,0)`
+    // the same movement the JS tracking writes, expressed once as
+    // keyframes over the root's view timeline
+    function getKeyframes() {
+      return [
+        { transform: 'translate(-50%,0)' },
+        {
+          transform: `translate(-50%,${(mediaHeight - props.height) * props.speed}px)`
+        }
+      ]
+    }
+
+    function syncKeyframes() {
+      if (animation !== null) animation.effect.setKeyframes(getKeyframes())
     }
 
     function onResize() {
       mediaHeight =
         mediaEl.naturalHeight || mediaEl.videoHeight || height(mediaEl)
 
+      syncKeyframes()
       if (isWorking) updatePos()
     }
 
@@ -123,29 +190,74 @@ export default /*#__PURE__*/ createComponent({
       }
     }
 
-    function start() {
-      isWorking = true
+    function applyEngine() {
       localScrollTarget = getScrollTarget(rootRef.value, props.scrollTarget)
+
+      if (canUseViewTimeline(rootRef.value, localScrollTarget)) {
+        if (animation === null) {
+          mediaEl.style.transform = ''
+          animation = mediaEl.animate(getKeyframes(), {
+            timeline: new ViewTimeline({
+              subject: rootRef.value,
+              axis: 'block'
+            }),
+            fill: 'both'
+          })
+        }
+      } else if (animation !== null) {
+        animation.cancel()
+        animation = null
+      }
+    }
+
+    function needsTracking() {
+      return animation === null || props.onScroll !== void 0 || hasContentSlot
+    }
+
+    function onIntersection(entries) {
+      isIntersecting = entries[0].isIntersecting
+
+      if (isIntersecting && needsTracking()) {
+        startTracking()
+      } else {
+        stopTracking()
+      }
+    }
+
+    // the observer is only created once something needs the tracking,
+    // so a timeline driven parallax without consumers costs no JS at all
+    function syncTracking() {
+      if (!needsTracking()) {
+        stopTracking()
+      } else if (observer === void 0) {
+        observer = new IntersectionObserver(onIntersection)
+        observer.observe(rootRef.value)
+      } else if (isIntersecting) {
+        startTracking()
+      }
+    }
+
+    function startTracking() {
+      if (isWorking) return
+
+      isWorking = true
       addScrollTracking(onAnyScroll)
       window.addEventListener('resize', resizeHandler, passive)
       updatePos()
     }
 
-    function stop() {
+    function stopTracking() {
       if (isWorking) {
         isWorking = false
         removeScrollTracking(onAnyScroll)
         window.removeEventListener('resize', resizeHandler, passive)
-        localScrollTarget = void 0
-        setPos.cancel()
-        update.cancel()
+        updatePos.cancel()
         resizeHandler.cancel()
       }
     }
 
     onMounted(() => {
-      setPos = frameDebounce(setPos)
-      update = frameDebounce(update)
+      updatePos = frameDebounce(updatePos)
       resizeHandler = frameDebounce(onResize)
 
       mediaEl =
@@ -157,19 +269,29 @@ export default /*#__PURE__*/ createComponent({
         mediaEl.addEventListener(evtName, onResize)
       })
 
-      onResize()
+      // shown before the first measurement, so a media without a natural
+      // size yet (image still loading, video before its metadata)
+      // measures its rendered box, as every later onResize() does
       mediaEl.style.display = 'initial'
+      onResize()
+      applyEngine()
+      hasContentSlot = slots.content !== void 0
+      syncTracking()
+    })
 
-      observer = new IntersectionObserver(entries => {
-        const fn = entries[0].isIntersecting ? start : stop
-        fn()
-      })
-
-      observer.observe(rootRef.value)
+    // a conditional "content" slot can come and go after mount, and with
+    // it the need for the tracking that feeds its percentage
+    onUpdated(() => {
+      const has = slots.content !== void 0
+      if (has !== hasContentSlot) {
+        hasContentSlot = has
+        syncTracking()
+      }
     })
 
     onBeforeUnmount(() => {
-      stop()
+      stopTracking()
+      animation?.cancel()
       observer?.disconnect()
       mediaEvents.forEach(evtName => {
         mediaEl.removeEventListener(evtName, onResize)
@@ -205,7 +327,7 @@ export default /*#__PURE__*/ createComponent({
             'div',
             { class: 'q-parallax__content absolute-full column flex-center' },
             slots.content !== void 0
-              ? slots.content({ percentScrolled: percentScrolled.value })
+              ? slots.content(contentSlotScope)
               : hSlot(slots.default)
           )
         ]

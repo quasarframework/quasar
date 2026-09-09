@@ -41,6 +41,8 @@ When using the `video` tag inside QParallax, you **must** provide the `width` an
 
 ### Using slot
 
+For perf reasons, use the `content` slot only if you need the scope that it provides. Otherwise, use the `default` slot.
+
 <DocExample title="Using the slot" file="ScopedSlot" />
 
 ## Accessibility <q-badge label="v2.25+" />
