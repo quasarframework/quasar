@@ -31,8 +31,9 @@ export const decorated = {
     })
 }
 
-// autogrow computes its height imperatively after mount — the
-// server/pre-hydration markup must agree before that kicks in
+// autogrow sizes the textarea only after mount (CSS field-sizing, or
+// the imperative JS fallback); the server/pre-hydration markup must
+// agree before that kicks in
 export const autogrow = {
   render: () =>
     h(QInput, {

@@ -37,6 +37,11 @@
   &--autogrow
     .q-field__native
       resize: none
+      // the browser grows the textarea with its content (rows="1" is the
+      // minimum, max-height clamps with native scrolling); browsers
+      // without it drop the declaration and get the same through
+      // use-autogrow.js
+      field-sizing: content
 
   &.q-field--dense
     .q-field__control, .q-field__native

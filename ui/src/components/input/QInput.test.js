@@ -1,9 +1,35 @@
 import { flushPromises, mount } from '@vue/test-utils'
-import { describe, expect, test, vi } from 'vitest'
+import { afterEach, describe, expect, test, vi } from 'vitest'
 import { h } from 'vue'
 
 import QPopupProxy from '../popup-proxy/QPopupProxy.js'
 import QInput from './QInput.js'
+
+// the test browser is a Chromium, so autogrow sizes the textarea through
+// CSS field-sizing by default; flipping this flag before mounting forces
+// the JS measuring fallback of non-supporting browsers instead
+const autogrowOverride = vi.hoisted(() => ({ forceJsFallback: false }))
+
+vi.mock('./use-autogrow.js', async importOriginal => {
+  const mod = await importOriginal()
+  return {
+    ...mod,
+    useAutogrow: (...args) =>
+      autogrowOverride.forceJsFallback
+        ? mod.createAdjustHeightFn(...args)
+        : mod.useAutogrow?.(...args)
+  }
+})
+
+afterEach(() => {
+  autogrowOverride.forceJsFallback = false
+})
+
+function nextFrame() {
+  return new Promise(resolve => {
+    requestAnimationFrame(resolve)
+  })
+}
 
 function mountInput(props = {}, options = {}) {
   return mount(QInput, {
@@ -1230,16 +1256,95 @@ describe('[QInput API]', () => {
         expect(wrapper.classes()).toContain('q-textarea--autogrow')
       })
 
+      test('lets the browser size the textarea where field-sizing is supported', async () => {
+        const wrapper = mountInput({
+          modelValue: 'line1',
+          autogrow: true
+        })
+        const inp = wrapper.get('textarea').element
+
+        await nextFrame()
+
+        expect(getComputedStyle(inp).fieldSizing).toBe('content')
+        // nothing imperative: no inline sizing, no overflow juggling
+        expect(inp.style.height).toBe('')
+        expect(inp.style.overflowY).toBe('')
+
+        const oneLine = inp.offsetHeight
+
+        await wrapper.setProps({ modelValue: 'line1\nline2\nline3' })
+        await nextFrame()
+
+        expect(inp.style.height).toBe('')
+        expect(inp.offsetHeight).toBeGreaterThan(oneLine)
+      })
+
+      test('the JS fallback grows the textarea with its content', async () => {
+        autogrowOverride.forceJsFallback = true
+
+        const wrapper = mountInput({
+          modelValue: 'line1',
+          autogrow: true
+        })
+        const inp = wrapper.get('textarea').element
+
+        await nextFrame()
+
+        const oneLine = inp.offsetHeight
+        expect(inp.style.height).toBe(`${oneLine}px`)
+
+        await wrapper.setProps({ modelValue: 'line1\nline2\nline3' })
+        await nextFrame()
+        await nextFrame()
+
+        expect(inp.offsetHeight).toBeGreaterThan(oneLine)
+        expect(inp.style.height).toBe(`${inp.offsetHeight}px`)
+      })
+
+      test('both sizing paths agree on the textarea height', async () => {
+        const modelValue = 'line1\nline2\nline3'
+        const native = mountInput({ modelValue, autogrow: true })
+
+        autogrowOverride.forceJsFallback = true
+        const fallback = mountInput({ modelValue, autogrow: true })
+
+        await nextFrame()
+        await nextFrame()
+
+        expect(fallback.get('textarea').element.offsetHeight).toBe(
+          native.get('textarea').element.offsetHeight
+        )
+      })
+
+      test('toggling it off leaves the browser-sized textarea untouched', async () => {
+        const wrapper = mountInput(
+          {
+            modelValue: 'line1\nline2\nline3',
+            type: 'textarea',
+            autogrow: true
+          },
+          { attrs: { rows: 3 } }
+        )
+        const inp = wrapper.get('textarea').element
+
+        await nextFrame()
+        await wrapper.setProps({ autogrow: false })
+
+        expect(inp.getAttribute('rows')).toBe('3')
+        expect(inp.style.height).toBe('')
+        expect(inp.style.overflowY).toBe('')
+      })
+
       test('toggling it off restores the textarea inline styles', async () => {
+        autogrowOverride.forceJsFallback = true
+
         const wrapper = mountInput({
           modelValue: 'line1\nline2\nline3',
           autogrow: true
         })
         const inp = wrapper.get('textarea').element
 
-        await new Promise(resolve => {
-          requestAnimationFrame(resolve)
-        })
+        await nextFrame()
 
         expect(inp.style.overflowY).toBe('hidden')
 

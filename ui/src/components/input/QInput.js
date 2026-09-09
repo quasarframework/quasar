@@ -4,7 +4,6 @@ import {
   h,
   nextTick,
   onBeforeUnmount,
-  onMounted,
   shallowRef,
   watch
 } from 'vue'
@@ -17,6 +16,7 @@ import useField, {
   useFieldState
 } from '../../composables/private.use-field/use-field.js'
 import useMask, { useMaskProps } from './use-mask.js'
+import { useAutogrow } from './use-autogrow.js'
 import {
   useFormInputNameAttr,
   useFormProps
@@ -122,6 +122,10 @@ export default /*#__PURE__*/ createComponent({
     const isTextarea = computed(
       () => props.type === 'textarea' || props.autogrow
     )
+
+    // autogrow sizing: the browser's own (CSS field-sizing, see
+    // QInput.sass) where available, the measuring routine elsewhere
+    const adjustHeightViaJS = useAutogrow?.(props, attrs, inputRef, $q)
 
     const isTypeText = computed(
       () =>
@@ -238,31 +242,7 @@ export default /*#__PURE__*/ createComponent({
         }
 
         // textarea only
-        if (props.autogrow) nextTick(adjustHeight)
-      }
-    )
-
-    watch(
-      () => props.autogrow,
-      val => {
-        // textarea only
-        if (val) {
-          nextTick(adjustHeight)
-        }
-        // restore the inline styles that adjustHeight() had set
-        else if (inputRef.value !== null) {
-          const { style } = inputRef.value
-          style.overflowY = ''
-          // if it has a number of rows set respect it
-          style.height = attrs.rows > 0 ? 'auto' : ''
-        }
-      }
-    )
-
-    watch(
-      () => props.dense,
-      () => {
-        if (props.autogrow) nextTick(adjustHeight)
+        if (adjustHeightViaJS && props.autogrow) nextTick(adjustHeightViaJS)
       }
     )
 
@@ -344,12 +324,12 @@ export default /*#__PURE__*/ createComponent({
 
       // we need to trigger it immediately too,
       // to avoid "flickering"
-      if (props.autogrow) adjustHeight()
+      if (adjustHeightViaJS && props.autogrow) adjustHeightViaJS()
     }
 
     function onAnimationend(e) {
       emit('animationend', e)
-      adjustHeight()
+      adjustHeightViaJS?.()
     }
 
     function emitValue(val, stopWatcher) {
@@ -424,44 +404,6 @@ export default /*#__PURE__*/ createComponent({
       delete temp.value
     }
 
-    // textarea only
-    function adjustHeight() {
-      requestAnimationFrame(() => {
-        const inp = inputRef.value
-        if (inp !== null) {
-          const parentStyle = inp.parentNode.style
-          // chrome does not keep scroll #15498
-          const { scrollTop } = inp
-          // chrome calculates a smaller scrollHeight when in a .column container
-          const { overflowY, maxHeight } = $q.platform.is.firefox
-            ? {}
-            : window.getComputedStyle(inp)
-          // on firefox or if overflowY is specified as scroll #14263, #14344
-          // we don't touch overflow
-          // firefox is not so bad in the end
-          const changeOverflow = overflowY !== void 0 && overflowY !== 'scroll'
-
-          // reset height of textarea to a small size to detect the real height
-          // but keep the total control size the same
-          if (changeOverflow) inp.style.overflowY = 'hidden'
-          parentStyle.marginBottom = inp.scrollHeight - 1 + 'px'
-          inp.style.height = '1px'
-
-          inp.style.height = inp.scrollHeight + 'px'
-          // we should allow scrollbars only
-          // if there is maxHeight and content is taller than maxHeight
-          if (changeOverflow) {
-            inp.style.overflowY =
-              Number.parseInt(maxHeight, 10) < inp.scrollHeight
-                ? 'auto'
-                : 'hidden'
-          }
-          parentStyle.marginBottom = ''
-          inp.scrollTop = scrollTop
-        }
-      })
-    }
-
     function onChange(e) {
       onComposition(e)
 
@@ -511,11 +453,6 @@ export default /*#__PURE__*/ createComponent({
 
     onBeforeUnmount(() => {
       onFinishEditing()
-    })
-
-    onMounted(() => {
-      // textarea only
-      if (props.autogrow) adjustHeight()
     })
 
     Object.assign(state, {
