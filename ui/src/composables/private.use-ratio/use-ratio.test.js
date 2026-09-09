@@ -13,24 +13,22 @@ describe('[useRatio API]', () => {
 
   describe('[Functions]', () => {
     describe('[(function)default]', () => {
-      test('should return padding when ratio is supplied', () => {
+      test('returns the aspect ratio when ratio is supplied', () => {
         const { value } = useRatio({ ratio: 2 })
-        expect(value).toBeTypeOf('object')
-        expect(value.paddingBottom).toBeTruthy()
+        expect(value).toStrictEqual({ aspectRatio: 2 })
       })
 
-      test('should return padding when naturalRatio is supplied', () => {
+      test('returns the aspect ratio when naturalRatio is supplied', () => {
         const { value } = useRatio({}, { value: 2 })
-        expect(value).toBeTypeOf('object')
-        expect(value.paddingBottom).toBeTruthy()
+        expect(value).toStrictEqual({ aspectRatio: 2 })
       })
 
-      test('should not return padding when invalid params', () => {
+      test('returns null on invalid params', () => {
         const { value } = useRatio({ ratio: 'a' })
         expect(value).toBeNull()
       })
 
-      test('should not return padding when no params are supplied', () => {
+      test('returns null when no params are supplied', () => {
         const { value } = useRatio({})
         expect(value).toBeNull()
       })

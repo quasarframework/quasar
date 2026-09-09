@@ -19,17 +19,10 @@ export default /*#__PURE__*/ createComponent({
       h(
         'div',
         {
-          class: 'q-responsive'
+          class: 'q-responsive',
+          style: ratioStyle.value
         },
         [
-          h(
-            'div',
-            {
-              class: 'q-responsive__filler overflow-hidden'
-            },
-            [h('div', { style: ratioStyle.value })]
-          ),
-
           h(
             'div',
             {

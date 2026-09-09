@@ -127,7 +127,8 @@ export default /*#__PURE__*/ createComponent({
 
     const style = computed(() => ({
       width: props.width,
-      height: props.height
+      height: props.height,
+      ...ratioStyle.value
     }))
 
     const imgClass = computed(
@@ -169,7 +170,7 @@ export default /*#__PURE__*/ createComponent({
 
       // WebKit derives an SVG's naturalWidth/naturalHeight from the img's
       // current CSS box, so a load event racing layout can report the
-      // initial-ratio filler's shape instead of the file's; the getters
+      // initial-ratio box's shape instead of the file's; the getters
       // become intrinsic-consistent after a frame renders (#15652)
       if (ratioRafId !== null) {
         cancelAnimationFrame(ratioRafId)
@@ -337,10 +338,6 @@ export default /*#__PURE__*/ createComponent({
 
     return () => {
       const content = []
-
-      if (ratioStyle.value !== null) {
-        content.push(h('div', { key: 'filler', style: ratioStyle.value }))
-      }
 
       if (images[0].value !== null) {
         content.push(getImage(0))

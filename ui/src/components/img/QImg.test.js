@@ -66,17 +66,25 @@ describe('[QImg API]', () => {
       test('type String has effect', () => {
         const wrapper = mountImg({ ratio: '4' })
 
-        expect(wrapper.element.firstElementChild.style.paddingBottom).toBe(
-          '25%'
-        )
+        expect(Number.parseFloat(wrapper.element.style.aspectRatio)).toBe(4)
       })
 
       test('type Number has effect', () => {
         const wrapper = mountImg({ ratio: 2 })
 
-        expect(wrapper.element.firstElementChild.style.paddingBottom).toBe(
-          '50%'
-        )
+        expect(Number.parseFloat(wrapper.element.style.aspectRatio)).toBe(2)
+      })
+
+      test('sizes the box height from its width', () => {
+        const wrapper = mountImg({ ratio: 2, width: '200px' })
+
+        expect(wrapper.element.offsetHeight).toBe(100)
+      })
+
+      test('yields to an explicit height', () => {
+        const wrapper = mountImg({ ratio: 2, width: '200px', height: '50px' })
+
+        expect(wrapper.element.offsetHeight).toBe(50)
       })
     })
 
@@ -162,17 +170,13 @@ describe('[QImg API]', () => {
       test('type Number has effect', () => {
         const wrapper = mountImg({ initialRatio: 2 })
 
-        expect(wrapper.element.firstElementChild.style.paddingBottom).toBe(
-          '50%'
-        )
+        expect(Number.parseFloat(wrapper.element.style.aspectRatio)).toBe(2)
       })
 
       test('type String has effect', () => {
         const wrapper = mountImg({ initialRatio: '2' })
 
-        expect(wrapper.element.firstElementChild.style.paddingBottom).toBe(
-          '50%'
-        )
+        expect(Number.parseFloat(wrapper.element.style.aspectRatio)).toBe(2)
       })
 
       test('is replaced by the natural ratio once loaded', async () => {
@@ -184,17 +188,13 @@ describe('[QImg API]', () => {
 
         await waitForLoad(wrapper)
 
-        expect(wrapper.element.firstElementChild.style.paddingBottom).toBe(
-          '25%'
-        )
+        expect(Number.parseFloat(wrapper.element.style.aspectRatio)).toBe(4)
       })
 
       test('is superseded by the ratio prop', () => {
         const wrapper = mountImg({ initialRatio: 2, ratio: 4 })
 
-        expect(wrapper.element.firstElementChild.style.paddingBottom).toBe(
-          '25%'
-        )
+        expect(Number.parseFloat(wrapper.element.style.aspectRatio)).toBe(4)
       })
     })
 
@@ -561,7 +561,7 @@ describe('[QImg API]', () => {
 
       await waitForLoad(wrapper)
 
-      expect(wrapper.element.firstElementChild.style.paddingBottom).toBe('25%')
+      expect(Number.parseFloat(wrapper.element.style.aspectRatio)).toBe(4)
 
       const img = wrapper.get('img').element
       Object.defineProperty(img, 'naturalWidth', { get: () => 500 })
@@ -572,7 +572,7 @@ describe('[QImg API]', () => {
       }
       await flushPromises()
 
-      expect(wrapper.element.firstElementChild.style.paddingBottom).toBe('20%')
+      expect(Number.parseFloat(wrapper.element.style.aspectRatio)).toBe(5)
     })
   })
 })

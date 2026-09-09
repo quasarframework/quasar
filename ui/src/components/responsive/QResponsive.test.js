@@ -3,11 +3,8 @@ import { describe, expect, test } from 'vitest'
 
 import QResponsive from './QResponsive.js'
 
-function getRatioPadding(wrapper) {
-  return wrapper
-    .get('.q-responsive__filler')
-    .get('div')
-    .$style('padding-bottom')
+function getRatio(wrapper) {
+  return wrapper.get('.q-responsive').$style('aspect-ratio')
 }
 
 describe('[QResponsive API]', () => {
@@ -16,21 +13,30 @@ describe('[QResponsive API]', () => {
       test('type String has effect', async () => {
         const wrapper = mount(QResponsive)
 
-        expect(getRatioPadding(wrapper)).toBe('')
+        expect(getRatio(wrapper)).toBe('')
 
         await wrapper.setProps({ ratio: '1.7778' })
 
-        expect(Number.parseFloat(getRatioPadding(wrapper))).toBeCloseTo(56.25)
+        expect(Number.parseFloat(getRatio(wrapper))).toBeCloseTo(1.7778)
       })
 
       test('type Number has effect', async () => {
         const wrapper = mount(QResponsive)
 
-        expect(getRatioPadding(wrapper)).toBe('')
+        expect(getRatio(wrapper)).toBe('')
 
         await wrapper.setProps({ ratio: 2 })
 
-        expect(getRatioPadding(wrapper)).toBe('50%')
+        expect(Number.parseFloat(getRatio(wrapper))).toBe(2)
+      })
+
+      test('sizes the box height from its width', () => {
+        const wrapper = mount(QResponsive, {
+          props: { ratio: 2 },
+          attrs: { style: 'width: 200px' }
+        })
+
+        expect(wrapper.element.offsetHeight).toBe(100)
       })
     })
   })

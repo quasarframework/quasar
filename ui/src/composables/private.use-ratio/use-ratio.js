@@ -11,9 +11,9 @@ export default function useRatio(props, naturalRatio) {
       return null
     }
 
-    const ratio = Number(rawValue)
-    return Number.isFinite(ratio) && ratio > 0
-      ? { paddingBottom: `${100 / ratio}%` }
+    const aspectRatio = Number(rawValue)
+    return Number.isFinite(aspectRatio) && aspectRatio > 0
+      ? { aspectRatio }
       : null
   })
 }

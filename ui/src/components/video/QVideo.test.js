@@ -16,12 +16,23 @@ describe('[QVideo API]', () => {
           }
         })
 
-        expect(wrapper.get('.q-video').$style('padding-bottom')).toBe('')
+        expect(wrapper.get('.q-video').$style('aspect-ratio')).toBe('')
 
         await wrapper.setProps({ ratio: propVal })
         await flushPromises()
 
-        expect(wrapper.get('.q-video').$style('padding-bottom')).toBe('20%')
+        expect(
+          Number.parseFloat(wrapper.get('.q-video').$style('aspect-ratio'))
+        ).toBe(5)
+      })
+
+      test('sizes the box height from its width', () => {
+        const wrapper = mount(QVideo, {
+          props: { src: 'about:blank', ratio: 5 },
+          attrs: { style: 'width: 200px' }
+        })
+
+        expect(wrapper.element.offsetHeight).toBe(40)
       })
     })
 

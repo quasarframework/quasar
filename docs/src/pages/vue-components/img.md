@@ -68,14 +68,6 @@ For `sizes` property, please read about Resolution Switching: [Different Sizes](
 For `srcset` property, please read about Resolution Switching: [Same size, different resolutions](https://developer.mozilla.org/en-US/docs/Learn/HTML/Multimedia_and_embedding/Responsive_images#Resolution_switching_Same_size_different_resolutions).
 :::
 
-### Render on demand
-
-For browsers that natively support the [loading="lazy" DOM attribute](https://caniuse.com/loading-lazy-attr) you can take advantage of it. Quasar will use it and tell the browser to request the image and render it only if the image is currently being displayed on screen (or when it is scrolled into the screen).
-
-One alternative is to use the [QIntersection](/vue-components/intersection) component as a wrapper or [Intersection](/vue-directives/intersection) directive.
-
-<DocExample title="Native lazy loading" file="LoadingLazy" />
-
 ### No native context menu
 
 In the example below we disable the native context menu on the images.
