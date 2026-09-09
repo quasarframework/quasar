@@ -1,7 +1,7 @@
 import { watch } from 'vue'
 
 import { position } from '../../utils/event/event.js'
-import { supportsCssAnchor } from './engine/core.js'
+import { cssAnchorSupport } from './engine/core.js'
 import { useCssAnchorEngine } from './engine/anchor-engine.js'
 import { useFallbackEngine } from './engine/fallback-engine.js'
 
@@ -14,8 +14,8 @@ export {
 /*
  * The positioning of an anchored popup (QMenu, QTooltip): picks the
  * engine once per instance (native CSS anchor positioning where
- * supportsCssAnchor() says so, the JS fallback elsewhere) and drives it
- * through the popup's lifecycle.
+ * core.js' cssAnchorSupport says so, the JS fallback elsewhere) and
+ * drives it through the popup's lifecycle.
  *
  * Usage:
  *   usePositionEngine({
@@ -27,9 +27,11 @@ export {
  *     showing,
  *     anchorOrigin, // computed parsePosition() results
  *     selfOrigin,
- *     trackContent  // re-express the placement when the content
+ *     trackContent, // re-express the placement when the content
  *                   // mutates (fallback engine only; opt-in because
  *                   // it fires on every inner DOM change)
+ *     viaCssAnchor  // tests only: false forces the JS fallback;
+ *                   // production code leaves it to cssAnchorSupport
  *   })
  *
  * Returns:
@@ -52,12 +54,10 @@ export default function usePositionEngine({
   showing,
   anchorOrigin,
   selfOrigin,
-  trackContent = false
+  trackContent = false,
+  viaCssAnchor = cssAnchorSupport
 }) {
   let stopPositionWatcher
-
-  // frozen per instance
-  const viaCssAnchor = supportsCssAnchor()
 
   const engine = (viaCssAnchor ? useCssAnchorEngine : useFallbackEngine)(
     props,

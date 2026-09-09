@@ -1,12 +1,16 @@
 import { nextTick, onBeforeUnmount, onMounted, watch } from 'vue'
 
 /**
- * Returns adjustHeight on the JS path only (undefined on the CSS path).
+ * Returns adjustHeight on the JS path only (undefined on the CSS path,
+ * which is also where a DOM-less import lands: jsdom and friends have
+ * no CSS global, and this runs at import time, not per instance).
  * The seam the component tests re-mock to force the JS fallback per
  * test (through the exported createAdjustHeightFn()).
  */
 export const useAutogrow =
-  __QUASAR_SSR_SERVER__ || CSS.supports('field-sizing', 'content')
+  __QUASAR_SSR_SERVER__ ||
+  typeof CSS === 'undefined' ||
+  CSS.supports('field-sizing', 'content')
     ? void 0
     : createAdjustHeightFn
 

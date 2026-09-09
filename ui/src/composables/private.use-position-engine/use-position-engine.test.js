@@ -12,16 +12,8 @@ import usePositionEngine from './use-position-engine.js'
 // the test browser is a Chromium, so the composable takes the CSS anchor
 // positioning path by default; flipping this flag before mounting forces
 // the JS positioning fallback of non-supporting browsers instead
-const engineOverride = vi.hoisted(() => ({ forceJsFallback: false }))
-
-vi.mock('./engine/core.js', async importOriginal => {
-  const mod = await importOriginal()
-  return {
-    ...mod,
-    supportsCssAnchor: () =>
-      engineOverride.forceJsFallback ? false : mod.supportsCssAnchor()
-  }
-})
+// (through the composable's test-only viaCssAnchor option)
+const engineOverride = { forceJsFallback: false }
 
 let wrapper
 
@@ -71,7 +63,8 @@ function mountPopup({
         showing,
         anchorOrigin: computed(() => parsePosition(props.anchor, $q.lang.rtl)),
         selfOrigin: computed(() => parsePosition(props.self, $q.lang.rtl)),
-        trackContent
+        trackContent,
+        viaCssAnchor: engineOverride.forceJsFallback ? false : void 0
       })
 
       return () =>

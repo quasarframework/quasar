@@ -4,7 +4,7 @@
  * insets), so the browser keeps it glued to its anchor through any
  * scroll, layout shift, resize or animation with zero listeners.
  *
- * Only used where core.js' supportsCssAnchor() says so;
+ * Only used where core.js' cssAnchorSupport says so;
  * every other browser runs fallback-engine.js instead.
  */
 

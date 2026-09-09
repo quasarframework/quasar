@@ -3,10 +3,10 @@ import { afterEach, describe, expect, test, vi } from 'vitest'
 import {
   applyBoundary,
   applyPointBoundary,
+  cssAnchorSupport,
   parsePosition,
   pointOffset,
   restoreScroll,
-  supportsCssAnchor,
   validateOffset,
   validatePosition
 } from './core.js'
@@ -59,18 +59,6 @@ const origin = pos => parsePosition(pos, false)
 
 describe('[core API]', () => {
   describe('[Functions]', () => {
-    describe('[(function)supportsCssAnchor]', () => {
-      test('reports the Chromium test browser as supported', () => {
-        // the tests run in a real Chromium, which both passes the brand
-        // gate and implements every probed CSS anchor positioning piece
-        expect(supportsCssAnchor()).toBe(true)
-      })
-
-      test('returns a stable, cached verdict', () => {
-        expect(supportsCssAnchor()).toBe(supportsCssAnchor())
-      })
-    })
-
     describe('[(function)validatePosition]', () => {
       test.each([
         'top left',
@@ -717,6 +705,16 @@ describe('[core API]', () => {
         restoreScroll(el, 50, 40)
         expect(el.scrollTop).toBe(50)
         expect(el.scrollLeft).toBe(40)
+      })
+    })
+  })
+
+  describe('[Variables]', () => {
+    describe('[(variable)cssAnchorSupport]', () => {
+      test('is defined correctly', () => {
+        // the tests run in a real Chromium, which both passes the brand
+        // gate and implements every probed CSS anchor positioning piece
+        expect(cssAnchorSupport).toBe(true)
       })
     })
   })

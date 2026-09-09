@@ -31,7 +31,7 @@ import {
  * anchor and scrolls off-screen with it, exactly like the native
  * engine's; only viewport/placement-prop changes re-open the decision.
  *
- * Serves every browser outside core.js' supportsCssAnchor()
+ * Serves every browser outside core.js' cssAnchorSupport
  * gate; the ones inside it run anchor-engine.js instead.
  */
 

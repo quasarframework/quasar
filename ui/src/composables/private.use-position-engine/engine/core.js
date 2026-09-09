@@ -4,7 +4,7 @@ const partsFirst = ['top', 'center', 'bottom'],
 /**
  * Decides which of the two positioning engines drives a popup:
  * anchor-engine.js (native CSS anchor positioning, zero
- * listeners) where this returns true, fallback-engine.js
+ * listeners) where this is true, fallback-engine.js
  * (measure + pixel insets, scroll listeners) everywhere else.
  *
  * The native path is deliberately gated to Chromium engines (identified
@@ -13,26 +13,19 @@ const partsFirst = ['top', 'center', 'bottom'],
  * implementations (Baseline newly available 2026) stay on the battle
  * tested JS engine, like every browser without the feature.
  *
- * A function instead of a module-level constant on purpose: it is the
- * seam the component tests re-mock to force the fallback engine per
- * test (a mocked constant gets flattened to its initial value).
+ * Resolved once at import (the typeof guard covers DOM-less imports
+ * such as jsdom, which lands on the fallback engine); the component
+ * tests re-mock this module with a getter to force the fallback engine
+ * per test.
  */
-let cssAnchorSupport = null
-
-export function supportsCssAnchor() {
-  if (cssAnchorSupport === null) {
-    cssAnchorSupport =
-      __QUASAR_SSR_SERVER__ ||
-      (typeof CSS !== 'undefined' &&
-        navigator.userAgentData?.brands?.some(
-          entry => entry.brand === 'Chromium'
-        ) === true &&
-        CSS.supports('position-anchor: --q') &&
-        CSS.supports('justify-self: anchor-center'))
-  }
-
-  return cssAnchorSupport
-}
+export const cssAnchorSupport =
+  __QUASAR_SSR_SERVER__ ||
+  (typeof CSS !== 'undefined' &&
+    navigator.userAgentData?.brands?.some(
+      entry => entry.brand === 'Chromium'
+    ) === true &&
+    CSS.supports('position-anchor: --q') &&
+    CSS.supports('justify-self: anchor-center'))
 
 export function validatePosition(pos) {
   const parts = pos.split(' ')

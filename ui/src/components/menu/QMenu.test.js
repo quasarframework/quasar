@@ -15,16 +15,21 @@ import QMenu from './QMenu.js'
 // the test browser is a Chromium, so QMenu takes the CSS anchor
 // positioning path by default; flipping this flag before mounting
 // forces the JS positioning fallback of non-supporting browsers instead
+// (through the composable's test-only viaCssAnchor option)
 const engineOverride = vi.hoisted(() => ({ forceJsFallback: false }))
 
 vi.mock(
-  '../../composables/private.use-position-engine/engine/core.js',
+  '../../composables/private.use-position-engine/use-position-engine.js',
   async importOriginal => {
     const mod = await importOriginal()
     return {
       ...mod,
-      supportsCssAnchor: () =>
-        engineOverride.forceJsFallback ? false : mod.supportsCssAnchor()
+      default: options =>
+        mod.default(
+          engineOverride.forceJsFallback
+            ? { ...options, viaCssAnchor: false }
+            : options
+        )
     }
   }
 )
