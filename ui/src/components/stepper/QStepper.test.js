@@ -467,7 +467,9 @@ describe('[QStepper API]', () => {
 
         expect(contents).toHaveLength(2)
         contents.forEach(content => {
-          expect(content.element.style.transition).toContain('height 450ms')
+          // the test browser is a Chromium, so the slide is a Web Animation
+          const [animation] = content.element.getAnimations()
+          expect(animation.effect.getTiming().duration).toBe(450)
         })
       })
     })

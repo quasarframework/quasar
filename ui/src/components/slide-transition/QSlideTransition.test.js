@@ -4,6 +4,30 @@ import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 
 import QSlideTransition from './QSlideTransition.js'
 
+// the test browser is a Chromium, so the slide runs on a Web Animation
+// by default; flipping this flag before mounting forces the measuring
+// CSS transition of non-supporting browsers instead
+const engineOverride = vi.hoisted(() => ({ forceMeasured: false }))
+
+vi.mock(
+  '../../composables/private.use-slide-transition/use-slide-transition.js',
+  async importOriginal => {
+    const mod = await importOriginal()
+    return {
+      ...mod,
+      default: (...args) =>
+        (engineOverride.forceMeasured ? mod.createMeasuredSlide : mod.default)(
+          ...args
+        )
+    }
+  }
+)
+
+const engines = [
+  ['Web Animation', false],
+  ['measured transition', true]
+]
+
 function mountTransition({
   appear = false,
   duration = 300,
@@ -43,6 +67,22 @@ function mountTransition({
   }
 }
 
+function expectSliding(content, duration) {
+  if (engineOverride.forceMeasured) {
+    expect(content.$style('transition')).toContain(`height ${duration}ms`)
+  } else {
+    const [animation] = content.element.getAnimations()
+    expect(animation.effect.getTiming().duration).toBe(duration)
+  }
+}
+
+function expectSettled(content) {
+  expect(content.element.getAnimations()).toHaveLength(0)
+  expect(content.$style('height')).toBe('')
+  expect(content.$style('transition')).toBe('')
+  expect(content.$style('overflow-y')).toBe('')
+}
+
 describe('[QSlideTransition API]', () => {
   beforeEach(() => {
     vi.useFakeTimers()
@@ -50,6 +90,7 @@ describe('[QSlideTransition API]', () => {
 
   afterEach(() => {
     vi.useRealTimers()
+    engineOverride.forceMeasured = false
   })
 
   describe('[Props]', () => {
@@ -64,16 +105,21 @@ describe('[QSlideTransition API]', () => {
     })
 
     describe('[(prop)duration]', () => {
-      test('type Number has effect', async () => {
-        const { wrapper } = mountTransition({
-          duration: 450,
-          visible: false
-        })
+      test.each(engines)(
+        'type Number has effect (%s)',
+        async (_, forceMeasured) => {
+          engineOverride.forceMeasured = forceMeasured
 
-        await wrapper.setData({ visible: true })
+          const { wrapper } = mountTransition({
+            duration: 450,
+            visible: false
+          })
 
-        expect(wrapper.get('.content').$style('transition')).toContain('450ms')
-      })
+          await wrapper.setData({ visible: true })
+
+          expectSliding(wrapper.get('.content'), 450)
+        }
+      )
     })
   })
 
@@ -92,17 +138,26 @@ describe('[QSlideTransition API]', () => {
     })
   })
 
-  describe('[Generic]', () => {
+  describe.each(engines)('[Generic] (%s)', (_, forceMeasured) => {
+    beforeEach(() => {
+      engineOverride.forceMeasured = forceMeasured
+    })
+
     test('starts the height animation in the same frame', async () => {
       const { wrapper } = mountTransition({ visible: false })
 
       await wrapper.setData({ visible: true })
 
-      // the (non-zero) target height and the transition are applied
-      // synchronously by the enter hook -- no timer has run yet
+      // the slide is applied synchronously by the enter hook -- no
+      // timer has run yet
       const content = wrapper.get('.content')
-      expect(content.$style('height')).toMatch(/^[1-9]\d*px$/)
-      expect(content.$style('transition')).toContain('height')
+      expectSliding(content, 300)
+      expect(content.$style('overflow-y')).toBe('hidden')
+
+      if (forceMeasured) {
+        // the (non-zero) target height is the measured content height
+        expect(content.$style('height')).toMatch(/^[1-9]\d*px$/)
+      }
     })
 
     test('settles immediately with a zero duration', async () => {
@@ -117,9 +172,7 @@ describe('[QSlideTransition API]', () => {
       expect(transition.emitted('show')).toHaveLength(1)
       expect(vi.getTimerCount()).toBe(0)
 
-      const content = wrapper.get('.content')
-      expect(content.$style('height')).toBe('')
-      expect(content.$style('transition')).toBe('')
+      expectSettled(wrapper.get('.content'))
 
       await wrapper.setData({ visible: false })
 
@@ -150,10 +203,7 @@ describe('[QSlideTransition API]', () => {
 
       expect(transition.emitted('show')).toHaveLength(1)
 
-      const content = wrapper.get('.content')
-      expect(content.$style('height')).toBe('')
-      expect(content.$style('transition')).toBe('')
-      expect(content.$style('overflow-y')).toBe('')
+      expectSettled(wrapper.get('.content'))
     })
 
     test('does not animate the initial render without appear', async () => {
@@ -162,7 +212,7 @@ describe('[QSlideTransition API]', () => {
       await vi.runAllTimersAsync()
 
       expect(transition.emitted('show')).toBeUndefined()
-      expect(wrapper.get('.content').$style('transition')).toBe('')
+      expectSettled(wrapper.get('.content'))
     })
   })
 

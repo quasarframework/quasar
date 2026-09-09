@@ -2,6 +2,26 @@ import { onBeforeUnmount } from 'vue'
 
 const noop = () => {}
 
+const easing = 'cubic-bezier(.25, .8, .50, 1)'
+const contentHeight = 'calc-size(auto, size)'
+const showKeyframes = [{ height: '0px' }, { height: contentHeight }]
+const hideKeyframes = [{ height: contentHeight }, { height: '0px' }]
+
+/**
+ * Engines that size a `calc-size(auto, size)` keyframe at layout
+ * (Chromium) slide between 0 and the content height on a Web Animation
+ * without any JS measurement: no forced layout on show or hide, the
+ * content height is tracked live while sliding, and a mid-slide
+ * reversal is the same animation played backwards. Every other engine
+ * drops the keyframe as invalid and takes the measuring transition
+ * path instead. Resolved once at import (the typeof guard covers
+ * DOM-less imports); the tests pick an engine through the exported
+ * creators.
+ */
+export const cssAutoHeightSupport =
+  __QUASAR_SSR_SERVER__ ||
+  (typeof CSS !== 'undefined' && CSS.supports('height', contentHeight))
+
 /**
  * The JS enter/leave hooks of a height slide, for a Vue Transition
  * rendered with `css: false`.
@@ -11,6 +31,99 @@ const noop = () => {}
  * share one Transition vnode (and the content inside survives a switch).
  */
 export default function useSlideTransition(getDuration, emit = noop) {
+  return (cssAutoHeightSupport ? createNativeSlide : createMeasuredSlide)(
+    getDuration,
+    emit
+  )
+}
+
+export function createNativeSlide(getDuration, emit = noop) {
+  let animation = null,
+    doneFn,
+    lastEvent
+  let timerFallback = null
+
+  function cleanup() {
+    doneFn?.()
+    doneFn = null
+
+    if (timerFallback !== null) {
+      clearTimeout(timerFallback)
+      timerFallback = null
+    }
+
+    // a cancelled animation fires no finish event; cancelling also
+    // releases the forwards fill so the element sizes itself again
+    animation?.cancel()
+    animation = null
+  }
+
+  function end(el, event) {
+    el.style.overflowY = null
+    cleanup()
+    if (event !== lastEvent) emit(event)
+  }
+
+  function slide(el, done, event, keyframes) {
+    const duration = getDuration()
+
+    // an interrupted slide (v-show keeps the element) is reversed in
+    // place; a re-created element (v-if) starts its own
+    const reversible = animation !== null && animation.effect.target === el
+
+    if (animation !== null) {
+      doneFn()
+      clearTimeout(timerFallback)
+    } else {
+      lastEvent = event === 'show' ? 'hide' : 'show'
+    }
+
+    doneFn = done
+
+    // nothing to animate: settle immediately, with no timers
+    if (duration <= 0) {
+      end(el, event)
+      return
+    }
+
+    if (reversible) {
+      animation.reverse()
+    } else {
+      animation?.cancel()
+      el.style.overflowY = 'hidden'
+      animation = el.animate(keyframes, {
+        duration,
+        easing,
+        fill: 'forwards'
+      })
+    }
+
+    animation.onfinish = () => {
+      end(el, event)
+    }
+    timerFallback = setTimeout(animation.onfinish, duration * 1.1)
+  }
+
+  function onEnter(el, done) {
+    slide(el, done, 'show', showKeyframes)
+  }
+
+  function onLeave(el, done) {
+    slide(el, done, 'hide', hideKeyframes)
+  }
+
+  onBeforeUnmount(() => {
+    if (animation !== null) cleanup()
+  })
+
+  return { onEnter, onLeave }
+}
+
+/**
+ * The measuring fallback: the content height is read (forcing a
+ * layout) and written as the inline target of a CSS transition.
+ */
+export function createMeasuredSlide(getDuration, emit = noop) {
   let animating = false,
     doneFn,
     element
@@ -37,7 +150,7 @@ export default function useSlideTransition(getDuration, emit = noop) {
     if (height !== void 0) {
       el.style.height = `${height}px`
     }
-    el.style.transition = `height ${getDuration()}ms cubic-bezier(.25, .8, .50, 1)`
+    el.style.transition = `height ${getDuration()}ms ${easing}`
 
     animating = true
     doneFn = done
