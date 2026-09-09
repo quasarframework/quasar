@@ -158,7 +158,10 @@ export default /*#__PURE__*/ createComponent({
         evt.onClick = onMaskedClick
       }
 
-      if (props.autogrow) {
+      // browser autofill fires no input event; the q-autofill keyframe on
+      // :autofill ends right after it, so the JS fallback remeasures then
+      // (field-sizing needs nothing, the user's listener passes through)
+      if (adjustHeightViaJS && props.autogrow) {
         evt.onAnimationend = onAnimationend
       }
 
@@ -327,9 +330,10 @@ export default /*#__PURE__*/ createComponent({
       if (adjustHeightViaJS && props.autogrow) adjustHeightViaJS()
     }
 
+    // replaces the user's own listener in onEvents, hence the re-emit
     function onAnimationend(e) {
       emit('animationend', e)
-      adjustHeightViaJS?.()
+      adjustHeightViaJS()
     }
 
     function emitValue(val, stopWatcher) {

@@ -1353,6 +1353,42 @@ describe('[QInput API]', () => {
         expect(inp.style.overflowY).toBe('')
         expect(inp.style.height).toBe('')
       })
+
+      test('the native path passes a user animationend listener straight to the textarea', async () => {
+        const onAnimationend = vi.fn()
+        const wrapper = mountInput(
+          { autogrow: true },
+          { attrs: { onAnimationend } }
+        )
+
+        await wrapper.get('textarea').trigger('animationend')
+
+        expect(onAnimationend).toHaveBeenCalledTimes(1)
+        expect(wrapper.emitted()).not.toHaveProperty('animationend')
+      })
+
+      test('the JS fallback re-emits animationend and remeasures after it', async () => {
+        autogrowOverride.forceJsFallback = true
+
+        const onAnimationend = vi.fn()
+        const wrapper = mountInput(
+          { autogrow: true },
+          { attrs: { onAnimationend } }
+        )
+        const inp = wrapper.get('textarea').element
+
+        await nextFrame()
+        const measured = inp.style.height
+        expect(measured).toMatch(/px$/)
+
+        inp.style.height = '1px'
+        await wrapper.get('textarea').trigger('animationend')
+        await nextFrame()
+
+        expect(onAnimationend).toHaveBeenCalledTimes(1)
+        expect(wrapper.emitted().animationend).toHaveLength(1)
+        expect(inp.style.height).toBe(measured)
+      })
     })
 
     describe('[(prop)input-class]', () => {
