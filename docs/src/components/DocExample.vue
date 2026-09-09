@@ -112,7 +112,7 @@
 
     <q-separator />
 
-    <div class="row overflow-hidden">
+    <div class="doc-example__body row">
       <component
         v-if="component"
         class="col doc-example__content doc-example-typography"
@@ -312,6 +312,11 @@ if (import.meta.env.QUASAR_CLIENT) {
 
   &__actions
     padding: 3px 0 3px 7px
+
+  // clip (rounded corners, phone-width overflow) without becoming a
+  // scroll container: QParallax's view timeline is nicer to bind to the layout
+  &__body
+    overflow: clip
 
   &__content
     position: relative
