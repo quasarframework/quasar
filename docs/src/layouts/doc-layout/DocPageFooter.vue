@@ -18,11 +18,9 @@
             :to="item.path"
             :href="item.external ? item.path : void 0"
             :target="item.external ? '_blank' : void 0"
-            class="doc-layout__item"
+            class="doc-layout__item letter-spacing-100"
           >
-            <q-item-section class="letter-spacing-100">{{
-              item.name
-            }}</q-item-section>
+            {{ item.name }}
           </q-item>
         </q-list>
       </nav>

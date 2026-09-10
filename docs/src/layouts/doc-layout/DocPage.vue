@@ -227,6 +227,8 @@ const tocClass = computed(
 
   &__toc
     font-size: ($font-size - 2px)
+    &--sub
+      padding-left: 16px !important
 
   &__content-footer
     margin-top: 64px

@@ -6,21 +6,22 @@
       v-for="tocItem in docStore.state.value.toc"
       :key="tocItem.id"
       :id="`toc--${tocItem.id}`"
-      clickable
       class="doc-layout__item"
+      :class="`doc-page__toc--${tocItem.sub ? 'sub' : 'main'}`"
       active-class="doc-layout__item--active"
       v-ripple
-      :active="docStore.state.value.activeToc === tocItem.id"
+      :active="activeTocId === tocItem.id"
       @click="tocItem.onClick"
     >
-      <q-item-section v-if="tocItem.sub === true" side />
-      <q-item-section>{{ tocItem.title }}</q-item-section>
+      {{ tocItem.title }}
     </q-item>
   </q-list>
 </template>
 
 <script setup>
+import { computed } from 'vue'
 import { useDocStore } from './store/index.js'
 
 const docStore = useDocStore()
+const activeTocId = computed(() => docStore.state.value.activeToc)
 </script>

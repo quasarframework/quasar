@@ -21,13 +21,14 @@
       />
     </div>
 
-    <nav aria-label="Main menu">
+    <nav v-if="menuMounted" aria-label="Main menu">
       <DocPageMenu class="q-mx-xs q-mb-lg" />
     </nav>
   </q-drawer>
 </template>
 
 <script setup>
+import { ref, watch } from 'vue'
 import { mdiClose } from '@quasar/extras/mdi-v7'
 
 import { useDocStore } from './store/index.js'
@@ -35,4 +36,18 @@ import { useDocStore } from './store/index.js'
 import DocPageMenu from './DocPageMenu.js'
 
 const docStore = useDocStore()
+
+// the menu is mounted on the drawer's first opening (and kept from
+// then on): wide viewports never open it
+const menuMounted = ref(false)
+const stopWatcher = watch(
+  () => docStore.state.value.menuDrawer,
+  val => {
+    if (val === true) {
+      menuMounted.value = true
+      stopWatcher()
+    }
+  },
+  { immediate: true }
+)
 </script>

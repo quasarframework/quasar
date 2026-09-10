@@ -542,6 +542,11 @@ const composables = [
     tag: 'composable'
   },
   {
+    name: 'useIntersection',
+    description: 'Detect when an element enters or leaves the viewport',
+    tag: 'composable'
+  },
+  {
     name: 'useInterval',
     description: 'Similar to setInterval() but with additional features',
     tag: 'composable'
