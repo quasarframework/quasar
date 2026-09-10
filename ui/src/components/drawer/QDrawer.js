@@ -95,7 +95,7 @@ export default /*#__PURE__*/ createComponent({
     noSwipeBackdrop: Boolean
   },
 
-  emits: [...useModelToggleEmits, 'onLayout', 'miniState', 'escapeKey'],
+  emits: [...useModelToggleEmits, 'onLayout', 'miniState', 'escapeKey', 'pan'],
 
   setup(props, { slots, emit, attrs }) {
     const vm = getCurrentInstance()
@@ -569,10 +569,12 @@ export default /*#__PURE__*/ createComponent({
 
         if (opened) {
           show()
+          emit('pan', { type: 'open', stage: 'end' })
         } else {
           $layout.animate()
           applyBackdrop(0)
           applyPosition(stateDirection.value * width)
+          emit('pan', { type: 'open', stage: 'cancel' })
         }
 
         flagPanning.value = false
@@ -586,7 +588,10 @@ export default /*#__PURE__*/ createComponent({
       )
       applyBackdrop(between(position / width, 0, 1))
 
-      if (evt.isFirst) flagPanning.value = true
+      if (evt.isFirst) {
+        flagPanning.value = true
+        emit('pan', { type: 'open', stage: 'start' })
+      }
     }
 
     function onClosePan(evt) {
@@ -607,8 +612,10 @@ export default /*#__PURE__*/ createComponent({
           $layout.animate()
           applyBackdrop(1)
           applyPosition(0)
+          emit('pan', { type: 'close', stage: 'cancel' })
         } else {
           hide()
+          emit('pan', { type: 'close', stage: 'end' })
         }
 
         flagPanning.value = false
@@ -618,7 +625,10 @@ export default /*#__PURE__*/ createComponent({
       applyPosition(stateDirection.value * position)
       applyBackdrop(between(1 - position / width, 0, 1))
 
-      if (evt.isFirst) flagPanning.value = true
+      if (evt.isFirst) {
+        flagPanning.value = true
+        emit('pan', { type: 'close', stage: 'start' })
+      }
     }
 
     function cleanup() {

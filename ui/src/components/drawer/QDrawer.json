@@ -166,6 +166,29 @@
           "desc": "New state"
         }
       }
+    },
+
+    "pan": {
+      "desc": "Emitted when the drawer is being panned/swiped",
+      "params": {
+        "state": {
+          "type": "Object",
+          "desc": "Contains information about the pan gesture",
+          "definition": {
+            "type": {
+              "type": "String",
+              "desc": "Type of pan gesture",
+              "values": ["'open'", "'close'"]
+            },
+            "stage": {
+              "type": "String",
+              "desc": "Stage of the pan gesture",
+              "values": ["'start'", "'end'", "'cancel'"]
+            }
+          }
+        }
+      },
+      "addedIn": "v2.32"
     }
   }
 }

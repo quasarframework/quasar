@@ -143,23 +143,26 @@ async function mountReadyDrawer(drawerProps, slots, mountOptions) {
 
 /**
  * A one-finger touch pan on an element, resolving to the touchmove so
- * the test can see whether the gesture cancelled it.
+ * the test can see whether the gesture cancelled it. The lifted finger
+ * travels in the touchend's changedTouches, as in a browser, which is
+ * where the gesture reads its final position from.
  */
 function touchPan(el, x, y) {
-  const touch = (type, clientX = 0, clientY = 0) =>
-    new TouchEvent(type, {
+  const touch = (type, clientX = 0, clientY = 0) => {
+    const list = [new Touch({ identifier: 1, target: el, clientX, clientY })]
+
+    return new TouchEvent(type, {
       bubbles: true,
       cancelable: true,
-      touches:
-        type === 'touchend'
-          ? []
-          : [new Touch({ identifier: 1, target: el, clientX, clientY })]
+      touches: type === 'touchend' ? [] : list,
+      changedTouches: list
     })
+  }
 
   el.dispatchEvent(touch('touchstart'))
   const move = touch('touchmove', x, y)
   el.dispatchEvent(move)
-  el.dispatchEvent(touch('touchend'))
+  el.dispatchEvent(touch('touchend', x, y))
 
   return move
 }
@@ -957,6 +960,66 @@ describe('[QDrawer API]', () => {
         eventList = getDrawerComponent(wrapper).emitted()
         expect(eventList.miniState).toHaveLength(2)
         expect(eventList.miniState[1]).toStrictEqual([true])
+      })
+    })
+
+    describe('[(event)pan]', () => {
+      test('is emitting', async () => {
+        client.has.touch = true
+
+        try {
+          const wrapper = await mountReadyDrawer({ behavior: 'mobile' })
+          const opener = wrapper.get('.q-drawer__opener').element
+          const getPanEvents = () => getDrawerComponent(wrapper).emitted().pan
+
+          // a swipe from the edge that stops short of the threshold
+          touchPan(opener, 30, 5)
+          await settle()
+
+          expect(getPanEvents()).toStrictEqual([
+            [{ type: 'open', stage: 'start' }],
+            [{ type: 'open', stage: 'cancel' }]
+          ])
+          expect(getDrawer(wrapper).$style('transform')).toBe(
+            'translateX(-300px)'
+          )
+
+          // a swipe far enough to open it
+          touchPan(opener, 200, 5)
+          await settle()
+
+          expect(getPanEvents().slice(2)).toStrictEqual([
+            [{ type: 'open', stage: 'start' }],
+            [{ type: 'open', stage: 'end' }]
+          ])
+          expect(getDrawer(wrapper).$style('transform')).toBe('translateX(0px)')
+
+          // dragging the open drawer back, short of the threshold
+          const drawer = getDrawer(wrapper).element
+
+          touchPan(drawer, -30, 5)
+          await settle()
+
+          expect(getPanEvents().slice(4)).toStrictEqual([
+            [{ type: 'close', stage: 'start' }],
+            [{ type: 'close', stage: 'cancel' }]
+          ])
+          expect(getDrawer(wrapper).$style('transform')).toBe('translateX(0px)')
+
+          // and far enough to close it
+          touchPan(drawer, -200, 5)
+          await settle()
+
+          expect(getPanEvents().slice(6)).toStrictEqual([
+            [{ type: 'close', stage: 'start' }],
+            [{ type: 'close', stage: 'end' }]
+          ])
+          expect(getDrawer(wrapper).$style('transform')).toBe(
+            'translateX(-300px)'
+          )
+        } finally {
+          client.has.touch = false
+        }
       })
     })
   })
