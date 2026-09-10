@@ -58,7 +58,8 @@
 
     <q-toolbar class="doc-header__secondary q-pl-lg q-pr-md no-wrap">
       <q-btn
-        class="header-btn doc-header__leftmost q-mr-xs lt-1300"
+        class="header-btn doc-header__leftmost q-mr-xs"
+        :class="docStore.$route.meta.fullscreen ? '' : 'lt-1300'"
         flat
         round
         icon="menu"

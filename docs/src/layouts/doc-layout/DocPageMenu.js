@@ -6,59 +6,12 @@ import { useRoute, useRouter } from 'vue-router'
 import Menu from '@/assets/menu.js'
 import './DocPageMenu.sass'
 
-function buildMenu(handler) {
-  // leaf route path -> keys of the groups that must be open to reveal it
-  const ancestorKeys = new Map()
-  // groups flagged as opened in the menu definition
-  const openedKeys = []
+let nodes = null
 
-  function getNodes(list, parentPath, parentKeys) {
-    return list.map(item => {
-      const path = parentPath + (item.path !== void 0 ? '/' + item.path : '')
-      // some groups (Buttons, Form Components, ...) carry no path of
-      // their own, so the path alone would collide with the parent's
-      const key = item.path !== void 0 ? path : `${path}#${item.name}`
-
-      const node = {
-        key,
-        label: item.name,
-        icon: item.icon,
-        badge: item.badge,
-        path: item.external === true ? item.path : path,
-        external: item.external === true
-      }
-
-      if (item.children !== void 0) {
-        if (item.opened === true) {
-          openedKeys.push(key)
-        }
-        node.children = getNodes(item.children, path, [...parentKeys, key])
-      } else if (node.external === false) {
-        node.handler = handler
-        ancestorKeys.set(path, parentKeys)
-      }
-
-      return node
-    })
-  }
-
-  const nodes = getNodes(Menu, '', [])
-
-  function getExpandedKeys(routePath, current) {
-    const keys = ancestorKeys.get(routePath)
-
-    if (keys === void 0) return current
-
-    const merged = new Set(current)
-    keys.forEach(key => {
-      merged.add(key)
-    })
-
-    return merged.size === current.length ? current : [...merged]
-  }
-
-  return { nodes, openedKeys, getExpandedKeys }
-}
+// leaf route path -> keys of the groups that must be open to reveal it
+const ancestorKeys = new Map()
+// groups flagged as opened in the menu definition
+const defaultOpenedKeys = []
 
 // a click on the link is the link's business (router navigation, or
 // the browser's for external ones), never the treeitem's
@@ -66,22 +19,75 @@ function stopClick(e) {
   e.stopPropagation()
 }
 
-export default {
-  setup() {
-    const $route = useRoute()
-    const $router = useRouter()
+function getNodes(list, parentPath, parentKeys, onNodeClick) {
+  return list.map(item => {
+    const path = parentPath + (item.path !== void 0 ? '/' + item.path : '')
+    // some groups (Buttons, Form Components, ...) carry no path of
+    // their own, so the path alone would collide with the parent's
+    const key = item.path !== void 0 ? path : `${path}#${item.name}`
 
-    // keyboard activation of a leaf (Enter on its treeitem); pointer
-    // clicks land on the link itself and never reach the tree
-    function navigate(node) {
-      if (node.path !== $route.path) {
-        $router.push(node.path)
+    const node = {
+      key,
+      label: item.name,
+      icon: item.icon,
+      badge: item.badge,
+      path: item.external === true ? item.path : path,
+      external: item.external === true
+    }
+
+    if (item.children !== void 0) {
+      if (item.opened === true) {
+        defaultOpenedKeys.push(key)
+      }
+      node.children = getNodes(
+        item.children,
+        path,
+        [...parentKeys, key],
+        onNodeClick
+      )
+    } else if (node.external === false) {
+      node.handler = onNodeClick
+      ancestorKeys.set(path, parentKeys)
+    }
+
+    return node
+  })
+}
+
+function getExpandedKeys(routePath, current) {
+  const keys = ancestorKeys.get(routePath)
+
+  if (keys === void 0) return current
+
+  const merged = new Set(current)
+  keys.forEach(key => {
+    merged.add(key)
+  })
+
+  return merged.size === current.length ? current : [...merged]
+}
+
+const getNodeClickHandler = import.meta.env.QUASAR_SERVER
+  ? () => {}
+  : () => {
+      const $router = useRouter()
+      const $route = useRoute()
+
+      return node => {
+        if (node.path !== $route.path) {
+          $router.push(node.path)
+        }
       }
     }
 
-    const { nodes, openedKeys, getExpandedKeys } = buildMenu(navigate)
+export default {
+  setup() {
+    if (nodes === null) {
+      nodes = getNodes(Menu, '', [], getNodeClickHandler())
+    }
 
-    const expanded = ref(getExpandedKeys($route.path, openedKeys))
+    const $route = useRoute()
+    const expanded = ref(getExpandedKeys($route.path, [...defaultOpenedKeys]))
 
     watch(
       () => $route.path,
