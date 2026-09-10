@@ -53,8 +53,7 @@ function getUpdatedProps() {
       },
       {
         label: 'Dismiss',
-        color: 'white',
-        handler() {}
+        color: 'white'
       }
     ]
   }
