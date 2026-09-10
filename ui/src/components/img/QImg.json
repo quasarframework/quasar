@@ -76,6 +76,7 @@
       "type": ["String", "Number"],
       "desc": "Use it when not specifying 'ratio' but still wanting an initial aspect ratio",
       "default": "1.7778",
+      "__runtimeDefault": true,
       "examples": [
         "# (Number format) :initial-ratio=\"16/9\"",
         "# (String format) initial-ratio=\"1\""
@@ -225,6 +226,13 @@
       "type": "Boolean",
       "desc": "Disable default transition when switching between old and new image",
       "category": "behavior"
+    },
+
+    "ssr-prerender": {
+      "type": "Boolean",
+      "desc": "By default the image is rendered in the server-side (SSR/SSG) HTML; When none of 'ratio', 'initial-ratio' or 'height' is specified the shape of the box cannot be known until the image loads, so the image is rendered client-side after hydration instead; Set this prop to still render it server-side, accepting that the box changes to the natural ratio of the image once hydrated",
+      "category": "behavior",
+      "addedIn": "v2.32"
     }
   },
 

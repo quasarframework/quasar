@@ -78,6 +78,16 @@ When you are using this option always take care to have the content of the `defa
 
 <DocExample title="Native context menu" file="ContextMenu" />
 
+## Server-side rendering <q-badge label="v2.32+" />
+
+On SSR/SSG, QImg puts the `<img>` into the server HTML whenever you have declared the shape of its box, meaning when any of `ratio`, `initial-ratio` or `height` is set. The browser then discovers and fetches the image while parsing the HTML, long before hydration, and paints it as it arrives, like a native `<img>`. The loading state (spinner or `loading` slot) only shows up if the image is still loading once the page gets hydrated, and the `load`/`error` events are emitted at hydration for an image that has already settled.
+
+Without any of them, the box uses a default 16:9 ratio until the natural ratio of the image is known, so a server-rendered image would visibly change shape at hydration. QImg therefore defers such an image until hydration, unless you set `ssr-prerender` and accept that box change.
+
+::: tip
+For an above-the-fold image, also set `loading="eager"` and `fetchpriority="high"` so that the browser does not delay its fetch.
+:::
+
 ## Accessibility <q-badge label="v2.25+" />
 
 The QImg wrapper carries `role="img"` with its accessible name taken from the `alt` prop — provide `alt` for any image that carries meaning. For a purely decorative image set `alt=""`, exactly as you would on a native `<img>`: the wrapper then claims no role at all (the img role requires a name) and screen readers skip it. Omitting `alt` entirely does the same thing. Note that the loading and error state changes are not announced to assistive technology.
