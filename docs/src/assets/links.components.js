@@ -397,6 +397,11 @@ const components = [
 
 const directives = [
   {
+    name: 'Close Popup',
+    description: 'Close the parent QDialog or QMenu on click',
+    tag: 'directive'
+  },
+  {
     name: 'Intersection',
     description: 'Handle elements coming into the view',
     tag: 'directive'
@@ -584,6 +589,11 @@ const utils = [
   {
     name: 'Date utils',
     description: 'Easily handle date objects',
+    tag: 'util'
+  },
+  {
+    name: 'Color utils',
+    description: 'Manipulate colors and app brand colors',
     tag: 'util'
   },
   {
