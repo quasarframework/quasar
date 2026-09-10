@@ -25,12 +25,13 @@ import { Dark } from 'quasar'
 const props = defineProps({
   src: String,
   name: String,
-  href: String
+  href: String,
+  dark: Boolean
 })
 
 const logoUrl = computed(
   () =>
-    `https://cdn.quasar.dev/logo-sponsors-v2/${Dark.isActive ? 'dark' : 'light'}/${props.src}`
+    `https://cdn.quasar.dev/logo-sponsors-v2/${props.dark || Dark.isActive ? 'dark' : 'light'}/${props.src}`
 )
 </script>
 

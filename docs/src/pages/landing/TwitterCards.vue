@@ -14,7 +14,7 @@
       >
         <q-card-section class="row items-center no-wrap">
           <q-avatar class="q-mr-sm">
-            <q-img :src="tweet.avatar" />
+            <q-img :src="tweet.avatar" :ratio="1" />
           </q-avatar>
           <div class="col">
             <div class="text-weight-bold">{{ tweet.author }}</div>

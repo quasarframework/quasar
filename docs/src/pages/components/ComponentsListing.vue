@@ -69,7 +69,7 @@
             class="page-all__card bg-white shadow-bottom-large cursor-pointer overflow-hidden letter-spacing-300"
           >
             <div class="page-all__card-img">
-              <q-img v-if="entry.img" :src="entry.img" />
+              <q-img v-if="entry.img" :src="entry.img" :ratio="1.765" />
             </div>
             <q-card-section
               class="text-size-14 text-brand-primary text-weight-bold"

@@ -49,6 +49,7 @@
             :src="src"
             :name="name"
             :href="href"
+            dark
           />
         </div>
         <q-btn

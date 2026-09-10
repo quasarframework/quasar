@@ -16,7 +16,7 @@
 
     <q-separator />
 
-    <q-img :src="props.i" class="bg-white" />
+    <q-img :src="props.i" class="bg-white" :ratio="1.778" />
   </q-card>
 </template>
 
