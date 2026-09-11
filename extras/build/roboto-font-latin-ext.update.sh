@@ -16,8 +16,8 @@ cd ../exports/roboto-font-latin-ext || exit 1
 
 FILE="roboto-font-latin-ext.css"
 FONT_FOLDER="web-font"
-AGENT_WOFF="Mozilla/5.0 (Windows NT 6.1; Trident/7.0; rv:11.0) like Gecko"
-AGENT_WOFF2="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.139 Safari/537.36"
+# Firefox 40 supports woff2 but not unicode-range, so Google Fonts serves one woff2 per weight
+AGENT="Mozilla/5.0 (Windows NT 6.1; rv:40.0) Gecko/20100101 Firefox/40.0"
 VERSION=""
 
 get_local_font_name() {
@@ -26,14 +26,14 @@ get_local_font_name() {
   if [[ "$url" == *"/font?kit="* ]]; then
     local font_file="${url#*kit=}"
     font_file="${font_file%%&*}"
-    printf '%s.woff' "$font_file"
+    printf '%s.woff2' "$font_file"
   else
     basename "$url"
   fi
 }
 
-# download css as IE11 for .woff
-wget 'https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900&subset=latin-ext' -O - --header="User-Agent: ${AGENT_WOFF}" | \
+# download css as Firefox 40 for one .woff2 per weight
+wget 'https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900&subset=latin-ext' -O - --header="User-Agent: ${AGENT}" | \
   sed "s/local('.*'), //" > $FILE
 
 URL=$(cat $FILE | tr '()' \\n | grep https\*:// | head -n 1)
@@ -49,7 +49,7 @@ cat $FILE | tr '()' \\n | grep https\*:// | while read -r URL; do
 done
 
 # replace links to local filenames
-sed -E "s#https://[^)]*/font\\?kit=([^&)]*)[^)]*#./web-font/\\1.woff#g; s#https://[^)]*/([^/?)]*\\.woff2?)#./web-font/\\1#g" \
+sed -E "s#https://[^)]*/font\\?kit=([^&)]*)[^)]*#./web-font/\\1.woff2#g; s#https://[^)]*/([^/?)]*\\.woff2?)#./web-font/\\1#g" \
   "$FILE" > "$FILE.tmp" && mv "$FILE.tmp" "$FILE"
 
 if [ -n "$VERSION" ]; then
