@@ -98,6 +98,10 @@ export default [
       {
         name: 'Transitions',
         path: 'transitions'
+      },
+      {
+        name: 'Global Nodes',
+        path: 'global-node'
       }
     ]
   },
