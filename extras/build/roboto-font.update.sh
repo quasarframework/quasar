@@ -15,7 +15,7 @@ FONT_FOLDER="web-font"
 AGENT="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36"
 VERSION=""
 
-wget 'https://fonts.googleapis.com/css2?family=Roboto:wght@100..900' -O - --header="User-Agent: ${AGENT}" > $FILE
+wget 'https://fonts.googleapis.com/css2?family=Roboto:wght@100..900&display=swap' -O - --header="User-Agent: ${AGENT}" > $FILE
 
 URL=$(cat $FILE | tr '()' \\n | grep https\*:// | head -n 1)
 [ -n "$URL" ] && VERSION=$(printf '%s' "$URL" | grep -oE 'v[0-9]+')
