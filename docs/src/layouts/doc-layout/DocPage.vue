@@ -10,23 +10,39 @@
         <q-badge v-if="props.badge" :label="props.badge" />
       </h1>
 
-      <q-btn
-        v-if="props.editLink"
-        class="doc-page__title-edit"
-        :href="editHref"
-        target="_blank"
-        rel="noopener noreferrer"
-        flat
-        round
-        color="brand-primary"
-        :icon="mdiPencil"
-        aria-label="Edit this page in browser"
-      >
-        <q-tooltip class="row no-wrap items-center">
-          <span>Caught a mistake? Edit page in browser</span>
-          <q-icon class="q-ml-xs" :name="mdiFlash" size="2em" />
-        </q-tooltip>
-      </q-btn>
+      <div class="doc-page__title-actions row no-wrap">
+        <q-btn
+          :href="mdHref"
+          target="_blank"
+          rel="noopener noreferrer"
+          flat
+          round
+          color="brand-primary"
+          :icon="mdiLanguageMarkdown"
+          aria-label="View this page as Markdown"
+        >
+          <q-tooltip
+            >View this page as Markdown (for LLMs and AI agents)</q-tooltip
+          >
+        </q-btn>
+
+        <q-btn
+          v-if="props.editLink"
+          :href="editHref"
+          target="_blank"
+          rel="noopener noreferrer"
+          flat
+          round
+          color="brand-primary"
+          :icon="mdiPencil"
+          aria-label="Edit this page in browser"
+        >
+          <q-tooltip class="row no-wrap items-center">
+            <span>Caught a mistake? Edit page in browser</span>
+            <q-icon class="q-ml-xs" :name="mdiFlash" size="2em" />
+          </q-tooltip>
+        </q-btn>
+      </div>
     </div>
 
     <div class="doc-page__nav" v-if="props.related">
@@ -65,17 +81,6 @@
         </router-link>
       </div>
     </div>
-
-    <div class="doc-page__content-footer" v-if="props.editLink">
-      <q-separator class="q-mb-sm" />
-
-      <div class="q-mb-md">
-        <span>Caught a mistake?</span>
-        <DocLink class="q-ml-xs" :to="editHref"
-          >Edit this page in browser</DocLink
-        >
-      </div>
-    </div>
   </div>
 
   <nav
@@ -92,10 +97,15 @@
 <script setup>
 import { Notify, useMeta } from 'quasar'
 import { computed, onMounted, onUnmounted } from 'vue'
+import { useRoute } from 'vue-router'
 
-import { mdiFlash, mdiLaunch, mdiPencil } from '@quasar/extras/mdi-v7'
+import {
+  mdiFlash,
+  mdiLanguageMarkdown,
+  mdiLaunch,
+  mdiPencil
+} from '@quasar/extras/mdi-v7'
 
-import DocLink from '@/components/DocLink.vue'
 import DocPageToc from './DocPageToc.vue'
 
 import getMeta from '@/assets/get-meta.js'
@@ -165,14 +175,18 @@ if (import.meta.env.QUASAR_DEV) {
   })
 }
 
-useMeta(
-  props.desc !== void 0
-    ? {
-        title: props.title,
-        meta: getMeta(props.title + ' | Quasar Framework', props.desc)
-      }
-    : { title: props.title }
-)
+// the page's markdown sibling from the AI-docs export (build/ai-docs),
+// served next to it
+const mdHref = `${useRoute().path}.md`
+
+useMeta({
+  title: props.title,
+  ...(props.desc !== void 0
+    ? { meta: getMeta(props.title + ' | Quasar Framework', props.desc) }
+    : {}),
+  // agents read <head>, not buttons
+  link: { markdown: { rel: 'alternate', type: 'text/markdown', href: mdHref } }
+})
 
 const docStore = useDocStore()
 docStore.setToc(props.toc)
@@ -230,16 +244,14 @@ const tocClass = computed(
     &--sub
       padding-left: 16px !important
 
-  &__content-footer
-    margin-top: 64px
-
-  // The page title and the link to edit the page share one line. The link
-  // has to stay outside the <h1>, because a heading is named by what it
-  // contains and its label was ending up in every page's title. Sizing the
-  // title here rather than on the heading keeps the two facts that follow
-  // from each other together: the space below the title is 1em of it, and
-  // the heading is free of margins that would otherwise make it the
-  // tallest thing on the line and knock it off centre.
+  // The page title and its action links (markdown sibling, edit on GitHub)
+  // share one line. The links have to stay outside the <h1>, because a
+  // heading is named by what it contains and their labels were ending up in
+  // every page's title. Sizing the title here rather than on the heading
+  // keeps the two facts that follow from each other together: the space
+  // below the title is 1em of it, and the heading is free of margins that
+  // would otherwise make it the tallest thing on the line and knock it off
+  // centre.
   &__title
     display: flex
     align-items: center
@@ -252,9 +264,10 @@ const tocClass = computed(
     @media (max-width: 850px)
       font-size: $doc-title-font-size--narrow
 
-  &__title-edit
+  &__title-actions
     align-self: flex-start
     margin-left: auto
+    padding-left: 8px
 
   &__overline
     letter-spacing: $letter-spacing-brand
