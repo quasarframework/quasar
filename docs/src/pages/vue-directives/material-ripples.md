@@ -8,7 +8,7 @@ examples: Ripple
 Material Ripple effect can easily be added to any DOM element (or component) through the `v-ripple` Quasar directive.
 
 ::: danger
-Do not use this directive on components that already have material ripples baked in (example: `QBtn`). Rather configure the internal ripples through those component's `ripple` property.
+Do not use this directive on components that already have material ripples baked in: QBtn, QBtnDropdown, QBtnToggle, QChip, QPagination, QTab and QRouteTab. Rather configure the internal ripples through those components' `ripple` property.
 :::
 
 <DocApi file="Ripple" />
