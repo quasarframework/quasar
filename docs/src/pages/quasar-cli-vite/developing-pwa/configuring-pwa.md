@@ -174,8 +174,6 @@ Then, edit your `/index.html` file. The following are the actual meta tags that 
   />
   <meta name="mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-  <meta name="msapplication-TileImage" content="icons/ms-icon-144x144.png" />
-  <meta name="msapplication-TileColor" content="#000000" />
   <meta name="apple-mobile-web-app-title" content="<%= pwaManifest.name %>" />
   <link rel="apple-touch-icon" href="icons/apple-icon-120x120.png" />
   <link

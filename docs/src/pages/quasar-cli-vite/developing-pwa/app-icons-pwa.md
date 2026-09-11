@@ -22,7 +22,6 @@ scope:
             e: for the PWA manifest
           - l: icon-512x512.png
             e: for the PWA manifest
-          - l: ms-icon-144x144.png
           - l: safari-pinned-tab.svg
           - l: apple-icon-120x120.png
           - l: apple-icon-152x152.png

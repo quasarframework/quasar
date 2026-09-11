@@ -30,8 +30,6 @@ function updateHeadTags(quasarConf, pwaManifest) {
       (pwaManifest.name !== void 0
         ? `<meta name="apple-mobile-web-app-title" content="${pwaManifest.name}">`
         : '') +
-      `<meta name="msapplication-TileImage" content="${publicPath}icons/ms-icon-144x144.png">` +
-      '<meta name="msapplication-TileColor" content="#000000">' +
       `<link rel="apple-touch-icon" href="${publicPath}icons/apple-icon-120x120.png">` +
       `<link rel="apple-touch-icon" sizes="152x152" href="${publicPath}icons/apple-icon-152x152.png">` +
       `<link rel="apple-touch-icon" sizes="167x167" href="${publicPath}icons/apple-icon-167x167.png">` +

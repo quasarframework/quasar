@@ -36,15 +36,6 @@ export default [
 
   {
     generator: 'png',
-    name: 'ms-icon-{size}x{size}.png',
-    folder: 'public/icons',
-    sizes: [144]
-    // tag is auto-injected by @quasar/app
-    // <meta name="msapplication-TileImage" content="icons/{name}">
-  },
-
-  {
-    generator: 'png',
     name: 'icon-{size}x{size}.png',
     folder: 'public/icons',
     sizes: [128, 192, 256, 384, 512]
