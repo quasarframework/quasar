@@ -65,10 +65,7 @@ writeExports(
 // then update webfont files
 
 const banner = getBanner('MaterialDesignIcons.com', packageName)
-const webfont = [
-  'materialdesignicons-webfont.woff',
-  'materialdesignicons-webfont.woff2'
-]
+const webfont = ['materialdesignicons-webfont.woff2']
 
 webfont.forEach(file => {
   fse.copySync(
@@ -86,12 +83,13 @@ copyCssFile({
   replaceFn: content =>
     content
       .replace('/* MaterialDesignIcons.com */', banner)
+      .replace('@font-face {', '@font-face {\n  font-display: block;')
       .replace('/*# sourceMappingURL=materialdesignicons.css.map */', '')
       // has two "src:" lines, remove first then replace second:
       .replace(/src:[^;]+;/, '')
       .replace(
         /src:[^;]+;/,
-        'src: url("./materialdesignicons-webfont.woff2") format("woff2"), url("./materialdesignicons-webfont.woff") format("woff");'
+        'src: url("./materialdesignicons-webfont.woff2") format("woff2");'
       )
 })
 

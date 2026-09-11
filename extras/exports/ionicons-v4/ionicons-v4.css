@@ -13,7 +13,7 @@
 @font-face {
   font-family: "Ionicons";
   font-display: block;
-  src: url("./ionicons.woff2") format("woff2"), url("./ionicons.woff") format("woff");
+  src: url("./ionicons.woff2") format("woff2");
   font-weight: normal;
   font-style: normal;
 }

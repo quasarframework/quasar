@@ -65,11 +65,8 @@ writeExports(
 
 const banner = getBanner('Line Awesome', packageName)
 const webfont = [
-  'la-brands-400.woff',
   'la-brands-400.woff2',
-  'la-regular-400.woff',
   'la-regular-400.woff2',
-  'la-solid-900.woff',
   'la-solid-900.woff2'
 ]
 
@@ -92,20 +89,21 @@ copyCssFile({
   replaceFn: content =>
     banner +
     content
+      .replaceAll('font-display: auto;', 'font-display: block;')
       .replace(/src:[^;]+la-brands-400[^;]+;/, '')
       .replace(
         /src:[^;]+la-brands-400[^;]+;/,
-        'src: url("./la-brands-400.woff2") format("woff2"), url("./la-brands-400.woff") format("woff");'
+        'src: url("./la-brands-400.woff2") format("woff2");'
       )
       .replace(/src:[^;]+la-regular-400[^;]+;/, '')
       .replace(
         /src:[^;]+la-regular-400[^;]+;/,
-        'src: url("./la-regular-400.woff2") format("woff2"), url("./la-regular-400.woff") format("woff");'
+        'src: url("./la-regular-400.woff2") format("woff2");'
       )
       .replace(/src:[^;]+la-solid-900[^;]+;/, '')
       .replace(
         /src:[^;]+la-solid-900[^;]+;/,
-        'src: url("./la-solid-900.woff2") format("woff2"), url("./la-solid-900.woff") format("woff");'
+        'src: url("./la-solid-900.woff2") format("woff2");'
       )
 })
 

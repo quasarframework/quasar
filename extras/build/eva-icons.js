@@ -68,7 +68,7 @@ writeExports(
 
 // then update webfont files
 
-const webfont = ['Eva-Icons.woff2', 'Eva-Icons.woff']
+const webfont = ['Eva-Icons.woff2']
 const banner = getBanner('Eva Icons', packageName)
 
 webfont.forEach(file => {
@@ -92,10 +92,7 @@ copyCssFile({
     content
       .replace('@font-face {', '@font-face {\nfont-display: block;')
       .replace('src: url("./fonts/Eva-Icons.eot");', '')
-      .replace(
-        /src:[^;]+;/,
-        'src: url("./Eva-Icons.woff2") format("woff2"), url("./Eva-Icons.woff") format("woff");'
-      )
+      .replace(/src:[^;]+;/, 'src: url("./Eva-Icons.woff2") format("woff2");')
 })
 
 // write the JSON file

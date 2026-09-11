@@ -2,9 +2,10 @@
 
 
 @font-face {
+  font-display: block;
   font-family: "Material Design Icons";
   
-  src: url("./materialdesignicons-webfont.woff2") format("woff2"), url("./materialdesignicons-webfont.woff") format("woff");
+  src: url("./materialdesignicons-webfont.woff2") format("woff2");
   font-weight: normal;
   font-style: normal;
 }

@@ -4,7 +4,7 @@
 font-display: block;
     font-family: Eva-Icons;
     
-    src: url("./Eva-Icons.woff2") format("woff2"), url("./Eva-Icons.woff") format("woff");
+    src: url("./Eva-Icons.woff2") format("woff2");
     font-style: normal;
     font-weight: 400;
 }

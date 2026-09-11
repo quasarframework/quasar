@@ -63,7 +63,7 @@ writeExports(
 
 // then update webfont files
 
-const webfont = ['bootstrap-icons.woff', 'bootstrap-icons.woff2']
+const webfont = ['bootstrap-icons.woff2']
 
 webfont.forEach(file => {
   fse.copySync(
@@ -84,7 +84,7 @@ copyCssFile({
   replaceFn: content =>
     content.replace(
       /src:[^;]+;/,
-      'src: url("./bootstrap-icons.woff2") format("woff2"), url("./bootstrap-icons.woff") format("woff");'
+      'src: url("./bootstrap-icons.woff2") format("woff2");'
     )
 })
 
