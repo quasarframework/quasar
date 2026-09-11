@@ -216,7 +216,14 @@ export default /*#__PURE__*/ createComponent({
 
     watch(showing, val => {
       if (!val) {
-        onLeave(contentRef.value, hideContent)
+        if (contentRef.value !== null) {
+          onLeave(contentRef.value, hideContent)
+        } else {
+          // closed before its ref is assigned (a group sibling that
+          // opened in the same mount): nothing to slide, settle hidden
+          hideContent()
+          onSlideEnd('hide')
+        }
       } else if (contentHidden.value) {
         // shown once Vue has dropped the display: none
         contentHidden.value = false

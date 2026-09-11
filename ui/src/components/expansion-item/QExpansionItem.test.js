@@ -563,6 +563,48 @@ describe('[QExpansionItem API]', () => {
         }
       })
 
+      test('settles a sibling that also started opened', async () => {
+        const errorHandler = vi.fn()
+        const onAfterHide = vi.fn()
+
+        // both claim the group while mounting, before Vue has assigned
+        // the losing item's content ref
+        activeWrapper = mount(
+          {
+            render: () => [
+              h(
+                QExpansionItem,
+                {
+                  label: 'First',
+                  group: 'my-group',
+                  defaultOpened: true,
+                  onAfterHide
+                },
+                () => h('div', 'First content')
+              ),
+              h(
+                QExpansionItem,
+                { label: 'Second', group: 'my-group', defaultOpened: true },
+                () => h('div', 'Second content')
+              )
+            ]
+          },
+          { global: { config: { errorHandler } } }
+        )
+        await flushPromises()
+
+        expect(errorHandler).not.toHaveBeenCalled()
+
+        const [first, second] = activeWrapper.findAllComponents(QExpansionItem)
+
+        // the last claim wins, the first one is hidden without a slide
+        expect(isExpanded(first)).toBe(false)
+        expect(getContent(first).isVisible()).toBe(false)
+        expect(onAfterHide).toHaveBeenCalledTimes(1)
+        expect(isExpanded(second)).toBe(true)
+        expect(getContent(second).isVisible()).toBe(true)
+      })
+
       test('leaves the items of other groups alone', async () => {
         const first = mount(QExpansionItem, {
           props: { label: 'First', group: 'group-a', defaultOpened: true }
