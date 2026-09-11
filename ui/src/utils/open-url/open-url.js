@@ -49,10 +49,16 @@ function openWindow(url, reject, windowFeatures) {
 }
 
 export default function openUrl(url, reject, windowFeatures) {
-  if (Platform.is.ios && window.SafariViewController !== void 0) {
-    window.SafariViewController.isAvailable(available => {
+  const safariViewController = window.SafariViewController
+
+  if (
+    Platform.is.ios &&
+    typeof safariViewController?.isAvailable === 'function' &&
+    typeof safariViewController.show === 'function'
+  ) {
+    safariViewController.isAvailable(available => {
       if (available) {
-        window.SafariViewController.show({ url }, noop, reject)
+        safariViewController.show({ url }, noop, reject)
       } else {
         openWindow(url, reject, windowFeatures)
       }

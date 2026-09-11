@@ -185,6 +185,22 @@ describe('[openUrl API]', () => {
         expect(show).not.toHaveBeenCalled()
         expect(openSpy).toHaveBeenCalledTimes(1)
       })
+
+      test('falls back to a new window when SafariViewController is a DOM named property', () => {
+        setPlatform('ios', true)
+        const openSpy = mockWindowOpen()
+        const element = document.createElement('a')
+        element.id = 'SafariViewController'
+        document.body.append(element)
+
+        try {
+          expect(window.SafariViewController).toBe(element)
+          expect(() => openUrl(url)).not.toThrow()
+          expect(openSpy).toHaveBeenCalledTimes(1)
+        } finally {
+          element.remove()
+        }
+      })
     })
   })
 })
