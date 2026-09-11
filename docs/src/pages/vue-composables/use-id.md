@@ -2,7 +2,7 @@
 title: useId composable
 desc: What is useId() composable and how you can use it
 keys: useId
-badge: Quasar v2.15+
+badge: v2.15+
 ---
 
 The `useId()` composable returns a Vue Ref holding a string that can be used as a unique identifier to apply to a DOM node attribute.

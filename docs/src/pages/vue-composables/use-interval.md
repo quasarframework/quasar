@@ -2,7 +2,7 @@
 title: useInterval composable
 desc: What is useInterval() composable and how you can use it
 keys: useInterval
-badge: Quasar v2.15.1+
+badge: v2.15.1+
 ---
 
 The `useInterval()` composable is similar in scope with the native `setInterval()`, with some key differences. The composable takes care of "cancelling" the interval if your component gets destroyed or deactivated (keep-alive related) and you can also override the executing Function while it's running.

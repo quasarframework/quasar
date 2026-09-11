@@ -26,7 +26,7 @@ There are currently two types of QVirtualScroll: "list" (using QItems) and "tabl
 :::
 
 ::: warning
-There is a maximum height of the scrolling container, imposed by each browser. In IE11 this is around 1,000,000px, while in the rest of the browsers it's much more, but still limited.
+Each browser imposes a maximum height on the scrolling container (Chromium caps it at 2^24 CSS pixels, roughly 16.7 million), so very large lists still hit a limit.
 :::
 
 ::: tip SSR

@@ -2,7 +2,7 @@
 title: useHydration composable
 desc: What is useHydration() composable and how you can use it
 keys: useHydration
-badge: Quasar v2.15+
+badge: v2.15+
 related:
   - /vue-components/no-ssr
 ---

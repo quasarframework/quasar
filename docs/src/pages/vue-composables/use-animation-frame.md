@@ -2,7 +2,7 @@
 title: useAnimationFrame composable
 desc: What is useAnimationFrame() composable and how you can use it
 keys: useAnimationFrame
-badge: Quasar v2.23+
+badge: v2.23+
 ---
 
 The `useAnimationFrame()` composable is similar in scope with the native `requestAnimationFrame()`, with some key differences. The composable takes care of "cancelling" the animation frame if your component gets destroyed or deactivated (keep-alive related) and you can also override the executing Function before the next animation frame arrives.

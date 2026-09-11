@@ -2,7 +2,7 @@
 title: useRenderCache composable
 desc: What is useRenderCache() composable and how you can use it
 keys: useRenderCache
-badge: Quasar v2.15+
+badge: v2.15+
 ---
 
 The `useRenderCache()` composable is useful especially when you are dealing with Vue render functions (though not restricted to it). When you are building nodes through an iteration, this composable can help you inline the code while (for performance reasons) also benefitting from a cache.

@@ -33,8 +33,6 @@ These extension will install the respective harnesses, which you can configure a
 It is how multiple testing harnesses are ideally managed within a Quasar project.
 If you ever need to review your installation choices you can take a look at `quasar.extensions.json`.
 
-> Note that we previously suggested to use `@quasar/testing` AE to manage all testing harnesses in a project. This is no longer the case, as [it is now deprecated](https://github.com/quasarframework/quasar-testing/tree/dev/packages/testing/README.md#DEPRECATION-NOTICE). Please use the above commands instead.
-
 ## Further Reading
 
 ### Books

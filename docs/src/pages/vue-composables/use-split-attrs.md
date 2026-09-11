@@ -2,7 +2,7 @@
 title: useSplitAttrs composable
 desc: What is useSplitAttrs() composable and how you can use it
 keys: useSplitAttrs
-badge: Quasar v2.15+
+badge: v2.15+
 ---
 
 Vue's `attrs` in a component can contain both listeners and real HTML attributes. The `useSplitAttrs()` composable breaks down this Vue attr object into the two categories and keeps them updated.

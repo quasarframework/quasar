@@ -2,7 +2,7 @@
 title: useTick composable
 desc: What is useTick() composable and how you can use it
 keys: useTick
-badge: Quasar v2.15+
+badge: v2.15+
 ---
 
 The `useTick()` composable is similar in scope with the `nextTick()` from Vue, with some key differences. Once you trigger a nextTick() it will get executed in the next "tick" no matter what. The useTick() on the other hand, can be "cancelled". You can also override it.

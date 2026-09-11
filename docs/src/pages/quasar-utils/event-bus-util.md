@@ -4,7 +4,7 @@ desc: An event emitter util.
 keys: EventBus,bus,event
 ---
 
-Quasar supplies a global EventBus, especially useful when upgrading from Quasar v1 where the native Vue 2 interface has been dropped.
+Quasar supplies an EventBus util, a small event emitter that you can share across your app.
 
 ### Methods
 

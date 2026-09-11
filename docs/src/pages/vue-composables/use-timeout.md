@@ -2,7 +2,7 @@
 title: useTimeout composable
 desc: What is useTimeout() composable and how you can use it
 keys: useTimeout
-badge: Quasar v2.15+
+badge: v2.15+
 ---
 
 The `useTimeout()` composable is similar in scope with the native `setTimeout()`, with some key differences. The composable takes care of "cancelling" the timeout if your component gets destroyed or deactivated (keep-alive related) and you can also override the executing Function before the timeout expires.

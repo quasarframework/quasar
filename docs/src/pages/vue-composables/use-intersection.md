@@ -2,7 +2,7 @@
 title: useIntersection composable
 desc: What is useIntersection() composable and how you can use it
 keys: useIntersection
-badge: Quasar v2.30+
+badge: v2.30+
 related:
   - /vue-components/intersection
   - /vue-directives/intersection
