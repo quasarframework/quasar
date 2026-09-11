@@ -636,17 +636,14 @@ const composableNameToKebabCase = composableName =>
   composableName.replaceAll(/([a-z])([A-Z])/g, '$1-$2').toLowerCase()
 
 export const quasarElements = [
-  ...components.map(entry => {
-    const kebab = componentNameToKebabCase(entry.name)
-    return {
-      ...entry,
-      category: 'vue-components',
-      // entries with an explicit `to` live outside /vue-components
-      // (layout family) and carry no card image
-      img: entry.to === void 0 ? `/components/${kebab}.jpg` : void 0,
-      to: entry.to || `/vue-components/${entry.path || kebab}`
-    }
-  }),
+  ...components.map(entry => ({
+    ...entry,
+    category: 'vue-components',
+    // entries with an explicit `to` live outside /vue-components (layout family)
+    to:
+      entry.to ||
+      `/vue-components/${entry.path || componentNameToKebabCase(entry.name)}`
+  })),
 
   ...directives.map(entry => ({
     ...entry,
@@ -677,7 +674,6 @@ export const quasarElements = [
   description: entry.description,
   category: entry.category,
   tag: entry.tag,
-  img: entry.img,
   haystack:
     `${entry.name} ${entry.description} ${entry.short || ''}`.toLowerCase(),
   to: entry.to

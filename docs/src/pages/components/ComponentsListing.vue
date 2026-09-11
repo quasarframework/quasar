@@ -66,21 +66,27 @@
           :to="entry.to"
         >
           <q-card
-            class="page-all__card bg-white shadow-bottom-large cursor-pointer overflow-hidden letter-spacing-300"
+            class="page-all__card bg-white shadow-bottom-large cursor-pointer overflow-hidden letter-spacing-300 row no-wrap"
           >
-            <div class="page-all__card-img">
-              <q-img v-if="entry.img" :src="entry.img" :ratio="1.765" />
+            <div class="page-all__card-icon flex flex-center">
+              <q-icon
+                :name="tagMeta[entry.tag].icon"
+                size="32px"
+                color="brand-primary"
+                aria-hidden="true"
+              />
             </div>
-            <q-card-section
-              class="text-size-14 text-brand-primary text-weight-bold"
-            >
-              {{ entry.name }}
-            </q-card-section>
-            <q-card-section
-              class="text-size-12 page-all__card-description text-dark q-pt-none"
-            >
-              {{ entry.description }}
-            </q-card-section>
+            <div class="col column q-pa-md">
+              <div class="text-size-14 text-brand-primary text-weight-bold">
+                {{ entry.name }}
+              </div>
+              <div class="text-size-12 text-dark q-mt-xs">
+                {{ entry.description }}
+              </div>
+              <div class="page-all__card-tag text-uppercase q-mt-sm">
+                {{ tagMeta[entry.tag].label }}
+              </div>
+            </div>
           </q-card>
         </DocCardLink>
       </transition-group>
@@ -96,6 +102,22 @@ import { quasarElements } from '@/assets/links.components.js'
 
 import DocStars from '@/components/DocStars.vue'
 import DocCardLink from '@/components/DocCardLink.vue'
+
+const tagMeta = {
+  button: { label: 'Button', icon: 'smart_button' },
+  input: { label: 'Input', icon: 'edit_note' },
+  loading: { label: 'Loading', icon: 'hourglass_top' },
+  media: { label: 'Media', icon: 'image' },
+  navigation: { label: 'Navigation', icon: 'explore' },
+  panel: { label: 'Panel & Popup', icon: 'web_asset' },
+  scroll: { label: 'Scroll', icon: 'swap_vert' },
+  table: { label: 'Table', icon: 'table_chart' },
+  other: { label: 'Component', icon: 'widgets' },
+  directive: { label: 'Directive', icon: 'swap_calls' },
+  plugin: { label: 'Plugin', icon: 'extension' },
+  composable: { label: 'Composable', icon: 'developer_mode' },
+  util: { label: 'Util', icon: 'build' }
+}
 
 const filterChips = [
   { label: 'Buttons', value: 'button' },
@@ -242,16 +264,22 @@ function onSearchFieldClick() {
 
   &__card
     width: 300px
-    height: 289px
+    min-height: 120px
     transition: transform $header-quick-transition, box-shadow $header-quick-transition
 
     &:hover
       box-shadow: 0 24px 24px 0 rgba(0, 180, 255, 0.4)
       transform: scale(1.03)
 
-  &__card-img
-    height: 170px
-    background-color: $floating-rock
+  &__card-icon
+    flex: 0 0 72px
+    background: rgba($brand-primary, .1)
+
+  &__card-tag
+    margin-top: auto
+    font-size: 10px
+    letter-spacing: 1px
+    color: $floating-rock
 
 .page-all-transition
   &-move,

@@ -6,7 +6,6 @@ import { quasarElements } from './links.components.js'
 import menu from './menu.js'
 
 const pagesDir = normalize(join(import.meta.dirname, '../pages'))
-const publicDir = normalize(join(import.meta.dirname, '../../public'))
 
 test('every catalog entry links to an existing page', () => {
   expect(quasarElements.length).toBeGreaterThan(0)
@@ -20,18 +19,6 @@ test('every catalog entry links to an existing page', () => {
       existsSync(join(pagesDir, `${entry.to}.md`)) ||
         existsSync(join(pagesDir, entry.to, `${leaf}.md`)),
       `catalog entry "${entry.name}" points at a missing page (${entry.to})`
-    ).toBe(true)
-  }
-})
-
-test('every component catalog image exists', () => {
-  const withImages = quasarElements.filter(entry => entry.img !== void 0)
-  expect(withImages.length).toBeGreaterThan(0)
-
-  for (const entry of withImages) {
-    expect(
-      existsSync(join(publicDir, entry.img)),
-      `catalog entry "${entry.name}" references a missing image (${entry.img})`
     ).toBe(true)
   }
 })
