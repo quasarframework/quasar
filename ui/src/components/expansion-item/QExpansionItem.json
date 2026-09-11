@@ -34,8 +34,7 @@
       "type": "String",
       "desc": "aria-label to be used on the expansion toggle element",
       "examples": ["'Open details'"],
-      "category": "accessibility",
-      "addedIn": "v2.8.4"
+      "category": "accessibility"
     },
 
     "label": {
@@ -110,8 +109,7 @@
     "hide-expand-icon": {
       "type": "Boolean",
       "desc": "Do not show the expand icon",
-      "category": "content",
-      "addedIn": "v2.8.4"
+      "category": "content"
     },
 
     "expand-icon-toggle": {
@@ -172,14 +170,12 @@
       "scope": {
         "expanded": {
           "type": "Boolean",
-          "desc": "QExpansionItem expanded status",
-          "addedIn": "v2.7.6"
+          "desc": "QExpansionItem expanded status"
         },
 
         "detailsId": {
           "type": "String",
-          "desc": "QExpansionItem details panel id (for use in aria-controls)",
-          "addedIn": "v2.8.4"
+          "desc": "QExpansionItem details panel id (for use in aria-controls)"
         },
 
         "show": {
@@ -192,8 +188,7 @@
               "desc": "JS event object"
             }
           },
-          "returns": null,
-          "addedIn": "v2.8.4"
+          "returns": null
         },
 
         "hide": {
@@ -206,8 +201,7 @@
               "desc": "JS event object"
             }
           },
-          "returns": null,
-          "addedIn": "v2.8.4"
+          "returns": null
         },
 
         "toggle": {
@@ -220,8 +214,7 @@
               "desc": "JS event object"
             }
           },
-          "returns": null,
-          "addedIn": "v2.8.4"
+          "returns": null
         }
       }
     }

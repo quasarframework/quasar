@@ -80,7 +80,7 @@ LoadingBar.setDefaults({
 })
 ```
 
-### Using an Ajax filter <q-badge label="v2.4.5+" />
+### Using an Ajax filter
 
 Should you want to trigger LoadingBar only for some URLs, then you can use the `setDefaults()` method (described above) to configure the `hijackFilter` property:
 

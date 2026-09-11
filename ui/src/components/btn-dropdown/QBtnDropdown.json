@@ -57,14 +57,7 @@
 
     {
       "from": "components/btn/QBtn",
-      "include": { "slots": ["loading"] },
-      "overrides": {
-        "slots": {
-          "loading": {
-            "addedIn": "v2.8"
-          }
-        }
-      }
+      "include": { "slots": ["loading"] }
     }
   ],
 
@@ -146,8 +139,7 @@
       "type": "String",
       "desc": "aria-label to be used on the dropdown toggle element",
       "examples": ["'Open menu'"],
-      "category": "accessibility",
-      "addedIn": "v2.8.4"
+      "category": "accessibility"
     },
 
     "toggle-aria-haspopup": {

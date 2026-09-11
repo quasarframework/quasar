@@ -77,7 +77,7 @@ Should you wish, you can also display a deterministic progress within the button
 
 <DocExample title="Custom ripple" file="CustomRipple" />
 
-### Connecting to Vue Router <q-badge label="updated on v2.9+" />
+### Connecting to Vue Router
 
 ::: warning UMD usage
 
@@ -94,7 +94,7 @@ Prefer the Vue Router props over `href` when you can, because with `href` you wi
 
 You can also delay, cancel or redirect navigation, as seen below. For a more in-depth description of the `@click` event being used below, please refer to QBtn API card at the top of the page.
 
-<DocExample title="Links with delayed, cancelled or redirected navigation (v2.9+)" file="LinksWithGo" no-edit />
+<DocExample title="Links with delayed, cancelled or redirected navigation" file="LinksWithGo" no-edit />
 
 For more convoluted use-cases, you can also directly use the native Vue `<router-link>` component to wrap a QBtn. This also gives the opportunity to control the state according to app's current route:
 

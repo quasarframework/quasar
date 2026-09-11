@@ -34,7 +34,7 @@ In the example below, `show-value` property also enables the default slot, so yo
 
 <DocExample title="Indeterminate state" file="Indeterminate" />
 
-<DocExample title="Rounded arc of progress (v2.8.4+)" file="RoundedStyle" />
+<DocExample title="Rounded arc of progress" file="RoundedStyle" />
 
 <DocExample title="Standard sizes" file="StandardSizes" />
 

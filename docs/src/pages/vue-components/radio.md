@@ -24,7 +24,7 @@ Please also refer to the [QOptionGroup](/vue-components/option-group) on other p
 
 <DocExample title="Standard" file="Standard" />
 
-### With custom icons <q-badge label="v2.5+" />
+### With custom icons
 
 <DocExample title="With icons" file="WithIcons" />
 

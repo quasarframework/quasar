@@ -239,7 +239,7 @@ We will be using the [useDialogPluginComponent](/vue-composables/use-dialog-plug
 </script>
 ```
 
-If you want to define `emits` in Object form, then (requires Quasar v2.2.5+):
+If you want to define `emits` in Object form, then:
 
 ```js
 defineEmits({
@@ -328,7 +328,7 @@ We will be using the [useDialogPluginComponent](/vue-composables/use-dialog-plug
 </script>
 ```
 
-If you want to define `emits` in Object form, then (requires Quasar v2.2.5+):
+If you want to define `emits` in Object form, then:
 
 ```js
 emits: {

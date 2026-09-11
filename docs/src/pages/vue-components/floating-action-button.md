@@ -84,7 +84,7 @@ The sub-actions stay in the DOM at all times. Opening the FAB toggles an `--open
 
 <DocExample title="Staggered actions" file="StaggeredActions" />
 
-### Slots <q-badge label="v2.4+" />
+### Slots
 
 Notice the slots for QFab and the slots for QFabAction below:
 

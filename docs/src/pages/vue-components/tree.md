@@ -37,7 +37,7 @@ When a tree node has focus:
 
 <DocExample title="No connectors" file="NoConnectors" />
 
-### Dense <q-badge label="v2.2.4+" />
+### Dense
 
 <DocExample title="Dense" file="DenseTree" />
 

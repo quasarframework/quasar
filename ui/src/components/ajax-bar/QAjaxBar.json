@@ -47,8 +47,7 @@
         "type": "Boolean",
         "desc": "Should the URL received as param trigger start() + stop()?"
       },
-      "category": "behavior",
-      "addedIn": "v2.4.5"
+      "category": "behavior"
     }
   },
 

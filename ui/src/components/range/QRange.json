@@ -93,15 +93,13 @@
     "left-thumb-color": {
       "extends": "color",
       "desc": "Color name (from the Quasar Color Palette) for left thumb",
-      "category": "labels",
-      "addedIn": "v2.4"
+      "category": "labels"
     },
 
     "right-thumb-color": {
       "extends": "color",
       "desc": "Color name (from the Quasar Color Palette) for right thumb",
-      "category": "labels",
-      "addedIn": "v2.4"
+      "category": "labels"
     },
 
     "left-thumb-aria-label": {

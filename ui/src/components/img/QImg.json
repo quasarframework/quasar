@@ -150,8 +150,7 @@
       "desc": "Provides a hint of the relative priority to use when fetching the image",
       "default": "'auto'",
       "values": ["'high'", "'low'", "'auto'"],
-      "category": "behavior",
-      "addedIn": "v2.6.6"
+      "category": "behavior"
     },
 
     "fit": {

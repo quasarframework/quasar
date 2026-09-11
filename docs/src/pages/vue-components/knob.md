@@ -31,7 +31,7 @@ If the default slot contains an image, you have to style it with class `no-point
 
 <DocExample title="Custom min/max" file="MinMax" />
 
-### Inner min/max <q-badge label="v2.5.4+" />
+### Inner min/max
 
 Sometimes you need to restrict the model value to an interval inside of the track's length. For this purpose, use `inner-min` and `inner-max` props. First prop needs to be higher or equal to `min` prop while the latter needs to be lower or equal to the `max` prop.
 

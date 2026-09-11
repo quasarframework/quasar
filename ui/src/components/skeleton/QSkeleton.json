@@ -49,8 +49,7 @@
 
     "animation-speed": {
       "extends": "animation-speed",
-      "default": "1500",
-      "addedIn": "v2.2"
+      "default": "1500"
     },
 
     "square": {

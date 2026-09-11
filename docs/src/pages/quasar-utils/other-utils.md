@@ -133,7 +133,7 @@ if (status) {
 }
 ```
 
-## runSequentialPromises <q-badge label="v2.8.4+" />
+## runSequentialPromises
 
 The following is a helper to run multiple Promises sequentially. **Optionally, on multiple threads.**
 

@@ -19,15 +19,13 @@
     "inner-min": {
       "type": "Number",
       "desc": "Inner minimum value of the model; Use in case you need the model value to be inside of the track's min-max values; Needs to be higher or equal to 'min' prop; Defaults to 'min' prop",
-      "category": "model",
-      "addedIn": "v2.4"
+      "category": "model"
     },
 
     "inner-max": {
       "type": "Number",
       "desc": "Inner maximum value of the model; Use in case you need the model value to be inside of the track's min-max values; Needs to be lower or equal to 'max' prop; Defaults to 'max' prop",
-      "category": "model",
-      "addedIn": "v2.4"
+      "category": "model"
     },
 
     "step": {
@@ -61,8 +59,7 @@
 
     "track-color": {
       "extends": "color",
-      "desc": "Color name for the track (can be 'transparent' too) from the Quasar Color Palette",
-      "addedIn": "v2.4"
+      "desc": "Color name for the track (can be 'transparent' too) from the Quasar Color Palette"
     },
 
     "track-img": {
@@ -70,14 +67,12 @@
       "desc": "Apply a pattern image on the track",
       "transformAssetUrls": true,
       "examples": ["'~@/assets/my-pattern.png'"],
-      "category": "style",
-      "addedIn": "v2.4"
+      "category": "style"
     },
 
     "inner-track-color": {
       "extends": "color",
-      "desc": "Color name for the inner track (can be 'transparent' too) from the Quasar Color Palette",
-      "addedIn": "v2.4"
+      "desc": "Color name for the inner track (can be 'transparent' too) from the Quasar Color Palette"
     },
 
     "inner-track-img": {
@@ -85,14 +80,12 @@
       "desc": "Apply a pattern image on the inner track",
       "transformAssetUrls": true,
       "examples": ["'~@/assets/my-pattern.png'"],
-      "category": "style",
-      "addedIn": "v2.4"
+      "category": "style"
     },
 
     "selection-color": {
       "extends": "color",
-      "desc": "Color name for the selection bar (can be 'transparent' too) from the Quasar Color Palette",
-      "addedIn": "v2.4"
+      "desc": "Color name for the selection bar (can be 'transparent' too) from the Quasar Color Palette"
     },
 
     "selection-img": {
@@ -100,8 +93,7 @@
       "desc": "Apply a pattern image on the selection bar",
       "transformAssetUrls": true,
       "examples": ["'~@/assets/my-pattern.png'"],
-      "category": "style",
-      "addedIn": "v2.4"
+      "category": "style"
     },
 
     "label": {
@@ -121,8 +113,7 @@
     "switch-label-side": {
       "type": "Boolean",
       "desc": "Switch the position of the label (top <-> bottom or left <-> right)",
-      "category": "style",
-      "addedIn": "v2.4"
+      "category": "style"
     },
 
     "label-always": {
@@ -205,23 +196,20 @@
         "{ 0: '0%', 5: { label: '5%', classes: 'my-class', style: { width: '24px' } } }",
         "val => (10 * val) + '%'",
         "val => ({ label: (10 * val) + '%', classes: 'my-class', style: { width: '24px' } })"
-      ],
-      "addedIn": "v2.4"
+      ]
     },
 
     "marker-labels-class": {
       "type": "String",
       "desc": "CSS class(es) to apply to the marker labels container",
       "examples": ["'text-orange'"],
-      "category": "style",
-      "addedIn": "v2.4"
+      "category": "style"
     },
 
     "switch-marker-labels-side": {
       "type": "Boolean",
       "desc": "Switch the position of the marker labels (top <-> bottom or left <-> right)",
-      "category": "style",
-      "addedIn": "v2.4"
+      "category": "style"
     },
 
     "track-size": {
@@ -229,8 +217,7 @@
       "desc": "Track size (including CSS unit)",
       "default": "'4px'",
       "examples": ["'35px'"],
-      "category": "style",
-      "addedIn": "v2.4"
+      "category": "style"
     },
 
     "thumb-size": {
@@ -238,13 +225,11 @@
       "desc": "Thumb size (including CSS unit)",
       "default": "'20px'",
       "examples": ["'20px'"],
-      "category": "style",
-      "addedIn": "v2.4"
+      "category": "style"
     },
 
     "thumb-color": {
-      "extends": "color",
-      "addedIn": "v2.4"
+      "extends": "color"
     },
 
     "thumb-path": {
@@ -279,7 +264,6 @@
   "slots": {
     "marker-label": {
       "desc": "What should the menu display after filtering options and none are left to be displayed; Suggestion: <div>",
-      "addedIn": "v2.4",
       "scope": {
         "marker": {
           "type": "Object",
@@ -402,7 +386,6 @@
 
     "marker-label-group": {
       "desc": "What should the menu display after filtering options and none are left to be displayed; Suggestion: <div>",
-      "addedIn": "v2.4",
       "scope": {
         "markerList": {
           "type": "Array",

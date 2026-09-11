@@ -35,7 +35,7 @@ The examples below won't work with UMD version (so in Codepen/jsFiddle too) beca
 
 You can also delay, cancel or redirect navigation, as seen below. For a more in-depth description of the `@click` event being used below, please refer to QBreadcrumbsEl API card at the top of the page.
 
-<DocExample title="Links with delayed, cancelled or redirected navigation (v2.9+)" file="LinksWithGo" no-edit />
+<DocExample title="Links with delayed, cancelled or redirected navigation" file="LinksWithGo" no-edit />
 
 ## Accessibility <q-badge label="v2.25+" />
 

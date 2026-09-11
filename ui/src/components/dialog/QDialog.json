@@ -112,15 +112,13 @@
     "no-shake": {
       "type": "Boolean",
       "desc": "Do not shake up the Dialog to catch user's attention",
-      "category": "behavior",
-      "addedIn": "v2.1.1"
+      "category": "behavior"
     },
 
     "allow-focus-outside": {
       "type": "Boolean",
       "desc": "Allow elements outside of the Dialog to be focusable; By default, for accessibility reasons, QDialog does not allow outer focus",
-      "category": "behavior",
-      "addedIn": "v2.7.2"
+      "category": "behavior"
     },
 
     "transition-show": {
@@ -152,8 +150,7 @@
           "type": "String",
           "required": false,
           "desc": "Optional CSS selector to override default focusable element",
-          "examples": ["'[tabindex]:not([tabindex=\"-1\"])'"],
-          "addedIn": "v2.6.5"
+          "examples": ["'[tabindex]:not([tabindex=\"-1\"])'"]
         }
       },
       "returns": null
@@ -165,8 +162,7 @@
         "focusTarget": {
           "type": "Element",
           "desc": "Optional DOM Element to be focused after shake",
-          "examples": ["document.getElementById('example')"],
-          "addedIn": "v2.10.1"
+          "examples": ["document.getElementById('example')"]
         }
       },
       "returns": null

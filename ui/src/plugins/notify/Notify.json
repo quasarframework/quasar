@@ -45,13 +45,11 @@
       },
 
       "iconColor": {
-        "extends": "color",
-        "addedIn": "v2.5.5"
+        "extends": "color"
       },
 
       "iconSize": {
-        "extends": "size",
-        "addedIn": "v2.5.5"
+        "extends": "size"
       },
 
       "avatar": {
@@ -72,13 +70,11 @@
       },
 
       "spinnerColor": {
-        "extends": "color",
-        "addedIn": "v2.5.5"
+        "extends": "color"
       },
 
       "spinnerSize": {
-        "extends": "size",
-        "addedIn": "v2.5.5"
+        "extends": "size"
       },
 
       "position": {
@@ -268,13 +264,11 @@
             },
 
             "iconColor": {
-              "extends": "color",
-              "addedIn": "v2.5.5"
+              "extends": "color"
             },
 
             "iconSize": {
-              "extends": "size",
-              "addedIn": "v2.5.5"
+              "extends": "size"
             },
 
             "avatar": {
@@ -294,13 +288,11 @@
             },
 
             "spinnerColor": {
-              "extends": "color",
-              "addedIn": "v2.5.5"
+              "extends": "color"
             },
 
             "spinnerSize": {
-              "extends": "size",
-              "addedIn": "v2.5.5"
+              "extends": "size"
             },
 
             "position": {

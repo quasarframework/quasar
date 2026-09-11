@@ -127,8 +127,7 @@
     "nativeEl": {
       "type": "Element",
       "tsType": "QInputNativeElement",
-      "desc": "The native input/textarea DOM Element",
-      "addedIn": "v2.10.1"
+      "desc": "The native input/textarea DOM Element"
     }
   }
 }

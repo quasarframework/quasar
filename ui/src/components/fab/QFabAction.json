@@ -34,13 +34,11 @@
     },
 
     "icon": {
-      "desc": "Slot for icon; Suggestion: QIcon",
-      "addedIn": "v2.4"
+      "desc": "Slot for icon; Suggestion: QIcon"
     },
 
     "label": {
-      "desc": "Slot for label",
-      "addedIn": "v2.4"
+      "desc": "Slot for label"
     }
   },
 

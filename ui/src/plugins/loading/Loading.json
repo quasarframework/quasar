@@ -23,8 +23,7 @@
         "type": "String",
         "desc": "Default Loading group name",
         "default": "'__default_quasar_group__'",
-        "examples": ["'default-group-name'"],
-        "addedIn": "v2.8"
+        "examples": ["'default-group-name'"]
       },
       "html": {
         "extends": "html",
@@ -95,8 +94,7 @@
             "group": {
               "type": "String",
               "desc": "Loading group name",
-              "examples": ["'some-api-call'"],
-              "addedIn": "v2.8"
+              "examples": ["'some-api-call'"]
             },
             "html": {
               "extends": "html",
@@ -151,8 +149,7 @@
             "__exemption": ["definition"]
           }
         },
-        "returns": null,
-        "addedIn": "v2.8"
+        "returns": null
       }
     },
 
@@ -163,8 +160,7 @@
           "type": "String",
           "desc": "Optional Loading group name to hide instead of hiding all groups",
           "required": false,
-          "examples": ["'some-api-call'"],
-          "addedIn": "v2.8"
+          "examples": ["'some-api-call'"]
         }
       },
       "returns": null
@@ -191,8 +187,7 @@
               "type": "String",
               "desc": "Default Loading group name",
               "default": "'__default_quasar_group__'",
-              "examples": ["'default-group-name'"],
-              "addedIn": "v2.8"
+              "examples": ["'default-group-name'"]
             },
             "spinnerSize": {
               "type": "Number",

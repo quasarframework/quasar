@@ -90,8 +90,7 @@
           "type": "Boolean",
           "desc": "FAB is opened"
         }
-      },
-      "addedIn": "v2.4"
+      }
     },
 
     "active-icon": {
@@ -101,8 +100,7 @@
           "type": "Boolean",
           "desc": "FAB is opened"
         }
-      },
-      "addedIn": "v2.4"
+      }
     },
 
     "label": {
@@ -112,8 +110,7 @@
           "type": "Boolean",
           "desc": "FAB is opened"
         }
-      },
-      "addedIn": "v2.4"
+      }
     }
   },
 

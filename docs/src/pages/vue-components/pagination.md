@@ -19,9 +19,9 @@ There are two modes in which QPagination operates: with buttons only or with an 
 
 The following are a few examples, but not an exhaustive list:
 
-<DocExample title="Button design (v2.10+)" file="BtnDesign" />
+<DocExample title="Button design" file="BtnDesign" />
 
-<DocExample title="Gutter (v2.10+)" file="BtnGutter" />
+<DocExample title="Gutter" file="BtnGutter" />
 
 ### Custom icons
 

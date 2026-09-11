@@ -45,14 +45,12 @@
                   "desc": "Return the router error, if any; Otherwise the returned Promise will always fulfill",
                   "required": false
                 }
-              },
-              "addedIn": "v2.9"
+              }
             }
           },
           "returns": {
             "type": "Promise<any>",
-            "desc": "Returns the router's navigation promise",
-            "addedIn": "v2.9"
+            "desc": "Returns the router's navigation promise"
           }
         }
       }

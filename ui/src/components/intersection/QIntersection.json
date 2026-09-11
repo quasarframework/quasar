@@ -53,8 +53,7 @@
       "type": ["String", "Number"],
       "desc": "Transition duration (in milliseconds, without unit)",
       "default": "300",
-      "category": "behavior",
-      "addedIn": "v2.3.1"
+      "category": "behavior"
     },
 
     "disable": {

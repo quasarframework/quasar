@@ -52,8 +52,7 @@
     "rounded": {
       "type": "Boolean",
       "desc": "Rounding the arc of progress",
-      "category": "style",
-      "addedIn": "v2.8.4"
+      "category": "style"
     },
 
     "thickness": {
@@ -96,8 +95,7 @@
 
     "animation-speed": {
       "extends": "animation-speed",
-      "default": "600",
-      "addedIn": "v2.3"
+      "default": "600"
     }
   },
 

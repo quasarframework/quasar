@@ -42,8 +42,7 @@
                   "type": ["String", "Array", "Object"],
                   "tsType": "VueStyleProp",
                   "desc": "Style definitions to be attributed to this action element",
-                  "examples": ["{ padding: '2px' }"],
-                  "addedIn": "v2.11.7"
+                  "examples": ["{ padding: '2px' }"]
                 },
 
                 "icon": {

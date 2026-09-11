@@ -63,8 +63,7 @@
     },
 
     "dense": {
-      "extends": "dense",
-      "addedIn": "v2.2.4"
+      "extends": "dense"
     },
 
     "dark": {
@@ -110,8 +109,7 @@
     "no-selection-unset": {
       "type": "Boolean",
       "desc": "Do not allow un-selection when clicking currently selected node",
-      "category": "behavior",
-      "addedIn": "v2.4.10"
+      "category": "behavior"
     },
 
     "default-expand-all": {
@@ -129,8 +127,7 @@
     "no-transition": {
       "type": "Boolean",
       "desc": "Turn off transition effects when expanding/collapsing nodes; Also enhances perf by a lot as a side-effect; Recommended for big trees",
-      "category": "behavior",
-      "addedIn": "v2.9.2"
+      "category": "behavior"
     },
 
     "virtual-scroll": {

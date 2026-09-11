@@ -78,8 +78,7 @@
       "type": ["String", "Number"],
       "desc": "Transition duration (in milliseconds, without unit)",
       "default": "300",
-      "category": "transition",
-      "addedIn": "v2.2"
+      "category": "transition"
     }
   },
 

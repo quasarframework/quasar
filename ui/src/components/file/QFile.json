@@ -173,8 +173,7 @@
     "nativeEl": {
       "type": "Element",
       "tsType": "QFileNativeElement",
-      "desc": "The native input DOM Element",
-      "addedIn": "v2.10.1"
+      "desc": "The native input DOM Element"
     }
   }
 }

@@ -3,10 +3,6 @@ title: Vue SSR/SSG Directives
 desc: (@quasar/app-vite) Managing the Vue directives for SSR/SSG in a Quasar app.
 ---
 
-::: warning
-This guide refers to usage with Quasar v2.6+
-:::
-
 A SSR app has the same code running on server and on client. Declaring a Vue directive (or directly importing it) in a .vue SFC file is usually enough for making it to work on non-SSR builds. But on SSR builds and due to the architecture of Vue 3 it requires some extra leg work.
 
 Server-side builds require all Vue directives to also specify a getSSRProps() method in their definition.

@@ -2,7 +2,6 @@
 title: EventBus Util
 desc: An event emitter util.
 keys: EventBus,bus,event
-badge: v2.8.4+
 ---
 
 Quasar supplies a global EventBus, especially useful when upgrading from Quasar v1 where the native Vue 2 interface has been dropped.
@@ -34,7 +33,7 @@ bus.emit('some-event', 'arg1 value', 'arg2 value', 'arg3 value')
 
 When using TypeScript the events can be strongly-typed:
 
-```ts Quasar v2.11.11+
+```ts
 import { EventBus } from 'quasar'
 
 const bus = new EventBus<{

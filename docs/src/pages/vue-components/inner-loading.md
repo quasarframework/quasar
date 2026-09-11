@@ -30,7 +30,7 @@ QInnerLoading must be the last element inside its parent so it can appear on top
 
 <DocExample title="Basic" file="Basic" />
 
-### Label <q-badge label="v2.2+" />
+### Label
 
 You can add a label when using the default slot, but you can also use the "label" props instead:
 
