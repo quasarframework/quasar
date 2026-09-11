@@ -101,7 +101,6 @@ if (import.meta.env.QUASAR_CLIENT) {
     word-break: normal
     word-wrap: normal
     hyphens: none
-    -webkit-hyphens: none
 
     border-radius: inherit
 
