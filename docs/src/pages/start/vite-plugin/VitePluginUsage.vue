@@ -2,10 +2,6 @@
   <q-card flat bordered>
     <q-card-section class="q-gutter-xs q-pa-sm">
       <q-toggle v-model="css['roboto-font']" label="Roboto font" />
-      <q-toggle
-        v-model="css['roboto-font-latin-ext']"
-        label="Roboto font extended"
-      />
       <q-toggle v-model="css.animate" label="Animations from Animate.css" />
     </q-card-section>
 
@@ -115,14 +111,13 @@
 </template>
 
 <script setup>
-import { computed, reactive, ref, watch } from 'vue'
+import { computed, reactive, ref } from 'vue'
 import languages from 'quasar/lang/index.json'
 
 import DocCode from '@/components/DocCode.vue'
 
 const extrasOptions = [
   'roboto-font',
-  'roboto-font-latin-ext',
   'material-icons',
   'material-icons-outlined',
   'material-icons-round',
@@ -184,7 +179,6 @@ const autoImportCaseOptions = ['kebab', 'pascal', 'combined']
 
 const css = reactive({
   'roboto-font': false,
-  'roboto-font-latin-ext': false,
 
   'material-icons': true,
   'material-icons-outlined': false,
@@ -205,24 +199,6 @@ const css = reactive({
 
   animate: false
 })
-
-watch(
-  () => css['roboto-font'],
-  val => {
-    if (val) {
-      css['roboto-font-latin-ext'] = false
-    }
-  }
-)
-
-watch(
-  () => css['roboto-font-latin-ext'],
-  val => {
-    if (val) {
-      css['roboto-font'] = false
-    }
-  }
-)
 
 const cfgObject = ref(false)
 const useSassVariables = ref(true) // Vite plugin cfg

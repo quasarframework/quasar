@@ -39,7 +39,8 @@ export const webfontRows = [
     vendor: 'Roboto Font Latin Extended',
     versionSource: versionSources.robotoFontLatinExt,
     extrasName: '`roboto-font-latin-ext`',
-    description: 'Recommended font along Material theme',
+    description:
+      'Alias of `roboto-font` kept for compatibility; Roboto now ships every script subset',
     notes: '',
     license: '[License](exports/roboto-font-latin-ext/LICENSE)'
   },

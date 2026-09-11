@@ -26,8 +26,7 @@ const webfonts = [
   'material-symbols-outlined',
   'material-symbols-rounded',
   'material-symbols-sharp',
-  'roboto-font',
-  'roboto-font-latin-ext'
+  'roboto-font'
 ]
 
 const baseFolder = join(import.meta.dirname, '../exports')

@@ -45,7 +45,7 @@ import TypographyWeights from './TypographyWeights.vue'
 
 The default webfont embedded is [Roboto](https://fonts.google.com/specimen/Roboto). **But it is not required**. You can use whatever font(s) you like.
 
-Roboto comes with 6 different font weights you can use: 100, 300, 400, 500, 700, 900.
+Roboto ships as a variable font, so any `font-weight` from 100 to 900 works. It covers the Latin, Latin Extended, Cyrillic, Greek and Vietnamese scripts, split into subsets that the browser downloads only when a page uses them.
 
 This is where Roboto font comes embedded by default, if you are looking to remove it:
 
@@ -57,13 +57,13 @@ extras: ['roboto-font']
 
 It is also possible to include other fonts to use them in the app. The following is one way to do it:
 
-1. Copy your new webfont `[customfont].woff` (or whatever extension it has; recommended is `woff` for compatibility across all browsers) in a directory of your choice, for example: `./src/css/fonts/[customfont.woff]`
+1. Copy your new webfont `[customfont].woff2` (or whatever extension it has; `woff2` is supported by every browser and is the smallest) in a directory of your choice, for example: `./src/css/fonts/[customfont.woff2]`
 2. Declare your font in `./src/css/app.{css|sass|scss|styl}` (or in any place you see fit, but correctly update the relative path to the webfont file):
 
 ```css
 @font-face {
   font-family: customfont;
-  src: url(./fonts/customfont.woff);
+  src: url(./fonts/customfont.woff2);
 }
 
 // declare a class which applies it
