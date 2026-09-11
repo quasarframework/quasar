@@ -400,9 +400,9 @@ pwa: {
 
 ## Filename hashes quirk
 
-Due to how Rolldown builds the assets (through Vite), when you change any of your script source files (.js) this will also change the hash part of (almost) ALL .js files (ex: `454d87bd` in `assets/index.454d87bd.js`). The revision number of all assets will get changed in your service worker file and this means that when PWA updates it will re-download ALL your assets again. What a waste of bandwidth and such a longer time to get the PWA updated!
+Due to how Rolldown builds the assets (through Vite), when you change any of your script source files (.js) this will also change the hash part of (almost) ALL .js files (ex: `454d87bd` in `assets/index.454d87bd.js`). The revision number of all assets will get changed in your service worker file and this means that when PWA updates it will re-download ALL your assets again.
 
-By default, Vite builds all filenames **with the hash part**. However, should you want your filenames to NOT contain the hash part, you need to edit the `/quasar.config` file:
+By default, Vite builds all filenames **with the hash part**. Should you want your filenames to NOT contain it, so that only the changed files get re-downloaded, edit the `/quasar.config` file:
 
 ```js /quasar.config file
 build: {
@@ -410,4 +410,33 @@ build: {
 }
 ```
 
-When filename hashes are disabled it would be wise to also make sure that your webserver has cache set accordingly (as low as possible) to ensure consistent resource delivery to your clients that can't use the PWA functionality.
+Two things then need your attention:
+
+1. Configure your webserver cache for these files as low as possible (they keep their names across deploys), so that the visitors which don't use the PWA functionality get consistent resources.
+
+2. Safari keeps the scripts that a page preloaded (through `<link rel="modulepreload">`) in an in-memory cache and reuses them across the reload that follows a service worker update, without asking the service worker. With stable filenames the reloaded page then runs the new entry file together with old chunks and fails with `SyntaxError: Importing binding name '...' is not found.`, leaving a blank page on every reload of that tab. So before a page reloads to apply an update, and in every open tab that the new worker takes over, fetch the precached scripts through the new worker; a `fetch()` of a URL evicts its stale entry:
+
+```js /src-pwa/register-service-worker.js
+navigator.serviceWorker.addEventListener('controllerchange', async () => {
+  // (skip this for the very first install, nothing stale can exist yet)
+  const urls = []
+
+  for (const name of await caches.keys()) {
+    if (!name.includes('precache')) continue
+
+    const cache = await caches.open(name)
+    for (const req of await cache.keys()) {
+      const url = req.url.split('?')[0]
+      if (url.endsWith('.js')) urls.push(url)
+    }
+  }
+
+  await Promise.allSettled(
+    urls.map(url => fetch(url).then(res => res.body?.cancel()))
+  )
+
+  window.location.reload()
+})
+```
+
+The quasar.dev website does this itself (`docs/src-pwa/register-sw.js` in the Quasar repository), with a waiting service worker (`skipWaiting: false`) so that the update is applied only when the user asks for it.

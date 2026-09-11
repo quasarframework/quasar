@@ -9,12 +9,13 @@ if (Cookies.has('gdpr') !== true) {
       'Our third-party tools use cookies, which are necessary for its functioning' +
       ' and required to achieve the purposes illustrated in the cookie policy.',
     multiline: true,
-    classes: 'doc-gdpr',
+    classes: 'doc-notify',
     timeout: 0,
     position: 'bottom-right',
     actions: [
       {
         label: 'Accept',
+        noCaps: true,
         color: 'yellow',
         handler() {
           Cookies.set('gdpr', true, { expires: 5 * 365 })
@@ -22,6 +23,7 @@ if (Cookies.has('gdpr') !== true) {
       },
       {
         label: 'Learn more',
+        noCaps: true,
         color: 'grey',
         noDismiss: true,
         handler() {

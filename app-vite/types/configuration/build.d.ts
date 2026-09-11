@@ -474,9 +474,13 @@ interface QuasarStaticBuildConfiguration {
    *
    * Gets applied to production builds only.
    *
-   * Useful especially for (but not restricted to) PWA. If set to false then updating the
-   * PWA will force to re-download all assets again, regardless if they were changed or
-   * not (due to how Rolldown works through Vite).
+   * For a PWA it keeps updates small (only the changed files get re-downloaded), but
+   * the page applying an update must evict the scripts it preloaded before it reloads:
+   * Safari reuses them (<link rel="modulepreload">) from its in-memory cache across
+   * that reload without asking the service worker, and with stable filenames the new
+   * entry file would then run with old chunks ("SyntaxError: Importing binding name
+   * '...' is not found"). A fetch() of each precached script through the new worker
+   * evicts them; see the PWA docs, "Filename hashes quirk".
    *
    * @default true
    */

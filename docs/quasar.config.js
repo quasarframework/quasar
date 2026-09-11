@@ -123,7 +123,8 @@ export default defineConfig(ctx => ({
     async extendPWAGenerateSWOptions() {
       return {
         cleanupOutdatedCaches: true,
-        skipWaiting: true,
+        // the updated worker waits until a page asks for it (register-sw.js)
+        skipWaiting: false,
         clientsClaim: true,
         navigateFallbackDenylist: [/\.md$/],
         runtimeCaching: [
