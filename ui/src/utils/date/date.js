@@ -19,6 +19,20 @@ function escapeRegex(str) {
   return str.replaceAll(escapeRegexRE, String.raw`\$&`)
 }
 
+// regex alternation is first-match and the parser is not anchored at the
+// end, so a name that prefixes a longer one would shadow it ("Th1" over
+// "Th12") wherever backtracking cannot force the longer branch
+function namesRegex(list) {
+  return (
+    '(' +
+    [...list]
+      .sort((a, b) => b.length - a.length)
+      .map(escapeRegex)
+      .join('|') +
+    ')'
+  )
+}
+
 function getLocaleData(dateLocale) {
   const cached = localeStore.get(dateLocale)
   if (cached !== void 0) {
@@ -28,11 +42,11 @@ function getLocaleData(dateLocale) {
   // same shortening that the "dd" formatting token applies
   const daysMinList = dateLocale.days.map(day => day.slice(0, 2))
 
-  const days = '(' + dateLocale.days.map(escapeRegex).join('|') + ')',
-    daysMin = '(' + daysMinList.map(escapeRegex).join('|') + ')',
-    daysShort = '(' + dateLocale.daysShort.map(escapeRegex).join('|') + ')',
-    months = '(' + dateLocale.months.map(escapeRegex).join('|') + ')',
-    monthsShort = '(' + dateLocale.monthsShort.map(escapeRegex).join('|') + ')'
+  const days = namesRegex(dateLocale.days),
+    daysMin = namesRegex(daysMinList),
+    daysShort = namesRegex(dateLocale.daysShort),
+    months = namesRegex(dateLocale.months),
+    monthsShort = namesRegex(dateLocale.monthsShort)
 
   const entry = {
     days,
