@@ -7,15 +7,11 @@
         aria-label="404 - Page not found"
       >
         <div aria-hidden="true">4</div>
-        <img
-          class="page404__logo-light"
-          src="/logo/logo.svg"
+        <q-img
+          :src="`/logo/logo${$q.dark.isActive ? '-dark' : ''}.svg`"
           alt="Quasar logo"
-        />
-        <img
-          class="page404__logo-dark"
-          src="/logo/logo-dark.svg"
-          alt="Quasar logo"
+          width="130px"
+          height="130px"
         />
         <div aria-hidden="true">4</div>
       </h1>
@@ -33,8 +29,12 @@
 
 <script setup>
 import { useMeta } from 'quasar'
+import { useDocStore } from '@/layouts/doc-layout/store/index.js'
 
 import DocStars from '@/components/DocStars.vue'
+
+const docStore = useDocStore()
+docStore.setToc()
 
 useMeta({ title: 'Page not found' })
 </script>
@@ -49,14 +49,7 @@ useMeta({ title: 'Page not found' })
     margin: 0
 
     img
-      width: 130px
-      height: 130px
       animation: err-logo-rotate 80s linear infinite
-
-body.body--light .page404__logo-dark
-  display: none
-body.body--dark .page404__logo-light
-  display: none
 
 @keyframes err-logo-rotate
   100%
