@@ -46,17 +46,9 @@
           v-for="(entry, pageIndex) in mostUsedPages"
           :key="pageIndex"
           :to="entry.path"
-        >
-          <q-card
-            class="page-docs__card column justify-center items-center cursor-pointer"
-            flat
-          >
-            <q-icon :name="entry.icon" class="q-mb-sm" color="brand-primary" />
-            <div class="page-docs__card-label text-size-12 letter-spacing-100">
-              {{ entry.name }}
-            </div>
-          </q-card>
-        </DocCardLink>
+          :label="entry.name"
+          :icon="entry.icon"
+        />
       </div>
 
       <div class="gt-sm q-px-md row justify-center">
@@ -76,19 +68,9 @@
           v-for="(entry, pageIndex) in pagesToDiscover"
           :key="pageIndex"
           :to="entry.path"
-        >
-          <q-card
-            class="page-docs__card column justify-center items-center cursor-pointer"
-            flat
-          >
-            <q-icon :name="entry.icon" class="q-mb-sm" color="brand-primary" />
-            <div
-              class="page-docs__card-label text-center text-size-12 letter-spacing-100"
-            >
-              {{ entry.name }}
-            </div>
-          </q-card>
-        </DocCardLink>
+          :label="entry.name"
+          :icon="entry.icon"
+        />
       </div>
     </div>
   </div>
@@ -101,31 +83,6 @@ import { mostUsedPages, pagesToDiscover } from '@/assets/docs-homepage.js'
 
 <style lang="sass">
 .page-docs
-
   &__text
     max-width: 500px
-
-  &__card
-    width: 110px
-    height: 110px
-    border: solid 1px rgba($brand-secondary, 0.54)
-    border-radius: 8px
-    transition: transform $header-quick-transition, box-shadow $header-quick-transition
-
-    &-label
-      color: $cold-black
-
-    &:hover
-      // !important needed when used with flat cards
-      box-shadow: 0 8px 8px 0 rgba($dark, 0.2) !important
-      transform: scale(1.03)
-
-    .q-icon
-      font-size: 36px
-
-body.body--dark .page-docs
-  &__card:hover
-    box-shadow: 0 4px 8px 0 rgba($brand-primary, 0.8) !important
-  &__card-label
-    color: #fff
 </style>

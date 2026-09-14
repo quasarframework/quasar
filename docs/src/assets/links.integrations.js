@@ -132,8 +132,7 @@ export const ecosystemParts = [
       {
         label: 'Icon Genie',
         icon: mdiStarCircle,
-        path: '/icongenie/installation',
-        isInternal: true
+        path: '/icongenie/installation'
       },
       {
         label: 'Icon Explorer',

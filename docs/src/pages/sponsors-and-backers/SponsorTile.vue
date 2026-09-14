@@ -20,18 +20,19 @@
 
 <script setup>
 import { computed } from 'vue'
-import { Dark } from 'quasar'
+import { useQuasar } from 'quasar'
 
 const props = defineProps({
   src: String,
   name: String,
-  href: String,
-  dark: Boolean
+  href: String
 })
+
+const $q = useQuasar()
 
 const logoUrl = computed(
   () =>
-    `https://cdn.quasar.dev/logo-sponsors-v2/${props.dark || Dark.isActive ? 'dark' : 'light'}/${props.src}`
+    `https://cdn.quasar.dev/logo-sponsors-v2/${$q.dark.isActive ? 'dark' : 'light'}/${props.src}`
 )
 </script>
 

@@ -7,7 +7,7 @@
             >{{ tierName }} Sponsors</h3
           >
           <div class="row justify-center logos-container">
-            <sponsor-tile
+            <SponsorTile
               v-for="({ src, name, href }, sponsorIndex) in tierSponsors"
               :key="`${tierName}-${sponsorIndex}`"
               :src="src"

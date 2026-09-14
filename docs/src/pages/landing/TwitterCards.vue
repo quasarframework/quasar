@@ -264,7 +264,8 @@ const tweetsList = [
   margin-right: -24px
 
   &__content
-    overflow: hidden
+    overflow-y: auto
+    scrollbar-width: none
 
   &__entry
     border-radius: 14px
@@ -283,13 +284,14 @@ const tweetsList = [
     border: 0
     padding: 0
     transition: opacity .5s ease-in-out
+    color: #fff
     &--left
-      background: linear-gradient(to right, $dark-bg 0%, $dark-bg 5%, transparent 100%)
+      background: linear-gradient(to right, currentColor 0%, currentColor 5%, transparent 100%)
     &--right
-      background: linear-gradient(to left, $dark-bg 0%, $dark-bg 5%, transparent 100%)
+      background: linear-gradient(to left, currentColor 0%, currentColor 5%, transparent 100%)
     &--hidden
       opacity: 0
 
-body.mobile .twitter-cards__content
-  overflow: auto
+body.body--dark .twitter-cards__arrow
+  color: $dark-bg
 </style>

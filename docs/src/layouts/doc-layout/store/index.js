@@ -51,10 +51,10 @@ export function provideDocStore() {
 
   if (import.meta.env.QUASAR_SERVER) {
     store.state = { value: store.state }
-    $q.dark.set(store.state.value.dark || $route.meta.dark)
+    $q.dark.set(store.state.value.dark)
   } else {
     store.state = ref(store.state)
-    store.dark = computed(() => store.state.value.dark || $route.meta.dark)
+    store.dark = computed(() => store.state.value.dark)
     watch(
       store.dark,
       val => {

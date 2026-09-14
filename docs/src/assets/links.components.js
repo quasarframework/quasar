@@ -228,7 +228,7 @@ const components = [
   {
     name: 'Pagination',
     description: 'To navigate content on multiple pages',
-    tag: ['navigation']
+    tag: 'navigation'
   },
   {
     name: 'Parallax',
@@ -678,3 +678,19 @@ export const quasarElements = [
     `${entry.name} ${entry.description} ${entry.short || ''}`.toLowerCase(),
   to: entry.to
 }))
+
+export const tagIcon = {
+  button: 'smart_button',
+  input: 'edit_note',
+  loading: 'hourglass_top',
+  media: 'image',
+  navigation: 'explore',
+  panel: 'web_asset',
+  scroll: 'swap_vert',
+  table: 'table_chart',
+  other: 'widgets',
+  directive: 'swap_calls',
+  plugin: 'extension',
+  composable: 'developer_mode',
+  util: 'build'
+}

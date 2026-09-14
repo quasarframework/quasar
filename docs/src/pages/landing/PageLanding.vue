@@ -5,7 +5,7 @@
     <div>
       <div class="column items-center intro-section letter-spacing-300">
         <q-img
-          src="/logo/logo-vertical-dark.svg"
+          :src="`/logo/logo-vertical${$q.dark.isActive ? '-dark' : ''}.svg`"
           alt="Quasar logo"
           loading="eager"
           width="250px"
@@ -13,7 +13,7 @@
         />
 
         <h1
-          class="letter-spacing-375 landing-my-large text-center text-white text-size-20 primary-line-height"
+          class="letter-spacing-375 landing-my-large text-center text-size-20 primary-line-height"
         >
           The enterprise-ready cross-platform VueJs framework
         </h1>
@@ -28,7 +28,7 @@
           flat
           round
           icon="arrow_downward"
-          class="text-white q-mt-md"
+          class="q-mt-md"
           size="lg"
           padding="none"
           aria-label="Scroll to the next section"
@@ -41,7 +41,7 @@
           Our Platinum sponsor
         </h2>
         <div class="row justify-center full-width">
-          <sponsor-tile
+          <SponsorTile
             v-for="(
               { src, name, href }, platinumSponsorIndex
             ) in sponsors.platinum"
@@ -49,7 +49,6 @@
             :src="src"
             :name="name"
             :href="href"
-            dark
           />
         </div>
         <q-btn
@@ -130,7 +129,7 @@
           >Every space odyssey has its patrons</div
         >
         <div class="q-pt-lg">
-          <sponsor-list />
+          <SponsorList />
         </div>
       </div>
 
@@ -174,6 +173,11 @@ import SponsorTile from '../sponsors-and-backers/SponsorTile.vue'
 
 import { socialLinks } from '@/assets/links.social.js'
 import { sponsors } from '@/assets/sponsors.js'
+
+import { useDocStore } from '@/layouts/doc-layout/store/index.js'
+
+const docStore = useDocStore()
+docStore.setToc()
 
 useMeta({
   title: 'Quasar Framework',
@@ -221,6 +225,7 @@ const scrollSectionIntoView = {
 $support-quasar-background-padding: 35vw
 
 .landing-page
+  color: #000
 
   .btn-underline
     border-bottom: 1px solid rgba($color: white, $alpha: 0.54)
@@ -286,4 +291,7 @@ $support-quasar-background-padding: 35vw
   .q-btn--outline:before
     border: 2px solid $brand-accent
     box-shadow: 0 1px 1px 0 rgba(#000, 0.12)
+
+body.body--dark .landing-page
+  color: #fff
 </style>

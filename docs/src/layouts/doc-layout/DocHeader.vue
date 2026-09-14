@@ -39,10 +39,7 @@
 
       <DocSearch />
 
-      <div
-        v-if="showThemeChanger"
-        class="doc-header-icon-links q-ml-sm row no-wrap items-center"
-      >
+      <div class="doc-header-icon-links q-ml-sm row no-wrap items-center">
         <q-btn
           class="header-btn"
           flat
@@ -97,7 +94,7 @@
       />
 
       <div
-        v-if="hasToc"
+        v-if="docStore.state.value.hasToc"
         class="doc-header-icon-links q-ml-sm lt-md row no-wrap items-center"
       >
         <q-btn
@@ -144,14 +141,6 @@ const logo = computed(() => {
     text: `/logo/logotype${opt}.svg`
   }
 })
-
-const showThemeChanger = computed(() => docStore.$route.meta.dark !== true)
-const hasToc = computed(
-  () =>
-    docStore.$route.meta.fullwidth !== true &&
-    docStore.$route.meta.fullscreen !== true &&
-    docStore.state.value.toc.length !== 0
-)
 </script>
 
 <style lang="sass">

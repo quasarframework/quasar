@@ -5,15 +5,6 @@ import vueGalleryPageList from '@/layouts/gallery/listing.js'
 
 import DocLayout from '@/layouts/doc-layout/DocLayout.vue'
 
-const routeMap = {
-  // './docs/docs.md': { path: 'docs' },
-  // './integrations/integrations.md': { path: 'integrations' },
-  './components/components.md': {
-    path: 'components',
-    meta: { fullwidth: true, dark: true }
-  }
-}
-
 const routes = [
   // legacy redirects
   {
@@ -66,24 +57,15 @@ const routes = [
       {
         path: '',
         component: () => import('../pages/landing/PageLanding.vue'),
-        meta: { fullscreen: true, dark: true }
+        meta: { fullscreen: true }
       },
       ...Object.keys(mdPageList).map(key => {
-        const acc = { component: mdPageList[key] }
+        const parts = key.slice(1, -3).split('/')
+        const len = parts.length
+        const path =
+          parts[len - 2] === parts[len - 1] ? parts.slice(0, len - 1) : parts
 
-        const route = routeMap[key]
-        if (route !== void 0) Object.assign(acc, route)
-
-        if (acc.path === void 0) {
-          const parts = key.slice(1, -3).split('/')
-          const len = parts.length
-          const path =
-            parts[len - 2] === parts[len - 1] ? parts.slice(0, len - 1) : parts
-
-          acc.path = path.join('/')
-        }
-
-        return acc
+        return { component: mdPageList[key], path: path.join('/') }
       })
     ]
   },

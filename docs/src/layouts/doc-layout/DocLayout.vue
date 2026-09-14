@@ -14,7 +14,11 @@
           <span id="doc-main-content" class="doc-skip-target" tabindex="-1" />
           <router-view key="page-fullscreen" />
         </template>
-        <div v-else :class="pageContentClass" key="page-standard">
+        <div
+          v-else
+          class="doc-layout__page row no-wrap justify-start"
+          key="page-standard"
+        >
           <div
             class="doc-layout__menu-container row justify-center"
             role="navigation"
@@ -49,7 +53,7 @@
 
     <q-no-ssr>
       <DocDrawerMenu />
-      <DocDrawerToc />
+      <DocDrawerToc v-if="docStore.state.value.hasToc" />
     </q-no-ssr>
   </q-layout>
 </template>
@@ -72,11 +76,6 @@ const isFullscreen = computed(() => docStore.$route.meta.fullscreen === true)
 const pageClass = computed(
   () => `doc-layout__page-el--${isFullscreen.value ? 'fullscreen' : 'standard'}`
 )
-const pageContentClass = computed(
-  () =>
-    'doc-layout__page row no-wrap justify-start ' +
-    `doc-layout__page--${docStore.$route.meta.fullwidth === true ? 'fullwidth' : 'standard'}`
-)
 </script>
 
 <style lang="sass">
@@ -92,42 +91,33 @@ const pageContentClass = computed(
   &__page
     width: 100%
 
-    &--standard
-      /**
-          16px  - left menu margin
-        + 330px - left menu
-        + 1200px - page content
-        + 300px - toc menu
-       */
-      max-width: 2500px
+    /**
+        16px  - left menu margin
+      + 330px - left menu
+      + 1200px - page content
+      + 300px - toc menu
+      */
+    max-width: 2500px
 
-      .doc-page__content
+    .doc-page__content
+      width: auto
+      min-width: 0
+      flex: 10000 1 0%
+      max-width: 1200px
+
+      > div, > pre
+        margin-bottom: 22px
+
+    @media (max-width: 1845px)
+      justify-content: start
+      .doc-page__toc-container--flowing
+        display: none
+    @media (min-width: 1846px)
+      .doc-layout__menu-container
+        flex: 1 0 auto
         width: auto
         min-width: 0
-        flex: 10000 1 0%
-        max-width: 1200px
-
-        > div, > pre
-          margin-bottom: 22px
-
-      @media (max-width: 1845px)
-        justify-content: start
-        .doc-page__toc-container--flowing
-          display: none
-      @media (min-width: 1846px)
-        .doc-layout__menu-container
-          flex: 1 0 auto
-          width: auto
-          min-width: 0
-          max-width: 100%
-
-    &--fullwidth
-
-      .doc-page__content
-        width: 100%
-
-      .doc-page__toc-container
-        display: none
+        max-width: 100%
 
   &__page-el--standard
     display: flex
@@ -148,7 +138,7 @@ const pageContentClass = computed(
   &__item.q-item,
   &__item .q-item
     letter-spacing: $letter-spacing-brand
-    border-radius: 10px
+    border-radius: 4px
     margin-top: 2px
     min-height: 30px
     padding: 0 4px 0 6px
