@@ -38,16 +38,27 @@ export default defineConfig(ctx => ({
     ],
 
     extendViteConf(_viteConf, { isClient }) {
-      if (ctx.prod && isClient) {
+      if (ctx.dev) return
+
+      if (isClient) {
         return {
           build: {
             assetsDir: 'a',
             chunkSizeWarningLimit: 600,
             rolldownOptions: {
+              checks: { pluginTimings: false },
               output: {
                 codeSplitting
               }
             }
+          }
+        }
+      }
+
+      return {
+        build: {
+          rolldownOptions: {
+            checks: { pluginTimings: false }
           }
         }
       }
