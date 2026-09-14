@@ -48,15 +48,23 @@ _The schedule may change based on unforeseen and/or out of the ordinary circumst
 - ✌️ (DONE) New Quasar CLI mode: SSG in `@quasar/app-vite` (v3.1): [Announcement](https://github.com/quasarframework/quasar/discussions/18354)
 - ✌️ (DONE) Release of `@quasar/icongenie` v6. An important update to handle all edge cases and add support for more iPhones & iPads.
 - ✌️ (DONE) Revamp Quasar testing. Full testing for all Quasar packages.
+- ✌️ (DONE) Accessibility overhaul of Quasar UI: WAI-ARIA patterns and keyboard navigation for all components (menus, comboboxes, tabs, steppers, carousels, sliders, splitters, date/time pickers, editor, tree, ...), accessible names for every internal control (translated across all language packs) and audited ARIA output: [v2.25.0](https://github.com/quasarframework/quasar/releases/tag/quasar-v2.25.0)
+- ✌️ (DONE) Performance overhaul of Quasar UI: tree-shakable package and up to 3x faster builds with `@quasar/vite-plugin` v2 ([v2.24.0](https://github.com/quasarframework/quasar/releases/tag/quasar-v2.24.0)), leaner component renders, shared listeners and observers for all directives, QTree virtual scroll, zero idle cost for offscreen spinners ([v2.25.0](https://github.com/quasarframework/quasar/releases/tag/quasar-v2.25.0), [v2.28.0](https://github.com/quasarframework/quasar/releases/tag/quasar-v2.28.0), [v2.30.0](https://github.com/quasarframework/quasar/releases/tag/quasar-v2.30.0))
+- ✌️ (DONE) Native browser features instead of JS where available: CSS anchor positioning for QMenu/QTooltip, scroll-driven view timelines for QParallax, Web Animations for the slide transitions, `field-sizing` for autogrow inputs, `aspect-ratio` for QImg/QResponsive/QVideo ([v2.28.0](https://github.com/quasarframework/quasar/releases/tag/quasar-v2.28.0), [v2.32.0](https://github.com/quasarframework/quasar/releases/tag/quasar-v2.32.0))
+- ✌️ (DONE) Baseline Widely Available browser targets and Node 22 across all packages, with legacy compat code removed ([quasar v2.28.0](https://github.com/quasarframework/quasar/releases/tag/quasar-v2.28.0), [@quasar/app-vite v3.8.4](https://github.com/quasarframework/quasar/releases/tag/@quasar/app-vite-v3.8.4), [@quasar/extras v2.1.0](https://github.com/quasarframework/quasar/releases/tag/@quasar/extras-v2.1.0))
+- ✌️ (DONE) SSR/SSG improvements: server-rendered virtual scroll window, QImg rendered in the SSR HTML, Dark mode "auto" resolved on the client ([v2.25.0](https://github.com/quasarframework/quasar/releases/tag/quasar-v2.25.0), [v2.31.0](https://github.com/quasarframework/quasar/releases/tag/quasar-v2.31.0), [v2.32.0](https://github.com/quasarframework/quasar/releases/tag/quasar-v2.32.0))
+- ✌️ (DONE) Input handling keyed on device capability instead of user agent: hardware keyboards on tablets, hover on hybrid devices, focus and hover feedback per interaction ([v2.28.0](https://github.com/quasarframework/quasar/releases/tag/quasar-v2.28.0))
+- ✌️ (DONE) JSX/TSX support in `@quasar/app-vite` with fully typed Quasar components ([@quasar/app-vite v3.8.0](https://github.com/quasarframework/quasar/releases/tag/@quasar/app-vite-v3.8.0))
+- ✌️ (DONE) `@quasar/extras`: Roboto as a variable font split by script, woff2-only web fonts ([v2.1.0](https://github.com/quasarframework/quasar/releases/tag/@quasar/extras-v2.1.0))
 
 ### Q4 2026
 
-- Plans for Quasar v3. We will need your input on some of the decisions that we will be taking for the new major version.
 - ✌️ (DONE) Critical CSS path for SSR & SSG dev modes (avoids FOUC on development)
+- MCP server
 
 ### Q1 2027
 
-- Quasar v3 release, hopefully.
+- Plans for Quasar v3. We will need your input on some of the decisions that we will be taking for the new major version.
 
 ## Archive
 
