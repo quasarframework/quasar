@@ -37,7 +37,7 @@
     "@vitejs/plugin-vue": "^6.0.8",
     "fs-extra": "^11.4.0",
     "gray-matter": "^4.0.3",
-    "markdown-it": "^15.0.1",
+    "markdown-it": "^15.0.2",
     "markdown-it-container": "^4.0.0",
     "playwright": "^1.63.0",
     "tinyglobby": "^0.2.17",

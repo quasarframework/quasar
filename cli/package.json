@@ -51,7 +51,7 @@
     "prepublishOnly": "pnpm test"
   },
   "dependencies": {
-    "@clack/prompts": "^1.7.0",
+    "@clack/prompts": "^1.8.0",
     "@hono/node-server": "^2.1.0",
     "@quasar/art": "workspace:^",
     "@quasar/ssl-certificate": "workspace:^",
@@ -61,7 +61,7 @@
     "fs-extra": "^11.4.0",
     "hono": "^4.13.7",
     "kolorist": "^1.8.0",
-    "open": "^11.0.2"
+    "open": "^11.0.3"
   },
   "devDependencies": {
     "vitest": "^5.0.0"
