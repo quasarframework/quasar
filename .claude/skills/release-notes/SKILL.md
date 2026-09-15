@@ -1,6 +1,6 @@
 ---
 name: release-notes
-description: Generate Quasar-style release notes for a monorepo package (covering every commit since its last released tag), then — on a single confirmation — bump its version, commit and draft the GitHub release. Use when asked to write/draft release notes or a changelog for app-vite, ui/quasar, cli, vite-plugin, icongenie, extras, create-quasar or a utils package.
+description: Generate Quasar-style release notes for a monorepo package (covering every commit since its last released tag), then — on a single confirmation — bump its version, commit and draft the GitHub release. Use when asked to write/draft release notes or a changelog for app-vite, ui/quasar, cli, vite-plugin, icongenie, extras, mcp, create-quasar or a utils package.
 argument-hint: <package>
 ---
 
@@ -35,6 +35,7 @@ tag or push.
 | vite-plugin   | @quasar/vite-plugin | `@quasar/vite-plugin-v` |
 | icongenie     | @quasar/icongenie   | `@quasar/icongenie-v`   |
 | extras        | @quasar/extras      | `@quasar/extras-v`      |
+| mcp           | @quasar/mcp         | `@quasar/mcp-v`         |
 | create-quasar | create-quasar       | — (untagged)            |
 | utils/*       | @quasar/<name>      | — (untagged)            |
 

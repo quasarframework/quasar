@@ -73,7 +73,8 @@ jobs:
                   '@quasar/extras': [],
                   '@quasar/vite-plugin': [],
                   '@quasar/cli': [],
-                  '@quasar/icongenie': []
+                  '@quasar/icongenie': [],
+                  '@quasar/mcp': []
                 },
               },
             };
