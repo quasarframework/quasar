@@ -1,6 +1,6 @@
 {
   "name": "@quasar/update-notifier",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Update notifier for Quasar CLI(s)",
   "homepage": "https://quasar.dev",
   "bugs": "https://github.com/quasarframework/quasar/issues",
