@@ -1,7 +1,7 @@
-import { QBadge, QIcon, QItem, QTree } from 'quasar'
+import { QBadge, QIcon, QTree } from 'quasar'
 
 import { h, ref, watch } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
+import { RouterLink, useRoute, useRouter } from 'vue-router'
 
 import Menu from '@/assets/menu.js'
 import './DocPageMenu.sass'
@@ -96,32 +96,9 @@ export default {
       }
     )
 
+    // plain elements, not QItem: a link is one anchor with one class,
+    // the treeitem around it is the Tab stop and activates it on Enter
     function getHeader({ node }) {
-      const isParent = node.children !== void 0
-      const props = {
-        class: 'doc-layout__item non-selectable',
-        dense: true
-      }
-
-      if (!isParent) {
-        // the treeitem is the Tab stop and activates the link on Enter
-        props.tabindex = -1
-        props.onClick = stopClick
-
-        if (node.external) {
-          Object.assign(props, {
-            clickable: true,
-            href: node.path,
-            target: '_blank'
-          })
-        } else {
-          Object.assign(props, {
-            to: node.path,
-            activeClass: 'doc-layout__item--active'
-          })
-        }
-      }
-
       const child = []
 
       if (node.icon !== void 0) {
@@ -134,7 +111,39 @@ export default {
         child.push(h(QBadge, { label: node.badge, class: 'header-badge' }))
       }
 
-      return h(QItem, props, () => child)
+      if (node.children !== void 0) {
+        return h('div', { class: 'doc-item' }, child)
+      }
+
+      if (node.external) {
+        return h(
+          'a',
+          {
+            class: 'doc-item',
+            href: node.path,
+            target: '_blank',
+            tabindex: -1,
+            onClick: stopClick
+          },
+          child
+        )
+      }
+
+      // class, tabindex and the click listener fall through to the anchor
+      // RouterLink renders; both active classes map to one so the active
+      // link carries no router-link-* class
+      return h(
+        RouterLink,
+        {
+          to: node.path,
+          class: 'doc-item',
+          activeClass: 'doc-item--active',
+          exactActiveClass: 'doc-item--active',
+          tabindex: -1,
+          onClick: stopClick
+        },
+        () => child
+      )
     }
 
     function onUpdateExpanded(val) {

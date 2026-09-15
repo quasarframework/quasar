@@ -2,27 +2,31 @@
   <div class="doc-page-footer doc-brand">
     <template v-if="fullscreen">
       <nav class="doc-page-footer__nav" aria-label="Footer" v-once>
-        <!-- link columns: a "list" role may only own listitem children
-             (invalid ARIA around links), so the links stand on their own -->
-        <q-list v-for="entry in links" :key="entry.name" role="none">
-          <q-item-label
+        <div v-for="entry in links" :key="entry.name">
+          <div
             class="doc-page-footer__title doc-page-footer__margin row items-end text-weight-bold letter-spacing-225 q-mb-md"
-            >{{ entry.name }}</q-item-label
           >
+            {{ entry.name }}
+          </div>
 
-          <q-item
-            v-for="(item, index) in entry.children"
-            :key="index"
-            dense
-            clickable
-            :to="item.path"
-            :href="item.external ? item.path : void 0"
-            :target="item.external ? '_blank' : void 0"
-            class="doc-layout__item letter-spacing-100"
-          >
-            {{ item.name }}
-          </q-item>
-        </q-list>
+          <template v-for="(item, index) in entry.children" :key="index">
+            <a
+              v-if="item.external"
+              :href="item.path"
+              target="_blank"
+              class="doc-item letter-spacing-100"
+            >
+              {{ item.name }}
+            </a>
+            <router-link
+              v-else
+              :to="item.path"
+              class="doc-item letter-spacing-100"
+            >
+              {{ item.name }}
+            </router-link>
+          </template>
+        </div>
       </nav>
 
       <q-separator class="landing-mx--large" />
@@ -121,7 +125,7 @@ export default {
   &__margin
     margin-left: 6px
 
-  .doc-layout__item,
+  .doc-item,
   &__title
     font-size: ($font-size - 2px)
 

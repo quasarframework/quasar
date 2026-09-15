@@ -135,31 +135,6 @@ const pageClass = computed(
     .doc-page-menu
       padding: 32px 16px 32px 0 // page top padding
 
-  &__item.q-item,
-  &__item .q-item
-    letter-spacing: $letter-spacing-brand
-    border-radius: 4px
-    margin-top: 2px
-    min-height: 30px
-    padding: 0 4px 0 6px
-    color: $light-text
-    transition: none
-    align-items: center
-
-    &:hover
-      color: #000 !important // $header-btn-hover-color--light makes little difference
-
-    &.q-item--dark
-      color: $dark-text
-      &:hover
-        color: $header-btn-hover-color--dark !important
-
-  &__item--active
-    color: $brand-primary !important
-    background: scale-color($primary, $lightness: 90%)
-    &.q-item--dark
-      background: scale-color($primary, $lightness: -50%)
-
 @media (max-width: 1300px)
   .doc-layout__menu,
   .doc-page__toc-container--flowing

@@ -318,9 +318,6 @@ body.body--light .doc-page
     background: $void-suit
     border: 1px solid $void-suit // match dark to avoid page reflow
 
-  &__toc-container .q-item
-    color: $header-btn-color--light
-
 body.body--dark .doc-page
   &__related
     color: $dark-text
@@ -329,7 +326,4 @@ body.body--dark .doc-page
 
   &__nav-name
     color: $brand-primary
-
-  &__toc-container .q-item
-    color: $header-btn-color--dark
 </style>

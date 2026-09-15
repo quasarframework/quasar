@@ -1,21 +1,17 @@
 <template>
-  <!-- every entry is interactive, so a "list" role would own no
-       listitem children (invalid ARIA) - the items stand on their own -->
-  <q-list class="doc-page__toc" role="none">
-    <q-item
+  <div class="doc-page__toc">
+    <a
       v-for="tocItem in docStore.state.value.toc"
       :key="tocItem.id"
       :id="`toc--${tocItem.id}`"
-      class="doc-layout__item"
-      :class="`doc-page__toc--${tocItem.sub ? 'sub' : 'main'}`"
-      active-class="doc-layout__item--active"
-      v-ripple
-      :active="activeTocId === tocItem.id"
-      @click="tocItem.onClick"
+      :href="`#${tocItem.id}`"
+      class="doc-item"
+      :class="{ 'doc-item--active': activeTocId === tocItem.id }"
+      @click.prevent="tocItem.onClick"
     >
       {{ tocItem.title }}
-    </q-item>
-  </q-list>
+    </a>
+  </div>
 </template>
 
 <script setup>

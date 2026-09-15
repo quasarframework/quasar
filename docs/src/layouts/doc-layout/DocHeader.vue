@@ -218,19 +218,36 @@ const logo = computed(() => {
   box-shadow: none !important
   background-color: #fff
 
-  .q-item
+  &__item
+    display: flex
+    align-items: center
     height: 36px
+    padding: 0 16px
+    color: inherit
+    text-decoration: none
+    cursor: pointer
+    outline: none
+
+    .q-icon
+      font-size: $item-section-side-icon-font-size
+      color: $brand-primary
+
+    // the leading icon
+    > .q-icon:first-child
+      margin-right: 16px
+
+    > .doc-header-menu__arrow
+      margin: 0 -8px 0 auto
+
+    &:hover,
+    &:focus-visible
+      background: rgba(#000, 0.05)
 
   .q-item__label--header
     color: $brand-accent
     padding: 16px
     &:first-child
       padding-top: 8px
-  .q-item__section--side .q-icon
-    color: $brand-primary
-
-  &__arrow
-    margin-right: -8px
 
 .doc-header-text-links__item
   .q-icon
@@ -242,6 +259,10 @@ body.body--dark
   .doc-header-menu
     background: $dark-bg
     border-color: $separator-dark-color
+
+    &__item:hover,
+    &__item:focus-visible
+      background: rgba(#fff, 0.1)
 
   .doc-header
     &__version

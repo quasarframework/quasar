@@ -104,6 +104,52 @@ ul
   vertical-align: baseline
   border: 1px solid currentColor
 
+// one entry of the page menu, the TOC or a footer column
+.doc-item
+  display: flex
+  align-items: center
+  min-height: 30px
+  margin-top: 2px
+  padding: 0 4px 0 6px
+  border-radius: 4px
+  letter-spacing: $letter-spacing-brand
+  text-decoration: none
+  cursor: pointer
+  user-select: none
+  transition: color $header-transition, background $header-transition
+
+body.body--light .doc-item
+  color: $light-text
+  &:hover
+    color: #000
+
+body.body--light a.doc-item
+  &--active
+    background: scale-color($primary, $lightness: 90%)
+
+  &:hover
+    background: rgba(#000, 0.05)
+
+  &--active,
+  &--active:hover
+    color: $brand-primary
+
+body.body--dark .doc-item
+  color: $dark-text
+  &:hover
+    color: $header-btn-hover-color--dark
+
+body.body--dark a.doc-item
+  &--active
+    background: scale-color($primary, $lightness: -50%)
+
+  &:hover
+    background: rgba(#fff, 0.1)
+
+  &--active,
+  &--active:hover
+    color: $brand-primary
+
 .doc-note
   font-size: $font-size
   border-radius: $generic-border-radius
