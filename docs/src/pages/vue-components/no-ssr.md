@@ -56,7 +56,7 @@ Alternatively, you can also use it to render content only on server-side and it 
 ```html
 <q-no-ssr>
   <div>This won't be rendered on server</div>
-  <template v-slot:placeholder>
+  <template #placeholder>
     <div>Rendered on server</div>
   </template>
 </q-no-ssr>
@@ -67,7 +67,7 @@ Alternatively, you can also use it to render content only on server-side and it 
 ```html
 <q-no-ssr>
   <div>This won't be rendered on server</div>
-  <template v-slot:placeholder>
+  <template #placeholder>
     <div>Rendered on server (1/2)</div>
     <div>Rendered on server (2/2)</div>
   </template>
@@ -78,7 +78,7 @@ Alternatively, you can also use it to render content only on server-side and it 
 
 ```html
 <q-no-ssr>
-  <template v-slot:placeholder>
+  <template #placeholder>
     <div>Rendered on server</div>
   </template>
 </q-no-ssr>

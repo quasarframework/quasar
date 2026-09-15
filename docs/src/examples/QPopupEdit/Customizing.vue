@@ -6,7 +6,7 @@
         <q-popup-edit
           v-model="label"
           class="bg-accent text-white"
-          v-slot="scope"
+          #default="scope"
         >
           <q-input
             dark
@@ -17,7 +17,7 @@
             counter
             @keyup.enter="scope.set"
           >
-            <template v-slot:append>
+            <template #append>
               <q-icon name="edit" />
             </template>
           </q-input>
@@ -30,7 +30,7 @@
           v-model="label2"
           :cover="false"
           :offset="[0, 10]"
-          v-slot="scope"
+          #default="scope"
         >
           <q-input
             color="accent"
@@ -40,7 +40,7 @@
             counter
             @keyup.enter="scope.set"
           >
-            <template v-slot:prepend>
+            <template #prepend>
               <q-icon name="record_voice_over" color="accent" />
             </template>
           </q-input>

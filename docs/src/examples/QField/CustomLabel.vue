@@ -2,7 +2,7 @@
   <div class="q-pa-md">
     <div class="q-gutter-y-md column" style="max-width: 300px">
       <q-field filled :model-value="email" suffix="@gmail.com" label-slot>
-        <template v-slot:label>
+        <template #label>
           <div class="row items-center all-pointer-events">
             <q-icon
               class="q-mr-xs"
@@ -22,7 +22,7 @@
           </div>
         </template>
 
-        <template v-slot:control>
+        <template #control>
           <div
             class="self-center full-width no-outline text-right"
             tabindex="0"
@@ -32,13 +32,13 @@
       </q-field>
 
       <q-field outlined :model-value="number" prefix="$" label-slot>
-        <template v-slot:control>
+        <template #control>
           <div class="self-center full-width no-outline" tabindex="0">{{
             number
           }}</div>
         </template>
 
-        <template v-slot:append>
+        <template #append>
           <q-avatar>
             <img
               alt="Quasar logo"
@@ -47,7 +47,7 @@
           </q-avatar>
         </template>
 
-        <template v-slot:label>
+        <template #label>
           <span class="text-weight-bold text-deep-orange">You</span>
           can customize the
           <span

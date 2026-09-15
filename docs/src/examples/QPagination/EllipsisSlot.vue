@@ -7,7 +7,7 @@
       :max-pages="5"
       boundary-numbers
     >
-      <template v-slot:ellipsis="{ btnProps }">
+      <template #ellipsis="{ btnProps }">
         <q-btn v-bind="btnProps" aria-label="Go to page">
           <q-popup-edit
             v-model="current"
@@ -15,7 +15,7 @@
             :cover="false"
             :offset="[0, 8]"
             :validate="validatePage"
-            v-slot="scope"
+            #default="scope"
           >
             <q-input
               v-model.number="scope.value"

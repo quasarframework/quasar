@@ -19,7 +19,7 @@
       <q-tab-panels v-model="tab" animated>
         <q-tab-panel name="mails" class="q-pa-none">
           <q-splitter v-model="splitterModel" style="height: 250px">
-            <template v-slot:before>
+            <template #before>
               <q-tabs v-model="innerTab" vertical class="text-teal">
                 <q-tab name="innerMails" icon="mail" label="Mails" />
                 <q-tab name="innerAlarms" icon="alarm" label="Alarms" />
@@ -27,7 +27,7 @@
               </q-tabs>
             </template>
 
-            <template v-slot:after>
+            <template #after>
               <q-tab-panels
                 v-model="innerTab"
                 animated

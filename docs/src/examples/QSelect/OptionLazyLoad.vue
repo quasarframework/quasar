@@ -11,7 +11,7 @@
         @filter-abort="abortFilterFn"
         style="width: 250px"
       >
-        <template v-slot:no-option>
+        <template #no-option>
           <q-item>
             <q-item-section class="text-grey"> No results </q-item-section>
           </q-item>

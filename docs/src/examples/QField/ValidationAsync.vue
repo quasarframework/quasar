@@ -7,7 +7,7 @@
       hint="Pick between 10 and 60"
       :rules="[myRule]"
     >
-      <template v-slot:control>
+      <template #control>
         <q-slider
           v-model="slider"
           :min="0"

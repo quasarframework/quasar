@@ -12,7 +12,7 @@
       v-model:pagination="pagination"
       :rows-per-page-options="rowsPerPageOptions"
     >
-      <template v-slot:top-right>
+      <template #top-right>
         <q-input
           borderless
           dense
@@ -20,13 +20,13 @@
           v-model="filter"
           placeholder="Search"
         >
-          <template v-slot:append>
+          <template #append>
             <q-icon name="search" />
           </template>
         </q-input>
       </template>
 
-      <template v-slot:item="props">
+      <template #item="props">
         <div class="q-pa-xs col-xs-12 col-sm-6 col-md-4">
           <q-card>
             <q-card-section class="text-center">

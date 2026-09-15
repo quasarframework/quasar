@@ -2,7 +2,7 @@
   <div class="q-pa-md">
     <div class="q-gutter-md row items-start">
       <q-input filled v-model="color" class="my-input">
-        <template v-slot:append>
+        <template #append>
           <q-icon name="colorize" class="cursor-pointer">
             <q-popup-proxy
               cover
@@ -22,7 +22,7 @@
         hint="With validation"
         class="my-input"
       >
-        <template v-slot:append>
+        <template #append>
           <q-icon name="colorize" class="cursor-pointer">
             <q-popup-proxy
               cover

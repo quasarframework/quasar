@@ -7,7 +7,7 @@
       :virtual-scroll-sticky-size-start="48"
       :virtual-scroll-sticky-size-end="32"
       :items="heavyList"
-      v-slot="{ item: row, index }"
+      #default="{ item: row, index }"
     >
       <tr :key="index">
         <td>#{{ index }}</td>

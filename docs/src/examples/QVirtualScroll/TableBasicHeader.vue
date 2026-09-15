@@ -8,7 +8,7 @@
       :virtual-scroll-sticky-size-end="32"
       :items="heavyList"
     >
-      <template v-slot:before>
+      <template #before>
         <thead class="text-left">
           <tr>
             <th>Index</th>
@@ -19,7 +19,7 @@
         </thead>
       </template>
 
-      <template v-slot:after>
+      <template #after>
         <tfoot class="text-left">
           <tr>
             <th>Index</th>
@@ -30,7 +30,7 @@
         </tfoot>
       </template>
 
-      <template v-slot="{ item: row, index }">
+      <template #default="{ item: row, index }">
         <tr :key="index">
           <td>#{{ index }}</td>
           <td v-for="column in columns" :key="index + '-' + column.name">

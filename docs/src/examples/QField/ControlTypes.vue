@@ -8,7 +8,7 @@
         @update:model-value="val => val === null && (slider = 50)"
         clearable
       >
-        <template v-slot:control>
+        <template #control>
           <q-slider
             :model-value="slider"
             @change="
@@ -34,7 +34,7 @@
         "
         clearable
       >
-        <template v-slot:control>
+        <template #control>
           <q-range
             :model-value="range"
             @change="
@@ -55,7 +55,7 @@
         @update:model-value="val => val === null && (knob = 50)"
         clearable
       >
-        <template v-slot:control>
+        <template #control>
           <div class="full-width">
             <q-knob
               :model-value="knob"
@@ -81,7 +81,7 @@
         label="Pick a date"
         stack-label
       >
-        <template v-slot:control>
+        <template #control>
           <q-date class="q-mt-sm full-width" minimal v-model="date" />
         </template>
       </q-field>
@@ -92,7 +92,7 @@
         label="Pick a time"
         stack-label
       >
-        <template v-slot:control>
+        <template #control>
           <div class="q-mt-sm full-width">
             <q-time v-model="time" />
           </div>

@@ -1,7 +1,7 @@
 <template>
   <div class="q-pa-md q-gutter-sm">
     <q-tree :nodes="customize" node-key="label" default-expand-all>
-      <template v-slot:header-root="prop">
+      <template #header-root="prop">
         <div class="row items-center">
           <img
             alt="Quasar logo"
@@ -16,7 +16,7 @@
         </div>
       </template>
 
-      <template v-slot:header-generic="prop">
+      <template #header-generic="prop">
         <div class="row items-center">
           <q-icon
             :name="prop.node.icon || 'star'"
@@ -28,12 +28,12 @@
         </div>
       </template>
 
-      <template v-slot:body-story="prop">
+      <template #body-story="prop">
         <span class="text-weight-thin">The story is:</span>
         {{ prop.node.story }}
       </template>
 
-      <template v-slot:body-toggle="prop">
+      <template #body-toggle="prop">
         <p class="text-caption">{{ prop.node.caption }}</p>
         <q-toggle
           v-model="prop.node.enabled"

@@ -9,7 +9,7 @@
       :columns="columns"
       row-key="name"
     >
-      <template v-slot:footer>
+      <template #footer>
         <q-tr class="text-weight-bold">
           <q-td class="text-left"> Totals </q-td>
           <q-td class="text-center"> {{ totals.calories }} </q-td>

@@ -2,7 +2,7 @@
   <div class="q-pa-md">
     <div class="q-gutter-y-md column" style="max-width: 300px">
       <q-field :loading="loadingState" filled label="Label" stack-label>
-        <template v-slot:control>
+        <template #control>
           <div class="self-center full-width no-outline" tabindex="0">{{
             text
           }}</div>

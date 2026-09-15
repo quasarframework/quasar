@@ -8,11 +8,11 @@
       row-key="name"
       wrap-cells
     >
-      <template v-slot:body="props">
+      <template #body="props">
         <q-tr :props="props">
           <q-td key="desc" :props="props">
             {{ props.row.name }}
-            <q-popup-edit v-model="props.row.name" v-slot="scope">
+            <q-popup-edit v-model="props.row.name" #default="scope">
               <q-input
                 v-model="scope.value"
                 dense
@@ -25,7 +25,7 @@
 
           <q-td key="comment" :props="props">
             <div v-html="props.row.comment"></div>
-            <q-popup-edit buttons v-model="props.row.comment" v-slot="scope">
+            <q-popup-edit buttons v-model="props.row.comment" #default="scope">
               <q-editor
                 v-model="scope.value"
                 min-height="5rem"
@@ -37,7 +37,7 @@
 
           <q-td key="calories" :props="props">
             {{ props.row.calories }}
-            <q-popup-edit v-model.number="props.row.calories" v-slot="scope">
+            <q-popup-edit v-model.number="props.row.calories" #default="scope">
               <q-input
                 type="number"
                 v-model.number="scope.value"
@@ -50,7 +50,7 @@
 
           <q-td key="fat" :props="props">
             <div class="text-pre-wrap">{{ props.row.fat }}</div>
-            <q-popup-edit v-model.number="props.row.fat" v-slot="scope">
+            <q-popup-edit v-model.number="props.row.fat" #default="scope">
               <q-input
                 type="number"
                 v-model.number="scope.value"

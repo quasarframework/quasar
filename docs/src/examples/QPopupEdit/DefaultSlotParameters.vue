@@ -5,7 +5,7 @@
       <q-popup-edit
         v-model="nickname"
         :validate="val => val.length > 5"
-        v-slot="scope"
+        #default="scope"
       >
         <q-input
           autofocus
@@ -15,7 +15,7 @@
           hint="Your nickname"
           :rules="[val => scope.validate(val) || 'More than 5 chars required']"
         >
-          <template v-slot:after>
+          <template #after>
             <q-btn
               flat
               dense

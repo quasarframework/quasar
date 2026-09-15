@@ -7,9 +7,9 @@
         text-color="white"
         bg-color="primary"
       >
-        <template v-slot:name>me</template>
-        <template v-slot:stamp>7 minutes ago</template>
-        <template v-slot:avatar>
+        <template #name>me</template>
+        <template #stamp>7 minutes ago</template>
+        <template #avatar>
           <img
             alt="User avatar"
             class="q-message-avatar q-message-avatar--sent"
@@ -19,8 +19,8 @@
       </q-chat-message>
 
       <q-chat-message bg-color="amber">
-        <template v-slot:name>Mary</template>
-        <template v-slot:avatar>
+        <template #name>Mary</template>
+        <template #avatar>
           <img
             alt="User avatar"
             class="q-message-avatar q-message-avatar--received"

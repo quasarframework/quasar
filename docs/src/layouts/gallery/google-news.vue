@@ -35,7 +35,7 @@
           placeholder="Search for topics, locations & sources"
           aria-label="Search for topics, locations and sources"
         >
-          <template v-slot:prepend>
+          <template #prepend>
             <q-icon v-if="search === ''" name="search" />
             <q-btn
               v-else
@@ -48,7 +48,7 @@
               @click="search = ''"
             />
           </template>
-          <template v-slot:append>
+          <template #append>
             <q-btn
               flat
               dense

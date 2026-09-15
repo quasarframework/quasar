@@ -6,7 +6,7 @@
       min-height="5rem"
       :toolbar="[['bold', 'italic', 'underline'], ['undo', 'redo'], ['help']]"
     >
-      <template v-slot:help>
+      <template #help>
         <q-btn
           dense
           flat

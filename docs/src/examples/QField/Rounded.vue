@@ -2,11 +2,11 @@
   <div class="q-pa-md">
     <div class="q-gutter-y-md column" style="max-width: 300px">
       <q-field rounded filled>
-        <template v-slot:prepend>
+        <template #prepend>
           <q-icon name="event" />
         </template>
 
-        <template v-slot:control>
+        <template #control>
           <div class="self-center full-width no-outline" tabindex="0">{{
             text
           }}</div>
@@ -14,13 +14,13 @@
       </q-field>
 
       <q-field rounded outlined>
-        <template v-slot:control>
+        <template #control>
           <div class="self-center full-width no-outline" tabindex="0">{{
             text
           }}</div>
         </template>
 
-        <template v-slot:append>
+        <template #append>
           <q-avatar>
             <img
               alt="Quasar logo"
@@ -39,21 +39,21 @@
         stack-label
         counter
       >
-        <template v-slot:prepend>
+        <template #prepend>
           <q-icon name="place" />
         </template>
 
-        <template v-slot:control>
+        <template #control>
           <div class="self-center full-width no-outline" tabindex="0">{{
             text
           }}</div>
         </template>
 
-        <template v-slot:append>
+        <template #append>
           <q-icon name="close" class="cursor-pointer" />
         </template>
 
-        <template v-slot:hint> Field hint </template>
+        <template #hint> Field hint </template>
       </q-field>
     </div>
   </div>

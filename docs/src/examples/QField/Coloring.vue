@@ -2,10 +2,10 @@
   <div class="q-pa-md">
     <div class="q-gutter-y-md column" style="max-width: 300px">
       <q-field color="purple-12" label="Label" stack-label>
-        <template v-slot:prepend>
+        <template #prepend>
           <q-icon name="event" />
         </template>
-        <template v-slot:control>
+        <template #control>
           <div class="self-center full-width no-outline" tabindex="0">{{
             text
           }}</div>
@@ -13,10 +13,10 @@
       </q-field>
 
       <q-field color="teal" filled label="Label" stack-label>
-        <template v-slot:prepend>
+        <template #prepend>
           <q-icon name="event" />
         </template>
-        <template v-slot:control>
+        <template #control>
           <div class="self-center full-width no-outline" tabindex="0">{{
             text
           }}</div>
@@ -30,10 +30,10 @@
         label="Label"
         stack-label
       >
-        <template v-slot:append>
+        <template #append>
           <q-icon name="event" color="orange" />
         </template>
-        <template v-slot:control>
+        <template #control>
           <div class="self-center full-width no-outline" tabindex="0">{{
             text
           }}</div>
@@ -47,10 +47,10 @@
         label="Label"
         stack-label
       >
-        <template v-slot:prepend>
+        <template #prepend>
           <q-icon name="event" />
         </template>
-        <template v-slot:control>
+        <template #control>
           <div class="self-center full-width no-outline" tabindex="0">{{
             text
           }}</div>
@@ -58,7 +58,7 @@
       </q-field>
 
       <q-field color="teal" outlined label="Label" stack-label>
-        <template v-slot:append>
+        <template #append>
           <q-avatar>
             <img
               alt="Quasar logo"
@@ -66,7 +66,7 @@
             />
           </q-avatar>
         </template>
-        <template v-slot:control>
+        <template #control>
           <div class="self-center full-width no-outline" tabindex="0">{{
             text
           }}</div>
@@ -83,19 +83,19 @@
         counter
         clearable
       >
-        <template v-slot:prepend>
+        <template #prepend>
           <q-icon name="place" />
         </template>
-        <template v-slot:control>
+        <template #control>
           <div class="self-center full-width no-outline" tabindex="0">{{
             text
           }}</div>
         </template>
-        <template v-slot:append>
+        <template #append>
           <q-icon name="favorite" />
         </template>
 
-        <template v-slot:hint> Field hint </template>
+        <template #hint> Field hint </template>
       </q-field>
     </div>
   </div>

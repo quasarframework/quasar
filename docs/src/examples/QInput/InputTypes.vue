@@ -9,7 +9,7 @@
         :type="isPwd ? 'password' : 'text'"
         hint="Password with toggle"
       >
-        <template v-slot:append>
+        <template #append>
           <q-icon
             :name="isPwd ? 'visibility_off' : 'visibility'"
             class="cursor-pointer"
@@ -21,7 +21,7 @@
       <q-input v-model="email" filled type="email" hint="Email" />
 
       <q-input v-model="search" filled type="search" hint="Search">
-        <template v-slot:append>
+        <template #append>
           <q-icon name="search" />
         </template>
       </q-input>

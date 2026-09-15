@@ -2,13 +2,13 @@
   <div class="q-pa-md">
     <div class="q-gutter-y-md column" style="max-width: 300px">
       <q-input filled v-model="email" type="email" suffix="@gmail.com">
-        <template v-slot:before>
+        <template #before>
           <q-icon name="mail" />
         </template>
       </q-input>
 
       <q-input outlined v-model.number="number" type="number" prefix="$">
-        <template v-slot:append>
+        <template #append>
           <q-avatar>
             <img
               alt="Quasar logo"
@@ -25,7 +25,7 @@
         prefix="Email:"
         suffix="@gmail.com"
       >
-        <template v-slot:prepend>
+        <template #prepend>
           <q-icon name="mail" />
         </template>
       </q-input>

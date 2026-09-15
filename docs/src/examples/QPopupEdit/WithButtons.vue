@@ -7,11 +7,11 @@
       :rows-per-page-options="[]"
       row-key="name"
     >
-      <template v-slot:body="props">
+      <template #body="props">
         <q-tr :props="props">
           <q-td key="desc" :props="props">
             {{ props.row.name }}
-            <q-popup-edit v-model="props.row.name" buttons v-slot="scope">
+            <q-popup-edit v-model="props.row.name" buttons #default="scope">
               <q-input
                 v-model="scope.value"
                 dense
@@ -26,7 +26,7 @@
             <q-popup-edit
               v-model.number="props.row.calories"
               buttons
-              v-slot="scope"
+              #default="scope"
             >
               <q-input
                 type="number"
@@ -39,7 +39,11 @@
           </q-td>
           <q-td key="fat" :props="props">
             <div class="text-pre-wrap">{{ props.row.fat }}</div>
-            <q-popup-edit v-model.number="props.row.fat" buttons v-slot="scope">
+            <q-popup-edit
+              v-model.number="props.row.fat"
+              buttons
+              #default="scope"
+            >
               <q-input
                 type="number"
                 v-model.number="scope.value"
@@ -55,7 +59,7 @@
               v-model.number="props.row.carbs"
               buttons
               persistent
-              v-slot="scope"
+              #default="scope"
             >
               <q-input
                 type="number"
@@ -73,7 +77,7 @@
               buttons
               label-set="Save"
               label-cancel="Close"
-              v-slot="scope"
+              #default="scope"
             >
               <q-input
                 type="number"
@@ -89,7 +93,7 @@
             <q-popup-edit
               v-model.number="props.row.sodium"
               buttons
-              v-slot="scope"
+              #default="scope"
             >
               <q-input
                 type="number"
@@ -102,7 +106,7 @@
           </q-td>
           <q-td key="calcium" :props="props">
             {{ props.row.calcium }}
-            <q-popup-edit v-model="props.row.calcium" buttons v-slot="scope">
+            <q-popup-edit v-model="props.row.calcium" buttons #default="scope">
               <q-input
                 v-model="scope.value"
                 dense
@@ -113,7 +117,7 @@
           </q-td>
           <q-td key="iron" :props="props">
             {{ props.row.iron }}
-            <q-popup-edit v-model="props.row.iron" buttons v-slot="scope">
+            <q-popup-edit v-model="props.row.iron" buttons #default="scope">
               <q-input
                 v-model="scope.value"
                 dense

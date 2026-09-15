@@ -29,7 +29,7 @@
       :items="heavyList"
       separator
       @virtual-scroll="onVirtualScroll"
-      v-slot="{ item, index }"
+      #default="{ item, index }"
     >
       <q-item
         :key="index"

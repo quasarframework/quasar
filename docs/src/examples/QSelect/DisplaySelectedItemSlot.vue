@@ -10,7 +10,7 @@
         stack-label
         label="Standard"
       >
-        <template v-slot:selected>
+        <template #selected>
           Company:
           <q-chip
             v-if="model"
@@ -35,7 +35,7 @@
         label="Standard"
         color="secondary"
       >
-        <template v-slot:selected-item="scope">
+        <template #selected-item="scope">
           <q-chip
             removable
             dense

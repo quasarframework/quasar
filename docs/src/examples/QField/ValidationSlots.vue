@@ -8,7 +8,7 @@
       hint="Max value is 30"
       :error="!isValid"
     >
-      <template v-slot:control>
+      <template #control>
         <q-slider
           v-model="slider"
           :min="0"
@@ -19,7 +19,7 @@
           style="width: 200px"
         />
       </template>
-      <template v-slot:error> Please use a maximum value of 30. </template>
+      <template #error> Please use a maximum value of 30. </template>
     </q-field>
   </div>
 </template>

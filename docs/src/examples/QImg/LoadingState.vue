@@ -23,19 +23,19 @@
       />
 
       <q-img :src="url" style="height: 140px; max-width: 150px">
-        <template v-slot:loading>
+        <template #loading>
           <div class="text-subtitle1 text-white"> Loading... </div>
         </template>
       </q-img>
 
       <q-img :src="url" style="height: 140px; max-width: 150px">
-        <template v-slot:loading>
+        <template #loading>
           <q-spinner-gears color="white" />
         </template>
       </q-img>
 
       <q-img :src="url" style="height: 140px; max-width: 150px">
-        <template v-slot:loading>
+        <template #loading>
           <div class="text-yellow">
             <q-spinner-ios />
             <div class="q-mt-md">Loading...</div>

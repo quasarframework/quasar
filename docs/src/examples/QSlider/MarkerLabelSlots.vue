@@ -12,7 +12,7 @@
       :inner-min="2"
       :inner-max="8"
     >
-      <template v-slot:marker-label-group="scope">
+      <template #marker-label-group="scope">
         <div
           v-for="marker in scope.markerList"
           :key="marker.index"
@@ -36,7 +36,7 @@
       :max="5"
       marker-labels
     >
-      <template v-slot:marker-label-group="{ markerList }">
+      <template #marker-label-group="{ markerList }">
         <div
           v-for="val in 4"
           :key="val"
@@ -72,7 +72,7 @@
       marker-labels
       switch-marker-labels-side
     >
-      <template v-slot:marker-label-group="{ markerMap }">
+      <template #marker-label-group="{ markerMap }">
         <div
           class="row items-center no-wrap"
           :class="markerMap[thirdModel].classes"

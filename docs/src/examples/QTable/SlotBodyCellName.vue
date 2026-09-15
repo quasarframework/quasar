@@ -8,7 +8,7 @@
       :columns="columns"
       row-key="name"
     >
-      <template v-slot:body-cell-name="props">
+      <template #body-cell-name="props">
         <q-td :props="props">
           <div>
             <q-badge color="purple" :label="props.value" />

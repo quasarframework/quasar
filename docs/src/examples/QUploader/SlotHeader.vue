@@ -5,7 +5,7 @@
       label="Custom header"
       multiple
     >
-      <template v-slot:header="scope">
+      <template #header="scope">
         <div class="row no-wrap items-center q-pa-sm q-gutter-xs">
           <q-btn
             v-if="scope.queuedFiles.length > 0"

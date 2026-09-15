@@ -10,26 +10,26 @@
       selection="multiple"
       v-model:selected="selected"
     >
-      <template v-slot:top> Top </template>
-      <template v-slot:top-row>
+      <template #top> Top </template>
+      <template #top-row>
         <q-tr>
           <q-td colspan="100%"> Top row </q-td>
         </q-tr>
       </template>
 
-      <template v-slot:bottom-row>
+      <template #bottom-row>
         <q-tr>
           <q-td colspan="100%"> Bottom row </q-td>
         </q-tr>
       </template>
 
-      <template v-slot:footer>
+      <template #footer>
         <q-tr>
           <q-td colspan="100%"> Footer (a real &lt;tfoot&gt; element) </q-td>
         </q-tr>
       </template>
 
-      <template v-slot:bottom> Bottom </template>
+      <template #bottom> Bottom </template>
     </q-table>
   </div>
 </template>

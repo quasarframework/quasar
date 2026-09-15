@@ -4,8 +4,8 @@
       <q-timeline-entry heading> Timeline heading </q-timeline-entry>
 
       <q-timeline-entry>
-        <template v-slot:title> Event Title </template>
-        <template v-slot:subtitle> February 22, 1986 </template>
+        <template #title> Event Title </template>
+        <template #subtitle> February 22, 1986 </template>
 
         <div>
           Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
@@ -20,8 +20,8 @@
 
       <!-- #region -->
       <q-timeline-entry icon="delete">
-        <template v-slot:title> Event Title </template>
-        <template v-slot:subtitle> February 21, 1986 </template>
+        <template #title> Event Title </template>
+        <template #subtitle> February 21, 1986 </template>
 
         <div>
           Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
@@ -37,8 +37,8 @@
       <q-timeline-entry heading> November, 2017 </q-timeline-entry>
 
       <q-timeline-entry avatar="https://cdn.quasar.dev/img/avatar5.jpg">
-        <template v-slot:title> Event Title </template>
-        <template v-slot:subtitle> February 22, 1986 </template>
+        <template #title> Event Title </template>
+        <template #subtitle> February 22, 1986 </template>
 
         <div>
           Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
@@ -52,8 +52,8 @@
       </q-timeline-entry>
 
       <q-timeline-entry>
-        <template v-slot:title> Event Title </template>
-        <template v-slot:subtitle> February 22, 1986 </template>
+        <template #title> Event Title </template>
+        <template #subtitle> February 22, 1986 </template>
 
         <div>
           Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
@@ -67,8 +67,8 @@
       </q-timeline-entry>
 
       <q-timeline-entry color="orange" icon="done_all">
-        <template v-slot:title> Event Title </template>
-        <template v-slot:subtitle> February 22, 1986 </template>
+        <template #title> Event Title </template>
+        <template #subtitle> February 22, 1986 </template>
 
         <div>
           Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
@@ -82,8 +82,8 @@
       </q-timeline-entry>
 
       <q-timeline-entry>
-        <template v-slot:title> Event Title </template>
-        <template v-slot:subtitle> February 22, 1986 </template>
+        <template #title> Event Title </template>
+        <template #subtitle> February 22, 1986 </template>
 
         <div>
           Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
@@ -97,8 +97,8 @@
       </q-timeline-entry>
 
       <q-timeline-entry>
-        <template v-slot:title> Event Title </template>
-        <template v-slot:subtitle> February 22, 1986 </template>
+        <template #title> Event Title </template>
+        <template #subtitle> February 22, 1986 </template>
 
         <div>
           Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do

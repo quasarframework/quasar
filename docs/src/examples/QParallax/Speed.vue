@@ -1,7 +1,7 @@
 <template>
   <div class="q-pa-md">
     <q-parallax :height="200" :speed="0.5">
-      <template v-slot:media>
+      <template #media>
         <img
           alt="Landscape photo"
           src="https://cdn.quasar.dev/img/parallax1.jpg"

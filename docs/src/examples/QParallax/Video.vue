@@ -1,7 +1,7 @@
 <template>
   <div class="q-pa-md">
     <q-parallax :height="150">
-      <template v-slot:media>
+      <template #media>
         <video
           width="720"
           height="440"

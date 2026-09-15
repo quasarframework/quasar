@@ -7,7 +7,7 @@
       @click="onMainClick"
       toggle-aria-haspopup="menu"
     >
-      <template v-slot:toggle>
+      <template #toggle>
         <q-tooltip>More save options</q-tooltip>
       </template>
 

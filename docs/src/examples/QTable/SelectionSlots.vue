@@ -10,11 +10,11 @@
       selection="multiple"
       v-model:selected="selected"
     >
-      <template v-slot:header-selection="scope">
+      <template #header-selection="scope">
         <q-toggle v-model="scope.selected" />
       </template>
 
-      <template v-slot:body-selection="scope">
+      <template #body-selection="scope">
         <q-toggle v-model="scope.selected" />
       </template>
     </q-table>

@@ -1,7 +1,7 @@
 <template>
   <div>
     <q-splitter v-model="splitterModel" style="height: 400px">
-      <template v-slot:before>
+      <template #before>
         <div class="q-pa-md">
           <q-tree
             :nodes="simple"
@@ -13,7 +13,7 @@
         </div>
       </template>
 
-      <template v-slot:after>
+      <template #after>
         <q-tab-panels
           v-model="selected"
           animated

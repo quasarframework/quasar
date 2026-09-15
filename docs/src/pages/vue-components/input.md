@@ -246,7 +246,7 @@ You can use v-money directive:
   label="Price with v-money directive"
   hint="Mask: $ #,###.00 #"
 >
-  <template v-slot:control="{ id, floatingLabel, modelValue, emitValue }">
+  <template #control="{ id, floatingLabel, modelValue, emitValue }">
     <input
       :id="id"
       class="q-field__input text-right"
@@ -279,7 +279,7 @@ Or you can use money component:
   label="Price with v-money component"
   hint="Mask: $ #,###.00 #"
 >
-  <template v-slot:control="{ id, floatingLabel, modelValue, emitValue }">
+  <template #control="{ id, floatingLabel, modelValue, emitValue }">
     <money
       :id="id"
       class="q-field__input text-right"

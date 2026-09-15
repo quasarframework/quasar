@@ -18,7 +18,7 @@
       @focusout="deactivateNavigation"
       @keydown="onKey"
     >
-      <template v-slot:top-right>
+      <template #top-right>
         <q-input
           borderless
           dense
@@ -26,7 +26,7 @@
           v-model="filter"
           placeholder="Search"
         >
-          <template v-slot:append>
+          <template #append>
             <q-icon name="search" />
           </template>
         </q-input>

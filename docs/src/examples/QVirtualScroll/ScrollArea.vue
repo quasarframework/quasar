@@ -12,7 +12,7 @@
         :items="heavyList"
         :virtual-scroll-item-size="32"
         separator
-        v-slot="{ item, index }"
+        #default="{ item, index }"
       >
         <q-item :key="index" dense>
           <q-item-section>

@@ -7,10 +7,10 @@
         left-color="red"
         right-color="purple"
       >
-        <template v-slot:left>
+        <template #left>
           <div class="row items-center"> <q-icon left name="done" /> Left </div>
         </template>
-        <template v-slot:right>
+        <template #right>
           <div class="row items-center">
             Right content.. long <q-icon right name="alarm" />
           </div>
@@ -30,12 +30,12 @@
         left-color="amber"
         right-color="primary"
       >
-        <template v-slot:left>
+        <template #left>
           <div class="row items-center text-black">
             <q-icon left name="done" /> Left
           </div>
         </template>
-        <template v-slot:right>
+        <template #right>
           <div class="row items-center">
             Right content.. long <q-icon right name="alarm" />
           </div>

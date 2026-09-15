@@ -9,11 +9,11 @@
       row-key="name"
       binary-state-sort
     >
-      <template v-slot:body="props">
+      <template #body="props">
         <q-tr :props="props">
           <q-td col-name="name" :props="props">
             {{ props.row.name }}
-            <q-popup-edit v-model="props.row.name" v-slot="scope">
+            <q-popup-edit v-model="props.row.name" #default="scope">
               <q-input
                 v-model="scope.value"
                 dense
@@ -29,7 +29,7 @@
               v-model="props.row.calories"
               title="Update calories"
               buttons
-              v-slot="scope"
+              #default="scope"
             >
               <q-input
                 type="number"
@@ -41,7 +41,7 @@
           </q-td>
           <q-td col-name="fat" :props="props">
             <div class="text-pre-wrap">{{ props.row.fat }}</div>
-            <q-popup-edit v-model="props.row.fat" v-slot="scope">
+            <q-popup-edit v-model="props.row.fat" #default="scope">
               <q-input type="textarea" v-model="scope.value" dense autofocus />
             </q-popup-edit>
           </q-td>
@@ -52,7 +52,7 @@
               title="Update carbs"
               buttons
               persistent
-              v-slot="scope"
+              #default="scope"
             >
               <q-input
                 type="number"

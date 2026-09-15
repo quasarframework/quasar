@@ -1,14 +1,14 @@
 <template>
   <div class="q-pa-md">
     <q-parallax>
-      <template v-slot:media>
+      <template #media>
         <img
           alt="Landscape photo"
           src="https://cdn.quasar.dev/img/parallax2.jpg"
         />
       </template>
 
-      <template v-slot:content="scope">
+      <template #content="scope">
         <div
           class="absolute column items-center"
           :style="{

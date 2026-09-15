@@ -12,7 +12,7 @@
       :scroll-target="scrollTarget"
       :items="heavyList"
       separator
-      v-slot="{ item, index }"
+      #default="{ item, index }"
     >
       <q-item :key="index" dense>
         <q-item-section>

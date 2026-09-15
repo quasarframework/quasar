@@ -20,7 +20,7 @@
         class="q-mt-md"
         color="teal"
       >
-        <template v-slot:loading>
+        <template #loading>
           <q-spinner-facebook />
         </template>
       </q-btn>

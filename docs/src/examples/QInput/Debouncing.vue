@@ -12,7 +12,7 @@
         placeholder="Search"
         hint="Debouncing 500ms"
       >
-        <template v-slot:append>
+        <template #append>
           <q-icon name="search" />
         </template>
       </q-input>
@@ -24,7 +24,7 @@
         placeholder="Search"
         hint="Debouncing 1000ms"
       >
-        <template v-slot:append>
+        <template #append>
           <q-icon name="search" />
         </template>
       </q-input>

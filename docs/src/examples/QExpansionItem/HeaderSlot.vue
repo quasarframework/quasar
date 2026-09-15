@@ -2,7 +2,7 @@
   <div class="q-pa-md" style="max-width: 350px">
     <q-list bordered class="rounded-borders">
       <q-expansion-item>
-        <template v-slot:header>
+        <template #header>
           <q-item-section avatar>
             <q-avatar icon="bluetooth" color="primary" text-color="white" />
           </q-item-section>
@@ -31,7 +31,7 @@
       <q-separator />
 
       <q-expansion-item>
-        <template v-slot:header="{ expanded }">
+        <template #header="{ expanded }">
           <q-item-section avatar>
             <q-avatar>
               <img
@@ -59,7 +59,7 @@
       <q-separator />
 
       <q-expansion-item>
-        <template v-slot:header>
+        <template #header>
           <q-item-section avatar>
             <q-icon color="purple" name="signal_wifi_off" />
           </q-item-section>

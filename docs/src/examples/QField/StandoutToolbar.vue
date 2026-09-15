@@ -12,12 +12,12 @@
 
         <q-space />
         <q-field dark dense standout>
-          <template v-slot:control>
+          <template #control>
             <div class="self-center no-outline" tabindex="0"
               >Time is {{ value }}</div
             >
           </template>
-          <template v-slot:append>
+          <template #append>
             <q-btn
               flat
               round

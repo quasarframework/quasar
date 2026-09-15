@@ -9,12 +9,12 @@
         stack-label
         clearable
       >
-        <template v-slot:control>
+        <template #control>
           <div class="self-center full-width no-outline" tabindex="0"
             >Text is <q>{{ text === null ? 'null' : text }}</q></div
           >
         </template>
-        <template v-if="text === null" v-slot:append>
+        <template v-if="text === null" #append>
           <q-icon
             name="short_text"
             @click.stop.prevent="text = 'Some text'"

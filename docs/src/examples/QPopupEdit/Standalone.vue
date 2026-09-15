@@ -2,7 +2,7 @@
   <div class="q-pa-md">
     <div class="cursor-pointer">
       {{ label }}
-      <q-popup-edit v-model="label" auto-save v-slot="scope">
+      <q-popup-edit v-model="label" auto-save #default="scope">
         <q-input
           v-model="scope.value"
           dense

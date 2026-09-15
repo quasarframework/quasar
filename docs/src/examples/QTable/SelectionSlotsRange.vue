@@ -17,11 +17,11 @@
       v-model:selected="selected"
       @selection="handleSelection"
     >
-      <template v-slot:header-selection="scope">
+      <template #header-selection="scope">
         <q-checkbox v-model="scope.selected" />
       </template>
 
-      <template v-slot:body-selection="scope">
+      <template #body-selection="scope">
         <q-checkbox
           :model-value="scope.selected"
           @update:model-value="

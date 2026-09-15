@@ -2,13 +2,13 @@
   <div class="q-pa-md">
     <div class="q-gutter-y-md column" style="max-width: 300px">
       <q-file color="purple-12" v-model="model" label="Label">
-        <template v-slot:prepend>
+        <template #prepend>
           <q-icon name="attach_file" />
         </template>
       </q-file>
 
       <q-file color="teal" filled v-model="model" label="Label">
-        <template v-slot:prepend>
+        <template #prepend>
           <q-icon name="cloud_upload" />
         </template>
       </q-file>
@@ -20,7 +20,7 @@
         v-model="model"
         label="Label"
       >
-        <template v-slot:append>
+        <template #append>
           <q-icon name="attachment" color="orange" />
         </template>
       </q-file>
@@ -32,13 +32,13 @@
         v-model="model"
         label="Label"
       >
-        <template v-slot:prepend>
+        <template #prepend>
           <q-icon name="attachment" />
         </template>
       </q-file>
 
       <q-file color="teal" outlined v-model="model" label="Label">
-        <template v-slot:append>
+        <template #append>
           <q-avatar>
             <img
               alt="Quasar logo"
@@ -57,14 +57,14 @@
         label="Label"
         counter
       >
-        <template v-slot:prepend>
+        <template #prepend>
           <q-icon name="attach_file" />
         </template>
-        <template v-slot:append>
+        <template #append>
           <q-icon name="favorite" />
         </template>
 
-        <template v-slot:hint> Field hint </template>
+        <template #hint> Field hint </template>
       </q-file>
     </div>
   </div>

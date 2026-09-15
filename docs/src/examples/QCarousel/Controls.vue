@@ -27,7 +27,7 @@
       />
       <!-- #endregion -->
 
-      <template v-slot:control>
+      <template #control>
         <q-carousel-control
           position="top-right"
           :offset="[18, 18]"

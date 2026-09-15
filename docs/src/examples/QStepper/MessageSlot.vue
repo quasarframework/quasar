@@ -49,7 +49,7 @@
       </q-step>
       <!-- #endregion -->
 
-      <template v-slot:navigation>
+      <template #navigation>
         <q-stepper-navigation>
           <q-btn
             @click="$refs.stepperRef.next()"
@@ -67,7 +67,7 @@
         </q-stepper-navigation>
       </template>
 
-      <template v-slot:message>
+      <template #message>
         <q-banner v-if="step === 1" class="bg-purple-8 text-white q-px-lg">
           Campaign settings are important...
         </q-banner>

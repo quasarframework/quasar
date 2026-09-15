@@ -11,7 +11,7 @@
 
       <!-- equivalent -->
       <q-file color="orange" filled v-model="model" label="Label">
-        <template v-if="model" v-slot:append>
+        <template v-if="model" #append>
           <q-icon
             name="cancel"
             @click.stop.prevent="model = null"

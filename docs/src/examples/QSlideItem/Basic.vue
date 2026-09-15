@@ -2,10 +2,10 @@
   <div class="q-pa-md" style="max-width: 350px">
     <q-list bordered separator>
       <q-slide-item @left="onLeft" @right="onRight">
-        <template v-slot:left>
+        <template #left>
           <q-icon name="done" />
         </template>
-        <template v-slot:right>
+        <template #right>
           <q-icon name="alarm" />
         </template>
 
@@ -18,8 +18,8 @@
       </q-slide-item>
 
       <q-slide-item @left="onLeft" @right="onRight">
-        <template v-slot:left> Left </template>
-        <template v-slot:right> Right content.. long </template>
+        <template #left> Left </template>
+        <template #right> Right content.. long </template>
 
         <q-item>
           <q-item-section avatar>
@@ -36,10 +36,10 @@
       </q-slide-item>
 
       <q-slide-item @left="onLeft" @right="onRight">
-        <template v-slot:left>
+        <template #left>
           <div class="row items-center"> <q-icon left name="done" /> Left </div>
         </template>
-        <template v-slot:right>
+        <template #right>
           <div class="row items-center">
             Right content.. long <q-icon right name="alarm" />
           </div>

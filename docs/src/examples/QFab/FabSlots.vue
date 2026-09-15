@@ -5,22 +5,22 @@
       style="margin-top: 100px; margin-bottom: 100px"
     >
       <q-fab color="purple" direction="up">
-        <template v-slot:icon="{ opened }">
+        <template #icon="{ opened }">
           <q-icon
             :class="{ 'example-fab-animate--hover': !opened }"
             name="keyboard_arrow_up"
           />
         </template>
 
-        <template v-slot:active-icon="{ opened }">
+        <template #active-icon="{ opened }">
           <q-icon :class="{ 'example-fab-animate': opened }" name="close" />
         </template>
 
         <q-fab-action color="primary" external-label @click="onClick">
-          <template v-slot:icon>
+          <template #icon>
             <q-icon name="mail" />
           </template>
-          <template v-slot:label> Mail </template>
+          <template #label> Mail </template>
         </q-fab-action>
 
         <q-fab-action
@@ -40,7 +40,7 @@
         icon="keyboard_arrow_left"
         direction="left"
       >
-        <template v-slot:label="{ opened }">
+        <template #label="{ opened }">
           <div :class="{ 'example-fab-animate--hover': !opened }">
             {{ opened ? 'Close' : 'Open' }}
           </div>

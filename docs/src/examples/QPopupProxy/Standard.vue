@@ -3,7 +3,7 @@
     <q-btn push color="primary" label="Handles click">
       <q-popup-proxy>
         <q-banner>
-          <template v-slot:avatar>
+          <template #avatar>
             <q-icon name="signal_wifi_off" color="primary" />
           </template>
           You have lost connection to the internet. This app is offline.

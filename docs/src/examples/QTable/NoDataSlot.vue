@@ -11,7 +11,7 @@
       no-results-label="The filter didn't uncover any results"
       row-key="name"
     >
-      <template v-slot:top-right>
+      <template #top-right>
         <q-input
           borderless
           dense
@@ -19,13 +19,13 @@
           v-model="filter"
           placeholder="Search"
         >
-          <template v-slot:append>
+          <template #append>
             <q-icon name="search" />
           </template>
         </q-input>
       </template>
 
-      <template v-slot:no-data="{ icon, message, filter }">
+      <template #no-data="{ icon, message, filter }">
         <div class="full-width row flex-center text-accent q-gutter-sm">
           <q-icon size="2em" name="sentiment_dissatisfied" />
           <span> Well this is sad... {{ message }} </span>

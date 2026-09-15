@@ -5,7 +5,7 @@
     :items-fn="getItems"
     :virtual-scroll-item-size="78"
     separator
-    v-slot="{ item, index }"
+    #default="{ item, index }"
   >
     <async-component
       :key="index"

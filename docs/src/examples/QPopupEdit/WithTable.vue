@@ -7,7 +7,7 @@
       :rows-per-page-options="[]"
       row-key="name"
     >
-      <template v-slot:body="props">
+      <template #body="props">
         <q-tr :props="props">
           <q-td key="desc" :props="props">
             {{ props.row.name }}
@@ -15,7 +15,7 @@
               v-model="props.row.name"
               title="Edit the Name"
               auto-save
-              v-slot="scope"
+              #default="scope"
             >
               <q-input
                 v-model="scope.value"
@@ -31,7 +31,7 @@
             <q-popup-edit
               v-model.number="props.row.calories"
               auto-save
-              v-slot="scope"
+              #default="scope"
             >
               <q-input
                 type="number"
@@ -48,7 +48,7 @@
               disable
               v-model="props.row.fat"
               auto-save
-              v-slot="scope"
+              #default="scope"
             >
               <div class="text-italic text-primary q-mb-xs">
                 My Custom Title
@@ -74,7 +74,7 @@
           </q-td>
           <q-td key="calcium" :props="props">
             {{ props.row.calcium }}
-            <q-popup-edit v-model="props.row.calcium" v-slot="scope">
+            <q-popup-edit v-model="props.row.calcium" #default="scope">
               <div class="text-italic text-primary"> My Custom Title </div>
               <q-input
                 v-model="scope.value"

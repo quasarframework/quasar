@@ -8,11 +8,11 @@
       after-class="overflow-hidden"
       separator-class="bg-black"
     >
-      <template v-slot:before>
+      <template #before>
         <q-img src="https://cdn.quasar.dev/img/parallax1.jpg" :ratio="16 / 9" />
       </template>
 
-      <template v-slot:after>
+      <template #after>
         <q-img
           src="https://cdn.quasar.dev/img/parallax1-inverted.jpg"
           :ratio="16 / 9"

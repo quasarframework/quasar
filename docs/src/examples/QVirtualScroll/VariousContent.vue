@@ -3,7 +3,7 @@
     style="max-height: 300px"
     :items="heavyList"
     separator
-    v-slot="{ item, index }"
+    #default="{ item, index }"
   >
     <q-banner
       v-if="item.banner"

@@ -23,7 +23,7 @@
         :dense="dense"
         :options-dense="denseOpts"
       >
-        <template v-slot:prepend>
+        <template #prepend>
           <q-icon name="event" />
         </template>
       </q-select>
@@ -35,7 +35,7 @@
         :dense="dense"
         :options-dense="denseOpts"
       >
-        <template v-slot:append>
+        <template #append>
           <q-avatar>
             <img
               alt="Quasar logo"
@@ -55,10 +55,10 @@
         :dense="dense"
         :options-dense="denseOpts"
       >
-        <template v-slot:prepend>
+        <template #prepend>
           <q-icon name="place" @click.stop.prevent />
         </template>
-        <template v-slot:append>
+        <template #append>
           <q-icon
             name="close"
             @click.stop.prevent="model = ''"
@@ -66,7 +66,7 @@
           />
         </template>
 
-        <template v-slot:hint> Field hint </template>
+        <template #hint> Field hint </template>
       </q-select>
 
       <q-select
@@ -81,11 +81,11 @@
         :dense="dense"
         :options-dense="denseOpts"
       >
-        <template v-slot:before>
+        <template #before>
           <q-icon name="flight_takeoff" />
         </template>
 
-        <template v-slot:append>
+        <template #append>
           <q-icon
             v-if="model !== ''"
             name="close"
@@ -95,7 +95,7 @@
           <q-icon name="search" @click.stop.prevent />
         </template>
 
-        <template v-slot:hint> Field hint </template>
+        <template #hint> Field hint </template>
       </q-select>
 
       <q-select
@@ -109,7 +109,7 @@
         :dense="dense"
         :options-dense="denseOpts"
       >
-        <template v-slot:before>
+        <template #before>
           <q-avatar>
             <img
               alt="User avatar"
@@ -118,7 +118,7 @@
           </q-avatar>
         </template>
 
-        <template v-slot:append>
+        <template #append>
           <q-icon
             v-if="model !== ''"
             name="close"
@@ -128,9 +128,9 @@
           <q-icon name="schedule" @click.stop.prevent />
         </template>
 
-        <template v-slot:hint> Field hint </template>
+        <template #hint> Field hint </template>
 
-        <template v-slot:after>
+        <template #after>
           <q-btn round dense flat icon="send" />
         </template>
       </q-select>
@@ -146,13 +146,13 @@
         :dense="dense"
         :options-dense="denseOpts"
       >
-        <template v-slot:before>
+        <template #before>
           <q-icon name="event" />
         </template>
 
-        <template v-slot:hint> Field hint </template>
+        <template #hint> Field hint </template>
 
-        <template v-slot:append>
+        <template #append>
           <q-btn round dense flat icon="add" @click.stop.prevent />
         </template>
       </q-select>

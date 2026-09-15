@@ -8,7 +8,7 @@
       :columns="columns"
       row-key="name"
     >
-      <template v-slot:body="props">
+      <template #body="props">
         <q-tr :props="props" @click="onRowClick(props.row)">
           <q-td col-name="name" :props="props">
             {{ props.row.name }}

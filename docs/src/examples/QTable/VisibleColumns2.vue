@@ -9,7 +9,7 @@
       row-key="name"
       :visible-columns="visibleColumns"
     >
-      <template v-slot:top>
+      <template #top>
         <img
           alt="Quasar logo"
           style="height: 50px; width: 50px"

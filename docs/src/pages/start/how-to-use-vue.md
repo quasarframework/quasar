@@ -340,6 +340,47 @@ As you can imagine, Strings are required as a value for this type of property.
 </script>
 ```
 
+## Handling Vue Slots
+
+You will notice throughout the documentation that some Quasar components have a section called "Slots". Example:
+
+| Slot Name | Description                                          |
+| --------- | ---------------------------------------------------- |
+| `default` | The main content of the component.                   |
+| `header`  | Content rendered above the main content.             |
+| `item`    | Renders one item; receives the item as `scope.item`. |
+
+Content placed between the component tags fills the `default` slot. Any other slot is targeted with a `<template>` whose slot name follows a `#`, the shorthand of Vue's `v-slot:` directive and the only form the documentation uses. A slot that passes data to its content is a "scoped slot": assign that data to a variable (`#item="scope"` below) and read its keys, listed in the "Slots" section of each component.
+
+```html
+<template>
+  <q-bogus>
+    <!-- fills the "default" slot -->
+    Some content
+
+    <!-- fills the "header" slot -->
+    <template #header>
+      <div>My header</div>
+    </template>
+
+    <!-- fills the scoped "item" slot; "scope" holds the data it passes -->
+    <template #item="scope">
+      <div>{{ scope.item.name }}</div>
+    </template>
+  </q-bogus>
+</template>
+```
+
+When the default slot is the only one used and it receives data, the shorthand can sit on the component itself:
+
+```html
+<template>
+  <q-bogus #default="scope">
+    <div>{{ scope.item.name }}</div>
+  </q-bogus>
+</template>
+```
+
 ## Handling Vue Methods
 
 You will notice throughout the documentation that some Quasar components have methods that can be called. Example:

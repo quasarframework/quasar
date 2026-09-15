@@ -1,13 +1,13 @@
 <template>
   <div>
     <q-splitter v-model="splitterModel" style="height: 450px">
-      <template v-slot:before>
+      <template #before>
         <div class="q-pa-md">
           <q-date v-model="date" :events="events" event-color="orange" />
         </div>
       </template>
 
-      <template v-slot:after>
+      <template #after>
         <q-tab-panels
           v-model="date"
           animated

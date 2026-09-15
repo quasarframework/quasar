@@ -19,7 +19,7 @@
         ]
       ]"
     >
-      <template v-slot:token>
+      <template #token>
         <q-btn-dropdown
           dense
           no-caps

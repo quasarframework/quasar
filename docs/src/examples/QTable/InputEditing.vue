@@ -8,7 +8,7 @@
       :columns="columns"
       row-key="id"
     >
-      <template v-slot:body-cell="props">
+      <template #body-cell="props">
         <q-td :props="props">
           <q-input
             v-model.number="props.row[props.col.name]"

@@ -27,7 +27,7 @@
       label="Width (ex: '200px', '20em')"
       @update:model-value="emitChange"
     >
-      <template v-if="child.width.length > 0" v-slot:append>
+      <template v-if="child.width.length > 0" #append>
         <q-btn
           :icon="mdiCloseCircle"
           size="xs"
@@ -46,7 +46,7 @@
       label="Height (ex: '300px', '25em')"
       @update:model-value="emitChange"
     >
-      <template v-if="child.height.length > 0" v-slot:append>
+      <template v-if="child.height.length > 0" #append>
         <q-btn
           :icon="mdiCloseCircle"
           size="xs"

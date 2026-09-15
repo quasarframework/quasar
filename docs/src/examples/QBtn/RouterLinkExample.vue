@@ -1,17 +1,13 @@
 <template>
   <div class="q-pa-md column q-gutter-sm">
-    <router-link
-      :to="{ hash: '#Handling-links' }"
-      custom
-      v-slot:default="props"
-    >
+    <router-link :to="{ hash: '#Handling-links' }" custom #default="props">
       <q-btn v-bind="buttonProps(props)" />
     </router-link>
 
     <router-link
       :to="{ hash: '#Handling-links', query: { search: '1' } }"
       custom
-      v-slot:default="props"
+      #default="props"
     >
       <q-btn v-bind="buttonProps(props)" />
     </router-link>
@@ -19,7 +15,7 @@
     <router-link
       :to="{ hash: '#Handling-links', query: { search: '1', test: '1' } }"
       custom
-      v-slot:default="props"
+      #default="props"
     >
       <q-btn v-bind="buttonProps(props)" />
     </router-link>
@@ -27,7 +23,7 @@
     <router-link
       :to="{ hash: '#Handling-links', query: { search: '1', test: '2' } }"
       custom
-      v-slot:default="props"
+      #default="props"
     >
       <q-btn v-bind="buttonProps(props)" />
     </router-link>
@@ -35,7 +31,7 @@
     <router-link
       :to="{ hash: '#Handling-links', query: { search: '1', test: '1' } }"
       custom
-      v-slot:default="props"
+      #default="props"
     >
       <q-btn
         v-bind="buttonProps(props)"

@@ -8,7 +8,7 @@
       :columns="columns"
       row-key="name"
     >
-      <template v-slot:header="props">
+      <template #header="props">
         <q-tr :props="props">
           <q-th
             v-for="col in props.cols"

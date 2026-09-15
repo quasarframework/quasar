@@ -8,7 +8,7 @@
       @click="onMainClick"
       toggle-aria-haspopup="menu"
     >
-      <template v-slot:label>
+      <template #label>
         <div class="row items-center no-wrap">
           <q-icon left name="map" />
           <div class="text-center"> Custom<br />Content </div>

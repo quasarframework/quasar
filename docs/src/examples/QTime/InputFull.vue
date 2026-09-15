@@ -1,7 +1,7 @@
 <template>
   <div class="q-pa-md" style="max-width: 300px">
     <q-input filled v-model="date">
-      <template v-slot:prepend>
+      <template #prepend>
         <q-icon name="event" class="cursor-pointer">
           <q-popup-proxy cover transition-show="scale" transition-hide="scale">
             <q-date v-model="date" mask="YYYY-MM-DD HH:mm">
@@ -13,7 +13,7 @@
         </q-icon>
       </template>
 
-      <template v-slot:append>
+      <template #append>
         <q-icon name="access_time" class="cursor-pointer">
           <q-popup-proxy cover transition-show="scale" transition-hide="scale">
             <q-time v-model="date" mask="YYYY-MM-DD HH:mm" format24h>

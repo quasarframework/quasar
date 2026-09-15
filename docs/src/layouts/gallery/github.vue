@@ -36,14 +36,14 @@
           @filter="filter"
           style="width: 300px"
         >
-          <template v-slot:append>
+          <template #append>
             <img
               src="https://cdn.quasar.dev/img/layout-gallery/img-github-search-key-slash.svg"
               alt="Slash key"
             />
           </template>
 
-          <template v-slot:no-option>
+          <template #no-option>
             <q-item>
               <q-item-section>
                 <div class="text-center">
@@ -53,7 +53,7 @@
             </q-item>
           </template>
 
-          <template v-slot:option="scope">
+          <template #option="scope">
             <q-item v-bind="scope.itemProps" class="GL__select-GL__menu-link">
               <q-item-section side>
                 <q-icon name="collections_bookmark" />

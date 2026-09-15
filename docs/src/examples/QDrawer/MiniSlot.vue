@@ -33,7 +33,7 @@
         bordered
         :class="$q.dark.isActive ? 'bg-grey-9' : 'bg-grey-3'"
       >
-        <template v-slot:mini>
+        <template #mini>
           <q-scroll-area class="fit mini-slot cursor-pointer">
             <div class="q-py-lg">
               <div class="column items-start">

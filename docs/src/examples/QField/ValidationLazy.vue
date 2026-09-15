@@ -9,7 +9,7 @@
       :rules="[val => val < 60 || 'Please set value to maximum 60']"
       lazy-rules
     >
-      <template v-slot:control>
+      <template #control>
         <q-slider
           v-model="slider"
           :min="0"

@@ -11,7 +11,7 @@
         multiple
         style="max-width: 300px"
       >
-        <template v-slot:prepend>
+        <template #prepend>
           <q-icon name="attach_file" />
         </template>
       </q-file>

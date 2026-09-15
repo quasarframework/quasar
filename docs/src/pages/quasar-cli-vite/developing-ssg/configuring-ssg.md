@@ -409,7 +409,7 @@ One case where you actually need this is when a [Suspense](https://vuejs.org/gui
 
 ```html
 <!-- the template hosting your Suspense boundary -->
-<router-view v-slot="{ Component }">
+<router-view #default="{ Component }">
   <suspense @resolve="$q.onSSRHydrated()">
     <component :is="Component" />
   </suspense>

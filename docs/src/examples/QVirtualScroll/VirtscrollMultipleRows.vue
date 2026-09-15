@@ -15,7 +15,7 @@
       :pagination="pagination"
       :rows-per-page-options="[0]"
     >
-      <template v-slot:header="props">
+      <template #header="props">
         <q-tr :props="props">
           <q-th />
 
@@ -25,7 +25,7 @@
         </q-tr>
       </template>
 
-      <template v-slot:body="props">
+      <template #body="props">
         <q-tr :props="props" :key="`m_${props.row.index}`">
           <q-td> Index: {{ props.row.index }} </q-td>
 

@@ -11,7 +11,7 @@
       row-key="name"
       :loading="loading"
     >
-      <template v-slot:loading>
+      <template #loading>
         <q-inner-loading showing color="primary" />
       </template>
     </q-table>

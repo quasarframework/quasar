@@ -42,7 +42,7 @@
       </q-step>
       <!-- #endregion -->
 
-      <template v-slot:navigation>
+      <template #navigation>
         <q-stepper-navigation>
           <q-btn
             @click="$refs.stepperRef.next()"

@@ -2,7 +2,7 @@
   <q-virtual-scroll
     :items="heavyList"
     virtual-scroll-horizontal
-    v-slot="{ item, index }"
+    #default="{ item, index }"
   >
     <div :key="index" :class="item.class">
       #{{ index }} - {{ item.label }}

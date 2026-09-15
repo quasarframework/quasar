@@ -9,7 +9,7 @@
       tick-strategy="leaf"
       default-expand-all
     >
-      <template v-slot:default-header="prop">
+      <template #default-header="prop">
         {{ prop.node.label }}
         <q-badge
           v-if="prop.indeterminate"

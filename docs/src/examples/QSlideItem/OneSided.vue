@@ -2,7 +2,7 @@
   <div class="q-pa-md" style="max-width: 350px">
     <q-list bordered separator>
       <q-slide-item @left="onLeft" @right="onRight">
-        <template v-slot:left>
+        <template #left>
           <q-icon name="done" />
         </template>
 
@@ -21,7 +21,7 @@
       </q-slide-item>
 
       <q-slide-item @left="onLeft" @right="onRight">
-        <template v-slot:right>
+        <template #right>
           <q-icon name="alarm" />
         </template>
 

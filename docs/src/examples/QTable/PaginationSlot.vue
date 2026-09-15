@@ -9,7 +9,7 @@
       row-key="name"
       v-model:pagination="pagination"
     >
-      <template v-slot:pagination="scope">
+      <template #pagination="scope">
         <q-btn
           v-if="scope.pagesNumber > 2"
           icon="first_page"

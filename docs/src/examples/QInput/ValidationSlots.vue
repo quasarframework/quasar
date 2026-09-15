@@ -8,7 +8,7 @@
       :error="!isValid"
       hint="Max 3 characters"
     >
-      <template v-slot:error> Please use maximum 3 characters. </template>
+      <template #error> Please use maximum 3 characters. </template>
     </q-input>
   </div>
 </template>

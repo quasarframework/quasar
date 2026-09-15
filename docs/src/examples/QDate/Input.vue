@@ -1,7 +1,7 @@
 <template>
   <div class="q-pa-md" style="max-width: 300px">
     <q-input filled v-model="date" mask="date" :rules="['date']">
-      <template v-slot:append>
+      <template #append>
         <q-icon name="event" class="cursor-pointer">
           <q-popup-proxy cover transition-show="scale" transition-hide="scale">
             <q-date v-model="date">

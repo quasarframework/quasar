@@ -8,7 +8,7 @@
       row-key="name"
       wrap-cells
     >
-      <template v-slot:body="props">
+      <template #body="props">
         <q-tr :props="props">
           <q-td key="desc" :props="props">
             {{ props.row.name }}
@@ -16,7 +16,7 @@
 
           <q-td key="comment" :props="props">
             <div>{{ props.row.comment }}</div>
-            <q-popup-edit buttons v-model="props.row.comment" v-slot="scope">
+            <q-popup-edit buttons v-model="props.row.comment" #default="scope">
               <q-input
                 type="textarea"
                 v-model="scope.value"

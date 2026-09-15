@@ -8,7 +8,7 @@
       :columns="columns"
       row-key="name"
     >
-      <template v-slot:header-cell-calories="props">
+      <template #header-cell-calories="props">
         <q-th :props="props">
           <q-icon name="thumb_up" size="1.5em" />
           {{ props.col.label }}

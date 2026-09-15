@@ -20,7 +20,7 @@
           input-class="text-right"
           class="q-ml-md"
         >
-          <template v-slot:append>
+          <template #append>
             <q-icon v-if="text === ''" name="search" />
             <q-icon
               v-else

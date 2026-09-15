@@ -11,7 +11,7 @@
         label="Standard"
         :display-value="`Company: ${model ? model : '*none*'}`"
       >
-        <template v-slot:append>
+        <template #append>
           <q-icon
             v-if="model !== null"
             class="cursor-pointer"

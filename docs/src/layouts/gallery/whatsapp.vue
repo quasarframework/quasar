@@ -137,7 +137,7 @@
             placeholder="Search or start a new conversation"
             aria-label="Search or start a new conversation"
           >
-            <template v-slot:prepend>
+            <template #prepend>
               <q-icon name="search" />
             </template>
           </q-input>

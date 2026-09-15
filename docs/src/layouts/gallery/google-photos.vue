@@ -34,7 +34,7 @@
           placeholder="Search"
           aria-label="Search"
         >
-          <template v-slot:prepend>
+          <template #prepend>
             <q-icon v-if="search === ''" name="search" />
             <q-btn
               v-else

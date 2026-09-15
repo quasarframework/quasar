@@ -1,14 +1,14 @@
 <template>
   <div class="q-pa-lg">
     <q-option-group v-model="group" type="checkbox" :options="options">
-      <template v-slot:label="opt">
+      <template #label="opt">
         <div class="row items-center">
           <span class="text-teal">{{ opt.label }}</span>
           <q-icon :name="opt.icon" color="teal" size="1.5em" class="q-ml-sm" />
         </div>
       </template>
 
-      <template v-slot:label-0="opt">
+      <template #label-0="opt">
         <!-- custom label for option at index 0 -->
         <span class="text-weight-bold">{{ opt.label }}</span>
         <span> (has QTooltip)</span>

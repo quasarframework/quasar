@@ -2,10 +2,10 @@
   <div class="q-pa-md" style="max-width: 220px">
     <q-list bordered separator>
       <q-slide-item @top="onTop" @bottom="onBottom">
-        <template v-slot:top>
+        <template #top>
           <q-icon name="link" />
         </template>
-        <template v-slot:bottom>
+        <template #bottom>
           <q-icon name="link_off" />
         </template>
 

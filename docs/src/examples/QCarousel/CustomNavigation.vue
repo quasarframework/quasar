@@ -13,7 +13,7 @@
       height="300px"
       class="bg-primary text-white shadow-1 rounded-borders"
     >
-      <template v-slot:navigation-icon="{ active, btnProps, onClick }">
+      <template #navigation-icon="{ active, btnProps, onClick }">
         <q-btn
           v-if="active"
           size="lg"

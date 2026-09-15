@@ -2,7 +2,7 @@
   <div class="q-pa-md">
     <div class="q-gutter-sm row">
       <q-input filled v-model="time" mask="time" :rules="['time']">
-        <template v-slot:append>
+        <template #append>
           <q-icon name="access_time" class="cursor-pointer">
             <q-popup-proxy
               cover
@@ -25,7 +25,7 @@
         mask="fulltime"
         :rules="['fulltime']"
       >
-        <template v-slot:append>
+        <template #append>
           <q-icon name="access_time" class="cursor-pointer">
             <q-popup-proxy
               cover

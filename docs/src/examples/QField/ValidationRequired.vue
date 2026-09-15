@@ -8,7 +8,7 @@
       stack-label
       :rules="[val => !!val || 'Field is required']"
     >
-      <template v-slot:control>
+      <template #control>
         <q-date
           class="q-mt-sm full-width"
           style="width: 300px"

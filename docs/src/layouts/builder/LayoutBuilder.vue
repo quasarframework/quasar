@@ -391,7 +391,7 @@
             </div>
           </q-step>
 
-          <template v-slot:navigation>
+          <template #navigation>
             <q-stepper-navigation>
               <q-separator spaced />
               <div class="row q-col-gutter-sm">

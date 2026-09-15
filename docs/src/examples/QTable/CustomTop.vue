@@ -10,7 +10,7 @@
       :filter="filter"
       :loading="loading"
     >
-      <template v-slot:top>
+      <template #top>
         <q-btn
           color="primary"
           :disable="loading"
@@ -33,7 +33,7 @@
           color="primary"
           v-model="filter"
         >
-          <template v-slot:append>
+          <template #append>
             <q-icon name="search" />
           </template>
         </q-input>

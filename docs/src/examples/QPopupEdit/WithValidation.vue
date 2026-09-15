@@ -7,7 +7,7 @@
       :rows-per-page-options="[]"
       row-key="name"
     >
-      <template v-slot:body="props">
+      <template #body="props">
         <q-tr :props="props">
           <q-td key="desc" :props="props">
             {{ props.row.name }}
@@ -21,7 +21,7 @@
               label-cancel="Close"
               :validate="caloriesRangeValidation"
               @hide="caloriesRangeValidation"
-              v-slot="scope"
+              #default="scope"
             >
               <q-input
                 type="number"

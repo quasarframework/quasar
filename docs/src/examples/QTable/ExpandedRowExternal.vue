@@ -9,7 +9,7 @@
       row-key="name"
       v-model:expanded="expanded"
     >
-      <template v-slot:header="props">
+      <template #header="props">
         <q-tr :props="props">
           <q-th auto-width />
 
@@ -19,7 +19,7 @@
         </q-tr>
       </template>
 
-      <template v-slot:body="props">
+      <template #body="props">
         <q-tr :props="props">
           <q-td auto-width>
             <q-toggle

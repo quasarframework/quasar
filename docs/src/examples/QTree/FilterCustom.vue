@@ -6,7 +6,7 @@
       v-model="filter"
       label="Search - only filters labels that have also '(*)'"
     >
-      <template v-slot:append>
+      <template #append>
         <q-icon
           v-if="filter !== ''"
           name="clear"

@@ -9,7 +9,7 @@
       color="primary"
       row-key="name"
     >
-      <template v-slot:top-right>
+      <template #top-right>
         <q-btn
           color="primary"
           icon-right="archive"

@@ -9,7 +9,7 @@
       error-message="Please use a maximum value of 30"
       :error="!isValid"
     >
-      <template v-slot:control>
+      <template #control>
         <q-slider
           v-model="slider"
           :min="0"

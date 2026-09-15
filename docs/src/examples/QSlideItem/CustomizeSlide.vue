@@ -8,8 +8,8 @@
         @right="onRight"
         @slide="onSlide"
       >
-        <template v-slot:left> Left </template>
-        <template v-slot:right> Right content.. long </template>
+        <template #left> Left </template>
+        <template #right> Right content.. long </template>
 
         <q-item>
           <q-item-section avatar>

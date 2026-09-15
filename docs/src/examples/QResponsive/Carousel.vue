@@ -19,7 +19,7 @@
           img-src="https://cdn.quasar.dev/img/quasar.jpg"
         />
 
-        <template v-slot:control>
+        <template #control>
           <q-carousel-control
             position="bottom"
             :offset="[16, 8]"

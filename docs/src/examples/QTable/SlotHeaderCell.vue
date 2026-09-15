@@ -8,7 +8,7 @@
       :columns="columns"
       row-key="name"
     >
-      <template v-slot:header-cell="props">
+      <template #header-cell="props">
         <q-th :props="props">
           <q-icon name="lock_open" size="1.5em" />
           {{ props.col.label }}

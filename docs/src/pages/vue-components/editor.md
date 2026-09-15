@@ -44,7 +44,7 @@ toolbar: [
   // a command you add through the 'definitions' prop
   ['save'],
 
-  // any other string: the toolbar slot of that name (<template v-slot:token>)
+  // any other string: the toolbar slot of that name (<template #token>)
   ['token']
 ]
 ```

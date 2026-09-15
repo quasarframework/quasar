@@ -4,7 +4,7 @@
       src="https://cdn.quasar.dev/img/non-existent-image-src.png"
       style="height: 140px; max-width: 150px"
     >
-      <template v-slot:error>
+      <template #error>
         <div class="absolute-full flex flex-center bg-negative text-white">
           Cannot load image
         </div>
@@ -16,7 +16,7 @@
       error-src="https://cdn.quasar.dev/logo-v2/header.png"
       style="height: 140px; max-width: 150px"
     >
-      <template v-slot:error>
+      <template #error>
         <div class="absolute-full flex flex-center"> Error encountered </div>
       </template>
     </q-img>

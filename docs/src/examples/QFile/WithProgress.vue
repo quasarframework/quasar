@@ -9,7 +9,7 @@
       :clearable="!isUploading"
       style="max-width: 400px"
     >
-      <template v-slot:file="{ index, file }">
+      <template #file="{ index, file }">
         <q-chip
           class="full-width q-my-xs"
           :removable="isUploading && uploadProgress[index].percent < 1"
@@ -37,7 +37,7 @@
         </q-chip>
       </template>
 
-      <template v-slot:after v-if="canUpload">
+      <template #after v-if="canUpload">
         <q-btn
           color="primary"
           dense

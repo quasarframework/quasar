@@ -8,7 +8,7 @@
       scroll-target="#virtual-scroll-target"
       :items="heavyList"
       separator
-      v-slot="{ item, index }"
+      #default="{ item, index }"
     >
       <q-item :key="index" dense>
         <q-item-section>
