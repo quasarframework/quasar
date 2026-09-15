@@ -10,10 +10,14 @@ import { onTestFinished } from 'vitest'
  * `meta.json`, and `dist/api` descriptors for quasar. Options drop
  * pieces to model older releases.
  *
- * @param {{ appVite?: boolean, quasarDocs?: boolean }} [opts]
+ * @param {{ appVite?: boolean, quasarDocs?: boolean, apiMarkdown?: boolean }} [opts] `apiMarkdown: false` models a ui release whose slice predates the rendered descriptors.
  * @returns {string} The project directory, removed when the test ends.
  */
-export function createProject({ appVite = true, quasarDocs = true } = {}) {
+export function createProject({
+  appVite = true,
+  quasarDocs = true,
+  apiMarkdown = true
+} = {}) {
   const dir = mkdtempSync(join(tmpdir(), 'quasar-mcp-'))
   onTestFinished(() => {
     rmSync(dir, { recursive: true, force: true })
@@ -61,6 +65,52 @@ export function createProject({ appVite = true, quasarDocs = true } = {}) {
       definition: { position: { type: 'String', desc: 'Position' } }
     }
   })
+
+  if (quasarDocs && apiMarkdown) {
+    // the shape docs/build/mcp/api/render.js gives a descriptor
+    write(
+      `${quasarDir}/dist/mcp/api/QBtn.md`,
+      `## QBtn API
+
+### Props
+
+- \`label\` (string | number, optional)
+  The text that will be shown on the button
+- \`loading\` (boolean, optional)
+  Put button into loading state
+
+### Events
+
+- \`click\`
+  Emitted when the component is clicked
+
+### Slots
+
+- \`default\`
+  Default slot
+
+### Scoped Slots
+
+- \`loading\`
+  Override the default QSpinner
+`
+    )
+    write(
+      `${quasarDir}/dist/mcp/api/Notify.md`,
+      `## Notify API
+
+### Methods
+
+- \`create\` (): Function
+  Creates a notification
+
+### quasar.config.js Options
+
+- \`position\` (string, optional)
+  Position
+`
+    )
+  }
 
   if (quasarDocs) {
     write(`${quasarDir}/dist/mcp/meta.json`, {

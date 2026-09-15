@@ -5,6 +5,7 @@ import {
   API_PARTS,
   listApi,
   readApi,
+  readApiMarkdown,
   resolveApiName,
   similarApiNames
 } from './api.js'
@@ -145,6 +146,7 @@ export async function createServer({
   const docs = loadDocs(project.packages)
   const quasar = project.packages.find(pkg => pkg.name === 'quasar')
   const apiDir = quasar?.apiDir ?? null
+  const apiDocsDir = quasar?.docsDir ?? null
   const updates = await checkUpdates(project)
 
   const server = new McpServer(
@@ -310,7 +312,7 @@ export async function createServer({
     {
       title: 'Get an API descriptor',
       description:
-        'The exact API of a Quasar component, plugin or directive as installed: props, slots, events, methods (with types, defaults and descriptions). Pass part to get one section only.',
+        'The exact API of a Quasar component, plugin or directive as installed: props, slots, events, methods (with types, defaults and descriptions), as the documentation site presents it. Pass part to get one section only, format "json" for the raw descriptor.',
       inputSchema: {
         name: z
           .string()
@@ -319,10 +321,16 @@ export async function createServer({
         part: z
           .enum(API_PARTS)
           .optional()
-          .describe('One section of the descriptor; omit for all of it')
+          .describe('One section of the descriptor; omit for all of it'),
+        format: z
+          .enum(['markdown', 'json'])
+          .optional()
+          .describe(
+            'markdown (default): the compact form the documentation site inlines; json: the raw descriptor'
+          )
       }
     },
-    ({ name: input, part }) => {
+    ({ name: input, part, format = 'markdown' }) => {
       if (apiDir === null) {
         return failure(
           'quasar is not installed in this project, so there is no API to serve.'
@@ -342,14 +350,27 @@ export async function createServer({
       if (api === null) {
         return failure(`The ${name} descriptor could not be read.`)
       }
-      if (part === void 0) {
-        return text(JSON.stringify({ name, ...api }, null, 1))
-      }
-      if (api[part] === void 0) {
+      if (part !== void 0 && api[part] === void 0) {
         const parts = API_PARTS.filter(known => api[known] !== void 0)
         return failure(`${name} has no "${part}". It has: ${parts.join(', ')}.`)
       }
-      return text(JSON.stringify({ name, [part]: api[part] }, null, 1))
+      // The rendered form ships with the docs slice (quasar v2.33+); a
+      // release without it, or a part the renderer leaves out when
+      // empty, gets the JSON.
+      const markdown =
+        format === 'markdown' && apiDocsDir !== null
+          ? readApiMarkdown(apiDocsDir, name, part)
+          : null
+      if (markdown !== null) {
+        return text(markdown)
+      }
+      return text(
+        JSON.stringify(
+          part === void 0 ? { name, ...api } : { name, [part]: api[part] },
+          null,
+          1
+        )
+      )
     }
   )
 

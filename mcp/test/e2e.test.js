@@ -135,7 +135,19 @@ test('a component page points at get_api, and get_api resolves the same descript
 
   const api = await call(client, 'get_api', { name: 'QBtn', part: 'props' })
   expect(api.isError).toBe(false)
-  const { name, props } = JSON.parse(api.text)
+  expect(api.text.startsWith('### Props\n\n- `')).toBe(true)
+  expect(api.text).toContain('`label` (string | number, optional)')
+  expect(api.text).not.toContain('### Events')
+
+  const whole = await call(client, 'get_api', { name: 'QBtn' })
+  expect(whole.text.startsWith('## QBtn API\n')).toBe(true)
+
+  const json = await call(client, 'get_api', {
+    name: 'QBtn',
+    part: 'props',
+    format: 'json'
+  })
+  const { name, props } = JSON.parse(json.text)
   expect(name).toBe('QBtn')
   expect(props.label.type).toEqual(['String', 'Number'])
 })

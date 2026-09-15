@@ -8,8 +8,9 @@
  * from its afterBuild hook (quasar.config.js).
  *
  * Package slice (`ui` or `app-vite`): only that package's pages (see
- * targets.js) into `<package>/dist/mcp`, plus `meta.json`, published
- * with the package for the @quasar/mcp server to serve offline. Each
+ * targets.js) into `<package>/dist/mcp`, plus `meta.json` and, for ui,
+ * the API descriptors rendered into `api/<Name>.md`, published with
+ * the package for the @quasar/mcp server to serve offline. Each
  * package's `generate:mcp` script runs this as the last step of its
  * `prepublishOnly`.
  *
@@ -63,6 +64,7 @@ import { checkApiCoverage } from './api/coverage.js'
 import { writePage } from './output/page.js'
 import { buildLlmsTxt } from './output/llms-txt.js'
 import { buildMeta } from './output/meta.js'
+import { writeApiPages } from './output/api-pages.js'
 import { countTokens } from './output/tokens.js'
 import { TARGETS, targetIncludes } from './targets.js'
 import { SITE_URL } from './site.js'
@@ -451,6 +453,10 @@ export function generate(opts) {
   } else {
     writeSliceMeta(run, writtenPaths, menuByKey)
   }
+  const apiPages =
+    run.target?.api === true
+      ? writeApiPages({ distDir: run.distDir, apiDir: API_DIR })
+      : []
 
   const seconds = ((performance.now() - startTime) / 1000).toFixed(1)
 
@@ -465,6 +471,9 @@ export function generate(opts) {
     console.log(
       `  Filtered by target:        ${included.length} included, ${menuPages.length - included.length} left to the site`
     )
+  }
+  if (apiPages.length !== 0) {
+    console.log(`  API descriptors rendered:  ${apiPages.length}`)
   }
   if (orphans.length !== 0) {
     console.log(`  Orphans (in pages, not in menu):`)

@@ -13,6 +13,8 @@ export const TARGETS = {
   ui: {
     packageName: 'quasar',
     packageDir: 'ui',
+    // the API descriptors, rendered once into api/<Name>.md for get_api
+    api: true,
     routes: [
       'layout',
       'options',

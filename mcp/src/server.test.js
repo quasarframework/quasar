@@ -161,20 +161,37 @@ test('get_page names the package a miss may belong to when it is not installed',
   expect(served.text).toContain('title: Button')
 })
 
-test('get_api serves the descriptor, one part of it, or a suggestion', async () => {
+test('get_api serves the descriptor as the site inlines it, one part of it, or a suggestion', async () => {
   const client = await connect()
   const whole = await call(client, 'get_api', { name: 'btn' })
-  const api = JSON.parse(whole.text)
-  expect(api.name).toBe('QBtn')
-  expect(Object.keys(api.props)).toEqual(['label', 'loading'])
+  expect(whole.isError).toBe(false)
+  expect(whole.text.startsWith('## QBtn API\n\n### Props\n')).toBe(true)
+  expect(whole.text).toContain('### Scoped Slots')
 
   const part = await call(client, 'get_api', { name: 'QBtn', part: 'events' })
-  expect(JSON.parse(part.text)).toEqual({
+  expect(part.text).toBe(
+    '### Events\n\n- `click`\n  Emitted when the component is clicked\n'
+  )
+
+  const json = await call(client, 'get_api', {
+    name: 'QBtn',
+    part: 'events',
+    format: 'json'
+  })
+  expect(JSON.parse(json.text)).toEqual({
     name: 'QBtn',
     events: {
       click: { desc: 'Emitted when the component is clicked', params: {} }
     }
   })
+  const wholeJson = await call(client, 'get_api', {
+    name: 'QBtn',
+    format: 'json'
+  })
+  expect(Object.keys(JSON.parse(wholeJson.text).props)).toEqual([
+    'label',
+    'loading'
+  ])
 
   const noPart = await call(client, 'get_api', {
     name: 'QBtn',
@@ -211,4 +228,20 @@ test('check_updates refreshes from the registry and reports', async () => {
     `@quasar/mcp 9.0.0 is available (installed: ${version})`
   )
   expect(text).not.toContain('quasar 2.33.0 is available')
+})
+
+test('get_api falls back to the JSON when the installed release has no rendered form', async () => {
+  const client = await connect({ fixture: { apiMarkdown: false } })
+  const whole = await call(client, 'get_api', { name: 'QBtn' })
+  expect(whole.isError).toBe(false)
+  expect(JSON.parse(whole.text).name).toBe('QBtn')
+
+  // a part the descriptor has but the renderer left out (empty) also
+  // gets the JSON
+  const withMd = await connect()
+  const part = await call(withMd, 'get_api', {
+    name: 'Notify',
+    part: 'methods'
+  })
+  expect(part.text.startsWith('### Methods')).toBe(true)
 })

@@ -8,7 +8,7 @@ AI coding agents know a Quasar, not necessarily yours. The `@quasar/mcp` package
 
 ## How it works
 
-The documentation ships with the packages: the pages about components, plugins, directives, composables, utils and styling are inside `quasar` (v2.33+), the ones about the CLI, its modes and configuration inside `@quasar/app-vite` (v3.9+). The API of every component, plugin and directive ships with `quasar` as it always has. The server reads them from your project's `node_modules`, so:
+The documentation ships with the packages: the pages about components, plugins, directives, composables, utils and styling are inside `quasar` (v2.33+), the ones about the CLI, its modes and configuration inside `@quasar/app-vite` (v3.9+). The API of every component, plugin and directive ships with `quasar` as it always has, and since v2.33 also in the compact form this site shows. The server reads them from your project's `node_modules`, so:
 
 - the answers describe the versions you run, not the latest release;
 - nothing is fetched from quasar.dev, it works offline;
@@ -77,14 +77,14 @@ Put the JSON above in the client's MCP configuration file (`.cursor/mcp.json`, `
 
 ## What the agent gets
 
-| Tool            | Purpose                                                                    |
-| --------------- | -------------------------------------------------------------------------- |
-| `list_pages`    | every documentation page available offline, grouped by package             |
-| `search_docs`   | the pages matching some keywords                                           |
-| `get_page`      | a page, or one section of it                                               |
-| `list_api`      | the names of the API descriptors (`QBtn`, `Notify`, `Ripple`, ...)         |
-| `get_api`       | the props, slots, events and methods of one of them                        |
-| `check_updates` | whether newer releases of `quasar`, `@quasar/app-vite` or the server exist |
+| Tool            | Purpose                                                                      |
+| --------------- | ---------------------------------------------------------------------------- |
+| `list_pages`    | every documentation page available offline, grouped by package               |
+| `search_docs`   | the pages matching some keywords                                             |
+| `get_page`      | a page, or one section of it                                                 |
+| `list_api`      | the names of the API descriptors (`QBtn`, `Notify`, `Ripple`, ...)           |
+| `get_api`       | the props, slots, events and methods of one of them, as this site shows them |
+| `check_updates` | whether newer releases of `quasar`, `@quasar/app-vite` or the server exist   |
 
 At the start of a session the server tells the agent which versions it serves and whether updates are available, so the agent can suggest an upgrade. That check runs in the background at most once a day, like the Quasar CLI's own update notice, never while offline, and honors the `NO_UPDATE_NOTIFIER` environment variable.
 

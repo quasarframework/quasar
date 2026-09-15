@@ -40,3 +40,8 @@ test('site-only sections belong to no target', () => {
     expect(targetIncludes(TARGETS['app-vite'], key), key).toBe(false)
   }
 })
+
+test('only the ui slice renders the API descriptors', () => {
+  expect(TARGETS.ui.api).toBe(true)
+  expect(TARGETS['app-vite'].api).toBeUndefined()
+})
