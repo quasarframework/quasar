@@ -19,14 +19,14 @@ The pages are the same ones you read on this site; every page also has a Markdow
 
 ## Setup
 
-Register the server with your MCP client. The `npx` form starts the latest server release every time, so it keeps itself up to date:
+Register the server with your MCP client. Nothing gets installed in your project: `npx` starts the latest server release, so it keeps itself up to date, and when you are offline it starts the copy it cached last time (the retries flag is what keeps that quick).
 
 ```json
 {
   "mcpServers": {
     "quasar": {
       "command": "npx",
-      "args": ["-y", "@quasar/mcp@latest"]
+      "args": ["-y", "--fetch-retries=0", "@quasar/mcp@latest"]
     }
   }
 }
@@ -37,7 +37,7 @@ The server serves the project it is started in, which is what every client does 
 ### Claude Code
 
 ```bash
-claude mcp add quasar -- npx -y @quasar/mcp@latest
+claude mcp add quasar -- npx -y --fetch-retries=0 @quasar/mcp@latest
 ```
 
 ### Cursor, Windsurf, VS Code and others
@@ -55,7 +55,7 @@ Put the JSON above in the client's MCP configuration file (`.cursor/mcp.json`, `
 | `get_api`       | the props, slots, events and methods of one of them                        |
 | `check_updates` | whether newer releases of `quasar`, `@quasar/app-vite` or the server exist |
 
-At the start of a session the server tells the agent which versions it serves and whether updates are available, so the agent can suggest an upgrade. That check runs in the background at most once a day, like the Quasar CLI's own update notice, and honors the `NO_UPDATE_NOTIFIER` environment variable.
+At the start of a session the server tells the agent which versions it serves and whether updates are available, so the agent can suggest an upgrade. That check runs in the background at most once a day, like the Quasar CLI's own update notice, never while offline, and honors the `NO_UPDATE_NOTIFIER` environment variable.
 
 ::: warning
 A project on releases predating the bundled documentation still gets the API through `get_api`, but no pages: the server names the packages to upgrade.

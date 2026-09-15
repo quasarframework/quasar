@@ -13,7 +13,7 @@ const usage = `Usage: quasar-mcp [--project <dir>]
 MCP server (stdio) for the Quasar documentation and component API of the
 packages installed in a project. Point your MCP client at it, e.g.:
 
-  { "mcpServers": { "quasar": { "command": "npx", "args": ["-y", "@quasar/mcp@latest"] } } }
+  { "mcpServers": { "quasar": { "command": "npx", "args": ["-y", "--fetch-retries=0", "@quasar/mcp@latest"] } } }
 
 Options:
   --project <dir>  Project to serve, the one whose installed quasar and

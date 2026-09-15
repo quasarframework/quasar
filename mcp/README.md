@@ -12,14 +12,14 @@ The documentation pages ship inside the `quasar` and `@quasar/app-vite` packages
 
 ## Setup
 
-Add the server to your MCP client, from the project folder. With `npx` the server updates itself on every start:
+Add the server to your MCP client, from the project folder. Nothing gets installed in the project: `npx` starts the latest release when online and the cached copy when offline (the retries flag keeps that fallback quick):
 
 ```json
 {
   "mcpServers": {
     "quasar": {
       "command": "npx",
-      "args": ["-y", "@quasar/mcp@latest"]
+      "args": ["-y", "--fetch-retries=0", "@quasar/mcp@latest"]
     }
   }
 }
@@ -40,7 +40,7 @@ See the [AI Agents](https://quasar.dev/start/ai-agents) page for the per-client 
 | `get_api`       | the props, slots, events and methods of one of them, or one of those parts   |
 | `check_updates` | whether newer releases of quasar, @quasar/app-vite or this server exist      |
 
-At session start the server also tells the agent which package versions it serves, what is missing, and which updates are available (checked in the background, cached for a day, the same mechanism the Quasar CLI uses; `NO_UPDATE_NOTIFIER` disables it).
+At session start the server also tells the agent which package versions it serves, what is missing, and which updates are available (checked in the background, cached for a day, never while offline, the same mechanism the Quasar CLI uses; `NO_UPDATE_NOTIFIER` disables it).
 
 ## Chat Support
 

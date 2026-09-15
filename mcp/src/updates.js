@@ -2,6 +2,8 @@ import { getAvailableUpdate } from '@quasar/update-notifier'
 
 import { version } from './version.js'
 
+const REFRESH_TIMEOUT = 10_000
+
 /**
  * @typedef {object} UpdateState
  * @property {string} name
@@ -13,7 +15,8 @@ import { version } from './version.js'
  * Newer releases of the server and of the installed docs packages, via
  * the notifier shared with the Quasar CLIs: from its cache (refreshed in
  * the background, so a session usually learns about a release the day
- * after it ships), or straight from the registry with `refresh`.
+ * after it ships), or straight from the registry with `refresh`. An
+ * offline machine gets no check at all.
  *
  * @param {import('./project.js').Project} project
  * @param {{ refresh?: boolean }} [opts]
@@ -27,7 +30,12 @@ export function checkUpdates(project, { refresh = false } = {}) {
   return Promise.all(
     targets.map(async target => ({
       ...target,
-      latest: await getAvailableUpdate({ ...target, refresh })
+      latest: await getAvailableUpdate({
+        ...target,
+        refresh,
+        // a tool call is waited on; the background check keeps the default
+        timeout: REFRESH_TIMEOUT
+      })
     }))
   )
 }

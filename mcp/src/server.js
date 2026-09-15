@@ -354,7 +354,7 @@ export async function createServer({
         [
           ...available,
           '',
-          "Upgrade the packages with the project's package manager; @quasar/mcp picks up its new release on the next server start (npx @quasar/mcp@latest does that automatically)."
+          "Upgrade the packages with the project's package manager; @quasar/mcp picks up its new release on the next server start (the documented npx form does that by itself)."
         ].join('\n')
       )
     }
