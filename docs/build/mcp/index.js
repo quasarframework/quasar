@@ -3,8 +3,8 @@
  * standalone, LLM-friendly markdown.
  *
  * Site build (`pnpm generate:mcp`, from docs/): every menu page into
- * `docs/build/mcp/dist`, plus `llms.txt`, shipped next to the HTML pages
- * of quasar.dev.
+ * `docs/build/mcp/dist`, plus `llms.txt` and the `mcp.json` provenance,
+ * shipped next to the HTML pages of quasar.dev.
  *
  * Package slice (`pnpm generate:mcp --target ui|app-vite`): only that
  * package's pages (see targets.js) into `<package>/dist/mcp`, plus
@@ -283,7 +283,8 @@ function writeLlmsTxt(distDir, writtenPaths, menuByKey, quasarVersion) {
 }
 
 /**
- * Site sidecars: the provenance JSON and the generated dist README.
+ * Site sidecars: the provenance JSON (`mcp.json`, no page route starts
+ * with the name) and the generated dist README.
  *
  * @param {string} distDir
  * @param {number} pages
@@ -293,7 +294,7 @@ function writeLlmsTxt(distDir, writtenPaths, menuByKey, quasarVersion) {
 function writeSiteMeta(distDir, pages, quasarVersion) {
   const commit = sourceCommit()
   writeFileSync(
-    join(distDir, '_meta.json'),
+    join(distDir, 'mcp.json'),
     JSON.stringify({ quasarVersion, sourceCommit: commit, pages }, null, 2)
   )
   writeFileSync(

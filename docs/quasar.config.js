@@ -132,22 +132,36 @@ export default defineConfig(ctx => ({
     swFilename: 'service-worker.js',
 
     async extendPWAGenerateSWOptions() {
+      // the files agents read instead of the app: the .md page siblings,
+      // llms.txt and mcp.json from the docs generator (build/mcp) and
+      // public/context7.json
+      const agentFiles = ['context7.json', 'llms.txt', 'mcp.json']
+      const agentFilesRE = new RegExp(
+        String.raw`\.md$|/(${agentFiles.map(file => file.replace('.', String.raw`\.`)).join('|')})$`
+      )
+
       return {
         cleanupOutdatedCaches: true,
         // the updated worker waits until a page asks for it (register-sw.js)
         skipWaiting: false,
         clientsClaim: true,
-        navigateFallbackDenylist: [/\.md$/],
+        // (arrays merge by concatenation, onto app-vite's defaults)
+        // never in the precache: a precached agent file would be served
+        // from it ahead of the NetworkOnly route below; the OpenSearch
+        // descriptor is fetched by browsers, never by the app
+        globIgnores: ['**/*.md', ...agentFiles, 'search_manifest.xml'],
+        // no app shell for the agent files, and never the worker cache
+        navigateFallbackDenylist: [agentFilesRE],
         runtimeCaching: [
           {
             urlPattern: /^https:\/\/cdn/,
             handler: 'StaleWhileRevalidate'
           },
           {
-            urlPattern: /\.md$/,
+            urlPattern: agentFilesRE,
             handler: 'NetworkOnly',
             options: {
-              cacheName: 'markdown-network-only'
+              cacheName: 'agent-files-network-only'
             }
           }
         ],

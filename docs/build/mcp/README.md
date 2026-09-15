@@ -14,7 +14,7 @@ pnpm test:unit
 
 Requires `ui/dist/api/*.json` (build the UI package first).
 
-`pnpm build` runs the site form and copies `dist/` into the SSG output, so the docs deploy ships a `.md` sibling for every menu page (`/vue-components/button.md`) plus `/llms.txt`. The slices are what `@quasar/mcp` serves offline: `targets.js` lists each package's routes, `meta.json` indexes the slice, and `<DocApi>` becomes a pointer to the server's `get_api` tool instead of the rendered API (the package ships the API JSON itself). Each package's `generate:mcp` script runs its slice as the last step of `prepublishOnly`; note that a ui build wipes `ui/dist`, slice included.
+`pnpm build` runs the site form and copies `dist/` into the SSG output, so the docs deploy ships a `.md` sibling for every menu page (`/vue-components/button.md`) plus `/llms.txt` and `/mcp.json` (version and source commit). The slices are what `@quasar/mcp` serves offline: `targets.js` lists each package's routes, `meta.json` indexes the slice, and `<DocApi>` becomes a pointer to the server's `get_api` tool instead of the rendered API (the package ships the API JSON itself). Each package's `generate:mcp` script runs its slice as the last step of `prepublishOnly`; note that a ui build wipes `ui/dist`, slice included.
 
 ## Layout
 
