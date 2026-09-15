@@ -41,6 +41,36 @@ The server serves the project it is started in, which is what every client does 
 claude mcp add quasar -- npx -y --fetch-retries=0 @quasar/mcp@latest
 ```
 
+### Codex
+
+```bash
+codex mcp add quasar -- npx -y --fetch-retries=0 @quasar/mcp@latest
+```
+
+This writes the server into `~/.codex/config.toml`; a project can carry the same section in its own `.codex/config.toml`:
+
+```toml
+[mcp_servers.quasar]
+command = "npx"
+args = ["-y", "--fetch-retries=0", "@quasar/mcp@latest"]
+```
+
+### Grok Build
+
+```bash
+grok mcp add quasar -- npx -y --fetch-retries=0 @quasar/mcp@latest
+```
+
+This writes the server into `~/.grok/config.toml`; add `--scope project` to write `.grok/config.toml` in the project instead. The section has the same shape as Codex's:
+
+```toml
+[mcp_servers.quasar]
+command = "npx"
+args = ["-y", "--fetch-retries=0", "@quasar/mcp@latest"]
+```
+
+Grok Build also picks up a project `.mcp.json` written for Claude Code, so one file can serve both.
+
 ### Cursor, Windsurf, VS Code and others
 
 Put the JSON above in the client's MCP configuration file (`.cursor/mcp.json`, `.windsurf/mcp.json`, `.vscode/mcp.json` with a `servers` key instead of `mcpServers`, ...). Every MCP client documents where that file lives.
