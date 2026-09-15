@@ -261,19 +261,29 @@ export function searchDocs(docs, query, { limit = 10, packageName } = {}) {
 }
 
 /**
- * Routes resembling a route no slice knows, for the "did you mean" of a
- * miss.
+ * Routes resembling a miss. Inside a section some installed package
+ * serves, a loose match on the last segment (a typo, a plural); in a
+ * section nothing serves, only a page of that exact name, so a route
+ * of a package that is not installed does not get a look-alike from
+ * another section.
  *
  * @param {Docs} docs
  * @param {string} route
  * @returns {string[]}
  */
 export function similarRoutes(docs, route) {
-  const needle = route.split('/').at(-1) ?? route
-  return [...docs.pages.keys()]
-    .filter(
-      known =>
-        known.includes(needle) || needle.includes(known.split('/').at(-1))
-    )
+  const parts = route.split('/')
+  const needle = parts.at(-1) ?? route
+  const section = parts.length > 1 ? `${parts.slice(0, -1).join('/')}/` : null
+  const known = [...docs.pages.keys()]
+  const loose =
+    section === null || known.some(candidate => candidate.startsWith(section))
+  return known
+    .filter(candidate => {
+      const leaf = candidate.split('/').at(-1)
+      return loose
+        ? candidate.includes(needle) || needle.includes(leaf)
+        : leaf === needle
+    })
     .slice(0, 8)
 }

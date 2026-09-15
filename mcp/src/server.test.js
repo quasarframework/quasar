@@ -140,7 +140,25 @@ test('get_page names the offline gap when a package lacks docs', async () => {
     route: 'vue-components/button'
   })
   expect(miss.isError).toBe(true)
-  expect(miss.text).toContain('predating the bundled docs')
+  expect(miss.text).toContain(
+    'Not available offline: quasar 2.33.0 bundles no documentation (bundled since 2.33.0), upgrade it.'
+  )
+})
+
+test('get_page names the package a miss may belong to when it is not installed', async () => {
+  const client = await connect({ fixture: { appVite: false } })
+  const miss = await call(client, 'get_page', {
+    route: 'https://quasar.dev/quasar-cli-vite/boot-files'
+  })
+  expect(miss.isError).toBe(true)
+  expect(miss.text).toBe(
+    'No page at "quasar-cli-vite/boot-files". Use search_docs or list_pages to find the route. Not available offline: @quasar/app-vite is not installed in this project.'
+  )
+  const served = await call(client, 'get_page', {
+    route: 'https://quasar.dev/vue-components/button#usage'
+  })
+  expect(served.isError).toBe(false)
+  expect(served.text).toContain('title: Button')
 })
 
 test('get_api serves the descriptor, one part of it, or a suggestion', async () => {

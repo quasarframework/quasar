@@ -61,6 +61,30 @@ function updateLines(updates) {
  * @param {import('./updates.js').UpdateState[]} updates
  * @returns {string}
  */
+/**
+ * The packages whose pages this server cannot serve, and why, for a
+ * miss that may be one of theirs. Empty when every package is served.
+ *
+ * @param {import('./project.js').Project} project
+ * @param {import('./docs.js').Docs} docs
+ * @returns {string}
+ */
+function unservedPackages(project, docs) {
+  const gaps = []
+  for (const name of DOCS_PACKAGES) {
+    if (docs.sources.some(source => source.name === name)) {
+      continue
+    }
+    const pkg = project.packages.find(installed => installed.name === name)
+    gaps.push(
+      pkg === void 0
+        ? `${name} is not installed in this project`
+        : `${name} ${pkg.version} bundles no documentation (bundled since ${BUNDLED_DOCS_SINCE[name]}), upgrade it`
+    )
+  }
+  return gaps.length === 0 ? '' : ` Not available offline: ${gaps.join('; ')}.`
+}
+
 export function buildInstructions(project, docs, updates) {
   const lines = [
     `Quasar Framework documentation and API, served from the packages installed in ${project.dir}.`,
@@ -95,7 +119,7 @@ export function buildInstructions(project, docs, updates) {
   lines.push(
     '',
     'Workflow: search_docs to find pages, get_page to read one (section narrows it), get_api for the exact props, slots, events and methods of a component, plugin or directive.',
-    `Pages are routes of ${SITE_URL} (e.g. vue-components/button); links inside pages are relative to the same routes.`
+    `Pages are routes of ${SITE_URL} (e.g. vue-components/button). Links inside pages are either .md siblings relative to the page's route or ${SITE_URL} URLs: get_page takes both as they appear.`
   )
 
   const available = updateLines(updates)
@@ -242,9 +266,7 @@ export async function createServer({
             (similar.length !== 0
               ? ` Similar routes: ${similar.join(', ')}.`
               : ' Use search_docs or list_pages to find the route.') +
-            (docs.sources.length < DOCS_PACKAGES.length
-              ? ' Pages of a package that is not installed, or installed at a release predating the bundled docs, are not available offline.'
-              : '')
+            unservedPackages(project, docs)
         )
       }
       const markdown = readPage(page)

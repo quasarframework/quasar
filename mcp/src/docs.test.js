@@ -106,3 +106,16 @@ test('suggests routes resembling a miss', () => {
   ])
   expect(similarRoutes(docs, 'nothing/here')).toEqual([])
 })
+
+test('a miss in a section nothing serves gets no look-alike from elsewhere', () => {
+  const docs = load({ appVite: false })
+  expect(similarRoutes(docs, 'quasar-cli-vite/boot-files')).toEqual([])
+  // a wrong section still finds the page of that exact name
+  expect(similarRoutes(docs, 'quasar-cli-vite/button')).toEqual([
+    'vue-components/button'
+  ])
+  // inside a served section the match stays loose
+  expect(similarRoutes(docs, 'vue-components/buttons')).toEqual([
+    'vue-components/button'
+  ])
+})
