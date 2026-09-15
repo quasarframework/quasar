@@ -35,18 +35,17 @@ Reference them with a root-relative URL, e.g. `<img src="/logo.png">`. Such URLs
 </script>
 ```
 
-::: warning
-A bare relative URL such as `logo.png` (no leading slash) is not processed either. The browser resolves it against the current page URL, so it breaks as soon as a route has more than one segment (`/users/42` would request `/users/logo.png`). Always use a leading `/` or the `import.meta.env.BASE_URL` prefix for public assets.
-:::
+> [!WARNING]
+> A bare relative URL such as `logo.png` (no leading slash) is not processed either. The browser resolves it against the current page URL, so it breaks as soon as a route has more than one segment (`/users/42` would request `/users/logo.png`). Always use a leading `/` or the `import.meta.env.BASE_URL` prefix for public assets.
 
-::: tip Assets vs Statics
-Files in the "assets" folder are only included in your build if they have a literal reference in one of your Vue files.
-Every file and folder from the "public" folder are copied into your production build as-is, no matter what.
-:::
+> [!TIP]
+> **Assets vs Statics**
+>
+> Files in the "assets" folder are only included in your build if they have a literal reference in one of your Vue files.
+> Every file and folder from the "public" folder are copied into your production build as-is, no matter what.
 
-::: danger
-When not building a SPA/PWA/SSR/SSG, then `/public/icons/*` and `/public/favicon.ico` will NOT be embedded into your app because they would not serve any purpose. For example, Electron or Cordova apps do not require those files.
-:::
+> [!CAUTION]
+> When not building a SPA/PWA/SSR/SSG, then `/public/icons/*` and `/public/favicon.ico` will NOT be embedded into your app because they would not serve any purpose. For example, Electron or Cordova apps do not require those files.
 
 ## More info with Vite
 

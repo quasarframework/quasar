@@ -33,16 +33,14 @@ quasar dev -m cordova -T ios '--' some params --and options --here
 
 It will open the IDE (Android Studio / Xcode) and from there you can manually select the emulator (or multiple ones simultaneously!) and install the dev app on it/them. You can also run the dev app on a real mobile/tablet device.
 
-::: warning
-Do not accept Android Studio upgrade suggestions automatically. Confirm that the proposed Java, Gradle, Android Gradle Plugin, and SDK versions are supported by the installed `cordova-android` version.
-
-<img src="https://cdn.quasar.dev/img/gradle-upgrade-notice.png" alt="Gradle upgrade" class="q-my-md rounded-borders" style="max-width: 350px">
-
-If you encounter any IDE errors then click on File > Invalidate caches and restart.
-
-<img src="https://cdn.quasar.dev/img/gradle-invalidate-cache.png" alt="Gradle upgrade" class="q-mt-md rounded-borders" style="max-width: 350px">
-
-:::
+> [!WARNING]
+> Do not accept Android Studio upgrade suggestions automatically. Confirm that the proposed Java, Gradle, Android Gradle Plugin, and SDK versions are supported by the installed `cordova-android` version.
+>
+> <img src="https://cdn.quasar.dev/img/gradle-upgrade-notice.png" alt="Gradle upgrade" class="q-my-md rounded-borders" style="max-width: 350px">
+>
+> If you encounter any IDE errors then click on File > Invalidate caches and restart.
+>
+> <img src="https://cdn.quasar.dev/img/gradle-invalidate-cache.png" alt="Gradle upgrade" class="q-mt-md rounded-borders" style="max-width: 350px">
 
 In order for you to be able to develop on a device emulator or directly on a phone (with Hot Module Reload included), Quasar CLI follows these steps:
 
@@ -53,9 +51,8 @@ In order for you to be able to develop on a device emulator or directly on a pho
 5. It opens Android Studio or Xcode, where you select and run an emulator, simulator, or connected device.
 6. When the Cordova development process stops, Quasar reverts its temporary changes to `/src-cordova/config.xml`.
 
-::: danger
-When developing on a physical device, the selected address of the development machine must be reachable from that device. Ensure the firewall permits the development-server port and that the network does not isolate connected clients.
-:::
+> [!CAUTION]
+> When developing on a physical device, the selected address of the development machine must be reachable from that device. Ensure the firewall permits the development-server port and that the network does not isolate connected clients.
 
 ## Building for production
 
@@ -89,16 +86,14 @@ quasar build -m cordova -T [ios|android] --skip-pkg
 quasar build -m cordova -T [ios|android] --ide
 ```
 
-::: warning
-Do not accept Android Studio upgrade suggestions automatically. Check the compatibility requirements of the installed Cordova platform before changing the native toolchain.
-
-<img src="https://cdn.quasar.dev/img/gradle-upgrade-notice.png" alt="Gradle upgrade" class="q-my-md rounded-borders" style="max-width: 350px">
-
-If you encounter any IDE errors then click on File > Invalidate caches and restart.
-
-<img src="https://cdn.quasar.dev/img/gradle-invalidate-cache.png" alt="Gradle upgrade" class="q-mt-md rounded-borders" style="max-width: 350px">
-
-:::
+> [!WARNING]
+> Do not accept Android Studio upgrade suggestions automatically. Check the compatibility requirements of the installed Cordova platform before changing the native toolchain.
+>
+> <img src="https://cdn.quasar.dev/img/gradle-upgrade-notice.png" alt="Gradle upgrade" class="q-my-md rounded-borders" style="max-width: 350px">
+>
+> If you encounter any IDE errors then click on File > Invalidate caches and restart.
+>
+> <img src="https://cdn.quasar.dev/img/gradle-invalidate-cache.png" alt="Gradle upgrade" class="q-mt-md rounded-borders" style="max-width: 350px">
 
 If you want a production build with debugging enabled for the UI code:
 
@@ -109,6 +104,5 @@ quasar build -m cordova -T [ios|android] -d
 quasar build -m cordova -T [ios|android] --debug
 ```
 
-::: tip
-Also check `getCordovaBuildParams()` and `getCordovaBuildOutputFolder()` (quasar.config > cordova options) from [Configuring Cordova](/quasar-cli-vite/developing-cordova-apps/configuring-cordova#quasar-config-file) page.
-:::
+> [!TIP]
+> Also check `getCordovaBuildParams()` and `getCordovaBuildOutputFolder()` (quasar.config > cordova options) from [Configuring Cordova](/quasar-cli-vite/developing-cordova-apps/configuring-cordova#quasar-config-file) page.

@@ -24,12 +24,11 @@ You will also be able to use the command line, so it will be almost identical to
 
 ## TL;DR
 
-::: tip Requirements:
-
-- Node.js v22+
-- PNPM v11+ (recommended), Yarn v1 classic, NPM or Bun
-
-:::
+> [!TIP]
+> **Requirements:**
+>
+> - Node.js v22+
+> - PNPM v11+ (recommended), Yarn v1 classic, NPM or Bun
 
 ```tabs
 <<| bash PNPM |>>
@@ -52,12 +51,11 @@ Pick `App with Quasar CLI`.
 
 ## Installation / Project Scaffolding
 
-::: tip Requirements:
-
-- Node.js v22+ for Quasar CLI.
-- PNPM v11+ (recommended), Yarn v1 classic, NPM or Bun.
-
-:::
+> [!TIP]
+> **Requirements:**
+>
+> - Node.js v22+ for Quasar CLI.
+> - PNPM v11+ (recommended), Yarn v1 classic, NPM or Bun.
 
 1. Let's create a Quasar app:
 
@@ -72,9 +70,8 @@ Pick `App with Quasar CLI`.
    bun create quasar@latest
    ```
 
-   ::: tip
-   You may be presented with a confirmation to install the `create-quasar` package, press the enter key to confirm.
-   :::
+   > [!TIP]
+   > You may be presented with a confirmation to install the `create-quasar` package, press the enter key to confirm.
 
 2. Pick the `App with Quasar CLI` option.
 
@@ -95,28 +92,27 @@ Pick `App with Quasar CLI`.
    bun install -g @quasar/cli
    ```
 
-   ::: tip
-   If you are using Yarn, make sure that the Yarn [global install location](https://yarnpkg.com/lang/en/docs/cli/global/) is in your PATH:
-   <br><br>
+   > [!TIP]
+   > If you are using Yarn, make sure that the Yarn [global install location](https://yarnpkg.com/lang/en/docs/cli/global/) is in your PATH:
+   > <br><br>
+   >
+   > ```bash
+   > # in ~/.bashrc or equivalent
+   > export PATH="$(yarn global bin):$PATH"
+   >
+   > # for fish-shell:
+   > set -U fish_user_paths (yarn global bin) $fish_user_paths
+   > ```
+   >
+   > <br>
+   > Under Windows, modify user's PATH environment variable (search for "Edit environment variables for your account" in the Start Menu). If you are using yarn then add `%LOCALAPPDATA%\yarn\bin`, otherwise if you're using npm then add `%APPDATA%\npm`. Avoid using `setx` for this — it truncates the stored value to 1024 characters, which can permanently destroy part of your existing PATH.
 
-   ```bash
-   # in ~/.bashrc or equivalent
-   export PATH="$(yarn global bin):$PATH"
-
-   # for fish-shell:
-   set -U fish_user_paths (yarn global bin) $fish_user_paths
-   ```
-
-   <br>
-   Under Windows, modify user's PATH environment variable (search for "Edit environment variables for your account" in the Start Menu). If you are using yarn then add `%LOCALAPPDATA%\yarn\bin`, otherwise if you're using npm then add `%APPDATA%\npm`. Avoid using `setx` for this — it truncates the stored value to 1024 characters, which can permanently destroy part of your existing PATH.
-
-   :::
-
-   ::: tip WSL2
-   Microsoft's recommended [Node.js development environment setup in WSL2](https://docs.microsoft.com/en-us/windows/nodejs/setup-on-wsl2).
-
-   When using WSL2 (Windows Subsystem for Linux) [Microsoft recommends](https://docs.microsoft.com/en-us/windows/wsl/compare-versions#performance-across-os-file-systems) keeping files in the linux file system to maximize performance. Projects will build around 3X slower and HMR (Hot Module Reload) will not work without a hack if the project files are on the Windows mount instead of the local linux file system. This is also true in Docker for Windows based development environments.
-   :::
+   > [!TIP]
+   > **WSL2**
+   >
+   > Microsoft's recommended [Node.js development environment setup in WSL2](https://docs.microsoft.com/en-us/windows/nodejs/setup-on-wsl2).
+   >
+   > When using WSL2 (Windows Subsystem for Linux) [Microsoft recommends](https://docs.microsoft.com/en-us/windows/wsl/compare-versions#performance-across-os-file-systems) keeping files in the linux file system to maximize performance. Projects will build around 3X slower and HMR (Hot Module Reload) will not work without a hack if the project files are on the Windows mount instead of the local linux file system. This is also true in Docker for Windows based development environments.
 
 ## How Quasar CLI works
 

@@ -13,9 +13,10 @@ scope:
         e: helps install SSG only deps directly under /src-ssg
 ---
 
-::: warning Warning! Beta Stage
-The Quasar SSG Mode is currently in the "beta" stage. Based on the community feedback, the API may change in the future, so check the release notes each time you upgrade "@quasar/app-vite".
-:::
+> [!WARNING]
+> **Warning! Beta Stage**
+>
+> The Quasar SSG Mode is currently in the "beta" stage. Based on the community feedback, the API may change in the future, so check the release notes each time you upgrade "@quasar/app-vite".
 
 ## quasar.config file
 

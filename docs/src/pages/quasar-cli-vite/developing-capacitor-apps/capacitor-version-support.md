@@ -17,16 +17,15 @@ It would also be wise to check the changelog of Capacitor itself to see what bre
 
 ## Capacitor v8
 
-::: warning Requirements
-
-- Node v22.22+
-- Xcode 26+ (for iOS)
-- Xcode Command Line Tools
-- iOS 15+
-- Android Studio Otter 2025.2.1+
-- Android SDK (minimum API 24; compile and target API 36)
-
-:::
+> [!WARNING]
+> **Requirements**
+>
+> - Node v22.22+
+> - Xcode 26+ (for iOS)
+> - Xcode Command Line Tools
+> - iOS 15+
+> - Android Studio Otter 2025.2.1+
+> - Android SDK (minimum API 24; compile and target API 36)
 
 Capacitor v8 uses Swift Package Manager by default when adding a new iOS platform. CocoaPods is only required when maintaining or explicitly creating a CocoaPods-based iOS project.
 
@@ -47,16 +46,15 @@ The `@capacitor/app` and `@capacitor/splash-screen` plugins are optional, but Qu
 
 ## Capacitor v7
 
-::: warning Requirements
-
-- Xcode 16+ (for iOS)
-- Xcode Command Line Tools
-- Homebrew
-- CocoaPods
-- Android Studio 2024.2.1+
-- Android SDK (API 23+)
-
-:::
+> [!WARNING]
+> **Requirements**
+>
+> - Xcode 16+ (for iOS)
+> - Xcode Command Line Tools
+> - Homebrew
+> - CocoaPods
+> - Android Studio 2024.2.1+
+> - Android SDK (API 23+)
 
 Assuming that you've installed Capacitor mode already, this is how your dependencies in `/src-capacitor/package.json` should look like:
 
@@ -75,12 +73,11 @@ The `@capacitor/app` and `@capacitor/splash-screen` plugins are optional, but Qu
 
 ## Capacitor v6
 
-::: warning Requirements
-
-- Xcode 15+ (for iOS)
-- Android Studio Jellyfish 2023.3.1.18 or newer (for Android)
-
-:::
+> [!WARNING]
+> **Requirements**
+>
+> - Xcode 15+ (for iOS)
+> - Android Studio Jellyfish 2023.3.1.18 or newer (for Android)
 
 Assuming that you've installed Capacitor mode already, this is how your dependencies in `/src-capacitor/package.json` should look like:
 
@@ -99,12 +96,11 @@ The `@capacitor/app` and `@capacitor/splash-screen` plugins are optional, but Qu
 
 ## Capacitor v5
 
-::: warning Requirements
-
-- Xcode 14.1+ (for iOS)
-- Android Studio Flamingo 2022.2.1 or newer (for Android)
-
-:::
+> [!WARNING]
+> **Requirements**
+>
+> - Xcode 14.1+ (for iOS)
+> - Android Studio Flamingo 2022.2.1 or newer (for Android)
 
 Assuming that you've installed Capacitor mode already, this is how your dependencies in `/src-capacitor/package.json` should look like:
 

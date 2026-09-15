@@ -22,36 +22,32 @@ Scaffold your layout(s) by clicking on the button below.
 
 ## Usage
 
-::: tip
+> [!TIP]
+>
+> - Since QDrawer needs a layout and QLayout by default manages the entire window, then for demoing purposes we are going to use containerized QLayouts. But remember that by no means you are required to use containerized QLayouts for QDrawer.
+> - If the QDrawer content also has images and you want to use touch actions to close it, you might want to add `draggable="false"` to them, otherwise the native browser behavior might interfere in a negative way.
 
-- Since QDrawer needs a layout and QLayout by default manages the entire window, then for demoing purposes we are going to use containerized QLayouts. But remember that by no means you are required to use containerized QLayouts for QDrawer.
-- If the QDrawer content also has images and you want to use touch actions to close it, you might want to add `draggable="false"` to them, otherwise the native browser behavior might interfere in a negative way.
+> [!CAUTION]
+> **Touch gestures**
+>
+> While the drawer is in its "mobile" behavior (the layout is below the drawer's `breakpoint`, or `behavior` is forced to "mobile"), QDrawer attaches three touch gestures, each with its own opt-out:
+>
+> - swiping the drawer content sideways to close it, disabled by `no-swipe-close`
+> - swiping the backdrop to close it, disabled by `no-swipe-backdrop`
+> - swiping in from that edge of the screen to open it, disabled by `no-swipe-open`
+>
+> Reach for `no-swipe-close` when your drawer holds components of your own that need to be swiped or panned. None of these gestures are attached while the drawer is in its "desktop" behavior, so setting these props there changes nothing.
 
-:::
+> [!WARNING]
+> The swipe-to-open gesture is served by an invisible strip (`.q-drawer__opener`) which is 15px wide, spans the full height of that side of the screen and sits above your page content, so it captures the pointer events landing in that band. If you have something anchored to the same edge (a QPageSticky, for instance), disable the strip with `no-swipe-open`.
+>
+> The strip and the backdrop claim the horizontal swipe for themselves (v2.31+): once the pan direction is known, the browser no longer runs its own edge gesture alongside it, so on iOS Safari the page stops sliding towards the previous or the next history entry while the drawer moves. A vertical swipe starting in the strip still scrolls the page.
 
-::: danger Touch gestures
-While the drawer is in its "mobile" behavior (the layout is below the drawer's `breakpoint`, or `behavior` is forced to "mobile"), QDrawer attaches three touch gestures, each with its own opt-out:
+> [!WARNING]
+> While the drawer is shown in "mobile" behavior it locks the scrolling of the `<body>` element, the same way a modal does. Containerized [QLayouts](/layout/layout) are exempt, since they scroll their own container rather than the page.
 
-- swiping the drawer content sideways to close it, disabled by `no-swipe-close`
-- swiping the backdrop to close it, disabled by `no-swipe-backdrop`
-- swiping in from that edge of the screen to open it, disabled by `no-swipe-open`
-
-Reach for `no-swipe-close` when your drawer holds components of your own that need to be swiped or panned. None of these gestures are attached while the drawer is in its "desktop" behavior, so setting these props there changes nothing.
-:::
-
-::: warning
-The swipe-to-open gesture is served by an invisible strip (`.q-drawer__opener`) which is 15px wide, spans the full height of that side of the screen and sits above your page content, so it captures the pointer events landing in that band. If you have something anchored to the same edge (a QPageSticky, for instance), disable the strip with `no-swipe-open`.
-
-The strip and the backdrop claim the horizontal swipe for themselves (v2.31+): once the pan direction is known, the browser no longer runs its own edge gesture alongside it, so on iOS Safari the page stops sliding towards the previous or the next history entry while the drawer moves. A vertical swipe starting in the strip still scrolls the page.
-:::
-
-::: warning
-While the drawer is shown in "mobile" behavior it locks the scrolling of the `<body>` element, the same way a modal does. Containerized [QLayouts](/layout/layout) are exempt, since they scroll their own container rather than the page.
-:::
-
-::: warning
-When QDrawer is set into overlay mode, **it will force it to go into fixed position**, regardless if QLayout's "view" prop is configured with "l/r" or "L/R". Also, **if on iOS platform and QLayout is containerized**, the fixed position will also be forced upon QDrawer due to platform limitations that cannot be overcome.
-:::
+> [!WARNING]
+> When QDrawer is set into overlay mode, **it will force it to go into fixed position**, regardless if QLayout's "view" prop is configured with "l/r" or "L/R". Also, **if on iOS platform and QLayout is containerized**, the fixed position will also be forced upon QDrawer due to platform limitations that cannot be overcome.
 
 ### Basic
 
@@ -81,9 +77,8 @@ The `breakpoint` prop (default: 1023) decides which of the two is used: the draw
 
 Set the `behavior` prop to "desktop" or "mobile" to pin the drawer into one of them regardless of the width. Its default value ("default") is the dynamic switch described above.
 
-::: warning
-A layout can hold one drawer per side, but the two cannot be on screen at the same time while both are in "mobile" behavior, where each of them covers the page with a backdrop of its own. Showing one closes the other, which also syncs its `v-model` to `false`. In "desktop" behavior they coexist.
-:::
+> [!WARNING]
+> A layout can hold one drawer per side, but the two cannot be on screen at the same time while both are in "mobile" behavior, where each of them covers the page with a backdrop of its own. Showing one closes the other, which also syncs its `v-model` to `false`. In "desktop" behavior they coexist.
 
 #### Showing it above the breakpoint
 
@@ -101,9 +96,8 @@ It does not affect closing through a click on the backdrop or through a swipe, s
 
 Drawer can operate in two modes: 'normal' and 'mini', and you can switch between them by using the Boolean `mini` property on QDrawer.
 
-::: warning
-Please note that **`mini` mode** does not apply when in **mobile** behavior.
-:::
+> [!WARNING]
+> Please note that **`mini` mode** does not apply when in **mobile** behavior.
 
 The transition played while switching between the two modes can be turned off with the `no-mini-animation` Boolean prop.
 

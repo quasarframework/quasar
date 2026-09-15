@@ -47,15 +47,13 @@ Now on to the window width related CSS classes.
 
 You can also show some DOM element or component **if it's lower than one of the sizes**. **Same for greater than one of the sizes**. Just attach `lt-` or `gt-` prefixes, which come from "lower than" and "greater than". Example: `lt-md` (display on xs and sm only), `lt-xl` (display on xs, sm, md and lg windows only), `gt-md` (display on greater than medium windows: lg and xl).
 
-::: tip
-You can combine the visibility classes with the `inline` class for inline-blocks.
+> [!TIP]
+> You can combine the visibility classes with the `inline` class for inline-blocks.
+>
+> Example: `<span class="gt-sm inline">...</span>`
 
-Example: `<span class="gt-sm inline">...</span>`
-:::
-
-::: tip
-If you want to e.g. show hide based on JavaScript properties, you can use the [Screen Plugin](/options/screen-plugin).
-:::
+> [!TIP]
+> If you want to e.g. show hide based on JavaScript properties, you can use the [Screen Plugin](/options/screen-plugin).
 
 ## Platform Related
 
@@ -89,9 +87,8 @@ Hide on:
 | `platform-android-hide` | Hide on Android platform                             |
 | `within-iframe-hide`    | Hide only when entire website is under an IFRAME tag |
 
-::: tip
-Based on your needs, you might want to also check [Platform Detection](/options/platform-detection) page to see how you can achieve the same effect using Javascript. This latter method allows you to not even render a DOM element or component. It is useful when the rendering process is expensive.
-:::
+> [!TIP]
+> Based on your needs, you might want to also check [Platform Detection](/options/platform-detection) page to see how you can achieve the same effect using Javascript. This latter method allows you to not even render a DOM element or component. It is useful when the rendering process is expensive.
 
 ## Orientation Related
 

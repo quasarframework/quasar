@@ -16,9 +16,8 @@ The QSlideItem component is essentially a [QItem](/vue-components/list-and-list-
 
 Drag with the mouse or use your finger to pan to left or right side to see QSlideItem in action.
 
-::: tip
-If your content also has images, you might want to add `draggable="false"` to them, otherwise the native browser behavior might interfere in a negative way.
-:::
+> [!TIP]
+> If your content also has images, you might want to add `draggable="false"` to them, otherwise the native browser behavior might interfere in a negative way.
 
 <DocExample title="Basic" file="Basic" />
 
@@ -32,8 +31,7 @@ If your content also has images, you might want to add `draggable="false"` to th
 
 ## Accessibility <q-badge label="v2.25+" />
 
-::: warning
-The slide actions are pointer gestures only — there is no keyboard interaction and no assistive technology path to trigger them. Any behavior you bind to the slide events is unreachable for keyboard and screen reader users.
-:::
+> [!WARNING]
+> The slide actions are pointer gestures only — there is no keyboard interaction and no assistive technology path to trigger them. Any behavior you bind to the slide events is unreachable for keyboard and screen reader users.
 
 Always provide an equivalent way to perform the same actions — visible buttons, or a [QMenu](/vue-components/menu) with the same commands — so the gestures remain a convenience rather than the only route.

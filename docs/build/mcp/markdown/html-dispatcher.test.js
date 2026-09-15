@@ -90,7 +90,7 @@ test('standard HTML block tag passes through verbatim without warning', () => {
     [{ type: 'html_block', content: '<ul>\n<li>x</li>\n</ul>' }],
     ctx
   )
-  expect(output).toBe('<ul>\n<li>x</li>\n</ul>')
+  expect(output).toBe('<ul>\n<li>x</li>\n</ul>\n\n')
   expect(ctx.warnings.length).toBe(0)
 })
 
@@ -182,14 +182,16 @@ test('raw html keeps root-relative src and href on the site, absolutizes them in
   const content =
     '<img alt="logo" src="/img/iconfactory.png" style="float:right"><a href="/layout-builder">x</a>'
   const site = createCtx({ sourcePath: 't.md', frontMatter: {} })
-  expect(emitTokens([{ type: 'html_block', content }], site)).toBe(content)
+  expect(emitTokens([{ type: 'html_block', content }], site)).toBe(
+    content + '\n\n'
+  )
   const slice = createCtx({
     sourcePath: 't.md',
     frontMatter: {},
     siteUrl: 'https://quasar.dev'
   })
   expect(emitTokens([{ type: 'html_block', content }], slice)).toBe(
-    '<img alt="logo" src="https://quasar.dev/img/iconfactory.png" style="float:right"><a href="https://quasar.dev/layout-builder">x</a>'
+    '<img alt="logo" src="https://quasar.dev/img/iconfactory.png" style="float:right"><a href="https://quasar.dev/layout-builder">x</a>\n\n'
   )
   expect(slice.warnings).toStrictEqual([])
 })

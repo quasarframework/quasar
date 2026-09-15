@@ -15,16 +15,14 @@ The QCarousel component allows you to display more information with less real es
 
 ## Usage
 
-::: tip
-If the QCarouselSlide content also has images and you want to use swipe actions to navigate, you might want to add `draggable="false"` to them, otherwise the native browser behavior might interfere in a negative way.
-:::
+> [!TIP]
+> If the QCarouselSlide content also has images and you want to use swipe actions to navigate, you might want to add `draggable="false"` to them, otherwise the native browser behavior might interfere in a negative way.
 
-::: danger Keep Alive
-
-- Please take notice of the Boolean `keep-alive` prop for QCarousel, if you need this behavior. Do NOT use Vue's native `<keep-alive>` component over QCarouselSlide.
-- Should you need the `keep-alive-include` or `keep-alive-exclude` props then the QCarouselSlide `name`s must be valid Vue component names (no spaces allowed, don't start with a number etc).
-
-:::
+> [!CAUTION]
+> **Keep Alive**
+>
+> - Please take notice of the Boolean `keep-alive` prop for QCarousel, if you need this behavior. Do NOT use Vue's native `<keep-alive>` component over QCarouselSlide.
+> - Should you need the `keep-alive-include` or `keep-alive-exclude` props then the QCarouselSlide `name`s must be valid Vue component names (no spaces allowed, don't start with a number etc).
 
 ### Basic
 
@@ -93,9 +91,8 @@ In the example below there are thumbnails being generated automatically. Thumbna
 
 <DocExample title="Thumbnails" file="Thumbnails" />
 
-::: tip
-Don't use the property `navigation` along with `thumbnails` as the first supercedes the latter so the thumbnails will not be displayed.
-:::
+> [!TIP]
+> Don't use the property `navigation` along with `thumbnails` as the first supercedes the latter so the thumbnails will not be displayed.
 
 ### Infinite and autoplay
 

@@ -14,9 +14,8 @@ The documentation ships with the packages: the pages about components, plugins, 
 - nothing is fetched from quasar.dev, it works offline;
 - upgrading a package upgrades its documentation.
 
-::: tip
-The pages are the same ones you read on this site; every page also has a Markdown button (top right) and a `.md` sibling URL for agents that browse the web.
-:::
+> [!TIP]
+> The pages are the same ones you read on this site; every page also has a Markdown button (top right) and a `.md` sibling URL for agents that browse the web.
 
 ## Setup
 
@@ -100,6 +99,5 @@ For VS Code (GitHub Copilot in agent mode, and the extensions speaking MCP), the
 
 At the start of a session the server tells the agent which versions it serves and whether updates are available, so the agent can suggest an upgrade. That check runs in the background at most once a day, like the Quasar CLI's own update notice, never while offline, and honors the `NO_UPDATE_NOTIFIER` environment variable.
 
-::: warning
-A project on releases predating the bundled documentation still gets the API through `get_api`, but no pages: the server names the packages to upgrade.
-:::
+> [!WARNING]
+> A project on releases predating the bundled documentation still gets the API through `get_api`, but no pages: the server names the packages to upgrade.

@@ -31,9 +31,8 @@ console.log(format.capitalize('some text'))
 console.log(format.humanStorageSize(13087))
 ```
 
-::: tip
-For usage with the UMD build see [here](/start/umd#quasar-global-object).
-:::
+> [!TIP]
+> For usage with the UMD build see [here](/start/umd#quasar-global-object).
 
 ## Capitalize
 

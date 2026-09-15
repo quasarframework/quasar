@@ -19,15 +19,13 @@ Under the hood, it uses the [Intersection Observer API](https://developer.mozill
 
 ## Usage
 
-::: warning
-In most cases, it is required that you apply CSS to the QIntersection element so that it acts as a necessary filler when the inner content is not rendered. This will allow for a smooth scrolling experience, because otherwise the scroll will jump erratically.
+> [!WARNING]
+> In most cases, it is required that you apply CSS to the QIntersection element so that it acts as a necessary filler when the inner content is not rendered. This will allow for a smooth scrolling experience, because otherwise the scroll will jump erratically.
+>
+> An example of such needed CSS would be, for example, a fixed height or at least a min-height (and possibly even a fixed width, as in the examples below, where multiple QIntersections can be displayed on same row).
 
-An example of such needed CSS would be, for example, a fixed height or at least a min-height (and possibly even a fixed width, as in the examples below, where multiple QIntersections can be displayed on same row).
-:::
-
-::: danger
-If using the `transition` prop, it is required that the content be wrapped in one and only one element.
-:::
+> [!CAUTION]
+> If using the `transition` prop, it is required that the content be wrapped in one and only one element.
 
 ### Basic
 

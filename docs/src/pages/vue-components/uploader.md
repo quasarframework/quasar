@@ -9,25 +9,21 @@ related:
 
 Quasar supplies a way for you to upload files through the QUploader component.
 
-::: tip
-If all you want is an input file, you might want to consider using [QFile](/vue-components/file) picker component instead.
-:::
+> [!TIP]
+> If all you want is an input file, you might want to consider using [QFile](/vue-components/file) picker component instead.
 
 <DocApi file="QUploader" />
 
 ## Usage
 
-::: warning
-QUploader requires a back-end server to receive the files. The examples below will not actually upload.
-:::
+> [!WARNING]
+> QUploader requires a back-end server to receive the files. The examples below will not actually upload.
 
-::: tip
-QUploader is `drag and drop` compliant.
-:::
+> [!TIP]
+> QUploader is `drag and drop` compliant.
 
-::: warning
-When using vee-validate, you have to rename the "fieldBagName" configuration of vee-validate for the q-uploader to work.
-:::
+> [!WARNING]
+> When using vee-validate, you have to rename the "fieldBagName" configuration of vee-validate for the q-uploader to work.
 
 ### Design
 
@@ -45,13 +41,11 @@ By default, multiple files will be uploaded individually (one thread per file). 
 
 <DocExample title="Basic restrictions" file="RestrictionBasic" />
 
-::: tip
-In the example above, we're using `accept` property. Its value must be a comma separated list of unique file type specifiers. Maps to 'accept' attribute of native input type=file element. [More info](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/file#Unique_file_type_specifiers).
-:::
+> [!TIP]
+> In the example above, we're using `accept` property. Its value must be a comma separated list of unique file type specifiers. Maps to 'accept' attribute of native input type=file element. [More info](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/file#Unique_file_type_specifiers).
 
-::: warning
-Recommended format for the `accept` property is `<mediatype>/<extension>`. Examples: "image/jpeg", "image/png". QUploader uses an `<input type="file">` under the hood and it relies entirely on the host browser to trigger the file picker. If the `accept` property (that gets applied to the input) is not correct, no file picker will appear on screen or it will appear but it will accept all file types.
-:::
+> [!WARNING]
+> Recommended format for the `accept` property is `<mediatype>/<extension>`. Examples: "image/jpeg", "image/png". QUploader uses an `<input type="file">` under the hood and it relies entirely on the host browser to trigger the file picker. If the `accept` property (that gets applied to the input) is not correct, no file picker will appear on screen or it will appear but it will accept all file types.
 
 You can also apply custom filters (which are executed after user picks files):
 
@@ -63,9 +57,8 @@ Use `headers` for setting additional XHR headers to be sent along the upload req
 
 <DocExample title="Headers" file="Headers" />
 
-::: tip
-These two props (`headers` and `form-fields`) can be used as a function too (`(files) => Array`), allowing you to dynamically set them based on the files that are to be uploaded.
-:::
+> [!TIP]
+> These two props (`headers` and `form-fields`) can be used as a function too (`(files) => Array`), allowing you to dynamically set them based on the files that are to be uploaded.
 
 There is also the `with-credentials` property, which sets `withCredentials` to `true` on the XHR used by the upload process.
 
@@ -75,9 +68,8 @@ There is also the `with-credentials` property, which sets `withCredentials` to `
 
 <DocExample title="Custom upload URL" file="UploadURL" />
 
-::: tip
-You can also customize the HTTP headers and HTTP method through `headers` and `method` props. Check QUploader API section.
-:::
+> [!TIP]
+> You can also customize the HTTP headers and HTTP method through `headers` and `method` props. Check QUploader API section.
 
 ### Factory function
 
@@ -95,9 +87,8 @@ You can also use the `factory` Function prop and return immediately the same Obj
 
 In the example below we're showing the equivalent of the default header. Also notice some Boolean scope properties that you can use: `scope.canAddFiles`, `scope.canUpload`, `scope.isUploading`.
 
-::: warning
-Notice that you must install and use one more component (QUploaderAddTrigger) in order to be able to add files to the queue. This component needs to be placed under a DOM node which has `position: relative` (hint: QBtn has it already) and will automatically inject the necessary events when user clicks on its parent (do NOT manually add `@click="scope.pickFiles"`). If the trigger is not working, check if you have an element rendered above it and change the zIndex of QUploaderAddTrigger accordingly.
-:::
+> [!WARNING]
+> Notice that you must install and use one more component (QUploaderAddTrigger) in order to be able to add files to the queue. This component needs to be placed under a DOM node which has `position: relative` (hint: QBtn has it already) and will automatically inject the necessary events when user clicks on its parent (do NOT manually add `@click="scope.pickFiles"`). If the trigger is not working, check if you have an element rendered above it and change the zIndex of QUploaderAddTrigger accordingly.
 
 <DocExample title="Custom header" file="SlotHeader" />
 
@@ -113,9 +104,8 @@ The header and per-file buttons are icon-only, so they carry localized accessibl
 
 QUploader works by default with the HTTP(S) protocol to upload files (but it's not limited to it as you'll see in the section following this one).
 
-::: tip
-It is by no means required to use a Node.js server or Spring or ASP.NET like below -- you can handle file upload however you want, as long as the method you are using fits the HTTP protocol. Example with [PHP](https://secure.php.net/manual/en/features.file-upload.php).
-:::
+> [!TIP]
+> It is by no means required to use a Node.js server or Spring or ASP.NET like below -- you can handle file upload however you want, as long as the method you are using fits the HTTP protocol. Example with [PHP](https://secure.php.net/manual/en/features.file-upload.php).
 
 ### Node.js
 
@@ -386,9 +376,10 @@ app->start;
 
 QUploader currently supports uploading through the HTTP(S) protocol. But you can extend the component to support other services as well. Like Firebase for example. Here's how you can do it.
 
-::: warning Help appreciated
-We'd be more than happy to accept PRs on supporting other upload services as well, so others can benefit. Hit the `Edit this page in browser` link at bottom of this page or the pencil icon at the top of the page.
-:::
+> [!WARNING]
+> **Help appreciated**
+>
+> We'd be more than happy to accept PRs on supporting other upload services as well, so others can benefit. Hit the `Edit this page in browser` link at bottom of this page or the pencil icon at the top of the page.
 
 Below is an example with the API that you need to supply to the `createUploaderComponent()` Quasar util. This will create a Vue component that you can import in your app.
 
@@ -452,12 +443,11 @@ export default createUploaderComponent({
 })
 ```
 
-::: tip TIPS
-
-- For the default XHR implementation in the form of such a plugin, check out [source code](https://github.com/quasarframework/quasar/blob/dev/ui/src/components/uploader/xhr-uploader-plugin.js).
-- For the UMD version use `Quasar.createUploaderComponent({ ... })`.
-
-:::
+> [!TIP]
+> **TIPS**
+>
+> - For the default XHR implementation in the form of such a plugin, check out [source code](https://github.com/quasarframework/quasar/blob/dev/ui/src/components/uploader/xhr-uploader-plugin.js).
+> - For the UMD version use `Quasar.createUploaderComponent({ ... })`.
 
 Then you register this component globally with Vue or you import it and add it to the "components: {}" in your Vue components.
 

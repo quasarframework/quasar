@@ -7,9 +7,8 @@ App Extensions are a way to painlessly inject complicated (or simple) libraries 
 
 The patterns for development literally open the floodgates to making Quasar one of the most extensible and powerful frameworks out there - now limited only by your imagination and innovation. This page will introduce you to the usage of App Extensions.
 
-::: warning
-App Extensions are designed specifically **for Quasar CLI only**. This means that you will not be able to install them or run them with the Quasar Vite plugin or in UMD environments.
-:::
+> [!WARNING]
+> App Extensions are designed specifically **for Quasar CLI only**. This means that you will not be able to install them or run them with the Quasar Vite plugin or in UMD environments.
 
 ## What can an App Extension do?
 
@@ -49,11 +48,12 @@ quasar ext add <ext-id>
 
 This command will find and install the extension's module. After installation is complete, there may be one or more prompts asking you to make choices or add information needed by the extension. When the installation is concluded, you will be returned to the command line.
 
-::: danger Installing an App Extension runs third-party code
-`quasar ext add` installs the extension's npm package (running that package's lifecycle scripts, if it has any), then executes the extension's install script inside the Quasar CLI process with the same privileges as your user account. App Extensions are not sandboxed: an extension can read and write files anywhere your user can - inside or outside of your project folder - run commands and read your environment variables. The trust is also not limited to installation time, since every installed extension is initialized again on each `quasar dev` and `quasar build`.
-
-This is the same level of trust that you already grant to any npm dependency, so treat App Extensions the same way: install only the ones whose author and source code you trust.
-:::
+> [!CAUTION]
+> **Installing an App Extension runs third-party code**
+>
+> `quasar ext add` installs the extension's npm package (running that package's lifecycle scripts, if it has any), then executes the extension's install script inside the Quasar CLI process with the same privileges as your user account. App Extensions are not sandboxed: an extension can read and write files anywhere your user can - inside or outside of your project folder - run commands and read your environment variables. The trust is also not limited to installation time, since every installed extension is initialized again on each `quasar dev` and `quasar build`.
+>
+> This is the same level of trust that you already grant to any npm dependency, so treat App Extensions the same way: install only the ones whose author and source code you trust.
 
 ### List Installed App Extensions
 
@@ -79,9 +79,8 @@ You may need to update your extension, and this is done with the same command as
 quasar ext add <ext-id>
 ```
 
-::: warning
-Reinstalling the extension MIGHT overwrite files that you have changed. You will be presented with the option to overwrite the files detected.
-:::
+> [!WARNING]
+> Reinstalling the extension MIGHT overwrite files that you have changed. You will be presented with the option to overwrite the files detected.
 
 ### Removing an App Extension
 

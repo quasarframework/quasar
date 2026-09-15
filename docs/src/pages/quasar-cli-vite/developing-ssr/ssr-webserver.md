@@ -9,15 +9,15 @@ Notice that your generated `/src-ssr` contains a file named `server.js`. This fi
 
 The `/src-ssr/server.js` file is a simple JavaScript/TypeScript file which boots up your SSR webserver and defines what how your webserver starts & handles requests and what it exports (if exporting anything).
 
-::: danger
-The `/src-ssr/server.js` file is used for both DEV and PROD, so please be careful on how you configure it. To differentiate between the two states you can use `import.meta.env.QUASAR_DEV` and `import.meta.env.QUASAR_PROD`.
-:::
+> [!CAUTION]
+> The `/src-ssr/server.js` file is used for both DEV and PROD, so please be careful on how you configure it. To differentiate between the two states you can use `import.meta.env.QUASAR_DEV` and `import.meta.env.QUASAR_PROD`.
 
 Now let's see what it contains, for JS projects first and then for TypeScript. Pick the one you want to use based on the webserver of your choice:
 
 <llm-exclude reason="Mirrors the TypeScript :::details below without the type annotations. LLMs can derive the JS form from the TS version.">
 
-::: details Javascript
+<details>
+<summary>Javascript</summary>
 
 ```tabs /src-ssr/server.js
 <<| js Hono |>>
@@ -763,11 +763,12 @@ export const renderPreloadTag = defineSsrRenderPreloadTag(
 )
 ```
 
-:::
+</details>
 
 </llm-exclude>
 
-::: details TypeScript
+<details>
+<summary>TypeScript</summary>
 
 ```tabs /src-ssr/server.ts
 <<| ts Hono |>>
@@ -1593,7 +1594,7 @@ export const renderPreloadTag = defineSsrRenderPreloadTag(
 );
 ```
 
-:::
+</details>
 
 ## Serverless
 

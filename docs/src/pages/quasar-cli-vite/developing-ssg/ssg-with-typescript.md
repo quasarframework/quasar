@@ -3,9 +3,10 @@ title: SSG with TypeScript
 desc: (@quasar/app-vite) How to use TypeScript with SSG in Quasar.
 ---
 
-::: warning Warning! Beta Stage
-The Quasar SSG Mode is currently in the "beta" stage. Based on the community feedback, the API may change in the future, so check the release notes each time you upgrade "@quasar/app-vite".
-:::
+> [!WARNING]
+> **Warning! Beta Stage**
+>
+> The Quasar SSG Mode is currently in the "beta" stage. Based on the community feedback, the API may change in the future, so check the release notes each time you upgrade "@quasar/app-vite".
 
 When SSG mode is added to a TypeScript project, Quasar creates `/src-ssg/ssg-renderer.ts` automatically. In an existing JavaScript setup, rename `ssg-renderer.js` to `ssg-renderer.ts`; Quasar discovers either extension.
 

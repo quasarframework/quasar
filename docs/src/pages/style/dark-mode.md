@@ -71,6 +71,5 @@ body.body--dark {
 
 Set them on `:root` or on `body` (a `body.body--dark` rule as above, or the [setCssVar](/style/color-palette#util-setcssvar) helper, which writes on `body`). The shadow tints are derived from them at the `body` level, so an override placed deeper in the DOM has no effect. Components with a dark surface (the `dark` prop) use `--q-dark-shadow-color` regardless of the Dark Mode status.
 
-::: tip
-Quasar CLI users can alternatively set the `$shadow-color` and `$dark-shadow-color` [Sass variables](/style/sass-scss-variables), which are the defaults of the custom properties above.
-:::
+> [!TIP]
+> Quasar CLI users can alternatively set the `$shadow-color` and `$dark-shadow-color` [Sass variables](/style/sass-scss-variables), which are the defaults of the custom properties above.

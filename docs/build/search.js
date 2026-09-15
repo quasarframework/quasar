@@ -4,7 +4,7 @@ import { globSync } from 'tinyglobby'
 import markdownIt from 'markdown-it'
 
 import { parseFrontMatter } from './md/md-parse-utils.js'
-import { registerAllParsing, sharedMdOptions } from './md/md-rules.js'
+import { sharedMdOptions } from './md/md-rules.js'
 import { capitalize, slugify } from './utils.js'
 
 const apiRE = /<DocApi .*file="([^"]+)".*\n/
@@ -36,7 +36,6 @@ function getJsonSize(content) {
 // code can never reach the index as prose. Typography stays off: smart
 // quotes would make the indexed text stop matching what a reader types.
 const mdParser = markdownIt({ ...sharedMdOptions, typographer: false })
-registerAllParsing(mdParser)
 
 const levelName = 'l'
 

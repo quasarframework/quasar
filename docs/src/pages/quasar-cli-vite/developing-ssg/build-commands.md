@@ -3,9 +3,10 @@ title: SSG Build Commands
 desc: (@quasar/app-vite) The Quasar CLI list of commands when developing or building a SSG app.
 ---
 
-::: warning Warning! Beta Stage
-The Quasar SSG Mode is currently in the "beta" stage. Based on the community feedback, the API may change in the future, so check the release notes each time you upgrade "@quasar/app-vite".
-:::
+> [!WARNING]
+> **Warning! Beta Stage**
+>
+> The Quasar SSG Mode is currently in the "beta" stage. Based on the community feedback, the API may change in the future, so check the release notes each time you upgrade "@quasar/app-vite".
 
 ## Developing
 
@@ -29,9 +30,8 @@ quasar build --mode ssg
 
 The default output directory is `dist/ssg`. The build fails if `getSsgPages()` returns no pages or if two page definitions try to write the same file.
 
-::: tip
-Should you want to change the default error handling behaviour of the SSG render process (fail on first error), and instead you want to go through all SSG pages then error out, or just warn but not fail, or ignore the errors completely, you can use the quasar.config > ssg > [onSsgRendererError](/quasar-cli-vite/developing-ssg/configuring-ssg).
-:::
+> [!TIP]
+> Should you want to change the default error handling behaviour of the SSG render process (fail on first error), and instead you want to go through all SSG pages then error out, or just warn but not fail, or ignore the errors completely, you can use the quasar.config > ssg > [onSsgRendererError](/quasar-cli-vite/developing-ssg/configuring-ssg).
 
 If you want a production build with debugging enabled:
 

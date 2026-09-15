@@ -21,9 +21,8 @@ We will be describing `v-touch-swipe` on the lines below.
 
 Swipe with your mouse on the area below to see it in action. If using a mouse, you need to do it quick.
 
-::: tip
-If your content also has images, you might want to add `draggable="false"` to them, otherwise the native browser behavior might interfere in a negative way.
-:::
+> [!TIP]
+> If your content also has images, you might want to add `draggable="false"` to them, otherwise the native browser behavior might interfere in a negative way.
 
 <DocExample title="All directions" file="Basic" />
 

@@ -55,9 +55,8 @@ Usually, the QPageContainer is part of the Layout template (where it contains a 
 
 ### Example
 
-::: tip
-Since QPageContainer and QPage need a layout and QLayout by default manages the entire window, then for demoing purposes we are going to use containerized QLayouts. But remember that by no means you are required to use containerized QLayouts for QPageContainer and QPage.
-:::
+> [!TIP]
+> Since QPageContainer and QPage need a layout and QLayout by default manages the entire window, then for demoing purposes we are going to use containerized QLayouts. But remember that by no means you are required to use containerized QLayouts for QPageContainer and QPage.
 
 <DocExample title="Basic" file="Basic" />
 

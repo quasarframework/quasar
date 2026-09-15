@@ -29,9 +29,8 @@ You can define a CSS class that would force the element it is applied on to crea
 
 Take care not to use `no-wrap` when defining the flex container, and insert a `div` with class `flex-break` where you need.
 
-::: tip
-You can use `q-py-##` on row breaking elements or `q-px-##` on column breaking elements to increase the space.
-:::
+> [!TIP]
+> You can use `q-py-##` on row breaking elements or `q-px-##` on column breaking elements to increase the space.
 
 ```html
 <div class="row">
@@ -48,9 +47,8 @@ You can use `q-py-##` on row breaking elements or `q-px-##` on column breaking e
 
 <DocExample title="Row break" file="BreakRow" />
 
-::: warning
-When using `column` type flex you must define a height for the container. The height must be large enough to hold the longest column.
-:::
+> [!WARNING]
+> When using `column` type flex you must define a height for the container. The height must be large enough to hold the longest column.
 
 <DocExample title="Column break" file="BreakColumn" />
 
@@ -58,9 +56,8 @@ When using `column` type flex you must define a height for the container. The he
 
 When using a `column` type flex with multiple columns the visual order of the elements will be in vertical columns. Sometimes you want the order to follow the rows in the layout, and in order to achieve this you can use a combination or custom order CSS styles and column break elements.
 
-::: warning
-You must know how many columns you want use for the layout. Also for best visual aspect the elements in the layout should be close in height one to the others.
-:::
+> [!WARNING]
+> You must know how many columns you want use for the layout. Also for best visual aspect the elements in the layout should be close in height one to the others.
 
 The general CSS formula for `$x` number of columns is:
 

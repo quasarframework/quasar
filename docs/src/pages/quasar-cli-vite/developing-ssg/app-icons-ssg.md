@@ -56,9 +56,10 @@ scope:
           - l: apple-launch-1536x2048.png
 ---
 
-::: warning Warning! Beta Stage
-The Quasar SSG Mode is currently in the "beta" stage. Based on the community feedback, the API may change in the future, so check the release notes each time you upgrade "@quasar/app-vite".
-:::
+> [!WARNING]
+> **Warning! Beta Stage**
+>
+> The Quasar SSG Mode is currently in the "beta" stage. Based on the community feedback, the API may change in the future, so check the release notes each time you upgrade "@quasar/app-vite".
 
 An SSG site uses the same favicon assets as a SPA. When PWA takeover is enabled, it also needs manifest icons and may include Apple touch icons and launch images.
 
@@ -66,9 +67,8 @@ An SSG site uses the same favicon assets as a SPA. When PWA takeover is enabled,
 
 ## Icon Genie CLI
 
-::: tip
-We highly recommend using the [Icon Genie CLI](/icongenie/introduction) v6.1+, because it consumes a source icon and automatically clones, scales, minifies and places the icons in the appropriate directories for you. When needed, it also tells you what tags you'll need to add to your /index.html file.
-:::
+> [!TIP]
+> We highly recommend using the [Icon Genie CLI](/icongenie/introduction) v6.1+, because it consumes a source icon and automatically clones, scales, minifies and places the icons in the appropriate directories for you. When needed, it also tells you what tags you'll need to add to your /index.html file.
 
 Generate the appropriate assets with Icon Genie CLI. For the complete option list, see the [Icon Genie CLI command list](/icongenie/command-list).
 

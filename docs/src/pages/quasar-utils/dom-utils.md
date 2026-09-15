@@ -29,9 +29,8 @@ console.log(dom.offset(DomElement))
 // { top: 10, left: 100 }
 ```
 
-::: tip
-For usage with the UMD build see [here](/start/umd#quasar-global-object).
-:::
+> [!TIP]
+> For usage with the UMD build see [here](/start/umd#quasar-global-object).
 
 ## Offset on screen viewport
 

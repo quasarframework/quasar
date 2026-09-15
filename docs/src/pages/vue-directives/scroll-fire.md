@@ -31,9 +31,8 @@ By default the method fires as soon as any part of the element becomes visible. 
 <div v-scroll-fire:1="handler" />
 ```
 
-::: warning
-An element taller than what can be displayed at once never becomes fully visible, so a threshold of 1 would never fire for it. Use a lower threshold for such elements.
-:::
+> [!WARNING]
+> An element taller than what can be displayed at once never becomes fully visible, so a threshold of 1 would never fire for it. Use a lower threshold for such elements.
 
 ### Disabling and re-arming
 

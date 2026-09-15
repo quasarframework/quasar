@@ -82,13 +82,11 @@ const routes = [
 export default routes
 ```
 
-::: tip
-More in-depth analysis of Lazy loading / code-splitting with [@quasar/app-vite](/quasar-cli-vite/lazy-loading).
-:::
+> [!TIP]
+> More in-depth analysis of Lazy loading / code-splitting with [@quasar/app-vite](/quasar-cli-vite/lazy-loading).
 
-::: tip
-Configuring routes to use Layouts and Pages basically consists of correctly nesting routes, as we'll see in the next section.
-:::
+> [!TIP]
+> Configuring routes to use Layouts and Pages basically consists of correctly nesting routes, as we'll see in the next section.
 
 ## Nested Routes
 
@@ -165,9 +163,8 @@ const routes = [
 export default routes
 ```
 
-::: warning
-Note that nested paths that start with `/` will be treated as a root path. This allows you to leverage component nesting without having to use a nested URL.
-:::
+> [!WARNING]
+> Note that nested paths that start with `/` will be treated as a root path. This allows you to leverage component nesting without having to use a nested URL.
 
 Our routes configuration (`/src/router/routes.js`) should look like this:
 
@@ -237,6 +234,5 @@ Please notice a few things:
 
 <q-separator class="q-mt-xl" />
 
-::: tip
-Please check [Vue Router](https://router.vuejs.org/) documentation to fully understand the examples above and how to configure the router and its routes for your app.
-:::
+> [!TIP]
+> Please check [Vue Router](https://router.vuejs.org/) documentation to fully understand the examples above and how to configure the router and its routes for your app.

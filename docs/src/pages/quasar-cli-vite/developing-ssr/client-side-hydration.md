@@ -7,9 +7,8 @@ Hydration refers to the client-side process during which Vue takes over the stat
 
 Since the server has already rendered the markup, we obviously do not want to throw that away and re-create all the DOM elements. Instead, we want to "hydrate" the static markup and make it interactive.
 
-::: warning
-Vue reports hydration mismatches during development and attempts to recover by adjusting the DOM. Recovery has a performance cost and can produce incorrect behavior, so treat every unexpected mismatch as a bug before deploying.
-:::
+> [!WARNING]
+> Vue reports hydration mismatches during development and attempts to recover by adjusting the DOM. Recovery has a performance cost and can produce incorrect behavior, so treat every unexpected mismatch as a bug before deploying.
 
 ## Hydration caveats
 

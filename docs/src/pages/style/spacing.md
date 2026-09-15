@@ -154,9 +154,8 @@ Examples: `q-pa-xs-md q-pa-sm-sm q-px-md-lg q-py-md-md`
 | `q-`   | `m` (margin)  | `y` (top & bottom) | `xl` (extra large) | `q-my-xl`   |
 | `q-`   | `m` (margin)  | `y` (top & bottom) | `auto`             | `q-my-auto` |
 
-::: tip
-See more details about the [Flex Addons](/layout/grid/introduction-to-flexbox#flex-addons).
-:::
+> [!TIP]
+> See more details about the [Flex Addons](/layout/grid/introduction-to-flexbox#flex-addons).
 
 ## Other Related
 

@@ -73,14 +73,13 @@ Notice the `/src-ssr/package.json` file in your generated `/src-ssr` folder. The
 }
 ```
 
-::: warning
-If you import anything from node_modules in /src-ssr, then be aware that:
-
-- Packages in `/src-ssr/package.json > dependencies` are runtime dependencies. Quasar adds them to the generated `/dist/ssr/package.json`, and they must be installed when deploying the build.
-- Packages in `devDependencies`, such as `@types/*`, are build-time dependencies and are not added to the generated package.
-
-<br>Only runtime `dependencies` are carried into the generated package manifest, keeping production installation focused on what the server needs.
-:::
+> [!WARNING]
+> If you import anything from node_modules in /src-ssr, then be aware that:
+>
+> - Packages in `/src-ssr/package.json > dependencies` are runtime dependencies. Quasar adds them to the generated `/dist/ssr/package.json`, and they must be installed when deploying the build.
+> - Packages in `devDependencies`, such as `@types/*`, are build-time dependencies and are not added to the generated package.
+>
+> <br>Only runtime `dependencies` are carried into the generated package manifest, keeping production installation focused on what the server needs.
 
 Installing SSR specific packages, like the actual webserver & middlewares & plugins:
 

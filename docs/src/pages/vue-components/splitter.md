@@ -15,9 +15,8 @@ The QSplitter component allow containers to be split vertically and/or horizonta
 
 ## Usage
 
-::: warning
-The use of the `before` and `after` slots is required.
-:::
+> [!WARNING]
+> The use of the `before` and `after` slots is required.
 
 Click and drag on the splitter separator bar to see results.
 
@@ -47,9 +46,8 @@ By default, the model is connected to the `before` slot size. But you can revers
 
 ### Adding content to separator
 
-::: tip
-If you use images as content for the separator slot, you might want to add `draggable="false"` to them, otherwise the native browser behavior might interfere in a negative way.
-:::
+> [!TIP]
+> If you use images as content for the separator slot, you might want to add `draggable="false"` to them, otherwise the native browser behavior might interfere in a negative way.
 
 <DocExample title="Adding to separator" file="SeparatorSlot" />
 

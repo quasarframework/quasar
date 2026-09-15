@@ -6,15 +6,15 @@ keys: Cookies
 
 This is a wrapper over the standardized `document.cookie`.
 
-::: tip NOTE
-In addition to the standard way of dealing with cookies, with Cookie Plugin you can read and write cookies using JSON objects. It can also manage cookies from SSR.
-:::
+> [!TIP]
+> **NOTE**
+>
+> In addition to the standard way of dealing with cookies, with Cookie Plugin you can read and write cookies using JSON objects. It can also manage cookies from SSR.
 
 <DocApi file="Cookies" />
 
-::: tip
-The Cookies plugin is not functional in Electron apps. Use the [Electron Cookies](https://www.electronjs.org/docs/api/cookies) API instead.
-:::
+> [!TIP]
+> The Cookies plugin is not functional in Electron apps. Use the [Electron Cookies](https://www.electronjs.org/docs/api/cookies) API instead.
 
 <DocInstall plugins="Cookies" />
 
@@ -186,9 +186,8 @@ secure: true
 
 If true, the cookie transmission requires a secure protocol (HTTPS) and will NOT be sent over HTTP. Default value is `false`.
 
-::: tip
-If using Quasar CLI and on dev mode, you can enable HTTPS through quasar.config file > devServer > https: true.
-:::
+> [!TIP]
+> If using Quasar CLI and on dev mode, you can enable HTTPS through quasar.config file > devServer > https: true.
 
 ### Option: other
 
@@ -224,6 +223,5 @@ setup () {
 }
 ```
 
-::: warning
-When a cookie was previously set with specific `path` and/or `domain` then it can be successfully removed only if the same attributes are passed in to remove() through the `options` parameter. This is in accordance to RFC6265.
-:::
+> [!WARNING]
+> When a cookie was previously set with specific `path` and/or `domain` then it can be successfully removed only if the same attributes are passed in to remove() through the `options` parameter. This is in accordance to RFC6265.

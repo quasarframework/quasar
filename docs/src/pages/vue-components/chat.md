@@ -7,9 +7,8 @@ examples: QChatMessage
 
 Quasar supplies a chat component called QChatMessage which is really a chat entry that renders the data given by the props.
 
-::: tip
-To mix messages with avatar and without avatar in the same thread, use a placeholder avatar image.
-:::
+> [!TIP]
+> To mix messages with avatar and without avatar in the same thread, use a placeholder avatar image.
 
 <DocApi file="QChatMessage" />
 
@@ -17,9 +16,8 @@ To mix messages with avatar and without avatar in the same thread, use a placeho
 
 ### The basics
 
-::: tip
-Using the property `sent` is intended for the sender of the chat message. The other side is for received messages.
-:::
+> [!TIP]
+> Using the property `sent` is intended for the sender of the chat message. The other side is for received messages.
 
 <DocExample title="Basic" file="Basic" />
 
@@ -45,9 +43,8 @@ Using the property `sent` is intended for the sender of the chat message. The ot
 
 ### Sanitization
 
-::: warning
-Always sanitize values if you do not trust the origin (if the value comes from user input).
-:::
+> [!WARNING]
+> Always sanitize values if you do not trust the origin (if the value comes from user input).
 
 <DocExample title="Sanitized content" file="Sanitize" />
 

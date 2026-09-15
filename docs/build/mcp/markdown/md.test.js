@@ -14,12 +14,6 @@ test('createAiMd returns a markdown-it instance with html enabled', () => {
   ).toBeTruthy()
 })
 
-test('createAiMd registers container parsing', () => {
-  const md = createAiMd()
-  const tokens = md.parse('::: tip\nhi\n:::', {})
-  expect(tokens.some(({ type }) => type === 'container_tip_open')).toBeTruthy()
-})
-
 test('createAiMd disables typographer (no smart quote substitution)', () => {
   const md = createAiMd()
   const tokens = md.parse("track's value", {})

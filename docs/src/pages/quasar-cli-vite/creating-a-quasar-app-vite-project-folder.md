@@ -3,12 +3,11 @@ title: Creating a @quasar/app-vite Project
 desc: (@quasar/app-vite) How to create a Project folder with @quasar/app-vite.
 ---
 
-::: tip Requirements:
-
-- Node.js v22+
-- PNPM v11+ (recommended), Yarn v1 classic, NPM or Bun
-
-:::
+> [!TIP]
+> **Requirements:**
+>
+> - Node.js v22+
+> - PNPM v11+ (recommended), Yarn v1 classic, NPM or Bun
 
 ## Spawn a project folder
 
@@ -41,9 +40,8 @@ bun create quasar@latest
 
 Pick `App with Quasar CLI`.
 
-::: tip
-Under the cover, the package managers globally install our `create-quasar` package and run it. It is NOT recommended, however, to manually install this package yourself because you can easily get out of sync with the "latest" version. We push updates constantly!
-:::
+> [!TIP]
+> Under the cover, the package managers globally install our `create-quasar` package and run it. It is NOT recommended, however, to manually install this package yourself because you can easily get out of sync with the "latest" version. We push updates constantly!
 
 ## Optional params
 

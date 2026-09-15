@@ -17,10 +17,9 @@ The QMenu component is a convenient way to show menus. Goes very well with [QLis
 
 The idea with QMenu is to place it inside your DOM element / component that you want to be the trigger as direct child. Don’t worry about QMenu content inheriting CSS from the container as the QMenu will be injected as a direct child of `<body>` through a Quasar Portal.
 
-::: tip
-Don't forget to use the directive `v-close-popup` in your clickable menu items if you want the menu to close automatically.
-Alternatively, you can use the QMenu's property `auto-close` or handle closing the menu yourself through its v-model.
-:::
+> [!TIP]
+> Don't forget to use the directive `v-close-popup` in your clickable menu items if you want the menu to close automatically.
+> Alternatively, you can use the QMenu's property `auto-close` or handle closing the menu yourself through its v-model.
 
 ### Basic
 
@@ -30,9 +29,8 @@ Alternatively, you can use the QMenu's property `auto-close` or handle closing t
 
 <DocExample title="Toggle through v-model" file="VModel" />
 
-::: warning
-If you want to conditionally activate or de-activate a QMenu, please use `v-if` on it instead of `v-show`.
-:::
+> [!WARNING]
+> If you want to conditionally activate or de-activate a QMenu, please use `v-if` on it instead of `v-show`.
 
 ### Hover <q-badge label="v2.26+" />
 
@@ -40,9 +38,8 @@ With the `hover` prop the menu also opens when the pointer hovers its target and
 
 Click/tap and keyboard interactions keep toggling the menu as usual, so touch devices (which have no hover) simply fall back to them; this also means that clicking the target (or activating it with <kbd>Enter</kbd>) while the menu is hover-shown closes it. The one exception is a click that lands while the menu is still animating into view: it is ignored, so a single move-and-click gesture on the target cannot close the menu that the very same gesture just opened. A hover-opened menu does not move keyboard focus onto itself. Submenus work too: hovering from a menu into a submenu opened from it keeps the whole chain open.
 
-::: warning
-The `hover` and `context-menu` props are mutually exclusive; when both are set, `context-menu` takes precedence and `hover` has no effect. Also, hover-triggered opens ignore `touch-position`, which keeps applying to click/tap opens only.
-:::
+> [!WARNING]
+> The `hover` and `context-menu` props are mutually exclusive; when both are set, `context-menu` takes precedence and `hover` has no effect. Also, hover-triggered opens ignore `touch-position`, which keeps applying to click/tap opens only.
 
 <DocExample title="Hover" file="Hover" />
 
@@ -95,16 +92,15 @@ import MenuPositioning from './MenuPositioning.vue'
 
 <MenuPositioning />
 
-::: tip
-The `offset` prop does not translate the popup by a number of pixels. It expands the **anchor element's bounding box** outward: `offset[0]` moves that box's `left` edge to the left and its `right` edge to the right, while `offset[1]` moves `top` up and `bottom` down. The popup's `self` point is then aligned to the `anchor` point of the expanded box, and only after that is the result clamped to the available screen real estate.
-
-Two consequences are worth knowing, because both make an `offset` look like it is being ignored on one axis:
-
-- **A `middle` or `center` anchor point does not move with the offset.** Expanding both edges by the same amount leaves the midpoint exactly where it was, so `offset[0]` is a no-op for `anchor="... middle"` and `offset[1]` is a no-op for `anchor="center ..."`, no matter which value you pass. QMenu's default `anchor` (`bottom start`) responds on both axes, but a `middle`/`center` one that you set yourself will not.
-- **A clamped popup does not move with the offset either.** Since the offset pushes the box outward, anchoring to a full-width or screen-edge element (or passing a very large value) can send the popup past a viewport edge, where it gets clamped back and the final position no longer depends on the offset value. Attach QMenu to an inline or `inline-block` trigger and point `anchor`/`self` into free space, so the offset has room to take effect.
-
-The `cover` prop ignores `offset` altogether, since the popup is meant to sit right on top of the anchor element.
-:::
+> [!TIP]
+> The `offset` prop does not translate the popup by a number of pixels. It expands the **anchor element's bounding box** outward: `offset[0]` moves that box's `left` edge to the left and its `right` edge to the right, while `offset[1]` moves `top` up and `bottom` down. The popup's `self` point is then aligned to the `anchor` point of the expanded box, and only after that is the result clamped to the available screen real estate.
+>
+> Two consequences are worth knowing, because both make an `offset` look like it is being ignored on one axis:
+>
+> - **A `middle` or `center` anchor point does not move with the offset.** Expanding both edges by the same amount leaves the midpoint exactly where it was, so `offset[0]` is a no-op for `anchor="... middle"` and `offset[1]` is a no-op for `anchor="center ..."`, no matter which value you pass. QMenu's default `anchor` (`bottom start`) responds on both axes, but a `middle`/`center` one that you set yourself will not.
+> - **A clamped popup does not move with the offset either.** Since the offset pushes the box outward, anchoring to a full-width or screen-edge element (or passing a very large value) can send the popup past a viewport edge, where it gets clamped back and the final position no longer depends on the offset value. Attach QMenu to an inline or `inline-block` trigger and point `anchor`/`self` into free space, so the offset has room to take effect.
+>
+> The `cover` prop ignores `offset` altogether, since the popup is meant to sit right on top of the anchor element.
 
 ## Accessibility <q-badge label="v2.25+" />
 

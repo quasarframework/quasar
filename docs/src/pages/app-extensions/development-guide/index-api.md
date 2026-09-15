@@ -14,9 +14,8 @@ import { defineIndexScript } from '#q-app'
 export default defineIndexScript(api => {})
 ```
 
-::: tip
-If your App Extension's own code imports from the `quasar` package (a Quasar Plugin like Notify, a utility, etc.), use this hook to exclude your package from the host app's dep optimizer, as described in [Injecting Quasar Plugin](/app-extensions/common-formulas-and-patterns/inject-quasar-plugin#using-the-plugin-from-your-own-code).
-:::
+> [!TIP]
+> If your App Extension's own code imports from the `quasar` package (a Quasar Plugin like Notify, a utility, etc.), use this hook to exclude your package from the host app's dep optimizer, as described in [Injecting Quasar Plugin](/app-extensions/common-formulas-and-patterns/inject-quasar-plugin#using-the-plugin-from-your-own-code).
 
 ## The API param
 
@@ -298,9 +297,8 @@ export default defineIndexScript(api => {
 })
 ```
 
-::: tip
-Notice the tidle (`~`) in front of the paths. This tells Quasar CLI that the path is a dependency from node_modules instead of a relative path to App Extension index script file.
-:::
+> [!TIP]
+> Notice the tidle (`~`) in front of the paths. This tells Quasar CLI that the path is a dependency from node_modules instead of a relative path to App Extension index script file.
 
 ### api.registerCommand
 
@@ -372,13 +370,11 @@ For syntax of such a JSON file, look into `/node_modules/quasar/dist/api` (in yo
 }
 ```
 
-::: tip
-You might also want to take a look at [Quasar JSON API Schema](/app-extensions/common-formulas-and-patterns/json-api) page.
-:::
+> [!TIP]
+> You might also want to take a look at [Quasar JSON API Schema](/app-extensions/common-formulas-and-patterns/json-api) page.
 
-::: tip
-Always test with the `quasar describe` command to ensure you got the syntax right and there are no errors.
-:::
+> [!TIP]
+> Always test with the `quasar describe` command to ensure you got the syntax right and there are no errors.
 
 ### api.getPersistentConf
 

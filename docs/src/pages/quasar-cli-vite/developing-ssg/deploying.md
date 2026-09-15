@@ -8,9 +8,10 @@ related:
   - /quasar-cli-vite/developing-ssg/ssg-with-pwa
 ---
 
-::: warning Warning! Beta Stage
-The Quasar SSG Mode is currently in the "beta" stage. Based on the community feedback, the API may change in the future, so check the release notes each time you upgrade "@quasar/app-vite".
-:::
+> [!WARNING]
+> **Warning! Beta Stage**
+>
+> The Quasar SSG Mode is currently in the "beta" stage. Based on the community feedback, the API may change in the future, so check the release notes each time you upgrade "@quasar/app-vite".
 
 An SSG build produces a directory of static files. You deploy those files to a static web server or static hosting provider. There is no Node.js renderer to run in production.
 
@@ -106,9 +107,8 @@ Do not use `csr.html` as the fallback for every unknown URL unless you intention
 
 This example serves generated SSG files first, uses a CSR shell only for `/dashboard` and `/admin`, and uses `404.html` for all other missing files:
 
-::: tip
-This and the following examples assume that `build.publicPath` is `/`. If you deploy under a sub-folder, prefix the request paths and fallback destinations with that sub-folder.
-:::
+> [!TIP]
+> This and the following examples assume that `build.publicPath` is `/`. If you deploy under a sub-folder, prefix the request paths and fallback destinations with that sub-folder.
 
 ```nginx
 server {

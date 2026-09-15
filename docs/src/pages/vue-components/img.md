@@ -54,27 +54,23 @@ When you have big-sized images, you can use a placeholder image (recommended to 
 
 ### Responsive
 
-::: warning
-To grasp the `sizes` and `srcset` properties, please read about native support on [responsive images](https://developer.mozilla.org/en-US/docs/Learn/HTML/Multimedia_and_embedding/Responsive_images#Why_responsive_images) because **QImg relies on that entirely**.
-:::
+> [!WARNING]
+> To grasp the `sizes` and `srcset` properties, please read about native support on [responsive images](https://developer.mozilla.org/en-US/docs/Learn/HTML/Multimedia_and_embedding/Responsive_images#Why_responsive_images) because **QImg relies on that entirely**.
 
 <DocExample title="Responsive" file="Responsive" />
 
-::: tip
-For `sizes` property, please read about Resolution Switching: [Different Sizes](https://developer.mozilla.org/en-US/docs/Learn/HTML/Multimedia_and_embedding/Responsive_images#Resolution_switching_Different_sizes).
-:::
+> [!TIP]
+> For `sizes` property, please read about Resolution Switching: [Different Sizes](https://developer.mozilla.org/en-US/docs/Learn/HTML/Multimedia_and_embedding/Responsive_images#Resolution_switching_Different_sizes).
 
-::: tip
-For `srcset` property, please read about Resolution Switching: [Same size, different resolutions](https://developer.mozilla.org/en-US/docs/Learn/HTML/Multimedia_and_embedding/Responsive_images#Resolution_switching_Same_size_different_resolutions).
-:::
+> [!TIP]
+> For `srcset` property, please read about Resolution Switching: [Same size, different resolutions](https://developer.mozilla.org/en-US/docs/Learn/HTML/Multimedia_and_embedding/Responsive_images#Resolution_switching_Same_size_different_resolutions).
 
 ### No native context menu
 
 In the example below we disable the native context menu on the images.
 
-::: warning
-When you are using this option always take care to have the content of the `default` or `error` slots wrapped in a `div` element, or add a `all-pointer-events` class on the element.
-:::
+> [!WARNING]
+> When you are using this option always take care to have the content of the `default` or `error` slots wrapped in a `div` element, or add a `all-pointer-events` class on the element.
 
 <DocExample title="Native context menu" file="ContextMenu" />
 
@@ -84,9 +80,8 @@ On SSR/SSG, QImg puts the `<img>` into the server HTML whenever you have declare
 
 Without any of them, the box uses a default 16:9 ratio until the natural ratio of the image is known, so a server-rendered image would visibly change shape at hydration. QImg therefore defers such an image until hydration, unless you set `ssr-prerender` and accept that box change.
 
-::: tip
-For an above-the-fold image, also set `loading="eager"` and `fetchpriority="high"` so that the browser does not delay its fetch.
-:::
+> [!TIP]
+> For an above-the-fold image, also set `loading="eager"` and `fetchpriority="high"` so that the browser does not delay its fetch.
 
 ## Accessibility <q-badge label="v2.25+" />
 

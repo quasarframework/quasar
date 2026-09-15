@@ -12,9 +12,8 @@ Returned values are all JS Dates.
 
 Get familiar with JS native Date class, which is very powerful, and remember that you don't need solutions like Momentjs which add hundreds of minified KB to your bundle.
 
-::: tip
-Quasar date utils includes tree shaking, except for the UMD version.
-:::
+> [!TIP]
+> Quasar date utils includes tree shaking, except for the UMD version.
 
 You will notice all examples import `date` Object from Quasar. However, if you need only one method from it, then you can use destructuring to help Tree Shaking embed only that method and not all of `date`.
 
@@ -29,9 +28,8 @@ const { addToDate } = date
 const newDate = addToDate(new Date(), { days: 7, months: 1 })
 ```
 
-::: tip
-For usage with the UMD build see [here](/start/umd#quasar-global-object).
-:::
+> [!TIP]
+> For usage with the UMD build see [here](/start/umd#quasar-global-object).
 
 ## Format for display
 
@@ -135,13 +133,12 @@ if (date.isValid(dateString)) {
 }
 ```
 
-::: warning
-`isValid` only validates the date format, not the logic validity of the date.
-
-The underlying implementation is based on native `Date.parse(...)` API and its shortcomings will pass through our API.
-
-It will not check if the date is valid for the month (e.g. 31st of February), or if the date is valid for the year (e.g. 29th of February in a non-leap year), and will return a different value in those cases for Firefox with respect to Chromium-based browsers (Chrome, Edge, etc).
-:::
+> [!WARNING]
+> `isValid` only validates the date format, not the logic validity of the date.
+>
+> The underlying implementation is based on native `Date.parse(...)` API and its shortcomings will pass through our API.
+>
+> It will not check if the date is valid for the month (e.g. 31st of February), or if the date is valid for the year (e.g. 29th of February in a non-leap year), and will return a different value in those cases for Firefox with respect to Chromium-based browsers (Chrome, Edge, etc).
 
 ### Add/Subtract
 
@@ -503,9 +500,8 @@ date.extractDate('2021-W52 2022-01-01', 'GGGG-[W]ww YYYY-MM-DD')
 // January 1st 2022
 ```
 
-::: warning
-The `dd` token shortens a day name to its first two characters, which is not unique in every language (Chinese shortens all seven days to the same two characters). Where the current language pack is ambiguous that way, `dd` is matched but ignored, and the date resolves to the Monday of the week. Use `ddd`, `dddd` or `E` for a weekday that parses everywhere.
-:::
+> [!WARNING]
+> The `dd` token shortens a day name to its first two characters, which is not unique in every language (Chinese shortens all seven days to the same two characters). Where the current language pack is ambiguous that way, `dd` is matched but ignored, and the date resolves to the Monday of the week. Use `ddd`, `dddd` or `E` for a weekday that parses everywhere.
 
 With optional custom locale:
 

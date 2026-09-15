@@ -15,9 +15,8 @@ QBar is especially useful for frame-less Electron apps where you integrate it in
 
 ## Usage
 
-::: tip
-For responsiveness, use [Visibility](/style/visibility#window-width-related) Quasar CSS Classes. For finer tuning you can go write your own CSS media breakpoints or even go with [QResizeObserver](/vue-components/resize-observer).
-:::
+> [!TIP]
+> For responsiveness, use [Visibility](/style/visibility#window-width-related) Quasar CSS Classes. For finer tuning you can go write your own CSS media breakpoints or even go with [QResizeObserver](/vue-components/resize-observer).
 
 ### Styling
 

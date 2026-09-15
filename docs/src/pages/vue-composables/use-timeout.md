@@ -9,9 +9,8 @@ The `useTimeout()` composable is similar in scope with the native `setTimeout()`
 
 In other words, if you want to schedule a function after a delay but you might want to override it or even cancel it before the delay happens, this is the composable for you.
 
-::: tip
-On the server-side of SSR or SSG modes, registering a timeout is a no-op. Start server-side work explicitly outside the component rendering lifecycle rather than creating a timer during `setup()`.
-:::
+> [!TIP]
+> On the server-side of SSR or SSG modes, registering a timeout is a no-op. Start server-side work explicitly outside the component rendering lifecycle rather than creating a timer during `setup()`.
 
 ## Syntax
 

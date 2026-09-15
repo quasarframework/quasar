@@ -16,9 +16,8 @@ Also check its “sibling”, the [QRange](/vue-components/range) component.
 
 ## Usage
 
-::: warning
-You are responsible for accommodating the space around QSlider so that the label and marker labels won't overlap the other content on your page. You can use CSS margin or padding for this purpose.
-:::
+> [!WARNING]
+> You are responsible for accommodating the space around QSlider so that the label and marker labels won't overlap the other content on your page. You can use CSS margin or padding for this purpose.
 
 ### Standard
 
@@ -66,9 +65,10 @@ The example below is better highlighting how QSlider handles label positioning s
 
 <DocExample title="Marker labels" file="MarkerLabels" />
 
-::: tip TIP on slots
-In order to use the marker label slots (see below), you must enable them by using the `marker-labels` prop.
-:::
+> [!TIP]
+> **TIP on slots**
+>
+> In order to use the marker label slots (see below), you must enable them by using the `marker-labels` prop.
 
 <DocExample title="Marker label slots" file="MarkerLabelSlots" />
 

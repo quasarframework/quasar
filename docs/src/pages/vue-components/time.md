@@ -11,9 +11,8 @@ related:
 
 The QTime component provides a method to input time.
 
-::: tip
-For handling date and/or time, also check out [Quasar Date Utils](/quasar-utils/date-utils).
-:::
+> [!TIP]
+> For handling date and/or time, also check out [Quasar Date Utils](/quasar-utils/date-utils).
 
 <DocApi file="QTime" />
 
@@ -27,9 +26,8 @@ Notice that the model is a String only.
 
 <DocExample title="Landscape" file="Landscape" overflow />
 
-::: tip
-For landscape mode, you can use it along with `$q.screen` to make QTime responsive. Example: `:landscape="$q.screen.gt.xs"`. More info: [Quasar Screen Plugin](/options/screen-plugin).
-:::
+> [!TIP]
+> For landscape mode, you can use it along with `$q.screen` to make QTime responsive. Example: `:landscape="$q.screen.gt.xs"`. More info: [Quasar Screen Plugin](/options/screen-plugin).
 
 ### Accessibility <q-badge label="v2.25+" />
 
@@ -57,15 +55,17 @@ The default model mask is `HH:mm` (or `HH:mm:ss` when using `with-seconds` prop)
 
 The `mask` prop tokens can be found at [Quasar Utils > Date utils](/quasar-utils/date-utils#format-for-display).
 
-::: warning Note on SSR/SSG
-Using `x` or `X` (timestamps) in the mask may cause hydration errors on the client, because decoding the model String must be done with `new Date()` which takes into account the local timezone. As a result, if the server is in a different timezone than the client, then the rendered output of the server will differ than the one on the client so hydration will fail.
+> [!WARNING]
+> **Note on SSR/SSG**
+>
+> Using `x` or `X` (timestamps) in the mask may cause hydration errors on the client, because decoding the model String must be done with `new Date()` which takes into account the local timezone. As a result, if the server is in a different timezone than the client, then the rendered output of the server will differ than the one on the client so hydration will fail.
+>
+> If the mask contains date tokens, set `default-date` explicitly when using SSR or SSG. The runtime default is the current local date, which can differ between the server and browser.
 
-If the mask contains date tokens, set `default-date` explicitly when using SSR or SSG. The runtime default is the current local date, which can differ between the server and browser.
-:::
-
-::: danger Note on persian calendar
-When using the persian calendar, the mask for QTime is forced to `HH:mm` or `HH:mm:ss` (if `with-seconds` is specified).
-:::
+> [!CAUTION]
+> **Note on persian calendar**
+>
+> When using the persian calendar, the mask for QTime is forced to `HH:mm` or `HH:mm:ss` (if `with-seconds` is specified).
 
 <DocExample title="Simple mask" file="MaskSimple" overflow />
 

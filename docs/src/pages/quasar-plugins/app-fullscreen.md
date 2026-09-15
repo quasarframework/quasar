@@ -8,9 +8,8 @@ examples: AppFullscreen
 There are times when you want your website or App to run in fullscreen.
 Quasar makes it easy by wrapping the [Web Fullscreen API](https://developer.mozilla.org/en-US/docs/Web/API/Fullscreen_API).
 
-::: warning
-Please note that the behavior is different depending on the platform the code is running on, due to the fact that there isn't a fixed Web standard for Web Fullscreen API yet.
-:::
+> [!WARNING]
+> Please note that the behavior is different depending on the platform the code is running on, due to the fact that there isn't a fixed Web standard for Web Fullscreen API yet.
 
 <DocApi file="AppFullscreen" />
 
@@ -18,9 +17,8 @@ Please note that the behavior is different depending on the platform the code is
 
 ## Usage
 
-::: tip
-For an exhaustive list of properties and methods, please check out the API section.
-:::
+> [!TIP]
+> For an exhaustive list of properties and methods, please check out the API section.
 
 ```js Outside of a Vue file
 import { AppFullscreen } from 'quasar'
@@ -74,14 +72,13 @@ setup () {
 
 <DocExample title="On custom element" file="Targeted" />
 
-::: warning
-On some phones this will have little effect:
-
-- For example, on Samsung S4, when App goes into fullscreen, the top bar will slide up but still remain on screen.
-- On Nexus phones, on the other hand, like Nexus 5, Android navigation buttons and top bar disappear completely.
-
-It all depends on the Web Fullscreen API support of the platform the code is running on.
-:::
+> [!WARNING]
+> On some phones this will have little effect:
+>
+> - For example, on Samsung S4, when App goes into fullscreen, the top bar will slide up but still remain on screen.
+> - On Nexus phones, on the other hand, like Nexus 5, Android navigation buttons and top bar disappear completely.
+>
+> It all depends on the Web Fullscreen API support of the platform the code is running on.
 
 ## Watching for fullscreen changes
 

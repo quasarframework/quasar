@@ -12,9 +12,8 @@ related:
 
 The QRadio component is another basic element for user input. You can use this to supply a way for the user to pick an option from multiple choices.
 
-::: tip
-Please also refer to the [QOptionGroup](/vue-components/option-group) on other possibilities for creating groups of Radios.
-:::
+> [!TIP]
+> Please also refer to the [QOptionGroup](/vue-components/option-group) on other possibilities for creating groups of Radios.
 
 <DocApi file="QRadio" />
 
@@ -58,9 +57,8 @@ Apart from the standard sizes below, you can define your own through the `size` 
 
 ### With QOptionGroup
 
-::: tip
-You can also use [QOptionGroup](/vue-components/option-group), which simplifies the usage when you have groups of radios, like in example below.
-:::
+> [!TIP]
+> You can also use [QOptionGroup](/vue-components/option-group), which simplifies the usage when you have groups of radios, like in example below.
 
 <DocExample title="Usage with QOptionGroup" file="OptionGroup" />
 

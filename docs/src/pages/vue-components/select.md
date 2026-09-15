@@ -15,9 +15,8 @@ In case you are looking for a dropdown "button" instead of "input" use [Button D
 
 ### Overview
 
-::: warning
-For your QSelect you can use only one of the main designs (`filled`, `outlined`, `standout`, `borderless`). You cannot use multiple as they are self-exclusive.
-:::
+> [!WARNING]
+> For your QSelect you can use only one of the main designs (`filled`, `outlined`, `standout`, `borderless`). You cannot use multiple as they are self-exclusive.
 
 <DocExample title="Design Overview" file="DesignOverview" />
 
@@ -41,15 +40,13 @@ As a helper, you can use `clearable` prop so user can reset model to `null` thro
 
 ### Slots with QBtn type "submit"
 
-::: warning
-When placing a QBtn with type "submit" in one of the "before", "after", "prepend", or "append" slots of a QField, QInput or QSelect, you should also add a `@click` listener on the QBtn in question. This listener should call the method that submits your form. All "click" events in such slots are not propagated to their parent elements.
-:::
+> [!WARNING]
+> When placing a QBtn with type "submit" in one of the "before", "after", "prepend", or "append" slots of a QField, QInput or QSelect, you should also add a `@click` listener on the QBtn in question. This listener should call the method that submits your form. All "click" events in such slots are not propagated to their parent elements.
 
 ### Menu transitions
 
-::: warning
-Please note that transitions do not work when using `options-cover` prop.
-:::
+> [!WARNING]
+> Please note that transitions do not work when using `options-cover` prop.
 
 In the example below there's a few transitions showcased. For a full list of transitions available, go to [Transitions](/options/transitions).
 
@@ -61,9 +58,8 @@ By default QSelect shows the list of options as a menu on desktop and as a dialo
 
 The dialog mode renders a "Close" button (label taken from the [Quasar Language Pack](/options/quasar-language-packs)) inside the dialog's control, so users are not forced to tap on the backdrop in order to dismiss it. The button picks up the `color` prop, can be further styled through its `q-select__dialog-close` CSS class, or removed altogether with the `hide-dialog-close` prop.
 
-::: warning
-Please note that on iOS menu behavior might generate problems, especially when used in combination with `use-input` prop. You can use a conditional `behavior` prop like `:behavior="$q.platform.is.ios ? 'dialog' : 'menu'"` to use dialog mode only on iOS.
-:::
+> [!WARNING]
+> Please note that on iOS menu behavior might generate problems, especially when used in combination with `use-input` prop. You can use a conditional `behavior` prop like `:behavior="$q.platform.is.ios ? 'dialog' : 'menu'"` to use dialog mode only on iOS.
 
 <DocExample title="Show options in menu" file="BehaviorMenu" />
 
@@ -77,17 +73,15 @@ Click/tap and keyboard interactions keep toggling the options as usual, so touch
 
 A hover-triggered open does not focus the select, so it emits no `@focus`/`@blur` and does not trigger lazy validation rules on a pointer merely passing over; the select only gets focused (upgrading the open to a regular one, which no longer closes when the pointer leaves) when the user actually clicks or tabs into it.
 
-::: warning
-The prop only applies while the options show up as a menu; it has no effect with `behavior="dialog"`, nor on mobile platforms unless `behavior="menu"` is used.
-:::
+> [!WARNING]
+> The prop only applies while the options show up as a menu; it has no effect with `behavior="dialog"`, nor on mobile platforms unless `behavior="menu"` is used.
 
 <DocExample title="Hover to open" file="Hover" />
 
 ## The model
 
-::: danger
-The model for single selection can be anything (String, Object, ...) while the model for multiple selection must be an Array.
-:::
+> [!CAUTION]
+> The model for single selection can be anything (String, Object, ...) while the model for multiple selection must be an Array.
 
 <DocExample title="Single vs multiple selection" file="ModelSingleMultiple" />
 
@@ -117,17 +111,15 @@ When `map-options` is used, the model can contain only the `value`, and it will 
 
 By default, QSelect looks at `label`, `value`, `disable` and `sanitize` props of each option from the options array Objects. But you can override those:
 
-::: warning
-If you use functions for custom props always check if the option is null. These functions are used both for options in the list and for the selected options.
-:::
+> [!WARNING]
+> If you use functions for custom props always check if the option is null. These functions are used both for options in the list and for the selected options.
 
 <DocExample title="Custom label, value and disable props" file="OptionCustomProps" />
 
 ### Customizing menu options
 
-::: warning
-The list of options is rendered using virtual scroll, so if you render more than one element for an option you must set a `q-virtual-scroll--with-prev` class on all elements except the first one.
-:::
+> [!WARNING]
+> The list of options is rendered using virtual scroll, so if you render more than one element for an option you must set a `q-virtual-scroll--with-prev` class on all elements except the first one.
 
 <DocExample title="Options slot" file="OptionSlot" />
 
@@ -145,13 +137,11 @@ The following example shows a glimpse of how you can play with lazy loading the 
 
 <DocExample title="Lazy load options" file="OptionLazyLoad" />
 
-::: tip
-While options are being loaded, the default loading spinner takes the place of the dropdown icon so the field keeps a constant width. For this reason, when `hide-dropdown-icon` is used the default spinner is not displayed at all (it would make the field's width jump); supply a `loading` slot if you still want an inline indicator in that case.
-:::
+> [!TIP]
+> While options are being loaded, the default loading spinner takes the place of the dropdown icon so the field keeps a constant width. For this reason, when `hide-dropdown-icon` is used the default spinner is not displayed at all (it would make the field's width jump); supply a `loading` slot if you still want an inline indicator in that case.
 
-::: tip
-When the model already holds a value and `map-options` is used, there is nothing to map it against until the options get loaded, so the field would display the raw value. Starting with Quasar v2.28, QSelect asks for the options on its own in this case: it calls your `@filter` handler once with an empty search string and without opening the menu, so the correct label shows up without any user interaction. The same happens when the model value arrives later (a record loaded from the server, for instance). A value that the loaded options do not contain is not requested again. Should you not want this behavior (when the parent component loads the options itself, for example), opt out with the `no-option-prefetch` prop.
-:::
+> [!TIP]
+> When the model already holds a value and `map-options` is used, there is nothing to map it against until the options get loaded, so the field would display the raw value. Starting with Quasar v2.28, QSelect asks for the options on its own in this case: it calls your `@filter` handler once with an empty search string and without opening the menu, so the correct label shows up without any user interaction. The same happens when the model value arrives later (a record loaded from the server, for instance). A value that the loaded options do not contain is not requested again. Should you not want this behavior (when the parent component loads the options itself, for example), opt out with the `no-option-prefetch` prop.
 
 You can dynamically load new options when scroll reaches the end:
 
@@ -187,9 +177,10 @@ All the attributes set on QSelect that are not in the list of props in the API w
 
 More information: [native input attributes](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input).
 
-::: tip Accessibility
-Attributes are applied to the focusable control even without `use-input`. This is particularly useful for `aria-label` or `aria-labelledby`, which set the accessible name that screen readers announce for the select (taking precedence over the name derived from the `label` prop).
-:::
+> [!TIP]
+> **Accessibility**
+>
+> Attributes are applied to the focusable control even without `use-input`. This is particularly useful for `aria-label` or `aria-labelledby`, which set the accessible name that screen readers announce for the select (taking precedence over the name derived from the `label` prop).
 
 <DocExample title="Filtering options" file="InputFilterOptions" />
 
@@ -205,11 +196,10 @@ Attributes are applied to the focusable control even without `use-input`. This i
 
 ## Create new values
 
-::: tip
-The following are just a few examples to get you started into making your own QSelect behavior. This is not exhaustive list of possibilities that QSelect offers.
-
-It makes sense to use this feature along with `use-input` prop.
-:::
+> [!TIP]
+> The following are just a few examples to get you started into making your own QSelect behavior. This is not exhaustive list of possibilities that QSelect offers.
+>
+> It makes sense to use this feature along with `use-input` prop.
 
 In order to enable the creation of new values, you need to **either specify** the `new-value-mode` prop **and/or** listen for `@new-value` event. If you use both, then the purpose of listening to `@new-value` would be only to override the `new-value-mode` in your custom scenarios.
 
@@ -264,9 +254,8 @@ The displayed value of QSelect is displayed as HTML if:
   - the `options-html` prop of QSelect is set
   - any selected option has `html` key set to `true`
 
-::: warning
-If you use `selected` or `selected-item` slots, then you are responsible for sanitization of the display value. The `display-value-html` prop will not apply.
-:::
+> [!WARNING]
+> If you use `selected` or `selected-item` slots, then you are responsible for sanitization of the display value. The `display-value-html` prop will not apply.
 
 <DocExample title="Options in HTML form" file="HtmlOptions" />
 
@@ -277,12 +266,10 @@ If you use `selected` or `selected-item` slots, then you are responsible for san
 The render performance is NOT affected much by the number of options, unless `map-options` is used on a large set.
 Notice the infinite scroll in place which renders additional options as the user scrolls through the list.
 
-::: tip
-
-- (Composition API) To get the best performance while using lots of options, do not wrap the array that you are passing in the `options` prop with ref()/computed()/reactive()/etc. This allows Vue to skip making the list "responsive" to changes.
-- (Options API) To get the best performance while using lots of options, freeze the array that you are passing in the `options` prop using `Object.freeze(items)`. This allows Vue to skip making the list "responsive" to changes.
-
-:::
+> [!TIP]
+>
+> - (Composition API) To get the best performance while using lots of options, do not wrap the array that you are passing in the `options` prop with ref()/computed()/reactive()/etc. This allows Vue to skip making the list "responsive" to changes.
+> - (Options API) To get the best performance while using lots of options, freeze the array that you are passing in the `options` prop using `Object.freeze(items)`. This allows Vue to skip making the list "responsive" to changes.
 
 <DocExample title="100k options" file="RenderPerf" />
 

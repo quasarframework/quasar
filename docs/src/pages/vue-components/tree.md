@@ -168,11 +168,10 @@ Notice (in the example below) the custom header and body slots.
 
 <DocExample title="Customizing nodes" file="SlotsCustomized" />
 
-::: warning
-Clicking or pressing `ENTER` on the custom header selects the tree item (and the custom header is blurred). Pressing `SPACE` toggles its expansion.
-
-If you don't want this to happen just wrap the content of the custom header in a `<div @click.stop @keydown.stop>` (or add the listeners to the respective component/element that is emitting them).
-:::
+> [!WARNING]
+> Clicking or pressing `ENTER` on the custom header selects the tree item (and the custom header is blurred). Pressing `SPACE` toggles its expansion.
+>
+> If you don't want this to happen just wrap the content of the custom header in a `<div @click.stop @keydown.stop>` (or add the listeners to the respective component/element that is emitting them).
 
 ### Accordion, filtering and selectable
 

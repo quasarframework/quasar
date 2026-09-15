@@ -21,9 +21,8 @@ The QCard component is intentionally lightweight and essentially a containing el
 
 ## Usage
 
-::: tip
-You can play with the typography within your cards to create beautiful cards.
-:::
+> [!TIP]
+> You can play with the typography within your cards to create beautiful cards.
 
 ### Basic
 

@@ -8,9 +8,8 @@ related:
 
 **Better SEO for your website!** The Meta plugin can dynamically change page title, manage `<meta>` tags, manage `<html>` and `<body>` DOM element attributes, add/remove/change `<style>` and `<script>` tags in the head of your document (useful for CDN stylesheets or for json-ld markup, for example), or manage `<noscript>` tags.
 
-::: tip
-Take full advantage of this feature by using it with **Quasar CLI**, especially **for the SSR (Server-Side Rendering) and SSG builds**. It may make sense to use it for SPA (Single Page Applications) too, however the meta information in this case will be added at runtime and not supplied directly by the webserver (as on SSR/SSG builds). Modern web-crawlers like the [Googlebot](https://developers.google.com/search/docs/guides/javascript-seo-basics) may render dynamic pages and extract out the dynamically set meta information.
-:::
+> [!TIP]
+> Take full advantage of this feature by using it with **Quasar CLI**, especially **for the SSR (Server-Side Rendering) and SSG builds**. It may make sense to use it for SPA (Single Page Applications) too, however the meta information in this case will be added at runtime and not supplied directly by the webserver (as on SSR/SSG builds). Modern web-crawlers like the [Googlebot](https://developers.google.com/search/docs/guides/javascript-seo-basics) may render dynamic pages and extract out the dynamically set meta information.
 
 <DocInstall plugins="Meta" />
 
@@ -18,9 +17,10 @@ Take full advantage of this feature by using it with **Quasar CLI**, especially 
 
 What the Meta plugin does is that it enables the use of a special property in your Vue components called `meta`. Take a look at the example below, with almost all of its features.
 
-::: warning Important!
-Make sure not to duplicate content that already exists in /index.html. If you want to use the Meta plugin, the recommended way is to remove the same tags from the html template. But on use-cases where you know a tag will never change and you always want it rendered, then it's better to have it only on the html template instead.
-:::
+> [!WARNING]
+> **Important!**
+>
+> Make sure not to duplicate content that already exists in /index.html. If you want to use the Meta plugin, the recommended way is to remove the same tags from the html template. But on use-cases where you know a tag will never change and you always want it rendered, then it's better to have it only on the html template instead.
 
 ### Composition API
 
@@ -95,9 +95,10 @@ export default {
 }
 ```
 
-::: warning Raw content
-The `innerHTML` property of a script entry and the content of a `noscript` entry are inserted as raw HTML. Never pass untrusted or unsanitized content to these properties. Prefer regular meta properties such as `content` for dynamic user-provided text.
-:::
+> [!WARNING]
+> **Raw content**
+>
+> The `innerHTML` property of a script entry and the content of a `noscript` entry are inserted as raw HTML. Never pass untrusted or unsanitized content to these properties. Prefer regular meta properties such as `content` for dynamic user-provided text.
 
 If you depend on the state of the component to compute the meta Object, then you can supply a Function instead of the Object itself. For more information, check the "Reactive" section on this page.
 
@@ -287,6 +288,7 @@ export default {
 
 Before you deploy, you really should make sure that your work on the meta tags is compliant. Although you could just copy and paste your link into a Discord chat, a Facebook post or a Tweet, we recommend verifying with [https://metatags.io/](https://metatags.io/).
 
-::: warning Important!
-**This test will only work for SSR/SSG builds** because SSR/SSG directly supplies the rendered HTML when accessing the webserver (as opposed to SPA or PWA which supplies an empty page then loads the code that renders the page on client's browser). Services like above (metatags.io) expect the page to be already rendered when fetching it (it does not run the JS to render it themselves).
-:::
+> [!WARNING]
+> **Important!**
+>
+> **This test will only work for SSR/SSG builds** because SSR/SSG directly supplies the rendered HTML when accessing the webserver (as opposed to SPA or PWA which supplies an empty page then loads the code that renders the page on client's browser). Services like above (metatags.io) expect the page to be already rendered when fetching it (it does not run the JS to render it themselves).

@@ -3,9 +3,10 @@ title: Hybrid SSG with partial CSR
 desc: (@quasar/app-vite) How to handle a hybrid SSG with partial CSR with Quasar CLI.
 ---
 
-::: warning Warning! Beta Stage
-The Quasar SSG Mode is currently in the "beta" stage. Based on the community feedback, the API may change in the future, so check the release notes each time you upgrade "@quasar/app-vite".
-:::
+> [!WARNING]
+> **Warning! Beta Stage**
+>
+> The Quasar SSG Mode is currently in the "beta" stage. Based on the community feedback, the API may change in the future, so check the release notes each time you upgrade "@quasar/app-vite".
 
 Hybrid SSG lets most routes use pre-rendered HTML while selected routes behave like pages in a SPA. It is useful for authenticated dashboards, account settings, or other pages whose initial content is meaningful only in the browser.
 
@@ -98,6 +99,7 @@ With the configuration above, requests for `/account/profile` and `/account/secu
 
 See [Deploying SSG](/quasar-cli-vite/developing-ssg/deploying#hybrid-ssg-partial-csr) for nginx and static-host examples.
 
-::: tip SSG + PWA
-The PWA offline shell has the same application-shell content. You may set `clientSideRenderingHtmlFilename` to the value of `pwaOfflineHtmlFilename` so both features use one file. Otherwise, the two filenames must be different.
-:::
+> [!TIP]
+> **SSG + PWA**
+>
+> The PWA offline shell has the same application-shell content. You may set `clientSideRenderingHtmlFilename` to the value of `pwaOfflineHtmlFilename` so both features use one file. Otherwise, the two filenames must be different.

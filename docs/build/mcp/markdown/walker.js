@@ -3,7 +3,7 @@
  *
  * Walks markdown-it's flat token stream and dispatches each token to a
  * registered emitter. Emitters append markdown text to the output buffer.
- * Block-level prefixes (blockquotes, container alerts) are stacked in
+ * Block-level prefixes (blockquotes, alerts) are stacked in
  * ctx.prefixStack and applied per emitted line.
  *
  * Emitters register via registerEmitter(tokenType, fn) before extract runs.
@@ -110,7 +110,7 @@ export function createCtx({
 
 /**
  * Append text to the output buffer, prepending the active prefix stack at
- * every line start so nested blockquote/container wrappers stay aligned.
+ * every line start so nested blockquote wrappers stay aligned.
  *
  * When emitting inside a table cell (ctx._cellBuf set), route to the cell
  * buffer so the table_close emitter can serialize cells as a single
@@ -178,7 +178,7 @@ export function currentPrefix(ctx) {
 }
 
 /** Alert names recognized at the start of plain `> ` blockquotes. Authors who
- * wrote `> Note that...` get the same GFM alert as the container syntax. */
+ * wrote `> Note that...` get the same GFM alert as an explicit marker. */
 const PLAIN_BLOCKQUOTE_PREFIX_RE =
   /^> (Note|Notes|Important|Warning|Caution|Tip|Tips):?\s/gm
 

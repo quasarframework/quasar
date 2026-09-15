@@ -84,9 +84,8 @@ contextBridge.exposeInMainWorld('myAPI', {
 
 Now, `loadPreferences` is available to renderer code as `window.myAPI.loadPreferences()`.
 
-::: warning
-Choose a name that does not collide with an existing `Window` property.
-:::
+> [!WARNING]
+> Choose a name that does not collide with an existing `Window` property.
 
 Handle the corresponding `load-prefs` invocation in the main process:
 

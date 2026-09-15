@@ -7,9 +7,8 @@ examples: QVideo
 
 Using the QVideo component makes embedding a video like YouTube easy. It also resizes to fit the container by default.
 
-::: tip
-You may also want to check our own HTML 5 video player component: [QMediaPlayer](https://github.com/quasarframework/quasar-ui-qmediaplayer), which is far more advanced than QVideo (which essentially is an iframe pointing to embedded YouTube videos).
-:::
+> [!TIP]
+> You may also want to check our own HTML 5 video player component: [QMediaPlayer](https://github.com/quasarframework/quasar-ui-qmediaplayer), which is far more advanced than QVideo (which essentially is an iframe pointing to embedded YouTube videos).
 
 <DocApi file="QVideo" />
 

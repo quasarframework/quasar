@@ -17,9 +17,8 @@ You can use our BEX bridge to directly communicate between the background script
 
 The use of the BEX bridge is optional for each part of the BEX, however if you want to be able to directly communicate between any bex part, then you need to create it in your background script. Under the hood, the background script acts as the main point of communication. All messages go through the bridge in the background script (and get redirected to the right recipient).
 
-::: warning
-Treat every bridge message as untrusted input, especially messages originating from a content script that interacts with arbitrary web pages. Validate the event name, sender, payload shape, URLs, and identifiers before using extension permissions or accessing stored data. Expose narrow operations instead of a generic privileged command, and request only the manifest permissions and host access your extension needs.
-:::
+> [!WARNING]
+> Treat every bridge message as untrusted input, especially messages originating from a content script that interacts with arbitrary web pages. Validate the event name, sender, payload shape, URLs, and identifiers before using extension permissions or accessing stored data. Expose narrow operations instead of a generic privileged command, and request only the manifest permissions and host access your extension needs.
 
 ## Background script lifetime <q-badge label="@quasar/app-vite v3.8.1+" />
 
@@ -31,9 +30,8 @@ With Manifest v3, the background script runs as a service worker (or as an event
 
 Bridges disconnected explicitly through `bridge.disconnectFromBackground()` opt out of the automatic reconnection.
 
-::: tip
-Any state held in your background script's memory is lost on each termination. Persist what needs to survive with `chrome.storage` instead of plain variables.
-:::
+> [!TIP]
+> Any state held in your background script's memory is lost on each termination. Persist what needs to survive with `chrome.storage` instead of plain variables.
 
 ## The Bridge
 
@@ -45,9 +43,8 @@ Let's see how it works.
 
 ### The background script
 
-::: warning
-You can have multiple background scripts specified in your manifest.json, however, create the BEX bridge ONLY in one of those background scripts. Do not use multiple bridge instances for the background part of your BEX.
-:::
+> [!WARNING]
+> You can have multiple background scripts specified in your manifest.json, however, create the BEX bridge ONLY in one of those background scripts. Do not use multiple bridge instances for the background part of your BEX.
 
 ```js
 /**
@@ -211,45 +208,46 @@ bridge.on('@quasar:ports', ({ portList, added, removed }) => {
 console.log(bridge.portName)
 ```
 
-::: warning Warning! Sending large amounts of data
-All browser extensions have a hard limit on the amount of data that can be passed as communication messages (example: 50MB). If you exceed that amount on your payload, you can send chunks (**`payload` param should be an Array**).
+> [!WARNING]
+> **Warning! Sending large amounts of data**
+>
+> All browser extensions have a hard limit on the amount of data that can be passed as communication messages (example: 50MB). If you exceed that amount on your payload, you can send chunks (**`payload` param should be an Array**).
+>
+> <br>
+>
+> ```js
+> bridge.send({
+>   event: 'some.event',
+>   to: 'app',
+>   payload: [chunk1, chunk2, ...chunkN]
+> })
+> ```
+>
+> <br>
+>
+> When calculating the payload size, have in mind that the payload is wrapped in a message built by the Bridge that contains some other properties too. That takes a few bytes as well. So your chunks' size should be with a few bytes below the browser's threshold.
 
-<br>
-
-```js
-bridge.send({
-  event: 'some.event',
-  to: 'app',
-  payload: [chunk1, chunk2, ...chunkN]
-})
-```
-
-<br>
-
-When calculating the payload size, have in mind that the payload is wrapped in a message built by the Bridge that contains some other properties too. That takes a few bytes as well. So your chunks' size should be with a few bytes below the browser's threshold.
-:::
-
-::: warning Warning! Performance on sending an Array
-Like we've seen on the warning above, if `payload` is Array then the bridge will send a message for each of the Array's elements.
-When you actually want to send an Array (not split the payload into chunks), this will be **VERY** inefficient.
-
-<br>
-
-The solution is to wrap your Array in an Object (so only one message will be sent):
-
-<br>
-
-```js
-bridge.send({
-  event: 'some.event',
-  to: 'background',
-  payload: {
-    myArray: [/*...*/]
-  }
-})
-```
-
-:::
+> [!WARNING]
+> **Warning! Performance on sending an Array**
+>
+> Like we've seen on the warning above, if `payload` is Array then the bridge will send a message for each of the Array's elements.
+> When you actually want to send an Array (not split the payload into chunks), this will be **VERY** inefficient.
+>
+> <br>
+>
+> The solution is to wrap your Array in an Object (so only one message will be sent):
+>
+> <br>
+>
+> ```js
+> bridge.send({
+>   event: 'some.event',
+>   to: 'background',
+>   payload: {
+>     myArray: [/*...*/]
+>   }
+> })
+> ```
 
 ### Bridge debug mode
 

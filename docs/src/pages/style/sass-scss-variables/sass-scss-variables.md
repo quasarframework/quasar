@@ -5,9 +5,8 @@ desc: How to use the Sass/SCSS variables defined by Quasar.
 
 There are Sass/SCSS variables built into Quasar that you can change and/or use within devland should you wish to.
 
-::: warning
-This applies to Quasar CLI managed apps only.
-:::
+> [!WARNING]
+> This applies to Quasar CLI managed apps only.
 
 ## Usage
 
@@ -30,13 +29,11 @@ In your app's `*.vue` files or in the .sass/.scss files you can use any Quasar S
 </style>
 ```
 
-::: tip
-You don't need to necessarily have the `/src/css/quasar.variables.sass` or `/src/css/quasar.variables.scss` files if you want to access the Quasar Sass/SCSS variables. Create one of them only if you want to customize the variables.
-:::
+> [!TIP]
+> You don't need to necessarily have the `/src/css/quasar.variables.sass` or `/src/css/quasar.variables.scss` files if you want to access the Quasar Sass/SCSS variables. Create one of them only if you want to customize the variables.
 
-::: danger
-When creating or deleting any of the `/src/css/quasar.variables.*` files, you will need to restart your dev server in order for it to take effect. However, when you change the content of these files it won't be necessary to also restart.
-:::
+> [!CAUTION]
+> When creating or deleting any of the `/src/css/quasar.variables.*` files, you will need to restart your dev server in order for it to take effect. However, when you change the content of these files it won't be necessary to also restart.
 
 ## Caveat
 
@@ -63,9 +60,10 @@ If you want to customize the variables (or add your own) and your project does n
 
 You can freely override any of Quasar's variables (see next section) in those files. For convenience, if you picked Sass or SCSS when you created your Quasar project folder, these files initially contain only the brand color-related variables.
 
-::: tip Performance (Quasar v2.24+ with @quasar/vite-plugin v2 / @quasar/app-vite v3.4+)
-Keep your variables file limited to variable declarations only. When it contains nothing else, Quasar injects into each style block only the variables that the block actually uses (instead of all of them), which significantly speeds up Sass compilation for both dev and production builds. If the file contains anything else (mixins, functions, `@import`/`@use` of other files), everything still works, but the faster targeted injection is automatically disabled.
-:::
+> [!TIP]
+> **Performance (Quasar v2.24+ with @quasar/vite-plugin v2 / @quasar/app-vite v3.4+)**
+>
+> Keep your variables file limited to variable declarations only. When it contains nothing else, Quasar injects into each style block only the variables that the block actually uses (instead of all of them), which significantly speeds up Sass compilation for both dev and production builds. If the file contains anything else (mixins, functions, `@import`/`@use` of other files), everything still works, but the faster targeted injection is automatically disabled.
 
 If you want more than to override a Quasar Sass variable, but to extend one, you can achieve it in the next way:
 
@@ -85,9 +83,8 @@ $new-spaces: (
 $spaces: map.merge(q.$spaces, $new-spaces);
 ```
 
-::: tip
-Quasar is very easy to customize without the need of tampering with the Sass/SCSS variables, so make sure that you really need to do that. Not having one of the two files will actually speed up your build while the default variables will still be supplied to .sass/.scss/.vue files.
-:::
+> [!TIP]
+> Quasar is very easy to customize without the need of tampering with the Sass/SCSS variables, so make sure that you really need to do that. Not having one of the two files will actually speed up your build while the default variables will still be supplied to .sass/.scss/.vue files.
 
 ## Quasar's CSS
 

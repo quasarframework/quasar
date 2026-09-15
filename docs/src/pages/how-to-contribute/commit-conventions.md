@@ -8,9 +8,8 @@ desc: Quasar commit conventions
 - Allow ignoring commits by git bisect (not important commits like formatting)
 - Provide better information when browsing the history
 
-::: warning
-This rule applies to ALL [Quasar repositories](https://github.com/quasarframework).
-:::
+> [!WARNING]
+> This rule applies to ALL [Quasar repositories](https://github.com/quasarframework).
 
 A well-cared log is a beautiful and useful thing. `git blame`, `revert`, `rebase`, `log`, `shortlog` and other subcommands come to life. Reviewing others' commits and pull requests becomes something worth doing, and suddenly can be done independently. Understanding why something happened months or years ago becomes not only possible but efficient.
 
@@ -66,11 +65,10 @@ The first line cannot be longer than 70 characters, the second line is always bl
 - Directory/package related: ui, cli, app-vite, docs, etc.
 - Feature related: api, TouchSwipe, QTime, etc.
 
-::: tip
-The `<scope>` can contain more values separated by ampersand(`&`). Example: `feat(app-vite&app-webpack): add Capacitor mode`.
-
-The `<scope>` can be empty (e.g. if the change is global), in which case the parentheses are omitted. Example: `style: use semicolons`
-:::
+> [!TIP]
+> The `<scope>` can contain more values separated by ampersand(`&`). Example: `feat(app-vite&app-webpack): add Capacitor mode`.
+>
+> The `<scope>` can be empty (e.g. if the change is global), in which case the parentheses are omitted. Example: `style: use semicolons`
 
 If the commit resolves a reported issue, append `(fix #xxxx)` (#xxxx is the issue id) to the subject - it links the issue and produces a better release log.
 

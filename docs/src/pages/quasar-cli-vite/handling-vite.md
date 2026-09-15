@@ -58,9 +58,8 @@ build: {
 
 App Extensions can (and should) configure this themselves instead of relying on the host app. See [Injecting Quasar Plugin](/app-extensions/common-formulas-and-patterns/inject-quasar-plugin).
 
-::: warning
-The dep optimizer only runs for the dev server. Production builds instead rely on Quasar's import mapping, which processes the file extensions listed in `quasar.config file > framework > autoImportScriptExtensions` (default: `['js', 'jsx', 'ts', 'tsx']`). If such a package ships its ESM build as `.mjs` files, add `'mjs'` to that list, otherwise the production bundle will contain a second copy of Quasar with the same symptoms as above.
-:::
+> [!WARNING]
+> The dep optimizer only runs for the dev server. Production builds instead rely on Quasar's import mapping, which processes the file extensions listed in `quasar.config file > framework > autoImportScriptExtensions` (default: `['js', 'jsx', 'ts', 'tsx']`). If such a package ships its ESM build as `.mjs` files, add `'mjs'` to that list, otherwise the production bundle will contain a second copy of Quasar with the same symptoms as above.
 
 ## Inspecting Vite Config
 
@@ -316,9 +315,10 @@ export default function MyBadge({ text }: { text: string }) {
 
 Quasar components are fully typed in JSX/TSX: their props, their events (`onClick`, `onUpdate:modelValue`, ...) and the props that Vue accepts on any component (`class`, `style`, `key`, `ref`).
 
-::: tip Vue sugar
-Check the Vite's specific [vue jsx plugin](#using-vitejs-plugin-vue-jsx) if you also want the Vue specific JSX sugar.
-:::
+> [!TIP]
+> **Vue sugar**
+>
+> Check the Vite's specific [vue jsx plugin](#using-vitejs-plugin-vue-jsx) if you also want the Vue specific JSX sugar.
 
 ### Configuring the JSX transformation
 
@@ -385,9 +385,10 @@ export default defineConfig(ctx => {
 })
 ```
 
-::: tip Using with TypeScript
-If you are using TypeScript, you DON'T have to also add the aliases to your `tsconfig.json` file (nor use packages like vite-tsconfig-paths). These are taken care of by the Quasar CLI by default.
-:::
+> [!TIP]
+> **Using with TypeScript**
+>
+> If you are using TypeScript, you DON'T have to also add the aliases to your `tsconfig.json` file (nor use packages like vite-tsconfig-paths). These are taken care of by the Quasar CLI by default.
 
 ## PostCSS
 

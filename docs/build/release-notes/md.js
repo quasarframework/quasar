@@ -1,7 +1,6 @@
 import markdownIt from 'markdown-it'
 
 import highlight from './highlight.js'
-import mdPluginContainers from '../md/md-plugin-containers.js'
 import mdToken from '../md/md-plugin-token.js'
 import mdBlockquote from '../md/md-plugin-blockquote.js'
 
@@ -23,7 +22,6 @@ function mdPlugins(md) {
     return self.renderToken(tokens, idx, options)
   }
 
-  mdPluginContainers(md)
   mdBlockquote(md)
 }
 

@@ -3,9 +3,10 @@ title: SEO for SSG
 desc: (@quasar/app-vite) Managing the search engine optimizations in a Quasar SSG app.
 ---
 
-::: warning Warning! Beta Stage
-The Quasar SSG Mode is currently in the "beta" stage. Based on the community feedback, the API may change in the future, so check the release notes each time you upgrade "@quasar/app-vite".
-:::
+> [!WARNING]
+> **Warning! Beta Stage**
+>
+> The Quasar SSG Mode is currently in the "beta" stage. Based on the community feedback, the API may change in the future, so check the release notes each time you upgrade "@quasar/app-vite".
 
 SSG gives crawlers rendered HTML, but each generated route still needs an accurate title, description, canonical URL, and social-sharing metadata. Use the [Quasar Meta Plugin](/quasar-plugins/meta) from the page component so those values are included during the build.
 
@@ -13,9 +14,8 @@ SSG gives crawlers rendered HTML, but each generated route still needs an accura
 
 The [Quasar Meta Plugin](/quasar-plugins/meta) can change the page title, manage `<meta>` tags, set attributes on the `<html>` and `<body>` elements, add or update `<style>` and `<script>` tags in the document head, and manage `<noscript>` tags. This includes structured data such as JSON-LD.
 
-::: tip
-The Meta Plugin is integrated with Quasar's rendering pipeline, so metadata declared while an SSG page is rendered is included in the generated HTML.
-:::
+> [!TIP]
+> The Meta Plugin is integrated with Quasar's rendering pipeline, so metadata declared while an SSG page is rendered is included in the generated HTML.
 
 For example, an article page can provide its title, description, Open Graph fields, and canonical URL:
 

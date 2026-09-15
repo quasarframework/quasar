@@ -9,13 +9,13 @@ Using `import.meta.env` can help you in many ways:
 - differentiating runtime procedure depending if running a dev or production build
 - adding flags to it based on terminal environment variables at build time
 
-::: tip Terminology on client vs backend code
-We will be using `client code` and `backend code` on this page:
-
-- The backend code refers to the /quasar.config file and the code that your client users don't have access to, like the SSR Webserver or SSR/SSG Server code.
-- The client code refers to code that is being shipped to your client, like /src, /src-pwa, /src-electron, SSR Client etc.
-
-:::
+> [!TIP]
+> **Terminology on client vs backend code**
+>
+> We will be using `client code` and `backend code` on this page:
+>
+> - The backend code refers to the /quasar.config file and the code that your client users don't have access to, like the SSR Webserver or SSR/SSG Server code.
+> - The client code refers to code that is being shipped to your client, like /src, /src-pwa, /src-electron, SSR Client etc.
 
 ## Values provided by Quasar CLI
 
@@ -166,25 +166,23 @@ export default defineConfig(ctx => {
 
 Then, in your website/app, you can access `import.meta.env.API` and it will point to one of those two links above, depending on dev or production build type. The `import.meta.env.VERSION` will also be available.
 
-::: tip
-There is a fundamental difference between `build.define` and `build.defineEnv`. The build.defineEnv is syntax sugar over build.define:
-
-- It automatically translates to build.define syntax, adding "import.meta.env." to the key prefix and JSON stringifies the value.
-- The build.define can also be used to inject non "import.meta.env" definitions. Example:
-
-<br>
-
-```js
-build: {
-  define: {
-    __APP_VERSION__: JSON.stringify('v1.0.0')
-  }
-}
-
-// then use as __APP_VERSION__ directly
-```
-
-:::
+> [!TIP]
+> There is a fundamental difference between `build.define` and `build.defineEnv`. The build.defineEnv is syntax sugar over build.define:
+>
+> - It automatically translates to build.define syntax, adding "import.meta.env." to the key prefix and JSON stringifies the value.
+> - The build.define can also be used to inject non "import.meta.env" definitions. Example:
+>
+> <br>
+>
+> ```js
+> build: {
+>   define: {
+>     __APP_VERSION__: JSON.stringify('v1.0.0')
+>   }
+> }
+>
+> // then use as __APP_VERSION__ directly
+> ```
 
 ### From command line
 
@@ -502,9 +500,8 @@ console.log(
 
 Quasar CLI takes into account process.env (terminal variables), dotenv files and /quasar.config > build.define & build.defineEnv to automatically inject the types for it. No `env.d.ts` needed in your project folder.
 
-::: tip
-You can inspect the auto-injected types from the `/.quasar/quasar.d.ts` file. This file is auto-generated, so do not manually change it as it will get overwritten on next quasar command call.
-:::
+> [!TIP]
+> You can inspect the auto-injected types from the `/.quasar/quasar.d.ts` file. This file is auto-generated, so do not manually change it as it will get overwritten on next quasar command call.
 
 However, there are cases which are not auto-handled by Quasar CLI:
 
@@ -594,9 +591,8 @@ NODE_ENV=development
 
 ### Exposing to client code
 
-::: danger
-Never put a secret in a variable exposed to client code. Prefix filtering controls which variables are embedded; it does not encrypt or hide them. API keys used by client applications must be designed as public identifiers and restricted by the provider where possible.
-:::
+> [!CAUTION]
+> Never put a secret in a variable exposed to client code. Prefix filtering controls which variables are embedded; it does not encrypt or hide them. API keys used by client applications must be designed as public identifiers and restricted by the provider where possible.
 
 For security and to make client exposure explicit, Quasar CLI excludes variables that do not start with the `QCLI_` prefix from client-side code. Backend code, such as the SSR server or SSG renderer script, receives all variables by default. You can change both prefixes through the /quasar.config file.
 

@@ -32,11 +32,10 @@ setup () {
 }
 ```
 
-::: tip
-When user hits the phone/tablet back button (only for Cordova apps), the Action Sheet will get closed automatically.
-
-Also, when on a desktop browser, hitting the `ESCAPE` key also closes the Action Sheet.
-:::
+> [!TIP]
+> When user hits the phone/tablet back button (only for Cordova apps), the Action Sheet will get closed automatically.
+>
+> Also, when on a desktop browser, hitting the `ESCAPE` key also closes the Action Sheet.
 
 Starting with Quasar v2.28, the `onCancel` callback (and `onDismiss`, when no action was picked) receives the reason for the dismissal: `backdrop`, `escape` (the ESC key) or `programmatic` (hidden through code, which includes an app route change).
 
@@ -44,6 +43,5 @@ Starting with Quasar v2.28, the `onCancel` callback (and `onDismiss`, when no ac
 
 <DocExample title="Force dark mode" file="Dark" />
 
-::: tip
-For an exhaustive list of options, please check API section.
-:::
+> [!TIP]
+> For an exhaustive list of options, please check API section.

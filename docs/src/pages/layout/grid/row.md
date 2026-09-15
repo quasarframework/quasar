@@ -61,9 +61,8 @@ Use flexbox alignment utilities to vertically and horizontally align columns.
 
 <DocExample title="Horizontal alignment" file="RowHorizontalAlignment" />
 
-::: tip
-There is also the convenience `flex-center` CSS class which is equivalent to `items-center` + `justify-center`. Use it along with `flex`, `row` or `column`.
-:::
+> [!TIP]
+> There is also the convenience `flex-center` CSS class which is equivalent to `items-center` + `justify-center`. Use it along with `flex`, `row` or `column`.
 
 ### Column wrapping
 

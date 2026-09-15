@@ -81,9 +81,8 @@ export default defineBoot(async ({ app, router, store }) => {
 
 ## When to use boot files
 
-::: warning
-Please make sure you understand what problem boot files solve and when it is appropriate to use them, to avoid applying them in cases where they are not needed.
-:::
+> [!WARNING]
+> Please make sure you understand what problem boot files solve and when it is appropriate to use them, to avoid applying them in cases where they are not needed.
 
 Boot files fulfill one special purpose: they run code **before** the App's Vue root component is instantiated while giving you access to certain variables, which is required if you need to initialize a library, interfere with Vue Router, inject Vue prototype or inject the root instance of the Vue app.
 
@@ -135,9 +134,8 @@ export default defineBoot(({/* app, router, store */}) => {
 })
 ```
 
-::: tip
-The default export can be left out of the boot file if you don't need it. These are the cases where you don't need to access the "app", "router", "store" and so on.
-:::
+> [!TIP]
+> The default export can be left out of the boot file if you don't need it. These are the cases where you don't need to access the "app", "router", "store" and so on.
 
 You can now add content to that file depending on the intended use of your boot file.
 
@@ -185,13 +183,11 @@ boot: [ctx.mode.electron ? 'some-file' : '']
 
 ### Redirecting to another page
 
-::: warning
-Please be mindful when redirecting as you might configure the app to go into an infinite redirect loop.
-:::
+> [!WARNING]
+> Please be mindful when redirecting as you might configure the app to go into an infinite redirect loop.
 
-::: warning
-Please remember to return from the function immediately after calling `redirect()`.
-:::
+> [!WARNING]
+> Please remember to return from the function immediately after calling `redirect()`.
 
 ```js
 export default defineBoot(({ urlPath, redirect }) => {
@@ -231,39 +227,39 @@ redirect({ path: '/1' }) // Vue Router location as Object
 redirect('https://quasar.dev')
 ```
 
-::: warning IMPORTANT!
-The Vue Router location (in String or Object form) does not refer to URL path (and hash), but to the actual Vue Router routes that you have defined.
-So **don't add the publicPath** to it and if you're using the Vue Router hash mode then don't add the hash to it.
-
-<br>Let's say that we have this Vue Router route defined:<br><br>
-
-```js
-{
-  path: '/one',
-  component: PageOne
-}
-```
-
-<br>Then **regardless of our publicPath** we can call `redirect()` like this:<br><br>
-
-```js
-// publicPath: /wiki; vueRouterMode: history
-redirect('/one') // good way
-redirect({ path: '/one' }) // good way
-redirect('/wiki/one') // WRONG!
-
-// publicPath: /wiki; vueRouterMode: hash
-redirect('/one') // good way
-redirect({ path: '/one' }) // good way
-redirect('/wiki/#/one') // WRONG!
-
-// no publicPath; vueRouterMode: hash
-redirect('/one') // good way
-redirect({ path: '/one' }) // good way
-redirect('/#/one') // WRONG!
-```
-
-:::
+> [!WARNING]
+> **IMPORTANT!**
+>
+> The Vue Router location (in String or Object form) does not refer to URL path (and hash), but to the actual Vue Router routes that you have defined.
+> So **don't add the publicPath** to it and if you're using the Vue Router hash mode then don't add the hash to it.
+>
+> <br>Let's say that we have this Vue Router route defined:<br><br>
+>
+> ```js
+> {
+>   path: '/one',
+>   component: PageOne
+> }
+> ```
+>
+> <br>Then **regardless of our publicPath** we can call `redirect()` like this:<br><br>
+>
+> ```js
+> // publicPath: /wiki; vueRouterMode: history
+> redirect('/one') // good way
+> redirect({ path: '/one' }) // good way
+> redirect('/wiki/one') // WRONG!
+>
+> // publicPath: /wiki; vueRouterMode: hash
+> redirect('/one') // good way
+> redirect({ path: '/one' }) // good way
+> redirect('/wiki/#/one') // WRONG!
+>
+> // no publicPath; vueRouterMode: hash
+> redirect('/one') // good way
+> redirect({ path: '/one' }) // good way
+> redirect('/#/one') // WRONG!
+> ```
 
 ### Quasar App Flow
 

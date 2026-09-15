@@ -12,9 +12,8 @@ The `useIntersection()` composable tells you whether an element is visible on sc
 
 It is the setup-code counterpart of the [Intersection directive](/vue-directives/intersection) and of the [QIntersection](/vue-components/intersection) component: all three share one Intersection Observer per configuration, so observing many elements stays cheap to scroll. Use the composable when you want the state on your component or on any element or component ref, without wrapping it in an extra DOM element.
 
-::: tip
-On the server-side of SSR or SSG modes, the composable never observes anything: `isIntersecting` stays `false` until the client takes over.
-:::
+> [!TIP]
+> On the server-side of SSR or SSG modes, the composable never observes anything: `isIntersecting` stays `false` until the client takes over.
 
 ## Syntax
 

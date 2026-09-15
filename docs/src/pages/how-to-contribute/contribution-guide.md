@@ -39,9 +39,10 @@ Apart from answering questions and sharing resources in Discussions and chat, th
 
 - [GitHub](https://github.com/quasarframework/quasar/issues): If you want to create a bug report or a docs report, that's what the GitHub issues are for. Make sure that you select the correct template and follow the given instructions while creating an issue.
 
-::: danger Reporting a vulnerability
-Please do not report security vulnerabilities with public GitHub issue reports. Follow the [Report a vulnerability](/security/report-a-vulnerability) steps for security issues.
-:::
+> [!CAUTION]
+> **Reporting a vulnerability**
+>
+> Please do not report security vulnerabilities with public GitHub issue reports. Follow the [Report a vulnerability](/security/report-a-vulnerability) steps for security issues.
 
 If you've found a problem in Quasar which is not a security risk, do a search on GitHub under [Issues](https://github.com/quasarframework/quasar/issues) to check if it is already answered or even fixed in the development branch (`dev`).
 
@@ -101,9 +102,10 @@ After checking out their branch, test it out! Here are some things to think abou
 
 Once you're happy that the pull request contains a good change, comment on the GitHub issue indicating your approval. Your comment should indicate that you like the change and what you like about it. Something like:
 
-::: tip Example pull request comment
-I like the way you've restructured the code in card.vue - much nicer. Documentation is updated too.
-:::
+> [!TIP]
+> **Example pull request comment**
+>
+> I like the way you've restructured the code in card.vue - much nicer. Documentation is updated too.
 
 If your comment simply reads "+1", then odds are that other reviewers aren't going to take it too seriously. Show that you took the time to review the pull request.
 
@@ -111,9 +113,10 @@ If your comment simply reads "+1", then odds are that other reviewers aren't goi
 
 You can help improve the Quasar documentation by making it more coherent, consistent, or readable, adding missing information, correcting factual errors, fixing typos, or bringing them up to date with the latest edge Quasar.
 
-::: tip Typos or small changes can be fixed directly from the documentation
-Use the pencil button ("Edit this page in browser") next to the title of every documentation page. Edit the source file, preview the changes, add a description of your change and hit `Propose changes`, then on the next screen `Create pull request`.
-:::
+> [!TIP]
+> **Typos or small changes can be fixed directly from the documentation**
+>
+> Use the pencil button ("Edit this page in browser") next to the title of every documentation page. Edit the source file, preview the changes, add a description of your change and hit `Propose changes`, then on the next screen `Create pull request`.
 
 For larger edits, work on the documentation source files (located [here](https://github.com/quasarframework/quasar/tree/dev/docs/src/pages) on GitHub) as described below.
 
@@ -134,9 +137,10 @@ Over time we consolidated a set of rules which we follow and following them will
 
 Navigate to the Quasar [GitHub repository](https://github.com/quasarframework/quasar) and press "Fork" in the upper right-hand corner.
 
-::: warning Select dev branch
-Make sure you have the `dev` branch selected - this is where all the work is done.
-:::
+> [!WARNING]
+> **Select dev branch**
+>
+> Make sure you have the `dev` branch selected - this is where all the work is done.
 
 #### Clone the forked repository
 

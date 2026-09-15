@@ -96,9 +96,10 @@ To enable RTL UIs in UMD you need to include the RTL equivalent CSS tag for your
 Check what tags you need to include in your HTML files by using our [UMD tag generator](/start/umd) and making sure that you tick the "RTL CSS support" checkbox.
 Also notice the `<html dir="rtl">` tag at the beginning of the generated html file -- you'll need that too.
 
-::: warning CAVEAT
-Quasar CLI automatically adds equivalent RTL CSS rules for your website/app code, but this is not the case for UMD where Quasar CLI is not being used. You'll have to manage writing the RTL equivalent of your website/app CSS code by yourself. It's only Quasar components that will have this handled automatically.
-:::
+> [!WARNING]
+> **CAVEAT**
+>
+> Quasar CLI automatically adds equivalent RTL CSS rules for your website/app code, but this is not the case for UMD where Quasar CLI is not being used. You'll have to manage writing the RTL equivalent of your website/app CSS code by yourself. It's only Quasar components that will have this handled automatically.
 
 ## How it works
 
@@ -116,9 +117,8 @@ Let's discuss about each of these requirements:
    By default, Quasar assumes that all styles are written in LTR direction and generates corresponding RTL styles for them. Should you wish to write your own css directly in RTL then you need to:
    - (Quasar CLI with Vite / Quasar Vite plugin) set `postcssRtlCss({ source: 'rtl' })` in /postcss.config.js
 
-::: tip
-Full list of [postcss-rtlcss options](https://github.com/elchininet/postcss-rtlcss#options).
-:::
+> [!TIP]
+> Full list of [postcss-rtlcss options](https://github.com/elchininet/postcss-rtlcss#options).
 
 ## Things to keep in mind
 

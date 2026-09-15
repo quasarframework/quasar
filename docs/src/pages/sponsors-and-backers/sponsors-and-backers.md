@@ -4,9 +4,10 @@ desc: The list of sponsors and backers who are donating to Quasar Framework deve
 keys: Sponsors,Backers
 ---
 
-::: tip Author of Quasar Framework
-Quasar was born because I felt that a full featured framework to build responsive websites, PWAs (Progressive Web Apps), Mobile Apps (Android, iOS) and Electron apps simultaneously (using same code-base) was missing. So I quit my job to make this idea a reality. **Razvan Stoenescu**, Mon 25th Oct 2015
-:::
+> [!TIP]
+> **Author of Quasar Framework**
+>
+> Quasar was born because I felt that a full featured framework to build responsive websites, PWAs (Progressive Web Apps), Mobile Apps (Android, iOS) and Electron apps simultaneously (using same code-base) was missing. So I quit my job to make this idea a reality. **Razvan Stoenescu**, Mon 25th Oct 2015
 
 Like most open source products, Quasar can't do it alone. We rely on _sponsors, backers and supporters_ to keep things going. When Quasar starts to bring you some financial stability, please be considerate of the tens of thousands of hours that went into its creation and send some money back to the team that made it possible. And finally, if your company relies on Quasar, the best way to guarantee that Quasar continues to be there for you is to invest in its maintenance!
 

@@ -14,21 +14,22 @@ The QDialog component is a great way to offer the user the ability to choose a s
 
 From a UI perspective, you can think of Dialogs as a type of floating modal, which covers only a portion of the screen. This means Dialogs should only be used for quick user actions, like verifying a password, getting a short App notification or selecting an option or options quickly.
 
-::: tip
-Dialogs can also be used as a globally available method for more basic use cases, like the native JS alert(), prompt(), etc. For the latter behaviour, go to [Dialog Plugin](/quasar-plugins/dialog) page.
-:::
+> [!TIP]
+> Dialogs can also be used as a globally available method for more basic use cases, like the native JS alert(), prompt(), etc. For the latter behaviour, go to [Dialog Plugin](/quasar-plugins/dialog) page.
 
-::: warning Masterclass TIP
-Rather than cluttering your .vue templates with QDialogs, it's best if you write a component for your dialog and use the [Dialog Plugin](/quasar-plugins/dialog#invoking-custom-component) to invoke it from anywhere in your app.
-:::
+> [!WARNING]
+> **Masterclass TIP**
+>
+> Rather than cluttering your .vue templates with QDialogs, it's best if you write a component for your dialog and use the [Dialog Plugin](/quasar-plugins/dialog#invoking-custom-component) to invoke it from anywhere in your app.
 
 <DocApi file="QDialog" />
 
 ## Usage
 
-::: warning Note
-It's best that your QDialog main content is a QCard. However, if you are planning on using any other component (like QForm) or tag, make sure that the direct child of QDialog is rendered with a `<div>` tag (or wrap it with one yourself).
-:::
+> [!WARNING]
+> **Note**
+>
+> It's best that your QDialog main content is a QCard. However, if you are planning on using any other component (like QForm) or tag, make sure that the direct child of QDialog is rendered with a `<div>` tag (or wrap it with one yourself).
 
 ### Basic
 
@@ -44,15 +45,15 @@ It's best that your QDialog main content is a QCard. However, if you are plannin
 
 <DocExample title="Positions" file="Positioning" />
 
-::: tip
-Do not mistake "position" prop with the show/hide animation. If you want a custom animation, you should use `transition-show` and `transition-hide` which can be applied regardless of "position" or "maximized".
-:::
+> [!TIP]
+> Do not mistake "position" prop with the show/hide animation. If you want a custom animation, you should use `transition-show` and `transition-hide` which can be applied regardless of "position" or "maximized".
 
 <DocExample title="Maximized" file="Maximized" />
 
-::: tip iOS
-On iOS the soft keyboard does not shrink the page, so a dialog (especially a bottom-anchored one) could end up under it when one of its fields gets focused. QDialog keeps itself within the visible part of the screen while the keyboard is open.
-:::
+> [!TIP]
+> **iOS**
+>
+> On iOS the soft keyboard does not shrink the page, so a dialog (especially a bottom-anchored one) could end up under it when one of its fields gets focused. QDialog keeps itself within the visible part of the screen while the keyboard is open.
 
 ### Various content
 
@@ -62,9 +63,8 @@ Dialogs can contain any content. Some examples:
 
 <DocExample title="With containerized QLayout" file="Layout" />
 
-::: tip
-If you are going to use the containerized QLayout, you'll need to put a width on your QDialog, if using left/right position, or a height, if using top/bottom position. You can use vw and vh units.
-:::
+> [!TIP]
+> If you are going to use the containerized QLayout, you'll need to put a width on your QDialog, if using left/right position, or a height, if using top/bottom position. You can use vw and vh units.
 
 ### Handling scroll
 
@@ -98,9 +98,8 @@ QDialog follows the [WAI-ARIA dialog pattern](https://www.w3.org/WAI/ARIA/apg/pa
 
 Focus is managed for you. On open, it moves into the dialog — to the first element bearing an `autofocus` (or `data-autofocus`) attribute, or to the dialog body itself when there is none. While the dialog is modal, focus that strays outside of it gets recaptured back in, and on close it returns to the element that opened the dialog. The `no-focus`, `no-refocus` and `allow-focus-outside` props opt out of each of these behaviors, should you need to manage focus yourself. <kbd>Escape</kbd> dismisses the dialog — a `persistent` dialog responds with its "shake" animation instead.
 
-::: warning
-One thing QDialog cannot do for you is provide an accessible name — by default it is announced as an unnamed dialog. Pass an `aria-label`, or better, give your title element an `id` and reference it with `aria-labelledby`; both are attributes that fall through onto the `role="dialog"` element.
-:::
+> [!WARNING]
+> One thing QDialog cannot do for you is provide an accessible name — by default it is announced as an unnamed dialog. Pass an `aria-label`, or better, give your title element an `id` and reference it with `aria-labelledby`; both are attributes that fall through onto the `role="dialog"` element.
 
 ## Cordova/Capacitor back button
 

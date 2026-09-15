@@ -45,9 +45,8 @@ If you are not customizing menu-related scoped-slots (i.e. `option` scoped slot)
 
 The `QChatMessage` component does not display content as HTML by default. But you can enable it (through the `*-html` props) in which case you should sanitize the content.
 
-::: tip
-There have been a number of recent exploits (especially for older Android and iOS devices) where certain emoji and non-standard UTF-8 actually triggered mobile device restarts and boot-screen loops. **DO** consider a devland integration of markdown parsing in a plain-text type of input field and render it to HTML on the server side before you pass it to the chat recipients.
-:::
+> [!TIP]
+> There have been a number of recent exploits (especially for older Android and iOS devices) where certain emoji and non-standard UTF-8 actually triggered mobile device restarts and boot-screen loops. **DO** consider a devland integration of markdown parsing in a plain-text type of input field and render it to HTML on the server side before you pass it to the chat recipients.
 
 ### Loading
 
@@ -187,9 +186,8 @@ A great place to read about this topic and properly choose an industrial strengt
 
 ## Distribution
 
-::: tip
-If someone wants to change something in your database or add some file to the server and they are not using an SSH key, **DO** validate **AND** sanitize the input.
-:::
+> [!TIP]
+> If someone wants to change something in your database or add some file to the server and they are not using an SSH key, **DO** validate **AND** sanitize the input.
 
 ### Web
 

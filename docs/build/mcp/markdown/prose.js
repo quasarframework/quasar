@@ -44,7 +44,7 @@ function listState(ctx) {
  * Render an inline token's children into a flat string.
  *
  * Uses a shadow context with an empty prefixStack so inline-level emit()
- * calls don't apply the outer blockquote/container prefix here. The caller
+ * calls don't apply the outer blockquote prefix here. The caller
  * emits the joined text back through the prefix-aware emit() on the real ctx.
  *
  * @param {MarkdownItToken} token
@@ -105,7 +105,7 @@ export function registerProseEmitters() {
     }
     emit(ctx, text)
     // List items keep single-line spacing. Everything else gets a blank
-    // separator line, which inside blockquotes/containers renders as a
+    // separator line, which inside blockquotes renders as a
     // `> ` line so consecutive paragraphs don't merge.
     emit(ctx, isInList ? '\n' : '\n\n')
   })

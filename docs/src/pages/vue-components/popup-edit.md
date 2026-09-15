@@ -16,9 +16,8 @@ This component injects a [QMenu](/vue-components/menu) into its parent DOM eleme
 
 ## Usage
 
-::: warning
-If used on a QTable, QPopupEdit won't work with cell scoped slots.
-:::
+> [!WARNING]
+> If used on a QTable, QPopupEdit won't work with cell scoped slots.
 
 ### Standalone
 
@@ -53,9 +52,8 @@ The default slot's parameters are:
 }
 ```
 
-::: warning
-Do not destructure the slot's parameters as it will generate linting errors when using the `value` prop directly with `v-model`.
-:::
+> [!WARNING]
+> Do not destructure the slot's parameters as it will generate linting errors when using the `value` prop directly with `v-model`.
 
 <DocExample title="Default slot parameters" file="DefaultSlotParameters" />
 
@@ -63,9 +61,8 @@ Do not destructure the slot's parameters as it will generate linting errors when
 
 Since QPopupEdit wraps QInput, you can basically use any type of QInput. For instance, you can also use a text area as shown below in the "Comments" column.
 
-::: tip
-When using a multi-line control (textarea, QEditor) for input, you'll need to also use `@keyup.enter.stop` on the component in order to stop the enter key from closing the popup. You'll also need to add buttons for controlling the popup too.
-:::
+> [!TIP]
+> When using a multi-line control (textarea, QEditor) for input, you'll need to also use `@keyup.enter.stop` on the component in order to stop the enter key from closing the popup. You'll also need to add buttons for controlling the popup too.
 
 <DocExample title="QInput textarea" file="TextArea" />
 
@@ -75,13 +72,15 @@ When using a multi-line control (textarea, QEditor) for input, you'll need to al
 
 QPopupEdit also allows for simple validation of the input. To use it, you give it a callback function in the form of an arrow function and it should return a Boolean. `(value) => Boolean`. This is **demonstrated in the "Calories" column** below.
 
-::: tip Tip 1
-Notice we are using the `hide` event to also revalidate the input. If we don't, QInput's error prop will 'hang' in an invalid state.
-:::
+> [!TIP]
+> **Tip 1**
+>
+> Notice we are using the `hide` event to also revalidate the input. If we don't, QInput's error prop will 'hang' in an invalid state.
 
-::: tip Tip 2
-With this example, we are using QInput's external error handling. We could also use QInput's validation prop and emit the value to QPopupEdit's validation prop. The same concept can be implemented, when using [Regle](https://reglejs.dev/) external validation library too. In other words, the value given to QPopupEdit's validate function can come from anywhere.
-:::
+> [!TIP]
+> **Tip 2**
+>
+> With this example, we are using QInput's external error handling. We could also use QInput's validation prop and emit the value to QPopupEdit's validation prop. The same concept can be implemented, when using [Regle](https://reglejs.dev/) external validation library too. In other words, the value given to QPopupEdit's validate function can come from anywhere.
 
 <DocExample title="Edit with validation" file="WithValidation" />
 

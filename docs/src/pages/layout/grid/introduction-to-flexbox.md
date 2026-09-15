@@ -13,9 +13,8 @@ Quasar provides lots of CSS classes to help you build your UI easily with the he
 
 Flexbox (upon which Quasar Flex CSS classes are based) module aims to provide a more efficient way to lay out, align and distribute space among items in a container, even when their size is unknown and/or dynamic (thus the word “flex”).
 
-::: tip
-This page covers the basic theory of Quasar Flex CSS classes and prepares you for the in-depth pages on [Grid Row](/layout/grid/row), [Grid Column](/layout/grid/column) and [Grid Gutter](/layout/grid/gutter).
-:::
+> [!TIP]
+> This page covers the basic theory of Quasar Flex CSS classes and prepares you for the in-depth pages on [Grid Row](/layout/grid/row), [Grid Column](/layout/grid/column) and [Grid Gutter](/layout/grid/gutter).
 
 ## Key concept
 
@@ -77,9 +76,8 @@ Also, if you want to wrap in reverse order, then `reverse-wrap` is available.
 
 ![Flexbox Items Align](/img/flexbox-cross-axis-align.svg)
 
-::: tip
-There is also the convenience `flex-center` CSS class which is equivalent to `items-center` + `justify-center`. Use it along with `flex`, `row` or `column`.
-:::
+> [!TIP]
+> There is also the convenience `flex-center` CSS class which is equivalent to `items-center` + `justify-center`. Use it along with `flex`, `row` or `column`.
 
 The next classes **align a flex container's lines** within when there is extra space in the cross-axis, similar to how horizontal-\* aligns individual items within the main-axis.
 
@@ -236,9 +234,8 @@ Also check [Visibility](/style/visibility#window-width-related) Style page to se
 When enabled, it provides breakpoint aware versions for all flex (and display) related CSS classes.
 With Quasar CLI, switch it on through `quasar.config file > framework > cssAddon: true`.
 
-::: warning
-Note that there will be a noticeable bump in CSS footprint when enabling it. So only do it if you really need it.
-:::
+> [!WARNING]
+> Note that there will be a noticeable bump in CSS footprint when enabling it. So only do it if you really need it.
 
 ```
 .flex-<bp>-(block|inline)

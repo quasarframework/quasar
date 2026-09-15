@@ -3,9 +3,10 @@ title: SSG with PWA Client Takeover
 desc: (@quasar/app-vite) How to configure your Quasar SSG app to become a Progressive Web App on the client side.
 ---
 
-::: warning Warning! Beta Stage
-The Quasar SSG Mode is currently in the "beta" stage. Based on the community feedback, the API may change in the future, so check the release notes each time you upgrade "@quasar/app-vite".
-:::
+> [!WARNING]
+> **Warning! Beta Stage**
+>
+> The Quasar SSG Mode is currently in the "beta" stage. Based on the community feedback, the API may change in the future, so check the release notes each time you upgrade "@quasar/app-vite".
 
 SSG can serve pre-rendered HTML on the first visit and then install a service worker for offline support and subsequent navigations. The following options are generated in the `ssg` section of `/quasar.config`:
 
@@ -96,8 +97,7 @@ Use `extendSSGGenerateSWOptions` with Workbox `GenerateSW`, or `extendSSGInjectM
 
 Keep in mind that the precache route is registered before the navigation fallback and before any `runtimeCaching` route, so a pre-rendered page is always answered from the precache. Making navigations go over the network means keeping the generated pages out of the precache (through `globIgnores`) in the first place.
 
-::: warning
-Deploy the entire output directory, including the service worker, manifest, icons, Workbox files, generated pages, and offline shell. Service workers also require HTTPS in production, except on localhost.
-:::
+> [!WARNING]
+> Deploy the entire output directory, including the service worker, manifest, icons, Workbox files, generated pages, and offline shell. Service workers also require HTTPS in production, except on localhost.
 
 > For more information on PWA, head on to [PWA Introduction](/quasar-cli-vite/developing-pwa/introduction) and read the whole PWA Guide section.

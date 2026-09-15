@@ -9,6 +9,5 @@ Server-rendered content helps crawlers read each route, but effective search opt
 
 The [Quasar Meta Plugin](/quasar-plugins/meta) can dynamically change page title, manage `<meta>` tags, manage `<html>` and `<body>` DOM element attributes, add/remove/change `<style>` and `<script>` tags in the head of your document (useful for CDN stylesheets or for json-ld markup, for example), or manage `<noscript>` tags.
 
-::: tip
-The Meta Plugin integrates with Quasar SSR so metadata collected while rendering is included in the server response and then managed on the client after hydration.
-:::
+> [!TIP]
+> The Meta Plugin integrates with Quasar SSR so metadata collected while rendering is included in the server response and then managed on the client after hydration.

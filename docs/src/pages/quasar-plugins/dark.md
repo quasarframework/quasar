@@ -7,9 +7,8 @@ related:
   - /style/theme-builder
 ---
 
-::: tip
-For a better understanding of this Quasar plugin, please head to the Style & Identity [Dark Mode](/style/dark-mode) page.
-:::
+> [!TIP]
+> For a better understanding of this Quasar plugin, please head to the Style & Identity [Dark Mode](/style/dark-mode) page.
 
 <DocApi file="Dark" />
 
@@ -17,9 +16,8 @@ For a better understanding of this Quasar plugin, please head to the Style & Ide
 
 ## Usage
 
-::: warning
-Do not manually assign a value to `isActive` or `mode` from below. Instead, use the `set(val)` method.
-:::
+> [!WARNING]
+> Do not manually assign a value to `isActive` or `mode` from below. Instead, use the `set(val)` method.
 
 ### Inside of a Vue file
 

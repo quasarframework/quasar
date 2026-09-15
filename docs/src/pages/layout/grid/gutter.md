@@ -17,15 +17,13 @@ Gutter Quasar CSS classes offer an easy way to space out elements (especially in
 
 There are two main types of gutters depending on your use-case: `q-gutter-{size}` and `q-col-gutter-{size}`. The first is to be used when the elements that you want to distance one from each other don't use `col-*` or `offset-*` classes that specify a width, and the latter is to be used when they do have `col-*` or `offset-*` classes specifying a width.
 
-::: tip
-Suffixes (`-none`, `-xs`, `-sm`, `-md`, `-lg`, `-xl`) do not refer to device screen size, but to the size of gutter between elements.
-:::
+> [!TIP]
+> Suffixes (`-none`, `-xs`, `-sm`, `-md`, `-lg`, `-xl`) do not refer to device screen size, but to the size of gutter between elements.
 
 ## Classes "q-gutter-{size}"
 
-::: warning
-The `q-gutter-*` classes apply a **negative top and left margins** to the parent and a **positive top and left margins** to the children. Take this into account when working with the other [Spacing classes](/style/spacing) so as to not to break the gutter's css.
-:::
+> [!WARNING]
+> The `q-gutter-*` classes apply a **negative top and left margins** to the parent and a **positive top and left margins** to the children. Take this into account when working with the other [Spacing classes](/style/spacing) so as to not to break the gutter's css.
 
 These classes are to be used when the direct children don't have `col-*` or `offset-*` classes specifying a width.
 
@@ -41,9 +39,8 @@ There's also the `q-gutter-none` class (equivalent to: no gutter applied) which 
 
 ## Classes "q-col-gutter-{size}"
 
-::: warning
-The `q-col-gutter-*` classes apply a **negative top and left margins** to the parent and a **positive top and left paddings** to the children. Take this into account when working with the other [Spacing classes](/style/spacing) so as to not to break the gutter's css.
-:::
+> [!WARNING]
+> The `q-col-gutter-*` classes apply a **negative top and left margins** to the parent and a **positive top and left paddings** to the children. Take this into account when working with the other [Spacing classes](/style/spacing) so as to not to break the gutter's css.
 
 These classes are to be used when the direct children have `col-*` or `offset-*` classes that specify a width.
 
@@ -59,27 +56,23 @@ These classes are to be used when the direct children have `col-*` or `offset-*`
 
 Both set of classes have pros and cons.
 
-::: warning
-Because both `q-gutter-*` and `q-col-gutter-*` classes apply a **negative top and left margins** to the parent you should not apply styling targeting background, margin or border related properties on the parent.
-
-Instead you need to wrap them in a container, apply the styling on the container, and add `overflow-auto` or `row` class **on the container**
-:::
+> [!WARNING]
+> Because both `q-gutter-*` and `q-col-gutter-*` classes apply a **negative top and left margins** to the parent you should not apply styling targeting background, margin or border related properties on the parent.
+>
+> Instead you need to wrap them in a container, apply the styling on the container, and add `overflow-auto` or `row` class **on the container**
 
 <DocExample title="Parent styling" file="ParentStyling" />
 
-::: tip
-The `q-gutter-*` classes **do not change** the internal dimensions of the children, so you can use `background` or `border` directly on children.
-:::
+> [!TIP]
+> The `q-gutter-*` classes **do not change** the internal dimensions of the children, so you can use `background` or `border` directly on children.
 
-::: warning
-The `q-col-gutter-*` classes **do change** the external dimensions of the children, so you cannot use `col-*` or `offset-*` classes specifying a width on children anymore.
-:::
+> [!WARNING]
+> The `q-col-gutter-*` classes **do change** the external dimensions of the children, so you cannot use `col-*` or `offset-*` classes specifying a width on children anymore.
 
 <DocExample title="Children size compare" file="ChildrenSizeCompare" />
 
-::: warning
-Because `q-col-gutter-*` classes apply a **negative top and left padding** to the children you should not apply styling targeting background, padding or border related properties on the children. Instead you need to put the styled element inside the child and apply the styling on that element.
-:::
+> [!WARNING]
+> Because `q-col-gutter-*` classes apply a **negative top and left padding** to the children you should not apply styling targeting background, padding or border related properties on the children. Instead you need to put the styled element inside the child and apply the styling on that element.
 
 <DocExample title="Children styling" file="ChildrenStyling" />
 

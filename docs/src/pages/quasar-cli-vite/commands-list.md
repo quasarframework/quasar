@@ -94,9 +94,10 @@ $ quasar upgrade -h
     --help, -h        Displays this message
 ```
 
-::: warning Note for code editor terminals
-If you're using a code editor terminal instead of the real one, you run `quasar upgrade` and get an error _Command not found_ or _@quasar/cli_ version appears to be _undefined_, you will need to go to the settings of your code editor terminal and untick the option (or its equivalent) _Add 'node_modules/.bin' from the project root to %PATH%_ then restart your code editor.
-:::
+> [!WARNING]
+> **Note for code editor terminals**
+>
+> If you're using a code editor terminal instead of the real one, you run `quasar upgrade` and get an error _Command not found_ or _@quasar/cli_ version appears to be _undefined_, you will need to go to the settings of your code editor terminal and untick the option (or its equivalent) _Add 'node_modules/.bin' from the project root to %PATH%_ then restart your code editor.
 
 ## Info
 
@@ -297,9 +298,8 @@ quasar clean
 
 Generates Components, Pages, Layouts, Pinia Store.
 
-::: tip
-This command is simply a helper in order to quickly scaffold a page/layout/component/pinia store module. You are not required to use it, but can help you when you don't know how to start.
-:::
+> [!TIP]
+> This command is simply a helper in order to quickly scaffold a page/layout/component/pinia store module. You are not required to use it, but can help you when you don't know how to start.
 
 ```
 $ quasar new -h
@@ -647,9 +647,8 @@ $ quasar serve -h
 }
 ```
 
-::: warning
-`quasar serve` binds to `0.0.0.0` by default, which can make it reachable from other devices on the network. Use `--hostname localhost` for local-only testing. Enable `--cors` or a proxy only when required, and do not use this convenience server to expose sensitive files or services.
-:::
+> [!WARNING]
+> `quasar serve` binds to `0.0.0.0` by default, which can make it reachable from other devices on the network. Use `--hostname localhost` for local-only testing. Enable `--cors` or a proxy only when required, and do not use this convenience server to expose sensitive files or services.
 
 ### Custom Node.js server
 

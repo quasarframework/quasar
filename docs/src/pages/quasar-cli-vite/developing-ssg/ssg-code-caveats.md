@@ -5,9 +5,10 @@ related:
   - /vue-composables/use-hydration
 ---
 
-::: warning Warning! Beta Stage
-The Quasar SSG Mode is currently in the "beta" stage. Based on the community feedback, the API may change in the future, so check the release notes each time you upgrade "@quasar/app-vite".
-:::
+> [!WARNING]
+> **Warning! Beta Stage**
+>
+> The Quasar SSG Mode is currently in the "beta" stage. Based on the community feedback, the API may change in the future, so check the release notes each time you upgrade "@quasar/app-vite".
 
 An SSG app uses the SSR rendering pipeline at build time. The same principles apply: [write universal code](/quasar-cli-vite/developing-ssr/writing-universal-code), use the [ssrContext](/quasar-cli-vite/developing-ssr/ssr-context) only while rendering, and keep the first client render compatible with the generated HTML to avoid [hydration errors](/quasar-cli-vite/developing-ssr/client-side-hydration).
 

@@ -3,9 +3,10 @@ title: SSG 404 Error Page
 desc: (@quasar/app-vite) How to render a 404 error page for SSG mode with Quasar CLI.
 ---
 
-::: warning Warning! Beta Stage
-The Quasar SSG Mode is currently in the "beta" stage. Based on the community feedback, the API may change in the future, so check the release notes each time you upgrade "@quasar/app-vite".
-:::
+> [!WARNING]
+> **Warning! Beta Stage**
+>
+> The Quasar SSG Mode is currently in the "beta" stage. Based on the community feedback, the API may change in the future, so check the release notes each time you upgrade "@quasar/app-vite".
 
 By default, a production SSG build renders the app's Vue Router not-found route and writes it to `dist/ssg/404.html`.
 

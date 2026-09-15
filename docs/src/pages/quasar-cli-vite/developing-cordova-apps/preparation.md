@@ -37,9 +37,8 @@ export PATH="$PATH:$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform
 
 On macOS, the SDK is usually under `$HOME/Library/Android/sdk`. On Windows, it is commonly under `%LOCALAPPDATA%\Android\Sdk`.
 
-::: tip
-`ANDROID_SDK_ROOT` is deprecated. If an older tool still requires it, set it to the same location as `ANDROID_HOME`.
-:::
+> [!TIP]
+> `ANDROID_SDK_ROOT` is deprecated. If an older tool still requires it, set it to the same location as `ANDROID_HOME`.
 
 Accept the installed SDK licenses and verify the toolchain:
 

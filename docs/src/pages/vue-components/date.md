@@ -11,25 +11,22 @@ related:
 
 The QDate component provides a method to input date. Currently it supports Gregorian (default) and Persian calendars.
 
-::: tip
-For handling date and/or time, also check out [Quasar Date Utils](/quasar-utils/date-utils).
-:::
+> [!TIP]
+> For handling date and/or time, also check out [Quasar Date Utils](/quasar-utils/date-utils).
 
 <DocApi file="QDate" />
 
 ## Usage
 
-::: warning
-Notice that the actual date(s) of the model are all in String format.
-:::
+> [!WARNING]
+> Notice that the actual date(s) of the model are all in String format.
 
 ### Basic
 
 <DocExample title="Basic" file="Basic" overflow />
 
-::: tip
-For landscape mode, you can use it along with `$q.screen` to make QDate responsive. Example: `:landscape="$q.screen.gt.xs"`. More info: [Quasar Screen Plugin](/options/screen-plugin).
-:::
+> [!TIP]
+> For landscape mode, you can use it along with `$q.screen` to make QDate responsive. Example: `:landscape="$q.screen.gt.xs"`. More info: [Quasar Screen Plugin](/options/screen-plugin).
 
 <DocExample title="Landscape" file="Landscape" overflow />
 
@@ -51,17 +48,15 @@ Clicking on an already selected day will deselect it.
 
 Notice in the examples below that the model is an Object (single selection) or an Array of Objects (multiple selection).
 
-::: tip TIPS
+> [!TIP]
+> **TIPS**
+>
+> - Clicking on an already selected day will deselect it.
+> - The user's current editing range can also be set programmatic through the `setEditingRange` method (check the API card).
+> - There are two useful events in regards to the current editing range: `range-start` and `range-end` (check the API card).
 
-- Clicking on an already selected day will deselect it.
-- The user's current editing range can also be set programmatic through the `setEditingRange` method (check the API card).
-- There are two useful events in regards to the current editing range: `range-start` and `range-end` (check the API card).
-
-:::
-
-::: warning
-The `range` property is only partially compatible with the `options` prop: selected ranges might also include "unselectable" days.
-:::
+> [!WARNING]
+> The `range` property is only partially compatible with the `options` prop: selected ranges might also include "unselectable" days.
 
 <DocExample title="Single Range" file="SelectionRange" overflow />
 
@@ -103,13 +98,15 @@ The default model mask is `YYYY/MM/DD`, however you can use custom ones too.
 
 The `mask` prop tokens can be found at [Quasar Utils > Date utils](/quasar-utils/date-utils#format-for-display).
 
-::: warning Note on SSR/SSG
-Using `x` or `X` (timestamps) in the mask may cause hydration errors on the client, because decoding the model String must be done with `new Date()` which takes into account the local timezone. As a result, if the server is in a different timezone than the client, then the rendered output of the server will differ than the one on the client so hydration will fail.
-:::
+> [!WARNING]
+> **Note on SSR/SSG**
+>
+> Using `x` or `X` (timestamps) in the mask may cause hydration errors on the client, because decoding the model String must be done with `new Date()` which takes into account the local timezone. As a result, if the server is in a different timezone than the client, then the rendered output of the server will differ than the one on the client so hydration will fail.
 
-::: danger Note on persian calendar
-When using the persian calendar, the mask for QDate is forced to `YYYY/MM/DD`.
-:::
+> [!CAUTION]
+> **Note on persian calendar**
+>
+> When using the persian calendar, the mask for QDate is forced to `YYYY/MM/DD`.
 
 <DocExample title="Simple mask" file="MaskSimple" overflow />
 
@@ -121,9 +118,8 @@ Using the mask to connect a QDate and [QTime](/vue-components/time) to the same 
 
 <DocExample title="QDate and QTime on same model" file="MaskDateTime" overflow />
 
-::: tip
-If you want to programmatically set the value of QDate, you can do so by just re-assigning the value that you pass. However, the updated value needs to be a string in the same format as your mask. Eg. in the case your mask is `'dddd, MMM D, YYYY'`, passing `'2019/04/28'` as value won't work, you would need to pass `'Sunday, Apr 28, 2019'` instead.
-:::
+> [!TIP]
+> If you want to programmatically set the value of QDate, you can do so by just re-assigning the value that you pass. However, the updated value needs to be a string in the same format as your mask. Eg. in the case your mask is `'dddd, MMM D, YYYY'`, passing `'2019/04/28'` as value won't work, you would need to pass `'Sunday, Apr 28, 2019'` instead.
 
 ### Custom ad-hoc locale
 
@@ -141,9 +137,8 @@ If, for some reason, you need to use a custom ad-hoc locale rather than the curr
 
 The first example is using an array and the second example is using a function.
 
-::: tip
-The `events` array entries, as well as the String supplied to the function form, are always in `YYYY/MM/DD` format, regardless of the `mask` in use (the mask only shapes the model value). If you keep your event dates in another format, use the function form and convert before comparing.
-:::
+> [!TIP]
+> The `events` array entries, as well as the String supplied to the function form, are always in `YYYY/MM/DD` format, regardless of the `mask` in use (the mask only shapes the model value). If you keep your event dates in another format, use the function form and convert before comparing.
 
 <DocExample title="Events" file="Events" overflow />
 
@@ -155,9 +150,8 @@ The `events` array entries, as well as the String supplied to the function form,
 - Alternatively, for a more in-depth way of limiting options, you can also supply a function (second and third example below) to `options-fn` prop.
 - The `options` array entries, as well as the String supplied to the function form, are always in `YYYY/MM/DD` format, regardless of the `mask` in use.
 
-::: warning
-The `options` property is only partially compatible with the `range` prop. Ranges might contain "unselectable" days.
-:::
+> [!WARNING]
+> The `options` property is only partially compatible with the `range` prop. Ranges might contain "unselectable" days.
 
 <DocExample title="Options" file="Options" overflow />
 
@@ -200,13 +194,11 @@ More info: [QInput](/vue-components/input).
 
 You have to set `calendar` to `persian` to use this feature.
 
-::: tip
-You can couple this with a Quasar [language pack](/options/quasar-language-packs) such as Persian (Farsi, `fa-IR`) to have the QDate strings translated too, for the full experience.
-:::
+> [!TIP]
+> You can couple this with a Quasar [language pack](/options/quasar-language-packs) such as Persian (Farsi, `fa-IR`) to have the QDate strings translated too, for the full experience.
 
-::: warning
-When using the persian calendar, the mask for QDate is forced to `YYYY/MM/DD`.
-:::
+> [!WARNING]
+> When using the persian calendar, the mask for QDate is forced to `YYYY/MM/DD`.
 
 <DocExample title="Persian calendar" file="Persian" overflow />
 

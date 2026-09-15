@@ -15,9 +15,8 @@ Furthermore you can [add support by yourself](/vue-components/icon#custom-mappin
 
 There are multiple types of icons in Quasar: webfont-based, svg-based and image-based. You are not bound to using only one type in your website/app.
 
-::: tip
-Related pages: [Installing Icon Libraries](/options/installing-icon-libraries) and [Quasar Icon Sets](/options/quasar-icon-sets).
-:::
+> [!TIP]
+> Related pages: [Installing Icon Libraries](/options/installing-icon-libraries) and [Quasar Icon Sets](/options/quasar-icon-sets).
 
 <DocApi file="QIcon" />
 
@@ -37,9 +36,8 @@ For `icon` properties on different Quasar components you won't have the means to
 
 ## Webfont icons
 
-::: warning
-If you are using webfont-based icons, make sure that you [installed the icon library](/options/installing-icon-libraries) that you are using, otherwise it won't show up!
-:::
+> [!WARNING]
+> If you are using webfont-based icons, make sure that you [installed the icon library](/options/installing-icon-libraries) that you are using, otherwise it won't show up!
 
 ### Webfont usage
 
@@ -109,9 +107,10 @@ For reusable, runtime-configurable variations, scope CSS custom properties to th
 
 CSS custom properties allow per-icon changes, state changes, and runtime theming. Sass variables can instead be used when you only need fixed, project-wide values at build time.
 
-::: warning SVG icon sets
-Variable font axes apply only to Material Symbols webfonts. The Material Symbols SVG exports from `@quasar/extras` contain static paths and cannot be changed with `font-variation-settings`.
-:::
+> [!WARNING]
+> **SVG icon sets**
+>
+> Variable font axes apply only to Material Symbols webfonts. The Material Symbols SVG exports from `@quasar/extras` contain static paths and cannot be changed with `font-variation-settings`.
 
 ### Naming convention
 
@@ -192,9 +191,8 @@ to vary fill or weight, and the SVG form when you need the smaller footprint.
 
 Notice that we are using `:` to bind variables instead of plain values, it's important. We must make those variables available to the template. The way to do that depends on your Vue API preference:
 
-::: tip
-If you are only using svg icons (and have configured a [Quasar Icon Set](/options/quasar-icon-sets)) then you don't need the webfont equivalent in your app at all.
-:::
+> [!TIP]
+> If you are only using svg icons (and have configured a [Quasar Icon Set](/options/quasar-icon-sets)) then you don't need the webfont equivalent in your app at all.
 
 | Vendor                             | Quasar IconSet name           | Import Icons from                        | Requirements           |
 | ---------------------------------- | ----------------------------- | ---------------------------------------- | ---------------------- |

@@ -118,8 +118,7 @@ scope:
 
 This is the structure of a project with all modes installed. There's no reason to be intimidated though!
 
-::: tip
-If you are a beginner, all you'll need to care about is the `/quasar.config` file (Quasar App Config file), `/src/router`, `/src/layouts`, `/src/pages` and optionally `/src/assets`.
-:::
+> [!TIP]
+> If you are a beginner, all you'll need to care about is the `/quasar.config` file (Quasar App Config file), `/src/router`, `/src/layouts`, `/src/pages` and optionally `/src/assets`.
 
 <DocTree :def="scope.tree" />

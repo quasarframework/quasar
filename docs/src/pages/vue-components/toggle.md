@@ -12,9 +12,8 @@ related:
 
 The QToggle component is another basic element for user input. You can use this for turning settings, features or true/false inputs on and off.
 
-::: tip
-Please also refer to the [QOptionGroup](/vue-components/option-group) on other possibilities for creating groups of Checkboxes.
-:::
+> [!TIP]
+> Please also refer to the [QOptionGroup](/vue-components/option-group) on other possibilities for creating groups of Checkboxes.
 
 <DocApi file="QToggle" />
 
@@ -83,9 +82,8 @@ Apart from the standard sizes below, you can define your own through the `size` 
 
 ### With QOptionGroup
 
-::: tip
-You can also use [QOptionGroup](/vue-components/option-group), which simplifies the usage when you have groups of toggles, like in example below.
-:::
+> [!TIP]
+> You can also use [QOptionGroup](/vue-components/option-group), which simplifies the usage when you have groups of toggles, like in example below.
 
 <DocExample title="Usage with QOptionGroup" file="OptionGroup" />
 

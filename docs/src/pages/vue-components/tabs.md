@@ -14,9 +14,8 @@ Tabs are a way of displaying more information using less window real estate. Thi
 
 One common use case for this component is in Layout’s header/footer. Please refer to [Layouts](/layout/layout) and [Header & Footer](/layout/header-and-footer#example--tabs--playing-with-qtabs) for references.
 
-::: tip
-Works great along with [QTabPanels](/vue-components/tab-panels), a component which refers strictly to the panels (tab content) themselves.
-:::
+> [!TIP]
+> Works great along with [QTabPanels](/vue-components/tab-panels), a component which refers strictly to the panels (tab content) themselves.
 
 <DocApi file="QTabs" />
 
@@ -26,18 +25,16 @@ Works great along with [QTabPanels](/vue-components/tab-panels), a component whi
 
 ## Usage
 
-::: tip TIPS
+> [!TIP]
+> **TIPS**
+>
+> - QTabs can be scrolled horizontally when the width is longer than the container width. Adjust your browser accordingly to see this in action.
+> - On a desktop you will see chevrons on either side that can be clicked. The tabs also follow a scroll gesture along their axis, like a horizontal trackpad swipe or a tilt of the mouse wheel.
+> - On a mobile, you can pan the tabs with your finger.
+> - If you want to force arrows to be visible on mobile use `mobile-arrows` prop.
 
-- QTabs can be scrolled horizontally when the width is longer than the container width. Adjust your browser accordingly to see this in action.
-- On a desktop you will see chevrons on either side that can be clicked. The tabs also follow a scroll gesture along their axis, like a horizontal trackpad swipe or a tilt of the mouse wheel.
-- On a mobile, you can pan the tabs with your finger.
-- If you want to force arrows to be visible on mobile use `mobile-arrows` prop.
-
-:::
-
-::: warning
-QRouteTab won't and cannot work with the UMD version if you don't also install Vue Router.
-:::
+> [!WARNING]
+> QRouteTab won't and cannot work with the UMD version if you don't also install Vue Router.
 
 ### Basic
 
@@ -113,9 +110,8 @@ Notice we need to specify the `shrink` prop. By default, QTabs tries to expand t
 
 ### Along with QTabsPanel
 
-::: tip
-QTabPanels can be used as standalone too. They do not depend on the presence of a QTabs. Also, they can be placed anywhere within a page, not just near a QTabs.
-:::
+> [!TIP]
+> QTabPanels can be used as standalone too. They do not depend on the presence of a QTabs. Also, they can be placed anywhere within a page, not just near a QTabs.
 
 <DocExample title="Tabs with tab panels" file="TabsWithTabpanels" />
 
@@ -133,9 +129,8 @@ This component inherits everything from QTab, however it also has `router-link` 
 </q-tabs>
 ```
 
-::: warning
-When using QTabs with QRouteTab, it is not recommended to also use a v-model (though you still can), because the source of truth for the current active tab is determined by the current route instead of the v-model. Each QRouteTab becomes "active" depending on your app's route and not due to the v-model. So the initial value of v-model or changing the v-model directly will not also change the route of your app.
-:::
+> [!WARNING]
+> When using QTabs with QRouteTab, it is not recommended to also use a v-model (though you still can), because the source of truth for the current active tab is determined by the current route instead of the v-model. Each QRouteTab becomes "active" depending on your app's route and not due to the v-model. So the initial value of v-model or changing the v-model directly will not also change the route of your app.
 
 ### Matching QRouteTab to current route
 
@@ -155,9 +150,8 @@ The `exact` configured QRouteTabs always win over loose-matching (non-exact) one
 
 ### Handling custom navigation
 
-::: tip
-Please refer to the QRouteTab API card at the top of the page for a more in-depth description of the `@click` event being used below.
-:::
+> [!TIP]
+> Please refer to the QRouteTab API card at the top of the page for a more in-depth description of the `@click` event being used below.
 
 ```html
 <template>

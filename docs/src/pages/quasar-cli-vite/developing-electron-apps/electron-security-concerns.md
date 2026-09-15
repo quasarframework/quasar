@@ -106,9 +106,8 @@ Use the operating system's credential storage or a well-reviewed secure-storage 
 
 See Electron's [code-signing guide](https://www.electronjs.org/docs/latest/tutorial/code-signing) and the selected packager's signing configuration for platform-specific requirements.
 
-::: warning
-Hiding DevTools is not a security boundary. Assume users can inspect and modify renderer code and keep all privileged authorization and validation in the main process.
-:::
+> [!WARNING]
+> Hiding DevTools is not a security boundary. Assume users can inspect and modify renderer code and keep all privileged authorization and validation in the main process.
 
 ### Publish checksums
 

@@ -156,6 +156,21 @@ export function clearTagHandlers() {
 }
 
 /**
+ * A raw HTML block only ends at a blank line, so the markdown after it must
+ * not touch it: block-level pass-through HTML gets its blank line here.
+ *
+ * @param {string} html
+ * @param {'block'|'inline'} contextKey
+ * @returns {string}
+ */
+function asBlock(html, contextKey) {
+  if (contextKey !== 'block') {
+    return html
+  }
+  return html.endsWith('\n') ? html + '\n' : html + '\n\n'
+}
+
+/**
  * Look up the tag, run the matching handler, or fall back to inline-tags.
  * Records a warning whenever no path produces output.
  *
@@ -176,7 +191,7 @@ function dispatch(token, ctx, contextKey) {
   // closes of stripped/handled/component tags drop like their opens.
   if (closingSlash) {
     if (STANDARD_HTML_TAGS.has(tag.toLowerCase())) {
-      emit(ctx, token.content)
+      emit(ctx, asBlock(token.content, contextKey))
     }
     return
   }
@@ -229,7 +244,7 @@ function dispatch(token, ctx, contextKey) {
         `Vue component <${leaked[1]}> leaked through raw HTML in ${ctx.sourcePath}`
       )
     }
-    emit(ctx, cleaned)
+    emit(ctx, asBlock(cleaned, contextKey))
     return
   }
 

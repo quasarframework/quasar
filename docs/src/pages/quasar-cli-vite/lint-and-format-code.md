@@ -489,9 +489,8 @@ export default defineConfigWithVueTs(
 
 ### Performance and ignoring files
 
-::: warning
-Please be sure to ignore unused files to increase performance. If you lint unused files/folders the UX will degrade significantly.
-:::
+> [!WARNING]
+> Please be sure to ignore unused files to increase performance. If you lint unused files/folders the UX will degrade significantly.
 
 You can ignore files by editing your `/eslint.config.js` file:
 

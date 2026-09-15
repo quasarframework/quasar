@@ -33,13 +33,11 @@ Run `quasar prepare` in the root of your project folder.
 
 Now you can start using TypeScript into your project. Note that some IDEs might require a restart for the new setup to fully kick in.
 
-::: tip
-Remember that you must change the extension of your JavaScript files to `.ts` to be allowed to write TypeScript code inside them. To use TypeScript in Vue files, you must update the script tag to include the `lang="ts"` attribute, like `<script lang="ts">` or `<script setup lang="ts">`
-:::
+> [!TIP]
+> Remember that you must change the extension of your JavaScript files to `.ts` to be allowed to write TypeScript code inside them. To use TypeScript in Vue files, you must update the script tag to include the `lang="ts"` attribute, like `<script lang="ts">` or `<script setup lang="ts">`
 
-::: warning
-If you forget to add the `tsconfig.json` file, the application will break at compile time!
-:::
+> [!WARNING]
+> If you forget to add the `tsconfig.json` file, the application will break at compile time!
 
 ## Linting setup
 
@@ -137,9 +135,10 @@ For reviewing purposes, here is an example of the generated tsconfig (non strict
 }
 ```
 
-::: tip @quasar/app-vite v3.8+
-Writing components with TSX only requires enabling [quasar.config file > build > vueJsx](/quasar-cli-vite/handling-vite#jsx-tsx). The CLI then adds the `jsx` and `jsxImportSource` compiler options to the generated tsconfig for you.
-:::
+> [!TIP]
+> **@quasar/app-vite v3.8+**
+>
+> Writing components with TSX only requires enabling [quasar.config file > build > vueJsx](/quasar-cli-vite/handling-vite#jsx-tsx). The CLI then adds the `jsx` and `jsxImportSource` compiler options to the generated tsconfig for you.
 
 Properly running typechecking and linting requires the `.quasar/tsconfig.json` to be present. The file will be auto-generated when running "quasar dev" or "quasar build" commands. But, as a lightweight alternative, there is the CLI command "quasar prepare" that will generate the .quasar/tsconfig.json file and some types files. It is especially useful for CI/CD pipelines.
 

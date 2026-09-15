@@ -8,13 +8,11 @@
  */
 
 import markdownIt from 'markdown-it'
-import { registerAllParsing, sharedMdOptions } from '../../md/md-rules.js'
+import { sharedMdOptions } from '../../md/md-rules.js'
 
 /**
  * @returns {import('markdown-it')} configured markdown-it instance
  */
 export function createAiMd() {
-  const md = markdownIt({ ...sharedMdOptions, typographer: false })
-  registerAllParsing(md)
-  return md
+  return markdownIt({ ...sharedMdOptions, typographer: false })
 }

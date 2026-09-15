@@ -32,9 +32,8 @@ List Items have the following pre-built child components:
 
 <DocExample title="Basic" file="Basic" />
 
-::: tip
-A QItem with a `@click` listener is clickable by default (v2.29+): it gets the hover effects, keyboard activation and its `click` event without the `clickable` prop. Set `clickable` explicitly only when there is no listener (a `v-close-popup` entry, for example) or when you need to toggle the behavior through a boolean; an explicit `clickable="false"` wins over the listener.
-:::
+> [!TIP]
+> A QItem with a `@click` listener is clickable by default (v2.29+): it gets the hover effects, keyboard activation and its `click` event without the `clickable` prop. Set `clickable` explicitly only when there is no listener (a `v-close-popup` entry, for example) or when you need to toggle the behavior through a boolean; an explicit `clickable="false"` wins over the listener.
 
 <DocExample title="Force dark mode" file="Dark" />
 
@@ -46,9 +45,8 @@ A QItem with a `@click` listener is clickable by default (v2.29+): it gets the h
 
 <DocExample title="Right avatar/thumbnail QItemSection" file="AvatarRight" />
 
-::: tip
-When you have multi-line items, you could use `top` property on QItemSection side/avatar to align the sections to top, overriding default middle alignment.
-:::
+> [!TIP]
+> When you have multi-line items, you could use `top` property on QItemSection side/avatar to align the sections to top, overriding default middle alignment.
 
 <DocExample title="Side QItemSection" file="SideSection" />
 
@@ -58,9 +56,8 @@ When you have multi-line items, you could use `top` property on QItemSection sid
 
 ### QItemLabel
 
-::: warning
-Notice you can handle label overflow with `lines` prop, telling it how many lines it can span. However, this feature uses Webkit specific CSS so won't work in IE/Edge.
-:::
+> [!WARNING]
+> Notice you can handle label overflow with `lines` prop, telling it how many lines it can span. However, this feature uses Webkit specific CSS so won't work in IE/Edge.
 
 <DocExample title="ItemLabel" file="ItemLabel" />
 
@@ -78,9 +75,8 @@ For demoing purposes in the example below, we're using the `active` prop instead
 
 <DocExample title="Menu" file="ExampleMenu" />
 
-::: tip
-For more complex menus, consider also using [QExpansionItem](/vue-components/expansion-item).
-:::
+> [!TIP]
+> For more complex menus, consider also using [QExpansionItem](/vue-components/expansion-item).
 
 ### Connecting to Vue Router
 
@@ -111,6 +107,5 @@ QList exposes itself with the [WAI-ARIA `list` role](https://www.w3.org/TR/wai-a
 
 This keeps the produced markup valid: ARIA's `list` may only own `listitem` children (which in turn require a list parent, so a standalone QItem claims no role), while `menu`/`menubar` may only own `menuitem`-type entries — declaring the role once on the QList is enough, as in the "Basic" example of [QMenu's Accessibility section](/vue-components/menu#accessibility). The `role` prop on QItem overrides the derived role for a single item (e.g. `menuitemcheckbox`/`menuitemradio` for toggle entries — managing `aria-checked` is then up to you).
 
-::: warning
-A list made up of only interactive items has no valid claim to the `list` role — such a container owns no `listitem` children. Declare what it actually is: `role="menu"` if it pops up as a list of commands, or `role="none"` to keep the items (announced as buttons/links) without list semantics.
-:::
+> [!WARNING]
+> A list made up of only interactive items has no valid claim to the `list` role — such a container owns no `listitem` children. Declare what it actually is: `role="menu"` if it pops up as a list of commands, or `role="none"` to keep the items (announced as buttons/links) without list semantics.

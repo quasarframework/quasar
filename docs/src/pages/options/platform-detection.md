@@ -6,9 +6,8 @@ examples: Platform
 
 Helpers are built into Quasar to detect the Platform (and its capabilities) within the context of which the code is running.
 
-::: tip
-Based on your needs, you might also want to check the [Style & Identity &gt; Visibility](/style/visibility) page to see how you can achieve the same effect using CSS alone. This latter method will render your DOM elements or components regardless of platform though, so choose wisely on how you want to handle the performance of your app.
-:::
+> [!TIP]
+> Based on your needs, you might also want to check the [Style & Identity &gt; Visibility](/style/visibility) page to see how you can achieve the same effect using CSS alone. This latter method will render your DOM elements or components regardless of platform though, so choose wisely on how you want to handle the performance of your app.
 
 <DocApi file="Platform" />
 
@@ -98,9 +97,8 @@ The following properties are available to the Platform object. It's not an exhau
 | `Platform.has.touch`              | Boolean | Is the code running on a touch capable screen?                                  |
 | `Platform.within.iframe`          | Boolean | Is the app running within an IFRAME?                                            |
 
-::: tip
-Running on mobile means you can have this code running on a mobile device (phone or tablet) but with a browser, not within a Cordova wrapper.
-:::
+> [!TIP]
+> Running on mobile means you can have this code running on a mobile device (phone or tablet) but with a browser, not within a Cordova wrapper.
 
 ## Note about SSR/SSG
 

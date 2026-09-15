@@ -20,9 +20,8 @@ Notice we are using an object for the selection, which holds values for both the
 
 ### Standard
 
-::: warning
-You are responsible for accommodating the space around QRange so that the label and marker labels won't overlap the other content on your page. You can use CSS margin or padding for this purpose.
-:::
+> [!WARNING]
+> You are responsible for accommodating the space around QRange so that the label and marker labels won't overlap the other content on your page. You can use CSS margin or padding for this purpose.
 
 <DocExample title="Standard" file="Standard" />
 
@@ -78,9 +77,10 @@ The example below is better highlighting how QRange handles label positioning so
 
 <DocExample title="Marker labels" file="MarkerLabels" />
 
-::: tip TIP on slots
-In order to use the marker label slots (see below), you must enable them by using the `marker-labels` prop.
-:::
+> [!TIP]
+> **TIP on slots**
+>
+> In order to use the marker label slots (see below), you must enable them by using the `marker-labels` prop.
 
 <DocExample title="Marker label slots" file="MarkerLabelSlots" />
 

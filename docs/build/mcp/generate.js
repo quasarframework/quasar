@@ -35,7 +35,6 @@ import matter from 'gray-matter'
 import { createAiMd } from './markdown/md.js'
 import { clearEmitters, createCtx, emitTokens } from './markdown/walker.js'
 import { registerProseEmitters } from './markdown/prose.js'
-import { registerContainerEmitters } from './markdown/containers.js'
 import { registerTabsEmitter } from './markdown/tabs.js'
 import {
   clearTagHandlers,
@@ -138,7 +137,6 @@ function registerAllEmitters({
   clearEmitters()
   clearTagHandlers()
   registerProseEmitters()
-  registerContainerEmitters()
   registerTabsEmitter()
   registerHtmlDispatchers()
 

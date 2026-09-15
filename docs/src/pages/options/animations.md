@@ -35,29 +35,25 @@ If you are building a website, you can also skip configuring the quasar.config f
 </head>
 ```
 
-::: warning
-It should be noted that when you import Animate.css through the `<link>` tag, all animation CSS classes must be prefixed with `animate__`. This is a breaking change in the migration of Animate.css from v3 to v4. If you want to avoid using prefixes, you can import the [compat version](https://animate.style/#migration).
-<br><br>
-However, if you're using the **Quasar CLI**, no additional changes are needed.
-:::
+> [!WARNING]
+> It should be noted that when you import Animate.css through the `<link>` tag, all animation CSS classes must be prefixed with `animate__`. This is a breaking change in the migration of Animate.css from v3 to v4. If you want to avoid using prefixes, you can import the [compat version](https://animate.style/#migration).
+> <br><br>
+> However, if you're using the **Quasar CLI**, no additional changes are needed.
 
-::: warning
-**Windows Developers**
-If you're developing on Windows and the animations don't appear to be working, it's likely an OS level setting that's to blame.
-Try changing **Visual Effects** to **Adjust for Best Appearance**.
-
-1. Right click `My Computer` and select `Properties`
-2. Click `Advanced System Settings`
-3. Click the `Settings` button under `Performance`
-4. Under the `Visual Effects` tab, change the radio option to: `Adjust for Best Appearance`
-
-:::
+> [!WARNING]
+> **Windows Developers**
+> If you're developing on Windows and the animations don't appear to be working, it's likely an OS level setting that's to blame.
+> Try changing **Visual Effects** to **Adjust for Best Appearance**.
+>
+> 1. Right click `My Computer` and select `Properties`
+> 2. Click `Advanced System Settings`
+> 3. Click the `Settings` button under `Performance`
+> 4. Under the `Visual Effects` tab, change the radio option to: `Adjust for Best Appearance`
 
 ## Usage
 
-::: warning
-Notice the string `animated` in front of the actual animation class name.
-:::
+> [!WARNING]
+> Notice the string `animated` in front of the actual animation class name.
 
 ```html Example with wrapping only one DOM element / component
 <transition
@@ -74,7 +70,8 @@ Notice the string `animated` in front of the actual animation class name.
 
 Quasar also provides some built-in classes to animate the active state between both enter and leave transitions. The animations provided are separated into three groups (click on them to expand):
 
-::: details General classes
+<details>
+<summary>General classes</summary>
 
 ```
 bounce
@@ -94,9 +91,10 @@ tada
 wobble
 ```
 
-:::
+</details>
 
-::: details "In" classes
+<details>
+<summary>"In" classes</summary>
 
 ```
 backInDown
@@ -143,9 +141,10 @@ zoomInRight
 zoomInUp
 ```
 
-:::
+</details>
 
-::: details "Out" classes
+<details>
+<summary>"Out" classes</summary>
 
 ```
 backOutDown
@@ -191,7 +190,7 @@ zoomOutRight
 zoomOutUp
 ```
 
-:::
+</details>
 
 You can also go to the [official Vue documention](https://vuejs.org/guide/built-ins/transition.html#custom-transition-classes) for more information about the use of these classes.
 
@@ -199,7 +198,8 @@ You can also go to the [official Vue documention](https://vuejs.org/guide/built-
 
 There are additional classes which delay or repeat or change the speed of the animations (click to expand):
 
-::: details Modifier classes
+<details>
+<summary>Modifier classes</summary>
 
 ```js
 repeat
@@ -213,7 +213,7 @@ fast
 faster
 ```
 
-:::
+</details>
 
 Example:
 

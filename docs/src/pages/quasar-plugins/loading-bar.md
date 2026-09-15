@@ -18,9 +18,8 @@ For a demo, please visit the QAjaxBar documentation page.
 
 LoadingBar options are same as when configuring a [QAjaxBar](/vue-components/ajax-bar).
 
-::: warning
-When using the UMD version of Quasar, all components, directives and plugins are installed by default. This includes LoadingBar. Should you wish to disable it, specify `loadingBar: { skipHijack: true }` (which turns off listening to Ajax traffic).
-:::
+> [!WARNING]
+> When using the UMD version of Quasar, all components, directives and plugins are installed by default. This includes LoadingBar. Should you wish to disable it, specify `loadingBar: { skipHijack: true }` (which turns off listening to Ajax traffic).
 
 ## Usage
 

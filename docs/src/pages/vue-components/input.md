@@ -11,9 +11,8 @@ The QInput component is used to capture text input from the user. It uses `v-mod
 
 ## Design
 
-::: warning
-For your QInput you can use only one of the main designs (`filled`, `outlined`, `standout`, `borderless`). You cannot use multiple as they are self-exclusive.
-:::
+> [!WARNING]
+> For your QInput you can use only one of the main designs (`filled`, `outlined`, `standout`, `borderless`). You cannot use multiple as they are self-exclusive.
 
 <DocExample title="Design Overview" file="DesignOverview" />
 
@@ -84,15 +83,13 @@ As a helper, you can use `clearable` prop so user can reset model to `null` thro
 
 The following QInputs make use of the `type` prop in order to render native equivalent `<input type="...">` inside of them.
 
-::: warning
-Support and behavior is the subject entirely of the browser rendering the page and not Quasar's core code.
-:::
+> [!WARNING]
+> Support and behavior is the subject entirely of the browser rendering the page and not Quasar's core code.
 
 <DocExample title="Input types" file="InputTypes" />
 
-::: tip
-Some input types (like `date` or `time`) always render some controls, so you if you're using a `label` then you might want to set it along with `stack-label`, otherwise the label will overlap native browser controls.
-:::
+> [!TIP]
+> Some input types (like `date` or `time`) always render some controls, so you if you're using a `label` then you might want to set it along with `stack-label`, otherwise the label will overlap native browser controls.
 
 #### Input of number type
 
@@ -102,13 +99,13 @@ You'll be using `v-model.number` (notice the `number` modifier) along with `type
 
 #### Input of file type
 
-::: tip ALTERNATIVES
-**Instead of using a QInput with `type="file"`, you might want to use [QFile](/vue-components/file) picker instead or even [QUploader](/vue-components/uploader)**. However, should you wish to use QInput, please read the warning below.
-:::
+> [!TIP]
+> **ALTERNATIVES**
+>
+> **Instead of using a QInput with `type="file"`, you might want to use [QFile](/vue-components/file) picker instead or even [QUploader](/vue-components/uploader)**. However, should you wish to use QInput, please read the warning below.
 
-::: warning
-Do NOT use a `v-model` when QInput is of `type="file"`. Browser security policy does not allow a value to be set to such an input. As a result, you can only read it (attach an `@update:model-value` event), but not write it.
-:::
+> [!WARNING]
+> Do NOT use a `v-model` when QInput is of `type="file"`. Browser security policy does not allow a value to be set to such an input. As a result, you can only read it (attach an `@update:model-value` event), but not write it.
 
 <DocExample title="Input of file type" file="InputTypeFile" />
 
@@ -130,11 +127,10 @@ When you need QInput to grow along with its content, then use the `autogrow` pro
 
 Using the `label` slot you can customize the aspect of the label or add special features as `QTooltip`.
 
-::: tip
-Do not forget to set the `label-slot` property.
-
-If you want to interact with the content of the label (QTooltip) add the `all-pointer-events` class on the element in the slot.
-:::
+> [!TIP]
+> Do not forget to set the `label-slot` property.
+>
+> If you want to interact with the content of the label (QTooltip) add the `all-pointer-events` class on the element in the slot.
 
 <DocExample title="Custom label" file="CustomLabel" />
 
@@ -144,9 +140,8 @@ If you want to interact with the content of the label (QTooltip) add the `all-po
 
 ### Slots with QBtn type "submit"
 
-::: warning
-When placing a QBtn with type "submit" in one of the "before", "after", "prepend", or "append" slots of a QField, QInput or QSelect, you should also add a `@click` listener on the QBtn in question. This listener should call the method that submits your form. All "click" events in such slots are not propagated to their parent elements.
-:::
+> [!WARNING]
+> When placing a QBtn with type "submit" in one of the "before", "after", "prepend", or "append" slots of a QField, QInput or QSelect, you should also add a `@click` listener on the QBtn in question. This listener should call the method that submits your form. All "click" events in such slots are not propagated to their parent elements.
 
 ### Debouncing model
 
@@ -168,13 +163,13 @@ Use the `v-model.lazy` modifier when the model should be updated only after the 
 
 You can force/help the user to input a specific format with help from `mask` prop.
 
-::: warning
-Mask is only available if the `type` is one of 'text' (default), 'search', 'url', 'tel', or 'password'.
-:::
+> [!WARNING]
+> Mask is only available if the `type` is one of 'text' (default), 'search', 'url', 'tel', or 'password'.
 
-::: warning Interaction with `maxlength`
-A mask already caps input at its own slots, so you should not combine it with the `maxlength` prop. The native `maxlength` counts the whole displayed value, literals and fill characters included, so anything below the full masked length blocks typing too early. With `fill-mask` the displayed value always has the mask's full length, so such a `maxlength` locks the field entirely.
-:::
+> [!WARNING]
+> **Interaction with `maxlength`**
+>
+> A mask already caps input at its own slots, so you should not combine it with the `maxlength` prop. The native `maxlength` counts the whole displayed value, literals and fill characters included, so anything below the full masked length blocks typing too early. With `fill-mask` the displayed value always has the mask's full length, so such a `maxlength` locks the field entirely.
 
 Below are the default mask tokens. To add your own, see the next section.
 
@@ -309,9 +304,8 @@ moneyFormatForComponent: {
 
 You can validate QInput components with `:rules` prop. Specify array of embedded rules or your own validators. Your custom validator will be a function which returns `true` if validator succeeds or `String` with error message if it doesn't succeed.
 
-::: tip
-By default, for perf reasons, a change in the rules does not trigger a new validation until the model changes. In order to trigger the validation when rules change too, then use `reactive-rules` Boolean prop. The downside is a performance penalty (so use it when you really need this only!) and it can be slightly mitigated by using a computed prop as value for the rules (and not specify them inline in the vue template).
-:::
+> [!TIP]
+> By default, for perf reasons, a change in the rules does not trigger a new validation until the model changes. In order to trigger the validation when rules change too, then use `reactive-rules` Boolean prop. The downside is a performance penalty (so use it when you really need this only!) and it can be slightly mitigated by using a computed prop as value for the rules (and not specify them inline in the vue template).
 
 This is so you can write convenient rules of shape like:
 
@@ -329,9 +323,10 @@ You can reset the validation by calling `resetValidation()` method on the QInput
 
 There are **helpers** for QInput `rules` prop: [full list](https://github.com/quasarframework/quasar/blob/dev/ui/src/utils/patterns/patterns.js). You can use these for convenience (examples: "date", "time", "hexColor", "rgbOrRgbaColor", "anyColor") or write the string specifying your custom needs.
 
-::: warning Native constraints are separate from rules
-Native HTML constraints (a `type` like "email" or "url", or a `pattern`/`required` attribute passed through to the native input) are enforced by the browser only on a native form submission. The programmatic `validate()` method (on QInput or on a wrapping QForm) evaluates the `rules` only and does not consult them. Express any constraint that `validate()` should catch as a rule too, e.g. `:rules="['email']"`.
-:::
+> [!WARNING]
+> **Native constraints are separate from rules**
+>
+> Native HTML constraints (a `type` like "email" or "url", or a `pattern`/`required` attribute passed through to the native input) are enforced by the browser only on a native form submission. The programmatic `validate()` method (on QInput or on a wrapping QForm) evaluates the `rules` only and does not consult them. Express any constraint that `validate()` should catch as a rule too, e.g. `:rules="['email']"`.
 
 <DocExample title="Validation required" file="ValidationRequired" />
 
@@ -347,9 +342,8 @@ If you set `lazy-rules`, validation triggers when the field loses focus (a `read
 
 Rules can be async too, by using async/await or by directly returning a Promise. If the value changes or the field gets blurred while an async validation is still in flight, the field re-validates once it settles, so the displayed verdict always matches the current value.
 
-::: tip
-Consider coupling async rules with `debounce` prop to avoid calling the async rules immediately on each keystroke, which might be detrimental to performance.
-:::
+> [!TIP]
+> Consider coupling async rules with `debounce` prop to avoid calling the async rules immediately on each keystroke, which might be detrimental to performance.
 
 <DocExample title="Async rules" file="ValidationAsync" />
 
@@ -357,9 +351,8 @@ Consider coupling async rules with `debounce` prop to avoid calling the async ru
 
 You can also use external validation and only pass `error` and `error-message` (enable `bottom-slots` to display this error message).
 
-::: tip
-Depending on your needs, you might connect [Regle](https://reglejs.dev/) (our recommended approach) or some other validation library to QInput.
-:::
+> [!TIP]
+> Depending on your needs, you might connect [Regle](https://reglejs.dev/) (our recommended approach) or some other validation library to QInput.
 
 <DocExample title="External" file="ValidationExternal" />
 

@@ -13,9 +13,8 @@ In most mobile apps and even some desktop apps, you will most likely have some A
 
 QAjaxBar is a component which displays a loading bar (like Youtube) whenever an Ajax call (regardless of Ajax library used) is in progress. It can be manually triggered as well.
 
-::: tip
-If you'd like **a simpler and more convenient way** to offer an Ajax Bar to your users, have a look at the [Loading Bar Plugin](/quasar-plugins/loading-bar), which is actually **the recommended way**.
-:::
+> [!TIP]
+> If you'd like **a simpler and more convenient way** to offer an Ajax Bar to your users, have a look at the [Loading Bar Plugin](/quasar-plugins/loading-bar), which is actually **the recommended way**.
 
 <DocApi file="QAjaxBar" />
 

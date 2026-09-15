@@ -25,9 +25,8 @@ The default wait time is 600ms, but you can change it:
 
 <DocExample title="Custom wait time" file="CustomTimer" />
 
-::: tip
-TouchHold also has a default sensitivity of 5px for touch events and 7px for mouse events, which means that it allows a slight movement of the finger or mouse without aborting, improving the user experience.
-:::
+> [!TIP]
+> TouchHold also has a default sensitivity of 5px for touch events and 7px for mouse events, which means that it allows a slight movement of the finger or mouse without aborting, improving the user experience.
 
 However, you can change this sensitivity too (notice the directive argument below - `600:12:15` - 600ms wait time, 12px sensitivity for touch events, 15px sensitivity for mouse events):
 

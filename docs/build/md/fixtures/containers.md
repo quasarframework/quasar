@@ -5,28 +5,31 @@ desc: Exercises all four custom containers, default and custom titles.
 
 ## Containers
 
-::: tip
-Default title, with a [link](/start/quick-start) and `code` inside.
-:::
+> [!TIP]
+> Default title, with a [link](/start/quick-start) and `code` inside.
 
-::: tip Custom Tip Title
-Body under a custom title.
-:::
+> [!TIP]
+> **Custom Tip Title**
+>
+> Body under a custom title.
 
-::: warning
-Warning body.
-:::
+> [!WARNING]
+> Warning body.
 
-::: danger
-Danger renders with the WARNING default title.
-:::
+> [!CAUTION]
+> Danger renders with the WARNING default title.
 
-::: details
+<details>
+<summary>Details</summary>
+
 Collapsed content under the default summary.
-:::
 
-::: details Full example
+</details>
+
+<details>
+<summary>Full example</summary>
 
 - list item inside details
 - another item
-  :::
+
+</details>

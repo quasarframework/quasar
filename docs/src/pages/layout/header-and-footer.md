@@ -26,9 +26,8 @@ Scaffold your layout(s) by clicking on the button below.
 
 ## Usage
 
-::: tip
-Since the header and footer needs a layout and QLayout by default manages the entire window, then for demoing purposes we are going to use containerized QLayouts. But remember that by no means you are required to use containerized QLayouts for QHeader or QFooter.
-:::
+> [!TIP]
+> Since the header and footer needs a layout and QLayout by default manages the entire window, then for demoing purposes we are going to use containerized QLayouts. But remember that by no means you are required to use containerized QLayouts for QHeader or QFooter.
 
 <DocExample title="Basic" file="Basic" />
 

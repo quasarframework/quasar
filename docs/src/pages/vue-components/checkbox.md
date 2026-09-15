@@ -12,9 +12,8 @@ related:
 
 The QCheckbox component is another basic element for user input. You can use this to supply a way for the user to toggle an option.
 
-::: tip
-Please also refer to the [QOptionGroup](/vue-components/option-group) on other possibilities for creating groups of Checkboxes.
-:::
+> [!TIP]
+> Please also refer to the [QOptionGroup](/vue-components/option-group) on other possibilities for creating groups of Checkboxes.
 
 <DocApi file="QCheckbox" />
 
@@ -79,9 +78,8 @@ Toggling order is:
 
 ### With QOptionGroup
 
-::: tip
-You can also use [QOptionGroup](/vue-components/option-group), which simplifies the usage when you have groups of checkboxes, like in example below.
-:::
+> [!TIP]
+> You can also use [QOptionGroup](/vue-components/option-group), which simplifies the usage when you have groups of checkboxes, like in example below.
 
 <DocExample title="Usage with QOptionGroup" file="OptionGroup" />
 

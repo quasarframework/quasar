@@ -12,13 +12,11 @@ quasar dev -m pwa
 quasar dev --mode pwa
 ```
 
-::: warning
-The development server uses a bare minimum Service Worker precaching only the public folder. Working offline will not be available.
-:::
+> [!WARNING]
+> The development server uses a bare minimum Service Worker precaching only the public folder. Working offline will not be available.
 
-::: danger
-Do not run [Lighthouse](https://developers.google.com/web/tools/lighthouse/) on your development build because at this stage the code is intentionally not optimized and contains embedded source maps (among many other things).
-:::
+> [!CAUTION]
+> Do not run [Lighthouse](https://developers.google.com/web/tools/lighthouse/) on your development build because at this stage the code is intentionally not optimized and contains embedded source maps (among many other things).
 
 ## Building for Production
 

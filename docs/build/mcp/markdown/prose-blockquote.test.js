@@ -33,3 +33,13 @@ test('multi-paragraph blockquote keeps a quoted separator line', () => {
   const output = render('> para one\n>\n> para two')
   expect(output).toBe('> para one\n> \n> para two\n\n')
 })
+
+test('GitHub alert with a bold title passes through as written', () => {
+  const output = render('> [!WARNING]\n> **Beta stage**\n>\n> May change.\n')
+  expect(output).toBe('> [!WARNING]\n> **Beta stage**\n> \n> May change.\n\n')
+})
+
+test('a redundant `> **TIP**` line right after `> [!TIP]` is dropped', () => {
+  const output = render('> [!TIP]\n> **TIP**\n>\n> Do the thing.\n')
+  expect(output).toBe('> [!TIP]\n> \n> Do the thing.\n\n')
+})

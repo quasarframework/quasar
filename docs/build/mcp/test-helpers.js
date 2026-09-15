@@ -6,7 +6,6 @@
 import { createAiMd } from './markdown/md.js'
 import { clearEmitters, createCtx, emitTokens } from './markdown/walker.js'
 import { registerProseEmitters } from './markdown/prose.js'
-import { registerContainerEmitters } from './markdown/containers.js'
 
 function renderTokens(src, ctxOptions) {
   const md = createAiMd()
@@ -19,11 +18,4 @@ export function renderProse(src, ctxOptions = {}) {
   clearEmitters()
   registerProseEmitters()
   return renderTokens(src, ctxOptions)
-}
-
-export function renderProseWithContainers(src) {
-  clearEmitters()
-  registerProseEmitters()
-  registerContainerEmitters()
-  return renderTokens(src)
 }

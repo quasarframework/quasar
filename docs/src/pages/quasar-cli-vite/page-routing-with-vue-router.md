@@ -34,9 +34,8 @@ You'll notice that your Quasar project contains a `/src/router` folder. This hol
 - "/src/router/index.js" holds the Vue Router initialization code
 - "/src/router/routes.js" holds the routes of your website/app
 
-::: warning
-Quasar documentation assumes you are already familiar with [Vue Router](https://github.com/vuejs/vue-router). Below it's described only the basics of how to make use of it in a Quasar CLI project. For the full list of its features please visit the [Vue Router documentation](https://router.vuejs.org/).
-:::
+> [!WARNING]
+> Quasar documentation assumes you are already familiar with [Vue Router](https://github.com/vuejs/vue-router). Below it's described only the basics of how to make use of it in a Quasar CLI project. For the full list of its features please visit the [Vue Router documentation](https://router.vuejs.org/).
 
 ## Basic Usage
 
@@ -63,9 +62,8 @@ export default defineRouter(({ store /*, ssrContext */ }) => {
 })
 ```
 
-::: tip
-If you are developing a SSR/SSG app, then you can check out the [ssrContext](/quasar-cli-vite/developing-ssr/ssr-context) Object that gets supplied server-side.
-:::
+> [!TIP]
+> If you are developing a SSR/SSG app, then you can check out the [ssrContext](/quasar-cli-vite/developing-ssr/ssr-context) Object that gets supplied server-side.
 
 ## Filename-Based Routing <q-badge label="Vue Router v5+" />
 

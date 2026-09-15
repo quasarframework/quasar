@@ -13,24 +13,23 @@ A Quasar Language Pack refers to the internationalization of Quasar's own compon
 
 <DocInstall title="Configuration" config="lang" />
 
-::: warning
-It should be noted that what is described below is the internationalization of Quasar components only. If you need to internationalize your own components, read [App Internationalization](/options/app-internationalization) documentation page.
-:::
+> [!WARNING]
+> It should be noted that what is described below is the internationalization of Quasar components only. If you need to internationalize your own components, read [App Internationalization](/options/app-internationalization) documentation page.
 
 As mentioned above, some Quasar components have their own labels. When it comes to internationalization, one option is to configure labels through the label properties on each instance of Quasar components (like QTable). This is how you can customize the text to match the selected language. This however, takes time and adds unnecessary complexity to your website/app. **Instead**, you can use the Quasar Language Packs which have a number of standard label definitions translated for you, like "Cancel", "Clear", "Select", "Update", etc. No need to translate these again! And it comes out of the box.
 
-::: tip
-For a complete list of available Quasar Languages, check [Quasar Languages on GitHub](https://github.com/quasarframework/quasar/tree/dev/ui/lang).
-<br><br>**If your desired language is not on that list**, then feel free to submit a PR to add it. It takes from 5 to 10 minutes at most. We kindly welcome any language!
-:::
+> [!TIP]
+> For a complete list of available Quasar Languages, check [Quasar Languages on GitHub](https://github.com/quasarframework/quasar/tree/dev/ui/lang).
+> <br><br>**If your desired language is not on that list**, then feel free to submit a PR to add it. It takes from 5 to 10 minutes at most. We kindly welcome any language!
 
 ## Configuring the default Language Pack
 
 Unless configured otherwise (see below), Quasar uses the `en-US` Language Pack by default.
 
-::: warning Legacy language-pack names
-Use `ckb`, `my`, and `sr-Cyrl` for Central Kurdish, Burmese, and Serbian Cyrillic respectively. The old `kur-CKB`, `mm`, and `sr-CYR` import paths remain available in Quasar v2 as deprecated aliases, but each pack now reports its standards-compliant language tag through `isoName`.
-:::
+> [!WARNING]
+> **Legacy language-pack names**
+>
+> Use `ckb`, `my`, and `sr-Cyrl` for Central Kurdish, Burmese, and Serbian Cyrillic respectively. The old `kur-CKB`, `mm`, and `sr-CYR` import paths remain available in Quasar v2 as deprecated aliases, but each pack now reports its standards-compliant language tag through `isoName`.
 
 ### Hardcoded
 
@@ -63,9 +62,8 @@ app.use(Quasar, {
 </script>
 ```
 
-::: tip
-For **Quasar UMD**, check what tags you may still need to include in your HTML files on [UMD / Standalone](/start/umd) page.
-:::
+> [!TIP]
+> For **Quasar UMD**, check what tags you may still need to include in your HTML files on [UMD / Standalone](/start/umd) page.
 
 ### Dynamical (non-SSR/SSG)
 

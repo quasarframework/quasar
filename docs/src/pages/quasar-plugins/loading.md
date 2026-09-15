@@ -82,9 +82,8 @@ Loading.hide()
 
 ### Multiple groups in parallel
 
-::: tip
-When you have multiple processes that occur in parallel then you can group Loading instances so that you can manage the Loading state per group (individually).
-:::
+> [!TIP]
+> When you have multiple processes that occur in parallel then you can group Loading instances so that you can manage the Loading state per group (individually).
 
 Specify the `group` property when spawning each of your Loading instances and you can update or hide them by using the returned function.
 
@@ -133,9 +132,8 @@ Loading.show({
 Loading.hide('my-group')
 ```
 
-::: warning
-Please remember that calling `Loading.hide()` with no parameters will hide all the groups. So if you use groups, you may want to always call the hide() method with a group name.
-:::
+> [!WARNING]
+> Please remember that calling `Loading.hide()` with no parameters will hide all the groups. So if you use groups, you may want to always call the hide() method with a group name.
 
 ### Setting Up Defaults
 

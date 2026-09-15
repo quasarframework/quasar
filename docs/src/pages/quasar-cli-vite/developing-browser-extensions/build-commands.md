@@ -122,9 +122,8 @@ You will be instructed which is the output folder. Normally, it's `/dist/bex-chr
 
 <DocTree :def="scope.prodTree" />
 
-::: tip
-If you want to test out the `your-project-name.zip` file, you can do this by dragging the file into the same place you load the Extension in development mode; for Chrome `chrome://extensions` and Firefox `about:debugging`. See the development screenshots above for more information.
-:::
+> [!TIP]
+> If you want to test out the `your-project-name.zip` file, you can do this by dragging the file into the same place you load the Extension in development mode; for Chrome `chrome://extensions` and Firefox `about:debugging`. See the development screenshots above for more information.
 
 ### Minification
 
@@ -138,6 +137,5 @@ Since Quasar removes the burden of building and packaging your Browser Extension
 
 **Firefox** - [Publishing a Firefox Add On (Browser Extension)](https://extensionworkshop.com/documentation/publish/)
 
-::: tip
-BEX mode should be compatible with all chromium based browsers. Please refer to their relative documentation on publishing extensions.
-:::
+> [!TIP]
+> BEX mode should be compatible with all chromium based browsers. Please refer to their relative documentation on publishing extensions.

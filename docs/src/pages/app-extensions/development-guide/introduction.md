@@ -66,13 +66,11 @@ If your App Extension needs packages at runtime, install them in the `/ae` folde
 
 For example, if you are creating a UI component that depends on a package named `my-table`, run `pnpm add my-table` from the `/ae` folder.
 
-::: warning
-Never install packages that are supplied by Quasar CLI as dependencies of your extension. Use `api.compatibleWith()` to require a compatible version without installing a second copy.
-:::
+> [!WARNING]
+> Never install packages that are supplied by Quasar CLI as dependencies of your extension. Use `api.compatibleWith()` to require a compatible version without installing a second copy.
 
-::: tip
-If your App Extension's own code imports from the `quasar` package (a Quasar Plugin like Notify, a utility, etc.), also read [Injecting Quasar Plugin](/app-extensions/common-formulas-and-patterns/inject-quasar-plugin#using-the-plugin-from-your-own-code), otherwise your code can end up linked against a second copy of Quasar.
-:::
+> [!TIP]
+> If your App Extension's own code imports from the `quasar` package (a Quasar Plugin like Notify, a utility, etc.), also read [Injecting Quasar Plugin](/app-extensions/common-formulas-and-patterns/inject-quasar-plugin#using-the-plugin-from-your-own-code), otherwise your code can end up linked against a second copy of Quasar.
 
 ## Developing
 
@@ -104,9 +102,8 @@ pnpm run cycle
 
 ### Install and Prompts scripts
 
-::: tip
-Learn more about what you can do with the [Prompts API](/app-extensions/development-guide/prompts-api) and the [Install API](/app-extensions/development-guide/install-api).
-:::
+> [!TIP]
+> Learn more about what you can do with the [Prompts API](/app-extensions/development-guide/prompts-api) and the [Install API](/app-extensions/development-guide/install-api).
 
 You will notice mentions of `invoking` an AE. The invoking procedure, as opposed to the "adding" one, assumes that the App Extension's package is already pnpm/yarn/npm/bun installed into the host app (and so, Quasar CLI skips that step).
 
@@ -118,9 +115,8 @@ quasar ext invoke <ext-id>
 
 ### Uninstall script
 
-::: tip
-Learn more about what you can do with the [Uninstall API](/app-extensions/development-guide/uninstall-api).
-:::
+> [!TIP]
+> Learn more about what you can do with the [Uninstall API](/app-extensions/development-guide/uninstall-api).
 
 You will notice mentions of `uninvoking` an AE. Unlike removing an extension, uninvoking unregisters it from the host app but does not uninstall its package.
 
@@ -141,9 +137,8 @@ quasar dev
 quasar build
 ```
 
-::: tip
-Learn more about what you can do with the [Index API](/app-extensions/development-guide/index-api).
-:::
+> [!TIP]
+> Learn more about what you can do with the [Index API](/app-extensions/development-guide/index-api).
 
 A common use-case of what you can do with your Index script is to extend the host app's Vite config as follows:
 
@@ -171,6 +166,5 @@ pnpm login
 pnpm publish
 ```
 
-::: warning
-It's important to remember to NOT strip out the `quasar-app-extension-` prefix from the `name` property of your extension's `/ae/package.json`, otherwise Quasar CLI will not recognize it.
-:::
+> [!WARNING]
+> It's important to remember to NOT strip out the `quasar-app-extension-` prefix from the `name` property of your extension's `/ae/package.json`, otherwise Quasar CLI will not recognize it.

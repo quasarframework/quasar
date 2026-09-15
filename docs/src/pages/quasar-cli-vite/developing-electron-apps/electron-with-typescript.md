@@ -5,11 +5,10 @@ desc: (@quasar/app-vite) How to use TypeScript with Electron in Quasar
 
 When Electron mode is added to a TypeScript Quasar project, Quasar creates TypeScript main and preload sources automatically. To convert an existing JavaScript Electron workspace, rename the files under `/src-electron` from `.js` to `.ts` and address any TypeScript errors. The default source configuration omits extensions, so it resolves either form.
 
-::: tip
-`@electron/packager` and `electron-builder` export their configuration types from their own packages.
-Since autocomplete into the `quasar.config` file relies on those types, properties `electron.packager` and `electron.builder` will be fully typed only after the respective package is installed.
-You can force the installation of the selected bundler (depending on your `electron.bundler` option) by running a build command in Electron mode: `quasar build -m electron`
-:::
+> [!TIP]
+> `@electron/packager` and `electron-builder` export their configuration types from their own packages.
+> Since autocomplete into the `quasar.config` file relies on those types, properties `electron.packager` and `electron.builder` will be fully typed only after the respective package is installed.
+> You can force the installation of the selected bundler (depending on your `electron.bundler` option) by running a build command in Electron mode: `quasar build -m electron`
 
 Example of files in your `/src-electron` folder:
 
