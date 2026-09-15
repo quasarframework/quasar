@@ -95,6 +95,8 @@ describe('[templates/app] scaffolding', () => {
       expect(has(scope, '.gitignore')).toBe(true)
       expect(has(scope, '.editorconfig')).toBe(true)
       expect(has(scope, '.vscode/settings.json')).toBe(true)
+      // the @quasar/mcp registration for VS Code's agents
+      expect(has(scope, '.vscode/mcp.json')).toBe(true)
       expect(has(scope, 'pnpm-workspace.yaml')).toBe(true)
       expect(has(scope, 'index.html')).toBe(true)
       expect(has(scope, 'src/App.vue')).toBe(true)

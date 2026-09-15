@@ -28,9 +28,9 @@ This guide assumes you have already installed VS Code (Visual Studio Code).
 
 ## Quasar CLI (with Vite)
 
-If you created your project with Quasar CLI, you already have the recommended VS Code configuration: `.vscode/settings.json` and `.vscode/extensions.json` are scaffolded for the linter and formatter you picked (oxlint + oxfmt, or ESLint + Prettier). 💪
+If you created your project with Quasar CLI, you already have the recommended VS Code configuration: `.vscode/settings.json` and `.vscode/extensions.json` are scaffolded for the linter and formatter you picked (oxlint + oxfmt, or ESLint + Prettier), and `.vscode/mcp.json` registers the Quasar MCP server for VS Code's AI agents.
 
-When you open your project in VS Code, it prompts you to install the recommended extensions if you haven't installed them already. Just restart VS Code after installing them and you are ready to go! 🚀
+When you open your project in VS Code, it prompts you to install the recommended extensions if you haven't installed them already. Just restart VS Code after installing them and you are ready to go!
 
 ## Quasar Vite Plugin
 
@@ -108,7 +108,7 @@ Use the project's own TypeScript, the one the build uses, rather than the versio
 
 ## AI agents
 
-VS Code's own agents (GitHub Copilot in agent mode, and any extension speaking MCP) get the Quasar documentation and API of the exact versions your project runs through the [`@quasar/mcp` server](/start/ai-agents). Register it in `.vscode/mcp.json`; nothing gets installed in the project:
+VS Code's own agents (GitHub Copilot in agent mode, and any extension speaking MCP) get the Quasar documentation and API of the exact versions your project runs through the [@quasar/mcp server](/start/ai-agents). Register it in `.vscode/mcp.json` (a project scaffolded with Quasar CLI already has this file); nothing gets installed in the project:
 
 ```json
 {

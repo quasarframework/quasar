@@ -1,0 +1,9 @@
+{
+  "servers": {
+    "quasar": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "--fetch-retries=0", "@quasar/mcp@latest"]
+    }
+  }
+}

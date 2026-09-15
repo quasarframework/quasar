@@ -102,4 +102,4 @@ If you are new to Quasar and a...
 
 **Advanced Vue Dev** - You might want to use Quasar in different scenarios outside of Quasar's own CLI, then check out the different [Quasar Flavours](/start/pick-quasar-flavour). Or, if you wish to stick with the Quasar CLI, check out the different build modes, [starting with SSR](/quasar-cli-vite/developing-ssr/introduction) and please be sure not to miss out on [App Extensions](/app-extensions/introduction).
 
-**Working with an AI coding agent** - Give it the documentation and API of the versions your project runs, offline, through the [`@quasar/mcp` server](/start/ai-agents). One line in your agent's configuration, nothing to install in the project.
+**Working with an AI coding agent** - Give it the documentation and API of the versions your project runs, offline, through the [@quasar/mcp server](/start/ai-agents). One line in your agent's configuration, nothing to install in the project.

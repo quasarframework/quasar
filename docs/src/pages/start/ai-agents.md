@@ -75,6 +75,8 @@ Grok Build also picks up a project `.mcp.json` written for Claude Code, so one f
 
 Put the JSON above in the client's MCP configuration file (`.cursor/mcp.json`, `.windsurf/mcp.json`, `.vscode/mcp.json` with a `servers` key instead of `mcpServers`, ...). Every MCP client documents where that file lives.
 
+For VS Code (GitHub Copilot in agent mode, and the extensions speaking MCP), the [Configure VS Code](/start/vs-code-configuration#ai-agents) page has the file to copy. A project scaffolded with Quasar CLI already ships it.
+
 ## What the agent gets
 
 | Tool            | Purpose                                                                    |
