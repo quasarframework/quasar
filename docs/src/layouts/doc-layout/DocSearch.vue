@@ -396,7 +396,7 @@ body.desktop
     height: inherit
     width: inherit
     cursor: text
-    transition: box-shadow $header-quick-transition, background-color $header-quick-transition
+    transition: box-shadow $header-quick-transition
 
   input
     font-size: $font-size
