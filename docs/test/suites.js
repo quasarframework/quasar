@@ -41,7 +41,7 @@ function run(script) {
   })
 }
 
-prep('node', ['../ui/build/ensure-fresh-build.js'])
+prep('pnpm', ['--filter', 'quasar', 'ensure-fresh-build'])
 prep('pnpm', ['exec', 'playwright', 'install', 'chromium'])
 
 for (const script of ['test:e2e:ssr', 'test:build']) {
