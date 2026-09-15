@@ -116,7 +116,6 @@ export function useTablePaginationState(vm, getCellValue) {
 
 export function useTablePagination(
   vm,
-  innerPagination,
   computedPagination,
   isServerSide,
   setPagination,
@@ -161,11 +160,13 @@ export function useTablePagination(
   )
 
   const computedRowsPerPageOptions = computed(() => {
-    const opts = props.rowsPerPageOptions.includes(
-      innerPagination.value.rowsPerPage
-    )
+    // the page size in effect: a controlling parent owns it and the
+    // inner state stops following it as soon as one is wired up
+    const { rowsPerPage } = computedPagination.value
+
+    const opts = props.rowsPerPageOptions.includes(rowsPerPage)
       ? props.rowsPerPageOptions
-      : [innerPagination.value.rowsPerPage, ...props.rowsPerPageOptions]
+      : [rowsPerPage, ...props.rowsPerPageOptions]
 
     return opts.map(count => ({
       label: count === 0 ? $q.lang.table.allRows : String(count),

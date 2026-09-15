@@ -326,7 +326,6 @@ export default /*#__PURE__*/ createComponent({
       lastPage
     } = useTablePagination(
       vm,
-      innerPagination,
       computedPagination,
       isServerSide,
       setPagination,

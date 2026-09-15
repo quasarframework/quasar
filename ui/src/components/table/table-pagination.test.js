@@ -60,7 +60,6 @@ function mountPagination({ props = {}, rowsNumber = 0 } = {}) {
         state = useTablePaginationState(vm, getCellValue)
         api = useTablePagination(
           vm,
-          state.innerPagination,
           state.computedPagination,
           state.isServerSide,
           state.setPagination,
@@ -478,6 +477,52 @@ describe('[tablePagination API]', () => {
         expect(
           computedRowsPerPageOptions.value.map(opt => opt.value)
         ).toStrictEqual([7, 5, 10])
+      })
+
+      test('follows the page size a controlling parent writes', async () => {
+        const { computedRowsPerPageOptions } = mountPagination({
+          props: {
+            rowsPerPageOptions: [5, 10],
+            pagination: { page: 1, rowsPerPage: 5 },
+            'onUpdate:pagination': () => {}
+          }
+        })
+
+        expect(
+          computedRowsPerPageOptions.value.map(opt => opt.value)
+        ).toStrictEqual([5, 10])
+
+        await wrapper.setProps({ pagination: { page: 1, rowsPerPage: 7 } })
+
+        expect(
+          computedRowsPerPageOptions.value.map(opt => opt.value)
+        ).toStrictEqual([7, 5, 10])
+      })
+
+      test('drops a page size a controlling parent moved away from', async () => {
+        const { computedRowsPerPageOptions } = mountPagination({
+          props: {
+            rowsPerPageOptions: [5, 10],
+            pagination: { page: 1, rowsPerPage: 7 },
+            'onUpdate:pagination': () => {}
+          }
+        })
+
+        expect(
+          computedRowsPerPageOptions.value.map(opt => opt.value)
+        ).toStrictEqual([7, 5, 10])
+
+        await wrapper.setProps({ pagination: { page: 1, rowsPerPage: 3 } })
+
+        expect(
+          computedRowsPerPageOptions.value.map(opt => opt.value)
+        ).toStrictEqual([3, 5, 10])
+
+        await wrapper.setProps({ pagination: { page: 1, rowsPerPage: 10 } })
+
+        expect(
+          computedRowsPerPageOptions.value.map(opt => opt.value)
+        ).toStrictEqual([5, 10])
       })
 
       test('announces the initial pagination to a controlling parent', () => {

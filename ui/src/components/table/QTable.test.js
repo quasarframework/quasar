@@ -8,6 +8,7 @@ import QTable from './QTable.js'
 import QTh from './QTh.js'
 import QTd from './QTd.js'
 import QVirtualScroll from '../virtual-scroll/QVirtualScroll.js'
+import QSelect from '../select/QSelect.js'
 import TableWithPerColumnSlots from './test/TableWithPerColumnSlots.vue'
 import TableWithSwappableSlots from './test/TableWithSwappableSlots.vue'
 
@@ -1701,6 +1702,27 @@ describe('[QTable API]', () => {
           pagination: { sortBy: 'name', descending: false, rowsPerPage: 0 }
         })
         expect(getColumnTexts(sorted)[0]).toBe('Cupcake')
+      })
+
+      test('offers the controlled page size in the selector', async () => {
+        const wrapper = mountTable({
+          rowsPerPageOptions: [5, 10],
+          pagination: { page: 1, rowsPerPage: 5 },
+          'onUpdate:pagination': () => {}
+        })
+
+        const getOfferedSizes = () =>
+          wrapper
+            .findComponent(QSelect)
+            .props('options')
+            .map(opt => opt.value)
+
+        expect(getOfferedSizes()).toStrictEqual([5, 10])
+
+        await wrapper.setProps({ pagination: { page: 1, rowsPerPage: 3 } })
+
+        expect(wrapper.findAll('tbody tr')).toHaveLength(3)
+        expect(getOfferedSizes()).toStrictEqual([3, 5, 10])
       })
     })
 
