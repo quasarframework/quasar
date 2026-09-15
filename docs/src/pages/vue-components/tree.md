@@ -9,6 +9,87 @@ Quasar Tree represents a highly configurable component that displays hierarchica
 
 <DocApi file="QTree" />
 
+## Defining the nodes
+
+The `nodes` prop is an array of plain objects, one per node, nested through their children. QTree reads a fixed set of keys on each; the names of the key, label and children properties are yours to pick through the `node-key`, `label-key` and `children-key` props (`label` and `children` by default).
+
+```js
+nodes: [
+  // array of Objects
+  // node Object definition
+  {
+    // unique id, under the property named by "node-key" (required)
+    id: 'fruits',
+
+    // text of the node, under the property named by "label-key"
+    label: 'Fruits',
+
+    // (optional) icon, image or avatar shown before the label
+    icon: 'restaurant_menu',
+    iconColor: 'primary', // one of the Quasar Color Palette names
+    // img: 'mountains.png', // from the /public folder
+    // avatar: 'boy-avatar.png', // from the /public folder
+
+    // (optional) the node cannot be selected, ticked, expanded or clicked
+    disabled: false,
+
+    // (optional) can the node be expanded? (default: true)
+    expandable: true,
+
+    // (optional) can the node be selected? (default: true)
+    selectable: true,
+
+    // (optional) called on click, receives the node
+    handler: node => {},
+
+    // (optional) with a tick strategy: show a checkbox, and can it be ticked?
+    noTick: false,
+    tickable: true,
+    // (optional) tick strategy for this node only: 'leaf', 'leaf-filtered', 'strict', 'none'
+    tickStrategy: 'leaf',
+
+    // (optional) scoped slot names for this node's header and body,
+    // without the 'header-' / 'body-' prefix
+    header: 'story', // renders through the 'header-story' slot
+    body: 'story', // renders through the 'body-story' slot
+
+    // (optional) the sub-nodes, same shape, under the property named by "children-key"
+    children: [
+      { id: 'apple', label: 'Apple' },
+      { id: 'pear', label: 'Pear', disabled: true }
+    ]
+  },
+
+  {
+    id: 'lazy',
+    label: 'Loaded on first expand',
+    // (optional) load the children on first expand through the "lazy-load" event;
+    // do not set 'children' on a lazy node
+    lazy: true
+  }
+]
+```
+
+| Node Property | Type           | Behavior when not present                       | Description                                                                                                                 |
+| ------------- | -------------- | ----------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------- |
+| \<nodeKey\>   | String, Number | An error is generated                           | Node's key. The key is picked from the key specified in `nodeKey` property.                                                 |
+| label         | String         | The item has no label                           | Node's label. When `labelKey` prop is set the label is picked from that key.                                                |
+| icon          | String         | The default icon is used                        | Node's icon.                                                                                                                |
+| iconColor     | String         | The inherited color is used                     | Node's icon color. One from Quasar Color Palette.                                                                           |
+| img           | String         | No image is displayed                           | Node's image. Use /public folder. Example: 'mountains.png'                                                                  |
+| avatar        | String         | No avatar is displayed                          | Node's avatar. Use /public folder. Example: 'boy-avatar.png'                                                                |
+| children      | Array          | This node has no sub-nodes                      | Array of nodes as children.                                                                                                 |
+| disabled      | Boolean        | The node is enabled                             | Is node disabled?                                                                                                           |
+| expandable    | Boolean        | The node is expandable                          | Is node expandable?                                                                                                         |
+| selectable    | Boolean        | The node is selectable                          | Is node selectable?                                                                                                         |
+| handler       | Function       | No extra function is called                     | Custom function that should be called on click on node. Receives `node` as parameter.                                       |
+| tickable      | Boolean        | The node is tickable according to tick strategy | When using a tick strategy, each node shows a checkbox. Should a node's checkbox be disabled?                               |
+| noTick        | Boolean        | Node displays a checkbox                        | When using a tick strategy, should node display a checkbox?                                                                 |
+| tickStrategy  | String         | Tick strategy 'none' is used                    | Override global tick strategy for this node only. One of 'leaf', 'leaf-filtered', 'strict', 'none'.                         |
+| lazy          | Boolean        | Children are not lazy loaded                    | Should children be lazy loaded? In this case also don't specify 'children' prop.                                            |
+| header        | String         | Slot 'default-header' is used                   | Node header scoped slot name, without the required 'header-' prefix. Example: 'story' refers to 'header-story' scoped slot. |
+| body          | String         | Slot 'default-body' is used                     | Node body scoped slot name, without the required 'body-' prefix. Example: 'story' refers to 'body-story' scoped slot.       |
+
 ## Usage
 
 ### Basic
@@ -148,27 +229,3 @@ The header and body slots also get an `indeterminate` boolean in their scope, ne
 You can customize the filtering method by specifying the `filter-method` prop. The method below filters by input if it also has '(\*)':
 
 <DocExample title="Custom filter" file="FilterCustom" />
-
-### Nodes model structure
-
-The following describes a node's properties that are taken into account by QTree's v-model.
-
-| Node Property | Type           | Behavior when not present                       | Description                                                                                                                 |
-| ------------- | -------------- | ----------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------- |
-| \<nodeKey\>   | String, Number | An error is generated                           | Node's key. The key is picked from the key specified in `nodeKey` property.                                                 |
-| label         | String         | The item has no label                           | Node's label. When `labelKey` prop is set the label is picked from that key.                                                |
-| icon          | String         | The default icon is used                        | Node's icon.                                                                                                                |
-| iconColor     | String         | The inherited color is used                     | Node's icon color. One from Quasar Color Palette.                                                                           |
-| img           | String         | No image is displayed                           | Node's image. Use /public folder. Example: 'mountains.png'                                                                  |
-| avatar        | String         | No avatar is displayed                          | Node's avatar. Use /public folder. Example: 'boy-avatar.png'                                                                |
-| children      | Array          | This node has no sub-nodes                      | Array of nodes as children.                                                                                                 |
-| disabled      | Boolean        | The node is enabled                             | Is node disabled?                                                                                                           |
-| expandable    | Boolean        | The node is expandable                          | Is node expandable?                                                                                                         |
-| selectable    | Boolean        | The node is selectable                          | Is node selectable?                                                                                                         |
-| handler       | Function       | No extra function is called                     | Custom function that should be called on click on node. Receives `node` as parameter.                                       |
-| tickable      | Boolean        | The node is tickable according to tick strategy | When using a tick strategy, each node shows a checkbox. Should a node's checkbox be disabled?                               |
-| noTick        | Boolean        | Node displays a checkbox                        | When using a tick strategy, should node display a checkbox?                                                                 |
-| tickStrategy  | String         | Tick strategy 'none' is used                    | Override global tick strategy for this node only. One of 'leaf', 'leaf-filtered', 'strict', 'none'.                         |
-| lazy          | Boolean        | Children are not lazy loaded                    | Should children be lazy loaded? In this case also don't specify 'children' prop.                                            |
-| header        | String         | Slot 'default-header' is used                   | Node header scoped slot name, without the required 'header-' prefix. Example: 'story' refers to 'header-story' scoped slot. |
-| body          | String         | Slot 'default-body' is used                     | Node body scoped slot name, without the required 'body-' prefix. Example: 'story' refers to 'body-story' scoped slot.       |
