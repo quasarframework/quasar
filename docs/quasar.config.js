@@ -21,6 +21,15 @@ export default defineConfig(ctx => ({
     distDir: 'dist/quasar.dev',
     useFilenameHashes: false,
 
+    // the agent files next to the SSG pages: a .md sibling per page,
+    // llms.txt and mcp.json (build/mcp)
+    async afterBuild({ quasarConf }) {
+      if (ctx.mode.ssg === true) {
+        const { generate } = await import('./build/mcp/generate.js')
+        generate({ distDir: quasarConf.build.distDir })
+      }
+    },
+
     defineEnv: {
       DOCS_BRANCH: 'dev',
       SEARCH_INDEX: 'quasar-v2'
