@@ -89,6 +89,18 @@ test('several apps below: the first in path order is served, the others reported
   ])
 })
 
+test('a full app is served before a package that only depends on quasar', () => {
+  const root = mkdtempSync(join(tmpdir(), 'quasar-mcp-workspace-'))
+  onTestFinished(() => {
+    rmSync(root, { recursive: true, force: true })
+  })
+  createProject({ dir: join(root, 'apps/web') })
+  createProject({ dir: join(root, 'a-library'), appVite: false })
+  const project = loadProject(root)
+  expect(project.dir).toBe(join(root, 'apps/web'))
+  expect(project.otherApps).toEqual([join(root, 'a-library')])
+})
+
 test('a directory given explicitly is served as is, no app is looked for below it', () => {
   const root = createWorkspace(['apps/web'])
   const project = loadProject(root, { explicit: true })

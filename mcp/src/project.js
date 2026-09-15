@@ -141,8 +141,9 @@ function locatePackage(projectDir, name) {
  * The project to serve. The packages resolve from `projectDir` the way
  * its own code resolves them. When that finds nothing and the directory
  * was not named explicitly, the apps below it are looked for (a
- * workspace opened at its root): the first one in path order is served
- * and the others are reported, for --project to pick.
+ * workspace opened at its root): the first one, a full app before a
+ * library and in path order otherwise, is served and the others are
+ * reported, for --project to pick.
  *
  * @param {string} [projectDir] Defaults to the current working directory.
  * @param {{ explicit?: boolean }} [opts] `explicit`: the directory was given (--project), serve it as is.
@@ -157,10 +158,15 @@ export function loadProject(
   let packages = locateAll(startDir)
   let otherApps = []
   if (packages.length === 0 && !explicit) {
+    // a full app (ui and CLI) before a package that only depends on
+    // quasar, a component library in the workspace; path order otherwise
     const apps = findApps(startDir)
+      .map(app => ({ app, packages: locateAll(app) }))
+      .sort((a, b) => b.packages.length - a.packages.length)
     if (apps.length !== 0) {
-      ;[dir, ...otherApps] = apps
-      packages = locateAll(dir)
+      dir = apps[0].app
+      packages = apps[0].packages
+      otherApps = apps.slice(1).map(({ app }) => app)
     }
   }
   return { dir, startDir, otherApps, packages }

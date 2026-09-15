@@ -37,12 +37,18 @@ The server serves the project it is started in, which is what every client does 
 
 ### Monorepos
 
-Opened at the root of a workspace, the server resolves the packages the way your code does, so a hoisted layout (npm, Yarn) is found at the root. With pnpm, each app keeps its own `node_modules`, so when the root has none the server looks a few levels below it: one Quasar app there gets served, and the agent is told which. Several apps get the first one in path order, and the agent is told about the others; pass `"--project", "apps/web"` to serve a specific one. Given explicitly, a directory is served as is.
+Opened at the root of a workspace, the server resolves the packages the way your code does, so a hoisted layout (npm, Yarn) is found at the root. With pnpm, each app keeps its own `node_modules`, so when the root has none the server looks a few levels below it: one Quasar app there gets served, and the agent is told which. Several apps get the first one (a full app before a package that only depends on `quasar`, in path order otherwise), and the agent is told about the others; pass `"--project", "apps/web"` to serve a specific one. Given explicitly, a directory is served as is.
 
 ### Claude Code
 
 ```bash
 claude mcp add quasar -- npx -y --fetch-retries=0 @quasar/mcp@latest
+```
+
+On native Windows (not WSL), Claude Code starts `npx` servers through the command shell:
+
+```bash
+claude mcp add quasar -- cmd /c npx -y --fetch-retries=0 @quasar/mcp@latest
 ```
 
 ### Codex

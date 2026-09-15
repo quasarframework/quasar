@@ -333,13 +333,16 @@ test('a workspace root names the app served and the ones it is not', async () =>
   })
   createProject({ dir: join(root, 'apps/admin') })
   createProject({ dir: join(root, 'apps/web') })
+  for (const name of ['a', 'b', 'c', 'd', 'e', 'f']) {
+    createProject({ dir: join(root, 'libs', name), appVite: false })
+  }
   const client = await connect({ projectDir: root })
   const instructions = client.getInstructions()
   expect(instructions).toContain(
     `served from the packages installed in apps/admin, the Quasar app found below ${root}.`
   )
   expect(instructions).toContain(
-    'Other Quasar apps in this workspace, not served: apps/web. To serve one of them, start the server with --project <dir>.'
+    'Other Quasar apps in this workspace, not served: apps/web, libs/a, libs/b, libs/c, libs/d and 2 more. To serve one of them, start the server with --project <dir>.'
   )
   const page = await call(client, 'get_page', {
     route: 'vue-components/button'

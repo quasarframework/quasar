@@ -106,6 +106,9 @@ function otherFormat(slice) {
   )
 }
 
+/** How many of the other apps of a workspace the instructions name. */
+const OTHER_APPS_SHOWN = 5
+
 export function buildInstructions(project, docs, updates) {
   const lines = [
     project.dir === project.startDir
@@ -115,12 +118,12 @@ export function buildInstructions(project, docs, updates) {
     ''
   ]
   if (project.otherApps.length !== 0) {
+    const shown = project.otherApps
+      .slice(0, OTHER_APPS_SHOWN)
+      .map(app => relative(project.startDir, app))
+    const more = project.otherApps.length - shown.length
     lines.push(
-      `Other Quasar apps in this workspace, not served: ${project.otherApps
-        .map(app => relative(project.startDir, app))
-        .join(
-          ', '
-        )}. To serve one of them, start the server with --project <dir>.`,
+      `Other Quasar apps in this workspace, not served: ${shown.join(', ')}${more > 0 ? ` and ${more} more` : ''}. To serve one of them, start the server with --project <dir>.`,
       ''
     )
   }
