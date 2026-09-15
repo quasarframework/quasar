@@ -23,5 +23,5 @@
 </template>
 
 <script setup>
-const weights = ['thin', 'light', 'regular', 'medium', 'bold', 'bolder']
+import { weights } from './typography-classes.js'
 </script>

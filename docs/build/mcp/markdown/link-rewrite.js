@@ -1,10 +1,15 @@
 /**
- * Link rewrite rule per spec D6.
+ * Link rewrite rule.
  *
  * In-tree absolute paths that match a known menu entry are rewritten
- * to the relative .md sibling. Everything else is left alone: external
- * URLs (any `proto:` prefix), in-page anchors (`#frag`), relative paths,
- * and absolute paths whose stripped form isn't in the menu set.
+ * to the relative .md sibling when that page is written by the same
+ * run (`pageKeys`; every menu page when the set is absent). A menu
+ * page the run leaves out keeps its root-relative href in the site
+ * form (the html page is there) and becomes an absolute site URL in a
+ * package slice (`siteUrl`), where nothing root-relative resolves.
+ * Everything else is left alone: external URLs (any `proto:` prefix),
+ * in-page anchors (`#frag`), relative paths, and absolute paths whose
+ * stripped form isn't in the menu set.
  *
  * Both `?query` and `#fragment` are peeled off before matching the
  * menu, then re-attached verbatim in the rewritten output. We strip
@@ -15,27 +20,27 @@
 import { relativeMdPath } from '../pages/routes.js'
 
 /**
- * Rewrite an in-tree absolute href to a relative `.md` path when it
- * matches a known menu entry. Returns the input unchanged otherwise.
+ * The menu entry an in-tree href points at, with its query and
+ * fragment set aside. Null for anything that is not an in-tree href
+ * to a menu page.
+ *
+ * A link like `/quasar-plugins` matches no menu entry because the menu
+ * indexes per-page slugs, not section roots. On the live site such
+ * links land on the section's introduction page, so `{root}/introduction`
+ * is tried before giving up.
  *
  * @param {string} href - the href as authored in markdown
  * @param {Set<string>} menuPaths - menu entry paths (no leading slash, no `.md` suffix)
- * @param {string} [fromOutputPath] - output path of the linking file, so the result resolves relative to it
- * @returns {string}
+ * @returns {{ key: string, query: string, fragment: string } | null}
  */
-export function rewriteLink(href, menuPaths, fromOutputPath = '') {
-  if (!href || href.startsWith('#')) {
-    return href
-  }
-  if (/^[a-z]+:/i.test(href)) {
-    return href // protocol (http:, mailto:, etc.)
+export function resolveMenuKey(href, menuPaths) {
+  if (!href || href.startsWith('#') || /^[a-z]+:/i.test(href)) {
+    return null // anchor, or protocol (http:, mailto:, etc.)
   }
   if (!href.startsWith('/')) {
-    return href // relative
+    return null // relative
   }
 
-  // Peel off fragment (#...) and query (?...) so the path matches menu keys cleanly.
-  // Fragment is last in a well-formed URL, so strip it first.
   let rest = href
   let fragment = ''
   let query = ''
@@ -52,18 +57,41 @@ export function rewriteLink(href, menuPaths, fromOutputPath = '') {
   const cleanPath = rest.replace(/\/$/, '').replace(/^\//, '')
 
   if (menuPaths.has(cleanPath)) {
-    return `${relativeMdPath(cleanPath, fromOutputPath)}${query}${fragment}`
+    return { key: cleanPath, query, fragment }
   }
-
-  // Root-path fallback. A link like `/quasar-plugins` matches no menu entry
-  // because the menu indexes per-page slugs, not section roots. On the live
-  // site such links land on the section's introduction page, so try
-  // `{root}/introduction` before giving up.
   if (cleanPath && !cleanPath.includes('/')) {
     const introCandidate = `${cleanPath}/introduction`
     if (menuPaths.has(introCandidate)) {
-      return `${relativeMdPath(introCandidate, fromOutputPath)}${query}${fragment}`
+      return { key: introCandidate, query, fragment }
     }
   }
-  return href
+  return null
+}
+
+/**
+ * Rewrite an in-tree absolute href per the rule above. Returns the
+ * input unchanged when it is not one, or when its page is not a menu
+ * entry.
+ *
+ * @param {string} href - the href as authored in markdown
+ * @param {Set<string>} menuPaths - menu entry paths (no leading slash, no `.md` suffix)
+ * @param {string} [fromOutputPath] - output path of the linking file, so the result resolves relative to it
+ * @param {{ pageKeys?: Set<string> | null, siteUrl?: string | null }} [run] - the pages this run writes, and the site URL when it writes a package slice
+ * @returns {string}
+ */
+export function rewriteLink(
+  href,
+  menuPaths,
+  fromOutputPath = '',
+  { pageKeys = null, siteUrl = null } = {}
+) {
+  const resolved = resolveMenuKey(href, menuPaths)
+  if (resolved === null) {
+    return href
+  }
+  const { key, query, fragment } = resolved
+  if (pageKeys === null || pageKeys.has(key)) {
+    return `${relativeMdPath(key, fromOutputPath)}${query}${fragment}`
+  }
+  return siteUrl === null ? href : `${siteUrl}/${key}${query}${fragment}`
 }

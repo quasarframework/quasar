@@ -123,3 +123,37 @@ test('object related entry with a title but empty path is dropped with a warning
   )
   expect(output.related).toStrictEqual([])
 })
+
+test('related entry outside a slice points at the live site, one inside stays relative', () => {
+  const { frontmatter: output } = processFrontmatter(
+    {
+      title: 'Knob',
+      related: ['/vue-components/circular-progress', '/vue-components/knob']
+    },
+    menuByPath,
+    'vue-components/knob/knob.md',
+    {
+      pageKeys: new Set(['vue-components/knob']),
+      siteUrl: 'https://quasar.dev'
+    }
+  )
+  expect(output.related).toStrictEqual([
+    {
+      title: 'Circular Progress',
+      path: 'https://quasar.dev/vue-components/circular-progress'
+    },
+    { title: 'Knob', path: 'knob.md' }
+  ])
+})
+
+test('related entry outside the site run keeps the relative form', () => {
+  const { frontmatter: output } = processFrontmatter(
+    { title: 'Knob', related: ['/vue-components/circular-progress'] },
+    menuByPath,
+    'vue-components/knob/knob.md',
+    { pageKeys: new Set(['vue-components/knob']) }
+  )
+  expect(output.related).toStrictEqual([
+    { title: 'Circular Progress', path: 'circular-progress.md' }
+  ])
+})

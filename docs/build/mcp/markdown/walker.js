@@ -20,6 +20,8 @@
  * @property {Record<string, any>} frontMatter - source page frontmatter
  * @property {string} sourcePath - relative path, used in warnings and link resolution
  * @property {Set<string>} menuPaths - slug strings (no leading `/`, no `.md` suffix) for in-tree link rewriting
+ * @property {Set<string> | null} pageKeys - the menu keys this run writes; null means every menu page
+ * @property {string | null} siteUrl - the live site, set when the run writes a package slice (root-relative hrefs get absolutized)
  * @property {string[]} warnings
  * @property {boolean} _atLineStart - whether the next emit lands at the start of a line
  * @property {Array<{type: 'bullet'|'ordered', counter: number}>} [_listStack] - list nesting stack
@@ -81,15 +83,25 @@ export function clearEmitters() {
  * @param {string} params.sourcePath
  * @param {Record<string, any>} params.frontMatter
  * @param {Set<string>} [params.menuPaths] - slug strings used by link-rewrite
+ * @param {Set<string> | null} [params.pageKeys] - the menu keys this run writes
+ * @param {string | null} [params.siteUrl] - the live site, for a package slice
  * @returns {EmitCtx}
  */
-export function createCtx({ sourcePath, frontMatter, menuPaths = new Set() }) {
+export function createCtx({
+  sourcePath,
+  frontMatter,
+  menuPaths = new Set(),
+  pageKeys = null,
+  siteUrl = null
+}) {
   return {
     output: [],
     prefixStack: [],
     frontMatter,
     sourcePath,
     menuPaths,
+    pageKeys,
+    siteUrl,
     warnings: [],
     _atLineStart: true,
     _lastBlockWasHeading: false

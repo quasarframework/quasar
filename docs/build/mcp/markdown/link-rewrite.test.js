@@ -1,5 +1,5 @@
 import { expect, test } from 'vitest'
-import { rewriteLink } from './link-rewrite.js'
+import { resolveMenuKey, rewriteLink } from './link-rewrite.js'
 
 const menuPaths = new Set([
   'vue-components/knob',
@@ -98,4 +98,64 @@ test('in-tree link to a sibling page stays in the same directory', () => {
     'vue-components/knob.md'
   )
   expect(output).toBe('circular-progress.md')
+})
+
+test('resolveMenuKey names the menu page behind an in-tree href, query and fragment set aside', () => {
+  expect(
+    resolveMenuKey('/vue-components/knob?x=1#usage', menuPaths)
+  ).toStrictEqual({
+    key: 'vue-components/knob',
+    query: '?x=1',
+    fragment: '#usage'
+  })
+  expect(resolveMenuKey('/nowhere', menuPaths)).toBe(null)
+  expect(
+    resolveMenuKey('https://quasar.dev/vue-components/knob', menuPaths)
+  ).toBe(null)
+})
+
+const sliceRun = {
+  pageKeys: new Set(['vue-components/knob']),
+  siteUrl: 'https://quasar.dev'
+}
+
+test('a page the run writes stays a relative .md link', () => {
+  expect(
+    rewriteLink(
+      '/vue-components/knob#usage',
+      menuPaths,
+      'vue-components/circular-progress.md',
+      sliceRun
+    )
+  ).toBe('knob.md#usage')
+})
+
+test('a menu page outside a slice points at the live site', () => {
+  expect(
+    rewriteLink(
+      '/vue-composables/use-quasar?x=1#y',
+      menuPaths,
+      'vue-components/knob.md',
+      sliceRun
+    )
+  ).toBe('https://quasar.dev/vue-composables/use-quasar?x=1#y')
+})
+
+test('a menu page outside the site run keeps its root-relative href', () => {
+  expect(
+    rewriteLink(
+      '/vue-composables/use-quasar',
+      menuPaths,
+      'vue-components/knob.md',
+      {
+        pageKeys: sliceRun.pageKeys
+      }
+    )
+  ).toBe('/vue-composables/use-quasar')
+})
+
+test('a href matching no menu page is untouched whatever the run', () => {
+  expect(rewriteLink('/layout-builder', menuPaths, 'x.md', sliceRun)).toBe(
+    '/layout-builder'
+  )
 })

@@ -7,7 +7,8 @@
  */
 
 import { emit, emitTokens, registerEmitter } from './walker.js'
-import { rewriteLink } from './link-rewrite.js'
+import { resolveMenuKey, rewriteLink } from './link-rewrite.js'
+import { siteHref } from '../site.js'
 import { transformMagicComments } from './code-magic-comments.js'
 import { fenceFor } from './fence-utils.js'
 import { sourceToOutputPath } from '../pages/routes.js'
@@ -197,22 +198,21 @@ export function registerProseEmitters() {
     emit(ctx, '---\n\n')
   })
 
-  // In-tree absolute hrefs become relative `.md` links. Unresolved ones
-  // (start with `/` but not in menuPaths) keep their href and warn so
-  // authors can fix typos.
+  // In-tree absolute hrefs become relative `.md` links (see
+  // link-rewrite.js for the pages outside the run). Ones that match no
+  // menu entry keep their href and warn so authors can fix typos.
   registerEmitter('link_open', (token, ctx) => {
     const hrefAttr = token.attrs?.find(([name]) => name === 'href')
     const href = hrefAttr ? hrefAttr[1] : ''
-    const rewritten = rewriteLink(
-      href,
-      ctx.menuPaths,
-      sourceToOutputPath(ctx.sourcePath)
-    )
-    const isUnresolvedInTree = href.startsWith('/') && rewritten === href
-    if (isUnresolvedInTree) {
+    if (href.startsWith('/') && resolveMenuKey(href, ctx.menuPaths) === null) {
       ctx.warnings.push(`Unresolved in-tree link ${href} in ${ctx.sourcePath}`)
     }
-    ctx._linkHref = rewritten
+    ctx._linkHref = rewriteLink(
+      href,
+      ctx.menuPaths,
+      sourceToOutputPath(ctx.sourcePath),
+      ctx
+    )
     emit(ctx, '[')
   })
   registerEmitter('link_close', (_, ctx) => {
@@ -224,7 +224,7 @@ export function registerProseEmitters() {
     const srcAttr = token.attrs?.find(([name]) => name === 'src')
     const src = srcAttr ? srcAttr[1] : ''
     const alt = token.content || ''
-    emit(ctx, `![${alt}](${src})`)
+    emit(ctx, `![${alt}](${siteHref(src, ctx)})`)
   })
 
   // Tables render as GFM pipe tables. Cell text collects into rows via

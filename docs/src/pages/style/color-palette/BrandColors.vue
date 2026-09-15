@@ -11,23 +11,8 @@
   </div>
 </template>
 
-<script>
-export default {
-  setup() {
-    return {
-      brandColors: [
-        'primary',
-        'secondary',
-        'accent',
-        'dark',
-        'positive',
-        'negative',
-        'info',
-        'warning'
-      ]
-    }
-  }
-}
+<script setup>
+import { brandColors } from './colors.js'
 </script>
 
 <style lang="sass" scoped>

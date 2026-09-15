@@ -8,17 +8,17 @@ import { clearEmitters, createCtx, emitTokens } from './markdown/walker.js'
 import { registerProseEmitters } from './markdown/prose.js'
 import { registerContainerEmitters } from './markdown/containers.js'
 
-function renderTokens(src) {
+function renderTokens(src, ctxOptions) {
   const md = createAiMd()
   const tokens = md.parse(src, {})
-  const ctx = createCtx({ sourcePath: 't.md', frontMatter: {} })
+  const ctx = createCtx({ sourcePath: 't.md', frontMatter: {}, ...ctxOptions })
   return emitTokens(tokens, ctx)
 }
 
-export function renderProse(src) {
+export function renderProse(src, ctxOptions = {}) {
   clearEmitters()
   registerProseEmitters()
-  return renderTokens(src)
+  return renderTokens(src, ctxOptions)
 }
 
 export function renderProseWithContainers(src) {

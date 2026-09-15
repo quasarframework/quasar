@@ -44,7 +44,8 @@ export function docLinkHandler() {
     const href = rewriteLink(
       to,
       ctx.menuPaths || new Set(),
-      sourceToOutputPath(ctx.sourcePath)
+      sourceToOutputPath(ctx.sourcePath),
+      ctx
     )
     // Self-closing form: text = last path segment
     if (token.content.endsWith('/>')) {

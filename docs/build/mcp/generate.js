@@ -48,6 +48,7 @@ import { docExampleHandler } from './markdown/tags/doc-example.js'
 import { docTreeHandler } from './markdown/tags/doc-tree.js'
 import { docInstallationHandler } from './markdown/tags/doc-installation.js'
 import { docLinkHandler } from './markdown/tags/doc-link.js'
+import { siteComponentHandlers } from './markdown/tags/site-components.js'
 
 import { processFrontmatter } from './pages/frontmatter.js'
 import { sourceToMenuKey, sourceToOutputPath } from './pages/routes.js'
@@ -64,13 +65,16 @@ import { buildLlmsTxt } from './output/llms-txt.js'
 import { buildMeta } from './output/meta.js'
 import { countTokens } from './output/tokens.js'
 import { TARGETS, targetIncludes } from './targets.js'
+import { SITE_URL } from './site.js'
 
 const REPO_ROOT = resolve(import.meta.dirname, '../../..')
 const SRC_PAGES = join(REPO_ROOT, 'docs/src/pages')
 const API_DIR = fileURLToPath(import.meta.resolve('quasar/dist/api'))
+const SASS_VARIABLES = fileURLToPath(
+  import.meta.resolve('quasar/src/css/variables.sass')
+)
 const EXAMPLES_DIR = join(REPO_ROOT, 'docs/src/examples')
 const SITE_DIST_DIR = join(REPO_ROOT, 'docs/dist/quasar.dev')
-const SITE_URL = 'https://quasar.dev'
 
 const GLOB = '**/*.md'
 const IGNORES = [
@@ -120,10 +124,15 @@ function resolveRun({ target: targetName = null, distDir } = {}) {
  * never leave stale handlers. registerTabsEmitter() must come after
  * registerProseEmitters() because it overrides the fence emitter.
  *
- * @param {{ apiDir: string, examplesDir: string, referenceApi: boolean }} opts
+ * @param {{ apiDir: string, examplesDir: string, referenceApi: boolean, quasarVersion: string }} opts
  * @returns {void}
  */
-function registerAllEmitters({ apiDir, examplesDir, referenceApi }) {
+function registerAllEmitters({
+  apiDir,
+  examplesDir,
+  referenceApi,
+  quasarVersion
+}) {
   clearEmitters()
   clearTagHandlers()
   registerProseEmitters()
@@ -139,16 +148,31 @@ function registerAllEmitters({ apiDir, examplesDir, referenceApi }) {
   registerTagHandler('DocTree', docTreeHandler())
   registerTagHandler('DocInstall', docInstallationHandler())
   registerTagHandler('DocLink', docLinkHandler())
+
+  const siteComponents = siteComponentHandlers({
+    quasarVersion,
+    sassVariablesPath: SASS_VARIABLES
+  })
+  for (const [tag, handler] of Object.entries(siteComponents)) {
+    registerTagHandler(tag, handler)
+  }
 }
 
 /**
  * Process one source page end-to-end: pre-walker passes, frontmatter parse,
  * markdown-it tokenize, token walk, frontmatter resolution.
  *
- * @param {{ relativePath: string, md: import('markdown-it'), menuByKey: Map<string, { title: string | null }>, menuPaths: Set<string> }} opts
+ * @param {{ relativePath: string, md: import('markdown-it'), menuByKey: Map<string, { title: string | null }>, menuPaths: Set<string>, pageKeys: Set<string>, siteUrl: string | null }} opts
  * @returns {{ outputFrontmatter: Record<string, unknown>, body: string, warnings: string[] }}
  */
-function extractOne({ relativePath, md, menuByKey, menuPaths }) {
+function extractOne({
+  relativePath,
+  md,
+  menuByKey,
+  menuPaths,
+  pageKeys,
+  siteUrl
+}) {
   const source = readFileSync(join(SRC_PAGES, relativePath), 'utf8')
   const cleaned = applyLlmContentControl(stripScriptDoc(source))
   const { data, content } = matter(cleaned)
@@ -156,11 +180,13 @@ function extractOne({ relativePath, md, menuByKey, menuPaths }) {
   const ctx = createCtx({
     sourcePath: relativePath,
     frontMatter: data,
-    menuPaths
+    menuPaths,
+    pageKeys,
+    siteUrl
   })
   const body = emitTokens(tokens, ctx)
   const { frontmatter: outputFrontmatter, warnings: frontmatterWarnings } =
-    processFrontmatter(data, menuByKey, relativePath)
+    processFrontmatter(data, menuByKey, relativePath, { pageKeys, siteUrl })
   ctx.warnings.push(...frontmatterWarnings)
   if (!outputFrontmatter.title) {
     outputFrontmatter.title = basename(relativePath, '.md')
@@ -315,10 +341,12 @@ export function generate(opts) {
   checkPrerequisites()
   const startTime = performance.now()
   const md = createAiMd()
+  const quasarVersion = packageVersion('ui')
   registerAllEmitters({
     apiDir: API_DIR,
     examplesDir: EXAMPLES_DIR,
-    referenceApi: run.target !== null
+    referenceApi: run.target !== null,
+    quasarVersion
   })
 
   const globbed = globSync(GLOB, { cwd: SRC_PAGES, ignore: IGNORES })
@@ -352,6 +380,10 @@ export function generate(opts) {
       : menuPages.filter(relativePath =>
           targetIncludes(run.target, sourceToMenuKey(relativePath))
         )
+  // Links and related entries stay relative `.md` paths only among the
+  // pages of this run; in a slice the rest point at the live site.
+  const pageKeys = new Set(included.map(sourceToMenuKey))
+  const siteUrl = run.target === null ? null : SITE_URL
 
   // A slice owns its folder; the site output is shared with the SSG
   // build, whose pages the .md siblings are written next to.
@@ -375,7 +407,9 @@ export function generate(opts) {
         relativePath,
         md,
         menuByKey,
-        menuPaths
+        menuPaths,
+        pageKeys,
+        siteUrl
       })
       warnings.push(...pageWarnings)
       const outputPath = sourceToOutputPath(relativePath)
@@ -412,7 +446,6 @@ export function generate(opts) {
         includedPages: included
       })
     )
-    const quasarVersion = packageVersion('ui')
     writeSiteMeta(run.distDir, writtenPaths.length, quasarVersion)
     writeLlmsTxt(run.distDir, writtenPaths, menuByKey, quasarVersion)
   } else {

@@ -26,3 +26,11 @@ test('code_inline containing a backtick uses double-backtick wrapping with paddi
   const output = render('Use ``a `b` c`` here.')
   expect(output).toMatch(/`` a `b` c ``/)
 })
+
+test('a root-relative image src is absolutized in a package slice only', () => {
+  const src = 'See ![flex](/img/flexbox-items.svg) here.'
+  expect(render(src)).toBe('See ![flex](/img/flexbox-items.svg) here.\n\n')
+  expect(render(src, { siteUrl: 'https://quasar.dev' })).toBe(
+    'See ![flex](https://quasar.dev/img/flexbox-items.svg) here.\n\n'
+  )
+})

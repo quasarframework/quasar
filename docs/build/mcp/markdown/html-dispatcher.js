@@ -10,6 +10,7 @@
 
 import { emit, registerEmitter } from './walker.js'
 import { transformInlineTag } from './inline-tags.js'
+import { siteHref } from '../site.js'
 
 /** @typedef {import('./walker.js').EmitCtx} EmitCtx */
 /** @typedef {import('./walker.js').MarkdownItToken} MarkdownItToken */
@@ -210,9 +211,16 @@ function dispatch(token, ctx, contextKey) {
   }
 
   // Standard HTML is valid markdown raw HTML, emit verbatim. Embedded Vue
-  // components are stripped first so their markup doesn't leak through.
+  // components are stripped first so their markup doesn't leak through,
+  // and a root-relative src or href gets the site in front of it when
+  // the page is written into a package slice.
   if (STANDARD_HTML_TAGS.has(tagLower)) {
-    const cleaned = token.content.replace(DROP_VUE_COMPONENT_RE, '')
+    const cleaned = token.content
+      .replace(DROP_VUE_COMPONENT_RE, '')
+      .replaceAll(
+        /\b(src|href)="(\/[^"]*)"/g,
+        (_, attr, value) => `${attr}="${siteHref(value, ctx)}"`
+      )
     // DROP_VUE_COMPONENT_RE is an allowlist, so a component it doesn't know
     // passes through as raw Vue markup. Warn so the list gets extended.
     const leaked = cleaned.match(/<([A-Z][A-Za-z0-9]*|q-[a-z-]+)[\s/>]/)

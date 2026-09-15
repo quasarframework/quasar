@@ -176,3 +176,41 @@ test('closing tag of a dropped component is dropped silently', () => {
   expect(ctx.output.join('')).toBe('')
   expect(ctx.warnings.length).toBe(0)
 })
+
+test('raw html keeps root-relative src and href on the site, absolutizes them in a slice', () => {
+  setup()
+  const content =
+    '<img alt="logo" src="/img/iconfactory.png" style="float:right"><a href="/layout-builder">x</a>'
+  const site = createCtx({ sourcePath: 't.md', frontMatter: {} })
+  expect(emitTokens([{ type: 'html_block', content }], site)).toBe(content)
+  const slice = createCtx({
+    sourcePath: 't.md',
+    frontMatter: {},
+    siteUrl: 'https://quasar.dev'
+  })
+  expect(emitTokens([{ type: 'html_block', content }], slice)).toBe(
+    '<img alt="logo" src="https://quasar.dev/img/iconfactory.png" style="float:right"><a href="https://quasar.dev/layout-builder">x</a>'
+  )
+  expect(slice.warnings).toStrictEqual([])
+})
+
+test('a standalone q-btn with href and label falls back to a link', () => {
+  setup()
+  const ctx = createCtx({
+    sourcePath: 't.md',
+    frontMatter: {},
+    siteUrl: 'https://quasar.dev'
+  })
+  const output = emitTokens(
+    [
+      {
+        type: 'html_block',
+        content:
+          '<q-btn icon-right="launch" label="Layout Builder" href="/layout-builder" target="_blank" />'
+      }
+    ],
+    ctx
+  )
+  expect(output).toBe('[Layout Builder](https://quasar.dev/layout-builder)\n\n')
+  expect(ctx.warnings).toStrictEqual([])
+})

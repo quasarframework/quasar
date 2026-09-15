@@ -10,7 +10,7 @@
 
       <div
         class="detailed-color column flex-center"
-        v-for="n in 14"
+        v-for="n in paletteShades"
         :key="n"
         :class="[`bg-${color}-${n}`, n > 5 && n < 11 ? 'text-white' : '']"
       >
@@ -20,34 +20,8 @@
   </div>
 </template>
 
-<script>
-export default {
-  setup() {
-    return {
-      colors: [
-        'red',
-        'pink',
-        'purple',
-        'deep-purple',
-        'indigo',
-        'blue',
-        'light-blue',
-        'cyan',
-        'teal',
-        'green',
-        'light-green',
-        'lime',
-        'yellow',
-        'amber',
-        'orange',
-        'deep-orange',
-        'brown',
-        'grey',
-        'blue-grey'
-      ]
-    }
-  }
-}
+<script setup>
+import { paletteColors as colors, paletteShades } from './colors.js'
 </script>
 
 <style lang="sass" scoped>

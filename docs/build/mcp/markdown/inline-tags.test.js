@@ -21,19 +21,26 @@ test('non-q tag returns null', () => {
   expect(transformInlineTag('<SomeComponent />')).toBe(null)
 })
 
-test('liveDocsStub links to the live page of the source being extracted', () => {
-  const ctx = { sourcePath: 'style/typography.md' }
-  const output = transformInlineTag('<TypographyHeadings />', ctx)
-  expect(output).toContain('https://v2.quasar.dev/style/typography')
+test('q-btn with href and label becomes a link paragraph', () => {
+  expect(
+    transformInlineTag(
+      '<q-btn icon-right="launch" label="Layout Builder" href="/layout-builder" target="_blank" />',
+      { siteUrl: null }
+    )
+  ).toBe('[Layout Builder](/layout-builder)\n\n')
 })
 
-test('liveDocsStub applies the dir-collapse rule to the page path', () => {
-  const ctx = { sourcePath: 'vue-components/menu/menu.md' }
-  const output = transformInlineTag('<TransitionList />', ctx)
-  expect(output).toContain('https://v2.quasar.dev/vue-components/menu')
+test('q-btn link is absolutized in a package slice', () => {
+  expect(
+    transformInlineTag(
+      '<q-btn label="Layout Builder" href="/layout-builder" />',
+      {
+        siteUrl: 'https://quasar.dev'
+      }
+    )
+  ).toBe('[Layout Builder](https://quasar.dev/layout-builder)\n\n')
 })
 
-test('liveDocsStub falls back to the site root without a source path', () => {
-  const output = transformInlineTag('<TransitionList />')
-  expect(output).toContain('(https://v2.quasar.dev)')
+test('q-btn without an href is dropped', () => {
+  expect(transformInlineTag('<q-btn label="Trigger All" />')).toBe('')
 })

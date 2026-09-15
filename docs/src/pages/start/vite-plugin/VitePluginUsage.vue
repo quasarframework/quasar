@@ -115,244 +115,41 @@ import { computed, reactive, ref } from 'vue'
 import languages from 'quasar/lang/index.json'
 
 import DocCode from '@/components/DocCode.vue'
-
-const extrasOptions = [
-  'roboto-font',
-  'material-icons',
-  'material-icons-outlined',
-  'material-icons-round',
-  'material-icons-sharp',
-  'material-symbols-outlined',
-  'material-symbols-rounded',
-  'material-symbols-sharp',
-  'mdi-v7',
-  'fontawesome-v7',
-  'ionicons-v4',
-  'eva-icons',
-  'themify',
-  'line-awesome',
-  'bootstrap-icons'
-]
+import {
+  autoImportCaseOptions,
+  buildMainJs,
+  buildViteConfigJs,
+  defaultOptions,
+  sassVariablesFile as fileSassVariables,
+  iconSetOptions
+} from './vite-plugin-usage.js'
 
 const langOptions = languages.map(lang => ({
   label: lang.nativeName,
   value: lang.isoName
 }))
 
-const iconSetOptions = [
-  { label: 'Material (webfont)', value: 'material-icons' },
-  { label: 'Material (svg)', value: 'svg-material-icons' },
-  { label: 'Material Outlined (webfont)', value: 'material-icons-outlined' },
-  { label: 'Material Round (webfont)', value: 'material-icons-round' },
-  { label: 'Material Sharp (webfont)', value: 'material-icons-sharp' },
-  {
-    label: 'Material Symbols Outlined (webfont)',
-    value: 'material-symbols-outlined'
-  },
-  {
-    label: 'Material Symbols Round (webfont)',
-    value: 'material-symbols-rounded'
-  },
-  {
-    label: 'Material Symbols Sharp (webfont)',
-    value: 'material-symbols-sharp'
-  },
-  { label: 'MDI v7 (webfont)', value: 'mdi-v7' },
-  { label: 'MDI v7 (svg)', value: 'svg-mdi-v7' },
-  { label: 'Ionicons v8 (svg)', value: 'svg-ionicons-v8' },
-  { label: 'Ionicons v8 (svg)', value: 'svg-ionicons-v8' },
-  { label: 'Ionicons v4 (webfont)', value: 'ionicons-v4' },
-  { label: 'Ionicons v4 (svg)', value: 'svg-ionicons-v4' },
-  { label: 'Fontawesome v7 (webfont)', value: 'fontawesome-v7' },
-  { label: 'Fontawesome v7 (svg)', value: 'svg-fontawesome-v7' },
-  { label: 'Eva Icons (webfont)', value: 'eva-icons' },
-  { label: 'Eva Icons (svg)', value: 'svg-eva-icons' },
-  { label: 'Themify (webfont)', value: 'themify' },
-  { label: 'Themify (svg)', value: 'svg-themify' },
-  { label: 'Line Awesome (webfont)', value: 'line-awesome' },
-  { label: 'Line Awesome (svg)', value: 'svg-line-awesome' },
-  { label: 'Bootstrap Icons (webfont)', value: 'bootstrap-icons' },
-  { label: 'Bootstrap Icons (svg)', value: 'svg-bootstrap-icons' }
-]
+const css = reactive({ ...defaultOptions.css })
+const cfgObject = ref(defaultOptions.cfgObject)
+const useSassVariables = ref(defaultOptions.useSassVariables) // Vite plugin cfg
+const autoImportCase = ref(defaultOptions.autoImportCase) // Vite plugin cfg
+const lang = ref(defaultOptions.lang)
+const iconSet = ref(defaultOptions.iconSet)
 
-const autoImportCaseOptions = ['kebab', 'pascal', 'combined']
-
-const css = reactive({
-  'roboto-font': false,
-
-  'material-icons': true,
-  'material-icons-outlined': false,
-  'material-icons-round': false,
-  'material-icons-sharp': false,
-
-  'material-symbols-outlined': false,
-  'material-symbols-rounded': false,
-  'material-symbols-sharp': false,
-
-  'mdi-v7': false,
-  'fontawesome-v7': false,
-  'ionicons-v4': false,
-  'eva-icons': false,
-  themify: false,
-  'line-awesome': false,
-  'bootstrap-icons': false,
-
-  animate: false
-})
-
-const cfgObject = ref(false)
-const useSassVariables = ref(true) // Vite plugin cfg
-const autoImportCase = ref('kebab') // Vite plugin cfg
-const lang = ref('en-US')
-const iconSet = ref('material-icons')
-
-const cssImport = computed(() => {
-  const acc = extrasOptions
-    .filter(key => css[key])
-    .map(key => `import '@quasar/extras/${key}/${key}.css'`)
-
-  if (iconSet.value !== 'material-icons' && !iconSet.value.startsWith('svg-')) {
-    const key = iconSet.value
-    const importValue = `import '@quasar/extras/${key}/${key}.css'`
-    if (!acc.includes(importValue)) {
-      acc.push(`// ..required because of selected iconSet:\n${importValue}`)
-    }
-  }
-
-  const libs =
-    acc.length !== 0 ? `// Import icon libraries\n${acc.join('\n')}\n\n` : ''
-
-  const animExample = css.animate
-    ? `// A few examples for animations from Animate.css:
-// import @quasar/extras/animate/fadeIn.css
-// import @quasar/extras/animate/fadeOut.css\n\n`
-    : ''
-
-  const quasarCssPath = useSassVariables.value
-    ? 'src/css/index.sass'
-    : 'dist/quasar.css'
-
-  return `${libs}${animExample}// Import Quasar css
-import 'quasar/${quasarCssPath}'`
-})
-
-const jsImport = computed(() => {
-  const acc = []
-
-  if (lang.value !== 'en-US') {
-    acc.push(`import quasarLang from 'quasar/lang/${lang.value}'`)
-  }
-
-  if (iconSet.value !== 'material-icons') {
-    acc.push(`import quasarIconSet from 'quasar/icon-set/${iconSet.value}'`)
-  }
-
-  return `${acc.length !== 0 ? '\n' : ''}${acc.join('\n')}`
-})
-
-const configInstantiation = computed(() => {
-  let str = '\n  plugins: {}, // import Quasar plugins and add here'
-
-  if (lang.value !== 'en-US') {
-    str += '\n  lang: quasarLang,'
-  }
-
-  if (iconSet.value !== 'material-icons') {
-    str += '\n  iconSet: quasarIconSet,'
-  }
-
-  if (cfgObject.value) {
-    str += `\n  /*
-  config: {
-    brand: {
-      // primary: '#e46262',
-      // ... or all other brand colors
-    },
-    notify: {...}, // default set of options for Notify Quasar plugin
-    loading: {...}, // default set of options for Loading Quasar plugin
-    loadingBar: { ... }, // settings for LoadingBar Quasar plugin
-    // ..and many more (check Installation card on each Quasar component/directive/plugin)
-  }\n  */`
-  }
-
-  return `, {${str}\n}`
-})
-
-const fileMainJs = computed(
-  () =>
-    `// main.js
-
-import { createApp } from 'vue'
-import { Quasar } from '` +
-    'quasar' +
-    `'${jsImport.value}
-
-${cssImport.value}
-
-// Assumes your root component is App.vue
-// and placed in same folder as main.js
-import App from './App.vue'
-
-const myApp = createApp(App)
-
-myApp.use(Quasar${configInstantiation.value})
-
-// Assumes you have a <div id="app"></div> in your index.html
-myApp.mount('#app')`
+const fileMainJs = computed(() =>
+  buildMainJs({
+    css,
+    cfgObject: cfgObject.value,
+    useSassVariables: useSassVariables.value,
+    lang: lang.value,
+    iconSet: iconSet.value
+  })
 )
 
-const extraImports = computed(() =>
-  useSassVariables.value ? "import { join } from 'node:path'\n" : ''
-)
-
-const vitePluginOptions = computed(() => {
-  const acc = []
-
-  if (autoImportCase.value !== 'kebab') {
-    acc.push(`      autoImportComponentCase: '${autoImportCase.value}'`)
-  }
-
-  if (useSassVariables.value) {
-    acc.push(
-      "      sassVariables: join(import.meta.dirname, 'src/quasar-variables.sass')"
-    )
-  }
-
-  return acc.length === 0 ? '' : `{\n${acc.join(',\n')}\n    }`
-})
-
-const fileViteConfigJs = computed(
-  () => `// vite.config.js
-
-${extraImports.value}import { defineConfig } from 'vite'
-import vue from '@vitejs/plugin-vue'
-import { quasar, transformAssetUrls } from '@quasar/vite-plugin'
-
-export default defineConfig({
-  plugins: [
-    vue({
-      template: { transformAssetUrls }
-    }),
-
-    // @quasar/plugin-vite options list:
-    // https://github.com/quasarframework/quasar/blob/dev/vite-plugin/index.d.ts
-    quasar(${vitePluginOptions.value})
-  ]
-})`
-)
-
-const fileSassVariables = computed(
-  () => `// Create: src/quasar-variables.sass
-
-$primary   : #1976D2
-$secondary : #26A69A
-$accent    : #9C27B0
-
-$dark      : #1D1D1D
-
-$positive  : #21BA45
-$negative  : #C10015
-$info      : #31CCEC
-$warning   : #F2C037`
+const fileViteConfigJs = computed(() =>
+  buildViteConfigJs({
+    useSassVariables: useSassVariables.value,
+    autoImportCase: autoImportCase.value
+  })
 )
 </script>

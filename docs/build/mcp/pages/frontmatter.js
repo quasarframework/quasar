@@ -38,12 +38,12 @@ function pathToMenuKey(rawPath) {
  * @param {string} fromOutputPath
  * @returns {RelatedEntryOut | null}
  */
-function resolveRelatedEntry(entry, menuByPath, fromOutputPath) {
+function resolveRelatedEntry(entry, menuByPath, fromOutputPath, run) {
   if (typeof entry === 'string') {
     const key = pathToMenuKey(entry)
     return {
       title: menuByPath.get(key)?.title ?? null,
-      path: relativeMdPath(key, fromOutputPath),
+      path: relatedEntryPath(key, fromOutputPath, run),
       isKnownPage: menuByPath.has(key)
     }
   }
@@ -67,11 +67,26 @@ function resolveRelatedEntry(entry, menuByPath, fromOutputPath) {
       null
     return {
       title,
-      path: relativeMdPath(key, fromOutputPath),
+      path: relatedEntryPath(key, fromOutputPath, run),
       isKnownPage: menuByPath.has(key)
     }
   }
   return null
+}
+
+/**
+ * Same rule as link-rewrite.js: the relative `.md` sibling when the
+ * run writes the page, the live site otherwise in a package slice.
+ *
+ * @param {string} key
+ * @param {string} fromOutputPath
+ * @param {{ pageKeys: Set<string> | null, siteUrl: string | null }} run
+ * @returns {string}
+ */
+function relatedEntryPath(key, fromOutputPath, { pageKeys, siteUrl }) {
+  return pageKeys === null || pageKeys.has(key) || siteUrl === null
+    ? relativeMdPath(key, fromOutputPath)
+    : `${siteUrl}/${key}`
 }
 
 /**
@@ -113,9 +128,16 @@ function applyCliOverline(output, sourcePath) {
  * @param {Record<string, unknown>} rawFrontmatter Raw frontmatter object (from gray-matter).
  * @param {Map<string, { title?: string }>} menuByPath Flat menu keyed by route path (no leading slash, no trailing slash, no `.md`).
  * @param {string} [sourcePath] Relative source path, used to inject a CLI-section overline when one isn't authored.
+ * @param {{ pageKeys?: Set<string> | null, siteUrl?: string | null }} [run] The pages this run writes (null: every menu page), and the site URL when it writes a package slice.
  * @returns {{ frontmatter: Record<string, unknown>, warnings: string[] }} Kept fields with `related` normalized, plus dropped-related warnings.
  */
-export function processFrontmatter(rawFrontmatter, menuByPath, sourcePath) {
+export function processFrontmatter(
+  rawFrontmatter,
+  menuByPath,
+  sourcePath,
+  { pageKeys = null, siteUrl = null } = {}
+) {
+  const run = { pageKeys, siteUrl }
   const warnings = []
   /** @type {Record<string, unknown>} */
   const output = {}
@@ -136,7 +158,7 @@ export function processFrontmatter(rawFrontmatter, menuByPath, sourcePath) {
     const fromOutputPath = sourceToOutputPath(sourcePath ?? '')
     const relatedEntries = /** @type {unknown[]} */ (rawFrontmatter.related)
     output.related = relatedEntries
-      .map(entry => resolveRelatedEntry(entry, menuByPath, fromOutputPath))
+      .map(entry => resolveRelatedEntry(entry, menuByPath, fromOutputPath, run))
       // Entries with no resolvable title get dropped from output. When the
       // target isn't in the site menu at all it's a dead reference that also
       // crashes the live site's SSR render of related links, so warn. Targets
