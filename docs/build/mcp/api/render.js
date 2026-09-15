@@ -55,6 +55,44 @@ function renderSlotSections(slots) {
 }
 
 /**
+ * Every part a descriptor can carry, in the order the rendered
+ * markdown lays the sections out (SECTIONS, then slots, then the
+ * plugin and directive sections). What `get_api` takes as `part`.
+ *
+ * @type {string[]}
+ */
+const PARTS = [
+  'props',
+  'computedProps',
+  'methods',
+  'events',
+  'slots',
+  'injection',
+  'quasarConfOptions',
+  'value',
+  'arg',
+  'modifiers'
+]
+
+/**
+ * The parts a descriptor carries, in the order renderApi() writes
+ * them, for the pointer the package slices carry instead of the API.
+ * An empty object counts as absent, as it does when rendering.
+ *
+ * @param {Record<string, unknown>} json
+ * @returns {string[]}
+ */
+export function apiParts(json) {
+  return PARTS.filter(part => {
+    const data = json[part]
+    if (!data) {
+      return false
+    }
+    return typeof data !== 'object' || Object.keys(data).length !== 0
+  })
+}
+
+/**
  * Render an entire API JSON document into Stripe-style Markdown.
  *
  * @param {string} name

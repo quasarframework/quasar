@@ -146,7 +146,7 @@ export function createProject({
         '',
         '## QBtn API',
         '',
-        'Not inlined here: call the `get_api` tool with `name: "QBtn"` for the props, slots, events and methods of QBtn.',
+        'Not inlined here: call the `get_api` tool with `name: "QBtn"` for its definition, or add `part` (`props`, `events`, `slots`) for one of them.',
         '',
         '## Usage',
         '',
