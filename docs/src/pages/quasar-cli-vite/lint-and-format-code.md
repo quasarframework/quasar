@@ -320,6 +320,8 @@ export default [
     // add your custom rules here
     rules: {
       'prefer-promise-reject-errors': 'off',
+      // slots use the "#" shorthand everywhere, as in the Quasar docs
+      'vue/v-slot-style': ['warn', 'shorthand'],
 
       // allow debugger during development only
       'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off'
@@ -464,6 +466,8 @@ export default defineConfigWithVueTs(
     // add your custom rules here
     rules: {
       'prefer-promise-reject-errors': 'off',
+      // slots use the "#" shorthand everywhere, as in the Quasar docs
+      'vue/v-slot-style': ['warn', 'shorthand'],
 
       // allow debugger during development only
       'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off'

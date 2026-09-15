@@ -381,6 +381,10 @@ When the default slot is the only one used and it receives data, the shorthand c
 </template>
 ```
 
+::: tip
+The `vue/v-slot-style` rule of eslint-plugin-vue (enabled by its `strongly-recommended` preset and above) prefers `v-slot="scope"` on a component tag by default. The [scaffolded ESLint configuration](/quasar-cli-vite/lint-and-format-code#eslint-prettier) sets it to `shorthand`, so a copied example never trips it.
+:::
+
 ## Handling Vue Methods
 
 You will notice throughout the documentation that some Quasar components have methods that can be called. Example:

@@ -67,6 +67,8 @@ export default defineConfigWithVueTs(
     // add your custom rules here
     rules: {
       'prefer-promise-reject-errors': 'off',
+      // slots use the "#" shorthand everywhere, as in the Quasar docs
+      'vue/v-slot-style': [ 'warn', 'shorthand' ],
       <% if (scope.preset.fbr) { %>
       'vue/multi-word-component-names': 'off',
       <% } %>
