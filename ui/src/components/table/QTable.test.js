@@ -2932,6 +2932,54 @@ describe('[QTable API]', () => {
         expect(middle.scrollTop).toBe(firstRowEl.offsetTop)
         expect(wrapper.emitted('virtualScroll')[1][0].index).toBe(0)
       })
+
+      test('reports the rendered row range', async () => {
+        const getLastRenderedIndex = wrapper =>
+          wrapper.findAll('tbody tr').length - 1
+
+        // a partially filled last page (the fixture has 7 rows)
+        const wrapper = mountTable(
+          { pagination: { page: 2, rowsPerPage: 5 } },
+          { attrs: { style: 'height: 150px' } }
+        )
+
+        wrapper.vm.scrollTo(1)
+        await flushPromises()
+
+        expect(getLastRenderedIndex(wrapper)).toBeLessThan(4)
+        expect(wrapper.emitted('virtualScroll')[0][0]).toMatchObject({
+          index: 1,
+          from: 0,
+          to: getLastRenderedIndex(wrapper)
+        })
+
+        // "all rows"
+        wrapper.vm.setPagination({ page: 1, rowsPerPage: 0 })
+        await flushPromises()
+        wrapper.vm.scrollTo(0)
+        await flushPromises()
+
+        expect(wrapper.emitted('virtualScroll')[1][0].to).toBe(
+          getLastRenderedIndex(wrapper)
+        )
+
+        // a page size a controlling parent moved to
+        const controlled = mountTable(
+          {
+            pagination: { page: 1, rowsPerPage: 5 },
+            'onUpdate:pagination': () => {}
+          },
+          { attrs: { style: 'height: 150px' } }
+        )
+
+        await controlled.setProps({ pagination: { page: 1, rowsPerPage: 3 } })
+        controlled.vm.scrollTo(0)
+        await flushPromises()
+
+        expect(controlled.emitted('virtualScroll')[0][0].to).toBe(
+          getLastRenderedIndex(controlled)
+        )
+      })
     })
 
     describe('[(method)getCellValue]', () => {

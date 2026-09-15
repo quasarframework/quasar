@@ -221,7 +221,6 @@ export default /*#__PURE__*/ createComponent({
     )
 
     const {
-      innerPagination,
       computedPagination,
       isServerSide,
 
@@ -458,7 +457,7 @@ export default /*#__PURE__*/ createComponent({
         emit('virtualScroll', {
           index: toIndex,
           from: 0,
-          to: innerPagination.value.rowsPerPage - 1,
+          to: computedRows.value.length - 1,
           direction
         })
       }
