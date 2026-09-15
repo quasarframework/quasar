@@ -14,6 +14,59 @@ The QEditor component is a WYSIWYG (“what you see is what you get”) editor c
 
 <DocApi file="QEditor" />
 
+## Defining the toolbar
+
+The `toolbar` prop is an array of groups, rendered with a gap between them, and each group is an array of tokens. A token is the name of a command (a built-in one from the list below, or one you add through the `definitions` prop), an Object with `options` for a dropdown of commands, or any other string, which becomes a toolbar slot of that name.
+
+```js
+toolbar: [
+  // array of groups, each an array of tokens
+  // built-in commands, by name
+  ['bold', 'italic', 'strike', 'underline'],
+
+  [
+    // a dropdown: an Object with the commands it lists under 'options'
+    {
+      label: 'Formatting', // commonly $q.lang.editor.formatting, so it is translated
+      icon: 'format_size', // commonly $q.iconSet.editor.formatting, so it follows the icon set
+      // (optional) 'no-icons' lists the options by label only, 'only-icons' by icon only;
+      // both otherwise
+      list: 'no-icons',
+      // (optional) keep the dropdown's own label and icon instead of the picked option's
+      fixedLabel: true,
+      fixedIcon: true,
+      // (optional) color the dropdown as toggled ("toolbar-toggle-color") while a picked option applies
+      highlight: true,
+      options: ['p', 'h1', 'h2', 'h3', 'code']
+    }
+  ],
+
+  // a command you add through the 'definitions' prop
+  ['save'],
+
+  // any other string: the toolbar slot of that name (<template v-slot:token>)
+  ['token']
+]
+```
+
+The built-in commands, each pre-configured with an icon and an internationalized tooltip:
+
+| Group                 | Commands                                                                            |
+| --------------------- | ----------------------------------------------------------------------------------- |
+| Text                  | `bold`, `italic`, `strike`, `underline`, `subscript`, `superscript`, `removeFormat` |
+| Block                 | `p` (paragraph), `h1` to `h6`, `code` (code paragraph), `quote`                     |
+| Alignment             | `left`, `center`, `right`, `justify`                                                |
+| Lists and indentation | `unordered`, `ordered`, `outdent`, `indent`                                         |
+| Insertion             | `link`, `hr`                                                                        |
+| Font                  | `size-1` to `size-7`, `default_font` plus the names from your `fonts` prop          |
+| History and view      | `undo`, `redo`, `fullscreen`, `viewsource`, `print`                                 |
+
+To override some of a built-in command's settings, or to add commands of your own, use the `definitions` prop: an Object keyed by command name (see its API for the keys: label, icon, tip, handler or cmd, and so on). The name then goes into the toolbar like any other.
+
+```html
+:definitions="{ bold: {label: 'Bold', icon: null, tip: 'My bold tooltip'} }"
+```
+
 ## Examples
 
 <DocExample title="Default editor" file="Basic" />
@@ -21,14 +74,6 @@ The QEditor component is a WYSIWYG (“what you see is what you get”) editor c
 ::: warning
 In this first example, there are two cards below the editor. The first shows the unparsed html using the double-moustache, whereas the second shows the rendered version using `v-html="editor"`. Using v-html this way renders your users vulnerable to Cross Site Scripting attacks. If the content is user generated, be sure to sanitize it either on render or server side (or both).
 :::
-
-By default, QEditor offers most if not all the commands you’d need in a WYSIWYG editor: bold, italic, strike, underline, unordered (list), ordered (list), subscript, superscript, link, fullscreen, quote, left (align), center (align), right (align), justify (align), print, outdent, indent, removeFormat, hr, undo, redo, h1 to h6, p (paragraph), code (code paragraph), size-1 to size-7.
-
-Each of these commands is pre-configured with icons and their own internationalized tooltips. However, if you want to override some of their settings you can do so with the help of definitions Object property.
-
-```html
-:definitions="{ bold: {label: 'Bold', icon: null, tip: 'My bold tooltip'} }"
-```
 
 <DocExample title="Redefine bold command" file="NewBold" />
 
