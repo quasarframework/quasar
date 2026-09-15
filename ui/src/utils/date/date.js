@@ -13,7 +13,8 @@ const MILLISECONDS_IN_DAY = 86_400_000,
     /(\[[^\]]*\])|do|d{1,4}|Mo|M{1,4}|m{1,2}|wo|w{1,2}|Qo|Do|DDDo|D{1,4}|YY(?:YY)?|GG(?:GG)?|H{1,2}|h{1,2}|s{1,2}|S{1,3}|Z{1,2}|a{1,2}|[AQExX]|([.*+:?^,\s${}()|\\]+)/g,
   escapeRegexRE = /[.*+?^${}()|[\]\\]/g,
   regexStore = new Map(),
-  localeStore = new WeakMap()
+  localeStore = new WeakMap(),
+  escapeSortFn = (a, b) => b.length - a.length
 
 function escapeRegex(str) {
   return str.replaceAll(escapeRegexRE, String.raw`\$&`)
@@ -23,14 +24,7 @@ function escapeRegex(str) {
 // end, so a name that prefixes a longer one would shadow it ("Th1" over
 // "Th12") wherever backtracking cannot force the longer branch
 function namesRegex(list) {
-  return (
-    '(' +
-    [...list]
-      .sort((a, b) => b.length - a.length)
-      .map(escapeRegex)
-      .join('|') +
-    ')'
-  )
+  return '(' + [...list].sort(escapeSortFn).map(escapeRegex).join('|') + ')'
 }
 
 function getLocaleData(dateLocale) {
