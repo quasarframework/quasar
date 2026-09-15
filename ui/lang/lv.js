@@ -27,7 +27,7 @@ export default {
     days: 'Svētdiena_Pirmdiena_Otrdiena_Trešdiena_Ceturtdiena_Piektdiena_Sestdiena'.split(
       '_'
     ),
-    daysShort: 'Sv_Pi_Ot_Tr_Ce_Pi_Se'.split('_'),
+    daysShort: 'Sv_Pi_Ot_Tr_Ce_Pk_Se'.split('_'),
     months:
       'Janvāris_Februāris_Marts_Aprīlis_Maijs_Jūnijs_Jūlijs_Augusts_Septembris_Oktobris_Novembris_Decembris'.split(
         '_'
