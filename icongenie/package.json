@@ -29,7 +29,8 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/quasarframework/quasar.git"
+    "url": "git+https://github.com/quasarframework/quasar.git",
+    "directory": "icongenie"
   },
   "bin": {
     "icongenie": "./bin/icongenie.js"

@@ -12,7 +12,8 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/quasarframework/quasar"
+    "url": "https://github.com/quasarframework/quasar",
+    "directory": "create-quasar"
   },
   "funding": {
     "type": "github",

@@ -19,7 +19,8 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/quasarframework/quasar"
+    "url": "https://github.com/quasarframework/quasar",
+    "directory": "vite-plugin"
   },
   "funding": {
     "type": "github",
