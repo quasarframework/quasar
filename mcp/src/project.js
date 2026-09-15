@@ -1,4 +1,4 @@
-import { existsSync, readFileSync } from 'node:fs'
+import { existsSync, readFileSync, readdirSync } from 'node:fs'
 import { dirname, join, resolve } from 'node:path'
 
 /**
@@ -29,9 +29,73 @@ export const BUNDLED_DOCS_SINCE = {
 
 /**
  * @typedef {object} Project
- * @property {string} dir
+ * @property {string} dir The directory served: the start directory, or the app found below it.
+ * @property {string} startDir The directory the server was started in (or given with --project).
+ * @property {string[]} otherApps Other app directories found below `startDir`, not served.
  * @property {InstalledPackage[]} packages The DOCS_PACKAGES the project has installed.
  */
+
+/** How deep below the start directory the apps of a workspace are looked for. */
+const SCAN_DEPTH = 4
+const SKIP_DIRS = new Set(['node_modules', 'dist', '.quasar', 'coverage'])
+
+/**
+ * The directories below `root` (itself excluded) that have a docs
+ * package installed, in path order, a few levels deep: the apps of a
+ * pnpm workspace, whose dependencies are not hoisted to the root.
+ * Hidden directories, build output and node_modules are not entered;
+ * neither is an app, once found.
+ *
+ * @param {string} root
+ * @returns {string[]}
+ */
+function findApps(root) {
+  const found = []
+  const walk = (dir, depth) => {
+    let entries
+    try {
+      entries = readdirSync(dir, { withFileTypes: true })
+    } catch {
+      return
+    }
+    entries.sort((a, b) => a.name.localeCompare(b.name))
+    for (const entry of entries) {
+      if (
+        !entry.isDirectory() ||
+        entry.name.startsWith('.') ||
+        SKIP_DIRS.has(entry.name)
+      ) {
+        continue
+      }
+      const child = join(dir, entry.name)
+      const isApp = DOCS_PACKAGES.some(name =>
+        existsSync(join(child, 'node_modules', name, 'package.json'))
+      )
+      if (isApp) {
+        found.push(child)
+      } else if (depth < SCAN_DEPTH) {
+        walk(child, depth + 1)
+      }
+    }
+  }
+  walk(root, 1)
+  return found
+}
+
+/**
+ * @param {string} dir
+ * @returns {InstalledPackage[]}
+ */
+function locateAll(dir) {
+  const packages = []
+  for (const name of DOCS_PACKAGES) {
+    const installed = locatePackage(dir, name)
+    if (installed !== null) {
+      packages.push(installed)
+    }
+  }
+  return packages
+}
 
 /**
  * The package as the project's own code would resolve it: the nearest
@@ -74,17 +138,30 @@ function locatePackage(projectDir, name) {
 }
 
 /**
+ * The project to serve. The packages resolve from `projectDir` the way
+ * its own code resolves them. When that finds nothing and the directory
+ * was not named explicitly, the apps below it are looked for (a
+ * workspace opened at its root): the first one in path order is served
+ * and the others are reported, for --project to pick.
+ *
  * @param {string} [projectDir] Defaults to the current working directory.
+ * @param {{ explicit?: boolean }} [opts] `explicit`: the directory was given (--project), serve it as is.
  * @returns {Project}
  */
-export function loadProject(projectDir = process.cwd()) {
-  const dir = resolve(projectDir)
-  const packages = []
-  for (const name of DOCS_PACKAGES) {
-    const installed = locatePackage(dir, name)
-    if (installed !== null) {
-      packages.push(installed)
+export function loadProject(
+  projectDir = process.cwd(),
+  { explicit = false } = {}
+) {
+  const startDir = resolve(projectDir)
+  let dir = startDir
+  let packages = locateAll(startDir)
+  let otherApps = []
+  if (packages.length === 0 && !explicit) {
+    const apps = findApps(startDir)
+    if (apps.length !== 0) {
+      ;[dir, ...otherApps] = apps
+      packages = locateAll(dir)
     }
   }
-  return { dir, packages }
+  return { dir, startDir, otherApps, packages }
 }

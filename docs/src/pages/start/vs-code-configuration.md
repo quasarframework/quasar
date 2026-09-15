@@ -122,4 +122,4 @@ VS Code's own agents (GitHub Copilot in agent mode, and any extension speaking M
 }
 ```
 
-The [AI Agents](/start/ai-agents) page covers the other clients, what the agent gets, and how updates are handled.
+In a monorepo the server serves the first Quasar app it finds below the workspace root; to pick one, add `"--project", "${workspaceFolder}/apps/web"` to the arguments. The [AI Agents](/start/ai-agents) page covers the other clients, what the agent gets, and how updates are handled.

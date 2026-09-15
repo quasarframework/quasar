@@ -1,3 +1,7 @@
+import { mkdtempSync, rmSync } from 'node:fs'
+import { tmpdir } from 'node:os'
+import { join } from 'node:path'
+
 import { Client } from '@modelcontextprotocol/sdk/client/index.js'
 import { InMemoryTransport } from '@modelcontextprotocol/sdk/inMemory.js'
 import { expect, onTestFinished, test, vi } from 'vitest'
@@ -13,8 +17,8 @@ const noUpdates = () => Promise.resolve([])
  * @param {{ fixture?: object, checkUpdates?: Function }} [opts]
  * @returns {Promise<Client>}
  */
-async function connect({ fixture, checkUpdates = noUpdates } = {}) {
-  const project = loadProject(createProject(fixture))
+async function connect({ fixture, projectDir, checkUpdates = noUpdates } = {}) {
+  const project = loadProject(projectDir ?? createProject(fixture))
   const server = await createServer({ project, checkUpdates })
   const client = new Client({ name: 'test', version: '0.0.0' })
   const [clientTransport, serverTransport] =
@@ -320,4 +324,25 @@ test('a slice of another format is named with the server to run, and its API com
   const api = await call(client, 'get_api', { name: 'QBtn', part: 'props' })
   expect(api.isError).toBe(false)
   expect(Object.keys(JSON.parse(api.text).props)).toEqual(['label', 'loading'])
+})
+
+test('a workspace root names the app served and the ones it is not', async () => {
+  const root = mkdtempSync(join(tmpdir(), 'quasar-mcp-workspace-'))
+  onTestFinished(() => {
+    rmSync(root, { recursive: true, force: true })
+  })
+  createProject({ dir: join(root, 'apps/admin') })
+  createProject({ dir: join(root, 'apps/web') })
+  const client = await connect({ projectDir: root })
+  const instructions = client.getInstructions()
+  expect(instructions).toContain(
+    `served from the packages installed in apps/admin, the Quasar app found below ${root}.`
+  )
+  expect(instructions).toContain(
+    'Other Quasar apps in this workspace, not served: apps/web. To serve one of them, start the server with --project <dir>.'
+  )
+  const page = await call(client, 'get_page', {
+    route: 'vue-components/button'
+  })
+  expect(page.isError).toBe(false)
 })

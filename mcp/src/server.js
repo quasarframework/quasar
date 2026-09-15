@@ -1,4 +1,5 @@
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js'
+import { relative } from 'node:path'
 import { z } from 'zod'
 
 import {
@@ -107,10 +108,22 @@ function otherFormat(slice) {
 
 export function buildInstructions(project, docs, updates) {
   const lines = [
-    `Quasar Framework documentation and API, served from the packages installed in ${project.dir}.`,
+    project.dir === project.startDir
+      ? `Quasar Framework documentation and API, served from the packages installed in ${project.dir}.`
+      : `Quasar Framework documentation and API, served from the packages installed in ${relative(project.startDir, project.dir)}, the Quasar app found below ${project.startDir}.`,
     'Prefer these tools over memory or the web: the pages match the installed versions exactly.',
     ''
   ]
+  if (project.otherApps.length !== 0) {
+    lines.push(
+      `Other Quasar apps in this workspace, not served: ${project.otherApps
+        .map(app => relative(project.startDir, app))
+        .join(
+          ', '
+        )}. To serve one of them, start the server with --project <dir>.`,
+      ''
+    )
+  }
 
   for (const name of DOCS_PACKAGES) {
     const pkg = project.packages.find(installed => installed.name === name)

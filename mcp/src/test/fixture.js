@@ -10,16 +10,17 @@ import { onTestFinished } from 'vitest'
  * `meta.json`, and `dist/api` descriptors for quasar. Options drop
  * pieces to model older releases.
  *
- * @param {{ appVite?: boolean, quasarDocs?: boolean, apiMarkdown?: boolean, docsFormat?: number }} [opts] `apiMarkdown: false` models a ui release whose slice predates the rendered descriptors; `docsFormat` the format number quasar's meta.json declares.
+ * @param {{ appVite?: boolean, quasarDocs?: boolean, apiMarkdown?: boolean, docsFormat?: number, dir?: string }} [opts] `apiMarkdown: false` models a ui release whose slice predates the rendered descriptors; `docsFormat` the format number quasar's meta.json declares; `dir` a directory to build the project in (an app of a workspace).
  * @returns {string} The project directory, removed when the test ends.
  */
 export function createProject({
   appVite = true,
   quasarDocs = true,
   apiMarkdown = true,
-  docsFormat = 1
+  docsFormat = 1,
+  dir = mkdtempSync(join(tmpdir(), 'quasar-mcp-'))
 } = {}) {
-  const dir = mkdtempSync(join(tmpdir(), 'quasar-mcp-'))
+  mkdirSync(dir, { recursive: true })
   onTestFinished(() => {
     rmSync(dir, { recursive: true, force: true })
   })

@@ -55,3 +55,50 @@ test('a nested directory of the project finds the same packages', () => {
     '@quasar/app-vite'
   ])
 })
+
+function createWorkspace(apps) {
+  const root = mkdtempSync(join(tmpdir(), 'quasar-mcp-workspace-'))
+  onTestFinished(() => {
+    rmSync(root, { recursive: true, force: true })
+  })
+  for (const app of apps) {
+    createProject({ dir: join(root, app) })
+  }
+  return root
+}
+
+test('a workspace root with one app below serves that app', () => {
+  const root = createWorkspace(['apps/web'])
+  const project = loadProject(root)
+  expect(project.startDir).toBe(root)
+  expect(project.dir).toBe(join(root, 'apps/web'))
+  expect(project.otherApps).toEqual([])
+  expect(project.packages.map(pkg => pkg.name)).toEqual([
+    'quasar',
+    '@quasar/app-vite'
+  ])
+})
+
+test('several apps below: the first in path order is served, the others reported', () => {
+  const root = createWorkspace(['packages/site', 'apps/web', 'apps/admin'])
+  const project = loadProject(root)
+  expect(project.dir).toBe(join(root, 'apps/admin'))
+  expect(project.otherApps).toEqual([
+    join(root, 'apps/web'),
+    join(root, 'packages/site')
+  ])
+})
+
+test('a directory given explicitly is served as is, no app is looked for below it', () => {
+  const root = createWorkspace(['apps/web'])
+  const project = loadProject(root, { explicit: true })
+  expect(project.dir).toBe(root)
+  expect(project.packages).toEqual([])
+})
+
+test('the search below stops a few levels deep and skips build output', () => {
+  const root = createWorkspace(['a/b/c/d/e/web', 'dist/web'])
+  expect(loadProject(root).packages).toEqual([])
+  const near = createWorkspace(['a/b/c/web'])
+  expect(loadProject(near).dir).toBe(join(near, 'a/b/c/web'))
+})

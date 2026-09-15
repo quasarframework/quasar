@@ -35,6 +35,10 @@ Register the server with your MCP client. Nothing gets installed in your project
 
 The server serves the project it is started in, which is what every client does when the configuration lives in the project. If yours starts servers from elsewhere, add `"--project", "/path/to/project"` to the arguments.
 
+### Monorepos
+
+Opened at the root of a workspace, the server resolves the packages the way your code does, so a hoisted layout (npm, Yarn) is found at the root. With pnpm, each app keeps its own `node_modules`, so when the root has none the server looks a few levels below it: one Quasar app there gets served, and the agent is told which. Several apps get the first one in path order, and the agent is told about the others; pass `"--project", "apps/web"` to serve a specific one. Given explicitly, a directory is served as is.
+
 ### Claude Code
 
 ```bash
