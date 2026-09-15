@@ -179,10 +179,75 @@ function terms(text) {
 }
 
 /**
+ * The headings under which the terms occur, the section most about
+ * the query first, so the caller can read that section instead of
+ * the page. A term weighs the inverse of how many sections mention
+ * it: on a page about tables "table" is everywhere and says nothing
+ * about a section, "sorting" is in a few and marks them. A term in
+ * the heading itself counts extra, the more so the shorter the
+ * heading ("Sorting" over "Custom sorting" over "Server side
+ * pagination, filter and sorting"), and occurrences break ties. The
+ * heading in effect is the nearest one above a line, whatever its
+ * level; text inside fences counts, fence markers and frontmatter do
+ * not.
+ *
+ * @param {string} markdown
+ * @param {string[]} queryTerms Lower-case.
+ * @param {number} [limit]
+ * @returns {string[]}
+ */
+export function matchedSections(markdown, queryTerms, limit = 3) {
+  /** @type {Map<string, { words: string[], counts: Map<string, number> }>} */
+  const sections = new Map()
+  let current = null
+  let inFence = false
+  for (const line of markdown.replace(FRONTMATTER_RE, '').split('\n')) {
+    if (line.startsWith('```')) {
+      inFence = !inFence
+      continue
+    }
+    const match = inFence ? null : HEADING_RE.exec(line)
+    if (match !== null) {
+      current = { words: terms(match[2]), counts: new Map() }
+      sections.set(match[2], current)
+    }
+    if (current === null) {
+      continue
+    }
+    const lower = line.toLowerCase()
+    for (const term of queryTerms) {
+      const occurrences = lower.split(term).length - 1
+      if (occurrences !== 0) {
+        current.counts.set(term, (current.counts.get(term) ?? 0) + occurrences)
+      }
+    }
+  }
+  const sectionsWith = term =>
+    [...sections.values()].filter(({ counts }) => counts.has(term)).length
+  const weight = new Map(queryTerms.map(term => [term, 1 / sectionsWith(term)]))
+  const score = ({ words, counts }) => {
+    let total = 0
+    for (const [term, occurrences] of counts) {
+      const inHeading = words.some(word => word.includes(term))
+      total +=
+        weight.get(term) * (1 + (inHeading ? 2 / words.length : 0)) +
+        Math.min(occurrences, 9) / 1000
+    }
+    return total
+  }
+  return [...sections]
+    .filter(([, stats]) => stats.counts.size !== 0)
+    .sort((a, b) => score(b[1]) - score(a[1]))
+    .slice(0, limit)
+    .map(([text]) => text)
+}
+
+/**
  * @typedef {object} SearchHit
  * @property {Page} page
  * @property {number} score
  * @property {string | null} snippet The first body line mentioning a term.
+ * @property {string[]} sections The headings the terms occur under, see matchedSections().
  */
 
 /**
@@ -252,7 +317,12 @@ export function searchDocs(docs, query, { limit = 10, packageName } = {}) {
         break
       }
     }
-    hits.push({ page, score, snippet })
+    hits.push({
+      page,
+      score,
+      snippet,
+      sections: matchedSections(body, queryTerms)
+    })
   }
   hits.sort(
     (a, b) => b.score - a.score || a.page.route.localeCompare(b.page.route)

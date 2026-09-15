@@ -119,7 +119,7 @@ export function buildInstructions(project, docs, updates) {
 
   lines.push(
     '',
-    'Workflow: search_docs to find pages, get_page to read one (section narrows it), get_api for the exact props, slots, events and methods of a component, plugin or directive.',
+    'Workflow: search_docs to find pages (each hit names the sections where the terms occur), get_page with section to read just that part (outline lists the sections; a whole component page can run to 25k tokens), get_api for the exact props, slots, events and methods of a component, plugin or directive.',
     `Pages are routes of ${SITE_URL} (e.g. vue-components/button). Links inside pages are either .md siblings relative to the page's route or ${SITE_URL} URLs: get_page takes both as they appear.`
   )
 
@@ -161,14 +161,20 @@ export async function createServer({
     {
       title: 'List documentation pages',
       description:
-        'Every documentation page available offline, as route, title and description, grouped by the installed package that ships it.',
+        'Every documentation page available offline, as route and title, grouped by the installed package that ships it. Prefer search_docs to find a page; this is the full index.',
       inputSchema: {
         package: packageEnum
           .optional()
-          .describe('Only the pages shipped by this package')
+          .describe('Only the pages shipped by this package'),
+        descriptions: z
+          .boolean()
+          .optional()
+          .describe(
+            "Add each page's one-line description (doubles the size of the listing)"
+          )
       }
     },
-    ({ package: packageName }) => {
+    ({ package: packageName, descriptions = false }) => {
       const lines = []
       for (const source of docs.sources) {
         if (packageName !== void 0 && source.name !== packageName) {
@@ -178,7 +184,7 @@ export async function createServer({
         for (const page of docs.pages.values()) {
           if (page.packageName === source.name) {
             lines.push(
-              `- ${page.route}: ${page.title}${page.desc ? ` (${page.desc})` : ''}`
+              `- ${page.route}: ${page.title}${descriptions && page.desc ? ` (${page.desc})` : ''}`
             )
           }
         }
@@ -199,7 +205,7 @@ export async function createServer({
     {
       title: 'Search the documentation',
       description:
-        'Find documentation pages by keywords (component names, props, features, config options). Returns the best matching routes for get_page.',
+        "Find documentation pages by keywords (component names, props, features, config options). Each hit names the sections where the keywords occur: pass one as get_page's section to read only that part.",
       inputSchema: {
         query: z
           .string()
@@ -228,10 +234,13 @@ export async function createServer({
       }
       return text(
         hits
-          .map(({ page, snippet }) => {
+          .map(({ page, snippet, sections }) => {
             const lines = [`- ${page.route}: ${page.title}`]
             if (page.desc) lines.push(`  ${page.desc}`)
             if (snippet) lines.push(`  > ${snippet}`)
+            if (sections.length !== 0) {
+              lines.push(`  sections: ${sections.join(' | ')}`)
+            }
             return lines.join('\n')
           })
           .join('\n')
@@ -244,7 +253,7 @@ export async function createServer({
     {
       title: 'Read a documentation page',
       description:
-        'The markdown of one documentation page, by route (as listed by list_pages or search_docs, or a quasar.dev URL). Pass a heading to get only that section.',
+        'The markdown of one documentation page, by route (as listed by list_pages or search_docs, or a quasar.dev URL). Pass a heading to get only that section, or outline to get the headings and pick one: whole component pages are long.',
       inputSchema: {
         route: z
           .string()
@@ -255,10 +264,16 @@ export async function createServer({
           .optional()
           .describe(
             'A heading of the page, to return only that section; omit for the whole page'
+          ),
+        outline: z
+          .boolean()
+          .optional()
+          .describe(
+            'Only the title and headings of the page, to pick a section'
           )
       }
     },
-    ({ route: input, section }) => {
+    ({ route: input, section, outline = false }) => {
       const route = normalizeRoute(input)
       const page = docs.pages.get(route)
       if (page === void 0) {
@@ -272,6 +287,16 @@ export async function createServer({
         )
       }
       const markdown = readPage(page)
+      if (outline) {
+        return text(
+          [
+            `# ${page.title}`,
+            ...listHeadings(markdown).map(
+              heading => `${'#'.repeat(heading.level)} ${heading.text}`
+            )
+          ].join('\n')
+        )
+      }
       if (section === void 0) {
         return text(markdown)
       }

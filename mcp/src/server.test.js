@@ -82,14 +82,18 @@ test('exposes the six tools', async () => {
   ])
 })
 
-test('list_pages groups by package and filters by it', async () => {
+test('list_pages groups by package and filters by it, descriptions on request', async () => {
   const client = await connect()
   const all = await call(client, 'list_pages')
   expect(all.text).toContain('# quasar 2.33.0')
-  expect(all.text).toContain(
+  expect(all.text).toContain('- vue-components/button: Button\n')
+  expect(all.text).not.toContain('The QBtn component.')
+  expect(all.text).toContain('# @quasar/app-vite 3.9.0')
+
+  const described = await call(client, 'list_pages', { descriptions: true })
+  expect(described.text).toContain(
     '- vue-components/button: Button (The QBtn component.)'
   )
-  expect(all.text).toContain('# @quasar/app-vite 3.9.0')
 
   const cli = await call(client, 'list_pages', { package: '@quasar/app-vite' })
   expect(cli.text).not.toContain('# quasar 2.33.0')
@@ -101,6 +105,11 @@ test('search_docs returns routes with snippets', async () => {
   const { text } = await call(client, 'search_docs', { query: 'boot' })
   expect(text).toContain('- quasar-cli-vite/boot-files: Boot files')
   expect(text).toContain('> Boot files run before')
+
+  const sections = await call(client, 'search_docs', { query: 'loading' })
+  expect(sections.text).toContain(
+    '- vue-components/button: Button\n  The QBtn component.\n  > Set the `loading` prop for a spinner.\n  sections: Loading state'
+  )
 
   const miss = await call(client, 'search_docs', { query: 'unicorn' })
   expect(miss.text).toContain('No page matches')
@@ -244,4 +253,15 @@ test('get_api falls back to the JSON when the installed release has no rendered 
     part: 'methods'
   })
   expect(part.text.startsWith('### Methods')).toBe(true)
+})
+
+test('get_page outline lists the title and headings only', async () => {
+  const client = await connect()
+  const outline = await call(client, 'get_page', {
+    route: 'vue-components/button',
+    outline: true
+  })
+  expect(outline.text).toBe(
+    '# Button\n## QBtn API\n## Usage\n### Standard\n### Custom colors\n## Loading state'
+  )
 })

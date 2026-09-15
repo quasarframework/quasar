@@ -80,8 +80,8 @@ Put the JSON above in the client's MCP configuration file (`.cursor/mcp.json`, `
 | Tool            | Purpose                                                                      |
 | --------------- | ---------------------------------------------------------------------------- |
 | `list_pages`    | every documentation page available offline, grouped by package               |
-| `search_docs`   | the pages matching some keywords                                             |
-| `get_page`      | a page, or one section of it                                                 |
+| `search_docs`   | the pages matching some keywords, and the sections they occur in             |
+| `get_page`      | a page, one section of it, or its outline                                    |
 | `list_api`      | the names of the API descriptors (`QBtn`, `Notify`, `Ripple`, ...)           |
 | `get_api`       | the props, slots, events and methods of one of them, as this site shows them |
 | `check_updates` | whether newer releases of `quasar`, `@quasar/app-vite` or the server exist   |

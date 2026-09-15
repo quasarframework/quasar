@@ -12,7 +12,9 @@
 import { relativeMdPath, sourceToOutputPath } from './routes.js'
 
 /** @type {ReadonlySet<string>} */
-const KEEP_FIELDS = new Set(['title', 'desc', 'overline', 'related'])
+// desc stays out: the indexes carry it (llms.txt on the site, meta.json
+// in a slice) and the page's opening paragraph says the same.
+const KEEP_FIELDS = new Set(['title', 'overline', 'related'])
 
 /**
  * @param {unknown} rawPath

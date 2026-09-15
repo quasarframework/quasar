@@ -162,6 +162,15 @@ test('search leads to the page about the subject, in either package', async () =
     limit: 1
   })
   expect(boot.text.startsWith('- quasar-cli-vite/boot-files:')).toBe(true)
+  expect(boot.text).toMatch(/\n {2}sections: .+/)
+
+  const outline = await call(client, 'get_page', {
+    route: 'vue-components/button',
+    outline: true
+  })
+  expect(outline.text.startsWith('# Button\n')).toBe(true)
+  expect(outline.text).toContain('\n## Usage\n')
+  expect(outline.text).not.toContain('```')
 
   const section = await call(client, 'get_page', {
     route: 'quasar-cli-vite/boot-files',

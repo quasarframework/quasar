@@ -4,6 +4,7 @@ import {
   extractSection,
   listHeadings,
   loadDocs,
+  matchedSections,
   normalizeRoute,
   readPage,
   searchDocs,
@@ -84,6 +85,7 @@ test('search ranks title matches first and needs every term', () => {
   const [first] = searchDocs(docs, 'button')
   expect(first.page.route).toBe('vue-components/button')
   expect(first.snippet).toContain('QBtn')
+  expect(first.sections).toEqual([])
 
   expect(searchDocs(docs, 'notify').map(hit => hit.page.route)).toEqual([
     'quasar-plugins/notify',
@@ -117,5 +119,64 @@ test('a miss in a section nothing serves gets no look-alike from elsewhere', () 
   // inside a served section the match stays loose
   expect(similarRoutes(docs, 'vue-components/buttons')).toEqual([
     'vue-components/button'
+  ])
+})
+
+test('a hit names the sections its terms occur under, the one most about the query first', () => {
+  const docs = load()
+  const [hit] = searchDocs(docs, 'loading')
+  expect(hit.page.route).toBe('vue-components/button')
+  expect(hit.sections).toEqual(['Loading state'])
+
+  const body = [
+    '---',
+    'title: T',
+    'desc: prop prop prop',
+    '---',
+    '',
+    'prop before any heading',
+    '',
+    '## Usage',
+    '',
+    'one prop',
+    '',
+    '### Standard',
+    '',
+    '```vue',
+    '<x prop="a" :prop="b" />',
+    '## prop inside a fence is not a heading',
+    '```',
+    '',
+    '## Props deep dive',
+    '',
+    'prop and prop'
+  ].join('\n')
+  // "Props deep dive" carries the term in its heading; "Standard" has
+  // the most occurrences (the fence counts, its fake heading does not)
+  expect(matchedSections(body, ['prop'])).toEqual([
+    'Props deep dive',
+    'Standard',
+    'Usage'
+  ])
+  expect(matchedSections(body, ['prop'], 1)).toEqual(['Props deep dive'])
+  expect(matchedSections(body, ['nothing'])).toEqual([])
+  // the page's subject is in every section and weighs nothing there;
+  // the query's other term marks the section
+  expect(
+    matchedSections(
+      '## A\n\ntable table table table\n\n## B\n\ntable sorting\n\n## Sorting\n\ntable',
+      ['table', 'sorting']
+    )
+  ).toEqual(['Sorting', 'B', 'A'])
+  // a heading made of the terms beats one that merely contains them
+  expect(
+    matchedSections(
+      '## Server side pagination, filter and sorting\n\ntable sorting table sorting table sorting\n\n## Custom sorting\n\ntable sorting table sorting\n\n## Sorting\n\ntable sorting',
+      ['table', 'sorting']
+    )
+  ).toEqual([
+    'Sorting',
+    'Custom sorting',
+    'Server side pagination, filter and sorting'
   ])
 })

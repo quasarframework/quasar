@@ -6,7 +6,7 @@ const menuByPath = new Map([
   ['vue-components/circular-progress', { title: 'Circular Progress' }]
 ])
 
-test('keeps title/desc/overline; drops id/keys/examples/scope/nav', () => {
+test('keeps title/overline; drops desc/id/keys/examples/scope/nav', () => {
   const rawFrontmatter = {
     title: 'Knob',
     desc: 'The QKnob...',
@@ -18,11 +18,7 @@ test('keeps title/desc/overline; drops id/keys/examples/scope/nav', () => {
     nav: [{ prev: 'x' }]
   }
   const { frontmatter: output } = processFrontmatter(rawFrontmatter, menuByPath)
-  expect(Object.keys(output).sort()).toStrictEqual([
-    'desc',
-    'overline',
-    'title'
-  ])
+  expect(Object.keys(output).sort()).toStrictEqual(['overline', 'title'])
 })
 
 test('resolves related paths to {title, path}', () => {
