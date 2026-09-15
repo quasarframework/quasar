@@ -1,5 +1,5 @@
 import { expect, test } from 'vitest'
-import { createAiMd } from './md-ai.js'
+import { createAiMd } from './md.js'
 
 test('createAiMd returns a markdown-it instance with html enabled', () => {
   const md = createAiMd()

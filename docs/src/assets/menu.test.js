@@ -3,8 +3,8 @@ import { existsSync, globSync } from 'node:fs'
 import { join, normalize } from 'node:path'
 
 import menu from './menu.js'
-import { buildMenuMaps } from '../../build/ai-docs/menu.js'
-import { sourceToMenuKey } from '../../build/ai-docs/routes.js'
+import { buildMenuMaps } from '../../build/mcp/pages/menu.js'
+import { sourceToMenuKey } from '../../build/mcp/pages/routes.js'
 
 const pagesDir = normalize(join(import.meta.dirname, '../pages'))
 

@@ -12,7 +12,7 @@
  * but the result is order-independent.
  */
 
-import { relativeMdPath } from '../routes.js'
+import { relativeMdPath } from '../pages/routes.js'
 
 /**
  * Rewrite an in-tree absolute href to a relative `.md` path when it

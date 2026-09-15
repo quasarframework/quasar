@@ -3,10 +3,10 @@
  * from a clean slate so registrations never leak across test files.
  */
 
-import { createAiMd } from './md-ai.js'
-import { clearEmitters, createCtx, emitTokens } from './emit/walker.js'
-import { registerProseEmitters } from './emit/prose.js'
-import { registerContainerEmitters } from './emit/containers.js'
+import { createAiMd } from './markdown/md.js'
+import { clearEmitters, createCtx, emitTokens } from './markdown/walker.js'
+import { registerProseEmitters } from './markdown/prose.js'
+import { registerContainerEmitters } from './markdown/containers.js'
 
 function renderTokens(src) {
   const md = createAiMd()

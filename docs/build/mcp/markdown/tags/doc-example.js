@@ -9,11 +9,11 @@
 import { existsSync, readFileSync } from 'node:fs'
 import { join } from 'node:path'
 
-import { applyCollapseMarkers } from './collapse-markers.js'
-import { fenceFor } from './fence-utils.js'
+import { applyCollapseMarkers } from '../collapse-markers.js'
+import { fenceFor } from '../fence-utils.js'
 
-/** @typedef {import('./walker.js').EmitCtx} EmitCtx */
-/** @typedef {import('./walker.js').MarkdownItToken} MarkdownItToken */
+/** @typedef {import('../walker.js').EmitCtx} EmitCtx */
+/** @typedef {import('../walker.js').MarkdownItToken} MarkdownItToken */
 
 /**
  * @typedef {object} TagHandler

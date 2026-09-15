@@ -11,8 +11,8 @@
  * renderNode.
  */
 
-/** @typedef {import('./walker.js').EmitCtx} EmitCtx */
-/** @typedef {import('./walker.js').MarkdownItToken} MarkdownItToken */
+/** @typedef {import('../walker.js').EmitCtx} EmitCtx */
+/** @typedef {import('../walker.js').MarkdownItToken} MarkdownItToken */
 
 /**
  * @typedef {object} TagHandler

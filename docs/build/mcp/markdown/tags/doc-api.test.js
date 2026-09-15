@@ -5,7 +5,7 @@ import { tmpdir } from 'node:os'
 import { docApiHandler } from './doc-api.js'
 
 const __dirname = import.meta.dirname
-const apiDir = resolve(__dirname, '../../../../ui/dist/api')
+const apiDir = resolve(__dirname, '../../../../../ui/dist/api')
 
 // a built ui package is guaranteed by the vitest globalSetup preflight
 test('renders QKnob API from real JSON file', () => {
@@ -15,6 +15,26 @@ test('renders QKnob API from real JSON file', () => {
   const output = handler.block(token, ctx)
   expect(output).toMatch(/## QKnob API/)
   expect(output).toMatch(/### Props/)
+})
+
+test('emits a get_api pointer instead of the API when referenceOnly', () => {
+  const handler = docApiHandler({ apiDir, referenceOnly: true })
+  const token = { content: '<DocApi file="QKnob" />' }
+  const ctx = { warnings: [], sourcePath: 'vue-components/knob.md' }
+  const output = handler.block(token, ctx)
+  expect(output).toMatch(/^## QKnob API\n/)
+  expect(output).toMatch(/`get_api` tool with `name: "QKnob"`/)
+  expect(output).not.toMatch(/### Props/)
+  expect(ctx.warnings).toEqual([])
+})
+
+test('referenceOnly still reports a missing API file', () => {
+  const handler = docApiHandler({ apiDir, referenceOnly: true })
+  const token = { content: '<DocApi file="QNonexistent" />' }
+  const ctx = { warnings: [], sourcePath: 'vue-components/x.md' }
+  const output = handler.block(token, ctx)
+  expect(ctx.warnings.length).toBe(1)
+  expect(output).toMatch(/<!-- DocApi: QNonexistent not found -->/)
 })
 
 test('missing file logs warning and emits placeholder', () => {

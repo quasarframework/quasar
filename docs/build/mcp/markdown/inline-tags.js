@@ -7,7 +7,7 @@
  * or null when the tag is unknown so the caller can log a warning.
  */
 
-import { sourceToMenuKey } from '../routes.js'
+import { sourceToMenuKey } from '../pages/routes.js'
 
 /** @typedef {import('./walker.js').EmitCtx} EmitCtx */
 

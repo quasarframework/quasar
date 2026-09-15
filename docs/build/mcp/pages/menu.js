@@ -10,14 +10,14 @@ import { join, relative } from 'node:path'
 import matter from 'gray-matter'
 
 import { sourceToMenuKey } from './routes.js'
-import { flatMenu } from '../md/flat-menu.js'
-import sidebarMenu from '../../src/assets/menu.js'
+import { flatMenu } from '../../md/flat-menu.js'
+import sidebarMenu from '../../../src/assets/menu.js'
 import {
   moreLinks,
   primaryToolbarLinks,
   secondaryToolbarLinks,
   versionLinks
-} from '../../src/assets/links.header.js'
+} from '../../../src/assets/links.header.js'
 
 /**
  * Walk a header-links tree and collect every internal page path, recursing

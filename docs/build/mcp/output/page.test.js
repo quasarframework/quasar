@@ -2,7 +2,7 @@ import { expect, test } from 'vitest'
 import { existsSync, mkdtempSync, readFileSync, rmSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
-import { writePage } from './per-page.js'
+import { writePage } from './page.js'
 
 function withTempDir(run) {
   const dir = mkdtempSync(join(tmpdir(), 'aidocs-'))

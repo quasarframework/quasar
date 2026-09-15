@@ -8,7 +8,7 @@
 import { globSync, readFileSync } from 'node:fs'
 import { join } from 'node:path'
 
-import { sourceToMenuKey } from '../ai-docs/routes.js'
+import { sourceToMenuKey } from '../mcp/pages/routes.js'
 import md from './md.js'
 import { applyHtmlContentControl } from './md-parse.js'
 import { parseFrontMatter } from './md-parse-utils.js'

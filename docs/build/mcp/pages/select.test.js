@@ -1,5 +1,5 @@
 import { expect, test } from 'vitest'
-import { selectPages } from './page-selector.js'
+import { selectPages } from './select.js'
 
 const menuByKey = new Map([
   ['vue-components/knob', { title: 'Knob' }],

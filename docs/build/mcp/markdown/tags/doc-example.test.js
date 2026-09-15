@@ -3,7 +3,7 @@ import { resolve } from 'node:path'
 import { docExampleHandler } from './doc-example.js'
 
 const __dirname = import.meta.dirname
-const examplesDir = resolve(__dirname, '../../../src/examples')
+const examplesDir = resolve(__dirname, '../../../../src/examples')
 
 test('inlines a real example .vue file', () => {
   const handler = docExampleHandler({ examplesDir })

@@ -1,18 +1,23 @@
 /**
  * <DocApi file="X" /> handler.
  *
- * Reads ui/dist/api/{X}.json and dispatches to api-render/render-api.
- * A missing file emits an HTML comment placeholder so the page stays
- * structurally intact. JSON parse failures are caught because a corrupt
- * API file shouldn't kill the whole build.
+ * Reads ui/dist/api/{X}.json and dispatches to api/render. A missing
+ * file emits an HTML comment placeholder so the page stays structurally
+ * intact. JSON parse failures are caught because a corrupt API file
+ * shouldn't kill the whole build.
+ *
+ * A bundled slice (`--target`) ships next to the very `dist/api` JSON
+ * the render would duplicate, and the MCP server serves that JSON
+ * through its `get_api` tool, so there the tag emits a pointer to the
+ * tool instead of the rendered API.
  */
 
 import { existsSync, readFileSync } from 'node:fs'
 import { join } from 'node:path'
-import { renderApi } from '../api-render/render-api.js'
+import { renderApi } from '../../api/render.js'
 
-/** @typedef {import('./walker.js').EmitCtx} EmitCtx */
-/** @typedef {import('./walker.js').MarkdownItToken} MarkdownItToken */
+/** @typedef {import('../walker.js').EmitCtx} EmitCtx */
+/** @typedef {import('../walker.js').MarkdownItToken} MarkdownItToken */
 
 /**
  * @typedef {object} TagHandler
@@ -26,10 +31,10 @@ const FILE_RE = /file="([^"]+)"/
  * Build a DocApi tag handler. `apiDir` is injected so tests can point at
  * any directory holding `{Name}.json` API descriptors.
  *
- * @param {{ apiDir: string }} opts
+ * @param {{ apiDir: string, referenceOnly?: boolean }} opts `referenceOnly` emits the get_api pointer instead of the rendered API.
  * @returns {TagHandler}
  */
-export function docApiHandler({ apiDir }) {
+export function docApiHandler({ apiDir, referenceOnly = false }) {
   return {
     block: (token, ctx) => {
       const match = token.content.match(FILE_RE)
@@ -45,6 +50,13 @@ export function docApiHandler({ apiDir }) {
           `<DocApi file="${name}"> JSON not found at ${jsonPath} in ${ctx.sourcePath}`
         )
         return `<!-- DocApi: ${name} not found -->\n\n`
+      }
+      if (referenceOnly) {
+        return (
+          `## ${name} API\n\n` +
+          `Not inlined here: call the \`get_api\` tool with \`name: "${name}"\` ` +
+          `for the props, slots, events and methods of ${name}.\n\n`
+        )
       }
       let json
       try {

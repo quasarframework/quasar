@@ -153,7 +153,7 @@ export function renderProps(props, depth = 0) {
       // source-JSON authoring bug. Surface it instead of silently rendering
       // Object.entries(array) garbage.
       console.warn(
-        `[ai-docs] '${name}' has array definition (expected object); skipping recursion`
+        `[mcp] '${name}' has array definition (expected object); skipping recursion`
       )
     }
   }
@@ -196,7 +196,7 @@ function buildSignature(name, method) {
     : 'void'
   if (method.returns && !method.returns.type) {
     console.warn(
-      `[ai-docs] method '${name}' has returns with no type field; treating as void`
+      `[mcp] method '${name}' has returns with no type field; treating as void`
     )
   }
   return `${name}(${params}): ${returnType}`

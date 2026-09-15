@@ -7,11 +7,11 @@
  * and is applied here so DocLink output matches normal markdown links.
  */
 
-import { rewriteLink } from './link-rewrite.js'
-import { sourceToOutputPath } from '../routes.js'
+import { rewriteLink } from '../link-rewrite.js'
+import { sourceToOutputPath } from '../../pages/routes.js'
 
-/** @typedef {import('./walker.js').EmitCtx} EmitCtx */
-/** @typedef {import('./walker.js').MarkdownItToken} MarkdownItToken */
+/** @typedef {import('../walker.js').EmitCtx} EmitCtx */
+/** @typedef {import('../walker.js').MarkdownItToken} MarkdownItToken */
 
 /**
  * @typedef {object} TagHandler

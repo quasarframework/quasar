@@ -41,7 +41,8 @@
     "lib",
     "!lib/**/*.test.js",
     "templates",
-    "types"
+    "types",
+    "dist"
   ],
   "type": "module",
   "types": "./types/index.d.ts",
@@ -114,7 +115,8 @@
     "test:e2e:electron": "vitest run -c vitest-e2e.config.js -t Electron",
     "test:e2e:capacitor": "vitest run -c vitest-e2e.config.js -t Capacitor",
     "test:e2e:cordova": "vitest run -c vitest-e2e.config.js -t Cordova",
-    "prepublishOnly": "pnpm test"
+    "generate:mcp": "node ../ui/build/ensure-fresh-build.js && pnpm --filter quasar.dev generate:mcp --target app-vite",
+    "prepublishOnly": "pnpm test && pnpm generate:mcp"
   },
   "dependencies": {
     "@clack/prompts": "^1.8.0",

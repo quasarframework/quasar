@@ -10,7 +10,7 @@ import { emit, emitTokens, registerEmitter } from './walker.js'
 import { rewriteLink } from './link-rewrite.js'
 import { transformMagicComments } from './code-magic-comments.js'
 import { fenceFor } from './fence-utils.js'
-import { sourceToOutputPath } from '../routes.js'
+import { sourceToOutputPath } from '../pages/routes.js'
 
 /** @typedef {import('./walker.js').EmitCtx} EmitCtx */
 /** @typedef {import('./walker.js').MarkdownItToken} MarkdownItToken */

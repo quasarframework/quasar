@@ -16,3 +16,7 @@ Quasar app (`quasar prepare` applies).
   server, they share `.quasar`/`.q-cache`. Keep `pnpm generate:search`
   in the `build` chain — it is the search generator's only coverage.
   `E2E_SERVER_URL` audits a running `dev:ssr` instead of booting one.
+- `pnpm generate:mcp --target ui|app-vite` writes the docs slice a
+  package bundles for `@quasar/mcp` (`build/mcp/targets.js` lists the
+  routes); the package's own `generate:mcp` script runs it from its
+  `prepublishOnly`. A page must be in the site menu to be generated.

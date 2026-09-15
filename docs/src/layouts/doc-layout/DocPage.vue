@@ -175,7 +175,7 @@ if (import.meta.env.QUASAR_DEV) {
   })
 }
 
-// the page's markdown sibling from the AI-docs export (build/ai-docs),
+// the page's markdown sibling from the docs generator (build/mcp),
 // served next to it
 const mdHref = `${useRoute().path}.md`
 

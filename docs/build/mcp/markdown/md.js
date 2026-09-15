@@ -8,7 +8,7 @@
  */
 
 import markdownIt from 'markdown-it'
-import { registerAllParsing, sharedMdOptions } from '../md/md-rules.js'
+import { registerAllParsing, sharedMdOptions } from '../../md/md-rules.js'
 
 /**
  * @returns {import('markdown-it')} configured markdown-it instance

@@ -1,8 +1,16 @@
 /**
- * AI-docs extractor entry point.
+ * Docs generator entry point. Converts `docs/src/pages/**\/*.md` into
+ * standalone, LLM-friendly markdown.
  *
- * Run: pnpm generate:ai-docs  (from docs/)
- * Or:  node docs/build/ai-docs/extract.js  (from repo root)
+ * Site build (`pnpm generate:mcp`, from docs/): every menu page into
+ * `docs/build/mcp/dist`, plus `llms.txt`, shipped next to the HTML pages
+ * of quasar.dev.
+ *
+ * Package slice (`pnpm generate:mcp --target ui|app-vite`): only that
+ * package's pages (see targets.js) into `<package>/dist/mcp`, plus
+ * `meta.json`, published with the package for the @quasar/mcp server to
+ * serve offline. Each package's `generate:mcp` script runs this as the
+ * last step of its `prepublishOnly`.
  */
 
 import {
@@ -17,46 +25,49 @@ import { fileURLToPath } from 'node:url'
 import { basename, join, resolve } from 'node:path'
 import { execSync } from 'node:child_process'
 import { performance } from 'node:perf_hooks'
+import { parseArgs } from 'node:util'
 import { globSync } from 'tinyglobby'
 import matter from 'gray-matter'
 
-import { createAiMd } from './md-ai.js'
-import { clearEmitters, createCtx, emitTokens } from './emit/walker.js'
-import { registerProseEmitters } from './emit/prose.js'
-import { registerContainerEmitters } from './emit/containers.js'
-import { registerTabsEmitter } from './emit/tabs.js'
+import { createAiMd } from './markdown/md.js'
+import { clearEmitters, createCtx, emitTokens } from './markdown/walker.js'
+import { registerProseEmitters } from './markdown/prose.js'
+import { registerContainerEmitters } from './markdown/containers.js'
+import { registerTabsEmitter } from './markdown/tabs.js'
 import {
   clearTagHandlers,
   registerHtmlDispatchers,
   registerTagHandler
-} from './emit/html-dispatcher.js'
-import { stripScriptDoc } from './emit/script-doc-stripper.js'
-import { applyLlmContentControl } from './emit/llm-content-control.js'
-import { docApiHandler } from './emit/doc-api.js'
-import { docExampleHandler } from './emit/doc-example.js'
-import { docTreeHandler } from './emit/doc-tree.js'
-import { docInstallationHandler } from './emit/doc-installation.js'
-import { docLinkHandler } from './emit/doc-link.js'
+} from './markdown/html-dispatcher.js'
+import { stripScriptDoc } from './markdown/script-doc-stripper.js'
+import { applyLlmContentControl } from './markdown/llm-content-control.js'
+import { docApiHandler } from './markdown/tags/doc-api.js'
+import { docExampleHandler } from './markdown/tags/doc-example.js'
+import { docTreeHandler } from './markdown/tags/doc-tree.js'
+import { docInstallationHandler } from './markdown/tags/doc-installation.js'
+import { docLinkHandler } from './markdown/tags/doc-link.js'
 
-import { processFrontmatter } from './frontmatter.js'
-import { sourceToMenuKey, sourceToOutputPath } from './routes.js'
-import { selectPages } from './page-selector.js'
+import { processFrontmatter } from './pages/frontmatter.js'
+import { sourceToMenuKey, sourceToOutputPath } from './pages/routes.js'
+import { selectPages } from './pages/select.js'
 import {
   buildMenuMaps,
   buildMenuPaths,
   buildSectionIndex,
   loadFrontmatters
-} from './menu.js'
-import { checkApiCoverage } from './api-coverage.js'
-import { writePage } from './output/per-page.js'
+} from './pages/menu.js'
+import { checkApiCoverage } from './api/coverage.js'
+import { writePage } from './output/page.js'
 import { buildLlmsTxt } from './output/llms-txt.js'
-import { countTokens } from './tokens.js'
+import { buildMeta } from './output/meta.js'
+import { countTokens } from './output/tokens.js'
+import { TARGETS, targetIncludes } from './targets.js'
 
 const REPO_ROOT = resolve(import.meta.dirname, '../../..')
 const SRC_PAGES = join(REPO_ROOT, 'docs/src/pages')
 const API_DIR = fileURLToPath(import.meta.resolve('quasar/dist/api'))
 const EXAMPLES_DIR = join(REPO_ROOT, 'docs/src/examples')
-const DIST_DIR = join(REPO_ROOT, 'docs/build/ai-docs/dist')
+const SITE_DIST_DIR = join(REPO_ROOT, 'docs/build/mcp/dist')
 
 const MAX_SOURCE_WARNINGS_SHOWN = 10
 const SITE_URL = 'https://quasar.dev'
@@ -76,15 +87,50 @@ const IGNORES = [
 ]
 
 /**
+ * @typedef {object} Run
+ * @property {string} label Log prefix, `mcp` or `mcp:<target>`.
+ * @property {string} distDir Output root, wiped before writing.
+ * @property {(typeof TARGETS)[keyof typeof TARGETS] | null} target Null for the site build.
+ */
+
+/**
+ * `--target ui|app-vite` selects a package slice; no flag means the site.
+ *
+ * @param {string[]} argv
+ * @returns {Run}
+ */
+function parseRun(argv) {
+  const { values } = parseArgs({
+    args: argv,
+    options: { target: { type: 'string' } },
+    strict: true
+  })
+  if (values.target === void 0) {
+    return { label: 'mcp', distDir: SITE_DIST_DIR, target: null }
+  }
+  const target = TARGETS[values.target]
+  if (target === void 0) {
+    throw new Error(
+      `Unknown --target "${values.target}"; expected one of: ${Object.keys(TARGETS).join(', ')}`
+    )
+  }
+  return {
+    label: `mcp:${values.target}`,
+    distDir: join(REPO_ROOT, target.packageDir, 'dist/mcp'),
+    target
+  }
+}
+
+/**
  * Wire the walker and dispatcher with every emitter the pipeline needs.
  * Clears prior registrations first so repeated calls (e.g. across tests)
  * never leave stale handlers. registerTabsEmitter() must come after
  * registerProseEmitters() because it overrides the fence emitter.
  *
- * @param {{ apiDir: string, examplesDir: string }} opts
+ * @param {{ apiDir: string, examplesDir: string, referenceApi: boolean }} opts
  * @returns {void}
  */
-function registerAllEmitters({ apiDir, examplesDir }) {
+function registerAllEmitters({ apiDir, examplesDir, referenceApi }) {
   clearEmitters()
   clearTagHandlers()
   registerProseEmitters()
@@ -92,7 +138,10 @@ function registerAllEmitters({ apiDir, examplesDir }) {
   registerTabsEmitter()
   registerHtmlDispatchers()
 
-  registerTagHandler('DocApi', docApiHandler({ apiDir }))
+  registerTagHandler(
+    'DocApi',
+    docApiHandler({ apiDir, referenceOnly: referenceApi })
+  )
   registerTagHandler('DocExample', docExampleHandler({ examplesDir }))
   registerTagHandler('DocTree', docTreeHandler())
   registerTagHandler('DocInstall', docInstallationHandler())
@@ -182,42 +231,48 @@ function checkPrerequisites() {
 }
 
 /**
- * Quasar version + git commit the artifact was generated from. Commit is
- * null outside a git checkout (e.g. a source tarball).
+ * Version of a workspace package.
  *
- * @returns {{ quasarVersion: string, sourceCommit: string | null }}
+ * @param {string} packageDir Path relative to the repo root, e.g. `ui`.
+ * @returns {string}
  */
-function buildProvenance() {
-  const uiPackage = JSON.parse(
-    readFileSync(join(REPO_ROOT, 'ui/package.json'), 'utf8')
-  )
-  let sourceCommit = null
+function packageVersion(packageDir) {
+  return JSON.parse(
+    readFileSync(join(REPO_ROOT, packageDir, 'package.json'), 'utf8')
+  ).version
+}
+
+/**
+ * Git commit the artifact was generated from. Null outside a git
+ * checkout (e.g. a source tarball).
+ *
+ * @returns {string | null}
+ */
+function sourceCommit() {
   try {
-    sourceCommit = execSync('git rev-parse HEAD', { cwd: REPO_ROOT })
-      .toString()
-      .trim()
+    return execSync('git rev-parse HEAD', { cwd: REPO_ROOT }).toString().trim()
   } catch {
-    // not a git checkout, leave null
+    return null
   }
-  return { quasarVersion: uiPackage.version, sourceCommit }
 }
 
 /**
  * Write llms.txt (per llmstxt.org) indexing every generated page.
  *
+ * @param {string} distDir
  * @param {string[]} writtenPaths Relative source paths of pages actually written.
  * @param {Map<string, { title: string | null, desc: string | null }>} menuByKey
  * @param {string} quasarVersion
  * @returns {void}
  */
-function writeLlmsTxt(writtenPaths, menuByKey, quasarVersion) {
+function writeLlmsTxt(distDir, writtenPaths, menuByKey, quasarVersion) {
   const pages = writtenPaths.map(relativePath => {
     const key = sourceToMenuKey(relativePath)
     const entry = menuByKey.get(key)
     return { key, title: entry?.title ?? key, desc: entry?.desc ?? null }
   })
   writeFileSync(
-    join(DIST_DIR, 'llms.txt'),
+    join(distDir, 'llms.txt'),
     buildLlmsTxt({
       pages,
       sectionIndex: buildSectionIndex(),
@@ -228,42 +283,72 @@ function writeLlmsTxt(writtenPaths, menuByKey, quasarVersion) {
 }
 
 /**
- * Write the provenance sidecar and the generated dist README.
+ * Site sidecars: the provenance JSON and the generated dist README.
  *
+ * @param {string} distDir
  * @param {number} pages
- * @returns {string} quasarVersion for reuse
+ * @param {string} quasarVersion
+ * @returns {void}
  */
-function writeMeta(pages) {
-  const { quasarVersion, sourceCommit } = buildProvenance()
+function writeSiteMeta(distDir, pages, quasarVersion) {
+  const commit = sourceCommit()
   writeFileSync(
-    join(DIST_DIR, '_meta.json'),
-    JSON.stringify({ quasarVersion, sourceCommit, pages }, null, 2)
+    join(distDir, '_meta.json'),
+    JSON.stringify({ quasarVersion, sourceCommit: commit, pages }, null, 2)
   )
   writeFileSync(
-    join(DIST_DIR, 'README.md'),
+    join(distDir, 'README.md'),
     `# Quasar Documentation for LLMs\n\n` +
       `Machine-generated markdown of the Quasar v${quasarVersion} documentation ` +
-      `(${pages} pages), extracted from the official docs source at commit ${sourceCommit ?? 'unknown'}.\n\n` +
-      `Generated by \`docs/build/ai-docs\` in the quasarframework/quasar repo. ` +
+      `(${pages} pages), extracted from the official docs source at commit ${commit ?? 'unknown'}.\n\n` +
+      `Generated by \`docs/build/mcp\` in the quasarframework/quasar repo. ` +
       `Do not edit, every build overwrites this directory.\n`
   )
-  return quasarVersion
+}
+
+/**
+ * Slice sidecar: `meta.json`, the page index the MCP server reads.
+ *
+ * @param {Run} run
+ * @param {string[]} writtenPaths Relative source paths of pages actually written.
+ * @param {Map<string, { title: string | null, desc: string | null }>} menuByKey
+ * @returns {void}
+ */
+function writeSliceMeta(run, writtenPaths, menuByKey) {
+  const pages = writtenPaths.map(relativePath => {
+    const route = sourceToMenuKey(relativePath)
+    const entry = menuByKey.get(route)
+    return { route, title: entry?.title ?? route, desc: entry?.desc ?? null }
+  })
+  writeFileSync(
+    join(run.distDir, 'meta.json'),
+    buildMeta({
+      packageName: run.target.packageName,
+      version: packageVersion(run.target.packageDir),
+      pages
+    })
+  )
 }
 
 /**
  * Orchestrator. Wires the pipeline, drives the per-page loop, writes outputs
- * plus the `_warnings.json` and `_meta.json` sidecars, and prints a stdout
- * summary. Exits non-zero on `fatal` or `config` warnings so CI fails loudly
- * when the build itself is broken. `source` warnings are authoring nits and
- * don't fail.
+ * plus the `_warnings.json` sidecar, and prints a stdout summary. Exits
+ * non-zero on `fatal` or `config` warnings so CI fails loudly when the
+ * build itself is broken. `source` warnings are authoring nits and don't
+ * fail.
  *
+ * @param {Run} run
  * @returns {void}
  */
-function main() {
+function main(run) {
   checkPrerequisites()
   const startTime = performance.now()
   const md = createAiMd()
-  registerAllEmitters({ apiDir: API_DIR, examplesDir: EXAMPLES_DIR })
+  registerAllEmitters({
+    apiDir: API_DIR,
+    examplesDir: EXAMPLES_DIR,
+    referenceApi: run.target !== null
+  })
 
   const globbed = globSync(GLOB, { cwd: SRC_PAGES, ignore: IGNORES })
   const menuByKey = buildMenuMaps(SRC_PAGES)
@@ -272,7 +357,11 @@ function main() {
       'flat-menu.js returned no entries; something is wrong with the menu import'
     )
   }
-  const { included, orphans, missing } = selectPages(globbed, menuByKey)
+  const {
+    included: menuPages,
+    orphans,
+    missing
+  } = selectPages(globbed, menuByKey)
   // Menu entries whose source exists but sits in IGNORES are deliberately
   // skipped (interactive/marketing pages), not missing. Only report menu
   // entries with no source file at all.
@@ -280,11 +369,21 @@ function main() {
     globSync(GLOB, { cwd: SRC_PAGES }).map(sourceToMenuKey)
   )
   const trulyMissing = missing.filter(key => !allSourceKeys.has(key))
-  loadFrontmatters(included, menuByKey, SRC_PAGES)
+  // Titles are loaded for every menu page, not just the slice, so
+  // `related` entries and links pointing outside the slice keep their
+  // real titles.
+  loadFrontmatters(menuPages, menuByKey, SRC_PAGES)
   const menuPaths = buildMenuPaths(menuByKey)
 
-  rmSync(DIST_DIR, { recursive: true, force: true })
-  mkdirSync(DIST_DIR, { recursive: true })
+  const included =
+    run.target === null
+      ? menuPages
+      : menuPages.filter(relativePath =>
+          targetIncludes(run.target, sourceToMenuKey(relativePath))
+        )
+
+  rmSync(run.distDir, { recursive: true, force: true })
+  mkdirSync(run.distDir, { recursive: true })
 
   const warningsByKind = { fatal: [], config: [], source: [] }
   const writtenPaths = []
@@ -304,7 +403,7 @@ function main() {
       }
       const outputPath = sourceToOutputPath(relativePath)
       writePage({
-        distDir: DIST_DIR,
+        distDir: run.distDir,
         outputPath,
         frontMatter: outputFrontmatter,
         body
@@ -328,23 +427,29 @@ function main() {
     )
   }
 
-  const coverageWarnings = checkApiCoverage({
-    apiDir: API_DIR,
-    srcPagesDir: SRC_PAGES,
-    includedPages: included
-  })
-  for (const warning of coverageWarnings) {
-    warningsByKind[classifyWarning(warning)].push(warning)
+  if (run.target === null) {
+    // API coverage is a whole-site property: a slice legitimately leaves
+    // out the pages documenting the other package's APIs.
+    const coverageWarnings = checkApiCoverage({
+      apiDir: API_DIR,
+      srcPagesDir: SRC_PAGES,
+      includedPages: included
+    })
+    for (const warning of coverageWarnings) {
+      warningsByKind[classifyWarning(warning)].push(warning)
+    }
+    const quasarVersion = packageVersion('ui')
+    writeSiteMeta(run.distDir, writtenPaths.length, quasarVersion)
+    writeLlmsTxt(run.distDir, writtenPaths, menuByKey, quasarVersion)
+  } else {
+    writeSliceMeta(run, writtenPaths, menuByKey)
   }
-
-  const quasarVersion = writeMeta(writtenPaths.length)
-  writeLlmsTxt(writtenPaths, menuByKey, quasarVersion)
 
   const warningCount =
     warningsByKind.fatal.length +
     warningsByKind.config.length +
     warningsByKind.source.length
-  const warningsLogPath = join(DIST_DIR, '_warnings.json')
+  const warningsLogPath = join(run.distDir, '_warnings.json')
   if (warningCount !== 0) {
     // The stdout summary truncates. The sidecar keeps the full list.
     writeFileSync(warningsLogPath, JSON.stringify(warningsByKind, null, 2))
@@ -353,12 +458,17 @@ function main() {
   const seconds = ((performance.now() - startTime) / 1000).toFixed(1)
 
   console.log(
-    `\n[ai-docs] Generated ${writtenPaths.length} pages in ${seconds}s`
+    `\n[${run.label}] Generated ${writtenPaths.length} pages in ${seconds}s into ${run.distDir}`
   )
   console.log(`  Source pages found:        ${globbed.length}`)
   console.log(
-    `  Filtered by menu:          ${writtenPaths.length} included, ${orphans.length} orphans`
+    `  Filtered by menu:          ${menuPages.length} included, ${orphans.length} orphans`
   )
+  if (run.target !== null) {
+    console.log(
+      `  Filtered by target:        ${included.length} included, ${menuPages.length - included.length} left to the site`
+    )
+  }
   if (orphans.length !== 0) {
     console.log(`  Orphans (in pages, not in menu):`)
     for (const orphan of orphans) {
@@ -373,7 +483,7 @@ function main() {
   }
   let totalTokens = 0
   for (const relativePath of writtenPaths) {
-    const outputFilePath = join(DIST_DIR, sourceToOutputPath(relativePath))
+    const outputFilePath = join(run.distDir, sourceToOutputPath(relativePath))
     if (existsSync(outputFilePath)) {
       totalTokens += countTokens(readFileSync(outputFilePath, 'utf8'))
     }
@@ -417,8 +527,8 @@ function main() {
 }
 
 try {
-  main()
+  main(parseRun(process.argv.slice(2)))
 } catch (err) {
-  console.error('[ai-docs] FATAL', err)
+  console.error('[mcp] FATAL', err)
   process.exit(1)
 }

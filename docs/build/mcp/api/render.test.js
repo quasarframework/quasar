@@ -1,7 +1,7 @@
 import { expect, test } from 'vitest'
 import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
-import { renderApi } from './render-api.js'
+import { renderApi } from './render.js'
 
 const __dirname = import.meta.dirname
 
