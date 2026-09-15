@@ -12,8 +12,8 @@ useMeta({
   titleTemplate: title => `${title} | Quasar Framework`,
 
   meta: getMeta(
-    'Quasar Framework - Build high-performance Vue.js user interfaces in record time',
-    'Developer-oriented, front-end framework with Vue.js components for best-in-class high-performance, responsive websites, PWA, SSR, SSG, Mobile and Desktop apps, all from the same codebase. Sensible people choose Vue. Productive people choose Quasar. Be both.'
+    'Quasar Framework - Enterprise-ready, AI-ready cross-platform Vue.js framework',
+    'Build high-performance, accessible Vue.js websites, PWA, SSR, SSG, browser extension, mobile and desktop apps from one codebase, with documentation and API your AI coding agent reads offline. Sensible people choose Vue. Productive people choose Quasar. Be both.'
   )
 })
 </script>

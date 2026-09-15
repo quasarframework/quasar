@@ -39,7 +39,7 @@ const props = defineProps({
 </script>
 
 <style lang="sass">
-$card-side--large: 400px
+$card-side--large: 320px
 $card-side--small: 280px
 
 .why-quasar-card
@@ -49,7 +49,7 @@ $card-side--small: 280px
 
   @media (min-width: $breakpoint-xs-max)
     width: $card-side--large
-    height: $card-side--large
+    min-height: $card-side--large
     &__title
       letter-spacing: 0.4px
 </style>

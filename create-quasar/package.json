@@ -1,7 +1,7 @@
 {
   "name": "create-quasar",
   "version": "5.0.27",
-  "description": "Scaffolds Quasar Apps & App Extensions",
+  "description": "Scaffolds Quasar Apps & App Extensions: the enterprise-ready, AI-ready cross-platform Vue.js framework",
   "homepage": "https://quasar.dev",
   "bugs": "https://github.com/quasarframework/quasar/issues",
   "license": "MIT",

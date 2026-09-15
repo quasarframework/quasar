@@ -13,7 +13,7 @@ Quasar CLI is the pride of Quasar Framework. You can seamlessly build:
 - a Mobile App (through Cordova or Capacitor),
 - an Electron App
 
-...within the same project folder, ensuring you are **following the best Quasar practices while everything will simply work out of the box**.
+...within the same project folder, ensuring you are **following the best Quasar practices while everything will simply work out of the box**. The documentation of the CLI and of the UI ships inside the installed packages too, so an [AI coding agent](/start/ai-agents) working on your project reads the pages of the exact versions you run.
 
 ## Trying Quasar CLI Online
 

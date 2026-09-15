@@ -40,6 +40,7 @@ There are four ways of using Quasar. Pick the one that suits you best:
 | Advanced configuration through dynamic quasar.config file                                      | -          | **Yes**                | -                          |
 | Unit & end to end testing support                                                              | -          | **Yes**                | **Yes**                    |
 | TypeScript support                                                                             | -          | **Yes**                | **Yes**                    |
+| Documentation and API served offline to [AI coding agents](/start/ai-agents)                   | -          | **Yes**                | **Yes**                    |
 | **Best and Most Popular Choice!**                                                              |            | **YES!**               |                            |
 |                                                                                                | Quasar UMD | Quasar CLI (with Vite) | Quasar Vite Plugin         |
 

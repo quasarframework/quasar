@@ -15,14 +15,23 @@
         <h1
           class="letter-spacing-375 landing-my-large text-center text-size-20 primary-line-height"
         >
-          The enterprise-ready cross-platform VueJs framework
+          <span class="block">Enterprise-ready. AI-ready.</span>
+          <span class="block">The cross-platform Vue.js framework.</span>
         </h1>
 
-        <q-btn
-          label="Are you ready to lift off?"
-          class="call-to-action-btn shadow-bottom-small"
-          @click="scrollSectionIntoView.whyQuasar"
-        />
+        <div
+          class="intro-section__command row no-wrap items-center call-to-action-btn shadow-bottom-small rounded-borders"
+        >
+          <code class="col text-size-12">{{ createCommand }}</code>
+          <q-btn
+            flat
+            round
+            dense
+            :icon="copied ? 'check' : 'content_copy'"
+            :aria-label="copied ? 'Copied' : 'Copy the command'"
+            @click="copyCommand"
+          />
+        </div>
 
         <q-btn
           flat
@@ -65,7 +74,7 @@
       <div class="q-my-xl" id="why-quasar-section">
         <h2 class="heading heading--large">Why should you choose Quasar?</h2>
 
-        <div class="q-gutter-lg row justify-center">
+        <div class="why-quasar-cards">
           <why-quasar-card
             v-for="(
               { icon, title, body, btnLabel, btnLink }, whyQuasarCardIndex
@@ -163,7 +172,8 @@
 </template>
 
 <script setup>
-import { scroll, useMeta } from 'quasar'
+import { copyToClipboard, scroll, useMeta } from 'quasar'
+import { ref } from 'vue'
 
 import DocStars from '@/components/DocStars.vue'
 import SponsorList from './SponsorList.vue'
@@ -186,24 +196,31 @@ useMeta({
 
 const whyQuasar = [
   {
+    icon: 'img:/svg/source.svg',
+    title: 'All platforms, one codebase',
+    body: 'SPA, SSR, SSG, PWA, browser extension, mobile and desktop apps from the same code, with a CLI that ties the build modes together.',
+    btnLabel: 'Start with the CLI',
+    btnLink: '/start/quasar-cli'
+  },
+  {
     icon: 'img:/svg/components.svg',
-    title: 'Top Class Components',
-    body: 'A library of more than 70 high performance customizable Material Design web components for all your needs',
+    title: 'Accessible components',
+    body: 'More than 120 fast Vue.js components with WAI-ARIA semantics, keyboard navigation and focus management built in.',
     btnLabel: 'Browse components',
     btnLink: '/components'
   },
   {
-    icon: 'img:/svg/source.svg',
-    title: 'One codebase many integrations',
-    body: 'Keep your favorite technology, we provide all the needed integrations out of the box.',
-    btnLabel: 'Discover Integrations',
-    btnLink: '/integrations'
+    icon: 'img:/svg/satellite.svg',
+    title: 'Built for AI agents',
+    body: 'The docs and API ship inside the packages: an MCP server hands your coding agent the exact versions your project runs, offline.',
+    btnLabel: 'Set up your agent',
+    btnLink: '/start/ai-agents'
   },
   {
     icon: 'img:/svg/documentation.svg',
     title: 'Great documentation',
-    body: 'All the details you deserve to start working properly. Every star-pilot needs a good manual.',
-    btnLabel: 'Get Started',
+    body: 'Live examples and a full API for every component, plugin and build mode, kept in step with each release. Every star-pilot needs a good manual.',
+    btnLabel: 'Get started',
     btnLink: '/start/quick-start'
   }
 ]
@@ -211,6 +228,20 @@ const whyQuasar = [
 function goToSection(sectionId) {
   const el = document.getElementById(sectionId)
   if (el) scroll.setVerticalScrollPosition(window, el.offsetTop, 400)
+}
+
+const createCommand = 'pnpm create quasar@latest'
+const copied = ref(false)
+let copiedTimer = null
+
+function copyCommand() {
+  copyToClipboard(createCommand).then(() => {
+    copied.value = true
+    clearTimeout(copiedTimer)
+    copiedTimer = setTimeout(() => {
+      copied.value = false
+    }, 2000)
+  })
 }
 
 const scrollSectionIntoView = {
@@ -228,7 +259,7 @@ $support-quasar-background-padding: 35vw
   color: #000
 
   .btn-underline
-    border-bottom: 1px solid rgba($color: white, $alpha: 0.54)
+    border-bottom: 1px solid rgba(#fff, 0.54)
 
   .social-channels-call-to-action
     // undo margin from q-page
@@ -276,6 +307,27 @@ $support-quasar-background-padding: 35vw
   .intro-section
     margin-top: 60px
     margin-bottom: 208px
+
+    &__command
+      max-width: 100%
+      margin-bottom: 32px
+      padding: 4px 4px 4px 14px
+
+      code
+        font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace
+        padding-right: 12px
+
+  // four cards in a row where they fit, two by two below that, then a column
+  .why-quasar-cards
+    display: flex
+    flex-wrap: wrap
+    justify-content: center
+    gap: 24px
+    margin: 0 auto
+    max-width: 1352px // 4 cards + 3 gaps
+
+    @media (max-width: 1420px)
+      max-width: 664px // 2 cards + 1 gap
 
     @media screen and (min-height: 980px)
       margin-top: 100px

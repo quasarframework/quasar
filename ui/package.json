@@ -1,7 +1,7 @@
 {
   "name": "quasar",
   "version": "2.32.3",
-  "description": "Build high-performance Vue.js user interfaces (SPA, PWA, SSR, SSG, Mobile and Desktop) in record time",
+  "description": "Enterprise-ready, AI-ready cross-platform Vue.js framework: high-performance, accessible components for SPA, PWA, SSR, SSG, mobile and desktop apps, with documentation your AI coding agent reads offline",
   "keywords": [
     "desktop",
     "electron",

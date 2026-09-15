@@ -1,9 +1,9 @@
 ---
 title: Why Quasar?
-desc: What Quasar is and how it can considerably reduce your development time and costs.
+desc: What Quasar is, what it ships out of the box, and why it cuts development time and cost.
 ---
 
-Because it saves development costs drastically. Only Quasar can do:
+Because it gives a Vue.js app everything it needs, whether it ships as a website or goes cross-platform: the same accessible components, plugins and CLI serve a single page app, a server-rendered site, a mobile app, a desktop app or a browser extension, and one codebase can become any of them the day you need it. Every piece, from the components to the build, is documented and ready for the people and the AI agents working on it. Only Quasar can do:
 
 <script doc>
 import IntroductionVideo from './IntroductionVideo.vue'
@@ -11,98 +11,65 @@ import IntroductionVideo from './IntroductionVideo.vue'
 
 <IntroductionVideo />
 
-Also because:
-
-- It's based on Vue.js
-- You get a state-of-the-art UI (that follows Material Guidelines) for your **websites** and **apps** out of the box
-- Best support for desktop and **mobile browsers** (including iOS Safari!) out of the box
-- Best-in-class support for each build mode (SPA, SSR, SSG, PWA, Mobile app, Desktop app & Browser Extension) and the best developer experience through a tight integration with our own CLI
-- It's easily customizable (CSS) and extendable (JS)
-- It's the most performance-focused framework
-- It's tree-shakable automatically
-- Incredible community on our Forum and Discord chat
-- Has a regular release cycle inclusive of new features
-- Gets quick fixes and listens to the community's requests
-- Handles the whole development experience (including even creating your app's icons and splash screens)
-
-Worried about bloat? You shouldn't be. If you only want to build a website, Quasar will only build the code required for a website, with nothing else. Same goes for the other build modes.
-
 ## What is Quasar?
 
-Quasar (pronounced `/ˈkweɪ.zɑɹ/`) is an MIT licensed open-source Vue.js based framework, which allows you as a web developer to quickly create responsive++ websites/apps in many flavours:
+Quasar (pronounced `/ˈkweɪ.zɑɹ/`) is an MIT licensed open-source framework based on Vue.js. It is a UI library of more than 120 components, a set of plugins, directives, composables and utils, and a CLI that builds the same code for every target:
 
-- SPAs (Single Page App)
-- SSR (Server-side Rendered App) (+ optional PWA client takeover)
-- SSG (Static Site Generator App) (+ optional PWA client takeover; + optional partial CSR)
-- PWAs (Progressive Web App)
+- SPA (Single Page App)
+- SSR (Server-side Rendered App), with an optional PWA client takeover
+- SSG (Static Site Generator App), with optional PWA client takeover and partial CSR
+- PWA (Progressive Web App)
 - BEX (Browser Extension)
-- Mobile Apps (Android, iOS, …) through Cordova or Capacitor
-- Multi-platform Desktop Apps (using Electron)
+- Mobile apps (Android, iOS) through Capacitor or Cordova
+- Desktop apps (macOS, Windows, Linux) through Electron
 
-Quasar's motto is: **write code once and simultaneously deploy it** as a website, a Mobile App and/or an Electron App. Yes, one codebase for all of them, helping you develop an app in record time by using a state-of-the-art CLI and backed by best-practice, blazing fast Quasar web components.
+Quasar's motto is: **write code once and deploy it everywhere**. One codebase, one set of best practices, and a build that only includes what the target needs: a website build carries nothing of the mobile or desktop code.
 
-When using Quasar, you won't need additional heavy libraries like Hammer.js, Moment.js or Bootstrap. It's got those needs covered internally, and all with a small footprint!
+## Why Quasar?
 
-## What else you got?
+#### All platforms, one codebase
 
-Because of the simplicity and power offered to you out of the box, Quasar, with its CLI, is packed full of features, all built to make your developer life easier.
+One authoritative source of code for responsive websites (SPA, SSR, SSG, each with optional PWA takeover), PWAs, mobile apps that look native and multi-platform desktop apps. The [Quasar CLI](/start/quasar-cli) ties the build modes together, so switching from a website to a mobile app is a command, not a rewrite.
 
-::: tip Food for thought
-Quasar is looking into the future and sets its own high and modern standards. And yes, in order to make progress in web development, we need to break the current establishment. Otherwise, we’d all continue to write websites in cgi-bin / perl today too, because many years ago that’s what developers were accustomed to. However, what most developers are accustomed to at one point in time doesn’t actually mean it’s the best solution or the “definite” solution, and Quasar will never bend into choosing what we believe is not the optimal path to high-quality work, not even over money.
-<br><br>
+#### Components that are fast and accessible by default
 
-_What we want to achieve with Quasar is to raise the bar for web development as a whole. Make it go forward, evolve. Change minds. Point out when there’s a better alternative._
-:::
+There is a component for almost every need, each crafted for the best experience of your users and for performance: components that are off screen cost nothing, popups position natively where the browser can do it, and animations run off the main thread. Every component ships with WAI-ARIA semantics, keyboard navigation and focus management [built in](/options/accessibility), with no configuration.
 
-Below is a non-exhaustive list of Quasar's great aspects and features.
+#### Ready for AI agents
 
-#### All Platforms in One Go
+The documentation and the API of every component, plugin and directive ship inside the `quasar` and `@quasar/app-vite` packages. The [@quasar/mcp server](/start/ai-agents) hands any MCP-capable coding agent the pages and API of the exact versions your project runs, offline, and every page on this site has a Markdown twin for agents that browse the web.
 
-One authoritative source of code for all platforms, simultaneously: responsive desktop/mobile websites (SPA, SSR + SPA client takeover, SSR + PWA client takeover, SSG + partial CSR, SSG + PWA client takeover), PWAs (Progressive Web Apps), mobile apps (that look native) and multi-platform desktop apps (through Electron).
+#### On the web platform's Baseline
 
-#### The largest set of top-class, fast and responsive web components
-
-There’s a component for almost every web development need within Quasar. Each of Quasar's components is carefully crafted to offer you the best possible experience for your users. Quasar is **designed with performance & responsiveness in mind** – so the overhead of using Quasar is barely noticeable. This attention to performance and good design is something that gives us special pride.
+Quasar targets [Baseline Widely Available](/start/browser-support): features that have worked across Chrome, Edge, Firefox and Safari for at least 30 months, iOS Safari included. Each release train refreshes the build targets, so your app uses the modern platform without carrying yesterday's workarounds.
 
 #### Best practices integrated by default
 
-Quasar was also built to encourage developers to follow web development best practices. To do this, Quasar is packed full of great features out of the box - **with no configuration needed**. This includes [accessibility](/options/accessibility): components ship with WAI-ARIA semantics, keyboard navigation and focus management built in.
+The CLI scaffolds a project with TypeScript, linting, unit and end-to-end testing harnesses, SSR-safe patterns and PWA tooling available from the first command. Quasar does the heavy lifting, so you are free to focus on your features and not on boilerplate.
 
-#### App Extensions support
+#### App Extensions
 
-Quasar App Extensions are a way to painlessly inject complicated (or simple) setups into your websites/apps. They're also a way for our big community to contribute and help you get up to speed even faster. **The patterns for development literally open the floodgates to making Quasar one of the most extensible and powerful frameworks out there** - limited only by your imagination and innovation.
+Quasar App Extensions inject a complete setup, simple or elaborate, into your project with one command. They are also how the community shares what it builds, which makes Quasar one of the most extensible frameworks out there.
 
-#### Full RTL Support
+#### Full RTL support
 
-RTL (right to left) support for both Quasar components & the developer’s own code. Developer-written website/app CSS code gets automatically converted to RTL if an RTL language pack is used.
+Right to left support for both Quasar components and your own code: your CSS is converted to RTL automatically when an RTL language pack is used.
 
-#### Progressively migrate your existing project
+#### Progressively migrate an existing project
 
-Quasar offers a UMD (Unified Module Definition) version, which means developers can add a CSS and JS HTML tag into their existing project and they’re ready to use it. No build step is required.
+The [UMD version](/start/umd) adds Quasar to any page with a CSS and a JS tag, no build step required, and the [Vite plugin](/start/vite-plugin) brings it into an existing Vite app.
 
-#### Focus on your features, not the boilerplating
+#### Language packs and icon sets
 
-The top-class project initialization with Quasar CLI makes getting started very easy for you as a developer. You can turn your idea into reality in record time. In other words, Quasar does the heavy lifting for you, so you are free to focus on your features and not on boilerplate.
+74 language packs and 44 icon sets out of the box, from Material Symbols to Font Awesome, MDI, Bootstrap Icons and more. A missing language pack takes five minutes to add.
 
-#### Automated testing & audit
+#### A community that answers
 
-Quasar projects have the ability to add Unit and End-to-End testing harnesses out of the box, as well as an ever-growing suite of product quality and security auditing tools. All this to ensure that your websites/apps have the highest quality possible.
-
-#### Awesome ever-growing community
-
-When developers encounter a problem they can’t solve, they can visit the Quasar [forum](https://forum.quasar.dev/) or our [Discord chat server](https://chat.quasar.dev). The community is always there to help you. You can also get updates on new versions and features by following us on [Twitter](https://twitter.quasar.dev). You can also get special service as a [backer/sponsor](https://donate.quasar.dev) and help make sure Quasar stays relevant for you in the future too!
-
-#### A wide range of platform support
-
-Google Chrome, Firefox, Edge, Safari, Opera, iOS, Android, MacOS, Linux, Windows.
-
-#### Quasar Language Packs
-
-Quasar comes equipped with over 40 language packs out of the box. On top of that, if your language pack is missing, it takes just 5 minutes to add it.
+When you hit a problem, the [forum](https://forum.quasar.dev/) and the [Discord chat](https://chat.quasar.dev) are there. Releases come regularly with new features, fixes land fast, and [backers and sponsors](https://donate.quasar.dev) keep the project going.
 
 #### Great documentation
 
-And finally, it’s worth mentioning the significant amount of time taken to write great, bloat-free, focused and complete documentation so that developers can quickly pick up Quasar. We put special effort into our documentation to make sure there is no confusion.
+Every component, plugin and build mode comes with live examples, a complete API, and pages kept in step with each release. A lot of care goes into keeping the documentation focused and free of bloat, so that there is no confusion.
 
 ## Get started in under a minute
 

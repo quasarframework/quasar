@@ -1,7 +1,7 @@
 {
   "name": "@quasar/app-vite",
   "version": "3.8.4",
-  "description": "Quasar Framework App CLI with Vite",
+  "description": "Quasar Framework App CLI with Vite: SPA, SSR, SSG, PWA, browser extension, mobile and desktop apps from one codebase, with documentation your AI coding agent reads offline",
   "keywords": [
     "cli",
     "cordova",
