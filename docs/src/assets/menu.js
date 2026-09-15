@@ -15,6 +15,12 @@ export default [
     path: 'start/browser-support'
   },
   {
+    name: 'AI Agents',
+    badge: 'new',
+    icon: 'smart_toy',
+    path: 'start/ai-agents'
+  },
+  {
     name: 'How to contribute',
     icon: 'code',
     path: 'how-to-contribute',

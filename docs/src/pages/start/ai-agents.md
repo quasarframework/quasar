@@ -1,6 +1,7 @@
 ---
 title: AI Agents
 desc: How to give AI coding agents the Quasar documentation and API of the versions your project runs, through the @quasar/mcp server.
+badge: beta
 ---
 
 AI coding agents know a Quasar, not necessarily yours. The `@quasar/mcp` package is an [MCP](https://modelcontextprotocol.io) (Model Context Protocol) server that hands any MCP-capable agent the documentation pages and the component API of the exact Quasar versions installed in your project, offline.
