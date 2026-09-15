@@ -1,6 +1,15 @@
 import { readFileSync } from 'node:fs'
 import { join } from 'node:path'
 
+/**
+ * The slice format this server reads (meta.json `format`, written by
+ * the docs generator, docs/build/mcp/output/meta.js). A slice of
+ * another format is left out and named in the instructions: the
+ * server's major version tracks the format, so `@quasar/mcp@<format>`
+ * is the server for it. One reader, no legacy readers.
+ */
+export const DOCS_FORMAT = 1
+
 const SITE_URL_RE = /^https?:\/\/(?:v2\.)?quasar\.dev\//
 const HEADING_RE = /^(#{1,6})\s+(.+?)\s*#*\s*$/
 const FRONTMATTER_RE = /^---\n[\s\S]*?\n---\n/
@@ -18,6 +27,7 @@ const FRONTMATTER_RE = /^---\n[\s\S]*?\n---\n/
  * @typedef {object} Docs
  * @property {Map<string, Page>} pages Keyed by route.
  * @property {Array<{ name: string, version: string, pageCount: number }>} sources
+ * @property {Array<{ name: string, version: string, format: number }>} unreadable Installed slices of another format than DOCS_FORMAT, left out.
  */
 
 /**
@@ -29,6 +39,7 @@ const FRONTMATTER_RE = /^---\n[\s\S]*?\n---\n/
 export function loadDocs(packages) {
   const pages = new Map()
   const sources = []
+  const unreadable = []
   for (const pkg of packages) {
     if (pkg.docsDir === null) {
       continue
@@ -36,6 +47,12 @@ export function loadDocs(packages) {
     const meta = JSON.parse(
       readFileSync(join(pkg.docsDir, 'meta.json'), 'utf8')
     )
+    // the first slices predate the field
+    const format = meta.format ?? 1
+    if (format !== DOCS_FORMAT) {
+      unreadable.push({ name: pkg.name, version: meta.version, format })
+      continue
+    }
     let pageCount = 0
     for (const { route, title, desc } of meta.pages) {
       // A page both slices carry (the agent setup page) is served once.
@@ -53,7 +70,7 @@ export function loadDocs(packages) {
     }
     sources.push({ name: pkg.name, version: meta.version, pageCount })
   }
-  return { pages, sources }
+  return { pages, sources, unreadable }
 }
 
 /**

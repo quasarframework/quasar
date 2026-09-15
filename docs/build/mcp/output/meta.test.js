@@ -1,8 +1,8 @@
 import { expect, test } from 'vitest'
 
-import { buildMeta } from './meta.js'
+import { DOCS_FORMAT, buildMeta } from './meta.js'
 
-test('lists the package, its version and the pages sorted by route', () => {
+test('lists the format, the package, its version and the pages sorted by route', () => {
   const meta = JSON.parse(
     buildMeta({
       packageName: 'quasar',
@@ -13,7 +13,9 @@ test('lists the package, its version and the pages sorted by route', () => {
       ]
     })
   )
+  expect(DOCS_FORMAT).toBe(1)
   expect(meta).toEqual({
+    format: DOCS_FORMAT,
     package: 'quasar',
     version: '2.33.0',
     pages: [

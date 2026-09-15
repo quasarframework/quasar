@@ -4,6 +4,7 @@ import {
   mkdirSync,
   mkdtempSync,
   readFileSync,
+  readdirSync,
   rmSync,
   symlinkSync,
   writeFileSync
@@ -14,6 +15,14 @@ import { join } from 'node:path'
 import { Client } from '@modelcontextprotocol/sdk/client/index.js'
 import { StdioClientTransport } from '@modelcontextprotocol/sdk/client/stdio.js'
 import { beforeAll, expect, onTestFinished, test } from 'vitest'
+
+import {
+  API_PARTS,
+  MEMBER_PARTS,
+  readApiMarkdown,
+  readApiMembersMarkdown
+} from '../src/api.js'
+import { DOCS_FORMAT } from '../src/docs.js'
 
 // The contract between the docs generator (docs/build/mcp, --target)
 // and this server, exercised on the slices the monorepo's own ui and
@@ -244,4 +253,67 @@ test('stdout carries nothing but protocol frames', async () => {
   for (const line of lines) {
     expect(JSON.parse(line).jsonrpc).toBe('2.0')
   }
+})
+
+// The slice format contract, on the slices this repo generates: what
+// the generator writes is what this server parses. A renderer change
+// that moves a heading or an entry line fails here, on the same
+// branch, before anything is published; a deliberate change bumps
+// DOCS_FORMAT on both sides and the server's major.
+test('the generated slices are of the format this server reads, and every API part and member is reachable', () => {
+  for (const pkg of ['quasar', '@quasar/app-vite']) {
+    const meta = JSON.parse(
+      readFileSync(
+        join(projectDir, 'node_modules', pkg, 'dist/mcp/meta.json'),
+        'utf8'
+      )
+    )
+    expect(meta.format).toBe(DOCS_FORMAT)
+    expect(meta.package).toBe(pkg)
+    expect(typeof meta.version).toBe('string')
+    for (const page of meta.pages) {
+      expect(typeof page.route).toBe('string')
+      expect(typeof page.title).toBe('string')
+    }
+  }
+
+  const quasarDir = join(projectDir, 'node_modules/quasar')
+  const docsDir = join(quasarDir, 'dist/mcp')
+  const apiDir = join(quasarDir, 'dist/api')
+  const names = readdirSync(apiDir)
+    .filter(file => file.endsWith('.json'))
+    .map(file => file.slice(0, -'.json'.length))
+  expect(names.length).toBeGreaterThan(100)
+
+  const unreachable = []
+  for (const name of names) {
+    const api = JSON.parse(readFileSync(join(apiDir, `${name}.json`), 'utf8'))
+    if (readApiMarkdown(docsDir, name) === null) {
+      unreachable.push(name)
+      continue
+    }
+    for (const part of API_PARTS) {
+      const data = api[part]
+      const present =
+        Boolean(data) &&
+        (typeof data !== 'object' || Object.keys(data).length !== 0)
+      if (!present) {
+        continue
+      }
+      if (readApiMarkdown(docsDir, name, part) === null) {
+        unreachable.push(`${name}.${part}`)
+      }
+      if (MEMBER_PARTS.includes(part)) {
+        for (const member of Object.keys(data)) {
+          if (
+            readApiMembersMarkdown(docsDir, name, [{ part, name: member }]) ===
+            null
+          ) {
+            unreachable.push(`${name}.${part}.${member}`)
+          }
+        }
+      }
+    }
+  }
+  expect(unreachable).toEqual([])
 })

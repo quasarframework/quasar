@@ -1,6 +1,7 @@
 import { expect, test } from 'vitest'
 
 import {
+  DOCS_FORMAT,
   extractSection,
   listHeadings,
   loadDocs,
@@ -178,4 +179,18 @@ test('a hit names the sections its terms occur under, the one most about the que
     'Custom sorting',
     'Server side pagination, filter and sorting'
   ])
+})
+
+test('a slice of another format is left out and named, a slice without the field is format 1', () => {
+  expect(DOCS_FORMAT).toBe(1)
+  const docs = load({ docsFormat: 2 })
+  expect(docs.sources.map(source => source.name)).toEqual(['@quasar/app-vite'])
+  expect(docs.unreadable).toEqual([
+    { name: 'quasar', version: '2.33.0', format: 2 }
+  ])
+  expect(docs.pages.has('vue-components/button')).toBe(false)
+  // the page both slices carry is still served, by the readable one
+  expect(docs.pages.get('start/ai-agents').packageName).toBe('@quasar/app-vite')
+
+  expect(load({ docsFormat: void 0 }).unreadable).toEqual([])
 })

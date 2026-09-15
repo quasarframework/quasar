@@ -303,3 +303,21 @@ test('get_api serves one member, in every part that has it, or a suggestion', as
   expect(wrongPart.isError).toBe(true)
   expect(wrongPart.text).toContain('has no named members')
 })
+
+test('a slice of another format is named with the server to run, and its API comes as JSON', async () => {
+  const client = await connect({ fixture: { docsFormat: 2 } })
+  const expected =
+    "quasar 2.33.0 bundles its documentation in format 2, this server reads format 1; run `npx -y --fetch-retries=0 @quasar/mcp@2` instead (the server's major version tracks the format)"
+  expect(client.getInstructions()).toContain(`- ${expected}.`)
+
+  const miss = await call(client, 'get_page', {
+    route: 'vue-components/button'
+  })
+  expect(miss.isError).toBe(true)
+  expect(miss.text).toContain(`Not available offline: ${expected}.`)
+
+  // the rendered API files are part of the slice, so they are not parsed either
+  const api = await call(client, 'get_api', { name: 'QBtn', part: 'props' })
+  expect(api.isError).toBe(false)
+  expect(Object.keys(JSON.parse(api.text).props)).toEqual(['label', 'loading'])
+})

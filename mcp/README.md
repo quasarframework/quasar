@@ -58,6 +58,8 @@ I'm excited if you want to contribute to Quasar under any form (report bugs, wri
 
 Quasar is following [Semantic Versioning 2.0](https://semver.org/).
 
+The documentation slices the packages ship (`dist/mcp`) carry a `format` number in their `meta.json`. It moves only when the shape the server parses changes, and this server's major version tracks it: `@quasar/mcp@1` reads format 1. A project whose installed packages carry another format is told so at session start, with the server to run instead.
+
 ## License
 
 Copyright (c) 2026-present Razvan Stoenescu

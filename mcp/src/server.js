@@ -14,6 +14,7 @@ import {
   similarApiNames
 } from './api.js'
 import {
+  DOCS_FORMAT,
   extractSection,
   listHeadings,
   loadDocs,
@@ -81,13 +82,27 @@ function unservedPackages(project, docs) {
       continue
     }
     const pkg = project.packages.find(installed => installed.name === name)
+    const other = docs.unreadable.find(slice => slice.name === name)
     gaps.push(
       pkg === void 0
         ? `${name} is not installed in this project`
-        : `${name} ${pkg.version} bundles no documentation (bundled since ${BUNDLED_DOCS_SINCE[name]}), upgrade it`
+        : other !== void 0
+          ? otherFormat(other)
+          : `${name} ${pkg.version} bundles no documentation (bundled since ${BUNDLED_DOCS_SINCE[name]}), upgrade it`
     )
   }
   return gaps.length === 0 ? '' : ` Not available offline: ${gaps.join('; ')}.`
+}
+
+/**
+ * @param {{ name: string, version: string, format: number }} slice
+ * @returns {string}
+ */
+function otherFormat(slice) {
+  return (
+    `${slice.name} ${slice.version} bundles its documentation in format ${slice.format}, this server reads format ${DOCS_FORMAT}; ` +
+    `run \`npx -y --fetch-retries=0 @quasar/mcp@${slice.format}\` instead (the server's major version tracks the format)`
+  )
 }
 
 export function buildInstructions(project, docs, updates) {
@@ -99,8 +114,11 @@ export function buildInstructions(project, docs, updates) {
 
   for (const name of DOCS_PACKAGES) {
     const pkg = project.packages.find(installed => installed.name === name)
+    const other = docs.unreadable.find(slice => slice.name === name)
     if (pkg === void 0) {
       lines.push(`- ${name}: not installed in this project.`)
+    } else if (other !== void 0) {
+      lines.push(`- ${otherFormat(other)}.`)
     } else if (pkg.docsDir === null) {
       lines.push(
         `- ${name} ${pkg.version}: installed, but this release bundles no documentation ` +
@@ -150,7 +168,11 @@ export async function createServer({
   const docs = loadDocs(project.packages)
   const quasar = project.packages.find(pkg => pkg.name === 'quasar')
   const apiDir = quasar?.apiDir ?? null
-  const apiDocsDir = quasar?.docsDir ?? null
+  // the rendered API files come with the slice, and only a slice of
+  // this server's format is parsed
+  const apiDocsDir = docs.sources.some(source => source.name === 'quasar')
+    ? quasar.docsDir
+    : null
   const updates = await checkUpdates(project)
 
   const server = new McpServer(
