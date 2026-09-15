@@ -42,6 +42,7 @@ function unselectNode() {
 }
 
 const props = [
+  // #region
   {
     label: 'Satisfied customers',
     avatar: 'https://cdn.quasar.dev/img/boy-avatar.png',
@@ -76,5 +77,6 @@ const props = [
       }
     ]
   }
+  // #endregion
 ]
 </script>

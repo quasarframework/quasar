@@ -46,7 +46,10 @@ export function createProject({
       },
       loading: { type: 'Boolean', desc: 'Put button into loading state' }
     },
-    slots: { default: { desc: 'Default slot' } },
+    slots: {
+      default: { desc: 'Default slot' },
+      loading: { desc: 'Override the default QSpinner' }
+    },
     events: {
       click: { desc: 'Emitted when the component is clicked', params: {} }
     }
@@ -81,17 +84,19 @@ export function createProject({
 
 ### Events
 
-- \`click\`
+- \`@click\`
   Emitted when the component is clicked
+  Params:
+    - \`evt\` (Event, optional)
 
 ### Slots
 
-- \`default\`
+- \`#default\`
   Default slot
 
 ### Scoped Slots
 
-- \`loading\`
+- \`#loading\`
   Override the default QSpinner
 `
     )
@@ -101,7 +106,7 @@ export function createProject({
 
 ### Methods
 
-- \`create\` (): Function
+- \`create(): Function\`
   Creates a notification
 
 ### quasar.config.js Options

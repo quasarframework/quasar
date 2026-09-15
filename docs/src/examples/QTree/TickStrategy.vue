@@ -36,6 +36,7 @@ const tickStrategies = [
 ]
 
 const simple = [
+  // #region
   {
     label: 'Satisfied customers',
     children: [
@@ -61,5 +62,6 @@ const simple = [
       }
     ]
   }
+  // #endregion
 ]
 </script>

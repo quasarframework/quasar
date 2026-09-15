@@ -142,6 +142,31 @@ test('a component page points at get_api, and get_api resolves the same descript
   const whole = await call(client, 'get_api', { name: 'QBtn' })
   expect(whole.text.startsWith('## QBtn API\n')).toBe(true)
 
+  // a prop and a scoped slot share the name: both come, each under its heading
+  const member = await call(client, 'get_api', {
+    name: 'QTable',
+    member: 'pagination'
+  })
+  expect(member.text.startsWith('### Props\n\n- `pagination`')).toBe(true)
+  expect(member.text).toContain('\n### Scoped Slots\n\n- `#pagination`')
+  expect(member.text).not.toContain('\n- `rows`')
+
+  // with part, the one entry, verbatim from its section and a fraction of it
+  const prop = await call(client, 'get_api', {
+    name: 'QTable',
+    member: 'pagination',
+    part: 'props'
+  })
+  const propsPart = await call(client, 'get_api', {
+    name: 'QTable',
+    part: 'props'
+  })
+  expect(prop.text).not.toContain('### Scoped Slots')
+  expect(propsPart.text).toContain(
+    prop.text.trim().replace(/^### Props\n\n/, '')
+  )
+  expect(prop.text.length * 4).toBeLessThan(propsPart.text.length)
+
   const json = await call(client, 'get_api', {
     name: 'QBtn',
     part: 'props',

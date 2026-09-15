@@ -51,6 +51,7 @@ onMounted(refreshIndeterminate)
 watch(ticked, refreshIndeterminate, { flush: 'post' })
 
 const simple = [
+  // #region
   {
     label: 'Satisfied customers',
     children: [
@@ -67,5 +68,6 @@ const simple = [
       }
     ]
   }
+  // #endregion
 ]
 </script>

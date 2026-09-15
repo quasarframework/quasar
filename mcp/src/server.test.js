@@ -100,15 +100,15 @@ test('list_pages groups by package and filters by it, descriptions on request', 
   expect(cli.text).toContain('- quasar-cli-vite/boot-files: Boot files')
 })
 
-test('search_docs returns routes with snippets', async () => {
+test('search_docs returns routes with their matching sections', async () => {
   const client = await connect()
   const { text } = await call(client, 'search_docs', { query: 'boot' })
   expect(text).toContain('- quasar-cli-vite/boot-files: Boot files')
-  expect(text).toContain('> Boot files run before')
+  expect(text).not.toContain('>')
 
   const sections = await call(client, 'search_docs', { query: 'loading' })
   expect(sections.text).toContain(
-    '- vue-components/button: Button\n  The QBtn component.\n  > Set the `loading` prop for a spinner.\n  sections: Loading state'
+    '- vue-components/button: Button\n  The QBtn component.\n  sections: Loading state'
   )
 
   const miss = await call(client, 'search_docs', { query: 'unicorn' })
@@ -179,7 +179,7 @@ test('get_api serves the descriptor as the site inlines it, one part of it, or a
 
   const part = await call(client, 'get_api', { name: 'QBtn', part: 'events' })
   expect(part.text).toBe(
-    '### Events\n\n- `click`\n  Emitted when the component is clicked\n'
+    '### Events\n\n- `@click`\n  Emitted when the component is clicked\n  Params:\n    - `evt` (Event, optional)\n'
   )
 
   const json = await call(client, 'get_api', {
@@ -264,4 +264,42 @@ test('get_page outline lists the title and headings only', async () => {
   expect(outline.text).toBe(
     '# Button\n## QBtn API\n## Usage\n### Standard\n### Custom colors\n## Loading state'
   )
+})
+
+test('get_api serves one member, in every part that has it, or a suggestion', async () => {
+  const client = await connect()
+  const label = await call(client, 'get_api', { name: 'QBtn', member: 'Label' })
+  expect(label.text).toBe(
+    '### Props\n\n- `label` (string | number, optional)\n  The text that will be shown on the button\n'
+  )
+  const both = await call(client, 'get_api', {
+    name: 'QBtn',
+    member: 'loading'
+  })
+  expect(both.text).toBe(
+    '### Props\n\n- `loading` (boolean, optional)\n  Put button into loading state\n\n### Scoped Slots\n\n- `#loading`\n  Override the default QSpinner\n'
+  )
+  const one = await call(client, 'get_api', {
+    name: 'QBtn',
+    member: 'loading',
+    part: 'slots',
+    format: 'json'
+  })
+  expect(JSON.parse(one.text)).toEqual({
+    name: 'QBtn',
+    slots: { loading: { desc: 'Override the default QSpinner' } }
+  })
+
+  const miss = await call(client, 'get_api', { name: 'QBtn', member: 'lab' })
+  expect(miss.isError).toBe(true)
+  expect(miss.text).toBe(
+    'QBtn has no member named "lab". Similar: props.label.'
+  )
+  const wrongPart = await call(client, 'get_api', {
+    name: 'Notify',
+    member: 'x',
+    part: 'quasarConfOptions'
+  })
+  expect(wrongPart.isError).toBe(true)
+  expect(wrongPart.text).toContain('has no named members')
 })

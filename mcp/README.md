@@ -31,14 +31,14 @@ See the [AI Agents](https://quasar.dev/start/ai-agents) page for the per-client 
 
 ## Tools
 
-| Tool            | What it returns                                                                                                                    |
-| --------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
-| `list_pages`    | every page available offline, grouped by the package shipping it                                                                   |
-| `search_docs`   | the pages matching some keywords, with a snippet and the sections they occur in                                                    |
-| `get_page`      | one page, one section of it, or its outline, as markdown                                                                           |
-| `list_api`      | the names of the API descriptors: components, plugins, directives, utilities                                                       |
-| `get_api`       | the props, slots, events and methods of one of them (or one part), as the site shows them; `format: "json"` for the raw descriptor |
-| `check_updates` | whether newer releases of quasar, @quasar/app-vite or this server exist                                                            |
+| Tool            | What it returns                                                                                                                               |
+| --------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
+| `list_pages`    | every page available offline, grouped by the package shipping it                                                                              |
+| `search_docs`   | the pages matching some keywords, with a snippet and the sections they occur in                                                               |
+| `get_page`      | one page, one section of it, or its outline, as markdown                                                                                      |
+| `list_api`      | the names of the API descriptors: components, plugins, directives, utilities                                                                  |
+| `get_api`       | the props, slots, events and methods of one of them, one part, or one member, as the site shows them; `format: "json"` for the raw descriptor |
+| `check_updates` | whether newer releases of quasar, @quasar/app-vite or this server exist                                                                       |
 
 At session start the server also tells the agent which package versions it serves, what is missing, and which updates are available (checked in the background, cached for a day, never while offline, the same mechanism the Quasar CLI uses; `NO_UPDATE_NOTIFIER` disables it).
 

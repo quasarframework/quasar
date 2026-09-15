@@ -246,7 +246,6 @@ export function matchedSections(markdown, queryTerms, limit = 3) {
  * @typedef {object} SearchHit
  * @property {Page} page
  * @property {number} score
- * @property {string | null} snippet The first body line mentioning a term.
  * @property {string[]} sections The headings the terms occur under, see matchedSections().
  */
 
@@ -262,7 +261,7 @@ export function matchedSections(markdown, queryTerms, limit = 3) {
  * @param {{ limit?: number, packageName?: string }} [opts]
  * @returns {SearchHit[]}
  */
-export function searchDocs(docs, query, { limit = 10, packageName } = {}) {
+export function searchDocs(docs, query, { limit = 5, packageName } = {}) {
   const queryTerms = terms(query)
   if (queryTerms.length === 0) {
     return []
@@ -282,7 +281,6 @@ export function searchDocs(docs, query, { limit = 10, packageName } = {}) {
       .join(' ')
       .toLowerCase()
     let score = 0
-    let snippet = null
     for (const term of queryTerms) {
       let termScore = 0
       if (title.includes(term)) {
@@ -307,22 +305,7 @@ export function searchDocs(docs, query, { limit = 10, packageName } = {}) {
     if (score === 0) {
       continue
     }
-    for (const line of body.replace(FRONTMATTER_RE, '').split('\n')) {
-      const lower = line.toLowerCase()
-      if (
-        !line.startsWith('#') &&
-        queryTerms.some(term => lower.includes(term))
-      ) {
-        snippet = line.trim().slice(0, 200)
-        break
-      }
-    }
-    hits.push({
-      page,
-      score,
-      snippet,
-      sections: matchedSections(body, queryTerms)
-    })
+    hits.push({ page, score, sections: matchedSections(body, queryTerms) })
   }
   hits.sort(
     (a, b) => b.score - a.score || a.page.route.localeCompare(b.page.route)

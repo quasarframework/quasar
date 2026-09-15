@@ -13,6 +13,7 @@ const expanded = ref([
 ])
 
 const simple = [
+  // #region
   {
     label: 'Satisfied customers (with avatar)',
     avatar: 'https://cdn.quasar.dev/img/boy-avatar.png',
@@ -45,5 +46,6 @@ const simple = [
       }
     ]
   }
+  // #endregion
 ]
 </script>

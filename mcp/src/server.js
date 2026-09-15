@@ -3,10 +3,14 @@ import { z } from 'zod'
 
 import {
   API_PARTS,
+  MEMBER_PARTS,
+  findApiMembers,
   listApi,
   readApi,
   readApiMarkdown,
+  readApiMembersMarkdown,
   resolveApiName,
+  similarApiMembers,
   similarApiNames
 } from './api.js'
 import {
@@ -220,7 +224,7 @@ export async function createServer({
           .min(1)
           .max(50)
           .optional()
-          .describe('Maximum hits (default 10)')
+          .describe('Maximum hits (default 5)')
       }
     },
     ({ query, package: packageName, limit }) => {
@@ -234,10 +238,9 @@ export async function createServer({
       }
       return text(
         hits
-          .map(({ page, snippet, sections }) => {
+          .map(({ page, sections }) => {
             const lines = [`- ${page.route}: ${page.title}`]
             if (page.desc) lines.push(`  ${page.desc}`)
-            if (snippet) lines.push(`  > ${snippet}`)
             if (sections.length !== 0) {
               lines.push(`  sections: ${sections.join(' | ')}`)
             }
@@ -337,7 +340,7 @@ export async function createServer({
     {
       title: 'Get an API descriptor',
       description:
-        'The exact API of a Quasar component, plugin or directive as installed: props, slots, events, methods (with types, defaults and descriptions), as the documentation site presents it. Pass part to get one section only, format "json" for the raw descriptor.',
+        'The exact API of a Quasar component, plugin or directive as installed: props, slots, events, methods (with types, defaults and descriptions), as the documentation site presents it. Pass part for one section, member for one prop, slot, event or method (the cheapest call by far), format "json" for the raw descriptor.',
       inputSchema: {
         name: z
           .string()
@@ -347,6 +350,12 @@ export async function createServer({
           .enum(API_PARTS)
           .optional()
           .describe('One section of the descriptor; omit for all of it'),
+        member: z
+          .string()
+          .optional()
+          .describe(
+            'One prop, slot, event or method by name (pagination, body-cell, update:model-value, toggleFullscreen; case and punctuation do not matter); with part when the name exists in several'
+          ),
         format: z
           .enum(['markdown', 'json'])
           .optional()
@@ -355,7 +364,7 @@ export async function createServer({
           )
       }
     },
-    ({ name: input, part, format = 'markdown' }) => {
+    ({ name: input, part, member, format = 'markdown' }) => {
       if (apiDir === null) {
         return failure(
           'quasar is not installed in this project, so there is no API to serve.'
@@ -378,6 +387,36 @@ export async function createServer({
       if (part !== void 0 && api[part] === void 0) {
         const parts = API_PARTS.filter(known => api[known] !== void 0)
         return failure(`${name} has no "${part}". It has: ${parts.join(', ')}.`)
+      }
+      if (member !== void 0) {
+        if (part !== void 0 && !MEMBER_PARTS.includes(part)) {
+          return failure(
+            `"${part}" has no named members; member goes with ${MEMBER_PARTS.join(', ')}.`
+          )
+        }
+        const members = findApiMembers(api, member, part)
+        if (members.length === 0) {
+          const similar = similarApiMembers(api, member, part)
+          return failure(
+            `${name} has no member named "${member}"${part === void 0 ? '' : ` in ${part}`}.` +
+              (similar.length !== 0
+                ? ` Similar: ${similar.join(', ')}.`
+                : ' Pass part for the full list of a section.')
+          )
+        }
+        const markdown =
+          format === 'markdown' && apiDocsDir !== null
+            ? readApiMembersMarkdown(apiDocsDir, name, members)
+            : null
+        if (markdown !== null) {
+          return text(markdown)
+        }
+        const picked = { name }
+        for (const found of members) {
+          picked[found.part] ??= {}
+          picked[found.part][found.name] = api[found.part][found.name]
+        }
+        return text(JSON.stringify(picked, null, 1))
       }
       // The rendered form ships with the docs slice (quasar v2.33+); a
       // release without it, or a part the renderer leaves out when

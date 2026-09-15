@@ -2,10 +2,13 @@ import { expect, test } from 'vitest'
 import { join } from 'node:path'
 
 import {
+  findApiMembers,
   listApi,
   readApi,
   readApiMarkdown,
+  readApiMembersMarkdown,
   resolveApiName,
+  similarApiMembers,
   similarApiNames
 } from './api.js'
 import { loadProject } from './project.js'
@@ -52,7 +55,7 @@ test('the rendered form comes whole, by part (both slot sections), or not at all
     '### Props\n\n- `label` (string | number, optional)\n  The text that will be shown on the button\n- `loading` (boolean, optional)\n  Put button into loading state\n'
   )
   expect(readApiMarkdown(docsDir, 'QBtn', 'slots')).toBe(
-    '### Slots\n\n- `default`\n  Default slot\n\n### Scoped Slots\n\n- `loading`\n  Override the default QSpinner\n'
+    '### Slots\n\n- `#default`\n  Default slot\n\n### Scoped Slots\n\n- `#loading`\n  Override the default QSpinner\n'
   )
   expect(readApiMarkdown(docsDir, 'Notify', 'quasarConfOptions')).toContain(
     '### quasar.config.js Options'
@@ -64,4 +67,62 @@ test('the rendered form comes whole, by part (both slot sections), or not at all
     'dist/mcp'
   )
   expect(readApiMarkdown(bare, 'QBtn')).toBe(null)
+})
+
+test('members resolve across parts, regardless of case and punctuation', () => {
+  const dir = apiDir()
+  const btn = readApi(dir, 'QBtn')
+  expect(findApiMembers(btn, 'Label')).toEqual([
+    { part: 'props', name: 'label' }
+  ])
+  expect(findApiMembers(btn, 'loading')).toEqual([
+    { part: 'props', name: 'loading' },
+    { part: 'slots', name: 'loading' }
+  ])
+  expect(findApiMembers(btn, 'loading', 'slots')).toEqual([
+    { part: 'slots', name: 'loading' }
+  ])
+  expect(findApiMembers(btn, '@click')).toEqual([
+    { part: 'events', name: 'click' }
+  ])
+  expect(findApiMembers(btn, 'nope')).toEqual([])
+  expect(similarApiMembers(btn, 'lo')).toEqual([
+    'props.loading',
+    'slots.loading'
+  ])
+  expect(similarApiMembers(btn, 'lo', 'events')).toEqual([])
+})
+
+test('the rendered entries of members come under their section heading', () => {
+  const docsDir = join(loadProject(createProject()).packages[0].dir, 'dist/mcp')
+  expect(
+    readApiMembersMarkdown(docsDir, 'QBtn', [{ part: 'props', name: 'label' }])
+  ).toBe(
+    '### Props\n\n- `label` (string | number, optional)\n  The text that will be shown on the button\n'
+  )
+  // the event entry keeps its indented lines, the slot lives in the scoped section
+  expect(
+    readApiMembersMarkdown(docsDir, 'QBtn', [
+      { part: 'events', name: 'click' },
+      { part: 'slots', name: 'loading' }
+    ])
+  ).toBe(
+    '### Events\n\n- `@click`\n  Emitted when the component is clicked\n  Params:\n    - `evt` (Event, optional)\n\n### Scoped Slots\n\n- `#loading`\n  Override the default QSpinner\n'
+  )
+  // a method entry carries its signature
+  expect(
+    readApiMembersMarkdown(docsDir, 'Notify', [
+      { part: 'methods', name: 'create' }
+    ])
+  ).toBe('### Methods\n\n- `create(): Function`\n  Creates a notification\n')
+  expect(
+    readApiMembersMarkdown(docsDir, 'QBtn', [{ part: 'methods', name: 'nope' }])
+  ).toBe(null)
+  const bare = join(
+    loadProject(createProject({ apiMarkdown: false })).packages[0].dir,
+    'dist/mcp'
+  )
+  expect(
+    readApiMembersMarkdown(bare, 'QBtn', [{ part: 'props', name: 'label' }])
+  ).toBe(null)
 })

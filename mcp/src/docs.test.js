@@ -84,7 +84,6 @@ test('search ranks title matches first and needs every term', () => {
 
   const [first] = searchDocs(docs, 'button')
   expect(first.page.route).toBe('vue-components/button')
-  expect(first.snippet).toContain('QBtn')
   expect(first.sections).toEqual([])
 
   expect(searchDocs(docs, 'notify').map(hit => hit.page.route)).toEqual([

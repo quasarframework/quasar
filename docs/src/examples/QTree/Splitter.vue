@@ -101,6 +101,7 @@ import { ref } from 'vue'
 const splitterModel = ref(50)
 const selected = ref('Food')
 const simple = [
+  // #region
   {
     label: 'Relax Hotel',
     children: [
@@ -118,5 +119,6 @@ const simple = [
       }
     ]
   }
+  // #endregion
 ]
 </script>

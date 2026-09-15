@@ -48,6 +48,7 @@
 import { ref } from 'vue'
 
 const customize = ref([
+  // #region
   {
     label: 'Satisfied customers',
     header: 'root',
@@ -93,5 +94,6 @@ const customize = ref([
       }
     ]
   }
+  // #endregion
 ])
 </script>

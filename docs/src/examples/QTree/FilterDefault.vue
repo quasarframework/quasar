@@ -27,6 +27,7 @@ const filter = ref('')
 const filterRef = useTemplateRef('filterRef')
 
 const simple = [
+  // #region
   {
     label: 'Satisfied customers',
     children: [
@@ -52,6 +53,7 @@ const simple = [
       }
     ]
   }
+  // #endregion
 ]
 
 function resetFilter() {
