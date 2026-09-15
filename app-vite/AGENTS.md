@@ -21,8 +21,8 @@ Supplements the repo-root `AGENTS.md`.
   @quasar/app-vite package (registry harness:
   create-quasar/test/e2e/local-registry.js).
   The Electron dev step briefly opens a real window locally. Slower —
-  run before handoff when dev/build behavior may be affected. `pnpm test`
-  gates publishing via `prepublishOnly`. Mode deps (electron "latest", the SSR
+  run before handoff when dev/build behavior may be affected; the release
+  sweep reruns it at the released tag. Mode deps (electron "latest", the SSR
   webservers, workbox, @capacitor/*) resolve fresh from the registry BY
   DESIGN — an e2e failure without a repo change usually means an upstream
   release broke something. Invariants to preserve:

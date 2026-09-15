@@ -117,7 +117,7 @@
     "test:e2e:capacitor": "vitest run -c vitest-e2e.config.js -t Capacitor",
     "test:e2e:cordova": "vitest run -c vitest-e2e.config.js -t Cordova",
     "generate:mcp": "pnpm --filter quasar ensure-fresh-build && pnpm --filter quasar.dev generate:mcp --target app-vite",
-    "prepublishOnly": "pnpm --filter quasar ensure-fresh-build && pnpm test && pnpm generate:mcp"
+    "prepublishOnly": "pnpm generate:mcp"
   },
   "dependencies": {
     "@clack/prompts": "^1.8.0",

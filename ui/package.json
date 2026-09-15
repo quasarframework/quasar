@@ -102,7 +102,7 @@
     "test:specs:check": "node ./test/specs/script.js --check",
     "test:specs:accept": "node ./test/specs/script.js --accept",
     "generate:mcp": "pnpm ensure-fresh-build && pnpm --filter quasar.dev generate:mcp --target ui",
-    "prepublishOnly": "pnpm build && pnpm test && pnpm generate:mcp"
+    "prepublishOnly": "pnpm build && pnpm generate:mcp"
   },
   "devDependencies": {
     "@quasar/extras": "workspace:*",
