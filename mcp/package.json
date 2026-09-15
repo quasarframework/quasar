@@ -1,0 +1,58 @@
+{
+  "name": "@quasar/mcp",
+  "version": "1.0.0-beta.0",
+  "description": "MCP server for AI agents: the Quasar documentation and component API, served from the packages installed in your project",
+  "keywords": [
+    "agent",
+    "ai",
+    "docs",
+    "mcp",
+    "model-context-protocol",
+    "quasar",
+    "vue"
+  ],
+  "homepage": "https://quasar.dev",
+  "bugs": "https://github.com/quasarframework/quasar/issues",
+  "license": "MIT",
+  "author": {
+    "name": "Razvan Stoenescu",
+    "email": "razvan.stoenescu@gmail.com",
+    "url": "https://github.com/quasarframework"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/quasarframework/quasar"
+  },
+  "funding": {
+    "type": "github",
+    "url": "https://donate.quasar.dev"
+  },
+  "bin": {
+    "quasar-mcp": "./src/bin.js"
+  },
+  "files": [
+    "src",
+    "!src/**/*.test.js",
+    "!src/test"
+  ],
+  "type": "module",
+  "exports": "./src/index.js",
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "test": "vitest run",
+    "prepublishOnly": "pnpm test"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.30.0",
+    "@quasar/update-notifier": "workspace:^",
+    "zod": "^4.6.0"
+  },
+  "devDependencies": {
+    "vitest": "^5.0.0"
+  },
+  "engines": {
+    "node": ">= 22.0.0"
+  }
+}

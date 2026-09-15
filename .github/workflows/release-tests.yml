@@ -42,6 +42,7 @@ jobs:
         || startsWith(github.event.release.tag_name, '@quasar/app-vite-v')
         || startsWith(github.event.release.tag_name, '@quasar/vite-plugin-v')
         || startsWith(github.event.release.tag_name, '@quasar/cli-v')
+        || startsWith(github.event.release.tag_name, '@quasar/mcp-v')
       }}
 
     runs-on: ubuntu-latest
@@ -124,6 +125,12 @@ jobs:
     permissions:
       contents: read
     uses: ./.github/workflows/utils-tests.yml
+
+  mcp-tests:
+    needs: gate
+    permissions:
+      contents: read
+    uses: ./.github/workflows/mcp-tests.yml
 
   create-quasar-tests:
     needs: build-ui

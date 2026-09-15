@@ -1,0 +1,33 @@
+import { getAvailableUpdate } from '@quasar/update-notifier'
+
+import { version } from './version.js'
+
+/**
+ * @typedef {object} UpdateState
+ * @property {string} name
+ * @property {string} version
+ * @property {string | undefined} latest A newer release, when one is known.
+ */
+
+/**
+ * Newer releases of the server and of the installed docs packages, via
+ * the notifier shared with the Quasar CLIs: from its cache (refreshed in
+ * the background, so a session usually learns about a release the day
+ * after it ships), or straight from the registry with `refresh`.
+ *
+ * @param {import('./project.js').Project} project
+ * @param {{ refresh?: boolean }} [opts]
+ * @returns {Promise<UpdateState[]>}
+ */
+export function checkUpdates(project, { refresh = false } = {}) {
+  const targets = [
+    { name: '@quasar/mcp', version },
+    ...project.packages.map(pkg => ({ name: pkg.name, version: pkg.version }))
+  ]
+  return Promise.all(
+    targets.map(async target => ({
+      ...target,
+      latest: await getAvailableUpdate({ ...target, refresh })
+    }))
+  )
+}

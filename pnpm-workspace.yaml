@@ -9,6 +9,7 @@ packages:
   - ui/playground
   - create-quasar
   - cli
+  - mcp
   - utils/art
   - utils/render-ssr-error
   - utils/ssl-certificate
