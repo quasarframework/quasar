@@ -11,8 +11,13 @@ import { afterEach, expect, onTestFinished, test, vi } from 'vitest'
 // CI detection must be deterministic regardless of where the suite runs.
 vi.mock('ci-info', () => ({ isCI: false }))
 
-const { checkForUpdate, isNewerVersion, notifyUpdate, renderNotification } =
-  await import('./internal.js')
+const {
+  checkForUpdate,
+  getAvailableUpdate,
+  isNewerVersion,
+  notifyUpdate,
+  renderNotification
+} = await import('./internal.js')
 
 const execFileAsync = promisify(execFile)
 const defaultRegistry = 'https://registry.npmjs.org/'
@@ -103,9 +108,9 @@ const versionComparisons = [
   ['not-semver', '1.0.0', false]
 ]
 
-test('exposes only the notifier as public API', async () => {
+test('exposes the notifier and the update query as public API', async () => {
   const publicApi = await import('./index.js')
-  expect(Object.keys(publicApi)).toEqual(['notifyUpdate'])
+  expect(Object.keys(publicApi)).toEqual(['getAvailableUpdate', 'notifyUpdate'])
 })
 
 test('compares SemVer versions', () => {
@@ -340,6 +345,86 @@ test('consumes a cached update when its notification is scheduled', async () => 
   const cache = JSON.parse(await readFile(cacheFile, 'utf8'))
   expect(typeof cache.checkedAt).toBe('number')
   expect(cache).not.toHaveProperty('latest')
+})
+
+test('reports a cached update without consuming it', async () => {
+  enableNotifier()
+
+  const cacheRoot = await createCacheRoot()
+  const cacheDirectory = join(cacheRoot, 'quasar', 'update-notifier')
+  const cacheFile = join(cacheDirectory, cachedUpdateFile)
+
+  await mkdir(cacheDirectory, { recursive: true })
+  await writeFile(
+    cacheFile,
+    JSON.stringify({
+      checkedAt: Date.now(),
+      latest: '2.0.0',
+      registry: defaultRegistry
+    })
+  )
+  vi.stubEnv('XDG_CACHE_HOME', cacheRoot)
+
+  await expect(
+    getAvailableUpdate({ name: '@quasar/test', version: '1.0.0' })
+  ).resolves.toBe('2.0.0')
+  await expect(
+    getAvailableUpdate({ name: '@quasar/test', version: '2.0.0' })
+  ).resolves.toBeUndefined()
+
+  const cache = JSON.parse(await readFile(cacheFile, 'utf8'))
+  expect(cache.latest).toBe('2.0.0')
+})
+
+test('queries the registry first when asked to refresh', async () => {
+  enableNotifier()
+
+  const cacheRoot = await createCacheRoot()
+  const port = await startRegistryServer('{"latest":"3.0.0"}')
+  vi.stubEnv('XDG_CACHE_HOME', cacheRoot)
+  vi.stubEnv('npm_config_registry', `http://127.0.0.1:${port}/`)
+
+  await expect(
+    getAvailableUpdate({
+      name: '@quasar/test',
+      version: '1.0.0',
+      refresh: true
+    })
+  ).resolves.toBe('3.0.0')
+
+  const cache = JSON.parse(
+    await readFile(
+      join(cacheRoot, 'quasar', 'update-notifier', cachedUpdateFile),
+      'utf8'
+    )
+  )
+  expect(cache.latest).toBe('3.0.0')
+  expect(cache.registry).toBe(`http://127.0.0.1:${port}/`)
+})
+
+test('falls back to the cache when a refresh cannot reach the registry', async () => {
+  enableNotifier()
+
+  const cacheRoot = await createCacheRoot()
+  const cacheDirectory = join(cacheRoot, 'quasar', 'update-notifier')
+  const cacheFile = join(cacheDirectory, cachedUpdateFile)
+  const registry = 'http://127.0.0.1:1/'
+
+  await mkdir(cacheDirectory, { recursive: true })
+  await writeFile(
+    cacheFile,
+    JSON.stringify({ checkedAt: Date.now(), latest: '2.0.0', registry })
+  )
+  vi.stubEnv('XDG_CACHE_HOME', cacheRoot)
+  vi.stubEnv('npm_config_registry', registry)
+
+  await expect(
+    getAvailableUpdate({
+      name: '@quasar/test',
+      version: '1.0.0',
+      refresh: true
+    })
+  ).resolves.toBe('2.0.0')
 })
 
 test('discards a cached update produced by another registry', async () => {

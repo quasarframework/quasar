@@ -174,13 +174,12 @@ function startBackgroundCheck(cacheFile, name, version) {
   child.unref()
 }
 
-export function notifyUpdate({ name, version }) {
-  if (!name || !version || isDisabled()) return
-
-  const registry = getRegistryUrl()
-  if (registry === void 0) return
-
-  const cacheFile = getCacheFile(name)
+/**
+ * The cached registry answer for this registry, scheduling a background
+ * refresh when there is none yet or it is older than the check interval.
+ * Undefined until the first check has landed.
+ */
+function readCurrentCache({ cacheFile, name, version, registry }) {
   const cache = readCache(cacheFile)
   const now = Date.now()
 
@@ -190,6 +189,23 @@ export function notifyUpdate({ name, version }) {
     startBackgroundCheck(cacheFile, name, version)
     return
   }
+
+  if (now - cache.checkedAt >= checkInterval) {
+    startBackgroundCheck(cacheFile, name, version)
+  }
+
+  return cache
+}
+
+export function notifyUpdate({ name, version }) {
+  if (!name || !version || isDisabled()) return
+
+  const registry = getRegistryUrl()
+  if (registry === void 0) return
+
+  const cacheFile = getCacheFile(name)
+  const cache = readCurrentCache({ cacheFile, name, version, registry })
+  if (cache === void 0) return
 
   const latest = cache.latest
   if (
@@ -208,10 +224,37 @@ export function notifyUpdate({ name, version }) {
       registry: cache.registry
     })
   }
+}
 
-  if (now - cache.checkedAt < checkInterval) return
+/**
+ * The newer version available for a package, for a long-lived process
+ * that reports it its own way (an MCP server has no terminal to print
+ * the box to). Reads the same cache on the same refresh schedule as
+ * notifyUpdate() without consuming it; `refresh: true` queries the
+ * registry first and waits for it, falling back to the cache when the
+ * registry is unreachable. Resolves to undefined when there is no
+ * update to offer, or the check is disabled.
+ */
+export async function getAvailableUpdate({ name, version, refresh = false }) {
+  if (!name || !version || isDisabled()) return
 
-  startBackgroundCheck(cacheFile, name, version)
+  const registry = getRegistryUrl()
+  if (registry === void 0) return
+
+  const cacheFile = getCacheFile(name)
+
+  if (refresh) {
+    try {
+      await checkForUpdate({ cacheFile, name, version })
+    } catch {
+      // Offline or a registry error: the cached answer is the next best.
+    }
+  }
+
+  const cache = readCurrentCache({ cacheFile, name, version, registry })
+  if (cache === void 0) return
+
+  return isNewerVersion(cache.latest, version) ? cache.latest : void 0
 }
 
 if (process.argv[2] === backgroundCheckFlag) {

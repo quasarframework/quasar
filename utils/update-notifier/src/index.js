@@ -1,1 +1,1 @@
-export { notifyUpdate } from './internal.js'
+export { getAvailableUpdate, notifyUpdate } from './internal.js'
