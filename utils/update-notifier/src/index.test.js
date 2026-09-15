@@ -11,10 +11,24 @@ import { afterEach, expect, onTestFinished, test, vi } from 'vitest'
 // CI detection must be deterministic regardless of where the suite runs.
 vi.mock('ci-info', () => ({ isCI: false }))
 
+// So must the network: the notifier reads the interfaces to skip offline
+// machines, and a CI runner may well have none but loopback.
+const online = {
+  lo0: [{ address: '127.0.0.1', internal: true }],
+  en0: [{ address: '192.168.1.2', internal: false }]
+}
+const offline = { lo0: [{ address: '127.0.0.1', internal: true }] }
+const interfaces = vi.fn(() => online)
+vi.mock('node:os', async importOriginal => ({
+  ...(await importOriginal()),
+  networkInterfaces: () => interfaces()
+}))
+
 const {
   checkForUpdate,
   getAvailableUpdate,
   isNewerVersion,
+  isOffline,
   notifyUpdate,
   renderNotification
 } = await import('./internal.js')
@@ -32,6 +46,7 @@ const notifierEnvironmentKeys = [
 afterEach(() => {
   vi.unstubAllEnvs()
   vi.restoreAllMocks()
+  interfaces.mockImplementation(() => online)
 })
 
 function enableNotifier() {
@@ -457,6 +472,43 @@ test('discards a cached update produced by another registry', async () => {
   expect(typeof cache.checkedAt).toBe('number')
   expect(cache).not.toHaveProperty('latest')
   expect(cache.registry).toBe('http://127.0.0.1:1/')
+})
+
+test('reads the machine as offline with no interface beyond loopback', () => {
+  expect(isOffline()).toBe(false)
+  interfaces.mockImplementation(() => offline)
+  expect(isOffline()).toBe(true)
+})
+
+test('starts no check and reports no update while offline', async () => {
+  enableNotifier()
+  interfaces.mockImplementation(() => offline)
+
+  const cacheRoot = await createCacheRoot()
+  const cacheDirectory = join(cacheRoot, 'quasar', 'update-notifier')
+  const cacheFile = join(cacheDirectory, cachedUpdateFile)
+  await mkdir(cacheDirectory, { recursive: true })
+  await writeFile(
+    cacheFile,
+    JSON.stringify({ checkedAt: 0, latest: '2.0.0', registry: defaultRegistry })
+  )
+  vi.stubEnv('XDG_CACHE_HOME', cacheRoot)
+  setTTY(true)
+  const once = vi.spyOn(process, 'once')
+
+  notifyUpdate({ name: '@quasar/test', version: '1.0.0' })
+  await expect(
+    getAvailableUpdate({
+      name: '@quasar/test',
+      version: '1.0.0',
+      refresh: true
+    })
+  ).resolves.toBeUndefined()
+
+  expect(once).not.toHaveBeenCalled()
+  // a stale cache would have started a background check: untouched
+  const cache = JSON.parse(await readFile(cacheFile, 'utf8'))
+  expect(cache.checkedAt).toBe(0)
 })
 
 test('does nothing when running in CI', async () => {

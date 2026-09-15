@@ -1,6 +1,6 @@
 import { spawn } from 'node:child_process'
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs'
-import { homedir } from 'node:os'
+import { homedir, networkInterfaces } from 'node:os'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
@@ -140,13 +140,27 @@ function isDisabled() {
   )
 }
 
-export async function checkForUpdate({ cacheFile, name, version }) {
+// No network interface beyond loopback means no registry to ask: the
+// machine is offline, so no check is started at all.
+export function isOffline() {
+  for (const addresses of Object.values(networkInterfaces())) {
+    if (addresses.some(address => !address.internal)) return false
+  }
+  return true
+}
+
+export async function checkForUpdate({
+  cacheFile,
+  name,
+  version,
+  timeout = 30_000
+}) {
   const registry = getRegistryUrl()
   const packagePath = encodeURIComponent(name)
   const url = new URL(`-/package/${packagePath}/dist-tags`, registry)
   const response = await fetch(url, {
     headers: { accept: 'application/json' },
-    signal: AbortSignal.timeout(30_000)
+    signal: AbortSignal.timeout(timeout)
   })
 
   if (!response.ok) {
@@ -198,7 +212,7 @@ function readCurrentCache({ cacheFile, name, version, registry }) {
 }
 
 export function notifyUpdate({ name, version }) {
-  if (!name || !version || isDisabled()) return
+  if (!name || !version || isDisabled() || isOffline()) return
 
   const registry = getRegistryUrl()
   if (registry === void 0) return
@@ -231,12 +245,18 @@ export function notifyUpdate({ name, version }) {
  * that reports it its own way (an MCP server has no terminal to print
  * the box to). Reads the same cache on the same refresh schedule as
  * notifyUpdate() without consuming it; `refresh: true` queries the
- * registry first and waits for it, falling back to the cache when the
- * registry is unreachable. Resolves to undefined when there is no
- * update to offer, or the check is disabled.
+ * registry first and waits for it (`timeout` ms), falling back to the
+ * cache when the registry is unreachable. Resolves to undefined when
+ * there is no update to offer, the check is disabled, or the machine
+ * is offline.
  */
-export async function getAvailableUpdate({ name, version, refresh = false }) {
-  if (!name || !version || isDisabled()) return
+export async function getAvailableUpdate({
+  name,
+  version,
+  refresh = false,
+  timeout
+}) {
+  if (!name || !version || isDisabled() || isOffline()) return
 
   const registry = getRegistryUrl()
   if (registry === void 0) return
@@ -245,7 +265,7 @@ export async function getAvailableUpdate({ name, version, refresh = false }) {
 
   if (refresh) {
     try {
-      await checkForUpdate({ cacheFile, name, version })
+      await checkForUpdate({ cacheFile, name, version, timeout })
     } catch {
       // Offline or a registry error: the cached answer is the next best.
     }
