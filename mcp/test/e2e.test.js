@@ -1,0 +1,201 @@
+import { spawn } from 'node:child_process'
+import {
+  existsSync,
+  mkdirSync,
+  mkdtempSync,
+  readFileSync,
+  rmSync,
+  symlinkSync,
+  writeFileSync
+} from 'node:fs'
+import { tmpdir } from 'node:os'
+import { join } from 'node:path'
+
+import { Client } from '@modelcontextprotocol/sdk/client/index.js'
+import { StdioClientTransport } from '@modelcontextprotocol/sdk/client/stdio.js'
+import { beforeAll, expect, onTestFinished, test } from 'vitest'
+
+// The contract between the docs generator (docs/build/mcp, --target)
+// and this server, exercised on the slices the monorepo's own ui and
+// app-vite packages carry: a project whose node_modules link them,
+// served by the real bin over stdio.
+
+const repoRoot = join(import.meta.dirname, '../..')
+const bin = join(import.meta.dirname, '../src/bin.js')
+const packages = [
+  { name: 'quasar', dir: join(repoRoot, 'ui') },
+  { name: '@quasar/app-vite', dir: join(repoRoot, 'app-vite') }
+]
+
+let projectDir
+
+beforeAll(() => {
+  projectDir = mkdtempSync(join(tmpdir(), 'quasar-mcp-e2e-'))
+  writeFileSync(
+    join(projectDir, 'package.json'),
+    '{ "name": "e2e", "private": true }'
+  )
+  mkdirSync(join(projectDir, 'node_modules/@quasar'), { recursive: true })
+  for (const pkg of packages) {
+    symlinkSync(pkg.dir, join(projectDir, 'node_modules', pkg.name), 'dir')
+  }
+  return () => {
+    rmSync(projectDir, { recursive: true, force: true })
+  }
+})
+
+async function connect() {
+  const client = new Client({ name: 'e2e', version: '0.0.0' })
+  await client.connect(
+    new StdioClientTransport({
+      command: process.execPath,
+      args: [bin, '--project', projectDir],
+      stderr: 'pipe'
+    })
+  )
+  onTestFinished(() => client.close())
+  return client
+}
+
+async function call(client, name, args = {}) {
+  const result = await client.callTool({ name, arguments: args })
+  return {
+    text: result.content.map(part => part.text).join(''),
+    isError: result.isError === true
+  }
+}
+
+function readMeta(pkg) {
+  return JSON.parse(readFileSync(join(pkg.dir, 'dist/mcp/meta.json'), 'utf8'))
+}
+
+test('each slice indexes its own package and every page it lists exists', () => {
+  for (const pkg of packages) {
+    const meta = readMeta(pkg)
+    const { version } = JSON.parse(
+      readFileSync(join(pkg.dir, 'package.json'), 'utf8')
+    )
+    expect(meta.package, pkg.name).toBe(pkg.name)
+    expect(meta.version, pkg.name).toBe(version)
+    expect(meta.pages.length, pkg.name).toBeGreaterThan(50)
+    for (const page of meta.pages) {
+      expect(typeof page.title, page.route).toBe('string')
+      expect(
+        existsSync(join(pkg.dir, 'dist/mcp', `${page.route}.md`)),
+        page.route
+      ).toBe(true)
+    }
+  }
+})
+
+test('the slices split the site: components to quasar, the CLI to app-vite, the agents page to both', () => {
+  const [ui, appVite] = packages.map(readMeta)
+  const routesOf = meta => new Set(meta.pages.map(page => page.route))
+  const uiRoutes = routesOf(ui)
+  const cliRoutes = routesOf(appVite)
+
+  expect(uiRoutes.has('vue-components/button')).toBe(true)
+  expect(cliRoutes.has('vue-components/button')).toBe(false)
+  expect(cliRoutes.has('quasar-cli-vite/boot-files')).toBe(true)
+  expect(uiRoutes.has('quasar-cli-vite/boot-files')).toBe(false)
+  expect(uiRoutes.has('start/ai-agents')).toBe(true)
+  expect(cliRoutes.has('start/ai-agents')).toBe(true)
+  expect(uiRoutes.has('how-to-contribute/contribution-guide')).toBe(false)
+  expect(cliRoutes.has('how-to-contribute/contribution-guide')).toBe(false)
+})
+
+test('the server announces both packages at their real versions', async () => {
+  const client = await connect()
+  const instructions = client.getInstructions()
+  // a page both slices carry is served by the first package listing it
+  const served = new Set()
+  for (const pkg of packages) {
+    const meta = readMeta(pkg)
+    const routes = meta.pages
+      .map(page => page.route)
+      .filter(route => !served.has(route))
+    for (const route of routes) served.add(route)
+    expect(instructions).toContain(
+      `${pkg.name} ${meta.version}: ${routes.length} documentation pages`
+    )
+  }
+  expect(instructions).not.toContain('not installed')
+  expect(instructions).not.toContain('bundles no documentation')
+})
+
+test('a component page points at get_api, and get_api resolves the same descriptor', async () => {
+  const client = await connect()
+  const page = await call(client, 'get_page', {
+    route: 'vue-components/button'
+  })
+  expect(page.isError).toBe(false)
+  expect(page.text).toContain('## QBtn API')
+  expect(page.text).toContain('call the `get_api` tool with `name: "QBtn"`')
+  expect(page.text).not.toContain('### Props')
+
+  const api = await call(client, 'get_api', { name: 'QBtn', part: 'props' })
+  expect(api.isError).toBe(false)
+  const { name, props } = JSON.parse(api.text)
+  expect(name).toBe('QBtn')
+  expect(props.label.type).toEqual(['String', 'Number'])
+})
+
+test('search leads to the page about the subject, in either package', async () => {
+  const client = await connect()
+  const button = await call(client, 'search_docs', { query: 'QBtn', limit: 1 })
+  expect(button.text.startsWith('- vue-components/button:')).toBe(true)
+
+  const boot = await call(client, 'search_docs', {
+    query: 'boot files',
+    limit: 1
+  })
+  expect(boot.text.startsWith('- quasar-cli-vite/boot-files:')).toBe(true)
+
+  const section = await call(client, 'get_page', {
+    route: 'quasar-cli-vite/boot-files',
+    section: 'Anatomy of a boot file'
+  })
+  expect(section.isError).toBe(false)
+  expect(section.text.startsWith('## Anatomy of a boot file')).toBe(true)
+})
+
+test('stdout carries nothing but protocol frames', async () => {
+  const child = spawn(process.execPath, [bin, '--project', projectDir], {
+    stdio: ['pipe', 'pipe', 'pipe']
+  })
+  onTestFinished(() => {
+    child.kill()
+  })
+
+  let stdout = ''
+  const done = new Promise(resolve => {
+    child.stdout.on('data', chunk => {
+      stdout += chunk
+      if (stdout.includes('"id":2')) resolve()
+    })
+  })
+  child.stdin.write(
+    JSON.stringify({
+      jsonrpc: '2.0',
+      id: 1,
+      method: 'initialize',
+      params: {
+        protocolVersion: '2025-06-18',
+        capabilities: {},
+        clientInfo: { name: 'raw', version: '0.0.0' }
+      }
+    }) +
+      '\n' +
+      JSON.stringify({ jsonrpc: '2.0', method: 'notifications/initialized' }) +
+      '\n' +
+      JSON.stringify({ jsonrpc: '2.0', id: 2, method: 'tools/list' }) +
+      '\n'
+  )
+  await done
+
+  const lines = stdout.trim().split('\n')
+  expect(lines.length).toBe(2)
+  for (const line of lines) {
+    expect(JSON.parse(line).jsonrpc).toBe('2.0')
+  }
+})

@@ -41,7 +41,10 @@
     "access": "public"
   },
   "scripts": {
-    "test": "vitest run",
+    "test": "pnpm test:unit && pnpm test:e2e",
+    "test:unit": "vitest run",
+    "pretest:e2e": "pnpm --filter quasar generate:mcp && pnpm --filter @quasar/app-vite generate:mcp",
+    "test:e2e": "vitest run -c vitest-e2e.config.js",
     "prepublishOnly": "pnpm test"
   },
   "dependencies": {

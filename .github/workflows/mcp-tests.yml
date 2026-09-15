@@ -13,6 +13,9 @@ on:
     paths:
       - '.github/workflows/mcp-tests.yml'
       - 'mcp/**'
+      # the e2e suite serves the slices this generator writes
+      - 'docs/build/mcp/**'
+      - 'utils/update-notifier/**'
       # root dependency changes affect every package
       - 'package.json'
       - 'pnpm-lock.yaml'
@@ -24,6 +27,8 @@ on:
     paths:
       - '.github/workflows/mcp-tests.yml'
       - 'mcp/**'
+      - 'docs/build/mcp/**'
+      - 'utils/update-notifier/**'
       # root dependency changes affect every package
       - 'package.json'
       - 'pnpm-lock.yaml'
@@ -59,6 +64,22 @@ jobs:
 
       - name: Install dependencies
         run: pnpm i
+
+      # The e2e suite generates the ui and app-vite docs slices, which
+      # needs the built ui package (its generated API files). Same
+      # exact-input-hash cache key as app-vite's build-ui job, so runs
+      # usually restore instead of building; no restore-keys on purpose
+      # — a stale dist must never be served.
+      - name: Restore UI build cache
+        id: ui-build-cache
+        uses: actions/cache@v5
+        with:
+          path: ui/dist
+          key: ui-dist-${{ runner.os }}-${{ hashFiles('ui/src/**', 'ui/lang/**', 'ui/icon-set/**', 'ui/build/**', 'ui/package.json', 'pnpm-lock.yaml') }}
+
+      - name: Build the UI package
+        if: steps.ui-build-cache.outputs.cache-hit != 'true'
+        run: pnpm --filter quasar build
 
       - name: Run tests
         run: pnpm --filter @quasar/mcp test
