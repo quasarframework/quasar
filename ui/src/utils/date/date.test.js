@@ -410,6 +410,107 @@ describe('[date API]', () => {
           ).toStrictEqual(new Date(2024, 0, 1))
         }
       )
+
+      // the parser is not anchored at the end, so these masks put the name
+      // last: with a trailing literal, backtracking would hide the bug
+      test.each([
+        ['months', 'YYYY MMMM', '2024 AlphaBeta', new Date(2024, 1, 1)],
+        ['monthsShort', 'YYYY MMM', '2024 AlphaBeta', new Date(2024, 1, 1)],
+        ['days', 'GGGG-[W]ww-dddd', '2024-W01-AlphaBeta', new Date(2024, 0, 1)],
+        [
+          'daysShort',
+          'GGGG-[W]ww-ddd',
+          '2024-W01-AlphaBeta',
+          new Date(2024, 0, 1)
+        ]
+      ])(
+        'does not let a shorter custom %s name shadow the longer one it prefixes',
+        async (localeField, mask, value, expected) => {
+          const { default: enUS } = await import('quasar/lang/en-US.js')
+          const localeNames = [...enUS.date[localeField]]
+          localeNames[0] = 'Alpha'
+          localeNames[1] = 'AlphaBeta'
+
+          expect(
+            date.extractDate(value, mask, {
+              ...enUS.date,
+              [localeField]: localeNames
+            })
+          ).toStrictEqual(expected)
+        }
+      )
+
+      test('does not let a shorter "dd" name shadow the longer one it prefixes', async () => {
+        const { default: enUS } = await import('quasar/lang/en-US.js')
+        // "dd" shortens each day to two characters, so a one-character day
+        // name is the only way to get a prefix pair there
+        const days = [...enUS.date.days]
+        days[0] = 'A'
+        days[1] = 'Ab'
+
+        expect(
+          date.extractDate('2024-W01-Ab', 'GGGG-[W]ww-dd', {
+            ...enUS.date,
+            days
+          })
+        ).toStrictEqual(new Date(2024, 0, 1))
+      })
+
+      // shipped packs carrying a prefix pair, which is what makes the
+      // ordering observable: vi "Tháng Mười"/"Tháng Mười Hai" and "Th1"/"Th12",
+      // tr "Pazar"/"Pazartesi", az-Latn "Ç"/"Ç.E"
+      test.each(['YYYY MMMM', 'YYYY MMM'])(
+        'round-trips every vi month name through the %s mask',
+        async mask => {
+          const { default: lang } = await import('quasar/lang/vi.js')
+
+          for (let month = 0; month < 12; month++) {
+            const value = new Date(2023, month, 1)
+
+            expect(
+              date.extractDate(
+                date.formatDate(value, mask, lang.date),
+                mask,
+                lang.date
+              )
+            ).toStrictEqual(value)
+          }
+        }
+      )
+
+      test('round-trips every tr day name through a dddd mask', async () => {
+        const { default: lang } = await import('quasar/lang/tr.js')
+        const mask = 'GGGG-[W]ww-dddd'
+
+        for (let day = 2; day <= 8; day++) {
+          const value = new Date(2023, 0, day)
+
+          expect(
+            date.extractDate(
+              date.formatDate(value, mask, lang.date),
+              mask,
+              lang.date
+            )
+          ).toStrictEqual(value)
+        }
+      })
+
+      test('round-trips every az-Latn day name through a ddd mask', async () => {
+        const { default: lang } = await import('quasar/lang/az-Latn.js')
+        const mask = 'GGGG-[W]ww-ddd'
+
+        for (let day = 2; day <= 8; day++) {
+          const value = new Date(2023, 0, day)
+
+          expect(
+            date.extractDate(
+              date.formatDate(value, mask, lang.date),
+              mask,
+              lang.date
+            )
+          ).toStrictEqual(value)
+        }
+      })
     })
 
     describe('[(function)buildDate]', () => {
