@@ -83,6 +83,21 @@ function findApps(root) {
 }
 
 /**
+ * Whether a directory is worth looking below: a workspace root has a
+ * manifest, a home directory or a random folder (where a user-scoped
+ * client starts the server) has none, and walking those would be slow
+ * and could pick up an unrelated app.
+ *
+ * @param {string} dir
+ * @returns {boolean}
+ */
+function isWorkspaceRoot(dir) {
+  return ['package.json', 'pnpm-workspace.yaml'].some(file =>
+    existsSync(join(dir, file))
+  )
+}
+
+/**
  * @param {string} dir
  * @returns {InstalledPackage[]}
  */
@@ -140,7 +155,8 @@ function locatePackage(projectDir, name) {
 /**
  * The project to serve. The packages resolve from `projectDir` the way
  * its own code resolves them. When that finds nothing and the directory
- * was not named explicitly, the apps below it are looked for (a
+ * was not named explicitly and it has a package.json or a
+ * pnpm-workspace.yaml, the apps below it are looked for (a
  * workspace opened at its root): the first one, a full app before a
  * library and in path order otherwise, is served and the others are
  * reported, for --project to pick.
@@ -157,7 +173,7 @@ export function loadProject(
   let dir = startDir
   let packages = locateAll(startDir)
   let otherApps = []
-  if (packages.length === 0 && !explicit) {
+  if (packages.length === 0 && !explicit && isWorkspaceRoot(startDir)) {
     // a full app (ui and CLI) before a package that only depends on
     // quasar, a component library in the workspace; path order otherwise
     const apps = findApps(startDir)

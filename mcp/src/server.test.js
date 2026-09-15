@@ -1,4 +1,4 @@
-import { mkdtempSync, rmSync } from 'node:fs'
+import { mkdtempSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 
@@ -331,6 +331,7 @@ test('a workspace root names the app served and the ones it is not', async () =>
   onTestFinished(() => {
     rmSync(root, { recursive: true, force: true })
   })
+  writeFileSync(join(root, 'pnpm-workspace.yaml'), '')
   createProject({ dir: join(root, 'apps/admin') })
   createProject({ dir: join(root, 'apps/web') })
   for (const name of ['a', 'b', 'c', 'd', 'e', 'f']) {

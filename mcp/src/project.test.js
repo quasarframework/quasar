@@ -1,4 +1,4 @@
-import { mkdtempSync, rmSync } from 'node:fs'
+import { mkdtempSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 
@@ -56,16 +56,30 @@ test('a nested directory of the project finds the same packages', () => {
   ])
 })
 
-function createWorkspace(apps) {
+function createWorkspace(apps, { manifest = 'pnpm-workspace.yaml' } = {}) {
   const root = mkdtempSync(join(tmpdir(), 'quasar-mcp-workspace-'))
   onTestFinished(() => {
     rmSync(root, { recursive: true, force: true })
   })
+  if (manifest !== null) {
+    writeFileSync(join(root, manifest), '')
+  }
   for (const app of apps) {
     createProject({ dir: join(root, app) })
   }
   return root
 }
+
+test('a directory with no manifest is not searched below: a home directory is not a workspace', () => {
+  const root = createWorkspace(['apps/web'], { manifest: null })
+  expect(loadProject(root).packages).toEqual([])
+  const withPackageJson = createWorkspace(['apps/web'], {
+    manifest: 'package.json'
+  })
+  expect(loadProject(withPackageJson).dir).toBe(
+    join(withPackageJson, 'apps/web')
+  )
+})
 
 test('a workspace root with one app below serves that app', () => {
   const root = createWorkspace(['apps/web'])
@@ -90,10 +104,7 @@ test('several apps below: the first in path order is served, the others reported
 })
 
 test('a full app is served before a package that only depends on quasar', () => {
-  const root = mkdtempSync(join(tmpdir(), 'quasar-mcp-workspace-'))
-  onTestFinished(() => {
-    rmSync(root, { recursive: true, force: true })
-  })
+  const root = createWorkspace([])
   createProject({ dir: join(root, 'apps/web') })
   createProject({ dir: join(root, 'a-library'), appVite: false })
   const project = loadProject(root)
