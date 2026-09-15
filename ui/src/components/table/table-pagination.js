@@ -159,14 +159,17 @@ export function useTablePagination(
       : computedPagination.value.page >= pagesNumber.value
   )
 
-  const computedRowsPerPageOptions = computed(() => {
-    // the page size in effect: a controlling parent owns it and the
-    // inner state stops following it as soon as one is wired up
-    const { rowsPerPage } = computedPagination.value
+  // computedPagination yields a new object on every change (page turns,
+  // sorting); going through this primitive keeps the options list, and
+  // the QSelect it feeds, untouched until the page size itself moves
+  const currentRowsPerPage = computed(
+    () => computedPagination.value.rowsPerPage
+  )
 
-    const opts = props.rowsPerPageOptions.includes(rowsPerPage)
+  const computedRowsPerPageOptions = computed(() => {
+    const opts = props.rowsPerPageOptions.includes(currentRowsPerPage.value)
       ? props.rowsPerPageOptions
-      : [rowsPerPage, ...props.rowsPerPageOptions]
+      : [currentRowsPerPage.value, ...props.rowsPerPageOptions]
 
     return opts.map(count => ({
       label: count === 0 ? $q.lang.table.allRows : String(count),

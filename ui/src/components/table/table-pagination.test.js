@@ -525,6 +525,26 @@ describe('[tablePagination API]', () => {
         ).toStrictEqual([5, 10])
       })
 
+      test('keeps the same options list while the page size stands', async () => {
+        const { computedRowsPerPageOptions, setPagination } = mountPagination({
+          props: { rowsPerPageOptions: [5, 10] },
+          rowsNumber: 50
+        })
+        const options = computedRowsPerPageOptions.value
+
+        setPagination({ page: 2 })
+        await nextTick()
+        setPagination({ sortBy: 'name', descending: true })
+        await nextTick()
+
+        expect(computedRowsPerPageOptions.value).toBe(options)
+
+        setPagination({ rowsPerPage: 10 })
+        await nextTick()
+
+        expect(computedRowsPerPageOptions.value).not.toBe(options)
+      })
+
       test('announces the initial pagination to a controlling parent', () => {
         mountPagination({
           props: {
