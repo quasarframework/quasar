@@ -6,9 +6,15 @@ badge: beta
 
 AI coding agents know a Quasar, not necessarily yours. The `@quasar/mcp` package is an [MCP](https://modelcontextprotocol.io) (Model Context Protocol) server that hands any MCP-capable agent the documentation pages and the component API of the exact Quasar versions installed in your project, offline.
 
+> [!TIP]
+> **Requirements**
+>
+> - Quasar UI v2.33+
+> - `@quasar/app-vite` v3.9+ (if using it in your project)
+
 ## How it works
 
-The documentation ships with the packages: the pages about components, plugins, directives, composables, utils and styling are inside `quasar` (v2.33+), the ones about the CLI, its modes and configuration inside `@quasar/app-vite` (v3.9+). The API of every component, plugin and directive ships with `quasar` as it always has, and since v2.33 also in the compact form this site shows. The server reads them from your project's `node_modules`, so:
+The documentation ships with the packages: the pages about components, plugins, directives, composables, utils and styling are inside `quasar`, the ones about the CLI, its modes and configuration inside `@quasar/app-vite`. The API of every component, plugin and directive ships with `quasar` as it always has, and since v2.33 also in the compact form this site shows. The server reads them from your project's `node_modules`, so:
 
 - the answers describe the versions you run, not the latest release;
 - nothing is fetched from quasar.dev, it works offline;
