@@ -2,6 +2,10 @@
  * Renderers for API member collections: props, methods, events, slots.
  * All output is Stripe-style indented bullets per spec D1 + D10.
  *
+ * Every member kind shares one body (renderFieldBody): the description,
+ * the notes, the signature, values, examples, then the nested `params`,
+ * `returns` and `definition` trees. Only the head line differs per kind.
+ *
  * computedProps has no dedicated renderer. Its shape is a strict subset of
  * props (no required, no default) and renderProps handles it correctly.
  */
@@ -16,6 +20,14 @@ import {
 } from './field-rules.js'
 
 const INLINE_EXAMPLE_LIMIT = 4 // inline if <=4 short examples
+
+/**
+ * @param {number} depth
+ * @returns {string}
+ */
+function indentOf(depth) {
+  return '  '.repeat(depth)
+}
 
 /**
  * Whether a prop type slot is Function-typed. Handles both the scalar
@@ -33,10 +45,24 @@ function isFunctionType(type) {
 }
 
 /**
+ * @param {Record<string, ApiFieldDef>|null|undefined} map
+ * @returns {boolean}
+ */
+function hasEntries(map) {
+  return (
+    map !== null &&
+    typeof map === 'object' &&
+    !Array.isArray(map) &&
+    Object.keys(map).length !== 0
+  )
+}
+
+/**
  * Build a TS-style `param?: type` list from a params map. Shared by
- * function-prop signatures and method signatures.
+ * function-prop signatures and method signatures. A rest param is
+ * never optional-marked (`...args?` is not TS).
  *
- * @param {Record<string, ApiFieldDef>|undefined} params
+ * @param {Record<string, ApiFieldDef>|null|undefined} params
  * @returns {string}
  */
 function buildParamList(params) {
@@ -46,20 +72,45 @@ function buildParamList(params) {
 
   return Object.entries(params)
     .map(([paramName, paramDef]) => {
-      const optionalMark = paramDef.required === true ? '' : '?'
+      const optionalMark =
+        paramDef.required === true || paramName.startsWith('...') ? '' : '?'
       return `${paramName}${optionalMark}: ${formatType(paramDef.type)}`
     })
     .join(', ')
 }
 
 /**
- * Build a TS arrow-function signature for a Function-typed prop with
+ * The type a `returns` slot renders as. A missing or `null` returns is a
+ * void function; a partial `returns` object without `.type` also renders
+ * as void, with a warning so the source JSON gets fixed upstream instead
+ * of the literal string 'undefined' leaking into output.
+ *
+ * @param {string} owner
+ * @param {ApiFieldDef|null|undefined} returns
+ * @returns {string}
+ */
+function returnTypeOf(owner, returns) {
+  if (!returns) {
+    return 'void'
+  }
+  if (!returns.type) {
+    console.warn(
+      `[mcp] '${owner}' has returns with no type field; treating as void`
+    )
+    return 'void'
+  }
+  return formatType(returns.type)
+}
+
+/**
+ * Build a TS arrow-function signature for a Function-typed field with
  * documented params and/or returns. Per spec D8.
  *
+ * @param {string} name
  * @param {ApiFieldDef} field
  * @returns {string}
  */
-function renderFunctionSignature(field) {
+function renderFunctionSignature(name, field) {
   if (!isFunctionType(field.type)) {
     return ''
   }
@@ -67,11 +118,7 @@ function renderFunctionSignature(field) {
     return ''
   }
 
-  const params = buildParamList(field.params)
-  const returnType = field.returns?.type
-    ? formatType(field.returns.type)
-    : 'unknown'
-  return `(${params}) => ${returnType}`
+  return `(${buildParamList(field.params)}) => ${returnTypeOf(name, field.returns)}`
 }
 
 /**
@@ -79,7 +126,7 @@ function renderFunctionSignature(field) {
  * @param {string} indent
  * @returns {string}
  */
-function renderExamples(examples, indent) {
+export function renderExamples(examples, indent) {
   if (!examples || examples.length === 0) {
     return ''
   }
@@ -105,7 +152,7 @@ function renderExamples(examples, indent) {
  * @param {string} indent
  * @returns {string}
  */
-function renderValues(values, indent) {
+export function renderValues(values, indent) {
   if (!values || values.length === 0) {
     return ''
   }
@@ -113,68 +160,111 @@ function renderValues(values, indent) {
 }
 
 /**
+ * The quasar.config file side of a `quasarConfOptions` entry, where it
+ * differs from the UI config one: `null` means the entry has no config
+ * file form at all, a type is what the config file takes instead.
+ *
+ * @param {ApiFieldDef} field
+ * @param {string} indent
+ * @returns {string}
+ */
+export function renderConfigFileType(field, indent) {
+  if (!Object.hasOwn(field, 'configFileType')) {
+    return ''
+  }
+  if (field.configFileType === null) {
+    return `${indent}UI config only; it cannot be set from the quasar.config file.\n`
+  }
+  return `${indent}quasar.config file type: \`${formatType(field.configFileType)}\`\n`
+}
+
+/**
+ * The `Returns:` block of a callable: the type on its head line, then the
+ * same body any field gets (desc, examples, its own params for a function
+ * that returns a function, the object shape it returns).
+ *
+ * @param {string} owner
+ * @param {ApiFieldDef|null|undefined} returns
+ * @param {number} depth the depth of the callable the block belongs to
+ * @returns {string}
+ */
+function renderReturns(owner, returns, depth) {
+  if (!returns) {
+    return ''
+  }
+  return (
+    `${indentOf(depth + 1)}Returns: \`${returnTypeOf(owner, returns)}\`\n` +
+    renderFieldBody(owner, returns, depth + 1)
+  )
+}
+
+/**
+ * Everything under a member's head line. Lines sit one level under the
+ * head, nested trees (params, the returned shape, the object shape) two.
+ *
+ * @param {string} name
+ * @param {ApiFieldDef} field
+ * @param {number} depth the depth of the head line
+ * @returns {string}
+ */
+function renderFieldBody(name, field, depth) {
+  const childIndent = indentOf(depth + 1)
+  let output = ''
+
+  if (field.desc) {
+    output += `${childIndent}${field.desc}\n`
+  }
+  if (field.sync === true) {
+    output += `${childIndent}Required to be used with v-model.\n`
+  }
+  output += renderConfigFileType(field, childIndent)
+  const functionSignature = renderFunctionSignature(name, field)
+  if (functionSignature) {
+    output += `${childIndent}Function signature: \`${functionSignature}\`\n`
+  }
+  output += renderValues(field.values, childIndent)
+  output += renderExamples(field.examples, childIndent)
+
+  if (hasEntries(field.params)) {
+    output += `${childIndent}Params:\n`
+    output += renderProps(field.params, depth + 2)
+  }
+  output += renderReturns(name, field.returns, depth)
+
+  if (hasEntries(field.definition)) {
+    output += `${childIndent}Object shape:\n`
+    output += renderProps(field.definition, depth + 2)
+  } else if (Array.isArray(field.definition)) {
+    // definition is documented as an object schema, so an array is a
+    // source-JSON authoring bug. Surface it instead of silently rendering
+    // Object.entries(array) garbage.
+    console.warn(
+      `[mcp] '${name}' has array definition (expected object); skipping recursion`
+    )
+  }
+
+  return output
+}
+
+/**
  * Render a collection of prop-shaped fields as Stripe-style indented bullets.
- * Recursively descends into Object-shaped `definition`.
+ * Recursively descends into Object-shaped `definition`, function `params`
+ * and `returns`. Fields flagged `internal` are left out, as on the site.
  *
  * @param {Record<string, ApiFieldDef>} props
  * @param {number} [depth]
  * @returns {string}
  */
 export function renderProps(props, depth = 0) {
-  const indent = '  '.repeat(depth)
-  const childIndent = '  '.repeat(depth + 1)
+  const indent = indentOf(depth)
   let output = ''
   for (const [name, field] of Object.entries(props)) {
-    if (shouldDropField(name)) {
+    if (shouldDropField(name) || field.internal === true) {
       continue
     }
 
     output += indent + buildHead(name, field) + '\n'
-
-    if (field.desc) {
-      output += `${childIndent}${field.desc}\n`
-    }
-    const functionSignature = renderFunctionSignature(field)
-    if (functionSignature) {
-      output += `${childIndent}Function signature: \`${functionSignature}\`\n`
-    }
-    output += renderValues(field.values, childIndent)
-    output += renderExamples(field.examples, childIndent)
-
-    if (
-      field.definition &&
-      typeof field.definition === 'object' &&
-      !Array.isArray(field.definition)
-    ) {
-      output += `${childIndent}Object shape:\n`
-      output += renderProps(field.definition, depth + 2)
-    } else if (Array.isArray(field.definition)) {
-      // definition is documented as an object schema, so an array is a
-      // source-JSON authoring bug. Surface it instead of silently rendering
-      // Object.entries(array) garbage.
-      console.warn(
-        `[mcp] '${name}' has array definition (expected object); skipping recursion`
-      )
-    }
-  }
-  return output
-}
-
-/**
- * Shared body for callable members (methods, events): desc line + nested
- * Params: block. Head lines differ per member kind, so callers emit those.
- *
- * @param {ApiFieldDef} member
- * @returns {string}
- */
-function renderCallableBody(member) {
-  let output = ''
-  if (member.desc) {
-    output += `  ${member.desc}\n`
-  }
-  if (member.params && Object.keys(member.params).length !== 0) {
-    output += '  Params:\n'
-    output += renderProps(member.params, 2)
+    output += renderFieldBody(name, field, depth)
   }
   return output
 }
@@ -187,19 +277,7 @@ function renderCallableBody(member) {
  * @returns {string}
  */
 function buildSignature(name, method) {
-  const params = buildParamList(method.params)
-  // A partial `returns` object without `.type` renders as void, with a
-  // warning so the source JSON gets fixed upstream instead of the literal
-  // string 'undefined' leaking into output.
-  const returnType = method.returns?.type
-    ? formatType(method.returns.type)
-    : 'void'
-  if (method.returns && !method.returns.type) {
-    console.warn(
-      `[mcp] method '${name}' has returns with no type field; treating as void`
-    )
-  }
-  return `${name}(${params}): ${returnType}`
+  return `${name}(${buildParamList(method.params)}): ${returnTypeOf(name, method.returns)}`
 }
 
 /**
@@ -210,15 +288,7 @@ export function renderMethods(methods) {
   let output = ''
   for (const [name, method] of Object.entries(methods)) {
     output += `- \`${buildSignature(name, method)}\`\n`
-    output += renderCallableBody(method)
-    if (method.returns) {
-      const returnDesc = method.returns.desc ? ` — ${method.returns.desc}` : ''
-      // Mirror buildSignature's fallback for a partial returns object.
-      const returnType = method.returns.type
-        ? formatType(method.returns.type)
-        : 'void'
-      output += `  Returns: \`${returnType}\`${returnDesc}\n`
-    }
+    output += renderFieldBody(name, method, 0)
   }
   return output
 }
@@ -232,8 +302,11 @@ export function renderMethods(methods) {
 export function renderEvents(events) {
   let output = ''
   for (const [name, event] of Object.entries(events)) {
+    if (event.internal === true) {
+      continue
+    }
     output += `- \`@${name}\`\n`
-    output += renderCallableBody(event)
+    output += renderFieldBody(name, event, 0)
   }
   return output
 }
@@ -251,11 +324,10 @@ export function partitionSlots(slots) {
   /** @type {Record<string, ApiFieldDef>} */
   const scoped = {}
   for (const [name, slot] of Object.entries(slots)) {
-    const hasScope =
-      slot.scope &&
-      typeof slot.scope === 'object' &&
-      Object.keys(slot.scope).length !== 0
-    if (hasScope) {
+    if (slot.internal === true) {
+      continue
+    }
+    if (hasEntries(slot.scope)) {
       scoped[name] = slot
     } else {
       regular[name] = slot
@@ -278,7 +350,7 @@ export function renderSlots(slots) {
     if (slot.desc) {
       output += `  ${slot.desc}\n`
     }
-    if (slot.scope && Object.keys(slot.scope).length !== 0) {
+    if (hasEntries(slot.scope)) {
       output += '  Scope:\n'
       output += renderProps(slot.scope, 2)
     }

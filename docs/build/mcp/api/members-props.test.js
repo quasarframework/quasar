@@ -122,3 +122,88 @@ test('Array definition (authoring bug) does not render Object.entries garbage', 
   })
   expect(output).not.toContain('Object shape:')
 })
+
+test('Function-typed prop renders its params and returns trees', () => {
+  const output = renderProps({
+    'option-label': {
+      type: ['Function', 'String'],
+      desc: 'Label getter',
+      default: "'label'",
+      params: {
+        option: { type: ['String', 'Object'], required: true, desc: 'Option' }
+      },
+      returns: {
+        type: 'String',
+        desc: 'The label',
+        examples: ["'Sun'"]
+      }
+    }
+  })
+  expect(output).toBe(
+    "- `option-label` (Function | string, optional), default `'label'`\n" +
+      '  Label getter\n' +
+      '  Function signature: `(option: string | object) => string`\n' +
+      '  Params:\n' +
+      '    - `option` (string | object, required)\n' +
+      '      Option\n' +
+      '  Returns: `string`\n' +
+      '    The label\n' +
+      "    Examples: `'Sun'`\n"
+  )
+})
+
+test('Function-typed prop with null params and returns has no trees', () => {
+  const output = renderProps({
+    onDismiss: {
+      type: 'Function',
+      desc: 'On dismiss',
+      params: null,
+      returns: null
+    }
+  })
+  expect(output).toBe('- `onDismiss` (Function, optional)\n  On dismiss\n')
+})
+
+test('sync prop carries the v-model note', () => {
+  const output = renderProps({
+    ticked: { type: 'Array', desc: 'Ticked keys', sync: true, syncable: true }
+  })
+  expect(output).toBe(
+    '- `ticked` (any[], optional, syncable)\n' +
+      '  Ticked keys\n' +
+      '  Required to be used with v-model.\n'
+  )
+})
+
+test('internal fields are left out', () => {
+  const output = renderProps({
+    shown: { type: 'String', desc: 'Shown' },
+    hidden: { type: 'String', desc: 'Hidden', internal: true }
+  })
+  expect(output).toBe('- `shown` (string, optional)\n  Shown\n')
+})
+
+test('configFileType renders the quasar.config file side', () => {
+  const output = renderProps({
+    spinner: {
+      type: ['Boolean', 'Component'],
+      configFileType: ['Boolean', 'String'],
+      desc: 'Spinner'
+    },
+    onDismiss: {
+      type: 'Function',
+      configFileType: null,
+      desc: 'On dismiss',
+      params: null,
+      returns: null
+    }
+  })
+  expect(output).toBe(
+    '- `spinner` (boolean | Component, optional)\n' +
+      '  Spinner\n' +
+      '  quasar.config file type: `boolean | string`\n' +
+      '- `onDismiss` (Function, optional)\n' +
+      '  On dismiss\n' +
+      '  UI config only; it cannot be set from the quasar.config file.\n'
+  )
+})

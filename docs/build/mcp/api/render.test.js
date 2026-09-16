@@ -77,3 +77,38 @@ test('end-to-end: renderApi on real QKnob.json produces expected structure', () 
   // QKnob has min/max/step props. Verify Stripe-style formatting on one.
   expect(output).toMatch(/- `min` \(number, optional\)/)
 })
+
+test('quasarConfOptions renders type, desc, values and examples', () => {
+  const output = renderApi('Dark', {
+    type: 'plugin',
+    quasarConfOptions: {
+      propName: 'dark',
+      type: ['Boolean', 'String'],
+      desc: "'auto' follows the OS.",
+      values: ["'auto'", 'true', 'false']
+    }
+  })
+  expect(output).toContain(
+    '### quasar.config.js Options\n\n' +
+      'Configuration key: `framework.config.dark` (boolean | string)\n\n' +
+      "'auto' follows the OS.\n\n" +
+      "Accepts: `'auto'`, `true`, `false`\n\n"
+  )
+})
+
+test('quasarConfOptions with a definition keeps the bullet list', () => {
+  const output = renderApi('Screen', {
+    type: 'plugin',
+    quasarConfOptions: {
+      propName: 'screen',
+      type: 'Object',
+      definition: {
+        bodyClasses: { type: 'Boolean', desc: 'Body classes' }
+      }
+    }
+  })
+  expect(output).toContain(
+    'Configuration key: `framework.config.screen` (object)\n\n' +
+      '- `bodyClasses` (boolean, optional)\n  Body classes\n'
+  )
+})

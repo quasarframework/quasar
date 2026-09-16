@@ -46,3 +46,11 @@ test('event with Object payload (nested shape)', () => {
   expect(output).toMatch(/Object shape:/)
   expect(output).toMatch(/`rows`/)
 })
+
+test('internal events are left out', () => {
+  const output = renderEvents({
+    shown: { desc: 'Shown' },
+    hidden: { desc: 'Hidden', internal: true }
+  })
+  expect(output).toBe('- `@shown`\n  Shown\n')
+})

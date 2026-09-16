@@ -5,12 +5,16 @@
 
 /** @typedef {import('./field-rules.js').ApiFieldDef} ApiFieldDef */
 
+import { formatType } from './field-rules.js'
 import {
   partitionSlots,
+  renderConfigFileType,
   renderEvents,
+  renderExamples,
   renderMethods,
   renderProps,
-  renderSlots
+  renderSlots,
+  renderValues
 } from './members.js'
 
 /**
@@ -50,6 +54,39 @@ function renderSlotSections(slots) {
   }
   if (Object.keys(scoped).length !== 0) {
     output += '### Scoped Slots\n\n' + renderSlots(scoped) + '\n'
+  }
+  return output
+}
+
+/**
+ * The `### quasar.config.js Options` section: the key, its type, the
+ * description and the accepted values or examples as paragraphs, then
+ * the object shape as the usual bullet list.
+ *
+ * @param {ApiFieldDef & { propName?: string }} confOptions
+ * @returns {string}
+ */
+function renderQuasarConfOptions(confOptions) {
+  let output = '### quasar.config.js Options\n\n'
+  if (confOptions.propName) {
+    const type = confOptions.type ? ` (${formatType(confOptions.type)})` : ''
+    output += `Configuration key: \`framework.config.${confOptions.propName}\`${type}\n\n`
+  }
+  if (confOptions.desc) {
+    output += `${confOptions.desc}\n\n`
+  }
+  const lines =
+    renderConfigFileType(confOptions, '') +
+    renderValues(confOptions.values, '') +
+    renderExamples(confOptions.examples, '')
+  if (lines !== '') {
+    output += `${lines}\n`
+  }
+  if (
+    confOptions.definition &&
+    Object.keys(confOptions.definition).length !== 0
+  ) {
+    output += renderProps(confOptions.definition) + '\n'
   }
   return output
 }
@@ -104,7 +141,7 @@ export function apiParts(json) {
  *   events?: Record<string, ApiFieldDef>,
  *   slots?: Record<string, ApiFieldDef>,
  *   injection?: string,
- *   quasarConfOptions?: { propName?: string, definition?: Record<string, ApiFieldDef> },
+ *   quasarConfOptions?: ApiFieldDef & { propName?: string },
  *   value?: ApiFieldDef,
  *   arg?: ApiFieldDef,
  *   modifiers?: Record<string, ApiFieldDef>
@@ -134,17 +171,7 @@ export function renderApi(name, json) {
     output += `### Vue Injection\n\nAccessible via \`${json.injection}\` (e.g., \`this.$q.${bareKey}\` in Options API or \`useQuasar().${bareKey}\` in Composition API).\n\n`
   }
   if (json.quasarConfOptions) {
-    const confOptions = json.quasarConfOptions
-    output += '### quasar.config.js Options\n\n'
-    if (confOptions.propName) {
-      output += `Configuration key: \`framework.config.${confOptions.propName}\`\n\n`
-    }
-    if (
-      confOptions.definition &&
-      Object.keys(confOptions.definition).length !== 0
-    ) {
-      output += renderProps(confOptions.definition) + '\n'
-    }
+    output += renderQuasarConfOptions(json.quasarConfOptions)
   }
 
   // Directive-specific sections

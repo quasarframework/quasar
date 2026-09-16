@@ -7,15 +7,18 @@
  * @property {string|string[]} [type] - Quasar type name(s), e.g. 'String' or ['String', 'Number']
  * @property {boolean} [required]
  * @property {boolean} [syncable]
+ * @property {boolean} [sync] - bound through v-model:name
  * @property {boolean} [reactive]
+ * @property {boolean} [internal] - left out of the rendered output
+ * @property {string|string[]|null} [configFileType] - quasarConfOptions only: the quasar.config file type, null when there is none
  * @property {string} [desc]
  * @property {string|number|boolean} [default]
  * @property {string[]} [values] - closed enum
  * @property {Array<string|number>} [examples] - open-ended examples
  * @property {string} [addedIn]
  * @property {Record<string, ApiFieldDef>} [definition] - nested Object shape
- * @property {Record<string, ApiFieldDef>} [params] - for Function/event/method
- * @property {ApiFieldDef} [returns] - for Function/method
+ * @property {Record<string, ApiFieldDef>|null} [params] - for Function/event/method
+ * @property {ApiFieldDef|null} [returns] - for Function/method, null for void
  * @property {Record<string, ApiFieldDef>} [scope] - for scoped slot
  */
 
