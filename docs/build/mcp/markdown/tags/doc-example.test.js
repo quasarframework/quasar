@@ -14,9 +14,9 @@ test('inlines a real example .vue file', () => {
     frontMatter: { examples: 'QKnob' }
   }
   const output = handler.block(token, ctx)
-  expect(output).toMatch(/### Basic/)
-  expect(output).toMatch(/```vue/)
+  expect(output).toMatch(/^Example "Basic":\n\n```vue\n/)
   expect(output).toMatch(/<template>/)
+  expect(output).not.toMatch(/^#/m)
 })
 
 test('missing file logs warning', () => {
@@ -34,7 +34,7 @@ test('missing file logs warning', () => {
   expect(ctx.warnings[0]).toMatch(/NotARealExample/)
 })
 
-test('drops example title heading when preceding block was a heading (exact match)', () => {
+test('drops the example label when preceding block was a heading (exact match)', () => {
   const handler = docExampleHandler({ examplesDir })
   const token = { content: '<DocExample title="Basic" file="Basic" />' }
   const ctx = {
@@ -44,12 +44,12 @@ test('drops example title heading when preceding block was a heading (exact matc
     _lastBlockWasHeading: true
   }
   const output = handler.block(token, ctx)
-  // The redundant `### Basic` heading must be suppressed.
-  expect(output).not.toMatch(/^### Basic/)
+  // The redundant label must be suppressed.
+  expect(output).not.toContain('Example "Basic":')
   expect(output).toMatch(/^```vue/)
 })
 
-test('drops example title heading when preceding block was a heading (near-match)', () => {
+test('drops the example label when preceding block was a heading (near-match)', () => {
   // Authors often write `### Min and max` followed by
   // `<DocExample title="Custom min/max" file="..." />`. The heading and the
   // example title differ in wording but the example still IS the section.
@@ -64,11 +64,11 @@ test('drops example title heading when preceding block was a heading (near-match
     _lastBlockWasHeading: true
   }
   const output = handler.block(token, ctx)
-  expect(output).not.toContain('### Custom min/max')
+  expect(output).not.toContain('Custom min/max')
   expect(output).toMatch(/^```vue/)
 })
 
-test('keeps example title heading when no preceding heading present', () => {
+test('keeps the example label when no preceding heading present', () => {
   const handler = docExampleHandler({ examplesDir })
   const token = { content: '<DocExample title="Basic" file="Basic" />' }
   const ctx = {
@@ -78,5 +78,5 @@ test('keeps example title heading when no preceding heading present', () => {
     _lastBlockWasHeading: false
   }
   const output = handler.block(token, ctx)
-  expect(output).toMatch(/^### Basic/)
+  expect(output).toMatch(/^Example "Basic":\n\n```vue\n/)
 })

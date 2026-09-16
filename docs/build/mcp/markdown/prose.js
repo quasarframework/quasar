@@ -79,7 +79,7 @@ export function registerProseEmitters() {
     const hashes = '#'.repeat(level)
     const inline = all[index + 1]
     const text = inline?.type === 'inline' ? inlineToText(inline, ctx) : ''
-    // DocExample reads this to suppress its own redundant `### {title}`
+    // DocExample reads this to suppress its own redundant title label
     // when the author already wrote a heading right before the example.
     ctx._lastBlockWasHeading = true
     emit(ctx, `${hashes} ${text}\n\n`)

@@ -2,8 +2,8 @@
  * <DocExample title="X" file="Y" /> handler.
  *
  * Inlines docs/src/examples/{frontmatter.examples}/{Y}.vue as a fenced
- * `vue` code block, preceded by an h3 with the title. Missing source
- * file or missing frontmatter.examples warn and emit nothing.
+ * `vue` code block, labelled with its title. Missing source file or
+ * missing frontmatter.examples warn and emit nothing.
  */
 
 import { existsSync, readFileSync } from 'node:fs'
@@ -67,17 +67,20 @@ export function docExampleHandler({ examplesDir }) {
           `${warning} in example ${examplesKey}/${file}.vue (${ctx.sourcePath})`
         )
       }
-      // Skip the tag's own `### {title}` when a heading sits right before it
-      // with no body in between. The example IS the section, so that heading
-      // makes the title redundant. Near-matches (`### Min and max` then
-      // title="Custom min/max") are just as redundant as exact ones.
-      const skipHeading = ctx._lastBlockWasHeading === true
-      const heading = skipHeading ? '' : `### ${title}\n\n`
+      // The label is a paragraph, never a heading: a heading would open a
+      // section of its own, one more in the outline per example, a
+      // duplicate of the author's when the title repeats it, and a sibling
+      // that cuts the author's section short. Skipped when a heading sits
+      // right before the example with no body in between: the example IS
+      // that section, so the title is redundant, even a near-match
+      // (`### Min and max` then title="Custom min/max").
+      const label =
+        ctx._lastBlockWasHeading === true ? '' : `Example "${title}":\n\n`
       // The example body counts as non-heading content, so a later sibling
-      // example doesn't also suppress its title.
+      // example gets its label.
       ctx._lastBlockWasHeading = false
       const fence = fenceFor(source)
-      return `${heading}${fence}vue\n${source}\n${fence}\n\n`
+      return `${label}${fence}vue\n${source}\n${fence}\n\n`
     }
   }
 }
