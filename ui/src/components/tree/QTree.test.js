@@ -112,12 +112,22 @@ function getRows(wrapper) {
   return wrapper.findAll('.q-tree__vnode')
 }
 
-// the virtual slice settles through a debounced scroll handler plus a
-// requestAnimationFrame chain
+function nextFrame() {
+  return new Promise(resolve => {
+    requestAnimationFrame(resolve)
+  })
+}
+
+// the virtual slice settles through a debounced (35ms) scroll handler
+// plus a two-frame requestAnimationFrame chain; waiting on the same
+// clocks keeps the helper valid when a loaded runner stretches frames
 async function settleVirtualScroll() {
   await new Promise(resolve => {
-    setTimeout(resolve, 80)
+    setTimeout(resolve, 40)
   })
+  await flushPromises()
+  await nextFrame()
+  await nextFrame()
   await flushPromises()
 }
 
@@ -2484,7 +2494,6 @@ describe('[QTree API]', () => {
       first.element.focus()
       await keydown(first, 35) // End
 
-      await settleVirtualScroll()
       await settleVirtualScroll()
 
       const last = getHeader(wrapper, lastNode.label)
