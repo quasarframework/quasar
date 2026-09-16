@@ -1,6 +1,8 @@
 import { readFileSync } from 'node:fs'
 import { join } from 'node:path'
 
+import { slugify } from './slugify.js'
+
 /**
  * The slice format this server reads (meta.json `format`, written by
  * the docs generator, docs/build/mcp/output/meta.js). A slice of
@@ -172,18 +174,6 @@ export function extractSection(markdown, heading) {
     }
   }
   return start === -1 ? null : lines.slice(start).join('\n').trim()
-}
-
-/**
- * @param {string} text
- * @returns {string}
- */
-function slugify(text) {
-  return text
-    .toLowerCase()
-    .replaceAll('`', '')
-    .replaceAll(/[^a-z0-9]+/g, '-')
-    .replaceAll(/^-+|-+$/g, '')
 }
 
 /**

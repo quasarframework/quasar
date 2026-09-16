@@ -115,6 +115,18 @@ test('extracts a section up to the next heading of its level', () => {
   )
   expect(extractSection(markdown, 'Loading state')).toContain('spinner')
   expect(extractSection(markdown, 'Nope')).toBeNull()
+
+  // a quasar.dev fragment names the section the way the site renders it
+  const punctuated = "## Size & colors\n\nsized\n\n## Quasar's CSS\n\nstyled"
+  expect(extractSection(punctuated, 'size-and-colors')).toBe(
+    '## Size & colors\n\nsized'
+  )
+  expect(extractSection(punctuated, 'quasar-s-css')).toBe(
+    "## Quasar's CSS\n\nstyled"
+  )
+  expect(extractSection(punctuated, "quasar's css")).toBe(
+    "## Quasar's CSS\n\nstyled"
+  )
 })
 
 test('search ranks the page about the subject first and needs every term', () => {

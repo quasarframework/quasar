@@ -1,6 +1,7 @@
 import { expect, test } from 'vitest'
 
 import { capitalize, slugify } from './utils.js'
+import { slugify as mcpSlugify } from '../../mcp/src/slugify.js'
 
 test('slugify turns headings into anchor ids', () => {
   expect(slugify('Hello World')).toBe('hello-world')
@@ -9,6 +10,17 @@ test('slugify turns headings into anchor ids', () => {
   expect(slugify('Multiple   spaces --- and dashes')).toBe(
     'multiple-spaces-and-dashes'
   )
+  // punctuation is a dash wherever it falls, and never one at either end
+  expect(slugify("Quasar's CSS")).toBe('quasar-s-css')
+  expect(slugify('Dynamic (on SSR/SSG)')).toBe('dynamic-on-ssr-ssg')
+  expect(slugify('/package.json')).toBe('package-json')
+  expect(slugify('`Basic`')).toBe(slugify('Basic'))
+})
+
+test('slugify is the very function the MCP server resolves sections by', () => {
+  // the published package cannot import this file, so it carries a copy;
+  // a quasar.dev fragment has to name the same section on both sides
+  expect(mcpSlugify.toString()).toBe(slugify.toString())
 })
 
 test('slugify drops the markup a title carries', () => {

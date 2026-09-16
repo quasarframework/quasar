@@ -8,19 +8,9 @@
  * their repeated Props/Slots, is not held to it. Fenced code is skipped.
  */
 
-const HEADING_RE = /^#{1,6}\s+(.+?)\s*#*\s*$/
+import { slugify } from '../../utils.js'
 
-/**
- * @param {string} text
- * @returns {string}
- */
-function slugify(text) {
-  return text
-    .toLowerCase()
-    .replaceAll('`', '')
-    .replaceAll(/[^a-z0-9]+/g, '-')
-    .replaceAll(/^-+|-+$/g, '')
-}
+const HEADING_RE = /^#{1,6}\s+(.+?)\s*#*\s*$/
 
 /**
  * @param {string} markdown A generated page body.

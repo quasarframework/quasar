@@ -15,7 +15,7 @@ scope:
             url: '/quasar-cli-vite/handling-assets#regular-assets-src-assets'
           - l: components/
             e: '.vue components used in pages & layouts'
-            url: '/start/how-to-use-vue#vue-single-file-components-sfc-'
+            url: '/start/how-to-use-vue#vue-single-file-components-sfc'
           - l: css
             e: CSS/Sass/... files for your app
             c:

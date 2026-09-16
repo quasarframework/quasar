@@ -1,27 +1,24 @@
-// oxlint-disable-next-line no-useless-escape
-const specialRE = /[\s·/_\\,:;\.\(\)\[\]]+/g
-const andRE = /&/g
-const nonWordRE = /[^\w-]+/g
-const multipleDashRE = /--+/g
-
-const tagRE = /<\/?[^>]+(>|$)/g
-
 /**
- * Turns a title into the anchor id it renders as. Markup the title
- * carries is dropped, and the gap it leaves behind must not survive as a
- * dash, so that a heading like `### Using an Ajax filter <q-badge
- * label="v2.4.5+" />` and the search entry pointing at it derive the very
- * same string.
+ * Turns a heading into the id it is found by: markup dropped, `&` read as
+ * "and", every other run of non-alphanumerics one dash, none at either
+ * end. The renderer writes heading ids with it, DocCardTitle and
+ * DocInstall derive theirs from it, page-ids.js and the search index
+ * mirror them through it.
+ *
+ * MIRRORED in mcp/src/slugify.js, where the MCP server resolves a section
+ * by it and cannot import this file: any change here is made there too,
+ * and utils.test.js fails while the two differ.
+ *
+ * @param {string} str
+ * @returns {string}
  */
 export function slugify(str) {
   return String(str)
-    .replace(tagRE, '')
-    .trim()
+    .replaceAll(/<\/?[^>]+(>|$)/g, '')
     .toLowerCase()
-    .replace(specialRE, '-')
-    .replace(andRE, '-and-')
-    .replace(nonWordRE, '')
-    .replace(multipleDashRE, '-')
+    .replaceAll('&', ' and ')
+    .replaceAll(/[^a-z0-9]+/g, '-')
+    .replaceAll(/^-+|-+$/g, '')
 }
 
 export function capitalize(str) {
