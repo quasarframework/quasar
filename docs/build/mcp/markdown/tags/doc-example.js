@@ -11,7 +11,7 @@ import { existsSync, readFileSync } from 'node:fs'
 import { join } from 'node:path'
 
 import { applyCollapseMarkers } from '../collapse-markers.js'
-import { fenceFor } from '../fence-utils.js'
+import { caption, fenceFor } from '../fence-utils.js'
 
 /** @typedef {import('../walker.js').EmitCtx} EmitCtx */
 /** @typedef {import('../walker.js').MarkdownItToken} MarkdownItToken */
@@ -145,7 +145,7 @@ export function docExampleHandler({ examplesDir }) {
       const label =
         comparable(title) === comparable(ctx._heading ?? '')
           ? ''
-          : `Example "${title}":\n\n`
+          : caption(title)
       const fence = fenceFor(source)
       return `${label}${fence}vue\n${source}\n${fence}\n\n`
     }

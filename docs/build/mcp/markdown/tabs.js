@@ -1,6 +1,6 @@
 /**
  * Tabs fence handler. Source format:
- *   ```tabs
+ *   ```tabs Optional block title
  *   <<| ts setup |>>
  *   ...code...
  *   <<| js |>>
@@ -17,8 +17,7 @@
  */
 
 import { emit, registerEmitter } from './walker.js'
-import { transformMagicComments } from './code-magic-comments.js'
-import { fenceFor } from './fence-utils.js'
+import { caption, parseFenceInfo, renderFence } from './fence-utils.js'
 
 /** @typedef {import('./walker.js').EmitCtx} EmitCtx */
 /** @typedef {import('./walker.js').MarkdownItToken} MarkdownItToken */
@@ -80,25 +79,27 @@ export function pruneTabs(tabs) {
 }
 
 /**
- * Render pruned tabs back to markdown. Single survivor -> a bare fenced block
- * (the label is redundant). Multiple survivors -> bolded label heading per block.
+ * Render pruned tabs back to markdown, each a fenced block under a
+ * caption. A single survivor is captioned by the block's title alone
+ * (its label named the pruned alternative); several keep their labels,
+ * with the block's title in front (`Example "In your code (Manually
+ * defined routes)":`).
  *
  * @param {Tab[]} tabs
+ * @param {string | null} [title] The block's own title.
  * @returns {string}
  */
-export function renderTabs(tabs) {
+export function renderTabs(tabs, title = null) {
   if (tabs.length === 1) {
-    const tab = tabs[0]
-    const code = transformMagicComments(tab.code)
-    const fence = fenceFor(code)
-    return fence + tab.lang + '\n' + code + '\n' + fence + '\n\n'
+    const [tab] = tabs
+    return caption(title) + renderFence(tab.lang, tab.code)
   }
   return tabs
-    .map(tab => {
-      const code = transformMagicComments(tab.code)
-      const fence = fenceFor(code)
-      return `**${tab.label}:**\n\n${fence}${tab.lang}\n${code}\n${fence}\n\n`
-    })
+    .map(
+      tab =>
+        caption(title === null ? tab.label : `${title} (${tab.label})`) +
+        renderFence(tab.lang, tab.code)
+    )
     .join('')
 }
 
@@ -137,33 +138,18 @@ function extractTabsFromFence(token) {
   return tabs
 }
 
-// Local copy of prose's fence behavior for non-tabs fences. We can't import
-// the original, registerEmitter replaces it.
-const previousFence = (token, ctx) => {
-  const langMatch = token.info.trim().match(/^(\S+)/)
-  const lang = langMatch ? langMatch[1] : ''
-  const content = transformMagicComments(token.content.replace(/\n$/, ''))
-  const fence = fenceFor(content)
-  emit(ctx, fence + lang + '\n' + content + '\n' + fence + '\n\n')
-}
-
 /**
  * Override the walker's `fence` emitter so info='tabs' takes priority. Must be
- * called AFTER registerProseEmitters so it wins for tabs while delegating to
- * the prose-style fence render for all other languages.
+ * called AFTER registerProseEmitters so it wins for tabs while rendering
+ * every other fence as prose does.
  */
 export function registerTabsEmitter() {
   registerEmitter('fence', (token, ctx) => {
-    const info = token.info.trim()
-    if (
-      info === 'tabs' ||
-      info.startsWith('tabs ') ||
-      info.startsWith('tabs\t')
-    ) {
-      const tabs = pruneTabs(extractTabsFromFence(token))
-      emit(ctx, renderTabs(tabs))
+    const { lang, title } = parseFenceInfo(token.info)
+    if (lang === 'tabs') {
+      emit(ctx, renderTabs(pruneTabs(extractTabsFromFence(token)), title))
       return
     }
-    previousFence(token, ctx)
+    emit(ctx, caption(title) + renderFence(lang, token.content))
   })
 }

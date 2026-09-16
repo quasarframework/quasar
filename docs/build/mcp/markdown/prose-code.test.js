@@ -11,10 +11,21 @@ test('fenced block with no language', () => {
   expect(output).toBe('```\nplain\n```\n\n')
 })
 
-test('fence info with attrs and title (Quasar codeblock syntax) keeps only the language', () => {
+test('fence info with attrs and title (Quasar codeblock syntax) keeps the language and captions the block with the title', () => {
   // Quasar format: ```js [numbered] My Title
-  const output = render('```js [numbered] My Title\nconst x = 1\n```')
-  expect(output).toBe('```js\nconst x = 1\n```\n\n')
+  expect(render('```js [numbered] My Title\nconst x = 1\n```')).toBe(
+    'Example "My Title":\n\n```js\nconst x = 1\n```\n\n'
+  )
+  expect(render('```js /quasar.config file > bex\nconst x = 1\n```')).toBe(
+    'Example "/quasar.config file > bex":\n\n```js\nconst x = 1\n```\n\n'
+  )
+  // a title already ending in a colon gets no second one
+  expect(render('```js api.ctx example:\nconst x = 1\n```')).toBe(
+    'Example "api.ctx example":\n\n```js\nconst x = 1\n```\n\n'
+  )
+  expect(render('```js [numbered]\nconst x = 1\n```')).toBe(
+    '```js\nconst x = 1\n```\n\n'
+  )
 })
 
 test('indented code block', () => {

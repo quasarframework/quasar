@@ -9,8 +9,7 @@
 import { emit, emitTokens, registerEmitter } from './walker.js'
 import { rewriteLink, unreachableLink } from './link-rewrite.js'
 import { siteHref } from '../site.js'
-import { transformMagicComments } from './code-magic-comments.js'
-import { fenceFor } from './fence-utils.js'
+import { caption, parseFenceInfo, renderFence } from './fence-utils.js'
 import { sourceToOutputPath } from '../pages/routes.js'
 
 /** @typedef {import('./walker.js').EmitCtx} EmitCtx */
@@ -159,20 +158,16 @@ export function registerProseEmitters() {
   // wrapped, which list items always are. Another '\n' would double-space.
   registerEmitter('list_item_close', () => {})
 
+  // The site shows a fence's title as its card title; here it is the
+  // paragraph before the block. Fences with info=tabs are overridden by
+  // tabs.js, registered later.
   registerEmitter('fence', (token, ctx) => {
-    // Quasar fence info is `lang [attrs] title`. Keep only the language.
-    // Fences with info=tabs are overridden by tabs.js, registered later.
-    const langMatch = token.info.trim().match(/^(\S+)/)
-    const lang = langMatch ? langMatch[1] : ''
-    const content = transformMagicComments(token.content.replace(/\n$/, ''))
-    const fence = fenceFor(content)
-    emit(ctx, fence + lang + '\n' + content + '\n' + fence + '\n\n')
+    const { lang, title } = parseFenceInfo(token.info)
+    emit(ctx, caption(title) + renderFence(lang, token.content))
   })
 
   registerEmitter('code_block', (token, ctx) => {
-    const content = token.content.replace(/\n$/, '')
-    const fence = fenceFor(content)
-    emit(ctx, fence + '\n' + content + '\n' + fence + '\n\n')
+    emit(ctx, renderFence('', token.content))
   })
 
   registerEmitter('blockquote_open', (_, ctx) => {

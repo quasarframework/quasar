@@ -47,20 +47,24 @@ test('unknown labels kept (Server vs Client)', () => {
   expect(output.length).toBe(2)
 })
 
-test('renderTabs emits single block without label when one tab survives', () => {
-  const output = renderTabs([
-    { label: 'Composition API', lang: 'js', code: 'const x = 1' }
-  ])
-  expect(output).toBe('```js\nconst x = 1\n```\n\n')
+test('renderTabs captions a single survivor with the block title alone', () => {
+  const tabs = [{ label: 'Composition API', lang: 'js', code: 'const x = 1' }]
+  expect(renderTabs(tabs)).toBe('```js\nconst x = 1\n```\n\n')
+  expect(renderTabs(tabs, '/src/boot/bus.js')).toBe(
+    'Example "/src/boot/bus.js":\n\n```js\nconst x = 1\n```\n\n'
+  )
 })
 
-test('renderTabs emits bold label per surviving tab when multiple', () => {
-  const output = renderTabs([
+test('renderTabs captions each surviving tab with its label, the block title in front', () => {
+  const tabs = [
     { label: 'Server', lang: 'js', code: 'a' },
     { label: 'Client', lang: 'js', code: 'b' }
-  ])
-  expect(output).toBe(
-    '**Server:**\n\n```js\na\n```\n\n**Client:**\n\n```js\nb\n```\n\n'
+  ]
+  expect(renderTabs(tabs)).toBe(
+    'Example "Server":\n\n```js\na\n```\n\nExample "Client":\n\n```js\nb\n```\n\n'
+  )
+  expect(renderTabs(tabs, 'In your code')).toBe(
+    'Example "In your code (Server)":\n\n```js\na\n```\n\nExample "In your code (Client)":\n\n```js\nb\n```\n\n'
   )
 })
 
