@@ -1,5 +1,5 @@
 <template>
-  <q-card class="doc-example q-my-lg" flat bordered>
+  <q-card ref="cardRef" class="doc-example q-my-lg" flat bordered>
     <div class="header-toolbar row items-center q-pr-sm">
       <DocCardTitle :title="props.title" :prefix="titlePrefix" />
 
@@ -128,12 +128,14 @@
 import {
   computed,
   inject,
+  nextTick,
+  onBeforeUnmount,
   onMounted,
   ref,
   shallowRef,
   useTemplateRef
 } from 'vue'
-import { openURL } from 'quasar'
+import { openURL, useIntersection } from 'quasar'
 
 import { fabCodepen, fabGithub } from '@quasar/extras/fontawesome-v7'
 import { mdiCompare } from '@quasar/extras/mdi-v7'
@@ -160,6 +162,7 @@ const props = defineProps({
 const docStore = useDocStore()
 const examples = inject('_q_ex')
 
+const cardRef = useTemplateRef('cardRef')
 const codepenRef = useTemplateRef('codepenRef')
 const component = shallowRef(null)
 const currentTab = ref('Template')
@@ -169,6 +172,21 @@ const source = ref({
   isLoading: false,
   tabs: [],
   parts: {}
+})
+
+// the example mounts when its card comes near the viewport, not when the
+// page does: a component page carries dozens of them, most off-screen
+const { refresh } = useIntersection({
+  rootMargin: '400px 0px',
+  // the observer reports every card once up front, on-screen or not; a
+  // card an anchor scroll passes over waits for the store's refresh once
+  // the scroll lands; returning false retires the observation
+  onIntersect: entry => {
+    if (entry.isIntersecting && !docStore.isScrolling()) {
+      loadComponent()
+      return false
+    }
+  }
 })
 
 const titlePrefix = computed(() => `example--${props.file.toLowerCase()}--`)
@@ -280,7 +298,11 @@ function loadSource() {
 
 async function openCodepen() {
   if (!source.value.hasLoaded) await loadSource()
-  codepenRef.value.open(source.value.tabs)
+  if (component.value === null) await loadComponent()
+  // DocCodepen mounts with the component, one tick later
+  nextTick(() => {
+    codepenRef.value.open(source.value.tabs)
+  })
 }
 
 async function toggleExpand() {
@@ -288,22 +310,39 @@ async function toggleExpand() {
   expanded.value = !expanded.value
 }
 
-if (import.meta.env.QUASAR_CLIENT) {
-  onMounted(() => {
-    if (import.meta.env.QUASAR_DEV) {
-      const glob = import.meta.glob('../examples/*/*.vue', {
-        import: 'default'
-      })
+function importComponent() {
+  if (import.meta.env.QUASAR_DEV) {
+    const glob = import.meta.glob('../examples/*/*.vue', { import: 'default' })
+    return glob[`../examples/${examples.name}/${props.file}.vue`]()
+  }
 
-      glob[`../examples/${examples.name}/${props.file}.vue`]().then(comp => {
-        component.value = comp
-      })
-    } else {
-      examples.runtime.then(glob => {
-        component.value = glob[props.file]
-      })
-    }
+  return examples.runtime.then(glob => glob[props.file])
+}
+
+let componentPromise = null
+
+if (import.meta.env.QUASAR_CLIENT) {
+  let untrack
+
+  onMounted(() => {
+    untrack = docStore.trackLayout(cardRef.value.$el, loadComponent, {
+      onDemand: true,
+      refresh
+    })
   })
+  onBeforeUnmount(() => {
+    untrack()
+  })
+}
+
+function loadComponent() {
+  if (componentPromise === null) {
+    componentPromise = importComponent().then(comp => {
+      component.value = comp
+    })
+  }
+
+  return componentPromise
 }
 </script>
 

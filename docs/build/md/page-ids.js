@@ -67,9 +67,8 @@ export function collectPageIds(html, frontMatter = {}) {
     }
   }
 
-  // DocApi names its DocCardTitle after the API it loads. That name comes
-  // from the API file at runtime; the `file` attribute is what the md stage
-  // can see of it, and the TOC entry is built from the same attribute.
+  // DocApi names its DocCardTitle after its `file` attribute, and the TOC
+  // entry is built from the same attribute.
   for (const [, attrs] of html.matchAll(docApiRE)) {
     const file = attr(attrs, 'file')
     if (file !== void 0) {

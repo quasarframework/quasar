@@ -298,6 +298,6 @@ test('the id shapes mirrored in page-ids.js still live in their components', () 
     "default: 'Installation'"
   )
   expect(read('src/components/DocApi.vue')).toMatch(
-    /nameBanner\.value = `\$\{name\} API`/
+    /nameBanner = computed\(\(\) => `\$\{props\.file\} API`\)/
   )
 })

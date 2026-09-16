@@ -1,5 +1,5 @@
 <template>
-  <q-card class="doc-api q-my-xl" flat bordered>
+  <q-card ref="cardRef" class="doc-api q-my-xl" flat bordered>
     <div class="header-toolbar row items-center q-pr-sm">
       <DocCardTitle :title="nameBanner" />
 
@@ -153,10 +153,18 @@
 </template>
 
 <script setup>
-import { computed, onMounted, ref, useTemplateRef, watch } from 'vue'
+import {
+  computed,
+  onBeforeUnmount,
+  onMounted,
+  ref,
+  useTemplateRef,
+  watch
+} from 'vue'
 import { mdiClose, mdiMagnify } from '@quasar/extras/mdi-v7'
 
 import DocCardTitle from './DocCardTitle.vue'
+import { useDocStore } from '@/layouts/doc-layout/store/index.js'
 import DocApiEntry from './DocApiEntry.js'
 
 const props = defineProps({
@@ -357,9 +365,12 @@ function getApiCount(parsedApi, tabs, innerTabs) {
 }
 
 const inputRef = useTemplateRef('inputRef')
+const cardRef = useTemplateRef('cardRef')
 
 const loading = ref(true)
-const nameBanner = ref(`Loading ${props.file} API...`)
+// named after the file from the start, so the card id an anchor targets
+// exists before the file arrives; the progress bar shows the loading
+const nameBanner = computed(() => `${props.file} API`)
 const nothingToShow = ref(false)
 
 const docPath = ref('')
@@ -391,7 +402,6 @@ const filteredApiCount = computed(() =>
 )
 
 function parseApiFile(name, { type, behavior, meta, addedIn, ...api }) {
-  nameBanner.value = `${name} API`
   docPath.value = meta.docsUrl.replace(/^https:\/\/v[\d]+\.quasar\.dev/, '')
 
   const { internal: _, ...apiSections } = api
@@ -423,11 +433,22 @@ function onFilterClick() {
 }
 
 if (import.meta.env.QUASAR_CLIENT) {
-  onMounted(async () => {
-    const loaders = await import('quasar:api')
-    const { default: json } = await loaders[props.file]()
-    parseApiFile(props.file, json)
-    loading.value = false
+  const docStore = useDocStore()
+  let untrack
+
+  onMounted(() => {
+    const loaded = import('quasar:api')
+      .then(loaders => loaders[props.file]())
+      .then(({ default: json }) => {
+        parseApiFile(props.file, json)
+        loading.value = false
+      })
+
+    // the card grows once the file is in: an anchor below waits for it
+    untrack = docStore.trackLayout(cardRef.value.$el, () => loaded)
+  })
+  onBeforeUnmount(() => {
+    untrack()
   })
 }
 </script>
