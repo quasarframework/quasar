@@ -1,110 +1,87 @@
 import { scroll } from 'quasar'
-import { nextTick, onBeforeUnmount, onMounted, watch } from 'vue'
+import { onBeforeUnmount, onMounted, watch } from 'vue'
 
 const { setVerticalScrollPosition, getVerticalScrollPosition } = scroll
 
 let scrollTimer
 let scrollFrame
 const scrollDuration = 500
-const headerOffset = 166 // TODO dynamic header
-// how far outside the viewport an example mounts (DocExample's rootMargin)
-const mountMargin = 400
-// once the scroll lands, the layout around it gets this long to move
-// (an example filling in after its mount) before the target is let go
-const holdDuration = 600
-
+export const headerOffset = 166 // TODO dynamic header
 export default function injectScroll(store) {
   let preventTocUpdate = store.$route.hash.length > 1
 
-  // blocks that take their final height later register a settle function,
-  // and an anchor scroll settles the ones above its target first, or the
-  // target would move under the viewport. An API card fills once its file
-  // arrives wherever it is; an on-demand block (an example) only mounts when
-  // scrolled near, so only those within reach of the target need settling
-  const blocks = new Map()
+  // blocks that take their final height after the page renders (an example
+  // mounting, an API card filling once its file arrives, one filling in
+  // after a simulated request) register themselves. Whatever one of them
+  // grows by while it starts above what the reader sees is scrolled past at
+  // once: the adjustment the native scroll anchoring would make, which is
+  // switched off for the page so the two never compound. An anchor jump
+  // that the page bottom cut short (the blocks below its target not grown
+  // yet) is re-aimed on each growth until it lands or the reader scrolls
+  const blocks = new Set()
+  const heights = new Map()
+  let shortAnchor = null
 
-  function trackLayout(el, settle, { onDemand = false, refresh } = {}) {
-    blocks.set(el, { settle, onDemand, refresh })
+  const growthObserver = import.meta.env.QUASAR_CLIENT
+    ? new ResizeObserver(entries => {
+        let delta = 0
+
+        for (const { target, borderBoxSize } of entries) {
+          const height = borderBoxSize[0].blockSize
+          const previous = heights.get(target)
+          heights.set(target, height)
+
+          if (
+            previous !== void 0 &&
+            height !== previous &&
+            // the block starts above what the reader sees (its bottom may
+            // have just been pushed into view by this very growth)
+            target.getBoundingClientRect().top < headerOffset
+          ) {
+            delta += height - previous
+          }
+        }
+
+        if (shortAnchor !== null) {
+          aimShortAnchor()
+        } else if (delta !== 0) {
+          window.scrollBy(0, delta)
+        }
+      })
+    : null
+
+  function aimShortAnchor() {
+    const to = targetOffset(shortAnchor)
+    setVerticalScrollPosition(window, to)
+    if (getVerticalScrollPosition(window) === to) {
+      shortAnchor = null
+    }
+  }
+
+  function releaseShortAnchor() {
+    shortAnchor = null
+  }
+
+  const readerInputs = ['wheel', 'touchstart', 'keydown']
+
+  // the growth the settle waited for happened with the blocks below the
+  // viewport, but the observer reports it after the jump, with the blocks
+  // above it: taking their sizes as the baseline right before the jump
+  // leaves those reports with nothing to compensate
+  function snapshotHeights() {
+    blocks.forEach(el => {
+      heights.set(el, el.getBoundingClientRect().height)
+    })
+  }
+
+  function trackLayout(el) {
+    blocks.add(el)
+    growthObserver.observe(el)
     return () => {
       blocks.delete(el)
+      heights.delete(el)
+      growthObserver.unobserve(el)
     }
-  }
-
-  // while a scroll runs, the on-demand blocks it passes over stay
-  // placeholders (a mount that lands after the scroll would push the target
-  // away); once it lands, each one re-checks whether it is in view now, and
-  // the target is held in place while the layout around it settles
-  let scrolling = false
-
-  function endScroll(el) {
-    scrolling = false
-    blocks.forEach(({ refresh }) => {
-      refresh?.()
-    })
-    hold(el)
-  }
-
-  const holdBreakers = ['wheel', 'touchstart', 'keydown']
-
-  function hold(el) {
-    const until = performance.now() + holdDuration
-
-    const release = () => {
-      cancelAnimationFrame(scrollFrame)
-      holdBreakers.forEach(name => {
-        window.removeEventListener(name, release)
-      })
-    }
-
-    const check = now => {
-      const to = targetOffset(el)
-      if (getVerticalScrollPosition(window) !== to) {
-        setVerticalScrollPosition(window, to)
-      }
-
-      if (now < until) {
-        scrollFrame = requestAnimationFrame(check)
-      } else {
-        release()
-      }
-    }
-
-    // the reader's own scrolling wins over the hold
-    holdBreakers.forEach(name => {
-      window.addEventListener(name, release, { passive: true })
-    })
-    scrollFrame = requestAnimationFrame(check)
-  }
-
-  // what the scroll will land on: every block above the target that fills
-  // in on its own, and every on-demand block the viewport around the target
-  // will ask to mount (above it, the growth would push it away; below it,
-  // the growth is what lets a target near the page end reach the top)
-  function settleAround(target) {
-    const pending = []
-    const targetTop = target.getBoundingClientRect().top
-    const from = targetTop - headerOffset - mountMargin
-    const to = targetTop - headerOffset + window.innerHeight + mountMargin
-
-    blocks.forEach(({ settle, onDemand }, el) => {
-      let needed
-
-      if (onDemand) {
-        const { top, bottom } = el.getBoundingClientRect()
-        needed = bottom > from && top < to
-      } else {
-        needed =
-          (el.compareDocumentPosition(target) &
-            Node.DOCUMENT_POSITION_FOLLOWING) !==
-          0
-      }
-
-      if (needed) {
-        pending.push(settle())
-      }
-    })
-
-    return pending.length !== 0 ? Promise.all(pending) : null
   }
 
   watch(
@@ -148,8 +125,8 @@ export default function injectScroll(store) {
 
       if (newPos !== to) {
         animateTo(el, duration - frameTime, nowTime)
-      } else {
-        endScroll(el)
+      } else if (getVerticalScrollPosition(window) !== to) {
+        shortAnchor = el
       }
     })
   }
@@ -159,22 +136,24 @@ export default function injectScroll(store) {
     cancelAnimationFrame(scrollFrame)
 
     preventTocUpdate = true
-    scrolling = true
+    snapshotHeights()
+
+    shortAnchor = null
 
     if (delay > 0) {
       animateTo(el, delay)
     } else {
-      setVerticalScrollPosition(window, targetOffset(el))
-      endScroll(el)
+      const to = targetOffset(el)
+      setVerticalScrollPosition(window, to)
+      if (getVerticalScrollPosition(window) !== to) {
+        shortAnchor = el
+      }
     }
 
-    scrollTimer = setTimeout(
-      () => {
-        preventTocUpdate = false
-        onSettled()
-      },
-      delay + holdDuration + 10
-    )
+    scrollTimer = setTimeout(() => {
+      preventTocUpdate = false
+      onSettled()
+    }, delay + 10)
   }
 
   function scrollTo(id) {
@@ -212,46 +191,11 @@ export default function injectScroll(store) {
         markActiveToc(id, true)
       }
 
-      // owned by the scroll from here until it settles, including the wait
-      // for the blocks around the target
       preventTocUpdate = true
       markActiveToc(id, false)
 
-      if (immediate) {
-        let anchorEl = el
-        while (
-          anchorEl.parentElement !== null &&
-          anchorEl.parentElement.classList.contains('q-page') !== true
-        ) {
-          anchorEl = anchorEl.parentElement
-        }
-
-        document.body.classList.add('q-scroll--lock')
-        anchorEl.classList.add('q-scroll--anchor')
-
-        setTimeout(() => {
-          document.body.classList.remove('q-scroll--lock')
-          anchorEl?.classList.remove('q-scroll--anchor')
-        }, 2000)
-      }
-
       const delay = immediate ? 0 : scrollDuration
-      const pending = settleAround(el)
-
-      if (pending === null) {
-        scrollPage(el, delay, onSettled)
-      } else {
-        pending.then(() => {
-          nextTick(() => {
-            // unless the page changed while the blocks settled
-            if (el.isConnected) {
-              scrollPage(el, delay, onSettled)
-            } else {
-              preventTocUpdate = false
-            }
-          })
-        })
-      }
+      scrollPage(el, delay, onSettled)
     } else {
       preventTocUpdate = false
       store.setActiveToc()
@@ -262,15 +206,20 @@ export default function injectScroll(store) {
     setTimeout(() => {
       scrollToCurrentAnchor(true)
     }, 0)
+    readerInputs.forEach(name => {
+      window.addEventListener(name, releaseShortAnchor, { passive: true })
+    })
   })
 
   onBeforeUnmount(() => {
     clearTimeout(scrollTimer)
     cancelAnimationFrame(scrollFrame)
+    readerInputs.forEach(name => {
+      window.removeEventListener(name, releaseShortAnchor)
+    })
   })
 
   store.scrollTo = scrollTo
   store.onHeadingsCrossed = onHeadingsCrossed
   store.trackLayout = trackLayout
-  store.isScrolling = () => scrolling
 }

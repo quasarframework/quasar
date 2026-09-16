@@ -135,7 +135,7 @@ import {
   shallowRef,
   useTemplateRef
 } from 'vue'
-import { openURL, useIntersection } from 'quasar'
+import { openURL } from 'quasar'
 
 import { fabCodepen, fabGithub } from '@quasar/extras/fontawesome-v7'
 import { mdiCompare } from '@quasar/extras/mdi-v7'
@@ -172,21 +172,6 @@ const source = ref({
   isLoading: false,
   tabs: [],
   parts: {}
-})
-
-// the example mounts when its card comes near the viewport, not when the
-// page does: a component page carries dozens of them, most off-screen
-const { refresh } = useIntersection({
-  rootMargin: '400px 0px',
-  // the observer reports every card once up front, on-screen or not; a
-  // card an anchor scroll passes over waits for the store's refresh once
-  // the scroll lands; returning false retires the observation
-  onIntersect: entry => {
-    if (entry.isIntersecting && !docStore.isScrolling()) {
-      loadComponent()
-      return false
-    }
-  }
 })
 
 const titlePrefix = computed(() => `example--${props.file.toLowerCase()}--`)
@@ -325,10 +310,9 @@ if (import.meta.env.QUASAR_CLIENT) {
   let untrack
 
   onMounted(() => {
-    untrack = docStore.trackLayout(cardRef.value.$el, loadComponent, {
-      onDemand: true,
-      refresh
-    })
+    // the card grows as the example mounts, and may again later
+    untrack = docStore.trackLayout(cardRef.value.$el)
+    loadComponent()
   })
   onBeforeUnmount(() => {
     untrack()

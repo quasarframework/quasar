@@ -436,16 +436,14 @@ if (import.meta.env.QUASAR_CLIENT) {
   const docStore = useDocStore()
   let untrack
 
-  onMounted(() => {
-    const loaded = import('quasar:api')
-      .then(loaders => loaders[props.file]())
-      .then(({ default: json }) => {
-        parseApiFile(props.file, json)
-        loading.value = false
-      })
+  onMounted(async () => {
+    // the card grows once the file is in
+    untrack = docStore.trackLayout(cardRef.value.$el)
 
-    // the card grows once the file is in: an anchor below waits for it
-    untrack = docStore.trackLayout(cardRef.value.$el, () => loaded)
+    const loaders = await import('quasar:api')
+    const { default: json } = await loaders[props.file]()
+    parseApiFile(props.file, json)
+    loading.value = false
   })
   onBeforeUnmount(() => {
     untrack()

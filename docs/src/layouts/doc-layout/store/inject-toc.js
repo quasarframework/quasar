@@ -1,6 +1,9 @@
-// a heading this far below the viewport top counts as read past: the entry
-// it belongs to is the active one (the fixed header sits above that line)
-const readingLine = 155
+import { headerOffset } from './inject-scroll.js'
+
+// a heading at or above where an anchor scroll puts it counts as read
+// past: the entry it belongs to is the active one (2px: the jump lands
+// within a subpixel, and an edge that only touches the line must count)
+const readingLine = headerOffset + 2
 
 export default function injectToc(store) {
   Object.assign(store.state, {

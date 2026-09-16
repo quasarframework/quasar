@@ -319,12 +319,11 @@ kbd
 .q-page > .q-badge + .doc-example
   margin-top: 0
 
-body.q-scroll--lock .q-page
-  > *
-    overflow-anchor: none
-
-  > .q-scroll--anchor
-    overflow-anchor: auto
+// the doc store compensates the growth of the blocks it tracks itself
+// (inject-scroll.js), the same on every browser; the native anchoring
+// would compound it where it exists
+body
+  overflow-anchor: none
 
 // makes the scroll bar look better for the drop-down menus in the header
 ::-webkit-scrollbar
