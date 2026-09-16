@@ -9,7 +9,8 @@
  *
  * Per spec D7: selective pruning by case-insensitive label substring.
  * Only prunes when ALL members of a pair/trio are present, so a TS-only
- * page doesn't accidentally collapse to nothing.
+ * page doesn't accidentally collapse to nothing. Bun rides along with
+ * the package manager trio: its commands follow from pnpm's.
  *
  * Re-implements the `<<| ... |>>` line parser instead of importing from the
  * codeblock plugin. That plugin's parseDefinitionLine returns pre-rendered
@@ -37,6 +38,7 @@ const JS_RE = /\b(js|javascript)\b/i
 const PNPM_RE = /\bpnpm\b/i
 const YARN_RE = /\byarn\b/i
 const NPM_RE = /\bnpm\b/i
+const BUN_RE = /\bbun\b/i
 
 /**
  * Drop redundant alternative-syntax tabs when the canonical one is present.
@@ -65,14 +67,18 @@ export function pruneTabs(tabs) {
     tabs = tabs.filter(({ label }) => !JS_RE.test(label))
   }
 
-  // pnpm/yarn/npm trio. "pnpm" contains the substring "npm" so we exclude
+  // Package managers: pnpm stands for yarn, npm and bun, whose commands
+  // follow from it. "pnpm" contains the substring "npm" so we exclude
   // pnpm-labelled tabs from the npm checks explicitly.
   const isPlainNpm = ({ label }) => NPM_RE.test(label) && !PNPM_RE.test(label)
   const hasPnpm = tabs.some(({ label }) => PNPM_RE.test(label))
   const hasYarn = tabs.some(({ label }) => YARN_RE.test(label))
   const hasNpm = tabs.some(isPlainNpm)
   if (hasPnpm && hasYarn && hasNpm) {
-    tabs = tabs.filter(tab => !YARN_RE.test(tab.label) && !isPlainNpm(tab))
+    tabs = tabs.filter(
+      tab =>
+        !YARN_RE.test(tab.label) && !isPlainNpm(tab) && !BUN_RE.test(tab.label)
+    )
   }
 
   return tabs

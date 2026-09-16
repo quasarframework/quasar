@@ -21,15 +21,24 @@ test('TS/JS pair keeps TS only', () => {
   expect(output[0].label).toBe('Setup TS')
 })
 
-test('package manager trio keeps pnpm only', () => {
+test('package manager trio keeps pnpm only, bun along with it', () => {
   const tabs = [
     { label: 'pnpm', lang: 'bash', code: 'pnpm add quasar' },
     { label: 'yarn', lang: 'bash', code: 'yarn add quasar' },
     { label: 'npm', lang: 'bash', code: 'npm i quasar' }
   ]
-  const output = pruneTabs(tabs)
-  expect(output.length).toBe(1)
-  expect(output[0].label).toBe('pnpm')
+  expect(pruneTabs(tabs).map(tab => tab.label)).toEqual(['pnpm'])
+  expect(
+    pruneTabs([
+      ...tabs,
+      { label: 'Bun', lang: 'bash', code: 'bun add quasar' }
+    ]).map(tab => tab.label)
+  ).toEqual(['pnpm'])
+  // bun alone next to pnpm is not the trio: nothing is pruned
+  expect(
+    pruneTabs([tabs[0], { label: 'Bun', lang: 'bash', code: 'bun add quasar' }])
+      .length
+  ).toBe(2)
 })
 
 test('mismatched pair: TS only with no JS counterpart -> kept', () => {
@@ -73,8 +82,7 @@ test('unrelated tabs survive pruning of a known trio', () => {
     { label: 'pnpm', lang: 'bash', code: 'pnpm add x' },
     { label: 'Yarn', lang: 'bash', code: 'yarn add x' },
     { label: 'NPM', lang: 'bash', code: 'npm i x' },
-    { label: 'Bun', lang: 'bash', code: 'bun add x' }
+    { label: 'Deno', lang: 'bash', code: 'deno add x' }
   ]
-  const pruned = pruneTabs(tabs)
-  expect(pruned.map(({ label }) => label)).toStrictEqual(['pnpm', 'Bun'])
+  expect(pruneTabs(tabs).map(tab => tab.label)).toEqual(['pnpm', 'Deno'])
 })
