@@ -27,6 +27,9 @@
         :aria-activedescendant="popupVisible ? activeId || void 0 : void 0"
         v-model="terms"
         @keydown="onKeydown"
+        @mousedown="onInputMousedown"
+        @focus="onInputFocus"
+        @mouseup="onInputMouseup"
       />
 
       <button
@@ -347,6 +350,26 @@ watch(terms, val => {
 function onClick() {
   inputRef.value.focus()
   onFocusin()
+}
+
+// focusing the field selects what it holds, so a new search can be typed
+// straight away; a click that focuses it would then land its mouseup on the
+// selection and collapse it to a caret, so that one mouseup is swallowed
+let clickFocuses = false
+
+function onInputMousedown() {
+  clickFocuses = document.activeElement !== inputRef.value
+}
+
+function onInputFocus() {
+  inputRef.value.select()
+}
+
+function onInputMouseup(e) {
+  if (clickFocuses) {
+    clickFocuses = false
+    e.preventDefault()
+  }
 }
 
 function onGlobalKeydown(e) {
