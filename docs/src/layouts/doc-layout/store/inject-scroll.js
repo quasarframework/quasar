@@ -5,8 +5,11 @@ const { setVerticalScrollPosition, getVerticalScrollPosition } = scroll
 
 let scrollTimer
 let scrollFrame
+let anchorTimer
 const scrollDuration = 500
+
 export const headerOffset = 166 // TODO dynamic header
+
 export default function injectScroll(store) {
   let preventTocUpdate = store.$route.hash.length > 1
 
@@ -87,7 +90,8 @@ export default function injectScroll(store) {
   watch(
     () => store.$route.fullPath,
     (newRoute, oldRoute) => {
-      setTimeout(() => {
+      clearTimeout(anchorTimer)
+      anchorTimer = setTimeout(() => {
         scrollToCurrentAnchor(newRoute !== oldRoute)
       }, 0)
     }
@@ -203,9 +207,10 @@ export default function injectScroll(store) {
   }
 
   onMounted(() => {
-    setTimeout(() => {
+    anchorTimer = setTimeout(() => {
       scrollToCurrentAnchor(true)
     }, 0)
+
     readerInputs.forEach(name => {
       window.addEventListener(name, releaseShortAnchor, { passive: true })
     })
@@ -213,7 +218,12 @@ export default function injectScroll(store) {
 
   onBeforeUnmount(() => {
     clearTimeout(scrollTimer)
+    clearTimeout(anchorTimer)
     cancelAnimationFrame(scrollFrame)
+    shortAnchor = null
+    growthObserver.disconnect()
+    blocks.clear()
+    heights.clear()
     readerInputs.forEach(name => {
       window.removeEventListener(name, releaseShortAnchor)
     })

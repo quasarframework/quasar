@@ -1,3 +1,5 @@
+import { onBeforeUnmount } from 'vue'
+
 import { headerOffset } from './inject-scroll.js'
 
 // a heading at or above where an anchor scroll puts it counts as read
@@ -94,6 +96,12 @@ export default function injectToc(store) {
 
   if (import.meta.env.QUASAR_CLIENT) {
     window.addEventListener('resize', onResize, { passive: true })
+
+    onBeforeUnmount(() => {
+      window.removeEventListener('resize', onResize)
+      clearTimeout(resizeTimer)
+      observer?.disconnect()
+    })
   }
 
   store.setActiveToc = () => {
