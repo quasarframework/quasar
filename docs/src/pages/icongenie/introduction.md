@@ -9,7 +9,9 @@ There are many different situations where your icon might be seen: in the browse
 
 This means you need your logo in about 100+ different sizes with representative names, arcane formats, placed in the correct folders and probably some proper `<xml>` declarations for Cordova too. Even if you know exactly what you're doing, this is a tedious and error-prone task. To make your life easy and care-free, we've built the Icon Genie CLI tool to make this exhausting process **dead simple**.
 
+<llm-exclude mcp reason="decoration">
 <img alt="IconGenie logo" src="/img/iconfactory.png" style="float:right;max-width:15%;min-width:240px;padding-top:40px">
+</llm-exclude>
 
 ## How it helps you
 

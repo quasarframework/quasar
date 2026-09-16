@@ -3,13 +3,18 @@
  *
  * In-tree absolute paths that match a known menu entry are rewritten
  * to the relative .md sibling when that page is written by the same
- * run (`pageKeys`; every menu page when the set is absent). A menu
- * page the run leaves out keeps its root-relative href in the site
- * form (the html page is there) and becomes an absolute site URL in a
- * package slice (`siteUrl`), where nothing root-relative resolves.
- * Everything else is left alone: external URLs (any `proto:` prefix),
- * in-page anchors (`#frag`), relative paths, and absolute paths whose
- * stripped form isn't in the menu set.
+ * run (`pageKeys`; every page the site form writes when the set is
+ * absent, `sitePages`). A menu page the run leaves out keeps its
+ * root-relative href in the site form (the html page is there) and
+ * becomes an absolute site URL in a package slice (`siteUrl`), where
+ * nothing root-relative resolves. Everything else is left alone:
+ * external URLs (any `proto:` prefix), in-page anchors (`#frag`),
+ * relative paths, and absolute paths whose stripped form isn't in the
+ * menu set.
+ *
+ * A slice may only link what an agent can read: unreachableLink()
+ * names the in-tree hrefs that lead to no documentation page, for the
+ * emitters to warn about.
  *
  * Both `?query` and `#fragment` are peeled off before matching the
  * menu, then re-attached verbatim in the rewritten output. We strip
@@ -76,22 +81,56 @@ export function resolveMenuKey(href, menuPaths) {
  * @param {string} href - the href as authored in markdown
  * @param {Set<string>} menuPaths - menu entry paths (no leading slash, no `.md` suffix)
  * @param {string} [fromOutputPath] - output path of the linking file, so the result resolves relative to it
- * @param {{ pageKeys?: Set<string> | null, siteUrl?: string | null }} [run] - the pages this run writes, and the site URL when it writes a package slice
+ * @param {{ pageKeys?: Set<string> | null, sitePages?: Set<string> | null, siteUrl?: string | null }} [run] - the pages this run writes, the pages the site form writes, and the site URL when it writes a package slice
  * @returns {string}
  */
 export function rewriteLink(
   href,
   menuPaths,
   fromOutputPath = '',
-  { pageKeys = null, siteUrl = null } = {}
+  { pageKeys = null, sitePages = null, siteUrl = null } = {}
 ) {
   const resolved = resolveMenuKey(href, menuPaths)
   if (resolved === null) {
     return href
   }
   const { key, query, fragment } = resolved
-  if (pageKeys === null || pageKeys.has(key)) {
+  const written = pageKeys ?? sitePages
+  if (written === null || written.has(key)) {
     return `${relativeMdPath(key, fromOutputPath)}${query}${fragment}`
   }
   return siteUrl === null ? href : `${siteUrl}/${key}${query}${fragment}`
+}
+
+/**
+ * Why an in-tree href cannot be followed from the page being written:
+ * it matches no menu page (a typo, in any form), or, in a package
+ * slice, the page it matches is one the site form does not write (an
+ * interactive page), so no markdown of it exists anywhere. Null when
+ * the href is fine, or not in-tree at all.
+ *
+ * @param {string} href - the href as authored
+ * @param {{ menuPaths?: Set<string>, pageKeys?: Set<string> | null, sitePages?: Set<string> | null, siteUrl?: string | null }} run
+ * @returns {string | null}
+ */
+export function unreachableLink(
+  href,
+  { menuPaths = new Set(), pageKeys = null, sitePages = null, siteUrl = null }
+) {
+  if (!href.startsWith('/') || href.startsWith('//')) {
+    return null
+  }
+  const resolved = resolveMenuKey(href, menuPaths)
+  if (resolved === null) {
+    return 'matches no documentation page'
+  }
+  if (
+    siteUrl !== null &&
+    !pageKeys?.has(resolved.key) &&
+    sitePages !== null &&
+    !sitePages.has(resolved.key)
+  ) {
+    return 'leads to a page of the site only, wrap it in <llm-exclude mcp>'
+  }
+  return null
 }

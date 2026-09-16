@@ -1241,8 +1241,10 @@ You may want to add a CSP meta tag in your `/index.html`. This is especially use
 > [!TIP]
 > This works great with Oxlint and Oxfmt. However, the above might need a bit of tweaking when using ESLint and vite-plugin-checker.
 
+<llm-exclude reason="meant for real users only">
 ## Final Note
 
 A quick favor to ask: Please consider supporting our efforts! If you use Quasar at work, drop a message to your management about sponsoring us at [https://donate.quasar.dev/](https://donate.quasar.dev/). We rely on your support to make massive updates like this possible!
 
-And don't forget to enjoy your new modern setup! That's it! 🚀
+And don't forget to enjoy your new modern setup! That's it!
+</llm-exclude>

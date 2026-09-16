@@ -8,6 +8,8 @@
  */
 
 import { siteHref } from '../site.js'
+import { rewriteLink, unreachableLink } from './link-rewrite.js'
+import { sourceToOutputPath } from '../pages/routes.js'
 
 /** @typedef {import('./walker.js').EmitCtx} EmitCtx */
 
@@ -36,11 +38,29 @@ const HANDLERS = {
   'q-badge': attrs => (attrs.label ? `*(${attrs.label})*` : ''),
   'q-icon': () => '',
   'q-bogus': () => '',
-  // A call-to-action button is a link when it has both; decoration otherwise.
-  'q-btn': (attrs, ctx) =>
-    attrs.href && attrs.label
-      ? `[${attrs.label}](${siteHref(attrs.href, ctx ?? {})})\n\n`
-      : '',
+  // A call-to-action button is a link when it has a target and a label;
+  // decoration otherwise. The target is rewritten like a markdown link's;
+  // in a package slice it must lead to documentation too (the site form
+  // may link the site's tools: they are there, next to the page).
+  'q-btn': (attrs, ctx = {}) => {
+    const target = attrs.href ?? attrs.to
+    if (!target || !attrs.label) {
+      return ''
+    }
+    const unreachable = ctx.siteUrl ? unreachableLink(target, ctx) : null
+    if (unreachable !== null) {
+      ctx.warnings?.push(
+        `Link ${target} in ${ctx.sourcePath} (a <q-btn>) ${unreachable}`
+      )
+    }
+    const href = rewriteLink(
+      target,
+      ctx.menuPaths ?? new Set(),
+      sourceToOutputPath(ctx.sourcePath ?? ''),
+      ctx
+    )
+    return `[${attrs.label}](${siteHref(href, ctx)})\n\n`
+  },
   'q-card': () => '',
   // Horizontal rule equivalent.
   'q-separator': () => '\n---\n\n'

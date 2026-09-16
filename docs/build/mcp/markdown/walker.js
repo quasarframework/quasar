@@ -20,7 +20,8 @@
  * @property {Record<string, any>} frontMatter - source page frontmatter
  * @property {string} sourcePath - relative path, used in warnings and link resolution
  * @property {Set<string>} menuPaths - slug strings (no leading `/`, no `.md` suffix) for in-tree link rewriting
- * @property {Set<string> | null} pageKeys - the menu keys this run writes; null means every menu page
+ * @property {Set<string> | null} pageKeys - the menu keys this run writes; null means every page the site form writes
+ * @property {Set<string> | null} sitePages - the menu keys the site form writes; null means every menu page
  * @property {string | null} siteUrl - the live site, set when the run writes a package slice (root-relative hrefs get absolutized)
  * @property {string[]} warnings
  * @property {boolean} _atLineStart - whether the next emit lands at the start of a line
@@ -84,6 +85,7 @@ export function clearEmitters() {
  * @param {Record<string, any>} params.frontMatter
  * @param {Set<string>} [params.menuPaths] - slug strings used by link-rewrite
  * @param {Set<string> | null} [params.pageKeys] - the menu keys this run writes
+ * @param {Set<string> | null} [params.sitePages] - the menu keys the site form writes
  * @param {string | null} [params.siteUrl] - the live site, for a package slice
  * @returns {EmitCtx}
  */
@@ -92,6 +94,7 @@ export function createCtx({
   frontMatter,
   menuPaths = new Set(),
   pageKeys = null,
+  sitePages = null,
   siteUrl = null
 }) {
   return {
@@ -101,6 +104,7 @@ export function createCtx({
     sourcePath,
     menuPaths,
     pageKeys,
+    sitePages,
     siteUrl,
     warnings: [],
     _atLineStart: true,
@@ -197,7 +201,7 @@ const PLAIN_ALERT_MAP = {
 /**
  * Tidy-up passes over the joined output:
  * - drop trailing `> ` lines left behind when a blockquote closes, while
- *   keeping interior `> ` lines that separate quoted paragraphs
+ *   keeping interior ones that separate quoted paragraphs, as a bare `>`
  * - collapse runs of 3+ blank lines
  * - upgrade plain `> Note ...` blockquotes to GFM alerts
  * - strip a redundant `> **TIP**` line right after `> [!TIP]`
@@ -207,6 +211,7 @@ const PLAIN_ALERT_MAP = {
  */
 function postProcess(joinedOutput) {
   let result = joinedOutput.replaceAll(/^> [ \t]*\n(?!> )/gm, '')
+  result = result.replaceAll(/^((?:> )*>) $/gm, '$1')
   result = result.replaceAll(/\n{3,}/g, '\n\n')
   result = result.replace(PLAIN_BLOCKQUOTE_PREFIX_RE, (line, word) => {
     const alert = PLAIN_ALERT_MAP[word]

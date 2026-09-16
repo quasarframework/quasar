@@ -1,8 +1,9 @@
 /**
  * Frontmatter keep/strip + related resolution per spec D11.
  *
- * Keeps: title, desc, overline, related.
- * Strips everything else (id, keys, examples, scope, nav, ...).
+ * Keeps: title, related.
+ * Strips everything else (desc, id, keys, examples, scope, nav, overline,
+ * ...).
  *
  * `related` entries may be either strings (paths like `/vue-components/knob`)
  * or objects ({ name|title, path|url }). All entries are normalized to
@@ -13,8 +14,10 @@ import { relativeMdPath, sourceToOutputPath } from './routes.js'
 
 /** @type {ReadonlySet<string>} */
 // desc stays out: the indexes carry it (llms.txt on the site, meta.json
-// in a slice) and the page's opening paragraph says the same.
-const KEEP_FIELDS = new Set(['title', 'overline', 'related'])
+// in a slice) and the page's opening paragraph says the same. keys are
+// meta.json's too. overline is the site's page header, the package is
+// known from the slice.
+const KEEP_FIELDS = new Set(['title', 'related'])
 
 /**
  * @param {unknown} rawPath
@@ -92,33 +95,6 @@ function relatedEntryPath(key, fromOutputPath, { pageKeys, siteUrl }) {
 }
 
 /**
- * Inject a CLI-section `overline` when the source path lives under one of
- * the Quasar CLI doc trees and authors didn't provide an explicit override.
- * Mirrors the live-site behaviour in build/md/md-parse.js where an overline
- * is auto-added so the page header advertises the toolchain context.
- *
- * @param {Record<string, unknown>} output frontmatter being assembled (mutated)
- * @param {string|undefined} sourcePath relative slash-separated source path (e.g. `quasar-cli-vite/state.md`)
- * @returns {void}
- */
-function applyCliOverline(output, sourcePath) {
-  if (output.overline !== void 0 && output.overline !== null) {
-    return
-  }
-  if (typeof sourcePath !== 'string') {
-    return
-  }
-
-  if (sourcePath.startsWith('quasar-cli-vite/')) {
-    output.overline = 'Quasar CLI with Vite - @quasar/app-vite'
-    return
-  }
-  if (sourcePath.startsWith('quasar-cli-webpack/')) {
-    output.overline = 'Quasar CLI with Webpack - @quasar/app-webpack'
-  }
-}
-
-/**
  * Strip-and-keep over a raw page frontmatter object, resolving `related`
  * entries against the flat menu.
  *
@@ -129,7 +105,7 @@ function applyCliOverline(output, sourcePath) {
  *
  * @param {Record<string, unknown>} rawFrontmatter Raw frontmatter object (from gray-matter).
  * @param {Map<string, { title?: string }>} menuByPath Flat menu keyed by route path (no leading slash, no trailing slash, no `.md`).
- * @param {string} [sourcePath] Relative source path, used to inject a CLI-section overline when one isn't authored.
+ * @param {string} [sourcePath] Relative source path, for the warnings and the relative links.
  * @param {{ pageKeys?: Set<string> | null, siteUrl?: string | null }} [run] The pages this run writes (null: every menu page), and the site URL when it writes a package slice.
  * @returns {{ frontmatter: Record<string, unknown>, warnings: string[] }} Kept fields with `related` normalized, plus dropped-related warnings.
  */
@@ -178,7 +154,5 @@ export function processFrontmatter(
       })
       .map(({ title, path: relatedPath }) => ({ title, path: relatedPath }))
   }
-  applyCliOverline(output, sourcePath)
-
   return { frontmatter: output, warnings }
 }

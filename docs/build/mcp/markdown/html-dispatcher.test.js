@@ -214,5 +214,8 @@ test('a standalone q-btn with href and label falls back to a link', () => {
     ctx
   )
   expect(output).toBe('[Layout Builder](https://quasar.dev/layout-builder)\n\n')
-  expect(ctx.warnings).toStrictEqual([])
+  // a route of the site, not a page: no markdown of it anywhere
+  expect(ctx.warnings).toStrictEqual([
+    'Link /layout-builder in t.md (a <q-btn>) matches no documentation page'
+  ])
 })

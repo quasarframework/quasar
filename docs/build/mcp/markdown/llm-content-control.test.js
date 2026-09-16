@@ -1,5 +1,7 @@
 import { expect, test } from 'vitest'
-import { applyLlmContentControl } from './llm-content-control.js'
+import { applyLlmContentControl as apply } from './llm-content-control.js'
+
+const applyLlmContentControl = source => apply(source, 'site')
 
 test('strips <llm-exclude> blocks', () => {
   const src = 'keep\n<llm-exclude>drop me</llm-exclude>\nkeep more'
@@ -39,6 +41,22 @@ test('<llm-exclude> with multiple attributes is handled', () => {
   const src =
     '<llm-exclude reason="x" data-foo="bar">drop me</llm-exclude>after'
   expect(applyLlmContentControl(src)).toBe('after')
+})
+
+test('a tag narrowed to one form applies there alone', () => {
+  const src = [
+    'a',
+    '<llm-exclude mcp reason="the package ships it">dump</llm-exclude>',
+    '<llm-only mcp>pointer</llm-only>',
+    '<llm-exclude site>slice only</llm-exclude>',
+    '<llm-only site>site only</llm-only>',
+    '<llm-exclude>never</llm-exclude>',
+    '<llm-only>always</llm-only>',
+    'z'
+  ].join('\n')
+  expect(apply(src, 'site')).toBe('a\ndump\n\n\nsite only\n\nalways\nz')
+  expect(apply(src, 'mcp')).toBe('a\n\npointer\nslice only\n\n\nalways\nz')
+  expect(() => apply(src, 'html')).toThrow('Unknown markdown form')
 })
 
 test('<llm-only> with multiline content and reason attribute', () => {

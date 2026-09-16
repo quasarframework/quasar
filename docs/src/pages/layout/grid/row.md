@@ -88,8 +88,10 @@ To nest your content with the default grid, add a new .row and set of `.col-sm-*
 
 <DocExample title="Nesting" file="RowNesting" />
 
+<llm-exclude mcp reason="an interactive page of the site">
 ## Flex Playground
 
 To see the Flex in action, you can use the Flex Playground to interactively learn more.
 
 <q-btn icon-right="launch" label="Flex Playground" to="/layout/grid/flex-playground" />
+</llm-exclude>

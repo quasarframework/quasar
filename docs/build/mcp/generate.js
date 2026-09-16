@@ -162,7 +162,7 @@ function registerAllEmitters({
  * Process one source page end-to-end: pre-walker passes, frontmatter parse,
  * markdown-it tokenize, token walk, frontmatter resolution.
  *
- * @param {{ relativePath: string, md: import('markdown-it'), menuByKey: Map<string, { title: string | null }>, menuPaths: Set<string>, pageKeys: Set<string>, siteUrl: string | null }} opts
+ * @param {{ relativePath: string, md: import('markdown-it'), menuByKey: Map<string, { title: string | null }>, menuPaths: Set<string>, pageKeys: Set<string>, sitePages: Set<string>, siteUrl: string | null }} opts
  * @returns {{ outputFrontmatter: Record<string, unknown>, body: string, warnings: string[] }}
  */
 function extractOne({
@@ -171,10 +171,14 @@ function extractOne({
   menuByKey,
   menuPaths,
   pageKeys,
+  sitePages,
   siteUrl
 }) {
   const source = readFileSync(join(SRC_PAGES, relativePath), 'utf8')
-  const cleaned = applyLlmContentControl(stripScriptDoc(source))
+  const cleaned = applyLlmContentControl(
+    stripScriptDoc(source),
+    siteUrl === null ? 'site' : 'mcp'
+  )
   const { data, content } = matter(cleaned)
   const tokens = md.parse(content, {})
   const ctx = createCtx({
@@ -182,6 +186,7 @@ function extractOne({
     frontMatter: data,
     menuPaths,
     pageKeys,
+    sitePages,
     siteUrl
   })
   const body = emitTokens(tokens, ctx)
@@ -386,8 +391,11 @@ export function generate(opts) {
           targetIncludes(run.target, sourceToMenuKey(relativePath))
         )
   // Links and related entries stay relative `.md` paths only among the
-  // pages of this run; in a slice the rest point at the live site.
+  // pages of this run; in a slice the rest point at the live site, and
+  // only at a page the site form writes: a link a slice puts out leads
+  // to documentation, never to a page only the html has.
   const pageKeys = new Set(included.map(sourceToMenuKey))
+  const sitePages = new Set(menuPages.map(sourceToMenuKey))
   const siteUrl = run.target === null ? null : SITE_URL
 
   // A slice owns its folder; the site output is shared with the SSG
@@ -414,6 +422,7 @@ export function generate(opts) {
         menuByKey,
         menuPaths,
         pageKeys,
+        sitePages,
         siteUrl
       })
       warnings.push(...pageWarnings)

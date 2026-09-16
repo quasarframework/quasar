@@ -6,7 +6,7 @@ const menuByPath = new Map([
   ['vue-components/circular-progress', { title: 'Circular Progress' }]
 ])
 
-test('keeps title/overline; drops desc/id/keys/examples/scope/nav', () => {
+test('keeps title; drops desc/id/keys/examples/scope/nav/overline', () => {
   const rawFrontmatter = {
     title: 'Knob',
     desc: 'The QKnob...',
@@ -18,7 +18,7 @@ test('keeps title/overline; drops desc/id/keys/examples/scope/nav', () => {
     nav: [{ prev: 'x' }]
   }
   const { frontmatter: output } = processFrontmatter(rawFrontmatter, menuByPath)
-  expect(Object.keys(output).sort()).toStrictEqual(['overline', 'title'])
+  expect(Object.keys(output).sort()).toStrictEqual(['title'])
 })
 
 test('resolves related paths to {title, path}', () => {
@@ -59,33 +59,6 @@ test('related entry with explicit object title is kept even when path is not in 
   expect(output.related).toStrictEqual([
     { title: 'External Reference', path: 'vue-components/orphan.md' }
   ])
-})
-
-test('CLI vite source path auto-injects overline when missing', () => {
-  const { frontmatter: output } = processFrontmatter(
-    { title: 'X' },
-    menuByPath,
-    'quasar-cli-vite/state.md'
-  )
-  expect(output.overline).toBe('Quasar CLI with Vite - @quasar/app-vite')
-})
-
-test('CLI webpack source path auto-injects overline when missing', () => {
-  const { frontmatter: output } = processFrontmatter(
-    { title: 'X' },
-    menuByPath,
-    'quasar-cli-webpack/state.md'
-  )
-  expect(output.overline).toBe('Quasar CLI with Webpack - @quasar/app-webpack')
-})
-
-test('explicit overline wins over CLI-path injection', () => {
-  const { frontmatter: output } = processFrontmatter(
-    { title: 'X', overline: 'Custom' },
-    menuByPath,
-    'quasar-cli-vite/state.md'
-  )
-  expect(output.overline).toBe('Custom')
 })
 
 test('non-CLI source path leaves overline absent', () => {

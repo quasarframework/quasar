@@ -7,7 +7,7 @@
  */
 
 import { emit, emitTokens, registerEmitter } from './walker.js'
-import { resolveMenuKey, rewriteLink } from './link-rewrite.js'
+import { rewriteLink, unreachableLink } from './link-rewrite.js'
 import { siteHref } from '../site.js'
 import { transformMagicComments } from './code-magic-comments.js'
 import { fenceFor } from './fence-utils.js'
@@ -188,13 +188,14 @@ export function registerProseEmitters() {
   })
 
   // In-tree absolute hrefs become relative `.md` links (see
-  // link-rewrite.js for the pages outside the run). Ones that match no
-  // menu entry keep their href and warn so authors can fix typos.
+  // link-rewrite.js for the pages outside the run). Ones that lead
+  // nowhere the reader can go keep their href and warn.
   registerEmitter('link_open', (token, ctx) => {
     const hrefAttr = token.attrs?.find(([name]) => name === 'href')
     const href = hrefAttr ? hrefAttr[1] : ''
-    if (href.startsWith('/') && resolveMenuKey(href, ctx.menuPaths) === null) {
-      ctx.warnings.push(`Unresolved in-tree link ${href} in ${ctx.sourcePath}`)
+    const unreachable = unreachableLink(href, ctx)
+    if (unreachable !== null) {
+      ctx.warnings.push(`Link ${href} in ${ctx.sourcePath} ${unreachable}`)
     }
     ctx._linkHref = rewriteLink(
       href,

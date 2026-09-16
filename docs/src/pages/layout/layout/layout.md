@@ -18,6 +18,7 @@ The QLayout is a component designed to manage the entire window and wrap page co
 
 <DocApi file="QLayout" />
 
+<llm-exclude mcp reason="an interactive tool of the site">
 ## Layout Builder
 
 Scaffold your layout(s) by clicking on the button below.
@@ -26,6 +27,7 @@ Scaffold your layout(s) by clicking on the button below.
 > Keep an eye on your developer console for handy helpers on which components are being used but not declared in your quasar.config file.
 
 <q-btn icon-right="launch" label="Layout Builder" href="/layout-builder" target="_blank" />
+</llm-exclude>
 
 ## Usage
 
@@ -69,7 +71,9 @@ For example, if you want your layout's right side / drawer to be placed on the r
 
 These settings are completely up to you to use as you'd like. You could even go wild with a setup like this: `lhh LpR ffr`. Try it out!
 
+<llm-exclude mcp reason="an interactive tool of the site">
 <q-btn icon-right="launch" label="Layout Builder" href="/layout-builder" target="_blank" />
+</llm-exclude>
 
 > [!WARNING]
 >

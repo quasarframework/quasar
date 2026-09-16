@@ -63,7 +63,9 @@ scope:
 
 An SSG site uses the same favicon assets as a SPA. When PWA takeover is enabled, it also needs manifest icons and may include Apple touch icons and launch images.
 
+<llm-exclude mcp reason="decoration">
 <img alt="IconGenie logo" src="/img/iconfactory.png" style="float:right;max-width:15%;min-width:240px;padding-top:40px">
+</llm-exclude>
 
 ## Icon Genie CLI
 

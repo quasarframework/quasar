@@ -247,6 +247,7 @@ defineEmits({
 })
 ```
 
+<llm-exclude reason="the same component as above without the composable; the script setup form is the one to follow">
 #### SFC with "script" and Composition API variant
 
 We will be using the [useDialogPluginComponent](/vue-composables/use-dialog-plugin-component) composable.
@@ -428,6 +429,7 @@ emits: {
 ```
 
 The dismissal-reason plumbing above (`dismissReason` and the `hide` payload) is optional: a plain `this.$emit('hide')` still works, but then the chained `onCancel`/`onDismiss` callbacks receive no reason. The [useDialogPluginComponent](/vue-composables/use-dialog-plugin-component) composable handles all of it for you.
+</llm-exclude>
 
 ### Example: async submission
 

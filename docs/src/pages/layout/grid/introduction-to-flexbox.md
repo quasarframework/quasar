@@ -284,8 +284,10 @@ With [UMD](/start/umd), add the prebuilt stylesheet after the base one:
 
 Use `quasar.addon.rtl.prod.css` instead if you are serving an RTL language.
 
+<llm-exclude mcp reason="an interactive page of the site">
 ## Flex Playground
 
 To see the Flex in action, you can use the Flex Playground to interactively learn more.
 
 <q-btn icon-right="launch" label="Flex Playground" to="/layout/grid/flex-playground" />
+</llm-exclude>

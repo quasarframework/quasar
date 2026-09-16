@@ -22,23 +22,45 @@ test('non-q tag returns null', () => {
 })
 
 test('q-btn with href and label becomes a link paragraph', () => {
+  const ctx = { siteUrl: null, warnings: [], sourcePath: 'layout/page.md' }
   expect(
     transformInlineTag(
       '<q-btn icon-right="launch" label="Layout Builder" href="/layout-builder" target="_blank" />',
-      { siteUrl: null }
+      ctx
     )
   ).toBe('[Layout Builder](/layout-builder)\n\n')
+  // a route of the site, not a page: the site form links it, the tool is
+  // there next to the page
+  expect(ctx.warnings).toEqual([])
 })
 
-test('q-btn link is absolutized in a package slice', () => {
+test('q-btn link follows the rules of a markdown link in a package slice', () => {
+  const menuPaths = new Set(['layout/grid/flex-playground', 'layout/drawer'])
+  const ctx = {
+    siteUrl: 'https://quasar.dev',
+    menuPaths,
+    pageKeys: new Set(['layout/drawer']),
+    sitePages: new Set(['layout/drawer']),
+    warnings: [],
+    sourcePath: 'layout/grid/row.md'
+  }
+  // a page of the slice: relative, as a markdown link
+  expect(
+    transformInlineTag('<q-btn label="Drawer" to="/layout/drawer" />', ctx)
+  ).toBe('[Drawer](../drawer.md)\n\n')
+  expect(ctx.warnings).toEqual([])
+  // a page the site form leaves out: no markdown of it exists anywhere
   expect(
     transformInlineTag(
-      '<q-btn label="Layout Builder" href="/layout-builder" />',
-      {
-        siteUrl: 'https://quasar.dev'
-      }
+      '<q-btn icon-right="launch" label="Flex Playground" to="/layout/grid/flex-playground" />',
+      ctx
     )
-  ).toBe('[Layout Builder](https://quasar.dev/layout-builder)\n\n')
+  ).toBe(
+    '[Flex Playground](https://quasar.dev/layout/grid/flex-playground)\n\n'
+  )
+  expect(ctx.warnings).toEqual([
+    'Link /layout/grid/flex-playground in layout/grid/row.md (a <q-btn>) leads to a page of the site only, wrap it in <llm-exclude mcp>'
+  ])
 })
 
 test('q-btn without an href is dropped', () => {

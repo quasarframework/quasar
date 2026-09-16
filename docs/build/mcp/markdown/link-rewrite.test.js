@@ -1,5 +1,5 @@
 import { expect, test } from 'vitest'
-import { resolveMenuKey, rewriteLink } from './link-rewrite.js'
+import { resolveMenuKey, rewriteLink, unreachableLink } from './link-rewrite.js'
 
 const menuPaths = new Set([
   'vue-components/knob',
@@ -158,4 +158,40 @@ test('a href matching no menu page is untouched whatever the run', () => {
   expect(rewriteLink('/layout-builder', menuPaths, 'x.md', sliceRun)).toBe(
     '/layout-builder'
   )
+})
+
+test('a menu page the site form leaves out keeps its root-relative href there and is unreachable from a slice', () => {
+  const sitePages = new Set(['vue-components/knob'])
+  const site = { menuPaths, sitePages, pageKeys: null, siteUrl: null }
+  expect(rewriteLink('/vue-components/knob', menuPaths, '', site)).toBe(
+    'vue-components/knob.md'
+  )
+  expect(
+    rewriteLink('/vue-components/circular-progress', menuPaths, '', site)
+  ).toBe('/vue-components/circular-progress')
+  expect(unreachableLink('/vue-components/circular-progress', site)).toBeNull()
+
+  const slice = {
+    menuPaths,
+    sitePages,
+    pageKeys: new Set(['vue-composables/use-quasar']),
+    siteUrl: 'https://quasar.dev'
+  }
+  expect(rewriteLink('/vue-components/knob', menuPaths, '', slice)).toBe(
+    'https://quasar.dev/vue-components/knob'
+  )
+  expect(unreachableLink('/vue-components/knob', slice)).toBeNull()
+  expect(unreachableLink('/vue-composables/use-quasar', slice)).toBeNull()
+  expect(unreachableLink('/vue-components/circular-progress', slice)).toBe(
+    'leads to a page of the site only, wrap it in <llm-exclude mcp>'
+  )
+  expect(unreachableLink('/layout-builder', slice)).toBe(
+    'matches no documentation page'
+  )
+  expect(unreachableLink('/layout-builder', site)).toBe(
+    'matches no documentation page'
+  )
+  for (const href of ['#top', 'https://x.y', 'sibling.md', '//cdn.x/y']) {
+    expect(unreachableLink(href, slice), href).toBeNull()
+  }
 })
