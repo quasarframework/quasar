@@ -1,5 +1,5 @@
 import { scroll } from 'quasar'
-import { onBeforeUnmount, onMounted, watch } from 'vue'
+import { nextTick, onBeforeUnmount, onMounted, watch } from 'vue'
 
 const { setVerticalScrollPosition, getVerticalScrollPosition } = scroll
 
@@ -13,79 +13,51 @@ export const headerOffset = 166 // TODO dynamic header
 export default function injectScroll(store) {
   let preventTocUpdate = store.$route.hash.length > 1
 
-  // blocks that take their final height after the page renders (an example
-  // mounting, an API card filling once its file arrives, one filling in
-  // after a simulated request) register themselves. Whatever one of them
-  // grows by while it starts above what the reader sees is scrolled past at
-  // once: the adjustment the native scroll anchoring would make, which is
-  // switched off for the page so the two never compound. An anchor jump
-  // that the page bottom cut short (the blocks below its target not grown
-  // yet) is re-aimed on each growth until it lands or the reader scrolls
-  const blocks = new Set()
-  const heights = new Map()
+  // an anchor jump lands before the blocks above its target have their
+  // final height (an example mounting, an API card filling once its file
+  // arrives): each of them reports what it grew by once it settles, and
+  // while the reader has not scrolled since the jump the page scrolls past
+  // that growth, so the target stays where it landed. Native scroll
+  // anchoring is switched off for the page so the two never compound. A
+  // jump the page bottom cut short (the blocks below its target not grown
+  // yet) is re-aimed on each report until it lands. The reader's first
+  // wheel, touch or key ends both
+  let anchored = false
   let shortAnchor = null
 
-  const growthObserver = import.meta.env.QUASAR_CLIENT
-    ? new ResizeObserver(entries => {
-        let delta = 0
+  function reportCardGrowth(vm) {
+    nextTick(() => {
+      if (vm.isUnmounted || !anchored) return
 
-        for (const { target, borderBoxSize } of entries) {
-          const height = borderBoxSize[0].blockSize
-          const previous = heights.get(target)
-          heights.set(target, height)
-
-          if (
-            previous !== void 0 &&
-            height !== previous &&
-            // the block starts above what the reader sees (its bottom may
-            // have just been pushed into view by this very growth)
-            target.getBoundingClientRect().top < headerOffset
-          ) {
-            delta += height - previous
-          }
+      if (shortAnchor !== null) {
+        const to = targetOffset(shortAnchor)
+        setVerticalScrollPosition(window, to)
+        if (getVerticalScrollPosition(window) === to) {
+          shortAnchor = null
         }
+        return
+      }
 
-        if (shortAnchor !== null) {
-          aimShortAnchor()
-        } else if (delta !== 0) {
-          window.scrollBy(0, delta)
-        }
-      })
-    : null
+      const rect = vm.proxy.$el.getBoundingClientRect()
+      const delta = rect.height - /* initial card height */ 50
 
-  function aimShortAnchor() {
-    const to = targetOffset(shortAnchor)
-    setVerticalScrollPosition(window, to)
-    if (getVerticalScrollPosition(window) === to) {
-      shortAnchor = null
-    }
+      if (
+        delta !== 0 &&
+        // the block starts above what the reader sees (its bottom may have
+        // just been pushed into view by this very growth)
+        rect.top < headerOffset
+      ) {
+        window.scrollBy(0, delta)
+      }
+    })
   }
 
-  function releaseShortAnchor() {
+  function onReaderInput() {
+    anchored = false
     shortAnchor = null
   }
 
   const readerInputs = ['wheel', 'touchstart', 'keydown']
-
-  // the growth the settle waited for happened with the blocks below the
-  // viewport, but the observer reports it after the jump, with the blocks
-  // above it: taking their sizes as the baseline right before the jump
-  // leaves those reports with nothing to compensate
-  function snapshotHeights() {
-    blocks.forEach(el => {
-      heights.set(el, el.getBoundingClientRect().height)
-    })
-  }
-
-  function trackLayout(el) {
-    blocks.add(el)
-    growthObserver.observe(el)
-    return () => {
-      blocks.delete(el)
-      heights.delete(el)
-      growthObserver.unobserve(el)
-    }
-  }
 
   watch(
     () => store.$route.fullPath,
@@ -140,8 +112,7 @@ export default function injectScroll(store) {
     cancelAnimationFrame(scrollFrame)
 
     preventTocUpdate = true
-    snapshotHeights()
-
+    anchored = true
     shortAnchor = null
 
     if (delay > 0) {
@@ -202,6 +173,7 @@ export default function injectScroll(store) {
       scrollPage(el, delay, onSettled)
     } else {
       preventTocUpdate = false
+      anchored = false
       store.setActiveToc()
     }
   }
@@ -212,7 +184,7 @@ export default function injectScroll(store) {
     }, 0)
 
     readerInputs.forEach(name => {
-      window.addEventListener(name, releaseShortAnchor, { passive: true })
+      window.addEventListener(name, onReaderInput, { passive: true })
     })
   })
 
@@ -220,16 +192,13 @@ export default function injectScroll(store) {
     clearTimeout(scrollTimer)
     clearTimeout(anchorTimer)
     cancelAnimationFrame(scrollFrame)
-    shortAnchor = null
-    growthObserver.disconnect()
-    blocks.clear()
-    heights.clear()
+    onReaderInput()
     readerInputs.forEach(name => {
-      window.removeEventListener(name, releaseShortAnchor)
+      window.removeEventListener(name, onReaderInput)
     })
   })
 
   store.scrollTo = scrollTo
   store.onHeadingsCrossed = onHeadingsCrossed
-  store.trackLayout = trackLayout
+  store.reportCardGrowth = reportCardGrowth
 }

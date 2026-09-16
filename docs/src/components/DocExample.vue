@@ -1,5 +1,5 @@
 <template>
-  <q-card ref="cardRef" class="doc-example q-my-lg" flat bordered>
+  <q-card class="doc-example q-my-lg" flat bordered>
     <div class="header-toolbar row items-center q-pr-sm">
       <DocCardTitle :title="props.title" :prefix="titlePrefix" />
 
@@ -110,32 +110,29 @@
       :prefix="titlePrefix"
     />
 
-    <q-separator />
-
-    <div class="doc-example__body row">
+    <div v-if="component" class="doc-example__body row">
       <component
-        v-if="component"
         class="col doc-example__content doc-example-typography"
         :is="component"
         :class="componentClass"
       />
-      <q-linear-progress v-else color="brand-primary" indeterminate />
     </div>
+    <q-linear-progress v-else color="brand-primary" indeterminate />
   </q-card>
 </template>
 
 <script setup>
+import { openURL } from 'quasar'
 import {
   computed,
+  getCurrentInstance,
   inject,
   nextTick,
-  onBeforeUnmount,
   onMounted,
   ref,
   shallowRef,
   useTemplateRef
 } from 'vue'
-import { openURL } from 'quasar'
 
 import { fabCodepen, fabGithub } from '@quasar/extras/fontawesome-v7'
 import { mdiCompare } from '@quasar/extras/mdi-v7'
@@ -159,10 +156,10 @@ const props = defineProps({
   overflow: Boolean
 })
 
+const vm = getCurrentInstance()
 const docStore = useDocStore()
 const examples = inject('_q_ex')
 
-const cardRef = useTemplateRef('cardRef')
 const codepenRef = useTemplateRef('codepenRef')
 const component = shallowRef(null)
 const currentTab = ref('Template')
@@ -284,6 +281,8 @@ function loadSource() {
 async function openCodepen() {
   if (!source.value.hasLoaded) await loadSource()
   if (component.value === null) await loadComponent()
+  if (vm.isUnmounted) return
+
   // DocCodepen mounts with the component, one tick later
   nextTick(() => {
     codepenRef.value.open(source.value.tabs)
@@ -307,22 +306,15 @@ function importComponent() {
 let componentPromise = null
 
 if (import.meta.env.QUASAR_CLIENT) {
-  let untrack
-
-  onMounted(() => {
-    // the card grows as the example mounts, and may again later
-    untrack = docStore.trackLayout(cardRef.value.$el)
-    loadComponent()
-  })
-  onBeforeUnmount(() => {
-    untrack()
-  })
+  onMounted(loadComponent)
 }
 
 function loadComponent() {
   if (componentPromise === null) {
     componentPromise = importComponent().then(comp => {
+      if (vm.isUnmounted) return
       component.value = comp
+      docStore.reportCardGrowth(vm)
     })
   }
 
@@ -332,6 +324,12 @@ function loadComponent() {
 
 <style lang="sass">
 .doc-example
+  // initial height should be 50px
+  // otherwise edit docStore.reportCardGrowth
+
+  &__body,
+  > .q-linear-progress
+    margin-top: 4px
 
   &__actions
     padding: 3px 0 3px 7px

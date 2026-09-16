@@ -1,5 +1,5 @@
 <template>
-  <q-card ref="cardRef" class="doc-api q-my-xl" flat bordered>
+  <q-card class="doc-api" flat bordered>
     <div class="header-toolbar row items-center q-pr-sm">
       <DocCardTitle :title="nameBanner" />
 
@@ -41,12 +41,7 @@
       </q-btn>
     </div>
 
-    <q-linear-progress
-      v-if="loading"
-      color="brand-primary"
-      indeterminate
-      class="q-mt-xs"
-    />
+    <q-linear-progress v-if="loading" color="brand-primary" indeterminate />
     <template v-else-if="nothingToShow">
       <q-separator />
       <div class="doc-api__nothing-to-show">Nothing to display</div>
@@ -155,7 +150,8 @@
 <script setup>
 import {
   computed,
-  onBeforeUnmount,
+  getCurrentInstance,
+  nextTick,
   onMounted,
   ref,
   useTemplateRef,
@@ -365,7 +361,6 @@ function getApiCount(parsedApi, tabs, innerTabs) {
 }
 
 const inputRef = useTemplateRef('inputRef')
-const cardRef = useTemplateRef('cardRef')
 
 const loading = ref(true)
 // named after the file from the start, so the card id an anchor targets
@@ -434,25 +429,27 @@ function onFilterClick() {
 
 if (import.meta.env.QUASAR_CLIENT) {
   const docStore = useDocStore()
-  let untrack
+  const vm = getCurrentInstance()
 
   onMounted(async () => {
-    // the card grows once the file is in
-    untrack = docStore.trackLayout(cardRef.value.$el)
-
     const loaders = await import('quasar:api')
     const { default: json } = await loaders[props.file]()
+
     parseApiFile(props.file, json)
     loading.value = false
-  })
-  onBeforeUnmount(() => {
-    untrack()
+    docStore.reportCardGrowth(vm)
   })
 }
 </script>
 
 <style lang="sass">
 .doc-api
+  // initial height should be 50px
+  // otherwise edit docStore.reportCardGrowth
+
+  > .q-linear-progress
+    margin-top: 4px
+
   &__subtabs .q-tabs__content
     padding: 8px 0
 
