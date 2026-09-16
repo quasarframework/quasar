@@ -101,8 +101,7 @@ app.use(Quasar, {
 
 Quasar CLI: If your desired Quasar Icon Set must be dynamically selected (example: depends on a cookie), then you need to create a boot file: `quasar new boot quasar-icon-set [--format ts]`. This will create `/src/boot/quasar-icon-set.js` file. Edit it to:
 
-```tabs /src/boot/quasar-icon-set.js
-<<| js With @quasar/app-vite |>>
+```js /src/boot/quasar-icon-set.js
 import { defineBoot } from '#q-app'
 import { IconSet } from 'quasar'
 
@@ -116,11 +115,12 @@ export default defineBoot(async () => {
   const iconSetName = 'mdi-v7' // ... some logic to determine it (use Cookies Plugin?)
 
   try {
-    iconSetList[ `../../node_modules/quasar/icon-set/${ iconSetName }.js` ]().then(lang => {
-      IconSet.set(setDefinition.default)
-    })
-  }
-  catch (err) {
+    iconSetList[`../../node_modules/quasar/icon-set/${iconSetName}.js`]().then(
+      lang => {
+        IconSet.set(setDefinition.default)
+      }
+    )
+  } catch (err) {
     console.error(err)
     // Requested Quasar Icon Set does not exist,
     // let's not break the app, so catching error
@@ -138,8 +138,7 @@ boot: ['quasar-icon-set']
 
 When dealing with SSR/SSG, we can't use singleton objects because that would pollute sessions. As a result, as opposed to the dynamical example above (read it first!), you must also specify the `ssrContext` from your boot file:
 
-```tabs /src/boot/quasar-icon-set.js
-<<| js With @quasar/app-vite |>>
+```js /src/boot/quasar-icon-set.js
 import { defineBoot } from '#q-app'
 import { IconSet } from 'quasar'
 
@@ -154,11 +153,12 @@ export default defineBoot(async ({ ssrContext }) => {
   const iconSetName = 'mdi-v7' // ... some logic to determine it (use Cookies Plugin?)
 
   try {
-    iconSetList[ `../../node_modules/quasar/icon-set/${ iconSetName }.js` ]().then(lang => {
-      IconSet.set(setDefinition.default, ssrContext)
-    })
-  }
-  catch (err) {
+    iconSetList[`../../node_modules/quasar/icon-set/${iconSetName}.js`]().then(
+      lang => {
+        IconSet.set(setDefinition.default, ssrContext)
+      }
+    )
+  } catch (err) {
     console.error(err)
     // Requested Quasar Icon Set does not exist,
     // let's not break the app, so catching error
