@@ -414,6 +414,14 @@ describe('[fallbackEngine API]', () => {
           setTimeout(resolve, ms)
         })
 
+      // the tracking loop steps once per frame, and a loaded runner can
+      // stretch a frame past any sleep; awaiting one after the sleep is
+      // the only way to know the loop got to look
+      const nextFrame = () =>
+        new Promise(resolve => {
+          requestAnimationFrame(resolve)
+        })
+
       test('has correct return value', () => {
         const el = createAnchor({ top: 100, left: 100, width: 100, height: 30 })
         const result = trackAnchorMotion(
@@ -463,6 +471,7 @@ describe('[fallbackEngine API]', () => {
 
         trackAnchorMotion(() => el, onMove, 50)
         await sleep(120)
+        await nextFrame()
         el.style.top = '150px'
         await sleep(100)
 
@@ -487,7 +496,7 @@ describe('[fallbackEngine API]', () => {
 
         trackAnchorMotion(() => el, onMove, 500)
         el.remove()
-        await sleep(50)
+        await nextFrame()
 
         // even moving a re-attached anchor cannot revive the ended loop
         document.body.append(el)

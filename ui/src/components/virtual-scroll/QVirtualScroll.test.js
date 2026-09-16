@@ -11,14 +11,25 @@ const items = Array.from({ length: 500 }, (_, index) => `Item ${index}`)
 const defaultSlot = ({ item, index }) =>
   h('div', { class: 'my-item', 'data-index': index }, item)
 
-/**
- * The slice range is only committed on the next animation frame,
- * so every content assertion has to wait for one.
- */
-async function settle() {
-  await new Promise(resolve => {
+function nextFrame() {
+  return new Promise(resolve => {
     requestAnimationFrame(resolve)
   })
+}
+
+/**
+ * The slice range is only committed on the next animation frame, and
+ * the scroll position it applies fires a scroll event a frame later
+ * whose debounced (35ms) handler re-slices; waiting on those same
+ * clocks keeps the helper valid when a loaded runner stretches frames.
+ */
+async function settle() {
+  await nextFrame()
+  await nextFrame()
+  await new Promise(resolve => {
+    setTimeout(resolve, 40)
+  })
+  await nextFrame()
   await flushPromises()
 }
 

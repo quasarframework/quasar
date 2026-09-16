@@ -48,12 +48,23 @@ function flushTimers() {
 
 // the virtual scroll only computes the rendered slice out of a (debounced)
 // scroll event; scrollTo() does it right away, but the resulting range is
-// committed over the next two animation frames
-async function settleVirtualScroll(wrapper, toIndex, edge) {
-  wrapper.vm.scrollTo(toIndex === void 0 ? 0 : toIndex, edge)
+// committed over the next two animation frames, and the scroll event of
+// the applied position re-slices after the 35ms debounce; waiting on
+// those same clocks keeps the helper valid when a loaded runner
+// stretches frames
+async function settleSlice() {
   await nextFrame()
+  await nextFrame()
+  await new Promise(resolve => {
+    setTimeout(resolve, 40)
+  })
   await nextFrame()
   await flushPromises()
+}
+
+async function settleVirtualScroll(wrapper, toIndex, edge) {
+  wrapper.vm.scrollTo(toIndex === void 0 ? 0 : toIndex, edge)
+  await settleSlice()
 }
 
 // returns the portal holding the popup content (menu or dialog), scoped to
@@ -3347,9 +3358,7 @@ describe('[QSelect API]', () => {
         expect(getOptionTexts(portal)[0]).toBe('option-0')
 
         expect(wrapper.vm.scrollTo(50, 'start')).toBeUndefined()
-        await nextFrame()
-        await nextFrame()
-        await flushPromises()
+        await settleSlice()
 
         // the rendered slice follows the requested index
         expect(getOptionTexts(portal)).toContain('option-50')
@@ -3382,9 +3391,7 @@ describe('[QSelect API]', () => {
         // it throws those measurements away and seeds every size from the
         // default item size again, so the padding grows back
         expect(wrapper.vm.reset()).toBeUndefined()
-        await nextFrame()
-        await nextFrame()
-        await flushPromises()
+        await settleSlice()
 
         expect(getPaddingHeight()).toBeGreaterThan(measuredPadding)
         expect(getOptionTexts(portal)).toContain('option-90')
@@ -3400,9 +3407,7 @@ describe('[QSelect API]', () => {
         expect(getOptionTexts(portal)).not.toContain('option-0')
 
         expect(wrapper.vm.refresh(0)).toBeUndefined()
-        await nextFrame()
-        await nextFrame()
-        await flushPromises()
+        await settleSlice()
 
         expect(getOptionTexts(portal)[0]).toBe('option-0')
       })
