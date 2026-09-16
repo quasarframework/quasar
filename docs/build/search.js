@@ -7,7 +7,7 @@ import { parseFrontMatter } from './md/md-parse-utils.js'
 import { sharedMdOptions } from './md/md-rules.js'
 import { capitalize, slugify } from './utils.js'
 
-const apiRE = /<DocApi .*file="([^"]+)".*\n/
+const apiRE = /<DocApi .*file="([^"]+)".*\n/g
 const docInstallRE = /<DocInstall /
 const hiddenPageRE = /__[a-zA-Z0-9_-]+\.md$/
 const thisFolder = import.meta.dirname
@@ -211,10 +211,9 @@ function processPage(page, entries) {
     anchor: frontMatter.data.heading === false ? '' : 'introduction'
   })
 
-  // handle API card (deep heading)
-  const apiMatches = contents.match(apiRE)
-  if (apiMatches) {
-    const name = apiMatches[1] + ' API'
+  // handle API cards (deep headings); a page may carry several
+  for (const [, apiName] of contents.matchAll(apiRE)) {
+    const name = apiName + ' API'
     addItem(entries, {
       ...entryItem,
       l1: name,
