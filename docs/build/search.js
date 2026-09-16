@@ -89,7 +89,6 @@ function levelsBelow(rank) {
 
 const createIndex = data => ({
   menu: [],
-  title: null,
   ...levelsBelow(0),
   keys: null,
   content: '',
@@ -289,9 +288,9 @@ function processPage(page, entries) {
   const frontMatter = parseFrontMatter(contents)
   const { title, desc, keys, heading } = frontMatter.data
 
+  const breadcrumb = page.menu ?? [...parents, title]
   const entryItem = createIndex({
-    menu: page.menu ?? [...parents, title],
-    title,
+    menu: breadcrumb,
     url,
     keys: keys ? keys.replaceAll(',', ' ') : null,
     content: desc,
@@ -301,7 +300,12 @@ function processPage(page, entries) {
     anchor: heading === false ? '' : 'introduction'
   })
 
-  addItem(entries, entryItem)
+  // the page's entry is the one hit that stands for the page, so it is
+  // where the title goes when it says more than the nav's leaf does
+  addItem(entries, {
+    ...entryItem,
+    title: title === breadcrumb.at(-1) ? null : title
+  })
 
   processMarkdown(mdParser.parse(frontMatter.content, {}), entries, entryItem)
 }

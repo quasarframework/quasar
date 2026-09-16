@@ -168,13 +168,8 @@ test('closes the nested sections when a shallower heading opens', () => {
   }
 })
 
-test('carries the nav labels and the page title', () => {
+test('carries the nav labels, and the title where it says more', () => {
   const entries = readEntries()
-
-  for (const entry of entries) {
-    expect(entry.title, entry.url).toEqual(expect.any(String))
-    expect(entry.title, entry.url).not.toBe('')
-  }
 
   // the breadcrumb is what the nav says, not what the folders are called
   const group = menu.find(node => node.children !== void 0)
@@ -184,8 +179,21 @@ test('carries the nav labels and the page title', () => {
   expect(entry, url).toBeDefined()
   expect(entry.menu).toEqual([group.name, leaf.name])
 
+  // the title rides only the page's own entry, and only when the nav's
+  // leaf does not already say it: anywhere else it doubles the breadcrumb
+  const titled = entries.filter(e => e.title !== void 0)
+  expect(titled.length).toBeGreaterThan(0)
+  for (const e of titled) {
+    expect(e.url, e.title).toMatch(/#introduction$/)
+    expect(e.type, e.title).toBe('page-link')
+    expect(e.l1, e.title).toBeUndefined()
+    expect(e.title).not.toBe(e.menu.at(-1))
+  }
+
   const page = parseFrontMatter(readPage(`${group.path}/${leaf.path}.md`))
-  expect(entry.title).toBe(page.data.title)
+  expect(entry.title).toBe(
+    page.data.title === leaf.name ? void 0 : page.data.title
+  )
 })
 
 test('indexes the example cards under their heading', () => {
