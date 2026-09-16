@@ -116,7 +116,7 @@ export default defineBoot(async () => {
 
   try {
     iconSetList[`../../node_modules/quasar/icon-set/${iconSetName}.js`]().then(
-      lang => {
+      setDefinition => {
         IconSet.set(setDefinition.default)
       }
     )
@@ -154,7 +154,7 @@ export default defineBoot(async ({ ssrContext }) => {
 
   try {
     iconSetList[`../../node_modules/quasar/icon-set/${iconSetName}.js`]().then(
-      lang => {
+      setDefinition => {
         IconSet.set(setDefinition.default, ssrContext)
       }
     )
