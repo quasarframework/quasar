@@ -25,6 +25,22 @@ function runFramesSynchronously() {
   })
 }
 
+/** The animation frames the composable schedules wait for runFrames(). */
+function queueFrames() {
+  const frames = []
+
+  vi.spyOn(window, 'requestAnimationFrame').mockImplementation(cb => {
+    frames.push(cb)
+    return frames.length
+  })
+
+  return function runFrames() {
+    frames.splice(0).forEach(cb => {
+      cb(0)
+    })
+  }
+}
+
 /**
  * Mounts a minimal virtual scroller: a scrolling container holding the
  * padding/content structure that padVirtualScroll() builds.
@@ -447,6 +463,54 @@ describe('[useVirtualScroll API]', () => {
         await nextTick()
 
         expect(wrapper.emitted('virtualScroll').at(-1)[0].index).toBe(40)
+      })
+
+      test('scrollTo() outlives a scroll event pending on a late frame', async () => {
+        vi.useFakeTimers()
+        const runFrames = queueFrames()
+        const virtualScroll = mountVirtualScroll({ length: 100 })
+        const el = wrapper.get('.scroll-target').element
+
+        async function settle() {
+          await nextTick()
+          runFrames()
+          await nextTick()
+          runFrames()
+          await nextTick()
+        }
+
+        virtualScroll.localResetVirtualScroll(0)
+        await nextTick()
+        await settle()
+
+        // the position a clean request lands on
+        virtualScroll.scrollTo(80)
+        await settle()
+        const target = el.scrollTop
+        expect(target).toBeGreaterThan(0)
+
+        virtualScroll.scrollTo(0)
+        await settle()
+        expect(el.scrollTop).toBe(0)
+
+        // a scroll event arms the debounced handler, a programmatic
+        // scroll follows within its window and the scroller keeps moving
+        // (momentum, a resize clamp); on a loaded device the frame that
+        // applies the requested position comes only after the handler
+        // fired, and the later, explicit request must still win
+        el.scrollTop = 300
+        virtualScroll.onVirtualScrollEvt()
+        virtualScroll.scrollTo(80)
+        el.scrollTop = 400
+
+        vi.advanceTimersByTime(35)
+        await settle()
+
+        expect(el.scrollTop).toBe(target)
+
+        const { from, to } = virtualScroll.virtualScrollSliceRange.value
+        expect(from).toBeLessThanOrEqual(80)
+        expect(to).toBeGreaterThan(80)
       })
 
       test('debounces the scroll handling and drops it when unmounted', async () => {

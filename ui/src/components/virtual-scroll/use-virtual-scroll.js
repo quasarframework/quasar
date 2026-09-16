@@ -336,6 +336,13 @@ export function useVirtualScroll({
       return
     }
 
+    // a scroll event still pending its debounce would re-slice for a
+    // position this request supersedes, and if it got to run before
+    // the frame applying the requested position (a frame slower than
+    // the debounce) it would make that frame give up; the applied
+    // position fires its own scroll event
+    onVirtualScrollEvt.cancel()
+
     const scrollDetails = getScrollDetails(
       scrollEl,
       getVirtualScrollEl(),
