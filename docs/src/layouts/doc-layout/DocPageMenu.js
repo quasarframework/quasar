@@ -137,7 +137,7 @@ export default {
         {
           to: node.path,
           class: 'doc-item',
-          activeClass: 'doc-item--active',
+          activeClass: '',
           exactActiveClass: 'doc-item--active',
           tabindex: -1,
           onClick: stopClick
