@@ -34,25 +34,23 @@ test('missing file logs warning', () => {
   expect(ctx.warnings[0]).toMatch(/NotARealExample/)
 })
 
-test('drops the example label when preceding block was a heading (exact match)', () => {
+test('a title repeating the section heading is left out of the label', () => {
   const handler = docExampleHandler({ examplesDir })
   const token = { content: '<DocExample title="Basic" file="Basic" />' }
   const ctx = {
     warnings: [],
     sourcePath: 'vue-components/knob.md',
     frontMatter: { examples: 'QKnob' },
-    _lastBlockWasHeading: true
+    _heading: 'Basic'
   }
-  const output = handler.block(token, ctx)
-  // The redundant label must be suppressed.
-  expect(output).not.toContain('Example "Basic":')
-  expect(output).toMatch(/^```vue/)
+  expect(handler.block(token, ctx)).toMatch(/^Example:\n\n```vue\n/)
+  // case and punctuation do not make it a different title
+  ctx._heading = 'Mini-mode'
+  token.content = '<DocExample title="Mini mode" file="Basic" />'
+  expect(handler.block(token, ctx)).toMatch(/^Example:\n\n```vue\n/)
 })
 
-test('drops the example label when preceding block was a heading (near-match)', () => {
-  // Authors often write `### Min and max` followed by
-  // `<DocExample title="Custom min/max" file="..." />`. The heading and the
-  // example title differ in wording but the example still IS the section.
+test('a title of its own is the label, under any heading', () => {
   const handler = docExampleHandler({ examplesDir })
   const token = {
     content: '<DocExample title="Custom min/max" file="Basic" />'
@@ -61,22 +59,9 @@ test('drops the example label when preceding block was a heading (near-match)', 
     warnings: [],
     sourcePath: 'vue-components/knob.md',
     frontMatter: { examples: 'QKnob' },
-    _lastBlockWasHeading: true
+    _heading: 'Min and max'
   }
-  const output = handler.block(token, ctx)
-  expect(output).not.toContain('Custom min/max')
-  expect(output).toMatch(/^```vue/)
-})
-
-test('keeps the example label when no preceding heading present', () => {
-  const handler = docExampleHandler({ examplesDir })
-  const token = { content: '<DocExample title="Basic" file="Basic" />' }
-  const ctx = {
-    warnings: [],
-    sourcePath: 'vue-components/knob.md',
-    frontMatter: { examples: 'QKnob' },
-    _lastBlockWasHeading: false
-  }
-  const output = handler.block(token, ctx)
-  expect(output).toMatch(/^Example "Basic":\n\n```vue\n/)
+  expect(handler.block(token, ctx)).toMatch(
+    /^Example "Custom min\/max":\n\n```vue\n/
+  )
 })

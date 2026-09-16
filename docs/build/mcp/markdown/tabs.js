@@ -144,7 +144,6 @@ const previousFence = (token, ctx) => {
   const lang = langMatch ? langMatch[1] : ''
   const content = transformMagicComments(token.content.replace(/\n$/, ''))
   const fence = fenceFor(content)
-  ctx._lastBlockWasHeading = false
   emit(ctx, fence + lang + '\n' + content + '\n' + fence + '\n\n')
 }
 
@@ -162,7 +161,6 @@ export function registerTabsEmitter() {
       info.startsWith('tabs\t')
     ) {
       const tabs = pruneTabs(extractTabsFromFence(token))
-      ctx._lastBlockWasHeading = false
       emit(ctx, renderTabs(tabs))
       return
     }

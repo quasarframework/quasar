@@ -25,6 +25,17 @@ const TITLE_RE = /title="([^"]+)"/
 const FILE_RE = /file="([^"]+)"/
 
 /**
+ * @param {string} text
+ * @returns {string} Case and punctuation dropped: `Mini-mode` is `mini mode`.
+ */
+function comparable(text) {
+  return text
+    .toLowerCase()
+    .replaceAll(/[^a-z0-9]+/g, ' ')
+    .trim()
+}
+
+/**
  * Build a DocExample tag handler. `examplesDir` is injected so tests can
  * point at any directory holding `{key}/{file}.vue` example sources.
  *
@@ -70,15 +81,12 @@ export function docExampleHandler({ examplesDir }) {
       // The label is a paragraph, never a heading: a heading would open a
       // section of its own, one more in the outline per example, a
       // duplicate of the author's when the title repeats it, and a sibling
-      // that cuts the author's section short. Skipped when a heading sits
-      // right before the example with no body in between: the example IS
-      // that section, so the title is redundant, even a near-match
-      // (`### Min and max` then title="Custom min/max").
+      // that cuts the author's section short. A title that only repeats
+      // the section's heading is left out, the fence is still marked.
       const label =
-        ctx._lastBlockWasHeading === true ? '' : `Example "${title}":\n\n`
-      // The example body counts as non-heading content, so a later sibling
-      // example gets its label.
-      ctx._lastBlockWasHeading = false
+        comparable(title) === comparable(ctx._heading ?? '')
+          ? 'Example:\n\n'
+          : `Example "${title}":\n\n`
       const fence = fenceFor(source)
       return `${label}${fence}vue\n${source}\n${fence}\n\n`
     }

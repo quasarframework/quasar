@@ -79,9 +79,8 @@ export function registerProseEmitters() {
     const hashes = '#'.repeat(level)
     const inline = all[index + 1]
     const text = inline?.type === 'inline' ? inlineToText(inline, ctx) : ''
-    // DocExample reads this to suppress its own redundant title label
-    // when the author already wrote a heading right before the example.
-    ctx._lastBlockWasHeading = true
+    // DocExample compares its title with the section's heading
+    ctx._heading = text
     emit(ctx, `${hashes} ${text}\n\n`)
   })
   registerEmitter('heading_close', () => {})
@@ -98,11 +97,6 @@ export function registerProseEmitters() {
     const isInList = listState(ctx).length !== 0
     const inline = all[index + 1]
     const text = inline?.type === 'inline' ? inlineToText(inline, ctx) : ''
-    // Paragraph content invalidates the heading-dedup marker, but only when
-    // it actually produced text. An empty inline shouldn't reset the flag.
-    if (text.trim() !== '') {
-      ctx._lastBlockWasHeading = false
-    }
     emit(ctx, text)
     // List items keep single-line spacing. Everything else gets a blank
     // separator line, which inside blockquotes renders as a
@@ -131,7 +125,6 @@ export function registerProseEmitters() {
   })
 
   registerEmitter('bullet_list_open', (_, ctx) => {
-    ctx._lastBlockWasHeading = false
     listState(ctx).push({ type: 'bullet', counter: 0 })
   })
   registerEmitter('bullet_list_close', (_, ctx) => {
@@ -141,7 +134,6 @@ export function registerProseEmitters() {
     }
   })
   registerEmitter('ordered_list_open', (token, ctx) => {
-    ctx._lastBlockWasHeading = false
     // Lists can start at any number (`5. item`). markdown-it carries it as
     // a `start` attr, absent when the list starts at 1.
     const startAttr = token.attrs?.find(([name]) => name === 'start')
@@ -174,14 +166,12 @@ export function registerProseEmitters() {
     const lang = langMatch ? langMatch[1] : ''
     const content = transformMagicComments(token.content.replace(/\n$/, ''))
     const fence = fenceFor(content)
-    ctx._lastBlockWasHeading = false
     emit(ctx, fence + lang + '\n' + content + '\n' + fence + '\n\n')
   })
 
   registerEmitter('code_block', (token, ctx) => {
     const content = token.content.replace(/\n$/, '')
     const fence = fenceFor(content)
-    ctx._lastBlockWasHeading = false
     emit(ctx, fence + '\n' + content + '\n' + fence + '\n\n')
   })
 
@@ -194,7 +184,6 @@ export function registerProseEmitters() {
   })
 
   registerEmitter('hr', (_, ctx) => {
-    ctx._lastBlockWasHeading = false
     emit(ctx, '---\n\n')
   })
 
@@ -230,7 +219,6 @@ export function registerProseEmitters() {
   // Tables render as GFM pipe tables. Cell text collects into rows via
   // ctx._cellBuf, then table_close serializes the whole thing.
   registerEmitter('table_open', (_, ctx) => {
-    ctx._lastBlockWasHeading = false
     ctx._table = { rows: [] }
   })
   registerEmitter('thead_open', (_, ctx) => {

@@ -27,7 +27,7 @@
  * @property {Array<{type: 'bullet'|'ordered', counter: number}>} [_listStack] - list nesting stack
  * @property {string[]} [_cellBuf] - active table cell buffer (when emitting inside <td>/<th>)
  * @property {string} [_linkHref] - active link target (set in link_open, used in link_close)
- * @property {boolean} [_lastBlockWasHeading] - true when the previous block was a heading with no body content after it, used by doc-example to suppress a redundant title label
+ * @property {string} [_heading] - text of the last heading emitted, the section an example lands in
  * @property {{rows: Array<{section: 'head'|'body', cells: string[]}>, row: string[]|null, section: 'head'|'body'}} [_table] - active table state
  */
 
@@ -104,7 +104,7 @@ export function createCtx({
     siteUrl,
     warnings: [],
     _atLineStart: true,
-    _lastBlockWasHeading: false
+    _heading: ''
   }
 }
 
