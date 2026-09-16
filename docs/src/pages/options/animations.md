@@ -215,8 +215,6 @@ faster
 
 </details>
 
-Example:
-
 ```html
 <transition
   appear

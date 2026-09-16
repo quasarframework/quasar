@@ -40,8 +40,6 @@ One of the following CSS classes is mandatory for the parent in order for ones o
 | `row reverse`    | Flex row with `flex-direction` set to `row-reverse`       |
 | `column reverse` | Flex column with `flex-direction` set to `column-reverse` |
 
-Example:
-
 ```html
 <div class="row">
   <div>First column</div>
@@ -169,8 +167,6 @@ This allows you, among other things, to dynamically stack rows vertically on sma
 **You can set the order** of child elements by using `order-first` and `order-last` CSS helper classes.
 
 By default, flex items are laid out in source order. However, the order property controls the order in which they appear in the flex container. If you need more granularity, use `order` CSS property and assign the desired value.
-
-Example:
 
 ```html
 <div class="row">

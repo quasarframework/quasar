@@ -311,11 +311,8 @@ This is so you can write convenient rules of shape like:
 
 ```js
 value => condition || errorMessage
-```
 
-For example:
-
-```js
+// example:
 value => value.includes('Hello') || 'Field must contain word Hello'
 ```
 

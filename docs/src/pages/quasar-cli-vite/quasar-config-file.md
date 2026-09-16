@@ -182,8 +182,6 @@ Notice the `defineConfig` import from `#q-app`. This is essentially a no-op func
 css?: string[];
 ```
 
-Example:
-
 ```js /quasar.config file
 {
   css: [

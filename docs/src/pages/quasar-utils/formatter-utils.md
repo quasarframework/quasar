@@ -8,8 +8,6 @@ keys: capitalize,humanStorageSize,between,normalizeToInterval,pad
 
 You will notice all examples import `format` Object from Quasar. However, if you need only one formatter method from it, then you can use destructuring to help Tree Shaking embed only that method and not all of `format`.
 
-Example:
-
 ```js
 // we import all of `format`
 import { format } from 'quasar'
