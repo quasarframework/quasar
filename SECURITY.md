@@ -42,4 +42,4 @@ security@quasar.dev
 
 ## Security Documentation
 
-https://quasar.dev/security/
+https://quasar.dev/security/report-a-vulnerability
