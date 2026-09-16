@@ -63,6 +63,7 @@ import { checkApiCoverage } from './api/coverage.js'
 import { writePage } from './output/page.js'
 import { buildLlmsTxt } from './output/llms-txt.js'
 import { buildMeta } from './output/meta.js'
+import { duplicateHeadings } from './output/headings.js'
 import { writeApiPages } from './output/api-pages.js'
 import { countTokens } from './output/tokens.js'
 import { TARGETS, targetIncludes } from './targets.js'
@@ -426,6 +427,15 @@ export function generate(opts) {
         siteUrl
       })
       warnings.push(...pageWarnings)
+      // The server finds a section by its heading; the site form inlines
+      // the API cards, whose Props/Slots repeat under each API on purpose.
+      if (run.target !== null) {
+        for (const heading of duplicateHeadings(body)) {
+          warnings.push(
+            `Heading "${heading}" repeats in ${relativePath}; the server finds a section by its heading, give each its own`
+          )
+        }
+      }
       const outputPath = sourceToOutputPath(relativePath)
       writePage({
         distDir: run.distDir,
