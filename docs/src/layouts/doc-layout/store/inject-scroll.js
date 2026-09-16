@@ -183,28 +183,22 @@ export default function injectScroll(store) {
   }
 
   // the anchor being scrolled to is the active entry when the TOC lists it,
-  // from the moment the scroll starts; any other anchor (an example, a
-  // heading the TOC skips) gets the entry above it once the scroll lands
+  // from the moment the scroll starts and again once it lands; any other
+  // anchor (an example, a heading the TOC skips) gets the entry above it
+  // once the scroll lands
   function markActiveToc(id, settled) {
     if (store.state.value.toc.some(entry => entry.id === id)) {
-      if (!settled) {
-        store.state.value.activeToc = id
-      }
+      store.state.value.activeToc = id
     } else if (settled) {
-      store.setActiveToc(getVerticalScrollPosition(window))
+      store.setActiveToc()
     }
   }
 
-  function onPageScroll({ position }) {
-    // TODO
-    // store.state.value.page.scrollTop = position
-
-    if (
-      preventTocUpdate !== true &&
-      // (drawers.rightDrawerOnLayout.value === true || drawers.rightDrawerState.value !== true) &&
-      document.qScrollPrevented !== true
-    ) {
-      store.setActiveToc(position)
+  // a heading crossed the reading line (inject-toc's observer): the active
+  // entry follows, unless a programmatic scroll owns it for the moment
+  function onHeadingsCrossed() {
+    if (preventTocUpdate !== true && document.qScrollPrevented !== true) {
+      store.setActiveToc()
     }
   }
 
@@ -218,6 +212,9 @@ export default function injectScroll(store) {
         markActiveToc(id, true)
       }
 
+      // owned by the scroll from here until it settles, including the wait
+      // for the blocks around the target
+      preventTocUpdate = true
       markActiveToc(id, false)
 
       if (immediate) {
@@ -249,6 +246,8 @@ export default function injectScroll(store) {
             // unless the page changed while the blocks settled
             if (el.isConnected) {
               scrollPage(el, delay, onSettled)
+            } else {
+              preventTocUpdate = false
             }
           })
         })
@@ -271,7 +270,7 @@ export default function injectScroll(store) {
   })
 
   store.scrollTo = scrollTo
-  store.onPageScroll = onPageScroll
+  store.onHeadingsCrossed = onHeadingsCrossed
   store.trackLayout = trackLayout
   store.isScrolling = () => scrolling
 }

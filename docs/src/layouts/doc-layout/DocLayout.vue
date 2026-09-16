@@ -1,9 +1,5 @@
 <template>
-  <q-layout
-    class="doc-layout doc-technical"
-    view="hHh LpR fff"
-    @scroll="docStore.onPageScroll"
-  >
+  <q-layout class="doc-layout doc-technical" view="hHh LpR fff">
     <a class="doc-skip-link" href="#doc-main-content">Skip to page content</a>
 
     <DocHeader />
