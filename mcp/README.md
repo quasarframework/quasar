@@ -34,7 +34,7 @@ See the [AI Agents](https://quasar.dev/start/ai-agents) page for the per-client 
 | Tool            | What it returns                                                                                                                               |
 | --------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
 | `list_pages`    | every page available offline, grouped by the package shipping it                                                                              |
-| `search_docs`   | the pages matching some keywords, with a snippet and the sections they occur in                                                               |
+| `search_docs`   | the pages matching some keywords, with their description and the sections the keywords occur in                                               |
 | `get_page`      | one page, one section of it, or its outline, as markdown                                                                                      |
 | `list_api`      | the names of the API descriptors: components, plugins, directives, utilities                                                                  |
 | `get_api`       | the props, slots, events and methods of one of them, one part, or one member, as the site shows them; `format: "json"` for the raw descriptor |
