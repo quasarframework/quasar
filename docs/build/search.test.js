@@ -3,7 +3,17 @@ import { spawnSync } from 'node:child_process'
 import { globSync, readFileSync } from 'node:fs'
 import { join } from 'node:path'
 
+import menu from '../src/assets/menu.js'
+import { parseFrontMatter } from './md/md-parse-utils.js'
+import { slugify } from './utils.js'
+
 const docsDir = join(import.meta.dirname, '..')
+const pagesDir = join(docsDir, 'src/pages')
+
+const readEntries = () =>
+  JSON.parse(readFileSync(join(docsDir, 'dist/indices.json'), 'utf8'))
+
+const readPage = file => readFileSync(join(pagesDir, file), 'utf8')
 
 // The generator is an entry script, so it is exercised end-to-end: it
 // only writes to the gitignored dist/ folder. This is its direct
@@ -48,7 +58,6 @@ test('leads to the page itself when it renders no title heading', () => {
 
   // DocPage only renders the id="introduction" heading when the page asks
   // for one, so a page opting out must not be pointed at it
-  const pagesDir = join(docsDir, 'src/pages')
   const headless = globSync(join(pagesDir, '**/*.md'))
     .filter(file => /^heading:\s*false\s*$/m.test(readFileSync(file, 'utf8')))
     .map(file => file.slice(pagesDir.length, -3))
@@ -94,3 +103,137 @@ test(
     expect(inlineCode.length).toBeGreaterThan(0)
   }
 )
+
+test('drops the alert markers and keeps the titles the pages wrote', () => {
+  const entries = readEntries()
+
+  // the marker line is what makes a blockquote an alert; it is not prose
+  const marked = entries.filter(entry =>
+    /\[!(?:NOTE|TIP|IMPORTANT|WARNING|CAUTION)\]/.test(entry.content || '')
+  )
+  expect(marked).toEqual([])
+
+  // a bold-only paragraph right after the marker is the alert's title, and
+  // the page's own words at that; the default labels (TIP, WARNING) are not
+  const titled = globSync(join(pagesDir, '**/*.md'))
+    .filter(file => !/__[^/]+\.md$/.test(file))
+    .map(file => ({
+      file,
+      title: /^> \[!\w+\]\n> \*\*([^*\n]+)\*\*$/m.exec(
+        readFileSync(file, 'utf8')
+      )?.[1]
+    }))
+    .find(page => page.title !== void 0)
+  expect(titled).toBeDefined()
+
+  const url = titled.file.slice(pagesDir.length, -3)
+  const withTitle = entries.filter(
+    entry => entry.url.startsWith(url) && entry.content?.includes(titled.title)
+  )
+  expect(withTitle.length).toBeGreaterThan(0)
+})
+
+test('closes the nested sections when a shallower heading opens', () => {
+  const entries = readEntries()
+
+  // a page whose ### is followed by a ## : the outline is the source of
+  // truth for what each heading's breadcrumb has to be
+  const file = 'how-to-contribute/commit-conventions.md'
+  const url = '/' + file.slice(0, -3)
+  const outline = []
+  let levels = []
+  for (const [, hashes, text] of readPage(file).matchAll(/^(#{2,6}) (.+)$/gm)) {
+    const rank = hashes.length - 1
+    levels = [...levels.slice(0, rank - 1), text]
+    outline.push({ anchor: slugify(text), levels: [...levels] })
+  }
+  expect(
+    outline.some(
+      (h, i) => i > 0 && h.levels.length < outline[i - 1].levels.length
+    )
+  ).toBe(true)
+
+  for (const heading of outline) {
+    const entry = entries.find(e => e.url === `${url}#${heading.anchor}`)
+    expect(entry, heading.anchor).toBeDefined()
+    const found = [
+      entry.l1,
+      entry.l2,
+      entry.l3,
+      entry.l4,
+      entry.l5,
+      entry.l6
+    ].filter(l => l !== void 0)
+    expect(found, heading.anchor).toEqual(heading.levels)
+  }
+})
+
+test('carries the nav labels and the page title', () => {
+  const entries = readEntries()
+
+  for (const entry of entries) {
+    expect(entry.title, entry.url).toEqual(expect.any(String))
+    expect(entry.title, entry.url).not.toBe('')
+  }
+
+  // the breadcrumb is what the nav says, not what the folders are called
+  const group = menu.find(node => node.children !== void 0)
+  const leaf = group.children.find(node => node.children === void 0)
+  const url = `/${group.path}/${leaf.path}`
+  const entry = entries.find(e => e.url === `${url}#introduction`)
+  expect(entry, url).toBeDefined()
+  expect(entry.menu).toEqual([group.name, leaf.name])
+
+  const page = parseFrontMatter(readPage(`${group.path}/${leaf.path}.md`))
+  expect(entry.title).toBe(page.data.title)
+})
+
+test('indexes the example cards under their heading', () => {
+  const entries = readEntries()
+
+  const file = 'vue-components/button.md'
+  const url = '/' + file.slice(0, -3)
+  const cards = []
+  let heading = ''
+  for (const line of readPage(file).split('\n')) {
+    const h = /^#{2,6} (.+)$/.exec(line)
+    if (h !== null) {
+      heading = h[1]
+      continue
+    }
+    const attrs = /^<DocExample\b([^>]*)>/.exec(line)?.[1]
+    if (attrs === void 0) continue
+    const title = /\btitle="([^"]*)"/.exec(attrs)[1]
+    const src = /\bfile="([^"]*)"/.exec(attrs)[1]
+    cards.push({
+      title,
+      heading,
+      anchor: `example--${src.toLowerCase()}--${slugify(title)}`
+    })
+  }
+  expect(cards.length).toBeGreaterThan(0)
+
+  for (const card of cards) {
+    const entry = entries.find(e => e.url === `${url}#${card.anchor}`)
+
+    // an example named after the heading it sits under would only double
+    // that heading's entry
+    if (card.title.toLowerCase() === card.heading.toLowerCase()) {
+      expect(entry, card.anchor).toBeUndefined()
+      continue
+    }
+
+    expect(entry, card.anchor).toBeDefined()
+    const levels = [
+      entry.l1,
+      entry.l2,
+      entry.l3,
+      entry.l4,
+      entry.l5,
+      entry.l6
+    ].filter(l => l !== void 0)
+    expect(levels.at(-1)).toBe(card.title)
+    expect(levels.at(-2)).toBe(card.heading)
+    expect(entry.content).toBeUndefined()
+  }
+})

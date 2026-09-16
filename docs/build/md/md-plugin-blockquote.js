@@ -56,16 +56,20 @@ function markAlerts(state) {
     }
 
     let title = alert.title
+    let ownTitle = false
     const first = tokens[i + 2]
     if (tokens[i + 1].type === 'paragraph_open' && first.type === 'inline') {
       const titleMatch = titleRE.exec(first.content)
       if (titleMatch !== null) {
         title = titleMatch[1]
+        ownTitle = true
         tokens.splice(i + 1, 3)
       }
     }
 
-    tokens[i].meta = { alert: alert.type, title }
+    // ownTitle tells the page's words from the alert's default label, for
+    // whoever indexes the prose rather than rendering it
+    tokens[i].meta = { alert: alert.type, title, ownTitle }
 
     // the matching close token, at the same nesting level
     for (let j = i + 1, depth = 1; j < tokens.length; j++) {
