@@ -56,13 +56,20 @@ function collectHeaderPaths(nodes, pathSet) {
 }
 
 /**
+ * @typedef {object} MenuEntry
+ * @property {string | null} title
+ * @property {string | null} desc
+ * @property {string[]} keys The page's frontmatter `keys`: the components, plugins, directives, composables or functions it documents.
+ */
+
+/**
  * Translate the imported `flatMenu` (keyed by absolute source file paths)
  * into a map keyed by URL slug like `vue-components/knob`, folding in the
  * header-nav pages. Titles start as null and are filled in by
  * loadFrontmatters().
  *
  * @param {string} srcPagesDir Absolute path to docs/src/pages.
- * @returns {Map<string, { title: string | null, desc: string | null }>}
+ * @returns {Map<string, MenuEntry>}
  */
 export function buildMenuMaps(srcPagesDir) {
   const menuByKey = new Map()
@@ -77,7 +84,7 @@ export function buildMenuMaps(srcPagesDir) {
 
     const relativePath = relative(srcPagesDir, id).replaceAll('\\', '/')
     const key = sourceToMenuKey(relativePath)
-    menuByKey.set(key, { title: null, desc: null })
+    menuByKey.set(key, { title: null, desc: null, keys: [] })
   }
 
   const headerPaths = new Set()
@@ -87,7 +94,7 @@ export function buildMenuMaps(srcPagesDir) {
   collectHeaderPaths(moreLinks, headerPaths)
   for (const key of headerPaths) {
     if (!menuByKey.has(key)) {
-      menuByKey.set(key, { title: null, desc: null })
+      menuByKey.set(key, { title: null, desc: null, keys: [] })
     }
   }
 
@@ -106,12 +113,12 @@ export function buildMenuPaths(menuByKey) {
 }
 
 /**
- * Read each included page's frontmatter once and stamp the title onto the
- * matching `menuByKey` entry. Done up-front so cross-page `related` lookups
- * resolve to real titles.
+ * Read each included page's frontmatter once and stamp the title, desc
+ * and keys onto the matching `menuByKey` entry. Done up-front so
+ * cross-page `related` lookups resolve to real titles.
  *
  * @param {string[]} included Relative source paths the menu accepted.
- * @param {Map<string, { title: string | null }>} menuByKey
+ * @param {Map<string, MenuEntry>} menuByKey
  * @param {string} srcPagesDir Absolute path to docs/src/pages.
  * @returns {void}
  */
@@ -124,8 +131,21 @@ export function loadFrontmatters(included, menuByKey, srcPagesDir) {
     if (existing) {
       existing.title = data.title || existing.title
       existing.desc = data.desc || existing.desc
+      existing.keys = parseKeys(data.keys)
     }
   }
+}
+
+/**
+ * The frontmatter `keys` field: a comma-separated string on the site
+ * (`QTabs,QTab,QRouteTab`), tolerated as a list.
+ *
+ * @param {unknown} keys
+ * @returns {string[]}
+ */
+function parseKeys(keys) {
+  const list = Array.isArray(keys) ? keys : String(keys ?? '').split(',')
+  return list.map(key => String(key).trim()).filter(key => key !== '')
 }
 
 /**

@@ -1,4 +1,8 @@
-import { expect, test } from 'vitest'
+import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs'
+import { tmpdir } from 'node:os'
+import { dirname, join } from 'node:path'
+
+import { expect, onTestFinished, test } from 'vitest'
 
 import {
   DOCS_FORMAT,
@@ -17,6 +21,39 @@ import { createProject } from './test/fixture.js'
 function load(opts) {
   return loadDocs(loadProject(createProject(opts)).packages)
 }
+
+/**
+ * Docs of the given pages alone, written to a throwaway directory.
+ *
+ * @param {Record<string, { title: string, desc?: string, keys?: string[], body?: string }>} pages Keyed by route.
+ * @returns {import('./docs.js').Docs}
+ */
+function docsOf(pages) {
+  const dir = mkdtempSync(join(tmpdir(), 'quasar-mcp-docs-'))
+  onTestFinished(() => {
+    rmSync(dir, { recursive: true, force: true })
+  })
+  const docs = { pages: new Map(), sources: [], unreadable: [] }
+  for (const [
+    route,
+    { title, desc = null, keys = [], body = '' }
+  ] of Object.entries(pages)) {
+    const file = join(dir, `${route}.md`)
+    mkdirSync(dirname(file), { recursive: true })
+    writeFileSync(file, `---\ntitle: ${title}\n---\n\n${body}\n`)
+    docs.pages.set(route, {
+      route,
+      title,
+      desc,
+      keys,
+      packageName: 'quasar',
+      file
+    })
+  }
+  return docs
+}
+
+const routes = hits => hits.map(hit => hit.page.route)
 
 test('indexes every slice, serving a page both ship once', () => {
   const docs = load()
@@ -80,18 +117,18 @@ test('extracts a section up to the next heading of its level', () => {
   expect(extractSection(markdown, 'Nope')).toBeNull()
 })
 
-test('search ranks title matches first and needs every term', () => {
+test('search ranks the page about the subject first and needs every term', () => {
   const docs = load()
 
   const [first] = searchDocs(docs, 'button')
   expect(first.page.route).toBe('vue-components/button')
   expect(first.sections).toEqual([])
 
-  expect(searchDocs(docs, 'notify').map(hit => hit.page.route)).toEqual([
+  expect(routes(searchDocs(docs, 'notify'))).toEqual([
     'quasar-plugins/notify',
     'vue-components/button'
   ])
-  expect(searchDocs(docs, 'boot file').map(hit => hit.page.route)).toEqual([
+  expect(routes(searchDocs(docs, 'boot file'))).toEqual([
     'quasar-cli-vite/boot-files'
   ])
   expect(searchDocs(docs, 'button unicorn')).toEqual([])
@@ -99,6 +136,157 @@ test('search ranks title matches first and needs every term', () => {
     searchDocs(docs, 'button', { packageName: '@quasar/app-vite' })
   ).toEqual([])
   expect(searchDocs(docs, 'a', { limit: 1 })).toEqual([])
+})
+
+test('a term matches a word, its plural or singular, or the start of a longer one', () => {
+  const docs = docsOf({
+    'vue-components/tabs': { title: 'Tabs', body: 'A tab strip.' },
+    'vue-components/tab-panels': {
+      title: 'Tab Panels',
+      body: 'Panels for tabs.'
+    },
+    'vue-components/table': {
+      title: 'Table',
+      body: 'A table has tabular data.'
+    }
+  })
+  // "tab" is Tabs (plural), then Tab Panels (one word of two), then
+  // Table (the start of a word), never part of "tabular"
+  expect(routes(searchDocs(docs, 'tab'))).toEqual([
+    'vue-components/tabs',
+    'vue-components/tab-panels',
+    'vue-components/table'
+  ])
+  expect(routes(searchDocs(docs, 'tabs'))).toEqual([
+    'vue-components/tabs',
+    'vue-components/tab-panels'
+  ])
+  expect(routes(searchDocs(docs, 'tabu'))).toEqual(['vue-components/table'])
+  expect(searchDocs(docs, 'abl')).toEqual([])
+  // a plural query finds the singular title
+  expect(routes(searchDocs(docs, 'tables'))).toEqual(['vue-components/table'])
+})
+
+test('a term in most pages weighs little, one in few decides', () => {
+  const docs = docsOf({
+    'start/how-to-use-vue': {
+      title: 'How to use Vue',
+      body: 'How to use Vue. Notify is a plugin.'
+    },
+    'quasar-plugins/notify': {
+      title: 'Notify',
+      body: 'How to use Notify: call it. Notify again.'
+    },
+    'vue-components/button': {
+      title: 'Button',
+      body: 'How to use a button. Notify the user.'
+    }
+  })
+  expect(routes(searchDocs(docs, 'how to use notify'))).toEqual([
+    'quasar-plugins/notify',
+    'start/how-to-use-vue',
+    'vue-components/button'
+  ])
+})
+
+test('a page is found by the names it documents, as tag, component or key', () => {
+  const docs = docsOf({
+    'vue-components/button': {
+      title: 'Button',
+      keys: ['QBtn'],
+      body: 'A button. Set loading for a spinner.\n\n## Loading state\n\nA spinner.'
+    },
+    'quasar-plugins/loading': {
+      title: 'Loading',
+      keys: ['Loading'],
+      body: 'Loading overlays. Loading again. A <q-btn> shows it.'
+    },
+    'vue-directives/touch-pan': {
+      title: 'v-touch-pan directive',
+      keys: ['touch-pan', 'v-touch-pan'],
+      body: 'Pan gestures.\n\n## TouchPan API\n\nSee get_api.'
+    },
+    'vue-composables/use-meta': {
+      title: 'useMeta composable',
+      keys: ['useMeta'],
+      body: 'Meta tags.'
+    },
+    // a slice predating keys: the API heading names the subject
+    'vue-components/tabs': {
+      title: 'Tabs',
+      body: '## QTabs API\n\nSee get_api.'
+    }
+  })
+  for (const query of ['QBtn', 'q-btn', 'qbtn']) {
+    expect(routes(searchDocs(docs, query)), query).toEqual([
+      'vue-components/button',
+      'quasar-plugins/loading'
+    ])
+  }
+  // the subject plus a heading beats the subject plus a mention
+  expect(routes(searchDocs(docs, 'q-btn loading'))).toEqual([
+    'vue-components/button',
+    'quasar-plugins/loading'
+  ])
+  for (const query of ['v-touch-pan', 'touch-pan', 'TouchPan', 'touchpan']) {
+    expect(routes(searchDocs(docs, query)), query).toEqual([
+      'vue-directives/touch-pan'
+    ])
+  }
+  expect(routes(searchDocs(docs, 'use-meta'))).toEqual([
+    'vue-composables/use-meta'
+  ])
+  expect(routes(searchDocs(docs, 'q-tabs'))).toEqual(['vue-components/tabs'])
+})
+
+test('punctuation around a term does not count, inside an identifier it does', () => {
+  const docs = docsOf({
+    'quasar-plugins/notify': {
+      title: 'Notify',
+      body: 'Call $q.notify() with vue.config.js loaded.'
+    }
+  })
+  for (const query of [
+    'notify.',
+    'notify,',
+    '(notify)',
+    '$q.notify',
+    'vue.config'
+  ]) {
+    expect(routes(searchDocs(docs, query)), query).toEqual([
+      'quasar-plugins/notify'
+    ])
+  }
+  expect(searchDocs(docs, '. -')).toEqual([])
+})
+
+test('the page about the subject outranks a long page mentioning it, ties go to mentions', () => {
+  const docs = docsOf({
+    'vue-components/knob': { title: 'Knob', body: 'A knob.' },
+    'vue-components/range': {
+      title: 'Range',
+      desc: 'A knob.',
+      body: 'Knob, knob.'
+    },
+    'vue-components/dial': { title: 'Dial', desc: 'A knob.', body: 'Knob.' },
+    'vue-components/slider': {
+      title: 'Slider',
+      body: 'The knob turns. '.repeat(200)
+    },
+    'vue-components/gauge': {
+      title: 'Gauge',
+      body: 'The knob turns. '.repeat(100)
+    }
+  })
+  // the description outranks any number of mentions; past the cap the
+  // mentions only break the tie (Slider over Gauge, against the route order)
+  expect(routes(searchDocs(docs, 'knob'))).toEqual([
+    'vue-components/knob',
+    'vue-components/range',
+    'vue-components/dial',
+    'vue-components/slider',
+    'vue-components/gauge'
+  ])
 })
 
 test('suggests routes resembling a miss', () => {
@@ -160,6 +348,10 @@ test('a hit names the sections its terms occur under, the one most about the que
   ])
   expect(matchedSections(body, ['prop'], 1)).toEqual(['Props deep dive'])
   expect(matchedSections(body, ['nothing'])).toEqual([])
+  // terms match words: "tab" is Tabs first, Table (the start of a word) after
+  expect(
+    matchedSections('## Table\n\ntabular table\n\n## Tabs\n\ntab', ['tab'])
+  ).toEqual(['Tabs', 'Table'])
   // the page's subject is in every section and weighs nothing there;
   // the query's other term marks the section
   expect(

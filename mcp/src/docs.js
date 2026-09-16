@@ -19,6 +19,7 @@ const FRONTMATTER_RE = /^---\n[\s\S]*?\n---\n/
  * @property {string} route Menu key, e.g. `vue-components/button`.
  * @property {string} title
  * @property {string | null} desc
+ * @property {string[]} keys The names the page documents (components, plugins, directives, composables, functions), as the docs frontmatter lists them; empty in a slice predating the field.
  * @property {string} packageName The installed package whose slice holds the page.
  * @property {string} file Absolute path of the markdown file.
  */
@@ -54,7 +55,7 @@ export function loadDocs(packages) {
       continue
     }
     let pageCount = 0
-    for (const { route, title, desc } of meta.pages) {
+    for (const { route, title, desc, keys } of meta.pages) {
       // A page both slices carry (the agent setup page) is served once.
       if (pages.has(route)) {
         continue
@@ -63,6 +64,7 @@ export function loadDocs(packages) {
         route,
         title,
         desc: desc ?? null,
+        keys: keys ?? [],
         packageName: pkg.name,
         file: join(pkg.docsDir, `${route}.md`)
       })
@@ -185,6 +187,11 @@ function slugify(text) {
 }
 
 /**
+ * The terms of a text: lower-case runs of letters, digits and the
+ * characters identifiers carry (`q-btn`, `$q.notify`, `@click`,
+ * `vue.config`), trimmed of the dots and dashes punctuation leaves at
+ * either end (`notify.`), one character dropped.
+ *
  * @param {string} text
  * @returns {string[]}
  */
@@ -192,7 +199,205 @@ function terms(text) {
   return text
     .toLowerCase()
     .split(/[^a-z0-9$@.-]+/)
+    .map(term => term.replaceAll(/^[.-]+|[.-]+$/g, ''))
     .filter(term => term.length > 1)
+}
+
+/**
+ * The form terms compare in: dashes and dots dropped, so the tag,
+ * the component and the key are one word (`q-btn`, `QBtn`, `qbtn`),
+ * as are `v-touch-pan` and `TouchPan`.
+ *
+ * @param {string} term
+ * @returns {string}
+ */
+function flat(term) {
+  return term.replaceAll(/[-.]/g, '')
+}
+
+/**
+ * The comparable words of a text: its terms, flat, plus the parts of
+ * the compound ones, so `btn` finds `q-btn` and `components` finds
+ * `vue-components`.
+ *
+ * @param {string} text
+ * @returns {string[]}
+ */
+function words(text) {
+  const list = []
+  for (const term of terms(text)) {
+    list.push(flat(term))
+    if (/[-.]/.test(term)) {
+      for (const part of term.split(/[-.]+/)) {
+        if (part.length > 1) {
+          list.push(part)
+        }
+      }
+    }
+  }
+  return list
+}
+
+/**
+ * A plural and its singular stem alike (`buttons`/`button`,
+ * `classes`/`class`, `properties`/`property`). Consistent, not correct:
+ * both sides of a comparison go through it.
+ *
+ * @param {string} word
+ * @returns {string}
+ */
+function stem(word) {
+  if (word.length < 4 || !word.endsWith('s') || word.endsWith('ss')) {
+    return word
+  }
+  if (word.endsWith('ies')) {
+    return `${word.slice(0, -3)}y`
+  }
+  if (/(?:ss|sh|ch|x)es$/.test(word)) {
+    return word.slice(0, -2)
+  }
+  return word.slice(0, -1)
+}
+
+/**
+ * How well a term matches one word: the word itself, its plural or
+ * singular, or a word starting with it (`valid` for `validation`, three
+ * characters at least so `to` does not match `toolbar`).
+ *
+ * @param {string} term
+ * @param {string} word
+ * @returns {number} 0 for no match, else 0.5 to 1.
+ */
+function wordStrength(term, word) {
+  if (word === term) {
+    return 1
+  }
+  if (stem(word) === stem(term)) {
+    return 0.8
+  }
+  return term.length >= 3 && word.startsWith(term) ? 0.5 : 0
+}
+
+/**
+ * The best match of a term among some words.
+ *
+ * @param {string} term
+ * @param {string[]} list
+ * @returns {number}
+ */
+function strength(term, list) {
+  let best = 0
+  for (const word of list) {
+    const current = wordStrength(term, word)
+    if (current > best) {
+      best = current
+      if (best === 1) {
+        break
+      }
+    }
+  }
+  return best
+}
+
+const API_HEADING_RE = /^(\S+) API$/
+
+/**
+ * @typedef {object} PageIndex
+ * @property {string[]} title
+ * @property {string[]} titleStems
+ * @property {string[]} route
+ * @property {string[]} desc
+ * @property {string[]} headings
+ * @property {string[]} names The names the page documents, flat: its meta `keys`, and the `<Name> API` headings for a slice predating the field.
+ * @property {Map<string, number>} body Occurrences per distinct body word.
+ * @property {Map<string, number>} bodyStems Occurrences per distinct body word stem.
+ * @property {string[]} bodyWords The distinct body words, sorted.
+ */
+
+const indexCache = new Map()
+
+/**
+ * @param {Page} page
+ * @returns {PageIndex}
+ */
+function indexPage(page) {
+  let index = indexCache.get(page.file)
+  if (index !== void 0) {
+    return index
+  }
+  const markdown = readPage(page)
+  const headings = listHeadings(markdown).map(heading => heading.text)
+  const names = new Set(page.keys)
+  for (const heading of headings) {
+    const match = API_HEADING_RE.exec(heading)
+    if (match !== null) {
+      names.add(match[1])
+    }
+  }
+  const body = new Map()
+  for (const word of words(markdown.replace(FRONTMATTER_RE, ''))) {
+    body.set(word, (body.get(word) ?? 0) + 1)
+  }
+  const bodyStems = new Map()
+  for (const [word, count] of body) {
+    const key = stem(word)
+    bodyStems.set(key, (bodyStems.get(key) ?? 0) + count)
+  }
+  const title = words(page.title)
+  index = {
+    title,
+    titleStems: title.map(stem),
+    route: words(page.route),
+    desc: words(page.desc ?? ''),
+    headings: words(headings.join(' ')),
+    names: [...names].map(name => flat(name.toLowerCase())),
+    body,
+    bodyStems,
+    bodyWords: [...body.keys()].sort()
+  }
+  indexCache.set(page.file, index)
+  return index
+}
+
+/**
+ * How much a body is about a term: the occurrences of the words it
+ * matches, each by how well (as wordStrength() rates them), on a log
+ * scale so a long page's hundredth mention adds nothing (1 occurrence:
+ * 2, 7: 6, 63: 12, the cap).
+ *
+ * @param {string} term
+ * @param {PageIndex} index
+ * @returns {{ occurrences: number, score: number }}
+ */
+function bodyMatch(term, { body, bodyStems, bodyWords }) {
+  const exact = body.get(term) ?? 0
+  const termStem = stem(term)
+  const stemmed = (bodyStems.get(termStem) ?? 0) - exact
+  let prefixed = 0
+  if (term.length >= 3) {
+    // the words starting with the term sit together in the sorted list
+    let low = 0
+    let high = bodyWords.length
+    while (low < high) {
+      const middle = (low + high) >>> 1
+      if (bodyWords[middle] < term) {
+        low = middle + 1
+      } else {
+        high = middle
+      }
+    }
+    for (; low < bodyWords.length && bodyWords[low].startsWith(term); low++) {
+      const word = bodyWords[low]
+      if (word !== term && stem(word) !== termStem) {
+        prefixed += body.get(word)
+      }
+    }
+  }
+  const occurrences = exact + 0.8 * stemmed + 0.5 * prefixed
+  return {
+    occurrences,
+    score: Math.min(2 * Math.log2(1 + occurrences), 12)
+  }
 }
 
 /**
@@ -206,7 +411,7 @@ function terms(text) {
  * pagination, filter and sorting"), and occurrences break ties. The
  * heading in effect is the nearest one above a line, whatever its
  * level; text inside fences counts, fence markers and frontmatter do
- * not.
+ * not. Terms match words as in searchDocs().
  *
  * @param {string} markdown
  * @param {string[]} queryTerms Lower-case.
@@ -225,15 +430,18 @@ export function matchedSections(markdown, queryTerms, limit = 3) {
     }
     const match = inFence ? null : HEADING_RE.exec(line)
     if (match !== null) {
-      current = { words: terms(match[2]), counts: new Map() }
+      current = { words: words(match[2]), counts: new Map() }
       sections.set(match[2], current)
     }
     if (current === null) {
       continue
     }
-    const lower = line.toLowerCase()
+    const lineWords = words(line)
     for (const term of queryTerms) {
-      const occurrences = lower.split(term).length - 1
+      let occurrences = 0
+      for (const word of lineWords) {
+        occurrences += wordStrength(term, word)
+      }
       if (occurrences !== 0) {
         current.counts.set(term, (current.counts.get(term) ?? 0) + occurrences)
       }
@@ -242,12 +450,13 @@ export function matchedSections(markdown, queryTerms, limit = 3) {
   const sectionsWith = term =>
     [...sections.values()].filter(({ counts }) => counts.has(term)).length
   const weight = new Map(queryTerms.map(term => [term, 1 / sectionsWith(term)]))
-  const score = ({ words, counts }) => {
+  const score = ({ words: headingWords, counts }) => {
     let total = 0
     for (const [term, occurrences] of counts) {
-      const inHeading = words.some(word => word.includes(term))
+      const inHeading = strength(term, headingWords)
       total +=
-        weight.get(term) * (1 + (inHeading ? 2 / words.length : 0)) +
+        weight.get(term) *
+          (1 + (inHeading === 0 ? 0 : (2 * inHeading) / headingWords.length)) +
         Math.min(occurrences, 9) / 1000
     }
     return total
@@ -267,11 +476,21 @@ export function matchedSections(markdown, queryTerms, limit = 3) {
  */
 
 /**
- * Term matching over the page index and bodies. A term found in the
- * title weighs most, then the route and the description, then the
- * headings, then how often the body mentions it (capped, so a long page
- * cannot outrank the page about the subject). Every term must appear
- * somewhere in the page.
+ * Term matching over the page index and bodies. A term matches a word
+ * (see wordStrength()), never part of one: "tab" is Tabs, not Table.
+ * What the page is about weighs most: a term naming what it documents
+ * (its `keys`: `QBtn`, `q-btn`, `useMeta`, `v-ripple`) or covering
+ * the title whole ("Virtual Scroll" for "virtual scroll"), a third of
+ * that for a title it is only part of, less again for the description
+ * or the route, which restate the title; one of those counts, the
+ * best. Then the headings and how often the body mentions it, on a log
+ * scale so a long page cannot outrank the page about the subject;
+ * those weigh the inverse of how many pages the term matches, so "to",
+ * "use" and "component" decide nothing and "notify" everything. The
+ * subject does not: a tag every example uses is no less the name of
+ * its page.
+ * Every term must match somewhere in the page. Ties go to the page
+ * mentioning the terms most, then the first route.
  *
  * @param {Docs} docs
  * @param {string} query
@@ -279,55 +498,66 @@ export function matchedSections(markdown, queryTerms, limit = 3) {
  * @returns {SearchHit[]}
  */
 export function searchDocs(docs, query, { limit = 5, packageName } = {}) {
-  const queryTerms = terms(query)
+  const queryTerms = [...new Set(terms(query).map(flat))]
   if (queryTerms.length === 0) {
     return []
   }
-  const hits = []
-  for (const page of docs.pages.values()) {
-    if (packageName !== void 0 && page.packageName !== packageName) {
-      continue
-    }
-    const title = page.title.toLowerCase()
-    const route = page.route.toLowerCase()
-    const desc = (page.desc ?? '').toLowerCase()
-    const body = readPage(page)
-    const bodyLower = body.toLowerCase()
-    const headingText = listHeadings(body)
-      .map(heading => heading.text)
-      .join(' ')
-      .toLowerCase()
-    let score = 0
-    for (const term of queryTerms) {
-      let termScore = 0
-      if (title.includes(term)) {
-        termScore += title === term ? 60 : 30
-      }
-      if (route.includes(term)) {
-        termScore += 15
-      }
-      if (desc.includes(term)) {
-        termScore += 10
-      }
-      if (headingText.includes(term)) {
-        termScore += 8
-      }
-      termScore += Math.min(bodyLower.split(term).length - 1, 20)
-      if (termScore === 0) {
-        score = 0
-        break
-      }
-      score += termScore
-    }
-    if (score === 0) {
-      continue
-    }
-    hits.push({ page, score, sections: matchedSections(body, queryTerms) })
-  }
-  hits.sort(
-    (a, b) => b.score - a.score || a.page.route.localeCompare(b.page.route)
+  const queryStems = new Set(queryTerms.map(stem))
+  const pages = [...docs.pages.values()].filter(
+    page => packageName === void 0 || page.packageName === packageName
   )
-  return hits.slice(0, limit)
+  // pass one: how each term matches each page, and in how many pages
+  const pagesWith = queryTerms.map(() => 0)
+  const matches = []
+  for (const page of pages) {
+    const index = indexPage(page)
+    const titleWeight = index.titleStems.every(word => queryStems.has(word))
+      ? 60
+      : 20
+    const subjects = []
+    const mentions = []
+    let occurrences = 0
+    for (const [at, term] of queryTerms.entries()) {
+      const body = bodyMatch(term, index)
+      const subject = Math.max(
+        titleWeight * strength(term, index.title),
+        60 * strength(term, index.names),
+        10 * strength(term, index.desc),
+        5 * strength(term, index.route)
+      )
+      const mention = 15 * strength(term, index.headings) + body.score
+      if (subject + mention !== 0) {
+        pagesWith[at]++
+      }
+      subjects.push(subject)
+      mentions.push(mention)
+      occurrences += body.occurrences
+    }
+    if (subjects.every((subject, at) => subject + mentions[at] !== 0)) {
+      matches.push({ page, subjects, mentions, occurrences })
+    }
+  }
+  // pass two: a term in every page decides nothing, a rare one a lot
+  const weight = pagesWith.map(count => Math.log((pages.length + 1) / count))
+  const hits = matches.map(({ page, subjects, mentions, occurrences }) => ({
+    page,
+    score: queryTerms.reduce(
+      (total, _, at) => total + subjects[at] + mentions[at] * weight[at],
+      0
+    ),
+    occurrences
+  }))
+  hits.sort(
+    (a, b) =>
+      b.score - a.score ||
+      b.occurrences - a.occurrences ||
+      a.page.route.localeCompare(b.page.route)
+  )
+  return hits.slice(0, limit).map(({ page, score }) => ({
+    page,
+    score,
+    sections: matchedSections(readPage(page), queryTerms)
+  }))
 }
 
 /**

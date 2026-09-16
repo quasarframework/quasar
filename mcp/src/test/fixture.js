@@ -128,12 +128,14 @@ export function createProject({
         {
           route: 'vue-components/button',
           title: 'Button',
-          desc: 'The QBtn component.'
+          desc: 'The QBtn component.',
+          keys: ['QBtn']
         },
         {
           route: 'quasar-plugins/notify',
           title: 'Notify',
-          desc: 'Notifications for the user.'
+          desc: 'Notifications for the user.',
+          keys: ['Notify']
         },
         {
           route: 'start/ai-agents',

@@ -8,8 +8,13 @@ test('lists the format, the package, its version and the pages sorted by route',
       packageName: 'quasar',
       version: '2.33.0',
       pages: [
-        { route: 'vue-components/button', title: 'Button', desc: 'Buttons' },
-        { route: 'layout/drawer', title: 'Drawer', desc: null }
+        {
+          route: 'vue-components/button',
+          title: 'Button',
+          desc: 'Buttons',
+          keys: ['QBtn']
+        },
+        { route: 'layout/drawer', title: 'Drawer', desc: null, keys: [] }
       ]
     })
   )
@@ -19,8 +24,13 @@ test('lists the format, the package, its version and the pages sorted by route',
     package: 'quasar',
     version: '2.33.0',
     pages: [
-      { route: 'layout/drawer', title: 'Drawer', desc: null },
-      { route: 'vue-components/button', title: 'Button', desc: 'Buttons' }
+      { route: 'layout/drawer', title: 'Drawer', desc: null, keys: [] },
+      {
+        route: 'vue-components/button',
+        title: 'Button',
+        desc: 'Buttons',
+        keys: ['QBtn']
+      }
     ]
   })
 })

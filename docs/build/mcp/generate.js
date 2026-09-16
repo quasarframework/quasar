@@ -307,14 +307,19 @@ function writeSiteMeta(distDir, pages, quasarVersion) {
  *
  * @param {Run} run
  * @param {string[]} writtenPaths Relative source paths of pages actually written.
- * @param {Map<string, { title: string | null, desc: string | null }>} menuByKey
+ * @param {Map<string, import('./pages/menu.js').MenuEntry>} menuByKey
  * @returns {void}
  */
 function writeSliceMeta(run, writtenPaths, menuByKey) {
   const pages = writtenPaths.map(relativePath => {
     const route = sourceToMenuKey(relativePath)
     const entry = menuByKey.get(route)
-    return { route, title: entry?.title ?? route, desc: entry?.desc ?? null }
+    return {
+      route,
+      title: entry?.title ?? route,
+      desc: entry?.desc ?? null,
+      keys: entry?.keys ?? []
+    }
   })
   writeFileSync(
     join(run.distDir, 'meta.json'),

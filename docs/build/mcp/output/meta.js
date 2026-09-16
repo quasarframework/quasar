@@ -9,6 +9,7 @@
  * @property {string} route Menu key, e.g. `vue-components/button`; the page file is `<route>.md`.
  * @property {string} title
  * @property {string | null} desc
+ * @property {string[]} keys The names the page documents (its frontmatter `keys`), what search_docs matches a component, plugin, directive, composable or function name against.
  */
 
 /**
