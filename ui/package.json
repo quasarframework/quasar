@@ -1,6 +1,6 @@
 {
   "name": "quasar",
-  "version": "2.32.3",
+  "version": "2.33.0",
   "description": "Enterprise-ready, AI-ready cross-platform Vue.js framework: high-performance, accessible components for SPA, PWA, SSR, SSG, mobile and desktop apps, with documentation your AI coding agent reads offline",
   "keywords": [
     "desktop",
