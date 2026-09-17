@@ -100,6 +100,8 @@
             <DocCode :lang="tab.lang" :code="tab.content" />
           </q-tab-panel>
         </q-tab-panels>
+
+        <q-separator />
       </div>
     </q-slide-transition>
 
@@ -348,4 +350,10 @@ function loadComponent() {
 
     &--scrollable
       height: 500px
+
+body.body--dark .doc-example
+  .header-toolbar,
+  .header-tabs,
+  .header-tabs .q-tabs__content
+    background: var(--q-dark)
 </style>
