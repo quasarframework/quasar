@@ -94,14 +94,14 @@ For VS Code (GitHub Copilot in agent mode, and the extensions speaking MCP), the
 
 ## What the agent gets
 
-| Tool            | Purpose                                                                    |
-| --------------- | -------------------------------------------------------------------------- |
-| `list_pages`    | every documentation page available offline, grouped by package             |
-| `search_docs`   | the pages matching some keywords, and the sections they occur in           |
-| `get_page`      | a page, one section of it, or its outline                                  |
-| `list_api`      | the names of the API descriptors (`QBtn`, `Notify`, `Ripple`, ...)         |
-| `get_api`       | the props, slots, events and methods of one of them, or one part or member |
-| `check_updates` | whether newer releases of `quasar`, `@quasar/app-vite` or the server exist |
+| Tool            | Purpose                                                                     |
+| --------------- | --------------------------------------------------------------------------- |
+| `list_pages`    | every documentation page available offline, grouped by package              |
+| `search_docs`   | the pages matching some keywords, their size and the sections they occur in |
+| `get_page`      | a page, one section of it (by heading or link `#anchor`), or its outline    |
+| `list_api`      | the names of the API descriptors (`QBtn`, `Notify`, `Ripple`, ...)          |
+| `get_api`       | the props, slots, events and methods of one of them, or one part or member  |
+| `check_updates` | whether newer releases of `quasar`, `@quasar/app-vite` or the server exist  |
 
 At the start of a session the server tells the agent which versions it serves and whether updates are available, so the agent can suggest an upgrade. That check runs in the background at most once a day, like the Quasar CLI's own update notice, never while offline, and honors the `NO_UPDATE_NOTIFIER` environment variable.
 

@@ -212,6 +212,16 @@ test('search leads to the page about the subject, in either package', async () =
   })
   expect(section.isError).toBe(false)
   expect(section.text.startsWith('## Anatomy of a boot file')).toBe(true)
+
+  const linked = await call(client, 'get_page', {
+    route:
+      'https://quasar.dev/quasar-cli-vite/boot-files#anatomy-of-a-boot-file'
+  })
+  expect(linked.text).toBe(section.text)
+
+  // the long pages are the ones an agent must be warned about
+  const table = await call(client, 'search_docs', { query: 'QTable', limit: 1 })
+  expect(table.text).toMatch(/^- vue-components\/table: .+ \[~\d+k tokens\]\n/)
 })
 
 test('stdout carries nothing but protocol frames', async () => {

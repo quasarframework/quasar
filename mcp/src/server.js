@@ -20,7 +20,9 @@ import {
   listHeadings,
   loadDocs,
   normalizeRoute,
+  pageSize,
   readPage,
+  routeFragment,
   searchDocs,
   similarRoutes
 } from './docs.js'
@@ -157,7 +159,7 @@ export function buildInstructions(project, docs, updates) {
 
   lines.push(
     '',
-    'Workflow: search_docs to find pages (each hit names the sections where the terms occur), get_page with section to read just that part (outline lists the sections; a whole component page can run to 25k tokens), get_api for the exact props, slots, events and methods of a component, plugin or directive.',
+    'Workflow: search_docs to find pages (each hit names the size of the page and the sections where the terms occur), get_page with section to read just that part (outline lists the sections; a whole component page can run to 25k tokens), get_api for the exact props, slots, events and methods of a component, plugin or directive.',
     `Pages are routes of ${SITE_URL} (e.g. vue-components/button). Links inside pages are either .md siblings relative to the page's route or ${SITE_URL} URLs: get_page takes both as they appear.`
   )
 
@@ -197,13 +199,17 @@ export async function createServer({
   )
 
   const packageEnum = z.enum(DOCS_PACKAGES)
+  // nothing here writes; only check_updates leaves the machine
+  const localRead = { readOnlyHint: true, openWorldHint: false }
+  const remoteRead = { readOnlyHint: true, openWorldHint: true }
 
   server.registerTool(
     'list_pages',
     {
       title: 'List documentation pages',
       description:
-        'Every documentation page available offline, as route and title, grouped by the installed package that ships it. Prefer search_docs to find a page; this is the full index.',
+        'Every documentation page available offline, as route, title and approximate size, grouped by the installed package that ships it. Prefer search_docs to find a page; this is the full index.',
+      annotations: localRead,
       inputSchema: {
         package: packageEnum
           .optional()
@@ -226,7 +232,7 @@ export async function createServer({
         for (const page of docs.pages.values()) {
           if (page.packageName === source.name) {
             lines.push(
-              `- ${page.route}: ${page.title}${descriptions && page.desc ? ` (${page.desc})` : ''}`
+              `- ${page.route}: ${page.title} [${pageSize(page)}]${descriptions && page.desc ? ` (${page.desc})` : ''}`
             )
           }
         }
@@ -247,7 +253,8 @@ export async function createServer({
     {
       title: 'Search the documentation',
       description:
-        "Find documentation pages by keywords (component names, props, features, config options). Each hit names the sections where the keywords occur: pass one as get_page's section to read only that part.",
+        "Find documentation pages by keywords (component names, props, features, config options). Each hit names the approximate size of the page and the sections where the keywords occur: pass one as get_page's section to read only that part.",
+      annotations: localRead,
       inputSchema: {
         query: z
           .string()
@@ -277,7 +284,7 @@ export async function createServer({
       return text(
         hits
           .map(({ page, sections }) => {
-            const lines = [`- ${page.route}: ${page.title}`]
+            const lines = [`- ${page.route}: ${page.title} [${pageSize(page)}]`]
             if (page.desc) lines.push(`  ${page.desc}`)
             if (sections.length !== 0) {
               lines.push(`  sections: ${sections.join(' | ')}`)
@@ -294,7 +301,8 @@ export async function createServer({
     {
       title: 'Read a documentation page',
       description:
-        'The markdown of one documentation page, by route (as listed by list_pages or search_docs, or a quasar.dev URL). Pass a heading to get only that section, or outline to get the headings and pick one: whole component pages are long.',
+        'The markdown of one documentation page, by route (as listed by list_pages or search_docs, a link from another page, or a quasar.dev URL; a #fragment selects that section). Pass a heading to get only that section, or outline to get the headings and pick one: whole component pages are long.',
+      annotations: localRead,
       inputSchema: {
         route: z
           .string()
@@ -304,7 +312,7 @@ export async function createServer({
           .string()
           .optional()
           .describe(
-            'A heading of the page, to return only that section; omit for the whole page'
+            'A heading of the page, to return only that section, its subsections included (case does not matter, the #anchor form works too); omit for the whole page'
           ),
         outline: z
           .boolean()
@@ -339,7 +347,13 @@ export async function createServer({
         )
       }
       if (section === void 0) {
-        return text(markdown)
+        // a pasted link points at a heading, or at an anchor no heading
+        // carries (an example, an API card): then the page it is
+        const fragment = routeFragment(input)
+        return text(
+          (fragment !== null ? extractSection(markdown, fragment) : null) ??
+            markdown
+        )
       }
       const extracted = extractSection(markdown, section)
       if (extracted === null) {
@@ -361,6 +375,7 @@ export async function createServer({
       title: 'List API descriptors',
       description:
         'The names every get_api call accepts: Quasar components (QBtn, QTable, ...), plugins (Notify, Dialog, ...), directives (Ripple, ...) and utilities.',
+      annotations: localRead,
       inputSchema: {}
     },
     () => {
@@ -379,6 +394,7 @@ export async function createServer({
       title: 'Get an API descriptor',
       description:
         'The exact API of a Quasar component, plugin or directive as installed: props, slots, events, methods (with types, defaults and descriptions), as the documentation site presents it. Pass part for one section, member for one prop, slot, event or method (the cheapest call by far), format "json" for the raw descriptor.',
+      annotations: localRead,
       inputSchema: {
         name: z
           .string()
@@ -482,6 +498,7 @@ export async function createServer({
       title: 'Check for updates',
       description:
         'Whether newer releases of quasar, @quasar/app-vite or this server exist, by querying the npm registry. Newer docs come with the newer packages.',
+      annotations: remoteRead,
       inputSchema: {}
     },
     async () => {

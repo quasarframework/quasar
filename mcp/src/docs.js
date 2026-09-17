@@ -1,4 +1,4 @@
-import { readFileSync } from 'node:fs'
+import { readFileSync, statSync } from 'node:fs'
 import { join } from 'node:path'
 
 import { slugify } from './slugify.js'
@@ -96,6 +96,33 @@ export function normalizeRoute(input) {
     .replace(/^\/+/, '')
     .replace(/\/+$/, '')
     .replace(/\.md$/, '')
+}
+
+/**
+ * The heading a pasted link points at: the fragment of a `route.md#slug`
+ * link or of a quasar.dev URL, null without one.
+ *
+ * @param {string} input
+ * @returns {string | null}
+ */
+export function routeFragment(input) {
+  const hashIndex = input.indexOf('#')
+  const fragment = hashIndex === -1 ? '' : input.slice(hashIndex + 1).trim()
+  return fragment === '' ? null : fragment
+}
+
+/**
+ * What reading the whole page costs, so the caller can pick a section
+ * instead: markdown and code run to about four bytes a token.
+ *
+ * @param {Page} page
+ * @returns {string} E.g. `~400 tokens`, `~12k tokens`.
+ */
+export function pageSize(page) {
+  const tokens = statSync(page.file).size / 4
+  return tokens < 950
+    ? `~${Math.max(1, Math.round(tokens / 100)) * 100} tokens`
+    : `~${Math.round(tokens / 1000)}k tokens`
 }
 
 const bodyCache = new Map()

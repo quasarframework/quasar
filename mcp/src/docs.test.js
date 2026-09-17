@@ -11,7 +11,9 @@ import {
   loadDocs,
   matchedSections,
   normalizeRoute,
+  pageSize,
   readPage,
+  routeFragment,
   searchDocs,
   similarRoutes
 } from './docs.js'
@@ -84,6 +86,29 @@ test('normalizes the ways an agent may spell a route', () => {
   ]) {
     expect(normalizeRoute(input), input).toBe('vue-components/button')
   }
+})
+
+test('reads the fragment of a pasted link', () => {
+  expect(routeFragment('https://quasar.dev/vue-components/button#usage')).toBe(
+    'usage'
+  )
+  expect(routeFragment('../button.md#custom-colors')).toBe('custom-colors')
+  expect(routeFragment('vue-components/button')).toBe(null)
+  expect(routeFragment('vue-components/button#')).toBe(null)
+})
+
+test('sizes a page in tokens, about four bytes each', () => {
+  const dir = mkdtempSync(join(tmpdir(), 'quasar-mcp-size-'))
+  onTestFinished(() => rmSync(dir, { recursive: true, force: true }))
+  const sized = bytes => {
+    const file = join(dir, `${bytes}.md`)
+    writeFileSync(file, 'a'.repeat(bytes))
+    return pageSize({ file })
+  }
+  expect(sized(10)).toBe('~100 tokens')
+  expect(sized(1600)).toBe('~400 tokens')
+  expect(sized(3900)).toBe('~1k tokens')
+  expect(sized(98_000)).toBe('~25k tokens')
 })
 
 test('lists headings, ignoring fenced code', () => {

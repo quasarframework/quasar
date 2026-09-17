@@ -84,35 +84,44 @@ test('exposes the six tools', async () => {
     'list_pages',
     'search_docs'
   ])
+  // clients gate permission prompts and read-only modes on these
+  for (const tool of tools) {
+    expect(tool.annotations, tool.name).toEqual({
+      readOnlyHint: true,
+      openWorldHint: tool.name === 'check_updates'
+    })
+  }
 })
 
 test('list_pages groups by package and filters by it, descriptions on request', async () => {
   const client = await connect()
   const all = await call(client, 'list_pages')
   expect(all.text).toContain('# quasar 2.33.0')
-  expect(all.text).toContain('- vue-components/button: Button\n')
+  expect(all.text).toMatch(
+    /^- vue-components\/button: Button \[~\d+k? tokens\]$/m
+  )
   expect(all.text).not.toContain('The QBtn component.')
   expect(all.text).toContain('# @quasar/app-vite 3.9.0')
 
   const described = await call(client, 'list_pages', { descriptions: true })
-  expect(described.text).toContain(
-    '- vue-components/button: Button (The QBtn component.)'
+  expect(described.text).toMatch(
+    /^- vue-components\/button: Button \[~\d+k? tokens\] \(The QBtn component\.\)$/m
   )
 
   const cli = await call(client, 'list_pages', { package: '@quasar/app-vite' })
   expect(cli.text).not.toContain('# quasar 2.33.0')
-  expect(cli.text).toContain('- quasar-cli-vite/boot-files: Boot files')
+  expect(cli.text).toContain('- quasar-cli-vite/boot-files: Boot files [')
 })
 
 test('search_docs returns routes with their matching sections', async () => {
   const client = await connect()
   const { text } = await call(client, 'search_docs', { query: 'boot' })
-  expect(text).toContain('- quasar-cli-vite/boot-files: Boot files')
+  expect(text).toContain('- quasar-cli-vite/boot-files: Boot files [')
   expect(text).not.toContain('>')
 
   const sections = await call(client, 'search_docs', { query: 'loading' })
-  expect(sections.text).toContain(
-    '- vue-components/button: Button\n  The QBtn component.\n  sections: Loading state'
+  expect(sections.text).toMatch(
+    /^- vue-components\/button: Button \[~\d+k? tokens\]\n {2}The QBtn component\.\n {2}sections: Loading state/m
   )
 
   const miss = await call(client, 'search_docs', { query: 'unicorn' })
@@ -134,6 +143,24 @@ test('get_page serves a page, a section, and explains a miss', async () => {
   })
   expect(section.text.startsWith('## Usage')).toBe(true)
   expect(section.text).not.toContain('## Loading state')
+
+  // a pasted link reads the section its fragment names, and the page
+  // when the anchor is not a heading (an example, an API card)
+  const linked = await call(client, 'get_page', {
+    route: '../vue-components/button.md#loading-state'
+  })
+  expect(linked.text.startsWith('## Loading state')).toBe(true)
+  expect(linked.text).not.toContain('## Usage')
+  const explicit = await call(client, 'get_page', {
+    route: 'https://quasar.dev/vue-components/button#loading-state',
+    section: 'Usage'
+  })
+  expect(explicit.text.startsWith('## Usage')).toBe(true)
+  const anchored = await call(client, 'get_page', {
+    route: 'vue-components/button#not-a-heading'
+  })
+  expect(anchored.isError).toBe(false)
+  expect(anchored.text).toContain('title: Button')
 
   const badSection = await call(client, 'get_page', {
     route: 'vue-components/button',
@@ -171,7 +198,7 @@ test('get_page names the package a miss may belong to when it is not installed',
     route: 'https://quasar.dev/vue-components/button#usage'
   })
   expect(served.isError).toBe(false)
-  expect(served.text).toContain('title: Button')
+  expect(served.text.startsWith('## Usage')).toBe(true)
 })
 
 test('get_api serves the descriptor as the site inlines it, one part of it, or a suggestion', async () => {
