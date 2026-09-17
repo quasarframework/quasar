@@ -149,6 +149,10 @@ body.body--dark a.doc-item
   &--active:hover
     color: $brand-primary
 
+// GitHub's alert colors, light and dark theme
+$alert-hues: (note: #0969da, tip: #1a7f37, important: #8250df, warning: #9a6700, caution: #cf222e)
+$alert-hues-dark: (note: #4493f8, tip: #3fb950, important: #ab7df8, warning: #d29922, caution: #f85149)
+
 .doc-note
   font-size: $font-size
   border-radius: $generic-border-radius
@@ -160,45 +164,27 @@ body.body--dark a.doc-item
   > p, > ul
     margin-bottom: 0
 
-  &:not(.doc-note--tip):not(.doc-note--warning):not(.doc-note--danger)
-    background-color: $grey-2
-    border-color: $separator-color
-    .doc-note__title,
-    .doc-link,
-    .doc-token
-      color: $brand-primary
-    .doc-token
-      border-color: $brand-primary
+  // a plain blockquote, or a details block: no alert modifier
+  background-color: $grey-2
+  border-color: $separator-color
+  .doc-note__title,
+  .doc-link,
+  .doc-token
+    color: $brand-primary
+  .doc-token
+    border-color: $brand-primary
 
-  &--tip
-    background-color: scale-color($positive, $lightness: 85%)
-    border-color: $positive
-    .doc-note__title,
-    .doc-link,
-    .doc-token
-      color: scale-color($positive, $lightness: -40%)
-    .doc-token
-      border-color: scale-color($positive, $lightness: -40%)
-
-  &--warning
-    background-color: scale-color($warning, $lightness: 85%)
-    border-color: scale-color($warning, $lightness: -30%)
-    .doc-note__title,
-    .doc-link,
-    .doc-token
-      color: scale-color($warning, $lightness: -40%)
-    .doc-token
-      border-color: scale-color($warning, $lightness: -40%)
-
-  &--danger
-    background-color: scale-color($negative, $lightness: 90%)
-    border-color: $negative
-    .doc-note__title,
-    .doc-link,
-    .doc-token
-      color: $negative
-    .doc-token
-      border-color: $negative
+  // GitHub's five alerts in GitHub's hues (md-plugin-blockquote.js)
+  @each $name, $hue in $alert-hues
+    &--#{$name}
+      background-color: scale-color($hue, $lightness: 88%)
+      border-color: $hue
+      .doc-note__title,
+      .doc-link,
+      .doc-token
+        color: $hue
+      .doc-token
+        border-color: $hue
 
   &--details
     .doc-note__title
@@ -533,36 +519,22 @@ body.body--dark
     border-radius: $generic-border-radius
 
   .doc-note
-    &:not(.doc-note--tip):not(.doc-note--warning):not(.doc-note--danger)
-      background-color: $dark-pill
-      border-color: scale-color($brand-primary, $lightness: -50%)
-      .doc-token
-        border-color: #ddd
-        color: #ddd
+    background-color: $dark-pill
+    border-color: scale-color($brand-primary, $lightness: -50%)
+    .doc-token
+      border-color: #ddd
+      color: #ddd
 
-    &--tip
-      border-color: $positive
-      background-color: scale-color($positive, $lightness: -85%)
-      .doc-note__title,
-      .doc-link,
-      .doc-token
-        color: $positive
-      .doc-token
-        border-color: $positive
-
-    &--warning
-      border-color: $warning
-      background-color: scale-color($warning, $lightness: -85%)
-      .doc-note__title,
-      .doc-link,
-      .doc-token
-        color: $warning
-      .doc-token
-        border-color: $warning
-
-    &--danger
-      border-color: $negative
-      background-color: scale-color($negative, $lightness: -80%)
+    @each $name, $hue in $alert-hues-dark
+      &--#{$name}
+        background-color: scale-color($hue, $lightness: -80%)
+        border-color: $hue
+        .doc-note__title,
+        .doc-link,
+        .doc-token
+          color: $hue
+        .doc-token
+          border-color: $hue
 
   .doc-h2
     border-color: $separator-dark-color

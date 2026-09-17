@@ -6,20 +6,21 @@
  *   >
  *   > Body...
  *
- * An alert renders as a doc note, a leading bold-only paragraph is its
+ * The markers are GitHub's five. An alert renders as a doc note, a leading bold-only paragraph is its
  * title, any other blockquote keeps the plain doc-note look. Raw
  * <details>/<summary> blocks get the doc-note classes on the way out.
  */
 
+// GitHub's five, each under GitHub's name, label and hue (app.sass)
 const ALERTS = {
   NOTE: { type: 'note', title: 'NOTE' },
   TIP: { type: 'tip', title: 'TIP' },
   IMPORTANT: { type: 'important', title: 'IMPORTANT' },
   WARNING: { type: 'warning', title: 'WARNING' },
-  CAUTION: { type: 'danger', title: 'WARNING' }
+  CAUTION: { type: 'caution', title: 'CAUTION' }
 }
 
-const markerRE = /^\[!(NOTE|TIP|IMPORTANT|WARNING|CAUTION)\](?:\n|$)/
+const markerRE = /^\[!([A-Z]+)\](?:\n|$)/
 const titleRE = /^\*\*([^\n]+)\*\*$/
 
 /**
@@ -48,6 +49,12 @@ function markAlerts(state) {
     }
 
     const alert = ALERTS[match[1]]
+    // a marker left as text is a note nobody sees as one
+    if (alert === void 0) {
+      throw new Error(
+        `Unknown alert marker [!${match[1]}], expected one of: ${Object.keys(ALERTS).join(', ')}`
+      )
+    }
     inline.content = inline.content.slice(match[0].length)
 
     // the marker paragraph is empty once the marker is gone

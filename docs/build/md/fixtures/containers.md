@@ -1,6 +1,6 @@
 ---
 title: Baseline fixture, containers
-desc: Exercises all four custom containers, default and custom titles.
+desc: Exercises the five alerts and the details container, default and custom titles.
 ---
 
 ## Containers
@@ -17,7 +17,13 @@ desc: Exercises all four custom containers, default and custom titles.
 > Warning body.
 
 > [!CAUTION]
-> Danger renders with the WARNING default title.
+> Caution body.
+
+> [!NOTE]
+> Note body.
+
+> [!IMPORTANT]
+> Important body.
 
 <details>
 <summary>Details</summary>
