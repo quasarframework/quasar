@@ -76,7 +76,7 @@ Both set of classes have pros and cons.
 
 <DocExample title="Children styling" file="ChildrenStyling" />
 
-<llm-exclude mcp reason="an interactive page of the site">
+<llm-exclude when="mcp" reason="an interactive page of the site">
 ## Flex Grid Playground
 
 To see the Flex in action, you can use the Flex Playground to interactively learn more.

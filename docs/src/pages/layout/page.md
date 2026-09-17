@@ -13,7 +13,7 @@ We will be talking about encapsulating pages within a QLayout. If you haven’t 
 
 <DocApi file="QPage" />
 
-<llm-exclude mcp reason="an interactive tool of the site">
+<llm-exclude when="mcp" reason="an interactive tool of the site">
 ## Layout Builder
 
 Scaffold your layout(s) by clicking on the button below.

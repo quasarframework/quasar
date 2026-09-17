@@ -18,7 +18,7 @@ QLayout allows you to configure your views as a 3x3 matrix, containing an option
 
 <DocApi file="QFooter" />
 
-<llm-exclude mcp reason="an interactive tool of the site">
+<llm-exclude when="mcp" reason="an interactive tool of the site">
 ## Layout Builder
 
 Scaffold your layout(s) by clicking on the button below.

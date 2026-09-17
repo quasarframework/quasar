@@ -209,7 +209,7 @@ test('a stripped <llm-only> block does not move the lines below it', () => {
   // the two headings sit on lines 11 and 13 of this page; everything the
   // block holds belongs to the AI export and never reaches markdown-it
   const sfc = parsePage(
-    '---\ntitle: T\n---\n\nIntro.\n<llm-only>\nfor the AI export\n' +
+    '---\ntitle: T\n---\n\nIntro.\n<llm-only reason="r">\nfor the AI export\n' +
       'and more\n</llm-only>\n\n## Usage\n\n## Usage\n',
     false
   )

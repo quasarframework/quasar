@@ -59,7 +59,7 @@ test('q-btn link follows the rules of a markdown link in a package slice', () =>
     '[Flex Playground](https://quasar.dev/layout/grid/flex-playground)\n\n'
   )
   expect(ctx.warnings).toEqual([
-    'Link /layout/grid/flex-playground in layout/grid/row.md (a <q-btn>) leads to a page of the site only, wrap it in <llm-exclude mcp>'
+    'Link /layout/grid/flex-playground in layout/grid/row.md (a <q-btn>) leads to a page of the site only, wrap it in <llm-exclude when="mcp" reason="...">'
   ])
 })
 

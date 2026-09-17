@@ -2,6 +2,11 @@ import md from './md.js'
 import { convertToRelated, flatMenu } from './flat-menu.js'
 import { getVueComponent, parseFrontMatter } from './md-parse-utils.js'
 import {
+  maskCodeLlmTags,
+  readLlmTagAttributes,
+  unmaskCodeLlmTags
+} from './llm-tags.js'
+import {
   formatPageIdIssues,
   pageLabel,
   reportPageIdIssues
@@ -12,8 +17,8 @@ const docInstallationRE = /<DocInstall /
 const docTreeRE = /<DocTree /
 const scriptRE = /<script doc>\n((.|\n)*?)\n<\/script>/g
 
-const LLM_ONLY_RE = /<llm-only(?:\s[^>]*)?>[\s\S]*?<\/llm-only>/g
-const LLM_EXCLUDE_OPEN_RE = /<llm-exclude(?:\s[^>]*)?>/g
+const LLM_ONLY_RE = /<llm-only((?:\s[^>]*)?)>[\s\S]*?<\/llm-only>/g
+const LLM_EXCLUDE_OPEN_RE = /<llm-exclude((?:\s[^>]*)?)>/g
 const LLM_EXCLUDE_CLOSE_RE = /<\/llm-exclude>/g
 
 /**
@@ -47,14 +52,27 @@ function splitRenderedContent(mdPageContent) {
  * author's editor shows it. The wrapper tags need no such care - dropping
  * one empties its line without removing it.
  *
+ * A tag inside a code fence is code and stays as written; a tag with an
+ * attribute it does not take, or without its reason, throws here as it
+ * does in the markdown forms (llm-tags.js), so the dev server says so
+ * while the page is being written.
+ *
  * @param {string} source raw page source (including frontmatter)
  * @returns {string} source with llm-* markers normalized for the HTML pipeline
  */
 export function applyHtmlContentControl(source) {
-  return source
-    .replace(LLM_ONLY_RE, match => '\n'.repeat(match.split('\n').length - 1))
-    .replace(LLM_EXCLUDE_OPEN_RE, '')
-    .replace(LLM_EXCLUDE_CLOSE_RE, '')
+  return unmaskCodeLlmTags(
+    maskCodeLlmTags(source)
+      .replace(LLM_ONLY_RE, (match, attributes) => {
+        readLlmTagAttributes('llm-only', attributes)
+        return '\n'.repeat(match.split('\n').length - 1)
+      })
+      .replace(LLM_EXCLUDE_OPEN_RE, (_, attributes) => {
+        readLlmTagAttributes('llm-exclude', attributes)
+        return ''
+      })
+      .replace(LLM_EXCLUDE_CLOSE_RE, '')
+  )
 }
 
 /**

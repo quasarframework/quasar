@@ -100,10 +100,10 @@ Quasar's own CSS is compiled using the variables file (if it exists), but there 
 import SassVariables from './SassVariables.vue'
 </script>
 
-<llm-exclude mcp reason="the installed package ships the file, pointed at below">
+<llm-exclude when="mcp" reason="the installed package ships the file, pointed at below">
 <SassVariables />
 </llm-exclude>
 
-<llm-only mcp>
+<llm-only when="mcp" reason="an agent in a project can read the file itself">
 The list is the `src/css/variables.sass` file of the installed `quasar` package (`node_modules/quasar/src/css/variables.sass`), the exact version your project builds with.
 </llm-only>

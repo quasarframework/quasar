@@ -14,7 +14,7 @@ QDrawer is the sidebar part of your QLayout.
 
 <DocApi file="QDrawer" />
 
-<llm-exclude mcp reason="an interactive tool of the site">
+<llm-exclude when="mcp" reason="an interactive tool of the site">
 ## Layout Builder
 
 Scaffold your layout(s) by clicking on the button below.

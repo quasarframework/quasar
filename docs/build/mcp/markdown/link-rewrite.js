@@ -130,7 +130,7 @@ export function unreachableLink(
     sitePages !== null &&
     !sitePages.has(resolved.key)
   ) {
-    return 'leads to a page of the site only, wrap it in <llm-exclude mcp>'
+    return 'leads to a page of the site only, wrap it in <llm-exclude when="mcp" reason="...">'
   }
   return null
 }

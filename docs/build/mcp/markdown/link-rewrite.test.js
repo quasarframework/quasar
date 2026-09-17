@@ -183,7 +183,7 @@ test('a menu page the site form leaves out keeps its root-relative href there an
   expect(unreachableLink('/vue-components/knob', slice)).toBeNull()
   expect(unreachableLink('/vue-composables/use-quasar', slice)).toBeNull()
   expect(unreachableLink('/vue-components/circular-progress', slice)).toBe(
-    'leads to a page of the site only, wrap it in <llm-exclude mcp>'
+    'leads to a page of the site only, wrap it in <llm-exclude when="mcp" reason="...">'
   )
   expect(unreachableLink('/layout-builder', slice)).toBe(
     'matches no documentation page'
