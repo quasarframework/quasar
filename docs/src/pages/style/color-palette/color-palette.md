@@ -21,8 +21,12 @@ import BrandColors from './BrandColors.vue'
 
 <BrandColors />
 
+<llm-exclude when="mcp" reason="an interactive tool of the site">
+
 > [!TIP]
 > Also check [Theme Builder](/style/theme-builder) for a tool on customizing the brand colors of your website/app.
+
+</llm-exclude>
 
 ## Color List
 

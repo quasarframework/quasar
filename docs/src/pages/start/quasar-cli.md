@@ -47,7 +47,9 @@ bun create quasar@latest
 
 Pick `App with Quasar CLI`.
 
+<llm-exclude when="mcp" reason="the components index is an interactive page of the site">
 <q-btn icon-right="launch" no-wrap label="View Components" to="/components" />
+</llm-exclude>
 
 ## Installation / Project Scaffolding
 
@@ -184,4 +186,6 @@ Here are the options:
 
 ## What next?
 
+<llm-exclude when="mcp" reason="the components index is an interactive page of the site">
 <q-btn icon-right="launch" no-wrap label="View Components" to="/components" />
+</llm-exclude>

@@ -194,14 +194,14 @@ const tools = {
 
 export const primaryToolbarLinks = [
   { name: 'Docs', mq: 750, path: '/docs', llmExclude: true },
-  { name: 'Components', mq: 860, path: '/components' },
+  { name: 'Components', mq: 860, path: '/components', llmExclude: true },
   {
     name: 'Sponsors',
     mq: 1190,
     path: '/sponsors-and-backers',
     llmExclude: true
   },
-  { name: 'Team', mq: 1310, path: '/meet-the-team' },
+  { name: 'Team', mq: 1310, path: '/meet-the-team', llmExclude: true },
   { name: 'Blog', mq: 1400, path: 'https://blog.quasar.dev', external: true }
 ]
 

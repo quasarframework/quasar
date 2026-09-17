@@ -128,7 +128,8 @@ export default [
       },
       {
         name: 'Theme Builder',
-        path: 'theme-builder'
+        path: 'theme-builder',
+        llmExclude: true
       },
       {
         name: 'Dark Mode',

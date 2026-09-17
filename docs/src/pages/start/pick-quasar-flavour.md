@@ -3,8 +3,9 @@ title: Pick a Quasar Flavour
 desc: 'Get started with Quasar by picking one of its flavours: Quasar CLI (with Vite), Quasar Vite Plugin or UMD'
 ---
 
-There are four ways of using Quasar. Pick the one that suits you best:
+There are three ways of using Quasar. Pick the one that suits you best:
 
+<llm-exclude reason="three buttons, written out as a list for the markdown forms below">
 <div class="q-mx-md row items-stretch q-gutter-xs">
   <q-btn no-caps color="purple" push stack padding="sm lg" to="/start/quasar-cli">
     <span class="text-bold">Quasar CLI (with Vite)</span>
@@ -13,6 +14,15 @@ There are four ways of using Quasar. Pick the one that suits you best:
   <q-btn label="UMD/Standalone" color="teal-6" no-caps push to="/start/umd" />
   <q-btn label="Vite plugin" color="teal-6" no-caps push to="/start/vite-plugin" />
 </div>
+</llm-exclude>
+
+<llm-only reason="the three buttons above, as links">
+
+- [Quasar CLI (with Vite)](/start/quasar-cli): strongly recommended, the premium DX
+- [UMD/Standalone](/start/umd)
+- [Vite plugin](/start/vite-plugin)
+
+</llm-only>
 
 ### Comparison
 
