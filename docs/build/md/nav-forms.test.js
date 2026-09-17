@@ -1,6 +1,12 @@
 import { expect, test } from 'vitest'
 
-import { menuLlmScopes } from './menu.js'
+import {
+  hasSiteMarkdown,
+  headerLlmScopes,
+  menuLlmScopes,
+  navLlmScopes,
+  pageRoute
+} from './nav-forms.js'
 
 const both = { site: true, mcp: true }
 const none = { site: false, mcp: false }
@@ -54,7 +60,7 @@ test('a group flag covers its pages and a deeper flag has the last word', () => 
   })
 })
 
-test('a value the flags do not take names its menu entry', () => {
+test('a value the flags do not take names its entry', () => {
   expect(() =>
     menuLlmScopes([{ name: 'Typo', path: 'typo', llmExclude: 'mpc' }])
   ).toThrow('llmExclude of "Typo" is "mpc"')
@@ -63,4 +69,47 @@ test('a value the flags do not take names its menu entry', () => {
       { name: 'Both', path: 'both', llmExclude: 'mcp', llmOnly: 'site' }
     ])
   ).toThrow('"Both" sets both llmExclude and llmOnly')
+})
+
+test('header links are pages by their absolute path, groups included', () => {
+  const scopes = headerLlmScopes([
+    { name: 'Docs', path: '/docs', llmExclude: true },
+    { name: 'Blog', path: 'https://blog.quasar.dev', external: true },
+    { name: 'Builder', path: '/layout-builder', external: true },
+    {
+      name: 'Tools',
+      llmExclude: 'mcp',
+      children: [
+        { name: 'Dark Mode', path: '/style/dark-mode#usage' },
+        { name: 'Gallery', path: '/layout/gallery/', llmOnly: true }
+      ]
+    }
+  ])
+  expect(Object.fromEntries(scopes)).toEqual({
+    docs: none,
+    'style/dark-mode': { site: true, mcp: false },
+    'layout/gallery': both
+  })
+})
+
+test('the sidebar decides for a page both navigations list', () => {
+  const menu = [{ name: 'Gallery', path: 'gallery', llmExclude: true }]
+  expect(
+    Object.fromEntries(navLlmScopes(menu, [{ name: 'G', path: '/gallery' }]))
+  ).toEqual({ gallery: none })
+  expect(() =>
+    navLlmScopes(menu, [{ name: 'G', path: '/gallery', llmExclude: 'mcp' }])
+  ).toThrow('/gallery is on the sidebar menu too')
+})
+
+test('a page source maps to its route, and to whether it has a .md sibling', () => {
+  expect(pageRoute('/x/docs/src/pages/vue-components/button.md')).toBe(
+    'vue-components/button'
+  )
+  expect(pageRoute('layout/layout/layout.md')).toBe('layout/layout')
+
+  expect(hasSiteMarkdown('vue-components/button.md')).toBe(true)
+  expect(hasSiteMarkdown('/x/docs/src/pages/why-donate.md')).toBe(false)
+  expect(hasSiteMarkdown('docs/docs.md')).toBe(false)
+  expect(hasSiteMarkdown('guide.md')).toBe(false)
 })

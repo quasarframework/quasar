@@ -1,6 +1,5 @@
 ---
 title: Docs Syntax Guide
-mdLink: false
 desc: What a documentation page can be written with, each element rendered next to the source that produces it.
 examples: QAvatar
 overline: Title overline
@@ -89,7 +88,6 @@ Every page starts with a YAML block. `title` and `desc` are required. A test fai
 | `overline` | A line of text above the title.                                                                                                                                       |
 | `badge`    | A badge next to the title.                                                                                                                                            |
 | `heading`  | `false` drops the title row, for a page that draws its own.                                                                                                           |
-| `mdLink`   | `false` drops the "view as Markdown" button and the `<head>` link to the `.md` sibling, for a page the AI forms leave out.                                            |
 | `editLink` | `false` drops the "edit this page" button.                                                                                                                            |
 | `scope`    | Any data, handed to the page as `scope` (see [Tree](#tree)).                                                                                                          |
 
@@ -112,7 +110,44 @@ related:
 
 </details>
 
-A page must also be listed in `docs/src/assets/menu.js` (or in the header links): a test fails on a page nothing leads to. The exceptions are named in `docs/build/unlisted-pages.js`: this page is one, reached by its URL alone, so it is on no menu, in no search index and in neither of the AI forms.
+## The menu
+
+`docs/src/assets/menu.js` is the sidebar, and more than that: the previous / next links at the end of a page follow its order, a `related` route is looked up in it, the search shows its labels as the breadcrumb of a result, and the AI forms write the pages it lists. Every page has to be in it, or in the header links (`docs/src/assets/links.header.js`): a test fails on a page nothing leads to. The exceptions are named in `docs/build/unlisted-pages.js`: this page is one, reached by its URL alone, so it is on no menu, in no search index and in neither of the AI forms.
+
+| Key          | Purpose                                                                                                                                              |
+| ------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `name`       | The label.                                                                                                                                           |
+| `path`       | One segment of the route, relative to the parent entry: the page of an entry is the paths from the root down, joined. A group may have none.         |
+| `children`   | Makes the entry a group. Only an entry without children is a page.                                                                                   |
+| `icon`       | A Material icon name, for a top-level entry.                                                                                                         |
+| `badge`      | A small label next to the name, like `new`.                                                                                                          |
+| `opened`     | `true` shows the group expanded from the start.                                                                                                      |
+| `external`   | `true` for an entry that is not a markdown page: its `path` is then a full URL, or the absolute route of a Vue page of the site (`/layout-builder`). |
+| `llmExclude` | Holds the page, or every page of the group, out of the AI forms. See [Whole pages](#whole-pages).                                                    |
+| `llmOnly`    | Names the AI forms the page is in. See [Whole pages](#whole-pages).                                                                                  |
+
+The page of an entry is `src/pages/<route>.md`, or `src/pages/<route>/<last segment>.md` when the page has a folder of its own (`layout/layout/layout.md` lives at `/layout/layout`). Tests fail on an entry with no such file, on two entries with the same route, and on an `external` path that is neither a URL nor an absolute route.
+
+```js
+{
+  name: 'Layout and Grid',
+  icon: 'view_quilt',
+  path: 'layout',
+  children: [
+    {
+      name: 'Grid System',
+      path: 'grid',
+      opened: true,
+      children: [
+        { name: 'Row', path: 'row' }, // src/pages/layout/grid/row.md
+        { name: 'Flex Playground', path: 'flex-playground', llmExclude: true }
+      ]
+    },
+    { name: 'Layout', path: 'layout', badge: 'new' }, // src/pages/layout/layout/layout.md
+    { name: 'Layout Builder', path: '/layout-builder', external: true }
+  ]
+}
+```
 
 ## Headings
 
@@ -584,7 +619,7 @@ Both take the same two attributes and nothing else: an attribute they do not kno
 
 ### Whole pages
 
-A page is written to both markdown forms by default. `docs/src/assets/menu.js` changes that with two optional flags of a menu entry, the page-wide counterparts of the tags, each `true`, `"site"` or `"mcp"`. `llmExclude` takes the forms it names away (`true` for both). `llmOnly` names the forms the page is in, whatever was inherited: `"site"` or `"mcp"` for that one alone, `true` for both (a page back in under an excluded group). A flag on a group covers every page under it, a deeper flag has the last word, and an entry setting both flags fails the build:
+A page is written to both markdown forms by default. An entry of `docs/src/assets/menu.js`, or of `docs/src/assets/links.header.js` for a page only the header leads to, changes that with two optional flags, the page-wide counterparts of the tags, each `true`, `"site"` or `"mcp"`. `llmExclude` takes the forms it names away (`true` for both). `llmOnly` names the forms the page is in, whatever was inherited: `"site"` or `"mcp"` for that one alone, `true` for both (a page back in under an excluded group). A flag on a group covers every page under it, a deeper flag has the last word, and an entry setting both flags fails the build:
 
 ```js
 // a page in neither form
@@ -609,6 +644,8 @@ A page is written to both markdown forms by default. `docs/src/assets/menu.js` c
 ```
 
 For the MCP slices the flags only say whether a page may be in one: `docs/build/mcp/targets.js` lists the routes each package ships.
+
+The "view as Markdown" button of a page and its `<head>` link follow from the same flags, at build time: a page out of the site form has neither, and there is nothing to set in the page itself.
 
 ## Tree
 

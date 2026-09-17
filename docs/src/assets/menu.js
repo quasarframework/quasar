@@ -2,12 +2,14 @@ export default [
   {
     name: 'Why donate',
     icon: 'assignment_late',
-    path: 'why-donate'
+    path: 'why-donate',
+    llmExclude: true
   },
   {
     name: 'API Explorer',
     icon: 'travel_explore',
-    path: 'api-explorer'
+    path: 'api-explorer',
+    llmExclude: true
   },
   {
     name: 'Browser Support',
@@ -198,7 +200,8 @@ export default [
           },
           {
             name: 'Flex Playground',
-            path: 'flex-playground'
+            path: 'flex-playground',
+            llmExclude: true
           }
         ]
       },
@@ -229,7 +232,8 @@ export default [
       },
       {
         name: 'Layout Gallery',
-        path: 'gallery'
+        path: 'gallery',
+        llmExclude: true
       },
       {
         name: 'Page Sticky',

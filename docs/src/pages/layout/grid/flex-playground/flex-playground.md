@@ -1,6 +1,5 @@
 ---
 title: Flex Grid Playground
-mdLink: false
 desc: Interactively play with Quasar Flex Grid
 related:
   - /layout/grid/introduction-to-flexbox

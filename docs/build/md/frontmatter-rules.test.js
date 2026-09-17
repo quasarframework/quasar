@@ -31,7 +31,6 @@ test('accepts every key at its documented shape', () => {
       badge: 'v2.32+',
       heading: false,
       editLink: false,
-      mdLink: false,
       scope: { tree: { l: '.' } }
     })
   ).toEqual([])
@@ -76,7 +75,7 @@ test('a value of the wrong shape is named by its key', () => {
     ],
     [{ heading: true }, 'heading: can only be false'],
     [{ editLink: 'no' }, 'editLink: can only be false'],
-    [{ mdLink: 0 }, 'mdLink: can only be false'],
+    [{ mdLink: false }, 'mdLink: is not a frontmatter key'],
     [{ scope: ['a'] }, 'scope: must be an object'],
     [{ scope: null }, 'scope: must be an object']
   ]) {

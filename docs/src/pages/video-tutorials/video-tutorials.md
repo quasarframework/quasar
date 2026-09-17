@@ -1,6 +1,5 @@
 ---
 title: Video Tutorials
-mdLink: false
 desc: The list of video tutorials on Quasar created by the community.
 keys: Video Tutorials
 ---

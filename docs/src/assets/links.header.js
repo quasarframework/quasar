@@ -125,7 +125,12 @@ const tools = {
       path: 'https://awesome.quasar.dev',
       external: true
     },
-    { name: 'Integrations', icon: mdiMathIntegralBox, path: '/integrations' },
+    {
+      name: 'Integrations',
+      icon: mdiMathIntegralBox,
+      path: '/integrations',
+      llmExclude: true
+    },
     {
       name: 'App Extensions',
       icon: mdiPuzzle,
@@ -188,9 +193,14 @@ const tools = {
 }
 
 export const primaryToolbarLinks = [
-  { name: 'Docs', mq: 750, path: '/docs' },
+  { name: 'Docs', mq: 750, path: '/docs', llmExclude: true },
   { name: 'Components', mq: 860, path: '/components' },
-  { name: 'Sponsors', mq: 1190, path: '/sponsors-and-backers' },
+  {
+    name: 'Sponsors',
+    mq: 1190,
+    path: '/sponsors-and-backers',
+    llmExclude: true
+  },
   { name: 'Team', mq: 1310, path: '/meet-the-team' },
   { name: 'Blog', mq: 1400, path: 'https://blog.quasar.dev', external: true }
 ]
@@ -205,7 +215,12 @@ export const secondaryToolbarLinks = [
     path: 'https://github.com/quasarframework/quasar/discussions/categories/announcements',
     external: true
   },
-  { name: 'Video Tutorials', mq: 1130, path: '/video-tutorials' },
+  {
+    name: 'Video Tutorials',
+    mq: 1130,
+    path: '/video-tutorials',
+    llmExclude: true
+  },
   {
     name: 'Roadmap',
     mq: 1130,

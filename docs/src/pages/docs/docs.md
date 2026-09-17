@@ -1,6 +1,5 @@
 ---
 title: Documentation
-mdLink: false
 desc: Welcome to Quasar documentation website!
 heading: false
 editLink: false

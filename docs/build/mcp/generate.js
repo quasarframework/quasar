@@ -80,19 +80,6 @@ const EXAMPLES_DIR = join(REPO_ROOT, 'docs/src/examples')
 const SITE_DIST_DIR = join(REPO_ROOT, 'docs/dist/quasar.dev')
 
 const GLOB = '**/*.md'
-// each of these pages says `mdLink: false`: it has no .md sibling to link
-export const IGNORES = [
-  '**/api-explorer/**',
-  '**/docs/**',
-  '**/integrations/**',
-  '**/landing/**',
-  '**/layout/gallery/**',
-  '**/layout/grid/flex-playground/**',
-  '**/sponsors-and-backers/**',
-  '**/video-tutorials/**',
-  '**/why-donate.md',
-  ...UNLISTED_PAGES
-]
 
 /**
  * @typedef {object} Run
@@ -362,7 +349,8 @@ export function generate(opts) {
     quasarVersion
   })
 
-  const globbed = globSync(GLOB, { cwd: SRC_PAGES, ignore: IGNORES })
+  // which of them are written is the navigation's call (build/md/nav-forms.js)
+  const globbed = globSync(GLOB, { cwd: SRC_PAGES, ignore: UNLISTED_PAGES })
   const menuByKey = buildMenuMaps(SRC_PAGES)
   if (menuByKey.size === 0) {
     throw new Error(
@@ -372,19 +360,20 @@ export function generate(opts) {
   const {
     included: menuPages,
     orphans,
-    missing
+    missing: trulyMissing
   } = selectPages(globbed, menuByKey)
-  // Menu entries whose source exists but sits in IGNORES are deliberately
-  // skipped (interactive/marketing pages), not missing. Only report menu
-  // entries with no source file at all.
-  const allSourceKeys = new Set(
-    globSync(GLOB, { cwd: SRC_PAGES }).map(sourceToMenuKey)
+  // Titles are loaded for every page some form writes, not just the
+  // slice, so `related` entries and links pointing outside the slice keep
+  // their real titles. A page in neither form stays without one, which
+  // is what drops a `related` entry leading to it.
+  loadFrontmatters(
+    menuPages.filter(relativePath => {
+      const { llm } = menuByKey.get(sourceToMenuKey(relativePath))
+      return llm.site || llm.mcp
+    }),
+    menuByKey,
+    SRC_PAGES
   )
-  const trulyMissing = missing.filter(key => !allSourceKeys.has(key))
-  // Titles are loaded for every menu page, not just the slice, so
-  // `related` entries and links pointing outside the slice keep their
-  // real titles.
-  loadFrontmatters(menuPages, menuByKey, SRC_PAGES)
   const menuPaths = buildMenuPaths(menuByKey)
 
   // menu.js may hold a page out of a form (llmExclude / llmOnly)

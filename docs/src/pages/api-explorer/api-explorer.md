@@ -1,6 +1,5 @@
 ---
 title: Quasar API Explorer
-mdLink: false
 desc: Explore all the Quasar components, directives and plugins API in one place.
 keys: API Explorer
 ---

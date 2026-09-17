@@ -178,8 +178,8 @@ if (import.meta.env.QUASAR_DEV) {
 }
 
 // the page's markdown sibling from the docs generator (build/mcp),
-// served next to it; a page the generator leaves out opts out with
-// `mdLink: false` in its frontmatter
+// served next to it; mdParse sets the prop only for a page the site
+// form writes (build/md/nav-forms.js)
 const mdHref = `${useRoute().path}.md`
 
 useMeta({

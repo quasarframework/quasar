@@ -1,6 +1,5 @@
 ---
 title: Quasar Integrations
-mdLink: false
 desc: Quasar Integrations
 heading: false
 editLink: false

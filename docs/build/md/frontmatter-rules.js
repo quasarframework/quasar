@@ -66,7 +66,6 @@ const RULES = {
 
   heading: optOut,
   editLink: optOut,
-  mdLink: optOut,
 
   scope: value =>
     value !== null && typeof value === 'object' && !Array.isArray(value)

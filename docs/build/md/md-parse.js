@@ -1,5 +1,6 @@
 import md from './md.js'
 import { convertToRelated, flatMenu } from './flat-menu.js'
+import { hasSiteMarkdown } from './nav-forms.js'
 import { getVueComponent, parseFrontMatter } from './md-parse-utils.js'
 import {
   maskCodeLlmTags,
@@ -173,6 +174,10 @@ export default function mdParse(code, id, isProd, reportIdIssues = true) {
 
     if (reportIdIssues) reportPageIdIssues(idIssues, id)
   }
+
+  // the "view as Markdown" button and <head> link, only where the site
+  // form writes the sibling they point at
+  frontMatter.mdLink = hasSiteMarkdown(id)
 
   if (frontMatter.editLink !== false) {
     frontMatter.editLink = id.slice(id.indexOf('src/pages/') + 10, -3)

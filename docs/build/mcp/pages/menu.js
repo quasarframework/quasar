@@ -11,6 +11,7 @@ import matter from 'gray-matter'
 
 import { sourceToMenuKey } from './routes.js'
 import { flatMenu } from '../../md/flat-menu.js'
+import { llmScopes } from '../../md/nav-forms.js'
 import sidebarMenu from '../../../src/assets/menu.js'
 import {
   moreLinks,
@@ -56,100 +57,17 @@ function collectHeaderPaths(nodes, pathSet) {
 }
 
 /**
- * @typedef {{ site: boolean, mcp: boolean }} LlmScope The markdown forms a page is written to.
- */
-
-/**
  * @typedef {object} MenuEntry
  * @property {string | null} title
  * @property {string | null} desc
  * @property {string[]} keys The page's frontmatter `keys`: the components, plugins, directives, composables or functions it documents.
- * @property {LlmScope} llm
+ * @property {import('../../md/nav-forms.js').LlmScope} llm The markdown forms the page is written to.
  */
-
-const LLM_FLAG_VALUES = [true, false, 'site', 'mcp']
-
-/**
- * @param {object} node Menu node.
- * @param {'llmExclude' | 'llmOnly'} flag
- * @returns {true | 'site' | 'mcp' | null} Null when the flag is not set.
- */
-function readLlmFlag(node, flag) {
-  const value = node[flag]
-  if (value === void 0 || value === false) {
-    return null
-  }
-  if (!LLM_FLAG_VALUES.includes(value)) {
-    throw new Error(
-      `menu.js: ${flag} of "${node.name}" is ${JSON.stringify(value)}, expected true, false, "site" or "mcp"`
-    )
-  }
-  return value
-}
-
-/**
- * @param {LlmScope} inherited
- * @param {object} node Menu node.
- * @returns {LlmScope}
- */
-function llmScopeOf(inherited, node) {
-  const exclude = readLlmFlag(node, 'llmExclude')
-  const only = readLlmFlag(node, 'llmOnly')
-  if (exclude !== null && only !== null) {
-    throw new Error(
-      `menu.js: "${node.name}" sets both llmExclude and llmOnly, one says it all`
-    )
-  }
-  if (only !== null) {
-    return { site: only !== 'mcp', mcp: only !== 'site' }
-  }
-  return exclude === null
-    ? inherited
-    : exclude === true
-      ? { site: false, mcp: false }
-      : { ...inherited, [exclude]: false }
-}
-
-/**
- * The markdown forms each menu page is written to, from the optional
- * `llmExclude` / `llmOnly` flags of menu.js, the page-wide counterparts
- * of the <llm-exclude> / <llm-only> tags. A page is in both forms by
- * default. `llmExclude` takes the forms it names away (`true` for
- * both, `"site"` or `"mcp"` for one); `llmOnly` names the forms the
- * page is in, whatever was inherited (`"site"` or `"mcp"` for that one
- * alone, `true` for both: a page back in under an excluded group). A
- * flag on a group covers the pages under it and a deeper flag has the
- * last word; an entry setting both throws.
- * For the slices this decides only whether a page may be in one:
- * targets.js still says which package ships it.
- *
- * @param {Array<object>} menu
- * @returns {Map<string, LlmScope>} Keyed like menuByKey.
- */
-export function menuLlmScopes(menu) {
-  const scopes = new Map()
-  const walk = (node, path, inherited) => {
-    const newPath = path + (node.path ? `/${node.path}` : '')
-    const scope = llmScopeOf(inherited, node)
-    if (node.children !== void 0) {
-      for (const child of node.children) {
-        walk(child, newPath, scope)
-      }
-    } else if (!node.external) {
-      scopes.set(newPath.slice(1), scope)
-    }
-  }
-  for (const node of menu) {
-    walk(node, '', { site: true, mcp: true })
-  }
-  return scopes
-}
 
 /**
  * Translate the imported `flatMenu` (keyed by absolute source file paths)
  * into a map keyed by URL slug like `vue-components/knob`, folding in the
- * header-nav pages (always in both markdown forms: the llm flags are
- * menu.js's). Titles start as null and are filled in by
+ * header-nav pages. Titles start as null and are filled in by
  * loadFrontmatters().
  *
  * @param {string} srcPagesDir Absolute path to docs/src/pages.
@@ -157,7 +75,6 @@ export function menuLlmScopes(menu) {
  */
 export function buildMenuMaps(srcPagesDir) {
   const menuByKey = new Map()
-  const llmScopes = menuLlmScopes(sidebarMenu)
 
   for (const id of Object.keys(flatMenu)) {
     // flat-menu registers two candidate file paths per page (flat and
@@ -188,7 +105,7 @@ export function buildMenuMaps(srcPagesDir) {
         title: null,
         desc: null,
         keys: [],
-        llm: { site: true, mcp: true }
+        llm: llmScopes.get(key) ?? { site: true, mcp: true }
       })
     }
   }

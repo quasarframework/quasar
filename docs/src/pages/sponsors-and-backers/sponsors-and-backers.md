@@ -1,6 +1,5 @@
 ---
 title: Sponsors and Backers
-mdLink: false
 desc: The list of sponsors and backers who are donating to Quasar Framework development.
 keys: Sponsors,Backers
 ---

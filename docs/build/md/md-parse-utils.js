@@ -55,7 +55,7 @@ export function getVueComponent({
     ${frontMatter.badge !== void 0 ? `badge="${frontMatter.badge}"` : ''}
     ${frontMatter.heading !== false ? 'heading' : ''}
     ${frontMatter.editLink !== false ? `edit-link="${frontMatter.editLink}"` : ''}
-    ${frontMatter.mdLink !== false ? 'md-link' : ''}
+    ${frontMatter.mdLink === true ? 'md-link' : ''}
     ${frontMatter.toc.length !== 0 ? ':toc="toc"' : ''}
     ${frontMatter.related !== void 0 ? ':related="related"' : ''}
     ${frontMatter.nav !== void 0 ? ':nav="nav"' : ''}

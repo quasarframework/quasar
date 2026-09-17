@@ -19,8 +19,10 @@ Quasar app (`quasar prepare` applies).
 - `pnpm generate:mcp --target ui|app-vite` writes the docs slice a
   package bundles for `@quasar/mcp` (`build/mcp/targets.js` lists the
   routes); the package's own `generate:mcp` script runs it from its
-  `prepublishOnly`. A page must be in the site menu to be generated; its
-  menu entry's `llmExclude` / `llmOnly` holds it out of a markdown form.
+  `prepublishOnly`. A page must be on a navigation to be generated; the
+  `llmExclude` / `llmOnly` flags of its `menu.js` or `links.header.js`
+  entry hold it out of a markdown form, and with the site form goes its
+  "view as Markdown" link (`build/md/nav-forms.js`, read by both ends).
 - `src/pages/guide.md` (route `/guide`, unlisted: `build/unlisted-pages.js`)
   is the authoring reference for page syntax (its frontmatter table mirrors
   `build/md/frontmatter-rules.js`, which a test holds every page to):
