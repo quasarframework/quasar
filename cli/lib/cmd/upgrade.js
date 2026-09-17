@@ -132,11 +132,7 @@ const getVersionTask = async (
 for (const type of Object.keys(deps)) {
   for (const packageName of Object.keys(appPkg[type] || {})) {
     // is it a Quasar package?
-    if (
-      packageName !== 'quasar' &&
-      packageName !== 'eslint-plugin-quasar' &&
-      !packageName.startsWith('@quasar/')
-    ) {
+    if (packageName !== 'quasar' && !packageName.startsWith('@quasar/')) {
       continue
     }
 
