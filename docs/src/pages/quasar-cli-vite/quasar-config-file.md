@@ -20,10 +20,10 @@ Notice that your scaffolded project folder contains a `/quasar.config` file. So 
 - Extend the under the hood tools, like the generated Vite config
 - ...and many many more that you'll discover along the way
 
-> [!TIP]
+> [!NOTE]
 > You'll notice that changing any of these settings does not require you to manually reload the dev server. Quasar detects and reloads the necessary processes. You won't lose your development flow, because you can just sit back while Quasar CLI quickly reloads the changed code, even keeping the current state. This saves tons of your time!
 
-> [!WARNING]
+> [!NOTE]
 > The `/quasar.config` file is run by the Quasar CLI build system, so this code runs under Node.js directly, not in the context of your app. This means you can require modules like `node:fs`, `node:path`, Vite plugins, and so on.
 
 ## Structure

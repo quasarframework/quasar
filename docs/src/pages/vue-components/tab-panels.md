@@ -9,7 +9,7 @@ related:
 
 Tab panels are a way of displaying more information using less window real estate.
 
-> [!TIP]
+> [!NOTE]
 > Works great along with [QTabs](/vue-components/tabs) but it is not required to be used with it.
 
 <DocApi file="QTabPanels" />
@@ -23,12 +23,10 @@ Tab panels are a way of displaying more information using less window real estat
 > - Works great along with [QTabs](/vue-components/tabs), a component which offers a nice way to select the active tab panel to display.
 > - If the QTabpanel content also has images and you want to use swipe actions to navigate, you might want to add `draggable="false"` to them, otherwise the native browser behavior might interfere in a negative way.
 
-> [!WARNING]
-> **IMPORTANT**
->
+> [!NOTE]
 > Do not be mistaken by the "QTabPanels" component name. Panels do not require QTabs. They can be used as standalone too.
 
-> [!CAUTION]
+> [!IMPORTANT]
 > **Keep Alive**
 >
 > - Please take notice of the Boolean `keep-alive` prop for QTabPanels, if you need this behavior. Do NOT use Vue's native `<keep-alive>` component over QTabPanel.
@@ -63,7 +61,7 @@ Since QTabPanels does not require a QTabs (and can be placed anywhere relative t
 
 ### With QTabs
 
-> [!TIP]
+> [!NOTE]
 > QTabPanels can be used as standalone too. They do not depend on the presence of a QTabs. Also, they can be placed anywhere within a page, not just near QTabs.
 
 <DocExample title="With QTabs" file="WithQTabs" />

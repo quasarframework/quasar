@@ -11,14 +11,14 @@ related:
 
 The QDate component provides a method to input date. Currently it supports Gregorian (default) and Persian calendars.
 
-> [!TIP]
+> [!NOTE]
 > For handling date and/or time, also check out [Quasar Date Utils](/quasar-utils/date-utils).
 
 <DocApi file="QDate" />
 
 ## Usage
 
-> [!WARNING]
+> [!NOTE]
 > Notice that the actual date(s) of the model are all in String format.
 
 ### Basic
@@ -48,8 +48,7 @@ Clicking on an already selected day will deselect it.
 
 Notice in the examples below that the model is an Object (single selection) or an Array of Objects (multiple selection).
 
-> [!TIP]
-> **TIPS**
+> [!NOTE]
 >
 > - Clicking on an already selected day will deselect it.
 > - The user's current editing range can also be set programmatic through the `setEditingRange` method (check the API card).
@@ -103,7 +102,7 @@ The `mask` prop tokens can be found at [Quasar Utils > Date utils](/quasar-utils
 >
 > Using `x` or `X` (timestamps) in the mask may cause hydration errors on the client, because decoding the model String must be done with `new Date()` which takes into account the local timezone. As a result, if the server is in a different timezone than the client, then the rendered output of the server will differ than the one on the client so hydration will fail.
 
-> [!CAUTION]
+> [!NOTE]
 > **Note on persian calendar**
 >
 > When using the persian calendar, the mask for QDate is forced to `YYYY/MM/DD`.
@@ -118,7 +117,7 @@ Using the mask to connect a QDate and [QTime](/vue-components/time) to the same 
 
 <DocExample title="QDate and QTime on same model" file="MaskDateTime" overflow />
 
-> [!TIP]
+> [!IMPORTANT]
 > If you want to programmatically set the value of QDate, you can do so by just re-assigning the value that you pass. However, the updated value needs to be a string in the same format as your mask. Eg. in the case your mask is `'dddd, MMM D, YYYY'`, passing `'2019/04/28'` as value won't work, you would need to pass `'Sunday, Apr 28, 2019'` instead.
 
 ### Custom ad-hoc locale
@@ -137,7 +136,7 @@ If, for some reason, you need to use a custom ad-hoc locale rather than the curr
 
 The first example is using an array and the second example is using a function.
 
-> [!TIP]
+> [!IMPORTANT]
 > The `events` array entries, as well as the String supplied to the function form, are always in `YYYY/MM/DD` format, regardless of the `mask` in use (the mask only shapes the model value). If you keep your event dates in another format, use the function form and convert before comparing.
 
 <DocExample title="Events" file="Events" overflow />
@@ -197,7 +196,7 @@ You have to set `calendar` to `persian` to use this feature.
 > [!TIP]
 > You can couple this with a Quasar [language pack](/options/quasar-language-packs) such as Persian (Farsi, `fa-IR`) to have the QDate strings translated too, for the full experience.
 
-> [!WARNING]
+> [!NOTE]
 > When using the persian calendar, the mask for QDate is forced to `YYYY/MM/DD`.
 
 <DocExample title="Persian calendar" file="Persian" overflow />

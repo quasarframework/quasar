@@ -117,7 +117,7 @@ Let's discuss about each of these requirements:
    By default, Quasar assumes that all styles are written in LTR direction and generates corresponding RTL styles for them. Should you wish to write your own css directly in RTL then you need to:
    - (Quasar CLI with Vite / Quasar Vite plugin) set `postcssRtlCss({ source: 'rtl' })` in /postcss.config.js
 
-> [!TIP]
+> [!NOTE]
 > Full list of [postcss-rtlcss options](https://github.com/elchininet/postcss-rtlcss#options).
 
 ## Things to keep in mind

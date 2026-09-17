@@ -40,7 +40,7 @@ When using the Object form, only the `handler` key is mandatory.
 
 The handler Function takes one parameter, which is an [IntersectionObserverEntry](https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserverEntry).
 
-> [!TIP]
+> [!NOTE]
 > Scroll within the examples below until the observed element is in view. Then scroll it out of view.
 
 ### Basic
@@ -77,5 +77,5 @@ In the example below, we show multiple cards, but only the visible ones get rend
 
 <DocExample title="Scrolling Cards" file="ScrollingCards" scrollable />
 
-> [!TIP]
+> [!NOTE]
 > In the example above we used a Quasar transition. For a full list, please head to [Transitions](/options/transitions) page.

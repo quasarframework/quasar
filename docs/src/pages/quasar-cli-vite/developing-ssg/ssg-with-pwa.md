@@ -97,7 +97,7 @@ Use `extendSSGGenerateSWOptions` with Workbox `GenerateSW`, or `extendSSGInjectM
 
 Keep in mind that the precache route is registered before the navigation fallback and before any `runtimeCaching` route, so a pre-rendered page is always answered from the precache. Making navigations go over the network means keeping the generated pages out of the precache (through `globIgnores`) in the first place.
 
-> [!WARNING]
+> [!IMPORTANT]
 > Deploy the entire output directory, including the service worker, manifest, icons, Workbox files, generated pages, and offline shell. Service workers also require HTTPS in production, except on localhost.
 
 > For more information on PWA, head on to [PWA Introduction](/quasar-cli-vite/developing-pwa/introduction) and read the whole PWA Guide section.

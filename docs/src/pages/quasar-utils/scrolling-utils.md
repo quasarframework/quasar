@@ -4,7 +4,7 @@ desc: A set of Quasar methods related to scrolling, like getting scroll target o
 keys: getScrollTarget,getVerticalScrollPosition,setVerticalScrollPosition,getHorizontalScrollPosition,setHorizontalScrollPosition,getScrollHeight,getScrollWidth,getScrollbarWidth
 ---
 
-> [!TIP]
+> [!NOTE]
 > For usage with the UMD build see [here](/start/umd#quasar-global-object).
 
 ## Determine scrolling container

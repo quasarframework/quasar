@@ -8,7 +8,7 @@ related:
 
 This page describes the JSON API Schema used for component App Extensions. Read this page if your App Extension contains a UI component.
 
-> [!TIP]
+> [!NOTE]
 > You might want to read about the Index script's [api.registerDescribeApi](/app-extensions/development-guide/index-api#api-registerdescribeapi) method. Its sole purpose is to provide a hook into the `quasar describe` CLI command so that users have another way to learn how to use your component.
 
 ## Benefits of using JSON API
@@ -63,7 +63,7 @@ The unfilled schema typically looks like this:
 
 The first part of a definition is the actual item name itself.
 
-> [!TIP]
+> [!NOTE]
 > If in the `props` section, this should be the forward facing name. Meaning, if your item being described is in camelCase, then the forward facing item name is in kebab-case. ex: `myProp` becomes `my-prop`.
 
 The rest of the definitions can be one of the following:

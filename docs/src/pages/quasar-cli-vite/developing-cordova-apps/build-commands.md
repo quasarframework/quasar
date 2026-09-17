@@ -51,7 +51,7 @@ In order for you to be able to develop on a device emulator or directly on a pho
 5. It opens Android Studio or Xcode, where you select and run an emulator, simulator, or connected device.
 6. When the Cordova development process stops, Quasar reverts its temporary changes to `/src-cordova/config.xml`.
 
-> [!CAUTION]
+> [!IMPORTANT]
 > When developing on a physical device, the selected address of the development machine must be reachable from that device. Ensure the firewall permits the development-server port and that the network does not isolate connected clients.
 
 ## Building for production
@@ -104,5 +104,5 @@ quasar build -m cordova -T [ios|android] -d
 quasar build -m cordova -T [ios|android] --debug
 ```
 
-> [!TIP]
+> [!NOTE]
 > Also check `getCordovaBuildParams()` and `getCordovaBuildOutputFolder()` (quasar.config > cordova options) from [Configuring Cordova](/quasar-cli-vite/developing-cordova-apps/configuring-cordova#quasar-config-file) page.

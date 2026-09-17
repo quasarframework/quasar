@@ -12,7 +12,7 @@ Returned values are all JS Dates.
 
 Get familiar with JS native Date class, which is very powerful, and remember that you don't need solutions like Momentjs which add hundreds of minified KB to your bundle.
 
-> [!TIP]
+> [!NOTE]
 > Quasar date utils includes tree shaking, except for the UMD version.
 
 You will notice all examples import `date` Object from Quasar. However, if you need only one method from it, then you can use destructuring to help Tree Shaking embed only that method and not all of `date`.
@@ -28,7 +28,7 @@ const { addToDate } = date
 const newDate = addToDate(new Date(), { days: 7, months: 1 })
 ```
 
-> [!TIP]
+> [!NOTE]
 > For usage with the UMD build see [here](/start/umd#quasar-global-object).
 
 ## Format for display

@@ -16,7 +16,7 @@ The QMarkupTable is a way for you to simply wrap a native `<table>` in order to 
 
 ## Usage
 
-> [!WARNING]
+> [!IMPORTANT]
 > Notice that the content of `QMarkupTable` reflects an accurate markup representation of a native HTML `<table>`, having a `<thead>` and `<tbody>` to wrap header and table body. This is required.
 
 > [!WARNING]

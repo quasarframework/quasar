@@ -13,7 +13,7 @@ It is often used with other components in their slots.
 
 ## Usage
 
-> [!TIP]
+> [!NOTE]
 > The `size` property will determine the height and the width of the Avatar. The `font-size` property will set the size of the font used within the Avatar, which will have an effect on the size of letters and icons.
 
 <DocExample title="Basic" file="Basic" />

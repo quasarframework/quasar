@@ -17,7 +17,7 @@ It would also be wise to check the changelog of Capacitor itself to see what bre
 
 ## Capacitor v8
 
-> [!WARNING]
+> [!IMPORTANT]
 > **Requirements**
 >
 > - Node v22.22+
@@ -46,7 +46,7 @@ The `@capacitor/app` and `@capacitor/splash-screen` plugins are optional, but Qu
 
 ## Capacitor v7
 
-> [!WARNING]
+> [!IMPORTANT]
 > **Requirements**
 >
 > - Xcode 16+ (for iOS)
@@ -73,7 +73,7 @@ The `@capacitor/app` and `@capacitor/splash-screen` plugins are optional, but Qu
 
 ## Capacitor v6
 
-> [!WARNING]
+> [!IMPORTANT]
 > **Requirements**
 >
 > - Xcode 15+ (for iOS)
@@ -96,7 +96,7 @@ The `@capacitor/app` and `@capacitor/splash-screen` plugins are optional, but Qu
 
 ## Capacitor v5
 
-> [!WARNING]
+> [!IMPORTANT]
 > **Requirements**
 >
 > - Xcode 14.1+ (for iOS)

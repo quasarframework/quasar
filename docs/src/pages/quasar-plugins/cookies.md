@@ -6,14 +6,12 @@ keys: Cookies
 
 This is a wrapper over the standardized `document.cookie`.
 
-> [!TIP]
-> **NOTE**
->
+> [!NOTE]
 > In addition to the standard way of dealing with cookies, with Cookie Plugin you can read and write cookies using JSON objects. It can also manage cookies from SSR.
 
 <DocApi file="Cookies" />
 
-> [!TIP]
+> [!WARNING]
 > The Cookies plugin is not functional in Electron apps. Use the [Electron Cookies](https://www.electronjs.org/docs/api/cookies) API instead.
 
 <DocInstall plugins="Cookies" />

@@ -17,10 +17,10 @@ Try it out with a non-fixed footer for example. When user reaches bottom of scre
 
 ## Usage
 
-> [!TIP]
+> [!NOTE]
 > Since QPageSticky needs a layout and QLayout by default manages the entire window, then for demoing purposes we are going to use containerized QLayouts. But remember that by no means you are required to use containerized QLayouts for QPageSticky.
 
-> [!WARNING]
+> [!IMPORTANT]
 >
 > - In order for QPageSticky to work, it must be placed within a QLayout component.
 > - QPageSticky must be the last child element within its parent, so it can display on top of other content

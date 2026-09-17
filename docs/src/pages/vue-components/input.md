@@ -11,7 +11,7 @@ The QInput component is used to capture text input from the user. It uses `v-mod
 
 ## Design
 
-> [!WARNING]
+> [!NOTE]
 > For your QInput you can use only one of the main designs (`filled`, `outlined`, `standout`, `borderless`). You cannot use multiple as they are self-exclusive.
 
 <DocExample title="Design Overview" file="DesignOverview" />
@@ -83,7 +83,7 @@ As a helper, you can use `clearable` prop so user can reset model to `null` thro
 
 The following QInputs make use of the `type` prop in order to render native equivalent `<input type="...">` inside of them.
 
-> [!WARNING]
+> [!NOTE]
 > Support and behavior is the subject entirely of the browser rendering the page and not Quasar's core code.
 
 <DocExample title="Input types" file="InputTypes" />
@@ -127,7 +127,7 @@ When you need QInput to grow along with its content, then use the `autogrow` pro
 
 Using the `label` slot you can customize the aspect of the label or add special features as `QTooltip`.
 
-> [!TIP]
+> [!IMPORTANT]
 > Do not forget to set the `label-slot` property.
 >
 > If you want to interact with the content of the label (QTooltip) add the `all-pointer-events` class on the element in the slot.
@@ -140,7 +140,7 @@ Using the `label` slot you can customize the aspect of the label or add special 
 
 ### Slots with QBtn type "submit"
 
-> [!WARNING]
+> [!IMPORTANT]
 > When placing a QBtn with type "submit" in one of the "before", "after", "prepend", or "append" slots of a QField, QInput or QSelect, you should also add a `@click` listener on the QBtn in question. This listener should call the method that submits your form. All "click" events in such slots are not propagated to their parent elements.
 
 ### Debouncing model
@@ -163,7 +163,7 @@ Use the `v-model.lazy` modifier when the model should be updated only after the 
 
 You can force/help the user to input a specific format with help from `mask` prop.
 
-> [!WARNING]
+> [!NOTE]
 > Mask is only available if the `type` is one of 'text' (default), 'search', 'url', 'tel', or 'password'.
 
 > [!WARNING]
@@ -304,7 +304,7 @@ moneyFormatForComponent: {
 
 You can validate QInput components with `:rules` prop. Specify array of embedded rules or your own validators. Your custom validator will be a function which returns `true` if validator succeeds or `String` with error message if it doesn't succeed.
 
-> [!TIP]
+> [!NOTE]
 > By default, for perf reasons, a change in the rules does not trigger a new validation until the model changes. In order to trigger the validation when rules change too, then use `reactive-rules` Boolean prop. The downside is a performance penalty (so use it when you really need this only!) and it can be slightly mitigated by using a computed prop as value for the rules (and not specify them inline in the vue template).
 
 This is so you can write convenient rules of shape like:

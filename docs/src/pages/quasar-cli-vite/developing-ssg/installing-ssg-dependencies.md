@@ -21,7 +21,7 @@ The generated `/src-ssg/package.json` keeps build-time renderer dependencies sep
 }
 ```
 
-> [!WARNING]
+> [!IMPORTANT]
 > Packages imported by application code under `/src` still belong in the root `package.json`. Install only renderer-specific packages under `/src-ssg`.
 
 For example, to discover Markdown files from the renderer with `tinyglobby`:

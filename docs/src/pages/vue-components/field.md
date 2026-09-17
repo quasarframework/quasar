@@ -9,17 +9,17 @@ The QField component is used to provide common functionality and aspect to form 
 
 QField allows you to display any form control (or almost anything as a matter of fact) inside it. Just place your desired content inside the `control` slot.
 
-> [!CAUTION]
+> [!WARNING]
 > Do NOT wrap QInput, QFile or QSelect with QField as these components already inherit QField.
 
 <DocApi file="QField" />
 
 ## Design
 
-> [!TIP]
+> [!NOTE]
 > The examples below use dumb content (text) just to show you the design that QField can use. For checking out examples that wrap real components, see the "Basic Features" section.
 
-> [!CAUTION]
+> [!TIP]
 > QField does not (and should not) manage your `control` slot, so if you use `label` prop, it might be a good idea to also specify `stack-label`, otherwise it might overlap your control when QField is not focused.
 
 ### Overview
@@ -80,7 +80,7 @@ The `square` prop only makes sense along with Filled, Outlined and Standout desi
 
 As a helper, you can use `clearable` prop so user can reset model to `null` through an appended icon.
 
-> [!WARNING]
+> [!IMPORTANT]
 > If using `clearable` you must use `v-model` or listen on `@update:model-value` and update the value.
 
 <DocExample title="Clearable" file="Clearable" />
@@ -102,7 +102,7 @@ Anything you place inside the `control` slot will be used as content of the fiel
 
 Using the `label` slot you can customize the aspect of the label or add special features as `QTooltip`.
 
-> [!TIP]
+> [!IMPORTANT]
 > Do not forget to set the `label-slot` property.
 >
 > If you want to interact with the content of the label (QTooltip) add the `all-pointer-events` class on the element in the slot.
@@ -111,7 +111,7 @@ Using the `label` slot you can customize the aspect of the label or add special 
 
 ### Slots with QBtn type "submit"
 
-> [!WARNING]
+> [!IMPORTANT]
 > When placing a QBtn with type "submit" in one of the "before", "after", "prepend", or "append" slots of a QField, QInput or QSelect, you should also add a `@click` listener on the QBtn in question. This listener should call the method that submits your form. All "click" events in such slots are not propagated to their parent elements.
 
 ### Loading state
@@ -124,7 +124,7 @@ Using the `label` slot you can customize the aspect of the label or add special 
 
 You can validate QField components with `:rules` prop. Specify array of embedded rules or your own validators. Your custom validator will be a function which returns `true` if validator succeeds or `String` with error message if it doesn't succeed.
 
-> [!TIP]
+> [!NOTE]
 > By default, for perf reasons, a change in the rules does not trigger a new validation until the model changes. In order to trigger the validation when rules change too, then use `reactive-rules` Boolean prop. The downside is a performance penalty (so use it when you really need this only!) and it can be slightly mitigated by using a computed prop as value for the rules (and not specify them inline in the vue template).
 
 This is so you can write convenient rules of shape like:

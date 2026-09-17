@@ -185,7 +185,7 @@ setup () {
 Now you have a Quasar App running in a web page. You can now trigger other events from the Quasar App that the content
 script can listen to and interact with the underlying page.
 
-> [!WARNING]
+> [!IMPORTANT]
 > Be sure to check your manifest.json file, especially around the reference to `my-content-script.js`. Note that **you can have multiple content scripts**. Whenever you create a new one, you need to reference it in the manifest file. Same for any css files created in `/src-bex/assets` folder.
 >
 > <br>

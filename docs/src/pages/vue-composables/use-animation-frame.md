@@ -9,7 +9,7 @@ The `useAnimationFrame()` composable is similar in scope with the native `reques
 
 In other words, if you want to schedule a function on the next animation frame but you might want to override it or even cancel it before the timeout happens, this is the composable for you.
 
-> [!TIP]
+> [!NOTE]
 > On the server-side of SSR or SSG modes, registering an animation frame is a no-op. Start server-side work explicitly outside the component rendering lifecycle rather than creating a timer during `setup()`.
 
 ## Syntax

@@ -14,7 +14,7 @@ Tabs are a way of displaying more information using less window real estate. Thi
 
 One common use case for this component is in Layout’s header/footer. Please refer to [Layouts](/layout/layout) and [Header & Footer](/layout/header-and-footer#example--tabs--playing-with-qtabs) for references.
 
-> [!TIP]
+> [!NOTE]
 > Works great along with [QTabPanels](/vue-components/tab-panels), a component which refers strictly to the panels (tab content) themselves.
 
 <DocApi file="QTabs" />
@@ -26,14 +26,13 @@ One common use case for this component is in Layout’s header/footer. Please re
 ## Usage
 
 > [!TIP]
-> **TIPS**
 >
 > - QTabs can be scrolled horizontally when the width is longer than the container width. Adjust your browser accordingly to see this in action.
 > - On a desktop you will see chevrons on either side that can be clicked. The tabs also follow a scroll gesture along their axis, like a horizontal trackpad swipe or a tilt of the mouse wheel.
 > - On a mobile, you can pan the tabs with your finger.
 > - If you want to force arrows to be visible on mobile use `mobile-arrows` prop.
 
-> [!WARNING]
+> [!IMPORTANT]
 > QRouteTab won't and cannot work with the UMD version if you don't also install Vue Router.
 
 ### Basic
@@ -110,7 +109,7 @@ Notice we need to specify the `shrink` prop. By default, QTabs tries to expand t
 
 ### Along with QTabsPanel
 
-> [!TIP]
+> [!NOTE]
 > QTabPanels can be used as standalone too. They do not depend on the presence of a QTabs. Also, they can be placed anywhere within a page, not just near a QTabs.
 
 <DocExample title="Tabs with tab panels" file="TabsWithTabpanels" />
@@ -150,7 +149,7 @@ The `exact` configured QRouteTabs always win over loose-matching (non-exact) one
 
 ### Handling custom navigation
 
-> [!TIP]
+> [!NOTE]
 > Please refer to the QRouteTab API card at the top of the page for a more in-depth description of the `@click` event being used below.
 
 ```html

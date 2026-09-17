@@ -18,10 +18,10 @@ The QInnerLoading component allows you to add a progress animation within a comp
 
 ## Usage
 
-> [!WARNING]
+> [!IMPORTANT]
 > In order for the spinner to be properly placed in the center of the element you want the loading display to show over, that element must have CSS position set to `relative` (or the `relative-position` CSS class declared).
 
-> [!WARNING]
+> [!IMPORTANT]
 > QInnerLoading must be the last element inside its parent so it can appear on top of the other content.
 
 ### Basic

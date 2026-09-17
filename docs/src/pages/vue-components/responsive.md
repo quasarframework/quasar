@@ -11,8 +11,7 @@ QResponsive is a component which forces the content to maintain an aspect ratio 
 
 ## Usage
 
-> [!TIP]
-> **TIPS**
+> [!IMPORTANT]
 >
 > - The component can be used with any content, as long you specify **only one direct child**. If you need multiple elements inside of it, wrap them in a `<div>`.
 > - It is your responsibility to make sure that your content won't overflow the container.

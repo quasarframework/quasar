@@ -53,5 +53,5 @@ export default defineIndexScript(api => {
 
 The same applies to any npm package that imports from the `quasar` package, App Extension or not. When the package cannot configure the host app itself, the app developer adds the equivalent through `/quasar.config file > build > extendViteConf` (see [Handling Vite](/quasar-cli-vite/handling-vite)).
 
-> [!TIP]
+> [!NOTE]
 > Code that runs in Vue render scope does not need any of this. `useQuasar()` returns the host app's own `$q`, so `$q.notify(...)` from a composable or component always reaches the installed plugin.

@@ -102,7 +102,7 @@ After checking out their branch, test it out! Here are some things to think abou
 
 Once you're happy that the pull request contains a good change, comment on the GitHub issue indicating your approval. Your comment should indicate that you like the change and what you like about it. Something like:
 
-> [!TIP]
+> [!NOTE]
 > **Example pull request comment**
 >
 > I like the way you've restructured the code in card.vue - much nicer. Documentation is updated too.
@@ -137,7 +137,7 @@ Over time we consolidated a set of rules which we follow and following them will
 
 Navigate to the Quasar [GitHub repository](https://github.com/quasarframework/quasar) and press "Fork" in the upper right-hand corner.
 
-> [!WARNING]
+> [!IMPORTANT]
 > **Select dev branch**
 >
 > Make sure you have the `dev` branch selected - this is where all the work is done.

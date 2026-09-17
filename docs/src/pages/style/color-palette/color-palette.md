@@ -22,8 +22,6 @@ import BrandColors from './BrandColors.vue'
 <BrandColors />
 
 > [!TIP]
-> **TIPS**
->
 > Also check [Theme Builder](/style/theme-builder) for a tool on customizing the brand colors of your website/app.
 
 ## Color List

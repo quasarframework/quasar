@@ -31,7 +31,7 @@ In order for you to be able to develop on a device emulator or directly on a pho
 4. It uses the Capacitor CLI to update all of your plugins.
 5. Finally, it opens your native IDE. Run your app here, and it will automatically connect to the dev server.
 
-> [!CAUTION]
+> [!IMPORTANT]
 > If developing on a mobile phone/tablet, it is very important that the external IP address of your build machine is accessible from the phone/tablet, otherwise you'll get a development app with white screen only. Also check your machine's firewall to allow connections to the development chosen port.
 
 ## Building for production

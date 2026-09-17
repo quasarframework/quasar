@@ -54,22 +54,22 @@ When you have big-sized images, you can use a placeholder image (recommended to 
 
 ### Responsive
 
-> [!WARNING]
+> [!NOTE]
 > To grasp the `sizes` and `srcset` properties, please read about native support on [responsive images](https://developer.mozilla.org/en-US/docs/Learn/HTML/Multimedia_and_embedding/Responsive_images#Why_responsive_images) because **QImg relies on that entirely**.
 
 <DocExample title="Responsive" file="Responsive" />
 
-> [!TIP]
+> [!NOTE]
 > For `sizes` property, please read about Resolution Switching: [Different Sizes](https://developer.mozilla.org/en-US/docs/Learn/HTML/Multimedia_and_embedding/Responsive_images#Resolution_switching_Different_sizes).
 
-> [!TIP]
+> [!NOTE]
 > For `srcset` property, please read about Resolution Switching: [Same size, different resolutions](https://developer.mozilla.org/en-US/docs/Learn/HTML/Multimedia_and_embedding/Responsive_images#Resolution_switching_Same_size_different_resolutions).
 
 ### No native context menu
 
 In the example below we disable the native context menu on the images.
 
-> [!WARNING]
+> [!IMPORTANT]
 > When you are using this option always take care to have the content of the `default` or `error` slots wrapped in a `div` element, or add a `all-pointer-events` class on the element.
 
 <DocExample title="Native context menu" file="ContextMenu" />

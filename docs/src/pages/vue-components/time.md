@@ -11,7 +11,7 @@ related:
 
 The QTime component provides a method to input time.
 
-> [!TIP]
+> [!NOTE]
 > For handling date and/or time, also check out [Quasar Date Utils](/quasar-utils/date-utils).
 
 <DocApi file="QTime" />
@@ -62,7 +62,7 @@ The `mask` prop tokens can be found at [Quasar Utils > Date utils](/quasar-utils
 >
 > If the mask contains date tokens, set `default-date` explicitly when using SSR or SSG. The runtime default is the current local date, which can differ between the server and browser.
 
-> [!CAUTION]
+> [!NOTE]
 > **Note on persian calendar**
 >
 > When using the persian calendar, the mask for QTime is forced to `HH:mm` or `HH:mm:ss` (if `with-seconds` is specified).

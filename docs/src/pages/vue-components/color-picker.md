@@ -9,7 +9,7 @@ related:
 
 The QColor component provides a method to input colors.
 
-> [!TIP]
+> [!NOTE]
 > For handling colors, also check out [Quasar Color Utils](/quasar-utils/color-utils).
 
 <DocApi file="QColor" />

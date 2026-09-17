@@ -7,7 +7,7 @@ The `ssrContext` Object is the SSR context with which all the app's Vue componen
 
 ## Usage
 
-> [!WARNING]
+> [!NOTE]
 > The `ssrContext` Object is available only on SSR builds, on the server-side compilation (when `import.meta.env.QUASAR_SERVER` is boolean `true`).
 
 Among other places, it is supplied as parameter to [boot files](/quasar-cli-vite/boot-files), to the [Pinia instance](/quasar-cli-vite/state-management-with-pinia) and [Vue Router](/quasar-cli-vite/page-routing-with-vue-router) initialization functions, and to the [preFetch](/quasar-cli-vite/prefetch-feature) method:
@@ -80,5 +80,5 @@ More information on the purpose and required format of the `nonce` property is a
 
 The exact `req` and `res` types depend on the selected webserver (Hono, Express, Fastify, or Koa). They represent the current request and response; consult that webserver's API before using framework-specific properties.
 
-> [!TIP]
+> [!IMPORTANT]
 > Feel free to inject your own stuff into ssrContext too, but do NOT tamper with any of the private props (props that start with an underscore, eg. `_someProp`).

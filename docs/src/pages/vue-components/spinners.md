@@ -16,7 +16,7 @@ A Spinner is used to show the user a timely process is currently taking place. I
 
 <DocApi file="QSpinner" />
 
-> [!TIP]
+> [!NOTE]
 > The API below applies to all spinners, except for QSpinner. Making an example with QSpinnerCube.
 
 <DocApi file="QSpinnerCube" title="Other Spinners API" />

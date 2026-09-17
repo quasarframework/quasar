@@ -24,7 +24,7 @@ return {
 }
 ```
 
-> [!WARNING]
+> [!IMPORTANT]
 > When you use it to pre-fetch data, you may want to use Pinia, so make sure that your project folder has the `/src/stores` (for Pinia) folders when you create your project, otherwise generate a new project and copy the store folder contents to your current project (or use `quasar new store` command).
 
 ## How PreFetch Helps SSR Mode
@@ -180,7 +180,7 @@ Alternatively, with Composition API and `<script>`:
 </script>
 ```
 
-> [!TIP]
+> [!NOTE]
 > If you are developing a SSR/SSG app, then you can check out the [ssrContext](/quasar-cli-vite/developing-ssr/ssr-context) Object that gets supplied server-side.
 
 ```js
@@ -203,7 +203,7 @@ actions: {
 > [!WARNING]
 > Please be mindful when redirecting as you might configure the app to go into an infinite redirect loop. Guard the redirect with a check on the route being navigated to, e.g. `if (currentRoute.path !== '/login') { redirect({ path: '/login' }) }`.
 
-> [!WARNING]
+> [!IMPORTANT]
 > Please remember to return from the function immediately after calling `redirect()`.
 
 Below is an example of redirecting the user under some circumstances, like when they try to access a page that only an authenticated user should see.
@@ -248,7 +248,7 @@ redirect({ path: '/1' }) // Vue Router location as Object
 redirect('https://quasar.dev')
 ```
 
-> [!WARNING]
+> [!IMPORTANT]
 > **IMPORTANT!**
 >
 > The Vue Router location (in String or Object form) does not refer to URL path (and hash), but to the actual Vue Router routes that you have defined.

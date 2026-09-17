@@ -17,7 +17,7 @@ QFile is a component which handles the user interaction for picking file(s).
 
 ## Design
 
-> [!WARNING]
+> [!NOTE]
 > For your QFile you can use only one of the main designs (`filled`, `outlined`, `standout`, `borderless`). You cannot use multiple as they are self-exclusive.
 
 <DocExample title="Design Overview" file="DesignOverview" />
@@ -81,7 +81,7 @@ The example below highlights how you can customize the display of each file and 
 
 You can even combine the restrictions above.
 
-> [!TIP]
+> [!NOTE]
 > In the example above, we're using `accept` property. Its value must be a comma separated list of unique file type specifiers. Maps to 'accept' attribute of native input type=file element. [More info](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/file#Unique_file_type_specifiers).
 
 > [!WARNING]

@@ -24,7 +24,7 @@ You will also be able to use the command line, so it will be almost identical to
 
 ## TL;DR
 
-> [!TIP]
+> [!IMPORTANT]
 > **Requirements:**
 >
 > - Node.js v22+
@@ -51,7 +51,7 @@ Pick `App with Quasar CLI`.
 
 ## Installation / Project Scaffolding
 
-> [!TIP]
+> [!IMPORTANT]
 > **Requirements:**
 >
 > - Node.js v22+ for Quasar CLI.
@@ -70,7 +70,7 @@ Pick `App with Quasar CLI`.
    bun create quasar@latest
    ```
 
-   > [!TIP]
+   > [!NOTE]
    > You may be presented with a confirmation to install the `create-quasar` package, press the enter key to confirm.
 
 2. Pick the `App with Quasar CLI` option.
@@ -92,7 +92,7 @@ Pick `App with Quasar CLI`.
    bun install -g @quasar/cli
    ```
 
-   > [!TIP]
+   > [!IMPORTANT]
    > If you are using Yarn, make sure that the Yarn [global install location](https://yarnpkg.com/lang/en/docs/cli/global/) is in your PATH:
    > <br><br>
    >
@@ -107,7 +107,7 @@ Pick `App with Quasar CLI`.
    > <br>
    > Under Windows, modify user's PATH environment variable (search for "Edit environment variables for your account" in the Start Menu). If you are using yarn then add `%LOCALAPPDATA%\yarn\bin`, otherwise if you're using npm then add `%APPDATA%\npm`. Avoid using `setx` for this — it truncates the stored value to 1024 characters, which can permanently destroy part of your existing PATH.
 
-   > [!TIP]
+   > [!WARNING]
    > **WSL2**
    >
    > Microsoft's recommended [Node.js development environment setup in WSL2](https://docs.microsoft.com/en-us/windows/nodejs/setup-on-wsl2).

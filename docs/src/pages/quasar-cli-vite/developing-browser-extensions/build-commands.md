@@ -137,5 +137,5 @@ Since Quasar removes the burden of building and packaging your Browser Extension
 
 **Firefox** - [Publishing a Firefox Add On (Browser Extension)](https://extensionworkshop.com/documentation/publish/)
 
-> [!TIP]
+> [!NOTE]
 > BEX mode should be compatible with all chromium based browsers. Please refer to their relative documentation on publishing extensions.

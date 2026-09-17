@@ -48,5 +48,5 @@ Then target the nodes from your CSS:
 }
 ```
 
-> [!WARNING]
+> [!NOTE]
 > The class is applied to the node itself (the element with the `q-portal--*`, `q-notify`, `q-loading` or `q-loading-bar` id), not to the component rendered inside of it. Use it as an ancestor selector, as in the example above.

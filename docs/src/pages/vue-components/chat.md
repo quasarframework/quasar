@@ -16,7 +16,7 @@ Quasar supplies a chat component called QChatMessage which is really a chat entr
 
 ### The basics
 
-> [!TIP]
+> [!NOTE]
 > Using the property `sent` is intended for the sender of the chat message. The other side is for received messages.
 
 <DocExample title="Basic" file="Basic" />
@@ -43,7 +43,7 @@ Quasar supplies a chat component called QChatMessage which is really a chat entr
 
 ### Sanitization
 
-> [!WARNING]
+> [!CAUTION]
 > Always sanitize values if you do not trust the origin (if the value comes from user input).
 
 <DocExample title="Sanitized content" file="Sanitize" />

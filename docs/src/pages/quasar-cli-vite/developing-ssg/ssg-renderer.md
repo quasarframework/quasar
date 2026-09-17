@@ -10,7 +10,7 @@ desc: (@quasar/app-vite) Configuring the Quasar SSG Renderer.
 
 The `/src-ssg/ssg-renderer` file tells Quasar which routes to render during a production build. It can also customize the preload tags added for each page's assets.
 
-> [!WARNING]
+> [!NOTE]
 > The SSG renderer runs only for `quasar build -m ssg`. Development mode renders requested routes on demand and does not invoke `getSsgPages()`.
 
 ## Anatomy
@@ -356,7 +356,7 @@ interface SsgPage {
 }
 ```
 
-> [!WARNING]
+> [!IMPORTANT]
 > When defining the `route` prop of a SSG page, do not include the quasar.config > build.publicPath to it. Use it as a Vue Router route exclusively.
 
 ```tabs getSsgPages example

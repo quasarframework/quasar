@@ -13,7 +13,7 @@ Quasar Dialogs are a great way to offer the user the ability to choose a specifi
 
 From a UI perspective, you can think of Dialogs as a type of floating modal, which covers only a portion of the screen. This means Dialogs should only be used for quick user actions.
 
-> [!TIP]
+> [!NOTE]
 > Dialogs can also be used as a component in your Vue file templates (for complex use-cases, like specific form components, selectable options, etc.). For this, go to [QDialog](/vue-components/dialog) page.
 
 The advantage of using Dialogs as Quasar Plugins as opposed to QDialog component is that the plugin can also be called from outside of Vue space and doesn't require you to manage their templates. But as a result, their customization cannot be compared to their component counterpart.
@@ -56,7 +56,7 @@ Please check the API card to see what the returned Object is.
 > [!TIP]
 > For all the examples below, also see the browser console while you check them out.
 
-> [!WARNING]
+> [!NOTE]
 > This is not an exhaustive list of what you can do with Dialogs as Quasar Plugins. For further exploration check out the API section.
 
 <DocExample title="Basic" file="Basic" />
@@ -172,7 +172,7 @@ setup () {
 
 The equivalent of the above with Options API is by directly using `this.$q.dialog({ ... })`.
 
-> [!WARNING]
+> [!IMPORTANT]
 > Your custom component however must follow the interface described below in order to perfectly hook into the Dialog plugin. **Notice the "REQUIRED" comments** and take it as is -- just a bare-bone example, nothing more.
 
 ### Writing the custom component

@@ -15,7 +15,7 @@ Furthermore you can [add support by yourself](/vue-components/icon#custom-mappin
 
 There are multiple types of icons in Quasar: webfont-based, svg-based and image-based. You are not bound to using only one type in your website/app.
 
-> [!TIP]
+> [!NOTE]
 > Related pages: [Installing Icon Libraries](/options/installing-icon-libraries) and [Quasar Icon Sets](/options/quasar-icon-sets).
 
 <DocApi file="QIcon" />
@@ -36,7 +36,7 @@ For `icon` properties on different Quasar components you won't have the means to
 
 ## Webfont icons
 
-> [!WARNING]
+> [!IMPORTANT]
 > If you are using webfont-based icons, make sure that you [installed the icon library](/options/installing-icon-libraries) that you are using, otherwise it won't show up!
 
 ### Webfont usage
@@ -107,7 +107,7 @@ For reusable, runtime-configurable variations, scope CSS custom properties to th
 
 CSS custom properties allow per-icon changes, state changes, and runtime theming. Sass variables can instead be used when you only need fixed, project-wide values at build time.
 
-> [!WARNING]
+> [!NOTE]
 > **SVG icon sets**
 >
 > Variable font axes apply only to Material Symbols webfonts. The Material Symbols SVG exports from `@quasar/extras` contain static paths and cannot be changed with `font-variation-settings`.

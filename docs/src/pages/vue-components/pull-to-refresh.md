@@ -17,7 +17,7 @@ The QPullToRefresh is a component that allows the user to pull down in order to 
 
 ### Basic
 
-> [!WARNING]
+> [!IMPORTANT]
 > In your `@refresh` function, don't forget to call the passed in `done()` function when you have finished loading more data.
 
 To refresh, pull down (with mouse or through finger touch) on the content below when the inner scroll position is the top.
@@ -40,7 +40,7 @@ The `side` prop picks the edge of the content the pull starts from (`top` by def
 
 ## Tips
 
-> [!TIP]
+> [!NOTE]
 > **Scrolling container**
 >
 > Please read [here](/vue-components/scroll-observer#determining-scrolling-container) about how Quasar determines the container to attach scrolling events to.

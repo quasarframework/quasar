@@ -12,7 +12,7 @@ import TutorialListing from './TutorialListing.vue'
 
 <IntroductionVideo />
 
-> [!TIP]
+> [!NOTE]
 > The video tutorials below have been created by the community.
 
 ## Quasar Tutorials

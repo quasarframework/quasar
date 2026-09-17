@@ -39,7 +39,7 @@ setup () {
 
 <DocExample title="Basic" file="Basic" />
 
-> [!TIP]
+> [!NOTE]
 > If you define any actions, the notification will automatically be dismissed when the user picks it.
 
 ### With caption
@@ -66,7 +66,7 @@ setup () {
 
 <DocExample title="Positioning & different options" file="Positioning" />
 
-> [!TIP]
+> [!NOTE]
 > For a full list of options, check the API section.
 
 ### Grouping

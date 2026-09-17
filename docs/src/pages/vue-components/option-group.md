@@ -24,7 +24,7 @@ The QOptionGroup component is a helper component that allows you better control 
 
 <DocExample title="With checkboxes" file="Checkbox" />
 
-> [!WARNING]
+> [!IMPORTANT]
 > The model for checkboxes/toggles must be an array.
 
 <DocExample title="With toggles" file="Toggle" />
@@ -53,7 +53,7 @@ Notice how we use the specific label slot for first option (option at index 0) a
 
 <DocExample title="Disabled" file="Disable" />
 
-> [!TIP]
+> [!NOTE]
 > The objects within the `options` array can hold any of the props found in QToggle, QCheckbox or QRadio for instance `disable` or `leftLabel`. See below for an example.
 
 ### Disable Certain Options

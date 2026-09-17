@@ -29,7 +29,7 @@ Scaffold your layout(s) by clicking on the button below.
 > - Since QDrawer needs a layout and QLayout by default manages the entire window, then for demoing purposes we are going to use containerized QLayouts. But remember that by no means you are required to use containerized QLayouts for QDrawer.
 > - If the QDrawer content also has images and you want to use touch actions to close it, you might want to add `draggable="false"` to them, otherwise the native browser behavior might interfere in a negative way.
 
-> [!CAUTION]
+> [!NOTE]
 > **Touch gestures**
 >
 > While the drawer is in its "mobile" behavior (the layout is below the drawer's `breakpoint`, or `behavior` is forced to "mobile"), QDrawer attaches three touch gestures, each with its own opt-out:
@@ -45,7 +45,7 @@ Scaffold your layout(s) by clicking on the button below.
 >
 > The strip and the backdrop claim the horizontal swipe for themselves (v2.31+): once the pan direction is known, the browser no longer runs its own edge gesture alongside it, so on iOS Safari the page stops sliding towards the previous or the next history entry while the drawer moves. A vertical swipe starting in the strip still scrolls the page.
 
-> [!WARNING]
+> [!NOTE]
 > While the drawer is shown in "mobile" behavior it locks the scrolling of the `<body>` element, the same way a modal does. Containerized [QLayouts](/layout/layout) are exempt, since they scroll their own container rather than the page.
 
 > [!WARNING]
@@ -98,7 +98,7 @@ It does not affect closing through a click on the backdrop or through a swipe, s
 
 Drawer can operate in two modes: 'normal' and 'mini', and you can switch between them by using the Boolean `mini` property on QDrawer.
 
-> [!WARNING]
+> [!NOTE]
 > Please note that **`mini` mode** does not apply when in **mobile** behavior.
 
 The transition played while switching between the two modes can be turned off with the `no-mini-animation` Boolean prop.

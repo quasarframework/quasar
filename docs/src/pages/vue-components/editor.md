@@ -71,7 +71,7 @@ To override some of a built-in command's settings, or to add commands of your ow
 
 <DocExample title="Default editor" file="Basic" />
 
-> [!WARNING]
+> [!CAUTION]
 > In this first example, there are two cards below the editor. The first shows the unparsed html using the double-moustache, whereas the second shows the rendered version using `v-html="editor"`. Using v-html this way renders your users vulnerable to Cross Site Scripting attacks. If the content is user generated, be sure to sanitize it either on render or server side (or both).
 
 <DocExample title="Redefine bold command" file="NewBold" />

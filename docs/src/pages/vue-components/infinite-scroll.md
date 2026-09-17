@@ -16,10 +16,10 @@ The QInfiniteScroll component allows you to load new content as the user scrolls
 
 ## Usage
 
-> [!TIP]
+> [!NOTE]
 > Infinite Scroll loads items in advance when the end of its content comes within `offset` (default = 500) pixels of the scroll target's visible area. If the content you fetch has height less than the scroll target container's height on screen then Infinite Scroll will continue loading more content. So make sure you load enough content.
 
-> [!TIP]
+> [!IMPORTANT]
 > In your `@load` function, don't forget to call the passed in `done()` function when you have finished loading more data.
 
 Scroll to the bottom to see QInfiniteScroll in action.
@@ -32,7 +32,7 @@ Scroll to the bottom to see QInfiniteScroll in action.
 
 ## Tips
 
-> [!TIP]
+> [!NOTE]
 > **Scrolling container**
 >
 > Please read [here](/vue-components/scroll-observer#determining-scrolling-container) about how Quasar determines the container to attach scrolling events to.
@@ -42,7 +42,7 @@ Scroll to the bottom to see QInfiniteScroll in action.
 - If you need to specify the scroll target inner element (because the auto detected one is not the desired one) pass a CSS selector (as string), the DOM element or a Vue component reference (which stands for its root element) in the `scroll-target` prop
 - The `offset` is measured against the scroll target's visible area, so a scrolling container that is not detected (nor specified) as the scroll target only reveals the end of the content as it actually scrolls into view; there, loading starts as if `offset` were 0
 
-> [!WARNING]
+> [!IMPORTANT]
 > If you pass a custom scroll target container with `scroll-target` prop you must make sure that the element exists and that it can be overflowed (it must have a maximum height and an overflow that allows scrolling).
 >
 > If the scroll target container cannot be overflowed you'll get a forever loading situation.

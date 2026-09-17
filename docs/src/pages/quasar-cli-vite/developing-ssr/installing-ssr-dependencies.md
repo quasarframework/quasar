@@ -73,7 +73,7 @@ Notice the `/src-ssr/package.json` file in your generated `/src-ssr` folder. The
 }
 ```
 
-> [!WARNING]
+> [!IMPORTANT]
 > If you import anything from node_modules in /src-ssr, then be aware that:
 >
 > - Packages in `/src-ssr/package.json > dependencies` are runtime dependencies. Quasar adds them to the generated `/dist/ssr/package.json`, and they must be installed when deploying the build.

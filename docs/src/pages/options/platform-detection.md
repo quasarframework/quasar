@@ -97,7 +97,7 @@ The following properties are available to the Platform object. It's not an exhau
 | `Platform.has.touch`              | Boolean | Is the code running on a touch capable screen?                                  |
 | `Platform.within.iframe`          | Boolean | Is the app running within an IFRAME?                                            |
 
-> [!TIP]
+> [!NOTE]
 > Running on mobile means you can have this code running on a mobile device (phone or tablet) but with a browser, not within a Cordova wrapper.
 
 ## Note about SSR/SSG

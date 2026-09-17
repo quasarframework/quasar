@@ -52,7 +52,7 @@ If you are building a website, you can also skip configuring the quasar.config f
 
 ## Usage
 
-> [!WARNING]
+> [!IMPORTANT]
 > Notice the string `animated` in front of the actual animation class name.
 
 ```html Example with wrapping only one DOM element / component

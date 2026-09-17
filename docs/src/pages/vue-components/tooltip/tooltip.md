@@ -19,7 +19,7 @@ The idea with QTooltip is to place it inside your DOM element / component that y
 
 <DocExample title="Toggle through v-model" file="VModel" />
 
-> [!WARNING]
+> [!IMPORTANT]
 > If you want to conditionally activate or de-activate a QTooltip, please use `v-if` on it instead of `v-show`.
 
 ### Customize
@@ -55,7 +55,7 @@ import TooltipPositioning from './TooltipPositioning.vue'
 
 <TooltipPositioning />
 
-> [!TIP]
+> [!NOTE]
 > The `offset` prop does not translate the popup by a number of pixels. It expands the **anchor element's bounding box** outward: `offset[0]` moves that box's `left` edge to the left and its `right` edge to the right, while `offset[1]` moves `top` up and `bottom` down. The popup's `self` point is then aligned to the `anchor` point of the expanded box, and only after that is the result clamped to the available screen real estate.
 >
 > Two consequences are worth knowing, because both make an `offset` look like it is being ignored on one axis:

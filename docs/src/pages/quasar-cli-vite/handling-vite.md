@@ -315,7 +315,7 @@ export default function MyBadge({ text }: { text: string }) {
 
 Quasar components are fully typed in JSX/TSX: their props, their events (`onClick`, `onUpdate:modelValue`, ...) and the props that Vue accepts on any component (`class`, `style`, `key`, `ref`).
 
-> [!TIP]
+> [!NOTE]
 > **Vue sugar**
 >
 > Check the Vite's specific [vue jsx plugin](#using-vitejs-plugin-vue-jsx) if you also want the Vue specific JSX sugar.
@@ -385,7 +385,7 @@ export default defineConfig(ctx => {
 })
 ```
 
-> [!TIP]
+> [!NOTE]
 > **Using with TypeScript**
 >
 > If you are using TypeScript, you DON'T have to also add the aliases to your `tsconfig.json` file (nor use packages like vite-tsconfig-paths). These are taken care of by the Quasar CLI by default.

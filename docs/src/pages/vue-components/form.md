@@ -16,7 +16,7 @@ The QForm component renders a `<form>` DOM element and allows you to easily vali
 
 ## Usage
 
-> [!WARNING]
+> [!IMPORTANT]
 > Please be aware of the following:
 >
 > - QForm hooks into QInput, QSelect or QField wrapped components

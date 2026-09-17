@@ -7,7 +7,7 @@ A SSR app has the same code running on server and on client. Declaring a Vue dir
 
 Server-side builds require all Vue directives to also specify a getSSRProps() method in their definition.
 
-> [!TIP]
+> [!NOTE]
 >
 > - You will NOT need to do anything for the Quasar supplied Vue directives to work.
 > - However, if you are using a third-party supplied Vue directive and the CLI errors out on it then you will need to contact the owner of that package in order for them to make it compliant with Vue 3 SSR specs (which is to add the getSSRProps() method in the directive's definition).

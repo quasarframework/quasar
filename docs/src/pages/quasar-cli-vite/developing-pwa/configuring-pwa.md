@@ -34,7 +34,7 @@ You can freely edit these files. Notice a few things:
 2. `sw/custom-sw.js` will be your service worker file ONLY if workbox plugin mode is set to "InjectManifest" (quasar.config file > pwa > workboxMode: 'InjectManifest'). Otherwise, Quasar and Workbox will create a service-worker file for you. The `/src-pwa/sw/` folder is the WebWorker context. Anything inside it runs in the service worker, not the main thread.
 3. It makes sense to run [Lighthouse](https://developers.google.com/web/tools/lighthouse/) tests on production builds only.
 
-> [!TIP]
+> [!NOTE]
 > Read more on `register-sw.js` and how to interact with the Service Worker on [Handling Service Worker](/quasar-cli-vite/developing-pwa/handling-service-worker) documentation page.
 
 ## quasar.config file
@@ -241,7 +241,7 @@ When NOT to use GenerateSW:
 - You want to use other Service Worker features (i.e. Web Push).
 - You want to import additional scripts or add additional logic.
 
-> [!TIP]
+> [!NOTE]
 > Please check the available workboxOptions for this mode on [Workbox website](https://developers.google.com/web/tools/workbox/reference-docs/latest/module-workbox-build#.generateSW).
 
 ### InjectManifest
@@ -257,8 +257,7 @@ When NOT to use InjectManifest:
 
 - You want the easiest path to adding a service worker to your site.
 
-> [!TIP]
-> **TIPS**
+> [!IMPORTANT]
 >
 > - If you want to use this mode, you will have to write the service worker (`/src-pwa/sw/custom-sw.js`) file by yourself.
 > - Please check the available workboxOptions for this mode on [Workbox website](https://developers.google.com/web/tools/workbox/reference-docs/latest/module-workbox-build#.injectManifest).
@@ -362,7 +361,7 @@ pwa: {
 
 Please read about the [manifest config](https://developer.mozilla.org/en-US/docs/Web/Manifest) before diving in.
 
-> [!WARNING]
+> [!NOTE]
 > Note that you don't need to edit your index.html file (generated from `/index.html`) to link to the manifest file. Quasar CLI takes care of embedding the right things for you.
 
 > [!TIP]
@@ -374,7 +373,7 @@ This option affects only the manifest request. If you add runtime caching for au
 
 More info: [PWA Checklist](https://web.dev/pwa-checklist/)
 
-> [!CAUTION]
+> [!WARNING]
 > Do not run [Lighthouse](https://developers.google.com/web/tools/lighthouse/) on your development build because at this stage the code is intentionally not optimized and contains embedded source maps (among many other things). See the [Testing and Auditing](/quasar-cli-vite/testing-and-auditing) section of these docs for more information.
 
 ## Reload & Update Automatically

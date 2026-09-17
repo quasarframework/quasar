@@ -298,7 +298,7 @@ quasar clean
 
 Generates Components, Pages, Layouts, Pinia Store.
 
-> [!TIP]
+> [!NOTE]
 > This command is simply a helper in order to quickly scaffold a page/layout/component/pinia store module. You are not required to use it, but can help you when you don't know how to start.
 
 ```

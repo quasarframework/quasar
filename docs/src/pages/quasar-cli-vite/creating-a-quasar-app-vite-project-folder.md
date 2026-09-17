@@ -3,7 +3,7 @@ title: Creating a @quasar/app-vite Project
 desc: (@quasar/app-vite) How to create a Project folder with @quasar/app-vite.
 ---
 
-> [!TIP]
+> [!IMPORTANT]
 > **Requirements:**
 >
 > - Node.js v22+

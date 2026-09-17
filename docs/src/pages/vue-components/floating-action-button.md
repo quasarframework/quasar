@@ -20,7 +20,7 @@ Note that you don’t need a QLayout to use FABs.
 
 There are two types of FABs: expandable (has sub-actions) and non-expandable.
 
-> [!TIP]
+> [!NOTE]
 > For an exhausting list of options, please read the API cards (at the top of this page).
 
 ### Non-Expandable

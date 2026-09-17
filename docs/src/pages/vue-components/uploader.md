@@ -16,13 +16,13 @@ Quasar supplies a way for you to upload files through the QUploader component.
 
 ## Usage
 
-> [!WARNING]
+> [!IMPORTANT]
 > QUploader requires a back-end server to receive the files. The examples below will not actually upload.
 
-> [!TIP]
+> [!NOTE]
 > QUploader is `drag and drop` compliant.
 
-> [!WARNING]
+> [!IMPORTANT]
 > When using vee-validate, you have to rename the "fieldBagName" configuration of vee-validate for the q-uploader to work.
 
 ### Design
@@ -41,7 +41,7 @@ By default, multiple files will be uploaded individually (one thread per file). 
 
 <DocExample title="Basic restrictions" file="RestrictionBasic" />
 
-> [!TIP]
+> [!NOTE]
 > In the example above, we're using `accept` property. Its value must be a comma separated list of unique file type specifiers. Maps to 'accept' attribute of native input type=file element. [More info](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/file#Unique_file_type_specifiers).
 
 > [!WARNING]
@@ -87,7 +87,7 @@ You can also use the `factory` Function prop and return immediately the same Obj
 
 In the example below we're showing the equivalent of the default header. Also notice some Boolean scope properties that you can use: `scope.canAddFiles`, `scope.canUpload`, `scope.isUploading`.
 
-> [!WARNING]
+> [!IMPORTANT]
 > Notice that you must install and use one more component (QUploaderAddTrigger) in order to be able to add files to the queue. This component needs to be placed under a DOM node which has `position: relative` (hint: QBtn has it already) and will automatically inject the necessary events when user clicks on its parent (do NOT manually add `@click="scope.pickFiles"`). If the trigger is not working, check if you have an element rendered above it and change the zIndex of QUploaderAddTrigger accordingly.
 
 <DocExample title="Custom header" file="SlotHeader" />
@@ -104,7 +104,7 @@ The header and per-file buttons are icon-only, so they carry localized accessibl
 
 QUploader works by default with the HTTP(S) protocol to upload files (but it's not limited to it as you'll see in the section following this one).
 
-> [!TIP]
+> [!NOTE]
 > It is by no means required to use a Node.js server or Spring or ASP.NET like below -- you can handle file upload however you want, as long as the method you are using fits the HTTP protocol. Example with [PHP](https://secure.php.net/manual/en/features.file-upload.php).
 
 ### Node.js
@@ -376,7 +376,7 @@ app->start;
 
 QUploader currently supports uploading through the HTTP(S) protocol. But you can extend the component to support other services as well. Like Firebase for example. Here's how you can do it.
 
-> [!WARNING]
+> [!NOTE]
 > **Help appreciated**
 >
 > We'd be more than happy to accept PRs on supporting other upload services as well, so others can benefit. Hit the `Edit this page in browser` link at bottom of this page or the pencil icon at the top of the page.
@@ -443,8 +443,7 @@ export default createUploaderComponent({
 })
 ```
 
-> [!TIP]
-> **TIPS**
+> [!NOTE]
 >
 > - For the default XHR implementation in the form of such a plugin, check out [source code](https://github.com/quasarframework/quasar/blob/dev/ui/src/components/uploader/xhr-uploader-plugin.js).
 > - For the UMD version use `Quasar.createUploaderComponent({ ... })`.

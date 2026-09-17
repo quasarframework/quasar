@@ -26,7 +26,7 @@ There are currently two types of QVirtualScroll: "list" (using QItems) and "tabl
 > [!WARNING]
 > Each browser imposes a maximum height on the scrolling container (Chromium caps it at 2^24 CSS pixels, roughly 16.7 million), so very large lists still hit a limit.
 
-> [!TIP]
+> [!IMPORTANT]
 > **SSR**
 >
 > On SSR, the initial window of items (sized by `virtual-scroll-slice-size`, since the viewport cannot be measured on the server) is rendered into the server payload; the real viewport re-slices after hydration. Your item template therefore runs on the server too, so keep it SSR-safe — the same requirement any server-rendered content has. This also applies to QTable's `virtual-scroll` mode.
@@ -71,12 +71,12 @@ If you need to specify the scroll target (because the auto detected one is not t
 
 If you need to use the virtual list with the whole page as the scrolling element then please set `scroll-target="body"`.
 
-> [!WARNING]
+> [!IMPORTANT]
 >
 > - If you pass a custom scroll target container with `scroll-target` prop you must make sure that the element exists and that it can be overflowed (it must have a maximum height and an overflow that allows scrolling).
 > - If the scroll target container cannot be overflowed you'll get the whole list rendered.
 
-> [!CAUTION]
+> [!IMPORTANT]
 > If you want to use a Vue reference for `scroll-target`, please take care to set it after mounting the component, like in the example below.
 
 <DocExample title="Custom scroll target by id" file="ScrollTargetId" />
@@ -93,7 +93,7 @@ If you need to use the virtual list with the whole page as the scrolling element
 
 You can also generate the items to be displayed on the list by using the `items-fn` prop.
 
-> [!WARNING]
+> [!IMPORTANT]
 > Make sure to use a synchronous function that returns the list of items to be displayed.
 
 If you need async data use a component that retrieves and renders the data.

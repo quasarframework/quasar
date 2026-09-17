@@ -38,7 +38,7 @@ Keep in mind that all props from both [QMenu](/vue-components/menu) and [QDialog
 
 <DocExample title="Props from QMenu or QDialog" file="Passthrough" />
 
-> [!TIP]
+> [!NOTE]
 > When a Menu is used, QPopupProxy applies a default `max-height` of `99vh` to it. Set the `max-height` prop to override this.
 
 ## Accessibility <q-badge label="v2.25+" />

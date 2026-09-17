@@ -11,5 +11,5 @@ The [Quasar Meta Plugin](/quasar-plugins/meta) can dynamically change page title
 
 Take full advantage of this feature by using it with **Quasar CLI**, especially **for the SSR (Server-Side Rendering) and SSG builds**. Note that for a SPA (Single Page Applications) the meta tags are added at runtime and not supplied directly by the webserver (as with SSR/SSG builds).
 
-> [!TIP]
+> [!NOTE]
 > This Quasar plugin has the most tight integration with Quasar and so it has the best performance against any other similar solution.

@@ -32,7 +32,7 @@ setup () {
 }
 ```
 
-> [!TIP]
+> [!NOTE]
 > When user hits the phone/tablet back button (only for Cordova apps), the Action Sheet will get closed automatically.
 >
 > Also, when on a desktop browser, hitting the `ESCAPE` key also closes the Action Sheet.
@@ -43,5 +43,5 @@ Starting with Quasar v2.28, the `onCancel` callback (and `onDismiss`, when no ac
 
 <DocExample title="Force dark mode" file="Dark" />
 
-> [!TIP]
+> [!NOTE]
 > For an exhaustive list of options, please check API section.

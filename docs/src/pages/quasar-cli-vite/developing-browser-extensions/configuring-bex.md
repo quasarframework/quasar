@@ -143,7 +143,7 @@ When you first add the BEX mode, you will notice that the manifest file contains
 }
 ```
 
-> [!WARNING]
+> [!IMPORTANT]
 > **For TS devs**
 >
 > Your background and content scripts have the `.ts` extension. Use that extension in the manifest.json file as well! Examples: "background.ts", "my-content-script.ts". While the browser vendors do support only the `.js` extension, Quasar CLI will convert the file extensions automatically.
@@ -187,10 +187,10 @@ In summary:
 - **Background Script** - runs in the context of the BEX itself and can listen to all available browser extension events.
 - **Content Script** - runs in the context of the web page. There will be a new content script instance per tab running the extension.
 
-> [!TIP]
+> [!NOTE]
 > Given content scripts run in the web page context, this means that only BEX's that interact with a web page can use content scripts. Popups, Options and Devtools **will not** have a _content script_ running behind them. They will all however have the _background script_.
 
-> [!WARNING]
+> [!NOTE]
 > In Chrome with [Manifest v3](https://developer.chrome.com/docs/extensions/mv3/intro/) your background script is actually a Service Worker. This does not currently apply to Firefox with Manifest v3 (yet).
 
 ## CSS
@@ -208,7 +208,7 @@ Any styles you want to be made available to your web page (not your Quasar App) 
 ]
 ```
 
-> [!WARNING]
+> [!IMPORTANT]
 > This must be native CSS as it's not preprocessed via Sass.
 
 ## Dynamic/other scripts

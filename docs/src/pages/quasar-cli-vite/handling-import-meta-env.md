@@ -9,7 +9,7 @@ Using `import.meta.env` can help you in many ways:
 - differentiating runtime procedure depending if running a dev or production build
 - adding flags to it based on terminal environment variables at build time
 
-> [!TIP]
+> [!NOTE]
 > **Terminology on client vs backend code**
 >
 > We will be using `client code` and `backend code` on this page:
@@ -166,7 +166,7 @@ export default defineConfig(ctx => {
 
 Then, in your website/app, you can access `import.meta.env.API` and it will point to one of those two links above, depending on dev or production build type. The `import.meta.env.VERSION` will also be available.
 
-> [!TIP]
+> [!NOTE]
 > There is a fundamental difference between `build.define` and `build.defineEnv`. The build.defineEnv is syntax sugar over build.define:
 >
 > - It automatically translates to build.define syntax, adding "import.meta.env." to the key prefix and JSON stringifies the value.

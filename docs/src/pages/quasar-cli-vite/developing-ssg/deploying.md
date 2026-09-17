@@ -107,7 +107,7 @@ Do not use `csr.html` as the fallback for every unknown URL unless you intention
 
 This example serves generated SSG files first, uses a CSR shell only for `/dashboard` and `/admin`, and uses `404.html` for all other missing files:
 
-> [!TIP]
+> [!NOTE]
 > This and the following examples assume that `build.publicPath` is `/`. If you deploy under a sub-folder, prefix the request paths and fallback destinations with that sub-folder.
 
 ```nginx

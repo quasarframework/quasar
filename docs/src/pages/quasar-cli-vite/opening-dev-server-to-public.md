@@ -5,7 +5,7 @@ desc: (@quasar/app-vite) How to offer temporary access to your development serve
 
 At some point you may want to show someone else the project you've been working on. Fortunately, there are a couple of good tools to accomplish this, [localhost.run](https://localhost.run/) and [Ngrok](https://ngrok.com/). Both create a tunnel to your dev server and (by default) auto-generate an internet address on their respective servers to offer to your clients or anyone special you'd like to show your work to.
 
-> [!WARNING]
+> [!CAUTION]
 > Opening your dev server to the public poses security risks. Be absolutely cautious when using tools like this.
 >
 > The Quasar development server is not a hardened production server and does not add authentication. A tunnel can expose development-only routes, source maps, error details, and anything reachable through `devServer.proxy`. Never place secrets in client-exposed environment variables, and do not tunnel a project connected to sensitive development or production data.
@@ -39,7 +39,7 @@ devServer: {
 }
 ```
 
-> [!WARNING]
+> [!CAUTION]
 > Treat this as a temporary change and remove the entry once you are done, especially before committing.
 >
 > Never use `allowedHosts: true` (which accepts any `Host` header) as a shortcut: it opens your dev server to DNS rebinding attacks, where a website that some other tab of your browser visits can reach your app and read whatever it serves.

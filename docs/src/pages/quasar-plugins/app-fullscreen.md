@@ -17,7 +17,7 @@ Quasar makes it easy by wrapping the [Web Fullscreen API](https://developer.mozi
 
 ## Usage
 
-> [!TIP]
+> [!NOTE]
 > For an exhaustive list of properties and methods, please check out the API section.
 
 ```js Outside of a Vue file

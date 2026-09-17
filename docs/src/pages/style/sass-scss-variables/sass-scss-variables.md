@@ -5,7 +5,7 @@ desc: How to use the Sass/SCSS variables defined by Quasar.
 
 There are Sass/SCSS variables built into Quasar that you can change and/or use within devland should you wish to.
 
-> [!WARNING]
+> [!NOTE]
 > This applies to Quasar CLI managed apps only.
 
 ## Usage
@@ -29,10 +29,10 @@ In your app's `*.vue` files or in the .sass/.scss files you can use any Quasar S
 </style>
 ```
 
-> [!TIP]
+> [!NOTE]
 > You don't need to necessarily have the `/src/css/quasar.variables.sass` or `/src/css/quasar.variables.scss` files if you want to access the Quasar Sass/SCSS variables. Create one of them only if you want to customize the variables.
 
-> [!CAUTION]
+> [!IMPORTANT]
 > When creating or deleting any of the `/src/css/quasar.variables.*` files, you will need to restart your dev server in order for it to take effect. However, when you change the content of these files it won't be necessary to also restart.
 
 ## Caveat

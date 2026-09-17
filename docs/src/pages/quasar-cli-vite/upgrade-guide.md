@@ -3,9 +3,7 @@ title: Upgrade Guide for Quasar CLI with Vite
 desc: (@quasar/app-vite) How to upgrade Quasar CLI with Vite from older versions to the latest one.
 ---
 
-> [!WARNING]
-> **Important!**
->
+> [!NOTE]
 > This guide refers to upgrading a @quasar/app-vite v2 project to @quasar/app-vite v3.
 > For older versions, please refer to [https://legacy-app.quasar.dev](https://legacy-app.quasar.dev).
 
@@ -1238,7 +1236,7 @@ You may want to add a CSP meta tag in your `/index.html`. This is especially use
 </html>
 ```
 
-> [!TIP]
+> [!NOTE]
 > This works great with Oxlint and Oxfmt. However, the above might need a bit of tweaking when using ESLint and vite-plugin-checker.
 
 <llm-exclude reason="meant for real users only">

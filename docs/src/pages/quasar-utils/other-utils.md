@@ -4,7 +4,7 @@ desc: A set of miscellaneous Quasar methods for debouncing or throttling functio
 keys: openURL,copyToClipboard,exportFile,debounce,frameDebounce,throttle,extend,uid,event
 ---
 
-> [!TIP]
+> [!NOTE]
 > For usage with the UMD build see [here](/start/umd#quasar-global-object).
 
 ## openURL
@@ -47,7 +47,7 @@ openURL(
 )
 ```
 
-> [!TIP]
+> [!IMPORTANT]
 > If you want to open the telephone dialer in a Cordova app, don't use `openURL()`. Instead you should directly use `<a href="tel:123456789">` tags or `<QBtn href="tel:123456789">`
 
 ## copyToClipboard

@@ -53,7 +53,7 @@ quasar dev -m bex -T [chrome|firefox]
 
 This will add BEX mode automatically, if it is missing, by creating the `/src-bex` folder into your project.
 
-> [!TIP]
+> [!NOTE]
 > The `src-bex` folder is just a standard browser extension folder so you are free to use it as you would any other browser extension project folder. Please refer to supported Browser Extension documentation to learn more.
 >
 > - [Google Chrome Browser Extension Documentation](https://developer.chrome.com/extensions)

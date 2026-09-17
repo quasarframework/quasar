@@ -9,5 +9,5 @@ desc: (@quasar/app-vite) How to manage HMR (Hot Module Reload) with Quasar PWA.
 
 When your development activity does not include configuring the Service Worker (like when editing the "/src-pwa/register-sw.js" file), then you can safely trigger the `quasar dev -m spa` (instead of `quasar dev -m pwa`) command to avoid the extra hassle of paying attention to the effects of the Service Worker -- which sometimes may get in the way.
 
-> [!WARNING]
+> [!NOTE]
 > The development server by default uses a bare minimum Service Worker precaching only the public folder. Working offline will not be available.

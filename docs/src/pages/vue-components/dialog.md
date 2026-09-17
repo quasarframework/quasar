@@ -17,7 +17,7 @@ From a UI perspective, you can think of Dialogs as a type of floating modal, whi
 > [!TIP]
 > Dialogs can also be used as a globally available method for more basic use cases, like the native JS alert(), prompt(), etc. For the latter behaviour, go to [Dialog Plugin](/quasar-plugins/dialog) page.
 
-> [!WARNING]
+> [!TIP]
 > **Masterclass TIP**
 >
 > Rather than cluttering your .vue templates with QDialogs, it's best if you write a component for your dialog and use the [Dialog Plugin](/quasar-plugins/dialog#invoking-custom-component) to invoke it from anywhere in your app.
@@ -26,9 +26,7 @@ From a UI perspective, you can think of Dialogs as a type of floating modal, whi
 
 ## Usage
 
-> [!WARNING]
-> **Note**
->
+> [!IMPORTANT]
 > It's best that your QDialog main content is a QCard. However, if you are planning on using any other component (like QForm) or tag, make sure that the direct child of QDialog is rendered with a `<div>` tag (or wrap it with one yourself).
 
 ### Basic
@@ -45,12 +43,12 @@ From a UI perspective, you can think of Dialogs as a type of floating modal, whi
 
 <DocExample title="Positions" file="Positioning" />
 
-> [!TIP]
+> [!NOTE]
 > Do not mistake "position" prop with the show/hide animation. If you want a custom animation, you should use `transition-show` and `transition-hide` which can be applied regardless of "position" or "maximized".
 
 <DocExample title="Maximized" file="Maximized" />
 
-> [!TIP]
+> [!NOTE]
 > **iOS**
 >
 > On iOS the soft keyboard does not shrink the page, so a dialog (especially a bottom-anchored one) could end up under it when one of its fields gets focused. QDialog keeps itself within the visible part of the screen while the keyboard is open.
@@ -63,7 +61,7 @@ Dialogs can contain any content. Some examples:
 
 <DocExample title="With containerized QLayout" file="Layout" />
 
-> [!TIP]
+> [!IMPORTANT]
 > If you are going to use the containerized QLayout, you'll need to put a width on your QDialog, if using left/right position, or a height, if using top/bottom position. You can use vw and vh units.
 
 ### Handling scroll

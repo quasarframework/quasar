@@ -5,7 +5,7 @@ desc: (@quasar/app-vite) How to communicate using your background script with ot
 
 The background script runs in the context of the BEX itself and can listen to all available browser extension events.
 
-> [!WARNING]
+> [!NOTE]
 > In Chrome with [Manifest v3](https://developer.chrome.com/docs/extensions/mv3/intro/) your background script is actually a Service Worker. This does not currently apply to Firefox with Manifest v3 (yet).
 
 ## Registering a background script
@@ -26,7 +26,7 @@ Your `/src-bex/manifest.json` is the central point that defines your BEX. This i
 }
 ```
 
-> [!WARNING]
+> [!IMPORTANT]
 > **For TS devs**
 >
 > Your background and content scripts have the `.ts` extension. Use that extension in the manifest.json file as well! Examples: "background.ts", "my-content-script.ts". While the browser vendors do support only the `.js` extension, Quasar CLI will convert the file extensions automatically.

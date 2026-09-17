@@ -41,14 +41,14 @@ Below is again the same example, but using only QTimelineEntry slots:
 
 ### Layouts and side selection
 
-> [!WARNING]
+> [!NOTE]
 > QTimelineEntry only takes into account its `side` prop if QTimeline has the `loose` layout.
 
 <DocExample title="Layouts and side selection" file="Layouts" scrollable />
 
 ### Responsive
 
-> [!TIP]
+> [!NOTE]
 > The examples below uses `$q.screen` to detect changes in window size to see all 3 layouts in action.
 
 <DocExample title="Responsive layout" file="Responsive" scrollable />

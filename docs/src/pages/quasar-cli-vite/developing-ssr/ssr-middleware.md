@@ -9,7 +9,7 @@ The SSR middleware files fulfill one special purpose: they prepare the Node.js s
 
 With SSR middleware files, it is possible to split the middleware logic into self-contained, easy to maintain files. It is also trivial to disable any of the SSR middleware files or even contextually determine which of the SSR middleware files get into the build through the `/quasar.config` file configuration.
 
-> [!WARNING]
+> [!IMPORTANT]
 > You will need at least one SSR middleware file which handles the rendering of the page with Vue (which should be positioned as last in the middlewares list). When SSR mode is added to your Quasar CLI project, this will be scaffolded into `src-ssr/middlewares/render.js`.
 
 ## Anatomy of a middleware file
@@ -246,14 +246,12 @@ ssr: {
 }
 ```
 
-> [!WARNING]
+> [!IMPORTANT]
 > The order in which you specify the SSR middlewares matters because it determines the way in which the middlewares are applied to the Node.js server. So they influence how it responds to the client.
 
 ## The SSR render middleware
 
-> [!CAUTION]
-> **Important!**
->
+> [!IMPORTANT]
 > Out of all the possible SSR middlewares in your app, **this one is absolutely required**, because it handles the actual SSR rendering with Vue.
 
 In the example below we highlight that this middleware needs to be the last in the list. This is because it also responds to the client (as we'll see in the second code sample below) with the HTML of the page. So any subsequent middleware cannot set headers.

@@ -15,7 +15,7 @@ QParallax takes care of a lot of quirks, including image/video size which can ac
 
 ## Usage
 
-> [!TIP]
+> [!NOTE]
 > **Scrolling container**
 >
 > QParallax reacts to scrolling in any container on the page. The auto detected scrolling container (see [here](/vue-components/scroll-observer#determining-scrolling-container) about how Quasar determines it) only defines the box the scroll percentage is computed against; use the `scroll-target` prop when the detection picks the wrong one.
@@ -29,7 +29,7 @@ QParallax takes care of a lot of quirks, including image/video size which can ac
 > [!WARNING]
 > On some iOS platforms there may be problems regarding the autoplay feature of the native `<video>` tag. [Reference](https://webkit.org/blog/6784/new-video-policies-for-ios/). QParallax and Quasar are not interfering in any way with the client browser's ability/restrictions on the `<video>` tag.
 
-> [!WARNING]
+> [!IMPORTANT]
 > When using the `video` tag inside QParallax, you **must** provide the `width` and `height` attributes in order for QParallax to work properly because of the intrinsic resizing capabilities of this type of media. Also, be aware that the actual video width and height are not available until the video's metadata has been loaded.
 
 <DocExample title="Custom height with video background" file="Video" />

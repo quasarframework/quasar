@@ -107,7 +107,7 @@ However, if we want to show a nice page instead, either create a function to ret
 2. Write the Vue component to handle this page. In this example, we create `/src/pages/Error500.vue`
 3. Then in `/src-ssr/middlewares/render.js` redirect the client to this path.
 
-> [!CAUTION]
+> [!WARNING]
 > The only caveat in this case is that you may end up in an endless loop if this VueRouter route throws an erorr too! So be extremely carefull should you choose this path.
 
 The perfect approach to avoid this would simply be to directly return the HTML (as String) of the error 500 page from `/src-ssr/middlewares/render.js`

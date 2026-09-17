@@ -13,7 +13,7 @@ Before we dive in to the actual development, we need to do some preparation work
 
 - After installing the Android SDK, accept its licenses by running `sdkmanager --licenses`. With a current command-line tools installation, `sdkmanager` is under `$ANDROID_HOME/cmdline-tools/latest/bin`.
 
-> [!WARNING]
+> [!NOTE]
 > `ANDROID_HOME` is the current variable for the Android SDK location. `ANDROID_SDK_ROOT` is deprecated; if an older tool still requires it, give both variables the same value.
 
 - Add Android installation to your path:
@@ -36,7 +36,7 @@ Using the Windows UI (search for "Edit environment variables for your account" i
 %ANDROID_HOME%\platform-tools
 ```
 
-> [!WARNING]
+> [!CAUTION]
 > Do not use `setx` for updating `Path` — it truncates the stored value to 1024 characters, which can permanently destroy part of your existing `Path`.
 
 - Start Android studio (check the executable in the folder that you installed it in). Next step is to install the individual SDKs:
@@ -62,7 +62,7 @@ If you haven't installed [CocoaPods](https://cocoapods.org/), please install it 
 >
 > [warn] Skipping pod install because CocoaPods is not installed,
 
-> [!CAUTION]
+> [!WARNING]
 > **Xcode Error**
 >
 > /path-to/your-project/src-capacitor/ios/App/Pods/Target Support Files/Pods-App/Pods-App.debug.xcconfig:1:1 unable to open configuration settings file

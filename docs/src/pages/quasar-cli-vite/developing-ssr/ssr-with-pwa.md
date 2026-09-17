@@ -79,7 +79,7 @@ The offline shell is a client-side rendering shell, so on those page loads:
 - the [preFetch feature](/quasar-cli-vite/prefetch-feature) hooks run on the client instead of on the server
 - nothing that lives only on the server side (`ssrContext`, its request and response objects, the server-side part of your boot files) is involved
 
-> [!TIP]
+> [!NOTE]
 > This concerns full page loads only. In-app navigation was already handled by Vue Router on the client, and your API calls still go out over the network as usual.
 
 ## Letting the server render every navigation

@@ -7,7 +7,7 @@ related:
   - /style/theme-builder
 ---
 
-> [!TIP]
+> [!NOTE]
 > For a better understanding of this Quasar plugin, please head to the Style & Identity [Dark Mode](/style/dark-mode) page.
 
 <DocApi file="Dark" />
@@ -16,7 +16,7 @@ related:
 
 ## Usage
 
-> [!WARNING]
+> [!IMPORTANT]
 > Do not manually assign a value to `isActive` or `mode` from below. Instead, use the `set(val)` method.
 
 ### Inside of a Vue file

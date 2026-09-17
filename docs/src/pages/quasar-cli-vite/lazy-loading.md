@@ -3,9 +3,7 @@ title: Lazy Loading / Code Splitting
 desc: (@quasar/app-vite) How to create async chunks in a Quasar CLI with Vite app.
 ---
 
-> [!TIP]
-> **Important!**
->
+> [!NOTE]
 > This page refers to a project where [Filename-Based Routing](/quasar-cli-vite/page-routing-with-vue-router#filename-based-routing) is **NOT** enabled.
 >
 > When this feature is enabled, the default config will automatically lazy load all the layouts and pages, so you don't need this guide.
@@ -18,7 +16,7 @@ We'll cover how you can lazy load / code split parts of your app so that they ar
 
 It's normal to use the Vue Router calling static components as below.
 
-> [!WARNING]
+> [!NOTE]
 > Quasar documentation assumes you are already familiar with [Vue Router](https://github.com/vuejs/vue-router). Below it's described only the basics of how to make use of it in a Quasar CLI project. For the full list of its features please visit the [Vue Router documentation](https://router.vuejs.org/).
 
 ```js

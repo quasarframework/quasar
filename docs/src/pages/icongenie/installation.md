@@ -25,7 +25,7 @@ bun install -g @quasar/icongenie
 
 This will install the `icongenie` command line tool.
 
-> [!TIP]
+> [!IMPORTANT]
 > **Attention developers on Windows**
 >
 > If you get an error like "pngquant failed to build" then you need to also globally install windows-build-tools ("yarn global add windows-build-tools" or "npm install --global windows-build-tools"). Then go to C:\Users\\<windows_username>\\.windows-build-tools and run vs_BuildTools.exe. From there select npm/yarn and python to install. After this step it might require you to reboot your machine, otherwise you can now install @quasar/icongenie.

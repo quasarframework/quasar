@@ -32,7 +32,7 @@ List Items have the following pre-built child components:
 
 <DocExample title="Basic" file="Basic" />
 
-> [!TIP]
+> [!NOTE]
 > A QItem with a `@click` listener is clickable by default (v2.29+): it gets the hover effects, keyboard activation and its `click` event without the `clickable` prop. Set `clickable` explicitly only when there is no listener (a `v-close-popup` entry, for example) or when you need to toggle the behavior through a boolean; an explicit `clickable="false"` wins over the listener.
 
 <DocExample title="Force dark mode" file="Dark" />

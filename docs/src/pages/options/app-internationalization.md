@@ -11,7 +11,7 @@ Internationalization is a design process that ensures a product (a website or ap
 > [!TIP]
 > The recommended package for handling website/app is [vue-i18n](https://github.com/intlify/vue-i18n-next). This package should be added through a [@quasar/app-vite Boot File](/quasar-cli-vite/boot-files). On the Boot File documentation page you can see a specific example for plugging in vue-i18n.
 
-> [!WARNING]
+> [!NOTE]
 > Quasar documentation assumes you are already familiar with [vue-i18n](https://github.com/intlify/vue-i18n-next). Below it's described only the basics of how to make use of it in a Quasar CLI project. For the full list of its features please visit the [Vue I18n documentation](https://vue-i18n.intlify.dev).
 
 ## Setup manually
@@ -104,7 +104,7 @@ Now you are ready to use it in your pages.
 
 ## Setting up Translation Blocks in your SFCs <q-badge label="@quasar/app-vite only" />
 
-> [!WARNING]
+> [!NOTE]
 > The following section applies to projects that use @quasar/app-vite only!
 
 If we want to add support to the `<i18n>` tag inside a SFC (single file component) in a Quasar CLI project then we need to modify the existing configuration.

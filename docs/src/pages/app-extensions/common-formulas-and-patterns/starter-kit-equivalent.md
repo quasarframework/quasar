@@ -45,10 +45,10 @@ scope:
 
 This guide is for when you want to create what essentially is a "starter kit" that adds stuff (/quasar.config file configuration, folders, files, CLI hooks) on top of the official starter kit. This allows you to have multiple projects sharing a common structure/logic (and only one package to manage them rather than having to change all projects individually to match your common pattern), and also allows you to share all this with the community.
 
-> [!TIP]
+> [!NOTE]
 > In order for creating an App Extension project folder, please first read the [Development Guide > Introduction](/app-extensions/development-guide/introduction).
 
-> [!TIP]
+> [!NOTE]
 > **Full Example**
 >
 > To see an example of what we will build, head over to the [MyStarterKit full example](https://github.com/quasarframework/app-extension-examples/tree/v3/my-starter-kit) on GitHub.

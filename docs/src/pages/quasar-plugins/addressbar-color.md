@@ -54,5 +54,5 @@ export default {
 }
 ```
 
-> [!TIP]
+> [!NOTE]
 > Calling `set()` with no parameters will use the primary color.

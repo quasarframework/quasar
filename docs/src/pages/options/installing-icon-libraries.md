@@ -6,12 +6,12 @@ related:
   - /vue-components/icon
 ---
 
-> [!TIP]
+> [!NOTE]
 > **This page refers to using [webfont icons](/vue-components/icon#webfont-icons) only.** [Svg icons](/vue-components/icon#svg-icons) do not need any installation step.
 
 You'll most likely want icons in your website/app and Quasar offers an easy way out of the box for the following icon libraries: [Material Icons](https://fonts.google.com/icons?icon.set=Material+Icons), [Material Symbols](https://fonts.google.com/icons?icon.set=Material+Symbols), [Font Awesome](https://fontawesome.com/icons), [Ionicons](http://ionicons.com/), [MDI](https://materialdesignicons.com/), [Eva Icons](https://akveo.github.io/eva-icons), [Themify Icons](https://themify.me/themify-icons), [Line Awesome](https://icons8.com/line-awesome) and [Bootstrap Icons](https://icons.getbootstrap.com/). But you can [add support for others](/vue-components/icon#custom-mapping) by yourself.
 
-> [!TIP]
+> [!NOTE]
 > In regards to webfont icons, you can choose to install one or more of these icon libraries.
 
 ## Installing Webfonts
@@ -161,7 +161,7 @@ export default ({ app }) => {
 
 1. Create a [kit](https://fontawesome.com/kits) in your Font Awesome account and configure the icons that it should include.
 
-> [!WARNING]
+> [!IMPORTANT]
 > If you also set `iconSet: 'fontawesome-v7-pro'` in the `/quasar.config` file (step 4 below), then the kit must include the Light style icons referenced by the Quasar [icon-set source](https://github.com/quasarframework/quasar/blob/dev/ui/icon-set/fontawesome-v7-pro.js), otherwise the icons used internally by the framework components will not render. Alternatively, override the icon set from the boot file (step 6 below) so that it only points to icons that your kit contains.
 
 2. Download the kit for self-hosting and pick the Web Fonts flavor of it (the Quasar icon sets rely on the webfont CSS classes).

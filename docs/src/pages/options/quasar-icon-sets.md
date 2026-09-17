@@ -17,7 +17,7 @@ It is also possible to use your own icon files (SVG or any image format) with an
 
 You can also provide an icon mapping function to add support for any other icon library or re-map some existing ones to your liking, see [QIcon | Custom mapping](/vue-components/icon#custom-mapping) for more details. You can use this to re-map long image file paths to short and understandable names, if using image icons, for example.
 
-> [!TIP]
+> [!NOTE]
 > Related pages: [Installing Icon Libraries](/options/installing-icon-libraries) and [QIcon component](/vue-components/icon).
 
 <DocApi file="IconSet" />

@@ -3,7 +3,7 @@ title: Configure VS Code
 desc: How to configure VS Code for best usage with Quasar, from the extensions and the linter and formatter settings to the Quasar MCP server for Copilot.
 ---
 
-> [!TIP]
+> [!NOTE]
 > This guide assumes you have already installed VS Code (Visual Studio Code).
 
 ## VS Code Extensions

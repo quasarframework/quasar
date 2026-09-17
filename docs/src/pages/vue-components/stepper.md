@@ -19,7 +19,7 @@ They're usually useful when the user has to follow steps to complete a process, 
 The `QStepperNavigation` component allows you to place buttons within `QStepper` or `QStep` to
 navigate through the steps. It is up to you to add whatever buttons you require.
 
-> [!TIP]
+> [!IMPORTANT]
 > To use global navigation, you must add it to the `QStepper` "navigation" slot.
 
 ## Usage
@@ -27,7 +27,7 @@ navigate through the steps. It is up to you to add whatever buttons you require.
 > [!TIP]
 > If the QStep content also has images and you want to use swipe actions to navigate, you might want to add `draggable="false"` to them, otherwise the native browser behavior might interfere in a negative way.
 
-> [!CAUTION]
+> [!IMPORTANT]
 > **Keep Alive**
 >
 > - Please take notice of the Boolean `keep-alive` prop for QStepper, if you need this behavior. Do NOT use Vue's native `<keep-alive>` component over QStep.

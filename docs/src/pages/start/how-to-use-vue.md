@@ -116,7 +116,7 @@ Let's take the following example with a QBtn and QIcon and then we'll see how to
 
 Quasar Plugins are features that you can use both in your Vue files as well as outside of them, like Notify, BottomSheet, AppVisibility and so on.
 
-> [!WARNING]
+> [!IMPORTANT]
 > **Before using them in your app**, you need to add a reference to them in the `/quasar.config` file (as shown below).
 
 ```js
@@ -180,7 +180,7 @@ Notify.create('My message')
 
 ### Self-Closing Tags
 
-> [!CAUTION]
+> [!WARNING]
 > Do NOT use self-closing tag form when you are using **Quasar UMD version**. Your browser is interpreting the HTML before Vue parses your DOM elements, so your HTML syntax must be correct. Unknown tags (like Vue components) cannot be self-closing because your browser will interpret those as if you are opening a tag but never closing it.
 
 Some Quasar components do not need you to include HTML content inside of them. In this case, you can use them as self-closing tags. One example with QIcon below:
@@ -221,7 +221,7 @@ Let's take some examples with a bogus Quasar component (we will call it QBogus) 
 
 A boolean property means it only accepts a strictly Boolean value. The values will not be cast to Boolean, so you must ensure you are using a true Boolean.
 
-> [!TIP]
+> [!NOTE]
 > In Quasar, all Boolean properties have `false` as the default value. As a result, you don't have to explicitly assign them the `false` value.
 
 If you are trying to control that property and change it dynamically at runtime, then bind it to a variable in your scope:
@@ -379,7 +379,7 @@ When the default slot is the only one used and it receives data, the shorthand c
 </template>
 ```
 
-> [!TIP]
+> [!NOTE]
 > The `vue/v-slot-style` rule of eslint-plugin-vue (enabled by its `strongly-recommended` preset and above) prefers `v-slot="scope"` on a component tag by default. The [scaffolded ESLint configuration](/quasar-cli-vite/lint-and-format-code#eslint-prettier) sets it to `shorthand`, so a copied example never trips it.
 
 ## Handling Vue Methods

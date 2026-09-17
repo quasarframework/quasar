@@ -33,10 +33,10 @@ Run `quasar prepare` in the root of your project folder.
 
 Now you can start using TypeScript into your project. Note that some IDEs might require a restart for the new setup to fully kick in.
 
-> [!TIP]
+> [!IMPORTANT]
 > Remember that you must change the extension of your JavaScript files to `.ts` to be allowed to write TypeScript code inside them. To use TypeScript in Vue files, you must update the script tag to include the `lang="ts"` attribute, like `<script lang="ts">` or `<script setup lang="ts">`
 
-> [!WARNING]
+> [!IMPORTANT]
 > If you forget to add the `tsconfig.json` file, the application will break at compile time!
 
 ## Linting setup
@@ -135,7 +135,7 @@ For reviewing purposes, here is an example of the generated tsconfig (non strict
 }
 ```
 
-> [!TIP]
+> [!NOTE]
 > **@quasar/app-vite v3.8+**
 >
 > Writing components with TSX only requires enabling [quasar.config file > build > vueJsx](/quasar-cli-vite/handling-vite#jsx-tsx). The CLI then adds the `jsx` and `jsxImportSource` compiler options to the generated tsconfig for you.

@@ -15,7 +15,7 @@ The QScrollArea component offers a neat way of customizing the scrollbars by enc
 
 The following examples are best seen on desktop as they make too little sense on a mobile device.
 
-> [!TIP]
+> [!NOTE]
 > You can also take a look at [Layout Drawer](/layout/drawer) to see some more examples of it in action.
 
 ### Basic

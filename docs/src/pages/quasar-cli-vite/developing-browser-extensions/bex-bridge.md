@@ -17,7 +17,7 @@ You can use our BEX bridge to directly communicate between the background script
 
 The use of the BEX bridge is optional for each part of the BEX, however if you want to be able to directly communicate between any bex part, then you need to create it in your background script. Under the hood, the background script acts as the main point of communication. All messages go through the bridge in the background script (and get redirected to the right recipient).
 
-> [!WARNING]
+> [!CAUTION]
 > Treat every bridge message as untrusted input, especially messages originating from a content script that interacts with arbitrary web pages. Validate the event name, sender, payload shape, URLs, and identifiers before using extension permissions or accessing stored data. Expose narrow operations instead of a generic privileged command, and request only the manifest permissions and host access your extension needs.
 
 ## Background script lifetime <q-badge label="@quasar/app-vite v3.8.1+" />
@@ -30,7 +30,7 @@ With Manifest v3, the background script runs as a service worker (or as an event
 
 Bridges disconnected explicitly through `bridge.disconnectFromBackground()` opt out of the automatic reconnection.
 
-> [!TIP]
+> [!WARNING]
 > Any state held in your background script's memory is lost on each termination. Persist what needs to survive with `chrome.storage` instead of plain variables.
 
 ## The Bridge
@@ -43,7 +43,7 @@ Let's see how it works.
 
 ### The background script
 
-> [!WARNING]
+> [!IMPORTANT]
 > You can have multiple background scripts specified in your manifest.json, however, create the BEX bridge ONLY in one of those background scripts. Do not use multiple bridge instances for the background part of your BEX.
 
 ```js

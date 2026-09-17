@@ -18,7 +18,7 @@ The QCarousel component allows you to display more information with less real es
 > [!TIP]
 > If the QCarouselSlide content also has images and you want to use swipe actions to navigate, you might want to add `draggable="false"` to them, otherwise the native browser behavior might interfere in a negative way.
 
-> [!CAUTION]
+> [!IMPORTANT]
 > **Keep Alive**
 >
 > - Please take notice of the Boolean `keep-alive` prop for QCarousel, if you need this behavior. Do NOT use Vue's native `<keep-alive>` component over QCarouselSlide.
@@ -91,7 +91,7 @@ In the example below there are thumbnails being generated automatically. Thumbna
 
 <DocExample title="Thumbnails" file="Thumbnails" />
 
-> [!TIP]
+> [!IMPORTANT]
 > Don't use the property `navigation` along with `thumbnails` as the first supercedes the latter so the thumbnails will not be displayed.
 
 ### Infinite and autoplay

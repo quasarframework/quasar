@@ -149,7 +149,7 @@ You can omit specifying the `columns`. QTable will infer the columns from the pr
 > [!WARNING]
 > Sticky headers and columns are achieved through CSS with `position: sticky`. This is NOT supported on all browsers. Check [caniuse.com](https://caniuse.com/#search=sticky) before using this technique.
 
-> [!TIP]
+> [!NOTE]
 > Pay attention to the code in the "style" section in the following examples, especially around `position: sticky`.
 >
 > The browser paints each sticky cell independently and table cells can have fractional sizes, so on some display scalings or browser zoom levels (Windows 125% scaling, for example) hairline gaps can appear between sticky cells, revealing the content scrolled behind them. The 1px `box-shadow` in the same color as the cell background that you will see in the examples below covers such gaps.
@@ -176,7 +176,7 @@ The `footer` slot (rendered as a real `<tfoot>` element) can be made sticky the 
 
 <DocExample title="Custom column" file="CustomColumn" />
 
-> [!TIP]
+> [!NOTE]
 > For all the styling component properties, please check the API card at the top of the page.
 
 <DocExample title="Custom coloring" file="CustomColor" />
@@ -212,12 +212,12 @@ There are 2 utility CSS classes that control VirtualScroll size calculation:
 
 <DocExample title="Virtual scroll with multiple rows for a data row" file="VirtscrollMultipleRows" />
 
-> [!TIP]
+> [!IMPORTANT]
 > When rendering more than one `QTr` for the same row of data (through the `body` slot), give each `QTr` a distinct `key` and add the `q-virtual-scroll--with-prev` class to every extra `QTr` after the first one. This tells VirtualScroll to group their sizes together with the previous element, so the total height of the data row is measured correctly. If a row should not be measured at all (for example, a separator), use `q-virtual-scroll--skip` instead. This is especially important when also using a sticky header or row expansion, otherwise you may notice an incorrect scroll height or a jumping scroll position.
 
 ## Selection
 
-> [!WARNING]
+> [!IMPORTANT]
 > The property `row-key` must be set in order for selection to work properly.
 
 <DocExample title="Single selection" file="SingleSelection" />
@@ -240,7 +240,7 @@ Please note that columns marked as `required` (in the column definition) cannot 
 
 ## Popup editing
 
-> [!TIP]
+> [!IMPORTANT]
 > Below is an example with the user being able to edit “in place” with the help of **QPopupEdit** component. Please note that we are using the `body` scoped slot. **QPopupEdit** won’t work with cell scoped slots.
 >
 > QPopupEdit edits one cell at a time. To edit a whole row at once, or to offer per row actions (like Edit and Remove), render your own buttons in a `body-cell` scoped slot and open a [QDialog](/vue-components/dialog) holding a form for that row.
@@ -275,7 +275,7 @@ However, if you want to fully customize the content, check the example below, wh
 
 ## Expanding rows
 
-> [!WARNING]
+> [!IMPORTANT]
 > Add unique (distinct) `key` on QTr if you generate more than one QTr from a row in data.
 
 <DocExample title="Internal expansion model" file="ExpandedRowInternal" />
@@ -291,7 +291,7 @@ If you are using virtual scroll with QTable, you should know that there are 2 ut
 
 <DocExample title="Virtual scroll with expansion model" file="VirtscrollExpandedRow" />
 
-> [!TIP]
+> [!IMPORTANT]
 > An expanded row is just another `QTr` rendered for the same row of data, so the same rules from "Virtual scrolling" apply: give it its own unique `key` and the `q-virtual-scroll--with-prev` class, so its height is added to the main row when VirtualScroll calculates sizes — even while it's hidden with `v-show`.
 
 ## Before/after slots
@@ -302,7 +302,7 @@ Note the difference between `bottom-row` and `footer`: the former renders extra 
 
 ## Pagination
 
-> [!TIP]
+> [!NOTE]
 > When `pagination` has a property named `rowsNumber`, then this means that you’ll be configuring Table for **server**-side pagination (& sorting & filtering). See _"Server side pagination, filter and sorting"_ section.
 
 Below are two examples of handling the pagination (and sorting and rows per page).
@@ -337,7 +337,7 @@ The example below shows how you can use a slot to customize the entire row:
 
 <DocExample title="Body slot" file="SlotBody" />
 
-> [!TIP]
+> [!IMPORTANT]
 > When used in the `body` slot, each QTd needs to know which column it belongs to. Set its `col-name` prop (v2.27+) to the column's `name` from the `columns` definition, as in the example above. The Vue `key` attribute is also supported for backwards compatibility, but since `key` is a reserved attribute Vue does not pass it along through `$attrs`, so it cannot be used when wrapping QTd inside a custom component. The same applies to QTh in the `header` slot.
 
 Below, we use a slot which gets applied to each body cell:
@@ -400,7 +400,7 @@ When your database contains a big number of rows for a Table, obviously it’s n
 
 3. It’s best that you also specify the `loading` prop in order to notify the user that a background process is in progress.
 
-> [!TIP]
+> [!NOTE]
 > In the example below, steps have been taken to emulate an ajax call to a server. While the concepts are similar, if you use this code you will need to make the appropriate changes to connect to your own data source.
 
 <DocExample title="Synchronizing with server" file="Synchronizing" />

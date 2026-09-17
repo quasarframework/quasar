@@ -17,9 +17,7 @@ related:
 
 What the Meta plugin does is that it enables the use of a special property in your Vue components called `meta`. Take a look at the example below, with almost all of its features.
 
-> [!WARNING]
-> **Important!**
->
+> [!IMPORTANT]
 > Make sure not to duplicate content that already exists in /index.html. If you want to use the Meta plugin, the recommended way is to remove the same tags from the html template. But on use-cases where you know a tag will never change and you always want it rendered, then it's better to have it only on the html template instead.
 
 ### Composition API
@@ -95,7 +93,7 @@ export default {
 }
 ```
 
-> [!WARNING]
+> [!CAUTION]
 > **Raw content**
 >
 > The `innerHTML` property of a script entry and the content of a `noscript` entry are inserted as raw HTML. Never pass untrusted or unsanitized content to these properties. Prefer regular meta properties such as `content` for dynamic user-provided text.
@@ -288,7 +286,5 @@ export default {
 
 Before you deploy, you really should make sure that your work on the meta tags is compliant. Although you could just copy and paste your link into a Discord chat, a Facebook post or a Tweet, we recommend verifying with [https://metatags.io/](https://metatags.io/).
 
-> [!WARNING]
-> **Important!**
->
+> [!IMPORTANT]
 > **This test will only work for SSR/SSG builds** because SSR/SSG directly supplies the rendered HTML when accessing the webserver (as opposed to SPA or PWA which supplies an empty page then loads the code that renders the page on client's browser). Services like above (metatags.io) expect the page to be already rendered when fetching it (it does not run the JS to render it themselves).

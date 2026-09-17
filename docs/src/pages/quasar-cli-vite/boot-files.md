@@ -81,7 +81,7 @@ export default defineBoot(async ({ app, router, store }) => {
 
 ## When to use boot files
 
-> [!WARNING]
+> [!TIP]
 > Please make sure you understand what problem boot files solve and when it is appropriate to use them, to avoid applying them in cases where they are not needed.
 
 Boot files fulfill one special purpose: they run code **before** the App's Vue root component is instantiated while giving you access to certain variables, which is required if you need to initialize a library, interfere with Vue Router, inject Vue prototype or inject the root instance of the Vue app.
@@ -186,7 +186,7 @@ boot: [ctx.mode.electron ? 'some-file' : '']
 > [!WARNING]
 > Please be mindful when redirecting as you might configure the app to go into an infinite redirect loop.
 
-> [!WARNING]
+> [!IMPORTANT]
 > Please remember to return from the function immediately after calling `redirect()`.
 
 ```js
@@ -227,7 +227,7 @@ redirect({ path: '/1' }) // Vue Router location as Object
 redirect('https://quasar.dev')
 ```
 
-> [!WARNING]
+> [!IMPORTANT]
 > **IMPORTANT!**
 >
 > The Vue Router location (in String or Object form) does not refer to URL path (and hash), but to the actual Vue Router routes that you have defined.

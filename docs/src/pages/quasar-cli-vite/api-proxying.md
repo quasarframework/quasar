@@ -11,7 +11,7 @@ This is useful if you access relative paths in your API requests. Obviously, the
 
 To configure the proxy rules, edit the `/quasar.config` file in `devServer.proxy`. Under the hood, it uses `http-proxy`. Full list of its options [here](https://github.com/http-party/node-http-proxy#options).
 
-> [!WARNING]
+> [!CAUTION]
 > The development proxy is a convenience, not an authorization boundary. Anyone who can reach the dev server can request matching proxy routes, including through a public tunnel. Keep sensitive upstream services separately authenticated and avoid proxying production or otherwise privileged endpoints during development.
 >
 > `changeOrigin` changes the forwarded `Host` header; it does not authenticate requests or make an HTTP target secure.

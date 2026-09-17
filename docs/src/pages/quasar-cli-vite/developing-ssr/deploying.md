@@ -19,7 +19,7 @@ The generated `package.json` defines a `start` script:
 
 Copy the distributables folder to the server, install its production dependencies with your package manager, and run the `start` script. This starts the generated webserver.
 
-> [!TIP]
+> [!NOTE]
 > The distributables folder does not require the rest of the project or a global `@quasar/cli` installation. It does require the dependencies declared in its generated `package.json`.
 
 ## Enhancing Performance

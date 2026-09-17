@@ -17,7 +17,7 @@ Gutter Quasar CSS classes offer an easy way to space out elements (especially in
 
 There are two main types of gutters depending on your use-case: `q-gutter-{size}` and `q-col-gutter-{size}`. The first is to be used when the elements that you want to distance one from each other don't use `col-*` or `offset-*` classes that specify a width, and the latter is to be used when they do have `col-*` or `offset-*` classes specifying a width.
 
-> [!TIP]
+> [!NOTE]
 > Suffixes (`-none`, `-xs`, `-sm`, `-md`, `-lg`, `-xl`) do not refer to device screen size, but to the size of gutter between elements.
 
 ## Classes "q-gutter-{size}"
@@ -63,7 +63,7 @@ Both set of classes have pros and cons.
 
 <DocExample title="Parent styling" file="ParentStyling" />
 
-> [!TIP]
+> [!NOTE]
 > The `q-gutter-*` classes **do not change** the internal dimensions of the children, so you can use `background` or `border` directly on children.
 
 > [!WARNING]
