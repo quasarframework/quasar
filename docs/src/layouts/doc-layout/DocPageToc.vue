@@ -6,6 +6,7 @@
       :id="`toc--${tocItem.id}`"
       :href="`#${tocItem.id}`"
       class="doc-item"
+      :class="tocItem.sub ? 'doc-page__toc--sub' : ''"
       @click.prevent="tocItem.onClick"
     >
       {{ tocItem.title }}

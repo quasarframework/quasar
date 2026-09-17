@@ -251,7 +251,7 @@ const tocClass = computed(
   &__toc
     font-size: ($font-size - 2px)
     &--sub
-      padding-left: 16px !important
+      padding-left: 22px !important
 
   // The page title and its action links (markdown sibling, edit on GitHub)
   // share one line. The links have to stay outside the <h1>, because a
