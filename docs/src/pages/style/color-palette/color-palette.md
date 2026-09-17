@@ -2,7 +2,7 @@
 title: Color Palette
 desc: How to use and customize the Quasar Color Palette.
 related:
-  - quasar-utils/color-utils
+  - /quasar-utils/color-utils
 ---
 
 Quasar Framework offers a wide selection of colors out of the box. You can use them both as Sass/SCSS variables in your CSS code or directly as CSS classes in your HTML templates.
