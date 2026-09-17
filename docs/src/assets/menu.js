@@ -277,7 +277,6 @@ export default [
       },
       {
         name: 'Buttons',
-        listPath: 'buttons',
         children: [
           {
             name: 'Button',
@@ -336,7 +335,6 @@ export default [
       {
         name: 'Form Components',
         opened: true,
-        listPath: 'form-components',
         children: [
           {
             name: 'Input Textfield',
@@ -442,7 +440,6 @@ export default [
       },
       {
         name: 'Observers',
-        listPath: 'observers',
         children: [
           {
             name: 'Resize Observer',
