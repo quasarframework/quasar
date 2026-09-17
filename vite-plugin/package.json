@@ -62,13 +62,13 @@
     "prepublishOnly": "pnpm test"
   },
   "devDependencies": {
-    "@vitest/browser-playwright": "^5.0.0",
+    "@vitest/browser-playwright": "^5.0.1",
     "@vue/test-utils": "^2.5.0",
     "playwright": "^1.63.0",
     "pug": "^3.0.4",
     "quasar": "workspace:*",
     "vite": "^8.3.0",
-    "vitest": "^5.0.0",
+    "vitest": "^5.0.1",
     "vue": "^3.5.42"
   },
   "peerDependencies": {

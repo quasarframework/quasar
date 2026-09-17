@@ -37,7 +37,7 @@
     "test:e2e:ae": "vitest run --config ./vitest-e2e.config.js test/e2e/ae"
   },
   "dependencies": {
-    "@clack/prompts": "^1.8.0",
+    "@clack/prompts": "^1.8.1",
     "@quasar/art": "workspace:^",
     "@quasar/update-notifier": "workspace:^",
     "ci-info": "^4.4.0",
@@ -48,7 +48,7 @@
   },
   "devDependencies": {
     "verdaccio": "^6.10.3",
-    "vitest": "^5.0.0"
+    "vitest": "^5.0.1"
   },
   "engines": {
     "node": ">=20"

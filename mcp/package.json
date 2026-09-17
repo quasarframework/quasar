@@ -54,7 +54,7 @@
     "zod": "^4.6.0"
   },
   "devDependencies": {
-    "vitest": "^5.0.0"
+    "vitest": "^5.0.1"
   },
   "engines": {
     "node": ">= 22.0.0"

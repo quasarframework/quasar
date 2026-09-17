@@ -34,7 +34,7 @@
   "devDependencies": {
     "@quasar/app-vite": "^3.8.4",
     "@rolldown/pluginutils": "^1.0.1",
-    "@vitejs/plugin-vue": "^6.0.8",
+    "@vitejs/plugin-vue": "^6.0.9",
     "fs-extra": "^11.4.0",
     "gray-matter": "^4.0.3",
     "markdown-it": "^15.0.2",
@@ -42,7 +42,7 @@
     "tinyglobby": "^0.2.17",
     "tokenx": "^2.1.0",
     "toml": "^5.0.0",
-    "vitest": "^5.0.0",
+    "vitest": "^5.0.1",
     "workbox-build": "^7.4.1"
   },
   "productName": "quasar-docs"

@@ -38,7 +38,7 @@
     "selfsigned": "^5.5.0"
   },
   "devDependencies": {
-    "vitest": "^5.0.0"
+    "vitest": "^5.0.1"
   },
   "engines": {
     "node": ">= 16"
