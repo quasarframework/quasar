@@ -8,8 +8,8 @@ import { parseFrontMatter } from './md/md-parse-utils.js'
 import { sharedMdOptions } from './md/md-rules.js'
 import mdPluginBlockquote from './md/md-plugin-blockquote.js'
 import { capitalize, slugify } from './utils.js'
+import { UNLISTED_PAGES } from './unlisted-pages.js'
 
-const hiddenPageRE = /__[a-zA-Z0-9_-]+\.md$/
 const thisFolder = import.meta.dirname
 
 // the nav's own labels, leaf included, by page url
@@ -33,25 +33,26 @@ menu.forEach(n => {
 })
 
 const mdPagesDir = join(thisFolder, '../src/pages')
-const mdPagesList = globSync('**/*.md', { cwd: mdPagesDir })
-  .filter(file => !hiddenPageRE.test(file))
-  .map(key => {
-    const parts = key.slice(0, -3).split('/')
-    const len = parts.length
-    const urlParts =
-      parts[len - 2] === parts[len - 1] ? parts.slice(0, len - 1) : parts
-    const url = '/' + urlParts.join('/')
+const mdPagesList = globSync('**/*.md', {
+  cwd: mdPagesDir,
+  ignore: UNLISTED_PAGES
+}).map(key => {
+  const parts = key.slice(0, -3).split('/')
+  const len = parts.length
+  const urlParts =
+    parts[len - 2] === parts[len - 1] ? parts.slice(0, len - 1) : parts
+  const url = '/' + urlParts.join('/')
 
-    return {
-      file: join(mdPagesDir, key),
-      url,
-      menu: menuByUrl[url],
-      // for a page the nav leaves out: its folders' names, then its title
-      parents: urlParts
-        .slice(0, -1)
-        .map(entry => entry.split('-').map(capitalize).join(' '))
-    }
-  })
+  return {
+    file: join(mdPagesDir, key),
+    url,
+    menu: menuByUrl[url],
+    // for a page the nav leaves out: its folders' names, then its title
+    parents: urlParts
+      .slice(0, -1)
+      .map(entry => entry.split('-').map(capitalize).join(' '))
+  }
+})
 
 function getJsonSize(content) {
   return (content.length / 1024).toFixed(2) + 'kb'

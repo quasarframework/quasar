@@ -6,6 +6,7 @@ import { join } from 'node:path'
 import menu from '../src/assets/menu.js'
 import { parseFrontMatter } from './md/md-parse-utils.js'
 import { slugify } from './utils.js'
+import { UNLISTED_PAGES } from './unlisted-pages.js'
 
 const docsDir = join(import.meta.dirname, '..')
 const pagesDir = join(docsDir, 'src/pages')
@@ -109,14 +110,14 @@ test('drops the alert markers and keeps the titles the pages wrote', () => {
 
   // the marker line is what makes a blockquote an alert; it is not prose
   const marked = entries.filter(entry =>
-    /\[!(?:NOTE|TIP|IMPORTANT|WARNING|CAUTION)\]/.test(entry.content || '')
+    /\[![A-Z]+\]/.test(entry.content || '')
   )
   expect(marked).toEqual([])
 
   // a bold-only paragraph right after the marker is the alert's title, and
   // the page's own words at that; the default labels (TIP, WARNING) are not
   const titled = globSync(join(pagesDir, '**/*.md'))
-    .filter(file => !/__[^/]+\.md$/.test(file))
+    .filter(file => !UNLISTED_PAGES.includes(file.slice(pagesDir.length + 1)))
     .map(file => ({
       file,
       title: /^> \[!\w+\]\n> \*\*([^*\n]+)\*\*$/m.exec(

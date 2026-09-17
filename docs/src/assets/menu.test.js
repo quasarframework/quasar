@@ -5,6 +5,7 @@ import { join, normalize } from 'node:path'
 import menu from './menu.js'
 import { buildMenuMaps } from '../../build/mcp/pages/menu.js'
 import { sourceToMenuKey } from '../../build/mcp/pages/routes.js'
+import { UNLISTED_PAGES } from '../../build/unlisted-pages.js'
 
 const pagesDir = normalize(join(import.meta.dirname, '../pages'))
 
@@ -53,12 +54,12 @@ test('menu paths are unique', () => {
 
 // the inverse: a page nobody can navigate to is a page nobody reads, and
 // the AI-docs export (which selects pages by the navigation) skips it too.
-// The only pages allowed off the navigation are the __-prefixed dev pages
-// (__elements.md), which search hides for the same reason.
+// The pages meant to be reached by URL alone are named, one by one, in
+// build/unlisted-pages.js.
 test('every markdown page is on the sidebar menu or in the header links', () => {
   const navKeys = buildMenuMaps(pagesDir)
   const orphans = globSync('**/*.md', { cwd: pagesDir }).filter(
-    rel => !/(^|\/)__[^/]+\.md$/.test(rel) && !navKeys.has(sourceToMenuKey(rel))
+    rel => !UNLISTED_PAGES.includes(rel) && !navKeys.has(sourceToMenuKey(rel))
   )
 
   expect(

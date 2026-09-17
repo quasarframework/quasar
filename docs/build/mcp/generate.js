@@ -68,6 +68,7 @@ import { writeApiPages } from './output/api-pages.js'
 import { countTokens } from './output/tokens.js'
 import { TARGETS, targetIncludes } from './targets.js'
 import { SITE_URL } from './site.js'
+import { UNLISTED_PAGES } from '../unlisted-pages.js'
 
 const REPO_ROOT = resolve(import.meta.dirname, '../../..')
 const SRC_PAGES = join(REPO_ROOT, 'docs/src/pages')
@@ -89,8 +90,8 @@ export const IGNORES = [
   '**/layout/grid/flex-playground/**',
   '**/sponsors-and-backers/**',
   '**/video-tutorials/**',
-  '**/__elements.md',
-  '**/why-donate.md'
+  '**/why-donate.md',
+  ...UNLISTED_PAGES
 ]
 
 /**

@@ -34,10 +34,7 @@ export function renderPage(content, frontMatter = {}) {
 }
 
 /**
- * Every page under src/pages, with nothing held out: a page not on a route
- * today (__elements.md) is still one someone opens in dev, and holding it out
- * would mean the one page most likely to be edited carelessly is the one page
- * nothing checks.
+ * Every page under src/pages, with nothing held out.
  *
  * @returns {Array<{ rel: string, route: string, html: string, frontMatter: object }>}
  */
