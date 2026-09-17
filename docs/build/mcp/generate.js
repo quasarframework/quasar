@@ -385,18 +385,25 @@ export function generate(opts) {
   loadFrontmatters(menuPages, menuByKey, SRC_PAGES)
   const menuPaths = buildMenuPaths(menuByKey)
 
+  // menu.js may hold a page out of a form (llmExclude / llmOnly)
+  const inForm = form => relativePath =>
+    menuByKey.get(sourceToMenuKey(relativePath)).llm[form]
   const included =
     run.target === null
-      ? menuPages
-      : menuPages.filter(relativePath =>
-          targetIncludes(run.target, sourceToMenuKey(relativePath))
-        )
+      ? menuPages.filter(inForm('site'))
+      : menuPages
+          .filter(inForm('mcp'))
+          .filter(relativePath =>
+            targetIncludes(run.target, sourceToMenuKey(relativePath))
+          )
   // Links and related entries stay relative `.md` paths only among the
   // pages of this run; in a slice the rest point at the live site, and
   // only at a page the site form writes: a link a slice puts out leads
   // to documentation, never to a page only the html has.
   const pageKeys = new Set(included.map(sourceToMenuKey))
-  const sitePages = new Set(menuPages.map(sourceToMenuKey))
+  const sitePages = new Set(
+    menuPages.filter(inForm('site')).map(sourceToMenuKey)
+  )
   const siteUrl = run.target === null ? null : SITE_URL
 
   // A slice owns its folder; the site output is shared with the SSG
