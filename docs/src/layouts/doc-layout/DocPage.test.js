@@ -26,7 +26,12 @@ function renderPage(props, path) {
 
 test('links the markdown sibling of the route, next to the title and in <head>', async () => {
   const { html, headTags } = await renderPage(
-    { title: 'Button', heading: true, editLink: 'vue-components/button' },
+    {
+      title: 'Button',
+      heading: true,
+      editLink: 'vue-components/button',
+      mdLink: true
+    },
     '/vue-components/button'
   )
 
@@ -43,4 +48,16 @@ test('links the markdown sibling of the route, next to the title and in <head>',
   expect(html.match(/Edit this page in browser/g)).toHaveLength(1)
   expect(html).not.toContain('Caught a mistake?')
   expect(html).not.toContain('doc-page__content-footer')
+})
+
+test('a page with no markdown sibling links none', async () => {
+  const { html, headTags } = await renderPage(
+    { title: 'Guide', heading: true, editLink: 'guide' },
+    '/guide'
+  )
+
+  expect(html).not.toContain('View this page as Markdown')
+  expect(html).not.toContain('href="/guide.md"')
+  expect(headTags).not.toContain('text/markdown')
+  expect(html).toContain('Edit this page in browser')
 })

@@ -79,7 +79,8 @@ const EXAMPLES_DIR = join(REPO_ROOT, 'docs/src/examples')
 const SITE_DIST_DIR = join(REPO_ROOT, 'docs/dist/quasar.dev')
 
 const GLOB = '**/*.md'
-const IGNORES = [
+// each of these pages says `mdLink: false`: it has no .md sibling to link
+export const IGNORES = [
   '**/api-explorer/**',
   '**/docs/**',
   '**/integrations/**',

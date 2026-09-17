@@ -12,6 +12,7 @@
 
       <div class="doc-page__title-actions row no-wrap">
         <q-btn
+          v-if="props.mdLink"
           :href="mdHref"
           target="_blank"
           rel="noopener noreferrer"
@@ -119,6 +120,7 @@ const props = defineProps({
 
   heading: Boolean,
   editLink: String,
+  mdLink: Boolean,
 
   toc: Array,
   related: Array,
@@ -176,7 +178,8 @@ if (import.meta.env.QUASAR_DEV) {
 }
 
 // the page's markdown sibling from the docs generator (build/mcp),
-// served next to it
+// served next to it; a page the generator leaves out opts out with
+// `mdLink: false` in its frontmatter
 const mdHref = `${useRoute().path}.md`
 
 useMeta({
@@ -185,7 +188,13 @@ useMeta({
     ? { meta: getMeta(props.title + ' | Quasar Framework', props.desc) }
     : {}),
   // agents read <head>, not buttons
-  link: { markdown: { rel: 'alternate', type: 'text/markdown', href: mdHref } }
+  ...(props.mdLink
+    ? {
+        link: {
+          markdown: { rel: 'alternate', type: 'text/markdown', href: mdHref }
+        }
+      }
+    : {})
 })
 
 const docStore = useDocStore()

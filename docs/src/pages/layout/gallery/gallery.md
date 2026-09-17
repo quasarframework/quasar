@@ -1,5 +1,6 @@
 ---
 title: Layout Gallery
+mdLink: false
 desc: Gallery of a few layouts for your Quasar apps.
 related:
   - /layout/layout
