@@ -511,7 +511,7 @@ export default /*#__PURE__*/ createComponent({
                     },
                     type: 'number',
                     dense: true,
-                    value: newPage.value,
+                    modelValue: newPage.value,
                     disable: props.disable,
                     dark: isDark(),
                     borderless: true,
