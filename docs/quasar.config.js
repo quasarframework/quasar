@@ -151,7 +151,8 @@ export default defineConfig(ctx => ({
 
       return {
         cleanupOutdatedCaches: true,
-        // the updated worker waits until a page asks for it (register-sw.js)
+        // the updated worker waits until the browser activates it, once no
+        // tab uses the current one (src-pwa/register-sw.js)
         skipWaiting: false,
         clientsClaim: true,
         // (arrays merge by concatenation, onto app-vite's defaults)
