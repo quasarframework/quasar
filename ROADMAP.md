@@ -61,6 +61,7 @@ _The schedule may change based on unforeseen and/or out of the ordinary circumst
 
 - ✌️ (DONE) Critical CSS path for SSR & SSG dev modes (avoids FOUC on development)
 - ✌️ (DONE) Quasar MCP server for AI Agents
+- IconGenie v7: own Capacitor implementation replacing @capacitor/assets, revised Cordova/PWA/BEX/SPA/Capacitor asset sets, dark splash + monochrome layer, 2026 iPhone launch images, percentage padding, bitmap ICO small, entries. Breaking: Cordova platform floors, dropped src-capacitor/assets output, all-PNG ICO gone
 
 ### Q1 2027
 
