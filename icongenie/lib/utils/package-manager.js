@@ -4,27 +4,12 @@ import { sync as crossSpawnSync } from 'cross-spawn'
 
 import { spawnSync } from './spawn-sync.js'
 
-// returns a Promise!
-function run({ name, params, cwd, env = 'development', extraEnv }) {
-  return spawnSync(
-    name,
-    params.filter(param => typeof param === 'string' && param.length !== 0),
-    { cwd, env: { NODE_ENV: env, ...extraEnv } }
-  )
-}
-
-function getMajorVersion(name) {
+function isCommandInstalled(name) {
   try {
-    const child = crossSpawnSync(name, ['--version'])
-    if (child.status === 0) {
-      const version = String(child.output[1]).trim()
-      return Number.parseInt(version.split('.')[0], 10)
-    }
+    return crossSpawnSync(name, ['--version']).status === 0
   } catch {
-    /* do nothing; we return null below */
+    return false
   }
-
-  return null
 }
 
 class PackageManager {
@@ -42,15 +27,7 @@ class PackageManager {
   // spawn environment additions for every command of the packager
   extraEnv = {}
 
-  getInstallParams(/* env */) {
-    return []
-  }
-
-  getInstallPackageParams(/* names, isDev, allowBuilds */) {
-    return []
-  }
-
-  getUninstallPackageParams(/* names */) {
+  getInstallPackageParams(/* names */) {
     return []
   }
 
@@ -58,58 +35,23 @@ class PackageManager {
    * Implementation of the actual package manager
    */
 
-  majorVersion = null
   cachedIsInstalled = null
 
   isInstalled() {
-    if (this.cachedIsInstalled !== null) {
-      return this.cachedIsInstalled
+    if (this.cachedIsInstalled === null) {
+      this.cachedIsInstalled = isCommandInstalled(this.name)
     }
-
-    this.majorVersion = getMajorVersion(this.name)
-    this.cachedIsInstalled = this.majorVersion !== null
 
     return this.cachedIsInstalled
   }
 
   // returns a Promise!
-  install({ cwd = this.appDir, params, env = 'development' } = {}) {
-    return run({
-      name: this.name,
-      params:
-        params && params.length !== 0 ? params : this.getInstallParams(env),
-      cwd,
-      env,
-      extraEnv: this.extraEnv
-    })
-  }
-
-  // returns a Promise!
-  installPackage(
-    name,
-    { cwd = this.appDir, isDevDependency = false, allowBuilds = false } = {}
-  ) {
-    return run({
-      name: this.name,
-      params: this.getInstallPackageParams(
-        Array.isArray(name) ? name : [name],
-        isDevDependency,
-        allowBuilds
-      ),
-      cwd,
-      extraEnv: this.extraEnv
-    })
-  }
-
-  // returns a Promise!
-  uninstallPackage(name, { cwd = this.appDir } = {}) {
-    return run({
-      name: this.name,
-      params: this.getUninstallPackageParams(
-        Array.isArray(name) ? name : [name]
-      ),
-      cwd
-    })
+  installPackage(name, { cwd = this.appDir } = {}) {
+    return spawnSync(
+      this.name,
+      this.getInstallPackageParams(Array.isArray(name) ? name : [name]),
+      { cwd, env: { NODE_ENV: 'development', ...this.extraEnv } }
+    )
   }
 }
 
@@ -117,22 +59,8 @@ class Npm extends PackageManager {
   name = 'npm'
   lockFiles = ['package-lock.json']
 
-  getInstallParams(env) {
-    if (env === 'development') {
-      return ['install']
-    }
-
-    return this.majorVersion >= 9
-      ? ['install'] // env will be set to production
-      : ['install', '--production']
-  }
-
-  getInstallPackageParams(names, isDevDependency) {
-    return ['install', isDevDependency ? '--save-dev' : '', ...names]
-  }
-
-  getUninstallPackageParams(names) {
-    return ['uninstall', ...names]
+  getInstallPackageParams(names) {
+    return ['install', ...names]
   }
 }
 
@@ -140,22 +68,8 @@ class Yarn extends PackageManager {
   name = 'yarn'
   lockFiles = ['yarn.lock']
 
-  getInstallParams(env) {
-    if (env === 'development') {
-      return ['install']
-    }
-
-    return this.majorVersion >= 2
-      ? ['workspaces', 'focus', '--all', '--production']
-      : ['install', '--production']
-  }
-
-  getInstallPackageParams(names, isDevDependency) {
-    return ['add', isDevDependency ? '--dev' : '', ...names]
-  }
-
-  getUninstallPackageParams(names) {
-    return ['remove', ...names]
+  getInstallPackageParams(names) {
+    return ['add', ...names]
   }
 }
 
@@ -168,27 +82,13 @@ class Pnpm extends PackageManager {
   // though the packages did get installed -- which would have us report
   // "Failed to install" for a package that is in fact there. The user
   // resolves the ignored builds with "pnpm approve-builds" on their own time;
-  // their own installs keep enforcing whatever they configured. It is a no-op
-  // next to "--dangerously-allow-all-builds" (nothing is ignored then). The
-  // setting goes through the environment: pnpm 12 stopped honouring it as a
+  // their own installs keep enforcing whatever they configured. The setting
+  // goes through the environment: pnpm 12 stopped honouring it as a
   // "--config.<key>" param.
   extraEnv = { PNPM_CONFIG_STRICT_DEP_BUILDS: 'false' }
 
-  getInstallParams(env) {
-    return env === 'development' ? ['install'] : ['install', '--prod']
-  }
-
-  getInstallPackageParams(names, isDevDependency, allowBuilds) {
-    return [
-      'add',
-      isDevDependency ? '--save-dev' : '',
-      allowBuilds ? '--dangerously-allow-all-builds' : '',
-      ...names
-    ]
-  }
-
-  getUninstallPackageParams(names) {
-    return ['remove', ...names]
+  getInstallPackageParams(names) {
+    return ['add', ...names]
   }
 }
 
@@ -196,16 +96,8 @@ class Bun extends PackageManager {
   name = 'bun'
   lockFiles = ['bun.lock', 'bun.lockb']
 
-  getInstallParams(env) {
-    return env === 'development' ? ['install'] : ['install', '--production']
-  }
-
-  getInstallPackageParams(names, isDevDependency) {
-    return ['add', isDevDependency ? '--dev' : '', ...names]
-  }
-
-  getUninstallPackageParams(names) {
-    return ['remove', ...names]
+  getInstallPackageParams(names) {
+    return ['add', ...names]
   }
 }
 

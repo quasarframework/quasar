@@ -13,9 +13,8 @@ const extraEnvParams = isCI
   ? {}
   : { FORCE_COLOR: process.env.FORCE_COLOR ?? '1' }
 
-/*
- Returns nothing, takes onFail
- */
+// resolves to true on success; on failure it reports the error
+// (and waits for a key press when interactive) and resolves to false
 export async function spawnSync(cmd, params, opts) {
   opts ??= {}
 
