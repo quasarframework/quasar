@@ -161,8 +161,6 @@ export function textToRgb(str) {
     b: Math.min(255, Math.max(0, Number.parseInt(m[4], 10)))
   }
 
-  // m[1] is the "a" of the function name, not the presence of an alpha:
-  // rgb() takes a 4th argument too, and rgba() may be written without one
   if (m[1] !== void 0 || m[5] !== void 0) {
     const alpha = Number.parseFloat(m[5])
     const safeAlpha = Number.isFinite(alpha)
