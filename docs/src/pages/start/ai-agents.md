@@ -12,13 +12,16 @@ AI coding agents know a Quasar, not necessarily yours. The `@quasar/mcp` package
 > - Quasar UI v2.33+
 > - `@quasar/app-vite` v3.9+ (if using it in your project)
 
+## Why use it
+
+- **The answers match your versions.** An agent knows the Quasar it was trained on: props that came later, options that changed since, and some it makes up. Served from the pages and API descriptors of the installed release, the code it writes uses what you run.
+- **It saves tokens.** The tools answer with one section of a page, or the one prop, slot, event or method asked about, instead of a whole page (a component page can run to 25k tokens, and a web page adds its markup). Less context per question makes a session cheaper and keeps the agent on the subject.
+- **It works offline and fetches nothing.** No web browsing, no rate limits, no stale cache: the files are in your `node_modules`.
+- **It follows your upgrades.** Upgrading a package upgrades its documentation, and the agent is told when newer releases exist.
+
 ## How it works
 
-The documentation ships with the packages: the pages about components, plugins, directives, composables, utils and styling are inside `quasar`, the ones about the CLI, its modes and configuration inside `@quasar/app-vite`. The API of every component, plugin and directive ships with `quasar` as it always has, and since v2.33 also in the compact form this site shows. The server reads them from your project's `node_modules`, so:
-
-- the answers describe the versions you run, not the latest release;
-- nothing is fetched from quasar.dev, it works offline;
-- upgrading a package upgrades its documentation.
+The documentation ships with the packages: the pages about components, plugins, directives, composables, utils and styling are inside `quasar`, the ones about the CLI, its modes and configuration inside `@quasar/app-vite`. The API of every component, plugin and directive ships with `quasar` as it always has, and since v2.33 also in the compact form this site shows. The server reads them from your project's `node_modules`.
 
 > [!NOTE]
 > The pages are the same ones you read on this site; every page also has a Markdown button (top right) and a `.md` sibling URL for agents that browse the web.
