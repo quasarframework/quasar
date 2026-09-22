@@ -46,11 +46,20 @@ function getAndroidResDir(file) {
   return dirname(dirname(file.absoluteName))
 }
 
-function getAdaptiveIconXml(foreground, background) {
+function getAdaptiveIconXml(foreground, background, monochrome) {
+  const layers = [
+    `    <background android:drawable="@mipmap/${background}"/>`,
+    `    <foreground android:drawable="@mipmap/${foreground}"/>`
+  ]
+
+  // Android 13+ themed icons
+  if (monochrome !== void 0) {
+    layers.push(`    <monochrome android:drawable="@mipmap/${monochrome}"/>`)
+  }
+
   return `<?xml version="1.0" encoding="utf-8"?>
 <adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">
-    <background android:drawable="@mipmap/${background}"/>
-    <foreground android:drawable="@mipmap/${foreground}"/>
+${layers.join('\n')}
 </adaptive-icon>
 `
 }
@@ -61,6 +70,7 @@ function mountAndroidIcons(files) {
 
   const foreground = launcherFiles.find(file => file.variant === 'foreground')
   const background = launcherFiles.find(file => file.variant === 'background')
+  const monochrome = launcherFiles.find(file => file.variant === 'monochrome')
 
   if (foreground === void 0 || background === void 0) {
     warn(
@@ -71,7 +81,8 @@ function mountAndroidIcons(files) {
 
   const xml = getAdaptiveIconXml(
     getResourceName(foreground),
-    getResourceName(background)
+    getResourceName(background),
+    monochrome === void 0 ? void 0 : getResourceName(monochrome)
   )
 
   // the adaptive icon XML overrides the same-named legacy png on Android 8+
@@ -98,7 +109,7 @@ function verifyAndroid(file) {
   const name = getResourceName(file)
 
   if (file.generator === 'launcher') {
-    if (file.variant === 'foreground' || file.variant === 'background') {
+    if (file.variant !== 'legacy' && file.variant !== 'round') {
       const folder = join(getAndroidResDir(file), adaptiveIconFolder)
       const isReferenced =
         existsSync(folder) &&

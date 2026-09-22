@@ -23,7 +23,9 @@ const baseParamsSchema = {
     .items(Joi.string().valid(...modesList)),
 
   icon: Joi.string().min(1),
+  iconMonochrome: Joi.string().min(1),
   background: Joi.string().min(1),
+  backgroundDark: Joi.string().min(1),
 
   filter: Joi.string().valid(...generatorsList),
   quality: Joi.number().integer().min(1).max(12),

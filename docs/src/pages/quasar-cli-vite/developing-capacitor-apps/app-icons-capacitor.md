@@ -57,30 +57,35 @@ scope:
                               - l: ic_launcher.png
                               - l: ic_launcher_background.png
                               - l: ic_launcher_foreground.png
+                              - l: ic_launcher_monochrome.png
                               - l: ic_launcher_round.png
                           - l: mipmap-hdpi
                             c:
                               - l: ic_launcher.png
                               - l: ic_launcher_background.png
                               - l: ic_launcher_foreground.png
+                              - l: ic_launcher_monochrome.png
                               - l: ic_launcher_round.png
                           - l: mipmap-xhdpi
                             c:
                               - l: ic_launcher.png
                               - l: ic_launcher_background.png
                               - l: ic_launcher_foreground.png
+                              - l: ic_launcher_monochrome.png
                               - l: ic_launcher_round.png
                           - l: mipmap-xxhdpi
                             c:
                               - l: ic_launcher.png
                               - l: ic_launcher_background.png
                               - l: ic_launcher_foreground.png
+                              - l: ic_launcher_monochrome.png
                               - l: ic_launcher_round.png
                           - l: mipmap-xxxhdpi
                             c:
                               - l: ic_launcher.png
                               - l: ic_launcher_background.png
                               - l: ic_launcher_foreground.png
+                              - l: ic_launcher_monochrome.png
                               - l: ic_launcher_round.png
       - l: ios
         c:
@@ -126,12 +131,12 @@ icongenie generate -m capacitor -i /path/to/source/icon.png [-b /path/to/backgro
 
 What gets generated for Capacitor mode:
 
-- **Android adaptive icon**: the `ic_launcher_foreground` layer (your icon, fitted to the safe zone of the 108dp canvas) and the `ic_launcher_background` layer (the `--background` image, or a flat `--png-color` fill), plus the `ic_launcher` and `ic_launcher_round` icons that pre Android 8 launchers show. The adaptive icon XML files in `mipmap-anydpi-v26` are updated to point to the generated layers.
+- **Android adaptive icon**: the `ic_launcher_foreground` layer (your icon, fitted to the safe zone of the 108dp canvas), the `ic_launcher_background` layer (the `--background` image, or a flat `--png-color` fill) and the `ic_launcher_monochrome` layer for Android 13+ themed icons (the shape of your icon, or of `--icon-monochrome`), plus the `ic_launcher` and `ic_launcher_round` icons that pre Android 8 launchers show. The adaptive icon XML files in `mipmap-anydpi-v26` are updated to point to the generated layers.
 - **Android splash screens**: the portrait and landscape `splash.png` drawables for every density.
 - **iOS app icon**: the single 1024px `AppIcon-512@2x.png` that Xcode 14+ requires.
 - **iOS splash screens**: the three `Splash.imageset` images (1x, 2x, 3x). The `Contents.json` of each image set is updated to list the generated files.
 
-Add `--splashscreen-dark-color <hex>` to also generate the dark variants of the splash screens: Android `night` resources (`drawable-night`, `drawable-port-night-*`, `drawable-land-night-*`) and iOS images registered for the dark appearance. Without the param, no dark variants are generated and any previously generated ones are removed.
+Add `--splashscreen-dark-color <hex>` to also generate the dark variants of the splash screens: Android `night` resources (`drawable-night`, `drawable-port-night-*`, `drawable-land-night-*`) and iOS images registered for the dark appearance. They use the `--background-dark` image when specified (the `--background` one otherwise). Without the param, no dark variants are generated and any previously generated ones are removed.
 
 The `@capacitor/splash-screen` plugin gets installed into `/src-capacitor` if it is not already, as it is the one displaying the splash screens.
 

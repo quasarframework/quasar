@@ -3,7 +3,9 @@ import { getArgv } from '../utils/get-argv.js'
 const argv = getArgv({
   profile: { type: 'string', short: 'p' },
   icon: { type: 'string', short: 'i' },
+  'icon-monochrome': { type: 'string' },
   background: { type: 'string', short: 'b' },
+  'background-dark': { type: 'string' },
   mode: { type: 'string', short: 'm' },
   filter: { type: 'string', short: 'f' },
   quality: { type: 'string' },
@@ -72,6 +74,15 @@ if (argv.help) {
                             Quasar project folder
                           Recommended min size: 1024x1024 px
 
+    --icon-monochrome     Path to optional source file for the monochrome layer of the
+                          Android adaptive icon (Android 13+ themed icons); must be:
+                            - a .png file
+                            - min resolution: 64x64 px (the higher the better!!)
+                            - with transparency (only its shape is used; Android tints it)
+                          Default: the shape of the icon source file
+                          Path can be absolute, or relative to the root of the
+                            Quasar project folder
+
     --background, -b      Path to optional background source file (for splashscreens
                           and the Android adaptive icon background layer); must be:
                             - a .png file
@@ -81,6 +92,13 @@ if (argv.help) {
                           Path can be absolute, or relative to the root of the
                             Quasar project folder
                           Recommended min size: 1024x1024 px
+
+    --background-dark     Path to optional background source file for the dark
+                          variants of the splashscreens (see splashscreen-dark-color);
+                          same requirements as the background param;
+                          Default: the background source file
+                          Path can be absolute, or relative to the root of the
+                            Quasar project folder
 
     --mode, -m            For which Quasar mode(s) to generate the assets;
                           Default: all

@@ -51,6 +51,12 @@ function getAndroidIcons() {
       },
       {
         ...icon,
+        name: 'ic_launcher_monochrome.png',
+        variant: 'monochrome',
+        sizes: [108 * scale]
+      },
+      {
+        ...icon,
         name: 'ic_launcher.png',
         variant: 'legacy',
         sizes: [48 * scale]

@@ -19,12 +19,46 @@ function getRgbColor(color) {
   }
 }
 
+function getSharpBackground(path) {
+  return path
+    ? sharp(path).withMetadata()
+    : sharp({
+        create: {
+          width: 12,
+          height: 12,
+          channels: 4,
+          background: { r: 0, g: 0, b: 0, alpha: 0 }
+        }
+      })
+}
+
+// the shape of the icon (its alpha channel) filled with one color;
+// Android tints the monochrome launcher layer with the theme color
+async function getMonochromeIcon(iconBuffer) {
+  const { width, height } = await sharp(iconBuffer).metadata()
+  const alpha = await sharp(iconBuffer)
+    .ensureAlpha()
+    .extractChannel('alpha')
+    .toBuffer()
+
+  const buffer = await sharp({
+    create: { width, height, channels: 3, background: '#000' }
+  })
+    .joinChannel(alpha)
+    .png()
+    .toBuffer()
+
+  return sharp(buffer)
+}
+
 export async function getFilesOptions({
   quality,
   padding,
 
   icon,
+  iconMonochrome,
   background,
+  backgroundDark,
 
   pngColor,
   splashscreenColor,
@@ -34,20 +68,17 @@ export async function getFilesOptions({
 }) {
   const qualityLevel = Number.parseInt(quality, 10)
   const sharpIcon = sharp(icon).withMetadata()
-  const sharpBackground = background
-    ? sharp(background).withMetadata()
-    : sharp({
-        create: {
-          width: 12,
-          height: 12,
-          channels: 4,
-          background: { r: 0, g: 0, b: 0, alpha: 0 }
-        }
-      })
+  const sharpIconMonochrome = iconMonochrome
+    ? sharp(iconMonochrome).withMetadata()
+    : null
+  const sharpBackground = getSharpBackground(background)
 
   if (opts.skipTrim !== true) {
     sharpIcon.trim()
+    sharpIconMonochrome?.trim()
   }
+
+  const iconBuffer = await sharpIcon.toBuffer()
 
   const computedPadding = padding
     ? padding.length === 1
@@ -59,8 +90,13 @@ export async function getFilesOptions({
     ...opts,
 
     icon: sharpIcon,
-    iconBuffer: await sharpIcon.toBuffer(),
+    iconBuffer,
+    iconMonochrome:
+      sharpIconMonochrome ?? (await getMonochromeIcon(iconBuffer)),
     background: sharpBackground,
+    backgroundDark: backgroundDark
+      ? getSharpBackground(backgroundDark)
+      : sharpBackground,
 
     compression: {
       ico: getIcoCompression(qualityLevel),

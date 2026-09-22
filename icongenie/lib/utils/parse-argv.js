@@ -160,23 +160,50 @@ function icon(value, argv) {
   }
 }
 
-function background(value, argv) {
+function getBackgroundParser(name) {
+  return (value, argv) => {
+    if (!value) return
+
+    argv[name] = resolve(appDir, untildify(value))
+
+    if (!existsSync(argv[name])) {
+      die(`Path to ${name} source file does not exists: "${value}"`)
+    }
+
+    const { width, height } = getPngSize(argv[name])
+
+    if (width === 0 && height === 0) {
+      die(`The ${name} source file is not a PNG file!`)
+    }
+
+    if (width < 128 || height < 128) {
+      die(
+        `The ${name} source file does not have the minimum 128x128px resolution`
+      )
+    }
+  }
+}
+
+// optional; without it the monochrome launcher layer is derived from the icon
+function iconMonochrome(value, argv) {
   if (!value) return
 
-  argv.background = resolve(appDir, untildify(value))
+  argv.iconMonochrome = parseIconPath(value)
 
-  if (!existsSync(argv.background)) {
-    die(`Path to background source file does not exists: "${value}"`)
+  if (!argv.iconMonochrome) {
+    die(`Path to monochrome icon source file does not exists: "${value}"`)
   }
 
-  const { width, height } = getPngSize(argv.background)
+  const { width, height } = getPngSize(argv.iconMonochrome)
 
   if (width === 0 && height === 0) {
-    die(`Background source file is not a PNG file!`)
+    die(`Monochrome icon source is not a PNG file!`)
   }
 
-  if (width < 128 || height < 128) {
-    die(`Background source file does not have the minimum 128x128px resolution`)
+  if (width < 64 || height < 64) {
+    die(
+      `Monochrome icon source file does not have the minimum 64x64px resolution`
+    )
   }
 }
 
@@ -259,7 +286,9 @@ const parsers = {
   filter,
   padding,
   icon,
-  background,
+  iconMonochrome,
+  background: getBackgroundParser('background'),
+  backgroundDark: getBackgroundParser('backgroundDark'),
   splashscreenIconRatio,
 
   themeColor: getColorParser('themeColor'),

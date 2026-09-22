@@ -81,6 +81,15 @@ $ icongenie generate -h
                             Quasar project folder
                           Recommended min size: 1024x1024 px
 
+    --icon-monochrome     Path to optional source file for the monochrome layer of the
+                          Android adaptive icon (Android 13+ themed icons); must be:
+                            - a .png file
+                            - min resolution: 64x64 px (the higher the better!!)
+                            - with transparency (only its shape is used; Android tints it)
+                          Default: the shape of the icon source file
+                          Path can be absolute, or relative to the root of the
+                            Quasar project folder
+
     --background, -b      Path to optional background source file (for splash screens
                           and the Android adaptive icon background layer); must be:
                             - a .png file
@@ -90,6 +99,13 @@ $ icongenie generate -h
                           Path can be absolute, or relative to the root of the
                             Quasar project folder
                           Recommended min size: 1024x1024 px
+
+    --background-dark     Path to optional background source file for the dark
+                          variants of the splash screens (see splashscreen-dark-color);
+                          same requirements as the background param;
+                          Default: the background source file
+                          Path can be absolute, or relative to the root of the
+                            Quasar project folder
 
     --mode, -m            For which Quasar mode(s) to generate the assets;
                           Default: all
@@ -281,6 +297,15 @@ $ icongenie profile -h
                             Quasar project folder
                           Recommended min size: 1024x1024 px
 
+    --icon-monochrome     Path to optional source file for the monochrome layer of the
+                          Android adaptive icon (Android 13+ themed icons); must be:
+                            - a .png file
+                            - min resolution: 64x64 px (the higher the better!!)
+                            - with transparency (only its shape is used; Android tints it)
+                          Default: the shape of the icon source file
+                          Path can be absolute, or relative to the root of the
+                            Quasar project folder
+
     --background, -b      Path to optional background source file (for splash screens
                           and the Android adaptive icon background layer); must be:
                             - a .png file
@@ -290,6 +315,13 @@ $ icongenie profile -h
                           Path can be absolute, or relative to the root of the
                             Quasar project folder
                           Recommended min size: 1024x1024 px
+
+    --background-dark     Path to optional background source file for the dark
+                          variants of the splash screens (see splashscreen-dark-color);
+                          same requirements as the background param;
+                          Default: the background source file
+                          Path can be absolute, or relative to the root of the
+                            Quasar project folder
 
     --include             Prefill the params.include property;
                             [all|spa|pwa|ssr|ssg|bex|cordova|capacitor|electron]

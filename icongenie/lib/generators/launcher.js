@@ -4,7 +4,8 @@ import { getSquareIcon } from '../utils/get-square-icon.js'
 
 // Android adaptive icon geometry, in fractions of the 108dp canvas:
 // launchers mask the central 72dp (any shape) and guarantee that
-// the central 66dp are never clipped
+// the central 66dp are never clipped; the same applies to the
+// monochrome layer that Android 13+ themed icons are tinted from
 const SAFE_ZONE_RATIO = 66 / 108
 const VIEWPORT_RATIO = 72 / 108
 
@@ -24,13 +25,13 @@ function getCircleMask(size) {
   )
 }
 
-async function getForeground(file, opts, size) {
+async function getLayer(file, source, opts, size) {
   const inner = Math.round(size * SAFE_ZONE_RATIO)
   const offset = Math.round((size - inner) / 2)
 
   const icon = await getSquareIcon({
     file,
-    icon: opts.icon,
+    icon: source,
     size: inner,
     padding: opts.padding
   }).toBuffer()
@@ -38,6 +39,14 @@ async function getForeground(file, opts, size) {
   return createCanvas(size).composite([
     { input: icon, left: offset, top: offset }
   ])
+}
+
+function getForeground(file, opts, size) {
+  return getLayer(file, opts.icon, opts, size)
+}
+
+function getMonochrome(file, opts, size) {
+  return getLayer(file, opts.iconMonochrome, opts, size)
 }
 
 function getBackground(_file, opts, size) {
@@ -83,6 +92,7 @@ async function getRound(file, opts, size) {
 const variants = {
   foreground: getForeground,
   background: getBackground,
+  monochrome: getMonochrome,
   legacy: getLegacy,
   round: getRound
 }

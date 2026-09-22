@@ -3,12 +3,13 @@ import { getSquareIcon } from '../utils/get-square-icon.js'
 export default async function splashscreen(file, opts, done) {
   const size = Math.min(file.width, file.height)
 
-  const img = opts.background
+  const isDark = file.dark === true
+
+  const img = (isDark ? opts.backgroundDark : opts.background)
     .clone()
     .resize(file.width, file.height)
     .flatten({
-      background:
-        file.dark === true ? opts.splashscreenDarkColor : opts.splashscreenColor
+      background: isDark ? opts.splashscreenDarkColor : opts.splashscreenColor
     })
 
   if (opts.splashscreenIconRatio > 0) {

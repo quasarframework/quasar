@@ -25,9 +25,11 @@ function printBanner(assetsOf, params) {
  Quasar project folder..... ${green(appDir)}
  ${green(`Quality level............. ${params.quality}/12`)}
  Icon source file.......... ${green(params.icon)}
+ Monochrome icon file...... ${params.iconMonochrome ? green(params.iconMonochrome) : 'none (derived from the icon)'}
  Icon trimming............. ${params.skipTrim ? 'no' : green('yes')}
  Icon padding.............. ${green(`horizontal: ${params.padding[0]}; vertical: ${params.padding[1]}`)}
  Background source file.... ${params.background ? green(params.background) : 'none'}
+ Dark background file...... ${params.backgroundDark ? green(params.backgroundDark) : 'none (same as background)'}
  Assets of................. ${green(assetsOf)}
  Generator filter.......... ${params.filter ? green(params.filter) : 'none'}
  Svg color................. ${green(params.svgColor)}
@@ -180,7 +182,9 @@ export function generate(argv) {
     'filter',
     'padding',
     'icon',
+    'iconMonochrome',
     'background',
+    'backgroundDark',
     'splashscreenIconRatio',
     // order matters:
     'themeColor',
