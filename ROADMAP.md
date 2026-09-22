@@ -60,7 +60,7 @@ _The schedule may change based on unforeseen and/or out of the ordinary circumst
 ### Q4 2026
 
 - ✌️ (DONE) Critical CSS path for SSR & SSG dev modes (avoids FOUC on development)
-- MCP server
+- ✌️ (DONE) Quasar MCP server for AI Agents
 
 ### Q1 2027
 
