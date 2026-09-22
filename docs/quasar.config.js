@@ -4,6 +4,11 @@ import { defineConfig } from '#q-app'
 import { mdVitePlugin } from './build/md/md-vite-plugin.js'
 import { quasarApiVitePlugin } from './build/quasar-api.js'
 import { codeSplitting, examplesVitePlugin } from './build/prod-chunks.js'
+import { agentFiles } from './build/agent-files.js'
+
+// stamped on the html shell (index.html) and compiled into the app
+// (src-pwa/register-sw.js compares the two)
+const buildId = Date.now().toString(36)
 
 export default defineConfig(ctx => ({
   boot: [
@@ -15,6 +20,8 @@ export default defineConfig(ctx => ({
   ],
 
   css: ['app.sass' /* '~virtual:shiki-tokens.css' */],
+
+  htmlVariables: { buildId },
 
   build: {
     vueRouterMode: 'history',
@@ -32,6 +39,7 @@ export default defineConfig(ctx => ({
 
     defineEnv: {
       DOCS_BRANCH: 'dev',
+      DOCS_BUILD_ID: buildId,
       SEARCH_INDEX: 'quasar-v2'
     },
 
@@ -136,45 +144,17 @@ export default defineConfig(ctx => ({
   },
 
   pwa: {
-    workboxMode: 'GenerateSW',
+    workboxMode: 'InjectManifest',
     injectPWAMetaTags: false,
     swFilename: 'service-worker.js',
 
-    async extendPWAGenerateSWOptions() {
-      // the files agents read instead of the app: the .md page siblings,
-      // llms.txt and mcp.json from the docs generator (build/mcp) and
-      // public/context7.json
-      const agentFiles = ['context7.json', 'llms.txt', 'mcp.json']
-      const agentFilesRE = new RegExp(
-        String.raw`\.md$|/(${agentFiles.map(file => file.replace('.', String.raw`\.`)).join('|')})$`
-      )
-
+    async extendPWAInjectManifestOptions() {
       return {
-        cleanupOutdatedCaches: true,
-        // the updated worker waits until the browser activates it, once no
-        // tab uses the current one (src-pwa/register-sw.js)
-        skipWaiting: false,
-        clientsClaim: true,
         // (arrays merge by concatenation, onto app-vite's defaults)
         // never in the precache: a precached agent file would be served
-        // from it ahead of the NetworkOnly route below; the OpenSearch
+        // from it ahead of the worker's NetworkOnly route; the OpenSearch
         // descriptor is fetched by browsers, never by the app
         globIgnores: ['**/*.md', ...agentFiles, 'search_manifest.xml'],
-        // no app shell for the agent files, and never the worker cache
-        navigateFallbackDenylist: [agentFilesRE],
-        runtimeCaching: [
-          {
-            urlPattern: /^https:\/\/cdn/,
-            handler: 'StaleWhileRevalidate'
-          },
-          {
-            urlPattern: agentFilesRE,
-            handler: 'NetworkOnly',
-            options: {
-              cacheName: 'agent-files-network-only'
-            }
-          }
-        ],
         additionalManifestEntries: [
           ...(await getSponsors()),
           ...(await getTeam())

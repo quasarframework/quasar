@@ -1,32 +1,60 @@
-/*
- * This file (which will be your service worker)
- * is picked up by the build system ONLY if
- * quasar.config file > pwa > workboxMode is set to "InjectManifest"
- */
-
 import { clientsClaim } from 'workbox-core'
 import {
+  addPlugins,
   cleanupOutdatedCaches,
   createHandlerBoundToURL,
   precacheAndRoute
 } from 'workbox-precaching'
 import { NavigationRoute, registerRoute } from 'workbox-routing'
+import { NetworkOnly, StaleWhileRevalidate } from 'workbox-strategies'
 
-self.skipWaiting()
+import { agentFilesRE } from '../../build/agent-files.js'
+
+// No skipWaiting: an updated worker waits until the browser activates it,
+// once no tab uses the current one (src-pwa/register-sw.js). Claiming only
+// matters for the very first install.
 clientsClaim()
 
-// Use with precache injection
-precacheAndRoute(self.__WB_MANIFEST)
+// WebKit keeps the scripts and styles a document loaded in a memory cache
+// of its web process and hands them to the next document of the same site
+// without asking the worker, so a tab opened seconds after the last one
+// closed would run the previous build's chunks against the updated
+// precache (the chunk filenames are stable). A "no-store" response is not
+// reused that way; the precache itself keeps the original headers.
+addPlugins([
+  {
+    handlerWillRespond: ({ request, response }) => {
+      if (!/\.(js|css)$/.test(new URL(request.url).pathname)) {
+        return response
+      }
 
+      const headers = new Headers(response.headers)
+      headers.set('Cache-Control', 'no-store')
+
+      return new Response(response.body, {
+        status: response.status,
+        statusText: response.statusText,
+        headers
+      })
+    }
+  }
+])
+
+precacheAndRoute(self.__WB_MANIFEST)
 cleanupOutdatedCaches()
 
-// Non-SSR fallback to index.html
-// Production SSR fallback to offline.html (except for dev)
-if (import.meta.env.QUASAR_PROD) {
-  registerRoute(
-    new NavigationRoute(
-      createHandlerBoundToURL(import.meta.env.QUASAR_PWA_FALLBACK_HTML),
-      { denylist: [/sw\.js$/, /workbox-(.)*\.js$/] }
-    )
+registerRoute(
+  new NavigationRoute(
+    createHandlerBoundToURL(import.meta.env.QUASAR_PWA_FALLBACK_HTML),
+    {
+      denylist: [
+        new RegExp(import.meta.env.QUASAR_PWA_SERVICE_WORKER_REGEX),
+        /workbox-(.)*\.js$/,
+        agentFilesRE
+      ]
+    }
   )
-}
+)
+
+registerRoute(/^https:\/\/cdn/, new StaleWhileRevalidate())
+registerRoute(agentFilesRE, new NetworkOnly())
