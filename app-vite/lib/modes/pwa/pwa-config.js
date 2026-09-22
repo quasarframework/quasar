@@ -110,11 +110,6 @@ export const quasarPwaConfig = {
           new RegExp(escapeRegexString(quasarConf.pwa.swFilename) + '$'),
           workboxFileRE
         ]
-
-        if (ctx.mode.ssg) {
-          opts.globIgnores ||= []
-          opts.globIgnores.push('__ssg__/**/*')
-        }
       } else {
         // no one to serve workbox files if they are externalized
         opts.inlineWorkboxRuntime = true
@@ -260,6 +255,12 @@ export const quasarPwaConfig = {
       }
 
       opts.swSrc = appPaths.resolve.entry('compiled-custom-sw.js')
+    }
+
+    // the SSG renderer's own files (removed once the pages are generated)
+    if (ctx.prod && ctx.mode.ssg) {
+      opts.globIgnores ||= []
+      opts.globIgnores.push('__ssg__/**/*')
     }
 
     opts.swDest = ctx.dev
