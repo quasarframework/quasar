@@ -29,7 +29,8 @@ LTS support ends 12 months after the release of a new major version.
 | `@quasar/extras`      | v1.x    | Inactive    | 2019-02-22 | 2026-05-28          | 2026-12-31       |
 | `@quasar/vite-plugin` | v1.x    | Active      | 2021-10-25 | Not planned yet     | Not planned yet  |
 | `@quasar/cli`         | v5.x    | Active      | 2026-05-28 | Never               | Never            |
-| `@quasar/icongenie`   | v6.x    | Active      | 2026-06-12 | Never               | Never            |
+| `@quasar/mcp`         | v1.x.   | Active      | 2026-09-17 | Never               | Never            |
+| `@quasar/icongenie`   | v7.x    | Active      | 2026-09-22 | Never               | Never            |
 | `@quasar/app-webpack` | v4.x    | Deprecated  | 2024-02-08 | 2026-12-31          | 2026-05-08       |
 
 ## Major milestones
@@ -61,7 +62,7 @@ _The schedule may change based on unforeseen and/or out of the ordinary circumst
 
 - ✌️ (DONE) Critical CSS path for SSR & SSG dev modes (avoids FOUC on development)
 - ✌️ (DONE) Quasar MCP server for AI Agents
-- IconGenie v7: own Capacitor implementation replacing @capacitor/assets, revised Cordova/PWA/BEX/SPA/Capacitor asset sets, dark splash + monochrome layer, 2026 iPhone launch images, percentage padding, bitmap ICO small, entries. Breaking: Cordova platform floors, dropped src-capacitor/assets output, all-PNG ICO gone
+- ✌️ (DONE) IconGenie v7: own Capacitor implementation replacing @capacitor/assets, revised Cordova/PWA/BEX/SPA/Capacitor asset sets, dark splash + monochrome layer, 2026 iPhone launch images, percentage padding, bitmap ICO small, entries. Breaking: Cordova platform floors, dropped src-capacitor/assets output, all-PNG ICO gone
 
 ### Q1 2027
 
