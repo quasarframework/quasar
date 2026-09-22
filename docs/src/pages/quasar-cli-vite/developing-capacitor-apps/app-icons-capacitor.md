@@ -142,6 +142,9 @@ Add `--splashscreen-dark-color <hex>` to also generate the dark variants of the 
 
 The `@capacitor/splash-screen` plugin gets installed into `/src-capacitor` if it is not already, as it is the one displaying the splash screens.
 
+> [!NOTE]
+> **Android splash screen scaling.** On Android 12+ the launch splash is the system's icon-based one and the `splash.png` drawables are only painted when your app calls the plugin's `show()`. The plugin would stretch them (`FIT_XY`), so `defineCapacitorConfig` defaults the plugin's `androidScaleType` to `CENTER_CROP`, which the generated images are composed for (icon centered, background covering).
+
 ## Manual instructions
 
 Unless you are using the Icon Genie app extension, these are the files that you need to replace:

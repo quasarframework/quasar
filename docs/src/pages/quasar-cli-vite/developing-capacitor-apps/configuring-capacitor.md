@@ -24,11 +24,12 @@ Capacitor's `.js` config loader doesn't yet handle ESM exports correctly, so we 
 
 ### The defineCapacitorConfig helper
 
-`@quasar/app-vite/capacitor` exports `defineCapacitorConfig`, a small wrapper for the `.ts` / `.js` forms. It does three things:
+`@quasar/app-vite/capacitor` exports `defineCapacitorConfig`, a small wrapper for the `.ts` / `.js` forms. It does four things:
 
 1. Defaults `webDir` to `'www'`. Quasar always builds to `src-capacitor/www`, so this avoids a field you'd otherwise have to remember to set. You can override it if you have a very custom use case.
 2. In dev mode, injects `server.url` (and `server.cleartext: true` on Android) so the running native app loads from Quasar's dev server. You can override it if you have a very custom use case, such as [testing through a tunnel](/quasar-cli-vite/opening-dev-server-to-public#testing-a-capacitor-app-through-a-tunnel).
-3. Types your input against `CapacitorConfig` from `@capacitor/cli`, so autocompletion and type errors come from the real upstream schema.
+3. Defaults the splash screen plugin's `androidScaleType` to `'CENTER_CROP'`, so the splash screens that [Icon Genie generates](/quasar-cli-vite/developing-capacitor-apps/app-icons-capacitor) (icon centered on a covering background) are cropped instead of stretched when your app shows them. You can override it if your own artwork needs another scale type.
+4. Types your input against `CapacitorConfig` from `@capacitor/cli`, so autocompletion and type errors come from the real upstream schema.
 
 All of this happens at config-load time inside the cap CLI process. Your source file isn't mutated.
 

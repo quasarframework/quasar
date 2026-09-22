@@ -10,6 +10,19 @@ function applyDefaults(base) {
     base.webDir = 'www'
   }
 
+  // The splash screen plugin stretches its drawables (FIT_XY) when the app
+  // calls show(); Icon Genie composes them icon-centered on a covering
+  // background, which is what CENTER_CROP keeps intact. User-set value wins.
+  const plugins = { ...base.plugins }
+  const splashScreen = { ...plugins.SplashScreen }
+
+  if (splashScreen.androidScaleType === void 0) {
+    splashScreen.androidScaleType = 'CENTER_CROP'
+  }
+
+  plugins.SplashScreen = splashScreen
+  base.plugins = plugins
+
   // If this does not exist, then this is loaded outside Quasar CLI, e.g. a direct `cap` call, skip
   const target = process.env.QUASAR_TARGET
   if (!target) {
