@@ -1,6 +1,6 @@
 import { basename, dirname, isAbsolute, relative, resolve } from 'node:path'
 import { writeFileSync } from 'node:fs'
-import { ensureDir } from 'fs-extra'
+import { ensureDirSync } from 'fs-extra'
 
 import { log } from '../utils/logger.js'
 import { modes } from '../modes/index.js'
@@ -49,12 +49,8 @@ export function profile({ output, assets, ...params }) {
   }
 
   const targetFile = getTargetFilepath(output)
-  const folderName = dirname(targetFile)
 
-  if (folderName) {
-    ensureDir(folderName)
-  }
-
+  ensureDirSync(dirname(targetFile))
   writeFileSync(targetFile, JSON.stringify(acc, null, 2), 'utf8')
 
   console.log(` Generated Icon Genie profile file:`)
