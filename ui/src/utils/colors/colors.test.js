@@ -189,6 +189,29 @@ describe('[colors API]', () => {
       })
 
       test.each([
+        ['black', 'rgb(0, 0, 0, 0)', { r: 0, g: 0, b: 0, a: 0 }],
+        ['white', 'rgb(255, 255, 255, .1)', { r: 255, g: 255, b: 255, a: 10 }],
+        ['red', 'rgb(255, 0, 0, 0.25)', { r: 255, g: 0, b: 0, a: 25 }],
+        ['green', 'rgb(0, 255, 0, .5)', { r: 0, g: 255, b: 0, a: 50 }],
+        ['blue', 'rgb(0, 0, 255, 0.58)', { r: 0, g: 0, b: 255, a: 58 }],
+        ['yellow', 'rgb(255, 255, 0, .75)', { r: 255, g: 255, b: 0, a: 75 }],
+        ['cyan', 'rgb(0, 255, 255, 1)', { r: 0, g: 255, b: 255, a: 100 }],
+        ['magenta', 'rgb(255, 0, 255, 1.0)', { r: 255, g: 0, b: 255, a: 100 }],
+        ['gray', 'rgb(128, 128, 128, .33)', { r: 128, g: 128, b: 128, a: 33 }]
+      ])('textToRgb(%s)', (_, value, expected) => {
+        expect(colors.textToRgb(value)).toStrictEqual(expected)
+      })
+
+      test('textToRgb(rgba() without an alpha) is opaque', () => {
+        expect(colors.textToRgb('rgba(0, 255, 0)')).toStrictEqual({
+          r: 0,
+          g: 255,
+          b: 0,
+          a: 100
+        })
+      })
+
+      test.each([
         ['rgba(0, 255   , 0,    .1)'],
         [' rgba   (  0, 255   , 0,    .1)'],
         ['rgba( 0 , 255 , 0 , .1 )'],
