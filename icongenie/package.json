@@ -48,8 +48,8 @@
     "access": "public"
   },
   "dependencies": {
-    "@quasar/art": "^1.0.0",
-    "@quasar/update-notifier": "^1.1.0",
+    "@quasar/art": "workspace:^",
+    "@quasar/update-notifier": "workspace:^",
     "ci-info": "^4.4.0",
     "cross-spawn": "^7.0.6",
     "elementtree": "^0.1.7",
