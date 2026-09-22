@@ -12,10 +12,16 @@ export default async function ico(file, opts, done) {
   })
 
   const buffer = await img.toBuffer()
+
+  // 16 to 48px as plain bitmaps, the rest as PNG: parts of the Windows
+  // shell (desktop shortcuts, the icon extracted from an executable)
+  // scramble PNG-compressed small entries, so the mixed layout that
+  // png2icons offers for Windows executables is the one to ship everywhere
   const output = await png2icons.createICO(
     buffer,
     opts.compression.ico,
     0,
+    false,
     true
   )
 
