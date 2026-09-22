@@ -14,25 +14,25 @@ desc: (@quasar/app-vite) How to create a Project folder with @quasar/app-vite.
 ```tabs
 <<| bash PNPM |>>
 # optional, if you don't have it already:
-pnpm add -g @quasar/cli
+pnpm add -g @quasar/cli@latest
 
 # now create the project folder:
 pnpm create quasar@latest
 <<| bash Yarn |>>
 # optional, if you don't have it already:
-yarn global add @quasar/cli
+yarn global add @quasar/cli@latest
 
 # now create the project folder:
 yarn create quasar
 <<| bash NPM |>>
 # optional, if you don't have it already:
-npm i -g @quasar/cli
+npm i -g @quasar/cli@latest
 
 # now create the project folder:
 npm init quasar@latest
 <<| bash Bun |>>
 # optional, if you don't have it already:
-bun add -g @quasar/cli
+bun add -g @quasar/cli@latest
 
 # now create the project folder:
 bun create quasar@latest

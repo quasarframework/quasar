@@ -32,16 +32,16 @@ You will also be able to use the command line, so it will be almost identical to
 
 ```tabs
 <<| bash PNPM |>>
-pnpm add -g @quasar/cli
+pnpm add -g @quasar/cli@latest
 pnpm create quasar@latest
 <<| bash Yarn |>>
-yarn global add @quasar/cli
+yarn global add @quasar/cli@latest
 yarn create quasar
 <<| bash NPM |>>
-npm i -g @quasar/cli
+npm i -g @quasar/cli@latest
 npm init quasar@latest
 <<| bash Bun |>>
-bun install -g @quasar/cli
+bun install -g @quasar/cli@latest
 bun create quasar@latest
 ```
 
@@ -85,13 +85,13 @@ Pick `App with Quasar CLI`.
 
    ```tabs
    <<| bash PNPM |>>
-   pnpm add -g @quasar/cli
+   pnpm add -g @quasar/cli@latest
    <<| bash Yarn |>>
-   yarn global add @quasar/cli
+   yarn global add @quasar/cli@latest
    <<| bash NPM |>>
-   npm i -g @quasar/cli
+   npm i -g @quasar/cli@latest
    <<| bash Bun |>>
-   bun install -g @quasar/cli
+   bun install -g @quasar/cli@latest
    ```
 
    > [!IMPORTANT]

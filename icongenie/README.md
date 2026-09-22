@@ -26,13 +26,13 @@ Node.js >=22.22.0 is required.
 
 ```tabs
 <<| bash PNPM |>>
-pnpm add -g @quasar/icongenie
+pnpm add -g @quasar/icongenie@latest
 <<| bash Yarn |>>
-yarn global add @quasar/icongenie
+yarn global add @quasar/icongenie@latest
 <<| bash NPM |>>
-npm i -g @quasar/icongenie
+npm i -g @quasar/icongenie@latest
 <<| bash Bun |>>
-bun install -g @quasar/icongenie
+bun install -g @quasar/icongenie@latest
 ```
 
 ## Usage

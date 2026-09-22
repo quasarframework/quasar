@@ -37,13 +37,13 @@ For doing more with Quasar, you should also install the global CLI. With it you 
 
 ```tabs
 <<| bash PNPM |>>
-pnpm add -g @quasar/cli
+pnpm add -g @quasar/cli@latest
 <<| bash Yarn |>>
-yarn global add @quasar/cli
+yarn global add @quasar/cli@latest
 <<| bash NPM |>>
-npm i -g @quasar/cli
+npm i -g @quasar/cli@latest
 <<| bash Bun |>>
-bun install -g @quasar/cli
+bun install -g @quasar/cli@latest
 ```
 
 ## Step 2: Start developing

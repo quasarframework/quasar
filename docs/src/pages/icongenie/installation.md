@@ -11,16 +11,16 @@ You will be installing the Icon Genie CLI globally. You don't need to install it
 ```tabs
 <<| bash PNPM |>>
 # Node.js >=22 is required.
-pnpm add -g @quasar/icongenie
+pnpm add -g @quasar/icongenie@latest
 <<| bash Yarn |>>
 # Node.js >=22 is required.
-yarn global add @quasar/icongenie
+yarn global add @quasar/icongenie@latest
 <<| bash NPM |>>
 # Node.js >=22 is required.
-npm i -g @quasar/icongenie
+npm i -g @quasar/icongenie@latest
 <<| bash Bun |>>
 # Node.js >=22 is required.
-bun install -g @quasar/icongenie
+bun install -g @quasar/icongenie@latest
 ```
 
 This will install the `icongenie` command line tool.
