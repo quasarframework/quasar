@@ -184,6 +184,25 @@ describe('[QPagination API]', () => {
 
         expect(wrapper.emitted('update:modelValue')).toStrictEqual([[10]])
       })
+
+      test('clears the field once the page was submitted', async () => {
+        const wrapper = mountPagination({
+          input: true,
+          'onUpdate:modelValue': () => {}
+        })
+
+        await getInput(wrapper).setValue('99')
+
+        expect(getInput(wrapper).element.value).toBe('99')
+
+        await getInput(wrapper).trigger('keyup', { keyCode: 13 })
+        await wrapper.setProps({ modelValue: 10 })
+
+        // the page in effect is the clamped one that the placeholder
+        // reports, so a leftover "99" in the field contradicts it
+        expect(getInput(wrapper).attributes('placeholder')).toBe('10 / 10')
+        expect(getInput(wrapper).element.value).toBe('')
+      })
     })
 
     describe('[(prop)icon-prev]', () => {
