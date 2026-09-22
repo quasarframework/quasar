@@ -1,0 +1,77 @@
+name: 'Bug report: Quasar MCP Server'
+description: The @quasar/mcp package
+labels: ['kind/bug 🐞', 'area/mcp']
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ### Read Before Proceeding Further
+
+        This form is for submitting a **bug report** for the [Quasar MCP server](https://quasar.dev/start/ai-agents) (`@quasar/mcp`).
+        If the problem is with the docs content itself, use the Docs report form instead. If you are just seeking help or would like to submit a feature request, go back and choose a more suitable option from the list.
+
+        Also, search for your issue in the repo to be sure it doesn't exist already.
+
+        Thanks for your understanding. We truly appreciate your effort to fill out this form!
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: Clearly and concisely explain the problem.
+    validations:
+      required: true
+  - type: textarea
+    id: expected-behavior
+    attributes:
+      label: What did you expect to happen?
+    validations:
+      required: true
+  - type: dropdown
+    id: client
+    attributes:
+      label: MCP client
+      description: The agent/editor the server is registered in. _If you select `Other`, please name it in the `Additional context` section._
+      options:
+        - Claude Code
+        - Codex
+        - Grok Build
+        - Cursor
+        - Windsurf
+        - VS Code
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: server-config
+    attributes:
+      label: Server configuration
+      description: |
+        The MCP server entry from your client's configuration (command, args, `--project` flag if any) and where the server was started (project folder or workspace root).
+        _This will be automatically formatted into code, so no need for backticks._
+      render: JSON
+    validations:
+      required: true
+  - type: textarea
+    id: tool-call
+    attributes:
+      label: Tool call and result
+      description: |
+        Which tool was called (`list_pages`, `search_docs`, `get_page`, `list_api`, `get_api`, `check_updates`), with which arguments, and what it returned.
+        _This will be automatically formatted into code, so no need for backticks._
+      render: Shell
+  - type: textarea
+    id: versions
+    attributes:
+      label: Versions
+      description: |
+        The `@quasar/mcp` version (the server reports it at session start), `node --version` and the output of `quasar info` in the project.
+        _This will be automatically formatted into code, so no need for backticks._
+      render: Shell
+    validations:
+      required: true
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: Additional context
+      description: Add any other context about the problem here.

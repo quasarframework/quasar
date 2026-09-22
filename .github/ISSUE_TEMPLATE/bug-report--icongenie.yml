@@ -1,0 +1,65 @@
+name: 'Bug report: Icon Genie CLI'
+description: The @quasar/icongenie package
+labels: ['kind/bug 🐞', 'area/icongenie']
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ### Read Before Proceeding Further
+
+        This form is for submitting a **bug report** for [Icon Genie CLI](https://quasar.dev/icongenie/introduction) (`@quasar/icongenie`).
+        If you are just seeking help or would like to submit a feature request, go back and choose a more suitable option from the list.
+
+        Also, search for your issue in the repo to be sure it doesn't exist already.
+
+        Thanks for your understanding. We truly appreciate your effort to fill out this form!
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: Clearly and concisely explain the problem.
+    validations:
+      required: true
+  - type: textarea
+    id: expected-behavior
+    attributes:
+      label: What did you expect to happen?
+    validations:
+      required: true
+  - type: input
+    id: command
+    attributes:
+      label: Command
+      description: The exact `icongenie` command you ran, with all its flags.
+      placeholder: icongenie generate -m capacitor -i icon.png --skip-trim
+    validations:
+      required: true
+  - type: textarea
+    id: input-files
+    attributes:
+      label: Input files
+      description: Describe (or attach) the source icon/splashscreen files and the profile JSON if you used one. Format, dimensions and transparency matter.
+  - type: textarea
+    id: versions
+    attributes:
+      label: Versions
+      description: |
+        The output of `icongenie --version`, `node --version` and your OS.
+        _This will be automatically formatted into code, so no need for backticks._
+      render: Shell
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant log output
+      description: |
+        Please copy and paste any relevant log output.
+        _This will be automatically formatted into code, so no need for backticks._
+      render: Shell
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: Additional context
+      description: Add any other context about the problem here.

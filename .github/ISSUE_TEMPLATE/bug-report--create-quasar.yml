@@ -1,0 +1,67 @@
+name: 'Bug report: Create Quasar'
+description: Scaffolding a project with npm init quasar / pnpm create quasar / yarn create quasar / bun create quasar
+labels: ['kind/bug 🐞', 'area/create-quasar']
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ### Read Before Proceeding Further
+
+        This form is for submitting a **bug report** for the project scaffolding tool (`create-quasar`).
+        If the scaffolded project works but a `quasar` command fails afterwards, use the Quasar CLI form instead. If you are just seeking help or would like to submit a feature request, go back and choose a more suitable option from the list.
+
+        Also, search for your issue in the repo to be sure it doesn't exist already.
+
+        Thanks for your understanding. We truly appreciate your effort to fill out this form!
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: Clearly and concisely explain the problem.
+    validations:
+      required: true
+  - type: textarea
+    id: expected-behavior
+    attributes:
+      label: What did you expect to happen?
+    validations:
+      required: true
+  - type: input
+    id: command
+    attributes:
+      label: Command
+      description: The exact command you ran.
+      placeholder: npm init quasar@latest
+    validations:
+      required: true
+  - type: textarea
+    id: prompt-answers
+    attributes:
+      label: Prompt answers
+      description: The options you picked in the interactive prompts (project type, script type, package manager, features, etc.).
+    validations:
+      required: true
+  - type: textarea
+    id: versions
+    attributes:
+      label: Versions
+      description: |
+        The output of `node --version`, your package manager and its version, and your OS.
+        _This will be automatically formatted into code, so no need for backticks._
+      render: Shell
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant log output
+      description: |
+        Please copy and paste any relevant log output.
+        _This will be automatically formatted into code, so no need for backticks._
+      render: Shell
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: Additional context
+      description: Add any other context about the problem here.

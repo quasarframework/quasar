@@ -1,16 +1,15 @@
-name: Bug report (Quasar v2)
-description: Create a bug report to help us improve
-labels: ['kind/bug 🐞', 'Qv2 🔝']
+name: 'Bug report: Quasar UI'
+description: The quasar package (components, directives, plugins, composables, CSS, TypeScript) or @quasar/extras
+labels: ['kind/bug 🐞', 'area/ui']
 
-# Note: Do NOT use commas(,) in options with 'multiple: true', the issue processing workflow won't be able to label it
 body:
   - type: markdown
     attributes:
       value: |
         ### Read Before Proceeding Further
 
-        This form is for submitting a **bug report** for Quasar Framework(**v2**).
-        If you are using another version, just seeking help, or you would like to submit a feature request, go back and choose a more suitable option from the list.
+        This form is for submitting a **bug report** for the Quasar UI library (the `quasar` package) or `@quasar/extras`.
+        If the problem is in the Quasar CLI, Icon Genie, the MCP server or project creation, go back and choose the matching form. If you are just seeking help or would like to submit a feature request, go back and choose a more suitable option from the list.
 
         Also, search for your issue in the repo to be sure it doesn't exist already.
 
@@ -42,7 +41,7 @@ body:
         Fork one of the following, hit save then copy-paste the URL here:
           - [Codepen](https://codepen.quasar.dev)
           - [jsFiddle](https://jsfiddle.quasar.dev)
-          - [StackBlitz - app-vite](https://stackblitz-vite.quasar.dev)
+          - [StackBlitz](https://stackblitz.quasar.dev)
           - [Codesandbox](https://codesandbox.quasar.dev)
         _You can provide a GitHub repo only as a last resort. Keep in mind that it will be prioritized less as it makes the reproduction process slower._
       placeholder: https://codepen.io/rstoenescu/pen/xxEvBLR - DO NOT use this example value or a random URL
@@ -64,73 +63,39 @@ body:
     id: flavour
     attributes:
       label: Flavour
-      description: Choose the Quasar flavour you are using. _The names between parentheses indicate the package names if applicable._
+      description: How do you use Quasar? _The names between parentheses indicate the package names._
       options:
-        - Quasar CLI with Vite (@quasar/cli | @quasar/app-vite)
-        - UMD
+        - Quasar CLI (@quasar/cli | @quasar/app-vite)
         - Vite Plugin (@quasar/vite-plugin)
-        - Vue CLI Plugin (vue-cli-plugin-quasar)
-    validations:
-      required: true
-  - type: dropdown
-    id: areas
-    attributes:
-      label: Areas
-      description: Mark the areas in which you see the problem on. _The names between parentheses indicate the package names if applicable._
-      multiple: true
-      options:
-        - Quasar CLI Commands/Configuration (@quasar/cli | @quasar/app-webpack | @quasar/app-vite)
-
-        - Components (quasar)
-        - Directives (quasar)
-        - Plugins (quasar)
-        - Composables (quasar)
-        - Style & Identity (quasar)
-        - Accessibility [a11y] (quasar)
-
-        - Project Creation (create-quasar)
-        - Quasar Extras (@quasar/extras)
-        - TypeScript Support
-        - App Extension API
-        # TODO: Consider creating a separate issue template for Icon Genie CLI as most of the info requested may not be relevant
-        - Icon Genie CLI (@quasar/icongenie)
-
-        - SPA Mode
-        - SSR Mode
-        - PWA Mode
-        - Electron Mode
-        - Cordova Mode
-        - Capacitor Mode
-        - BEX Mode
+        - UMD
     validations:
       required: true
   - type: dropdown
     id: browsers
     attributes:
       label: Platforms/Browsers
-      description: Mark the platforms/browsers in which you see the problem on. _If you select `Other`, please explain it in `Additional context` section._
+      description: Mark the platforms/browsers in which you see the problem on. _If you select `Other`, please explain it in the `Additional context` section._
       multiple: true
       options:
-        - Firefox
         - Chrome
         - Safari
-        - Microsoft Edge
+        - Firefox
         - iOS
         - Android
+        - Microsoft Edge
         - Electron
         - Other
   - type: textarea
-    id: q-info
+    id: versions
     attributes:
-      label: Quasar info output
+      label: Versions
       description: |
-        Please run [`quasar info` command](https://quasar.dev/quasar-cli-vite/commands-list#info), then copy and paste the output.
+        With Quasar CLI, run [`quasar info`](https://quasar.dev/quasar-cli-vite/commands-list#info) and paste the output.
+        Otherwise, list your `quasar`, `vue` and `vite` (or `@quasar/extras`) versions.
         _This will be automatically formatted into code, so no need for backticks._
       render: Shell
-    # TODO: Validate the format by using GitHub Actions, Probot, etc.
-    # TODO: Make this required if the flavour is Quasar CLI, by using GitHub Actions, Probot, etc.
-    # Consider adding separate controls to select important versions such as quasar, @quasar/app, vite, etc. to also respect the other flavours
-    # or add just the 'quasar' version(to cover UMD), then evolve `quasar info` command to cover most/all cases, and make people use `npx quasar info` for the environment and package information
+    validations:
+      required: true
   - type: textarea
     id: logs
     attributes:
