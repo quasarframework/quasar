@@ -6,9 +6,9 @@ import {
 import { isCordovaFile, mountCordova, verifyCordova } from './mount-cordova.js'
 import { mountTag } from './mount-tag.js'
 
-export async function mount(files) {
+export async function mount(files, params) {
   await mountCapacitor(files)
-  await mountCordova(files)
+  await mountCordova(files, params)
   mountTag(files)
 }
 

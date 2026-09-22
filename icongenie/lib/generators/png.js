@@ -18,6 +18,11 @@ export default function png(file, opts, done) {
     })
   }
 
+  // iOS 18+ tinted app icon: a grayscale image the system applies its tint to
+  if (file.appearance === 'tinted') {
+    img.grayscale()
+  }
+
   img
     .png()
     .toFile(file.absoluteName)

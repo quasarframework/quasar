@@ -1,4 +1,4 @@
-import spaEntries from './spa.js'
+import { favicons } from './spa.js'
 
 /* def: width, height, pixel-ratio */
 function getAppleLaunch(def) {
@@ -14,7 +14,8 @@ function getAppleLaunch(def) {
 }
 
 export default [
-  ...spaEntries,
+  // the apple touch icon comes from the list below (tag auto-injected)
+  ...favicons,
 
   {
     generator: 'png',
@@ -40,6 +41,24 @@ export default [
     folder: 'public/icons',
     sizes: [128, 192, 256, 384, 512]
     // manifest icons
+  },
+
+  {
+    generator: 'launcher',
+    name: 'icon-maskable-{size}x{size}.png',
+    folder: 'public/icons',
+    variant: 'maskable',
+    sizes: [512]
+    // manifest icon with "purpose": "maskable"
+  },
+
+  {
+    generator: 'launcher',
+    name: 'icon-monochrome-{size}x{size}.png',
+    folder: 'public/icons',
+    variant: 'monochrome',
+    sizes: [512]
+    // manifest icon with "purpose": "monochrome"
   },
 
   // Devices able to run iOS/iPadOS 17.2 (the Safari floor of Baseline

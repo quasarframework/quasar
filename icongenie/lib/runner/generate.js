@@ -43,6 +43,7 @@ function printBanner(assetsOf, params) {
 
 function parseAssets(assets, include) {
   const files = []
+  const retiredFiles = []
   const assetsOf = []
 
   if (include) {
@@ -52,6 +53,12 @@ function parseAssets(assets, include) {
 
     embeddedModes.forEach(mode => {
       files.push(...getAssetsFiles(modes[mode].assets))
+      retiredFiles.push(
+        ...(modes[mode].retired ?? []).map(relativeName => ({
+          relativeName,
+          absoluteName: resolveDir(relativeName)
+        }))
+      )
     })
 
     assetsOf.push(...embeddedModes)
@@ -64,6 +71,7 @@ function parseAssets(assets, include) {
 
   return {
     files: filterPlatformFiles(files),
+    retiredFiles,
     assetsOf: assetsOf.join(' | ')
   }
 }
@@ -98,10 +106,10 @@ function generateFile(file, opts) {
   })
 }
 
-// dark variants are opt-in: with no dark color they are not
-// generated and leftovers from a previous run are removed, so
-// that the project reflects the current params
-function removeStaleFiles(files) {
+// so that the project reflects the current asset list: dark variants
+// are opt-in (none generated without a dark color) and modes retire
+// files that their platforms stopped using
+function removeFiles(files, reason) {
   files.forEach(file => {
     if (!existsSync(file.absoluteName)) return
 
@@ -112,13 +120,16 @@ function removeStaleFiles(files) {
       rmSync(folder, { recursive: true })
     }
 
-    log(`Removed ${gray(file.relativeName)} (no splashscreen dark color)`)
+    log(`Removed ${gray(file.relativeName)} (${reason})`)
   })
 }
 
 async function generateFromProfile(profile) {
   const params = profile.params
-  const { assetsOf, files } = parseAssets(profile.assets, params.include)
+  const { assetsOf, files, retiredFiles } = parseAssets(
+    profile.assets,
+    params.include
+  )
 
   const fileOptions = await getFilesOptions(params)
   let uniqueFiles = getUniqueFiles(files)
@@ -128,8 +139,15 @@ async function generateFromProfile(profile) {
   }
 
   if (!params.splashscreenDarkColor) {
-    removeStaleFiles(uniqueFiles.filter(file => file.dark === true))
+    removeFiles(
+      uniqueFiles.filter(file => file.dark === true),
+      'no splashscreen dark color'
+    )
     uniqueFiles = uniqueFiles.filter(file => file.dark !== true)
+  }
+
+  if (!params.filter) {
+    removeFiles(retiredFiles, 'obsolete')
   }
 
   if (uniqueFiles.length === 0) {
@@ -142,7 +160,7 @@ async function generateFromProfile(profile) {
   printBanner(assetsOf, params)
 
   return Promise.all(uniqueFiles.map(file => generateFile(file, fileOptions)))
-    .then(() => mount(uniqueFiles))
+    .then(() => mount(uniqueFiles, params))
     .then(() => uniqueFiles.length)
 }
 

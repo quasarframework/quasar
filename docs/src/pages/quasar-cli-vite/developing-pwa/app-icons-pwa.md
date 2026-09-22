@@ -22,6 +22,10 @@ scope:
             e: for the PWA manifest
           - l: icon-512x512.png
             e: for the PWA manifest
+          - l: icon-maskable-512x512.png
+            e: for the PWA manifest (purpose maskable)
+          - l: icon-monochrome-512x512.png
+            e: for the PWA manifest (purpose monochrome)
           - l: safari-pinned-tab.svg
           - l: apple-icon-120x120.png
           - l: apple-icon-152x152.png
@@ -53,6 +57,23 @@ scope:
 ---
 
 This build target includes manifest icons, favicons, and platform-specific assets. Icon Genie generates the recommended set for you. If you discover one that is new or missing, please [open an issue](https://github.com/quasarframework/quasar/issues).
+
+The manifest icons include a `maskable` one (your icon over the `--background` image or the `--png-color` fill, sized for the safe zone that Android and Windows crop to) and a `monochrome` one (the shape of your icon, or of `--icon-monochrome`) for themed icons. Your `/src-pwa/manifest.json` declares them with the `purpose` property:
+
+```json
+{
+  "src": "icons/icon-maskable-512x512.png",
+  "sizes": "512x512",
+  "type": "image/png",
+  "purpose": "maskable"
+},
+{
+  "src": "icons/icon-monochrome-512x512.png",
+  "sizes": "512x512",
+  "type": "image/png",
+  "purpose": "monochrome"
+}
+```
 
 <llm-exclude reason="decoration">
 <img alt="IconGenie logo" src="/img/iconfactory.png" style="float:right;max-width:15%;min-width:240px;padding-top:40px">

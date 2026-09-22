@@ -9,13 +9,17 @@ scope:
         c:
           - l: icon-16x16.png
             e: Favicon on extension pages
+          - l: icon-32x32.png
+            e: Toolbar on high-density displays
           - l: icon-48x48.png
             e: Extension management page
+          - l: icon-96x96.png
+            e: Firefox add-ons manager
           - l: icon-128x128.png
             e: Installation and web store
 ---
 
-This build target includes three icon sizes used by the extension pages, browser extension manager, and extension stores. If you discover one that is new or missing, please [open an issue](https://github.com/quasarframework/quasar/issues).
+This build target includes the icon sizes used by the extension pages, the toolbar, the browser's extension manager and the extension stores (Chrome, Edge and Firefox share the same manifest `icons` entries). If you discover one that is new or missing, please [open an issue](https://github.com/quasarframework/quasar/issues).
 
 <llm-exclude reason="decoration">
 <img alt="IconGenie logo" src="/img/iconfactory.png" style="float:right;max-width:15%;min-width:240px;padding-top:40px">

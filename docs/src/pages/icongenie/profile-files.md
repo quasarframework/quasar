@@ -54,15 +54,16 @@ Asset `folder` and `name` values are resolved relative to the Quasar project fol
 
 Some asset props only apply to specific generators or platforms:
 
-| Prop name  | Applies to                        | Description                                                                                                                                                                 |
-| ---------- | --------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| background | `png`                             | Fill the transparent areas with `pngColor`                                                                                                                                  |
-| platform   | `png`, `splashscreen`, `launcher` | Registers the asset with the native project: `cordova-android` / `cordova-ios` (config.xml), `capacitor-android` (adaptive icon XML) / `capacitor-ios` (Contents.json)      |
-| density    | `cordova-android`                 | The `density` attribute of the config.xml entry                                                                                                                             |
-| variant    | `launcher`                        | Which Android launcher icon to compose: `foreground` / `background` / `monochrome` (the adaptive icon layers, 108dp canvas), `legacy` / `round` (pre Android 8 icons, 48dp) |
-| scale      | `capacitor-ios` splash screens    | The scale of the Contents.json entry: `1x`, `2x` or `3x`                                                                                                                    |
-| dark       | `splashscreen`                    | Dark variant: uses `backgroundDark` and `splashscreenDarkColor` as the background and is only generated when the latter is set                                              |
-| tag        | any                               | Tag to print at the end, for you to add to your /index.html; `{size}` and `{name}` placeholders are available                                                               |
+| Prop name  | Applies to                        | Description                                                                                                                                                                                                                                                                             |
+| ---------- | --------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| background | `png`                             | Fill the transparent areas with `pngColor`                                                                                                                                                                                                                                              |
+| platform   | `png`, `splashscreen`, `launcher` | Registers the asset with the native project: `cordova-android` / `cordova-ios` (config.xml), `capacitor-android` (adaptive icon XML) / `capacitor-ios` (Contents.json)                                                                                                                  |
+| density    | `cordova-android`                 | The `density` attribute of the config.xml `<icon>` entry (not needed by the `maskable` splash screen icon)                                                                                                                                                                              |
+| variant    | `launcher`                        | Which Android launcher icon to compose: `foreground` / `background` / `monochrome` (the adaptive icon layers, 108dp canvas), `maskable` (the layered canvas, for web app manifest maskable icons and the Android 12 splash screen icon), `legacy` / `round` (pre Android 8 icons, 48dp) |
+| scale      | `capacitor-ios` splash screens    | The scale of the Contents.json entry: `1x`, `2x` or `3x`                                                                                                                                                                                                                                |
+| appearance | `png`                             | iOS 18+ app icon variant for `cordova-ios` / `capacitor-ios`: `dark` (icon on a transparent background) or `tinted` (grayscale)                                                                                                                                                         |
+| dark       | `splashscreen`                    | Dark variant: uses `backgroundDark` and `splashscreenDarkColor` as the background and is only generated when the latter is set                                                                                                                                                          |
+| tag        | any                               | Tag to print at the end, for you to add to your /index.html; `{size}` and `{name}` placeholders are available                                                                                                                                                                           |
 
 Some examples for `assets` from which you can extract the syntax for every type of possible asset that Icon Genie can generate:
 
@@ -104,60 +105,58 @@ Some examples for `assets` from which you can extract the syntax for every type 
   },
 
   {
-    "generator": "splashscreen",
-    "name": "Default-Landscape-2436h.png",
-    "folder": "src-cordova/res/screen/ios",
-    "sizes": [
-      [ 2436, 1125 ]
-    ]
+    "generator": "launcher",
+    "name": "icon-maskable-512x512.png",
+    "folder": "public/icons",
+    "sizes": [ 512 ],
+    "variant": "maskable"
   },
 
   {
     "generator": "png",
-    "name": "icon-29@2x.png",
+    "name": "icon.png",
     "folder": "src-cordova/res/ios",
-    "sizes": [ 58 ],
+    "sizes": [ 1024 ],
     "platform": "cordova-ios",
     "background": true
   },
 
   {
-    "generator": "png",
-    "name": "icon-29@2x.png",
-    "folder": "src-cordova/res/ios",
-    "sizes": [ 58 ],
-    "platform": "cordova-ios",
-    "background": true
-  },
-
-  {
-    "generator": "png",
-    "name": "xxxhdpi.png",
+    "generator": "launcher",
+    "name": "xxxhdpi-foreground.png",
     "folder": "src-cordova/res/android",
-    "sizes": [ 192 ],
+    "sizes": [ 432 ],
     "platform": "cordova-android",
-    "density": "xxxhdpi"
+    "density": "xxxhdpi",
+    "variant": "foreground"
+  },
+
+  {
+    "generator": "launcher",
+    "name": "splashscreen.png",
+    "folder": "src-cordova/res/screen/android",
+    "sizes": [ 960 ],
+    "platform": "cordova-android",
+    "variant": "maskable"
+  },
+
+  {
+    "generator": "png",
+    "name": "icon-dark.png",
+    "folder": "src-cordova/res/ios",
+    "sizes": [ 1024 ],
+    "platform": "cordova-ios",
+    "appearance": "dark"
   },
 
   {
     "generator": "splashscreen",
-    "name": "Default@2x~ipad~comany.png",
+    "name": "Default@2x~universal~comany.png",
     "folder": "src-cordova/res/screen/ios",
     "sizes": [
       [ 1278, 2732 ]
     ],
     "platform": "cordova-ios"
-  },
-
-  {
-    "generator": "splashscreen",
-    "name": "splash-land-xxxhdpi.png",
-    "folder": "src-cordova/res/screen/android",
-    "sizes": [
-      [ 1920, 1280 ]
-    ],
-    "platform": "cordova-android",
-    "density": "land-xxxhdpi"
   },
 
   {

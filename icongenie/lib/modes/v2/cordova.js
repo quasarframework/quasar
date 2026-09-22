@@ -1,36 +1,66 @@
-const iosIconRegex = /icon-(\d+\.?\d?)@?(\d+)?x?\.png/
+// Targets cordova-android >= 11 (Android 12 splash screen API, adaptive
+// icons) and cordova-ios >= 8 (single 1024px icon with appearance variants)
 
-function getAndroidIcon(entry) {
-  return {
-    generator: 'png',
-    name: `${entry[0]}.png`,
-    folder: 'src-cordova/res/android',
-    sizes: [entry[1]],
-    platform: 'cordova-android',
-    density: entry[0]
-  }
-}
+const androidRes = 'src-cordova/res/android'
+const androidScreen = 'src-cordova/res/screen/android'
+const iosRes = 'src-cordova/res/ios'
+const iosScreen = 'src-cordova/res/screen/ios'
 
-function getAndroidSplashscreens(entries) {
+// [ density, scale ]; launcher icons are 48dp, adaptive icon layers 108dp
+const androidDensities = [
+  ['ldpi', 0.75],
+  ['mdpi', 1],
+  ['hdpi', 1.5],
+  ['xhdpi', 2],
+  ['xxhdpi', 3],
+  ['xxxhdpi', 4]
+]
+
+// [ name, width, height ]
+const iosSplashscreens = [
+  ['Default@2x~universal~anyany.png', 2732, 2732],
+  ['Default@2x~universal~comany.png', 1278, 2732],
+  ['Default@2x~universal~comcom.png', 1334, 750],
+  ['Default@3x~universal~anyany.png', 2208, 2208],
+  ['Default@3x~universal~anycom.png', 2208, 1242],
+  ['Default@3x~universal~comany.png', 1242, 2208]
+]
+
+function getAndroidIcons() {
   const list = []
 
-  entries.forEach(entry => {
+  androidDensities.forEach(([density, scale]) => {
+    const icon = {
+      generator: 'launcher',
+      folder: androidRes,
+      platform: 'cordova-android',
+      density
+    }
+
     list.push(
       {
-        generator: 'splashscreen',
-        name: `splash-land-${entry[0]}.png`,
-        folder: 'src-cordova/res/screen/android',
-        sizes: [[entry[1], entry[2]]],
-        platform: 'cordova-android',
-        density: `land-${entry[0]}`
+        ...icon,
+        name: `${density}.png`,
+        variant: 'legacy',
+        sizes: [48 * scale]
       },
       {
-        generator: 'splashscreen',
-        name: `splash-port-${entry[0]}.png`,
-        folder: 'src-cordova/res/screen/android',
-        sizes: [[entry[2], entry[1]]],
-        platform: 'cordova-android',
-        density: `port-${entry[0]}`
+        ...icon,
+        name: `${density}-foreground.png`,
+        variant: 'foreground',
+        sizes: [108 * scale]
+      },
+      {
+        ...icon,
+        name: `${density}-background.png`,
+        variant: 'background',
+        sizes: [108 * scale]
+      },
+      {
+        ...icon,
+        name: `${density}-monochrome.png`,
+        variant: 'monochrome',
+        sizes: [108 * scale]
       }
     )
   })
@@ -38,31 +68,15 @@ function getAndroidSplashscreens(entries) {
   return list
 }
 
-function getIosIcon(name) {
-  const [, size, multiplier] = name.match(iosIconRegex)
-
-  return {
-    generator: 'png',
-    name,
-    folder: 'src-cordova/res/ios',
-    sizes: [
-      multiplier
-        ? Number.parseFloat(size) * Number.parseInt(multiplier, 10)
-        : Number.parseFloat(size)
-    ],
-    platform: 'cordova-ios',
-    background: true
-  }
-}
-
-function getIosSplashscreen(entry) {
-  return {
+function getIosSplashscreens(dark) {
+  return iosSplashscreens.map(([name, width, height]) => ({
     generator: 'splashscreen',
-    name: entry[0],
-    folder: 'src-cordova/res/screen/ios',
-    sizes: [[entry[1], entry[2]]],
-    platform: 'cordova-ios'
-  }
+    name: dark ? name.replace(/\.png$/, '~dark.png') : name,
+    folder: iosScreen,
+    sizes: [[width, height]],
+    platform: 'cordova-ios',
+    ...(dark ? { dark: true } : {})
+  }))
 }
 
 export default [
@@ -70,23 +84,18 @@ export default [
    *** Android ***
    ***************/
 
-  ...[
-    ['ldpi', 36],
-    ['mdpi', 48],
-    ['hdpi', 72],
-    ['xhdpi', 96],
-    ['xxhdpi', 144],
-    ['xxxhdpi', 192]
-  ].map(getAndroidIcon),
+  ...getAndroidIcons(),
 
-  ...getAndroidSplashscreens([
-    ['ldpi', 320, 200],
-    ['mdpi', 480, 320],
-    ['hdpi', 800, 480],
-    ['xhdpi', 1280, 720],
-    ['xxhdpi', 1600, 960],
-    ['xxxhdpi', 1920, 1280]
-  ]),
+  {
+    // the Android 12 splash screen icon: the adaptive icon
+    // at 240dp (4x png), masked by the system
+    generator: 'launcher',
+    name: 'splashscreen.png',
+    folder: androidScreen,
+    variant: 'maskable',
+    sizes: [960],
+    platform: 'cordova-android'
+  },
 
   /**************
    **** iOS *****
@@ -95,59 +104,75 @@ export default [
   {
     generator: 'png',
     name: 'icon.png',
-    folder: 'src-cordova/res/ios',
-    sizes: [57],
+    folder: iosRes,
+    sizes: [1024],
     platform: 'cordova-ios',
     background: true
   },
   {
     generator: 'png',
-    name: 'icon@2x.png',
-    folder: 'src-cordova/res/ios',
-    sizes: [114],
+    name: 'icon-dark.png',
+    folder: iosRes,
+    sizes: [1024],
     platform: 'cordova-ios',
-    background: true
+    appearance: 'dark'
+  },
+  {
+    generator: 'png',
+    name: 'icon-tinted.png',
+    folder: iosRes,
+    sizes: [1024],
+    platform: 'cordova-ios',
+    appearance: 'tinted'
   },
 
+  ...getIosSplashscreens(false),
+  ...getIosSplashscreens(true)
+]
+
+// Files of earlier Icon Genie versions that no Cordova platform
+// in range uses anymore; removed when found
+export const retired = [
+  ...['ldpi', 'mdpi', 'hdpi', 'xhdpi', 'xxhdpi', 'xxxhdpi'].flatMap(density => [
+    `${androidScreen}/splash-land-${density}.png`,
+    `${androidScreen}/splash-port-${density}.png`
+  ]),
+
+  `${iosRes}/icon@2x.png`,
   ...[
-    'icon-20@2x.png',
-    'icon-20@3x.png',
-    'icon-29.png',
-    'icon-29@2x.png',
-    'icon-29@3x.png',
-    'icon-40@2x.png',
-    'icon-60@2x.png',
-    'icon-60@3x.png',
-    'icon-20.png',
-    'icon-20@2x.png',
-    'icon-40.png',
-    'icon-50.png',
-    'icon-50@2x.png',
-    'icon-72.png',
-    'icon-72@2x.png',
-    'icon-76.png',
-    'icon-76@2x.png',
-    'icon-83.5@2x.png',
-    'icon-1024.png',
-    'icon-24@2x.png',
-    'icon-27.5@2x.png',
-    'icon-29@2x.png',
-    'icon-29@3x.png',
-    'icon-40@2x.png',
-    'icon-44@2x.png',
-    'icon-50@2x.png',
-    'icon-86@2x.png',
-    'icon-98@2x.png'
-  ].map(getIosIcon),
+    '20',
+    '20@2x',
+    '20@3x',
+    '24@2x',
+    '27.5@2x',
+    '29',
+    '29@2x',
+    '29@3x',
+    '40',
+    '40@2x',
+    '44@2x',
+    '50',
+    '50@2x',
+    '60@2x',
+    '60@3x',
+    '72',
+    '72@2x',
+    '76',
+    '76@2x',
+    '83.5@2x',
+    '86@2x',
+    '98@2x',
+    '1024'
+  ].map(size => `${iosRes}/icon-${size}.png`),
 
   ...[
-    ['Default@2x~iphone~anyany.png', 1334, 1334],
-    ['Default@2x~iphone~comany.png', 750, 1334],
-    ['Default@2x~iphone~comcom.png', 1334, 750],
-    ['Default@3x~iphone~anyany.png', 2208, 2208],
-    ['Default@3x~iphone~anycom.png', 2208, 1242],
-    ['Default@3x~iphone~comany.png', 1242, 2208],
-    ['Default@2x~ipad~anyany.png', 2732, 2732],
-    ['Default@2x~ipad~comany.png', 1278, 2732]
-  ].map(getIosSplashscreen)
+    'Default@2x~iphone~anyany',
+    'Default@2x~iphone~comany',
+    'Default@2x~iphone~comcom',
+    'Default@3x~iphone~anyany',
+    'Default@3x~iphone~anycom',
+    'Default@3x~iphone~comany',
+    'Default@2x~ipad~anyany',
+    'Default@2x~ipad~comany'
+  ].map(name => `${iosScreen}/${name}.png`)
 ]

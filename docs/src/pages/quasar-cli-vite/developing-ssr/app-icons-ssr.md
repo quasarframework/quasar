@@ -27,6 +27,10 @@ scope:
             e: for the PWA manifest
           - l: icon-512x512.png
             e: for the PWA manifest
+          - l: icon-maskable-512x512.png
+            e: for the PWA manifest (purpose maskable)
+          - l: icon-monochrome-512x512.png
+            e: for the PWA manifest (purpose monochrome)
           - l: safari-pinned-tab.svg
           - l: apple-icon-120x120.png
           - l: apple-icon-152x152.png

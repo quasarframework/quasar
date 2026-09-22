@@ -2,18 +2,35 @@
 
 import { existsSync, readFileSync, writeFileSync } from 'node:fs'
 import elementTree from 'elementtree'
-import { relative } from 'node:path'
+import { join, relative } from 'node:path'
 import { green, red } from 'kolorist'
 
 import { resolveDir } from '../utils/app-paths.js'
-import { log, warn } from '../utils/logger.js'
-import { spawnSync } from '../utils/spawn-sync.js'
+import { log } from '../utils/logger.js'
 
 const cordovaConfigXml = resolveDir('src-cordova/config.xml')
 const srcCordovaDir = resolveDir('src-cordova')
 
 const platformList = ['cordova-android', 'cordova-ios']
-const generatorList = ['png', 'splashscreen']
+const generatorList = ['png', 'splashscreen', 'launcher']
+
+// config.xml attribute of the <icon> node for each launcher variant
+const androidIconAttr = {
+  legacy: 'src',
+  foreground: 'foreground',
+  background: 'background',
+  monochrome: 'monochrome'
+}
+
+// cordova-android >= 11 splash screen (Android 12 API)
+const splashIconPreference = 'AndroidWindowSplashScreenAnimatedIcon'
+const splashBackgroundPreference = 'AndroidWindowSplashScreenBackground'
+
+// config.xml attributes of the cordova-ios >= 8 icon appearance variants
+const iosIconAttr = {
+  dark: 'foreground',
+  tinted: 'monochrome'
+}
 
 function getNode(root, tag, selector) {
   return root.find(`${tag}${selector}`) || elementTree.SubElement(root, tag)
@@ -23,6 +40,10 @@ function hasNode(root, tag, selector) {
   return root.find(`${tag}${selector}`)
 }
 
+function getSrc(file) {
+  return relative(srcCordovaDir, file.absoluteName).replaceAll('\\', '/') // Windows support
+}
+
 export function isCordovaFile(file) {
   return (
     platformList.includes(file.platform) &&
@@ -30,191 +51,228 @@ export function isCordovaFile(file) {
   )
 }
 
-function getCordovaFiles(files) {
-  const cordovaFiles = []
-
-  files.forEach(file => {
-    if (isCordovaFile(file)) {
-      cordovaFiles.push(file)
-    }
-  })
-
-  return cordovaFiles
+function isAndroid(file) {
+  return file.platform === 'cordova-android'
 }
 
-function updateConfigXml(cordovaFiles, hasSplashscreen) {
+function getPlatformNode(rootNode, name) {
+  const node = getNode(rootNode, 'platform', `[@name="${name}"]`)
+
+  if (node.get('name') === void 0) {
+    node.set('name', name)
+  }
+
+  return node
+}
+
+function setPreference(node, name, value) {
+  const pref = getNode(node, 'preference', `[@name="${name}"]`)
+  pref.set('name', name)
+  pref.set('value', value)
+}
+
+function removeNodes(parent, list, reason) {
+  if (list.length === 0) return
+
+  list.forEach(node => {
+    parent.remove(node)
+  })
+
+  log(`Removed ${reason} from src-cordova/config.xml`)
+}
+
+// Android color resources take #RGB too, but spell it out for readability
+function getHexColor(color) {
+  return color.length === 4
+    ? `#${color[1]}${color[1]}${color[2]}${color[2]}${color[3]}${color[3]}`
+    : color
+}
+
+function mountAndroidFile(node, file) {
+  const src = getSrc(file)
+
+  if (file.generator === 'launcher') {
+    if (file.variant === 'maskable') {
+      setPreference(node, splashIconPreference, src)
+      return
+    }
+
+    // <icon density="mdpi" src="res/android/mdpi.png"
+    //   foreground="..." background="..." monochrome="..." />
+    const entry = getNode(node, 'icon', `[@density="${file.density}"]`)
+    entry.set('density', file.density)
+    entry.set(androidIconAttr[file.variant], src)
+    return
+  }
+
+  if (file.generator === 'png') {
+    // <icon src="res/android/ldpi.png" density="ldpi" />
+    const entry = getNode(node, 'icon', `[@density="${file.density}"]`)
+    entry.set('src', src)
+    entry.set('density', file.density)
+  }
+
+  // legacy <splash> entries are not used by cordova-android >= 11
+}
+
+function mountIosFile(node, file) {
+  const src = getSrc(file)
+
+  if (file.generator === 'splashscreen') {
+    // <splash src="res/screen/ios/Default@2x~universal~anyany.png" />
+    getNode(node, 'splash', `[@src="${src}"]`).set('src', src)
+    return
+  }
+
+  if (file.generator === 'png') {
+    // <icon src="res/ios/icon.png" />
+    // <icon src="res/ios/icon-dark.png" foreground="true" />
+    // <icon src="res/ios/icon-tinted.png" monochrome="true" />
+    const entry = getNode(node, 'icon', `[@src="${src}"]`)
+    entry.set('src', src)
+
+    const attr = iosIconAttr[file.appearance]
+    if (attr !== void 0) {
+      entry.set(attr, 'true')
+    }
+  }
+}
+
+// entries whose files are gone (retired assets) would break the build
+function pruneMissingFiles(node) {
+  const stale = [...node.findall('icon'), ...node.findall('splash')].filter(
+    entry => {
+      const src = entry.get('src')
+      return src !== void 0 && !existsSync(join(srcCordovaDir, src))
+    }
+  )
+
+  removeNodes(
+    node,
+    stale,
+    `${stale.map(entry => `<${entry.tag} src="${entry.get('src')}">`).join(', ')}`
+  )
+}
+
+function updateConfigXml(cordovaFiles, params) {
   const doc = elementTree.parse(readFileSync(cordovaConfigXml, 'utf8'))
   const rootNode = doc.getroot()
 
-  if (
-    hasSplashscreen &&
-    // oxlint-disable-next-line unicorn/prefer-array-some
-    !rootNode.find('preference[@name="SplashMaintainAspectRatio"]')
-  ) {
-    const prefNode = elementTree.SubElement(rootNode, 'preference')
-    prefNode.set('name', 'SplashMaintainAspectRatio')
-    prefNode.set('value', 'true')
-  }
-
-  const androidNode = getNode(rootNode, 'platform', '[@name="android"]')
-  if (androidNode.get('name') === void 0) {
-    androidNode.set('name', 'android')
-  }
-
-  const iosNode = getNode(rootNode, 'platform', '[@name="ios"]')
-  if (iosNode.get('name') === void 0) {
-    iosNode.set('name', 'ios')
-  }
+  const androidNode = getPlatformNode(rootNode, 'android')
+  const iosNode = getPlatformNode(rootNode, 'ios')
 
   cordovaFiles.forEach(file => {
-    const isAndroid = file.platform === 'cordova-android'
-    const node = isAndroid ? androidNode : iosNode
-    const src = relative(srcCordovaDir, file.absoluteName).replaceAll('\\', '/') // Windows support
-
-    if (file.generator === 'splashscreen') {
-      // <splash src="res/screen/android/splash-land-hdpi.png" density="land-hdpi"/>
-      // <splash src="res/screen/ios/Default@2x~ipad~comany.png" />
-
-      const entry = getNode(
-        node,
-        'splash',
-        isAndroid ? `[@density="${file.density}"]` : `[@src="${src}"]`
-      )
-
-      entry.set('src', src)
-
-      if (isAndroid) {
-        entry.set('density', file.density)
-      }
-    } else if (file.generator === 'png') {
-      // <icon src="res/android/ldpi.png" density="ldpi" />
-      // <icon src="res/ios/icon-60@3x.png" width="180" height="180" />
-
-      const entry = getNode(
-        node,
-        'icon',
-        isAndroid
-          ? `[@density="${file.density}"]`
-          : `[@width="${file.width}"][@height="${file.height}"]`
-      )
-
-      entry.set('src', src)
-
-      if (isAndroid) {
-        entry.set('density', file.density)
-      } else {
-        entry.set('width', file.width)
-        entry.set('height', file.height)
-      }
+    if (isAndroid(file)) {
+      mountAndroidFile(androidNode, file)
+    } else {
+      mountIosFile(iosNode, file)
     }
   })
+
+  if (
+    cordovaFiles.some(
+      file => file.generator === 'launcher' && file.variant === 'maskable'
+    )
+  ) {
+    setPreference(
+      androidNode,
+      splashBackgroundPreference,
+      getHexColor(params.splashscreenColor)
+    )
+  }
+
+  // leftovers of the cordova-plugin-splashscreen era
+  removeNodes(
+    androidNode,
+    androidNode.findall('splash'),
+    'the legacy Android <splash> entries'
+  )
+  removeNodes(
+    rootNode,
+    rootNode.findall('preference[@name="SplashMaintainAspectRatio"]'),
+    'the SplashMaintainAspectRatio preference'
+  )
+
+  pruneMissingFiles(androidNode)
+  pruneMissingFiles(iosNode)
 
   writeFileSync(cordovaConfigXml, doc.write({ indent: 4 }), 'utf8')
   log(`Updated src-cordova/config.xml`)
 }
 
-function hasDeepProp(target, ...args) {
-  let obj = target
+export function mountCordova(files, params) {
+  if (!existsSync(cordovaConfigXml)) return
 
-  for (let i = 0; i < args.length; i++) {
-    const prop = args[i]
-    obj = obj[prop]
+  const cordovaFiles = files.filter(isCordovaFile)
 
-    if (obj === void 0) {
-      return false
-    }
-  }
-
-  return true
-}
-
-async function installSplashscreenPlugin() {
-  const pkgPath = resolveDir('src-cordova/package.json')
-
-  // malformed /src-cordova...
-  if (!existsSync(pkgPath)) return
-
-  const pkg = JSON.parse(readFileSync(pkgPath, 'utf8'))
-
-  if (
-    // it's already installed, so nothing to do
-    hasDeepProp(pkg, 'dependencies', 'cordova-plugin-splashscreen') ||
-    hasDeepProp(pkg, 'cordova', 'plugins', 'cordova-plugin-splashscreen')
-  ) {
-    return
-  }
-
-  const hasInstalled = await spawnSync(
-    'cordova',
-    ['plugin', 'add', 'cordova-plugin-splashscreen'],
-    {
-      cwd: srcCordovaDir
-    }
-  )
-
-  if (!hasInstalled) {
-    warn()
-    warn(
-      'Failed to install cordova-plugin-splashscreen. Please do it manually.'
-    )
-    console.log(
-      ' -> /src-cordova: $ cordova plugin add cordova-plugin-splashscreen\n'
-    )
+  if (cordovaFiles.length !== 0) {
+    updateConfigXml(cordovaFiles, params)
   }
 }
 
-export async function mountCordova(files) {
-  if (existsSync(cordovaConfigXml)) {
-    const cordovaFiles = getCordovaFiles(files)
+function verifyAndroid(node, file) {
+  const src = getSrc(file)
 
-    if (cordovaFiles.length !== 0) {
-      const hasSplashscreen = cordovaFiles.some(
-        file => file.generator === 'splashscreen'
+  if (file.generator === 'launcher') {
+    if (file.variant === 'maskable') {
+      return hasNode(
+        node,
+        'preference',
+        `[@name="${splashIconPreference}"][@value="${src}"]`
       )
-
-      if (hasSplashscreen) {
-        await installSplashscreenPlugin()
-      }
-
-      updateConfigXml(cordovaFiles, hasSplashscreen)
+        ? green('mounted')
+        : red(`ERROR: not the ${splashIconPreference} preference`)
     }
+
+    const attr = androidIconAttr[file.variant]
+
+    return hasNode(
+      node,
+      'icon',
+      `[@density="${file.density}"][@${attr}="${src}"]`
+    )
+      ? green('mounted')
+      : red(`ERROR: no icon entry with ${attr}="${src}"`)
   }
+
+  if (file.generator === 'png') {
+    return hasNode(node, 'icon', `[@density="${file.density}"][@src="${src}"]`)
+      ? green('mounted')
+      : red('ERROR: no entry for it in src-cordova/config.xml')
+  }
+
+  return red('ERROR: not used by cordova-android >= 11')
+}
+
+function verifyIos(node, file) {
+  const src = getSrc(file)
+
+  if (file.generator === 'splashscreen') {
+    return hasNode(node, 'splash', `[@src="${src}"]`)
+      ? green('mounted')
+      : red('ERROR: no entry for it in src-cordova/config.xml')
+  }
+
+  const attr = iosIconAttr[file.appearance]
+  const selector = `[@src="${src}"]${attr === void 0 ? '' : `[@${attr}="true"]`}`
+
+  return hasNode(node, 'icon', selector)
+    ? green('mounted')
+    : red('ERROR: no entry for it in src-cordova/config.xml')
 }
 
 export function verifyCordova(file) {
-  if (isCordovaFile(file) && existsSync(cordovaConfigXml)) {
-    const doc = elementTree.parse(readFileSync(cordovaConfigXml, 'utf8'))
-    const isAndroid = file.platform === 'cordova-android'
+  if (!existsSync(cordovaConfigXml)) return ''
 
-    const node = doc
-      .getroot()
-      .find(`platform[@name="${isAndroid ? 'android' : 'ios'}"]`)
+  const doc = elementTree.parse(readFileSync(cordovaConfigXml, 'utf8'))
+  const node = doc
+    .getroot()
+    .find(`platform[@name="${isAndroid(file) ? 'android' : 'ios'}"]`)
 
-    // verify that the platform is installed
-    if (!node) {
-      return red('ERROR: platform not installed!')
-    }
-
-    const src = relative(srcCordovaDir, file.absoluteName)
-
-    if (file.generator === 'splashscreen') {
-      const selector = isAndroid
-        ? `[@density="${file.density}"]`
-        : `[@src="${src}"]`
-
-      if (!hasNode(node, 'splash', selector)) {
-        return red('ERROR: no entry for it in src-cordova/config.xml')
-      }
-    } else {
-      const selector = isAndroid
-        ? `[@density="${file.density}"]`
-        : `[@width="${file.width}"][@height="${file.height}"]`
-
-      if (!hasNode(node, 'icon', selector)) {
-        return red('ERROR: no entry for it in src-cordova/config.xml')
-      }
-    }
-
-    return green('mounted')
+  // verify that the platform is installed
+  if (!node) {
+    return red('ERROR: platform not installed!')
   }
+
+  return isAndroid(file) ? verifyAndroid(node, file) : verifyIos(node, file)
 }

@@ -56,21 +56,26 @@ function getBackground(_file, opts, size) {
     .flatten({ background: opts.pngColor })
 }
 
+// The layered 108dp canvas, for consumers that apply their own mask:
+// web app manifest "maskable" icons, the Android 12 splash screen icon
+async function getMaskable(file, opts, size) {
+  const [background, foreground] = await Promise.all([
+    getBackground(file, opts, size).png().toBuffer(),
+    getForeground(file, opts, size).then(img => img.png().toBuffer())
+  ])
+
+  return sharp(background).composite([{ input: foreground }])
+}
+
 // The legacy (pre Android 8) icon is what a launcher gets to show
 // of the adaptive icon: the 72dp viewport of the layered 108dp canvas
 async function getLegacy(file, opts, size) {
   const canvas = Math.round(size / VIEWPORT_RATIO)
   const offset = Math.round((canvas - size) / 2)
 
-  const [background, foreground] = await Promise.all([
-    getBackground(file, opts, canvas).png().toBuffer(),
-    getForeground(file, opts, canvas).then(img => img.png().toBuffer())
-  ])
-
-  const layered = await sharp(background)
-    .composite([{ input: foreground }])
-    .png()
-    .toBuffer()
+  const layered = await getMaskable(file, opts, canvas).then(img =>
+    img.png().toBuffer()
+  )
 
   return sharp(layered).extract({
     left: offset,
@@ -93,6 +98,7 @@ const variants = {
   foreground: getForeground,
   background: getBackground,
   monochrome: getMonochrome,
+  maskable: getMaskable,
   legacy: getLegacy,
   round: getRound
 }

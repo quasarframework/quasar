@@ -141,6 +141,22 @@ export default [
     platform: 'capacitor-ios',
     background: true
   },
+  {
+    generator: 'png',
+    name: 'AppIcon-512@2x-dark.png',
+    folder: `${iosAssets}/AppIcon.appiconset`,
+    sizes: [1024],
+    platform: 'capacitor-ios',
+    appearance: 'dark'
+  },
+  {
+    generator: 'png',
+    name: 'AppIcon-512@2x-tinted.png',
+    folder: `${iosAssets}/AppIcon.appiconset`,
+    sizes: [1024],
+    platform: 'capacitor-ios',
+    appearance: 'tinted'
+  },
 
   ...getIosSplashscreens(false),
   ...getIosSplashscreens(true)

@@ -3,7 +3,7 @@ import pwaAssets from './pwa.js'
 import ssrAssets from './ssr.js'
 import ssgAssets from './ssg.js'
 import bexAssets from './bex.js'
-import cordovaAssets from './cordova.js'
+import cordovaAssets, { retired as cordovaRetired } from './cordova.js'
 import capacitorAssets from './capacitor.js'
 import electronAssets from './electron.js'
 
@@ -35,7 +35,8 @@ export const modes = {
 
   cordova: {
     folder: '/src-cordova',
-    assets: cordovaAssets
+    assets: cordovaAssets,
+    retired: cordovaRetired
   },
 
   capacitor: {

@@ -148,14 +148,18 @@ function verifyAndroid(file) {
  * iOS
  */
 
-const darkAppearance = [{ appearance: 'luminosity', value: 'dark' }]
+function getAppearance(file) {
+  // dark splashscreens; dark/tinted app icons
+  return file.dark === true ? 'dark' : file.appearance
+}
 
 // keys in alphabetical order, as Xcode writes them
 function getXcassetEntry(file) {
   const entry = {}
+  const appearance = getAppearance(file)
 
-  if (file.dark === true) {
-    entry.appearances = darkAppearance
+  if (appearance !== void 0) {
+    entry.appearances = [{ appearance: 'luminosity', value: appearance }]
   }
 
   entry.filename = file.name
@@ -213,8 +217,8 @@ function mountIosAssets(files) {
 
     // light appearance first, as Xcode lists them
     contents.images = [
-      ...folderFiles.filter(file => file.dark !== true),
-      ...folderFiles.filter(file => file.dark === true)
+      ...folderFiles.filter(file => getAppearance(file) === void 0),
+      ...folderFiles.filter(file => getAppearance(file) !== void 0)
     ].map(getXcassetEntry)
 
     writeIfChanged(join(folder, 'Contents.json'), toXcodeJson(contents))

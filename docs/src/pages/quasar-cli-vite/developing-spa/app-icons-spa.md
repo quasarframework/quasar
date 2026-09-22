@@ -12,6 +12,8 @@ scope:
           - l: favicon-96x96.png
           - l: favicon-32x32.png
           - l: favicon-16x16.png
+          - l: apple-icon-180x180.png
+            e: Safari's Add to Home Screen / Add to Dock
 ---
 
 This build target includes favicon formats and sizes used by different browsers and operating systems. Icon Genie generates the recommended set for you. If you discover one that is new or missing, please [open an issue](https://github.com/quasarframework/quasar/issues).
@@ -62,5 +64,10 @@ The required HTML code that goes into `/index.html` to reference the above files
   type="image/png"
   sizes="16x16"
   href="icons/favicon-16x16.png"
+/>
+<link
+  rel="apple-touch-icon"
+  sizes="180x180"
+  href="icons/apple-icon-180x180.png"
 />
 ```

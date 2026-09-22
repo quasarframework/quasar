@@ -54,15 +54,29 @@ const assetsSchema = Joi.array().items({
 
   dark: Joi.when('generator', { is: 'splashscreen', then: Joi.boolean() }),
 
+  appearance: Joi.when('generator', {
+    is: 'png',
+    then: Joi.string().valid('dark', 'tinted')
+  }),
+
   platform: Joi.when('generator', [
     { is: 'png', then: Joi.string().valid(...platformsList) },
     { is: 'splashscreen', then: Joi.string().valid(...platformsList) },
-    { is: 'launcher', then: Joi.string().valid('capacitor-android') }
+    {
+      is: 'launcher',
+      then: Joi.string().valid('cordova-android', 'capacitor-android')
+    }
   ]),
 
-  density: Joi.when('platform', [
-    { is: 'cordova-android', then: Joi.string().required().min(1) }
-  ]),
+  density: Joi.when('platform', {
+    is: 'cordova-android',
+    then: Joi.when('generator', {
+      // the splash screen icon (maskable variant) has no density
+      is: 'launcher',
+      then: Joi.string().min(1),
+      otherwise: Joi.string().required().min(1)
+    })
+  }),
 
   scale: Joi.when('platform', {
     is: 'capacitor-ios',
