@@ -28,8 +28,10 @@ scope:
           - l: apple-icon-167x167.png
           - l: apple-icon-180x180.png
           - l: apple-launch-1320x2868.png
-          - l: apple-launch-1260x2736.png
           - l: apple-launch-1206x2622.png
+          - l: apple-launch-1878x2670.png
+          - l: apple-launch-1398x2034.png
+          - l: apple-launch-1260x2736.png
           - l: apple-launch-1290x2796.png
           - l: apple-launch-1179x2556.png
           - l: apple-launch-1284x2778.png
@@ -38,7 +40,6 @@ scope:
           - l: apple-launch-1242x2688.png
           - l: apple-launch-1125x2436.png
           - l: apple-launch-828x1792.png
-          - l: apple-launch-1242x2208.png
           - l: apple-launch-750x1334.png
           - l: apple-launch-2064x2752.png
           - l: apple-launch-2048x2732.png
@@ -100,23 +101,35 @@ The required HTML code that goes into `/index.html` to reference the above files
   sizes="16x16"
   href="icons/favicon-16x16.png"
 />
-<!-- iPhone 17 Pro Max, 16 Pro Max -->
+<!-- iPhone 18 Pro Max, 17 Pro Max, 16 Pro Max -->
 <link
   rel="apple-touch-startup-image"
   media="(device-width: 440px) and (device-height: 956px) and (-webkit-device-pixel-ratio: 3)"
   href="icons/apple-launch-1320x2868.png"
 />
-<!-- iPhone 17 Air -->
-<link
-  rel="apple-touch-startup-image"
-  media="(device-width: 420px) and (device-height: 912px) and (-webkit-device-pixel-ratio: 3)"
-  href="icons/apple-launch-1260x2736.png"
-/>
-<!-- iPhone 17 Pro, 17, 16 Pro -->
+<!-- iPhone 18 Pro, 17 Pro, 17, 16 Pro -->
 <link
   rel="apple-touch-startup-image"
   media="(device-width: 402px) and (device-height: 874px) and (-webkit-device-pixel-ratio: 3)"
   href="icons/apple-launch-1206x2622.png"
+/>
+<!-- iPhone Duo (inner display) -->
+<link
+  rel="apple-touch-startup-image"
+  media="(device-width: 626px) and (device-height: 890px) and (-webkit-device-pixel-ratio: 3)"
+  href="icons/apple-launch-1878x2670.png"
+/>
+<!-- iPhone Duo (outer display) -->
+<link
+  rel="apple-touch-startup-image"
+  media="(device-width: 466px) and (device-height: 678px) and (-webkit-device-pixel-ratio: 3)"
+  href="icons/apple-launch-1398x2034.png"
+/>
+<!-- iPhone Air -->
+<link
+  rel="apple-touch-startup-image"
+  media="(device-width: 420px) and (device-height: 912px) and (-webkit-device-pixel-ratio: 3)"
+  href="icons/apple-launch-1260x2736.png"
 />
 <!-- iPhone 16 Plus, 15 Pro Max, 15 Plus, 14 Pro Max -->
 <link
@@ -154,7 +167,7 @@ The required HTML code that goes into `/index.html` to reference the above files
   media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3)"
   href="icons/apple-launch-1242x2688.png"
 />
-<!-- iPhone 11 Pro, X, XS -->
+<!-- iPhone 11 Pro, XS -->
 <link
   rel="apple-touch-startup-image"
   media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3)"
@@ -166,67 +179,61 @@ The required HTML code that goes into `/index.html` to reference the above files
   media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2)"
   href="icons/apple-launch-828x1792.png"
 />
-<!-- iPhone 8 Plus, 7 Plus, 6s Plus, 6 Plus -->
-<link
-  rel="apple-touch-startup-image"
-  media="(device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3)"
-  href="icons/apple-launch-1242x2208.png"
-/>
-<!-- iPhone 8, 7, 6s, 6, SE (2nd & 3rd gen) -->
+<!-- iPhone SE (2nd & 3rd gen) -->
 <link
   rel="apple-touch-startup-image"
   media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2)"
   href="icons/apple-launch-750x1334.png"
 />
-<!-- iPad Pro 13" (M4) -->
+<!-- iPad Pro 13" (M4, M5) -->
 <link
   rel="apple-touch-startup-image"
   media="(device-width: 1032px) and (device-height: 1376px) and (-webkit-device-pixel-ratio: 2)"
   href="icons/apple-launch-2064x2752.png"
 />
-<!-- iPad Pro 12.9", iPad Air 13" (M2) -->
+<!-- iPad Pro 12.9" (2nd gen and later), iPad Air 13" (M2 and later) -->
 <link
   rel="apple-touch-startup-image"
   media="(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2)"
   href="icons/apple-launch-2048x2732.png"
 />
-<!-- iPad Pro 11" (M4) -->
+<!-- iPad Pro 11" (M4, M5) -->
 <link
   rel="apple-touch-startup-image"
   media="(device-width: 834px) and (device-height: 1210px) and (-webkit-device-pixel-ratio: 2)"
   href="icons/apple-launch-1668x2420.png"
 />
-<!-- iPad Pro 11" (M1/M2) -->
+<!-- iPad Pro 11" (1st gen up to M2) -->
 <link
   rel="apple-touch-startup-image"
   media="(device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2)"
   href="icons/apple-launch-1668x2388.png"
 />
-<!-- iPad 11" (11th gen), iPad 10.9" (10th gen), iPad Air 11" (M2), iPad Air 10.9" -->
+<!-- iPad (A16), iPad 10th gen, iPad Air 11" (M2 and later), iPad Air 4th & 5th gen -->
 <link
   rel="apple-touch-startup-image"
   media="(device-width: 820px) and (device-height: 1180px) and (-webkit-device-pixel-ratio: 2)"
   href="icons/apple-launch-1640x2360.png"
 />
-<!-- iPad Pro 10.5", iPad Air 3rd Gen -->
+<!-- iPad Pro 10.5", iPad Air 3rd gen -->
 <link
   rel="apple-touch-startup-image"
   media="(device-width: 834px) and (device-height: 1112px) and (-webkit-device-pixel-ratio: 2)"
   href="icons/apple-launch-1668x2224.png"
 />
-<!-- iPad 10.2" (7th, 8th, 9th gen) -->
+<!-- iPad 7th, 8th & 9th gen -->
 <link
   rel="apple-touch-startup-image"
   media="(device-width: 810px) and (device-height: 1080px) and (-webkit-device-pixel-ratio: 2)"
   href="icons/apple-launch-1620x2160.png"
 />
-<!-- iPad Mini (6th & 7th gen) -->
+<!-- iPad mini 6th gen, iPad mini (A17 Pro) -->
 <link
   rel="apple-touch-startup-image"
   media="(device-width: 744px) and (device-height: 1133px) and (-webkit-device-pixel-ratio: 2)"
   href="icons/apple-launch-1488x2266.png"
 />
-<!-- iPad Mini (up to 5th gen), iPad Air 9.7", iPad 9.7" -->
+<!-- iPad mini 5th gen, iPad 6th gen -->
 <link
   rel="apple-touch-startup-image"
   media="(device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2)"
