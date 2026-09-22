@@ -1,4 +1,4 @@
-import { clientsClaim } from 'workbox-core'
+import { clientsClaim, setCacheNameDetails } from 'workbox-core'
 import {
   addPlugins,
   cleanupOutdatedCaches,
@@ -9,6 +9,10 @@ import { NavigationRoute, registerRoute } from 'workbox-routing'
 import { NetworkOnly, StaleWhileRevalidate } from 'workbox-strategies'
 
 import { agentFilesRE } from '../../build/agent-files.js'
+
+// the cache names of the generated worker this one replaces (GenerateSW
+// mode prefixed them with the package name): the precache carries over
+setCacheNameDetails({ prefix: 'quasar.dev' })
 
 // No skipWaiting: an updated worker waits until the browser activates it,
 // once no tab uses the current one (src-pwa/register-sw.js). Claiming only
