@@ -31,6 +31,18 @@
       "src": "https://cdn.quasar.dev/logo-v2/favicon/icon-512x512.png",
       "sizes": "512x512",
       "type": "image/png"
+    },
+    {
+      "src": "https://cdn.quasar.dev/logo-v2/favicon/icon-maskable-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "https://cdn.quasar.dev/logo-v2/favicon/icon-monochrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "monochrome"
     }
   ]
 }
