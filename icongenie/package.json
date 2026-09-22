@@ -37,7 +37,9 @@
   },
   "files": [
     "bin",
+    "!bin/*.test.js",
     "lib",
+    "!lib/**/*.test.js",
     "samples",
     "README.md",
     "LICENSE"
@@ -46,6 +48,10 @@
   "main": "bin/icongenie.js",
   "publishConfig": {
     "access": "public"
+  },
+  "scripts": {
+    "test": "vitest run",
+    "prepublishOnly": "pnpm test"
   },
   "dependencies": {
     "@quasar/art": "workspace:^",
@@ -64,6 +70,9 @@
     "svgo": "^4.1.0",
     "tinyglobby": "^0.2.17",
     "untildify": "^6.0.0"
+  },
+  "devDependencies": {
+    "vitest": "^5.0.1"
   },
   "engines": {
     "node": ">= 22.22.0"

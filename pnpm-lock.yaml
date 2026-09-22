@@ -559,6 +559,10 @@ importers:
       untildify:
         specifier: ^6.0.0
         version: 6.0.0
+    devDependencies:
+      vitest:
+        specifier: ^5.0.1
+        version: 5.0.1(@types/node@26.6.2)(@vitest/browser-playwright@5.0.1)(@vitest/ui@5.0.1)(jsdom@29.1.1(@noble/hashes@2.3.0))(vite@8.3.0(@types/node@26.6.2)(jiti@2.7.0)(sass-embedded@1.104.1)(sass@1.102.0)(terser@5.48.0)(yaml@2.9.0))
 
   mcp:
     dependencies:

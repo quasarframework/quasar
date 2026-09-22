@@ -28,9 +28,8 @@ concurrency:
 
 jobs:
   # only packages that actually get GitHub releases pass the gate:
-  # utils/* never do (no release notes/drafts by policy) and icongenie
-  # has no tests; the prefixes are v-anchored so one cannot match
-  # unrelated tag names
+  # utils/* never do (no release notes/drafts by policy); the prefixes
+  # are v-anchored so one cannot match unrelated tag names
   gate:
     if: >-
       ${{
@@ -42,6 +41,7 @@ jobs:
         || startsWith(github.event.release.tag_name, '@quasar/app-vite-v')
         || startsWith(github.event.release.tag_name, '@quasar/vite-plugin-v')
         || startsWith(github.event.release.tag_name, '@quasar/cli-v')
+        || startsWith(github.event.release.tag_name, '@quasar/icongenie-v')
         || startsWith(github.event.release.tag_name, '@quasar/mcp-v')
       }}
 
@@ -131,6 +131,12 @@ jobs:
     permissions:
       contents: read
     uses: ./.github/workflows/mcp-tests.yml
+
+  icongenie-tests:
+    needs: gate
+    permissions:
+      contents: read
+    uses: ./.github/workflows/icongenie-tests.yml
 
   create-quasar-tests:
     needs: build-ui
