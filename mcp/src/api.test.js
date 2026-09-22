@@ -15,7 +15,7 @@ import { loadProject } from './project.js'
 import { createProject } from './test/fixture.js'
 
 function apiDir() {
-  return loadProject(createProject()).packages[0].apiDir
+  return loadProject(createProject()).apps[0].packages[0].apiDir
 }
 
 test('lists the descriptors', () => {
@@ -48,7 +48,10 @@ test('suggests names containing the input', () => {
 })
 
 test('the rendered form comes whole, by part (both slot sections), or not at all', () => {
-  const docsDir = join(loadProject(createProject()).packages[0].dir, 'dist/mcp')
+  const docsDir = join(
+    loadProject(createProject()).apps[0].packages[0].dir,
+    'dist/mcp'
+  )
   const whole = readApiMarkdown(docsDir, 'QBtn')
   expect(whole.startsWith('## QBtn API\n\n### Props\n')).toBe(true)
   expect(readApiMarkdown(docsDir, 'QBtn', 'props')).toBe(
@@ -63,7 +66,7 @@ test('the rendered form comes whole, by part (both slot sections), or not at all
   expect(readApiMarkdown(docsDir, 'QBtn', 'methods')).toBe(null)
   expect(readApiMarkdown(docsDir, 'QNope')).toBe(null)
   const bare = join(
-    loadProject(createProject({ apiMarkdown: false })).packages[0].dir,
+    loadProject(createProject({ apiMarkdown: false })).apps[0].packages[0].dir,
     'dist/mcp'
   )
   expect(readApiMarkdown(bare, 'QBtn')).toBe(null)
@@ -94,7 +97,10 @@ test('members resolve across parts, regardless of case and punctuation', () => {
 })
 
 test('the rendered entries of members come under their section heading', () => {
-  const docsDir = join(loadProject(createProject()).packages[0].dir, 'dist/mcp')
+  const docsDir = join(
+    loadProject(createProject()).apps[0].packages[0].dir,
+    'dist/mcp'
+  )
   expect(
     readApiMembersMarkdown(docsDir, 'QBtn', [{ part: 'props', name: 'label' }])
   ).toBe(
@@ -119,7 +125,7 @@ test('the rendered entries of members come under their section heading', () => {
     readApiMembersMarkdown(docsDir, 'QBtn', [{ part: 'methods', name: 'nope' }])
   ).toBe(null)
   const bare = join(
-    loadProject(createProject({ apiMarkdown: false })).packages[0].dir,
+    loadProject(createProject({ apiMarkdown: false })).apps[0].packages[0].dir,
     'dist/mcp'
   )
   expect(

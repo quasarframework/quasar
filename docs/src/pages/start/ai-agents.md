@@ -1,6 +1,7 @@
 ---
 title: AI Agents
 desc: How to give AI coding agents the Quasar documentation and API of the versions your project runs, through the @quasar/mcp server.
+keys: mcp,ai
 ---
 
 AI coding agents know a Quasar, not necessarily yours. The `@quasar/mcp` package is an [MCP](https://modelcontextprotocol.io) (Model Context Protocol) server that hands any MCP-capable agent the documentation pages and the component API of the exact Quasar versions installed in your project, offline.
@@ -41,7 +42,7 @@ The server serves the project it is started in, which is what every client does 
 
 ### Monorepos
 
-Opened at the root of a workspace, the server resolves the packages the way your code does, so a hoisted layout (npm, Yarn) is found at the root. With pnpm, each app keeps its own `node_modules`, so when the root has none the server looks a few levels below it: one Quasar app there gets served, and the agent is told which. Several apps get the first one (a full app before a package that only depends on `quasar`, in path order otherwise), and the agent is told about the others; pass `"--project", "apps/web"` to serve a specific one. Given explicitly, a directory is served as is.
+Opened at the root of a workspace, the server resolves the packages the way your code does, so a hoisted layout (npm, Yarn) is found at the root. With pnpm, each app keeps its own `node_modules`, so when the root has none the server looks a few levels below it and serves every Quasar app it finds. The agent is told which one answers by default (a full app before a package that only depends on `quasar`, in path order otherwise) and which others exist, with their installed versions. Every tool takes an `app` argument naming one of them, so a session touching several apps queries each one's own versions without a restart, and each answer opens with the app it describes. To serve one app only, pass `"--project", "apps/web"`.
 
 ### Claude Code
 

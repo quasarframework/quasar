@@ -21,7 +21,7 @@ import { loadProject } from './project.js'
 import { createProject } from './test/fixture.js'
 
 function load(opts) {
-  return loadDocs(loadProject(createProject(opts)).packages)
+  return loadDocs(loadProject(createProject(opts)).apps[0].packages)
 }
 
 /**

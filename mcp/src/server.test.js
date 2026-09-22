@@ -353,14 +353,31 @@ test('a slice of another format is named with the server to run, and its API com
   expect(Object.keys(JSON.parse(api.text).props)).toEqual(['label', 'loading'])
 })
 
-test('a workspace root names the app served and the ones it is not', async () => {
+test('a single app: no app argument, no app line in the answers', async () => {
+  const client = await connect()
+  const { tools } = await client.listTools()
+  for (const tool of tools) {
+    expect(tool.inputSchema.properties?.app, tool.name).toBeUndefined()
+  }
+  const page = await call(client, 'get_page', {
+    route: 'vue-components/button'
+  })
+  expect(page.text.startsWith('---\ntitle: Button')).toBe(true)
+})
+
+function createWorkspace() {
   const root = mkdtempSync(join(tmpdir(), 'quasar-mcp-workspace-'))
   onTestFinished(() => {
     rmSync(root, { recursive: true, force: true })
   })
   writeFileSync(join(root, 'pnpm-workspace.yaml'), '')
+  return root
+}
+
+test('a workspace root names the default app and the others, with their versions', async () => {
+  const root = createWorkspace()
   createProject({ dir: join(root, 'apps/admin') })
-  createProject({ dir: join(root, 'apps/web') })
+  createProject({ dir: join(root, 'apps/web'), quasarVersion: '2.34.0' })
   for (const name of ['a', 'b', 'c', 'd', 'e', 'f']) {
     createProject({ dir: join(root, 'libs', name), appVite: false })
   }
@@ -370,10 +387,96 @@ test('a workspace root names the app served and the ones it is not', async () =>
     `served from the packages installed in apps/admin, the Quasar app found below ${root}.`
   )
   expect(instructions).toContain(
-    'Other Quasar apps in this workspace, not served: apps/web, libs/a, libs/b, libs/c, libs/d and 2 more. To serve one of them, start the server with --project <dir>.'
+    'Other Quasar apps in this workspace: apps/web (quasar 2.34.0, @quasar/app-vite 3.9.0), libs/a (quasar 2.33.0), libs/b (quasar 2.33.0), libs/c (quasar 2.33.0), libs/d (quasar 2.33.0) and 2 more. The tools answer for the app named in their app argument'
   )
+  expect(instructions).toContain('- quasar 2.33.0: 3 documentation pages')
+
+  // every local tool takes the app by name; the schema lists them all
+  const { tools } = await client.listTools()
+  for (const tool of tools) {
+    const schema = tool.inputSchema.properties?.app
+    if (tool.name === 'check_updates') {
+      expect(schema).toBeUndefined()
+      continue
+    }
+    expect(schema?.enum, tool.name).toEqual([
+      'apps/admin',
+      'apps/web',
+      'libs/a',
+      'libs/b',
+      'libs/c',
+      'libs/d',
+      'libs/e',
+      'libs/f'
+    ])
+  }
+})
+
+test('a workspace: the tools answer for the default app or the named one, saying which', async () => {
+  const root = createWorkspace()
+  createProject({ dir: join(root, 'apps/admin') })
+  createProject({
+    dir: join(root, 'apps/web'),
+    quasarVersion: '2.34.0',
+    appVite: false
+  })
+  const client = await connect({ projectDir: root })
+
   const page = await call(client, 'get_page', {
-    route: 'vue-components/button'
+    route: 'vue-components/button',
+    outline: true
   })
   expect(page.isError).toBe(false)
+  expect(
+    page.text.startsWith(
+      'Served from apps/admin: quasar 2.33.0, @quasar/app-vite 3.9.0# Button\n'
+    )
+  ).toBe(true)
+
+  const other = await call(client, 'list_pages', { app: 'apps/web' })
+  expect(other.text.startsWith('Served from apps/web: quasar 2.34.0')).toBe(
+    true
+  )
+  expect(other.text).toContain('# quasar 2.34.0')
+  expect(other.text).not.toContain('@quasar/app-vite')
+
+  // a miss names the gap of the app asked about
+  const miss = await call(client, 'get_page', {
+    app: 'apps/web',
+    route: 'quasar-cli-vite/boot-files'
+  })
+  expect(miss.isError).toBe(true)
+  expect(miss.text).toContain(
+    'Not available offline: @quasar/app-vite is not installed in this project.'
+  )
+  const served = await call(client, 'get_page', {
+    route: 'quasar-cli-vite/boot-files',
+    outline: true
+  })
+  expect(served.isError).toBe(false)
+
+  const api = await call(client, 'get_api', {
+    app: 'apps/web',
+    name: 'QBtn',
+    part: 'events',
+    format: 'json'
+  })
+  // the app line is its own content part: the JSON stays parseable
+  const result = await client.callTool({
+    name: 'get_api',
+    arguments: { app: 'apps/web', name: 'QBtn', part: 'events', format: 'json' }
+  })
+  expect(result.content.length).toBe(2)
+  expect(JSON.parse(result.content[1].text).name).toBe('QBtn')
+  expect(api.text.startsWith('Served from apps/web: quasar 2.34.0')).toBe(true)
+
+  // an app outside the workspace is refused by the schema, which names the valid ones
+  const unknown = await call(client, 'get_api', {
+    app: 'apps/nope',
+    name: 'QBtn'
+  })
+  expect(unknown.isError).toBe(true)
+  expect(unknown.text).toContain(
+    'expected one of "apps/admin"|"apps/web" at app'
+  )
 })

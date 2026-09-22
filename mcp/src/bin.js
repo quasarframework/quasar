@@ -17,8 +17,8 @@ packages installed in a project. Point your MCP client at it, e.g.:
 
 Options:
   --project <dir>  Project to serve, the one whose installed quasar and
-                   @quasar/app-vite carry the docs (default: cwd; when
-                   cwd has none, the first app found below it is served)
+                   @quasar/app-vite carry the docs (default: cwd; a
+                   workspace root with none serves the apps below it)
   -v, --version    Print the version and exit
   -h, --help       Print this help and exit
 `
@@ -56,8 +56,6 @@ for (const channel of ['log', 'info', 'debug', 'table', 'dir']) {
   console[channel] = console.error
 }
 
-const project = loadProject(values.project, {
-  explicit: values.project !== void 0
-})
+const project = loadProject(values.project)
 const server = await createServer({ project })
 await server.connect(new StdioServerTransport())

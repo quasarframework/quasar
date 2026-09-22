@@ -10,7 +10,7 @@ import { onTestFinished } from 'vitest'
  * `meta.json`, and `dist/api` descriptors for quasar. Options drop
  * pieces to model older releases.
  *
- * @param {{ appVite?: boolean, quasarDocs?: boolean, apiMarkdown?: boolean, docsFormat?: number, dir?: string }} [opts] `apiMarkdown: false` models a ui release whose slice predates the rendered descriptors; `docsFormat` the format number quasar's meta.json declares; `dir` a directory to build the project in (an app of a workspace).
+ * @param {{ appVite?: boolean, quasarDocs?: boolean, apiMarkdown?: boolean, docsFormat?: number, quasarVersion?: string, dir?: string }} [opts] `apiMarkdown: false` models a ui release whose slice predates the rendered descriptors; `docsFormat` the format number quasar's meta.json declares; `quasarVersion` the release installed; `dir` a directory to build the project in (an app of a workspace).
  * @returns {string} The project directory, removed when the test ends.
  */
 export function createProject({
@@ -18,6 +18,7 @@ export function createProject({
   quasarDocs = true,
   apiMarkdown = true,
   docsFormat = 1,
+  quasarVersion = '2.33.0',
   dir = mkdtempSync(join(tmpdir(), 'quasar-mcp-'))
 } = {}) {
   mkdirSync(dir, { recursive: true })
@@ -37,7 +38,10 @@ export function createProject({
   write('package.json', { name: 'fixture', private: true })
 
   const quasarDir = 'node_modules/quasar'
-  write(`${quasarDir}/package.json`, { name: 'quasar', version: '2.33.0' })
+  write(`${quasarDir}/package.json`, {
+    name: 'quasar',
+    version: quasarVersion
+  })
   write(`${quasarDir}/dist/api/QBtn.json`, {
     type: 'component',
     meta: { docsUrl: 'https://v2.quasar.dev/vue-components/button' },
@@ -123,7 +127,7 @@ export function createProject({
     write(`${quasarDir}/dist/mcp/meta.json`, {
       format: docsFormat,
       package: 'quasar',
-      version: '2.33.0',
+      version: quasarVersion,
       pages: [
         {
           route: 'vue-components/button',

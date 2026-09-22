@@ -1,5 +1,4 @@
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js'
-import { relative } from 'node:path'
 import { z } from 'zod'
 
 import {
@@ -62,29 +61,21 @@ function updateLines(updates) {
 }
 
 /**
- * What the model reads at session start: which packages and versions
- * the answers describe, what is missing, and how to use the tools.
+ * The packages whose pages this server cannot serve for an app, and
+ * why, for a miss that may be one of theirs. Empty when every package
+ * is served.
  *
- * @param {import('./project.js').Project} project
- * @param {import('./docs.js').Docs} docs
- * @param {import('./updates.js').UpdateState[]} updates
- * @returns {string}
- */
-/**
- * The packages whose pages this server cannot serve, and why, for a
- * miss that may be one of theirs. Empty when every package is served.
- *
- * @param {import('./project.js').Project} project
+ * @param {import('./project.js').App} app
  * @param {import('./docs.js').Docs} docs
  * @returns {string}
  */
-function unservedPackages(project, docs) {
+function unservedPackages(app, docs) {
   const gaps = []
   for (const name of DOCS_PACKAGES) {
     if (docs.sources.some(source => source.name === name)) {
       continue
     }
-    const pkg = project.packages.find(installed => installed.name === name)
+    const pkg = app.packages.find(installed => installed.name === name)
     const other = docs.unreadable.find(slice => slice.name === name)
     gaps.push(
       pkg === void 0
@@ -111,27 +102,45 @@ function otherFormat(slice) {
 /** How many of the other apps of a workspace the instructions name. */
 const OTHER_APPS_SHOWN = 5
 
+/**
+ * @param {import('./project.js').App} app
+ * @returns {string}
+ */
+function appVersions(app) {
+  return app.packages.map(pkg => `${pkg.name} ${pkg.version}`).join(', ')
+}
+
+/**
+ * What the model reads at session start: which packages and versions
+ * the answers describe, what is missing, and how to use the tools.
+ *
+ * @param {import('./project.js').Project} project
+ * @param {import('./docs.js').Docs} docs The default app's.
+ * @param {import('./updates.js').UpdateState[]} updates
+ * @returns {string}
+ */
 export function buildInstructions(project, docs, updates) {
+  const [app, ...otherApps] = project.apps
   const lines = [
-    project.dir === project.startDir
-      ? `Quasar Framework documentation and API, served from the packages installed in ${project.dir}.`
-      : `Quasar Framework documentation and API, served from the packages installed in ${relative(project.startDir, project.dir)}, the Quasar app found below ${project.startDir}.`,
+    app.dir === project.startDir
+      ? `Quasar Framework documentation and API, served from the packages installed in ${app.dir}.`
+      : `Quasar Framework documentation and API, served from the packages installed in ${app.name}, the Quasar app found below ${project.startDir}.`,
     'Prefer these tools over memory or the web: the pages match the installed versions exactly.',
     ''
   ]
-  if (project.otherApps.length !== 0) {
-    const shown = project.otherApps
+  if (otherApps.length !== 0) {
+    const shown = otherApps
       .slice(0, OTHER_APPS_SHOWN)
-      .map(app => relative(project.startDir, app))
-    const more = project.otherApps.length - shown.length
+      .map(other => `${other.name} (${appVersions(other)})`)
+    const more = otherApps.length - shown.length
     lines.push(
-      `Other Quasar apps in this workspace, not served: ${shown.join(', ')}${more > 0 ? ` and ${more} more` : ''}. To serve one of them, start the server with --project <dir>.`,
+      `Other Quasar apps in this workspace: ${shown.join(', ')}${more > 0 ? ` and ${more} more` : ''}. The tools answer for the app named in their app argument (its schema lists them all) instead of the default; each answer opens with the app it describes.`,
       ''
     )
   }
 
   for (const name of DOCS_PACKAGES) {
-    const pkg = project.packages.find(installed => installed.name === name)
+    const pkg = app.packages.find(installed => installed.name === name)
     const other = docs.unreadable.find(slice => slice.name === name)
     if (pkg === void 0) {
       lines.push(`- ${name}: not installed in this project.`)
@@ -150,7 +159,7 @@ export function buildInstructions(project, docs, updates) {
     }
   }
 
-  const quasar = project.packages.find(pkg => pkg.name === 'quasar')
+  const quasar = app.packages.find(pkg => pkg.name === 'quasar')
   if (quasar?.apiDir) {
     lines.push(
       `- quasar ${quasar.version} API descriptors (components, plugins, directives, composables): get_api / list_api.`
@@ -183,22 +192,92 @@ export async function createServer({
   project,
   checkUpdates = defaultCheckUpdates
 }) {
-  const docs = loadDocs(project.packages)
-  const quasar = project.packages.find(pkg => pkg.name === 'quasar')
-  const apiDir = quasar?.apiDir ?? null
-  // the rendered API files come with the slice, and only a slice of
-  // this server's format is parsed
-  const apiDocsDir = docs.sources.some(source => source.name === 'quasar')
-    ? quasar.docsDir
-    : null
+  /**
+   * @typedef {object} Serving What answers for one app.
+   * @property {import('./project.js').App} app
+   * @property {import('./docs.js').Docs} docs
+   * @property {string | null} apiDir
+   * @property {string | null} apiDocsDir
+   */
+
+  /** @type {Map<string, Serving>} */
+  const loaded = new Map()
+  /**
+   * The default app, or the named one, indexed on first use.
+   *
+   * @param {string} [name]
+   * @returns {Serving}
+   */
+  const serving = name => {
+    const app =
+      name === void 0
+        ? project.apps[0]
+        : project.apps.find(candidate => candidate.name === name)
+    let state = loaded.get(app.name)
+    if (state === void 0) {
+      const docs = loadDocs(app.packages)
+      const quasar = app.packages.find(pkg => pkg.name === 'quasar')
+      state = {
+        app,
+        docs,
+        apiDir: quasar?.apiDir ?? null,
+        // the rendered API files come with the slice, and only a slice of
+        // this server's format is parsed
+        apiDocsDir: docs.sources.some(source => source.name === 'quasar')
+          ? quasar.docsDir
+          : null
+      }
+      loaded.set(app.name, state)
+    }
+    return state
+  }
   const updates = await checkUpdates(project)
 
   const server = new McpServer(
     { name: 'quasar', version },
-    { instructions: buildInstructions(project, docs, updates) }
+    { instructions: buildInstructions(project, serving().docs, updates) }
   )
 
   const packageEnum = z.enum(DOCS_PACKAGES)
+  // a workspace with several apps: the tools take one by name, and
+  // every answer says which app it describes
+  const appNames = project.apps.map(app => app.name)
+  const appArg =
+    appNames.length > 1
+      ? {
+          app: z
+            .enum(appNames)
+            .optional()
+            .describe(
+              'The workspace app whose installed packages answer, instead of the default one named at session start'
+            )
+        }
+      : {}
+  /**
+   * A handler over the app the call names.
+   *
+   * @template {object} Args
+   * @param {(state: Serving, args: Args) => ReturnType<typeof text>} handler
+   * @returns {(args: Args & { app?: string }) => ReturnType<typeof text>}
+   */
+  const perApp =
+    handler =>
+    ({ app: name, ...args }) => {
+      const state = serving(name)
+      const result = handler(state, args)
+      return appNames.length === 1
+        ? result
+        : {
+            ...result,
+            content: [
+              {
+                type: 'text',
+                text: `Served from ${state.app.name}: ${appVersions(state.app)}`
+              },
+              ...result.content
+            ]
+          }
+    }
   // nothing here writes; only check_updates leaves the machine
   const localRead = { readOnlyHint: true, openWorldHint: false }
   const remoteRead = { readOnlyHint: true, openWorldHint: true }
@@ -211,6 +290,7 @@ export async function createServer({
         'Every documentation page available offline, as route, title and approximate size, grouped by the installed package that ships it. Prefer search_docs to find a page; this is the full index.',
       annotations: localRead,
       inputSchema: {
+        ...appArg,
         package: packageEnum
           .optional()
           .describe('Only the pages shipped by this package'),
@@ -222,7 +302,7 @@ export async function createServer({
           )
       }
     },
-    ({ package: packageName, descriptions = false }) => {
+    perApp(({ docs }, { package: packageName, descriptions = false }) => {
       const lines = []
       for (const source of docs.sources) {
         if (packageName !== void 0 && source.name !== packageName) {
@@ -245,7 +325,7 @@ export async function createServer({
         )
       }
       return text(lines.join('\n').trim())
-    }
+    })
   )
 
   server.registerTool(
@@ -256,6 +336,7 @@ export async function createServer({
         "Find documentation pages by keywords (component names, props, features, config options). Each hit names the approximate size of the page and the sections where the keywords occur: pass one as get_page's section to read only that part.",
       annotations: localRead,
       inputSchema: {
+        ...appArg,
         query: z
           .string()
           .min(1)
@@ -272,7 +353,7 @@ export async function createServer({
           .describe('Maximum hits (default 5)')
       }
     },
-    ({ query, package: packageName, limit }) => {
+    perApp(({ docs }, { query, package: packageName, limit }) => {
       const hits = searchDocs(docs, query, { limit, packageName })
       if (hits.length === 0) {
         return text(
@@ -293,7 +374,7 @@ export async function createServer({
           })
           .join('\n')
       )
-    }
+    })
   )
 
   server.registerTool(
@@ -304,6 +385,7 @@ export async function createServer({
         'The markdown of one documentation page, by route (as listed by list_pages or search_docs, a link from another page, or a quasar.dev URL; a #fragment selects that section). Pass a heading to get only that section, or outline to get the headings and pick one: whole component pages are long.',
       annotations: localRead,
       inputSchema: {
+        ...appArg,
         route: z
           .string()
           .min(1)
@@ -322,7 +404,7 @@ export async function createServer({
           )
       }
     },
-    ({ route: input, section, outline = false }) => {
+    perApp(({ app, docs }, { route: input, section, outline = false }) => {
       const route = normalizeRoute(input)
       const page = docs.pages.get(route)
       if (page === void 0) {
@@ -332,7 +414,7 @@ export async function createServer({
             (similar.length !== 0
               ? ` Similar routes: ${similar.join(', ')}.`
               : ' Use search_docs or list_pages to find the route.') +
-            unservedPackages(project, docs)
+            unservedPackages(app, docs)
         )
       }
       const markdown = readPage(page)
@@ -366,7 +448,7 @@ export async function createServer({
         )
       }
       return text(extracted)
-    }
+    })
   )
 
   server.registerTool(
@@ -376,16 +458,16 @@ export async function createServer({
       description:
         'The names every get_api call accepts: Quasar components (QBtn, QTable, ...), plugins (Notify, Dialog, ...), directives (Ripple, ...) and utilities.',
       annotations: localRead,
-      inputSchema: {}
+      inputSchema: appArg
     },
-    () => {
+    perApp(({ apiDir }) => {
       if (apiDir === null) {
         return failure(
           'quasar is not installed in this project, so there is no API to list.'
         )
       }
       return text(listApi(apiDir).join('\n'))
-    }
+    })
   )
 
   server.registerTool(
@@ -396,6 +478,7 @@ export async function createServer({
         'The exact API of a Quasar component, plugin or directive as installed: props, slots, events, methods (with types, defaults and descriptions), as the documentation site presents it. Pass part for one section, member for one prop, slot, event or method (the cheapest call by far), format "json" for the raw descriptor.',
       annotations: localRead,
       inputSchema: {
+        ...appArg,
         name: z
           .string()
           .min(1)
@@ -418,78 +501,85 @@ export async function createServer({
           )
       }
     },
-    ({ name: input, part, member, format = 'markdown' }) => {
-      if (apiDir === null) {
-        return failure(
-          'quasar is not installed in this project, so there is no API to serve.'
-        )
-      }
-      const name = resolveApiName(apiDir, input)
-      if (name === null) {
-        const similar = similarApiNames(apiDir, input)
-        return failure(
-          `No API descriptor named "${input}".` +
-            (similar.length !== 0
-              ? ` Similar names: ${similar.join(', ')}.`
-              : ' Use list_api for the available names.')
-        )
-      }
-      const api = readApi(apiDir, name)
-      if (api === null) {
-        return failure(`The ${name} descriptor could not be read.`)
-      }
-      if (part !== void 0 && api[part] === void 0) {
-        const parts = API_PARTS.filter(known => api[known] !== void 0)
-        return failure(`${name} has no "${part}". It has: ${parts.join(', ')}.`)
-      }
-      if (member !== void 0) {
-        if (part !== void 0 && !MEMBER_PARTS.includes(part)) {
+    perApp(
+      (
+        { apiDir, apiDocsDir },
+        { name: input, part, member, format = 'markdown' }
+      ) => {
+        if (apiDir === null) {
           return failure(
-            `"${part}" has no named members; member goes with ${MEMBER_PARTS.join(', ')}.`
+            'quasar is not installed in this project, so there is no API to serve.'
           )
         }
-        const members = findApiMembers(api, member, part)
-        if (members.length === 0) {
-          const similar = similarApiMembers(api, member, part)
+        const name = resolveApiName(apiDir, input)
+        if (name === null) {
+          const similar = similarApiNames(apiDir, input)
           return failure(
-            `${name} has no member named "${member}"${part === void 0 ? '' : ` in ${part}`}.` +
+            `No API descriptor named "${input}".` +
               (similar.length !== 0
-                ? ` Similar: ${similar.join(', ')}.`
-                : ' Pass part for the full list of a section.')
+                ? ` Similar names: ${similar.join(', ')}.`
+                : ' Use list_api for the available names.')
           )
         }
+        const api = readApi(apiDir, name)
+        if (api === null) {
+          return failure(`The ${name} descriptor could not be read.`)
+        }
+        if (part !== void 0 && api[part] === void 0) {
+          const parts = API_PARTS.filter(known => api[known] !== void 0)
+          return failure(
+            `${name} has no "${part}". It has: ${parts.join(', ')}.`
+          )
+        }
+        if (member !== void 0) {
+          if (part !== void 0 && !MEMBER_PARTS.includes(part)) {
+            return failure(
+              `"${part}" has no named members; member goes with ${MEMBER_PARTS.join(', ')}.`
+            )
+          }
+          const members = findApiMembers(api, member, part)
+          if (members.length === 0) {
+            const similar = similarApiMembers(api, member, part)
+            return failure(
+              `${name} has no member named "${member}"${part === void 0 ? '' : ` in ${part}`}.` +
+                (similar.length !== 0
+                  ? ` Similar: ${similar.join(', ')}.`
+                  : ' Pass part for the full list of a section.')
+            )
+          }
+          const markdown =
+            format === 'markdown' && apiDocsDir !== null
+              ? readApiMembersMarkdown(apiDocsDir, name, members)
+              : null
+          if (markdown !== null) {
+            return text(markdown)
+          }
+          const picked = { name }
+          for (const found of members) {
+            picked[found.part] ??= {}
+            picked[found.part][found.name] = api[found.part][found.name]
+          }
+          return text(JSON.stringify(picked, null, 1))
+        }
+        // The rendered form ships with the docs slice (quasar v2.33+); a
+        // release without it, or a part the renderer leaves out when
+        // empty, gets the JSON.
         const markdown =
           format === 'markdown' && apiDocsDir !== null
-            ? readApiMembersMarkdown(apiDocsDir, name, members)
+            ? readApiMarkdown(apiDocsDir, name, part)
             : null
         if (markdown !== null) {
           return text(markdown)
         }
-        const picked = { name }
-        for (const found of members) {
-          picked[found.part] ??= {}
-          picked[found.part][found.name] = api[found.part][found.name]
-        }
-        return text(JSON.stringify(picked, null, 1))
-      }
-      // The rendered form ships with the docs slice (quasar v2.33+); a
-      // release without it, or a part the renderer leaves out when
-      // empty, gets the JSON.
-      const markdown =
-        format === 'markdown' && apiDocsDir !== null
-          ? readApiMarkdown(apiDocsDir, name, part)
-          : null
-      if (markdown !== null) {
-        return text(markdown)
-      }
-      return text(
-        JSON.stringify(
-          part === void 0 ? { name, ...api } : { name, [part]: api[part] },
-          null,
-          1
+        return text(
+          JSON.stringify(
+            part === void 0 ? { name, ...api } : { name, [part]: api[part] },
+            null,
+            1
+          )
         )
-      )
-    }
+      }
+    )
   )
 
   server.registerTool(

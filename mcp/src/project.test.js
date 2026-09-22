@@ -11,32 +11,33 @@ test('locates the installed docs packages, their slices and the API', () => {
   const dir = createProject()
   const project = loadProject(dir)
 
-  expect(project.dir).toBe(dir)
-  expect(project.packages.map(pkg => [pkg.name, pkg.version])).toEqual([
+  expect(project.startDir).toBe(dir)
+  expect(project.apps.length).toBe(1)
+  const [{ dir: appDir, name, packages }] = project.apps
+  expect(appDir).toBe(dir)
+  expect(name).toBe('.')
+  expect(packages.map(pkg => [pkg.name, pkg.version])).toEqual([
     ['quasar', '2.33.0'],
     ['@quasar/app-vite', '3.9.0']
   ])
-  expect(project.packages[0].docsDir).toBe(
-    join(dir, 'node_modules/quasar/dist/mcp')
-  )
-  expect(project.packages[0].apiDir).toBe(
-    join(dir, 'node_modules/quasar/dist/api')
-  )
-  expect(project.packages[1].docsDir).toBe(
+  expect(packages[0].docsDir).toBe(join(dir, 'node_modules/quasar/dist/mcp'))
+  expect(packages[0].apiDir).toBe(join(dir, 'node_modules/quasar/dist/api'))
+  expect(packages[1].docsDir).toBe(
     join(dir, 'node_modules/@quasar/app-vite/dist/mcp')
   )
-  expect(project.packages[1].apiDir).toBeNull()
+  expect(packages[1].apiDir).toBeNull()
 })
 
 test('a package that is not installed is left out', () => {
   const project = loadProject(createProject({ appVite: false }))
-  expect(project.packages.map(pkg => pkg.name)).toEqual(['quasar'])
+  expect(project.apps[0].packages.map(pkg => pkg.name)).toEqual(['quasar'])
 })
 
 test('a release without bundled docs still serves its API', () => {
-  const project = loadProject(createProject({ quasarDocs: false }))
-  expect(project.packages[0].docsDir).toBeNull()
-  expect(project.packages[0].apiDir).not.toBeNull()
+  const [quasar] = loadProject(createProject({ quasarDocs: false })).apps[0]
+    .packages
+  expect(quasar.docsDir).toBeNull()
+  expect(quasar.apiDir).not.toBeNull()
 })
 
 test('a directory with no Quasar at all yields no packages', () => {
@@ -44,13 +45,13 @@ test('a directory with no Quasar at all yields no packages', () => {
   onTestFinished(() => {
     rmSync(dir, { recursive: true, force: true })
   })
-  expect(loadProject(dir).packages).toEqual([])
+  expect(loadProject(dir).apps).toEqual([{ dir, name: '.', packages: [] }])
 })
 
 test('a nested directory of the project finds the same packages', () => {
   const dir = createProject()
   const project = loadProject(join(dir, 'src', 'pages'))
-  expect(project.packages.map(pkg => pkg.name)).toEqual([
+  expect(project.apps[0].packages.map(pkg => pkg.name)).toEqual([
     'quasar',
     '@quasar/app-vite'
   ])
@@ -72,11 +73,11 @@ function createWorkspace(apps, { manifest = 'pnpm-workspace.yaml' } = {}) {
 
 test('a directory with no manifest is not searched below: a home directory is not a workspace', () => {
   const root = createWorkspace(['apps/web'], { manifest: null })
-  expect(loadProject(root).packages).toEqual([])
+  expect(loadProject(root).apps[0].packages).toEqual([])
   const withPackageJson = createWorkspace(['apps/web'], {
     manifest: 'package.json'
   })
-  expect(loadProject(withPackageJson).dir).toBe(
+  expect(loadProject(withPackageJson).apps[0].dir).toBe(
     join(withPackageJson, 'apps/web')
   )
 })
@@ -85,22 +86,32 @@ test('a workspace root with one app below serves that app', () => {
   const root = createWorkspace(['apps/web'])
   const project = loadProject(root)
   expect(project.startDir).toBe(root)
-  expect(project.dir).toBe(join(root, 'apps/web'))
-  expect(project.otherApps).toEqual([])
-  expect(project.packages.map(pkg => pkg.name)).toEqual([
+  expect(project.apps.length).toBe(1)
+  expect(project.apps[0].dir).toBe(join(root, 'apps/web'))
+  expect(project.apps[0].name).toBe('apps/web')
+  expect(project.apps[0].packages.map(pkg => pkg.name)).toEqual([
     'quasar',
     '@quasar/app-vite'
   ])
 })
 
-test('several apps below: the first in path order is served, the others reported', () => {
+test('several apps below are all served, the first in path order by default', () => {
   const root = createWorkspace(['packages/site', 'apps/web', 'apps/admin'])
   const project = loadProject(root)
-  expect(project.dir).toBe(join(root, 'apps/admin'))
-  expect(project.otherApps).toEqual([
-    join(root, 'apps/web'),
-    join(root, 'packages/site')
+  expect(project.apps.map(app => app.name)).toEqual([
+    'apps/admin',
+    'apps/web',
+    'packages/site'
   ])
+  expect(project.apps.map(app => app.dir)).toEqual(
+    project.apps.map(app => join(root, app.name))
+  )
+  for (const app of project.apps) {
+    expect(
+      app.packages.map(pkg => pkg.name),
+      app.name
+    ).toEqual(['quasar', '@quasar/app-vite'])
+  }
 })
 
 test('a full app is served before a package that only depends on quasar', () => {
@@ -108,20 +119,12 @@ test('a full app is served before a package that only depends on quasar', () => 
   createProject({ dir: join(root, 'apps/web') })
   createProject({ dir: join(root, 'a-library'), appVite: false })
   const project = loadProject(root)
-  expect(project.dir).toBe(join(root, 'apps/web'))
-  expect(project.otherApps).toEqual([join(root, 'a-library')])
-})
-
-test('a directory given explicitly is served as is, no app is looked for below it', () => {
-  const root = createWorkspace(['apps/web'])
-  const project = loadProject(root, { explicit: true })
-  expect(project.dir).toBe(root)
-  expect(project.packages).toEqual([])
+  expect(project.apps.map(app => app.name)).toEqual(['apps/web', 'a-library'])
 })
 
 test('the search below stops a few levels deep and skips build output', () => {
   const root = createWorkspace(['a/b/c/d/e/web', 'dist/web'])
-  expect(loadProject(root).packages).toEqual([])
+  expect(loadProject(root).apps[0].packages).toEqual([])
   const near = createWorkspace(['a/b/c/web'])
-  expect(loadProject(near).dir).toBe(join(near, 'a/b/c/web'))
+  expect(loadProject(near).apps[0].dir).toBe(join(near, 'a/b/c/web'))
 })

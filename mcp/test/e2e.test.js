@@ -224,6 +224,76 @@ test('search leads to the page about the subject, in either package', async () =
   expect(table.text).toMatch(/^- vue-components\/table: .+ \[~\d+k tokens\]\n/)
 })
 
+test('a workspace root serves every app below it, by name', async () => {
+  const root = mkdtempSync(join(tmpdir(), 'quasar-mcp-e2e-workspace-'))
+  onTestFinished(() => {
+    rmSync(root, { recursive: true, force: true })
+  })
+  writeFileSync(join(root, 'package.json'), '{ "name": "ws", "private": true }')
+  const link = (app, names) => {
+    mkdirSync(join(root, app, 'node_modules/@quasar'), { recursive: true })
+    for (const pkg of packages.filter(entry => names.includes(entry.name))) {
+      symlinkSync(pkg.dir, join(root, app, 'node_modules', pkg.name), 'dir')
+    }
+  }
+  link('apps/web', ['quasar', '@quasar/app-vite'])
+  link('libs/ui', ['quasar'])
+
+  const client = new Client({ name: 'e2e', version: '0.0.0' })
+  await client.connect(
+    new StdioClientTransport({
+      command: process.execPath,
+      args: [bin, '--project', root],
+      stderr: 'pipe'
+    })
+  )
+  onTestFinished(() => client.close())
+
+  const [ui, appVite] = packages.map(readMeta)
+  const instructions = client.getInstructions()
+  expect(instructions).toContain(
+    `served from the packages installed in apps/web, the Quasar app found below ${root}.`
+  )
+  expect(instructions).toContain(
+    `Other Quasar apps in this workspace: libs/ui (quasar ${ui.version}).`
+  )
+
+  const { tools } = await client.listTools()
+  const getApi = tools.find(tool => tool.name === 'get_api')
+  expect(getApi.inputSchema.properties.app.enum).toEqual([
+    'apps/web',
+    'libs/ui'
+  ])
+
+  const api = await call(client, 'get_api', {
+    app: 'libs/ui',
+    name: 'QBtn',
+    part: 'events'
+  })
+  expect(api.isError).toBe(false)
+  expect(
+    api.text.startsWith(`Served from libs/ui: quasar ${ui.version}### Events`)
+  ).toBe(true)
+
+  const cliPage = await call(client, 'get_page', {
+    app: 'libs/ui',
+    route: 'quasar-cli-vite/boot-files',
+    outline: true
+  })
+  expect(cliPage.isError).toBe(true)
+  expect(cliPage.text).toContain('@quasar/app-vite is not installed')
+  const served = await call(client, 'get_page', {
+    route: 'quasar-cli-vite/boot-files',
+    outline: true
+  })
+  expect(served.isError).toBe(false)
+  expect(
+    served.text.startsWith(
+      `Served from apps/web: quasar ${ui.version}, @quasar/app-vite ${appVite.version}# Boot files`
+    )
+  ).toBe(true)
+})
+
 test('stdout carries nothing but protocol frames', async () => {
   const child = spawn(process.execPath, [bin, '--project', projectDir], {
     stdio: ['pipe', 'pipe', 'pipe']

@@ -1,5 +1,5 @@
 import { existsSync, readFileSync, readdirSync } from 'node:fs'
-import { dirname, join, resolve } from 'node:path'
+import { dirname, join, relative, resolve } from 'node:path'
 
 /**
  * The packages that ship a docs slice in `dist/mcp`, in the order the
@@ -28,11 +28,16 @@ export const BUNDLED_DOCS_SINCE = {
  */
 
 /**
+ * @typedef {object} App
+ * @property {string} dir
+ * @property {string} name The directory relative to the start directory, what the tools' `app` argument takes; `.` for the start directory itself.
+ * @property {InstalledPackage[]} packages The DOCS_PACKAGES the app has installed.
+ */
+
+/**
  * @typedef {object} Project
- * @property {string} dir The directory served: the start directory, or the app found below it.
  * @property {string} startDir The directory the server was started in (or given with --project).
- * @property {string[]} otherApps Other app directories found below `startDir`, not served.
- * @property {InstalledPackage[]} packages The DOCS_PACKAGES the project has installed.
+ * @property {App[]} apps The apps served, the default one first: the start directory, or the apps found below it.
  */
 
 /** How deep below the start directory the apps of a workspace are looked for. */
@@ -155,35 +160,30 @@ function locatePackage(projectDir, name) {
 /**
  * The project to serve. The packages resolve from `projectDir` the way
  * its own code resolves them. When that finds nothing and the directory
- * was not named explicitly and it has a package.json or a
- * pnpm-workspace.yaml, the apps below it are looked for (a
- * workspace opened at its root): the first one, a full app before a
- * library and in path order otherwise, is served and the others are
- * reported, for --project to pick.
+ * has a package.json or a pnpm-workspace.yaml, the apps below it are
+ * looked for (a workspace opened at its root): all of them are served,
+ * the tools picking one by name; the default is a full app before a
+ * library, and the first in path order otherwise.
  *
  * @param {string} [projectDir] Defaults to the current working directory.
- * @param {{ explicit?: boolean }} [opts] `explicit`: the directory was given (--project), serve it as is.
  * @returns {Project}
  */
-export function loadProject(
-  projectDir = process.cwd(),
-  { explicit = false } = {}
-) {
+export function loadProject(projectDir = process.cwd()) {
   const startDir = resolve(projectDir)
-  let dir = startDir
-  let packages = locateAll(startDir)
-  let otherApps = []
-  if (packages.length === 0 && !explicit && isWorkspaceRoot(startDir)) {
+  const packages = locateAll(startDir)
+  if (packages.length === 0 && isWorkspaceRoot(startDir)) {
     // a full app (ui and CLI) before a package that only depends on
     // quasar, a component library in the workspace; path order otherwise
     const apps = findApps(startDir)
-      .map(app => ({ app, packages: locateAll(app) }))
+      .map(dir => ({
+        dir,
+        name: relative(startDir, dir),
+        packages: locateAll(dir)
+      }))
       .sort((a, b) => b.packages.length - a.packages.length)
     if (apps.length !== 0) {
-      dir = apps[0].app
-      packages = apps[0].packages
-      otherApps = apps.slice(1).map(({ app }) => app)
+      return { startDir, apps }
     }
   }
-  return { dir, startDir, otherApps, packages }
+  return { startDir, apps: [{ dir: startDir, name: '.', packages }] }
 }

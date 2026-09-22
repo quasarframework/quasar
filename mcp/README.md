@@ -25,7 +25,7 @@ Add the server to your MCP client, from the project folder. Nothing gets install
 }
 ```
 
-The server serves the project it is started in. Clients that start servers elsewhere can point it at the project with `--project <dir>`.
+The server serves the project it is started in. Clients that start servers elsewhere can point it at the project with `--project <dir>`. Started at the root of a workspace that holds several Quasar apps, it serves all of them: the tools take an `app` argument naming one, and default to the first app found.
 
 See the [AI Agents](https://quasar.dev/start/ai-agents) page for the per-client instructions.
 
@@ -40,7 +40,7 @@ See the [AI Agents](https://quasar.dev/start/ai-agents) page for the per-client 
 | `get_api`       | the props, slots, events and methods of one of them, one part, or one member, as the site shows them; `format: "json"` for the raw descriptor |
 | `check_updates` | whether newer releases of quasar, @quasar/app-vite or this server exist                                                                       |
 
-At session start the server also tells the agent which package versions it serves, what is missing, and which updates are available (checked in the background, cached for a day, never while offline, the same mechanism the Quasar CLI uses; `NO_UPDATE_NOTIFIER` disables it).
+At session start the server also tells the agent which package versions it serves, the other apps of a workspace and their versions, what is missing, and which updates are available (checked in the background, cached for a day, never while offline, the same mechanism the Quasar CLI uses; `NO_UPDATE_NOTIFIER` disables it).
 
 ## Chat Support
 
