@@ -31,7 +31,13 @@ const baseParamsSchema = {
   quality: Joi.number().integer().min(1).max(12),
 
   skipTrim: Joi.boolean(),
-  padding: Joi.array().items(Joi.number().integer().min(0)).min(1).max(2),
+  padding: Joi.array()
+    .items(
+      Joi.number().integer().min(0),
+      Joi.string().pattern(/^\d+(\.\d+)?%$/)
+    )
+    .min(1)
+    .max(2),
 
   splashscreenIconRatio: Joi.number().integer().min(0).max(100)
 }

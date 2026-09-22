@@ -1,13 +1,22 @@
 import { warn } from '../utils/logger.js'
 
+// a percentage resolves against the size of the box being filled
+function resolvePadding(value, size) {
+  return typeof value === 'string'
+    ? Math.round((size * Number.parseFloat(value)) / 100)
+    : value
+}
+
 export function getSquareIcon({
   file,
   icon,
   size,
-  padding: { horiz, vert },
+  padding,
   background = { r: 255, g: 255, b: 255, alpha: 0 }
 }) {
   const img = icon.clone()
+  let horiz = resolvePadding(padding.horiz, size)
+  let vert = resolvePadding(padding.vert, size)
   let width = size - 2 * horiz
   let height = size - 2 * vert
   const corrections = []

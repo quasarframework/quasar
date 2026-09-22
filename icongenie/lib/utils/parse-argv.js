@@ -90,28 +90,46 @@ function filter(value) {
   }
 }
 
+// a pixel count (number) or a percentage of the resulting size ("8%")
+function parsePaddingValue(value) {
+  const str = String(value).trim()
+
+  if (str.endsWith('%')) {
+    const percent = Number.parseFloat(str.slice(0, -1))
+
+    if (Number.isNaN(percent) || percent < 0 || percent >= 50) {
+      die(
+        `Invalid padding specified ("${str}"); a percentage must be between 0 and 50`
+      )
+    }
+
+    return `${percent}%`
+  }
+
+  const px = Number.parseInt(str, 10)
+
+  if (Number.isNaN(px) || px < 0) {
+    die(
+      `Invalid padding specified ("${str}"); use a positive number of pixels or a percentage`
+    )
+  }
+
+  return px
+}
+
 function padding(value, argv) {
   if (!value) {
     argv.padding = [0, 0]
     return
   }
 
-  const sizes = (Array.isArray(value) ? value : value.split(',')).map(val =>
-    Number.parseInt(val, 10)
+  const sizes = (Array.isArray(value) ? value : value.split(',')).map(
+    parsePaddingValue
   )
 
   if (sizes.length > 2) {
     die(`Invalid padding specified`)
   }
-
-  sizes.forEach(size => {
-    if (Number.isNaN(size)) {
-      die(`Invalid padding specified (not numbers)`)
-    }
-    if (size < 0) {
-      die(`Invalid padding specified (not all positive numbers)`)
-    }
-  })
 
   argv.padding = sizes.length === 1 ? [sizes[0], sizes[0]] : sizes
 }

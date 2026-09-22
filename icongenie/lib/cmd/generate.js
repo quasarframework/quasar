@@ -116,11 +116,13 @@ if (argv.help) {
 
     --skip-trim           Do not trim the icon source file
 
-    --padding             Apply fixed padding to the icon after trimming it;
-                          Syntax: <horiz: number>,<vert: number>
+    --padding             Apply padding to the icon after trimming it;
+                          Syntax: <horiz>,<vert>; each either a number of pixels
+                            or a percentage of the resulting image size (0 - 50%)
                           Default: 0,0
-                          Example: "--padding 10,5" means apply 10px padding to top
-                            10px to bottom, 5px to left side and 5px to rightside
+                          Examples: "--padding 10,5" means apply 10px padding to the
+                            left and right sides and 5px to the top and bottom;
+                            "--padding 8%" means 8% of each image's size on all sides
 
     --theme-color         Theme color to use for all generators requiring a color;
                           It gets overridden if any generator color is also specified;
