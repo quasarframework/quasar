@@ -1,5 +1,5 @@
 import { existsSync } from 'node:fs'
-import { green, red, underline } from 'kolorist'
+import { gray, green, red, underline } from 'kolorist'
 
 import { appDir, resolveDir } from '../utils/app-paths.js'
 import { warn } from '../utils/logger.js'
@@ -7,18 +7,31 @@ import { warn } from '../utils/logger.js'
 import { modes } from '../modes/index.js'
 import { verifyMount } from '../mount/index.js'
 import { getAssetsFiles } from '../utils/get-assets-files.js'
+import { filterPlatformFiles } from '../utils/filter-platform-files.js'
 import { getPngSize } from '../utils/get-png-size.js'
 import { parseArgv } from '../utils/parse-argv.js'
 import { mergeObjects } from '../utils/merge-objects.js'
 import { getProfileContent } from '../utils/get-profile-content.js'
 import { validateProfileObject } from '../utils/validate-profile-object.js'
 
-function getFileStatus(file) {
+// dark variants are opt-in, so a missing one is only an error
+// when the params ask for them
+function isOptional(file, params) {
+  return file.dark === true && !params.splashscreenDarkColor
+}
+
+function getFileStatus(file, params) {
   if (!existsSync(file.absoluteName)) {
-    return red('ERROR: missing!')
+    return isOptional(file, params)
+      ? gray('not generated (no splashscreen dark color)')
+      : red('ERROR: missing!')
   }
 
-  if (file.generator === 'png' || file.generator === 'splashscreen') {
+  if (
+    file.generator === 'png' ||
+    file.generator === 'splashscreen' ||
+    file.generator === 'launcher'
+  ) {
     const { width, height } = getPngSize(file.absoluteName)
 
     if (width === 0 && height === 0) {
@@ -33,12 +46,17 @@ function getFileStatus(file) {
   return green('SIZE OK')
 }
 
-function printMode(modeName, files) {
+function printMode(modeName, files, params) {
   console.log(` ${green(underline(`Mode ${modeName.toUpperCase()}`))} \n`)
 
   files.forEach(file => {
+    const mountStatus =
+      isOptional(file, params) && !existsSync(file.absoluteName)
+        ? ''
+        : verifyMount(file)
+
     console.log(
-      ` ${getFileStatus(file)} - ${(file.generator + ':').padEnd(13, ' ')} ${file.relativeName} ${verifyMount(file)}`
+      ` ${getFileStatus(file, params)} - ${(file.generator + ':').padEnd(13, ' ')} ${file.relativeName} ${mountStatus}`
     )
   })
 
@@ -67,7 +85,7 @@ function parseAssets(assets, include) {
     embeddedModes.forEach(mode => {
       filesMap.push({
         name: mode,
-        files: getAssetsFiles(modes[mode].assets)
+        files: filterPlatformFiles(getAssetsFiles(modes[mode].assets))
       })
     })
 
@@ -77,7 +95,7 @@ function parseAssets(assets, include) {
   if (assets && assets.length !== 0) {
     filesMap.push({
       name: 'profile assets',
-      files: getAssetsFiles(assets)
+      files: filterPlatformFiles(getAssetsFiles(assets))
     })
 
     assetsOf.push('profile')
@@ -108,7 +126,7 @@ function verifyProfile(profile) {
       : entry.files
 
     if (files.length !== 0) {
-      printMode(entry.name, files)
+      printMode(entry.name, files, params)
     }
   })
 }
@@ -142,7 +160,15 @@ export function verify(argv) {
     profile.params.include = mode
   }
 
-  parseArgv(profile.params, ['filter'])
+  parseArgv(profile.params, [
+    'filter',
+    // order matters:
+    'themeColor',
+    'pngColor',
+    'splashscreenColor',
+    'splashscreenDarkColor',
+    'svgColor'
+  ])
 
   // final thorough validation
   validateProfileObject(profile)

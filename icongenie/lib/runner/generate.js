@@ -1,4 +1,5 @@
-import { existsSync } from 'node:fs'
+import { existsSync, readdirSync, rmSync } from 'node:fs'
+import { dirname } from 'node:path'
 import { ensureFileSync } from 'fs-extra'
 import { gray, green } from 'kolorist'
 
@@ -10,6 +11,7 @@ import { generators } from '../generators/index.js'
 import { mount } from '../mount/index.js'
 
 import { getAssetsFiles } from '../utils/get-assets-files.js'
+import { filterPlatformFiles } from '../utils/filter-platform-files.js'
 import { getFilesOptions } from '../utils/get-files-options.js'
 import { parseArgv } from '../utils/parse-argv.js'
 import { mergeObjects } from '../utils/merge-objects.js'
@@ -31,6 +33,7 @@ function printBanner(assetsOf, params) {
  Svg color................. ${green(params.svgColor)}
  Png color................. ${green(params.pngColor)}
  Splashscreen color........ ${green(params.splashscreenColor)}
+ Splashscreen dark color... ${params.splashscreenDarkColor ? green(params.splashscreenDarkColor) : 'none (no dark variants)'}
  Splashscreen icon ratio... ${green(params.splashscreenIconRatio)}%
  ==========================
 `)
@@ -58,7 +61,7 @@ function parseAssets(assets, include) {
   }
 
   return {
-    files,
+    files: filterPlatformFiles(files),
     assetsOf: assetsOf.join(' | ')
   }
 }
@@ -93,6 +96,24 @@ function generateFile(file, opts) {
   })
 }
 
+// dark variants are opt-in: with no dark color they are not
+// generated and leftovers from a previous run are removed, so
+// that the project reflects the current params
+function removeStaleFiles(files) {
+  files.forEach(file => {
+    if (!existsSync(file.absoluteName)) return
+
+    rmSync(file.absoluteName)
+
+    const folder = dirname(file.absoluteName)
+    if (readdirSync(folder).length === 0) {
+      rmSync(folder, { recursive: true })
+    }
+
+    log(`Removed ${gray(file.relativeName)} (no splashscreen dark color)`)
+  })
+}
+
 async function generateFromProfile(profile) {
   const params = profile.params
   const { assetsOf, files } = parseAssets(profile.assets, params.include)
@@ -102,6 +123,11 @@ async function generateFromProfile(profile) {
 
   if (params.filter) {
     uniqueFiles = uniqueFiles.filter(file => file.generator === params.filter)
+  }
+
+  if (!params.splashscreenDarkColor) {
+    removeStaleFiles(uniqueFiles.filter(file => file.dark === true))
+    uniqueFiles = uniqueFiles.filter(file => file.dark !== true)
   }
 
   if (uniqueFiles.length === 0) {
@@ -160,6 +186,7 @@ export function generate(argv) {
     'themeColor',
     'pngColor',
     'splashscreenColor',
+    'splashscreenDarkColor',
     'svgColor'
   ])
 

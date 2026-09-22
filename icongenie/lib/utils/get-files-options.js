@@ -28,6 +28,7 @@ export async function getFilesOptions({
 
   pngColor,
   splashscreenColor,
+  splashscreenDarkColor,
 
   ...opts
 }) {
@@ -69,6 +70,9 @@ export async function getFilesOptions({
     padding: computedPadding,
 
     pngColor: getRgbColor(pngColor),
-    splashscreenColor: getRgbColor(splashscreenColor)
+    splashscreenColor: getRgbColor(splashscreenColor),
+    splashscreenDarkColor: splashscreenDarkColor
+      ? getRgbColor(splashscreenDarkColor)
+      : null
   }
 }

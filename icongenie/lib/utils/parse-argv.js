@@ -180,21 +180,29 @@ function background(value, argv) {
   }
 }
 
+function parseColor(name, value) {
+  if (
+    (value.length !== 3 && value.length !== 6) ||
+    !/^[0-9A-Fa-f]+$/.test(value)
+  ) {
+    die(`Invalid ${name} color specified: "${value}"`)
+  }
+
+  return '#' + value
+}
+
 function getColorParser(name, defaultValue) {
   return (value, argv) => {
-    if (!value) {
-      argv[name] = argv.themeColor || defaultValue
-      return
-    }
+    argv[name] = value
+      ? parseColor(name, value)
+      : argv.themeColor || defaultValue
+  }
+}
 
-    if (
-      (value.length !== 3 && value.length !== 6) ||
-      /^[0-9A-Fa-f]+$/.test(value) !== true
-    ) {
-      die(`Invalid ${name} color specified: "${value}"`)
-    }
-
-    argv[name] = '#' + value
+// optional; its presence is what enables the dark splashscreens
+function splashscreenDarkColor(value, argv) {
+  if (value) {
+    argv.splashscreenDarkColor = parseColor('splashscreenDarkColor', value)
   }
 }
 
@@ -261,6 +269,7 @@ const parsers = {
     defaultParams.splashscreenColor
   ),
   svgColor: getColorParser('svgColor', defaultParams.svgColor),
+  splashscreenDarkColor,
 
   include, // profile file param
 

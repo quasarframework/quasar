@@ -5,10 +5,17 @@ import { red } from 'kolorist'
 
 import { generators } from '../generators/index.js'
 import { modes } from '../modes/index.js'
+import { launcherVariants } from '../generators/launcher.js'
 
 const generatorsList = Object.keys(generators)
 const modesList = ['all', ...Object.keys(modes)]
-const platformsList = ['cordova-ios', 'cordova-android']
+const platformsList = [
+  'cordova-ios',
+  'cordova-android',
+  'capacitor-ios',
+  'capacitor-android'
+]
+const iosScalesList = ['1x', '2x', '3x']
 
 const baseParamsSchema = {
   include: Joi.array()
@@ -36,17 +43,37 @@ const assetsSchema = Joi.array().items({
 
   background: Joi.when('generator', { is: 'png', then: Joi.boolean() }),
 
+  variant: Joi.when('generator', {
+    is: 'launcher',
+    then: Joi.string()
+      .required()
+      .valid(...launcherVariants)
+  }),
+
+  dark: Joi.when('generator', { is: 'splashscreen', then: Joi.boolean() }),
+
   platform: Joi.when('generator', [
     { is: 'png', then: Joi.string().valid(...platformsList) },
-    { is: 'splashscreen', then: Joi.string().valid(...platformsList) }
+    { is: 'splashscreen', then: Joi.string().valid(...platformsList) },
+    { is: 'launcher', then: Joi.string().valid('capacitor-android') }
   ]),
 
   density: Joi.when('platform', [
     { is: 'cordova-android', then: Joi.string().required().min(1) }
   ]),
 
+  scale: Joi.when('platform', {
+    is: 'capacitor-ios',
+    then: Joi.when('generator', {
+      is: 'splashscreen',
+      then: Joi.string()
+        .required()
+        .valid(...iosScalesList)
+    })
+  }),
+
   sizes: Joi.when('generator', {
-    is: Joi.valid('png', 'splashscreen'),
+    is: Joi.valid('png', 'splashscreen', 'launcher'),
     then: Joi.array()
       .required()
       .min(1)
@@ -71,6 +98,7 @@ const getColorParamsSchema = requireHash => {
     themeColor: colorPattern,
     pngColor: colorPattern,
     splashscreenColor: colorPattern,
+    splashscreenDarkColor: colorPattern,
     svgColor: colorPattern
   }
 }

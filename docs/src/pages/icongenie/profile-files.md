@@ -26,20 +26,21 @@ The `params` object from a JSON profile file takes the same prop names as the [g
 
 Full list of props that you can write for the `params` object:
 
-| Prop name             | Type           | Description                                                                                                                                                                               | Examples                         |
-| --------------------- | -------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------- |
-| include               | Array          | Include Icon Genie hardcoded sets of assets for specific Quasar modes                                                                                                                     | `[ "spa", "pwa" ]` / `[ "all" ]` |
-| icon                  | String         | Path to source file for icon; can be absolute or relative to the root of the Quasar project folder                                                                                        | `my-icon.png`                    |
-| background            | String         | Path to optional background source file (for splash screens); can be absolute or relative to the root of the Quasar project folder                                                        | `my-bg.png`                      |
-| filter                | String         | Optionally filter the assets by generators; when used, it can generate only one type of asset instead of all                                                                              | `ico`                            |
-| quality               | Number [1-12]  | Quality of the generated files; higher quality means bigger filesize, slower; lower quality means smaller filesize, faster                                                                | `12`                             |
-| padding               | Array [Number] | Apply fixed padding to the icon image after trimming it; Syntax: [ <horiz_px>, <vert_px> ]; Default is: [0, 0]                                                                            | `[10, 0]` / `[5,5]`              |
-| skipTrim              | Boolean        | Do not trim the icon source file                                                                                                                                                          |                                  |
-| themeColor            | String [hex]   | Theme color to use for all generators requiring a color; it gets overridden if any generator color is also specified                                                                      | `ccc` / `e2b399`                 |
-| pngColor              | String [hex]   | Background color to use for the png generator, when "background: true" in the asset definition (like for the cordova/capacitor iOS icons)                                                 | `ccc` / `e2b399`                 |
-| splashscreenColor     | String [hex]   | Background color to use for the splashscreen generator                                                                                                                                    | `ccc` / `e2b399`                 |
-| svgColor              | String [hex]   | Color to use for the generated monochrome SVGs                                                                                                                                            | `ccc` / `e2b399`                 |
-| splashscreenIconRatio | Number [0-100] | Ratio of icon size in respect to the width or height (whichever is smaller) of the resulting splashscreen; represents percentages; 0 means it won't add the icon of top of the background | `40`                             |
+| Prop name             | Type           | Description                                                                                                                                                                                                                                 | Examples                         |
+| --------------------- | -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------- |
+| include               | Array          | Include Icon Genie hardcoded sets of assets for specific Quasar modes                                                                                                                                                                       | `[ "spa", "pwa" ]` / `[ "all" ]` |
+| icon                  | String         | Path to source file for icon; can be absolute or relative to the root of the Quasar project folder                                                                                                                                          | `my-icon.png`                    |
+| background            | String         | Path to optional background source file (for splash screens and the Android adaptive icon background layer); can be absolute or relative to the root of the Quasar project folder                                                           | `my-bg.png`                      |
+| filter                | String         | Optionally filter the assets by generators; when used, it can generate only one type of asset instead of all                                                                                                                                | `ico`                            |
+| quality               | Number [1-12]  | Quality of the generated files; higher quality means bigger filesize, slower; lower quality means smaller filesize, faster                                                                                                                  | `12`                             |
+| padding               | Array [Number] | Apply fixed padding to the icon image after trimming it; Syntax: [ <horiz_px>, <vert_px> ]; Default is: [0, 0]                                                                                                                              | `[10, 0]` / `[5,5]`              |
+| skipTrim              | Boolean        | Do not trim the icon source file                                                                                                                                                                                                            |                                  |
+| themeColor            | String [hex]   | Theme color to use for all generators requiring a color; it gets overridden if any generator color is also specified                                                                                                                        | `ccc` / `e2b399`                 |
+| pngColor              | String [hex]   | Background color to use for the png generator, when "background: true" in the asset definition (like for the cordova/capacitor iOS icons) and for the Android adaptive icon background layer                                                | `ccc` / `e2b399`                 |
+| splashscreenColor     | String [hex]   | Background color to use for the splashscreen generator                                                                                                                                                                                      | `ccc` / `e2b399`                 |
+| splashscreenDarkColor | String [hex]   | Background color for the dark variants of the splash screens (Capacitor mode: Android "night" resources and the iOS dark appearance); when not specified, the dark variants are not generated and any previously generated ones get removed | `121212`                         |
+| svgColor              | String [hex]   | Color to use for the generated monochrome SVGs                                                                                                                                                                                              | `ccc` / `e2b399`                 |
+| splashscreenIconRatio | Number [0-100] | Ratio of icon size in respect to the width or height (whichever is smaller) of the resulting splashscreen; represents percentages; 0 means it won't add the icon of top of the background                                                   | `40`                             |
 
 ### Assets
 
@@ -48,6 +49,18 @@ The `assets` array can contain custom definitions for **extra assets**, should y
 In 99% of the cases you won't need to specify the `assets` array, but Icon Genie is designed to be very flexible, so it includes this feature too.
 
 Asset `folder` and `name` values are resolved relative to the Quasar project folder. They cannot target a location outside the project folder, either directly or through a symbolic link.
+
+Some asset props only apply to specific generators or platforms:
+
+| Prop name  | Applies to                        | Description                                                                                                                                                            |
+| ---------- | --------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| background | `png`                             | Fill the transparent areas with `pngColor`                                                                                                                             |
+| platform   | `png`, `splashscreen`, `launcher` | Registers the asset with the native project: `cordova-android` / `cordova-ios` (config.xml), `capacitor-android` (adaptive icon XML) / `capacitor-ios` (Contents.json) |
+| density    | `cordova-android`                 | The `density` attribute of the config.xml entry                                                                                                                        |
+| variant    | `launcher`                        | Which Android launcher icon to compose: `foreground` / `background` (the adaptive icon layers, 108dp canvas), `legacy` / `round` (pre Android 8 icons, 48dp)           |
+| scale      | `capacitor-ios` splash screens    | The scale of the Contents.json entry: `1x`, `2x` or `3x`                                                                                                               |
+| dark       | `splashscreen`                    | Dark variant: uses `splashscreenDarkColor` as the background color and is only generated when that param is set                                                        |
+| tag        | any                               | Tag to print at the end, for you to add to your /index.html; `{size}` and `{name}` placeholders are available                                                          |
 
 Some examples for `assets` from which you can extract the syntax for every type of possible asset that Icon Genie can generate:
 
@@ -143,6 +156,45 @@ Some examples for `assets` from which you can extract the syntax for every type 
     ],
     "platform": "cordova-android",
     "density": "land-xxxhdpi"
+  },
+
+  {
+    "generator": "launcher",
+    "name": "ic_launcher_foreground.png",
+    "folder": "src-capacitor/android/app/src/main/res/mipmap-xxxhdpi",
+    "sizes": [ 432 ],
+    "platform": "capacitor-android",
+    "variant": "foreground"
+  },
+
+  {
+    "generator": "splashscreen",
+    "name": "splash.png",
+    "folder": "src-capacitor/android/app/src/main/res/drawable-port-night-xxxhdpi",
+    "sizes": [
+      [ 1280, 1920 ]
+    ],
+    "platform": "capacitor-android",
+    "dark": true
+  },
+
+  {
+    "generator": "png",
+    "name": "AppIcon-512@2x.png",
+    "folder": "src-capacitor/ios/App/App/Assets.xcassets/AppIcon.appiconset",
+    "sizes": [ 1024 ],
+    "platform": "capacitor-ios",
+    "background": true
+  },
+
+  {
+    "generator": "splashscreen",
+    "name": "splash-2732x2732-dark.png",
+    "folder": "src-capacitor/ios/App/App/Assets.xcassets/Splash.imageset",
+    "sizes": [ 2732 ],
+    "platform": "capacitor-ios",
+    "scale": "3x",
+    "dark": true
   }
 ]
 ```

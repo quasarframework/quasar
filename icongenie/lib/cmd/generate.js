@@ -11,6 +11,7 @@ const argv = getArgv({
   'theme-color': { type: 'string' },
   'png-color': { type: 'string' },
   'splashscreen-color': { type: 'string' },
+  'splashscreen-dark-color': { type: 'string' },
   'splashscreen-icon-ratio': { type: 'string' },
   'skip-trim': { type: 'boolean' },
   'no-color': { type: 'boolean' },
@@ -71,8 +72,8 @@ if (argv.help) {
                             Quasar project folder
                           Recommended min size: 1024x1024 px
 
-    --background, -b      Path to optional background source file (for splashscreens);
-                          must be:
+    --background, -b      Path to optional background source file (for splashscreens
+                          and the Android adaptive icon background layer); must be:
                             - a .png file
                             - min resolution: 128x128 px (the higher the better!!)
                             - transparency is optional (but recommended if you
@@ -117,7 +118,8 @@ if (argv.help) {
 
     --png-color           Background color to use for the png generator, when
                           "background: true" in the asset definition (like for
-                          the cordova/capacitor iOS icons);
+                          the cordova/capacitor iOS icons) and for the Android adaptive icon
+                          background layer (launcher generator);
                           Default (if no theme-color is specified): ${defaultParams.pngColor.slice(1)}
                           The color must be in hex format (NOT hexa) without the leading
                           '#' character. Transparency not allowed.
@@ -128,6 +130,15 @@ if (argv.help) {
                           The color must be in hex format (NOT hexa) without the leading
                           '#' character. Transparency not allowed.
                           Examples: 1976D2, eee
+
+    --splashscreen-dark-color  Background color to use for the dark variants of the
+                               splashscreens (Capacitor mode: Android "night" resources
+                               and the iOS dark appearance); no dark variants get
+                               generated (and any previously generated ones get removed)
+                               when this param is not specified;
+                               The color must be in hex format (NOT hexa) without the leading
+                               '#' character. Transparency not allowed.
+                               Examples: 1976D2, eee
 
     --splashscreen-icon-ratio  Ratio of icon size in respect to the width or height
                                (whichever is smaller) of the resulting splashscreen;

@@ -81,8 +81,8 @@ $ icongenie generate -h
                             Quasar project folder
                           Recommended min size: 1024x1024 px
 
-    --background, -b      Path to optional background source file (for splash screens);
-                          must be:
+    --background, -b      Path to optional background source file (for splash screens
+                          and the Android adaptive icon background layer); must be:
                             - a .png file
                             - min resolution: 128x128 px (the higher the better!!)
                             - transparency is optional (but recommended if you
@@ -99,7 +99,7 @@ $ icongenie generate -h
 
     --filter, -f          Filter the available generators; when used, it can
                           generate only one type of asset instead of all
-                            [png|ico|icns|splashscreen|svg]
+                            [png|ico|icns|splashscreen|svg|launcher]
 
     --quality             Quality of the files [1 - 12] (default: 5)
                             - higher quality --> bigger filesize & slower to create
@@ -127,7 +127,8 @@ $ icongenie generate -h
 
     --png-color           Background color to use for the png generator, when
                           "background: true" in the asset definition (like for
-                          the cordova/capacitor iOS icons);
+                          the cordova/capacitor iOS icons) and for the Android adaptive icon
+                          background layer (launcher generator);
                           Default (if no theme-color is specified): fff
                           The color must be in hex format (NOT hexa) without the leading
                           '#' character. Transparency not allowed.
@@ -138,6 +139,15 @@ $ icongenie generate -h
                           The color must be in hex format (NOT hexa) without the leading
                           '#' character. Transparency not allowed.
                           Examples: 1976D2, eee
+
+    --splashscreen-dark-color  Background color to use for the dark variants of the
+                               splash screens (Capacitor mode: Android "night" resources
+                               and the iOS dark appearance); no dark variants get
+                               generated (and any previously generated ones get removed)
+                               when this param is not specified;
+                               The color must be in hex format (NOT hexa) without the leading
+                               '#' character. Transparency not allowed.
+                               Examples: 1976D2, eee
 
     --splashscreen-icon-ratio  Ratio of icon size in respect to the width or height
                                (whichever is smaller) of the resulting splashscreen;
@@ -201,7 +211,7 @@ $ icongenie -h
 
     --filter, -f    Filter the available generators; when used, it verifies
                     only one type of asset instead of all
-                      [png|ico|icns|splashscreen|svg]
+                      [png|ico|icns|splashscreen|svg|launcher]
 
     --profile       Use JSON profile file(s) to extract the asset list to verify:
                       - path to folder (absolute or relative to current folder)
@@ -271,8 +281,8 @@ $ icongenie profile -h
                             Quasar project folder
                           Recommended min size: 1024x1024 px
 
-    --background, -b      Path to optional background source file (for splash screens);
-                          must be:
+    --background, -b      Path to optional background source file (for splash screens
+                          and the Android adaptive icon background layer); must be:
                             - a .png file
                             - min resolution: 128x128 px (the higher the better!!)
                             - transparency is optional (but recommended if you
@@ -287,7 +297,7 @@ $ icongenie profile -h
                             spa,cordova
 
     --filter, -f          Prefill the params.filter property;
-                            [png|ico|icns|splashscreen|svg]
+                            [png|ico|icns|splashscreen|svg|launcher]
 
     --quality             Prefill in the params.quality property;
                           Quality of the files [1 - 12] (default: 5)
@@ -319,7 +329,8 @@ $ icongenie profile -h
     --png-color           Prefill the params.pngColor property;
                           Background color to use for the png generator, when
                           "background: true" in the asset definition (like for
-                          the Cordova/Capacitor iOS icons);
+                          the Cordova/Capacitor iOS icons) and for the Android adaptive icon
+                          background layer (launcher generator);
                           Default (if no theme-color is specified): fff
                           The color must be in hex format (NOT hexa) without the leading
                           '#' character. Transparency not allowed.
@@ -331,6 +342,16 @@ $ icongenie profile -h
                           The color must be in hex format (NOT hexa) without the leading
                           '#' character. Transparency not allowed.
                           Examples: 1976D2, eee
+
+    --splashscreen-dark-color  Prefill the params.splashscreenDarkColor property;
+                               Background color to use for the dark variants of the
+                               splash screens (Capacitor mode: Android "night" resources
+                               and the iOS dark appearance); no dark variants get
+                               generated (and any previously generated ones get removed)
+                               when this param is not specified;
+                               The color must be in hex format (NOT hexa) without the leading
+                               '#' character. Transparency not allowed.
+                               Examples: 1976D2, eee
 
     --splashscreen-icon-ratio  Prefill the params.splashscreenIconRatio property;
                                Ratio of icon size in respect to the width or height
