@@ -106,6 +106,10 @@ Example below is when using Pinia:
 
 ```html Some .vue component used as route
 <script setup>
+  import { computed } from 'vue'
+  import { useRoute } from 'vue-router'
+  import { useMyStore } from '@/stores/myStore.js'
+
   /**
    * The defineOptions is a macro.
    * The options will be hoisted to module scope and cannot access local
@@ -151,15 +155,12 @@ Alternatively, with Composition API and `<script>`:
 </template>
 
 <script>
+  import { computed } from 'vue'
   import { useRoute } from 'vue-router'
   import { useMyStore } from '@/stores/myStore.js'
 
   export default {
-    preFetch() {
-      console.log('Running preFetch')
-    },
-
-    setup({
+    preFetch({
       store,
       currentRoute,
       previousRoute,
@@ -168,6 +169,12 @@ Alternatively, with Composition API and `<script>`:
       urlPath,
       publicPath
     }) {
+      // No access to "this" here
+      const myStore = useMyStore() // useMyStore(store) for SSR/SSG
+      return myStore.fetchItem(currentRoute.params.id) // assumes it is async
+    },
+
+    setup() {
       const myStore = useMyStore()
       const $route = useRoute()
 
@@ -184,14 +191,13 @@ Alternatively, with Composition API and `<script>`:
 > If you are developing a SSR/SSG app, then you can check out the [ssrContext](/quasar-cli-vite/developing-ssr/ssr-context) Object that gets supplied server-side.
 
 ```js
-// related action for Promise example
+// related Pinia store action for the Promise example
 // ...
 
 actions: {
-  fetchItem ({ commit }, id) {
-    return axiosInstance.get(url, id).then(({ data }) => {
-      this.items = data
-    })
+  async fetchItem (id) {
+    const response = await fetch(`https://api.example.com/items/${ id }`)
+    this.items[ id ] = await response.json()
   }
 }
 
