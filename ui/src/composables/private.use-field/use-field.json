@@ -98,7 +98,7 @@
 
     "standout": {
       "type": ["Boolean", "String"],
-      "desc": "Use 'standout' design for the field; Specifies classes to be applied when focused (overriding default ones)",
+      "desc": "Use 'standout' design for the field; Specifies classes to be applied when focused (overriding default ones); a text color class in there also colors the content and the decorators",
       "examples": ["true", "'bg-primary text-white'"],
       "category": "style"
     },

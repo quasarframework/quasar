@@ -198,6 +198,17 @@ const afterProps = {
 
 const noErrorAriaAttrs = {}
 
+// a custom standout string replaces the default focused look;
+// the callers let an error outrank it. Focus is read first so the
+// idle fields (all but one) stop at a ref they already track
+function hasCustomStandout(props, state) {
+  return (
+    state.focused.value &&
+    typeof props.standout === 'string' &&
+    props.standout.length !== 0
+  )
+}
+
 function getInnerAppendNode(key, content) {
   return content === null
     ? null
@@ -351,7 +362,11 @@ export default function useField(state) {
       (state.isDark() ? ' q-field--dark' : '') +
       (state.getControl === void 0 ? ' q-field--auto-height' : '') +
       (state.focused.value ? ' q-field--focused' : '') +
-      (hasError.value ? ' q-field--error' : '') +
+      (hasError.value
+        ? ' q-field--error'
+        : hasCustomStandout(props, state)
+          ? ' q-field--standout-custom'
+          : '') +
       (hasError.value || state.focused.value ? ' q-field--highlighted' : '') +
       (!props.hideBottomSpace && shouldRenderBottom.value
         ? ' q-field--with-bottom'
@@ -369,9 +384,7 @@ export default function useField(state) {
       (props.bgColor !== void 0 ? ` bg-${props.bgColor}` : '') +
       (hasError.value
         ? ' text-negative'
-        : typeof props.standout === 'string' &&
-            props.standout.length !== 0 &&
-            state.focused.value
+        : hasCustomStandout(props, state)
           ? ` ${props.standout}`
           : props.color !== void 0
             ? ` text-${props.color}`

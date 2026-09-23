@@ -363,6 +363,15 @@ $field-transition-label-right-up: .324s cubic-bezier(.4,0,.2,1)
       .q-field__native, .q-field__prefix, .q-field__suffix, .q-field__prepend, .q-field__append, .q-field__input
         color: #fff
 
+    // a custom standout string sets the whole focused look, so the
+    // control's text color (the string's, else the theme default)
+    // flows down to the content and the decorators
+    &.q-field--standout-custom
+      .q-field__control
+        color: #fff
+      .q-field__native, .q-field__prefix, .q-field__suffix, .q-field__prepend, .q-field__append, .q-field__input
+        color: inherit
+
     &.q-field--readonly
       .q-field__control:before
         opacity: 1
@@ -379,6 +388,11 @@ $field-transition-label-right-up: .324s cubic-bezier(.4,0,.2,1)
           background: #fff
         .q-field__native, .q-field__prefix, .q-field__suffix, .q-field__prepend, .q-field__append, .q-field__input
           color: #000
+      &.q-field--standout-custom
+        .q-field__control
+          color: #000
+        .q-field__native, .q-field__prefix, .q-field__suffix, .q-field__prepend, .q-field__append, .q-field__input
+          color: inherit
       &.q-field--readonly
         .q-field__control:before
           border-color: rgba(255,255,255,.24)

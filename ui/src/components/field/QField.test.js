@@ -470,6 +470,43 @@ describe('[QField API]', () => {
           expect.arrayContaining(['bg-teal', 'text-white'])
         )
       })
+
+      test('type String flags the custom look while focused', async () => {
+        const wrapper = mountControlField({ standout: 'bg-teal text-white' })
+
+        expect(wrapper.classes()).not.toContain('q-field--standout-custom')
+
+        await getControl(wrapper).trigger('focusin')
+
+        expect(wrapper.classes()).toContain('q-field--standout-custom')
+
+        await getControl(wrapper).trigger('focusout')
+        await flushTimers()
+
+        expect(wrapper.classes()).not.toContain('q-field--standout-custom')
+      })
+
+      test('type String yields to the error look', async () => {
+        const wrapper = mountControlField({
+          standout: 'bg-teal text-white',
+          error: true
+        })
+
+        await getControl(wrapper).trigger('focusin')
+
+        expect(wrapper.classes()).not.toContain('q-field--standout-custom')
+        expect(getControl(wrapper).classes()).toContain('text-negative')
+        expect(getControl(wrapper).classes()).not.toContain('bg-teal')
+      })
+
+      test('type Boolean keeps the default look', async () => {
+        const wrapper = mountControlField({ standout: true })
+
+        await getControl(wrapper).trigger('focusin')
+
+        expect(wrapper.classes()).toContain('q-field--highlighted')
+        expect(wrapper.classes()).not.toContain('q-field--standout-custom')
+      })
     })
 
     describe('[(prop)label-slot]', () => {
