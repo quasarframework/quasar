@@ -1,7 +1,7 @@
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import { ref } from 'vue'
 
-import editorCaret, { linkPlaceholder } from './editor-caret.js'
+import editorCaret from './editor-caret.js'
 
 const Caret = editorCaret
 
@@ -75,24 +75,6 @@ function select(node, start = 0, end = null) {
 }
 
 describe('[editorCaret API]', () => {
-  describe('[Variables]', () => {
-    describe('[(variable)linkPlaceholder]', () => {
-      test('is defined correctly', () => {
-        expect(linkPlaceholder).toBeTypeOf('string')
-      })
-
-      test('is the scheme the link editor treats as "nothing typed"', () => {
-        const eVm = createEVm()
-        const { caret, el } = createCaret({ html: 'Hello world', eVm })
-
-        select(el.firstChild, 0, 5)
-        caret.apply('link')
-
-        expect(eVm.editLinkUrl.value).toBe(linkPlaceholder)
-      })
-    })
-  })
-
   describe('[Classes]', () => {
     describe('[(class)default]', () => {
       test('can be instantiated', () => {
@@ -531,7 +513,7 @@ describe('[editorCaret API]', () => {
       })
 
       test.each([
-        ['a plain word', 'Hello world', linkPlaceholder],
+        ['a plain word', 'Hello world', ''],
         ['an URL', 'https://quasar.dev is nice', 'https://quasar.dev']
       ])(
         'offers the selected %s for linking without touching the document',

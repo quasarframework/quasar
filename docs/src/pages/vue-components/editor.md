@@ -88,9 +88,9 @@ The following is an example that adds custom definitions. In such cases, make su
 
 ## Adding links
 
-The `link` command swaps the toolbar for a URL field pointing at the current selection (or, when nothing is selected, at the word under the caret). The field starts out holding the selected text if that text already reads as an URL, and `https://` otherwise.
+The `link` command swaps the toolbar for a URL field pointing at the current selection (or, when nothing is selected, at the word under the caret). The field starts out holding the selected text if that text already reads as an URL, and empty otherwise (with `https://` shown as a hint), so a copied URL can be pasted straight in.
 
-Your content is only touched once you commit an URL — by pressing <kbd>Enter</kbd>, by hitting the "Update" button, or simply by clicking away from the field. Leaving `https://` untouched commits nothing, so abandoning the field never leaves a broken link behind. <kbd>Escape</kbd> cancels outright, while the "Remove" button strips the link from the selection.
+Your content is only touched once you commit an URL — by pressing <kbd>Enter</kbd>, by hitting the "Update" button, or simply by clicking away from the field. Leaving the field empty commits nothing, so abandoning it never leaves a broken link behind. <kbd>Escape</kbd> cancels outright, while the "Remove" button strips the link from the selection.
 
 The command behaves the same wherever you put it, including inside one of the [dropdowns](#dropdowns) described below.
 

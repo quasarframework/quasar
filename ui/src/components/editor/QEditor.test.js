@@ -909,12 +909,15 @@ describe('[QEditor API]', () => {
     })
 
     describe('[(event)link-show]', () => {
-      test('is emitting', async () => {
+      test.each([
+        ['an existing URL', 'https://quasar.dev'],
+        ['a fresh, empty field', '']
+      ])('is emitting for %s', async (_, url) => {
         const wrapper = mountEditor()
         await flushPromises()
 
         // the link editor opens as soon as an URL is being edited
-        wrapper.vm.caret.eVm.editLinkUrl.value = 'https://quasar.dev'
+        wrapper.vm.caret.eVm.editLinkUrl.value = url
         await nextTick()
 
         const eventList = wrapper.emitted()

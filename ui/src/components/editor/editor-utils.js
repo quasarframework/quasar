@@ -7,7 +7,6 @@ import QTooltip from '../tooltip/QTooltip.js'
 import QItem from '../item/QItem.js'
 import QItemSection from '../item/QItemSection.js'
 
-import { linkPlaceholder } from './editor-caret.js'
 import { prevent, stop } from '../../utils/event/event.js'
 import { hSlot } from '../../utils/private.render/render.js'
 import { shouldIgnoreKey } from '../../utils/private.keyboard/key-composition.js'
@@ -357,12 +356,12 @@ export function getLinkEditor(eVm) {
 
       if (nextLink !== currentLink) {
         if (nextLink === '') {
-          // an emptied field blanks out a link that is already there
+          // an emptied field blanks out a link that is already there,
+          // while on a fresh one it means no URL was ever typed
           if (currentLink !== null) {
             document.execCommand('createLink', false, ' ')
           }
-        } else if (nextLink !== linkPlaceholder) {
-          // the untouched placeholder means no URL was ever typed
+        } else {
           document.execCommand('createLink', false, nextLink)
         }
       }
@@ -381,6 +380,8 @@ export function getLinkEditor(eVm) {
         class: 'col q-editor__link-input',
         // the visible "URL:" text is a sibling, not a label element
         'aria-label': eVm.$q.lang.editor.url,
+        // a hint only, so that a pasted URL never lands behind a scheme
+        placeholder: 'https://',
         value: link,
         onInput: evt => {
           stop(evt)

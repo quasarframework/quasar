@@ -4,7 +4,6 @@ import { computed, defineComponent, getCurrentInstance, h, ref } from 'vue'
 
 import QBtn from '../btn/QBtn.js'
 import QBtnDropdown from '../btn-dropdown/QBtnDropdown.js'
-import { linkPlaceholder } from './editor-caret.js'
 import {
   dropdownContentClass,
   getFonts,
@@ -381,6 +380,14 @@ describe('[editorUtils API]', () => {
         expect(wrapper.findAllComponents(QBtn)).toHaveLength(2)
       })
 
+      test('only hints at the scheme, so a pasted URL lands alone', () => {
+        mountUtil(getLinkEditor, { editLinkUrl: ref(''), linkedHref: null })
+
+        const input = wrapper.get('.q-editor__link-input').element
+        expect(input.value).toBe('')
+        expect(input.placeholder).toBe('https://')
+      })
+
       test('builds nothing before the caret exists', () => {
         const eVm = createEVm({})
         eVm.caret = void 0
@@ -479,8 +486,7 @@ describe('[editorUtils API]', () => {
       })
 
       test.each([
-        ['a link that was never set', linkPlaceholder, null],
-        ['an empty link', '', null],
+        ['a link that was never set', '', null],
         ['an existing link', existingLink, existingLink]
       ])(
         'cancels through ESCAPE over %s',
@@ -523,12 +529,9 @@ describe('[editorUtils API]', () => {
         expect(eVm.editLinkUrl.value).toBeNull()
       })
 
-      test.each([
-        ['nothing was typed over the placeholder', linkPlaceholder],
-        ['the field was left empty', '']
-      ])('links nothing when %s', async (_, editLinkUrl) => {
+      test('links nothing when the field was left empty', async () => {
         const { eVm } = mountUtil(getLinkEditor, {
-          editLinkUrl: ref(editLinkUrl),
+          editLinkUrl: ref(''),
           linkedHref: null
         })
 
