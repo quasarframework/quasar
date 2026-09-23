@@ -146,7 +146,7 @@ The first example is using an array and the second example is using a function.
 ### Limiting options
 
 - You can use the `options` prop to limit user selection to certain times.
-- Alternatively, for a more in-depth way of limiting options, you can also supply a function (second and third example below) to `options-fn` prop.
+- Alternatively, for a more in-depth way of limiting options, you can also supply a function (second and third example below) to the same `options` prop.
 - The `options` array entries, as well as the String supplied to the function form, are always in `YYYY/MM/DD` format, regardless of the `mask` in use.
 
 > [!WARNING]

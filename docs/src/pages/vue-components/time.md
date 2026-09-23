@@ -94,7 +94,7 @@ The digits shown in the header and on the clock face follow the `formatNumber` f
 ### Limiting options
 
 - You can use the `hour-options`, `minute-options` and `second-options` props to limit user selection to certain times.
-- Alternatively, for a more in-depth way of limiting options, you can also supply a function (second example below) to `options-fn` prop.
+- Alternatively, for a more in-depth way of limiting options, you can also supply a function (second and third example below) to the `options` prop.
 
 <DocExample title="Options" file="Options" overflow />
 
