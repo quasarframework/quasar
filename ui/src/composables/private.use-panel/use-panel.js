@@ -66,6 +66,14 @@ function isValidPanelName(name) {
   return name !== void 0 && name !== null && name !== ''
 }
 
+function isPanelVNode(vnode) {
+  return (
+    vnode.props !== null &&
+    vnode.props.slot === void 0 &&
+    isValidPanelName(vnode.props.name)
+  )
+}
+
 export default function usePanel() {
   const { props, emit, proxy } = getCurrentInstance()
   const $q = useQuasar()
@@ -292,13 +300,7 @@ export default function usePanel() {
   }
 
   function updatePanelsList(slots) {
-    panels = getNormalizedVNodes(hSlot(slots.default, [])).filter(
-      panel =>
-        panel.props !== null &&
-        panel.props.slot === void 0 &&
-        isValidPanelName(panel.props.name)
-    )
-
+    panels = getNormalizedVNodes(hSlot(slots.default, []), isPanelVNode)
     return panels.length
   }
 

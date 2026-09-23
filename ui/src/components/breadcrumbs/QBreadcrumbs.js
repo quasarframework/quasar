@@ -51,7 +51,6 @@ export default /*#__PURE__*/ createComponent({
       if (slots.default === void 0) return
 
       const vnodes = getNormalizedVNodes(hSlot(slots.default))
-
       if (vnodes.length === 0) return
 
       let els = 1

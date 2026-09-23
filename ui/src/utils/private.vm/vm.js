@@ -15,27 +15,30 @@ export function getParentProxy(proxy) {
   }
 }
 
-function fillNormalizedVNodes(children, vnode) {
-  if (typeof vnode.type === 'symbol') {
-    if (Array.isArray(vnode.children)) {
-      vnode.children.forEach(child => {
-        fillNormalizedVNodes(children, child)
-      })
+function fillNormalizedVNodes(list, vnodes, accept) {
+  for (let i = 0; i < vnodes.length; i++) {
+    const vnode = vnodes[i]
+
+    if (typeof vnode.type === 'symbol') {
+      // Fragment (v-for, <template>); Text/Comment carry no vnode children
+      if (Array.isArray(vnode.children)) {
+        fillNormalizedVNodes(list, vnode.children, accept)
+      }
+    } else if (accept === void 0 || accept(vnode)) {
+      list.push(vnode)
     }
-  } else {
-    children.add(vnode)
   }
+
+  return list
 }
 
-// vnodes from rendered in advanced slots
-export function getNormalizedVNodes(vnodes) {
-  const children = new Set()
-
-  vnodes.forEach(vnode => {
-    fillNormalizedVNodes(children, vnode)
-  })
-
-  return [...children]
+/**
+ * Flattens the vnodes of a rendered slot (Fragments unwrapped,
+ * Text/Comment dropped) in a single pass; the optional `accept`
+ * predicate filters while walking, so no intermediate list is built
+ */
+export function getNormalizedVNodes(vnodes, accept) {
+  return fillNormalizedVNodes([], vnodes, accept)
 }
 
 export function vmHasRouter(vm) {
