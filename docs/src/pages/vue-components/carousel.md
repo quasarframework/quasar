@@ -16,7 +16,7 @@ The QCarousel component allows you to display more information with less real es
 ## Usage
 
 > [!TIP]
-> If the QCarouselSlide content also has images and you want to use swipe actions to navigate, you might want to add `draggable="false"` to them, otherwise the native browser behavior might interfere in a negative way.
+> A swipe that starts on a draggable element is ignored, so the native drag does not fight the gesture. Images and links are draggable by default: if a QCarouselSlide contains an `<img>`, a `<router-link>` or an `<a>` and you want swipe actions to navigate, add `draggable="false"` to them.
 
 > [!IMPORTANT]
 > **Keep Alive**

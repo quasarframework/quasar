@@ -23,7 +23,7 @@ Click then pan in a direction with your mouse on the area below to see it in act
 Page scrolling is prevented, but you can opt out if you wish.
 
 > [!TIP]
-> If your content also has images, you might want to add `draggable="false"` to them, otherwise the native browser behavior might interfere in a negative way.
+> A pan that starts on a draggable element is ignored, so the native drag does not fight the gesture. Images and links are draggable by default: if your content contains an `<img>`, a `<router-link>` or an `<a>`, add `draggable="false"` to them.
 
 <DocExample title="All directions" file="Basic" />
 
