@@ -9,27 +9,35 @@ import { mdiCached } from '@quasar/extras/mdi-v7'
 // app uses the current one; every page keeps being served by the worker it
 // loaded with until then.
 
-// handle of the "update ready" notification
+// handle of the "downloading" then "update ready" notification
 let updateNotif = null
+
+const dismissAction = {
+  label: 'Dismiss',
+  noCaps: true,
+  color: 'amber'
+}
 
 function notify(props) {
   return Notify.create({
     classes: 'doc-notify',
     group: false,
     timeout: 0,
-    icon: mdiCached,
     color: 'grey-9',
     position: 'bottom-left',
     multiLine: true,
-    actions: [
-      {
-        label: 'Dismiss',
-        noCaps: true,
-        color: 'amber'
-      }
-    ],
     ...props
   })
+}
+
+function getUpdateReadyProps() {
+  return {
+    icon: mdiCached,
+    spinner: false,
+    message:
+      'A new docs version is ready. Close all docs tabs and windows and reopen to switch to it.',
+    actions: [dismissAction]
+  }
 }
 
 // A page that runs a previous build against the updated precache would
@@ -51,8 +59,11 @@ function notifyStale() {
   }
 
   notify({
+    icon: mdiCached,
+    spinner: false,
     message:
-      'The docs were updated in the meantime and this page is outdated. Close this tab and open the docs again to keep browsing.'
+      'The docs were updated in the meantime and this page is outdated. Close this tab and reopen to keep browsing.',
+    actions: [dismissAction]
   })
 }
 
@@ -80,14 +91,37 @@ register(import.meta.env.QUASAR_SERVICE_WORKER_FILE, {
     })
   },
 
+  updatefound() {
+    // also fires while installing the very first service worker,
+    // where there is no update to notify about
+    if (controller === null || staleNotified) return
+
+    updateNotif = notify({
+      spinner: true,
+      message: 'Downloading docs update...'
+    })
+  },
+
   updated(registration) {
     // the initial install can report "installed" after it already claimed
     // the page (nothing waits then)
-    if (registration.waiting === null) return
+    if (registration.waiting === null || staleNotified) return
 
-    updateNotif = notify({
-      message:
-        'A new docs version is ready. Close all docs tabs and windows (or quit the installed app) to switch to it.'
-    })
+    if (updateNotif !== null) {
+      // morph the "downloading" notification in place
+      updateNotif(getUpdateReadyProps())
+    } else {
+      // an update finished installing without us seeing it start
+      // (it was already waiting when the page registered)
+      updateNotif = notify(getUpdateReadyProps())
+    }
+  },
+
+  error() {
+    // don't leave a spinner up for a failed install
+    if (updateNotif !== null) {
+      updateNotif()
+      updateNotif = null
+    }
   }
 })
