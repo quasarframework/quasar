@@ -342,14 +342,27 @@ export function getLinkEditor(eVm) {
     const color = eVm.props.toolbarColor || eVm.props.toolbarTextColor
     let link = eVm.editLinkUrl.value
 
+    // closes the field, then hands the selection back to the content;
+    // in that order, because moving the selection out of the field
+    // blurs it, and that blur must find nothing left to commit -- and
+    // with the content focused first, because Chromium re-focuses the
+    // editing area when the selection lands in it and, in doing so, puts
+    // back the caret it last remembered there over the restored range
+    const closeField = () => {
+      eVm.editLinkUrl.value = null
+      eVm.contentRef.value?.focus({ preventScroll: true })
+      eVm.caret.restore()
+    }
+
     const updateLink = () => {
       // a blur can still reach us after the field was closed by ESCAPE
       // or by one of the buttons; there is nothing left to commit then
       if (eVm.editLinkUrl.value === null) return
 
-      eVm.caret.restore()
-
       const nextLink = link.trim()
+
+      closeField()
+
       // the href the selection carries right now -- null while it is not
       // linked yet, so a brand new link always counts as a change
       const currentLink = eVm.caret.getParentAttribute('href')
@@ -365,8 +378,6 @@ export function getLinkEditor(eVm) {
           document.execCommand('createLink', false, nextLink)
         }
       }
-
-      eVm.editLinkUrl.value = null
     }
 
     return [
@@ -403,8 +414,7 @@ export function getLinkEditor(eVm) {
               // ESCAPE key -- nothing was applied yet, so cancelling only
               // has to close the field and hand the selection back
               prevent(evt)
-              eVm.caret.restore()
-              eVm.editLinkUrl.value = null
+              closeField()
               break
             }
           }
@@ -420,9 +430,8 @@ export function getLinkEditor(eVm) {
           // button -- alive long enough for the click to land on it
           onMousedown: prevent,
           onClick: () => {
-            eVm.caret.restore()
+            closeField()
             document.execCommand('unlink')
-            eVm.editLinkUrl.value = null
           }
         }),
         h(QBtn, {

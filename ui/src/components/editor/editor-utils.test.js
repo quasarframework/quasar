@@ -446,6 +446,46 @@ describe('[editorUtils API]', () => {
         expect(eVm.editLinkUrl.value).toBeNull()
       })
 
+      test('hands the selection back to a focused content', async () => {
+        const focus = vi.fn()
+        const { eVm } = mountUtil(getLinkEditor, {
+          contentRef: ref({ focus })
+        })
+
+        await wrapper.findAllComponents(QBtn)[1].trigger('click')
+
+        // Chromium puts the caret it remembers back when the editing area
+        // gains focus, so the focus has to land before the range does
+        expect(focus).toHaveBeenCalledExactlyOnceWith({ preventScroll: true })
+        expect(focus.mock.invocationCallOrder[0]).toBeLessThan(
+          eVm.caret.restore.mock.invocationCallOrder[0]
+        )
+      })
+
+      test.each([
+        ['the ENTER key', 13, 1],
+        ['ESCAPE', 27, 0]
+      ])(
+        'closes the field before the blur that restoring the selection fires, through %s',
+        async (_, keyCode, commits) => {
+          const { eVm } = mountUtil(getLinkEditor)
+          const input = wrapper.get('.q-editor__link-input')
+
+          // moving the selection back into the content blurs the field
+          // while the handler is still running
+          eVm.caret.restore.mockImplementation(() => {
+            input.element.dispatchEvent(new Event('blur'))
+          })
+
+          await input.setValue('https://vuejs.org')
+          await input.trigger('keydown', { keyCode })
+
+          expect(eVm.caret.restore).toHaveBeenCalledOnce()
+          expect(execCommand).toHaveBeenCalledTimes(commits)
+          expect(eVm.editLinkUrl.value).toBeNull()
+        }
+      )
+
       test.each([
         ['an URL', existingLink],
         // the field mirrors the href, so both sides are blank here
