@@ -259,18 +259,19 @@ runSequentialPromises({
 })
 ```
 
-Example with Axios:
+Example with the Fetch API:
 
 ```js
 import { runSequentialPromises } from 'quasar'
-import axios from 'axios'
 
 const keyList = ['users', 'phones', 'laptops']
 
 runSequentialPromises([
-  () => axios.get('https://some-url.com/users'),
-  () => axios.get('https://some-other-url.com/items/phones'),
-  () => axios.get('https://some-other-url.com/items/laptops')
+  () => fetch('https://some-url.com/users').then(res => res.json()),
+  () =>
+    fetch('https://some-other-url.com/items/phones').then(res => res.json()),
+  () =>
+    fetch('https://some-other-url.com/items/laptops').then(res => res.json())
 ])
   .then(resultAggregator => {
     // resultAggregator is ordered in the same way as the promises above
@@ -288,9 +289,11 @@ runSequentialPromises([
 // **equivalent** example with sequentialPromises as Object:
 
 runSequentialPromises({
-  users: () => axios.get('https://some-url.com/users'),
-  phones: () => axios.get('https://some-other-url.com/items/phones'),
-  laptops: () => axios.get('https://some-other-url.com/items/laptops')
+  users: () => fetch('https://some-url.com/users').then(res => res.json()),
+  phones: () =>
+    fetch('https://some-other-url.com/items/phones').then(res => res.json()),
+  laptops: () =>
+    fetch('https://some-other-url.com/items/laptops').then(res => res.json())
 })
   .then(resultAggregator => {
     console.log('users:', resultAggregator.users.value)
@@ -309,14 +312,15 @@ Example with abortOnFail set to `false`:
 
 ```js
 import { runSequentialPromises } from 'quasar'
-import axios from 'axios'
 
 // notice no "catch()"; runSequentialPromises() will always resolve
 runSequentialPromises(
   {
-    users: () => axios.get('https://some-url.com/users'),
-    phones: () => axios.get('https://some-other-url.com/items/phones'),
-    laptops: () => axios.get('https://some-other-url.com/items/laptops')
+    users: () => fetch('https://some-url.com/users').then(res => res.json()),
+    phones: () =>
+      fetch('https://some-other-url.com/items/phones').then(res => res.json()),
+    laptops: () =>
+      fetch('https://some-other-url.com/items/laptops').then(res => res.json())
   },
   { abortOnFail: false }
 ).then(resultAggregator => {
