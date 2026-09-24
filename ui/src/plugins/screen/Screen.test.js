@@ -9,6 +9,25 @@ const mountPlugin = () => mount({ render: () => h('div') })
 
 const defaultViewport = { width: 1280, height: 800 }
 
+// The browser exposes screen.orientation as a read-only Screen.prototype
+// getter and the headless runner cannot rotate its screen, so we shadow it
+// with an own-property getter (before the plugin's first install captures
+// it) and dispatch the real change event the plugin listens to.
+const fakeOrientation = Object.assign(new EventTarget(), {
+  type: 'landscape-primary',
+  angle: 0
+})
+
+Object.defineProperty(window.screen, 'orientation', {
+  configurable: true,
+  get: () => fakeOrientation
+})
+
+function setOrientation(type, angle) {
+  Object.assign(fakeOrientation, { type, angle })
+  fakeOrientation.dispatchEvent(new Event('change'))
+}
+
 // resizes the real viewport, then waits for the Screen plugin
 // (debounced listener on window.visualViewport) to pick it up
 async function setViewport(width, height) {
@@ -302,6 +321,51 @@ describe('[Screen API]', () => {
 
         await setWidth(2000) // xl
         expect(Screen.xl).toBe(true)
+      })
+    })
+
+    describe('[(prop)orientation]', () => {
+      test('is correct type', () => {
+        mountPlugin()
+        expect(Screen.orientation).toStrictEqual({
+          type: expect.$any([
+            'portrait-primary',
+            'portrait-secondary',
+            'landscape-primary',
+            'landscape-secondary'
+          ]),
+          angle: expect.$any([0, 90, 180, 270]),
+          portrait: expect.any(Boolean),
+          landscape: expect.any(Boolean)
+        })
+      })
+
+      test('is reactive', () => {
+        mountPlugin()
+        expect(Screen.orientation).toStrictEqual({
+          type: 'landscape-primary',
+          angle: 0,
+          portrait: false,
+          landscape: true
+        })
+
+        setOrientation('portrait-primary', 90)
+        expect(Screen.orientation).toStrictEqual({
+          type: 'portrait-primary',
+          angle: 90,
+          portrait: true,
+          landscape: false
+        })
+
+        setOrientation('landscape-secondary', 180)
+        expect(Screen.orientation).toStrictEqual({
+          type: 'landscape-secondary',
+          angle: 180,
+          portrait: false,
+          landscape: true
+        })
+
+        setOrientation('landscape-primary', 0)
       })
     })
   })

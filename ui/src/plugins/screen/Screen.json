@@ -141,6 +141,41 @@
       "type": "Boolean",
       "desc": "Current screen width fits exactly 'xl' breakpoint",
       "reactive": true
+    },
+
+    "orientation": {
+      "type": "Object",
+      "desc": "The device's screen orientation (from the Screen Orientation API), not the viewport's aspect ratio; a narrow desktop window still reports 'landscape'",
+      "reactive": true,
+      "addedIn": "v2.34",
+      "definition": {
+        "type": {
+          "type": "String",
+          "desc": "The orientation type; 'primary' is the device's natural orientation, 'secondary' the same axis rotated by 180 degrees",
+          "values": [
+            "'portrait-primary'",
+            "'portrait-secondary'",
+            "'landscape-primary'",
+            "'landscape-secondary'"
+          ]
+        },
+        "angle": {
+          "type": "Number",
+          "desc": "Clockwise rotation (in degrees) from the device's natural orientation",
+          "values": ["0", "90", "180", "270"]
+        },
+        "portrait": {
+          "type": "Boolean",
+          "desc": "Is the screen in one of the portrait orientations?"
+        },
+        "landscape": {
+          "type": "Boolean",
+          "desc": "Is the screen in one of the landscape orientations?"
+        }
+      },
+      "examples": [
+        "{ type: 'landscape-primary', angle: 0, portrait: false, landscape: true }"
+      ]
     }
   },
 

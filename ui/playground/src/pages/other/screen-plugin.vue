@@ -19,8 +19,21 @@ import { computed, watch } from 'vue'
 const $q = useQuasar()
 
 const screen = computed(() => {
-  const { width, height, name, sizes, lt, gt, xs, sm, md, lg, xl } = $q.screen
-  return { width, height, name, sizes, lt, gt, xs, sm, md, lg, xl }
+  const {
+    width,
+    height,
+    name,
+    sizes,
+    lt,
+    gt,
+    xs,
+    sm,
+    md,
+    lg,
+    xl,
+    orientation
+  } = $q.screen
+  return { width, height, name, sizes, lt, gt, xs, sm, md, lg, xl, orientation }
 })
 
 watch(

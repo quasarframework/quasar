@@ -37,7 +37,14 @@ export default /*#__PURE__*/ createReactivePlugin(
     sm: false,
     md: false,
     lg: false,
-    xl: false
+    xl: false,
+
+    orientation: {
+      type: 'portrait-primary',
+      angle: 0,
+      portrait: true,
+      landscape: false
+    }
   },
   {
     setSizes: noop,
@@ -184,6 +191,22 @@ export default /*#__PURE__*/ createReactivePlugin(
         if (useBodyClasses && this.name === 'xs') {
           document.body.classList.add('screen--xs')
         }
+
+        const { orientation } = window.screen
+        const updateOrientation = () => {
+          const { type, angle } = orientation
+          const portrait = type.startsWith('portrait')
+
+          Object.assign(this.orientation, {
+            type,
+            angle,
+            portrait,
+            landscape: !portrait
+          })
+        }
+
+        updateOrientation()
+        orientation.addEventListener('change', updateOrientation, passive)
       }
 
       if (isRuntimeSsrPreHydration.value) {
