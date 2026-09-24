@@ -722,6 +722,11 @@ export default [
         path: 'use-interval'
       },
       {
+        name: 'useMutation',
+        badge: 'new',
+        path: 'use-mutation'
+      },
+      {
         name: 'useRenderCache',
         path: 'use-render-cache'
       },

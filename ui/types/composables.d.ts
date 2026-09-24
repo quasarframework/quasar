@@ -107,6 +107,20 @@ export function useEventListener<E extends Event = Event>(
   stop: () => void;
 };
 
+export interface UseMutationOptions extends MutationObserverInit {
+  target?: MaybeRefOrGetter<
+    Element | ComponentPublicInstance | null | undefined
+  >;
+  once?: boolean;
+  disabled?: boolean;
+  onMutation?: (records: MutationRecord[]) => boolean | void;
+}
+
+export function useMutation(options?: MaybeRefOrGetter<UseMutationOptions>): {
+  mutationRecords: Ref<MutationRecord[]>;
+  stop: () => void;
+};
+
 export interface UseScrollOptions {
   target?: MaybeRefOrGetter<
     Element | ComponentPublicInstance | null | undefined

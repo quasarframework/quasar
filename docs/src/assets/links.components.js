@@ -577,6 +577,11 @@ const composables = [
     tag: 'composable'
   },
   {
+    name: 'useMutation',
+    description: 'Watch for changes made to the DOM tree of an element',
+    tag: 'composable'
+  },
+  {
     name: 'useRenderCache',
     description: 'Cache rendered nodes for performance optimization',
     tag: 'composable'

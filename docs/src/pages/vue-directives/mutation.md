@@ -3,9 +3,13 @@ title: v-mutation directive
 desc: Vue directive that uses Mutation Observer API to watch for changes being made to the DOM tree.
 keys: mutation,v-mutation
 examples: Mutation
+related:
+  - /vue-composables/use-mutation
 ---
 
 "Mutation" is a Quasar directive that provides the ability to watch for changes being made to the DOM tree and call a method when these are triggered.
+
+Should you prefer to observe an element from your setup code (your component's own root, or any element or component ref), use the [useMutation](/vue-composables/use-mutation) composable instead.
 
 Under the hood, it uses the [Mutation Observer API](https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver).
 
