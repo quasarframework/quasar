@@ -3,6 +3,7 @@ title: useScroll composable
 desc: What is useScroll() composable and how you can use it
 keys: useScroll
 badge: v2.34+
+examples: useScroll
 related:
   - /vue-components/scroll-observer
   - /vue-directives/scroll
@@ -120,59 +121,10 @@ setup () {
 
 ## Example
 
-A "back to top" button that shows up once the page has been scrolled down a bit, and hides while the user is scrolling further down:
+Tracking a scrollable container through a template ref, with every detail the composable reports:
 
-```html
-<template>
-  <q-page padding>
-    <!-- ... -->
+<DocExample title="Scrolling container" file="Container" />
 
-    <q-page-sticky position="bottom-right" :offset="[ 18, 18 ]">
-      <q-btn
-        v-show="position.top > 300 && direction === 'up'"
-        round
-        icon="keyboard_arrow_up"
-        @click="scrollToTop"
-      />
-    </q-page-sticky>
-  </q-page>
-</template>
+Without options, the auto detection starts from the component's root element and, on a standard layout, ends up on the page itself. Scroll this page down past the example below and back up a bit: the "back to top" button gets enabled once the page has been scrolled down and the user is scrolling up again:
 
-<script setup>
-  import { useScroll, scroll } from 'quasar'
-
-  // a standard layout scrolls the page itself, so the auto detection
-  // (starting from this component's root element) ends up on the window
-  const { position, direction } = useScroll()
-
-  function scrollToTop() {
-    scroll.setVerticalScrollPosition(window, 0, 300)
-  }
-</script>
-```
-
-To track a scrollable container instead, hand over a template ref, and use the `onScroll` hook should you need to react to the change rather than render it:
-
-```html
-<template>
-  <div>
-    <div ref="boxRef" class="scroll" style="height: 300px">
-      <!-- ... -->
-    </div>
-  </div>
-</template>
-
-<script setup>
-  import { useTemplateRef } from 'vue'
-  import { useScroll } from 'quasar'
-
-  const boxRef = useTemplateRef('boxRef')
-
-  useScroll({
-    scrollTarget: boxRef,
-    onScroll({ position, direction }) {
-      console.log('scrolled', direction, 'to', position.top)
-    }
-  })
-</script>
-```
+<DocExample title="Page scroll" file="Page" />

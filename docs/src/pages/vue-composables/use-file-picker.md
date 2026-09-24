@@ -3,6 +3,7 @@ title: useFilePicker composable
 desc: What is useFilePicker() composable and how you can use it
 keys: useFilePicker
 badge: v2.34+
+examples: useFilePicker
 related:
   - /vue-components/file
   - /vue-components/uploader
@@ -42,7 +43,7 @@ setup () {
       return files.filter(file => file.name.endsWith('.jpg'))
     },
 
-    onChange (files) {},     // the accepted files of a selection
+    onChange (files) {},      // the accepted files of a selection
     onRejected (rejected) {}, // [{ failedPropValidation, file }, ...]
     onCancel () {}            // the dialog was dismissed
   })
@@ -115,43 +116,10 @@ setup () {
 
 ## Example
 
-```html
-<template>
-  <q-btn label="Attach files" icon="attach_file" @click="attach" />
+A button that opens the file dialog for images, lists what was accepted, and reports the rejected files and a dismissed dialog through notifications:
 
-  <q-list v-if="pickedFiles.length !== 0">
-    <q-item v-for="file in pickedFiles" :key="file.name">
-      <q-item-section>{{ file.name }}</q-item-section>
-      <q-item-section side>{{ file.size }} bytes</q-item-section>
-    </q-item>
-  </q-list>
-</template>
+<DocExample title="Picking files" file="Basic" />
 
-<script setup>
-  import { useQuasar, useFilePicker } from 'quasar'
+The same picker can serve different needs by handing overrides to `openFilePicker()`. The second button picks a whole folder and lists the paths relative to it:
 
-  const $q = useQuasar()
-
-  const { pickedFiles, openFilePicker } = useFilePicker({
-    multiple: true,
-    maxFileSize: 5 * 1024 * 1024,
-    onRejected(rejected) {
-      $q.notify({
-        type: 'negative',
-        message: `${rejected.length} file(s) did not pass the validation`
-      })
-    }
-  })
-
-  async function attach() {
-    const picked = await openFilePicker()
-
-    if (picked === null) {
-      // the dialog was dismissed
-      return
-    }
-
-    // upload "picked" or work with "pickedFiles.value", they hold the same list
-  }
-</script>
-```
+<DocExample title="Per-call overrides and folders" file="Overrides" />

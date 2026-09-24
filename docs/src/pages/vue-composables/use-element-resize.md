@@ -3,6 +3,7 @@ title: useElementResize composable
 desc: What is useElementResize() composable and how you can use it
 keys: useElementResize
 badge: v2.34+
+examples: useElementResize
 related:
   - /vue-components/resize-observer
   - /vue-directives/resize
@@ -98,6 +99,12 @@ setup () {
 
 ## Example
 
+The box below is measured through a template ref: `width` and `height` follow it, and the `onResize` hook counts how many times the size got reported:
+
+<DocExample title="Measuring an element" file="Basic" />
+
+To measure the component's own root element instead, omit the `target`:
+
 ```html
 <template>
   <div class="chart">
@@ -112,31 +119,5 @@ setup () {
 
   // measures this component's root element (the chart container)
   const { width, height } = useElementResize({ debounce: 100 })
-</script>
-```
-
-To measure a specific element or child component instead, hand over a template ref, and use the `onResize` hook should you need to react to the change rather than render it:
-
-```html
-<template>
-  <div>
-    <q-card ref="cardRef">
-      <!-- ... -->
-    </q-card>
-  </div>
-</template>
-
-<script setup>
-  import { useTemplateRef } from 'vue'
-  import { useElementResize } from 'quasar'
-
-  const cardRef = useTemplateRef('cardRef')
-
-  useElementResize({
-    target: cardRef,
-    onResize({ width, height }) {
-      console.log('card is now', width, 'x', height)
-    }
-  })
 </script>
 ```

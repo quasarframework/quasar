@@ -3,6 +3,7 @@ title: useIntersection composable
 desc: What is useIntersection() composable and how you can use it
 keys: useIntersection
 badge: v2.30+
+examples: useIntersection
 related:
   - /vue-components/intersection
   - /vue-directives/intersection
@@ -117,6 +118,12 @@ A `once` observation that has already fired is over: toggling `disabled` or chan
 
 ## Example
 
+The card below is observed through a template ref, with the scrolling box as `root` and a list of thresholds so that the `onIntersect` hook reports the visible ratio. Toggle `once` to stop observing after the next time the card is in view:
+
+<DocExample title="Observing an element" file="Basic" />
+
+To observe the component's own root element instead, omit the `target`. The card below starts loading its image a bit before it enters the viewport and, thanks to `once`, is not observed anymore after that:
+
 ```html
 <template>
   <div class="card">
@@ -133,33 +140,6 @@ A `once` observation that has already fired is over: toggling `disabled` or chan
   const { isIntersecting } = useIntersection({
     rootMargin: '200px',
     once: true
-  })
-</script>
-```
-
-The image above starts loading a bit before the card enters the viewport and, thanks to `once`, the card is not observed anymore after that.
-
-To observe a specific element or child component instead, hand over a template ref, and use the `onIntersect` hook should you need the raw entry (intersection ratio, bounding rects):
-
-```html
-<template>
-  <div>
-    <div ref="chartRef" class="chart" />
-  </div>
-</template>
-
-<script setup>
-  import { useTemplateRef } from 'vue'
-  import { useIntersection } from 'quasar'
-
-  const chartRef = useTemplateRef('chartRef')
-
-  const { isIntersecting } = useIntersection({
-    target: chartRef,
-    threshold: [0, 0.5, 1],
-    onIntersect(entry) {
-      console.log('ratio', entry.intersectionRatio)
-    }
   })
 </script>
 ```

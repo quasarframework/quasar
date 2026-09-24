@@ -1,5 +1,5 @@
 <template>
-  <div class="q-pa-md q-gutter-md">
+  <div class="q-pa-md">
     <q-btn
       color="primary"
       push
@@ -10,13 +10,13 @@
     <div
       v-resize="onResize"
       :style="style"
-      class="container bg-amber rounded-borders glossy"
+      class="container bg-amber rounded-borders glossy q-my-md"
     />
 
-    <div v-if="report" class="q-gutter-sm">
-      Reported:
-      <q-badge>width: {{ report.width }}</q-badge>
-      <q-badge>height: {{ report.height }}</q-badge>
+    <div v-if="report" class="q-gutter-sm row items-center">
+      <div>Reported:</div>
+      <q-badge :label="`width: ${report.width}`" />
+      <q-badge :label="`height: ${report.height}`" />
     </div>
   </div>
 </template>
