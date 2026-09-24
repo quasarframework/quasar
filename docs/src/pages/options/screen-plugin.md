@@ -50,6 +50,21 @@ import { Screen } from 'quasar'
 // Screen.name ('xs', 'sm', ...)
 ```
 
+## Orientation <q-badge label="v2.34+" />
+
+`$q.screen.orientation` mirrors the [Screen Orientation API](https://developer.mozilla.org/en-US/docs/Web/API/Screen_Orientation_API): the `type` (`portrait-primary`, `portrait-secondary`, `landscape-primary` or `landscape-secondary`), the `angle` (0, 90, 180 or 270 degrees from the device's natural orientation) and the `portrait`/`landscape` shorthands.
+
+```html
+<q-carousel :vertical="$q.screen.orientation.portrait" ...></q-carousel>
+```
+
+> [!WARNING]
+> **Device, not viewport**
+>
+> This is the orientation of the physical screen, so a narrow desktop window still reports `landscape`. When you want the viewport's shape instead, compare `$q.screen.width` with `$q.screen.height` or use the `(orientation: portrait)` CSS media query.
+
+On the server-side, the orientation is unknown and defaults to `portrait-primary` (mobile-first, in line with the `xs` breakpoint default); the real value lands on the client once hydration completes.
+
 ## Body classes
 
 **If you enable it (see how to do it after the examples below)**, you can also style your content based on a particular set of CSS classes applied to document.body: `screen--xs`, `screen--sm`, ..., `screen-xl`.
