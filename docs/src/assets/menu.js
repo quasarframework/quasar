@@ -763,6 +763,16 @@ export default [
         path: 'use-timeout'
       },
       {
+        name: 'useWebWorker',
+        badge: 'new',
+        path: 'use-web-worker'
+      },
+      {
+        name: 'useWebWorkerFn',
+        badge: 'new',
+        path: 'use-web-worker-fn'
+      },
+      {
         name: 'useAnimationFrame',
         path: 'use-animation-frame'
       },

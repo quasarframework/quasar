@@ -1,6 +1,11 @@
 import { QDialog } from "quasar";
 import { MetaOptions } from "./meta";
-import { ComponentPublicInstance, MaybeRefOrGetter, Ref } from "vue";
+import {
+  ComponentPublicInstance,
+  MaybeRefOrGetter,
+  Ref,
+  ShallowRef
+} from "vue";
 import { QVueGlobals } from "./globals";
 
 export function useAnimationFrame(): {
@@ -248,4 +253,53 @@ export function useTimeout(): {
   isTimeoutPending: Ref<boolean>;
   registerTimeout: (fn: () => void, delay?: string | number) => void;
   removeTimeout: () => void;
+};
+
+export type UseWebWorkerSource =
+  | string
+  | URL
+  | Worker
+  | ((options?: WorkerOptions) => Worker)
+  | (new (options?: WorkerOptions) => Worker);
+
+export interface UseWebWorkerOptions extends WorkerOptions {
+  eager?: boolean;
+  onMessage?: (data: any, evt: MessageEvent) => void;
+  onError?: (evt: ErrorEvent | MessageEvent) => void;
+}
+
+export type WebWorkerStatus = "idle" | "running" | "terminated";
+
+export function useWebWorker<Data = any>(
+  source: UseWebWorkerSource,
+  options?: UseWebWorkerOptions
+): {
+  workerStatus: Ref<WebWorkerStatus>;
+  data: ShallowRef<Data | null>;
+  error: ShallowRef<ErrorEvent | MessageEvent | null>;
+  postMessage: (message: any, transfer?: Transferable[]) => void;
+  terminate: () => void;
+};
+
+export type WebWorkerFnStatus =
+  | "idle"
+  | "running"
+  | "success"
+  | "error"
+  | "timeout";
+
+export interface UseWebWorkerFnOptions<Args extends any[] = any[]> {
+  timeout?: number;
+  dependencies?: (string | URL)[];
+  localDependencies?: Function[];
+  transfer?: (...args: Args) => Transferable[];
+}
+
+export function useWebWorkerFn<Fn extends (...args: any[]) => any>(
+  fn: Fn,
+  options?: UseWebWorkerFnOptions<Parameters<Fn>>
+): {
+  runWorkerFn: (...args: Parameters<Fn>) => Promise<Awaited<ReturnType<Fn>>>;
+  workerFnStatus: Ref<WebWorkerFnStatus>;
+  terminateWorkerFn: () => void;
 };

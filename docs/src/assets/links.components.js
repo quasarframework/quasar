@@ -623,6 +623,16 @@ const composables = [
     tag: 'composable'
   },
   {
+    name: 'useWebWorker',
+    description: 'Talk to a Web Worker script from a component',
+    tag: 'composable'
+  },
+  {
+    name: 'useWebWorkerFn',
+    description: 'Run a function in a Web Worker and await its result',
+    tag: 'composable'
+  },
+  {
     name: 'useAnimationFrame',
     description:
       'Similar to requestAnimationFrame() but with additional features',
