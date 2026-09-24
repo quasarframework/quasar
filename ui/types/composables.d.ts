@@ -204,6 +204,20 @@ export function useId(opts?: {
   required?: boolean;
 }): Ref<string | null>;
 
+export interface UseIdleOptions {
+  timeout?: number;
+  events?: string[];
+  disabled?: boolean;
+  onIdle?: (isIdle: boolean) => void;
+}
+
+export function useIdle(options?: MaybeRefOrGetter<UseIdleOptions>): {
+  isIdle: Ref<boolean>;
+  lastActive: Ref<number>;
+  resetIdle: () => void;
+  stop: () => void;
+};
+
 export function useMeta(options: MetaOptions | (() => MetaOptions)): void;
 
 export function useQuasar(): QVueGlobals;

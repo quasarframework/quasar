@@ -718,6 +718,11 @@ export default [
         path: 'use-id'
       },
       {
+        name: 'useIdle',
+        badge: 'new',
+        path: 'use-idle'
+      },
+      {
         name: 'useIntersection',
         badge: 'new',
         path: 'use-intersection'

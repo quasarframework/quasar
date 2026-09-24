@@ -572,6 +572,11 @@ const composables = [
     tag: 'composable'
   },
   {
+    name: 'useIdle',
+    description: 'Detect when the user stops interacting with the page',
+    tag: 'composable'
+  },
+  {
     name: 'useIntersection',
     description: 'Detect when an element enters or leaves the viewport',
     tag: 'composable'
