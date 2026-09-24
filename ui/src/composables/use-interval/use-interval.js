@@ -11,16 +11,17 @@ import { noop } from '../../utils/event/event.js'
  */
 
 export default function useInterval() {
+  const isIntervalActive = ref(false)
+
   if (__QUASAR_SSR_SERVER__) {
     return {
-      isIntervalActive: ref(false),
+      isIntervalActive,
       removeInterval: noop,
       registerInterval: noop
     }
   }
 
   let timer = null
-  const isIntervalActive = ref(false)
   const vm = getCurrentInstance()
 
   function removeInterval() {

@@ -537,6 +537,11 @@ const composables = [
     tag: 'composable'
   },
   {
+    name: 'useElementResize',
+    description: 'Track the size of an element',
+    tag: 'composable'
+  },
+  {
     name: 'useHydration',
     description: 'Get hydration state for SSR/SSG',
     tag: 'composable'

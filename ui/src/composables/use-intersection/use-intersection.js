@@ -7,6 +7,8 @@ import {
   toValue
 } from 'vue'
 
+import { getTargetElement } from '../../utils/private.vm/vm.js'
+
 import {
   observe,
   reobserve,
@@ -26,18 +28,6 @@ import { noop } from '../../utils/event/event.js'
  *    disabled    - pause observing (a `once` that already fired stays off)
  *    onIntersect - called with every entry; return false to stop
  */
-
-function getElement(target, vm) {
-  const value =
-    target === void 0 ? (vm === null ? null : vm.proxy.$el) : toValue(target)
-
-  if (value === null || value === void 0) return null
-
-  // a component ref resolves to its root element; a fragment root
-  // (text/comment node) cannot be observed
-  const el = value.$el ?? value
-  return el.nodeType === 1 ? el : null
-}
 
 export default function useIntersection(options) {
   const isIntersecting = ref(false)
@@ -76,7 +66,7 @@ export default function useIntersection(options) {
   // it tracks whatever the options (and a target ref) read
   const effect = new ReactiveEffect(() => {
     const opts = toValue(options) ?? {}
-    const newEl = getElement(opts.target, vm)
+    const newEl = getTargetElement(opts.target, vm)
 
     sub.once = opts.once === true
     sub.onIntersect = opts.onIntersect

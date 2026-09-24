@@ -1,10 +1,11 @@
 import { describe, expect, test } from 'vitest'
 import { flushPromises, mount } from '@vue/test-utils'
-import { Fragment, getCurrentInstance, h } from 'vue'
+import { Fragment, getCurrentInstance, h, ref } from 'vue'
 
 import {
   getNormalizedVNodes,
   getParentProxy,
+  getTargetElement,
   vmHasRouter,
   vmIsDestroyed
 } from './vm.js'
@@ -162,6 +163,55 @@ describe('[vm API]', () => {
         expect(vmIsDestroyed(vm)).toBe(false)
         wrapper.unmount()
         expect(vmIsDestroyed(vm)).toBe(true)
+      })
+    })
+
+    describe('[(function)getTargetElement]', () => {
+      test('resolves an element, a ref and a getter', () => {
+        const el = document.createElement('div')
+
+        expect(getTargetElement(el, null)).toBe(el)
+        expect(getTargetElement(ref(el), null)).toBe(el)
+        expect(getTargetElement(() => el, null)).toBe(el)
+      })
+
+      test('resolves a component instance to its root element', () => {
+        const wrapper = mount({ render: () => h('div') })
+
+        expect(getTargetElement(wrapper.vm, null)).toBe(wrapper.element)
+        expect(getTargetElement(ref(wrapper.vm), null)).toBe(wrapper.element)
+      })
+
+      test('falls back to the root element of the given instance', () => {
+        let vm
+
+        const wrapper = mount({
+          render: () => h('div'),
+          setup() {
+            vm = getCurrentInstance()
+            return {}
+          }
+        })
+
+        expect(getTargetElement(void 0, vm)).toBe(wrapper.element)
+        expect(getTargetElement(void 0, null)).toBeNull()
+      })
+
+      test('has no element for an empty target or a fragment root', () => {
+        let vm
+
+        mount({
+          render: () => [h('div'), h('div')],
+          setup() {
+            vm = getCurrentInstance()
+            return {}
+          }
+        })
+
+        expect(getTargetElement(void 0, vm)).toBeNull()
+        expect(getTargetElement(null, vm)).toBeNull()
+        expect(getTargetElement(ref(null), vm)).toBeNull()
+        expect(getTargetElement(document.createTextNode(''), vm)).toBeNull()
       })
     })
   })

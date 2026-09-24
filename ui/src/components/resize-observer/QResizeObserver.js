@@ -1,4 +1,7 @@
-import { getCurrentInstance, nextTick, onBeforeUnmount, onMounted } from 'vue'
+import { getCurrentInstance, nextTick, onMounted, shallowRef } from 'vue'
+
+import useElementResize from '../../composables/use-element-resize/use-element-resize.js'
+import useTimeout from '../../composables/use-timeout/use-timeout.js'
 
 import { createComponent } from '../../utils/private.create/create.js'
 import { noop } from '../../utils/event/event.js'
@@ -18,61 +21,38 @@ export default /*#__PURE__*/ createComponent({
   setup(props, { emit }) {
     if (__QUASAR_SSR_SERVER__) return noop
 
-    let timer = null,
-      targetEl,
-      size = { width: -1, height: -1 }
+    const { proxy } = getCurrentInstance()
+    const target = shallowRef(null)
 
-    function trigger(immediately) {
+    const { refresh } = useElementResize(() => ({
+      target,
+      debounce: props.debounce,
+      onResize(size) {
+        emit('resize', size)
+      }
+    }))
+
+    const { registerTimeout, isTimeoutPending } = useTimeout()
+
+    // expose public method
+    proxy.trigger = immediately => {
       if (
         immediately === true ||
         props.debounce === 0 ||
         props.debounce === '0'
       ) {
-        emitEvent()
-      } else if (timer === null) {
-        timer = setTimeout(emitEvent, props.debounce)
+        refresh()
+      } else if (!isTimeoutPending.value) {
+        registerTimeout(refresh, props.debounce)
       }
     }
 
-    function emitEvent() {
-      if (timer !== null) {
-        clearTimeout(timer)
-        timer = null
-      }
-
-      if (targetEl) {
-        const { offsetWidth: width, offsetHeight: height } = targetEl
-
-        if (width !== size.width || height !== size.height) {
-          size = { width, height }
-          emit('resize', size)
-        }
-      }
-    }
-
-    const { proxy } = getCurrentInstance()
-
-    // expose public method
-    proxy.trigger = trigger
-
-    let observer,
-      isDestroyed = false
-
-    // initialize as soon as possible
+    // the observed element is the parent, which only
+    // exists once this (comment) node is in the DOM
     const init = stop => {
-      if (isDestroyed) return
+      target.value = proxy.$el.parentNode
 
-      targetEl = proxy.$el.parentNode
-
-      if (targetEl) {
-        observer = new ResizeObserver(trigger)
-        // the emitted size is offsetWidth/offsetHeight (the border box), so
-        // observe that box too: a padding or border change on the target
-        // itself leaves the default content box untouched and would go
-        // unnoticed until an unrelated resize
-        observer.observe(targetEl, { box: 'border-box' })
-        emitEvent()
-      } else if (!stop) {
+      if (target.value === null && !stop) {
         nextTick(() => {
           init(true)
         })
@@ -81,15 +61,6 @@ export default /*#__PURE__*/ createComponent({
 
     onMounted(() => {
       init()
-    })
-
-    onBeforeUnmount(() => {
-      isDestroyed = true
-      if (timer !== null) clearTimeout(timer)
-      if (observer) {
-        observer.disconnect()
-        observer = null
-      }
     })
 
     return noop

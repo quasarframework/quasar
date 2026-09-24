@@ -677,6 +677,11 @@ export default [
         path: 'use-dialog-plugin-component'
       },
       {
+        name: 'useElementResize',
+        badge: 'new',
+        path: 'use-element-resize'
+      },
+      {
         name: 'useFormChild',
         path: 'use-form-child'
       },

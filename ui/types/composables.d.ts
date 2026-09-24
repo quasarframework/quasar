@@ -38,6 +38,24 @@ interface UseFormChildOptions {
 
 export function useFormChild(options: UseFormChildOptions): void;
 
+export interface UseElementResizeOptions {
+  target?: MaybeRefOrGetter<
+    Element | ComponentPublicInstance | null | undefined
+  >;
+  debounce?: string | number;
+  disabled?: boolean;
+  onResize?: (size: { width: number; height: number }) => void;
+}
+
+export function useElementResize(
+  options?: MaybeRefOrGetter<UseElementResizeOptions>
+): {
+  width: Ref<number>;
+  height: Ref<number>;
+  refresh: () => void;
+  stop: () => void;
+};
+
 export function useHydration(): {
   isHydrated: Ref<boolean>;
 };

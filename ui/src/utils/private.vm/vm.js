@@ -1,3 +1,5 @@
+import { toValue } from 'vue'
+
 // copied to docs too
 export function getParentProxy(proxy) {
   if (Object(proxy.$parent) === proxy.$parent) {
@@ -47,4 +49,21 @@ export function vmHasRouter(vm) {
 
 export function vmIsDestroyed(vm) {
   return vm.isUnmounted === true || vm.isDeactivated === true
+}
+
+/**
+ * Resolves the element a composable should watch: `target` (a ref or
+ * getter of an Element or a component instance) or, when omitted, the
+ * root element of the current component instance `vm`
+ */
+export function getTargetElement(target, vm) {
+  const value =
+    target === void 0 ? (vm === null ? null : vm.proxy.$el) : toValue(target)
+
+  if (value === null || value === void 0) return null
+
+  // a component ref resolves to its root element; a fragment root
+  // (text/comment node) cannot be observed
+  const el = value.$el ?? value
+  return el.nodeType === 1 ? el : null
 }

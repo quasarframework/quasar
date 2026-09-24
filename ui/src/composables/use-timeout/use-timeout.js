@@ -11,16 +11,17 @@ import { noop } from '../../utils/event/event.js'
  */
 
 export default function useTimeout() {
+  const isTimeoutPending = ref(false)
+
   if (__QUASAR_SSR_SERVER__) {
     return {
-      isTimeoutPending: ref(false),
+      isTimeoutPending,
       removeTimeout: noop,
       registerTimeout: noop
     }
   }
 
   let timer = null
-  const isTimeoutPending = ref(false)
   const vm = getCurrentInstance()
 
   function removeTimeout() {
