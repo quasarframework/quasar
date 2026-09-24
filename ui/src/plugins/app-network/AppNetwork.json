@@ -1,0 +1,50 @@
+{
+  "meta": {
+    "docsUrl": "https://v2.quasar.dev/quasar-plugins/app-network"
+  },
+
+  "addedIn": "v2.34",
+
+  "injection": "$q.network",
+
+  "props": {
+    "online": {
+      "type": "Boolean",
+      "desc": "Is the browser connected to a network? 'false' is reliable (the browser knows it is offline); 'true' only means that a network is present, not that the Internet is reachable",
+      "reactive": true
+    },
+
+    "hasConnectionInfo": {
+      "type": "Boolean",
+      "desc": "Does the browser expose the Network Information API (navigator.connection)? When 'false', all the connection props stay 'undefined'",
+      "reactive": true
+    },
+
+    "effectiveType": {
+      "type": ["String", "undefined"],
+      "desc": "Effective connection type, as estimated by the browser from the measured round-trip time and downlink speed; 'undefined' when the browser does not expose it",
+      "values": ["'slow-2g'", "'2g'", "'3g'", "'4g'"],
+      "reactive": true
+    },
+
+    "downlink": {
+      "type": ["Number", "undefined"],
+      "desc": "Effective bandwidth estimate (in megabits per second), rounded by the browser; 'undefined' when the browser does not expose it",
+      "reactive": true,
+      "examples": ["10", "1.45", "void 0"]
+    },
+
+    "rtt": {
+      "type": ["Number", "undefined"],
+      "desc": "Effective round-trip time estimate (in milliseconds), rounded by the browser; 'undefined' when the browser does not expose it",
+      "reactive": true,
+      "examples": ["50", "300", "void 0"]
+    },
+
+    "saveData": {
+      "type": ["Boolean", "undefined"],
+      "desc": "Has the user asked for reduced data usage (the browser's Data Saver / Lite mode)? 'undefined' when the browser does not expose it",
+      "reactive": true
+    }
+  }
+}
