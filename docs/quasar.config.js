@@ -109,6 +109,7 @@ export default defineConfig(ctx => ({
     plugins: [
       'AddressbarColor',
       'AppFullscreen',
+      'AppNetwork',
       'AppVisibility',
       'BottomSheet',
       'Cookies',

@@ -627,6 +627,11 @@ export default [
         path: 'app-fullscreen'
       },
       {
+        name: 'App Network',
+        badge: 'new',
+        path: 'app-network'
+      },
+      {
         name: 'App Visibility',
         path: 'app-visibility'
       },

@@ -119,4 +119,4 @@ setup () {
 ```
 
 > [!TIP]
-> For the state that Quasar already tracks for you, reach for the plugins instead: [AppVisibility](/quasar-plugins/app-visibility) for the page visibility, [Screen](/options/screen-plugin) for the viewport size and breakpoints.
+> For the state that Quasar already tracks for you, reach for the plugins instead: [AppVisibility](/quasar-plugins/app-visibility) for the page visibility, [AppNetwork](/quasar-plugins/app-network) for the online state, [Screen](/options/screen-plugin) for the viewport size and breakpoints.

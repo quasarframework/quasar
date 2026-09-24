@@ -466,6 +466,11 @@ const plugins = [
     tag: 'plugin'
   },
   {
+    name: 'App Network',
+    description: 'Online state and connection quality',
+    tag: 'plugin'
+  },
+  {
     name: 'App Visibility',
     description: 'For app coming into (or out of) view',
     tag: 'plugin'
