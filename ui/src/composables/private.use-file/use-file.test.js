@@ -2,7 +2,11 @@ import { afterEach, describe, expect, test, vi } from 'vitest'
 import { mount } from '@vue/test-utils'
 import { defineComponent, h, nextTick, ref } from 'vue'
 
-import useFile, { useFileEmits, useFileProps } from './use-file.js'
+import useFile, {
+  useFileEmits,
+  useFileProps,
+  validateFiles
+} from './use-file.js'
 
 let wrapper
 
@@ -265,6 +269,40 @@ describe('[useFile API]', () => {
         expect(addFilesToQueue).toHaveBeenCalledWith(null, [file])
         expect(dropEvent.dataTransfer.dropEffect).toBe('copy')
         expect(dnd.value).toBe(false)
+      })
+    })
+
+    describe('[(function)validateFiles]', () => {
+      test('has correct return value', () => {
+        const image = createFile('image.png', 'image/png', 4)
+        const text = createFile('notes.txt', 'text/plain', 4)
+        const big = createFile('big.png', 'image/png', 9)
+
+        expect(validateFiles([image, text, big], {})).toStrictEqual({
+          files: [image],
+          rejected: []
+        })
+
+        expect(
+          validateFiles([image, text, big], {
+            multiple: true,
+            accept: 'image/*',
+            maxFileSize: '5'
+          })
+        ).toStrictEqual({
+          files: [image],
+          rejected: [
+            { failedPropValidation: 'accept', file: text },
+            { failedPropValidation: 'max-file-size', file: big }
+          ]
+        })
+
+        expect(
+          validateFiles([image, text, big], { multiple: true }, [image], true)
+        ).toStrictEqual({
+          files: [text, big],
+          rejected: [{ failedPropValidation: 'duplicate', file: image }]
+        })
       })
     })
   })

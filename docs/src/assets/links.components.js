@@ -547,6 +547,11 @@ const composables = [
     tag: 'composable'
   },
   {
+    name: 'useFilePicker',
+    description: 'Open the file dialog and get the picked files',
+    tag: 'composable'
+  },
+  {
     name: 'useHydration',
     description: 'Get hydration state for SSR/SSG',
     tag: 'composable'

@@ -6,12 +6,13 @@ examples: QFile
 related:
   - /vue-components/uploader
   - /vue-components/input
+  - /vue-composables/use-file-picker
 ---
 
 QFile is a component which handles the user interaction for picking file(s).
 
 > [!TIP]
-> If you also want a component to handle the upload for you, please consider using [QUploader](/vue-components/uploader) instead.
+> If you also want a component to handle the upload for you, please consider using [QUploader](/vue-components/uploader) instead. And if you only need to open the file dialog from your own button or code, without a form field, the [useFilePicker](/vue-composables/use-file-picker) composable does that.
 
 <DocApi file="QFile" />
 

@@ -30,6 +30,39 @@ interface UseDialogPluginComponent {
 
 export const useDialogPluginComponent: UseDialogPluginComponent;
 
+export interface UseFilePickerOptions {
+  multiple?: boolean;
+  accept?: string;
+  capture?: "user" | "environment";
+  directory?: boolean;
+  maxFileSize?: string | number;
+  maxTotalSize?: string | number;
+  maxFiles?: string | number;
+  filter?: (files: readonly File[]) => readonly File[];
+  onChange?: (files: File[]) => void;
+  onRejected?: (rejected: UseFilePickerRejectedEntry[]) => void;
+  onCancel?: () => void;
+}
+
+export interface UseFilePickerRejectedEntry {
+  failedPropValidation:
+    | "accept"
+    | "max-file-size"
+    | "max-total-size"
+    | "filter"
+    | "max-files";
+  file: File;
+}
+
+export function useFilePicker(
+  options?: MaybeRefOrGetter<UseFilePickerOptions>
+): {
+  pickedFiles: Ref<File[]>;
+  rejectedFiles: Ref<UseFilePickerRejectedEntry[]>;
+  openFilePicker: (overrides?: UseFilePickerOptions) => Promise<File[] | null>;
+  resetFilePicker: () => void;
+};
+
 interface UseFormChildOptions {
   validate: () => boolean | Promise<boolean>;
   resetValidation?: () => void;

@@ -5,6 +5,7 @@ keys: QUploader
 examples: QUploader
 related:
   - /vue-components/file
+  - /vue-composables/use-file-picker
 ---
 
 Quasar supplies a way for you to upload files through the QUploader component.

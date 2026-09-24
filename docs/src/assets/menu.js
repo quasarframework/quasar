@@ -687,6 +687,11 @@ export default [
         path: 'use-element-resize'
       },
       {
+        name: 'useFilePicker',
+        badge: 'new',
+        path: 'use-file-picker'
+      },
+      {
         name: 'useFormChild',
         path: 'use-form-child'
       },

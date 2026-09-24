@@ -1,6 +1,7 @@
 export { default as useAnimationFrame } from './composables/use-animation-frame/use-animation-frame.js'
 export { default as useDialogPluginComponent } from './composables/use-dialog-plugin-component/use-dialog-plugin-component.js'
 export { default as useElementResize } from './composables/use-element-resize/use-element-resize.js'
+export { default as useFilePicker } from './composables/use-file-picker/use-file-picker.js'
 export { default as useFormChild } from './composables/use-form/use-form-child.js'
 export { default as useMeta } from './composables/use-meta/use-meta.js'
 export { default as useQuasar } from './composables/use-quasar/use-quasar.js'

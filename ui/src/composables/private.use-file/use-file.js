@@ -17,6 +17,140 @@ function filterFiles(files, rejectedFiles, failedPropValidation, filterFn) {
   return acceptedFiles
 }
 
+function parseAccept(accept) {
+  return accept.split(',').map(ext => {
+    ext = ext.trim()
+    if (ext === '*') {
+      // support "*"
+      return '*/'
+    } else if (ext.endsWith('/*')) {
+      // support "image/*" or "*/*"
+      ext = ext.slice(0, -1)
+    }
+    return ext.toUpperCase()
+  })
+}
+
+/*
+ * The validation pipeline shared by QFile, QUploader and useFilePicker().
+ *
+ * options - accept, multiple, maxFileSize, maxTotalSize, maxFiles, filter
+ *           (same meaning as the useFileProps)
+ * currentFileList / append - the files already held, when appending
+ *
+ * Returns { files, rejected }: the accepted Files (in order) and the
+ * { failedPropValidation, file } entries that did not pass.
+ */
+export function validateFiles(
+  filesToProcess,
+  options,
+  currentFileList = [],
+  append = false
+) {
+  let files = [...filesToProcess]
+  const rejected = []
+  const done = () => ({ files, rejected })
+
+  // filter file types
+  if (options.accept !== void 0) {
+    const extensions = parseAccept(options.accept)
+
+    if (!extensions.includes('*/')) {
+      files = filterFiles(files, rejected, 'accept', file =>
+        extensions.some(
+          ext =>
+            (ext.endsWith('/')
+              ? file.type.toUpperCase().startsWith(ext)
+              : file.type.toUpperCase() === ext) ||
+            file.name.toUpperCase().endsWith(ext)
+        )
+      )
+
+      if (files.length === 0) return done()
+    }
+  }
+
+  // filter max file size
+  if (options.maxFileSize !== void 0) {
+    const maxFileSize = Number.parseInt(options.maxFileSize, 10)
+    files = filterFiles(
+      files,
+      rejected,
+      'max-file-size',
+      file => file.size <= maxFileSize
+    )
+
+    if (files.length === 0) return done()
+  }
+
+  // Cordova/iOS allows selecting multiple files even when the
+  // multiple attribute is not specified. We also normalize drag'n'dropped
+  // files here:
+  if (options.multiple !== true && files.length !== 0) {
+    files = [files[0]]
+  }
+
+  // Compute key to use for each file
+  files.forEach(file => {
+    file.__key = JSON.stringify([
+      file.webkitRelativePath,
+      file.lastModified,
+      file.name,
+      file.size
+    ])
+  })
+
+  if (append) {
+    // Avoid duplicate files
+    const filenameSet = new Set(currentFileList.map(entry => entry.__key))
+    files = filterFiles(files, rejected, 'duplicate', file => {
+      if (filenameSet.has(file.__key)) return false
+
+      filenameSet.add(file.__key)
+      return true
+    })
+  }
+
+  if (files.length === 0) return done()
+
+  if (options.maxTotalSize !== void 0) {
+    const maxTotalSize = Number.parseInt(options.maxTotalSize, 10)
+    let size = append
+      ? currentFileList.reduce((total, file) => total + file.size, 0)
+      : 0
+
+    files = filterFiles(files, rejected, 'max-total-size', file => {
+      const newSize = size + file.size
+      if (newSize > maxTotalSize) return false
+
+      size = newSize
+      return true
+    })
+
+    if (files.length === 0) return done()
+  }
+
+  // do we have custom filter function?
+  if (typeof options.filter === 'function') {
+    const filteredFiles = options.filter(files)
+    files = filterFiles(files, rejected, 'filter', file =>
+      filteredFiles.includes(file)
+    )
+  }
+
+  if (options.maxFiles !== void 0) {
+    const maxFiles = Number.parseInt(options.maxFiles, 10)
+    let filesNumber = append ? currentFileList.length : 0
+
+    files = filterFiles(files, rejected, 'max-files', () => {
+      filesNumber++
+      return filesNumber <= maxFiles
+    })
+  }
+
+  return done()
+}
+
 function stopAndPreventDrag(e) {
   if (e?.dataTransfer) {
     e.dataTransfer.dropEffect = 'copy'
@@ -47,22 +181,6 @@ export default function useFile({
 
   const dndRef = shallowRef(null)
 
-  const extensions = computed(() =>
-    props.accept !== void 0
-      ? props.accept.split(',').map(ext => {
-          ext = ext.trim()
-          if (ext === '*') {
-            // support "*"
-            return '*/'
-          } else if (ext.endsWith('/*')) {
-            // support "image/*" or "*/*"
-            ext = ext.slice(0, -1)
-          }
-          return ext.toUpperCase()
-        })
-      : null
-  )
-
   const maxFilesNumber = computed(() => Number.parseInt(props.maxFiles, 10))
   const maxTotalSizeNumber = computed(() =>
     Number.parseInt(props.maxTotalSize, 10)
@@ -91,117 +209,16 @@ export default function useFile({
   }
 
   function processFiles(e, filesToProcess, currentFileList, append) {
-    let files = [...(filesToProcess || e.target.files)]
-    const rejectedFiles = []
+    const { files, rejected } = validateFiles(
+      filesToProcess || e.target.files,
+      props,
+      currentFileList,
+      append
+    )
 
-    const done = () => {
-      if (rejectedFiles.length !== 0) {
-        emit('rejected', rejectedFiles)
-      }
+    if (rejected.length !== 0) {
+      emit('rejected', rejected)
     }
-
-    // filter file types
-    if (props.accept !== void 0 && !extensions.value.includes('*/')) {
-      files = filterFiles(files, rejectedFiles, 'accept', file =>
-        extensions.value.some(
-          ext =>
-            (ext.endsWith('/')
-              ? file.type.toUpperCase().startsWith(ext)
-              : file.type.toUpperCase() === ext) ||
-            file.name.toUpperCase().endsWith(ext)
-        )
-      )
-
-      if (files.length === 0) return done()
-    }
-
-    // filter max file size
-    if (props.maxFileSize !== void 0) {
-      const maxFileSize = Number.parseInt(props.maxFileSize, 10)
-      files = filterFiles(
-        files,
-        rejectedFiles,
-        'max-file-size',
-        file => file.size <= maxFileSize
-      )
-
-      if (files.length === 0) {
-        return done()
-      }
-    }
-
-    // Cordova/iOS allows selecting multiple files even when the
-    // multiple attribute is not specified. We also normalize drag'n'dropped
-    // files here:
-    if (!props.multiple && files.length !== 0) {
-      files = [files[0]]
-    }
-
-    // Compute key to use for each file
-    files.forEach(file => {
-      file.__key = JSON.stringify([
-        file.webkitRelativePath,
-        file.lastModified,
-        file.name,
-        file.size
-      ])
-    })
-
-    if (append) {
-      // Avoid duplicate files
-      const filenameSet = new Set(currentFileList.map(entry => entry.__key))
-      files = filterFiles(files, rejectedFiles, 'duplicate', file => {
-        if (filenameSet.has(file.__key)) return false
-
-        filenameSet.add(file.__key)
-        return true
-      })
-    }
-
-    if (files.length === 0) {
-      return done()
-    }
-
-    if (props.maxTotalSize !== void 0) {
-      let size = append
-        ? currentFileList.reduce((total, file) => total + file.size, 0)
-        : 0
-
-      files = filterFiles(files, rejectedFiles, 'max-total-size', file => {
-        const newSize = size + file.size
-        if (newSize > maxTotalSizeNumber.value) return false
-
-        size = newSize
-        return true
-      })
-
-      if (files.length === 0) {
-        return done()
-      }
-    }
-
-    // do we have custom filter function?
-    if (typeof props.filter === 'function') {
-      const filteredFiles = props.filter(files)
-      files = filterFiles(files, rejectedFiles, 'filter', file =>
-        filteredFiles.includes(file)
-      )
-    }
-
-    if (props.maxFiles !== void 0) {
-      let filesNumber = append ? currentFileList.length : 0
-
-      files = filterFiles(files, rejectedFiles, 'max-files', () => {
-        filesNumber++
-        return filesNumber <= maxFilesNumber.value
-      })
-
-      if (files.length === 0) {
-        return done()
-      }
-    }
-
-    done()
 
     if (files.length !== 0) {
       return files
