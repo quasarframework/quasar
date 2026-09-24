@@ -9,16 +9,13 @@ function mountScrollArea(props = {}, slots = {}) {
 }
 
 /**
- * A real 100x100 viewport holding real 500x500 content, so that the
- * container element can actually be scrolled.
+ * A real 100x100 viewport; setupScrollableArea() fills it with real
+ * 500x500 content, so that the container element can actually be scrolled.
  */
 function mountScrollableArea() {
-  return mount(QScrollArea, {
-    attrs: { style: 'width: 100px; height: 100px' },
-    slots: {
-      default: () => h('div', { style: 'width: 500px; height: 500px' })
-    }
-  })
+  const wrapper = mountScrollArea()
+  applyContainerSize(wrapper, { height: 100, width: 100 })
+  return wrapper
 }
 
 function getContainer(wrapper) {
@@ -46,30 +43,82 @@ function getHorizontalBar(wrapper) {
 }
 
 /**
- * The component learns about its sizes exclusively through the two
- * QResizeObserver instances that it renders: the first one lives inside
- * of the content (so it reports the scrollable size) while the second
- * one wraps the container (so it reports the visible size).
+ * The component learns about its sizes through two ResizeObservers (one
+ * on the content, reporting the scrollable size, one on its root,
+ * reporting the visible size) and about its position through a scroll
+ * listener, all reporting on the next animation frame. The helpers below
+ * apply a change on the real DOM and wait for it to land, polling on
+ * real time only: a test running fake timers keeps its clock.
  */
-async function setScrollSize(wrapper, { height = 0, width = 0 } = {}) {
-  wrapper
-    .findAllComponents({ name: 'QResizeObserver' })[0]
-    .vm.$emit('resize', { height, width })
+async function settled(check) {
+  await vi.waitFor(check, { interval: 0 })
   await nextTick()
+}
+
+// as an inline style of its own: a mount-time `style` attr would be
+// re-applied by Vue on every render
+function applyContainerSize(wrapper, { height = 0, width = 0 } = {}) {
+  wrapper.element.style.width = `${width}px`
+  wrapper.element.style.height = `${height}px`
+}
+
+// the content is as large as what it holds: a sized box stands for it
+function applyScrollSize(wrapper, { height = 0, width = 0 } = {}) {
+  const content = getContent(wrapper).element
+  let box = content.querySelector(':scope > .test-scroll-size')
+
+  if (box === null) {
+    box = document.createElement('div')
+    box.className = 'test-scroll-size'
+    content.append(box)
+  }
+
+  box.style.cssText = `width: ${width}px; height: ${height}px`
+}
+
+// dispatched right away: the browser's own scroll event comes a frame
+// later, and the position is unchanged by then
+function applyScrollPosition(wrapper, { top = 0, left = 0 } = {}) {
+  const container = getContainer(wrapper).element
+  container.scrollTop = top
+  container.scrollLeft = left
+  container.dispatchEvent(new Event('scroll'))
 }
 
 async function setContainerSize(wrapper, { height = 0, width = 0 } = {}) {
-  wrapper
-    .findAllComponents({ name: 'QResizeObserver' })[1]
-    .vm.$emit('resize', { height, width })
-  await nextTick()
+  applyContainerSize(wrapper, { height, width })
+
+  await settled(() => {
+    expect(wrapper.vm.getScroll()).toMatchObject({
+      verticalContainerSize: height,
+      horizontalContainerSize: width
+    })
+  })
+}
+
+async function setScrollSize(wrapper, { height = 0, width = 0 } = {}) {
+  applyScrollSize(wrapper, { height, width })
+
+  await settled(() => {
+    expect(wrapper.vm.getScroll()).toMatchObject({
+      verticalSize: height,
+      horizontalSize: width
+    })
+  })
 }
 
 async function setScrollPosition(wrapper, { top = 0, left = 0 } = {}) {
-  wrapper
-    .getComponent({ name: 'QScrollObserver' })
-    .vm.$emit('scroll', { position: { top, left } })
-  await nextTick()
+  applyScrollPosition(wrapper, { top, left })
+
+  // the position is read through the (possibly faked) animation frame
+  if (vi.isFakeTimers()) vi.advanceTimersToNextFrame()
+
+  await settled(() => {
+    expect(wrapper.vm.getScroll()).toMatchObject({
+      verticalPosition: top,
+      horizontalPosition: left
+    })
+  })
 }
 
 /**
@@ -506,24 +555,24 @@ describe('[QScrollArea API]', () => {
   describe('[Events]', () => {
     describe('[(event)scroll]', () => {
       test('is emitting', async () => {
-        vi.useFakeTimers()
-
         const wrapper = mountScrollArea({ onScroll: () => {} })
 
-        await setContainerSize(wrapper, { height: 100, width: 100 })
-        await setScrollSize(wrapper, { height: 500, width: 500 })
-        await setScrollPosition(wrapper, { top: 100, left: 200 })
+        // the mount itself reports the (still empty) sizes once
+        await vi.waitFor(() => {
+          expect(wrapper.emitted('scroll')).toHaveLength(1)
+        })
 
-        // the emission is debounced so that all the listeners
-        // above result in a single event
-        vi.advanceTimersByTime(1)
-        await nextTick()
+        // all three land within the same frame, and the emission is
+        // debounced so that all the listeners result in a single event
+        applyContainerSize(wrapper, { height: 100, width: 100 })
+        applyScrollSize(wrapper, { height: 500, width: 500 })
+        applyScrollPosition(wrapper, { top: 100, left: 200 })
 
-        const eventList = wrapper.emitted()
-        expect(eventList).toHaveProperty('scroll')
-        expect(eventList.scroll).toHaveLength(1)
+        await vi.waitFor(() => {
+          expect(wrapper.emitted('scroll')).toHaveLength(2)
+        })
 
-        const [info] = eventList.scroll[0]
+        const [info] = wrapper.emitted('scroll')[1]
         expect(info).toStrictEqual({
           ref: wrapper.vm,
           verticalPosition: 100,
@@ -553,15 +602,13 @@ describe('[QScrollArea API]', () => {
 
     describe('[(method)getScroll]', () => {
       test('should be callable', async () => {
-        // starts out as a real 0x0 element so that the initial
-        // snapshot below reports zero sizes
-        const wrapper = mount(QScrollArea, {
-          props: {
-            verticalOffset: [10, 10],
-            horizontalOffset: [20, 20]
-          },
-          attrs: { style: 'width: 0; height: 0' }
+        const wrapper = mountScrollArea({
+          verticalOffset: [10, 10],
+          horizontalOffset: [20, 20]
         })
+
+        // a real 0x0 element, so that the snapshot below reports zero sizes
+        await setContainerSize(wrapper, { height: 0, width: 0 })
 
         expect(wrapper.vm.getScroll()).toStrictEqual({
           verticalPosition: 0,

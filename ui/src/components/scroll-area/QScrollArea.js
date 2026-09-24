@@ -10,14 +10,14 @@ import {
   watch
 } from 'vue'
 
+import useElementResize from '../../composables/use-element-resize/use-element-resize.js'
 import useQuasar from '../../composables/use-quasar/use-quasar.js'
+import useScroll from '../../composables/use-scroll/use-scroll.js'
 import useDark, {
   useDarkProps
 } from '../../composables/private.use-dark/use-dark.js'
 
 import ScrollAreaControls from './ScrollAreaControls.js'
-import QResizeObserver from '../resize-observer/QResizeObserver.js'
-import QScrollObserver from '../scroll-observer/QScrollObserver.js'
 
 import TouchPan from '../../directives/touch-pan/TouchPan.js'
 
@@ -27,7 +27,7 @@ import {
   setHorizontalScrollPosition,
   setVerticalScrollPosition
 } from '../../utils/scroll/scroll.js'
-import { hMergeSlot } from '../../utils/private.render/render.js'
+import { hSlot } from '../../utils/private.render/render.js'
 import debounce from '../../utils/debounce/debounce.js'
 
 const axisList = ['vertical', 'horizontal']
@@ -137,6 +137,7 @@ export default /*#__PURE__*/ createComponent({
       panRefPos
 
     const targetRef = shallowRef(null)
+    const contentRef = shallowRef(null)
 
     const classes = computed(
       () => 'q-scrollarea' + (isDark() ? ' q-scrollarea--dark' : '')
@@ -373,6 +374,14 @@ export default /*#__PURE__*/ createComponent({
         startTimer()
       }
     }
+
+    useElementResize({ debounce: 0, onResize: updateContainer })
+    useElementResize({
+      target: contentRef,
+      debounce: 0,
+      onResize: updateScrollSize
+    })
+    useScroll({ scrollTarget: targetRef, axis: 'both', onScroll: updateScroll })
 
     function onPanThumb(e, axis) {
       const data = scroll[axis]
@@ -615,28 +624,14 @@ export default /*#__PURE__*/ createComponent({
               h(
                 'div',
                 {
+                  ref: contentRef,
                   class: 'q-scrollarea__content absolute',
                   style: mainStyle.value
                 },
-                hMergeSlot(slots.default, [
-                  h(QResizeObserver, {
-                    debounce: 0,
-                    onResize: updateScrollSize
-                  })
-                ])
-              ),
-
-              h(QScrollObserver, {
-                axis: 'both',
-                onScroll: updateScroll
-              })
+                hSlot(slots.default)
+              )
             ]
           ),
-
-          h(QResizeObserver, {
-            debounce: 0,
-            onResize: updateContainer
-          }),
 
           h(ScrollAreaControls, {
             store,

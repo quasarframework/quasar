@@ -1,6 +1,6 @@
-import { defineComponent, h, inject, nextTick } from 'vue'
+import { defineComponent, h, inject } from 'vue'
 import { mount } from '@vue/test-utils'
-import { describe, expect, test, vi } from 'vitest'
+import { afterEach, describe, expect, test, vi } from 'vitest'
 
 import { layoutKey } from '../../utils/private.symbols/symbols.js'
 import QHeader from '../header/QHeader.js'
@@ -24,6 +24,10 @@ function mountLayout(props = {}, slots = {}) {
     slots
   })
 }
+
+afterEach(() => {
+  window.scrollTo(0, 0)
+})
 
 describe('[QLayout API]', () => {
   describe('[Props]', () => {
@@ -78,39 +82,40 @@ describe('[QLayout API]', () => {
         const wrapper = mountLayout({ onResize: () => {} })
         const size = { height: 900, width: 700 }
 
-        wrapper
-          .getComponent({ name: 'QResizeObserver' })
-          .vm.$emit('resize', size)
-        await nextTick()
+        // the layout measures itself (debounced) through a ResizeObserver
+        wrapper.element.style.height = `${size.height}px`
+        wrapper.element.style.width = `${size.width}px`
 
-        expect(wrapper.emitted('resize')).toStrictEqual([[size]])
+        await vi.waitFor(() => {
+          expect(wrapper.emitted('resize').at(-1)).toStrictEqual([size])
+        })
       })
     })
 
     describe('[(event)scroll]', () => {
       test('is emitting', async () => {
-        const wrapper = mountLayout({ onScroll: () => {} })
+        const wrapper = mountLayout(
+          { onScroll: () => {} },
+          { default: () => h('div', { style: 'height: 3000px' }) }
+        )
 
-        wrapper.getComponent({ name: 'QScrollObserver' }).vm.$emit('scroll', {
-          delta: { top: 3 },
-          direction: 'down',
-          directionChanged: true,
-          inflectionPoint: { top: 4 },
-          position: { top: 12 }
+        // a standard layout is scrolled by the window
+        window.scrollTo(0, 12)
+        window.dispatchEvent(new Event('scroll'))
+
+        await vi.waitFor(() => {
+          expect(wrapper.emitted('scroll')).toStrictEqual([
+            [
+              {
+                delta: 12,
+                direction: 'down',
+                directionChanged: false,
+                inflectionPoint: 0,
+                position: 12
+              }
+            ]
+          ])
         })
-        await nextTick()
-
-        expect(wrapper.emitted('scroll')).toStrictEqual([
-          [
-            {
-              delta: 3,
-              direction: 'down',
-              directionChanged: true,
-              inflectionPoint: 4,
-              position: 12
-            }
-          ]
-        ])
       })
     })
 
@@ -118,12 +123,11 @@ describe('[QLayout API]', () => {
       test('is emitting', async () => {
         const wrapper = mountLayout({ onScrollHeight: () => {} })
 
-        wrapper
-          .getComponent({ name: 'QResizeObserver' })
-          .vm.$emit('resize', { height: 900, width: 700 })
-        await nextTick()
+        wrapper.element.style.height = '900px'
 
-        expect(wrapper.emitted('scrollHeight')).toStrictEqual([[900]])
+        await vi.waitFor(() => {
+          expect(wrapper.emitted('scrollHeight').at(-1)).toStrictEqual([900])
+        })
       })
     })
   })

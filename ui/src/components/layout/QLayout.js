@@ -11,10 +11,9 @@ import {
 
 import { isRuntimeSsrPreHydration } from '../../plugins/platform/Platform.js'
 
-import QScrollObserver from '../scroll-observer/QScrollObserver.js'
-import QResizeObserver from '../resize-observer/QResizeObserver.js'
-
+import useElementResize from '../../composables/use-element-resize/use-element-resize.js'
 import useQuasar from '../../composables/use-quasar/use-quasar.js'
+import useScroll from '../../composables/use-scroll/use-scroll.js'
 
 import { createComponent } from '../../utils/private.create/create.js'
 import { getScrollbarWidth } from '../../utils/scroll/scroll.js'
@@ -22,7 +21,7 @@ import {
   addPreventScrollReleaseListener,
   removePreventScrollReleaseListener
 } from '../../utils/scroll/prevent-scroll.js'
-import { hMergeSlot } from '../../utils/private.render/render.js'
+import { hSlot } from '../../utils/private.render/render.js'
 import { layoutKey } from '../../utils/private.symbols/symbols.js'
 
 const viewRE = /^(h|l)h(h|r) lpr (f|l)f(f|r)$/
@@ -47,6 +46,11 @@ export default /*#__PURE__*/ createComponent({
     const $q = useQuasar()
 
     const rootRef = shallowRef(null)
+    // the container is the root, the layout itself sits inside its
+    // scrolling wrapper
+    const layoutRef = shallowRef(null)
+    const getLayoutEl = () =>
+      props.container ? layoutRef.value : rootRef.value
 
     // page related
     const height = ref($q.screen.height)
@@ -152,6 +156,19 @@ export default /*#__PURE__*/ createComponent({
         }
       }
     }
+
+    useScroll({ target: getLayoutEl, onScroll: onPageScroll })
+    useElementResize({
+      target: getLayoutEl,
+      debounce: 100,
+      onResize: onPageResize
+    })
+    useElementResize(() => ({
+      target: rootRef,
+      debounce: 100,
+      disabled: props.container !== true,
+      onResize: onContainerResize
+    }))
 
     let animateTimer = null
 
@@ -269,20 +286,15 @@ export default /*#__PURE__*/ createComponent({
     }
 
     return () => {
-      const content = hMergeSlot(slots.default, [
-        h(QScrollObserver, { onScroll: onPageScroll }),
-        h(QResizeObserver, { onResize: onPageResize })
-      ])
-
       const layout = h(
         'div',
         {
           class: classes.value,
           style: style.value,
-          ref: props.container ? void 0 : rootRef,
+          ref: props.container ? layoutRef : rootRef,
           tabindex: -1
         },
-        content
+        hSlot(slots.default)
       )
 
       if (props.container) {
@@ -293,7 +305,6 @@ export default /*#__PURE__*/ createComponent({
             ref: rootRef
           },
           [
-            h(QResizeObserver, { onResize: onContainerResize }),
             h(
               'div',
               {

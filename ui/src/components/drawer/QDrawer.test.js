@@ -124,14 +124,31 @@ async function setLayoutWidth(wrapper, width) {
   await settle()
 }
 
+// the native one: a test running fake timers still needs real frames
+// for the ResizeObserver to report
+const nativeRequestAnimationFrame = window.requestAnimationFrame.bind(window)
+
+function frames(count) {
+  return new Promise(resolve => {
+    const step = () => {
+      count--
+      if (count > 0) {
+        nativeRequestAnimationFrame(step)
+      } else {
+        resolve()
+      }
+    }
+    nativeRequestAnimationFrame(step)
+  })
+}
+
 /**
- * What the layout's own QResizeObserver reports as the page width.
+ * The page width, as the layout's own ResizeObserver reports it: on a
+ * real frame no matter the fake timers, then debounced.
  */
 async function setPageWidth(wrapper, width) {
-  wrapper
-    .findAllComponents({ name: 'QResizeObserver' })
-    .at(-1)
-    .vm.$emit('resize', { width, height: 600 })
+  wrapper.get('.q-layout').element.style.width = `${width}px`
+  await frames(2)
   await settle()
 }
 

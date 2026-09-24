@@ -2,12 +2,11 @@ import { computed, h, inject, onBeforeUnmount, ref, watch } from 'vue'
 
 import { isRuntimeSsrPreHydration } from '../../plugins/platform/Platform.js'
 
-import QResizeObserver from '../resize-observer/QResizeObserver.js'
-
+import useElementResize from '../../composables/use-element-resize/use-element-resize.js'
 import useQuasar from '../../composables/use-quasar/use-quasar.js'
 
 import { createComponent } from '../../utils/private.create/create.js'
-import { hMergeSlot } from '../../utils/private.render/render.js'
+import { hUniqueSlot } from '../../utils/private.render/render.js'
 import {
   emptyRenderFn,
   layoutKey
@@ -120,10 +119,13 @@ export default /*#__PURE__*/ createComponent({
       $layout.update('footer', prop, val)
     }
 
-    function onResize({ height }) {
-      updateLocal(size, height)
-      updateLayout('size', height)
-    }
+    useElementResize({
+      debounce: 0,
+      onResize({ height }) {
+        updateLocal(size, height)
+        updateLayout('size', height)
+      }
+    })
 
     function updateRevealed() {
       if (!props.reveal) return
@@ -195,12 +197,7 @@ export default /*#__PURE__*/ createComponent({
     })
 
     return () => {
-      const child = hMergeSlot(slots.default, [
-        h(QResizeObserver, {
-          debounce: 0,
-          onResize
-        })
-      ])
+      const child = hUniqueSlot(slots.default, [])
 
       if (props.elevated) {
         child.push(

@@ -1,7 +1,6 @@
 import { computed, h, inject, onBeforeUnmount, ref, watch } from 'vue'
 
-import QResizeObserver from '../resize-observer/QResizeObserver.js'
-
+import useElementResize from '../../composables/use-element-resize/use-element-resize.js'
 import useQuasar from '../../composables/use-quasar/use-quasar.js'
 
 import { createComponent } from '../../utils/private.create/create.js'
@@ -104,10 +103,13 @@ export default /*#__PURE__*/ createComponent({
       $layout.update('header', prop, val)
     }
 
-    function onResize({ height }) {
-      updateLocal(size, height)
-      updateLayout('size', height)
-    }
+    useElementResize({
+      debounce: 0,
+      onResize({ height }) {
+        updateLocal(size, height)
+        updateLayout('size', height)
+      }
+    })
 
     function onFocusin(evt) {
       if (revealOnFocus.value) updateLocal(revealed, true)
@@ -177,13 +179,6 @@ export default /*#__PURE__*/ createComponent({
           })
         )
       }
-
-      child.push(
-        h(QResizeObserver, {
-          debounce: 0,
-          onResize
-        })
-      )
 
       return h(
         'header',
