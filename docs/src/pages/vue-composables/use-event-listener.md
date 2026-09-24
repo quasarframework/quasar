@@ -15,6 +15,7 @@ Use it wherever a template listener cannot reach: `window` and `document` events
 
 > [!WARNING]
 > **SSR and SSG**
+>
 > On the server-side, the composable never listens to anything, but the arguments you pass are still evaluated there. Reference `window` or `document` through a getter Function (`() => window`), which only ever runs on the client, instead of passing them directly.
 
 ## Syntax

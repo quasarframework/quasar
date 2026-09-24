@@ -12,6 +12,7 @@ Quasar makes it easy by wrapping the [Web Fullscreen API](https://developer.mozi
 
 > [!TIP]
 > **Soft fullscreen**
+>
 > To make one element of your page take over the viewport without the browser's Fullscreen API (the way the `fullscreen` prop of QTable, QCarousel or QEditor does), use the [useSoftFullscreen](/vue-composables/use-soft-fullscreen) composable instead.
 
 > [!WARNING]

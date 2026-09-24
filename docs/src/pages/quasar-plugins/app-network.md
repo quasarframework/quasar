@@ -32,7 +32,7 @@ setup () {
 <DocExample title="AppNetwork" file="Basic" />
 
 > [!WARNING]
-> **Warning! What "online" really means**
+> **What "online" really means**
 >
 > `online` being `false` is reliable: the browser knows that it has no network. `online` being `true` only tells you that some network is present. A captive portal, a router with no upstream or a dead Wi-Fi link all still report `true`, so treat it as a hint and let your actual requests have the final word.
 

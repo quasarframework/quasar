@@ -42,6 +42,7 @@ If you are building a website, you can also skip configuring the quasar.config f
 
 > [!WARNING]
 > **Windows Developers**
+>
 > If you're developing on Windows and the animations don't appear to be working, it's likely an OS level setting that's to blame.
 > Try changing **Visual Effects** to **Adjust for Best Appearance**.
 >
