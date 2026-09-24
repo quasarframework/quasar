@@ -687,6 +687,11 @@ export default [
         path: 'use-element-resize'
       },
       {
+        name: 'useEventListener',
+        badge: 'new',
+        path: 'use-event-listener'
+      },
+      {
         name: 'useFilePicker',
         badge: 'new',
         path: 'use-file-picker'

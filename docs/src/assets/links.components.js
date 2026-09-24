@@ -547,6 +547,11 @@ const composables = [
     tag: 'composable'
   },
   {
+    name: 'useEventListener',
+    description: 'Listen to events on an element, window or document',
+    tag: 'composable'
+  },
+  {
     name: 'useFilePicker',
     description: 'Open the file dialog and get the picked files',
     tag: 'composable'

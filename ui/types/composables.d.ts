@@ -89,6 +89,24 @@ export function useElementResize(
   stop: () => void;
 };
 
+export interface UseEventListenerOptions {
+  capture?: boolean;
+  passive?: boolean;
+  once?: boolean;
+  disabled?: boolean;
+}
+
+export function useEventListener<E extends Event = Event>(
+  target: MaybeRefOrGetter<
+    EventTarget | ComponentPublicInstance | null | undefined
+  >,
+  event: MaybeRefOrGetter<string | string[]>,
+  handler: (evt: E) => void,
+  options?: MaybeRefOrGetter<UseEventListenerOptions>
+): {
+  stop: () => void;
+};
+
 export interface UseScrollOptions {
   target?: MaybeRefOrGetter<
     Element | ComponentPublicInstance | null | undefined
