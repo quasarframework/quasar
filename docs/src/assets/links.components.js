@@ -417,6 +417,11 @@ const directives = [
     tag: 'directive'
   },
   {
+    name: 'Resize',
+    description: 'Watch the size of an element',
+    tag: 'directive'
+  },
+  {
     name: 'Morph',
     description: 'Morph DOM elements between two states',
     tag: 'directive'

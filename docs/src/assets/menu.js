@@ -583,6 +583,11 @@ export default [
         path: 'morph'
       },
       {
+        name: 'v-resize',
+        badge: 'new',
+        path: 'resize'
+      },
+      {
         name: 'v-scroll',
         path: 'scroll'
       },

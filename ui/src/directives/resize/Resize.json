@@ -1,0 +1,53 @@
+{
+  "meta": {
+    "docsUrl": "https://v2.quasar.dev/vue-directives/resize"
+  },
+
+  "value": {
+    "type": ["Boolean", "Function"],
+    "desc": "Boolean false (or undefined) to disable the directive (the observer is dropped and recreated when a handler is supplied again); Function to call right away with the initial size, then whenever the outer size (padding and border included) of the element changes",
+    "examples": [
+      "# v-resize=\"myHandler\"",
+      "# v-resize=\"isEnabled ? myHandler : false\""
+    ],
+
+    "returns": {
+      "type": "Boolean",
+      "desc": "If you return Boolean false from the handler, the observer stops"
+    },
+
+    "params": {
+      "size": {
+        "type": "Object",
+        "desc": "New size",
+        "definition": {
+          "height": {
+            "type": "Number",
+            "required": true,
+            "desc": "Layout height"
+          },
+          "width": {
+            "type": "Number",
+            "required": true,
+            "desc": "Layout width"
+          }
+        }
+      }
+    }
+  },
+
+  "arg": {
+    "type": "Number",
+    "desc": "Debounce in milliseconds; the element is measured at most once per window, so the last change is never missed; 0 (the default) measures on every change",
+    "default": "0",
+    "examples": ["# v-resize:100", "# v-resize:[debounce]"]
+  },
+
+  "modifiers": {
+    "once": {
+      "type": "Boolean",
+      "desc": "Call handler only once, with the initial size, then stop observing",
+      "examples": ["# v-resize.once"]
+    }
+  }
+}

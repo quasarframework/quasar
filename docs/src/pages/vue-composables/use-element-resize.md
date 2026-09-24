@@ -5,11 +5,12 @@ keys: useElementResize
 badge: v2.34+
 related:
   - /vue-components/resize-observer
+  - /vue-directives/resize
 ---
 
 The `useElementResize()` composable tracks the size of an element (or of a component) through two reactive Numbers, `width` and `height`. Under the hood it uses the [Resize Observer API](https://developer.mozilla.org/en-US/docs/Web/API/Resize_Observer_API), so no polling is involved.
 
-It is the setup-code counterpart of the [QResizeObserver](/vue-components/resize-observer) component, which is built on it. Use the composable when you want the size on your component or on any element or component ref, without adding an extra node to your template.
+It is the setup-code counterpart of the [QResizeObserver](/vue-components/resize-observer) component, which is built on it, and of the [v-resize](/vue-directives/resize) directive. Use the composable when you want the size on your component or on any element or component ref, without adding an extra node to your template.
 
 The reported size is the element's outer size (padding and border included), so a padding change on the element itself is reported too.
 
