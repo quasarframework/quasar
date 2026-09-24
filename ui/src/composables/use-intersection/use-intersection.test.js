@@ -163,7 +163,7 @@ describe('[useIntersection API]', () => {
         expect(isIntersecting.value).toBe(true)
       })
 
-      test('once stops after the first intersecting entry and never re-arms', async () => {
+      test('once stops after the first intersecting entry and stays off while once holds', async () => {
         const disabled = ref(false)
         const { isIntersecting, el } = mountTarget(() => ({
           once: true,
@@ -183,6 +183,61 @@ describe('[useIntersection API]', () => {
         await nextTick()
 
         expect(observers).toHaveLength(1)
+      })
+
+      test('once going back to false re-arms a retired observation', async () => {
+        const once = ref(true)
+        const onIntersect = vi.fn()
+        const { isIntersecting, el } = mountTarget(() => ({
+          once: once.value,
+          onIntersect
+        }))
+
+        deliver(el, true)
+        expect(observers[0].disconnect).toHaveBeenCalledOnce()
+
+        once.value = false
+        await nextTick()
+
+        expect(observers).toHaveLength(2)
+        expect(observers[1].observe).toHaveBeenCalledExactlyOnceWith(el)
+
+        deliver(el, false, observers[1])
+        expect(isIntersecting.value).toBe(false)
+        expect(onIntersect).toHaveBeenCalledTimes(2)
+
+        // and it can retire again once `once` is back on
+        once.value = true
+        await nextTick()
+        deliver(el, true, observers[1])
+        expect(observers[1].disconnect).toHaveBeenCalledOnce()
+      })
+
+      test('an explicit stop is final even when once changes', async () => {
+        const once = ref(true)
+        const { el } = mountTarget(() => ({
+          once: once.value,
+          onIntersect: () => false
+        }))
+
+        // onIntersect returning false retires the element
+        deliver(el, false)
+        expect(observers[0].disconnect).toHaveBeenCalledOnce()
+
+        once.value = false
+        await nextTick()
+        expect(observers).toHaveLength(1)
+
+        // stop() too, from a fresh observation
+        const second = mountTarget(() => ({ once: once.value }))
+        second.stop()
+        expect(observers).toHaveLength(2)
+
+        once.value = true
+        await nextTick()
+        once.value = false
+        await nextTick()
+        expect(observers).toHaveLength(2)
       })
 
       test('disabled pauses and resumes observing', async () => {

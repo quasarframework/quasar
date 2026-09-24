@@ -114,11 +114,11 @@ const { isIntersecting } = useIntersection(options)
 options.value = { rootMargin: '200px' }
 ```
 
-A `once` observation that has already fired is over: toggling `disabled` or changing any other option afterwards does not start observing again. Call `useIntersection()` anew if you need a fresh one.
+A `once` observation that has already fired stays off for as long as `once` holds: toggling `disabled` or changing any other option does not start observing again. Setting `once` back to `false` does, and the observation can retire again the next time `once` is turned on. An `onIntersect` hook that returned `false`, or a call to `stop()`, ends the observation for good.
 
 ## Example
 
-The card below is observed through a template ref, with the scrolling box as `root` and a list of thresholds so that the `onIntersect` hook reports the visible ratio. Toggle `once` to stop observing after the next time the card is in view:
+The card below is observed through a template ref, with the scrolling box as `root` and a list of thresholds so that the `onIntersect` hook reports the visible ratio. Toggle `once` to stop observing after the next time the card is in view, and toggle it back off to observe again:
 
 <DocExample title="Observing an element" file="Basic" />
 

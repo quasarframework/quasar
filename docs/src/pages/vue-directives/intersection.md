@@ -49,7 +49,7 @@ The handler Function takes one parameter, which is an [IntersectionObserverEntry
 
 ### Trigger once
 
-The directive can be used with the `once` modifier (ex: `v-intersection.once`). Once the observed element comes into view, the handler Function will be called and the observing will stop. This allows you to control the processing overhead if all you need is to be notified when the observed element starts to be visible on screen.
+The directive can be used with the `once` modifier (ex: `v-intersection.once`). Once the observed element comes into view, the handler Function will be called and the observing will stop. This allows you to control the processing overhead if all you need is to be notified when the observed element starts to be visible on screen. Should the modifier go away on a later render (for example after editing the template with HMR), the element gets observed again.
 
 <DocExample title="Once" file="Once" />
 

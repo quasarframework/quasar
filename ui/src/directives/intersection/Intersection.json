@@ -209,7 +209,7 @@
   "modifiers": {
     "once": {
       "type": "Boolean",
-      "desc": "Call handler only once, when the conditions are first met",
+      "desc": "Call handler only once, when the conditions are first met; dropping the modifier (a re-render, HMR) starts observing again",
       "examples": ["# v-intersection.once"]
     }
   }

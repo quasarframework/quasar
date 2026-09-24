@@ -206,6 +206,65 @@ describe('[Intersection API]', () => {
         observer.callback([entry], observer)
         expect(handler).toHaveBeenCalledOnce()
       })
+
+      test('dropping the modifier on a re-render observes again', async () => {
+        const once = ref(true)
+        const handler = vi.fn(() => true)
+        const TestComponent = defineComponent({
+          render: () =>
+            withDirectives(h('div'), [
+              [Intersection, handler, void 0, { once: once.value }]
+            ])
+        })
+
+        const wrapper = mount(TestComponent)
+        const el = wrapper.element
+        const entry = { target: el, isIntersecting: true, rootBounds: {} }
+
+        observers[0].callback([entry], observers[0])
+        expect(observers[0].disconnect).toHaveBeenCalledOnce()
+
+        once.value = false
+        await nextTick()
+
+        expect(observers).toHaveLength(2)
+        expect(observers[1].observe).toHaveBeenCalledExactlyOnceWith(el)
+
+        observers[1].callback([entry], observers[1])
+        expect(handler).toHaveBeenCalledTimes(2)
+        expect(observers[1].disconnect).not.toHaveBeenCalled()
+
+        // and it retires again once the modifier is back
+        once.value = true
+        await nextTick()
+        observers[1].callback([entry], observers[1])
+        expect(observers[1].disconnect).toHaveBeenCalledOnce()
+      })
+
+      test('a handler that returned false stays stopped when the modifier changes', async () => {
+        const once = ref(true)
+        const handler = vi.fn(() => false)
+        const TestComponent = defineComponent({
+          render: () =>
+            withDirectives(h('div'), [
+              [Intersection, handler, void 0, { once: once.value }]
+            ])
+        })
+
+        const wrapper = mount(TestComponent)
+        const entry = {
+          target: wrapper.element,
+          isIntersecting: false,
+          rootBounds: {}
+        }
+
+        observers[0].callback([entry], observers[0])
+        expect(observers[0].disconnect).toHaveBeenCalledOnce()
+
+        once.value = false
+        await nextTick()
+        expect(observers).toHaveLength(1)
+      })
     })
   })
 

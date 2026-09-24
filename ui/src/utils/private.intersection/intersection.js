@@ -6,12 +6,15 @@
  *
  * A subscriber is a plain object the caller owns:
  *   handler(entry)  called for every delivered entry;
- *                   returning false retires the element
- *   once            retire the element on its first intersecting entry
+ *                   returning false retires the element for good
+ *   once            retire the element on its first intersecting entry;
+ *                   set it through setOnce() so that clearing it re-arms
  *
- * The pool writes `pool` on it while its element is observed and `done`
- * once it retired the element; a done subscriber is never observed again.
- * A subscriber observes one element at a time.
+ * The pool writes `pool` on it while its element is observed, `done`
+ * once it retired the element and `stopped` when the handler asked for
+ * it (the caller sets `stopped` too for its own final stop); a done
+ * subscriber is never observed again. A subscriber observes one element
+ * at a time.
  */
 
 const pools = new Map() // root -> Map<key, pool>
@@ -41,13 +44,23 @@ function onEntries(entries, observer) {
 
     // the handler runs first: with once, the intersecting entry that
     // retires the element is the one it must see
-    if (
-      sub.handler(entry) === false ||
-      (sub.once === true && entry.isIntersecting)
-    ) {
+    const keep = sub.handler(entry)
+
+    if (keep === false || (sub.once === true && entry.isIntersecting)) {
       sub.done = true
+      if (keep === false) sub.stopped = true
       unobserve(el)
     }
+  }
+}
+
+// `once` going back to false re-arms a subscriber it retired;
+// an explicit stop is final
+export function setOnce(sub, once) {
+  sub.once = once
+
+  if (sub.done === true && !once && sub.stopped !== true) {
+    sub.done = false
   }
 }
 

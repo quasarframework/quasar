@@ -12,7 +12,7 @@
 
     "once": {
       "type": "Boolean",
-      "desc": "Get triggered only once",
+      "desc": "Get triggered only once; set it back to false to start observing again",
       "category": "behavior"
     },
 

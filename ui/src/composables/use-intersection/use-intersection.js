@@ -12,6 +12,7 @@ import { getTargetElement } from '../../utils/private.vm/vm.js'
 import {
   observe,
   reobserve,
+  setOnce,
   unobserve
 } from '../../utils/private.intersection/intersection.js'
 import { noop } from '../../utils/event/event.js'
@@ -24,9 +25,11 @@ import { noop } from '../../utils/event/event.js'
  *    target      - ref (or getter) of an Element or a component instance;
  *                  defaults to the root element of the current component
  *    root, rootMargin, threshold - IntersectionObserver options
- *    once        - stop observing after the first intersecting entry
- *    disabled    - pause observing (a `once` that already fired stays off)
- *    onIntersect - called with every entry; return false to stop
+ *    once        - stop observing after the first intersecting entry;
+ *                  setting it back to false starts observing again
+ *    disabled    - pause observing (a `once` that already fired stays off
+ *                  for as long as `once` holds)
+ *    onIntersect - called with every entry; return false to stop for good
  */
 
 export default function useIntersection(options) {
@@ -50,7 +53,8 @@ export default function useIntersection(options) {
     once: false,
     onIntersect: void 0,
     pool: void 0,
-    done: false
+    done: false,
+    stopped: false
   }
 
   let el = null
@@ -68,7 +72,7 @@ export default function useIntersection(options) {
     const opts = toValue(options) ?? {}
     const newEl = getTargetElement(opts.target, vm)
 
-    sub.once = opts.once === true
+    setOnce(sub, opts.once === true)
     sub.onIntersect = opts.onIntersect
 
     if (newEl !== el) release()
@@ -114,6 +118,7 @@ export default function useIntersection(options) {
 
     stop() {
       sub.done = true
+      sub.stopped = true
       release()
       effect.stop()
     }

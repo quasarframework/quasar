@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 
-import { observe, reobserve, unobserve } from './intersection.js'
+import { observe, reobserve, setOnce, unobserve } from './intersection.js'
 
 let observers
 let elements
@@ -297,6 +297,56 @@ describe('[intersection API]', () => {
           unobserve(el)
         }).not.toThrow()
         expect(observers).toHaveLength(0)
+      })
+    })
+
+    describe('[(function)setOnce]', () => {
+      test('has correct return value', () => {
+        const sub = createSubscriber()
+
+        expect(setOnce(sub, true)).toBeUndefined()
+        expect(sub.once).toBe(true)
+        expect(sub.done).toBe(false)
+      })
+
+      test('clearing once re-arms a subscriber retired by it', () => {
+        const el = createElement()
+        const sub = createSubscriber(vi.fn(), true)
+        observe(el, sub)
+
+        observers[0].callback([entryFor(el)], observers[0])
+        expect(sub.done).toBe(true)
+        expect(sub.stopped).toBeUndefined()
+
+        // still done while once holds
+        setOnce(sub, true)
+        expect(sub.done).toBe(true)
+
+        setOnce(sub, false)
+        expect(sub.done).toBe(false)
+        observe(el, sub)
+        expect(observers).toHaveLength(2)
+        expect(observers[1].observe).toHaveBeenCalledExactlyOnceWith(el)
+
+        unobserve(el)
+      })
+
+      test('a subscriber stopped by its handler stays done', () => {
+        const el = createElement()
+        const sub = createSubscriber(
+          vi.fn(() => false),
+          true
+        )
+        observe(el, sub)
+
+        observers[0].callback([entryFor(el, false)], observers[0])
+        expect(sub.done).toBe(true)
+        expect(sub.stopped).toBe(true)
+
+        setOnce(sub, false)
+        expect(sub.done).toBe(true)
+        observe(el, sub)
+        expect(observers).toHaveLength(1)
       })
     })
   })

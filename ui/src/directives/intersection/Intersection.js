@@ -1,6 +1,7 @@
 import { createDirective } from '../../utils/private.create/create.js'
 import {
   observe,
+  setOnce,
   unobserve
 } from '../../utils/private.intersection/intersection.js'
 import getSSRProps from '../../utils/private.noop-ssr-directive-transform/noop-ssr-directive-transform.js'
@@ -49,17 +50,21 @@ export default /*#__PURE__*/ createDirective(
             handler: void 0,
             once: modifiers.once === true,
             pool: void 0,
-            done: false
+            done: false,
+            stopped: false
           }
 
           el.__qvisible = ctx
           update(el, ctx, value)
         },
 
-        updated(el, binding) {
+        updated(el, { modifiers, value }) {
           const ctx = el.__qvisible
           if (ctx !== void 0) {
-            update(el, ctx, binding.value)
+            // modifiers come from the render function, so a template
+            // edit under HMR changes them
+            setOnce(ctx, modifiers.once === true)
+            update(el, ctx, value)
           }
         },
 
