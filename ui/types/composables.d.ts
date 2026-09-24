@@ -56,6 +56,37 @@ export function useElementResize(
   stop: () => void;
 };
 
+export interface UseScrollOptions {
+  target?: MaybeRefOrGetter<
+    Element | ComponentPublicInstance | null | undefined
+  >;
+  scrollTarget?: MaybeRefOrGetter<
+    Element | Window | string | ComponentPublicInstance | null | undefined
+  >;
+  axis?: "vertical" | "horizontal" | "both";
+  debounce?: string | number;
+  disabled?: boolean;
+  onScroll?: (details: UseScrollDetails) => void;
+}
+
+export interface UseScrollDetails {
+  position: { top: number; left: number };
+  direction: "up" | "down" | "left" | "right";
+  directionChanged: boolean;
+  delta: { top: number; left: number };
+  inflectionPoint: { top: number; left: number };
+}
+
+export function useScroll(options?: MaybeRefOrGetter<UseScrollOptions>): {
+  position: Ref<{ top: number; left: number }>;
+  direction: Ref<"up" | "down" | "left" | "right">;
+  directionChanged: Ref<boolean>;
+  delta: Ref<{ top: number; left: number }>;
+  inflectionPoint: Ref<{ top: number; left: number }>;
+  refresh: () => void;
+  stop: () => void;
+};
+
 export function useHydration(): {
   isHydrated: Ref<boolean>;
 };

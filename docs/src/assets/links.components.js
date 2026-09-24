@@ -572,6 +572,11 @@ const composables = [
     tag: 'composable'
   },
   {
+    name: 'useScroll',
+    description: 'Track the scroll position of the page or of a container',
+    tag: 'composable'
+  },
+  {
     name: 'useTick',
     description: 'Similar to nextTick() but with additional features',
     tag: 'composable'

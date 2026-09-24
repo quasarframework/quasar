@@ -716,6 +716,11 @@ export default [
         path: 'use-render-cache'
       },
       {
+        name: 'useScroll',
+        badge: 'new',
+        path: 'use-scroll'
+      },
+      {
         name: 'useTick',
         path: 'use-tick'
       },

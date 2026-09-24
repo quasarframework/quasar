@@ -1,17 +1,13 @@
-import { getCurrentInstance, onBeforeUnmount, onMounted, watch } from 'vue'
+import { getCurrentInstance, onMounted, shallowRef } from 'vue'
 
-import useQuasar from '../../composables/use-quasar/use-quasar.js'
+import useAnimationFrame from '../../composables/use-animation-frame/use-animation-frame.js'
+import useScroll from '../../composables/use-scroll/use-scroll.js'
+import useTimeout from '../../composables/use-timeout/use-timeout.js'
 
 import { createComponent } from '../../utils/private.create/create.js'
-import {
-  getHorizontalScrollPosition,
-  getScrollTarget,
-  getVerticalScrollPosition,
-  scrollTargetProp
-} from '../../utils/scroll/scroll.js'
-import { listenOpts, noop } from '../../utils/event/event.js'
+import { scrollTargetProp } from '../../utils/scroll/scroll.js'
+import { noop } from '../../utils/event/event.js'
 
-const { passive } = listenOpts
 const axisValues = ['both', 'horizontal', 'vertical']
 
 export default /*#__PURE__*/ createComponent({
@@ -32,128 +28,60 @@ export default /*#__PURE__*/ createComponent({
   emits: ['scroll'],
 
   setup(props, { emit }) {
-    const scroll = {
-      position: {
-        top: 0,
-        left: 0
-      },
-
-      direction: 'down',
-      directionChanged: false,
-
-      delta: {
-        top: 0,
-        left: 0
-      },
-
-      inflectionPoint: {
-        top: 0,
-        left: 0
-      }
-    }
-
-    let clearTimer = null,
-      localScrollTarget,
-      parentEl
-
-    watch(
-      () => props.scrollTarget,
-      () => {
-        unconfigureScrollTarget()
-        configureScrollTarget()
-      }
-    )
-
-    function emitEvent() {
-      clearTimer?.()
-
-      const top = Math.max(0, getVerticalScrollPosition(localScrollTarget))
-      const left = getHorizontalScrollPosition(localScrollTarget)
-
-      const delta = {
-        top: top - scroll.position.top,
-        left: left - scroll.position.left
-      }
-
-      if (
-        (props.axis === 'vertical' && delta.top === 0) ||
-        (props.axis === 'horizontal' && delta.left === 0)
-      ) {
-        return
-      }
-
-      const curDir =
-        Math.abs(delta.top) >= Math.abs(delta.left)
-          ? delta.top < 0
-            ? 'up'
-            : 'down'
-          : delta.left < 0
-            ? 'left'
-            : 'right'
-
-      scroll.position = { top, left }
-      scroll.directionChanged = scroll.direction !== curDir
-      scroll.delta = delta
-
-      if (scroll.directionChanged) {
-        scroll.direction = curDir
-        scroll.inflectionPoint = scroll.position
-      }
-
-      emit('scroll', { ...scroll })
-    }
-
-    function configureScrollTarget() {
-      localScrollTarget = getScrollTarget(parentEl, props.scrollTarget)
-      localScrollTarget.addEventListener('scroll', trigger, passive)
-      trigger(true)
-    }
-
-    function unconfigureScrollTarget() {
-      if (localScrollTarget !== void 0) {
-        localScrollTarget.removeEventListener('scroll', trigger, passive)
-        localScrollTarget = void 0
-      }
-    }
-
-    function trigger(immediately) {
-      if (
-        immediately === true ||
-        props.debounce === 0 ||
-        props.debounce === '0'
-      ) {
-        emitEvent()
-      } else if (clearTimer === null) {
-        const [timer, fn] = props.debounce
-          ? [setTimeout(emitEvent, props.debounce), clearTimeout]
-          : [requestAnimationFrame(emitEvent), cancelAnimationFrame]
-
-        clearTimer = () => {
-          fn(timer)
-          clearTimer = null
-        }
-      }
-    }
+    if (__QUASAR_SSR_SERVER__) return noop
 
     const { proxy } = getCurrentInstance()
-    const $q = useQuasar()
+    const target = shallowRef(null)
 
-    watch(() => $q.lang.rtl, emitEvent)
+    const {
+      position,
+      direction,
+      directionChanged,
+      delta,
+      inflectionPoint,
+      refresh
+    } = useScroll(() => ({
+      target,
+      scrollTarget: props.scrollTarget,
+      axis: props.axis,
+      debounce: props.debounce,
+      onScroll(details) {
+        emit('scroll', details)
+      }
+    }))
 
-    onMounted(() => {
-      parentEl = proxy.$el.parentNode
-      configureScrollTarget()
-    })
-
-    onBeforeUnmount(() => {
-      clearTimer?.()
-      unconfigureScrollTarget()
-    })
+    const { registerAnimationFrame } = useAnimationFrame()
+    const { registerTimeout, isTimeoutPending } = useTimeout()
 
     // expose public methods
     Object.assign(proxy, {
-      trigger,
-      getPosition: () => scroll
+      trigger(immediately) {
+        if (
+          immediately === true ||
+          props.debounce === 0 ||
+          props.debounce === '0'
+        ) {
+          refresh()
+        } else if (props.debounce === void 0) {
+          registerAnimationFrame(refresh)
+        } else if (!isTimeoutPending.value) {
+          registerTimeout(refresh, props.debounce)
+        }
+      },
+
+      getPosition: () => ({
+        position: position.value,
+        direction: direction.value,
+        directionChanged: directionChanged.value,
+        delta: delta.value,
+        inflectionPoint: inflectionPoint.value
+      })
+    })
+
+    // the scroll container is detected from the parent, which only
+    // exists once this (comment) node is in the DOM
+    onMounted(() => {
+      target.value = proxy.$el.parentNode
     })
 
     return noop
