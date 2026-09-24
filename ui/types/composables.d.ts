@@ -63,6 +63,7 @@ export function useIntersection(
 };
 
 export function useInterval(): {
+  isIntervalActive: Ref<boolean>;
   registerInterval: (fn: () => void, interval?: string | number) => void;
   removeInterval: () => void;
 };
@@ -99,6 +100,7 @@ export function useTick(): {
 };
 
 export function useTimeout(): {
+  isTimeoutPending: Ref<boolean>;
   registerTimeout: (fn: () => void, delay?: string | number) => void;
   removeTimeout: () => void;
 };

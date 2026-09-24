@@ -1,4 +1,4 @@
-import { getCurrentInstance, onBeforeUnmount, onDeactivated } from 'vue'
+import { getCurrentInstance, onBeforeUnmount, onDeactivated, ref } from 'vue'
 
 import { vmIsDestroyed } from '../../utils/private.vm/vm.js'
 import { noop } from '../../utils/event/event.js'
@@ -7,23 +7,27 @@ import { noop } from '../../utils/event/event.js'
  * Usage:
  *    registerInterval(fn[, delay])
  *    removeInterval()
+ *    isIntervalActive - Ref<boolean>
  */
 
 export default function useInterval() {
   if (__QUASAR_SSR_SERVER__) {
     return {
+      isIntervalActive: ref(false),
       removeInterval: noop,
       registerInterval: noop
     }
   }
 
   let timer = null
+  const isIntervalActive = ref(false)
   const vm = getCurrentInstance()
 
   function removeInterval() {
     if (timer !== null) {
       clearInterval(timer)
       timer = null
+      isIntervalActive.value = false
     }
   }
 
@@ -31,14 +35,15 @@ export default function useInterval() {
   onBeforeUnmount(removeInterval)
 
   return {
+    isIntervalActive,
     removeInterval,
 
     registerInterval(fn, delay) {
-      removeInterval()
+      if (vmIsDestroyed(vm)) return
 
-      if (!vmIsDestroyed(vm)) {
-        timer = setInterval(fn, delay)
-      }
+      removeInterval()
+      isIntervalActive.value = true
+      timer = setInterval(fn, delay)
     }
   }
 }

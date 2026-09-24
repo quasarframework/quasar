@@ -20,7 +20,8 @@ import { useTimeout } from 'quasar'
 setup () {
   const {
     registerTimeout,
-    removeTimeout
+    removeTimeout,
+    isTimeoutPending
   } = useTimeout()
 
   // ...
@@ -31,6 +32,7 @@ setup () {
 function useTimeout(): {
   registerTimeout(fn: () => void, delay?: string | number): void
   removeTimeout(): void
+  isTimeoutPending: Ref<boolean> // v2.34+
 }
 ```
 
@@ -60,16 +62,41 @@ setup () {
 }
 ```
 
-Should you need more than one useTimeout() per component, simply rename the functions of the returned object:
+Should you need more than one useTimeout() per component, simply rename the properties of the returned object:
 
 ```js
 const {
   registerTimeout: registerFirstTimeout,
-  removeTimeout: removeFirstTimeout
+  removeTimeout: removeFirstTimeout,
+  isTimeoutPending: isFirstTimeoutPending
 } = useTimeout()
 
 const {
   registerTimeout: registerSecondTimeout,
-  removeTimeout: removeSecondTimeout
+  removeTimeout: removeSecondTimeout,
+  isTimeoutPending: isSecondTimeoutPending
 } = useTimeout()
+```
+
+## Pending state <q-badge label="v2.34+" />
+
+The returned `isTimeoutPending` is a reactive boolean Ref which is `true` while a registered Function is waiting to run. It turns `false` right before the Function executes, when you call `removeTimeout()`, and when the component gets destroyed or deactivated. On the server-side of SSR or SSG modes it is always `false`.
+
+```html
+<template>
+  <q-btn label="Save" :loading="isTimeoutPending" @click="onSave" />
+</template>
+
+<script setup>
+  import { useTimeout } from 'quasar'
+
+  const { registerTimeout, isTimeoutPending } = useTimeout()
+
+  function onSave() {
+    // debounce: only the last click within 500ms saves
+    registerTimeout(() => {
+      // ...
+    }, 500)
+  }
+</script>
 ```

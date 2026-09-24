@@ -161,6 +161,107 @@ describe('[useTimeout API]', () => {
         expect(fn1).not.toHaveBeenCalled()
         expect(fn2).toHaveBeenCalledTimes(1)
       })
+
+      test('isTimeoutPending tracks the pending state', () => {
+        let activeWhenFired = null
+        const fn = vi.fn(() => {
+          activeWhenFired = wrapper.vm.isTimeoutPending
+        })
+
+        wrapper = mount(
+          defineComponent({
+            render: () => h('div'),
+            setup() {
+              const { registerTimeout, removeTimeout, isTimeoutPending } =
+                useTimeout()
+              return { registerTimeout, removeTimeout, isTimeoutPending }
+            }
+          })
+        )
+
+        expect(wrapper.vm.isTimeoutPending).toBe(false)
+
+        wrapper.vm.registerTimeout(fn, 100)
+        expect(wrapper.vm.isTimeoutPending).toBe(true)
+
+        vi.advanceTimersByTime(99)
+        expect(wrapper.vm.isTimeoutPending).toBe(true)
+
+        vi.advanceTimersByTime(1)
+        expect(fn).toHaveBeenCalledTimes(1)
+        expect(activeWhenFired).toBe(false)
+        expect(wrapper.vm.isTimeoutPending).toBe(false)
+
+        wrapper.vm.registerTimeout(fn, 100)
+        expect(wrapper.vm.isTimeoutPending).toBe(true)
+
+        wrapper.vm.removeTimeout()
+        expect(wrapper.vm.isTimeoutPending).toBe(false)
+
+        vi.runAllTimers()
+        expect(fn).toHaveBeenCalledTimes(1)
+      })
+
+      test('isTimeoutPending stays true when the callback re-registers', () => {
+        wrapper = mount(
+          defineComponent({
+            render: () => h('div'),
+            setup() {
+              const { registerTimeout, isTimeoutPending } = useTimeout()
+              return { registerTimeout, isTimeoutPending }
+            }
+          })
+        )
+
+        const fn = vi.fn(() => {
+          if (fn.mock.calls.length < 3) {
+            wrapper.vm.registerTimeout(fn, 100)
+          }
+        })
+
+        wrapper.vm.registerTimeout(fn, 100)
+
+        vi.advanceTimersByTime(100)
+        expect(fn).toHaveBeenCalledTimes(1)
+        expect(wrapper.vm.isTimeoutPending).toBe(true)
+
+        vi.advanceTimersByTime(100)
+        expect(fn).toHaveBeenCalledTimes(2)
+        expect(wrapper.vm.isTimeoutPending).toBe(true)
+
+        vi.advanceTimersByTime(100)
+        expect(fn).toHaveBeenCalledTimes(3)
+        expect(wrapper.vm.isTimeoutPending).toBe(false)
+      })
+
+      test('isTimeoutPending resets on unmount and stays false afterwards', () => {
+        const fn = vi.fn()
+        let api
+
+        wrapper = mount(
+          defineComponent({
+            render: () => h('div'),
+            setup() {
+              api = useTimeout()
+              api.registerTimeout(fn, 100)
+              return {}
+            }
+          })
+        )
+
+        expect(api.isTimeoutPending.value).toBe(true)
+
+        wrapper.unmount()
+        wrapper = null
+
+        expect(api.isTimeoutPending.value).toBe(false)
+
+        api.registerTimeout(fn, 100)
+        expect(api.isTimeoutPending.value).toBe(false)
+
+        vi.runAllTimers()
+        expect(fn).not.toHaveBeenCalled()
+      })
     })
   })
 })

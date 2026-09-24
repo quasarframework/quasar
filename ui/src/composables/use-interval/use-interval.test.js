@@ -165,6 +165,70 @@ describe('[useInterval API]', () => {
         expect(fn1).not.toHaveBeenCalled()
         expect(fn2).toHaveBeenCalledTimes(2)
       })
+
+      test('isIntervalActive tracks the running state', () => {
+        const fn = vi.fn()
+
+        wrapper = mount(
+          defineComponent({
+            render: () => h('div'),
+            setup() {
+              const { registerInterval, removeInterval, isIntervalActive } =
+                useInterval()
+              return { registerInterval, removeInterval, isIntervalActive }
+            }
+          })
+        )
+
+        expect(wrapper.vm.isIntervalActive).toBe(false)
+
+        wrapper.vm.registerInterval(fn, 100)
+        expect(wrapper.vm.isIntervalActive).toBe(true)
+
+        vi.advanceTimersByTime(250)
+        expect(fn).toHaveBeenCalledTimes(2)
+        expect(wrapper.vm.isIntervalActive).toBe(true)
+
+        wrapper.vm.registerInterval(fn, 100)
+        expect(wrapper.vm.isIntervalActive).toBe(true)
+
+        wrapper.vm.removeInterval()
+        expect(wrapper.vm.isIntervalActive).toBe(false)
+
+        vi.advanceTimersToNextTimer()
+        vi.runAllTimers()
+        expect(fn).toHaveBeenCalledTimes(2)
+      })
+
+      test('isIntervalActive resets on unmount and stays false afterwards', () => {
+        const fn = vi.fn()
+        let api
+
+        wrapper = mount(
+          defineComponent({
+            render: () => h('div'),
+            setup() {
+              api = useInterval()
+              api.registerInterval(fn, 100)
+              return {}
+            }
+          })
+        )
+
+        expect(api.isIntervalActive.value).toBe(true)
+
+        wrapper.unmount()
+        wrapper = null
+
+        expect(api.isIntervalActive.value).toBe(false)
+
+        api.registerInterval(fn, 100)
+        expect(api.isIntervalActive.value).toBe(false)
+
+        vi.advanceTimersToNextTimer()
+        vi.runAllTimers()
+        expect(fn).not.toHaveBeenCalled()
+      })
     })
   })
 })

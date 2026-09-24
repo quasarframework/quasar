@@ -17,18 +17,20 @@ import { useInterval } from 'quasar'
 setup () {
   const {
     registerInterval,
-    removeInterval
+    removeInterval,
+    isIntervalActive
   } = useInterval()
 
   // ...
 }
 ```
 
-```js
+```ts
 function useInterval(): {
-  registerInterval(fn: () => void, interval?: string | number): void;
-  removeInterval(): void;
-};
+  registerInterval(fn: () => void, interval?: string | number): void
+  removeInterval(): void
+  isIntervalActive: Ref<boolean> // v2.34+
+}
 ```
 
 ## Example
@@ -57,16 +59,41 @@ setup () {
 }
 ```
 
-Should you need more than one useInterval() per component, simply rename the functions of the returned object:
+Should you need more than one useInterval() per component, simply rename the properties of the returned object:
 
 ```js
 const {
   registerInterval: registerFirstInterval,
-  removeInterval: removeFirstInterval
+  removeInterval: removeFirstInterval,
+  isIntervalActive: isFirstIntervalActive
 } = useInterval()
 
 const {
   registerInterval: registerSecondInterval,
-  removeInterval: removeSecondInterval
+  removeInterval: removeSecondInterval,
+  isIntervalActive: isSecondIntervalActive
 } = useInterval()
+```
+
+## Running state <q-badge label="v2.34+" />
+
+The returned `isIntervalActive` is a reactive boolean Ref which is `true` while an interval is registered. It turns `false` when you call `removeInterval()` and when the component gets destroyed or deactivated. On the server-side of SSR or SSG modes it is always `false`.
+
+```html
+<template>
+  <q-btn
+    :label="isIntervalActive ? 'Stop polling' : 'Start polling'"
+    @click="isIntervalActive ? removeInterval() : registerInterval(poll, 5000)"
+  />
+</template>
+
+<script setup>
+  import { useInterval } from 'quasar'
+
+  const { registerInterval, removeInterval, isIntervalActive } = useInterval()
+
+  function poll() {
+    // ...
+  }
+</script>
 ```

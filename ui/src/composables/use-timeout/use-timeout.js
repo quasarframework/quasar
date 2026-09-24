@@ -1,4 +1,4 @@
-import { getCurrentInstance, onBeforeUnmount, onDeactivated } from 'vue'
+import { getCurrentInstance, onBeforeUnmount, onDeactivated, ref } from 'vue'
 
 import { vmIsDestroyed } from '../../utils/private.vm/vm.js'
 import { noop } from '../../utils/event/event.js'
@@ -7,23 +7,27 @@ import { noop } from '../../utils/event/event.js'
  * Usage:
  *    registerTimeout(fn[, delay])
  *    removeTimeout()
+ *    isTimeoutPending - Ref<boolean>
  */
 
 export default function useTimeout() {
   if (__QUASAR_SSR_SERVER__) {
     return {
+      isTimeoutPending: ref(false),
       removeTimeout: noop,
       registerTimeout: noop
     }
   }
 
   let timer = null
+  const isTimeoutPending = ref(false)
   const vm = getCurrentInstance()
 
   function removeTimeout() {
     if (timer !== null) {
       clearTimeout(timer)
       timer = null
+      isTimeoutPending.value = false
     }
   }
 
@@ -31,17 +35,19 @@ export default function useTimeout() {
   onBeforeUnmount(removeTimeout)
 
   return {
+    isTimeoutPending,
     removeTimeout,
 
     registerTimeout(fn, delay) {
-      removeTimeout()
+      if (vmIsDestroyed(vm)) return
 
-      if (!vmIsDestroyed(vm)) {
-        timer = setTimeout(() => {
-          timer = null
-          fn()
-        }, delay)
-      }
+      removeTimeout()
+      isTimeoutPending.value = true
+      timer = setTimeout(() => {
+        timer = null
+        isTimeoutPending.value = false
+        fn()
+      }, delay)
     }
   }
 }
