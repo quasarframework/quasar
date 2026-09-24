@@ -736,6 +736,11 @@ export default [
         path: 'use-scroll'
       },
       {
+        name: 'useSoftFullscreen',
+        badge: 'new',
+        path: 'use-soft-fullscreen'
+      },
+      {
         name: 'useTick',
         path: 'use-tick'
       },

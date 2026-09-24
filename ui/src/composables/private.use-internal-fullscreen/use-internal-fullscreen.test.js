@@ -2,10 +2,10 @@ import { afterEach, describe, expect, test } from 'vitest'
 import { flushPromises, mount } from '@vue/test-utils'
 import { KeepAlive, defineComponent, h, ref } from 'vue'
 
-import useFullscreen, {
+import useInternalFullscreen, {
   useFullscreenEmits,
   useFullscreenProps
-} from './use-fullscreen.js'
+} from './use-internal-fullscreen.js'
 import { focusIsInDetachedFullscreen } from '../../utils/private.focus/detached-fullscreen.js'
 
 let wrapper, mountTarget
@@ -22,7 +22,7 @@ const FullscreenComponent = defineComponent({
   emits: useFullscreenEmits,
 
   setup() {
-    const { inFullscreen } = useFullscreen()
+    const { inFullscreen } = useInternalFullscreen()
 
     return () =>
       h(
@@ -47,7 +47,7 @@ const FocusableFullscreenComponent = defineComponent({
   emits: useFullscreenEmits,
 
   setup() {
-    useFullscreen()
+    useInternalFullscreen()
 
     return () =>
       h('section', null, [
@@ -74,14 +74,14 @@ const NestedFullscreenComponent = defineComponent({
   emits: useFullscreenEmits,
 
   setup() {
-    useFullscreen()
+    useInternalFullscreen()
 
     return () =>
       h('section', null, [h(FullscreenComponent, { fullscreen: true })])
   }
 })
 
-describe('[useFullscreen API]', () => {
+describe('[useInternalFullscreen API]', () => {
   describe('[Variables]', () => {
     describe('[(variable)useFullscreenProps]', () => {
       test('is defined correctly', () => {

@@ -1,5 +1,7 @@
 {
-  "mixins": ["composables/private.use-fullscreen/use-fullscreen"],
+  "mixins": [
+    "composables/private.use-internal-fullscreen/use-internal-fullscreen"
+  ],
 
   "meta": {
     "docsUrl": "https://v2.quasar.dev/vue-components/table"

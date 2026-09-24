@@ -6,9 +6,9 @@ import { useRoute } from 'vue-router'
 import { getRouter } from 'testing/runtime/router.js'
 import { client } from '../../plugins/platform/Platform.js'
 import { validatePosition } from '../../composables/private.use-position-engine/use-position-engine.js'
-import useFullscreen, {
+import useInternalFullscreen, {
   useFullscreenProps
-} from '../../composables/private.use-fullscreen/use-fullscreen.js'
+} from '../../composables/private.use-internal-fullscreen/use-internal-fullscreen.js'
 import QDialog from '../dialog/QDialog.js'
 import QMenu from './QMenu.js'
 
@@ -39,7 +39,7 @@ const FullscreenChild = defineComponent({
   props: useFullscreenProps,
 
   setup() {
-    useFullscreen()
+    useInternalFullscreen()
 
     return () =>
       h('section', null, [h('input', { 'data-test': 'fullscreen-input' })])
@@ -51,7 +51,7 @@ const FullscreenAnchorHost = defineComponent({
   props: useFullscreenProps,
 
   setup(_, { slots }) {
-    useFullscreen()
+    useInternalFullscreen()
 
     return () => h('section', null, slots.default())
   }
@@ -1785,7 +1785,7 @@ describe('[QMenu API]', () => {
 
       const el = document.body.querySelector('[data-test="fullscreen-input"]')
 
-      // useFullscreen() has moved the child out of the menu
+      // useInternalFullscreen() has moved the child out of the menu
       expect(el.closest('.q-menu')).toBeNull()
 
       el.dispatchEvent(new MouseEvent('mousedown', { bubbles: true }))

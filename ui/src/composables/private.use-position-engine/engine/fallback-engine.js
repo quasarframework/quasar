@@ -365,7 +365,7 @@ export function useFallbackEngine(
   }
 
   const onDetachedFullscreenChange = () => {
-    // useFullscreen() moved a subtree to <body> (or moved it back); if
+    // useSoftFullscreen() moved a subtree to <body> (or moved it back); if
     // the anchor traveled with it, the position written at show time is
     // stale (#18513) and no scroll event announces the move. The
     // notification fires before the DOM settles (enter: before the

@@ -24,10 +24,10 @@ import useDark, {
   useDarkProps
 } from '../../composables/private.use-dark/use-dark.js'
 import { commonVirtScrollPropsList } from '../virtual-scroll/use-virtual-scroll.js'
-import useFullscreen, {
+import useInternalFullscreen, {
   useFullscreenEmits,
   useFullscreenProps
-} from '../../composables/private.use-fullscreen/use-fullscreen.js'
+} from '../../composables/private.use-internal-fullscreen/use-internal-fullscreen.js'
 
 import { useTableSort, useTableSortProps } from './table-sort.js'
 import { useTableFilter, useTableFilterProps } from './table-filter.js'
@@ -171,7 +171,7 @@ export default /*#__PURE__*/ createComponent({
     const $q = useQuasar()
 
     const isDark = useDark(props, $q)
-    const { inFullscreen, toggleFullscreen } = useFullscreen()
+    const { inFullscreen, toggleFullscreen } = useInternalFullscreen()
 
     const getRowKey = computed(() =>
       typeof props.rowKey === 'function'

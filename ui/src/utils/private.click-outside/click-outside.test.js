@@ -55,7 +55,7 @@ function pointerdownOn(el, pointerType = 'mouse') {
   )
 }
 
-// Detach a child of parentEl to <body> the way useFullscreen().setFullscreen()
+// Detach a child of parentEl to <body> the way useSoftFullscreen().setFullscreen()
 // does: leave a filler node behind and register the pairing.
 function detachFullscreenChild(parentEl) {
   const childEl = document.createElement('div')
@@ -69,7 +69,7 @@ function detachFullscreenChild(parentEl) {
   document.body.append(childEl)
   createdEls.push(childEl)
 
-  addDetachedFullscreen(fillerNode, { $el: childEl })
+  addDetachedFullscreen(fillerNode, () => childEl)
   detachedFillers.push(fillerNode)
 
   return { childEl, fillerNode, targetEl }
@@ -145,7 +145,7 @@ describe('[clickOutside API]', () => {
         const menu = pushMenu()
 
         // a fullscreen-capable component inside the popup content has been
-        // moved to <body> by useFullscreen()
+        // moved to <body> by useSoftFullscreen()
         const { targetEl } = detachFullscreenChild(menu.contentEl)
 
         mousedownOn(targetEl)

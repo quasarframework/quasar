@@ -1,7 +1,7 @@
 {
   "mixins": [
     "composables/private.use-panel/use-panel",
-    "composables/private.use-fullscreen/use-fullscreen"
+    "composables/private.use-internal-fullscreen/use-internal-fullscreen"
   ],
 
   "meta": {

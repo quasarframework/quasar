@@ -17,10 +17,10 @@ import usePanel, {
   usePanelEmits,
   usePanelProps
 } from '../../composables/private.use-panel/use-panel.js'
-import useFullscreen, {
+import useInternalFullscreen, {
   useFullscreenEmits,
   useFullscreenProps
-} from '../../composables/private.use-fullscreen/use-fullscreen.js'
+} from '../../composables/private.use-internal-fullscreen/use-internal-fullscreen.js'
 
 import { createComponent } from '../../utils/private.create/create.js'
 import { isNumber } from '../../utils/is/is.js'
@@ -99,7 +99,7 @@ export default /*#__PURE__*/ createComponent({
       panelIndex
     } = usePanel()
 
-    const { inFullscreen } = useFullscreen()
+    const { inFullscreen } = useInternalFullscreen()
 
     const style = computed(() =>
       !inFullscreen.value && props.height !== void 0

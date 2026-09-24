@@ -107,6 +107,23 @@ export function useEventListener<E extends Event = Event>(
   stop: () => void;
 };
 
+export interface UseSoftFullscreenOptions {
+  target?: MaybeRefOrGetter<
+    Element | ComponentPublicInstance | null | undefined
+  >;
+  fullscreen?: boolean;
+  noRouteExit?: boolean;
+}
+
+export function useSoftFullscreen(
+  options?: MaybeRefOrGetter<UseSoftFullscreenOptions>
+): {
+  inFullscreen: Ref<boolean>;
+  setFullscreen: () => void;
+  exitFullscreen: () => void;
+  toggleFullscreen: () => void;
+};
+
 export interface UseMutationOptions extends MutationObserverInit {
   target?: MaybeRefOrGetter<
     Element | ComponentPublicInstance | null | undefined

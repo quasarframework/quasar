@@ -33,7 +33,7 @@ function createNode(tag = 'div') {
 }
 
 /**
- * Reproduces what useFullscreen() does: leave a filler behind at the original
+ * Reproduces what useSoftFullscreen() does: leave a filler behind at the original
  * position inside originEl, then move the element itself to <body>.
  */
 function detach(originEl) {
@@ -48,7 +48,7 @@ function detach(originEl) {
   nodeList.push(movedEl)
   fillerList.push(fillerNode)
 
-  addDetachedFullscreen(fillerNode, { $el: movedEl })
+  addDetachedFullscreen(fillerNode, () => movedEl)
 
   return { fillerNode, movedEl, targetEl }
 }
@@ -64,9 +64,7 @@ describe('[detachedFullscreen API]', () => {
         rootEl.append(fillerNode)
         fillerList.push(fillerNode)
 
-        expect(
-          addDetachedFullscreen(fillerNode, { $el: movedEl })
-        ).toBeUndefined()
+        expect(addDetachedFullscreen(fillerNode, () => movedEl)).toBeUndefined()
       })
 
       test('makes the moved element a logical child of the original parent', () => {
@@ -89,12 +87,12 @@ describe('[detachedFullscreen API]', () => {
         rootEl.append(fillerNode)
         fillerList.push(fillerNode)
 
-        const vm = { $el: firstEl }
-        addDetachedFullscreen(fillerNode, vm)
+        let movedEl = firstEl
+        addDetachedFullscreen(fillerNode, () => movedEl)
 
         expect(focusIsInDetachedFullscreen(rootEl, targetEl)).toBe(false)
 
-        vm.$el = secondEl
+        movedEl = secondEl
 
         expect(focusIsInDetachedFullscreen(rootEl, targetEl)).toBe(true)
       })
@@ -190,13 +188,13 @@ describe('[detachedFullscreen API]', () => {
         const targetEl = document.createElement('input')
 
         // each moved element holds the other's filler, which cannot happen
-        // through useFullscreen() but would hang the walk without a guard
+        // through useSoftFullscreen() but would hang the walk without a guard
         movedA.append(fillerB, targetEl)
         movedB.append(fillerA)
 
         fillerList.push(fillerA, fillerB)
-        addDetachedFullscreen(fillerA, { $el: movedA })
-        addDetachedFullscreen(fillerB, { $el: movedB })
+        addDetachedFullscreen(fillerA, () => movedA)
+        addDetachedFullscreen(fillerB, () => movedB)
 
         expect(focusIsInDetachedFullscreen(rootEl, targetEl)).toBe(false)
       })

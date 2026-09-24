@@ -592,6 +592,12 @@ const composables = [
     tag: 'composable'
   },
   {
+    name: 'useSoftFullscreen',
+    description:
+      'Make an element take over the viewport, without the Fullscreen API',
+    tag: 'composable'
+  },
+  {
     name: 'useTick',
     description: 'Similar to nextTick() but with additional features',
     tag: 'composable'

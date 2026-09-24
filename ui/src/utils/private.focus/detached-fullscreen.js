@@ -2,7 +2,7 @@ import { childHasFocus } from '../dom/dom.js'
 
 /**
  * Registry of elements that have been detached from their original DOM
- * position. Currently only useFullscreen() does this: it moves the element
+ * position. Currently only useSoftFullscreen() does this: it moves the element
  * to <body> so that the fullscreen mixin can escape ancestor overflow,
  * transform and stacking contexts.
  *
@@ -45,8 +45,8 @@ function notifyListeners() {
   }
 }
 
-export function addDetachedFullscreen(fillerNode, vm) {
-  detachedMap.set(fillerNode, vm)
+export function addDetachedFullscreen(fillerNode, getEl) {
+  detachedMap.set(fillerNode, getEl)
   notifyListeners()
 }
 
@@ -57,8 +57,8 @@ export function removeDetachedFullscreen(fillerNode) {
 }
 
 function fillerNodeFor(el) {
-  for (const [fillerNode, vm] of detachedMap) {
-    if (vm.$el.contains(el) === true) return fillerNode
+  for (const [fillerNode, getEl] of detachedMap) {
+    if (getEl().contains(el) === true) return fillerNode
   }
 }
 

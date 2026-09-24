@@ -22,10 +22,10 @@ import useQuasar from '../../composables/use-quasar/use-quasar.js'
 import useDark, {
   useDarkProps
 } from '../../composables/private.use-dark/use-dark.js'
-import useFullscreen, {
+import useInternalFullscreen, {
   useFullscreenEmits,
   useFullscreenProps
-} from '../../composables/private.use-fullscreen/use-fullscreen.js'
+} from '../../composables/private.use-internal-fullscreen/use-internal-fullscreen.js'
 import useSplitAttrs from '../../composables/use-split-attrs/use-split-attrs.js'
 
 import { isRuntimeSsrPreHydration } from '../../plugins/platform/Platform.js'
@@ -117,7 +117,7 @@ export default /*#__PURE__*/ createComponent({
     const $q = useQuasar()
 
     const isDark = useDark(props, $q)
-    const { inFullscreen, toggleFullscreen } = useFullscreen()
+    const { inFullscreen, toggleFullscreen } = useInternalFullscreen()
     const splitAttrs = useSplitAttrs()
 
     const rootRef = shallowRef(null)

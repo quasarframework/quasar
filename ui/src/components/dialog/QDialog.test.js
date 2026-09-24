@@ -13,9 +13,9 @@ import { KeepAlive, defineComponent, h } from 'vue'
 import { useRoute } from 'vue-router'
 
 import QDialog from './QDialog.js'
-import useFullscreen, {
+import useInternalFullscreen, {
   useFullscreenProps
-} from '../../composables/private.use-fullscreen/use-fullscreen.js'
+} from '../../composables/private.use-internal-fullscreen/use-internal-fullscreen.js'
 import { getRouter } from 'testing/runtime/router.js'
 import { client } from '../../plugins/platform/Platform.js'
 import DialogWrapper from './test/DialogWrapper.vue'
@@ -25,7 +25,7 @@ const FullscreenChild = defineComponent({
   props: useFullscreenProps,
 
   setup() {
-    useFullscreen()
+    useInternalFullscreen()
 
     return () =>
       h('section', null, [h('input', { 'data-test': 'fullscreen-input' })])
@@ -770,7 +770,7 @@ describe('[QDialog API]', () => {
 
         const el = document.body.querySelector('[data-test="fullscreen-input"]')
 
-        // useFullscreen() has moved the child out of the dialog
+        // useInternalFullscreen() has moved the child out of the dialog
         expect(el.closest('.q-dialog__inner')).toBeNull()
 
         el.focus()

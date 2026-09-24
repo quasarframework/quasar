@@ -62,7 +62,7 @@ function globalHandler(evt) {
     }
 
     if (
-      // a target inside a child that useFullscreen() has detached to <body>
+      // a target inside a child that useSoftFullscreen() has detached to <body>
       // is still logically inside the popup / anchor it was moved out of,
       // despite failing the physical containment test (#18512)
       (state.anchorEl.value === null ||

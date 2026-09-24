@@ -3,10 +3,16 @@ title: Fullscreen Plugin
 desc: A Quasar plugin to toggle the fullscreen state of your app through the Web Fullscreen API.
 keys: AppFullScreen
 examples: AppFullscreen
+related:
+  - /vue-composables/use-soft-fullscreen
 ---
 
 There are times when you want your website or App to run in fullscreen.
 Quasar makes it easy by wrapping the [Web Fullscreen API](https://developer.mozilla.org/en-US/docs/Web/API/Fullscreen_API).
+
+> [!TIP]
+> **Soft fullscreen**
+> To make one element of your page take over the viewport without the browser's Fullscreen API (the way the `fullscreen` prop of QTable, QCarousel or QEditor does), use the [useSoftFullscreen](/vue-composables/use-soft-fullscreen) composable instead.
 
 > [!WARNING]
 > Please note that the behavior is different depending on the platform the code is running on, due to the fact that there isn't a fixed Web standard for Web Fullscreen API yet.
