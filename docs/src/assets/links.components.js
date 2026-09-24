@@ -476,6 +476,11 @@ const plugins = [
     tag: 'plugin'
   },
   {
+    name: 'App Wake Lock',
+    description: 'Keep the screen from turning off',
+    tag: 'plugin'
+  },
+  {
     name: 'Bottom Sheet',
     description: 'Quick way to offer a list of actions',
     tag: 'plugin'

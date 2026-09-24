@@ -2,6 +2,7 @@ export { default as AddressbarColor } from './plugins/addressbar/AddressbarColor
 export { default as AppFullscreen } from './plugins/app-fullscreen/AppFullscreen.js'
 export { default as AppNetwork } from './plugins/app-network/AppNetwork.js'
 export { default as AppVisibility } from './plugins/app-visibility/AppVisibility.js'
+export { default as AppWakeLock } from './plugins/app-wake-lock/AppWakeLock.js'
 export { default as BottomSheet } from './plugins/bottom-sheet/BottomSheet.js'
 export { default as Cookies } from './plugins/cookies/Cookies.js'
 export { default as Dark } from './plugins/dark/Dark.js'

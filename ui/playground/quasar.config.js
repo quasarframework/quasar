@@ -82,6 +82,7 @@ export default defineConfig(ctx => ({
       'AppFullscreen',
       'AppNetwork',
       'AppVisibility',
+      'AppWakeLock',
       'BottomSheet',
       'Cookies',
       'Dark',

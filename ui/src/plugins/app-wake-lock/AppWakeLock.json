@@ -1,0 +1,53 @@
+{
+  "meta": {
+    "docsUrl": "https://v2.quasar.dev/quasar-plugins/app-wake-lock"
+  },
+
+  "injection": "$q.wakeLock",
+
+  "props": {
+    "isCapable": {
+      "type": "Boolean",
+      "desc": "Does the browser support the Screen Wake Lock API? Always 'false' on the server and, on SSR/SSG, until hydration completes",
+      "reactive": true
+    },
+
+    "isActive": {
+      "type": "Boolean",
+      "desc": "Is a screen wake lock currently held? Becomes 'false' when the browser releases the lock on its own (page hidden, battery saver) and 'true' again once the plugin re-acquires it",
+      "reactive": true
+    }
+  },
+
+  "methods": {
+    "request": {
+      "desc": "Keep the screen awake; the plugin re-acquires the lock whenever the browser drops it (page hidden) until release() is called",
+      "params": null,
+      "returns": {
+        "type": "Promise<void>",
+        "desc": "A Promise which is resolved when the wake lock is held. It gets rejected with 'Not capable' if the browser is not capable, and with the browser's DOMException (usually 'NotAllowedError': page hidden, battery saver, permissions policy) if the lock could not be acquired.",
+        "examples": ["request().then(() => { ... }).catch(err => { ... })"]
+      }
+    },
+
+    "release": {
+      "desc": "Let the screen turn off again",
+      "params": null,
+      "returns": {
+        "type": "Promise<void>",
+        "desc": "A Promise which is resolved when the wake lock is released. It gets rejected with 'Not capable' if the browser is not capable.",
+        "examples": ["release().then(() => { ... }).catch(err => { ... })"]
+      }
+    },
+
+    "toggle": {
+      "desc": "Request or release the wake lock, depending on whether one is currently held",
+      "params": null,
+      "returns": {
+        "type": "Promise<void>",
+        "desc": "A Promise which is resolved when the wake lock is acquired / released. It gets rejected with 'Not capable' if the browser is not capable, and with the browser's DOMException if the lock could not be acquired.",
+        "examples": ["toggle().then(() => { ... }).catch(err => { ... })"]
+      }
+    }
+  }
+}

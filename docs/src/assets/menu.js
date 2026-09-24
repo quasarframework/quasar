@@ -636,6 +636,11 @@ export default [
         path: 'app-visibility'
       },
       {
+        name: 'App Wake Lock',
+        badge: 'new',
+        path: 'app-wake-lock'
+      },
+      {
         name: 'Bottom Sheet',
         path: 'bottom-sheet'
       },
@@ -724,7 +729,6 @@ export default [
       },
       {
         name: 'useIntersection',
-        badge: 'new',
         path: 'use-intersection'
       },
       {
@@ -760,7 +764,6 @@ export default [
       },
       {
         name: 'useAnimationFrame',
-        badge: 'new',
         path: 'use-animation-frame'
       },
       {
