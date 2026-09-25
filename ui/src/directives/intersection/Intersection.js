@@ -9,7 +9,7 @@ import getSSRProps from '../../utils/private.noop-ssr-directive-transform/noop-s
 function update(el, ctx, value) {
   // undefined disables too, matching the touch directives,
   // so a gated value never throws
-  if (value === false || value === void 0) {
+  if (value === false || value === null || value === void 0) {
     unobserve(el)
     ctx.handler = void 0
     return

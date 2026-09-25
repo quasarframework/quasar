@@ -4,8 +4,8 @@
   },
 
   "value": {
-    "type": ["Boolean", "Object", "Function"],
-    "desc": "Boolean false (or undefined) to disable the directive (the element stops being observed until a handler is supplied again); Function to call when scrolling occurs (identical to description of 'handler' prop of the Object form); Elements sharing the same 'cfg' share one Intersection Observer, and the Object form is compared by its option values, so an inline Object literal costs nothing extra",
+    "type": ["Function", "Object", "false", "null"],
+    "desc": "Function to call when scrolling occurs (identical to description of 'handler' prop of the Object form); Elements sharing the same 'cfg' share one Intersection Observer, and the Object form is compared by its option values, so an inline Object literal costs nothing extra; false or null (or undefined) disables the directive, so the element stops being observed until a handler is supplied again",
     "examples": [
       "# v-intersection=\"myFunction\"",
       "# v-intersection=\"isEnabled ? myFunction : false\"",

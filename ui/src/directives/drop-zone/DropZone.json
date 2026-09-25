@@ -4,8 +4,8 @@
   },
 
   "value": {
-    "type": ["Boolean", "Object", "Function"],
-    "desc": "Function to call with the dropped files (identical to description of 'handler' prop of the Object form); Object to also validate the dropped files the way QFile does; any other value (Boolean false, undefined, an Object without a handler) disables the directive, so the element stops accepting drops until a handler is supplied again",
+    "type": ["Function", "Object", "false", "null"],
+    "desc": "Function to call with the dropped files (identical to description of 'handler' prop of the Object form); Object to also validate the dropped files the way QFile does; false or null (any value that is not a handler, in fact) disables the directive, so the element stops accepting drops until a handler is supplied again",
     "examples": [
       "# v-drop-zone=\"myHandler\"",
       "# v-drop-zone=\"isEnabled ? myHandler : false\"",

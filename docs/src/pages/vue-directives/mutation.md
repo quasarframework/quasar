@@ -29,7 +29,7 @@ By not specifying any modifiers (except for "once"), the Mutation directive will
 
 ### Disable
 
-Passing in Boolean `false` (or `undefined`) instead of a Function disables the directive: the Mutation Observer is dropped until a handler is supplied again. The DOM element is untouched in the process, so whatever it wraps keeps its state.
+Passing in `false` or `null` (or `undefined`) instead of a Function disables the directive: the Mutation Observer is dropped until a handler is supplied again. The DOM element is untouched in the process, so whatever it wraps keeps its state.
 
 <DocExample title="Disable" file="Disable" />
 

@@ -135,6 +135,24 @@ describe('[Mutation API]', () => {
       expect(observers[0].disconnect).toHaveBeenCalledOnce()
     })
 
+    test('as null', async () => {
+      const handler = vi.fn(() => true)
+      const value = ref(handler)
+      const TestComponent = defineComponent({
+        render: () => withDirectives(h('div'), [[Mutation, value.value]])
+      })
+
+      mount(TestComponent)
+
+      expect(observers).toHaveLength(1)
+
+      value.value = null
+      await nextTick()
+
+      expect(observers).toHaveLength(1)
+      expect(observers[0].disconnect).toHaveBeenCalledOnce()
+    })
+
     test('swapping the handler keeps the observer', async () => {
       const first = vi.fn(() => true)
       const second = vi.fn(() => true)

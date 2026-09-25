@@ -690,7 +690,8 @@ const typeList = [
   'Component',
   'ComponentInstance',
   'null',
-  'undefined'
+  'undefined',
+  'false'
 ]
 
 // assumes type does NOT have any duplicates

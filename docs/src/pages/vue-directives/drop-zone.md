@@ -46,7 +46,7 @@ The Object form carries the handler next to the validation options of [QFile](/v
 
 ### Disable
 
-Passing in Boolean `false` (or `undefined`) instead of a Function (or an Object without a `handler`) disables the directive: the element stops accepting drops (the browser's default handling of a drop applies again) until a handler is supplied again. The DOM element is untouched in the process, so whatever it wraps keeps its state.
+Passing in `false` or `null` instead of a Function (any value that is not a handler, in fact, an Object without a `handler` included) disables the directive: the element stops accepting drops (the browser's default handling of a drop applies again) until a handler is supplied again. The DOM element is untouched in the process, so whatever it wraps keeps its state.
 
 <DocExample title="Disable" file="Disable" />
 

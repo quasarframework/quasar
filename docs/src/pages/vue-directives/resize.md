@@ -38,6 +38,6 @@ The directive can be used with the `once` modifier (ex: `v-resize.once`). The ha
 
 ### Disable
 
-Passing in Boolean `false` (or `undefined`) instead of a Function disables the directive: the element stops being observed until a handler is supplied again, at which point the current size is reported if it changed meanwhile. The DOM element is untouched in the process, so whatever it wraps keeps its state.
+Passing in `false` or `null` (or `undefined`) instead of a Function disables the directive: the element stops being observed until a handler is supplied again, at which point the current size is reported if it changed meanwhile. The DOM element is untouched in the process, so whatever it wraps keeps its state.
 
 <DocExample title="Disable" file="Disable" />

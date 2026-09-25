@@ -4,8 +4,8 @@
   },
 
   "value": {
-    "type": ["Boolean", "Function"],
-    "desc": "Boolean false (or undefined) to disable the directive (the observer is dropped and recreated when a handler is supplied again); Function to call when mutation occurs",
+    "type": ["Function", "false", "null"],
+    "desc": "Function to call when mutation occurs; false or null (or undefined) disables the directive (the observer is dropped and recreated when a handler is supplied again)",
     "examples": [
       "# v-mutation=\"myHandler\"",
       "# v-mutation=\"isEnabled ? myHandler : false\""

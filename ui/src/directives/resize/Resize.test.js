@@ -112,6 +112,28 @@ describe('[Resize API]', () => {
       expect(handler).toHaveBeenCalledOnce()
     })
 
+    test('as null', async () => {
+      const handler = vi.fn()
+      const value = ref(null)
+      const { el } = mountResize(value)
+
+      el.style.width = '130px'
+      await frames(2)
+      expect(handler).not.toHaveBeenCalled()
+
+      value.value = handler
+      await nextTick()
+
+      expect(handler).toHaveBeenCalledOnce()
+
+      value.value = null
+      await nextTick()
+
+      el.style.width = '150px'
+      await frames(2)
+      expect(handler).toHaveBeenCalledOnce()
+    })
+
     test('as Function', async () => {
       const handler = vi.fn()
       const { el } = mountResize(handler)
