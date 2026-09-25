@@ -58,7 +58,7 @@ function useIntersection(
     threshold?: number | number[]
     once?: boolean
     disabled?: boolean
-    onIntersect?: (entry: IntersectionObserverEntry) => boolean | void
+    onIntersect?: (entry: IntersectionObserverEntry) => false | void
   }>
 ): {
   isIntersecting: Ref<boolean>

@@ -325,6 +325,38 @@ const makeRequired = prop => {
   prop.required = prop.required !== void 0 ? prop.required : true
 }
 
+// a bracketed modifier name ("[keycode]") stands for any value of its type
+const directivePlaceholderRE = /^\[.+\]$/
+// the TS type of a string that spells a number
+const numericString = `\`\${number}\``
+
+// the modifier names as a string-literal union, so vue-tsc rejects a
+// "v-dir.modifier" the directive does not define; no modifiers accepts none
+function getDirectiveModifiersType(modifiers) {
+  const names = Object.entries(modifiers || {}).map(([name, def]) =>
+    directivePlaceholderRE.test(name)
+      ? getTypeVal(def) === 'number'
+        ? numericString
+        : 'string'
+      : `'${name}'`
+  )
+
+  return names.length !== 0 ? names.join(' | ') : 'never'
+}
+
+// a static argument ("v-resize:100") reaches the directive as a string,
+// a dynamic one ("v-resize:[debounce]") as the bound value;
+// a directive without an argument accepts none
+function getDirectiveArgType(arg) {
+  if (arg === void 0) {
+    return 'undefined'
+  }
+
+  const type = getTypeVal(arg)
+
+  return type === 'number' ? `number | ${numericString}` : type
+}
+
 function transformObject(definition, handler) {
   const result = clone(definition || {})
 
@@ -425,6 +457,8 @@ function getIndexDts(apis, quasarLangIndex) {
       content.value.params = transformObject(content.value.params, makeRequired)
 
       const valueType = getTypeVal(content.value)
+      const modifiersType = getDirectiveModifiersType(content.modifiers)
+      const argType = getDirectiveArgType(content.arg)
 
       const directiveValueType = `${typeName}Value`
       const argComments = content.arg
@@ -480,7 +514,7 @@ function getIndexDts(apis, quasarLangIndex) {
       write(contents, comments + '\n')
       writeLine(
         contents,
-        `export type ${typeName} = Directive<any, ${directiveValueType}>`
+        `export type ${typeName} = Directive<any, ${directiveValueType}, ${modifiersType}, ${argType}>`
       )
 
       write(directives, comments)
@@ -735,14 +769,15 @@ function getIndexDts(apis, quasarLangIndex) {
     writeLine(contents, `${key}: ${getSafeInjectionKey(key)}VueGlobals`, 2)
   }
 
-  // The only way Volar offers until a related feature is implemented in Vue itself is to use the approach below.
-  // See: https://github.com/vuejs/language-tools/issues/465#issuecomment-1229166260
-  // See: https://github.com/vuejs/core/pull/3399
+  writeLine(contents, '}', 1)
+  writeLine(contents, '}')
   writeLine(contents)
-  writeLine(contents, '// Directives', 2)
-  writeLine(contents)
-  writeLines(contents, directives.join('\n'), 2)
 
+  // vue-tsc resolves a template's "v-touch-pan" as GlobalDirectives.vTouchPan
+  // and checks its value, argument and modifiers against the Directive generics
+  writeLine(contents, "declare module 'vue' {")
+  writeLine(contents, 'interface GlobalDirectives {', 1)
+  writeLines(contents, directives.join('\n'), 2)
   writeLine(contents, '}', 1)
   writeLine(contents, '}')
   writeLine(contents)

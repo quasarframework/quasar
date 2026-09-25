@@ -262,6 +262,13 @@ const typeMap = {
     createValue: () => 'undefined',
     createExpectCall: ({ ref }) => `expect(${ref}).toBeUndefined()`,
     expectMatcher: 'undefined'
+  },
+
+  // a callback that may return nothing ("returns" only)
+  void: {
+    createValue: () => 'undefined',
+    createExpectCall: ({ ref }) => `expect(${ref}).toBeUndefined()`,
+    expectMatcher: 'undefined'
   }
 }
 

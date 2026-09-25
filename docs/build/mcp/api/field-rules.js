@@ -40,7 +40,8 @@ const LIB_TYPES_PASS = new Set([
   'Promise',
   'Function',
   'null',
-  'undefined'
+  'undefined',
+  'void'
 ])
 
 /**

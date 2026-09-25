@@ -691,6 +691,7 @@ const typeList = [
   'ComponentInstance',
   'null',
   'undefined',
+  'void',
   'false'
 ]
 

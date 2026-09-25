@@ -71,7 +71,7 @@ function useMutation(
     attributeFilter?: string[]
     once?: boolean
     disabled?: boolean
-    onMutation?: (records: MutationRecord[]) => boolean | void
+    onMutation?: (records: MutationRecord[]) => false | void
   }>
 ): {
   mutationRecords: ShallowRef<MutationRecord[]>

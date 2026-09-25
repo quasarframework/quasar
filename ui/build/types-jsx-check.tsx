@@ -2,8 +2,47 @@
 // index.d.ts the way a userland JSX/TSX file uses it, which the .d.ts-only
 // pass cannot do. Every "@ts-expect-error" below is an assertion too: the
 // line must keep erroring, or the check fails.
-import { QBtn, QInput, type QTableColumn } from 'quasar'
-import { defineComponent, ref } from 'vue'
+import {
+  QBtn,
+  QInput,
+  type QTableColumn,
+  type Resize,
+  type TouchPan,
+  type TouchRepeat
+} from 'quasar'
+import { type ObjectDirective, defineComponent, ref } from 'vue'
+
+// the binding a directive's hooks receive; vue-tsc checks each template
+// usage ("v-dir:arg.modifier=\"value\"") against these same generics
+type DirectiveBindingOf<D> = Parameters<
+  NonNullable<Extract<D, ObjectDirective>['mounted']>
+>[1]
+
+export const touchPanModifiers: DirectiveBindingOf<TouchPan>['modifiers'] = {
+  horizontal: true,
+  prevent: true
+}
+export const touchPanTypo: DirectiveBindingOf<TouchPan>['modifiers'] = {
+  horizontal: true,
+  // @ts-expect-error unknown modifiers are rejected
+  typo: true
+}
+// @ts-expect-error a directive without an argument rejects one
+export const touchPanArg: DirectiveBindingOf<TouchPan>['arg'] = 'x'
+
+// a placeholder modifier ("[keycode]") accepts any value of its type
+export const touchRepeatKeycode: DirectiveBindingOf<TouchRepeat>['modifiers'] =
+  { '68': true, esc: true }
+export const touchRepeatTypo: DirectiveBindingOf<TouchRepeat>['modifiers'] = {
+  // @ts-expect-error a non-numeric key is not a keycode
+  f1: true
+}
+
+// a static argument arrives as a string, a dynamic one as the bound value
+export const resizeStaticArg: DirectiveBindingOf<Resize>['arg'] = '100'
+export const resizeDynamicArg: DirectiveBindingOf<Resize>['arg'] = 100
+// @ts-expect-error a non-numeric argument is rejected
+export const resizeTypoArg: DirectiveBindingOf<Resize>['arg'] = 'fast'
 
 export default defineComponent({
   setup() {

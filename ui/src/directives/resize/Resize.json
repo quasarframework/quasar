@@ -12,7 +12,7 @@
     ],
 
     "returns": {
-      "type": "Boolean",
+      "type": ["false", "void"],
       "desc": "If you return Boolean false from the handler, the observer stops"
     },
 

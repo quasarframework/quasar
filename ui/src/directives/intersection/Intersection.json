@@ -17,7 +17,7 @@
         "type": "Function",
         "desc": "The handler function to be called",
         "returns": {
-          "type": "Boolean",
+          "type": ["false", "void"],
           "desc": "If you return Boolean false from the handler, the observer stops"
         },
         "params": {
@@ -201,7 +201,7 @@
       }
     },
     "returns": {
-      "type": "Boolean",
+      "type": ["false", "void"],
       "desc": "If you return Boolean false from the handler, the observer stops"
     }
   },

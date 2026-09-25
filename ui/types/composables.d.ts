@@ -209,7 +209,7 @@ export interface UseMutationOptions extends MutationObserverInit {
   >;
   once?: boolean;
   disabled?: boolean;
-  onMutation?: (records: MutationRecord[]) => boolean | void;
+  onMutation?: (records: MutationRecord[]) => false | void;
 }
 
 export function useMutation(options?: MaybeRefOrGetter<UseMutationOptions>): {
@@ -261,7 +261,7 @@ export interface UseIntersectionOptions {
   threshold?: number | number[];
   once?: boolean;
   disabled?: boolean;
-  onIntersect?: (entry: IntersectionObserverEntry) => boolean | void;
+  onIntersect?: (entry: IntersectionObserverEntry) => false | void;
 }
 
 export function useIntersection(

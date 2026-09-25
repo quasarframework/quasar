@@ -97,6 +97,10 @@ Please refer to:
 - [SSR with TypeScript](/quasar-cli-vite/developing-ssr/ssr-with-typescript) page.
 - [SSG with TypeScript](/quasar-cli-vite/developing-ssg/ssg-with-typescript) page.
 
+## Template type checking
+
+`vue-tsc` (the `typecheck` script from the [linting setup](/quasar-cli-vite/lint-and-format-code)) also checks your `.vue` templates against the Quasar typings: the props, events and slots of every Quasar component, and (v2.34+) the value, argument and modifiers of every Quasar directive. A misspelled modifier (`v-touch-pan.horizontl`), an argument the directive does not take or a handler with the wrong signature is reported as a type error, both by the script and in your IDE.
+
 ## Configuring TypeScript
 
 ### tsconfig.json
