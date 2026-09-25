@@ -39,7 +39,7 @@ setup () {
       onTimeout (args) { // called when a call hits the timeout
         // ...
       },
-      onTerminate () { // called right after the worker got killed
+      onTerminate (reason) { // called right after the worker got killed
         // ...
       }
     }
@@ -60,7 +60,9 @@ function useWebWorkerFn<Fn extends (...args: any[]) => any>(
     onSuccess?: (result: Awaited<ReturnType<Fn>>, args: Parameters<Fn>) => void
     onError?: (error: unknown, args: Parameters<Fn>) => void
     onTimeout?: (args: Parameters<Fn>) => void
-    onTerminate?: () => void
+    onTerminate?: (
+      reason: 'terminate' | 'timeout' | 'error' | 'unmount'
+    ) => void
   }
 ): {
   runWorkerFn: (...args: Parameters<Fn>) => Promise<Awaited<ReturnType<Fn>>>
@@ -75,7 +77,7 @@ function useWebWorkerFn<Fn extends (...args: any[]) => any>(
 
 The worker gets created at the first call and is kept for the next ones, so repeated calls do not pay the startup cost again. `terminateWorkerFn()` kills it (rejecting a running call); the next call starts a fresh one. The composable terminates the worker by itself when the component gets destroyed.
 
-The hooks report the outcome of each call, with the arguments it was made with, so that one handler can react wherever the call came from: `onSuccess(result, args)` when it resolves, `onError(error, args)` when it rejects with an error (your function threw, the worker script failed to load, an argument could not be cloned) and `onTimeout(args)` when it exceeds `timeout`. `onTerminate()` gets called right after the worker got killed, whatever the cause (`terminateWorkerFn()`, a timeout, a failing script, the component being destroyed), after the outcome hook of the call it interrupted. A rejection caused by `terminateWorkerFn()` or by a call made while another one runs is not an outcome of your function, so no hook reports it.
+The hooks report the outcome of each call, with the arguments it was made with, so that one handler can react wherever the call came from: `onSuccess(result, args)` when it resolves, `onError(error, args)` when it rejects with an error (your function threw, the worker script failed to load, an argument could not be cloned) and `onTimeout(args)` when it exceeds `timeout`. `onTerminate(reason)` gets called right after the worker got killed, after the outcome hook of the call it interrupted, with `reason` naming the cause: `'terminate'` for a `terminateWorkerFn()` call, `'timeout'`, `'error'` for a failing script or `'unmount'` for the component being destroyed. A rejection caused by `terminateWorkerFn()` or by a call made while another one runs is not an outcome of your function, so no hook reports it.
 
 ## The function is serialized
 

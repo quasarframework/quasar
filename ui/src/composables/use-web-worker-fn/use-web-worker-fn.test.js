@@ -311,8 +311,8 @@ describe('[useWebWorkerFn API]', () => {
           onError(error, args) {
             calls.push(['error', error, args])
           },
-          onTerminate() {
-            calls.push(['terminate'])
+          onTerminate(reason) {
+            calls.push(['terminate', reason])
           }
         })
 
@@ -322,7 +322,7 @@ describe('[useWebWorkerFn API]', () => {
         expect(calls[0][0]).toBe('error')
         expect(calls[0][1]).toBeInstanceOf(Error)
         expect(calls[0][2]).toEqual([1, 2])
-        expect(calls[1]).toEqual(['terminate'])
+        expect(calls[1]).toEqual(['terminate', 'error'])
       })
 
       test('calls onTimeout then onTerminate on a timeout', async () => {
@@ -334,18 +334,21 @@ describe('[useWebWorkerFn API]', () => {
           onTimeout(args) {
             calls.push(['timeout', args])
           },
-          onTerminate() {
-            calls.push(['terminate'])
+          onTerminate(reason) {
+            calls.push(['terminate', reason])
           }
         })
 
         await expect(runWorkerFn(10_000)).rejects.toThrow(/timed out/)
 
-        expect(calls).toEqual([['timeout', [10_000]], ['terminate']])
+        expect(calls).toEqual([
+          ['timeout', [10_000]],
+          ['terminate', 'timeout']
+        ])
         expect(onError).not.toHaveBeenCalled()
       })
 
-      test('calls onTerminate on terminateWorkerFn() and on unmount, only when a worker existed', async () => {
+      test('calls onTerminate with the reason on terminateWorkerFn() and on unmount, only when a worker existed', async () => {
         const onTerminate = vi.fn()
         const onError = vi.fn()
         const { wrapper, runWorkerFn, terminateWorkerFn } = mountWorkerFn(
@@ -357,14 +360,16 @@ describe('[useWebWorkerFn API]', () => {
         expect(onTerminate).not.toHaveBeenCalled()
 
         await expect(runWorkerFn(1)).resolves.toBe(1)
-        terminateWorkerFn()
+        terminateWorkerFn('bogus')
         expect(onTerminate).toHaveBeenCalledTimes(1)
+        expect(onTerminate).toHaveBeenLastCalledWith('terminate')
 
         const promise = runWorkerFn(2000)
         wrapper.unmount()
 
         await expect(promise).rejects.toThrow(/terminated/)
         expect(onTerminate).toHaveBeenCalledTimes(2)
+        expect(onTerminate).toHaveBeenLastCalledWith('unmount')
         // a termination is not an outcome of the call
         expect(onError).not.toHaveBeenCalled()
       })

@@ -28,8 +28,9 @@ import { noop } from '../../utils/event/event.js'
  *                              events of the worker
  *    onCreate(worker)        - called with each Worker the composable
  *                              starts using (send the init message here)
- *    onTerminate(worker)     - called right after a worker got killed, by
- *                              terminate() or by the unmount
+ *    onTerminate(worker, reason) - called right after a worker got
+ *                              killed; reason is 'terminate' (a
+ *                              terminate() call) or 'unmount'
  *
  * workerStatus - Ref<'idle' | 'running' | 'terminated'>; 'idle' while
  *               there is no worker (before it gets created and after a
@@ -114,7 +115,7 @@ export default function useWebWorker(source, options) {
     return instance
   }
 
-  function stop(status) {
+  function stop(status, reason) {
     workerStatus.value = status
 
     if (instance !== null) {
@@ -125,16 +126,8 @@ export default function useWebWorker(source, options) {
 
       const worker = instance
       instance = null
-      onTerminate?.(worker)
+      onTerminate?.(worker, reason)
     }
-  }
-
-  function terminate() {
-    stop(source instanceof Worker ? statusTerminated : statusIdle)
-  }
-
-  function destroy() {
-    stop(statusTerminated)
   }
 
   if (vm !== null) {
@@ -144,7 +137,9 @@ export default function useWebWorker(source, options) {
       onMounted(getWorker)
     }
 
-    onBeforeUnmount(destroy)
+    onBeforeUnmount(() => {
+      stop(statusTerminated, 'unmount')
+    })
   } else if (eager === true) {
     getWorker()
   }
@@ -158,6 +153,11 @@ export default function useWebWorker(source, options) {
       getWorker()?.postMessage(message, transfer)
     },
 
-    terminate
+    terminate() {
+      stop(
+        source instanceof Worker ? statusTerminated : statusIdle,
+        'terminate'
+      )
+    }
   }
 }

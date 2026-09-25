@@ -257,7 +257,7 @@ describe('[useWebWorker API]', () => {
         await expect.poll(() => data.value).toEqual({ echo: 'init' })
       })
 
-      test('calls onTerminate with the killed worker, on terminate() and on unmount', () => {
+      test('calls onTerminate with the killed worker and the reason, on terminate() and on unmount', () => {
         const url = createScriptUrl()
         const workers = []
         const onTerminate = vi.fn()
@@ -276,13 +276,13 @@ describe('[useWebWorker API]', () => {
         postMessage(1)
         terminate()
         expect(onTerminate).toHaveBeenCalledTimes(1)
-        expect(onTerminate).toHaveBeenLastCalledWith(workers[0])
+        expect(onTerminate).toHaveBeenLastCalledWith(workers[0], 'terminate')
         expect(workerStatus.value).toBe('idle')
 
         postMessage(2)
         wrapper.unmount()
         expect(onTerminate).toHaveBeenCalledTimes(2)
-        expect(onTerminate).toHaveBeenLastCalledWith(workers[1])
+        expect(onTerminate).toHaveBeenLastCalledWith(workers[1], 'unmount')
         expect(workerStatus.value).toBe('terminated')
       })
 

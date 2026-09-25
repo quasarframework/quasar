@@ -42,7 +42,7 @@ setup () {
       onCreate (worker) { // called with each Worker created
         // ...
       },
-      onTerminate (worker) { // called after a worker got killed
+      onTerminate (worker, reason) { // called after a worker got killed
         // ...
       }
     }
@@ -60,7 +60,7 @@ function useWebWorker<Data = any>(
     onMessage?: (data: any, evt: MessageEvent) => void
     onError?: (evt: ErrorEvent | MessageEvent) => void
     onCreate?: (worker: Worker) => void
-    onTerminate?: (worker: Worker) => void
+    onTerminate?: (worker: Worker, reason: 'terminate' | 'unmount') => void
   }
 ): {
   workerStatus: Ref<'idle' | 'running' | 'terminated'>
@@ -85,7 +85,7 @@ The worker gets created at the first `postMessage()`, so a component that never 
 
 `terminate()` kills the worker and puts `workerStatus` back to `idle`: the next `postMessage()` creates a new worker from the `source` (also with `eager: true`, which only applies at mount). Use it to free the thread when a job is done or to abort one that runs too long, then talk to the worker again whenever you need it. The exception is a `Worker` instance passed as `source`: it cannot be created again, so `terminate()` is final for it and `workerStatus` becomes `terminated`.
 
-`onCreate(worker)` gets called with each `Worker` the composable starts using, so it is the place to send a setup message (a configuration, a `MessagePort`) that every fresh worker needs. `onTerminate(worker)` gets called right after a worker got killed, by `terminate()` or by the component being destroyed; reject pending requests or reset progress state there.
+`onCreate(worker)` gets called with each `Worker` the composable starts using, so it is the place to send a setup message (a configuration, a `MessagePort`) that every fresh worker needs. `onTerminate(worker, reason)` gets called right after a worker got killed, with `reason` set to `'terminate'` for a `terminate()` call or `'unmount'` for the component being destroyed; reject pending requests or reset progress state there.
 
 ## Writing the worker
 

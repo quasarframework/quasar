@@ -25,9 +25,10 @@ import { noop } from '../../utils/event/event.js'
  *                              (fn threw, the script failed to load, an
  *                              argument could not be cloned)
  *    onTimeout(args)         - called when a call hits the timeout
- *    onTerminate()           - called right after the worker got killed
- *                              (terminateWorkerFn(), timeout, script
- *                              error, unmount)
+ *    onTerminate(reason)     - called right after the worker got killed;
+ *                              reason is 'terminate' (a terminateWorkerFn()
+ *                              call), 'timeout', 'error' (the script
+ *                              failed) or 'unmount'
  *
  * runWorkerFn(...args) - Promise of fn's result; rejects with the error fn
  *                        threw, on timeout, on termination and while
@@ -151,11 +152,11 @@ export default function useWebWorkerFn(fn, options) {
 
   // kills the worker (if any) and settles the call in progress; the
   // outcome hook fires before onTerminate, as the kill is its consequence
-  function kill(status, method, value) {
+  function kill(reason, status, method, value) {
     const killed = destroyWorker()
     settle(status, method, value)
     if (killed) {
-      onTerminate?.()
+      onTerminate?.(reason)
     }
   }
 
@@ -173,7 +174,7 @@ export default function useWebWorkerFn(fn, options) {
   function onWorkerError(evt) {
     // reported through the rejection, not as an uncaught error
     evt.preventDefault()
-    kill(statusError, 'reject', evt.error ?? new Error(evt.message))
+    kill('error', statusError, 'reject', evt.error ?? new Error(evt.message))
   }
 
   function createWorker() {
@@ -219,6 +220,7 @@ export default function useWebWorkerFn(fn, options) {
         timer = setTimeout(() => {
           timer = null
           kill(
+            'timeout',
             statusTimeout,
             'reject',
             new Error(`useWebWorkerFn: timed out after ${timeout}ms`)
@@ -235,8 +237,9 @@ export default function useWebWorkerFn(fn, options) {
     })
   }
 
-  function terminateWorkerFn() {
+  function terminateWorkerFn(reason) {
     kill(
+      reason,
       statusIdle,
       'reject',
       new Error('useWebWorkerFn: the worker was terminated')
@@ -245,7 +248,7 @@ export default function useWebWorkerFn(fn, options) {
 
   if (getCurrentInstance() !== null) {
     onBeforeUnmount(() => {
-      terminateWorkerFn()
+      terminateWorkerFn('unmount')
 
       if (blobUrl !== null) {
         URL.revokeObjectURL(blobUrl)
@@ -254,5 +257,12 @@ export default function useWebWorkerFn(fn, options) {
     })
   }
 
-  return { runWorkerFn, workerFnStatus, terminateWorkerFn }
+  return {
+    runWorkerFn,
+    workerFnStatus,
+    // the reason argument stays internal
+    terminateWorkerFn: () => {
+      terminateWorkerFn('terminate')
+    }
+  }
 }

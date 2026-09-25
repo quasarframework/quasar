@@ -316,8 +316,10 @@ export interface UseWebWorkerOptions extends WorkerOptions {
   onMessage?: (data: any, evt: MessageEvent) => void;
   onError?: (evt: ErrorEvent | MessageEvent) => void;
   onCreate?: (worker: Worker) => void;
-  onTerminate?: (worker: Worker) => void;
+  onTerminate?: (worker: Worker, reason: WebWorkerTerminateReason) => void;
 }
+
+export type WebWorkerTerminateReason = "terminate" | "unmount";
 
 export type WebWorkerStatus = "idle" | "running" | "terminated";
 
@@ -350,8 +352,13 @@ export interface UseWebWorkerFnOptions<
   onSuccess?: (result: Result, args: Args) => void;
   onError?: (error: unknown, args: Args) => void;
   onTimeout?: (args: Args) => void;
-  onTerminate?: () => void;
+  onTerminate?: (reason: WebWorkerFnTerminateReason) => void;
 }
+
+export type WebWorkerFnTerminateReason =
+  | WebWorkerTerminateReason
+  | "timeout"
+  | "error";
 
 export function useWebWorkerFn<Fn extends (...args: any[]) => any>(
   fn: Fn,
