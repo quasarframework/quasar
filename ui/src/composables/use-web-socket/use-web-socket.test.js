@@ -41,6 +41,12 @@ class FakeWebSocket extends EventTarget {
 
   close(code, reason) {
     this.closeCalls.push([code, reason])
+
+    // the native validation
+    if (code !== void 0 && code !== 1000 && (code < 3000 || code > 4999)) {
+      throw new DOMException('invalid close code', 'InvalidAccessError')
+    }
+
     this.readyState = FakeWebSocket.CLOSING
   }
 
@@ -319,6 +325,21 @@ describe('[useWebSocket API]', () => {
         expect(socketStatus.value).toBe('closed')
       })
 
+      test('closeSocket() falls back to the default close on an invalid code', () => {
+        const { socketStatus, closeSocket } = mountSocket()
+        const socket = sockets[0]
+
+        socket.serverOpen()
+        closeSocket(1001, 'going away')
+
+        expect(socket.closeCalls).toEqual([
+          [1001, 'going away'],
+          [void 0, void 0]
+        ])
+        expect(socket.readyState).toBe(FakeWebSocket.CLOSING)
+        expect(socketStatus.value).toBe('closed')
+      })
+
       test('closeSocket() lets openSocket() and sendSocketMessage() reconnect', () => {
         const { socketStatus, sendSocketMessage, openSocket, closeSocket } =
           mountSocket()
@@ -404,6 +425,41 @@ describe('[useWebSocket API]', () => {
         sockets[3].serverClose()
         vi.advanceTimersByTime(1000)
         expect(sockets).toHaveLength(5)
+      })
+
+      test('calls onClose before scheduling the reconnect; closeSocket() from within it keeps the socket closed', () => {
+        const api = {}
+        const onReconnect = vi.fn()
+        const onClose = vi.fn((_, reason) => {
+          if (reason === 'remote' && api.stayClosed) {
+            api.closeSocket()
+          }
+        })
+        const { socketStatus } = Object.assign(
+          api,
+          mountSocket({ onClose, onReconnect, autoReconnect: { delay: 10 } })
+        )
+
+        sockets[0].serverOpen()
+        sockets[0].serverClose()
+
+        expect(onClose).toHaveBeenCalledTimes(1)
+        expect(onReconnect).toHaveBeenCalledTimes(1)
+        expect(onClose.mock.invocationCallOrder[0]).toBeLessThan(
+          onReconnect.mock.invocationCallOrder[0]
+        )
+        vi.advanceTimersByTime(10)
+        expect(sockets).toHaveLength(2)
+
+        api.stayClosed = true
+        sockets[1].serverOpen()
+        sockets[1].serverClose()
+
+        expect(onClose).toHaveBeenCalledTimes(2)
+        expect(onReconnect).toHaveBeenCalledTimes(1)
+        expect(socketStatus.value).toBe('closed')
+        vi.advanceTimersByTime(60_000)
+        expect(sockets).toHaveLength(2)
       })
 
       test('caps the default reconnect delay at 30s', () => {
@@ -652,10 +708,28 @@ describe('[useWebSocket API]', () => {
         expect(onClose.mock.calls[0][1]).toBe('unmount')
       })
 
+      test('does nothing once the component got destroyed', () => {
+        const { wrapper, socketStatus, sendSocketMessage, openSocket } =
+          mountSocket()
+
+        sockets[0].serverOpen()
+        wrapper.unmount()
+
+        openSocket()
+        sendSocketMessage('late')
+        setOnline(false)
+        setOnline(true)
+
+        expect(sockets).toHaveLength(1)
+        expect(socketStatus.value).toBe('closed')
+      })
+
       test('can be used outside of a component', () => {
+        const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
         const { socketStatus, sendSocketMessage, closeSocket } =
           useWebSocket(url)
 
+        expect(warn).not.toHaveBeenCalled()
         expect(sockets).toHaveLength(1)
         expect(socketStatus.value).toBe('connecting')
 
@@ -665,6 +739,57 @@ describe('[useWebSocket API]', () => {
 
         closeSocket()
         expect(socketStatus.value).toBe('closed')
+        warn.mockRestore()
+      })
+
+      test('closeSocket() releases the window listeners and the url watcher outside of a component; openSocket() attaches them again', async () => {
+        const room = ref('a')
+        const target = vi.fn(() => `ws://localhost/${room.value}`)
+        const addListener = vi.spyOn(window, 'addEventListener')
+        const removeListener = vi.spyOn(window, 'removeEventListener')
+        const listened = () =>
+          addListener.mock.calls.filter(([name]) =>
+            ['online', 'offline'].includes(name)
+          ).length -
+          removeListener.mock.calls.filter(([name]) =>
+            ['online', 'offline'].includes(name)
+          ).length
+
+        const { openSocket, closeSocket } = useWebSocket(target)
+
+        expect(listened()).toBe(2)
+
+        closeSocket()
+
+        expect(listened()).toBe(0)
+
+        // the watcher is gone: a url change reads nothing anymore
+        target.mockClear()
+        room.value = 'b'
+        await nextTick()
+        expect(target).not.toHaveBeenCalled()
+        expect(sockets).toHaveLength(1)
+
+        openSocket()
+
+        expect(listened()).toBe(2)
+        expect(sockets).toHaveLength(2)
+        expect(sockets[1].url).toBe('ws://localhost/b')
+
+        room.value = 'c'
+        await nextTick()
+        expect(sockets).toHaveLength(3)
+        expect(sockets[2].url).toBe('ws://localhost/c')
+
+        sockets[2].serverClose()
+        setOnline(false)
+        setOnline(true)
+        expect(sockets).toHaveLength(4)
+
+        closeSocket()
+        expect(listened()).toBe(0)
+        addListener.mockRestore()
+        removeListener.mockRestore()
       })
     })
   })

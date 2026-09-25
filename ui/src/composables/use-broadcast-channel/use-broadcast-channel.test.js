@@ -410,6 +410,59 @@ describe('[useBroadcastChannel API]', () => {
         expect(channelData.value).toBeNull()
       })
 
+      test('does nothing once the component got destroyed', async () => {
+        const {
+          wrapper,
+          isChannelConnected,
+          connectChannel,
+          postChannelMessage,
+          name
+        } = mountChannel()
+        const peer = createPeer(name)
+
+        wrapper.unmount()
+
+        connectChannel()
+        postChannelMessage('late')
+        await settle()
+
+        expect(channels).toHaveLength(1)
+        expect(isChannelConnected.value).toBe(false)
+        expect(peer.received).toEqual([])
+      })
+
+      test('closeChannel() releases the name watcher outside of a component; connectChannel() attaches it again', async () => {
+        const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
+        const room = ref(channelName())
+        const name = vi.fn(() => room.value)
+        const { connectChannel, closeChannel } = useBroadcastChannel(name)
+
+        expect(channels).toHaveLength(1)
+
+        closeChannel()
+
+        // the watcher is gone: a name change reads nothing anymore
+        name.mockClear()
+        room.value = channelName()
+        await nextTick()
+        expect(name).not.toHaveBeenCalled()
+        expect(channels).toHaveLength(1)
+
+        connectChannel()
+        expect(channels).toHaveLength(2)
+        expect(lastChannel().name).toBe(room.value)
+
+        room.value = channelName()
+        await nextTick()
+        expect(channels).toHaveLength(3)
+        expect(lastChannel().name).toBe(room.value)
+
+        closeChannel()
+        expect(lastChannel().closeCalls).toBe(1)
+        expect(warn).not.toHaveBeenCalled()
+        warn.mockRestore()
+      })
+
       test('"lazy" option holds outside of a component too', () => {
         const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
         const { connectChannel, closeChannel } = useBroadcastChannel(

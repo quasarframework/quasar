@@ -8,7 +8,6 @@ import {
   watch
 } from 'vue'
 
-import useEventListener from '../use-event-listener/use-event-listener.js'
 import { noop } from '../../utils/event/event.js'
 
 /*
@@ -43,7 +42,10 @@ import { noop } from '../../utils/event/event.js'
  *    onClose(evt, reason) - called when the socket closes; reason is
  *                           'programmatic' (closeSocket()), 'unmount',
  *                           'url' (the URL changed) or 'remote' (the
- *                           socket closed on its own: server or network)
+ *                           socket closed on its own: server or network);
+ *                           for 'remote' it runs before any reconnect
+ *                           gets scheduled, so a closeSocket() call from
+ *                           within it keeps the socket closed
  *    onError(evt)         - called with the socket's 'error' event
  *    onReconnect(attempt, delay) - called when a reconnect gets
  *                           scheduled, with the 1-based attempt number
@@ -58,8 +60,15 @@ import { noop } from '../../utils/event/event.js'
  * openSocket   - opens the socket (no-op while open or connecting)
  * closeSocket  - closes the socket (no reconnect, queued messages are
  *                dropped; also happens on unmount); code and reason are
- *                the native ones; openSocket() or sendSocketMessage()
- *                reopen it later
+ *                the native ones (an invalid pair closes with the
+ *                defaults); openSocket() or sendSocketMessage() reopen
+ *                it later
+ *
+ * The url watcher and the window 'online'/'offline' listeners only live
+ * while the socket is wanted (openSocket() to closeSocket()), so a call
+ * outside of a component is fully released by closeSocket(). Once the
+ * component got destroyed, openSocket() and sendSocketMessage() are
+ * no-ops.
  */
 
 const statusClosed = 'closed',
@@ -137,10 +146,14 @@ export default function useWebSocket(url, options) {
     // closeSocket()); survives a failed reconnect so that the 'online'
     // event can try again
     wanted = false,
+    // set once the component got destroyed; the socket stays closed
+    unmounted = false,
     attempt = 0,
     reconnectTimer = null,
     heartbeatTimer = null,
-    queue = []
+    queue = [],
+    // the url watcher, while attached
+    stopUrlWatch = null
 
   function clearReconnectTimer() {
     if (reconnectTimer !== null) {
@@ -185,7 +198,13 @@ export default function useWebSocket(url, options) {
         )
       }
 
-      ws.close(code, nativeReason)
+      try {
+        ws.close(code, nativeReason)
+      } catch {
+        // a code outside 1000/3000-4999 or a reason over 123 bytes throws
+        // (native validation); the socket still has to go
+        ws.close()
+      }
     }
   }
 
@@ -267,18 +286,62 @@ export default function useWebSocket(url, options) {
     socket = null
     stopHeartbeat()
 
-    if (wanted && reconnect !== null && attempt < reconnect.retries) {
-      socketStatus.value = statusConnecting
-      scheduleReconnect()
-    } else {
-      socketStatus.value = statusClosed
-    }
+    const willReconnect =
+      wanted && reconnect !== null && attempt < reconnect.retries
 
+    socketStatus.value = willReconnect ? statusConnecting : statusClosed
+
+    // the hook goes first, so that a closeSocket() (or an openSocket())
+    // from within it settles the matter before a reconnect gets scheduled
     onClose?.(evt, 'remote')
+
+    if (willReconnect && wanted && socket === null) {
+      scheduleReconnect()
+    }
+  }
+
+  function onOnline() {
+    if (wanted && socket === null && reconnect !== null) {
+      // a fresh run of attempts, starting right away
+      clearReconnectTimer()
+      attempt = 1
+      connect()
+      onReconnect?.(1, 0)
+    }
+  }
+
+  function onUrlChange() {
+    if (wanted) {
+      disconnect('url')
+      attempt = 0
+      connect()
+    }
+  }
+
+  // the machinery that keeps a wanted socket up: released with it, so
+  // that nothing survives a closeSocket() outside of a component
+  function attach() {
+    if (stopUrlWatch !== null) return
+
+    window.addEventListener('online', onOnline)
+    window.addEventListener('offline', clearReconnectTimer)
+    stopUrlWatch = watch(() => toValue(url), onUrlChange)
+  }
+
+  function release() {
+    if (stopUrlWatch === null) return
+
+    window.removeEventListener('online', onOnline)
+    window.removeEventListener('offline', clearReconnectTimer)
+    stopUrlWatch()
+    stopUrlWatch = null
   }
 
   function openSocket() {
+    if (unmounted) return
+
     wanted = true
+    attach()
 
     if (socket === null && reconnectTimer === null) {
       attempt = 0
@@ -291,38 +354,12 @@ export default function useWebSocket(url, options) {
     queue = []
     socketStatus.value = statusClosed
     disconnect(reason, code, nativeReason)
+    release()
   }
 
   function closeSocket(code, reason) {
     close('programmatic', code, reason)
   }
-
-  useEventListener(
-    () => window,
-    'online',
-    () => {
-      if (wanted && socket === null && reconnect !== null) {
-        // a fresh run of attempts, starting right away
-        clearReconnectTimer()
-        attempt = 1
-        connect()
-        onReconnect?.(1, 0)
-      }
-    }
-  )
-
-  useEventListener(() => window, 'offline', clearReconnectTimer)
-
-  watch(
-    () => toValue(url),
-    () => {
-      if (wanted) {
-        disconnect('url')
-        attempt = 0
-        connect()
-      }
-    }
-  )
 
   if (vm !== null) {
     if (lazy !== true) {
@@ -332,6 +369,7 @@ export default function useWebSocket(url, options) {
     }
 
     onBeforeUnmount(() => {
+      unmounted = true
       close('unmount')
     })
   } else if (lazy !== true) {
@@ -346,7 +384,7 @@ export default function useWebSocket(url, options) {
     sendSocketMessage(message) {
       if (socket !== null && socket.readyState === WebSocket.OPEN) {
         socket.send(message)
-      } else {
+      } else if (!unmounted) {
         queue.push(message)
         openSocket()
       }

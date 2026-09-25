@@ -47,6 +47,11 @@ import { noop } from '../../utils/event/event.js'
  * connectChannel     - connects the channel (no-op while connected)
  * closeChannel       - closes the channel (also happens on unmount);
  *                      connectChannel() reconnects it later
+ *
+ * The name watcher only lives while the channel is connected, so a call
+ * outside of a component is fully released by closeChannel(). Once the
+ * component got destroyed, connectChannel() and postChannelMessage()
+ * are no-ops.
  */
 
 export default function useBroadcastChannel(name, options) {
@@ -68,7 +73,11 @@ export default function useBroadcastChannel(name, options) {
   const vm = getCurrentInstance()
   const { lazy, onConnect, onMessage, onError, onClose } = options ?? {}
 
-  let channel = null
+  let channel = null,
+    // set once the component got destroyed; the channel stays closed
+    unmounted = false,
+    // the name watcher, while connected
+    stopNameWatch = null
 
   function onChannelMessage(evt) {
     channelData.value = evt.data
@@ -81,12 +90,26 @@ export default function useBroadcastChannel(name, options) {
   }
 
   function connectChannel() {
-    if (channel !== null) return
+    if (channel !== null || unmounted) return
 
     channel = new BroadcastChannel(toValue(name))
     channel.addEventListener('message', onChannelMessage)
     channel.addEventListener('messageerror', onChannelError)
     isChannelConnected.value = true
+
+    // a connected channel moves to the new name; released with the
+    // channel, so that nothing survives a closeChannel() outside of a
+    // component
+    if (stopNameWatch === null) {
+      stopNameWatch = watch(
+        () => toValue(name),
+        () => {
+          close('name')
+          connectChannel()
+        }
+      )
+    }
+
     onConnect?.()
   }
 
@@ -101,24 +124,23 @@ export default function useBroadcastChannel(name, options) {
     }
   }
 
+  function release(reason) {
+    close(reason)
+
+    if (stopNameWatch !== null) {
+      stopNameWatch()
+      stopNameWatch = null
+    }
+  }
+
   function closeChannel() {
-    close('programmatic')
+    release('programmatic')
   }
 
   function postChannelMessage(message) {
     connectChannel()
-    channel.postMessage(message)
+    channel?.postMessage(message)
   }
-
-  watch(
-    () => toValue(name),
-    () => {
-      if (channel !== null) {
-        close('name')
-        connectChannel()
-      }
-    }
-  )
 
   if (vm !== null) {
     if (lazy !== true) {
@@ -128,7 +150,8 @@ export default function useBroadcastChannel(name, options) {
     }
 
     onBeforeUnmount(() => {
-      close('unmount')
+      unmounted = true
+      release('unmount')
     })
   } else if (lazy !== true) {
     connectChannel()

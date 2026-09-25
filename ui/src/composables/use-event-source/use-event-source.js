@@ -8,7 +8,6 @@ import {
   watch
 } from 'vue'
 
-import useEventListener from '../use-event-listener/use-event-listener.js'
 import { noop } from '../../utils/event/event.js'
 
 /*
@@ -43,7 +42,10 @@ import { noop } from '../../utils/event/event.js'
  *    onClose(reason)      - called when the stream closes; reason is
  *                           'programmatic' (closeSource()), 'unmount',
  *                           'url' (the URL changed) or 'remote' (the
- *                           browser gave up on the connection)
+ *                           browser gave up on the connection); for
+ *                           'remote' it runs before any reconnect gets
+ *                           scheduled, so a closeSource() call from
+ *                           within it keeps the stream closed
  *    onError(evt)         - called with the stream's 'error' event (also
  *                           fired by the browser before its own retry)
  *    onReconnect(attempt, delay) - called when a reconnect gets
@@ -58,6 +60,11 @@ import { noop } from '../../utils/event/event.js'
  * openSource   - opens the stream (no-op while open or connecting)
  * closeSource  - closes the stream (no reconnect; also happens on
  *                unmount); openSource() reopens it later
+ *
+ * The url watcher and the window 'online'/'offline' listeners only live
+ * while the stream is wanted (openSource() to closeSource()), so a call
+ * outside of a component is fully released by closeSource(). Once the
+ * component got destroyed, openSource() is a no-op.
  */
 
 const statusClosed = 'closed',
@@ -113,8 +120,12 @@ export default function useEventSource(url, options) {
     // closeSource()); survives a failed reconnect so that the 'online'
     // event can try again
     wanted = false,
+    // set once the component got destroyed; the stream stays closed
+    unmounted = false,
     attempt = 0,
-    reconnectTimer = null
+    reconnectTimer = null,
+    // the url watcher, while attached
+    stopUrlWatch = null
 
   function clearReconnectTimer() {
     if (reconnectTimer !== null) {
@@ -213,18 +224,62 @@ export default function useEventSource(url, options) {
     detach(source)
     source = null
 
-    if (wanted && reconnect !== null && attempt < reconnect.retries) {
-      sourceStatus.value = statusConnecting
-      scheduleReconnect()
-    } else {
-      sourceStatus.value = statusClosed
-    }
+    const willReconnect =
+      wanted && reconnect !== null && attempt < reconnect.retries
 
+    sourceStatus.value = willReconnect ? statusConnecting : statusClosed
+
+    // the hook goes first, so that a closeSource() (or an openSource())
+    // from within it settles the matter before a reconnect gets scheduled
     onClose?.('remote')
+
+    if (willReconnect && wanted && source === null) {
+      scheduleReconnect()
+    }
+  }
+
+  function onOnline() {
+    if (wanted && source === null && reconnect !== null) {
+      // a fresh run of attempts, starting right away
+      clearReconnectTimer()
+      attempt = 1
+      connect()
+      onReconnect?.(1, 0)
+    }
+  }
+
+  function onUrlChange() {
+    if (wanted) {
+      disconnect('url')
+      attempt = 0
+      connect()
+    }
+  }
+
+  // the machinery that keeps a wanted stream up: released with it, so
+  // that nothing survives a closeSource() outside of a component
+  function attach() {
+    if (stopUrlWatch !== null) return
+
+    window.addEventListener('online', onOnline)
+    window.addEventListener('offline', clearReconnectTimer)
+    stopUrlWatch = watch(() => toValue(url), onUrlChange)
+  }
+
+  function release() {
+    if (stopUrlWatch === null) return
+
+    window.removeEventListener('online', onOnline)
+    window.removeEventListener('offline', clearReconnectTimer)
+    stopUrlWatch()
+    stopUrlWatch = null
   }
 
   function openSource() {
+    if (unmounted) return
+
     wanted = true
+    attach()
 
     if (source === null && reconnectTimer === null) {
       attempt = 0
@@ -236,38 +291,12 @@ export default function useEventSource(url, options) {
     wanted = false
     sourceStatus.value = statusClosed
     disconnect(reason)
+    release()
   }
 
   function closeSource() {
     close('programmatic')
   }
-
-  useEventListener(
-    () => window,
-    'online',
-    () => {
-      if (wanted && source === null && reconnect !== null) {
-        // a fresh run of attempts, starting right away
-        clearReconnectTimer()
-        attempt = 1
-        connect()
-        onReconnect?.(1, 0)
-      }
-    }
-  )
-
-  useEventListener(() => window, 'offline', clearReconnectTimer)
-
-  watch(
-    () => toValue(url),
-    () => {
-      if (wanted) {
-        disconnect('url')
-        attempt = 0
-        connect()
-      }
-    }
-  )
 
   if (vm !== null) {
     if (lazy !== true) {
@@ -277,6 +306,7 @@ export default function useEventSource(url, options) {
     }
 
     onBeforeUnmount(() => {
+      unmounted = true
       close('unmount')
     })
   } else if (lazy !== true) {

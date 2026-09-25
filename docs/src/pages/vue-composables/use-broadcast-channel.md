@@ -20,7 +20,7 @@ Use it to keep the tabs of your app in sync without a server round-trip: log the
 > [!TIP]
 > **Outside of a component**
 >
-> The composable can also be called outside of `setup()`: in a boot file, a store or a plain module. There is no mount to wait for there, so the channel is connected right away (unless `lazy` is set) and nothing closes it by itself: call `closeChannel()` when you are done.
+> The composable can also be called outside of `setup()`: in a boot file, a store or a plain module. There is no mount to wait for there, so the channel is connected right away (unless `lazy` is set) and nothing closes it by itself: call `closeChannel()` when you are done. It releases everything the composable holds (the channel and the watcher on a reactive `name`), and a later `connectChannel()` sets it all up again.
 
 ## Syntax
 
@@ -89,6 +89,8 @@ The channel is connected when the component is mounted (or right away, when the 
 Each call of `useBroadcastChannel()` manages one channel with one name; for several channels, call it several times. Every context that connects a channel with the same name, on the same origin, is part of it: there is no handshake to wait for, so `isChannelConnected` flips to `true` as soon as the channel is connected and back to `false` when it is closed.
 
 `closeChannel()` closes the channel, so no message arrives anymore. It is not final: a later `connectChannel()` connects a fresh channel with the current name, and so does `postChannelMessage()`.
+
+Once the component got destroyed, the composable is done: `connectChannel()` and `postChannelMessage()` do nothing anymore, so a late async callback cannot connect a channel that nothing would close.
 
 When the `name` is a ref or a getter and its value changes while the channel is open, the current channel is closed and a new one is opened with the new name (one channel per user account, per document being edited).
 

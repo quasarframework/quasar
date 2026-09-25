@@ -18,7 +18,7 @@ The `useWebSocket()` composable keeps a [WebSocket](https://developer.mozilla.or
 > [!TIP]
 > **Outside of a component**
 >
-> The composable can also be called outside of `setup()`: in a boot file, a store or a plain module. There is no mount to wait for there, so the socket opens right away (unless `lazy` is set) and nothing closes it by itself: call `closeSocket()` when you are done.
+> The composable can also be called outside of `setup()`: in a boot file, a store or a plain module. There is no mount to wait for there, so the socket opens right away (unless `lazy` is set) and nothing closes it by itself: call `closeSocket()` when you are done. It releases everything the composable holds (the socket, the queued messages, the `online`/`offline` listeners and the watcher on a reactive `url`), and a later `openSocket()` sets it all up again.
 
 ## Syntax
 
@@ -92,7 +92,7 @@ function useWebSocket<Data = any>(
           interval?: number
         }
     onOpen?: (evt: Event) => void
-    onMessage?: (data: any, evt: MessageEvent) => void
+    onMessage?: (data: Data, evt: MessageEvent<Data>) => void
     onClose?: (
       evt: CloseEvent,
       reason: 'programmatic' | 'unmount' | 'url' | 'remote'
@@ -118,7 +118,9 @@ The socket opens when the component is mounted (or right away, when the composab
 
 Each call of `useWebSocket()` manages one connection to one endpoint; for several sockets, call it several times.
 
-`closeSocket(code, reason)` closes the connection with the native close code and reason, drops the queued messages and stops any reconnecting. It is not final: a later `openSocket()` or `sendSocketMessage()` opens a fresh connection.
+`closeSocket(code, reason)` closes the connection with the native close code and reason, drops the queued messages and stops any reconnecting. The native constraints apply: the code is `1000` or one in the `3000` to `4999` range and the reason is at most 123 bytes of UTF-8; an invalid pair closes with the defaults instead. It is not final: a later `openSocket()` or `sendSocketMessage()` opens a fresh connection.
+
+Once the component got destroyed, the composable is done: `openSocket()` and `sendSocketMessage()` do nothing anymore, so a late async callback cannot open a socket that nothing would close.
 
 `socketStatus` is `connecting` from the moment the socket is requested until it is open, `open` while messages flow, and `closed` when it was never opened, when you closed it, or when reconnecting was given up. While waiting to reconnect the status is `connecting` too, as the composable is still working on it.
 
@@ -132,7 +134,7 @@ The `url` does not have to be a `ws://` or `wss://` one: a relative URL (`'/api/
 
 `socketData` holds the `data` of the last message received and `socketError` the last `error` event of the socket. The `onMessage`, `onError`, `onOpen` and `onClose` hooks get called in the same situations, so you do not need to watch the refs. Messages arrive as they were sent: parse them yourself (`JSON.parse()`) in `onMessage` if your protocol is JSON.
 
-`onClose(evt, reason)` is called for every close, with the native `CloseEvent` (its `code`, `reason` and `wasClean` tell how the connection ended) and a second argument saying who asked for it: `programmatic` for your `closeSocket()` call, `unmount` when the component got destroyed, `url` when the socket was moved to a new URL, and `remote` when the socket closed on its own (the server closed it, or the connection dropped). The hook runs when the close event arrives, so for `unmount` the component is already gone by then.
+`onClose(evt, reason)` is called for every close, with the native `CloseEvent` (its `code`, `reason` and `wasClean` tell how the connection ended) and a second argument saying who asked for it: `programmatic` for your `closeSocket()` call, `unmount` when the component got destroyed, `url` when the socket was moved to a new URL, and `remote` when the socket closed on its own (the server closed it, or the connection dropped). The hook runs when the close event arrives, so for `unmount` the component is already gone by then. For `remote` it runs before any reconnect gets scheduled, so a `closeSocket()` call from within it keeps the socket closed.
 
 ## Reconnecting
 
@@ -146,7 +148,7 @@ Some proxies and load balancers drop a connection that stays silent for a while.
 
 ## Example
 
-The example below talks to a public echo server, which greets each new connection then repeats everything it receives. Close the socket, open it again, or turn your network off and on to see the status follow.
+The example below talks to a public echo server, which greets each new connection then repeats everything it receives. The socket waits for your click (`lazy`); open it, close it, or turn your network off and on to see the status follow.
 
 <DocExample title="Basic" file="Basic" />
 

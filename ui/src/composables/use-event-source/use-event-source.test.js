@@ -359,6 +359,41 @@ describe('[useEventSource API]', () => {
         expect(sources).toHaveLength(5)
       })
 
+      test('calls onClose before scheduling the reconnect; closeSource() from within it keeps the stream closed', () => {
+        const api = {}
+        const onReconnect = vi.fn()
+        const onClose = vi.fn(reason => {
+          if (reason === 'remote' && api.stayClosed) {
+            api.closeSource()
+          }
+        })
+        const { sourceStatus } = Object.assign(
+          api,
+          mountSource({ onClose, onReconnect, autoReconnect: { delay: 10 } })
+        )
+
+        sources[0].serverOpen()
+        sources[0].serverFail()
+
+        expect(onClose).toHaveBeenCalledTimes(1)
+        expect(onReconnect).toHaveBeenCalledTimes(1)
+        expect(onClose.mock.invocationCallOrder[0]).toBeLessThan(
+          onReconnect.mock.invocationCallOrder[0]
+        )
+        vi.advanceTimersByTime(10)
+        expect(sources).toHaveLength(2)
+
+        api.stayClosed = true
+        sources[1].serverOpen()
+        sources[1].serverFail()
+
+        expect(onClose).toHaveBeenCalledTimes(2)
+        expect(onReconnect).toHaveBeenCalledTimes(1)
+        expect(sourceStatus.value).toBe('closed')
+        vi.advanceTimersByTime(60_000)
+        expect(sources).toHaveLength(2)
+      })
+
       test('caps the default reconnect delay at 30s', () => {
         mountSource()
 
@@ -555,6 +590,70 @@ describe('[useEventSource API]', () => {
 
         vi.advanceTimersByTime(60_000)
         expect(sources).toHaveLength(1)
+      })
+
+      test('does nothing once the component got destroyed', () => {
+        const { wrapper, sourceStatus, openSource } = mountSource()
+
+        sources[0].serverOpen()
+        wrapper.unmount()
+
+        openSource()
+        setOnline(false)
+        setOnline(true)
+
+        expect(sources).toHaveLength(1)
+        expect(sourceStatus.value).toBe('closed')
+      })
+
+      test('closeSource() releases the window listeners and the url watcher outside of a component; openSource() attaches them again', async () => {
+        const room = ref('a')
+        const target = vi.fn(() => `http://localhost/${room.value}`)
+        const addListener = vi.spyOn(window, 'addEventListener')
+        const removeListener = vi.spyOn(window, 'removeEventListener')
+        const listened = () =>
+          addListener.mock.calls.filter(([name]) =>
+            ['online', 'offline'].includes(name)
+          ).length -
+          removeListener.mock.calls.filter(([name]) =>
+            ['online', 'offline'].includes(name)
+          ).length
+
+        const { openSource, closeSource } = useEventSource(target)
+
+        expect(listened()).toBe(2)
+
+        closeSource()
+
+        expect(listened()).toBe(0)
+
+        // the watcher is gone: a url change reads nothing anymore
+        target.mockClear()
+        room.value = 'b'
+        await nextTick()
+        expect(target).not.toHaveBeenCalled()
+        expect(sources).toHaveLength(1)
+
+        openSource()
+
+        expect(listened()).toBe(2)
+        expect(sources).toHaveLength(2)
+        expect(sources[1].url).toBe('http://localhost/b')
+
+        room.value = 'c'
+        await nextTick()
+        expect(sources).toHaveLength(3)
+        expect(sources[2].url).toBe('http://localhost/c')
+
+        sources[2].serverFail()
+        setOnline(false)
+        setOnline(true)
+        expect(sources).toHaveLength(4)
+
+        closeSource()
+        expect(listened()).toBe(0)
+        addListener.mockRestore()
+        removeListener.mockRestore()
       })
 
       test('can be used outside of a component', () => {

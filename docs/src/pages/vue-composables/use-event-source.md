@@ -19,7 +19,7 @@ Server-Sent Events are a one-way channel: the server pushes text events over a p
 > [!TIP]
 > **Outside of a component**
 >
-> The composable can also be called outside of `setup()`: in a boot file, a store or a plain module. There is no mount to wait for there, so the stream opens right away (unless `lazy` is set) and nothing closes it by itself: call `closeSource()` when you are done.
+> The composable can also be called outside of `setup()`: in a boot file, a store or a plain module. There is no mount to wait for there, so the stream opens right away (unless `lazy` is set) and nothing closes it by itself: call `closeSource()` when you are done. It releases everything the composable holds (the stream, the `online`/`offline` listeners and the watcher on a reactive `url`), and a later `openSource()` sets it all up again.
 
 ## Syntax
 
@@ -105,6 +105,8 @@ Each call of `useEventSource()` manages one stream from one endpoint; for severa
 
 `closeSource()` closes the stream and stops any reconnecting. It is not final: a later `openSource()` opens a fresh stream.
 
+Once the component got destroyed, the composable is done: `openSource()` does nothing anymore, so a late async callback cannot open a stream that nothing would close.
+
 `sourceStatus` is `connecting` from the moment the stream is requested until it is open, `open` while events flow, and `closed` when it was never opened, when you closed it, or when reconnecting was given up. While the browser retries on its own or while the composable waits to reconnect, the status is `connecting` too.
 
 When the `url` is a ref or a getter and its value changes while the stream is wanted, the current stream is closed and a new one is opened to the new URL (a token in the query string, a different channel).
@@ -115,7 +117,7 @@ When the `url` is a ref or a getter and its value changes while the stream is wa
 
 An `EventSource` only delivers the events without an `event:` field (the "message" ones) by default. List the other event names your server sends under `events` to receive them too; `onMessage(data, evt)` gets them all, with `evt.type` telling the name.
 
-`onClose(reason)` is called for every close, with an argument saying who asked for it: `programmatic` for your `closeSource()` call, `unmount` when the component got destroyed, `url` when the stream was moved to a new URL, and `remote` when the browser gave up on the connection.
+`onClose(reason)` is called for every close, with an argument saying who asked for it: `programmatic` for your `closeSource()` call, `unmount` when the component got destroyed, `url` when the stream was moved to a new URL, and `remote` when the browser gave up on the connection. For `remote` the hook runs before any reconnect gets scheduled, so a `closeSource()` call from within it keeps the stream closed.
 
 ## Reconnecting
 
@@ -125,7 +127,7 @@ The browser gives up, though, when the server answers with a status other than 2
 
 No attempt is made while the browser reports being offline: the composable waits for the `online` event and reconnects right away when it fires (`onReconnect(1, 0)`), starting a fresh run of attempts, even when the retries had run out. `closeSource()` ends all that: the stream stays closed until you call `openSource()` again.
 
-A stream reopened by the composable is a new `EventSource`, so the browser does not send the `Last-Event-ID` header the way it does on its own retries. If your server can resume from an id, pass `sourceLastEventId` along in the URL yourself when you call `openSource()` after a close.
+A stream reopened by the composable (its own auto-reconnect included) is a new `EventSource`, so the browser does not send the `Last-Event-ID` header the way it does on its own retries. If your server can resume from an id, put `sourceLastEventId.value` in the URL yourself before you call `openSource()` after a close; read it there rather than from a `url` getter, since a getter that reads `sourceLastEventId` would move the stream to a new URL on every event that carries an id.
 
 ## Example
 
