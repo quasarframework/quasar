@@ -21,6 +21,17 @@ test('chains prev/next reciprocally over the flattened menu', () => {
   }
 })
 
+test('a path-less group hands its section name down as the category', () => {
+  const inGroup = convertToRelated('/vue-components/resize-observer', 'x', true)
+  const inSection = convertToRelated('/vue-components/pagination', 'x', true)
+  expect(inGroup.category).toBe(inSection.category)
+
+  // while a group with its own path is a category of its own
+  const inPathGroup = convertToRelated('/layout/grid/row', 'x', true)
+  const inItsSection = convertToRelated('/layout/layout', 'x', true)
+  expect(inPathGroup.category).not.toBe(inItsSection.category)
+})
+
 test("resolves every page's related frontmatter entries", () => {
   const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => {})
 

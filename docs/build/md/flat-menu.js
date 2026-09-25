@@ -11,8 +11,11 @@ function menuWalk(node, path, parentName) {
   const newPath = path + (node.path ? `/${node.path}` : '')
 
   if (node.children !== void 0) {
+    // a group without a path of its own (Buttons, Observers, ...) only
+    // subdivides its section visually; the cards name the section
+    const category = node.path !== void 0 ? node.name : parentName
     node.children.forEach(n => {
-      menuWalk(n, newPath, node.name)
+      menuWalk(n, newPath, category)
     })
   } else if (!node.external) {
     const current = {
