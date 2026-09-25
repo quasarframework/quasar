@@ -1,5 +1,6 @@
 import { QDialog } from "quasar";
 import { MetaOptions } from "./meta";
+import { QRejectedEntry } from "./api/qfile";
 import {
   ComponentPublicInstance,
   MaybeRefOrGetter,
@@ -47,15 +48,15 @@ export interface UseDropZoneOptions {
   maxFiles?: string | number;
   filter?: (files: readonly File[]) => readonly File[];
   onDrop?: (files: File[], evt: DragEvent) => void;
-  onRejected?: (rejected: UseFilePickerRejectedEntry[]) => void;
+  onRejected?: (rejected: QRejectedEntry[]) => void;
   onEnter?: (evt: DragEvent) => void;
   onLeave?: (evt: DragEvent) => void;
 }
 
 export function useDropZone(options?: MaybeRefOrGetter<UseDropZoneOptions>): {
   isOverDropZone: Ref<boolean>;
-  acceptedDropZoneFiles: Ref<File[]>;
-  rejectedDropZoneFiles: Ref<UseFilePickerRejectedEntry[]>;
+  acceptedDropZoneFiles: ShallowRef<File[]>;
+  rejectedDropZoneFiles: ShallowRef<QRejectedEntry[]>;
   resetDropZone: () => void;
   stopDropZone: () => void;
 };
@@ -70,25 +71,15 @@ export interface UseFilePickerOptions {
   maxFiles?: string | number;
   filter?: (files: readonly File[]) => readonly File[];
   onChange?: (files: File[]) => void;
-  onRejected?: (rejected: UseFilePickerRejectedEntry[]) => void;
+  onRejected?: (rejected: QRejectedEntry[]) => void;
   onCancel?: () => void;
-}
-
-export interface UseFilePickerRejectedEntry {
-  failedPropValidation:
-    | "accept"
-    | "max-file-size"
-    | "max-total-size"
-    | "filter"
-    | "max-files";
-  file: File;
 }
 
 export function useFilePicker(
   options?: MaybeRefOrGetter<UseFilePickerOptions>
 ): {
-  acceptedPickerFiles: Ref<File[]>;
-  rejectedPickerFiles: Ref<UseFilePickerRejectedEntry[]>;
+  acceptedPickerFiles: ShallowRef<File[]>;
+  rejectedPickerFiles: ShallowRef<QRejectedEntry[]>;
   openFilePicker: (overrides?: UseFilePickerOptions) => Promise<File[] | null>;
   resetFilePicker: () => void;
 };
@@ -113,7 +104,7 @@ export interface UseElementSizeOptions {
 export function useElementSize(
   options?: MaybeRefOrGetter<UseElementSizeOptions>
 ): {
-  elementSize: Ref<{ width: number; height: number }>;
+  elementSize: ShallowRef<{ width: number; height: number }>;
   refreshElementSize: () => void;
   stopElementSize: () => void;
 };
@@ -222,7 +213,7 @@ export interface UseMutationOptions extends MutationObserverInit {
 }
 
 export function useMutation(options?: MaybeRefOrGetter<UseMutationOptions>): {
-  mutationRecords: Ref<MutationRecord[]>;
+  mutationRecords: ShallowRef<MutationRecord[]>;
   stopMutation: () => void;
 };
 
@@ -248,11 +239,11 @@ export interface UseScrollDetails {
 }
 
 export function useScroll(options?: MaybeRefOrGetter<UseScrollOptions>): {
-  scrollPosition: Ref<{ top: number; left: number }>;
+  scrollPosition: ShallowRef<{ top: number; left: number }>;
   scrollDirection: Ref<"up" | "down" | "left" | "right">;
   scrollDirectionChanged: Ref<boolean>;
-  scrollDelta: Ref<{ top: number; left: number }>;
-  scrollInflectionPoint: Ref<{ top: number; left: number }>;
+  scrollDelta: ShallowRef<{ top: number; left: number }>;
+  scrollInflectionPoint: ShallowRef<{ top: number; left: number }>;
   refreshScroll: () => void;
   stopScroll: () => void;
 };
@@ -373,14 +364,14 @@ export type WebSocketCloseReason =
   | "url"
   | "remote";
 
-export interface UseWebSocketOptions {
+export interface UseWebSocketOptions<Data = any> {
   lazy?: boolean;
   protocols?: string | string[];
   binaryType?: BinaryType;
   autoReconnect?: boolean | UseWebSocketReconnectOptions;
   heartbeat?: boolean | UseWebSocketHeartbeatOptions;
   onOpen?: (evt: Event) => void;
-  onMessage?: (data: any, evt: MessageEvent) => void;
+  onMessage?: (data: Data, evt: MessageEvent<Data>) => void;
   onClose?: (evt: CloseEvent, reason: WebSocketCloseReason) => void;
   onError?: (evt: Event) => void;
   onReconnect?: (attempt: number, delay: number) => void;
@@ -388,7 +379,7 @@ export interface UseWebSocketOptions {
 
 export function useWebSocket<Data = any>(
   url: MaybeRefOrGetter<string | URL>,
-  options?: UseWebSocketOptions
+  options?: UseWebSocketOptions<Data>
 ): {
   socketStatus: Ref<WebSocketStatus>;
   socketData: ShallowRef<Data | null>;
@@ -405,9 +396,9 @@ export type UseWebWorkerSource =
   | ((options?: WorkerOptions) => Worker)
   | (new (options?: WorkerOptions) => Worker);
 
-export interface UseWebWorkerOptions extends WorkerOptions {
+export interface UseWebWorkerOptions<Data = any> extends WorkerOptions {
   lazy?: boolean;
-  onMessage?: (data: any, evt: MessageEvent) => void;
+  onMessage?: (data: Data, evt: MessageEvent<Data>) => void;
   onError?: (evt: ErrorEvent | MessageEvent) => void;
   onCreate?: (worker: Worker) => void;
   onTerminate?: (worker: Worker, reason: WebWorkerTerminateReason) => void;
@@ -419,7 +410,7 @@ export type WebWorkerStatus = "idle" | "running" | "terminated";
 
 export function useWebWorker<Data = any>(
   source: UseWebWorkerSource,
-  options?: UseWebWorkerOptions
+  options?: UseWebWorkerOptions<Data>
 ): {
   workerStatus: Ref<WebWorkerStatus>;
   workerData: ShallowRef<Data | null>;

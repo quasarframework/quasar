@@ -69,7 +69,7 @@ function useIntersection(
 
 Without a `target`, the composable observes the root element of the component it is called in, as of the moment the component gets mounted. A component rendering a fragment (multiple root nodes) has no root element to observe, so supply a `target` there.
 
-`refreshIntersection()` makes the observer report the current state again, whether it changed or not. An observer only reports changes on its own, so this is for the cases where your code needs a fresh verdict after doing something to the layout, such as knowing whether a target that was in view still is after the content around it grew.
+`refreshIntersection()` makes the observer report the current state again, whether it changed or not (it does nothing while `disabled` or before the target exists). An observer only reports changes on its own, so this is for the cases where your code needs a fresh verdict after doing something to the layout, such as knowing whether a target that was in view still is after the content around it grew.
 
 `stopIntersection()` ends the observation for good. You will rarely need it, as the composable stops by itself when the component gets destroyed.
 

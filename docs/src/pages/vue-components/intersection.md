@@ -41,7 +41,7 @@ In the example below we used a Quasar transition. For a full list, please head t
 
 ### Only once
 
-Triggering only once means, however, that you lose the benefit of freeing up the DOM tree. The content will remain in DOM regardless of visibility.
+Triggering only once means, however, that you lose the benefit of freeing up the DOM tree. The content will remain in DOM regardless of visibility. Setting `once` back to `false` later on (for example after editing the template with HMR) starts observing again.
 
 <DocExample title="Triggering only once" file="Once" scrollable />
 

@@ -72,16 +72,27 @@ function useFilePicker(
     maxFiles?: string | number
     filter?: (files: readonly File[]) => readonly File[]
     onChange?: (files: File[]) => void
-    onRejected?: (
-      rejected: { failedPropValidation: string; file: File }[]
-    ) => void
+    onRejected?: (rejected: QRejectedEntry[]) => void
     onCancel?: () => void
   }>
 ): {
-  acceptedPickerFiles: Ref<File[]>
-  rejectedPickerFiles: Ref<{ failedPropValidation: string; file: File }[]>
+  acceptedPickerFiles: ShallowRef<File[]>
+  rejectedPickerFiles: ShallowRef<QRejectedEntry[]>
   openFilePicker: (overrides?: UseFilePickerOptions) => Promise<File[] | null>
   resetFilePicker: () => void
+}
+
+// UseFilePickerOptions is the type of the "options" parameter above;
+// QRejectedEntry is the type of the entries of the QFile/QUploader "rejected" event
+interface QRejectedEntry {
+  failedPropValidation:
+    | 'accept'
+    | 'max-file-size'
+    | 'max-total-size'
+    | 'filter'
+    | 'max-files'
+    | 'duplicate'
+  file: File
 }
 ```
 
@@ -95,7 +106,7 @@ The Promise returned by `openFilePicker()` resolves with the accepted files (an 
 
 Setting `directory` picks a folder: the Array holds every file inside it (recursively), with each file's path relative to the picked folder available as `file.webkitRelativePath`. The `multiple` option does not matter in this case. Safari's dialog also lets the user pick individual files here; those come with an empty `webkitRelativePath`.
 
-The `failedPropValidation` of a rejected entry is one of `accept`, `max-file-size`, `max-total-size`, `max-files` or `filter`, naming the option that the file did not pass.
+The `failedPropValidation` of a rejected entry is one of `accept`, `max-file-size`, `max-total-size`, `max-files` or `filter`, naming the option that the file did not pass (`duplicate` belongs to the same `QRejectedEntry` type, but only QFile and QUploader can report it, when appending to a list).
 
 ## Changing the options
 

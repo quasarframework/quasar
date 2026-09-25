@@ -79,24 +79,34 @@ function useDropZone(
     maxFiles?: string | number
     filter?: (files: readonly File[]) => readonly File[]
     onDrop?: (files: File[], evt: DragEvent) => void
-    onRejected?: (
-      rejected: { failedPropValidation: string; file: File }[]
-    ) => void
+    onRejected?: (rejected: QRejectedEntry[]) => void
     onEnter?: (evt: DragEvent) => void
     onLeave?: (evt: DragEvent) => void
   }>
 ): {
   isOverDropZone: Ref<boolean>
-  acceptedDropZoneFiles: Ref<File[]>
-  rejectedDropZoneFiles: Ref<{ failedPropValidation: string; file: File }[]>
+  acceptedDropZoneFiles: ShallowRef<File[]>
+  rejectedDropZoneFiles: ShallowRef<QRejectedEntry[]>
   resetDropZone: () => void
   stopDropZone: () => void
+}
+
+// the same type as the entries of the QFile/QUploader "rejected" event
+interface QRejectedEntry {
+  failedPropValidation:
+    | 'accept'
+    | 'max-file-size'
+    | 'max-total-size'
+    | 'filter'
+    | 'max-files'
+    | 'duplicate'
+  file: File
 }
 ```
 
 Without a `target`, the zone is the root element of the component the composable is called in, as of the moment the component gets mounted. A component rendering a fragment (multiple root nodes) has no root element to listen on, so supply a `target` there.
 
-`isOverDropZone` becomes `true` while something is being dragged over the zone (its children included) and goes back to `false` when the drag leaves it or gets dropped; `onEnter` and `onLeave` are called on those two transitions, with the drag Event. Use it to highlight the zone.
+`isOverDropZone` becomes `true` while something is being dragged over the zone (its children included) and goes back to `false` when the drag leaves it or gets dropped; `onEnter` and `onLeave` are called on those two transitions, with the drag Event. Use it to highlight the zone. Releasing the zone in the middle of a drag (through `disabled`, a `target` swap or `stopDropZone()`) puts `isOverDropZone` back to `false` without calling `onLeave`, as there is no drag Event to report. A zone nested inside another zone keeps the drag events to itself, so the outer zone does not see a drop made on the inner one (and stays highlighted until the next drag leaves it).
 
 Without `multiple`, only the first dropped file is kept (the others are not reported as rejected), the same as with QFile. Dropped folders are not opened: they show up as files without a type, which an `accept` filters out.
 
@@ -104,7 +114,7 @@ Without `multiple`, only the first dropped file is kept (the others are not repo
 
 `onDrop` is called on every drop with the accepted files (an empty Array when nothing passed, or when the drag carried no files at all) and the drop Event, so the other payloads of the drag (`evt.dataTransfer.getData('text/plain')`, for example) stay within reach. `onRejected` is called only when at least one file got rejected.
 
-The `failedPropValidation` of a rejected entry is one of `accept`, `max-file-size`, `max-total-size`, `max-files` or `filter`, naming the option that the file did not pass.
+The `failedPropValidation` of a rejected entry is one of `accept`, `max-file-size`, `max-total-size`, `max-files` or `filter`, naming the option that the file did not pass (`duplicate` belongs to the same `QRejectedEntry` type, but only QFile and QUploader can report it, when appending to a list).
 
 `stopDropZone()` releases the zone: the element no longer accepts drops (the browser's default handling applies again) and `isOverDropZone` goes back to `false`. The composable keeps following the options, so pointing `target` to another element re-arms it; changing any other option does not. It is especially useful when you have not specified a `target`, since the component's own root element cannot be swapped out otherwise (with a reactive `target`, setting it to `null` releases the zone just the same). There is no need to call it on your component's destruction, as the composable releases the zone by itself.
 

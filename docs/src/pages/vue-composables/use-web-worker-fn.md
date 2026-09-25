@@ -76,13 +76,13 @@ function useWebWorkerFn<Fn extends (...args: any[]) => any>(
 }
 ```
 
-`runWorkerFn(...args)` calls your function with the arguments in the worker and resolves with what it returned (a returned Promise is awaited). It rejects with the error your function threw (an `Error` arrives as an `Error`, with its message), when the worker script itself fails to load, when the call takes longer than `timeout`, when `terminateWorkerFn()` is called meanwhile and when another call is still running: one call at a time, await it before the next one.
+`runWorkerFn(...args)` calls your function with the arguments in the worker and resolves with what it returned (a returned Promise is awaited). It rejects with the error your function threw (an `Error` arrives as an `Error`, with its message), when the worker script itself fails to load, when a `localDependencies` entry has no name, when the call takes longer than `timeout`, when `terminateWorkerFn()` is called meanwhile and when another call is still running: one call at a time, await it before the next one.
 
 `workerFnStatus` follows the last call: `idle` before the first one (and after a termination), then `running`, `success`, `error` or `timeout`.
 
 The worker gets created at the first call and is kept for the next ones, so repeated calls do not pay the startup cost again. `terminateWorkerFn()` kills it (rejecting a running call); the next call starts a fresh one. A `timeout` kills it too: the call that exceeded it is still running inside the worker and there is no other way to stop it. The composable terminates the worker by itself when the component gets destroyed.
 
-The hooks report the outcome of each call, with the arguments it was made with, so that one handler can react wherever the call came from: `onSuccess(result, args)` when it resolves, `onError(error, args)` when it rejects with an error (your function threw, the worker script failed to load, an argument could not be cloned) and `onTimeout(args)` when it exceeds `timeout`. `onTerminate(reason)` gets called right after the worker got killed, after the outcome hook of the call it interrupted, with `reason` naming the cause: `'terminate'` for a `terminateWorkerFn()` call, `'timeout'`, `'error'` for a failing script or `'unmount'` for the component being destroyed. A rejection caused by `terminateWorkerFn()` or by a call made while another one runs is not an outcome of your function, so no hook reports it.
+The hooks report the outcome of each call, with the arguments it was made with, so that one handler can react wherever the call came from: `onSuccess(result, args)` when it resolves, `onError(error, args)` when it rejects with an error (your function threw, the worker script failed to load or could not be built from an unnamed `localDependencies` entry, an argument could not be cloned) and `onTimeout(args)` when it exceeds `timeout`. `onTerminate(reason)` gets called right after the worker got killed, after the outcome hook of the call it interrupted, with `reason` naming the cause: `'terminate'` for a `terminateWorkerFn()` call, `'timeout'`, `'error'` for a failing script or `'unmount'` for the component being destroyed. A rejection caused by `terminateWorkerFn()` or by a call made while another one runs is not an outcome of your function, so no hook reports it.
 
 ## The function is serialized
 
@@ -90,7 +90,8 @@ Your function travels to the worker as source code (through `Function.prototype.
 
 - it must be self-contained: no variables from the surrounding scope, no imported modules, no component state, no `$q`. Only its arguments, the `dependencies` and the `localDependencies` listed in the options and what a worker offers by itself (`fetch()`, `self`, `crypto`, `indexedDB`...) are available to it
 - its arguments and its return value must be [structured-cloneable](https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Structured_clone_algorithm): plain data, Arrays, typed arrays, `Map`, `Set`, `Date`, `Blob`, `File`, `ImageData`... but no functions, DOM nodes, class instances (they arrive as plain objects) or Vue reactive proxies (unwrap them with `toRaw()` first)
-- a thrown value that cannot be cloned rejects with its String form instead
+- a result or thrown value that cannot be cloned rejects with the clone error's message (a String) instead
+- the worker is a classic one, so the function cannot use `import` syntax (static or dynamic); load what it needs through `dependencies`
 
 `localDependencies` inlines your own helper functions (or classes) into the worker script; they must have a name (a `function` declaration or an arrow function assigned to a `const`), and your function calls them by that name. `dependencies` lists scripts to load through `importScripts()` before your function runs; they must be classic scripts (no ES modules), and what they define on the global scope is then available.
 

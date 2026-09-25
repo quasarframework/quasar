@@ -66,10 +66,15 @@ setup () {
 
 ```ts
 function useWebWorker<Data = any>(
-  source: string | URL | Worker | ((options?: WorkerOptions) => Worker),
+  source:
+    | string
+    | URL
+    | Worker
+    | ((options?: WorkerOptions) => Worker)
+    | (new (options?: WorkerOptions) => Worker),
   options?: WorkerOptions & {
     lazy?: boolean
-    onMessage?: (data: any, evt: MessageEvent) => void
+    onMessage?: (data: Data, evt: MessageEvent<Data>) => void
     onError?: (evt: ErrorEvent | MessageEvent) => void
     onCreate?: (worker: Worker) => void
     onTerminate?: (worker: Worker, reason: 'terminate' | 'unmount') => void

@@ -38,7 +38,7 @@ setup () {
     // all optional:
     scrollTarget,        // the scroll container; omit it for auto detection
     axis: 'vertical',    // 'vertical', 'horizontal' or 'both'
-    debounce: 0,         // milliseconds; at most one report per window
+    debounce: 100,       // ms per report; omit for one per frame, 0 for every event
     disabled: false,     // pause listening
     onScroll (details) { // called with the scroll details on every change
       // ...
@@ -70,11 +70,11 @@ function useScroll(
     }) => void
   }>
 ): {
-  scrollPosition: Ref<{ top: number; left: number }>
+  scrollPosition: ShallowRef<{ top: number; left: number }>
   scrollDirection: Ref<'up' | 'down' | 'left' | 'right'>
   scrollDirectionChanged: Ref<boolean>
-  scrollDelta: Ref<{ top: number; left: number }>
-  scrollInflectionPoint: Ref<{ top: number; left: number }>
+  scrollDelta: ShallowRef<{ top: number; left: number }>
+  scrollInflectionPoint: ShallowRef<{ top: number; left: number }>
   refreshScroll: () => void
   stopScroll: () => void
 }

@@ -57,7 +57,7 @@ function useElementSize(
     onResize?: (elementSize: { width: number; height: number }) => void
   }>
 ): {
-  elementSize: Ref<{ width: number; height: number }>
+  elementSize: ShallowRef<{ width: number; height: number }>
   refreshElementSize: () => void
   stopElementSize: () => void
 }
@@ -69,7 +69,7 @@ The first measurement happens as soon as the element is available, so `elementSi
 
 With a `debounce`, the element gets measured at most once per window of that many milliseconds: a continuous resize (dragging a splitter, animating a width) reports periodically rather than on every frame, and the last change is never missed.
 
-`refreshElementSize()` measures the element right away, skipping the debounce. You will rarely need it, since the browser reports every change on its own.
+`refreshElementSize()` measures the element right away, skipping the debounce (it does nothing while `disabled` or before the target exists). You will rarely need it, since the browser reports every change on its own.
 
 `stopElementSize()` ends the observation for good. You will rarely need it either, as the composable stops by itself when the component gets destroyed.
 

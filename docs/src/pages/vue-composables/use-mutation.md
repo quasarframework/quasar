@@ -74,14 +74,14 @@ function useMutation(
     onMutation?: (records: MutationRecord[]) => boolean | void
   }>
 ): {
-  mutationRecords: Ref<MutationRecord[]>
+  mutationRecords: ShallowRef<MutationRecord[]>
   stopMutation: () => void
 }
 ```
 
 Without a `target`, the composable observes the root element of the component it is called in, as of the moment the component gets mounted. A component rendering a fragment (multiple root nodes) has no root element to observe, so supply a `target` there.
 
-Reading the [Mutation Observer API](https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver) first will be best in your understanding of the observing options. When none of `childList`, `attributes`, `characterData`, `subtree`, `attributeOldValue`, `characterDataOldValue` or `attributeFilter` is set, every kind of change gets observed, with the old values included, the same as the [v-mutation](/vue-directives/mutation) directive without modifiers. Setting any of them observes only what you ask for.
+Reading the [Mutation Observer API](https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver) first will be best in your understanding of the observing options. When none of `childList`, `attributes`, `characterData`, `subtree`, `attributeOldValue`, `characterDataOldValue` or `attributeFilter` is set, every kind of change gets observed, with the old values included, the same as the [v-mutation](/vue-directives/mutation) directive without modifiers. Setting any of them observes only what you ask for; at least one of `childList`, `attributes` or `characterData` must then be set (or `attributeFilter`, which implies `attributes`), as `subtree` or the old-value flags alone make the native observer throw.
 
 Every batch of [MutationRecord](https://developer.mozilla.org/en-US/docs/Web/API/MutationRecord) that the browser delivers after the changes lands in the reactive `mutationRecords` (the last batch only, so it never grows) and is handed to the `onMutation` handler. Returning `false` from the handler stops the observation for good. With `once`, the observation stops by itself after the first batch.
 
