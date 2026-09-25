@@ -20,13 +20,12 @@ Quasar supplies a way for you to upload files through the QUploader component.
 ## Usage
 
 > [!IMPORTANT]
-> QUploader requires a back-end server to receive the files. The examples below will not actually upload.
+>
+> - QUploader requires a back-end server to receive the files. The examples below will not actually upload.
+> - When using vee-validate, you have to rename the "fieldBagName" configuration of vee-validate for the QUploader to work.
 
 > [!NOTE]
 > QUploader is `drag and drop` compliant.
-
-> [!IMPORTANT]
-> When using vee-validate, you have to rename the "fieldBagName" configuration of vee-validate for the q-uploader to work.
 
 ### Design
 

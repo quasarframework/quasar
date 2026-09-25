@@ -11,7 +11,7 @@ import {
 import { client } from '../../plugins/platform/Platform.js'
 import { getTargetElement } from '../../utils/private.vm/vm.js'
 import { noop, stopAndPrevent } from '../../utils/event/event.js'
-import { validateFiles } from '../private.use-file/use-file.js'
+import { validateFiles } from '../private.use-file/validate-files.js'
 
 /*
  * Usage:

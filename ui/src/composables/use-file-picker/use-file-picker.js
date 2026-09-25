@@ -1,6 +1,6 @@
 import { getCurrentInstance, onBeforeUnmount, shallowRef, toValue } from 'vue'
 
-import { validateFiles } from '../private.use-file/use-file.js'
+import { validateFiles } from '../private.use-file/validate-files.js'
 
 /*
  * Usage:

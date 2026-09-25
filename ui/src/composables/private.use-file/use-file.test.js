@@ -2,11 +2,7 @@ import { afterEach, describe, expect, test, vi } from 'vitest'
 import { mount } from '@vue/test-utils'
 import { defineComponent, h, nextTick, ref } from 'vue'
 
-import useFile, {
-  useFileEmits,
-  useFileProps,
-  validateFiles
-} from './use-file.js'
+import useFile, { useFileEmits, useFileProps } from './use-file.js'
 
 let wrapper
 
@@ -22,7 +18,6 @@ function createFile(name, type, size, lastModified = 1) {
 function mountUseFile({
   componentProps = {},
   editable = ref(true),
-  dnd = ref(false),
   getFileInput = vi.fn(),
   addFilesToQueue = vi.fn()
 } = {}) {
@@ -34,24 +29,39 @@ function mountUseFile({
       emits: useFileEmits,
 
       setup() {
-        api = useFile({ editable, dnd, getFileInput, addFilesToQueue })
+        const dropTarget = ref(null)
 
-        return () => h('div', [api.getDndNode('file')])
+        api = useFile({
+          editable,
+          dropTarget,
+          canDrop: editable,
+          getFileInput,
+          addFilesToQueue
+        })
+
+        return () => h('div', { ref: dropTarget }, [api.getDndNode('file')])
       }
     }),
     { props: componentProps }
   )
 
-  return { addFilesToQueue, api, dnd, editable, getFileInput }
+  return { addFilesToQueue, api, dnd: api.dnd, editable, getFileInput }
 }
 
-function createDragEvent(dataTransfer = {}) {
-  return {
+function drag(el, type, { files = [], relatedTarget = null } = {}) {
+  const dataTransfer = new DataTransfer()
+  files.forEach(file => {
+    dataTransfer.items.add(file)
+  })
+
+  const evt = new DragEvent(type, {
+    bubbles: true,
     cancelable: true,
     dataTransfer,
-    preventDefault: vi.fn(),
-    stopPropagation: vi.fn()
-  }
+    relatedTarget
+  })
+  el.dispatchEvent(evt)
+  return evt
 }
 
 describe('[useFile API]', () => {
@@ -72,15 +82,8 @@ describe('[useFile API]', () => {
   describe('[Functions]', () => {
     describe('[(function)default]', () => {
       test('can be used in a Vue Component', () => {
-        const { api } = mountUseFile({
-          componentProps: {
-            maxFiles: '3',
-            maxTotalSize: '2048'
-          }
-        })
+        const { api } = mountUseFile()
 
-        expect(api.maxFilesNumber).$ref(3)
-        expect(api.maxTotalSizeNumber).$ref(2048)
         expect(wrapper.vm.pickFiles).toBe(api.pickFiles)
         expect(wrapper.vm.addFiles).toBe(api.addFiles)
       })
@@ -229,80 +232,53 @@ describe('[useFile API]', () => {
       })
 
       test('handles drag enter, leave, and drop', async () => {
-        const { addFilesToQueue, api, dnd } = mountUseFile()
-        const dragEvent = createDragEvent({ dropEffect: 'none' })
+        const { addFilesToQueue, dnd } = mountUseFile()
+        const el = wrapper.element
 
-        api.onDragover(dragEvent)
-
-        expect(dragEvent.preventDefault).toHaveBeenCalledOnce()
-        expect(dragEvent.stopPropagation).toHaveBeenCalledOnce()
-        expect(dragEvent.dataTransfer.dropEffect).toBe('copy')
+        expect(drag(el, 'dragenter').defaultPrevented).toBe(true)
         expect(dnd.value).toBe(true)
 
         await nextTick()
 
+        // the overlay is a child of the zone: crossing into it is not a leave
         const dndElement = wrapper.find('.q-file__dnd').element
-        const leaveInsideEvent = {
-          ...createDragEvent(),
-          relatedTarget: dndElement
-        }
-
-        api.onDragleave(leaveInsideEvent)
+        drag(el, 'dragleave', { relatedTarget: dndElement })
         expect(dnd.value).toBe(true)
 
-        const leaveEvent = {
-          ...createDragEvent(),
-          relatedTarget: null
-        }
-
-        api.onDragleave(leaveEvent)
+        drag(el, 'dragleave', { relatedTarget: null })
         expect(dnd.value).toBe(false)
 
-        dnd.value = true
+        drag(el, 'dragenter')
+        expect(dnd.value).toBe(true)
 
         const file = createFile('dropped.txt', 'text/plain', 1)
-        const dropEvent = createDragEvent({ files: [file] })
-        const dndNode = api.getDndNode('file')
+        const dropEvent = drag(el, 'drop', { files: [file] })
 
-        dndNode.props.onDrop(dropEvent)
-
-        expect(addFilesToQueue).toHaveBeenCalledWith(null, [file])
-        expect(dropEvent.dataTransfer.dropEffect).toBe('copy')
+        expect(dropEvent.defaultPrevented).toBe(true)
+        expect(addFilesToQueue).toHaveBeenCalledExactlyOnceWith(null, [file])
         expect(dnd.value).toBe(false)
+
+        // a drop without files does not reach the queue
+        drag(el, 'drop')
+        expect(addFilesToQueue).toHaveBeenCalledTimes(1)
       })
-    })
 
-    describe('[(function)validateFiles]', () => {
-      test('has correct return value', () => {
-        const image = createFile('image.png', 'image/png', 4)
-        const text = createFile('notes.txt', 'text/plain', 4)
-        const big = createFile('big.png', 'image/png', 9)
+      test('leaves the browser default in place when files cannot be dropped', async () => {
+        const editable = ref(false)
+        const { addFilesToQueue, dnd } = mountUseFile({ editable })
+        const el = wrapper.element
 
-        expect(validateFiles([image, text, big], {})).toStrictEqual({
-          files: [image],
-          rejected: []
-        })
+        expect(drag(el, 'dragenter').defaultPrevented).toBe(false)
+        expect(dnd.value).toBe(false)
 
-        expect(
-          validateFiles([image, text, big], {
-            multiple: true,
-            accept: 'image/*',
-            maxFileSize: '5'
-          })
-        ).toStrictEqual({
-          files: [image],
-          rejected: [
-            { failedPropValidation: 'accept', file: text },
-            { failedPropValidation: 'max-file-size', file: big }
-          ]
-        })
+        drag(el, 'drop', { files: [createFile('a.txt', 'text/plain', 1)] })
+        expect(addFilesToQueue).not.toHaveBeenCalled()
 
-        expect(
-          validateFiles([image, text, big], { multiple: true }, [image], true)
-        ).toStrictEqual({
-          files: [text, big],
-          rejected: [{ failedPropValidation: 'duplicate', file: image }]
-        })
+        editable.value = true
+        await nextTick()
+
+        expect(drag(el, 'dragenter').defaultPrevented).toBe(true)
+        expect(dnd.value).toBe(true)
       })
     })
   })

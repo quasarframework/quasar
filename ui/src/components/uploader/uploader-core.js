@@ -106,7 +106,6 @@ export function getRenderer(getPlugin, expose) {
   }
 
   const editable = computed(() => !props.disable && !props.readonly)
-  const dnd = ref(false)
 
   const rootRef = shallowRef(null)
   const inputRef = shallowRef(null)
@@ -121,16 +120,34 @@ export function getRenderer(getPlugin, expose) {
     isAlive: () => !vmIsDestroyed(vm)
   }
 
-  const {
-    pickFiles,
-    addFiles,
-    onDragover,
-    onDragleave,
-    processFiles,
-    getDndNode,
-    maxFilesNumber,
-    maxTotalSizeNumber
-  } = useFile({ editable, dnd, getFileInput, addFilesToQueue })
+  const maxFilesNumber = computed(() => Number.parseInt(props.maxFiles, 10))
+  const maxTotalSizeNumber = computed(() =>
+    Number.parseInt(props.maxTotalSize, 10)
+  )
+
+  const uploadSize = ref(0)
+
+  const canAddFiles = computed(
+    () =>
+      editable.value &&
+      !state.isUploading.value &&
+      // if single selection and no files are queued:
+      (props.multiple || state.queuedFiles.value.length === 0) &&
+      // if max-files is set and current number of files does not exceeds it:
+      (props.maxFiles === void 0 ||
+        state.files.value.length < maxFilesNumber.value) &&
+      // if max-total-size is set and current upload size does not exceeds it:
+      (props.maxTotalSize === void 0 ||
+        uploadSize.value < maxTotalSizeNumber.value)
+  )
+
+  const { pickFiles, addFiles, dnd, processFiles, getDndNode } = useFile({
+    editable,
+    dropTarget: rootRef,
+    canDrop: canAddFiles,
+    getFileInput,
+    addFilesToQueue
+  })
 
   Object.assign(
     state,
@@ -149,7 +166,6 @@ export function getRenderer(getPlugin, expose) {
     state.isBusy = ref(false)
   }
 
-  const uploadSize = ref(0)
   const uploadProgress = computed(() =>
     uploadSize.value === 0 ? 0 : state.uploadedSize.value / uploadSize.value
   )
@@ -157,20 +173,6 @@ export function getRenderer(getPlugin, expose) {
     getProgressLabel(uploadProgress.value)
   )
   const uploadSizeLabel = computed(() => humanStorageSize(uploadSize.value))
-
-  const canAddFiles = computed(
-    () =>
-      editable.value &&
-      !state.isUploading.value &&
-      // if single selection and no files are queued:
-      (props.multiple || state.queuedFiles.value.length === 0) &&
-      // if max-files is set and current number of files does not exceeds it:
-      (props.maxFiles === void 0 ||
-        state.files.value.length < maxFilesNumber.value) &&
-      // if max-total-size is set and current upload size does not exceeds it:
-      (props.maxTotalSize === void 0 ||
-        uploadSize.value < maxTotalSizeNumber.value)
-  )
 
   const canUpload = computed(
     () =>
@@ -602,12 +604,6 @@ export function getRenderer(getPlugin, expose) {
       )
     }
 
-    const data = { ref: rootRef, class: classes.value }
-
-    if (canAddFiles.value) {
-      Object.assign(data, { onDragover, onDragleave })
-    }
-
-    return h('div', data, children)
+    return h('div', { ref: rootRef, class: classes.value }, children)
   }
 }

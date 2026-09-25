@@ -1,4 +1,4 @@
-import { computed, getCurrentInstance, h, ref, shallowRef } from 'vue'
+import { computed, getCurrentInstance, h, shallowRef } from 'vue'
 
 import QChip from '../chip/QChip.js'
 
@@ -64,16 +64,15 @@ export default /*#__PURE__*/ createComponent({
     const state = useFieldState()
 
     const inputRef = shallowRef(null)
-    const dnd = ref(false)
     const nameProp = useFormInputNameAttr(props)
 
-    const { pickFiles, onDragover, onDragleave, processFiles, getDndNode } =
-      useFile({
-        editable: state.editable,
-        dnd,
-        getFileInput,
-        addFilesToQueue
-      })
+    const { pickFiles, dnd, processFiles, getDndNode } = useFile({
+      editable: state.editable,
+      dropTarget: state.controlRef,
+      canDrop: state.editable,
+      getFileInput,
+      addFilesToQueue
+    })
 
     const formDomProps = useFileFormDomProps(props)
 
@@ -294,7 +293,7 @@ export default /*#__PURE__*/ createComponent({
         }
 
         if (state.editable.value) {
-          Object.assign(data, { onDragover, onDragleave, onKeydown, onKeyup })
+          Object.assign(data, { onKeydown, onKeyup })
         }
 
         // oxlint-disable-next-line unicorn/prefer-spread
