@@ -567,6 +567,11 @@ const composables = [
     tag: 'composable'
   },
   {
+    name: 'useBroadcastChannel',
+    description: 'Message the other tabs and windows of the same origin',
+    tag: 'composable'
+  },
+  {
     name: 'useEventListener',
     description: 'Listen to events on an element, window or document',
     tag: 'composable'

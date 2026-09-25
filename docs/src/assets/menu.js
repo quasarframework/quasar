@@ -693,6 +693,11 @@ export default [
         path: 'use-quasar'
       },
       {
+        name: 'useBroadcastChannel',
+        badge: 'new',
+        path: 'use-broadcast-channel'
+      },
+      {
         name: 'useDialogPluginComponent',
         path: 'use-dialog-plugin-component'
       },

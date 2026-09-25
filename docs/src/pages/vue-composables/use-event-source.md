@@ -5,6 +5,7 @@ keys: useEventSource
 badge: v2.34+
 examples: useEventSource
 related:
+  - /vue-composables/use-broadcast-channel
   - /vue-composables/use-web-socket
 ---
 

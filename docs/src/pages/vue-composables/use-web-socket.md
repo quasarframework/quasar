@@ -5,6 +5,7 @@ keys: useWebSocket
 badge: v2.34+
 examples: useWebSocket
 related:
+  - /vue-composables/use-broadcast-channel
   - /vue-composables/use-event-source
   - /vue-composables/use-web-worker
 ---

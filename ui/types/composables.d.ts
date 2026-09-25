@@ -137,6 +137,26 @@ export function useEventListener<E extends Event = Event>(
   stop: () => void;
 };
 
+export type BroadcastChannelStatus = "closed" | "connected";
+
+export interface UseBroadcastChannelOptions<T = any> {
+  manualConnect?: boolean;
+  onMessage?: (data: T, evt: MessageEvent<T>) => void;
+  onError?: (evt: MessageEvent) => void;
+}
+
+export function useBroadcastChannel<T = any>(
+  name: MaybeRefOrGetter<string>,
+  options?: UseBroadcastChannelOptions<T>
+): {
+  channelStatus: Ref<BroadcastChannelStatus>;
+  data: ShallowRef<T | null>;
+  error: ShallowRef<MessageEvent | null>;
+  postMessage: (message: T) => void;
+  connectChannel: () => void;
+  closeChannel: () => void;
+};
+
 export type EventSourceStatus = "closed" | "connecting" | "open";
 
 export type EventSourceCloseReason =
