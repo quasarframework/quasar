@@ -155,7 +155,7 @@ function get(key, ssr) {
     cookie = parts.join('=')
 
     if (!key) {
-      result[name] = cookie
+      result[name] = read(cookie) ?? null
     } else if (key === name) {
       result = read(cookie) ?? null
       break
