@@ -31,6 +31,7 @@ const inputGroups = {
   'ui/src': join(uiDir, 'src'),
   'ui/lang': join(uiDir, 'lang'),
   'ui/icon-set': join(uiDir, 'icon-set'),
+  'ui/types': join(uiDir, 'types'),
   'ui/build': join(uiDir, 'build'),
   'ui/package.json': join(uiDir, 'package.json'),
   'pnpm-lock.yaml': join(repoDir, 'pnpm-lock.yaml')
