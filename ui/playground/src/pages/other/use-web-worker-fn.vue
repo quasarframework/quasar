@@ -87,7 +87,7 @@ function medianOfRandom(size) {
 const size = 2_000_000
 const result = ref('')
 
-const { runWorkerFn, workerFnStatus, terminateWorkerFn } =
+const { workerFnStatus, runWorkerFn, terminateWorkerFn } =
   useWebWorkerFn(medianOfRandom)
 
 async function sortInWorker() {

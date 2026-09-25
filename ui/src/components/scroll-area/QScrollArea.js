@@ -10,7 +10,7 @@ import {
   watch
 } from 'vue'
 
-import useElementResize from '../../composables/use-element-resize/use-element-resize.js'
+import useElementSize from '../../composables/use-element-size/use-element-size.js'
 import useQuasar from '../../composables/use-quasar/use-quasar.js'
 import useScroll from '../../composables/use-scroll/use-scroll.js'
 import useDark, {
@@ -375,8 +375,8 @@ export default /*#__PURE__*/ createComponent({
       }
     }
 
-    useElementResize({ debounce: 0, onResize: updateContainer })
-    useElementResize({
+    useElementSize({ debounce: 0, onResize: updateContainer })
+    useElementSize({
       target: contentRef,
       debounce: 0,
       onResize: updateScrollSize

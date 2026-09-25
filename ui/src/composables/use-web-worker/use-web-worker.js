@@ -11,18 +11,18 @@ import { noop } from '../../utils/event/event.js'
 /*
  * Usage:
  *    const {
- *      workerStatus, data, error, postMessage, terminate
+ *      workerStatus, workerData, workerError, postWorkerMessage, terminateWorker
  *    } = useWebWorker(source, options)
  *
  * source  - the script URL (string or URL), a Worker instance, or a
  *           function returning a Worker (also the constructor of a Vite
  *           `?worker` import)
  * options - plain object (all optional):
+ *    lazy                    - do not create the worker on mount (or
+ *                              right away, outside of a component); the
+ *                              first postWorkerMessage() does it
  *    type, name, credentials - the native Worker options, for a URL
  *                              source (type defaults to 'module')
- *    eager                   - create the worker as soon as the component
- *                              is mounted (default: at the first
- *                              postMessage)
  *    onMessage(data, evt)    - called with each message from the worker
  *    onError(evt)            - called with the 'error' / 'messageerror'
  *                              events of the worker
@@ -30,20 +30,23 @@ import { noop } from '../../utils/event/event.js'
  *                              starts using (send the init message here)
  *    onTerminate(worker, reason) - called right after a worker got
  *                              killed; reason is 'terminate' (a
- *                              terminate() call) or 'unmount'
+ *                              terminateWorker() call) or 'unmount'
  *
- * workerStatus - Ref<'idle' | 'running' | 'terminated'>; 'idle' while
- *               there is no worker (before it gets created and after a
- *               terminate()), 'terminated' once the component unmounts
- *               (or, for a Worker instance source, once terminated)
- * data        - ShallowRef of the last message's data
- * error       - ShallowRef of the last 'error' / 'messageerror' event
- * postMessage - sends a message (with an optional transfer list) to the
- *               worker, creating it if there is none; no-op once
- *               'terminated'
- * terminate   - kills the worker; the next postMessage() creates a new
- *               one from a URL or function source (a Worker instance
- *               cannot be re-created, so it stays terminated)
+ * workerStatus      - Ref<'idle' | 'running' | 'terminated'>; 'idle'
+ *                     while there is no worker (before it gets created
+ *                     and after a terminateWorker()), 'terminated' once
+ *                     the component unmounts (or, for a Worker instance
+ *                     source, once terminated)
+ * workerData        - ShallowRef of the last message's data
+ * workerError       - ShallowRef of the last 'error' / 'messageerror'
+ *                     event
+ * postWorkerMessage - sends a message (with an optional transfer list)
+ *                     to the worker, creating it if there is none;
+ *                     no-op once 'terminated'
+ * terminateWorker   - kills the worker; the next postWorkerMessage()
+ *                     creates a new one from a URL or function source
+ *                     (a Worker instance cannot be re-created, so it
+ *                     stays terminated)
  */
 
 function createWorker(source, opts) {
@@ -69,19 +72,25 @@ const statusIdle = 'idle',
 
 export default function useWebWorker(source, options) {
   const workerStatus = ref(statusIdle)
-  const data = shallowRef(null)
-  const error = shallowRef(null)
+  const workerData = shallowRef(null)
+  const workerError = shallowRef(null)
 
   if (__QUASAR_SSR_SERVER__) {
-    return { workerStatus, data, error, postMessage: noop, terminate: noop }
+    return {
+      workerStatus,
+      workerData,
+      workerError,
+      postWorkerMessage: noop,
+      terminateWorker: noop
+    }
   }
 
   const vm = getCurrentInstance()
   const {
+    lazy,
     type = 'module',
     name,
     credentials,
-    eager,
     onMessage,
     onError,
     onCreate,
@@ -91,12 +100,12 @@ export default function useWebWorker(source, options) {
   let instance = null
 
   function onWorkerMessage(evt) {
-    data.value = evt.data
+    workerData.value = evt.data
     onMessage?.(evt.data, evt)
   }
 
   function onWorkerError(evt) {
-    error.value = evt
+    workerError.value = evt
     onError?.(evt)
   }
 
@@ -131,7 +140,7 @@ export default function useWebWorker(source, options) {
   }
 
   if (vm !== null) {
-    if (eager === true) {
+    if (lazy !== true) {
       // the server has no worker, so the client cannot have one before
       // hydration either
       onMounted(getWorker)
@@ -140,20 +149,20 @@ export default function useWebWorker(source, options) {
     onBeforeUnmount(() => {
       stop(statusTerminated, 'unmount')
     })
-  } else if (eager === true) {
+  } else if (lazy !== true) {
     getWorker()
   }
 
   return {
     workerStatus,
-    data,
-    error,
+    workerData,
+    workerError,
 
-    postMessage(message, transfer) {
+    postWorkerMessage(message, transfer) {
       getWorker()?.postMessage(message, transfer)
     },
 
-    terminate() {
+    terminateWorker() {
       stop(
         source instanceof Worker ? statusTerminated : statusIdle,
         'terminate'

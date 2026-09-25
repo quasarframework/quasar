@@ -45,7 +45,7 @@ function medianOfRandom(size) {
   return numbers[size >> 1].toFixed(4)
 }
 
-const { runWorkerFn, workerFnStatus } = useWebWorkerFn(medianOfRandom)
+const { workerFnStatus, runWorkerFn } = useWebWorkerFn(medianOfRandom)
 
 const size = 2_000_000
 const result = ref(null)

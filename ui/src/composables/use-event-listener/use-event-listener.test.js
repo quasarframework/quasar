@@ -40,7 +40,9 @@ describe('[useEventListener API]', () => {
           })
         )
 
-        expect(result).toStrictEqual({ stop: expect.any(Function) })
+        expect(result).toStrictEqual({
+          stopEventListener: expect.any(Function)
+        })
       })
 
       test('listens on a template ref from mount', () => {
@@ -122,12 +124,12 @@ describe('[useEventListener API]', () => {
         document.body.append(el)
 
         const handler = vi.fn()
-        const { stop } = useEventListener(el, 'click', handler)
+        const { stopEventListener } = useEventListener(el, 'click', handler)
 
         click(el)
         expect(handler).toHaveBeenCalledOnce()
 
-        stop()
+        stopEventListener()
         click(el)
         expect(handler).toHaveBeenCalledOnce()
 
@@ -199,9 +201,11 @@ describe('[useEventListener API]', () => {
       test('removes a capture listener with the same capture flag', () => {
         const spy = vi.spyOn(EventTarget.prototype, 'removeEventListener')
         const handler = vi.fn()
-        const { el, stop } = mountTarget('click', handler, { capture: true })
+        const { el, stopEventListener } = mountTarget('click', handler, {
+          capture: true
+        })
 
-        stop()
+        stopEventListener()
 
         expect(spy).toHaveBeenCalledWith(
           'click',
@@ -327,14 +331,14 @@ describe('[useEventListener API]', () => {
         expect(handler).toHaveBeenCalledOnce()
       })
 
-      test('stop() ends the listening for good', () => {
+      test('stopEventListener() ends the listening for good', () => {
         const handler = vi.fn()
         const disabled = ref(false)
-        const { el, stop } = mountTarget('click', handler, () => ({
+        const { el, stopEventListener } = mountTarget('click', handler, () => ({
           disabled: disabled.value
         }))
 
-        stop()
+        stopEventListener()
 
         disabled.value = true
         disabled.value = false

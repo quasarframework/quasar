@@ -2,7 +2,7 @@ import { enableAutoUnmount, mount } from '@vue/test-utils'
 import { afterEach, describe, expect, test, vi } from 'vitest'
 import { defineComponent, h, nextTick, ref, toValue } from 'vue'
 
-import useElementResize from './use-element-resize.js'
+import useElementSize from './use-element-size.js'
 
 enableAutoUnmount(afterEach)
 
@@ -22,7 +22,7 @@ function mountTarget(options, style = box(120, 80)) {
     defineComponent({
       setup() {
         const target = ref(null)
-        result = useElementResize(() => ({ target, ...toValue(options) }))
+        result = useElementSize(() => ({ target, ...toValue(options) }))
         return () => h('div', [h('div', { ref: target, style })])
       }
     })
@@ -57,7 +57,7 @@ function sleep(ms) {
   })
 }
 
-describe('[useElementResize API]', () => {
+describe('[useElementSize API]', () => {
   describe('[Functions]', () => {
     describe('[(function)default]', () => {
       test('can be used in a Vue Component', () => {
@@ -65,19 +65,21 @@ describe('[useElementResize API]', () => {
         const wrapper = mount(
           defineComponent({
             setup() {
-              result = useElementResize()
+              result = useElementSize()
               return () => h('div', { style: box(120, 80) })
             }
           })
         )
 
         // no target: the component's root element is measured at mount
-        expect(result.width.value).toBe(wrapper.element.offsetWidth)
-        expect(result.height.value).toBe(wrapper.element.offsetHeight)
-        expect(result.width.value).toBe(120)
-        expect(result.height.value).toBe(80)
-        expect(result.refresh).toBeTypeOf('function')
-        expect(result.stop).toBeTypeOf('function')
+        expect(result.elementSize.value.width).toBe(wrapper.element.offsetWidth)
+        expect(result.elementSize.value.height).toBe(
+          wrapper.element.offsetHeight
+        )
+        expect(result.elementSize.value.width).toBe(120)
+        expect(result.elementSize.value.height).toBe(80)
+        expect(result.refreshElementSize).toBeTypeOf('function')
+        expect(result.stopElementSize).toBeTypeOf('function')
       })
 
       test('does not measure a fragment root', () => {
@@ -85,22 +87,22 @@ describe('[useElementResize API]', () => {
         mount(
           defineComponent({
             setup() {
-              result = useElementResize()
+              result = useElementSize()
               return () => [h('div'), h('div')]
             }
           })
         )
 
-        expect(result.width.value).toBe(0)
-        expect(result.height.value).toBe(0)
+        expect(result.elementSize.value.width).toBe(0)
+        expect(result.elementSize.value.height).toBe(0)
       })
 
       test('measures the target instead of the root when given', () => {
-        const { el, wrapper, width, height } = mountTarget()
+        const { el, wrapper, elementSize } = mountTarget()
 
         expect(el).not.toBe(wrapper.element)
-        expect(width.value).toBe(el.offsetWidth)
-        expect(height.value).toBe(el.offsetHeight)
+        expect(elementSize.value.width).toBe(el.offsetWidth)
+        expect(elementSize.value.height).toBe(el.offsetHeight)
       })
 
       test('accepts a plain options object', () => {
@@ -112,16 +114,16 @@ describe('[useElementResize API]', () => {
         mount(
           defineComponent({
             setup() {
-              result = useElementResize({ target: el })
+              result = useElementSize({ target: el })
               return () => h('div')
             }
           })
         )
 
-        expect(result.width.value).toBe(30)
-        expect(result.height.value).toBe(20)
+        expect(result.elementSize.value.width).toBe(30)
+        expect(result.elementSize.value.height).toBe(20)
 
-        result.stop()
+        result.stopElementSize()
         el.remove()
       })
 
@@ -130,12 +132,12 @@ describe('[useElementResize API]', () => {
         el.style.cssText = box(30, 20)
         document.body.append(el)
 
-        const { width, height, stop } = useElementResize({ target: el })
+        const { elementSize, stopElementSize } = useElementSize({ target: el })
 
-        expect(width.value).toBe(30)
-        expect(height.value).toBe(20)
+        expect(elementSize.value.width).toBe(30)
+        expect(elementSize.value.height).toBe(20)
 
-        stop()
+        stopElementSize()
         el.remove()
       })
 
@@ -152,7 +154,7 @@ describe('[useElementResize API]', () => {
 
       test('follows the element size', async () => {
         const onResize = vi.fn()
-        const { el, width, height } = mountTarget({ onResize })
+        const { el, elementSize } = mountTarget({ onResize })
 
         expect(onResize).toHaveBeenCalledOnce()
 
@@ -163,13 +165,13 @@ describe('[useElementResize API]', () => {
         })
 
         expect(onResize).toHaveBeenLastCalledWith({ width: 200, height: 50 })
-        expect(width.value).toBe(200)
-        expect(height.value).toBe(50)
+        expect(elementSize.value.width).toBe(200)
+        expect(elementSize.value.height).toBe(50)
       })
 
       test('tracks the border box of the element', async () => {
         const onResize = vi.fn()
-        const { el, width, height } = mountTarget(
+        const { el, elementSize } = mountTarget(
           { onResize },
           `box-sizing: content-box; ${box(120, 80)}`
         )
@@ -182,13 +184,13 @@ describe('[useElementResize API]', () => {
         })
 
         expect(sizeOf(el)).toStrictEqual({ width: 130, height: 100 })
-        expect(width.value).toBe(130)
-        expect(height.value).toBe(100)
+        expect(elementSize.value.width).toBe(130)
+        expect(elementSize.value.height).toBe(100)
       })
 
       test('measures at most once per debounce window', async () => {
         const onResize = vi.fn()
-        const { el, width } = mountTarget({ onResize, debounce: 100 })
+        const { el, elementSize } = mountTarget({ onResize, debounce: 100 })
 
         expect(onResize).toHaveBeenCalledOnce()
 
@@ -196,7 +198,7 @@ describe('[useElementResize API]', () => {
         await frames(2)
 
         // the observer has reported, the window has not elapsed yet
-        expect(width.value).toBe(120)
+        expect(elementSize.value.width).toBe(120)
 
         el.style.width = '200px'
 
@@ -205,7 +207,7 @@ describe('[useElementResize API]', () => {
         })
 
         // the measurement at the end of the window sees the latest width
-        expect(width.value).toBe(200)
+        expect(elementSize.value.width).toBe(200)
 
         await sleep(150)
         expect(onResize).toHaveBeenCalledTimes(2)
@@ -213,15 +215,15 @@ describe('[useElementResize API]', () => {
 
       test('accepts the debounce as a String', async () => {
         const onResize = vi.fn()
-        const { el, width } = mountTarget({ onResize, debounce: '100' })
+        const { el, elementSize } = mountTarget({ onResize, debounce: '100' })
 
         el.style.width = '150px'
         await frames(2)
 
-        expect(width.value).toBe(120)
+        expect(elementSize.value.width).toBe(120)
 
         await vi.waitFor(() => {
-          expect(width.value).toBe(150)
+          expect(elementSize.value.width).toBe(150)
         })
         expect(onResize).toHaveBeenCalledTimes(2)
       })
@@ -229,7 +231,7 @@ describe('[useElementResize API]', () => {
       test('keeps the last size while disabled and catches up on resume', async () => {
         const disabled = ref(false)
         const onResize = vi.fn()
-        const { el, width } = mountTarget(() => ({
+        const { el, elementSize } = mountTarget(() => ({
           onResize,
           disabled: disabled.value
         }))
@@ -241,18 +243,18 @@ describe('[useElementResize API]', () => {
         await frames(2)
 
         expect(onResize).toHaveBeenCalledOnce()
-        expect(width.value).toBe(120)
+        expect(elementSize.value.width).toBe(120)
 
         disabled.value = false
 
         // resuming measures right away
         expect(onResize).toHaveBeenCalledTimes(2)
-        expect(width.value).toBe(150)
+        expect(elementSize.value.width).toBe(150)
 
         // ...and observes again
         el.style.width = '200px'
         await vi.waitFor(() => {
-          expect(width.value).toBe(200)
+          expect(elementSize.value.width).toBe(200)
         })
       })
 
@@ -274,7 +276,7 @@ describe('[useElementResize API]', () => {
           defineComponent({
             setup() {
               target = ref(null)
-              useElementResize({ target, onResize })
+              useElementSize({ target, onResize })
               return () =>
                 h('div', [
                   h('div', { ref: target, style: box(120, 80) }),
@@ -314,7 +316,7 @@ describe('[useElementResize API]', () => {
           defineComponent({
             setup() {
               target = ref(null)
-              result = useElementResize({ target })
+              result = useElementSize({ target })
               return () =>
                 h('div', [
                   show.value
@@ -325,13 +327,13 @@ describe('[useElementResize API]', () => {
           })
         )
 
-        expect(result.width.value).toBe(0)
+        expect(result.elementSize.value.width).toBe(0)
 
         show.value = true
         await nextTick()
 
-        expect(result.width.value).toBe(120)
-        expect(result.height.value).toBe(80)
+        expect(result.elementSize.value.width).toBe(120)
+        expect(result.elementSize.value.height).toBe(80)
       })
 
       test('swaps the onResize handler while running', async () => {
@@ -351,18 +353,21 @@ describe('[useElementResize API]', () => {
         expect(first).toHaveBeenCalledOnce()
       })
 
-      test('refresh() measures right away, skipping the debounce', async () => {
+      test('refreshElementSize() measures right away, skipping the debounce', async () => {
         const onResize = vi.fn()
-        const { el, width, refresh } = mountTarget({ onResize, debounce: 100 })
+        const { el, elementSize, refreshElementSize } = mountTarget({
+          onResize,
+          debounce: 100
+        })
 
         el.style.width = '150px'
         await frames(2)
 
-        expect(width.value).toBe(120)
+        expect(elementSize.value.width).toBe(120)
 
-        refresh()
+        refreshElementSize()
 
-        expect(width.value).toBe(150)
+        expect(elementSize.value.width).toBe(150)
         expect(onResize).toHaveBeenCalledTimes(2)
 
         // the pending window measurement is dropped
@@ -370,25 +375,27 @@ describe('[useElementResize API]', () => {
         expect(onResize).toHaveBeenCalledTimes(2)
       })
 
-      test('refresh() is a no-op without an element', () => {
+      test('refreshElementSize() is a no-op without an element', () => {
         const onResize = vi.fn()
-        const { refresh, stop } = mountTarget({ onResize })
+        const { refreshElementSize, stopElementSize } = mountTarget({
+          onResize
+        })
 
-        stop()
-        refresh()
+        stopElementSize()
+        refreshElementSize()
 
         expect(onResize).toHaveBeenCalledOnce()
       })
 
-      test('stop() ends the observation for good', async () => {
+      test('stopElementSize() ends the observation for good', async () => {
         const disabled = ref(false)
         const onResize = vi.fn()
-        const { el, stop } = mountTarget(() => ({
+        const { el, stopElementSize } = mountTarget(() => ({
           onResize,
           disabled: disabled.value
         }))
 
-        stop()
+        stopElementSize()
 
         el.style.width = '150px'
         disabled.value = true
@@ -409,7 +416,7 @@ describe('[useElementResize API]', () => {
         const wrapper = mount(
           defineComponent({
             setup() {
-              useElementResize({ target: el, onResize })
+              useElementSize({ target: el, onResize })
               return () => h('div')
             }
           })

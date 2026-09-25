@@ -1,6 +1,6 @@
 import { computed, h, inject, onBeforeUnmount, ref, watch } from 'vue'
 
-import useElementResize from '../../composables/use-element-resize/use-element-resize.js'
+import useElementSize from '../../composables/use-element-size/use-element-size.js'
 import useQuasar from '../../composables/use-quasar/use-quasar.js'
 
 import { createComponent } from '../../utils/private.create/create.js'
@@ -103,7 +103,7 @@ export default /*#__PURE__*/ createComponent({
       $layout.update('header', prop, val)
     }
 
-    useElementResize({
+    useElementSize({
       debounce: 0,
       onResize({ height }) {
         updateLocal(size, height)

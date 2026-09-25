@@ -113,16 +113,22 @@ describe('[useWebSocket API]', () => {
   describe('[Functions]', () => {
     describe('[(function)default]', () => {
       test('has correct return value', () => {
-        const { socketStatus, data, error, send, openSocket, closeSocket } =
-          mountSocket({ manualOpen: true })
+        const {
+          socketStatus,
+          socketData,
+          socketError,
+          sendSocketMessage,
+          openSocket,
+          closeSocket
+        } = mountSocket({ lazy: true })
 
         expect(isRef(socketStatus)).toBe(true)
         expect(socketStatus.value).toBe('closed')
-        expect(isRef(data)).toBe(true)
-        expect(data.value).toBeNull()
-        expect(isRef(error)).toBe(true)
-        expect(error.value).toBeNull()
-        expect(send).toBeTypeOf('function')
+        expect(isRef(socketData)).toBe(true)
+        expect(socketData.value).toBeNull()
+        expect(isRef(socketError)).toBe(true)
+        expect(socketError.value).toBeNull()
+        expect(sendSocketMessage).toBeTypeOf('function')
         expect(openSocket).toBeTypeOf('function')
         expect(closeSocket).toBeTypeOf('function')
       })
@@ -186,8 +192,8 @@ describe('[useWebSocket API]', () => {
         expect(sockets[0].binaryType).toBe('arraybuffer')
       })
 
-      test('"manualOpen" option leaves the socket closed until openSocket()', () => {
-        const { socketStatus, openSocket } = mountSocket({ manualOpen: true })
+      test('"lazy" option leaves the socket closed until openSocket()', () => {
+        const { socketStatus, openSocket } = mountSocket({ lazy: true })
 
         expect(sockets).toHaveLength(0)
         expect(socketStatus.value).toBe('closed')
@@ -221,14 +227,14 @@ describe('[useWebSocket API]', () => {
         expect(onOpen).toHaveBeenCalledTimes(2)
       })
 
-      test('mirrors the received messages into data and onMessage', () => {
+      test('mirrors the received messages into socketData and onMessage', () => {
         const onMessage = vi.fn()
-        const { data } = mountSocket({ onMessage })
+        const { socketData } = mountSocket({ onMessage })
 
         sockets[0].serverOpen()
         sockets[0].serverMessage('hello')
 
-        expect(data.value).toBe('hello')
+        expect(socketData.value).toBe('hello')
         expect(onMessage).toHaveBeenCalledTimes(1)
 
         const [payload, evt] = onMessage.mock.calls[0]
@@ -236,34 +242,37 @@ describe('[useWebSocket API]', () => {
         expect(evt).toBeInstanceOf(MessageEvent)
       })
 
-      test('mirrors the error event into error and onError', () => {
+      test('mirrors the error event into socketError and onError', () => {
         const onError = vi.fn()
-        const { error } = mountSocket({ onError })
+        const { socketError } = mountSocket({ onError })
 
         sockets[0].serverError()
 
-        expect(error.value).toBeInstanceOf(Event)
-        expect(onError).toHaveBeenCalledWith(error.value)
+        expect(socketError.value).toBeInstanceOf(Event)
+        expect(onError).toHaveBeenCalledWith(socketError.value)
       })
 
-      test('send() sends right away while open', () => {
-        const { send } = mountSocket()
+      test('sendSocketMessage() sends right away while open', () => {
+        const { sendSocketMessage } = mountSocket()
 
         sockets[0].serverOpen()
-        send('one')
+        sendSocketMessage('one')
 
         expect(sockets[0].sent).toEqual(['one'])
       })
 
-      test('send() queues messages until the socket opens, after those of onOpen', () => {
+      test('sendSocketMessage() queues messages until the socket opens, after those of onOpen', () => {
         const api = {}
         const onOpen = () => {
-          api.send('auth')
+          api.sendSocketMessage('auth')
         }
-        const { send } = Object.assign(api, mountSocket({ onOpen }))
+        const { sendSocketMessage } = Object.assign(
+          api,
+          mountSocket({ onOpen })
+        )
 
-        send('one')
-        send('two')
+        sendSocketMessage('one')
+        sendSocketMessage('two')
         expect(sockets[0].sent).toEqual([])
 
         sockets[0].serverOpen()
@@ -271,10 +280,10 @@ describe('[useWebSocket API]', () => {
         expect(sockets[0].sent).toEqual(['auth', 'one', 'two'])
       })
 
-      test('send() opens a closed socket', () => {
-        const { socketStatus, send } = mountSocket({ manualOpen: true })
+      test('sendSocketMessage() opens a closed socket', () => {
+        const { socketStatus, sendSocketMessage } = mountSocket({ lazy: true })
 
-        send('early')
+        sendSocketMessage('early')
 
         expect(sockets).toHaveLength(1)
         expect(socketStatus.value).toBe('connecting')
@@ -286,13 +295,13 @@ describe('[useWebSocket API]', () => {
 
       test('closeSocket() closes with the code and reason, without reconnecting', () => {
         const onClose = vi.fn()
-        const { socketStatus, send, closeSocket } = mountSocket({
+        const { socketStatus, sendSocketMessage, closeSocket } = mountSocket({
           onClose
         })
         const socket = sockets[0]
 
         socket.serverOpen()
-        send('queued')
+        sendSocketMessage('queued')
         closeSocket(4000, 'bye')
 
         expect(socket.closeCalls).toEqual([[4000, 'bye']])
@@ -310,8 +319,9 @@ describe('[useWebSocket API]', () => {
         expect(socketStatus.value).toBe('closed')
       })
 
-      test('closeSocket() lets openSocket() and send() reconnect', () => {
-        const { socketStatus, send, openSocket, closeSocket } = mountSocket()
+      test('closeSocket() lets openSocket() and sendSocketMessage() reconnect', () => {
+        const { socketStatus, sendSocketMessage, openSocket, closeSocket } =
+          mountSocket()
 
         sockets[0].serverOpen()
         closeSocket()
@@ -322,7 +332,7 @@ describe('[useWebSocket API]', () => {
 
         sockets[1].serverOpen()
         closeSocket()
-        send('again')
+        sendSocketMessage('again')
 
         expect(sockets).toHaveLength(3)
         sockets[2].serverOpen()
@@ -330,11 +340,11 @@ describe('[useWebSocket API]', () => {
       })
 
       test('closeSocket() drops the queued messages', () => {
-        const { send, closeSocket, openSocket } = mountSocket({
-          manualOpen: true
+        const { sendSocketMessage, closeSocket, openSocket } = mountSocket({
+          lazy: true
         })
 
-        send('lost')
+        sendSocketMessage('lost')
         closeSocket()
         openSocket()
         sockets[1].serverOpen()
@@ -344,7 +354,7 @@ describe('[useWebSocket API]', () => {
 
       test('ignores the events of a socket closed through closeSocket()', () => {
         const onMessage = vi.fn()
-        const { data, closeSocket, openSocket } = mountSocket({
+        const { socketData, closeSocket, openSocket } = mountSocket({
           onMessage
         })
         const old = sockets[0]
@@ -355,7 +365,7 @@ describe('[useWebSocket API]', () => {
 
         old.serverMessage('late')
 
-        expect(data.value).toBeNull()
+        expect(socketData.value).toBeNull()
         expect(onMessage).not.toHaveBeenCalled()
         expect(sockets).toHaveLength(2)
       })
@@ -540,7 +550,7 @@ describe('[useWebSocket API]', () => {
       })
 
       test('"online" event does nothing for a socket closed by the user or without reconnect', () => {
-        const manual = mountSocket({ manualOpen: true })
+        const manual = mountSocket({ lazy: true })
         const closed = mountSocket({ autoReconnect: false })
 
         sockets[0].serverClose()
@@ -591,7 +601,7 @@ describe('[useWebSocket API]', () => {
       test('reconnects to a new URL while wanted', async () => {
         const onClose = vi.fn()
         const target = ref(url)
-        const { socketStatus, send, closeSocket } = mountSocket(
+        const { socketStatus, sendSocketMessage, closeSocket } = mountSocket(
           { onClose },
           target
         )
@@ -613,7 +623,7 @@ describe('[useWebSocket API]', () => {
         expect(sockets).toHaveLength(2)
 
         // queued messages go to the new socket
-        send('kept')
+        sendSocketMessage('kept')
         sockets[1].serverOpen()
         expect(sockets[1].sent).toEqual(['kept'])
 
@@ -643,13 +653,14 @@ describe('[useWebSocket API]', () => {
       })
 
       test('can be used outside of a component', () => {
-        const { socketStatus, send, closeSocket } = useWebSocket(url)
+        const { socketStatus, sendSocketMessage, closeSocket } =
+          useWebSocket(url)
 
         expect(sockets).toHaveLength(1)
         expect(socketStatus.value).toBe('connecting')
 
         sockets[0].serverOpen()
-        send('hi')
+        sendSocketMessage('hi')
         expect(sockets[0].sent).toEqual(['hi'])
 
         closeSocket()

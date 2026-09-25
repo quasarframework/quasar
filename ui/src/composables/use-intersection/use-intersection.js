@@ -19,7 +19,8 @@ import { noop } from '../../utils/event/event.js'
 
 /*
  * Usage:
- *    const { isIntersecting, refresh, stop } = useIntersection(options)
+ *    const { isIntersecting, refreshIntersection, stopIntersection } =
+ *      useIntersection(options)
  *
  * options - plain object, ref or getter of:
  *    target      - ref (or getter) of an Element or a component instance;
@@ -36,7 +37,13 @@ export default function useIntersection(options) {
   const isIntersecting = ref(false)
 
   if (__QUASAR_SSR_SERVER__) {
-    return { isIntersecting, stop: noop }
+    return {
+      isIntersecting,
+      refresh: noop, // TODO: remove in Qv3; kept for backward compatibility
+      stop: noop, // TODO: remove in Qv3; kept for backward compatibility
+      refreshIntersection: noop,
+      stopIntersection: noop
+    }
   }
 
   const vm = getCurrentInstance()
@@ -106,21 +113,25 @@ export default function useIntersection(options) {
     effect.run()
   }
 
+  // delivers the current state again, even unchanged
+  function refreshIntersection() {
+    if (el !== null) {
+      reobserve(el)
+    }
+  }
+
+  function stopIntersection() {
+    sub.done = true
+    sub.stopped = true
+    release()
+    effect.stop()
+  }
+
   return {
     isIntersecting,
-
-    // delivers the current state again, even unchanged
-    refresh() {
-      if (el !== null) {
-        reobserve(el)
-      }
-    },
-
-    stop() {
-      sub.done = true
-      sub.stopped = true
-      release()
-      effect.stop()
-    }
+    refresh: refreshIntersection, // TODO: remove in Qv3; kept for backward compatibility
+    stop: stopIntersection, // TODO: remove in Qv3; kept for backward compatibility
+    refreshIntersection,
+    stopIntersection
   }
 }

@@ -47,7 +47,7 @@ describe('[useWebWorkerFn API]', () => {
   describe('[Functions]', () => {
     describe('[(function)default]', () => {
       test('has correct return value', () => {
-        const { runWorkerFn, workerFnStatus, terminateWorkerFn } =
+        const { workerFnStatus, runWorkerFn, terminateWorkerFn } =
           mountWorkerFn(sum)
 
         expect(runWorkerFn).toBeTypeOf('function')
@@ -57,7 +57,7 @@ describe('[useWebWorkerFn API]', () => {
       })
 
       test('runs the function with the arguments and resolves its result', async () => {
-        const { runWorkerFn, workerFnStatus } = mountWorkerFn(sum)
+        const { workerFnStatus, runWorkerFn } = mountWorkerFn(sum)
 
         const promise = runWorkerFn(2, 3)
         expect(workerFnStatus.value).toBe('running')
@@ -80,7 +80,7 @@ describe('[useWebWorkerFn API]', () => {
       })
 
       test('rejects with the error the function threw', async () => {
-        const { runWorkerFn, workerFnStatus } = mountWorkerFn(() => {
+        const { workerFnStatus, runWorkerFn } = mountWorkerFn(() => {
           throw new RangeError('too far')
         })
 
@@ -92,14 +92,14 @@ describe('[useWebWorkerFn API]', () => {
       })
 
       test('rejects with the string form of a value that cannot be cloned', async () => {
-        const { runWorkerFn, workerFnStatus } = mountWorkerFn(() => () => 1)
+        const { workerFnStatus, runWorkerFn } = mountWorkerFn(() => () => 1)
 
         await expect(runWorkerFn()).rejects.toMatch(/DataCloneError/)
         expect(workerFnStatus.value).toBe('error')
       })
 
       test('rejects an argument that cannot be cloned', async () => {
-        const { runWorkerFn, workerFnStatus } = mountWorkerFn(sum)
+        const { workerFnStatus, runWorkerFn } = mountWorkerFn(sum)
 
         await expect(runWorkerFn(() => 1, 2)).rejects.toThrow(/clone/)
         expect(workerFnStatus.value).toBe('error')
@@ -126,7 +126,7 @@ describe('[useWebWorkerFn API]', () => {
 
       test('"timeout" option kills the worker and rejects', async () => {
         // generous enough for a worker to start on a loaded machine
-        const { runWorkerFn, workerFnStatus } = mountWorkerFn(busyWait, {
+        const { workerFnStatus, runWorkerFn } = mountWorkerFn(busyWait, {
           timeout: 1000
         })
 
@@ -164,7 +164,7 @@ describe('[useWebWorkerFn API]', () => {
       })
 
       test('"localDependencies" option rejects an unnamed function', async () => {
-        const { runWorkerFn, workerFnStatus } = mountWorkerFn(sum, {
+        const { workerFnStatus, runWorkerFn } = mountWorkerFn(sum, {
           localDependencies: [
             (
               () => n =>
@@ -192,7 +192,7 @@ describe('[useWebWorkerFn API]', () => {
       })
 
       test('rejects when the worker script fails to start', async () => {
-        const { runWorkerFn, workerFnStatus } = mountWorkerFn(sum, {
+        const { workerFnStatus, runWorkerFn } = mountWorkerFn(sum, {
           dependencies: ['/definitely-missing-script.js']
         })
 
@@ -217,7 +217,7 @@ describe('[useWebWorkerFn API]', () => {
       })
 
       test('terminateWorkerFn() rejects the running call and resets the status', async () => {
-        const { runWorkerFn, workerFnStatus, terminateWorkerFn } =
+        const { workerFnStatus, runWorkerFn, terminateWorkerFn } =
           mountWorkerFn(busyWait)
 
         const promise = runWorkerFn(2000)
@@ -231,7 +231,7 @@ describe('[useWebWorkerFn API]', () => {
       })
 
       test('terminateWorkerFn() starts a fresh worker for the next call', async () => {
-        const { runWorkerFn, workerFnStatus, terminateWorkerFn } =
+        const { workerFnStatus, runWorkerFn, terminateWorkerFn } =
           mountWorkerFn(countCalls)
 
         await expect(runWorkerFn()).resolves.toBe(1)
@@ -375,7 +375,7 @@ describe('[useWebWorkerFn API]', () => {
       })
 
       test('can be used outside of a component', async () => {
-        const { runWorkerFn, workerFnStatus, terminateWorkerFn } =
+        const { workerFnStatus, runWorkerFn, terminateWorkerFn } =
           useWebWorkerFn(sum)
 
         await expect(runWorkerFn(1, 2)).resolves.toBe(3)

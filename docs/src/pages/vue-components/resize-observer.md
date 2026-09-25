@@ -4,13 +4,13 @@ desc: The QResizeObserver Vue component emits a 'resize' event whenever the wrap
 keys: QResizeObserver
 examples: QResizeObserver
 related:
-  - /vue-composables/use-element-resize
+  - /vue-composables/use-element-size
   - /vue-directives/resize
 ---
 
 QResizeObserver is a Quasar component that emits a `resize` event whenever the wrapping DOM element / component (defined as direct parent of QResizeObserver) changes its size (width and/or height). The reported size is the element's outer size (padding and border included), so a padding change on the wrapping element itself is reported too. Note that no polling is involved, but overusing it is costly too.
 
-Should you prefer the size as reactive state in your setup code, or want to watch an element that is not the direct parent, use the [useElementResize](/vue-composables/use-element-resize) composable that this component is built on. The [v-resize](/vue-directives/resize) directive is the template-side alternative that needs no extra node.
+Should you prefer the size as reactive state in your setup code, or want to watch an element that is not the direct parent, use the [useElementSize](/vue-composables/use-element-size) composable that this component is built on. The [v-resize](/vue-directives/resize) directive is the template-side alternative that needs no extra node.
 
 <DocApi file="QResizeObserver" />
 

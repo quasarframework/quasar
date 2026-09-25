@@ -17,12 +17,12 @@ The `useObjectUrl()` composable turns a `Blob` (a `File` included) or a `MediaSo
 Use it to preview a picked file before uploading it, to show an image received as a Blob from an API, or to play a media stream.
 
 > [!NOTE]
-> On the server-side of SSR or SSG modes, `url` stays `null`: there is no `URL.createObjectURL()` there and, in practice, no Blob to point at either.
+> On the server-side of SSR or SSG modes, `objectUrl` stays `null`: there is no `URL.createObjectURL()` there and, in practice, no Blob to point at either.
 
 > [!TIP]
 > **Outside of a component**
 >
-> The composable can also be called outside of `setup()`: in a boot file, a store or a plain module. It works the same there, but nothing revokes the URL by itself: set the source to `null` or call `stop()` when you are done.
+> The composable can also be called outside of `setup()`: in a boot file, a store or a plain module. It works the same there, but nothing revokes the URL by itself: set the source to `null` or call `revokeObjectUrl()` when you are done.
 
 ## Syntax
 
@@ -30,7 +30,7 @@ Use it to preview a picked file before uploading it, to show an image received a
 import { useObjectUrl } from 'quasar'
 
 setup () {
-  const { url, stop } = useObjectUrl(source)
+  const { objectUrl, revokeObjectUrl } = useObjectUrl(source)
 
   // ...
 }
@@ -40,17 +40,17 @@ setup () {
 function useObjectUrl(
   source?: MaybeRefOrGetter<Blob | MediaSource | null | undefined>
 ): {
-  url: Ref<string | null>
-  stop: () => void
+  objectUrl: Ref<string | null>
+  revokeObjectUrl: () => void
 }
 ```
 
-`source` can be a plain value, a Ref or a getter Function. Plain values are read once. With a Ref or a getter, the composable tracks whatever reactive state it reads: each time it yields a different object, the previous URL gets revoked and a new one is created; `null` or `undefined` revokes the current URL and leaves `url` at `null`. A getter that re-runs but returns the same object keeps the URL, so an image already displayed with it does not reload.
+`source` can be a plain value, a Ref or a getter Function. Plain values are read once. With a Ref or a getter, the composable tracks whatever reactive state it reads: each time it yields a different object, the previous URL gets revoked and a new one is created; `null` or `undefined` revokes the current URL and leaves `objectUrl` at `null`. A getter that re-runs but returns the same object keeps the URL, so an image already displayed with it does not reload.
 
-`url` holds the object URL (`blob:...`) of the current source or `null`. `stop()` revokes the current URL and ends the tracking for good; you will rarely need it inside a component, as the composable revokes the URL by itself when the component gets destroyed.
+`objectUrl` holds the object URL (`blob:...`) of the current source or `null`. `revokeObjectUrl()` revokes the current URL and ends the tracking for good; you will rarely need it inside a component, as the composable revokes the URL by itself when the component gets destroyed.
 
 > [!WARNING]
-> Revoking an object URL makes it unusable from that moment on. Anything that still needs the data (an `<img>` that has not finished loading, a link the user has not clicked yet) must get the new `url` value; do not keep copies of an old one around.
+> Revoking an object URL makes it unusable from that moment on. Anything that still needs the data (an `<img>` that has not finished loading, a link the user has not clicked yet) must get the new `objectUrl` value; do not keep copies of an old one around.
 
 ## Example
 

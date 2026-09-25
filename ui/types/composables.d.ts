@@ -54,10 +54,10 @@ export interface UseDropZoneOptions {
 
 export function useDropZone(options?: MaybeRefOrGetter<UseDropZoneOptions>): {
   isOverDropZone: Ref<boolean>;
-  droppedFiles: Ref<File[]>;
-  rejectedFiles: Ref<UseFilePickerRejectedEntry[]>;
+  acceptedDropZoneFiles: Ref<File[]>;
+  rejectedDropZoneFiles: Ref<UseFilePickerRejectedEntry[]>;
   resetDropZone: () => void;
-  stop: () => void;
+  stopDropZone: () => void;
 };
 
 export interface UseFilePickerOptions {
@@ -87,8 +87,8 @@ export interface UseFilePickerRejectedEntry {
 export function useFilePicker(
   options?: MaybeRefOrGetter<UseFilePickerOptions>
 ): {
-  pickedFiles: Ref<File[]>;
-  rejectedFiles: Ref<UseFilePickerRejectedEntry[]>;
+  acceptedPickerFiles: Ref<File[]>;
+  rejectedPickerFiles: Ref<UseFilePickerRejectedEntry[]>;
   openFilePicker: (overrides?: UseFilePickerOptions) => Promise<File[] | null>;
   resetFilePicker: () => void;
 };
@@ -101,22 +101,21 @@ interface UseFormChildOptions {
 
 export function useFormChild(options: UseFormChildOptions): void;
 
-export interface UseElementResizeOptions {
+export interface UseElementSizeOptions {
   target?: MaybeRefOrGetter<
     Element | ComponentPublicInstance | null | undefined
   >;
   debounce?: string | number;
   disabled?: boolean;
-  onResize?: (size: { width: number; height: number }) => void;
+  onResize?: (elementSize: { width: number; height: number }) => void;
 }
 
-export function useElementResize(
-  options?: MaybeRefOrGetter<UseElementResizeOptions>
+export function useElementSize(
+  options?: MaybeRefOrGetter<UseElementSizeOptions>
 ): {
-  width: Ref<number>;
-  height: Ref<number>;
-  refresh: () => void;
-  stop: () => void;
+  elementSize: Ref<{ width: number; height: number }>;
+  refreshElementSize: () => void;
+  stopElementSize: () => void;
 };
 
 export interface UseEventListenerOptions {
@@ -134,25 +133,27 @@ export function useEventListener<E extends Event = Event>(
   handler: (evt: E) => void,
   options?: MaybeRefOrGetter<UseEventListenerOptions>
 ): {
-  stop: () => void;
+  stopEventListener: () => void;
 };
 
-export type BroadcastChannelStatus = "closed" | "connected";
+export type BroadcastChannelCloseReason = "programmatic" | "unmount" | "name";
 
 export interface UseBroadcastChannelOptions<T = any> {
-  manualConnect?: boolean;
+  lazy?: boolean;
+  onConnect?: () => void;
   onMessage?: (data: T, evt: MessageEvent<T>) => void;
   onError?: (evt: MessageEvent) => void;
+  onClose?: (reason: BroadcastChannelCloseReason) => void;
 }
 
 export function useBroadcastChannel<T = any>(
   name: MaybeRefOrGetter<string>,
   options?: UseBroadcastChannelOptions<T>
 ): {
-  channelStatus: Ref<BroadcastChannelStatus>;
-  data: ShallowRef<T | null>;
-  error: ShallowRef<MessageEvent | null>;
-  postMessage: (message: T) => void;
+  isChannelConnected: Ref<boolean>;
+  channelData: ShallowRef<T | null>;
+  channelError: ShallowRef<MessageEvent | null>;
+  postChannelMessage: (message: T) => void;
   connectChannel: () => void;
   closeChannel: () => void;
 };
@@ -171,9 +172,9 @@ export interface UseEventSourceReconnectOptions {
 }
 
 export interface UseEventSourceOptions {
+  lazy?: boolean;
   withCredentials?: boolean;
   events?: string[];
-  manualOpen?: boolean;
   autoReconnect?: boolean | UseEventSourceReconnectOptions;
   onOpen?: (evt: Event) => void;
   onMessage?: (data: string, evt: MessageEvent<string>) => void;
@@ -187,9 +188,9 @@ export function useEventSource(
   options?: UseEventSourceOptions
 ): {
   sourceStatus: Ref<EventSourceStatus>;
-  data: ShallowRef<string | null>;
-  lastEventId: ShallowRef<string | null>;
-  error: ShallowRef<Event | null>;
+  sourceData: ShallowRef<string | null>;
+  sourceLastEventId: ShallowRef<string | null>;
+  sourceError: ShallowRef<Event | null>;
   openSource: () => void;
   closeSource: () => void;
 };
@@ -222,7 +223,7 @@ export interface UseMutationOptions extends MutationObserverInit {
 
 export function useMutation(options?: MaybeRefOrGetter<UseMutationOptions>): {
   mutationRecords: Ref<MutationRecord[]>;
-  stop: () => void;
+  stopMutation: () => void;
 };
 
 export interface UseScrollOptions {
@@ -247,13 +248,13 @@ export interface UseScrollDetails {
 }
 
 export function useScroll(options?: MaybeRefOrGetter<UseScrollOptions>): {
-  position: Ref<{ top: number; left: number }>;
-  direction: Ref<"up" | "down" | "left" | "right">;
-  directionChanged: Ref<boolean>;
-  delta: Ref<{ top: number; left: number }>;
-  inflectionPoint: Ref<{ top: number; left: number }>;
-  refresh: () => void;
-  stop: () => void;
+  scrollPosition: Ref<{ top: number; left: number }>;
+  scrollDirection: Ref<"up" | "down" | "left" | "right">;
+  scrollDirectionChanged: Ref<boolean>;
+  scrollDelta: Ref<{ top: number; left: number }>;
+  scrollInflectionPoint: Ref<{ top: number; left: number }>;
+  refreshScroll: () => void;
+  stopScroll: () => void;
 };
 
 export function useHydration(): {
@@ -276,8 +277,12 @@ export function useIntersection(
   options?: MaybeRefOrGetter<UseIntersectionOptions>
 ): {
   isIntersecting: Ref<boolean>;
+  /** @deprecated alias of refreshIntersection() */
   refresh: () => void;
+  /** @deprecated alias of stopIntersection() */
   stop: () => void;
+  refreshIntersection: () => void;
+  stopIntersection: () => void;
 };
 
 export function useInterval(): {
@@ -302,7 +307,7 @@ export function useIdle(options?: MaybeRefOrGetter<UseIdleOptions>): {
   isIdle: Ref<boolean>;
   lastActive: Ref<number>;
   resetIdle: () => void;
-  stop: () => void;
+  stopIdle: () => void;
 };
 
 export function useMeta(options: MetaOptions | (() => MetaOptions)): void;
@@ -310,8 +315,8 @@ export function useMeta(options: MetaOptions | (() => MetaOptions)): void;
 export function useObjectUrl(
   source?: MaybeRefOrGetter<Blob | MediaSource | null | undefined>
 ): {
-  url: Ref<string | null>;
-  stop: () => void;
+  objectUrl: Ref<string | null>;
+  revokeObjectUrl: () => void;
 };
 
 export function useQuasar(): QVueGlobals;
@@ -369,9 +374,9 @@ export type WebSocketCloseReason =
   | "remote";
 
 export interface UseWebSocketOptions {
+  lazy?: boolean;
   protocols?: string | string[];
   binaryType?: BinaryType;
-  manualOpen?: boolean;
   autoReconnect?: boolean | UseWebSocketReconnectOptions;
   heartbeat?: boolean | UseWebSocketHeartbeatOptions;
   onOpen?: (evt: Event) => void;
@@ -386,9 +391,9 @@ export function useWebSocket<Data = any>(
   options?: UseWebSocketOptions
 ): {
   socketStatus: Ref<WebSocketStatus>;
-  data: ShallowRef<Data | null>;
-  error: ShallowRef<Event | null>;
-  send: (message: WebSocketMessage) => void;
+  socketData: ShallowRef<Data | null>;
+  socketError: ShallowRef<Event | null>;
+  sendSocketMessage: (message: WebSocketMessage) => void;
   openSocket: () => void;
   closeSocket: (code?: number, reason?: string) => void;
 };
@@ -401,7 +406,7 @@ export type UseWebWorkerSource =
   | (new (options?: WorkerOptions) => Worker);
 
 export interface UseWebWorkerOptions extends WorkerOptions {
-  eager?: boolean;
+  lazy?: boolean;
   onMessage?: (data: any, evt: MessageEvent) => void;
   onError?: (evt: ErrorEvent | MessageEvent) => void;
   onCreate?: (worker: Worker) => void;
@@ -417,10 +422,10 @@ export function useWebWorker<Data = any>(
   options?: UseWebWorkerOptions
 ): {
   workerStatus: Ref<WebWorkerStatus>;
-  data: ShallowRef<Data | null>;
-  error: ShallowRef<ErrorEvent | MessageEvent | null>;
-  postMessage: (message: any, transfer?: Transferable[]) => void;
-  terminate: () => void;
+  workerData: ShallowRef<Data | null>;
+  workerError: ShallowRef<ErrorEvent | MessageEvent | null>;
+  postWorkerMessage: (message: any, transfer?: Transferable[]) => void;
+  terminateWorker: () => void;
 };
 
 export type WebWorkerFnStatus =
@@ -453,7 +458,7 @@ export function useWebWorkerFn<Fn extends (...args: any[]) => any>(
   fn: Fn,
   options?: UseWebWorkerFnOptions<Parameters<Fn>, Awaited<ReturnType<Fn>>>
 ): {
-  runWorkerFn: (...args: Parameters<Fn>) => Promise<Awaited<ReturnType<Fn>>>;
   workerFnStatus: Ref<WebWorkerFnStatus>;
+  runWorkerFn: (...args: Parameters<Fn>) => Promise<Awaited<ReturnType<Fn>>>;
   terminateWorkerFn: () => void;
 };

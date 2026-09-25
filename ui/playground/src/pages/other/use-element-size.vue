@@ -8,8 +8,17 @@
           <q-btn color="primary" label="Random height" @click="randomHeight" />
           <q-toggle v-model="disabled" label="disabled" />
           <q-toggle v-model="debounced" label="debounce 300ms" />
-          <q-btn flat label="refresh()" @click="refresh" />
-          <q-btn flat color="negative" label="stop()" @click="stop" />
+          <q-btn
+            flat
+            label="refreshElementSize()"
+            @click="refreshElementSize"
+          />
+          <q-btn
+            flat
+            color="negative"
+            label="stopElementSize()"
+            @click="stopElementSize"
+          />
         </div>
       </q-card-section>
       <q-separator />
@@ -20,8 +29,8 @@
           :style="boxStyle"
         />
         <div class="q-mt-md q-gutter-sm">
-          <q-badge :label="`width: ${width}`" />
-          <q-badge :label="`height: ${height}`" />
+          <q-badge :label="`width: ${elementSize.width}`" />
+          <q-badge :label="`height: ${elementSize.height}`" />
           <q-badge color="secondary" :label="`onResize calls: ${calls}`" />
         </div>
       </q-card-section>
@@ -43,8 +52,8 @@
           resize the window
         </div>
         <div class="q-mt-md q-gutter-sm">
-          <q-badge :label="`width: ${second.width.value}`" />
-          <q-badge :label="`height: ${second.height.value}`" />
+          <q-badge :label="`width: ${second.elementSize.value.width}`" />
+          <q-badge :label="`height: ${second.elementSize.value.height}`" />
         </div>
       </q-card-section>
     </q-card>
@@ -53,8 +62,8 @@
       <q-card-section>
         <div class="text-h6">component root (no target)</div>
         <div class="q-gutter-sm">
-          <q-badge :label="`root width: ${root.width.value}`" />
-          <q-badge :label="`root height: ${root.height.value}`" />
+          <q-badge :label="`root width: ${root.elementSize.value.width}`" />
+          <q-badge :label="`root height: ${root.elementSize.value.height}`" />
         </div>
       </q-card-section>
     </q-card>
@@ -63,7 +72,7 @@
 
 <script setup>
 import { computed, ref, useTemplateRef } from 'vue'
-import { useElementResize } from 'quasar'
+import { useElementSize } from 'quasar'
 
 const boxRef = useTemplateRef('boxRef')
 const secondRef = useTemplateRef('secondRef')
@@ -80,19 +89,21 @@ const boxStyle = computed(() => ({
   height: boxHeight.value + 'px'
 }))
 
-const { width, height, refresh, stop } = useElementResize(() => ({
-  target: boxRef,
-  disabled: disabled.value,
-  debounce: debounced.value ? 300 : 0,
-  onResize() {
-    calls.value++
-  }
-}))
+const { elementSize, refreshElementSize, stopElementSize } = useElementSize(
+  () => ({
+    target: boxRef,
+    disabled: disabled.value,
+    debounce: debounced.value ? 300 : 0,
+    onResize() {
+      calls.value++
+    }
+  })
+)
 
-const second = useElementResize({ target: secondRef })
+const second = useElementSize({ target: secondRef })
 
 // measures this page's root element
-const root = useElementResize()
+const root = useElementSize()
 
 function randomHeight() {
   boxHeight.value = Math.floor(80 + Math.random() * 200)

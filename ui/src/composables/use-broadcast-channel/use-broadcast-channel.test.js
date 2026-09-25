@@ -88,21 +88,21 @@ describe('[useBroadcastChannel API]', () => {
     describe('[(function)default]', () => {
       test('has correct return value', () => {
         const {
-          channelStatus,
-          data,
-          error,
-          postMessage,
+          isChannelConnected,
+          channelData,
+          channelError,
+          postChannelMessage,
           connectChannel,
           closeChannel
-        } = mountChannel({ manualConnect: true })
+        } = mountChannel({ lazy: true })
 
-        expect(isRef(channelStatus)).toBe(true)
-        expect(channelStatus.value).toBe('closed')
-        expect(isRef(data)).toBe(true)
-        expect(data.value).toBeNull()
-        expect(isRef(error)).toBe(true)
-        expect(error.value).toBeNull()
-        expect(postMessage).toBeTypeOf('function')
+        expect(isRef(isChannelConnected)).toBe(true)
+        expect(isChannelConnected.value).toBe(false)
+        expect(isRef(channelData)).toBe(true)
+        expect(channelData.value).toBeNull()
+        expect(isRef(channelError)).toBe(true)
+        expect(channelError.value).toBeNull()
+        expect(postChannelMessage).toBeTypeOf('function')
         expect(connectChannel).toBeTypeOf('function')
         expect(closeChannel).toBeTypeOf('function')
       })
@@ -115,42 +115,42 @@ describe('[useBroadcastChannel API]', () => {
           defineComponent({
             setup() {
               result = useBroadcastChannel(name)
-              statusAtSetup = result.channelStatus.value
+              statusAtSetup = result.isChannelConnected.value
               return () => h('div')
             }
           })
         )
 
-        expect(statusAtSetup).toBe('closed')
-        expect(result.channelStatus.value).toBe('connected')
+        expect(statusAtSetup).toBe(false)
+        expect(result.isChannelConnected.value).toBe(true)
         expect(channels).toHaveLength(1)
         expect(lastChannel().name).toBe(name)
       })
 
-      test('manualConnect waits for connectChannel() or postMessage()', async () => {
+      test('"lazy" option waits for connectChannel() or postChannelMessage()', async () => {
         const {
-          channelStatus,
+          isChannelConnected,
           connectChannel,
-          postMessage,
+          postChannelMessage,
           closeChannel,
           name
-        } = mountChannel({ manualConnect: true })
+        } = mountChannel({ lazy: true })
         const peer = createPeer(name)
 
         expect(channels).toHaveLength(0)
-        expect(channelStatus.value).toBe('closed')
+        expect(isChannelConnected.value).toBe(false)
 
         connectChannel()
         expect(channels).toHaveLength(1)
         expect(lastChannel().name).toBe(name)
-        expect(channelStatus.value).toBe('connected')
+        expect(isChannelConnected.value).toBe(true)
 
         closeChannel()
-        expect(channelStatus.value).toBe('closed')
+        expect(isChannelConnected.value).toBe(false)
 
-        postMessage('via post')
+        postChannelMessage('via post')
         expect(channels).toHaveLength(2)
-        expect(channelStatus.value).toBe('connected')
+        expect(isChannelConnected.value).toBe(true)
         await vi.waitFor(() => {
           expect(peer.received).toEqual(['via post'])
         })
@@ -158,13 +158,13 @@ describe('[useBroadcastChannel API]', () => {
 
       test('receives the messages posted by another context', async () => {
         const onMessage = vi.fn()
-        const { data, name } = mountChannel({ onMessage })
+        const { channelData, name } = mountChannel({ onMessage })
         const peer = createPeer(name)
 
         peer.postMessage('hello')
 
         await vi.waitFor(() => {
-          expect(data.value).toBe('hello')
+          expect(channelData.value).toBe('hello')
         })
         expect(onMessage).toHaveBeenCalledExactlyOnceWith(
           'hello',
@@ -175,50 +175,52 @@ describe('[useBroadcastChannel API]', () => {
         peer.postMessage('again')
 
         await vi.waitFor(() => {
-          expect(data.value).toBe('again')
+          expect(channelData.value).toBe('again')
         })
         expect(onMessage).toHaveBeenCalledTimes(2)
       })
 
       test('delivers a structured clone of the message', async () => {
-        const { data, name } = mountChannel()
+        const { channelData, name } = mountChannel()
         const message = { list: [1, 2], when: new Date(0) }
 
         createPeer(name).postMessage(message)
 
         await vi.waitFor(() => {
-          expect(data.value).toEqual(message)
+          expect(channelData.value).toEqual(message)
         })
-        expect(data.value).not.toBe(message)
-        expect(data.value.when).toBeInstanceOf(Date)
+        expect(channelData.value).not.toBe(message)
+        expect(channelData.value.when).toBeInstanceOf(Date)
       })
 
-      test('postMessage() reaches the other contexts, not the current one', async () => {
+      test('postChannelMessage() reaches the other contexts, not the current one', async () => {
         const onMessage = vi.fn()
-        const { data, postMessage, name } = mountChannel({ onMessage })
+        const { channelData, postChannelMessage, name } = mountChannel({
+          onMessage
+        })
         const peer = createPeer(name)
         const other = createPeer(name)
 
-        postMessage({ n: 1 })
+        postChannelMessage({ n: 1 })
 
         await vi.waitFor(() => {
           expect(peer.received).toEqual([{ n: 1 }])
           expect(other.received).toEqual([{ n: 1 }])
         })
         await settle()
-        expect(data.value).toBeNull()
+        expect(channelData.value).toBeNull()
         expect(onMessage).not.toHaveBeenCalled()
       })
 
-      test('postMessage() opens a closed channel first', async () => {
-        const { postMessage, closeChannel, name } = mountChannel()
+      test('postChannelMessage() opens a closed channel first', async () => {
+        const { postChannelMessage, closeChannel, name } = mountChannel()
         const peer = createPeer(name)
 
         closeChannel()
         expect(channels).toHaveLength(1)
         expect(lastChannel().closeCalls).toBe(1)
 
-        postMessage('back')
+        postChannelMessage('back')
 
         expect(channels).toHaveLength(2)
         expect(lastChannel().name).toBe(name)
@@ -227,28 +229,107 @@ describe('[useBroadcastChannel API]', () => {
         })
       })
 
-      test('mirrors a messageerror event into error and onError', () => {
+      test('mirrors a messageerror event into channelError and onError', () => {
         const onError = vi.fn()
-        const { error } = mountChannel({ onError })
+        const { channelError } = mountChannel({ onError })
         const evt = new MessageEvent('messageerror', { data: null })
 
         lastChannel().dispatchEvent(evt)
 
-        expect(error.value).toBe(evt)
+        expect(channelError.value).toBe(evt)
         expect(onError).toHaveBeenCalledExactlyOnceWith(evt)
       })
 
+      test('calls onConnect each time the channel gets connected', async () => {
+        const onConnect = vi.fn()
+        const name = ref(channelName())
+        const { connectChannel, closeChannel } = mountChannel(
+          { onConnect },
+          name
+        )
+
+        expect(onConnect).toHaveBeenCalledTimes(1)
+
+        // no-op while connected
+        connectChannel()
+        expect(onConnect).toHaveBeenCalledTimes(1)
+
+        closeChannel()
+        connectChannel()
+        expect(onConnect).toHaveBeenCalledTimes(2)
+
+        name.value = channelName()
+        await nextTick()
+        expect(onConnect).toHaveBeenCalledTimes(3)
+      })
+
+      test('"lazy" option delays onConnect to the first connection', () => {
+        const onConnect = vi.fn()
+        const { postChannelMessage } = mountChannel({ lazy: true, onConnect })
+
+        expect(onConnect).not.toHaveBeenCalled()
+
+        postChannelMessage('first')
+        expect(onConnect).toHaveBeenCalledTimes(1)
+      })
+
+      test('calls onClose with the reason: closeChannel(), a name change, unmount', async () => {
+        const onClose = vi.fn()
+        const onConnect = vi.fn()
+        const name = ref(channelName())
+        const { wrapper, closeChannel, connectChannel } = mountChannel(
+          { onConnect, onClose },
+          name
+        )
+
+        closeChannel()
+        expect(onClose).toHaveBeenCalledExactlyOnceWith('programmatic')
+
+        // idempotent
+        closeChannel()
+        expect(onClose).toHaveBeenCalledTimes(1)
+
+        connectChannel()
+        name.value = channelName()
+        await nextTick()
+        expect(onClose).toHaveBeenCalledTimes(2)
+        expect(onClose).toHaveBeenLastCalledWith('name')
+        expect(onConnect).toHaveBeenCalledTimes(3)
+        expect(onClose.mock.invocationCallOrder[1]).toBeLessThan(
+          onConnect.mock.invocationCallOrder[2]
+        )
+
+        wrapper.unmount()
+        expect(onClose).toHaveBeenCalledTimes(3)
+        expect(onClose).toHaveBeenLastCalledWith('unmount')
+      })
+
+      test('onClose is not called when there is no channel to close', () => {
+        const onClose = vi.fn()
+        const { wrapper, closeChannel } = mountChannel({ lazy: true, onClose })
+
+        closeChannel()
+        wrapper.unmount()
+
+        expect(onClose).not.toHaveBeenCalled()
+      })
+
       test('closeChannel() stops receiving; connectChannel() reconnects', async () => {
-        const { channelStatus, data, closeChannel, connectChannel, name } =
-          mountChannel()
+        const {
+          isChannelConnected,
+          channelData,
+          closeChannel,
+          connectChannel,
+          name
+        } = mountChannel()
         const peer = createPeer(name)
         const first = lastChannel()
 
-        expect(channelStatus.value).toBe('connected')
+        expect(isChannelConnected.value).toBe(true)
 
         closeChannel()
         expect(first.closeCalls).toBe(1)
-        expect(channelStatus.value).toBe('closed')
+        expect(isChannelConnected.value).toBe(false)
 
         // idempotent
         closeChannel()
@@ -256,12 +337,12 @@ describe('[useBroadcastChannel API]', () => {
 
         peer.postMessage('lost')
         await settle()
-        expect(data.value).toBeNull()
+        expect(channelData.value).toBeNull()
 
         connectChannel()
         expect(channels).toHaveLength(2)
         expect(lastChannel()).not.toBe(first)
-        expect(channelStatus.value).toBe('connected')
+        expect(isChannelConnected.value).toBe(true)
 
         // no-op while open
         connectChannel()
@@ -269,13 +350,13 @@ describe('[useBroadcastChannel API]', () => {
 
         peer.postMessage('found')
         await vi.waitFor(() => {
-          expect(data.value).toBe('found')
+          expect(channelData.value).toBe('found')
         })
       })
 
       test('moves a connected channel when the name changes', async () => {
         const name = ref(channelName())
-        const { channelStatus, data } = mountChannel(void 0, name)
+        const { isChannelConnected, channelData } = mountChannel(void 0, name)
         const first = lastChannel()
         const oldPeer = createPeer(name.value)
 
@@ -285,7 +366,7 @@ describe('[useBroadcastChannel API]', () => {
         expect(first.closeCalls).toBe(1)
         expect(channels).toHaveLength(2)
         expect(lastChannel().name).toBe(name.value)
-        expect(channelStatus.value).toBe('connected')
+        expect(isChannelConnected.value).toBe(true)
 
         const newPeer = createPeer(name.value)
 
@@ -293,10 +374,10 @@ describe('[useBroadcastChannel API]', () => {
         newPeer.postMessage('new')
 
         await vi.waitFor(() => {
-          expect(data.value).toBe('new')
+          expect(channelData.value).toBe('new')
         })
         await settle()
-        expect(data.value).toBe('new')
+        expect(channelData.value).toBe('new')
       })
 
       test('a name change on a closed channel leaves it closed', async () => {
@@ -315,24 +396,25 @@ describe('[useBroadcastChannel API]', () => {
       })
 
       test('closes the channel when the component gets destroyed', async () => {
-        const { wrapper, channelStatus, data, name } = mountChannel()
+        const { wrapper, isChannelConnected, channelData, name } =
+          mountChannel()
         const peer = createPeer(name)
 
         wrapper.unmount()
 
         expect(lastChannel().closeCalls).toBe(1)
-        expect(channelStatus.value).toBe('closed')
+        expect(isChannelConnected.value).toBe(false)
 
         peer.postMessage('late')
         await settle()
-        expect(data.value).toBeNull()
+        expect(channelData.value).toBeNull()
       })
 
-      test('manualConnect holds outside of a component too', () => {
+      test('"lazy" option holds outside of a component too', () => {
         const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
         const { connectChannel, closeChannel } = useBroadcastChannel(
           channelName(),
-          { manualConnect: true }
+          { lazy: true }
         )
 
         expect(channels).toHaveLength(0)
@@ -348,20 +430,24 @@ describe('[useBroadcastChannel API]', () => {
       test('can be used outside of a component', async () => {
         const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
         const name = channelName()
-        const { channelStatus, data, postMessage, closeChannel } =
-          useBroadcastChannel(name)
+        const {
+          isChannelConnected,
+          channelData,
+          postChannelMessage,
+          closeChannel
+        } = useBroadcastChannel(name)
         const peer = createPeer(name)
 
         expect(warn).not.toHaveBeenCalled()
         expect(channels).toHaveLength(1)
-        expect(channelStatus.value).toBe('connected')
+        expect(isChannelConnected.value).toBe(true)
 
         peer.postMessage('hi')
         await vi.waitFor(() => {
-          expect(data.value).toBe('hi')
+          expect(channelData.value).toBe('hi')
         })
 
-        postMessage('there')
+        postChannelMessage('there')
         await vi.waitFor(() => {
           expect(peer.received).toEqual(['there'])
         })

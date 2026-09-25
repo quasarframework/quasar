@@ -1,8 +1,8 @@
 <template>
   <div class="q-pa-md">
     <div class="q-gutter-sm q-mb-md">
-      <q-badge :label="`page top: ${position.top}`" />
-      <q-badge :label="`direction: ${direction}`" />
+      <q-badge :label="`page top: ${scrollPosition.top}`" />
+      <q-badge :label="`direction: ${scrollDirection}`" />
     </div>
 
     <q-btn
@@ -10,7 +10,7 @@
       push
       icon="keyboard_arrow_up"
       label="Back to top"
-      :disable="position.top <= 300 || direction !== 'up'"
+      :disable="scrollPosition.top <= 300 || scrollDirection !== 'up'"
       @click="scrollToTop"
     />
   </div>
@@ -21,7 +21,7 @@ import { scroll, useScroll } from 'quasar'
 
 // no options: the auto detection starts from this component's root
 // element and ends up on the page itself
-const { position, direction } = useScroll()
+const { scrollPosition, scrollDirection } = useScroll()
 
 function scrollToTop() {
   scroll.setVerticalScrollPosition(window, 0, 300)

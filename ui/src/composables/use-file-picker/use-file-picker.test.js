@@ -59,11 +59,15 @@ describe('[useFilePicker API]', () => {
   describe('[Functions]', () => {
     describe('[(function)default]', () => {
       test('can be used in a Vue Component', () => {
-        const { pickedFiles, rejectedFiles, openFilePicker, resetFilePicker } =
-          mountPicker()
+        const {
+          acceptedPickerFiles,
+          rejectedPickerFiles,
+          openFilePicker,
+          resetFilePicker
+        } = mountPicker()
 
-        expect(pickedFiles).$ref([])
-        expect(rejectedFiles).$ref([])
+        expect(acceptedPickerFiles).$ref([])
+        expect(rejectedPickerFiles).$ref([])
         expect(openFilePicker).toBeTypeOf('function')
         expect(resetFilePicker).toBeTypeOf('function')
       })
@@ -114,14 +118,18 @@ describe('[useFilePicker API]', () => {
         const onChange = vi.fn()
         const onRejected = vi.fn()
         const onCancel = vi.fn()
-        const { pickedFiles, rejectedFiles, openFilePicker, resetFilePicker } =
-          mountPicker({
-            multiple: true,
-            accept: 'image/*',
-            onChange,
-            onRejected,
-            onCancel
-          })
+        const {
+          acceptedPickerFiles,
+          rejectedPickerFiles,
+          openFilePicker,
+          resetFilePicker
+        } = mountPicker({
+          multiple: true,
+          accept: 'image/*',
+          onChange,
+          onRejected,
+          onCancel
+        })
 
         const image = createFile('image.png', 'image/png', 4)
         const text = createFile('notes.txt', 'text/plain', 4)
@@ -130,8 +138,8 @@ describe('[useFilePicker API]', () => {
         select(captured.input, [image, text])
 
         await expect(promise).resolves.toStrictEqual([image])
-        expect(pickedFiles).$ref([image])
-        expect(rejectedFiles).$ref([
+        expect(acceptedPickerFiles).$ref([image])
+        expect(rejectedPickerFiles).$ref([
           { failedPropValidation: 'accept', file: text }
         ])
         expect(onChange).toHaveBeenCalledExactlyOnceWith([image])
@@ -143,17 +151,18 @@ describe('[useFilePicker API]', () => {
         expect(captured.input.files.length).toBe(0)
 
         resetFilePicker()
-        expect(pickedFiles).$ref([])
-        expect(rejectedFiles).$ref([])
+        expect(acceptedPickerFiles).$ref([])
+        expect(rejectedPickerFiles).$ref([])
       })
 
       test('keeps the last accepted files when a selection is fully rejected', async () => {
         const captured = captureInput()
         const onChange = vi.fn()
-        const { pickedFiles, rejectedFiles, openFilePicker } = mountPicker({
-          maxFileSize: 5,
-          onChange
-        })
+        const { acceptedPickerFiles, rejectedPickerFiles, openFilePicker } =
+          mountPicker({
+            maxFileSize: 5,
+            onChange
+          })
 
         const small = createFile('small.txt', 'text/plain', 4)
         const big = createFile('big.txt', 'text/plain', 9)
@@ -166,8 +175,8 @@ describe('[useFilePicker API]', () => {
         select(captured.input, [big])
         await expect(promise).resolves.toStrictEqual([])
 
-        expect(pickedFiles).$ref([small])
-        expect(rejectedFiles).$ref([
+        expect(acceptedPickerFiles).$ref([small])
+        expect(rejectedPickerFiles).$ref([
           { failedPropValidation: 'max-file-size', file: big }
         ])
         expect(onChange).toHaveBeenCalledOnce()
@@ -203,7 +212,7 @@ describe('[useFilePicker API]', () => {
         const captured = captureInput()
         const onCancel = vi.fn()
         const onChange = vi.fn()
-        const { pickedFiles, openFilePicker } = mountPicker({
+        const { acceptedPickerFiles, openFilePicker } = mountPicker({
           onCancel,
           onChange
         })
@@ -214,7 +223,7 @@ describe('[useFilePicker API]', () => {
         await expect(promise).resolves.toBeNull()
         expect(onCancel).toHaveBeenCalledOnce()
         expect(onChange).not.toHaveBeenCalled()
-        expect(pickedFiles).$ref([])
+        expect(acceptedPickerFiles).$ref([])
       })
 
       test('settles a superseded openFilePicker() with null', async () => {
@@ -247,7 +256,7 @@ describe('[useFilePicker API]', () => {
 
       test('works outside of a component', async () => {
         const captured = captureInput()
-        const { pickedFiles, openFilePicker } = useFilePicker({
+        const { acceptedPickerFiles, openFilePicker } = useFilePicker({
           multiple: true
         })
         const file = createFile('a.txt', 'text/plain', 4)
@@ -256,7 +265,7 @@ describe('[useFilePicker API]', () => {
         select(captured.input, [file])
 
         await expect(promise).resolves.toStrictEqual([file])
-        expect(pickedFiles).$ref([file])
+        expect(acceptedPickerFiles).$ref([file])
       })
     })
   })

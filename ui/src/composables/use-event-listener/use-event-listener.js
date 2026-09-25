@@ -10,7 +10,9 @@ import { noop } from '../../utils/event/event.js'
 
 /*
  * Usage:
- *    const { stop } = useEventListener(target, event, handler, options)
+ *    const {
+ *      stopEventListener
+ *    } = useEventListener(target, event, handler, options)
  *
  * target  - ref (or getter) of an EventTarget (Element, window, document,
  *           ...) or of a component instance (its root element); a nullish
@@ -40,7 +42,7 @@ function getEventTarget(target) {
 
 export default function useEventListener(target, event, handler, options) {
   if (__QUASAR_SSR_SERVER__) {
-    return { stop: noop }
+    return { stopEventListener: noop }
   }
 
   const vm = getCurrentInstance()
@@ -114,7 +116,7 @@ export default function useEventListener(target, event, handler, options) {
   }
 
   return {
-    stop() {
+    stopEventListener() {
       release()
       effect.stop()
     }

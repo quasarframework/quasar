@@ -11,7 +11,11 @@
             label="message"
             style="width: 220px"
           />
-          <q-btn color="primary" label="send()" @click="send(message)" />
+          <q-btn
+            color="primary"
+            label="sendSocketMessage()"
+            @click="sendSocketMessage(message)"
+          />
           <q-btn
             color="positive"
             label="openSocket()"
@@ -29,8 +33,10 @@
       <q-separator />
       <q-card-section>
         <div>socketStatus: {{ socketStatus }}</div>
-        <div>data: {{ data }}</div>
-        <div>error: {{ error === null ? 'null' : error.type }}</div>
+        <div>socketData: {{ socketData }}</div>
+        <div>
+          socketError: {{ socketError === null ? 'null' : socketError.type }}
+        </div>
         <div>onOpen calls: {{ opens }}</div>
         <div>onMessage calls: {{ messages }}</div>
         <div>onClose calls: {{ closes }}</div>
@@ -40,7 +46,7 @@
 
     <q-card flat bordered>
       <q-card-section>
-        <div class="text-h6">reactive URL, manualOpen, 2 retries</div>
+        <div class="text-h6">reactive URL, lazy, 2 retries</div>
         <div class="row q-gutter-sm items-center">
           <q-input
             v-model="room"
@@ -66,7 +72,7 @@
       <q-card-section>
         <div>url: {{ roomUrl }}</div>
         <div>socketStatus: {{ reactive.socketStatus.value }}</div>
-        <div>data: {{ reactive.data.value }}</div>
+        <div>socketData: {{ reactive.socketData.value }}</div>
       </q-card-section>
     </q-card>
 
@@ -78,9 +84,11 @@
       <q-card-section>
         <div>socketStatus: {{ failing.socketStatus.value }}</div>
         <div
-          >error:
+          >socketError:
           {{
-            failing.error.value === null ? 'null' : failing.error.value.type
+            failing.socketError.value === null
+              ? 'null'
+              : failing.socketError.value.type
           }}</div
         >
       </q-card-section>
@@ -98,22 +106,28 @@ const messages = ref(0)
 const closes = ref([])
 const reconnects = ref([])
 
-const { socketStatus, data, error, send, openSocket, closeSocket } =
-  useWebSocket('wss://echo.websocket.org', {
-    heartbeat: { message: 'heartbeat', interval: 10_000 },
-    onOpen() {
-      opens.value++
-    },
-    onMessage() {
-      messages.value++
-    },
-    onClose(evt, reason) {
-      closes.value.push(`${reason} (${evt.code})`)
-    },
-    onReconnect(attempt, delay) {
-      reconnects.value.push(`#${attempt} in ${delay}ms`)
-    }
-  })
+const {
+  socketStatus,
+  socketData,
+  socketError,
+  sendSocketMessage,
+  openSocket,
+  closeSocket
+} = useWebSocket('wss://echo.websocket.org', {
+  heartbeat: { message: 'heartbeat', interval: 10_000 },
+  onOpen() {
+    opens.value++
+  },
+  onMessage() {
+    messages.value++
+  },
+  onClose(evt, reason) {
+    closes.value.push(`${reason} (${evt.code})`)
+  },
+  onReconnect(attempt, delay) {
+    reconnects.value.push(`#${attempt} in ${delay}ms`)
+  }
+})
 
 const room = ref('lobby')
 const roomUrl = computed(
@@ -121,7 +135,7 @@ const roomUrl = computed(
 )
 
 const reactive = useWebSocket(roomUrl, {
-  manualOpen: true,
+  lazy: true,
   autoReconnect: { retries: 2, delay: 1000 }
 })
 

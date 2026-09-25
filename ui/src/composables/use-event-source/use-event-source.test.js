@@ -107,21 +107,21 @@ describe('[useEventSource API]', () => {
       test('has correct return value', () => {
         const {
           sourceStatus,
-          data,
-          lastEventId,
-          error,
+          sourceData,
+          sourceLastEventId,
+          sourceError,
           openSource,
           closeSource
-        } = mountSource({ manualOpen: true })
+        } = mountSource({ lazy: true })
 
         expect(isRef(sourceStatus)).toBe(true)
         expect(sourceStatus.value).toBe('closed')
-        expect(isRef(data)).toBe(true)
-        expect(data.value).toBeNull()
-        expect(isRef(lastEventId)).toBe(true)
-        expect(lastEventId.value).toBeNull()
-        expect(isRef(error)).toBe(true)
-        expect(error.value).toBeNull()
+        expect(isRef(sourceData)).toBe(true)
+        expect(sourceData.value).toBeNull()
+        expect(isRef(sourceLastEventId)).toBe(true)
+        expect(sourceLastEventId.value).toBeNull()
+        expect(isRef(sourceError)).toBe(true)
+        expect(sourceError.value).toBeNull()
         expect(openSource).toBeTypeOf('function')
         expect(closeSource).toBeTypeOf('function')
       })
@@ -160,8 +160,8 @@ describe('[useEventSource API]', () => {
         expect(sources[0].withCredentials).toBe(true)
       })
 
-      test('"manualOpen" option leaves the stream closed until openSource()', () => {
-        const { sourceStatus, openSource } = mountSource({ manualOpen: true })
+      test('"lazy" option leaves the stream closed until openSource()', () => {
+        const { sourceStatus, openSource } = mountSource({ lazy: true })
 
         expect(sources).toHaveLength(0)
         expect(sourceStatus.value).toBe('closed')
@@ -196,15 +196,15 @@ describe('[useEventSource API]', () => {
         expect(sources).toHaveLength(1)
       })
 
-      test('mirrors the unnamed events into data, lastEventId and onMessage', () => {
+      test('mirrors the unnamed events into sourceData, sourceLastEventId and onMessage', () => {
         const onMessage = vi.fn()
-        const { data, lastEventId } = mountSource({ onMessage })
+        const { sourceData, sourceLastEventId } = mountSource({ onMessage })
 
         sources[0].serverOpen()
         sources[0].serverMessage('hello', { lastEventId: '42' })
 
-        expect(data.value).toBe('hello')
-        expect(lastEventId.value).toBe('42')
+        expect(sourceData.value).toBe('hello')
+        expect(sourceLastEventId.value).toBe('42')
         expect(onMessage).toHaveBeenCalledTimes(1)
 
         const [payload, evt] = onMessage.mock.calls[0]
@@ -215,13 +215,13 @@ describe('[useEventSource API]', () => {
         // an event without an id keeps the last one
         sources[0].serverMessage('again')
 
-        expect(data.value).toBe('again')
-        expect(lastEventId.value).toBe('42')
+        expect(sourceData.value).toBe('again')
+        expect(sourceLastEventId.value).toBe('42')
       })
 
       test('"events" option listens to the named events too', () => {
         const onMessage = vi.fn()
-        const { data } = mountSource({
+        const { sourceData } = mountSource({
           events: ['update', 'delete'],
           onMessage
         })
@@ -232,7 +232,7 @@ describe('[useEventSource API]', () => {
         sources[0].serverMessage('c')
         sources[0].serverMessage('ignored', { type: 'other' })
 
-        expect(data.value).toBe('c')
+        expect(sourceData.value).toBe('c')
         expect(onMessage).toHaveBeenCalledTimes(3)
         expect(onMessage.mock.calls.map(([, evt]) => evt.type)).toEqual([
           'update',
@@ -241,14 +241,14 @@ describe('[useEventSource API]', () => {
         ])
       })
 
-      test('mirrors the error event into error and onError', () => {
+      test('mirrors the error event into sourceError and onError', () => {
         const onError = vi.fn()
-        const { error } = mountSource({ onError })
+        const { sourceError } = mountSource({ onError })
 
         sources[0].serverRetry()
 
-        expect(error.value).toBeInstanceOf(Event)
-        expect(onError).toHaveBeenCalledWith(error.value)
+        expect(sourceError.value).toBeInstanceOf(Event)
+        expect(onError).toHaveBeenCalledWith(sourceError.value)
       })
 
       test('leaves the browser to retry a transient error', () => {
@@ -308,7 +308,9 @@ describe('[useEventSource API]', () => {
 
       test('ignores the events of a stream closed through closeSource()', () => {
         const onMessage = vi.fn()
-        const { data, closeSource, openSource } = mountSource({ onMessage })
+        const { sourceData, closeSource, openSource } = mountSource({
+          onMessage
+        })
         const old = sources[0]
 
         old.serverOpen()
@@ -317,7 +319,7 @@ describe('[useEventSource API]', () => {
 
         old.serverMessage('late')
 
-        expect(data.value).toBeNull()
+        expect(sourceData.value).toBeNull()
         expect(onMessage).not.toHaveBeenCalled()
         expect(sources).toHaveLength(2)
       })
@@ -498,7 +500,7 @@ describe('[useEventSource API]', () => {
       })
 
       test('"online" event does nothing for a stream closed by the user or without reconnect', () => {
-        const manual = mountSource({ manualOpen: true })
+        const manual = mountSource({ lazy: true })
         const closed = mountSource({ autoReconnect: false })
 
         sources[0].serverFail()
@@ -557,7 +559,7 @@ describe('[useEventSource API]', () => {
 
       test('can be used outside of a component', () => {
         const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
-        const { sourceStatus, data, closeSource } = useEventSource(url)
+        const { sourceStatus, sourceData, closeSource } = useEventSource(url)
 
         expect(warn).not.toHaveBeenCalled()
         expect(sources).toHaveLength(1)
@@ -565,7 +567,7 @@ describe('[useEventSource API]', () => {
 
         sources[0].serverOpen()
         sources[0].serverMessage('hi')
-        expect(data.value).toBe('hi')
+        expect(sourceData.value).toBe('hi')
 
         closeSource()
         expect(sourceStatus.value).toBe('closed')

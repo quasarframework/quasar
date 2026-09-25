@@ -13,12 +13,12 @@ related:
 The `useWebSocket()` composable keeps a [WebSocket](https://developer.mozilla.org/en-US/docs/Web/API/WebSocket) connection alive from a component: it opens the socket, exposes the last message received as a reactive value, queues what you send until the socket is ready, reconnects with a backoff when the connection drops (and right away when the browser comes back online), can send a heartbeat, and closes the socket when the component gets destroyed.
 
 > [!NOTE]
-> On the server-side of SSR or SSG modes, no socket gets created: `socketStatus` stays `closed`, `send()` does nothing and no message ever arrives. The socket opens on the client once the component is mounted, so the status is `closed` before hydration too.
+> On the server-side of SSR or SSG modes, no socket gets created: `socketStatus` stays `closed`, `sendSocketMessage()` does nothing and no message ever arrives. The socket opens on the client once the component is mounted, so the status is `closed` before hydration too.
 
 > [!TIP]
 > **Outside of a component**
 >
-> The composable can also be called outside of `setup()`: in a boot file, a store or a plain module. There is no mount to wait for there, so the socket opens right away (unless `manualOpen` is set) and nothing closes it by itself: call `closeSocket()` when you are done.
+> The composable can also be called outside of `setup()`: in a boot file, a store or a plain module. There is no mount to wait for there, so the socket opens right away (unless `lazy` is set) and nothing closes it by itself: call `closeSocket()` when you are done.
 
 ## Syntax
 
@@ -26,17 +26,19 @@ The `useWebSocket()` composable keeps a [WebSocket](https://developer.mozilla.or
 import { useWebSocket } from 'quasar'
 
 setup () {
-  const { socketStatus, data, error, send, openSocket, closeSocket } = useWebSocket(
+  const {
+    socketStatus, socketData, socketError, sendSocketMessage, openSocket, closeSocket
+  } = useWebSocket(
     url, // String, URL, or a ref/getter of one;
          // '/live' and 'https://...' forms are mapped to ws(s)
     {
       // all optional:
 
+      lazy: true, // do not open the socket on mount;
+                  // openSocket() or the first sendSocketMessage() does it
+
       protocols: ['chat'],        // the native sub-protocol(s)
       binaryType: 'arraybuffer',  // 'blob' (default) or 'arraybuffer'
-
-      manualOpen: true, // do not open the socket on mount;
-                        // openSocket() or the first send() does it
 
       autoReconnect: {  // default: true (Infinity retries, 1s doubling up to 30s);
         retries: 5,     // false disables it
@@ -74,9 +76,9 @@ setup () {
 function useWebSocket<Data = any>(
   url: MaybeRefOrGetter<string | URL>,
   options?: {
+    lazy?: boolean
     protocols?: string | string[]
     binaryType?: 'blob' | 'arraybuffer'
-    manualOpen?: boolean
     autoReconnect?:
       | boolean
       | {
@@ -100,9 +102,11 @@ function useWebSocket<Data = any>(
   }
 ): {
   socketStatus: Ref<'closed' | 'connecting' | 'open'>
-  data: ShallowRef<Data | null>
-  error: ShallowRef<Event | null>
-  send: (message: string | ArrayBufferLike | Blob | ArrayBufferView) => void
+  socketData: ShallowRef<Data | null>
+  socketError: ShallowRef<Event | null>
+  sendSocketMessage: (
+    message: string | ArrayBufferLike | Blob | ArrayBufferView
+  ) => void
   openSocket: () => void
   closeSocket: (code?: number, reason?: string) => void
 }
@@ -110,11 +114,11 @@ function useWebSocket<Data = any>(
 
 ## Lifecycle
 
-The socket opens when the component is mounted (or right away, when the composable is used outside of a component) and is closed when the component gets destroyed. Set `manualOpen: true` for a socket that should wait for your `openSocket()` call (or your first `send()`, which opens the socket by itself).
+The socket opens when the component is mounted (or right away, when the composable is used outside of a component) and is closed when the component gets destroyed. Set `lazy: true` for a socket that should wait for your `openSocket()` call (or your first `sendSocketMessage()`, which opens the socket by itself).
 
 Each call of `useWebSocket()` manages one connection to one endpoint; for several sockets, call it several times.
 
-`closeSocket(code, reason)` closes the connection with the native close code and reason, drops the queued messages and stops any reconnecting. It is not final: a later `openSocket()` or `send()` opens a fresh connection.
+`closeSocket(code, reason)` closes the connection with the native close code and reason, drops the queued messages and stops any reconnecting. It is not final: a later `openSocket()` or `sendSocketMessage()` opens a fresh connection.
 
 `socketStatus` is `connecting` from the moment the socket is requested until it is open, `open` while messages flow, and `closed` when it was never opened, when you closed it, or when reconnecting was given up. While waiting to reconnect the status is `connecting` too, as the composable is still working on it.
 
@@ -124,9 +128,9 @@ The `url` does not have to be a `ws://` or `wss://` one: a relative URL (`'/api/
 
 ## Sending and receiving
 
-`send(message)` sends a String, `Blob`, `ArrayBuffer` or typed array. Messages sent while the socket is not open yet are queued and sent, in order, as soon as it opens; those sent from within `onOpen` go first, so a handshake (authentication, a subscription) reaches the server before the queued ones. Calling `send()` on a closed socket opens it. `closeSocket()` drops whatever is still queued.
+`sendSocketMessage(message)` sends a String, `Blob`, `ArrayBuffer` or typed array. Messages sent while the socket is not open yet are queued and sent, in order, as soon as it opens; those sent from within `onOpen` go first, so a handshake (authentication, a subscription) reaches the server before the queued ones. Calling `sendSocketMessage()` on a closed socket opens it. `closeSocket()` drops whatever is still queued.
 
-`data` holds the `data` of the last message received and `error` the last `error` event of the socket. The `onMessage`, `onError`, `onOpen` and `onClose` hooks get called in the same situations, so you do not need to watch the refs. Messages arrive as they were sent: parse them yourself (`JSON.parse()`) in `onMessage` if your protocol is JSON.
+`socketData` holds the `data` of the last message received and `socketError` the last `error` event of the socket. The `onMessage`, `onError`, `onOpen` and `onClose` hooks get called in the same situations, so you do not need to watch the refs. Messages arrive as they were sent: parse them yourself (`JSON.parse()`) in `onMessage` if your protocol is JSON.
 
 `onClose(evt, reason)` is called for every close, with the native `CloseEvent` (its `code`, `reason` and `wasClean` tell how the connection ended) and a second argument saying who asked for it: `programmatic` for your `closeSocket()` call, `unmount` when the component got destroyed, `url` when the socket was moved to a new URL, and `remote` when the socket closed on its own (the server closed it, or the connection dropped). The hook runs when the close event arrives, so for `unmount` the component is already gone by then.
 

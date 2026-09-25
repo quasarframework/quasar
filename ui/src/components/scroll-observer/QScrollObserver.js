@@ -34,12 +34,12 @@ export default /*#__PURE__*/ createComponent({
     const target = shallowRef(null)
 
     const {
-      position,
-      direction,
-      directionChanged,
-      delta,
-      inflectionPoint,
-      refresh
+      scrollPosition,
+      scrollDirection,
+      scrollDirectionChanged,
+      scrollDelta,
+      scrollInflectionPoint,
+      refreshScroll
     } = useScroll(() => ({
       target,
       scrollTarget: props.scrollTarget,
@@ -61,20 +61,20 @@ export default /*#__PURE__*/ createComponent({
           props.debounce === 0 ||
           props.debounce === '0'
         ) {
-          refresh()
+          refreshScroll()
         } else if (props.debounce === void 0) {
-          registerAnimationFrame(refresh)
+          registerAnimationFrame(refreshScroll)
         } else if (!isTimeoutPending.value) {
-          registerTimeout(refresh, props.debounce)
+          registerTimeout(refreshScroll, props.debounce)
         }
       },
 
       getPosition: () => ({
-        position: position.value,
-        direction: direction.value,
-        directionChanged: directionChanged.value,
-        delta: delta.value,
-        inflectionPoint: inflectionPoint.value
+        position: scrollPosition.value,
+        direction: scrollDirection.value,
+        directionChanged: scrollDirectionChanged.value,
+        delta: scrollDelta.value,
+        inflectionPoint: scrollInflectionPoint.value
       })
     })
 

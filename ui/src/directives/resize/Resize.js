@@ -1,6 +1,6 @@
 import { ref } from 'vue'
 
-import useElementResize from '../../composables/use-element-resize/use-element-resize.js'
+import useElementSize from '../../composables/use-element-size/use-element-size.js'
 import { createDirective } from '../../utils/private.create/create.js'
 import getSSRProps from '../../utils/private.noop-ssr-directive-transform/noop-ssr-directive-transform.js'
 
@@ -48,7 +48,7 @@ export default /*#__PURE__*/ createDirective(
           // the directive hook runs outside of any component instance, so
           // the composable takes the instance-free path (nothing is
           // released on its own; destroy() does it)
-          ctx.stop = useElementResize(() => ({
+          ctx.stop = useElementSize(() => ({
             target: el,
             debounce: ctx.debounce.value,
             disabled: !ctx.armed.value,
@@ -58,7 +58,7 @@ export default /*#__PURE__*/ createDirective(
                 destroy(el)
               }
             }
-          })).stop
+          })).stopElementSize
 
           update(ctx, value)
         },

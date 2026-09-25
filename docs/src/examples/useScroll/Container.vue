@@ -5,13 +5,13 @@
     </div>
 
     <div class="q-gutter-sm">
-      <q-badge :label="`top: ${position.top}`" />
-      <q-badge :label="`direction: ${direction}`" />
-      <q-badge :label="`delta: ${delta.top}`" />
-      <q-badge :label="`inflection point: ${inflectionPoint.top}`" />
+      <q-badge :label="`top: ${scrollPosition.top}`" />
+      <q-badge :label="`direction: ${scrollDirection}`" />
+      <q-badge :label="`delta: ${scrollDelta.top}`" />
+      <q-badge :label="`inflection point: ${scrollInflectionPoint.top}`" />
       <q-badge
-        :color="directionChanged ? 'positive' : 'grey'"
-        :label="directionChanged ? 'direction changed' : 'same direction'"
+        :color="scrollDirectionChanged ? 'positive' : 'grey'"
+        :label="scrollDirectionChanged ? 'direction changed' : 'same direction'"
       />
     </div>
   </div>
@@ -23,8 +23,13 @@ import { useScroll } from 'quasar'
 
 const boxRef = useTemplateRef('boxRef')
 
-const { position, direction, directionChanged, delta, inflectionPoint } =
-  useScroll({ scrollTarget: boxRef })
+const {
+  scrollPosition,
+  scrollDirection,
+  scrollDirectionChanged,
+  scrollDelta,
+  scrollInflectionPoint
+} = useScroll({ scrollTarget: boxRef })
 </script>
 
 <style lang="sass" scoped>

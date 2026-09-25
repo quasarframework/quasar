@@ -12,12 +12,12 @@ import { noop } from '../../utils/event/event.js'
 
 /*
  * Usage:
- *    const { isIdle, lastActive, resetIdle, stop } = useIdle(options)
+ *    const { isIdle, lastActive, resetIdle, stopIdle } = useIdle(options)
  *
  * isIdle     - Ref<boolean>; true once no activity happened for `timeout` ms
  * lastActive - Ref<number>; timestamp (Date.now()) of the last activity
  * resetIdle  - counts as an activity (no-op while disabled or stopped)
- * stop       - ends the tracking for good
+ * stopIdle   - ends the tracking for good
  *
  * options - plain object, ref or getter of:
  *    timeout  - ms of inactivity before isIdle becomes true (default: 60000)
@@ -45,7 +45,7 @@ export default function useIdle(options) {
   const lastActive = ref(0)
 
   if (__QUASAR_SSR_SERVER__) {
-    return { isIdle, lastActive, resetIdle: noop, stop: noop }
+    return { isIdle, lastActive, resetIdle: noop, stopIdle: noop }
   }
 
   const vm = getCurrentInstance()
@@ -184,11 +184,11 @@ export default function useIdle(options) {
       }
     },
 
-    stop() {
+    stopIdle() {
       release()
       effect.stop()
-      activityListener.stop()
-      visibilityListener.stop()
+      activityListener.stopEventListener()
+      visibilityListener.stopEventListener()
     }
   }
 }

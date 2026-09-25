@@ -40,7 +40,7 @@ import { useBroadcastChannel } from 'quasar'
 const draft = ref('')
 const received = ref([])
 
-const { postMessage } = useBroadcastChannel('quasar-docs-example', {
+const { postChannelMessage } = useBroadcastChannel('quasar-docs-example', {
   onMessage(data) {
     received.value.push({
       id: Date.now(),
@@ -53,7 +53,7 @@ const { postMessage } = useBroadcastChannel('quasar-docs-example', {
 function send() {
   if (draft.value.length === 0) return
 
-  postMessage({ text: draft.value, sentAt: Date.now() })
+  postChannelMessage({ text: draft.value, sentAt: Date.now() })
   draft.value = ''
 }
 </script>

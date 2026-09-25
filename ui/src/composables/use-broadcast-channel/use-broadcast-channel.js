@@ -13,64 +13,70 @@ import { noop } from '../../utils/event/event.js'
 /*
  * Usage:
  *    const {
- *      channelStatus, data, error, postMessage, connectChannel, closeChannel
+ *      isChannelConnected, channelData, channelError,
+ *      postChannelMessage, connectChannel, closeChannel
  *    } = useBroadcastChannel(name, options)
  *
  * name    - the channel name (String), or a ref/getter of one; an open
  *           channel moves to the new name when it changes
  * options - plain object (all optional):
- *    manualConnect           - do not connect the channel on mount;
- *                           connectChannel() or postMessage() does it
+ *    lazy                 - do not connect the channel on mount (or
+ *                           right away, outside of a component);
+ *                           connectChannel() or postChannelMessage()
+ *                           does it
+ *    onConnect()          - called each time the channel gets connected
  *    onMessage(data, evt) - called with each message received from
  *                           another browsing context (tab, window,
  *                           iframe, worker) of the same origin
  *    onError(evt)         - called with the channel's 'messageerror'
  *                           event (a message that could not be
  *                           deserialized)
+ *    onClose(reason)      - called each time the channel gets closed;
+ *                           reason is 'programmatic' (a closeChannel()
+ *                           call), 'unmount' or 'name' (the channel
+ *                           moves to a new name, so onConnect() follows)
  *
- * channelStatus  - Ref<'closed' | 'connected'>
- * data           - ShallowRef of the last message received (a structured
- *                  clone of what the other context posted)
- * error          - ShallowRef of the last 'messageerror' event
- * postMessage    - posts a message to the other contexts on the channel
- *                  (never to the current one); connects the channel
- *                  first if it is closed
- * connectChannel - connects the channel (no-op while connected)
- * closeChannel   - closes the channel (also happens on unmount);
- *                  connectChannel() reconnects it later
+ * isChannelConnected - Ref<Boolean>
+ * channelData        - ShallowRef of the last message received (a
+ *                      structured clone of what the other context
+ *                      posted)
+ * channelError       - ShallowRef of the last 'messageerror' event
+ * postChannelMessage - posts a message to the other contexts on the
+ *                      channel (never to the current one); connects the
+ *                      channel first if it is closed
+ * connectChannel     - connects the channel (no-op while connected)
+ * closeChannel       - closes the channel (also happens on unmount);
+ *                      connectChannel() reconnects it later
  */
 
-const statusClosed = 'closed',
-  statusConnected = 'connected'
-
 export default function useBroadcastChannel(name, options) {
-  const channelStatus = ref(statusClosed)
-  const data = shallowRef(null)
-  const error = shallowRef(null)
+  const isChannelConnected = ref(false)
+  const channelData = shallowRef(null)
+  const channelError = shallowRef(null)
 
   if (__QUASAR_SSR_SERVER__) {
     return {
-      channelStatus,
-      data,
-      error,
-      postMessage: noop,
+      isChannelConnected,
+      channelData,
+      channelError,
+      postChannelMessage: noop,
       connectChannel: noop,
       closeChannel: noop
     }
   }
 
   const vm = getCurrentInstance()
-  const { manualConnect, onMessage, onError } = options ?? {}
+  const { lazy, onConnect, onMessage, onError, onClose } = options ?? {}
 
   let channel = null
 
   function onChannelMessage(evt) {
-    data.value = evt.data
+    channelData.value = evt.data
     onMessage?.(evt.data, evt)
   }
 
   function onChannelError(evt) {
-    error.value = evt
+    channelError.value = evt
     onError?.(evt)
   }
 
@@ -80,20 +86,26 @@ export default function useBroadcastChannel(name, options) {
     channel = new BroadcastChannel(toValue(name))
     channel.addEventListener('message', onChannelMessage)
     channel.addEventListener('messageerror', onChannelError)
-    channelStatus.value = statusConnected
+    isChannelConnected.value = true
+    onConnect?.()
   }
 
   // a closed BroadcastChannel delivers nothing anymore, so there is
   // nothing to detach
-  function closeChannel() {
+  function close(reason) {
     if (channel !== null) {
       channel.close()
       channel = null
-      channelStatus.value = statusClosed
+      isChannelConnected.value = false
+      onClose?.(reason)
     }
   }
 
-  function postMessage(message) {
+  function closeChannel() {
+    close('programmatic')
+  }
+
+  function postChannelMessage(message) {
     connectChannel()
     channel.postMessage(message)
   }
@@ -102,29 +114,31 @@ export default function useBroadcastChannel(name, options) {
     () => toValue(name),
     () => {
       if (channel !== null) {
-        closeChannel()
+        close('name')
         connectChannel()
       }
     }
   )
 
   if (vm !== null) {
-    if (manualConnect !== true) {
+    if (lazy !== true) {
       // the server has no channel, so the client cannot have one before
       // hydration either
       onMounted(connectChannel)
     }
 
-    onBeforeUnmount(closeChannel)
-  } else if (manualConnect !== true) {
+    onBeforeUnmount(() => {
+      close('unmount')
+    })
+  } else if (lazy !== true) {
     connectChannel()
   }
 
   return {
-    channelStatus,
-    data,
-    error,
-    postMessage,
+    isChannelConnected,
+    channelData,
+    channelError,
+    postChannelMessage,
     connectChannel,
     closeChannel
   }

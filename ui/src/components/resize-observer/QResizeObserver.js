@@ -1,6 +1,6 @@
 import { getCurrentInstance, nextTick, onMounted, shallowRef } from 'vue'
 
-import useElementResize from '../../composables/use-element-resize/use-element-resize.js'
+import useElementSize from '../../composables/use-element-size/use-element-size.js'
 import useTimeout from '../../composables/use-timeout/use-timeout.js'
 
 import { createComponent } from '../../utils/private.create/create.js'
@@ -24,7 +24,7 @@ export default /*#__PURE__*/ createComponent({
     const { proxy } = getCurrentInstance()
     const target = shallowRef(null)
 
-    const { refresh } = useElementResize(() => ({
+    const { refreshElementSize } = useElementSize(() => ({
       target,
       debounce: props.debounce,
       onResize(size) {
@@ -41,9 +41,9 @@ export default /*#__PURE__*/ createComponent({
         props.debounce === 0 ||
         props.debounce === '0'
       ) {
-        refresh()
+        refreshElementSize()
       } else if (!isTimeoutPending.value) {
-        registerTimeout(refresh, props.debounce)
+        registerTimeout(refreshElementSize, props.debounce)
       }
     }
 

@@ -106,7 +106,7 @@ export default /*#__PURE__*/ createDirective(
                 setOver(el, ctx, false)
               }
             }
-          }).stop
+          }).stopDropZone
 
           update(el, ctx, value)
 

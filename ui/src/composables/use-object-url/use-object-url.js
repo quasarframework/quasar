@@ -10,23 +10,25 @@ import { noop } from '../../utils/event/event.js'
 
 /*
  * Usage:
- *    const { url, stop } = useObjectUrl(source)
+ *    const { objectUrl, revokeObjectUrl } = useObjectUrl(source)
  *
  * source - Blob (File included) or MediaSource, as a plain value, a ref
  *          or a getter; null/undefined yields no URL
  *
- * url    - Ref<string | null>; the object URL of the current source
- * stop   - revokes the current URL and ends the tracking for good
+ * objectUrl       - Ref<string | null>; the object URL of the current
+ *                   source
+ * revokeObjectUrl - revokes the current URL and ends the tracking for
+ *                   good
  *
  * The previous URL is revoked whenever the source changes and when the
  * component gets destroyed.
  */
 
 export default function useObjectUrl(source) {
-  const url = ref(null)
+  const objectUrl = ref(null)
 
   if (__QUASAR_SSR_SERVER__) {
-    return { url, stop: noop }
+    return { objectUrl, revokeObjectUrl: noop }
   }
 
   let current = null,
@@ -39,7 +41,7 @@ export default function useObjectUrl(source) {
       URL.revokeObjectURL(current)
       current = null
       currentSource = null
-      url.value = null
+      objectUrl.value = null
     }
   }
 
@@ -55,7 +57,7 @@ export default function useObjectUrl(source) {
     if (obj !== null) {
       current = URL.createObjectURL(obj)
       currentSource = obj
-      url.value = current
+      objectUrl.value = current
     }
   })
 
@@ -70,9 +72,9 @@ export default function useObjectUrl(source) {
   }
 
   return {
-    url,
+    objectUrl,
 
-    stop() {
+    revokeObjectUrl() {
       release()
       effect.stop()
     }

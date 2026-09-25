@@ -13,7 +13,7 @@ import {
 
 import QIcon from '../icon/QIcon.js'
 
-import useElementResize from '../../composables/use-element-resize/use-element-resize.js'
+import useElementSize from '../../composables/use-element-size/use-element-size.js'
 import useQuasar from '../../composables/use-quasar/use-quasar.js'
 import useTick from '../../composables/use-tick/use-tick.js'
 import useTimeout from '../../composables/use-timeout/use-timeout.js'
@@ -257,7 +257,7 @@ export default /*#__PURE__*/ createComponent({
       justify.value = size < Number.parseInt(props.breakpoint, 10)
     }
 
-    useElementResize({ debounce: 100, onResize: updateContainer })
+    useElementSize({ debounce: 100, onResize: updateContainer })
 
     function animate(oldName, newName) {
       const oldTab =

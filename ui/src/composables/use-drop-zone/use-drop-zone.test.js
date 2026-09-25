@@ -69,17 +69,17 @@ describe('[useDropZone API]', () => {
       test('can be used in a Vue Component', () => {
         const {
           isOverDropZone,
-          droppedFiles,
-          rejectedFiles,
+          acceptedDropZoneFiles,
+          rejectedDropZoneFiles,
           resetDropZone,
-          stop
+          stopDropZone
         } = mountZone()
 
         expect(isOverDropZone).$ref(false)
-        expect(droppedFiles).$ref([])
-        expect(rejectedFiles).$ref([])
+        expect(acceptedDropZoneFiles).$ref([])
+        expect(rejectedDropZoneFiles).$ref([])
         expect(resetDropZone).toBeTypeOf('function')
-        expect(stop).toBeTypeOf('function')
+        expect(stopDropZone).toBeTypeOf('function')
       })
 
       test('tracks a drag over the component root', () => {
@@ -168,7 +168,12 @@ describe('[useDropZone API]', () => {
         const onDrop = vi.fn()
         const onRejected = vi.fn()
         const onLeave = vi.fn()
-        const { el, isOverDropZone, droppedFiles, rejectedFiles } = mountZone({
+        const {
+          el,
+          isOverDropZone,
+          acceptedDropZoneFiles,
+          rejectedDropZoneFiles
+        } = mountZone({
           multiple: true,
           accept: 'image/*',
           maxFileSize: 8,
@@ -187,19 +192,21 @@ describe('[useDropZone API]', () => {
         expect(evt.defaultPrevented).toBe(true)
         expect(isOverDropZone.value).toBe(false)
         expect(onLeave).toHaveBeenCalledExactlyOnceWith(evt)
-        expect(droppedFiles.value).toStrictEqual([image])
-        expect(rejectedFiles.value).toStrictEqual([
+        expect(acceptedDropZoneFiles.value).toStrictEqual([image])
+        expect(rejectedDropZoneFiles.value).toStrictEqual([
           { failedPropValidation: 'accept', file: text },
           { failedPropValidation: 'max-file-size', file: big }
         ])
         expect(onDrop).toHaveBeenCalledExactlyOnceWith([image], evt)
-        expect(onRejected).toHaveBeenCalledExactlyOnceWith(rejectedFiles.value)
+        expect(onRejected).toHaveBeenCalledExactlyOnceWith(
+          rejectedDropZoneFiles.value
+        )
 
         // a drop where nothing passes keeps the previous accepted files
         // but still reports through onDrop, with the Event
         const evt2 = drop(el, [text])
-        expect(droppedFiles.value).toStrictEqual([image])
-        expect(rejectedFiles.value).toStrictEqual([
+        expect(acceptedDropZoneFiles.value).toStrictEqual([image])
+        expect(rejectedDropZoneFiles.value).toStrictEqual([
           { failedPropValidation: 'accept', file: text }
         ])
         expect(onDrop).toHaveBeenLastCalledWith([], evt2)
@@ -207,26 +214,26 @@ describe('[useDropZone API]', () => {
 
         // a drop carrying no files at all
         const evt3 = drop(el, [])
-        expect(rejectedFiles.value).toStrictEqual([])
+        expect(rejectedDropZoneFiles.value).toStrictEqual([])
         expect(onDrop).toHaveBeenLastCalledWith([], evt3)
         expect(onRejected).toHaveBeenCalledTimes(2)
       })
 
       test('keeps the first file only unless multiple is set', () => {
         const options = ref({})
-        const { el, droppedFiles } = mountZone(options)
+        const { el, acceptedDropZoneFiles } = mountZone(options)
         const files = [
           createFile('a.txt', 'text/plain', 1),
           createFile('b.txt', 'text/plain', 1)
         ]
 
         drop(el, files)
-        expect(droppedFiles.value).toStrictEqual([files[0]])
+        expect(acceptedDropZoneFiles.value).toStrictEqual([files[0]])
 
         // the options are read at drop time
         options.value = { multiple: true }
         drop(el, files)
-        expect(droppedFiles.value).toStrictEqual(files)
+        expect(acceptedDropZoneFiles.value).toStrictEqual(files)
       })
 
       test('does not let a drop reach an enclosing zone', () => {
@@ -254,18 +261,23 @@ describe('[useDropZone API]', () => {
       })
 
       test('resets the file lists', () => {
-        const { el, droppedFiles, rejectedFiles, resetDropZone } = mountZone({
+        const {
+          el,
+          acceptedDropZoneFiles,
+          rejectedDropZoneFiles,
+          resetDropZone
+        } = mountZone({
           accept: '.txt'
         })
 
         drop(el, [createFile('a.txt', 'text/plain', 1)])
         drop(el, [createFile('b.png', 'image/png', 1)])
-        expect(droppedFiles.value).toHaveLength(1)
-        expect(rejectedFiles.value).toHaveLength(1)
+        expect(acceptedDropZoneFiles.value).toHaveLength(1)
+        expect(rejectedDropZoneFiles.value).toHaveLength(1)
 
         resetDropZone()
-        expect(droppedFiles.value).toStrictEqual([])
-        expect(rejectedFiles.value).toStrictEqual([])
+        expect(acceptedDropZoneFiles.value).toStrictEqual([])
+        expect(rejectedDropZoneFiles.value).toStrictEqual([])
       })
 
       test('listens on the target instead of the root when given', () => {
@@ -359,7 +371,7 @@ describe('[useDropZone API]', () => {
         const second = document.createElement('div')
         const target = ref(first)
         const accept = ref('.txt')
-        const { isOverDropZone, stop } = mountZone(() => ({
+        const { isOverDropZone, stopDropZone } = mountZone(() => ({
           target: target.value,
           accept: accept.value
         }))
@@ -367,7 +379,7 @@ describe('[useDropZone API]', () => {
         drag(first, 'dragenter')
         expect(isOverDropZone.value).toBe(true)
 
-        stop()
+        stopDropZone()
         expect(isOverDropZone.value).toBe(false)
         expect(drag(first, 'dragenter').defaultPrevented).toBe(false)
 
@@ -407,19 +419,20 @@ describe('[useDropZone API]', () => {
         const onDrop = vi.fn()
         const file = createFile('a.txt', 'text/plain', 1)
 
-        const { isOverDropZone, droppedFiles, stop } = useDropZone({
-          target: el,
-          onDrop
-        })
+        const { isOverDropZone, acceptedDropZoneFiles, stopDropZone } =
+          useDropZone({
+            target: el,
+            onDrop
+          })
 
         drag(el, 'dragenter')
         expect(isOverDropZone.value).toBe(true)
 
         drop(el, [file])
-        expect(droppedFiles.value).toStrictEqual([file])
+        expect(acceptedDropZoneFiles.value).toStrictEqual([file])
         expect(onDrop).toHaveBeenCalledTimes(1)
 
-        stop()
+        stopDropZone()
         expect(drag(el, 'dragenter').defaultPrevented).toBe(false)
         expect(warn).not.toHaveBeenCalled()
       })

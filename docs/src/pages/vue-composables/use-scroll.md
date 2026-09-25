@@ -10,7 +10,7 @@ related:
   - /vue-directives/scroll-fire
 ---
 
-The `useScroll()` composable tracks the scrolling of the page (or of a scrollable container) through reactive state: the scroll `position`, the `direction` of the last scroll, the `delta` since the previous report and the `inflectionPoint` where the direction last changed.
+The `useScroll()` composable tracks the scrolling of the page (or of a scrollable container) through reactive state: the `scrollPosition`, the `scrollDirection` of the last scroll, the `scrollDelta` since the previous report and the `scrollInflectionPoint` where the direction last changed.
 
 It is the setup-code counterpart of the [QScrollObserver](/vue-components/scroll-observer) component, which is built on it, and of the [v-scroll](/vue-directives/scroll) directive. Use the composable when you want the scroll details on your component, or on any scrollable container, without adding an extra node to your template.
 
@@ -20,7 +20,7 @@ It is the setup-code counterpart of the [QScrollObserver](/vue-components/scroll
 > [!TIP]
 > **Outside of a component**
 >
-> The composable can also be called outside of `setup()`: in a boot file, a store or a plain module. There is no component root to start the detection from and no mount to wait for, so supply a `scrollTarget` (or a `target` element); the tracking starts right away and nothing stops it by itself: call `stop()` when you are done.
+> The composable can also be called outside of `setup()`: in a boot file, a store or a plain module. There is no component root to start the detection from and no mount to wait for, so supply a `scrollTarget` (or a `target` element); the tracking starts right away and nothing stops it by itself: call `stopScroll()` when you are done.
 
 ## Syntax
 
@@ -32,8 +32,8 @@ setup () {
   const scrollTarget = useTemplateRef('scrollTarget') // an Element or a component
 
   const {
-    position, direction, directionChanged, delta, inflectionPoint,
-    refresh, stop
+    scrollPosition, scrollDirection, scrollDirectionChanged,
+    scrollDelta, scrollInflectionPoint, refreshScroll, stopScroll
   } = useScroll({
     // all optional:
     scrollTarget,        // the scroll container; omit it for auto detection
@@ -70,17 +70,17 @@ function useScroll(
     }) => void
   }>
 ): {
-  position: Ref<{ top: number; left: number }>
-  direction: Ref<'up' | 'down' | 'left' | 'right'>
-  directionChanged: Ref<boolean>
-  delta: Ref<{ top: number; left: number }>
-  inflectionPoint: Ref<{ top: number; left: number }>
-  refresh: () => void
-  stop: () => void
+  scrollPosition: Ref<{ top: number; left: number }>
+  scrollDirection: Ref<'up' | 'down' | 'left' | 'right'>
+  scrollDirectionChanged: Ref<boolean>
+  scrollDelta: Ref<{ top: number; left: number }>
+  scrollInflectionPoint: Ref<{ top: number; left: number }>
+  refreshScroll: () => void
+  stopScroll: () => void
 }
 ```
 
-The reactive state mirrors the details that QScrollObserver emits: `position`, `delta` and `inflectionPoint` are Objects with `top` and `left` offsets (in pixels), `direction` is the direction of the last scroll and `directionChanged` tells whether that last scroll reversed the direction.
+The reactive state mirrors the details that QScrollObserver emits (and that `onScroll` receives): `scrollPosition`, `scrollDelta` and `scrollInflectionPoint` are Objects with `top` and `left` offsets (in pixels), `scrollDirection` is the direction of the last scroll and `scrollDirectionChanged` tells whether that last scroll reversed the direction.
 
 ## Which container gets tracked
 
@@ -93,9 +93,9 @@ The first report happens as soon as the container is available, should it be scr
 
 Without a `debounce`, the composable reports at most once per animation frame, no matter how many scroll events the browser fires in between. With `debounce: 0` it reports on every scroll event. With a `debounce` of some milliseconds, it reports at most once per window of that many milliseconds; the last change is never missed.
 
-`refresh()` reads the position right away, skipping the debounce. You will rarely need it, since the browser reports every scroll on its own.
+`refreshScroll()` reads the position right away, skipping the debounce. You will rarely need it, since the browser reports every scroll on its own.
 
-`stop()` ends the tracking for good. You will rarely need it either, as the composable stops by itself when the component gets destroyed.
+`stopScroll()` ends the tracking for good. You will rarely need it either, as the composable stops by itself when the component gets destroyed.
 
 ## Changing the options while running
 
@@ -113,7 +113,7 @@ import { useScroll } from 'quasar'
 setup () {
   const paused = ref(false)
 
-  const { position } = useScroll(() => ({
+  const { scrollPosition } = useScroll(() => ({
     disabled: paused.value
   }))
 

@@ -22,8 +22,8 @@ import { listenOpts, noop } from '../../utils/event/event.js'
 /*
  * Usage:
  *    const {
- *      position, direction, directionChanged, delta, inflectionPoint,
- *      refresh, stop
+ *      scrollPosition, scrollDirection, scrollDirectionChanged,
+ *      scrollDelta, scrollInflectionPoint, refreshScroll, stopScroll
  *    } = useScroll(options)
  *
  * options - plain object, ref or getter of:
@@ -44,22 +44,22 @@ import { listenOpts, noop } from '../../utils/event/event.js'
 const { passive } = listenOpts
 
 export default function useScroll(options) {
-  const position = shallowRef({ top: 0, left: 0 })
-  const direction = ref('down')
-  const directionChanged = ref(false)
-  const delta = shallowRef({ top: 0, left: 0 })
-  const inflectionPoint = shallowRef({ top: 0, left: 0 })
+  const scrollPosition = shallowRef({ top: 0, left: 0 })
+  const scrollDirection = ref('down')
+  const scrollDirectionChanged = ref(false)
+  const scrollDelta = shallowRef({ top: 0, left: 0 })
+  const scrollInflectionPoint = shallowRef({ top: 0, left: 0 })
 
   const state = {
-    position,
-    direction,
-    directionChanged,
-    delta,
-    inflectionPoint
+    scrollPosition,
+    scrollDirection,
+    scrollDirectionChanged,
+    scrollDelta,
+    scrollInflectionPoint
   }
 
   if (__QUASAR_SSR_SERVER__) {
-    return { ...state, refresh: noop, stop: noop }
+    return { ...state, refreshScroll: noop, stopScroll: noop }
   }
 
   const vm = getCurrentInstance()
@@ -120,15 +120,15 @@ export default function useScroll(options) {
     top = newTop
     left = newLeft
 
-    position.value = newPosition
-    delta.value = newDelta
-    directionChanged.value = changed
+    scrollPosition.value = newPosition
+    scrollDelta.value = newDelta
+    scrollDirectionChanged.value = changed
 
     if (changed) {
       dir = newDirection
       inflection = newPosition
-      direction.value = newDirection
-      inflectionPoint.value = newPosition
+      scrollDirection.value = newDirection
+      scrollInflectionPoint.value = newPosition
     }
 
     onScroll?.({
@@ -195,7 +195,7 @@ export default function useScroll(options) {
       // another container starts from scratch
       if (top !== 0 || left !== 0) {
         top = left = 0
-        position.value = { top, left }
+        scrollPosition.value = { top, left }
       }
     }
 
@@ -236,9 +236,9 @@ export default function useScroll(options) {
     ...state,
 
     // measures right away, skipping the debounce
-    refresh: measure,
+    refreshScroll: measure,
 
-    stop() {
+    stopScroll() {
       release()
       container = null
       effect.stop()

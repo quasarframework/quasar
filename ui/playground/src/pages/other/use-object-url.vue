@@ -5,17 +5,17 @@
         <q-btn color="primary" label="pick image" @click="openFilePicker" />
         <q-btn color="secondary" label="generated blob" @click="generate" />
         <q-btn flat label="set null" @click="source = null" />
-        <q-btn flat label="stop()" @click="stop" />
+        <q-btn flat label="revokeObjectUrl()" @click="revokeObjectUrl" />
       </q-card-section>
       <q-separator />
       <q-card-section>
         <div class="q-gutter-sm">
-          <q-badge :label="`url: ${url ?? 'null'}`" />
+          <q-badge :label="`objectUrl: ${objectUrl ?? 'null'}`" />
           <q-badge color="grey" :label="`revoked: ${revoked}`" />
         </div>
         <q-img
-          v-if="url !== null"
-          :src="url"
+          v-if="objectUrl !== null"
+          :src="objectUrl"
           fit="contain"
           class="q-mt-sm"
           style="max-width: 300px; max-height: 200px"
@@ -39,7 +39,7 @@ const { openFilePicker } = useFilePicker({
   }
 })
 
-const { url, stop } = useObjectUrl(source)
+const { objectUrl, revokeObjectUrl } = useObjectUrl(source)
 
 let counter = 0
 

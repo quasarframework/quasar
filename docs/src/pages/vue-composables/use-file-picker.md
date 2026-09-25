@@ -12,14 +12,14 @@ related:
   - /vue-components/uploader
 ---
 
-The `useFilePicker()` composable opens the browser's file dialog from your own code and hands you the picked `File` objects, without rendering a file input. You call `openFilePicker()` from a click handler (or any other user interaction) and get the files back as a Promise, through the `pickedFiles` reactive Array and through the `onChange` hook.
+The `useFilePicker()` composable opens the browser's file dialog from your own code and hands you the picked `File` objects, without rendering a file input. You call `openFilePicker()` from a click handler (or any other user interaction) and get the files back as a Promise, through the `acceptedPickerFiles` reactive Array and through the `onChange` hook.
 
 The picked files go through the same validation as [QFile](/vue-components/file) and [QUploader](/vue-components/uploader) (`accept`, `maxFileSize`, `maxTotalSize`, `maxFiles` and `filter`), and the files that do not pass are reported the same way those components emit `@rejected`.
 
 Use it when you want a button, a menu entry, a keyboard shortcut or a card to pick files, and QFile's field design or QUploader's queue would get in the way. To accept dropped files as well, pair it with the [useDropZone](/vue-composables/use-drop-zone) composable, which shares its validation options.
 
 > [!NOTE]
-> On the server-side of SSR or SSG modes, the file dialog cannot be opened: `openFilePicker()` resolves to `null` and `pickedFiles` stays empty until the client takes over.
+> On the server-side of SSR or SSG modes, the file dialog cannot be opened: `openFilePicker()` resolves to `null` and `acceptedPickerFiles` stays empty until the client takes over.
 
 > [!TIP]
 > **Outside of a component**
@@ -33,8 +33,8 @@ import { useFilePicker } from 'quasar'
 
 setup () {
   const {
-    pickedFiles,
-    rejectedFiles,
+    acceptedPickerFiles,
+    rejectedPickerFiles,
     openFilePicker,
     resetFilePicker
   } = useFilePicker({
@@ -78,8 +78,8 @@ function useFilePicker(
     onCancel?: () => void
   }>
 ): {
-  pickedFiles: Ref<File[]>
-  rejectedFiles: Ref<{ failedPropValidation: string; file: File }[]>
+  acceptedPickerFiles: Ref<File[]>
+  rejectedPickerFiles: Ref<{ failedPropValidation: string; file: File }[]>
   openFilePicker: (overrides?: UseFilePickerOptions) => Promise<File[] | null>
   resetFilePicker: () => void
 }
@@ -89,7 +89,7 @@ function useFilePicker(
 
 The Promise returned by `openFilePicker()` resolves with the accepted files (an empty Array when every picked file got rejected) or with `null` when the user dismisses the dialog. It also resolves with `null` when `openFilePicker()` gets called again before the previous dialog reported, or when your component gets destroyed.
 
-`pickedFiles` holds the accepted files of the latest selection. A selection where every file gets rejected leaves `pickedFiles` unchanged; `rejectedFiles` always reflects the latest selection. `resetFilePicker()` empties both.
+`acceptedPickerFiles` holds the accepted files of the latest selection. A selection where every file gets rejected leaves `acceptedPickerFiles` unchanged; `rejectedPickerFiles` always reflects the latest selection. `resetFilePicker()` empties both.
 
 `onChange` is called only when at least one file got accepted, `onRejected` only when at least one file got rejected (both can be called for the same selection), and `onCancel` when the dialog was dismissed.
 

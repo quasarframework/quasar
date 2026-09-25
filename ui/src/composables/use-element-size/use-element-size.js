@@ -3,7 +3,7 @@ import {
   getCurrentInstance,
   onBeforeUnmount,
   onMounted,
-  ref,
+  shallowRef,
   toValue
 } from 'vue'
 
@@ -12,7 +12,9 @@ import { noop } from '../../utils/event/event.js'
 
 /*
  * Usage:
- *    const { width, height, refresh, stop } = useElementResize(options)
+ *    const {
+ *      elementSize, refreshElementSize, stopElementSize
+ *    } = useElementSize(options)
  *
  * options - plain object, ref or getter of:
  *    target   - ref (or getter) of an Element or a component instance;
@@ -22,12 +24,15 @@ import { noop } from '../../utils/event/event.js'
  *    onResize - called with { width, height } whenever the size changes
  */
 
-export default function useElementResize(options) {
-  const width = ref(0)
-  const height = ref(0)
+export default function useElementSize(options) {
+  const elementSize = shallowRef({ width: 0, height: 0 })
 
   if (__QUASAR_SSR_SERVER__) {
-    return { width, height, refresh: noop, stop: noop }
+    return {
+      elementSize,
+      refreshElementSize: noop,
+      stopElementSize: noop
+    }
   }
 
   const vm = getCurrentInstance()
@@ -56,8 +61,7 @@ export default function useElementResize(options) {
 
     if (offsetWidth !== size.width || offsetHeight !== size.height) {
       size = { width: offsetWidth, height: offsetHeight }
-      width.value = offsetWidth
-      height.value = offsetHeight
+      elementSize.value = size
       onResize?.(size)
     }
   }
@@ -130,13 +134,12 @@ export default function useElementResize(options) {
   }
 
   return {
-    width,
-    height,
+    elementSize,
 
     // measures right away, skipping the debounce
-    refresh: measure,
+    refreshElementSize: measure,
 
-    stop() {
+    stopElementSize() {
       release()
       el = null
       effect.stop()

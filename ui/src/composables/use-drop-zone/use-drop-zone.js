@@ -16,7 +16,8 @@ import { validateFiles } from '../private.use-file/validate-files.js'
 /*
  * Usage:
  *    const {
- *      isOverDropZone, droppedFiles, rejectedFiles, resetDropZone, stop
+ *      isOverDropZone, acceptedDropZoneFiles, rejectedDropZoneFiles,
+ *      resetDropZone, stopDropZone
  *    } = useDropZone(options)
  *
  * options - plain object, ref or getter of (all optional):
@@ -35,29 +36,29 @@ const events = ['dragenter', 'dragover', 'dragleave', 'drop']
 
 export default function useDropZone(options) {
   const isOverDropZone = ref(false)
-  const droppedFiles = shallowRef([])
-  const rejectedFiles = shallowRef([])
+  const acceptedDropZoneFiles = shallowRef([])
+  const rejectedDropZoneFiles = shallowRef([])
 
   function resetDropZone() {
-    droppedFiles.value = []
-    rejectedFiles.value = []
+    acceptedDropZoneFiles.value = []
+    rejectedDropZoneFiles.value = []
   }
 
   if (__QUASAR_SSR_SERVER__) {
     return {
       isOverDropZone,
-      droppedFiles,
-      rejectedFiles,
+      acceptedDropZoneFiles,
+      rejectedDropZoneFiles,
       resetDropZone,
-      stop: noop
+      stopDropZone: noop
     }
   }
 
   const vm = getCurrentInstance()
 
   let el = null,
-    // the element released by stop(); the zone stays inert until the
-    // target points elsewhere
+    // the element released by stopDropZone(); the zone stays inert
+    // until the target points elsewhere
     stoppedEl = null
 
   function getOptions() {
@@ -107,14 +108,14 @@ export default function useDropZone(options) {
     const opts = getOptions()
     const { files, rejected } = validateFiles(evt.dataTransfer.files, opts)
 
-    rejectedFiles.value = rejected
+    rejectedDropZoneFiles.value = rejected
 
     if (rejected.length !== 0) {
       opts.onRejected?.(rejected)
     }
 
     if (files.length !== 0) {
-      droppedFiles.value = files
+      acceptedDropZoneFiles.value = files
     }
 
     opts.onDrop?.(files, evt)
@@ -175,12 +176,12 @@ export default function useDropZone(options) {
 
   return {
     isOverDropZone,
-    droppedFiles,
-    rejectedFiles,
+    acceptedDropZoneFiles,
+    rejectedDropZoneFiles,
     resetDropZone,
 
     // releases the current target; another target re-arms the zone
-    stop() {
+    stopDropZone() {
       stoppedEl = el
       release()
     }

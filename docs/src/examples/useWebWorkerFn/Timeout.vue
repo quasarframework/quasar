@@ -35,7 +35,7 @@
 import { ref } from 'vue'
 import { useWebWorkerFn } from 'quasar'
 
-const { runWorkerFn, workerFnStatus, terminateWorkerFn } = useWebWorkerFn(
+const { workerFnStatus, runWorkerFn, terminateWorkerFn } = useWebWorkerFn(
   async ms => {
     await new Promise(resolve => {
       setTimeout(resolve, ms)

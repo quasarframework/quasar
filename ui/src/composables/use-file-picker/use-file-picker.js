@@ -5,7 +5,8 @@ import { validateFiles } from '../private.use-file/validate-files.js'
 /*
  * Usage:
  *    const {
- *      pickedFiles, rejectedFiles, openFilePicker, resetFilePicker
+ *      acceptedPickerFiles, rejectedPickerFiles, openFilePicker,
+ *      resetFilePicker
  *    } = useFilePicker(options)
  *
  * options - plain object, ref or getter of (all optional):
@@ -22,18 +23,18 @@ import { validateFiles } from '../private.use-file/validate-files.js'
  */
 
 export default function useFilePicker(options) {
-  const pickedFiles = shallowRef([])
-  const rejectedFiles = shallowRef([])
+  const acceptedPickerFiles = shallowRef([])
+  const rejectedPickerFiles = shallowRef([])
 
   function resetFilePicker() {
-    pickedFiles.value = []
-    rejectedFiles.value = []
+    acceptedPickerFiles.value = []
+    rejectedPickerFiles.value = []
   }
 
   if (__QUASAR_SSR_SERVER__) {
     return {
-      pickedFiles,
-      rejectedFiles,
+      acceptedPickerFiles,
+      rejectedPickerFiles,
       openFilePicker: () => Promise.resolve(null),
       resetFilePicker
     }
@@ -63,14 +64,14 @@ export default function useFilePicker(options) {
     // @change in a loop otherwise)
     input.value = ''
 
-    rejectedFiles.value = result.rejected
+    rejectedPickerFiles.value = result.rejected
 
     if (result.rejected.length !== 0) {
       opts.onRejected?.(result.rejected)
     }
 
     if (result.files.length !== 0) {
-      pickedFiles.value = result.files
+      acceptedPickerFiles.value = result.files
       opts.onChange?.(result.files)
     }
 
@@ -131,5 +132,10 @@ export default function useFilePicker(options) {
     })
   }
 
-  return { pickedFiles, rejectedFiles, openFilePicker, resetFilePicker }
+  return {
+    acceptedPickerFiles,
+    rejectedPickerFiles,
+    openFilePicker,
+    resetFilePicker
+  }
 }

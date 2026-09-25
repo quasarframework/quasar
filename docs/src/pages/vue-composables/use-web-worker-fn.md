@@ -26,7 +26,7 @@ To drive a long-lived worker script of your own, with its own messages, see [use
 import { useWebWorkerFn } from 'quasar'
 
 setup () {
-  const { runWorkerFn, workerFnStatus, terminateWorkerFn } = useWebWorkerFn(
+  const { workerFnStatus, runWorkerFn, terminateWorkerFn } = useWebWorkerFn(
     (a, b) => a + b, // the function to run in the worker
     {
       // all optional:
@@ -70,8 +70,8 @@ function useWebWorkerFn<Fn extends (...args: any[]) => any>(
     ) => void
   }
 ): {
-  runWorkerFn: (...args: Parameters<Fn>) => Promise<Awaited<ReturnType<Fn>>>
   workerFnStatus: Ref<'idle' | 'running' | 'success' | 'error' | 'timeout'>
+  runWorkerFn: (...args: Parameters<Fn>) => Promise<Awaited<ReturnType<Fn>>>
   terminateWorkerFn: () => void
 }
 ```

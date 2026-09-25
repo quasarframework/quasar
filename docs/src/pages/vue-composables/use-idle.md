@@ -20,7 +20,7 @@ It listens to the activity events on `document`, so it works for the whole page 
 > [!TIP]
 > **Outside of a component**
 >
-> The composable can also be called outside of `setup()`: in a boot file, a store or a plain module. It then starts tracking right away and nothing stops it by itself: call `stop()` when you are done.
+> The composable can also be called outside of `setup()`: in a boot file, a store or a plain module. It then starts tracking right away and nothing stops it by itself: call `stopIdle()` when you are done.
 
 ## Syntax
 
@@ -28,7 +28,7 @@ It listens to the activity events on `document`, so it works for the whole page 
 import { useIdle } from 'quasar'
 
 setup () {
-  const { isIdle, lastActive, resetIdle, stop } = useIdle({
+  const { isIdle, lastActive, resetIdle, stopIdle } = useIdle({
     // all optional:
     timeout: 60000,  // ms of inactivity before the user counts as idle
     events: [        // the events (on document) that count as an activity
@@ -56,7 +56,7 @@ function useIdle(
   isIdle: Ref<boolean>
   lastActive: Ref<number>
   resetIdle: () => void
-  stop: () => void
+  stopIdle: () => void
 }
 ```
 
@@ -66,7 +66,7 @@ The activity events are listened to in the capture phase, so an activity counts 
 
 Time spent with the page hidden (another tab, a minimized window) counts as inactivity. Browsers throttle the timers of a hidden page, so the composable settles the state as soon as the page becomes visible again.
 
-`resetIdle()` counts as an activity of your own, for interactions the events cannot see (a message received over a websocket that you consider as keeping the session alive, a video that keeps playing). `stop()` ends the tracking for good; you will rarely need it, as the composable stops by itself when the component gets destroyed.
+`resetIdle()` counts as an activity of your own, for interactions the events cannot see (a message received over a websocket that you consider as keeping the session alive, a video that keeps playing). `stopIdle()` ends the tracking for good; you will rarely need it, as the composable stops by itself when the component gets destroyed.
 
 ## Changing the options while running
 

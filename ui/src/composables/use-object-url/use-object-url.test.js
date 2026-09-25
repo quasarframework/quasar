@@ -43,114 +43,114 @@ describe('[useObjectUrl API]', () => {
   describe('[Functions]', () => {
     describe('[(function)default]', () => {
       test('has correct return value', () => {
-        const { url, stop } = mountObjectUrl()
+        const { objectUrl, revokeObjectUrl } = mountObjectUrl()
 
-        expect(isRef(url)).toBe(true)
-        expect(url.value).toBeNull()
-        expect(stop).toBeTypeOf('function')
+        expect(isRef(objectUrl)).toBe(true)
+        expect(objectUrl.value).toBeNull()
+        expect(revokeObjectUrl).toBeTypeOf('function')
       })
 
       test('creates an object URL for a plain source', async () => {
-        const { url } = mountObjectUrl(createBlob('hello'))
+        const { objectUrl } = mountObjectUrl(createBlob('hello'))
 
-        expect(url.value).toMatch(/^blob:/)
-        await expect(readUrl(url.value)).resolves.toBe('hello')
+        expect(objectUrl.value).toMatch(/^blob:/)
+        await expect(readUrl(objectUrl.value)).resolves.toBe('hello')
         expect(revokeSpy).not.toHaveBeenCalled()
       })
 
       test('accepts a File', () => {
         const file = new File(['x'], 'x.txt', { type: 'text/plain' })
-        const { url } = mountObjectUrl(file)
+        const { objectUrl } = mountObjectUrl(file)
 
-        expect(url.value).toMatch(/^blob:/)
+        expect(objectUrl.value).toMatch(/^blob:/)
       })
 
       test('follows a reactive source and revokes the previous URL', async () => {
         const source = ref(createBlob('first'))
-        const { url } = mountObjectUrl(source)
-        const first = url.value
+        const { objectUrl } = mountObjectUrl(source)
+        const first = objectUrl.value
 
         await expect(readUrl(first)).resolves.toBe('first')
 
         source.value = createBlob('second')
 
-        expect(url.value).toMatch(/^blob:/)
-        expect(url.value).not.toBe(first)
+        expect(objectUrl.value).toMatch(/^blob:/)
+        expect(objectUrl.value).not.toBe(first)
         expect(revokeSpy).toHaveBeenCalledExactlyOnceWith(first)
-        await expect(readUrl(url.value)).resolves.toBe('second')
+        await expect(readUrl(objectUrl.value)).resolves.toBe('second')
       })
 
       test('revokes and yields null when the source becomes nullish', () => {
         const source = ref(createBlob('a'))
-        const { url } = mountObjectUrl(source)
-        const first = url.value
+        const { objectUrl } = mountObjectUrl(source)
+        const first = objectUrl.value
 
         source.value = null
-        expect(url.value).toBeNull()
+        expect(objectUrl.value).toBeNull()
         expect(revokeSpy).toHaveBeenCalledExactlyOnceWith(first)
 
         source.value = void 0
-        expect(url.value).toBeNull()
+        expect(objectUrl.value).toBeNull()
         expect(revokeSpy).toHaveBeenCalledOnce()
 
         source.value = createBlob('b')
-        expect(url.value).toMatch(/^blob:/)
-        expect(url.value).not.toBe(first)
+        expect(objectUrl.value).toMatch(/^blob:/)
+        expect(objectUrl.value).not.toBe(first)
       })
 
       test('keeps the URL when a getter re-runs with the same object', () => {
         const blob = createBlob('same')
         const unrelated = ref(0)
-        const { url } = mountObjectUrl(() =>
+        const { objectUrl } = mountObjectUrl(() =>
           unrelated.value >= 0 ? blob : null
         )
-        const first = url.value
+        const first = objectUrl.value
 
         unrelated.value++
 
-        expect(url.value).toBe(first)
+        expect(objectUrl.value).toBe(first)
         expect(revokeSpy).not.toHaveBeenCalled()
       })
 
       test('revokes the URL when the component gets destroyed', () => {
-        const { wrapper, url } = mountObjectUrl(createBlob('bye'))
-        const first = url.value
+        const { wrapper, objectUrl } = mountObjectUrl(createBlob('bye'))
+        const first = objectUrl.value
 
         wrapper.unmount()
 
         expect(revokeSpy).toHaveBeenCalledExactlyOnceWith(first)
-        expect(url.value).toBeNull()
+        expect(objectUrl.value).toBeNull()
       })
 
-      test('stop() revokes the URL and ends the tracking', () => {
+      test('revokeObjectUrl() revokes the URL and ends the tracking', () => {
         const source = ref(createBlob('a'))
-        const { url, stop } = mountObjectUrl(source)
-        const first = url.value
+        const { objectUrl, revokeObjectUrl } = mountObjectUrl(source)
+        const first = objectUrl.value
 
-        stop()
+        revokeObjectUrl()
 
         expect(revokeSpy).toHaveBeenCalledExactlyOnceWith(first)
-        expect(url.value).toBeNull()
+        expect(objectUrl.value).toBeNull()
 
         source.value = createBlob('b')
-        expect(url.value).toBeNull()
+        expect(objectUrl.value).toBeNull()
         expect(revokeSpy).toHaveBeenCalledOnce()
       })
 
       test('works outside of a component instance', () => {
         const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
         const source = ref(createBlob('a'))
-        const { url, stop } = useObjectUrl(source)
-        const first = url.value
+        const { objectUrl, revokeObjectUrl } = useObjectUrl(source)
+        const first = objectUrl.value
 
         expect(first).toMatch(/^blob:/)
 
         source.value = createBlob('b')
-        expect(url.value).not.toBe(first)
+        expect(objectUrl.value).not.toBe(first)
         expect(revokeSpy).toHaveBeenCalledExactlyOnceWith(first)
 
-        stop()
-        expect(url.value).toBeNull()
+        revokeObjectUrl()
+        expect(objectUrl.value).toBeNull()
         expect(warn).not.toHaveBeenCalled()
       })
     })

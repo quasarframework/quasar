@@ -40,14 +40,14 @@ describe('[useIdle API]', () => {
   describe('[Functions]', () => {
     describe('[(function)default]', () => {
       test('has correct return value', () => {
-        const { isIdle, lastActive, resetIdle, stop } = mountIdle()
+        const { isIdle, lastActive, resetIdle, stopIdle } = mountIdle()
 
         expect(isRef(isIdle)).toBe(true)
         expect(isIdle.value).toBe(false)
         expect(isRef(lastActive)).toBe(true)
         expect(lastActive.value).toBe(Date.now())
         expect(resetIdle).toBeTypeOf('function')
-        expect(stop).toBeTypeOf('function')
+        expect(stopIdle).toBeTypeOf('function')
       })
 
       test('becomes idle once the timeout elapses', () => {
@@ -264,13 +264,13 @@ describe('[useIdle API]', () => {
         expect(vi.getTimerCount()).toBe(0)
       })
 
-      test('stop() ends the tracking for good', () => {
-        const { isIdle, lastActive, stop } = mountIdle({ timeout })
+      test('stopIdle() ends the tracking for good', () => {
+        const { isIdle, lastActive, stopIdle } = mountIdle({ timeout })
 
         vi.advanceTimersByTime(timeout)
         expect(isIdle.value).toBe(true)
 
-        stop()
+        stopIdle()
         expect(isIdle.value).toBe(false)
         expect(vi.getTimerCount()).toBe(0)
 
@@ -348,7 +348,7 @@ describe('[useIdle API]', () => {
       })
 
       test('works outside of a component instance', () => {
-        const { isIdle, stop } = useIdle({ timeout })
+        const { isIdle, stopIdle } = useIdle({ timeout })
 
         vi.advanceTimersByTime(timeout)
         expect(isIdle.value).toBe(true)
@@ -356,7 +356,7 @@ describe('[useIdle API]', () => {
         activity()
         expect(isIdle.value).toBe(false)
 
-        stop()
+        stopIdle()
         expect(vi.getTimerCount()).toBe(0)
       })
     })

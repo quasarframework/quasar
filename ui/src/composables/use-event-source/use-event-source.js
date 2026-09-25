@@ -14,17 +14,18 @@ import { noop } from '../../utils/event/event.js'
 /*
  * Usage:
  *    const {
- *      sourceStatus, data, lastEventId, error, openSource, closeSource
+ *      sourceStatus, sourceData, sourceLastEventId, sourceError,
+ *      openSource, closeSource
  *    } = useEventSource(url, options)
  *
  * url     - the stream URL (string or URL), or a ref/getter of one; an
  *           open stream reconnects to the new URL when it changes
  * options - plain object (all optional):
+ *    lazy                 - do not open the stream on mount; openSource()
+ *                           does it
  *    withCredentials      - send cookies/auth on a cross-origin URL
  *    events               - Array of named event types to listen to on
  *                           top of the unnamed ("message") ones
- *    manualOpen           - do not open the stream on mount; openSource()
- *                           does it
  *    autoReconnect        - reopen a stream the browser gave up on (a
  *                           non-200 response, a wrong content type, a
  *                           refused connection); the browser retries
@@ -51,9 +52,9 @@ import { noop } from '../../utils/event/event.js'
  *
  * sourceStatus - Ref<'closed' | 'connecting' | 'open'>; 'connecting' also
  *                while the browser retries or while waiting to reconnect
- * data         - ShallowRef of the last event's data (String)
- * lastEventId  - ShallowRef of the last event's id (String)
- * error        - ShallowRef of the last 'error' event
+ * sourceData   - ShallowRef of the last event's data (String)
+ * sourceLastEventId - ShallowRef of the last event's id (String)
+ * sourceError  - ShallowRef of the last 'error' event
  * openSource   - opens the stream (no-op while open or connecting)
  * closeSource  - closes the stream (no reconnect; also happens on
  *                unmount); openSource() reopens it later
@@ -69,16 +70,16 @@ function defaultDelay(attempt) {
 
 export default function useEventSource(url, options) {
   const sourceStatus = ref(statusClosed)
-  const data = shallowRef(null)
-  const lastEventId = shallowRef(null)
-  const error = shallowRef(null)
+  const sourceData = shallowRef(null)
+  const sourceLastEventId = shallowRef(null)
+  const sourceError = shallowRef(null)
 
   if (__QUASAR_SSR_SERVER__) {
     return {
       sourceStatus,
-      data,
-      lastEventId,
-      error,
+      sourceData,
+      sourceLastEventId,
+      sourceError,
       openSource: noop,
       closeSource: noop
     }
@@ -86,9 +87,9 @@ export default function useEventSource(url, options) {
 
   const vm = getCurrentInstance()
   const {
+    lazy,
     withCredentials,
     events,
-    manualOpen,
     autoReconnect,
     onOpen,
     onMessage,
@@ -188,9 +189,9 @@ export default function useEventSource(url, options) {
   function onSourceMessage(evt) {
     if (evt.target !== source) return
 
-    data.value = evt.data
+    sourceData.value = evt.data
     if (evt.lastEventId !== '') {
-      lastEventId.value = evt.lastEventId
+      sourceLastEventId.value = evt.lastEventId
     }
     onMessage?.(evt.data, evt)
   }
@@ -198,7 +199,7 @@ export default function useEventSource(url, options) {
   function onSourceError(evt) {
     if (evt.target !== source) return
 
-    error.value = evt
+    sourceError.value = evt
     onError?.(evt)
 
     // the browser retries transient errors by itself and reports each
@@ -269,7 +270,7 @@ export default function useEventSource(url, options) {
   )
 
   if (vm !== null) {
-    if (manualOpen !== true) {
+    if (lazy !== true) {
       // the server has no stream, so the client cannot have one before
       // hydration either
       onMounted(openSource)
@@ -278,15 +279,15 @@ export default function useEventSource(url, options) {
     onBeforeUnmount(() => {
       close('unmount')
     })
-  } else if (manualOpen !== true) {
+  } else if (lazy !== true) {
     openSource()
   }
 
   return {
     sourceStatus,
-    data,
-    lastEventId,
-    error,
+    sourceData,
+    sourceLastEventId,
+    sourceError,
     openSource,
     closeSource
   }

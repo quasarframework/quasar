@@ -28,16 +28,16 @@
       <q-separator />
       <q-card-section>
         <div class="q-gutter-sm">
-          <q-badge :label="`picked: ${pickedFiles.length}`" />
+          <q-badge :label="`picked: ${acceptedPickerFiles.length}`" />
           <q-badge
             color="negative"
-            :label="`rejected: ${rejectedFiles.length}`"
+            :label="`rejected: ${rejectedPickerFiles.length}`"
           />
           <q-badge color="grey" :label="`last promise: ${lastResult}`" />
         </div>
-        <q-list dense v-if="pickedFiles.length !== 0" class="q-mt-sm">
+        <q-list dense v-if="acceptedPickerFiles.length !== 0" class="q-mt-sm">
           <q-item
-            v-for="file in pickedFiles"
+            v-for="file in acceptedPickerFiles"
             :key="file.webkitRelativePath || file.name"
           >
             <q-item-section>{{
@@ -48,10 +48,10 @@
         </q-list>
         <q-list
           dense
-          v-if="rejectedFiles.length !== 0"
+          v-if="rejectedPickerFiles.length !== 0"
           class="q-mt-sm text-negative"
         >
-          <q-item v-for="entry in rejectedFiles" :key="entry.file.name">
+          <q-item v-for="entry in rejectedPickerFiles" :key="entry.file.name">
             <q-item-section>{{ entry.file.name }}</q-item-section>
             <q-item-section side>{{
               entry.failedPropValidation
@@ -81,22 +81,26 @@ const capture = ref(false)
 const lastResult = ref('none')
 const log = ref([])
 
-const { pickedFiles, rejectedFiles, openFilePicker, resetFilePicker } =
-  useFilePicker(() => ({
-    multiple: multiple.value,
-    accept: images.value ? 'image/*' : void 0,
-    maxFileSize: limit.value ? 100 * 1024 : void 0,
-    capture: capture.value ? 'environment' : void 0,
-    onChange(files) {
-      log.value.unshift(`onChange: ${files.length} file(s)`)
-    },
-    onRejected(rejected) {
-      log.value.unshift(`onRejected: ${rejected.length} file(s)`)
-    },
-    onCancel() {
-      log.value.unshift('onCancel')
-    }
-  }))
+const {
+  acceptedPickerFiles,
+  rejectedPickerFiles,
+  openFilePicker,
+  resetFilePicker
+} = useFilePicker(() => ({
+  multiple: multiple.value,
+  accept: images.value ? 'image/*' : void 0,
+  maxFileSize: limit.value ? 100 * 1024 : void 0,
+  capture: capture.value ? 'environment' : void 0,
+  onChange(files) {
+    log.value.unshift(`onChange: ${files.length} file(s)`)
+  },
+  onRejected(rejected) {
+    log.value.unshift(`onRejected: ${rejected.length} file(s)`)
+  },
+  onCancel() {
+    log.value.unshift('onCancel')
+  }
+}))
 
 async function pick() {
   const result = await openFilePicker()

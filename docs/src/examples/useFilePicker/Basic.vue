@@ -9,12 +9,12 @@
     />
 
     <q-list
-      v-if="pickedFiles.length !== 0"
+      v-if="acceptedPickerFiles.length !== 0"
       bordered
       separator
       class="rounded-borders"
     >
-      <q-item v-for="file in pickedFiles" :key="file.name">
+      <q-item v-for="file in acceptedPickerFiles" :key="file.name">
         <q-item-section>{{ file.name }}</q-item-section>
         <q-item-section side>{{
           format.humanStorageSize(file.size)
@@ -29,7 +29,7 @@ import { format, useFilePicker, useQuasar } from 'quasar'
 
 const $q = useQuasar()
 
-const { pickedFiles, openFilePicker } = useFilePicker({
+const { acceptedPickerFiles, openFilePicker } = useFilePicker({
   multiple: true,
   accept: 'image/*',
   maxFileSize: 1024 * 1024,

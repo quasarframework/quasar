@@ -6,7 +6,7 @@ badge: v2.34+
 examples: useMutation
 related:
   - /vue-directives/mutation
-  - /vue-composables/use-element-resize
+  - /vue-composables/use-element-size
   - /vue-composables/use-intersection
 ---
 
@@ -20,7 +20,7 @@ It is the setup-code counterpart of the [v-mutation](/vue-directives/mutation) d
 > [!TIP]
 > **Outside of a component**
 >
-> The composable can also be called outside of `setup()`: in a boot file, a store or a plain module. There is no component root to fall back on and no mount to wait for, so supply a `target` (an element, or a ref or getter of one); the observation starts right away and nothing stops it by itself: call `stop()` when you are done.
+> The composable can also be called outside of `setup()`: in a boot file, a store or a plain module. There is no component root to fall back on and no mount to wait for, so supply a `target` (an element, or a ref or getter of one); the observation starts right away and nothing stops it by itself: call `stopMutation()` when you are done.
 
 ## Syntax
 
@@ -31,7 +31,7 @@ import { useMutation } from 'quasar'
 setup () {
   const target = useTemplateRef('target') // an Element or a component
 
-  const { mutationRecords, stop } = useMutation({
+  const { mutationRecords, stopMutation } = useMutation({
     // all optional:
     target,               // omit it to observe the component's own root element
 
@@ -75,7 +75,7 @@ function useMutation(
   }>
 ): {
   mutationRecords: Ref<MutationRecord[]>
-  stop: () => void
+  stopMutation: () => void
 }
 ```
 
@@ -85,7 +85,7 @@ Reading the [Mutation Observer API](https://developer.mozilla.org/en-US/docs/Web
 
 Every batch of [MutationRecord](https://developer.mozilla.org/en-US/docs/Web/API/MutationRecord) that the browser delivers after the changes lands in the reactive `mutationRecords` (the last batch only, so it never grows) and is handed to the `onMutation` handler. Returning `false` from the handler stops the observation for good. With `once`, the observation stops by itself after the first batch.
 
-`stop()` ends the observation for good. You will rarely need it, as the composable stops by itself when the component gets destroyed.
+`stopMutation()` ends the observation for good. You will rarely need it, as the composable stops by itself when the component gets destroyed.
 
 > [!WARNING]
 > **Warning! Avoid feedback loops**

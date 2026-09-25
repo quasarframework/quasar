@@ -707,9 +707,9 @@ export default [
         path: 'use-drop-zone'
       },
       {
-        name: 'useElementResize',
+        name: 'useElementSize',
         badge: 'new',
-        path: 'use-element-resize'
+        path: 'use-element-size'
       },
       {
         name: 'useEventListener',

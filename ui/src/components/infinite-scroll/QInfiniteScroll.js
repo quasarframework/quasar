@@ -121,7 +121,7 @@ export default /*#__PURE__*/ createComponent({
     // content, and no scroll position gets read, which makes the check
     // immune to a scroll lock pinning the page (the content sits where it
     // sat).
-    const { isIntersecting, refresh } = useIntersection(() => {
+    const { isIntersecting, refreshIntersection } = useIntersection(() => {
       const target = scrollTargetRef.value
 
       return {
@@ -283,7 +283,7 @@ export default /*#__PURE__*/ createComponent({
             } else {
               // the loaded content may not have pushed the sentinel out of
               // reach, in which case the observer has nothing new to report
-              refresh()
+              refreshIntersection()
             }
           })
         }
@@ -296,7 +296,7 @@ export default /*#__PURE__*/ createComponent({
 
     function resume() {
       if (isWorking.value) {
-        refresh()
+        refreshIntersection()
       } else {
         // observing starts again with a report of the current state
         isWorking.value = true
@@ -341,7 +341,7 @@ export default /*#__PURE__*/ createComponent({
 
     function updateScrollTarget() {
       resolveScrollTarget()
-      refresh()
+      refreshIntersection()
     }
 
     function setIndex(newIndex) {
@@ -395,7 +395,7 @@ export default /*#__PURE__*/ createComponent({
       // moved, so the poll skipped while locked has to be re-run here
       const onScrollLockRelease = () => {
         if (scrollTargetRef.value === window) {
-          refresh()
+          refreshIntersection()
         }
       }
 
@@ -410,7 +410,7 @@ export default /*#__PURE__*/ createComponent({
     const vm = getCurrentInstance()
     Object.assign(vm.proxy, {
       poll: () => {
-        refresh()
+        refreshIntersection()
       },
       trigger,
       stop,

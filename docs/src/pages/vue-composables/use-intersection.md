@@ -19,7 +19,7 @@ It is the setup-code counterpart of the [Intersection directive](/vue-directives
 > [!TIP]
 > **Outside of a component**
 >
-> The composable can also be called outside of `setup()`: in a boot file, a store or a plain module. There is no component root to fall back on and no mount to wait for, so supply a `target` (an element, or a ref or getter of one); the observation starts right away and nothing stops it by itself: call `stop()` when you are done.
+> The composable can also be called outside of `setup()`: in a boot file, a store or a plain module. There is no component root to fall back on and no mount to wait for, so supply a `target` (an element, or a ref or getter of one); the observation starts right away and nothing stops it by itself: call `stopIntersection()` when you are done.
 
 ## Syntax
 
@@ -30,7 +30,7 @@ import { useIntersection } from 'quasar'
 setup () {
   const target = useTemplateRef('target') // an Element or a component
 
-  const { isIntersecting, refresh, stop } = useIntersection({
+  const { isIntersecting, refreshIntersection, stopIntersection } = useIntersection({
     // all optional:
     target,               // omit it to observe the component's own root element
     root: null,           // Element used as viewport; null for the browser viewport
@@ -62,16 +62,16 @@ function useIntersection(
   }>
 ): {
   isIntersecting: Ref<boolean>
-  refresh: () => void
-  stop: () => void
+  refreshIntersection: () => void
+  stopIntersection: () => void
 }
 ```
 
 Without a `target`, the composable observes the root element of the component it is called in, as of the moment the component gets mounted. A component rendering a fragment (multiple root nodes) has no root element to observe, so supply a `target` there.
 
-`refresh()` makes the observer report the current state again, whether it changed or not. An observer only reports changes on its own, so this is for the cases where your code needs a fresh verdict after doing something to the layout, such as knowing whether a target that was in view still is after the content around it grew.
+`refreshIntersection()` makes the observer report the current state again, whether it changed or not. An observer only reports changes on its own, so this is for the cases where your code needs a fresh verdict after doing something to the layout, such as knowing whether a target that was in view still is after the content around it grew.
 
-`stop()` ends the observation for good. You will rarely need it, as the composable stops by itself when the component gets destroyed.
+`stopIntersection()` ends the observation for good. You will rarely need it, as the composable stops by itself when the component gets destroyed.
 
 ## Changing the options while running
 
@@ -119,7 +119,7 @@ const { isIntersecting } = useIntersection(options)
 options.value = { rootMargin: '200px' }
 ```
 
-A `once` observation that has already fired stays off for as long as `once` holds: toggling `disabled` or changing any other option does not start observing again. Setting `once` back to `false` does, and the observation can retire again the next time `once` is turned on. An `onIntersect` hook that returned `false`, or a call to `stop()`, ends the observation for good.
+A `once` observation that has already fired stays off for as long as `once` holds: toggling `disabled` or changing any other option does not start observing again. Setting `once` back to `false` does, and the observation can retire again the next time `once` is turned on. An `onIntersect` hook that returned `false`, or a call to `stopIntersection()`, ends the observation for good.
 
 ## Example
 

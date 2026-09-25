@@ -11,7 +11,7 @@
       />
       <q-btn
         color="primary"
-        label="send()"
+        label="sendSocketMessage()"
         no-caps
         :disable="message === ''"
         @click="sendMessage"
@@ -62,17 +62,15 @@ const log = ref([])
 
 // a public echo server: it greets each connection, then repeats
 // every message it receives
-const { socketStatus, send, openSocket, closeSocket } = useWebSocket(
-  'wss://echo.websocket.org',
-  {
+const { socketStatus, sendSocketMessage, openSocket, closeSocket } =
+  useWebSocket('wss://echo.websocket.org', {
     onMessage(data) {
       log.value.unshift(`received: ${data}`)
     }
-  }
-)
+  })
 
 function sendMessage() {
   log.value.unshift(`sent: ${message.value}`)
-  send(message.value)
+  sendSocketMessage(message.value)
 }
 </script>

@@ -49,7 +49,7 @@ const log = ref([])
 const { sourceStatus, openSource, closeSource } = useEventSource(
   'https://stream.wikimedia.org/v2/stream/recentchange',
   {
-    manualOpen: true,
+    lazy: true,
     onMessage(data) {
       const change = JSON.parse(data)
       log.value.unshift({

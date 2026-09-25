@@ -14,7 +14,8 @@ import { noop } from '../../utils/event/event.js'
 /*
  * Usage:
  *    const {
- *      socketStatus, data, error, send, openSocket, closeSocket
+ *      socketStatus, socketData, socketError, sendSocketMessage,
+ *      openSocket, closeSocket
  *    } = useWebSocket(url, options)
  *
  * url     - the socket URL (string or URL), or a ref/getter of one; a
@@ -22,10 +23,10 @@ import { noop } from '../../utils/event/event.js'
  *           mapped to ws(s); an open socket reconnects to the new URL
  *           when it changes
  * options - plain object (all optional):
+ *    lazy                 - do not open the socket on mount; openSocket()
+ *                           or the first sendSocketMessage() does it
  *    protocols            - the native sub-protocol(s) (string or Array)
  *    binaryType           - 'blob' (default) or 'arraybuffer'
- *    manualOpen           - do not open the socket on mount; openSocket()
- *                           or the first send() does it
  *    autoReconnect        - reopen a socket that closed on its own
  *                           (default: true); false, or { retries, delay }
  *                           with retries the number of attempts (default:
@@ -50,14 +51,15 @@ import { noop } from '../../utils/event/event.js'
  *
  * socketStatus - Ref<'closed' | 'connecting' | 'open'>; 'connecting' also
  *                while waiting to reconnect
- * data         - ShallowRef of the last message's data
- * error        - ShallowRef of the last 'error' event
- * send         - sends a message; opens the socket if needed and queues
- *                the message until it is open
+ * socketData   - ShallowRef of the last message's data
+ * socketError  - ShallowRef of the last 'error' event
+ * sendSocketMessage - sends a message; opens the socket if needed and
+ *                queues the message until it is open
  * openSocket   - opens the socket (no-op while open or connecting)
  * closeSocket  - closes the socket (no reconnect, queued messages are
  *                dropped; also happens on unmount); code and reason are
- *                the native ones; openSocket() or send() reopen it later
+ *                the native ones; openSocket() or sendSocketMessage()
+ *                reopen it later
  */
 
 const statusClosed = 'closed',
@@ -88,15 +90,15 @@ function resolveUrl(target) {
 
 export default function useWebSocket(url, options) {
   const socketStatus = ref(statusClosed)
-  const data = shallowRef(null)
-  const error = shallowRef(null)
+  const socketData = shallowRef(null)
+  const socketError = shallowRef(null)
 
   if (__QUASAR_SSR_SERVER__) {
     return {
       socketStatus,
-      data,
-      error,
-      send: noop,
+      socketData,
+      socketError,
+      sendSocketMessage: noop,
       openSocket: noop,
       closeSocket: noop
     }
@@ -104,9 +106,9 @@ export default function useWebSocket(url, options) {
 
   const vm = getCurrentInstance()
   const {
+    lazy,
     protocols,
     binaryType,
-    manualOpen,
     autoReconnect,
     heartbeat,
     onOpen,
@@ -130,7 +132,8 @@ export default function useWebSocket(url, options) {
       : { ...defaultHeartbeat, ...(heartbeat === true ? {} : heartbeat) }
 
   let socket = null,
-    // the socket should be up (set by openSocket()/send(), cleared by
+    // the socket should be up (set by openSocket()/sendSocketMessage(),
+    // cleared by
     // closeSocket()); survives a failed reconnect so that the 'online'
     // event can try again
     wanted = false,
@@ -246,14 +249,14 @@ export default function useWebSocket(url, options) {
   function onSocketMessage(evt) {
     if (evt.target !== socket) return
 
-    data.value = evt.data
+    socketData.value = evt.data
     onMessage?.(evt.data, evt)
   }
 
   function onSocketError(evt) {
     if (evt.target !== socket) return
 
-    error.value = evt
+    socketError.value = evt
     onError?.(evt)
   }
 
@@ -322,7 +325,7 @@ export default function useWebSocket(url, options) {
   )
 
   if (vm !== null) {
-    if (manualOpen !== true) {
+    if (lazy !== true) {
       // the server has no socket, so the client cannot have one before
       // hydration either
       onMounted(openSocket)
@@ -331,16 +334,16 @@ export default function useWebSocket(url, options) {
     onBeforeUnmount(() => {
       close('unmount')
     })
-  } else if (manualOpen !== true) {
+  } else if (lazy !== true) {
     openSocket()
   }
 
   return {
     socketStatus,
-    data,
-    error,
+    socketData,
+    socketError,
 
-    send(message) {
+    sendSocketMessage(message) {
       if (socket !== null && socket.readyState === WebSocket.OPEN) {
         socket.send(message)
       } else {

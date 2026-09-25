@@ -86,22 +86,22 @@ describe('[useScroll API]', () => {
     describe('[(function)default]', () => {
       test('has correct return value', () => {
         const {
-          position,
-          direction,
-          directionChanged,
-          delta,
-          inflectionPoint,
-          refresh,
-          stop
+          scrollPosition,
+          scrollDirection,
+          scrollDirectionChanged,
+          scrollDelta,
+          scrollInflectionPoint,
+          refreshScroll,
+          stopScroll
         } = mountTracker()
 
-        expect(position.value).toStrictEqual({ top: 0, left: 0 })
-        expect(direction.value).toBe('down')
-        expect(directionChanged.value).toBe(false)
-        expect(delta.value).toStrictEqual({ top: 0, left: 0 })
-        expect(inflectionPoint.value).toStrictEqual({ top: 0, left: 0 })
-        expect(refresh).toBeTypeOf('function')
-        expect(stop).toBeTypeOf('function')
+        expect(scrollPosition.value).toStrictEqual({ top: 0, left: 0 })
+        expect(scrollDirection.value).toBe('down')
+        expect(scrollDirectionChanged.value).toBe(false)
+        expect(scrollDelta.value).toStrictEqual({ top: 0, left: 0 })
+        expect(scrollInflectionPoint.value).toStrictEqual({ top: 0, left: 0 })
+        expect(refreshScroll).toBeTypeOf('function')
+        expect(stopScroll).toBeTypeOf('function')
       })
 
       test('can be used in a Vue Component', () => {
@@ -123,7 +123,7 @@ describe('[useScroll API]', () => {
         scrollTo(container, 20)
 
         expect(onScroll).toHaveBeenCalledOnce()
-        expect(result.position.value).toStrictEqual({ top: 20, left: 0 })
+        expect(result.scrollPosition.value).toStrictEqual({ top: 20, left: 0 })
       })
 
       test('falls back to the window without a scrollable parent', () => {
@@ -154,7 +154,7 @@ describe('[useScroll API]', () => {
         window.scrollTo(0, 30)
         window.dispatchEvent(new Event('scroll'))
 
-        expect(result.position.value.top).toBe(30)
+        expect(result.scrollPosition.value.top).toBe(30)
       })
 
       test('accepts a plain options object', () => {
@@ -172,32 +172,32 @@ describe('[useScroll API]', () => {
 
         scrollTo(container, 20)
 
-        expect(result.position.value).toStrictEqual({ top: 20, left: 0 })
+        expect(result.scrollPosition.value).toStrictEqual({ top: 20, left: 0 })
       })
 
       test('works outside of a component instance', () => {
         const container = createContainer()
-        const { position, stop } = useScroll({
+        const { scrollPosition, stopScroll } = useScroll({
           scrollTarget: container,
           debounce: 0
         })
 
         scrollTo(container, 20)
 
-        expect(position.value).toStrictEqual({ top: 20, left: 0 })
+        expect(scrollPosition.value).toStrictEqual({ top: 20, left: 0 })
 
-        stop()
+        stopScroll()
       })
 
       test('accepts a scrollTarget CSS selector', () => {
         const container = createContainer('use-scroll-target')
-        const { position } = mountTracker({
+        const { scrollPosition } = mountTracker({
           scrollTarget: '#use-scroll-target'
         })
 
         scrollTo(container, 20)
 
-        expect(position.value.top).toBe(20)
+        expect(scrollPosition.value.top).toBe(20)
       })
 
       test('accepts a scrollTarget component instance', () => {
@@ -215,11 +215,11 @@ describe('[useScroll API]', () => {
           },
           { attachTo: document.body }
         )
-        const { position } = mountTracker({ scrollTarget: holder.vm })
+        const { scrollPosition } = mountTracker({ scrollTarget: holder.vm })
 
         scrollTo(holder.element, 20)
 
-        expect(position.value.top).toBe(20)
+        expect(scrollPosition.value.top).toBe(20)
       })
 
       test('accepts the window as scrollTarget', () => {
@@ -272,7 +272,7 @@ describe('[useScroll API]', () => {
           })
         )
 
-        result.refresh()
+        result.refreshScroll()
 
         expect(onScroll).not.toHaveBeenCalled()
       })
@@ -282,9 +282,9 @@ describe('[useScroll API]', () => {
         container.scrollTop = 20
 
         const onScroll = vi.fn()
-        const { position } = mountTracker({ onScroll }, container)
+        const { scrollPosition } = mountTracker({ onScroll }, container)
 
-        expect(position.value.top).toBe(20)
+        expect(scrollPosition.value.top).toBe(20)
         expect(onScroll).toHaveBeenCalledExactlyOnceWith(
           details(
             { top: 20, left: 0 },
@@ -307,20 +307,20 @@ describe('[useScroll API]', () => {
         const onScroll = vi.fn()
         const {
           container,
-          position,
-          direction,
-          directionChanged,
-          delta,
-          inflectionPoint
+          scrollPosition,
+          scrollDirection,
+          scrollDirectionChanged,
+          scrollDelta,
+          scrollInflectionPoint
         } = mountTracker({ onScroll, axis: 'both' })
 
         scrollTo(container, 20, 10)
 
-        expect(position.value).toStrictEqual({ top: 20, left: 10 })
-        expect(direction.value).toBe('down')
-        expect(directionChanged.value).toBe(false)
-        expect(delta.value).toStrictEqual({ top: 20, left: 10 })
-        expect(inflectionPoint.value).toStrictEqual({ top: 0, left: 0 })
+        expect(scrollPosition.value).toStrictEqual({ top: 20, left: 10 })
+        expect(scrollDirection.value).toBe('down')
+        expect(scrollDirectionChanged.value).toBe(false)
+        expect(scrollDelta.value).toStrictEqual({ top: 20, left: 10 })
+        expect(scrollInflectionPoint.value).toStrictEqual({ top: 0, left: 0 })
         expect(onScroll).toHaveBeenLastCalledWith(
           details(
             { top: 20, left: 10 },
@@ -333,16 +333,16 @@ describe('[useScroll API]', () => {
 
         scrollTo(container, 50)
 
-        expect(delta.value).toStrictEqual({ top: 30, left: 0 })
-        expect(directionChanged.value).toBe(false)
+        expect(scrollDelta.value).toStrictEqual({ top: 30, left: 0 })
+        expect(scrollDirectionChanged.value).toBe(false)
 
         // reversing: the direction changes and the inflection point is set
         scrollTo(container, 35)
 
-        expect(direction.value).toBe('up')
-        expect(directionChanged.value).toBe(true)
-        expect(delta.value).toStrictEqual({ top: -15, left: 0 })
-        expect(inflectionPoint.value).toStrictEqual({ top: 35, left: 10 })
+        expect(scrollDirection.value).toBe('up')
+        expect(scrollDirectionChanged.value).toBe(true)
+        expect(scrollDelta.value).toStrictEqual({ top: -15, left: 0 })
+        expect(scrollInflectionPoint.value).toStrictEqual({ top: 35, left: 10 })
         expect(onScroll).toHaveBeenLastCalledWith(
           details(
             { top: 35, left: 10 },
@@ -355,33 +355,33 @@ describe('[useScroll API]', () => {
 
         scrollTo(container, 30)
 
-        expect(direction.value).toBe('up')
-        expect(directionChanged.value).toBe(false)
-        expect(inflectionPoint.value).toStrictEqual({ top: 35, left: 10 })
+        expect(scrollDirection.value).toBe('up')
+        expect(scrollDirectionChanged.value).toBe(false)
+        expect(scrollInflectionPoint.value).toStrictEqual({ top: 35, left: 10 })
 
         // the larger movement wins the direction
         scrollTo(container, 31, 60)
 
-        expect(direction.value).toBe('right')
-        expect(directionChanged.value).toBe(true)
-        expect(inflectionPoint.value).toStrictEqual({ top: 31, left: 60 })
+        expect(scrollDirection.value).toBe('right')
+        expect(scrollDirectionChanged.value).toBe(true)
+        expect(scrollInflectionPoint.value).toStrictEqual({ top: 31, left: 60 })
 
         scrollTo(container, 31, 40)
 
-        expect(direction.value).toBe('left')
+        expect(scrollDirection.value).toBe('left')
         expect(onScroll).toHaveBeenCalledTimes(6)
       })
 
       test('ignores the other axis', () => {
         const onScroll = vi.fn()
-        const { container, position } = mountTracker({ onScroll })
+        const { container, scrollPosition } = mountTracker({ onScroll })
 
         scrollTo(container, 0, 10)
         expect(onScroll).not.toHaveBeenCalled()
 
         scrollTo(container, 20)
         expect(onScroll).toHaveBeenCalledOnce()
-        expect(position.value).toStrictEqual({ top: 20, left: 10 })
+        expect(scrollPosition.value).toStrictEqual({ top: 20, left: 10 })
 
         const horizontal = mountTracker({ onScroll, axis: 'horizontal' })
 
@@ -390,12 +390,15 @@ describe('[useScroll API]', () => {
 
         scrollTo(horizontal.container, 20, 10)
         expect(onScroll).toHaveBeenCalledTimes(2)
-        expect(horizontal.position.value).toStrictEqual({ top: 20, left: 10 })
+        expect(horizontal.scrollPosition.value).toStrictEqual({
+          top: 20,
+          left: 10
+        })
       })
 
       test('reports at most once per frame without a debounce', async () => {
         const onScroll = vi.fn()
-        const { container, position } = mountTracker({
+        const { container, scrollPosition } = mountTracker({
           onScroll,
           debounce: void 0
         })
@@ -405,18 +408,18 @@ describe('[useScroll API]', () => {
         scrollTo(container, 30)
 
         expect(onScroll).not.toHaveBeenCalled()
-        expect(position.value.top).toBe(0)
+        expect(scrollPosition.value.top).toBe(0)
 
         await frame()
 
         expect(onScroll).toHaveBeenCalledOnce()
-        expect(position.value.top).toBe(30)
+        expect(scrollPosition.value.top).toBe(30)
       })
 
       test('reports at most once per debounce window', () => {
         vi.useFakeTimers()
         const onScroll = vi.fn()
-        const { container, position } = mountTracker({
+        const { container, scrollPosition } = mountTracker({
           onScroll,
           debounce: 100
         })
@@ -431,7 +434,7 @@ describe('[useScroll API]', () => {
 
         // the report at the end of the window sees the latest position
         expect(onScroll).toHaveBeenCalledOnce()
-        expect(position.value.top).toBe(20)
+        expect(scrollPosition.value.top).toBe(20)
 
         vi.advanceTimersByTime(200)
         expect(onScroll).toHaveBeenCalledOnce()
@@ -452,7 +455,7 @@ describe('[useScroll API]', () => {
       test('keeps the last position while disabled and catches up on resume', () => {
         const disabled = ref(false)
         const onScroll = vi.fn()
-        const { container, position } = mountTracker(() => ({
+        const { container, scrollPosition } = mountTracker(() => ({
           onScroll,
           disabled: disabled.value
         }))
@@ -464,13 +467,13 @@ describe('[useScroll API]', () => {
         scrollTo(container, 40)
 
         expect(onScroll).toHaveBeenCalledOnce()
-        expect(position.value.top).toBe(20)
+        expect(scrollPosition.value.top).toBe(20)
 
         // resuming reports right away
         disabled.value = false
 
         expect(onScroll).toHaveBeenCalledTimes(2)
-        expect(position.value.top).toBe(40)
+        expect(scrollPosition.value.top).toBe(40)
 
         // ...and listens again
         scrollTo(container, 60)
@@ -497,17 +500,17 @@ describe('[useScroll API]', () => {
         const second = createContainer()
         const scrollTarget = ref(first)
         const onScroll = vi.fn()
-        const { position } = mountTracker(() => ({
+        const { scrollPosition } = mountTracker(() => ({
           onScroll,
           scrollTarget: scrollTarget.value
         }))
 
         scrollTo(first, 20)
-        expect(position.value.top).toBe(20)
+        expect(scrollPosition.value.top).toBe(20)
 
         // another container starts from scratch
         scrollTarget.value = second
-        expect(position.value.top).toBe(0)
+        expect(scrollPosition.value.top).toBe(0)
         expect(onScroll).toHaveBeenCalledOnce()
 
         // the old container is not tracked anymore
@@ -601,20 +604,20 @@ describe('[useScroll API]', () => {
         )
       })
 
-      test('refresh() reads the position right away, skipping the debounce', () => {
+      test('refreshScroll() reads the position right away, skipping the debounce', () => {
         vi.useFakeTimers()
         const onScroll = vi.fn()
-        const { container, position, refresh } = mountTracker({
+        const { container, scrollPosition, refreshScroll } = mountTracker({
           onScroll,
           debounce: 100
         })
 
         scrollTo(container, 20)
-        expect(position.value.top).toBe(0)
+        expect(scrollPosition.value.top).toBe(0)
 
-        refresh()
+        refreshScroll()
 
-        expect(position.value.top).toBe(20)
+        expect(scrollPosition.value.top).toBe(20)
         expect(onScroll).toHaveBeenCalledOnce()
 
         // the pending window report is dropped
@@ -622,26 +625,28 @@ describe('[useScroll API]', () => {
         expect(onScroll).toHaveBeenCalledOnce()
       })
 
-      test('refresh() is a no-op without a container', () => {
+      test('refreshScroll() is a no-op without a container', () => {
         const onScroll = vi.fn()
-        const { container, refresh, stop } = mountTracker({ onScroll })
+        const { container, refreshScroll, stopScroll } = mountTracker({
+          onScroll
+        })
 
-        stop()
+        stopScroll()
         container.scrollTop = 20
-        refresh()
+        refreshScroll()
 
         expect(onScroll).not.toHaveBeenCalled()
       })
 
-      test('stop() ends the tracking for good', () => {
+      test('stopScroll() ends the tracking for good', () => {
         const disabled = ref(false)
         const onScroll = vi.fn()
-        const { container, stop } = mountTracker(() => ({
+        const { container, stopScroll } = mountTracker(() => ({
           onScroll,
           disabled: disabled.value
         }))
 
-        stop()
+        stopScroll()
 
         scrollTo(container, 20)
         disabled.value = true

@@ -562,7 +562,7 @@ const composables = [
     tag: 'composable'
   },
   {
-    name: 'useElementResize',
+    name: 'useElementSize',
     description: 'Track the size of an element',
     tag: 'composable'
   },

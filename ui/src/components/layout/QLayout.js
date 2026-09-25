@@ -11,7 +11,7 @@ import {
 
 import { isRuntimeSsrPreHydration } from '../../plugins/platform/Platform.js'
 
-import useElementResize from '../../composables/use-element-resize/use-element-resize.js'
+import useElementSize from '../../composables/use-element-size/use-element-size.js'
 import useQuasar from '../../composables/use-quasar/use-quasar.js'
 import useScroll from '../../composables/use-scroll/use-scroll.js'
 
@@ -158,12 +158,12 @@ export default /*#__PURE__*/ createComponent({
     }
 
     useScroll({ target: getLayoutEl, onScroll: onPageScroll })
-    useElementResize({
+    useElementSize({
       target: getLayoutEl,
       debounce: 100,
       onResize: onPageResize
     })
-    useElementResize(() => ({
+    useElementSize(() => ({
       target: rootRef,
       debounce: 100,
       disabled: props.container !== true,

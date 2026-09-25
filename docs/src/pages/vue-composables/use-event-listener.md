@@ -6,7 +6,7 @@ badge: v2.34+
 examples: useEventListener
 related:
   - /vue-composables/use-scroll
-  - /vue-composables/use-element-resize
+  - /vue-composables/use-element-size
 ---
 
 The `useEventListener()` composable attaches an event listener to an element, to `window`, to `document` or to a component, and takes care of everything around it: it waits for the target to exist, follows a target that changes, removes the listener when your component gets destroyed and re-attaches it when the event name or the listener options change.
@@ -21,7 +21,7 @@ Use it wherever a template listener cannot reach: `window` and `document` events
 > [!TIP]
 > **Outside of a component**
 >
-> The composable can also be called outside of `setup()`: in a boot file, a store or a plain module. There is no mount to wait for there, so it starts listening right away (give it an element, `window` or `document` rather than a template ref) and nothing stops it by itself: call `stop()` when you are done.
+> The composable can also be called outside of `setup()`: in a boot file, a store or a plain module. There is no mount to wait for there, so it starts listening right away (give it an element, `window` or `document` rather than a template ref) and nothing stops it by itself: call `stopEventListener()` when you are done.
 
 ## Syntax
 
@@ -32,7 +32,7 @@ import { useEventListener } from 'quasar'
 setup () {
   const target = useTemplateRef('target') // an Element or a component
 
-  const { stop } = useEventListener(
+  const { stopEventListener } = useEventListener(
     target,            // or () => window, () => document, any EventTarget
     'keydown',         // or an Array of event names
     (evt) => {         // called with the Event
@@ -64,7 +64,7 @@ function useEventListener<E extends Event = Event>(
     disabled?: boolean
   }>
 ): {
-  stop: () => void
+  stopEventListener: () => void
 }
 ```
 
@@ -74,7 +74,7 @@ The `event` is a single event name or an Array of names (the same handler serves
 
 Unless you set `passive`, the browser's own default applies, so a `touchstart` or `wheel` listener on `window` or `document` stays passive as the browser intends it to be.
 
-`stop()` removes the listener for good. You will rarely need it, as the composable stops by itself when the component gets destroyed.
+`stopEventListener()` removes the listener for good. You will rarely need it, as the composable stops by itself when the component gets destroyed.
 
 ## Changing the options while running
 

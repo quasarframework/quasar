@@ -7,7 +7,12 @@
           <q-toggle v-model="disabled" label="disabled" />
           <q-toggle v-model="capture" label="capture" />
           <q-toggle v-model="once" label="once" />
-          <q-btn flat color="negative" label="stop()" @click="stop" />
+          <q-btn
+            flat
+            color="negative"
+            label="stopEventListener()"
+            @click="stopEventListener"
+          />
         </div>
       </q-card-section>
       <q-separator />
@@ -73,7 +78,7 @@ const lastKey = ref('none')
 const keydowns = ref(0)
 
 // getters: the server-side never evaluates `document` or `window`
-const { stop } = useEventListener(
+const { stopEventListener } = useEventListener(
   () => document,
   'keydown',
   evt => {

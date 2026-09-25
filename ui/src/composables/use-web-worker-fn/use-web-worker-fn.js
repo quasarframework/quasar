@@ -5,7 +5,7 @@ import { noop } from '../../utils/event/event.js'
 /*
  * Usage:
  *    const {
- *      runWorkerFn, workerFnStatus, terminateWorkerFn
+ *      workerFnStatus, runWorkerFn, terminateWorkerFn
  *    } = useWebWorkerFn(fn, options)
  *
  * fn      - the function to run in a Web Worker; it is serialized with
@@ -30,11 +30,11 @@ import { noop } from '../../utils/event/event.js'
  *                              call), 'timeout', 'error' (the script
  *                              failed) or 'unmount'
  *
+ * workerFnStatus       - Ref<'idle' | 'running' | 'success' | 'error'
+ *                        | 'timeout'>
  * runWorkerFn(...args) - Promise of fn's result; rejects with the error fn
  *                        threw, on timeout, on termination and while
  *                        another call is running
- * workerFnStatus       - Ref<'idle' | 'running' | 'success' | 'error'
- *                        | 'timeout'>
  * terminateWorkerFn()  - kills the worker (a later call starts a new one);
  *                        also happens on unmount
  */
@@ -258,8 +258,8 @@ export default function useWebWorkerFn(fn, options) {
   }
 
   return {
-    runWorkerFn,
     workerFnStatus,
+    runWorkerFn,
     // the reason argument stays internal
     terminateWorkerFn: () => {
       terminateWorkerFn('terminate')

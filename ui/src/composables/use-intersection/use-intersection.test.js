@@ -73,7 +73,11 @@ describe('[useIntersection API]', () => {
 
         // no target: the component's root element is observed
         expect(result.isIntersecting.value).toBe(false)
-        expect(result.stop).toBeTypeOf('function')
+        expect(result.refreshIntersection).toBeTypeOf('function')
+        expect(result.stopIntersection).toBeTypeOf('function')
+        // kept for backward compatibility
+        expect(result.refresh).toBe(result.refreshIntersection)
+        expect(result.stop).toBe(result.stopIntersection)
         expect(observers).toHaveLength(1)
         expect(observers[0].observe).toHaveBeenCalledExactlyOnceWith(
           wrapper.element
@@ -228,9 +232,9 @@ describe('[useIntersection API]', () => {
         await nextTick()
         expect(observers).toHaveLength(1)
 
-        // stop() too, from a fresh observation
+        // stopIntersection() too, from a fresh observation
         const second = mountTarget(() => ({ once: once.value }))
-        second.stop()
+        second.stopIntersection()
         expect(observers).toHaveLength(2)
 
         once.value = true
@@ -358,12 +362,14 @@ describe('[useIntersection API]', () => {
         expect(observers[1].observe).toHaveBeenCalledExactlyOnceWith(second)
       })
 
-      test('stop() releases the element and ignores later option changes', async () => {
+      test('stopIntersection() releases the element and ignores later option changes', async () => {
         const disabled = ref(false)
-        const { stop } = mountTarget(() => ({ disabled: disabled.value }))
+        const { stopIntersection } = mountTarget(() => ({
+          disabled: disabled.value
+        }))
         const [observer] = observers
 
-        stop()
+        stopIntersection()
 
         expect(observer.disconnect).toHaveBeenCalledOnce()
 
@@ -375,23 +381,23 @@ describe('[useIntersection API]', () => {
         expect(observers).toHaveLength(1)
       })
 
-      test('refresh() observes the element anew', () => {
-        const { el, refresh } = mountTarget()
+      test('refreshIntersection() observes the element anew', () => {
+        const { el, refreshIntersection } = mountTarget()
         const [observer] = observers
 
-        refresh()
+        refreshIntersection()
 
         expect(observer.unobserve).toHaveBeenCalledExactlyOnceWith(el)
         expect(observer.observe).toHaveBeenCalledTimes(2)
         expect(observers).toHaveLength(1)
       })
 
-      test('refresh() is a no-op without an element', () => {
-        const { refresh, stop } = mountTarget()
+      test('refreshIntersection() is a no-op without an element', () => {
+        const { refreshIntersection, stopIntersection } = mountTarget()
         const [observer] = observers
 
-        stop()
-        refresh()
+        stopIntersection()
+        refreshIntersection()
 
         expect(observer.observe).toHaveBeenCalledOnce()
         expect(observers).toHaveLength(1)
@@ -443,7 +449,7 @@ describe('[useIntersection API]', () => {
       await vi.waitFor(() => expect(state.isIntersecting.value).toBe(false))
     })
 
-    test('refresh() delivers the unchanged state again', async () => {
+    test('refreshIntersection() delivers the unchanged state again', async () => {
       const onIntersect = vi.fn()
       let state
       mount(
@@ -459,7 +465,7 @@ describe('[useIntersection API]', () => {
       await vi.waitFor(() => expect(onIntersect).toHaveBeenCalledOnce())
       expect(state.isIntersecting.value).toBe(true)
 
-      state.refresh()
+      state.refreshIntersection()
 
       await vi.waitFor(() => expect(onIntersect).toHaveBeenCalledTimes(2))
       expect(onIntersect.mock.calls[1][0].isIntersecting).toBe(true)

@@ -59,47 +59,59 @@ describe('[useWebWorker API]', () => {
   describe('[Functions]', () => {
     describe('[(function)default]', () => {
       test('has correct return value', () => {
-        const { workerStatus, data, error, postMessage, terminate } =
-          mountWorker(createScriptUrl())
+        const {
+          workerStatus,
+          workerData,
+          workerError,
+          postWorkerMessage,
+          terminateWorker
+        } = mountWorker(createScriptUrl())
 
         expect(isRef(workerStatus)).toBe(true)
-        expect(workerStatus.value).toBe('idle')
-        expect(isRef(data)).toBe(true)
-        expect(data.value).toBeNull()
-        expect(isRef(error)).toBe(true)
-        expect(error.value).toBeNull()
-        expect(postMessage).toBeTypeOf('function')
-        expect(terminate).toBeTypeOf('function')
+        expect(workerStatus.value).toBe('running')
+        expect(isRef(workerData)).toBe(true)
+        expect(workerData.value).toBeNull()
+        expect(isRef(workerError)).toBe(true)
+        expect(workerError.value).toBeNull()
+        expect(postWorkerMessage).toBeTypeOf('function')
+        expect(terminateWorker).toBeTypeOf('function')
       })
 
       test('creates the worker from a string URL', async () => {
-        const { data, postMessage } = mountWorker(createScriptUrl())
+        const { workerData, postWorkerMessage } = mountWorker(createScriptUrl())
 
-        postMessage({ value: 1 })
+        postWorkerMessage({ value: 1 })
 
-        await expect.poll(() => data.value).toEqual({ echo: { value: 1 } })
+        await expect
+          .poll(() => workerData.value)
+          .toEqual({ echo: { value: 1 } })
       })
 
       test('creates the worker from a URL object', async () => {
-        const { data, postMessage } = mountWorker(new URL(createScriptUrl()))
+        const { workerData, postWorkerMessage } = mountWorker(
+          new URL(createScriptUrl())
+        )
 
-        postMessage('hi')
+        postWorkerMessage('hi')
 
-        await expect.poll(() => data.value).toEqual({ echo: 'hi' })
+        await expect.poll(() => workerData.value).toEqual({ echo: 'hi' })
       })
 
       test('uses a Worker instance as is', async () => {
         const instance = new Worker(createScriptUrl())
-        const { workerStatus, data, postMessage } = mountWorker(instance)
+        const { workerStatus, workerData, postWorkerMessage } = mountWorker(
+          instance,
+          { lazy: true }
+        )
 
         expect(workerStatus.value).toBe('idle')
 
-        postMessage('hi')
+        postWorkerMessage('hi')
         expect(workerStatus.value).toBe('running')
 
-        postMessage('hi')
+        postWorkerMessage('hi')
 
-        await expect.poll(() => data.value).toEqual({ echo: 'hi' })
+        await expect.poll(() => workerData.value).toEqual({ echo: 'hi' })
       })
 
       test('calls an arrow function factory', async () => {
@@ -109,19 +121,20 @@ describe('[useWebWorker API]', () => {
           calls.push(opts)
           return new Worker(url, opts)
         }
-        const { workerStatus, data, postMessage } = mountWorker(factory, {
-          name: 'arrow'
-        })
+        const { workerStatus, workerData, postWorkerMessage } = mountWorker(
+          factory,
+          { lazy: true, name: 'arrow' }
+        )
 
         expect(calls).toEqual([])
 
-        postMessage('hi')
+        postWorkerMessage('hi')
 
         expect(calls).toEqual([{ type: 'module', name: 'arrow' }])
         expect(workerStatus.value).toBe('running')
 
         await expect
-          .poll(() => data.value)
+          .poll(() => workerData.value)
           .toEqual({
             echo: 'hi',
             name: 'arrow'
@@ -136,16 +149,19 @@ describe('[useWebWorker API]', () => {
           }
         }
 
-        const { workerStatus, data, postMessage } = mountWorker(MyWorker, {
-          name: 'class'
-        })
+        const { workerStatus, workerData, postWorkerMessage } = mountWorker(
+          MyWorker,
+          {
+            name: 'class'
+          }
+        )
 
-        postMessage('hi')
+        postWorkerMessage('hi')
 
         expect(workerStatus.value).toBe('running')
 
         await expect
-          .poll(() => data.value)
+          .poll(() => workerData.value)
           .toEqual({
             echo: 'hi',
             name: 'class'
@@ -158,15 +174,20 @@ describe('[useWebWorker API]', () => {
           return new Worker(url, opts)
         }
 
-        const { workerStatus, data, postMessage } = mountWorker(factory, {
-          name: 'fn'
-        })
+        const { workerStatus, workerData, postWorkerMessage } = mountWorker(
+          factory,
+          {
+            name: 'fn'
+          }
+        )
 
-        postMessage('hi')
+        postWorkerMessage('hi')
 
         expect(workerStatus.value).toBe('running')
 
-        await expect.poll(() => data.value).toEqual({ echo: 'hi', name: 'fn' })
+        await expect
+          .poll(() => workerData.value)
+          .toEqual({ echo: 'hi', name: 'fn' })
       })
 
       test('passes the native options to a URL worker', async () => {
@@ -178,14 +199,13 @@ describe('[useWebWorker API]', () => {
           })
         `)
 
-        const { data } = mountWorker(url, {
+        const { workerData } = mountWorker(url, {
           type: 'classic',
-          name: 'legacy',
-          eager: true
+          name: 'legacy'
         })
 
         await expect
-          .poll(() => data.value)
+          .poll(() => workerData.value)
           .toEqual({
             name: 'legacy',
             kind: 'classic'
@@ -197,173 +217,179 @@ describe('[useWebWorker API]', () => {
           postMessage(this === undefined ? 'module' : 'classic')
         `)
 
-        const { data } = mountWorker(url, { eager: true })
+        const { workerData } = mountWorker(url)
 
-        await expect.poll(() => data.value).toBe('module')
+        await expect.poll(() => workerData.value).toBe('module')
       })
 
       test('calls onMessage with the data and the event', async () => {
         const onMessage = vi.fn()
-        const { data, postMessage } = mountWorker(createScriptUrl(), {
-          onMessage
-        })
+        const { workerData, postWorkerMessage } = mountWorker(
+          createScriptUrl(),
+          {
+            onMessage
+          }
+        )
 
-        postMessage(2)
+        postWorkerMessage(2)
 
         await expect.poll(() => onMessage).toHaveBeenCalledTimes(1)
 
         const [payload, evt] = onMessage.mock.calls[0]
         expect(payload).toEqual({ echo: 2 })
         expect(evt).toBeInstanceOf(MessageEvent)
-        expect(data.value).toBe(payload)
+        expect(workerData.value).toBe(payload)
       })
 
       test('calls onCreate with each worker created', async () => {
         const url = createScriptUrl()
         const workers = []
         const onCreate = vi.fn()
-        const { data, postMessage, terminate } = mountWorker(
+        const { workerData, postWorkerMessage, terminateWorker } = mountWorker(
           () => {
             const worker = new Worker(url)
             workers.push(worker)
             return worker
           },
-          { onCreate }
+          { lazy: true, onCreate }
         )
 
         expect(onCreate).not.toHaveBeenCalled()
 
-        postMessage(1)
-        await expect.poll(() => data.value).toEqual({ echo: 1 })
+        postWorkerMessage(1)
+        await expect.poll(() => workerData.value).toEqual({ echo: 1 })
         expect(onCreate).toHaveBeenCalledTimes(1)
         expect(onCreate).toHaveBeenLastCalledWith(workers[0])
 
-        terminate()
-        postMessage(2)
-        await expect.poll(() => data.value).toEqual({ echo: 2 })
+        terminateWorker()
+        postWorkerMessage(2)
+        await expect.poll(() => workerData.value).toEqual({ echo: 2 })
         expect(onCreate).toHaveBeenCalledTimes(2)
         expect(onCreate).toHaveBeenLastCalledWith(workers[1])
       })
 
       test('onCreate can post the init message', async () => {
         const url = createScriptUrl()
-        const { data } = mountWorker(url, {
-          eager: true,
+        const { workerData } = mountWorker(url, {
           onCreate(worker) {
             worker.postMessage('init')
           }
         })
 
-        await expect.poll(() => data.value).toEqual({ echo: 'init' })
+        await expect.poll(() => workerData.value).toEqual({ echo: 'init' })
       })
 
-      test('calls onTerminate with the killed worker and the reason, on terminate() and on unmount', () => {
+      test('calls onTerminate with the killed worker and the reason, on terminateWorker() and on unmount', () => {
         const url = createScriptUrl()
         const workers = []
         const onTerminate = vi.fn()
-        const { wrapper, workerStatus, postMessage, terminate } = mountWorker(
-          () => {
-            const worker = new Worker(url)
-            workers.push(worker)
-            return worker
-          },
-          { onTerminate }
-        )
+        const { wrapper, workerStatus, postWorkerMessage, terminateWorker } =
+          mountWorker(
+            () => {
+              const worker = new Worker(url)
+              workers.push(worker)
+              return worker
+            },
+            { lazy: true, onTerminate }
+          )
 
-        terminate()
+        terminateWorker()
         expect(onTerminate).not.toHaveBeenCalled()
 
-        postMessage(1)
-        terminate()
+        postWorkerMessage(1)
+        terminateWorker()
         expect(onTerminate).toHaveBeenCalledTimes(1)
         expect(onTerminate).toHaveBeenLastCalledWith(workers[0], 'terminate')
         expect(workerStatus.value).toBe('idle')
 
-        postMessage(2)
+        postWorkerMessage(2)
         wrapper.unmount()
         expect(onTerminate).toHaveBeenCalledTimes(2)
         expect(onTerminate).toHaveBeenLastCalledWith(workers[1], 'unmount')
         expect(workerStatus.value).toBe('terminated')
       })
 
-      test('postMessage() transfers the listed objects', async () => {
+      test('postWorkerMessage() transfers the listed objects', async () => {
         const url = createScriptUrl(`onmessage = evt => {
           postMessage(evt.data.byteLength)
         }`)
-        const { data, postMessage } = mountWorker(url)
+        const { workerData, postWorkerMessage } = mountWorker(url)
         const buffer = new ArrayBuffer(16)
 
-        postMessage(buffer, [buffer])
+        postWorkerMessage(buffer, [buffer])
 
         expect(buffer.byteLength).toBe(0)
-        await expect.poll(() => data.value).toBe(16)
+        await expect.poll(() => workerData.value).toBe(16)
       })
 
-      test('reports a failing worker script through error and onError', async () => {
+      test('reports a failing worker script through workerError and onError', async () => {
         const onError = vi.fn(evt => {
           // keep the uncaught error away from window
           evt.preventDefault()
         })
-        const { error } = mountWorker(
+        const { workerError } = mountWorker(
           createScriptUrl('throw new Error("boom")'),
-          { eager: true, onError }
+          { onError }
         )
 
-        await expect.poll(() => error.value).toBeInstanceOf(ErrorEvent)
-        expect(error.value.message).toContain('boom')
-        expect(onError).toHaveBeenCalledWith(error.value)
+        await expect.poll(() => workerError.value).toBeInstanceOf(ErrorEvent)
+        expect(workerError.value.message).toContain('boom')
+        expect(onError).toHaveBeenCalledWith(workerError.value)
       })
 
-      test('terminate() kills a Worker instance for good', async () => {
+      test('terminateWorker() kills a Worker instance for good', async () => {
         const url = createScriptUrl()
         const instance = new Worker(url)
         const terminateSpy = vi.spyOn(instance, 'terminate')
         const postSpy = vi.spyOn(instance, 'postMessage')
 
-        const { workerStatus, data, postMessage, terminate } =
+        const { workerStatus, workerData, postWorkerMessage, terminateWorker } =
           mountWorker(instance)
 
-        postMessage(1)
-        await expect.poll(() => data.value).toEqual({ echo: 1 })
+        postWorkerMessage(1)
+        await expect.poll(() => workerData.value).toEqual({ echo: 1 })
 
-        terminate()
+        terminateWorker()
 
         expect(terminateSpy).toHaveBeenCalledTimes(1)
         expect(workerStatus.value).toBe('terminated')
 
-        postMessage(2)
-        terminate()
+        postWorkerMessage(2)
+        terminateWorker()
 
         expect(postSpy).toHaveBeenCalledTimes(1)
         expect(terminateSpy).toHaveBeenCalledTimes(1)
-        expect(data.value).toEqual({ echo: 1 })
+        expect(workerData.value).toEqual({ echo: 1 })
       })
 
-      test('does not create the worker until the first postMessage()', () => {
+      test('"lazy" option does not create the worker until the first postWorkerMessage()', () => {
         const url = createScriptUrl()
         let created = 0
-        const { workerStatus, postMessage } = mountWorker(() => {
-          created++
-          return new Worker(url)
-        })
+        const { workerStatus, postWorkerMessage } = mountWorker(
+          () => {
+            created++
+            return new Worker(url)
+          },
+          { lazy: true }
+        )
 
         expect(created).toBe(0)
         expect(workerStatus.value).toBe('idle')
 
-        postMessage('hi')
-        postMessage('hi')
+        postWorkerMessage('hi')
+        postWorkerMessage('hi')
 
         expect(created).toBe(1)
         expect(workerStatus.value).toBe('running')
       })
 
-      test('"eager" option creates the worker on mount, not in setup', () => {
+      test('creates the worker on mount, not in setup', () => {
         const url = createScriptUrl()
         let result, statusAtSetup
         mount(
           defineComponent({
             setup() {
-              result = useWebWorker(url, { eager: true })
+              result = useWebWorker(url)
               statusAtSetup = result.workerStatus.value
               return () => h('div')
             }
@@ -374,23 +400,22 @@ describe('[useWebWorker API]', () => {
         expect(result.workerStatus.value).toBe('running')
       })
 
-      test('"eager" option creates the worker right away outside of a component', () => {
-        const { workerStatus, terminate } = useWebWorker(createScriptUrl(), {
-          eager: true
-        })
+      test('creates the worker right away outside of a component', () => {
+        const { workerStatus, terminateWorker } =
+          useWebWorker(createScriptUrl())
 
         expect(workerStatus.value).toBe('running')
-        terminate()
+        terminateWorker()
       })
 
-      test('creates the worker at a postMessage() before mount', async () => {
+      test('creates the worker at a postWorkerMessage() before mount', async () => {
         const url = createScriptUrl()
         let result, statusAtSetup
         const wrapper = mount(
           defineComponent({
             setup() {
               result = useWebWorker(url)
-              result.postMessage('early')
+              result.postWorkerMessage('early')
               statusAtSetup = result.workerStatus.value
               return () => h('div')
             }
@@ -399,95 +424,98 @@ describe('[useWebWorker API]', () => {
 
         expect(statusAtSetup).toBe('running')
         expect(result.workerStatus.value).toBe('running')
-        await expect.poll(() => result.data.value).toEqual({ echo: 'early' })
+        await expect
+          .poll(() => result.workerData.value)
+          .toEqual({ echo: 'early' })
 
         wrapper.unmount()
         expect(result.workerStatus.value).toBe('terminated')
       })
 
-      test('terminate() releases the worker and the next postMessage() creates a new one', async () => {
+      test('terminateWorker() releases the worker and the next postWorkerMessage() creates a new one', async () => {
         const url = createScriptUrl()
         const workers = []
-        const { workerStatus, data, postMessage, terminate } = mountWorker(
-          () => {
+        const { workerStatus, workerData, postWorkerMessage, terminateWorker } =
+          mountWorker(() => {
             const worker = new Worker(url)
             vi.spyOn(worker, 'terminate')
             workers.push(worker)
             return worker
-          }
-        )
+          })
 
-        postMessage(1)
-        await expect.poll(() => data.value).toEqual({ echo: 1 })
+        postWorkerMessage(1)
+        await expect.poll(() => workerData.value).toEqual({ echo: 1 })
 
-        terminate()
+        terminateWorker()
 
         expect(workers).toHaveLength(1)
         expect(workers[0].terminate).toHaveBeenCalledTimes(1)
         expect(workerStatus.value).toBe('idle')
 
-        postMessage(2)
+        postWorkerMessage(2)
 
         expect(workers).toHaveLength(2)
         expect(workerStatus.value).toBe('running')
-        await expect.poll(() => data.value).toEqual({ echo: 2 })
+        await expect.poll(() => workerData.value).toEqual({ echo: 2 })
       })
 
-      test('terminate() before the worker exists keeps it idle', () => {
+      test('terminateWorker() before the worker exists keeps it idle', () => {
         const url = createScriptUrl()
         let created = 0
-        const { workerStatus, postMessage, terminate } = mountWorker(() => {
-          created++
-          return new Worker(url)
-        })
+        const { workerStatus, postWorkerMessage, terminateWorker } =
+          mountWorker(
+            () => {
+              created++
+              return new Worker(url)
+            },
+            { lazy: true }
+          )
 
-        terminate()
+        terminateWorker()
 
         expect(created).toBe(0)
         expect(workerStatus.value).toBe('idle')
 
-        postMessage('now')
+        postWorkerMessage('now')
         expect(created).toBe(1)
         expect(workerStatus.value).toBe('running')
       })
 
-      test('"eager" worker is not re-created by terminate()', () => {
+      test('the worker created on mount is not re-created by terminateWorker()', () => {
         const url = createScriptUrl()
         let created = 0
-        const { workerStatus, postMessage, terminate } = mountWorker(
-          () => {
+        const { workerStatus, postWorkerMessage, terminateWorker } =
+          mountWorker(() => {
             created++
             return new Worker(url)
-          },
-          { eager: true }
-        )
+          })
 
         expect(created).toBe(1)
 
-        terminate()
+        terminateWorker()
 
         expect(created).toBe(1)
         expect(workerStatus.value).toBe('idle')
 
-        postMessage('again')
+        postWorkerMessage('again')
         expect(created).toBe(2)
       })
 
       test('does not create the worker after unmount', () => {
         const url = createScriptUrl()
         let created = 0
-        const { wrapper, workerStatus, postMessage } = mountWorker(() => {
+        const { wrapper, workerStatus, postWorkerMessage } = mountWorker(() => {
           created++
           return new Worker(url)
         })
 
-        postMessage('hi')
+        postWorkerMessage('hi')
         expect(created).toBe(1)
 
         wrapper.unmount()
         expect(workerStatus.value).toBe('terminated')
 
-        postMessage('never')
+        postWorkerMessage('never')
         expect(created).toBe(1)
         expect(workerStatus.value).toBe('terminated')
       })
@@ -496,9 +524,7 @@ describe('[useWebWorker API]', () => {
         const instance = new Worker(createScriptUrl())
         const terminateSpy = vi.spyOn(instance, 'terminate')
 
-        const { wrapper, workerStatus } = mountWorker(instance, {
-          eager: true
-        })
+        const { wrapper, workerStatus } = mountWorker(instance)
 
         expect(terminateSpy).not.toHaveBeenCalled()
         expect(workerStatus.value).toBe('running')
@@ -509,24 +535,24 @@ describe('[useWebWorker API]', () => {
         expect(workerStatus.value).toBe('terminated')
       })
 
-      test('can be used outside of a component', async () => {
-        const { workerStatus, data, postMessage, terminate } =
-          useWebWorker(createScriptUrl())
+      test('"lazy" option waits for the first postWorkerMessage() outside of a component', async () => {
+        const { workerStatus, workerData, postWorkerMessage, terminateWorker } =
+          useWebWorker(createScriptUrl(), { lazy: true })
 
         expect(workerStatus.value).toBe('idle')
 
-        postMessage('hi')
+        postWorkerMessage('hi')
         expect(workerStatus.value).toBe('running')
-        await expect.poll(() => data.value).toEqual({ echo: 'hi' })
+        await expect.poll(() => workerData.value).toEqual({ echo: 'hi' })
 
-        terminate()
+        terminateWorker()
         expect(workerStatus.value).toBe('idle')
       })
 
       test('a passed-in Worker instance stops replying after unmount', async () => {
         // the composable owns the lifecycle regardless of the source form
         const instance = new Worker(createScriptUrl())
-        const { wrapper } = mountWorker(instance, { eager: true })
+        const { wrapper } = mountWorker(instance)
 
         const reply = nextMessage(instance)
         instance.postMessage('direct')

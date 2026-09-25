@@ -13,12 +13,12 @@ The `useWebWorker()` composable connects a component to a [Web Worker](https://d
 Use it for a long-lived worker with its own protocol (a parser fed with chunks, a search index, a simulation that streams progress). To simply run one function off the main thread and await its result, [useWebWorkerFn](/vue-composables/use-web-worker-fn) is the better fit.
 
 > [!NOTE]
-> On the server-side of SSR or SSG modes, no worker gets created: `workerStatus` stays `idle`, `postMessage()` does nothing and no message ever arrives.
+> On the server-side of SSR or SSG modes, no worker gets created: `workerStatus` stays `idle`, `postWorkerMessage()` does nothing and no message ever arrives. The worker is created on the client once the component is mounted, so the status is `idle` before hydration too.
 
 > [!TIP]
 > **Outside of a component**
 >
-> The composable can also be called outside of `setup()`: in a boot file, a store or a plain module. There is no mount to wait for there, so `eager: true` creates the worker right away, and nothing terminates it by itself: call `terminate()` when you are done.
+> The composable can also be called outside of `setup()`: in a boot file, a store or a plain module. There is no mount to wait for there, so the worker is created right away (unless `lazy` is set) and nothing terminates it by itself: call `terminateWorker()` when you are done.
 
 ## Syntax
 
@@ -26,18 +26,25 @@ Use it for a long-lived worker with its own protocol (a parser fed with chunks, 
 import { useWebWorker } from 'quasar'
 
 setup () {
-  const { workerStatus, data, error, postMessage, terminate } = useWebWorker(
+  const {
+    workerStatus,
+    workerData,
+    workerError,
+    postWorkerMessage,
+    terminateWorker
+  } = useWebWorker(
     source,
     {
       // all optional:
+
+      lazy: true, // do not create the worker on mount;
+                  // the first postWorkerMessage() does it
 
       // the native Worker options, used when "source" is a URL:
       type: 'module',            // 'module' (default) or 'classic'
       name: 'primes',            // labels the worker in the devtools
       credentials: 'same-origin', // for a module worker script
 
-      eager: true, // create the worker on mount instead of
-                   // at the first postMessage()
       onMessage (data, evt) { // called with each message from the worker
         // ...
       },
@@ -61,7 +68,7 @@ setup () {
 function useWebWorker<Data = any>(
   source: string | URL | Worker | ((options?: WorkerOptions) => Worker),
   options?: WorkerOptions & {
-    eager?: boolean
+    lazy?: boolean
     onMessage?: (data: any, evt: MessageEvent) => void
     onError?: (evt: ErrorEvent | MessageEvent) => void
     onCreate?: (worker: Worker) => void
@@ -69,10 +76,10 @@ function useWebWorker<Data = any>(
   }
 ): {
   workerStatus: Ref<'idle' | 'running' | 'terminated'>
-  data: ShallowRef<Data | null>
-  error: ShallowRef<ErrorEvent | MessageEvent | null>
-  postMessage: (message: any, transfer?: Transferable[]) => void
-  terminate: () => void
+  workerData: ShallowRef<Data | null>
+  workerError: ShallowRef<ErrorEvent | MessageEvent | null>
+  postWorkerMessage: (message: any, transfer?: Transferable[]) => void
+  terminateWorker: () => void
 }
 ```
 
@@ -82,15 +89,15 @@ The `source` can be:
 - a `Worker` instance you already created
 - a function returning a `Worker`; the default export of a Vite `?worker` import is such a function, and so is an arrow function wrapping `new Worker(new URL('./worker.js', import.meta.url), { type: 'module' })`, which keeps the script statically analyzable by the bundler; the function receives the native options as its argument, so a `?worker` constructor picks up the `name` you set
 
-The worker gets created at the first `postMessage()`, so a component that never talks to it never starts a thread. Set `eager: true` for a worker that must be up as soon as the component is mounted, typically one that sends messages on its own (a script that boots a WASM module and reports when ready, a ticker). Either way the worker is terminated when the component gets destroyed, whatever form the `source` took. `workerStatus` follows this lifecycle: `idle` while there is no worker (on the server and on the client alike, so markup that depends on it hydrates without a mismatch), `running` while it is alive and `terminated` once the component got destroyed.
+The worker gets created when the component is mounted (or right away, when the composable is used outside of a component), so a worker that sends messages on its own (a script that boots a WASM module and reports when ready, a ticker) is up from the start. Set `lazy: true` for a worker that should wait for your first `postWorkerMessage()` instead: a component that never talks to it then never starts a thread. Either way the worker is terminated when the component gets destroyed, whatever form the `source` took. `workerStatus` follows this lifecycle: `idle` while there is no worker (on the server and on the client alike, so markup that depends on it hydrates without a mismatch), `running` while it is alive and `terminated` once the component got destroyed.
 
-`data` holds the `data` of the last message received from the worker and `error` the last `error` (the worker threw or failed to load) or `messageerror` (a message could not be deserialized) event. The `onMessage` and `onError` hooks get called in the same situations, so you do not need to watch the refs. An error of the worker is still reported to the console as usual; call `evt.preventDefault()` in `onError` if you handled it.
+`workerData` holds the `data` of the last message received from the worker and `workerError` the last `error` (the worker threw or failed to load) or `messageerror` (a message could not be deserialized) event. The `onMessage` and `onError` hooks get called in the same situations, so you do not need to watch the refs. An error of the worker is still reported to the console as usual; call `evt.preventDefault()` in `onError` if you handled it.
 
-`postMessage(message, transfer)` sends a message to the worker, moving the objects in the optional `transfer` list (an `ArrayBuffer`, a `MessagePort`, an `ImageBitmap`...) instead of copying them. It does nothing once the component got destroyed.
+`postWorkerMessage(message, transfer)` sends a message to the worker (creating it first when there is none), moving the objects in the optional `transfer` list (an `ArrayBuffer`, a `MessagePort`, an `ImageBitmap`...) instead of copying them. It does nothing once the component got destroyed.
 
-`terminate()` kills the worker and puts `workerStatus` back to `idle`: the next `postMessage()` creates a new worker from the `source` (also with `eager: true`, which only applies at mount). Use it to free the thread when a job is done or to abort one that runs too long, then talk to the worker again whenever you need it. The exception is a `Worker` instance passed as `source`: it cannot be created again, so `terminate()` is final for it and `workerStatus` becomes `terminated`.
+`terminateWorker()` kills the worker and puts `workerStatus` back to `idle`: the next `postWorkerMessage()` creates a new worker from the `source` (the mount-time creation does not happen again). Use it to free the thread when a job is done or to abort one that runs too long, then talk to the worker again whenever you need it. The exception is a `Worker` instance passed as `source`: it cannot be created again, so `terminateWorker()` is final for it and `workerStatus` becomes `terminated`.
 
-`onCreate(worker)` gets called with each `Worker` the composable starts using, so it is the place to send a setup message (a configuration, a `MessagePort`) that every fresh worker needs. `onTerminate(worker, reason)` gets called right after a worker got killed, with `reason` set to `'terminate'` for a `terminate()` call or `'unmount'` for the component being destroyed; reject pending requests or reset progress state there.
+`onCreate(worker)` gets called with each `Worker` the composable starts using, so it is the place to send a setup message (a configuration, a `MessagePort`) that every fresh worker needs. `onTerminate(worker, reason)` gets called right after a worker got killed, with `reason` set to `'terminate'` for a `terminateWorker()` call or `'unmount'` for the component being destroyed; reject pending requests or reset progress state there.
 
 ## Writing the worker
 
@@ -111,12 +118,12 @@ onmessage = ({ data }) => {
 import { useWebWorker } from 'quasar'
 
 setup () {
-  const { data, postMessage } = useWebWorker(
+  const { workerData, postWorkerMessage } = useWebWorker(
     () => new Worker(new URL('../workers/primes.js', import.meta.url), { type: 'module' })
   )
 
   function compute () {
-    postMessage({ count: 1000 })
+    postWorkerMessage({ count: 1000 })
   }
 
   // ...
@@ -128,7 +135,7 @@ The `?worker` import form works too:
 ```js
 import PrimesWorker from '../workers/primes.js?worker'
 
-const { data, postMessage } = useWebWorker(PrimesWorker)
+const { workerData, postWorkerMessage } = useWebWorker(PrimesWorker)
 ```
 
 ## Example

@@ -17,8 +17,8 @@
 
     <div class="q-gutter-sm row items-center">
       <div>Measured:</div>
-      <q-badge :label="`width: ${width}`" />
-      <q-badge :label="`height: ${height}`" />
+      <q-badge :label="`width: ${elementSize.width}`" />
+      <q-badge :label="`height: ${elementSize.height}`" />
       <q-badge color="secondary" :label="`reports: ${reports}`" />
     </div>
   </div>
@@ -26,7 +26,7 @@
 
 <script setup>
 import { computed, ref, useTemplateRef } from 'vue'
-import { useElementResize } from 'quasar'
+import { useElementSize } from 'quasar'
 
 const boxRef = useTemplateRef('boxRef')
 
@@ -39,7 +39,7 @@ const style = computed(() => ({
   height: boxHeight.value + 'px'
 }))
 
-const { width, height } = useElementResize({
+const { elementSize } = useElementSize({
   target: boxRef,
   onResize() {
     reports.value++

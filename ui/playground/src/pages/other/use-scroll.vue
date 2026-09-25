@@ -6,8 +6,13 @@
         <div class="row q-gutter-sm items-center">
           <q-toggle v-model="disabled" label="disabled" />
           <q-toggle v-model="debounced" label="debounce 300ms" />
-          <q-btn flat label="refresh()" @click="refresh" />
-          <q-btn flat color="negative" label="stop()" @click="stop" />
+          <q-btn flat label="refreshScroll()" @click="refreshScroll" />
+          <q-btn
+            flat
+            color="negative"
+            label="stopScroll()"
+            @click="stopScroll"
+          />
         </div>
       </q-card-section>
       <q-separator />
@@ -18,16 +23,18 @@
           </div>
         </div>
         <div class="q-mt-md q-gutter-sm">
-          <q-badge :label="`top: ${position.top}`" />
-          <q-badge :label="`left: ${position.left}`" />
-          <q-badge :label="`direction: ${direction}`" />
+          <q-badge :label="`top: ${scrollPosition.top}`" />
+          <q-badge :label="`left: ${scrollPosition.left}`" />
+          <q-badge :label="`direction: ${scrollDirection}`" />
           <q-badge
-            :color="directionChanged ? 'positive' : 'grey'"
-            :label="directionChanged ? 'direction changed' : 'same direction'"
+            :color="scrollDirectionChanged ? 'positive' : 'grey'"
+            :label="
+              scrollDirectionChanged ? 'direction changed' : 'same direction'
+            "
           />
-          <q-badge :label="`delta: ${delta.top} / ${delta.left}`" />
+          <q-badge :label="`delta: ${scrollDelta.top} / ${scrollDelta.left}`" />
           <q-badge
-            :label="`inflection: ${inflectionPoint.top} / ${inflectionPoint.left}`"
+            :label="`inflection: ${scrollInflectionPoint.top} / ${scrollInflectionPoint.left}`"
           />
           <q-badge color="secondary" :label="`onScroll calls: ${calls}`" />
         </div>
@@ -38,10 +45,12 @@
       <q-card-section>
         <div class="text-h6">page (auto detected from the root element)</div>
         <div class="q-gutter-sm">
-          <q-badge :label="`top: ${page.position.value.top}`" />
-          <q-badge :label="`direction: ${page.direction.value}`" />
-          <q-badge :label="`delta: ${page.delta.value.top}`" />
-          <q-badge :label="`inflection: ${page.inflectionPoint.value.top}`" />
+          <q-badge :label="`top: ${page.scrollPosition.value.top}`" />
+          <q-badge :label="`direction: ${page.scrollDirection.value}`" />
+          <q-badge :label="`delta: ${page.scrollDelta.value.top}`" />
+          <q-badge
+            :label="`inflection: ${page.scrollInflectionPoint.value.top}`"
+          />
         </div>
       </q-card-section>
     </q-card>
@@ -59,8 +68,8 @@
           <div v-for="n in 40" :key="n" class="q-pa-sm">Line #{{ n }}</div>
         </div>
         <div class="q-mt-md q-gutter-sm">
-          <q-badge :label="`top: ${inner.position.value.top}`" />
-          <q-badge :label="`direction: ${inner.direction.value}`" />
+          <q-badge :label="`top: ${inner.scrollPosition.value.top}`" />
+          <q-badge :label="`direction: ${inner.scrollDirection.value}`" />
         </div>
       </q-card-section>
     </q-card>
@@ -83,13 +92,13 @@ const calls = ref(0)
 const page = useScroll()
 
 const {
-  position,
-  direction,
-  directionChanged,
-  delta,
-  inflectionPoint,
-  refresh,
-  stop
+  scrollPosition,
+  scrollDirection,
+  scrollDirectionChanged,
+  scrollDelta,
+  scrollInflectionPoint,
+  refreshScroll,
+  stopScroll
 } = useScroll(() => ({
   scrollTarget: boxRef,
   axis: 'both',

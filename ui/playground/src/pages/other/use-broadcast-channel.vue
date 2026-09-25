@@ -9,10 +9,14 @@
         <div class="text-h6">channel "playground", auto open</div>
         <div class="row q-gutter-sm items-center">
           <q-input v-model="text" dense outlined label="text" />
-          <q-btn color="primary" label="postMessage(text)" @click="sendText" />
           <q-btn
             color="primary"
-            label="postMessage(object)"
+            label="postChannelMessage(text)"
+            @click="sendText"
+          />
+          <q-btn
+            color="primary"
+            label="postChannelMessage(object)"
             @click="sendObject"
           />
           <q-btn
@@ -32,17 +36,23 @@
       </q-card-section>
       <q-separator />
       <q-card-section>
-        <div>channelStatus: {{ channelStatus }}</div>
+        <div>isChannelConnected: {{ isChannelConnected }}</div>
+        <div>onConnect calls: {{ connects }}</div>
+        <div>onClose calls: {{ closes }}</div>
         <div>onMessage calls: {{ messages }}</div>
-        <div>error: {{ error === null ? 'null' : error.type }}</div>
+        <div>
+          channelError: {{ channelError === null ? 'null' : channelError.type }}
+        </div>
         <div>thrown: {{ thrown }}</div>
-        <div class="ellipsis">data: {{ JSON.stringify(data) }}</div>
+        <div class="ellipsis"
+          >channelData: {{ JSON.stringify(channelData) }}</div
+        >
       </q-card-section>
     </q-card>
 
     <q-card flat bordered>
       <q-card-section>
-        <div class="text-h6">reactive name, manualConnect</div>
+        <div class="text-h6">reactive name, lazy</div>
         <div class="row q-gutter-sm items-center">
           <q-select
             v-model="room"
@@ -64,15 +74,16 @@
           />
           <q-btn
             color="primary"
-            :label="`postMessage() on ${room}`"
-            @click="reactive.postMessage(`hello from ${room}`)"
+            :label="`postChannelMessage() on ${room}`"
+            @click="reactive.postChannelMessage(`hello from ${room}`)"
           />
         </div>
       </q-card-section>
       <q-separator />
       <q-card-section>
-        <div>channelStatus: {{ reactive.channelStatus.value }}</div>
-        <div>data: {{ reactive.data.value }}</div>
+        <div>isChannelConnected: {{ reactive.isChannelConnected.value }}</div>
+        <div>channelData: {{ reactive.channelData.value }}</div>
+        <div>onClose reasons: {{ reasons.join(', ') || 'none' }}</div>
       </q-card-section>
     </q-card>
   </div>
@@ -84,32 +95,40 @@ import { useBroadcastChannel } from 'quasar'
 
 const text = ref('hi')
 const messages = ref(0)
+const connects = ref(0)
+const closes = ref(0)
 const thrown = ref('none')
 
 const {
-  channelStatus,
-  data,
-  error,
-  postMessage,
+  isChannelConnected,
+  channelData,
+  channelError,
+  postChannelMessage,
   connectChannel,
   closeChannel
 } = useBroadcastChannel('playground', {
+  onConnect() {
+    connects.value++
+  },
   onMessage() {
     messages.value++
+  },
+  onClose() {
+    closes.value++
   }
 })
 
 function sendText() {
-  postMessage(text.value)
+  postChannelMessage(text.value)
 }
 
 function sendObject() {
-  postMessage({ text: text.value, at: new Date(), list: [1, 2, 3] })
+  postChannelMessage({ text: text.value, at: new Date(), list: [1, 2, 3] })
 }
 
 function sendFunction() {
   try {
-    postMessage(() => {})
+    postChannelMessage(() => {})
     thrown.value = 'nothing'
   } catch (err) {
     thrown.value = err.name
@@ -117,5 +136,11 @@ function sendFunction() {
 }
 
 const room = ref('room-a')
-const reactive = useBroadcastChannel(room, { manualConnect: true })
+const reasons = ref([])
+const reactive = useBroadcastChannel(room, {
+  lazy: true,
+  onClose(reason) {
+    reasons.value.push(reason)
+  }
+})
 </script>

@@ -46,7 +46,7 @@ describe('[useMutation API]', () => {
 
         expect(result).toStrictEqual({
           mutationRecords: expect.$ref([]),
-          stop: expect.any(Function)
+          stopMutation: expect.any(Function)
         })
       })
 
@@ -172,7 +172,7 @@ describe('[useMutation API]', () => {
 
         expect(onMutation).toHaveBeenCalledOnce()
 
-        result.stop()
+        result.stopMutation()
         el.remove()
       })
 
@@ -181,13 +181,13 @@ describe('[useMutation API]', () => {
         document.body.append(el)
 
         const onMutation = vi.fn()
-        const { stop } = useMutation({ target: el, onMutation })
+        const { stopMutation } = useMutation({ target: el, onMutation })
 
         el.dataset.x = '1'
         await deliver()
         expect(onMutation).toHaveBeenCalledOnce()
 
-        stop()
+        stopMutation()
         el.dataset.x = '2'
         await deliver()
         expect(onMutation).toHaveBeenCalledOnce()
@@ -408,15 +408,15 @@ describe('[useMutation API]', () => {
         expect(seen).toBe(true)
       })
 
-      test('stop() ends the observation for good', async () => {
+      test('stopMutation() ends the observation for good', async () => {
         const onMutation = vi.fn()
         const disabled = ref(false)
-        const { el, stop } = mountTarget(() => ({
+        const { el, stopMutation } = mountTarget(() => ({
           onMutation,
           disabled: disabled.value
         }))
 
-        stop()
+        stopMutation()
 
         disabled.value = true
         disabled.value = false

@@ -8,7 +8,12 @@
           <q-btn color="primary" label="Remove child" @click="removeChild" />
           <q-btn color="primary" label="Set attribute" @click="setAttr" />
           <q-btn color="primary" label="Edit text" @click="editText" />
-          <q-btn flat color="negative" label="stop()" @click="stop" />
+          <q-btn
+            flat
+            color="negative"
+            label="stopMutation()"
+            @click="stopMutation"
+          />
         </div>
         <div class="row q-gutter-sm items-center q-mt-sm">
           <q-toggle v-model="disabled" label="disabled" />
@@ -66,7 +71,7 @@ const childListOnly = ref(false)
 const batches = ref(0)
 const lastTypes = ref('none')
 
-const { mutationRecords, stop } = useMutation(() => ({
+const { mutationRecords, stopMutation } = useMutation(() => ({
   target: boxRef,
   disabled: disabled.value,
   once: once.value,

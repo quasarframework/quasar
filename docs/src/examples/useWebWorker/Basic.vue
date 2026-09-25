@@ -11,26 +11,26 @@
       />
       <q-btn
         color="primary"
-        label="postMessage()"
+        label="postWorkerMessage()"
         no-caps
-        @click="postMessage({ count })"
+        @click="postWorkerMessage({ count })"
       />
       <q-btn
         color="negative"
-        label="terminate()"
+        label="terminateWorker()"
         no-caps
         :disable="workerStatus !== 'running'"
-        @click="terminate"
+        @click="terminateWorker"
       />
     </div>
 
     <div v-if="workerStatus === 'idle'"
-      >No worker running (the next postMessage creates one)</div
+      >No worker running (the next postWorkerMessage creates one)</div
     >
-    <div v-else-if="data === null">No message received yet</div>
+    <div v-else-if="workerData === null">No message received yet</div>
     <div v-else>
-      Largest prime among the first {{ data.count }}:
-      {{ data.largest }} (computed in {{ data.ms }}ms)
+      Largest prime among the first {{ workerData.count }}:
+      {{ workerData.largest }} (computed in {{ workerData.ms }}ms)
     </div>
   </div>
 </template>
@@ -59,9 +59,10 @@ onmessage = ({ data }) => {
 const count = ref(2000)
 
 // revoked when the component gets destroyed
-const { url } = useObjectUrl(new Blob([script], { type: 'text/javascript' }))
-
-const { workerStatus, data, postMessage, terminate } = useWebWorker(
-  () => new Worker(url.value)
+const { objectUrl } = useObjectUrl(
+  new Blob([script], { type: 'text/javascript' })
 )
+
+const { workerStatus, workerData, postWorkerMessage, terminateWorker } =
+  useWebWorker(() => new Worker(objectUrl.value))
 </script>

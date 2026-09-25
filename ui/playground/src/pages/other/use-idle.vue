@@ -14,7 +14,7 @@
           />
           <q-toggle v-model="disabled" label="disabled" />
           <q-btn flat color="primary" label="resetIdle()" @click="resetIdle" />
-          <q-btn flat color="negative" label="stop()" @click="stop" />
+          <q-btn flat color="negative" label="stopIdle()" @click="stopIdle" />
         </div>
       </q-card-section>
       <q-separator />
@@ -69,7 +69,7 @@ const disabled = ref(false)
 const log = ref([])
 let logId = 0
 
-const { isIdle, lastActive, resetIdle, stop } = useIdle(() => ({
+const { isIdle, lastActive, resetIdle, stopIdle } = useIdle(() => ({
   timeout: timeout.value,
   disabled: disabled.value,
   onIdle

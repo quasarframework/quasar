@@ -12,7 +12,7 @@ import { noop } from '../../utils/event/event.js'
 
 /*
  * Usage:
- *    const { mutationRecords, stop } = useMutation(options)
+ *    const { mutationRecords, stopMutation } = useMutation(options)
  *
  * mutationRecords - the last batch of MutationRecord delivered
  *
@@ -68,7 +68,7 @@ export default function useMutation(options) {
   const mutationRecords = shallowRef([])
 
   if (__QUASAR_SSR_SERVER__) {
-    return { mutationRecords, stop: noop }
+    return { mutationRecords, stopMutation: noop }
   }
 
   const vm = getCurrentInstance()
@@ -78,7 +78,7 @@ export default function useMutation(options) {
     once = false,
     onMutation,
     // `done` once a `once` batch got delivered; `stopped` once the
-    // handler (or stop()) asked to end it for good
+    // handler (or stopMutation()) asked to end it for good
     done = false,
     stopped = false
 
@@ -156,7 +156,7 @@ export default function useMutation(options) {
   return {
     mutationRecords,
 
-    stop() {
+    stopMutation() {
       done = true
       stopped = true
       release()

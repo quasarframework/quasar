@@ -10,7 +10,7 @@
         @click="openFilePicker"
       />
       <q-btn
-        v-if="url"
+        v-if="objectUrl"
         push
         color="negative"
         label="Clear"
@@ -20,8 +20,8 @@
     </div>
 
     <q-img
-      v-if="url"
-      :src="url"
+      v-if="objectUrl"
+      :src="objectUrl"
       fit="contain"
       class="q-mt-md rounded-borders"
       style="max-width: 300px; max-height: 200px"
@@ -42,5 +42,5 @@ const { openFilePicker } = useFilePicker({
   }
 })
 
-const { url } = useObjectUrl(image)
+const { objectUrl } = useObjectUrl(image)
 </script>
