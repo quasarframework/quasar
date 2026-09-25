@@ -70,6 +70,17 @@ describe('[useIdle API]', () => {
         expect(isIdle.value).toBe(true)
       })
 
+      test('falls back to the default for a null timeout and accepts a numeric String', () => {
+        const options = ref({ timeout: null })
+        const { isIdle } = mountIdle(options)
+
+        vi.advanceTimersByTime(defaultTimeout - 1)
+        expect(isIdle.value).toBe(false)
+
+        options.value = { timeout: String(timeout) }
+        expect(isIdle.value).toBe(true)
+      })
+
       test('an activity postpones the idle state for a full timeout', () => {
         const { isIdle } = mountIdle({ timeout })
 

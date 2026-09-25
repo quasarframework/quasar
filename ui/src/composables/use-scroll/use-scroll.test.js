@@ -530,6 +530,33 @@ describe('[useScroll API]', () => {
         )
       })
 
+      test('another container resets the direction, delta and inflection point', () => {
+        const first = createContainer()
+        const second = createContainer()
+        const scrollTarget = ref(first)
+        const {
+          scrollPosition,
+          scrollDirection,
+          scrollDirectionChanged,
+          scrollDelta,
+          scrollInflectionPoint
+        } = mountTracker(() => ({ scrollTarget: scrollTarget.value }))
+
+        scrollTo(first, 40)
+        scrollTo(first, 30)
+        expect(scrollDirection.value).toBe('up')
+        expect(scrollDirectionChanged.value).toBe(true)
+        expect(scrollDelta.value).toStrictEqual({ top: -10, left: 0 })
+        expect(scrollInflectionPoint.value).toStrictEqual({ top: 30, left: 0 })
+
+        scrollTarget.value = second
+        expect(scrollPosition.value).toStrictEqual({ top: 0, left: 0 })
+        expect(scrollDirection.value).toBe('down')
+        expect(scrollDirectionChanged.value).toBe(false)
+        expect(scrollDelta.value).toStrictEqual({ top: 0, left: 0 })
+        expect(scrollInflectionPoint.value).toStrictEqual({ top: 0, left: 0 })
+      })
+
       test('picks up a target that appears later', async () => {
         const container = createContainer()
         const show = ref(false)

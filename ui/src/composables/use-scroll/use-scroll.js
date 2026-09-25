@@ -196,6 +196,18 @@ export default function useScroll(options) {
       if (top !== 0 || left !== 0) {
         top = left = 0
         scrollPosition.value = { top, left }
+        scrollDelta.value = { top, left }
+      }
+      if (dir !== 'down') {
+        dir = 'down'
+        scrollDirection.value = dir
+      }
+      if (scrollDirectionChanged.value) {
+        scrollDirectionChanged.value = false
+      }
+      if (inflection.top !== 0 || inflection.left !== 0) {
+        inflection = { top: 0, left: 0 }
+        scrollInflectionPoint.value = inflection
       }
     }
 

@@ -20,7 +20,8 @@ import { noop } from '../../utils/event/event.js'
  * stopIdle   - ends the tracking for good
  *
  * options - plain object, ref or getter of:
- *    timeout  - ms of inactivity before isIdle becomes true (default: 60000)
+ *    timeout  - ms of inactivity before isIdle becomes true (Number or
+ *               numeric String; default: 60000)
  *    events   - Array of event names (listened on document) that count as
  *               an activity (default: mousemove, mousedown, keydown,
  *               touchstart, wheel)
@@ -148,7 +149,11 @@ export default function useIdle(options) {
       return
     }
 
-    const newTimeout = Number(opts.timeout)
+    // null/undefined/NaN fall back to the default, a numeric String is fine
+    const newTimeout =
+      opts.timeout === void 0 || opts.timeout === null
+        ? Number.NaN
+        : Number(opts.timeout)
     timeout = Number.isNaN(newTimeout) ? defaultTimeout : newTimeout
 
     // (re)starting counts as an activity
