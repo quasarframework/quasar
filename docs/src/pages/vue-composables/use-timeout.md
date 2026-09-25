@@ -12,6 +12,11 @@ In other words, if you want to schedule a function after a delay but you might w
 > [!NOTE]
 > On the server-side of SSR or SSG modes, registering a timeout is a no-op. Start server-side work explicitly outside the component rendering lifecycle rather than creating a timer during `setup()`.
 
+> [!TIP]
+> **Outside of a component**
+>
+> The composable can also be called outside of `setup()`: in a boot file, a store or a plain module. Nothing cancels a pending timeout by itself there, as no component gets destroyed or deactivated: call `removeTimeout()` when you no longer want it to fire.
+
 ## Syntax
 
 ```js

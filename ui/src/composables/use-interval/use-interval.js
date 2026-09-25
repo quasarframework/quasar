@@ -32,15 +32,17 @@ export default function useInterval() {
     }
   }
 
-  onDeactivated(removeInterval)
-  onBeforeUnmount(removeInterval)
+  if (vm !== null) {
+    onDeactivated(removeInterval)
+    onBeforeUnmount(removeInterval)
+  }
 
   return {
     isIntervalActive,
     removeInterval,
 
     registerInterval(fn, delay) {
-      if (vmIsDestroyed(vm)) return
+      if (vm !== null && vmIsDestroyed(vm)) return
 
       removeInterval()
       isIntervalActive.value = true

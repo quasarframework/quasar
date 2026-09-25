@@ -11,6 +11,11 @@ In other words, if you want to schedule a function on the next Vue "tick" but yo
 
 The useTick composable also automatically cancels the next registered "tick" (if any was registered and still pending) when your component gets destroyed or deactivated (keep-alive related).
 
+> [!TIP]
+> **Outside of a component**
+>
+> The composable can also be called outside of `setup()`: in a boot file, a store or a plain module. Nothing cancels a pending tick by itself there, as no component gets destroyed or deactivated: call `removeTick()` when you no longer want it to run.
+
 ## Syntax
 
 ```js

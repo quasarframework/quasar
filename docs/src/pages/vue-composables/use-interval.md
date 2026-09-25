@@ -9,6 +9,11 @@ The `useInterval()` composable is similar in scope with the native `setInterval(
 
 On an SSR server, registering an interval is a no-op. Start server-side work explicitly outside the component rendering lifecycle rather than creating a timer during `setup()`.
 
+> [!TIP]
+> **Outside of a component**
+>
+> The composable can also be called outside of `setup()`: in a boot file, a store or a plain module. Nothing stops the interval by itself there, as no component gets destroyed or deactivated: call `removeInterval()` when you are done.
+
 ## Syntax
 
 ```js

@@ -12,6 +12,11 @@ In other words, if you want to schedule a function on the next animation frame b
 > [!NOTE]
 > On the server-side of SSR or SSG modes, registering an animation frame is a no-op. Start server-side work explicitly outside the component rendering lifecycle rather than creating a timer during `setup()`.
 
+> [!TIP]
+> **Outside of a component**
+>
+> The composable can also be called outside of `setup()`: in a boot file, a store or a plain module. Nothing cancels a pending frame by itself there, as no component gets destroyed or deactivated: call `removeAnimationFrame()` when you no longer want it to run.
+
 ## Syntax
 
 ```js

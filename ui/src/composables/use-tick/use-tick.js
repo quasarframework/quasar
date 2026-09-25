@@ -21,8 +21,10 @@ export default function useTick() {
     tickFn = void 0
   }
 
-  onDeactivated(removeTick)
-  onBeforeUnmount(removeTick)
+  if (vm !== null) {
+    onDeactivated(removeTick)
+    onBeforeUnmount(removeTick)
+  }
 
   return {
     removeTick,
@@ -34,7 +36,7 @@ export default function useTick() {
         if (tickFn === fn) {
           // we also check if VM is destroyed, since if it
           // got to trigger one nextTick() we cannot stop it
-          if (!vmIsDestroyed(vm)) tickFn()
+          if (vm === null || !vmIsDestroyed(vm)) tickFn()
           tickFn = void 0
         }
       })

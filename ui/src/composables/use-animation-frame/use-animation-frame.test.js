@@ -117,6 +117,28 @@ describe('[useAnimationFrame API]', () => {
         expect(fn1).not.toHaveBeenCalled()
         expect(fn2).toHaveBeenCalledTimes(1)
       })
+
+      test('works outside of a component instance', async () => {
+        const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
+        const fn = vi.fn()
+
+        const { registerAnimationFrame, removeAnimationFrame } =
+          useAnimationFrame()
+
+        // no lifecycle hook gets registered without an instance
+        expect(warn).not.toHaveBeenCalled()
+
+        registerAnimationFrame(fn)
+        await nextAnimationFrame()
+        expect(fn).toHaveBeenCalledTimes(1)
+
+        registerAnimationFrame(fn)
+        removeAnimationFrame()
+        await nextAnimationFrame()
+        expect(fn).toHaveBeenCalledTimes(1)
+
+        warn.mockRestore()
+      })
     })
   })
 })

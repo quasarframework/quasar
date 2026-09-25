@@ -32,15 +32,17 @@ export default function useTimeout() {
     }
   }
 
-  onDeactivated(removeTimeout)
-  onBeforeUnmount(removeTimeout)
+  if (vm !== null) {
+    onDeactivated(removeTimeout)
+    onBeforeUnmount(removeTimeout)
+  }
 
   return {
     isTimeoutPending,
     removeTimeout,
 
     registerTimeout(fn, delay) {
-      if (vmIsDestroyed(vm)) return
+      if (vm !== null && vmIsDestroyed(vm)) return
 
       removeTimeout()
       isTimeoutPending.value = true

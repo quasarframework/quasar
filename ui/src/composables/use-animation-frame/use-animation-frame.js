@@ -27,8 +27,10 @@ export default function useAnimationFrame() {
     }
   }
 
-  onDeactivated(removeAnimationFrame)
-  onBeforeUnmount(removeAnimationFrame)
+  if (vm !== null) {
+    onDeactivated(removeAnimationFrame)
+    onBeforeUnmount(removeAnimationFrame)
+  }
 
   return {
     removeAnimationFrame,
@@ -36,7 +38,7 @@ export default function useAnimationFrame() {
     registerAnimationFrame(fn) {
       removeAnimationFrame()
 
-      if (!vmIsDestroyed(vm)) {
+      if (vm === null || !vmIsDestroyed(vm)) {
         frameId = requestAnimationFrame(() => {
           frameId = null
           fn()

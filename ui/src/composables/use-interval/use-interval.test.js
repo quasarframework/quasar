@@ -229,6 +229,29 @@ describe('[useInterval API]', () => {
         vi.runAllTimers()
         expect(fn).not.toHaveBeenCalled()
       })
+
+      test('works outside of a component instance', () => {
+        const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
+        const fn = vi.fn()
+
+        const { registerInterval, removeInterval, isIntervalActive } =
+          useInterval()
+
+        // no lifecycle hook gets registered without an instance
+        expect(warn).not.toHaveBeenCalled()
+
+        registerInterval(fn, 100)
+        expect(isIntervalActive.value).toBe(true)
+
+        vi.advanceTimersByTime(200)
+        expect(fn).toHaveBeenCalledTimes(2)
+
+        removeInterval()
+        expect(isIntervalActive.value).toBe(false)
+
+        vi.runAllTimers()
+        expect(fn).toHaveBeenCalledTimes(2)
+      })
     })
   })
 })

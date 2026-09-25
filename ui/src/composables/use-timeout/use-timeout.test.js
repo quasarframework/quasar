@@ -262,6 +262,31 @@ describe('[useTimeout API]', () => {
         vi.runAllTimers()
         expect(fn).not.toHaveBeenCalled()
       })
+
+      test('works outside of a component instance', () => {
+        const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
+        const fn = vi.fn()
+
+        const { registerTimeout, removeTimeout, isTimeoutPending } =
+          useTimeout()
+
+        // no lifecycle hook gets registered without an instance
+        expect(warn).not.toHaveBeenCalled()
+
+        registerTimeout(fn, 100)
+        expect(isTimeoutPending.value).toBe(true)
+
+        vi.advanceTimersByTime(100)
+        expect(fn).toHaveBeenCalledTimes(1)
+        expect(isTimeoutPending.value).toBe(false)
+
+        registerTimeout(fn, 100)
+        removeTimeout()
+        expect(isTimeoutPending.value).toBe(false)
+
+        vi.runAllTimers()
+        expect(fn).toHaveBeenCalledTimes(1)
+      })
     })
   })
 })

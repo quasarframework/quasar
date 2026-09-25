@@ -110,6 +110,27 @@ describe('[useTick API]', () => {
         expect(fn1).not.toHaveBeenCalled()
         expect(fn2).toHaveBeenCalledTimes(1)
       })
+
+      test('works outside of a component instance', async () => {
+        const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
+        const fn = vi.fn()
+
+        const { registerTick, removeTick } = useTick()
+
+        // no lifecycle hook gets registered without an instance
+        expect(warn).not.toHaveBeenCalled()
+
+        registerTick(fn)
+        await flushPromises()
+        expect(fn).toHaveBeenCalledTimes(1)
+
+        registerTick(fn)
+        removeTick()
+        await flushPromises()
+        expect(fn).toHaveBeenCalledTimes(1)
+
+        warn.mockRestore()
+      })
     })
   })
 })
