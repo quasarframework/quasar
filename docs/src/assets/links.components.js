@@ -402,6 +402,11 @@ const directives = [
     tag: 'directive'
   },
   {
+    name: 'Drop Zone',
+    description: 'Accept files dropped on an element',
+    tag: 'directive'
+  },
+  {
     name: 'Intersection',
     description: 'Handle elements coming into the view',
     tag: 'directive'

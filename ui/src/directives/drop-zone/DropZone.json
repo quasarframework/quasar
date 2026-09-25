@@ -1,0 +1,131 @@
+{
+  "meta": {
+    "docsUrl": "https://v2.quasar.dev/vue-directives/drop-zone"
+  },
+
+  "value": {
+    "type": ["Boolean", "Object", "Function"],
+    "desc": "Boolean false (or undefined) to disable the directive (the element stops accepting drops until a handler is supplied again); Function to call with the dropped files (identical to description of 'handler' prop of the Object form); Object to also validate the dropped files the way QFile does",
+    "examples": [
+      "# v-drop-zone=\"myHandler\"",
+      "# v-drop-zone=\"isEnabled ? myHandler : false\"",
+      "# v-drop-zone=\"{ handler: myHandler, accept: 'image/*', maxFileSize: 1048576, onRejected: myRejectedHandler }\""
+    ],
+
+    "params": {
+      "files": {
+        "type": "Array",
+        "tsType": "File",
+        "required": true,
+        "desc": "The dropped File objects; only the first one unless the 'multiple' modifier is set; empty when the drag carried no files",
+        "examples": ["[ File, File ]"]
+      },
+
+      "evt": {
+        "type": "Event",
+        "required": true,
+        "desc": "The drop Event; its dataTransfer holds the other payloads of the drag (text, links)"
+      }
+    },
+
+    "definition": {
+      "handler": {
+        "type": "Function",
+        "required": true,
+        "desc": "The handler function to be called with the dropped files",
+        "params": {
+          "files": {
+            "type": "Array",
+            "tsType": "File",
+            "required": true,
+            "desc": "The dropped File objects that passed the validation; only the first one unless 'multiple' is set; empty when nothing passed or the drag carried no files",
+            "examples": ["[ File, File ]"]
+          },
+
+          "evt": {
+            "type": "Event",
+            "required": true,
+            "desc": "The drop Event; its dataTransfer holds the other payloads of the drag (text, links)"
+          }
+        },
+        "returns": null
+      },
+
+      "multiple": {
+        "type": "Boolean",
+        "desc": "Hand over every dropped file instead of the first one only; takes precedence over the 'multiple' modifier"
+      },
+
+      "accept": {
+        "type": "String",
+        "desc": "Comma separated list of unique file type specifiers, the same format as the 'accept' attribute of a native file input",
+        "examples": ["'.jpg, .pdf, image/*'", "'image/jpeg, .pdf'"]
+      },
+
+      "maxFileSize": {
+        "type": ["Number", "String"],
+        "desc": "Maximum size of individual file in bytes",
+        "examples": ["1024", "'1048576'"]
+      },
+
+      "maxTotalSize": {
+        "type": ["Number", "String"],
+        "desc": "Maximum size of all files combined in bytes",
+        "examples": ["10485760"]
+      },
+
+      "maxFiles": {
+        "type": ["Number", "String"],
+        "desc": "Maximum number of files per drop",
+        "examples": ["5"]
+      },
+
+      "filter": {
+        "type": "Function",
+        "desc": "Custom filter for the dropped files; only the files you return are handed over; for best performance, reference it from your scope and do not define it inline",
+        "params": {
+          "files": {
+            "type": "Array",
+            "tsType": "File",
+            "required": true,
+            "desc": "Candidate files"
+          }
+        },
+        "returns": {
+          "type": "Array",
+          "tsType": "File",
+          "desc": "The files that pass"
+        },
+        "examples": ["files => files.filter(file => file.size === 1024)"]
+      },
+
+      "activeClass": {
+        "type": "String",
+        "desc": "CSS class to apply to the element while a drag hovers it, instead of the default 'q-drop-zone--over'",
+        "examples": ["'my-zone--active'"]
+      },
+
+      "onRejected": {
+        "type": "Function",
+        "desc": "Called after a drop when some files do not pass the validation (accept, maxFileSize, maxTotalSize, maxFiles, filter)",
+        "params": {
+          "rejectedEntries": {
+            "type": "Array",
+            "tsType": "QRejectedEntry",
+            "required": true,
+            "desc": "Array of { failedPropValidation: string, file: File } Objects for files that do not pass the validation"
+          }
+        },
+        "returns": null
+      }
+    }
+  },
+
+  "modifiers": {
+    "multiple": {
+      "type": "Boolean",
+      "desc": "Hand over every dropped file instead of the first one only",
+      "examples": ["# v-drop-zone.multiple"]
+    }
+  }
+}

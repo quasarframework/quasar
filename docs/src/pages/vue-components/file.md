@@ -8,6 +8,7 @@ related:
   - /vue-components/input
   - /vue-composables/use-file-picker
   - /vue-composables/use-drop-zone
+  - /vue-directives/drop-zone
   - /vue-composables/use-object-url
 ---
 

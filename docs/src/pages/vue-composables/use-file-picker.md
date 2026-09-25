@@ -6,6 +6,7 @@ badge: v2.34+
 examples: useFilePicker
 related:
   - /vue-composables/use-drop-zone
+  - /vue-directives/drop-zone
   - /vue-composables/use-object-url
   - /vue-components/file
   - /vue-components/uploader

@@ -1,4 +1,5 @@
 export { default as ClosePopup } from './directives/close-popup/ClosePopup.js'
+export { default as DropZone } from './directives/drop-zone/DropZone.js'
 export { default as Intersection } from './directives/intersection/Intersection.js'
 export { default as Morph } from './directives/morph/Morph.js'
 export { default as Mutation } from './directives/mutation/Mutation.js'

@@ -567,6 +567,11 @@ export default [
         path: 'close-popup'
       },
       {
+        name: 'v-drop-zone',
+        badge: 'new',
+        path: 'drop-zone'
+      },
+      {
         name: 'v-intersection',
         path: 'intersection'
       },

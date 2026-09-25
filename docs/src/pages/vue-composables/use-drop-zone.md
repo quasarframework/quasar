@@ -5,6 +5,7 @@ keys: useDropZone
 badge: v2.34+
 examples: useDropZone
 related:
+  - /vue-directives/drop-zone
   - /vue-composables/use-file-picker
   - /vue-composables/use-object-url
   - /vue-components/file
@@ -15,7 +16,7 @@ The `useDropZone()` composable turns an element (or a component) into a target f
 
 The dropped files go through the same validation as [QFile](/vue-components/file) and [QUploader](/vue-components/uploader) (`accept`, `maxFileSize`, `maxTotalSize`, `maxFiles` and `filter`), and the files that do not pass are reported the same way those components emit `@rejected`.
 
-Use it when you want your own card, panel or whole page to accept dropped files, and QFile's field design or QUploader's queue would get in the way. Pair it with the [useFilePicker](/vue-composables/use-file-picker) composable on a button inside the zone, so that keyboard and touch users can supply the files too.
+Use it when you want your own card, panel or whole page to accept dropped files, and QFile's field design or QUploader's queue would get in the way. When all you need is the files and a hover class on the element, the [v-drop-zone](/vue-directives/drop-zone) directive does that from the template. Pair it with the [useFilePicker](/vue-composables/use-file-picker) composable on a button inside the zone, so that keyboard and touch users can supply the files too.
 
 > [!NOTE]
 > On the server-side of SSR or SSG modes, nothing can be dropped: `isOverDropZone` stays `false` and `droppedFiles` stays empty until the client takes over.
