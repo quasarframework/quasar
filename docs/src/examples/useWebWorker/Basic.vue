@@ -13,7 +13,6 @@
         color="primary"
         label="postMessage()"
         no-caps
-        :disable="workerStatus === 'terminated'"
         @click="postMessage({ count })"
       />
       <q-btn
@@ -25,11 +24,8 @@
       />
     </div>
 
-    <div v-if="workerStatus === 'terminated'" class="text-negative"
-      >Worker terminated</div
-    >
-    <div v-else-if="workerStatus === 'idle'"
-      >Worker not started yet (it starts at the first postMessage)</div
+    <div v-if="workerStatus === 'idle'"
+      >No worker running (the next postMessage creates one)</div
     >
     <div v-else-if="data === null">No message received yet</div>
     <div v-else>

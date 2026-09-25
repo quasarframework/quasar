@@ -315,6 +315,8 @@ export interface UseWebWorkerOptions extends WorkerOptions {
   eager?: boolean;
   onMessage?: (data: any, evt: MessageEvent) => void;
   onError?: (evt: ErrorEvent | MessageEvent) => void;
+  onCreate?: (worker: Worker) => void;
+  onTerminate?: (worker: Worker) => void;
 }
 
 export type WebWorkerStatus = "idle" | "running" | "terminated";

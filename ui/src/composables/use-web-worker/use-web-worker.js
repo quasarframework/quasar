@@ -26,15 +26,23 @@ import { noop } from '../../utils/event/event.js'
  *    onMessage(data, evt)    - called with each message from the worker
  *    onError(evt)            - called with the 'error' / 'messageerror'
  *                              events of the worker
+ *    onCreate(worker)        - called with each Worker the composable
+ *                              starts using (send the init message here)
+ *    onTerminate(worker)     - called right after a worker got killed, by
+ *                              terminate() or by the unmount
  *
- * workerStatus - Ref<'idle' | 'running' | 'terminated'>; 'idle' until
- *               the worker gets created
+ * workerStatus - Ref<'idle' | 'running' | 'terminated'>; 'idle' while
+ *               there is no worker (before it gets created and after a
+ *               terminate()), 'terminated' once the component unmounts
+ *               (or, for a Worker instance source, once terminated)
  * data        - ShallowRef of the last message's data
  * error       - ShallowRef of the last 'error' / 'messageerror' event
  * postMessage - sends a message (with an optional transfer list) to the
- *               worker, creating it if that did not happen yet; no-op
- *               once terminated
- * terminate   - kills the worker for good (also happens on unmount)
+ *               worker, creating it if there is none; no-op once
+ *               'terminated'
+ * terminate   - kills the worker; the next postMessage() creates a new
+ *               one from a URL or function source (a Worker instance
+ *               cannot be re-created, so it stays terminated)
  */
 
 function createWorker(source, opts) {
@@ -74,7 +82,9 @@ export default function useWebWorker(source, options) {
     credentials,
     eager,
     onMessage,
-    onError
+    onError,
+    onCreate,
+    onTerminate
   } = options ?? {}
 
   let instance = null
@@ -98,13 +108,14 @@ export default function useWebWorker(source, options) {
       instance.addEventListener('messageerror', onWorkerError)
 
       workerStatus.value = statusRunning
+      onCreate?.(instance)
     }
 
     return instance
   }
 
-  function terminate() {
-    workerStatus.value = statusTerminated
+  function stop(status) {
+    workerStatus.value = status
 
     if (instance !== null) {
       instance.removeEventListener('message', onWorkerMessage)
@@ -112,8 +123,18 @@ export default function useWebWorker(source, options) {
       instance.removeEventListener('messageerror', onWorkerError)
       instance.terminate()
 
+      const worker = instance
       instance = null
+      onTerminate?.(worker)
     }
+  }
+
+  function terminate() {
+    stop(source instanceof Worker ? statusTerminated : statusIdle)
+  }
+
+  function destroy() {
+    stop(statusTerminated)
   }
 
   if (vm !== null) {
@@ -123,7 +144,7 @@ export default function useWebWorker(source, options) {
       onMounted(getWorker)
     }
 
-    onBeforeUnmount(terminate)
+    onBeforeUnmount(destroy)
   } else if (eager === true) {
     getWorker()
   }

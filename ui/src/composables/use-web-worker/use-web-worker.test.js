@@ -218,6 +218,74 @@ describe('[useWebWorker API]', () => {
         expect(data.value).toBe(payload)
       })
 
+      test('calls onCreate with each worker created', async () => {
+        const url = createScriptUrl()
+        const workers = []
+        const onCreate = vi.fn()
+        const { data, postMessage, terminate } = mountWorker(
+          () => {
+            const worker = new Worker(url)
+            workers.push(worker)
+            return worker
+          },
+          { onCreate }
+        )
+
+        expect(onCreate).not.toHaveBeenCalled()
+
+        postMessage(1)
+        await expect.poll(() => data.value).toEqual({ echo: 1 })
+        expect(onCreate).toHaveBeenCalledTimes(1)
+        expect(onCreate).toHaveBeenLastCalledWith(workers[0])
+
+        terminate()
+        postMessage(2)
+        await expect.poll(() => data.value).toEqual({ echo: 2 })
+        expect(onCreate).toHaveBeenCalledTimes(2)
+        expect(onCreate).toHaveBeenLastCalledWith(workers[1])
+      })
+
+      test('onCreate can post the init message', async () => {
+        const url = createScriptUrl()
+        const { data } = mountWorker(url, {
+          eager: true,
+          onCreate(worker) {
+            worker.postMessage('init')
+          }
+        })
+
+        await expect.poll(() => data.value).toEqual({ echo: 'init' })
+      })
+
+      test('calls onTerminate with the killed worker, on terminate() and on unmount', () => {
+        const url = createScriptUrl()
+        const workers = []
+        const onTerminate = vi.fn()
+        const { wrapper, workerStatus, postMessage, terminate } = mountWorker(
+          () => {
+            const worker = new Worker(url)
+            workers.push(worker)
+            return worker
+          },
+          { onTerminate }
+        )
+
+        terminate()
+        expect(onTerminate).not.toHaveBeenCalled()
+
+        postMessage(1)
+        terminate()
+        expect(onTerminate).toHaveBeenCalledTimes(1)
+        expect(onTerminate).toHaveBeenLastCalledWith(workers[0])
+        expect(workerStatus.value).toBe('idle')
+
+        postMessage(2)
+        wrapper.unmount()
+        expect(onTerminate).toHaveBeenCalledTimes(2)
+        expect(onTerminate).toHaveBeenLastCalledWith(workers[1])
+        expect(workerStatus.value).toBe('terminated')
+      })
+
       test('postMessage() transfers the listed objects', async () => {
         const url = createScriptUrl(`onmessage = evt => {
           postMessage(evt.data.byteLength)
@@ -246,7 +314,7 @@ describe('[useWebWorker API]', () => {
         expect(onError).toHaveBeenCalledWith(error.value)
       })
 
-      test('terminate() kills the worker and ignores later calls', async () => {
+      test('terminate() kills a Worker instance for good', async () => {
         const url = createScriptUrl()
         const instance = new Worker(url)
         const terminateSpy = vi.spyOn(instance, 'terminate')
@@ -337,28 +405,91 @@ describe('[useWebWorker API]', () => {
         expect(result.workerStatus.value).toBe('terminated')
       })
 
-      test('does not create the worker after terminate()', () => {
+      test('terminate() releases the worker and the next postMessage() creates a new one', async () => {
         const url = createScriptUrl()
-        let created = 0
-        let result
-        mount(
-          defineComponent({
-            setup() {
-              result = useWebWorker(() => {
-                created++
-                return new Worker(url)
-              })
-              result.terminate()
-              return () => h('div')
-            }
-          })
+        const workers = []
+        const { workerStatus, data, postMessage, terminate } = mountWorker(
+          () => {
+            const worker = new Worker(url)
+            vi.spyOn(worker, 'terminate')
+            workers.push(worker)
+            return worker
+          }
         )
 
-        expect(created).toBe(0)
-        expect(result.workerStatus.value).toBe('terminated')
+        postMessage(1)
+        await expect.poll(() => data.value).toEqual({ echo: 1 })
 
-        result.postMessage('never')
+        terminate()
+
+        expect(workers).toHaveLength(1)
+        expect(workers[0].terminate).toHaveBeenCalledTimes(1)
+        expect(workerStatus.value).toBe('idle')
+
+        postMessage(2)
+
+        expect(workers).toHaveLength(2)
+        expect(workerStatus.value).toBe('running')
+        await expect.poll(() => data.value).toEqual({ echo: 2 })
+      })
+
+      test('terminate() before the worker exists keeps it idle', () => {
+        const url = createScriptUrl()
+        let created = 0
+        const { workerStatus, postMessage, terminate } = mountWorker(() => {
+          created++
+          return new Worker(url)
+        })
+
+        terminate()
+
         expect(created).toBe(0)
+        expect(workerStatus.value).toBe('idle')
+
+        postMessage('now')
+        expect(created).toBe(1)
+        expect(workerStatus.value).toBe('running')
+      })
+
+      test('"eager" worker is not re-created by terminate()', () => {
+        const url = createScriptUrl()
+        let created = 0
+        const { workerStatus, postMessage, terminate } = mountWorker(
+          () => {
+            created++
+            return new Worker(url)
+          },
+          { eager: true }
+        )
+
+        expect(created).toBe(1)
+
+        terminate()
+
+        expect(created).toBe(1)
+        expect(workerStatus.value).toBe('idle')
+
+        postMessage('again')
+        expect(created).toBe(2)
+      })
+
+      test('does not create the worker after unmount', () => {
+        const url = createScriptUrl()
+        let created = 0
+        const { wrapper, workerStatus, postMessage } = mountWorker(() => {
+          created++
+          return new Worker(url)
+        })
+
+        postMessage('hi')
+        expect(created).toBe(1)
+
+        wrapper.unmount()
+        expect(workerStatus.value).toBe('terminated')
+
+        postMessage('never')
+        expect(created).toBe(1)
+        expect(workerStatus.value).toBe('terminated')
       })
 
       test('terminates the worker when the component unmounts', () => {
@@ -389,7 +520,7 @@ describe('[useWebWorker API]', () => {
         await expect.poll(() => data.value).toEqual({ echo: 'hi' })
 
         terminate()
-        expect(workerStatus.value).toBe('terminated')
+        expect(workerStatus.value).toBe('idle')
       })
 
       test('a passed-in Worker instance stops replying after unmount', async () => {
