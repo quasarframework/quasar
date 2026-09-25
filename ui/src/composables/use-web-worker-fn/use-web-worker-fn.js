@@ -20,6 +20,14 @@ import { noop } from '../../utils/event/event.js'
  *                        worker script, callable from fn by their name
  *    transfer(...args) - returns the Transferable objects among the call's
  *                        arguments (moved instead of cloned)
+ *    onSuccess(result, args) - called when a call resolves
+ *    onError(error, args)    - called when a call rejects with an error
+ *                              (fn threw, the script failed to load, an
+ *                              argument could not be cloned)
+ *    onTimeout(args)         - called when a call hits the timeout
+ *    onTerminate()           - called right after the worker got killed
+ *                              (terminateWorkerFn(), timeout, script
+ *                              error, unmount)
  *
  * runWorkerFn(...args) - Promise of fn's result; rejects with the error fn
  *                        threw, on timeout, on termination and while
@@ -92,14 +100,24 @@ export default function useWebWorkerFn(fn, options) {
     timeout,
     dependencies = [],
     localDependencies = [],
-    transfer
+    transfer,
+    onSuccess,
+    onError,
+    onTimeout,
+    onTerminate
   } = options ?? {}
 
   let worker = null,
     blobUrl = null,
     timer = null,
-    // { resolve, reject } of the call in progress
+    // { resolve, reject, args } of the call in progress
     pending = null
+
+  const outcomeHooks = {
+    [statusSuccess]: (result, args) => onSuccess?.(result, args),
+    [statusError]: (error, args) => onError?.(error, args),
+    [statusTimeout]: (_, args) => onTimeout?.(args)
+  }
 
   function clearTimer() {
     if (timer !== null) {
@@ -116,16 +134,29 @@ export default function useWebWorkerFn(fn, options) {
       const call = pending
       pending = null
       call[method](value)
+      outcomeHooks[status]?.(value, call.args)
     }
   }
 
   function destroyWorker() {
-    if (worker === null) return
+    if (worker === null) return false
 
     worker.removeEventListener('message', onMessage)
-    worker.removeEventListener('error', onError)
+    worker.removeEventListener('error', onWorkerError)
     worker.terminate()
     worker = null
+
+    return true
+  }
+
+  // kills the worker (if any) and settles the call in progress; the
+  // outcome hook fires before onTerminate, as the kill is its consequence
+  function kill(status, method, value) {
+    const killed = destroyWorker()
+    settle(status, method, value)
+    if (killed) {
+      onTerminate?.()
+    }
   }
 
   function onMessage({ data }) {
@@ -139,11 +170,10 @@ export default function useWebWorkerFn(fn, options) {
   // fn's own errors travel as messages; an 'error' event means the
   // worker script itself failed (a syntax error, a dependency that
   // cannot load), so the worker is useless
-  function onError(evt) {
+  function onWorkerError(evt) {
     // reported through the rejection, not as an uncaught error
     evt.preventDefault()
-    destroyWorker()
-    settle(statusError, 'reject', evt.error ?? new Error(evt.message))
+    kill(statusError, 'reject', evt.error ?? new Error(evt.message))
   }
 
   function createWorker() {
@@ -158,7 +188,7 @@ export default function useWebWorkerFn(fn, options) {
     const instance = new Worker(blobUrl)
 
     instance.addEventListener('message', onMessage)
-    instance.addEventListener('error', onError)
+    instance.addEventListener('error', onWorkerError)
 
     return instance
   }
@@ -177,18 +207,18 @@ export default function useWebWorkerFn(fn, options) {
         } catch (err) {
           workerFnStatus.value = statusError
           reject(err)
+          onError?.(err, args)
           return
         }
       }
 
-      pending = { resolve, reject }
+      pending = { resolve, reject, args }
       workerFnStatus.value = statusRunning
 
       if (timeout > 0) {
         timer = setTimeout(() => {
           timer = null
-          destroyWorker()
-          settle(
+          kill(
             statusTimeout,
             'reject',
             new Error(`useWebWorkerFn: timed out after ${timeout}ms`)
@@ -206,17 +236,11 @@ export default function useWebWorkerFn(fn, options) {
   }
 
   function terminateWorkerFn() {
-    destroyWorker()
-
-    if (pending === null) {
-      workerFnStatus.value = statusIdle
-    } else {
-      settle(
-        statusIdle,
-        'reject',
-        new Error('useWebWorkerFn: the worker was terminated')
-      )
-    }
+    kill(
+      statusIdle,
+      'reject',
+      new Error('useWebWorkerFn: the worker was terminated')
+    )
   }
 
   if (getCurrentInstance() !== null) {

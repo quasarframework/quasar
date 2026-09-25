@@ -339,16 +339,23 @@ export type WebWorkerFnStatus =
   | "error"
   | "timeout";
 
-export interface UseWebWorkerFnOptions<Args extends any[] = any[]> {
+export interface UseWebWorkerFnOptions<
+  Args extends any[] = any[],
+  Result = any
+> {
   timeout?: number;
   dependencies?: (string | URL)[];
   localDependencies?: Function[];
   transfer?: (...args: Args) => Transferable[];
+  onSuccess?: (result: Result, args: Args) => void;
+  onError?: (error: unknown, args: Args) => void;
+  onTimeout?: (args: Args) => void;
+  onTerminate?: () => void;
 }
 
 export function useWebWorkerFn<Fn extends (...args: any[]) => any>(
   fn: Fn,
-  options?: UseWebWorkerFnOptions<Parameters<Fn>>
+  options?: UseWebWorkerFnOptions<Parameters<Fn>, Awaited<ReturnType<Fn>>>
 ): {
   runWorkerFn: (...args: Parameters<Fn>) => Promise<Awaited<ReturnType<Fn>>>;
   workerFnStatus: Ref<WebWorkerFnStatus>;

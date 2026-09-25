@@ -264,6 +264,111 @@ describe('[useWebWorkerFn API]', () => {
         expect(second.workerFnStatus.value).toBe('idle')
       })
 
+      test('calls onSuccess with the result and the arguments', async () => {
+        const onSuccess = vi.fn()
+        const { runWorkerFn } = mountWorkerFn(sum, { onSuccess })
+
+        await expect(runWorkerFn(1, 2)).resolves.toBe(3)
+
+        expect(onSuccess).toHaveBeenCalledTimes(1)
+        expect(onSuccess).toHaveBeenCalledWith(3, [1, 2])
+      })
+
+      test('calls onError with the error the function threw', async () => {
+        const onError = vi.fn()
+        const { runWorkerFn } = mountWorkerFn(
+          () => {
+            throw new RangeError('too far')
+          },
+          { onError }
+        )
+
+        const promise = runWorkerFn('x')
+        await expect(promise).rejects.toHaveProperty('message', 'too far')
+
+        expect(onError).toHaveBeenCalledTimes(1)
+        const [error, args] = onError.mock.calls[0]
+        expect(error).toBeInstanceOf(Error)
+        expect(error.message).toBe('too far')
+        expect(args).toEqual(['x'])
+      })
+
+      test('calls onError for an argument that cannot be cloned', async () => {
+        const onError = vi.fn()
+        const { runWorkerFn } = mountWorkerFn(sum, { onError })
+        const arg = () => 1
+
+        await expect(runWorkerFn(arg, 2)).rejects.toThrow(/clone/)
+
+        expect(onError).toHaveBeenCalledTimes(1)
+        expect(onError.mock.calls[0][1]).toEqual([arg, 2])
+      })
+
+      test('calls onError and onTerminate when the worker script fails to start', async () => {
+        const calls = []
+        const { runWorkerFn } = mountWorkerFn(sum, {
+          dependencies: ['/definitely-missing-script.js'],
+          onError(error, args) {
+            calls.push(['error', error, args])
+          },
+          onTerminate() {
+            calls.push(['terminate'])
+          }
+        })
+
+        await expect(runWorkerFn(1, 2)).rejects.toBeInstanceOf(Error)
+
+        expect(calls).toHaveLength(2)
+        expect(calls[0][0]).toBe('error')
+        expect(calls[0][1]).toBeInstanceOf(Error)
+        expect(calls[0][2]).toEqual([1, 2])
+        expect(calls[1]).toEqual(['terminate'])
+      })
+
+      test('calls onTimeout then onTerminate on a timeout', async () => {
+        const calls = []
+        const onError = vi.fn()
+        const { runWorkerFn } = mountWorkerFn(busyWait, {
+          timeout: 1000,
+          onError,
+          onTimeout(args) {
+            calls.push(['timeout', args])
+          },
+          onTerminate() {
+            calls.push(['terminate'])
+          }
+        })
+
+        await expect(runWorkerFn(10_000)).rejects.toThrow(/timed out/)
+
+        expect(calls).toEqual([['timeout', [10_000]], ['terminate']])
+        expect(onError).not.toHaveBeenCalled()
+      })
+
+      test('calls onTerminate on terminateWorkerFn() and on unmount, only when a worker existed', async () => {
+        const onTerminate = vi.fn()
+        const onError = vi.fn()
+        const { wrapper, runWorkerFn, terminateWorkerFn } = mountWorkerFn(
+          busyWait,
+          { onTerminate, onError }
+        )
+
+        terminateWorkerFn()
+        expect(onTerminate).not.toHaveBeenCalled()
+
+        await expect(runWorkerFn(1)).resolves.toBe(1)
+        terminateWorkerFn()
+        expect(onTerminate).toHaveBeenCalledTimes(1)
+
+        const promise = runWorkerFn(2000)
+        wrapper.unmount()
+
+        await expect(promise).rejects.toThrow(/terminated/)
+        expect(onTerminate).toHaveBeenCalledTimes(2)
+        // a termination is not an outcome of the call
+        expect(onError).not.toHaveBeenCalled()
+      })
+
       test('can be used outside of a component', async () => {
         const { runWorkerFn, workerFnStatus, terminateWorkerFn } =
           useWebWorkerFn(sum)
