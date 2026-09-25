@@ -623,6 +623,11 @@ const composables = [
     tag: 'composable'
   },
   {
+    name: 'useWebSocket',
+    description: 'Keep a WebSocket connection alive from a component',
+    tag: 'composable'
+  },
+  {
     name: 'useWebWorker',
     description: 'Talk to a Web Worker script from a component',
     tag: 'composable'

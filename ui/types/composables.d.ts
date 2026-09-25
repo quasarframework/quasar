@@ -255,6 +255,55 @@ export function useTimeout(): {
   removeTimeout: () => void;
 };
 
+export type WebSocketStatus = "closed" | "connecting" | "open";
+
+export type WebSocketMessage =
+  | string
+  | ArrayBufferLike
+  | Blob
+  | ArrayBufferView;
+
+export interface UseWebSocketReconnectOptions {
+  retries?: number;
+  delay?: number | ((attempt: number) => number);
+}
+
+export interface UseWebSocketHeartbeatOptions {
+  message?: WebSocketMessage;
+  interval?: number;
+}
+
+export type WebSocketCloseReason =
+  | "programmatic"
+  | "unmount"
+  | "url"
+  | "remote";
+
+export interface UseWebSocketOptions {
+  protocols?: string | string[];
+  binaryType?: BinaryType;
+  manualOpen?: boolean;
+  autoReconnect?: boolean | UseWebSocketReconnectOptions;
+  heartbeat?: boolean | UseWebSocketHeartbeatOptions;
+  onOpen?: (evt: Event) => void;
+  onMessage?: (data: any, evt: MessageEvent) => void;
+  onClose?: (evt: CloseEvent, reason: WebSocketCloseReason) => void;
+  onError?: (evt: Event) => void;
+  onReconnect?: (attempt: number, delay: number) => void;
+}
+
+export function useWebSocket<Data = any>(
+  url: MaybeRefOrGetter<string | URL>,
+  options?: UseWebSocketOptions
+): {
+  socketStatus: Ref<WebSocketStatus>;
+  data: ShallowRef<Data | null>;
+  error: ShallowRef<Event | null>;
+  send: (message: WebSocketMessage) => void;
+  openSocket: () => void;
+  closeSocket: (code?: number, reason?: string) => void;
+};
+
 export type UseWebWorkerSource =
   | string
   | URL

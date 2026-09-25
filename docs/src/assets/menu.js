@@ -763,6 +763,11 @@ export default [
         path: 'use-timeout'
       },
       {
+        name: 'useWebSocket',
+        badge: 'new',
+        path: 'use-web-socket'
+      },
+      {
         name: 'useWebWorker',
         badge: 'new',
         path: 'use-web-worker'
