@@ -17,6 +17,7 @@ const cookieNames = [
   'q-test-get',
   'q-test-get-all',
   'q-test-get-all-empty',
+  '__proto__',
   'q-test-set',
   'q-test-has',
   'q-test-remove'
@@ -69,6 +70,17 @@ describe('[Cookies API]', () => {
           'q-test-get-all': { user: 'john doe' },
           'q-test-get-all-empty': ''
         })
+      })
+
+      test('skips a __proto__ cookie instead of retargeting the prototype', () => {
+        mountPlugin()
+
+        Cookies.set('__proto__', { polluted: true })
+
+        const all = Cookies.getAll()
+
+        expect(Object.getPrototypeOf(all)).toBe(Object.prototype)
+        expect(all.polluted).toBeUndefined()
       })
     })
 

@@ -155,7 +155,11 @@ function get(key, ssr) {
     cookie = parts.join('=')
 
     if (!key) {
-      result[name] = read(cookie) ?? null
+      // a __proto__ cookie would retarget the result's prototype instead of
+      // adding a key to it, so skip the name like extend() does
+      if (name !== '__proto__') {
+        result[name] = read(cookie) ?? null
+      }
     } else if (key === name) {
       result = read(cookie) ?? null
       break
