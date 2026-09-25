@@ -137,6 +137,43 @@ export function useEventListener<E extends Event = Event>(
   stop: () => void;
 };
 
+export type EventSourceStatus = "closed" | "connecting" | "open";
+
+export type EventSourceCloseReason =
+  | "programmatic"
+  | "unmount"
+  | "url"
+  | "remote";
+
+export interface UseEventSourceReconnectOptions {
+  retries?: number;
+  delay?: number | ((attempt: number) => number);
+}
+
+export interface UseEventSourceOptions {
+  withCredentials?: boolean;
+  events?: string[];
+  manualOpen?: boolean;
+  autoReconnect?: boolean | UseEventSourceReconnectOptions;
+  onOpen?: (evt: Event) => void;
+  onMessage?: (data: string, evt: MessageEvent<string>) => void;
+  onClose?: (reason: EventSourceCloseReason) => void;
+  onError?: (evt: Event) => void;
+  onReconnect?: (attempt: number, delay: number) => void;
+}
+
+export function useEventSource(
+  url: MaybeRefOrGetter<string | URL>,
+  options?: UseEventSourceOptions
+): {
+  sourceStatus: Ref<EventSourceStatus>;
+  data: ShallowRef<string | null>;
+  lastEventId: ShallowRef<string | null>;
+  error: ShallowRef<Event | null>;
+  openSource: () => void;
+  closeSource: () => void;
+};
+
 export interface UseSoftFullscreenOptions {
   target?: MaybeRefOrGetter<
     Element | ComponentPublicInstance | null | undefined

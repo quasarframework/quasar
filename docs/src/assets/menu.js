@@ -712,6 +712,11 @@ export default [
         path: 'use-event-listener'
       },
       {
+        name: 'useEventSource',
+        badge: 'new',
+        path: 'use-event-source'
+      },
+      {
         name: 'useFilePicker',
         badge: 'new',
         path: 'use-file-picker'

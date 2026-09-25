@@ -572,6 +572,11 @@ const composables = [
     tag: 'composable'
   },
   {
+    name: 'useEventSource',
+    description: 'Receive Server-Sent Events from a component',
+    tag: 'composable'
+  },
+  {
     name: 'useFilePicker',
     description: 'Open the file dialog and get the picked files',
     tag: 'composable'
