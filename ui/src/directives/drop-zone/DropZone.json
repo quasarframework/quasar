@@ -82,7 +82,7 @@
 
       "filter": {
         "type": "Function",
-        "desc": "Custom filter for the dropped files; only the files you return are handed over; for best performance, reference it from your scope and do not define it inline",
+        "desc": "Custom filter for the dropped files; only the files you return are handed over",
         "params": {
           "files": {
             "type": "Array",
@@ -102,6 +102,7 @@
       "activeClass": {
         "type": "String",
         "desc": "CSS class to apply to the element while a drag hovers it, instead of the default 'q-drop-zone--over'",
+        "default": "'q-drop-zone--over'",
         "examples": ["'my-zone--active'"]
       },
 
