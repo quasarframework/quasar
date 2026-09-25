@@ -17,6 +17,11 @@ It listens to the activity events on `document`, so it works for the whole page 
 > [!NOTE]
 > On the server-side of SSR or SSG modes, the composable never tracks anything and `isIdle` stays `false`.
 
+> [!TIP]
+> **Outside of a component**
+>
+> The composable can also be called outside of `setup()`: in a boot file, a store or a plain module. It then starts tracking right away and nothing stops it by itself: call `stop()` when you are done.
+
 ## Syntax
 
 ```js

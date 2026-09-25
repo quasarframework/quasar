@@ -18,6 +18,11 @@ Use it wherever a template listener cannot reach: `window` and `document` events
 >
 > On the server-side, the composable never listens to anything, but the arguments you pass are still evaluated there. Reference `window` or `document` through a getter Function (`() => window`), which only ever runs on the client, instead of passing them directly.
 
+> [!TIP]
+> **Outside of a component**
+>
+> The composable can also be called outside of `setup()`: in a boot file, a store or a plain module. There is no mount to wait for there, so it starts listening right away (give it an element, `window` or `document` rather than a template ref) and nothing stops it by itself: call `stop()` when you are done.
+
 ## Syntax
 
 ```js

@@ -15,6 +15,11 @@ To drive a long-lived worker script of your own, with its own messages, see [use
 > [!NOTE]
 > On the server-side of SSR or SSG modes, there are no workers: `runWorkerFn()` runs your function inline (in the same process) and resolves with its result, so a value computed during SSR is the same one the client would compute. Scripts listed in `dependencies` are not loaded there.
 
+> [!TIP]
+> **Outside of a component**
+>
+> The composable can also be called outside of `setup()`: in a boot file, a store or a plain module. Nothing terminates the worker by itself there: call `terminateWorkerFn()` when you are done.
+
 ## Syntax
 
 ```js

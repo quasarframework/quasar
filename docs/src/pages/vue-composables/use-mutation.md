@@ -17,6 +17,11 @@ It is the setup-code counterpart of the [v-mutation](/vue-directives/mutation) d
 > [!NOTE]
 > On the server-side of SSR or SSG modes, the composable never observes anything.
 
+> [!TIP]
+> **Outside of a component**
+>
+> The composable can also be called outside of `setup()`: in a boot file, a store or a plain module. There is no component root to fall back on and no mount to wait for, so supply a `target` (an element, or a ref or getter of one); the observation starts right away and nothing stops it by itself: call `stop()` when you are done.
+
 ## Syntax
 
 ```js

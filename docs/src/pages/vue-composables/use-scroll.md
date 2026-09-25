@@ -17,6 +17,11 @@ It is the setup-code counterpart of the [QScrollObserver](/vue-components/scroll
 > [!NOTE]
 > On the server-side of SSR or SSG modes, the composable never listens to anything: the state keeps its initial values until the client takes over.
 
+> [!TIP]
+> **Outside of a component**
+>
+> The composable can also be called outside of `setup()`: in a boot file, a store or a plain module. There is no component root to start the detection from and no mount to wait for, so supply a `scrollTarget` (or a `target` element); the tracking starts right away and nothing stops it by itself: call `stop()` when you are done.
+
 ## Syntax
 
 ```js

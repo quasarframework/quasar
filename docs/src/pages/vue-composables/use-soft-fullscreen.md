@@ -20,6 +20,11 @@ Any focus and caret held inside the element survive the move. On Capacitor and C
 > [!NOTE]
 > On the server-side of SSR or SSG modes, the composable does nothing: `inFullscreen` stays `false` and the methods are no-ops.
 
+> [!TIP]
+> **Outside of a component**
+>
+> The composable can also be called outside of `setup()`: in a boot file, a store or a plain module. There is no component root to fall back on, so supply a `target`. A route change does not leave the fullscreen state there (nothing ties the call to the router) and nothing exits it by itself: call `exitFullscreen()` when you are done.
+
 ## Syntax
 
 ```js

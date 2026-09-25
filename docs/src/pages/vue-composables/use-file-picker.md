@@ -18,6 +18,11 @@ Use it when you want a button, a menu entry, a keyboard shortcut or a card to pi
 > [!NOTE]
 > On the server-side of SSR or SSG modes, the file dialog cannot be opened: `openFilePicker()` resolves to `null` and `pickedFiles` stays empty until the client takes over.
 
+> [!TIP]
+> **Outside of a component**
+>
+> The composable can also be called outside of `setup()`: in a boot file, a store or a plain module. It works the same there, and there is nothing to release.
+
 ## Syntax
 
 ```js

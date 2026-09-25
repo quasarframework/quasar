@@ -8,6 +8,11 @@ related:
 
 The useQuasar composable is used in order to get access to the [$q Object](/options/the-q-object).
 
+> [!TIP]
+> **Outside of a component**
+>
+> The composable can also be called outside of `setup()`, as long as it runs within the app's context: `app.runWithContext(() => useQuasar())`, with the `app` a boot file receives. It then returns the `$q` Object of that app.
+
 ## Syntax
 
 ```js

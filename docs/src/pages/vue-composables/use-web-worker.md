@@ -15,6 +15,11 @@ Use it for a long-lived worker with its own protocol (a parser fed with chunks, 
 > [!NOTE]
 > On the server-side of SSR or SSG modes, no worker gets created: `workerStatus` stays `idle`, `postMessage()` does nothing and no message ever arrives.
 
+> [!TIP]
+> **Outside of a component**
+>
+> The composable can also be called outside of `setup()`: in a boot file, a store or a plain module. There is no mount to wait for there, so `eager: true` creates the worker right away, and nothing terminates it by itself: call `terminate()` when you are done.
+
 ## Syntax
 
 ```js

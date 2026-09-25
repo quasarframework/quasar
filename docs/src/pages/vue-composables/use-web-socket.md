@@ -13,6 +13,11 @@ The `useWebSocket()` composable keeps a [WebSocket](https://developer.mozilla.or
 > [!NOTE]
 > On the server-side of SSR or SSG modes, no socket gets created: `socketStatus` stays `closed`, `send()` does nothing and no message ever arrives. The socket opens on the client once the component is mounted, so the status is `closed` before hydration too.
 
+> [!TIP]
+> **Outside of a component**
+>
+> The composable can also be called outside of `setup()`: in a boot file, a store or a plain module. There is no mount to wait for there, so the socket opens right away (unless `manualOpen` is set) and nothing closes it by itself: call `closeSocket()` when you are done.
+
 ## Syntax
 
 ```js
