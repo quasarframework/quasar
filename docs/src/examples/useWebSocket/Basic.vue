@@ -64,6 +64,7 @@ const log = ref([])
 // every message it receives
 const { socketStatus, sendSocketMessage, openSocket, closeSocket } =
   useWebSocket('wss://echo.websocket.org', {
+    lazy: true,
     onMessage(data) {
       log.value.unshift(`received: ${data}`)
     }

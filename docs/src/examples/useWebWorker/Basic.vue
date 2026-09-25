@@ -16,10 +16,10 @@
         @click="postWorkerMessage({ count })"
       />
       <q-btn
+        v-if="workerStatus === 'running'"
         color="negative"
         label="terminateWorker()"
         no-caps
-        :disable="workerStatus !== 'running'"
         @click="terminateWorker"
       />
     </div>
@@ -64,5 +64,5 @@ const { objectUrl } = useObjectUrl(
 )
 
 const { workerStatus, workerData, postWorkerMessage, terminateWorker } =
-  useWebWorker(() => new Worker(objectUrl.value))
+  useWebWorker(() => new Worker(objectUrl.value), { lazy: true })
 </script>

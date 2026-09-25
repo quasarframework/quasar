@@ -80,7 +80,7 @@ function useWebWorkerFn<Fn extends (...args: any[]) => any>(
 
 `workerFnStatus` follows the last call: `idle` before the first one (and after a termination), then `running`, `success`, `error` or `timeout`.
 
-The worker gets created at the first call and is kept for the next ones, so repeated calls do not pay the startup cost again. `terminateWorkerFn()` kills it (rejecting a running call); the next call starts a fresh one. The composable terminates the worker by itself when the component gets destroyed.
+The worker gets created at the first call and is kept for the next ones, so repeated calls do not pay the startup cost again. `terminateWorkerFn()` kills it (rejecting a running call); the next call starts a fresh one. A `timeout` kills it too: the call that exceeded it is still running inside the worker and there is no other way to stop it. The composable terminates the worker by itself when the component gets destroyed.
 
 The hooks report the outcome of each call, with the arguments it was made with, so that one handler can react wherever the call came from: `onSuccess(result, args)` when it resolves, `onError(error, args)` when it rejects with an error (your function threw, the worker script failed to load, an argument could not be cloned) and `onTimeout(args)` when it exceeds `timeout`. `onTerminate(reason)` gets called right after the worker got killed, after the outcome hook of the call it interrupted, with `reason` naming the cause: `'terminate'` for a `terminateWorkerFn()` call, `'timeout'`, `'error'` for a failing script or `'unmount'` for the component being destroyed. A rejection caused by `terminateWorkerFn()` or by a call made while another one runs is not an outcome of your function, so no hook reports it.
 

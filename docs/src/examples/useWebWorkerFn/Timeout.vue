@@ -16,10 +16,10 @@
         @click="run(10000)"
       />
       <q-btn
+        v-if="workerFnStatus !== 'idle' && workerFnStatus !== 'timeout'"
         color="negative"
         label="terminateWorkerFn()"
         no-caps
-        :disable="workerFnStatus === 'idle' || workerFnStatus === 'timeout'"
         @click="terminateWorkerFn"
       />
     </div>
