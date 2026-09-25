@@ -177,6 +177,7 @@ describe('[useMutation API]', () => {
       })
 
       test('works outside of a component instance', async () => {
+        const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
         const el = document.createElement('div')
         document.body.append(el)
 
@@ -191,8 +192,10 @@ describe('[useMutation API]', () => {
         el.dataset.x = '2'
         await deliver()
         expect(onMutation).toHaveBeenCalledOnce()
+        expect(warn).not.toHaveBeenCalled()
 
         el.remove()
+        warn.mockRestore()
       })
 
       test('stops after the first delivery with once', async () => {

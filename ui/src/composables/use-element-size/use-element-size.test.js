@@ -128,6 +128,7 @@ describe('[useElementSize API]', () => {
       })
 
       test('works outside of a component instance', () => {
+        const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
         const el = document.createElement('div')
         el.style.cssText = box(30, 20)
         document.body.append(el)
@@ -138,6 +139,7 @@ describe('[useElementSize API]', () => {
         expect(elementSize.value.height).toBe(20)
 
         stopElementSize()
+        expect(warn).not.toHaveBeenCalled()
         el.remove()
       })
 

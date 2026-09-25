@@ -120,6 +120,7 @@ describe('[useEventListener API]', () => {
       })
 
       test('works outside of a component instance', () => {
+        const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
         const el = document.createElement('button')
         document.body.append(el)
 
@@ -132,8 +133,10 @@ describe('[useEventListener API]', () => {
         stopEventListener()
         click(el)
         expect(handler).toHaveBeenCalledOnce()
+        expect(warn).not.toHaveBeenCalled()
 
         el.remove()
+        warn.mockRestore()
       })
 
       test('listens to an Array of events', () => {

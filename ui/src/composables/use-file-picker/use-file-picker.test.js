@@ -254,7 +254,8 @@ describe('[useFilePicker API]', () => {
         expect(onChange).not.toHaveBeenCalled()
       })
 
-      test('works outside of a component', async () => {
+      test('works outside of a component instance', async () => {
+        const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
         const captured = captureInput()
         const { acceptedPickerFiles, openFilePicker } = useFilePicker({
           multiple: true
@@ -266,6 +267,7 @@ describe('[useFilePicker API]', () => {
 
         await expect(promise).resolves.toStrictEqual([file])
         expect(acceptedPickerFiles).$ref([file])
+        expect(warn).not.toHaveBeenCalled()
       })
     })
   })

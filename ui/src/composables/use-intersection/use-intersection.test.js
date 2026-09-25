@@ -470,5 +470,31 @@ describe('[useIntersection API]', () => {
       await vi.waitFor(() => expect(onIntersect).toHaveBeenCalledTimes(2))
       expect(onIntersect.mock.calls[1][0].isIntersecting).toBe(true)
     })
+
+    test('works outside of a component instance', async () => {
+      const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
+      const el = document.createElement('div')
+      el.style.height = '20px'
+      document.body.append(el)
+
+      const onIntersect = vi.fn()
+      const { isIntersecting, stopIntersection } = useIntersection({
+        target: el,
+        onIntersect
+      })
+
+      await vi.waitFor(() => expect(onIntersect).toHaveBeenCalledOnce())
+      expect(isIntersecting.value).toBe(true)
+
+      stopIntersection()
+      el.remove()
+      await new Promise(resolve => {
+        setTimeout(resolve, 20)
+      })
+      expect(onIntersect).toHaveBeenCalledOnce()
+      expect(warn).not.toHaveBeenCalled()
+
+      warn.mockRestore()
+    })
   })
 })
