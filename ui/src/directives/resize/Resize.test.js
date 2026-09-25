@@ -59,21 +59,23 @@ describe('[Resize API]', () => {
       const { el } = mountResize(value)
 
       expect(el.__qresize).toBeDefined()
-      expect(el.__qresize.observer).toBeUndefined()
+
+      // disabled from the start: nothing is reported
+      el.style.width = '130px'
+      await frames(2)
+      expect(handler).not.toHaveBeenCalled()
 
       // arming reports the current size right away
       value.value = handler
       await nextTick()
 
       expect(handler).toHaveBeenCalledExactlyOnceWith({
-        width: 120,
+        width: 130,
         height: 80
       })
 
       value.value = false
       await nextTick()
-
-      expect(el.__qresize.observer).toBeUndefined()
 
       // disabled: nothing is reported
       el.style.width = '150px'
@@ -93,7 +95,9 @@ describe('[Resize API]', () => {
       const value = ref(void 0)
       const { el } = mountResize(value)
 
-      expect(el.__qresize.observer).toBeUndefined()
+      el.style.width = '130px'
+      await frames(2)
+      expect(handler).not.toHaveBeenCalled()
 
       value.value = handler
       await nextTick()
@@ -103,14 +107,15 @@ describe('[Resize API]', () => {
       value.value = void 0
       await nextTick()
 
-      expect(el.__qresize.observer).toBeUndefined()
+      el.style.width = '150px'
+      await frames(2)
+      expect(handler).toHaveBeenCalledOnce()
     })
 
     test('as Function', async () => {
       const handler = vi.fn()
       const { el } = mountResize(handler)
 
-      expect(el.__qresize.observer).toBeDefined()
       expect(handler).toHaveBeenCalledExactlyOnceWith({
         width: 120,
         height: 80
@@ -178,13 +183,11 @@ describe('[Resize API]', () => {
       const second = vi.fn()
       const value = ref(first)
       const { el } = mountResize(value)
-      const { observer } = el.__qresize
 
       value.value = second
       await nextTick()
 
-      // same observer, no re-report of an unchanged size
-      expect(el.__qresize.observer).toBe(observer)
+      // no re-report of an unchanged size
       expect(second).not.toHaveBeenCalled()
 
       el.style.width = '150px'

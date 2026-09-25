@@ -14,7 +14,7 @@ related:
 
 Under the hood, it uses the [Resize Observer API](https://developer.mozilla.org/en-US/docs/Web/API/Resize_Observer_API), so no polling is involved.
 
-It is the template-side form of the [QResizeObserver](/vue-components/resize-observer) component and of the [useElementResize](/vue-composables/use-element-resize) composable: unlike the component, it needs no extra node in your template and it can go on any element, including a component whose slot you would rather not touch.
+It is the template-side form of the [QResizeObserver](/vue-components/resize-observer) component and of the [useElementResize](/vue-composables/use-element-resize) composable (both the component and the directive are built on it): unlike the component, it needs no extra node in your template and it can go on any element, including a component whose slot you would rather not touch.
 
 <DocApi file="Resize" />
 
