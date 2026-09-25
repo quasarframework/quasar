@@ -133,7 +133,7 @@ const { data, postMessage } = useWebWorker(PrimesWorker)
 
 ## Example
 
-The example below builds its worker from an inline script (through a Blob URL) so that everything fits in one file. In your app you would rather keep the worker in its own file, as shown above.
+The example below builds its worker from an inline script (through a Blob URL that [useObjectUrl](/vue-composables/use-object-url) revokes when the component gets destroyed) so that everything fits in one file. In your app you would rather keep the worker in its own file, as shown above.
 
 <DocExample title="Basic" file="Basic" />
 

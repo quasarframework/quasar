@@ -5,6 +5,7 @@ keys: useFilePicker
 badge: v2.34+
 examples: useFilePicker
 related:
+  - /vue-composables/use-object-url
   - /vue-components/file
   - /vue-components/uploader
 ---
@@ -128,3 +129,5 @@ A button that opens the file dialog for images, lists what was accepted, and rep
 The same picker can serve different needs by handing overrides to `openFilePicker()`. The second button picks a whole folder and lists the paths relative to it:
 
 <DocExample title="Per-call overrides and folders" file="Overrides" />
+
+To preview a picked image (or hand any picked file to an `<img>`, a `<video>` or a download link), pair it with the [useObjectUrl](/vue-composables/use-object-url) composable, which creates the object URL for the `File` and revokes it when it is no longer needed.

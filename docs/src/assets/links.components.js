@@ -597,6 +597,11 @@ const composables = [
     tag: 'composable'
   },
   {
+    name: 'useObjectUrl',
+    description: 'Turn a Blob or File into a self-revoking object URL',
+    tag: 'composable'
+  },
+  {
     name: 'useRenderCache',
     description: 'Cache rendered nodes for performance optimization',
     tag: 'composable'

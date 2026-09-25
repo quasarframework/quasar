@@ -6,6 +6,7 @@ examples: QUploader
 related:
   - /vue-components/file
   - /vue-composables/use-file-picker
+  - /vue-composables/use-object-url
 ---
 
 Quasar supplies a way for you to upload files through the QUploader component.

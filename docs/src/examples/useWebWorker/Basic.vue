@@ -37,7 +37,7 @@
 
 <script setup>
 import { ref } from 'vue'
-import { useWebWorker } from 'quasar'
+import { useObjectUrl, useWebWorker } from 'quasar'
 
 // In your app the worker lives in its own file:
 //   () => new Worker(new URL('./primes.js', import.meta.url), { type: 'module' })
@@ -58,10 +58,10 @@ onmessage = ({ data }) => {
 
 const count = ref(2000)
 
+// revoked when the component gets destroyed
+const { url } = useObjectUrl(new Blob([script], { type: 'text/javascript' }))
+
 const { workerStatus, data, postMessage, terminate } = useWebWorker(
-  () =>
-    new Worker(
-      URL.createObjectURL(new Blob([script], { type: 'text/javascript' }))
-    )
+  () => new Worker(url.value)
 )
 </script>

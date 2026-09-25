@@ -5,6 +5,7 @@ export { default as useEventListener } from './composables/use-event-listener/us
 export { default as useFilePicker } from './composables/use-file-picker/use-file-picker.js'
 export { default as useFormChild } from './composables/use-form/use-form-child.js'
 export { default as useMutation } from './composables/use-mutation/use-mutation.js'
+export { default as useObjectUrl } from './composables/use-object-url/use-object-url.js'
 export { default as useMeta } from './composables/use-meta/use-meta.js'
 export { default as useQuasar } from './composables/use-quasar/use-quasar.js'
 export { default as useHydration } from './composables/use-hydration/use-hydration.js'

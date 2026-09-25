@@ -741,6 +741,11 @@ export default [
         path: 'use-mutation'
       },
       {
+        name: 'useObjectUrl',
+        badge: 'new',
+        path: 'use-object-url'
+      },
+      {
         name: 'useRenderCache',
         path: 'use-render-cache'
       },

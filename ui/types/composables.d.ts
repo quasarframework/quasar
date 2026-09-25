@@ -225,6 +225,13 @@ export function useIdle(options?: MaybeRefOrGetter<UseIdleOptions>): {
 
 export function useMeta(options: MetaOptions | (() => MetaOptions)): void;
 
+export function useObjectUrl(
+  source?: MaybeRefOrGetter<Blob | MediaSource | null | undefined>
+): {
+  url: Ref<string | null>;
+  stop: () => void;
+};
+
 export function useQuasar(): QVueGlobals;
 
 export function useRenderCache(): {

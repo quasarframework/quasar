@@ -5,6 +5,7 @@ keys: QImg
 examples: QImg
 related:
   - /vue-components/spinners
+  - /vue-composables/use-object-url
   - /options/transitions
 ---
 
