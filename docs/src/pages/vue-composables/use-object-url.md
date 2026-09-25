@@ -6,6 +6,7 @@ badge: v2.34+
 examples: useObjectUrl
 related:
   - /vue-composables/use-file-picker
+  - /vue-composables/use-drop-zone
   - /vue-components/file
   - /vue-components/img
   - /vue-components/uploader

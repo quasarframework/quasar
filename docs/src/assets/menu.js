@@ -692,6 +692,11 @@ export default [
         path: 'use-dialog-plugin-component'
       },
       {
+        name: 'useDropZone',
+        badge: 'new',
+        path: 'use-drop-zone'
+      },
+      {
         name: 'useElementResize',
         badge: 'new',
         path: 'use-element-resize'

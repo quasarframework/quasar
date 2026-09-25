@@ -5,6 +5,7 @@ keys: useFilePicker
 badge: v2.34+
 examples: useFilePicker
 related:
+  - /vue-composables/use-drop-zone
   - /vue-composables/use-object-url
   - /vue-components/file
   - /vue-components/uploader
@@ -14,7 +15,7 @@ The `useFilePicker()` composable opens the browser's file dialog from your own c
 
 The picked files go through the same validation as [QFile](/vue-components/file) and [QUploader](/vue-components/uploader) (`accept`, `maxFileSize`, `maxTotalSize`, `maxFiles` and `filter`), and the files that do not pass are reported the same way those components emit `@rejected`.
 
-Use it when you want a button, a menu entry, a keyboard shortcut or a card to pick files, and QFile's field design or QUploader's queue would get in the way.
+Use it when you want a button, a menu entry, a keyboard shortcut or a card to pick files, and QFile's field design or QUploader's queue would get in the way. To accept dropped files as well, pair it with the [useDropZone](/vue-composables/use-drop-zone) composable, which shares its validation options.
 
 > [!NOTE]
 > On the server-side of SSR or SSG modes, the file dialog cannot be opened: `openFilePicker()` resolves to `null` and `pickedFiles` stays empty until the client takes over.

@@ -35,6 +35,31 @@ interface UseDialogPluginComponent {
 
 export const useDialogPluginComponent: UseDialogPluginComponent;
 
+export interface UseDropZoneOptions {
+  target?: MaybeRefOrGetter<
+    Element | ComponentPublicInstance | null | undefined
+  >;
+  disabled?: boolean;
+  multiple?: boolean;
+  accept?: string;
+  maxFileSize?: string | number;
+  maxTotalSize?: string | number;
+  maxFiles?: string | number;
+  filter?: (files: readonly File[]) => readonly File[];
+  onDrop?: (files: File[], evt: DragEvent) => void;
+  onRejected?: (rejected: UseFilePickerRejectedEntry[]) => void;
+  onEnter?: (evt: DragEvent) => void;
+  onLeave?: (evt: DragEvent) => void;
+}
+
+export function useDropZone(options?: MaybeRefOrGetter<UseDropZoneOptions>): {
+  isOverDropZone: Ref<boolean>;
+  droppedFiles: Ref<File[]>;
+  rejectedFiles: Ref<UseFilePickerRejectedEntry[]>;
+  resetDropZone: () => void;
+  stop: () => void;
+};
+
 export interface UseFilePickerOptions {
   multiple?: boolean;
   accept?: string;

@@ -1,5 +1,6 @@
 export { default as useAnimationFrame } from './composables/use-animation-frame/use-animation-frame.js'
 export { default as useDialogPluginComponent } from './composables/use-dialog-plugin-component/use-dialog-plugin-component.js'
+export { default as useDropZone } from './composables/use-drop-zone/use-drop-zone.js'
 export { default as useElementResize } from './composables/use-element-resize/use-element-resize.js'
 export { default as useEventListener } from './composables/use-event-listener/use-event-listener.js'
 export { default as useFilePicker } from './composables/use-file-picker/use-file-picker.js'

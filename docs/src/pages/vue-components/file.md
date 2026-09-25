@@ -7,13 +7,14 @@ related:
   - /vue-components/uploader
   - /vue-components/input
   - /vue-composables/use-file-picker
+  - /vue-composables/use-drop-zone
   - /vue-composables/use-object-url
 ---
 
 QFile is a component which handles the user interaction for picking file(s).
 
 > [!TIP]
-> If you also want a component to handle the upload for you, please consider using [QUploader](/vue-components/uploader) instead. And if you only need to open the file dialog from your own button or code, without a form field, the [useFilePicker](/vue-composables/use-file-picker) composable does that. To preview a picked image, the [useObjectUrl](/vue-composables/use-object-url) composable creates (and revokes) the URL for it.
+> If you also want a component to handle the upload for you, please consider using [QUploader](/vue-components/uploader) instead. And if you only need to open the file dialog from your own button or code, without a form field, the [useFilePicker](/vue-composables/use-file-picker) composable does that, and the [useDropZone](/vue-composables/use-drop-zone) composable turns any element into a target for dropped files. To preview a picked image, the [useObjectUrl](/vue-composables/use-object-url) composable creates (and revokes) the URL for it.
 
 <DocApi file="QFile" />
 

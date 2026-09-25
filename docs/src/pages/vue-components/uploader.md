@@ -6,6 +6,7 @@ examples: QUploader
 related:
   - /vue-components/file
   - /vue-composables/use-file-picker
+  - /vue-composables/use-drop-zone
   - /vue-composables/use-object-url
 ---
 

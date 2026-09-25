@@ -552,6 +552,11 @@ const composables = [
     tag: 'composable'
   },
   {
+    name: 'useDropZone',
+    description: 'Turn an element into a target for dropped files',
+    tag: 'composable'
+  },
+  {
     name: 'useElementResize',
     description: 'Track the size of an element',
     tag: 'composable'
