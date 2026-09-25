@@ -693,122 +693,158 @@ export default [
         path: 'use-quasar'
       },
       {
-        name: 'useBroadcastChannel',
-        badge: 'new',
-        path: 'use-broadcast-channel'
-      },
-      {
-        name: 'useDialogPluginComponent',
-        path: 'use-dialog-plugin-component'
-      },
-      {
-        name: 'useDropZone',
-        badge: 'new',
-        path: 'use-drop-zone'
-      },
-      {
-        name: 'useElementSize',
-        badge: 'new',
-        path: 'use-element-size'
-      },
-      {
-        name: 'useEventListener',
-        badge: 'new',
-        path: 'use-event-listener'
-      },
-      {
-        name: 'useEventSource',
-        badge: 'new',
-        path: 'use-event-source'
-      },
-      {
-        name: 'useFilePicker',
-        badge: 'new',
-        path: 'use-file-picker'
-      },
-      {
-        name: 'useFormChild',
-        path: 'use-form-child'
-      },
-      {
         name: 'useMeta',
         path: 'use-meta'
       },
       {
-        name: 'useHydration',
-        path: 'use-hydration'
+        name: 'Component authoring',
+        opened: true,
+        children: [
+          {
+            name: 'useDialogPluginComponent',
+            path: 'use-dialog-plugin-component'
+          },
+          {
+            name: 'useFormChild',
+            path: 'use-form-child'
+          },
+          {
+            name: 'useHydration',
+            path: 'use-hydration'
+          },
+          {
+            name: 'useId',
+            path: 'use-id'
+          },
+          {
+            name: 'useRenderCache',
+            path: 'use-render-cache'
+          },
+          {
+            name: 'useSplitAttrs',
+            path: 'use-split-attrs'
+          }
+        ]
       },
       {
-        name: 'useId',
-        path: 'use-id'
+        name: 'Timing',
+        opened: true,
+        children: [
+          {
+            name: 'useAnimationFrame',
+            path: 'use-animation-frame'
+          },
+          {
+            name: 'useIdle',
+            badge: 'new',
+            path: 'use-idle'
+          },
+          {
+            name: 'useInterval',
+            path: 'use-interval'
+          },
+          {
+            name: 'useTick',
+            path: 'use-tick'
+          },
+          {
+            name: 'useTimeout',
+            path: 'use-timeout'
+          }
+        ]
       },
       {
-        name: 'useIdle',
-        badge: 'new',
-        path: 'use-idle'
+        name: 'DOM',
+        opened: true,
+        children: [
+          {
+            name: 'useElementSize',
+            badge: 'new',
+            path: 'use-element-size'
+          },
+          {
+            name: 'useEventListener',
+            badge: 'new',
+            path: 'use-event-listener'
+          },
+          {
+            name: 'useIntersection',
+            path: 'use-intersection'
+          },
+          {
+            name: 'useMutation',
+            badge: 'new',
+            path: 'use-mutation'
+          },
+          {
+            name: 'useScroll',
+            badge: 'new',
+            path: 'use-scroll'
+          },
+          {
+            name: 'useSoftFullscreen',
+            badge: 'new',
+            path: 'use-soft-fullscreen'
+          }
+        ]
       },
       {
-        name: 'useIntersection',
-        path: 'use-intersection'
+        name: 'Files',
+        opened: true,
+        children: [
+          {
+            name: 'useDropZone',
+            badge: 'new',
+            path: 'use-drop-zone'
+          },
+          {
+            name: 'useFilePicker',
+            badge: 'new',
+            path: 'use-file-picker'
+          },
+          {
+            name: 'useObjectUrl',
+            badge: 'new',
+            path: 'use-object-url'
+          }
+        ]
       },
       {
-        name: 'useInterval',
-        path: 'use-interval'
+        name: 'Networking',
+        opened: true,
+        children: [
+          {
+            name: 'useBroadcastChannel',
+            badge: 'new',
+            path: 'use-broadcast-channel'
+          },
+          {
+            name: 'useEventSource',
+            badge: 'new',
+            path: 'use-event-source'
+          },
+          {
+            name: 'useWebSocket',
+            badge: 'new',
+            path: 'use-web-socket'
+          }
+        ]
       },
       {
-        name: 'useMutation',
-        badge: 'new',
-        path: 'use-mutation'
-      },
-      {
-        name: 'useObjectUrl',
-        badge: 'new',
-        path: 'use-object-url'
-      },
-      {
-        name: 'useRenderCache',
-        path: 'use-render-cache'
-      },
-      {
-        name: 'useScroll',
-        badge: 'new',
-        path: 'use-scroll'
-      },
-      {
-        name: 'useSoftFullscreen',
-        badge: 'new',
-        path: 'use-soft-fullscreen'
-      },
-      {
-        name: 'useTick',
-        path: 'use-tick'
-      },
-      {
-        name: 'useTimeout',
-        path: 'use-timeout'
-      },
-      {
-        name: 'useWebSocket',
-        badge: 'new',
-        path: 'use-web-socket'
-      },
-      {
-        name: 'useWebWorker',
-        badge: 'new',
-        path: 'use-web-worker'
-      },
-      {
-        name: 'useWebWorkerFn',
-        badge: 'new',
-        path: 'use-web-worker-fn'
-      },
-      {
-        name: 'useAnimationFrame',
-        path: 'use-animation-frame'
-      },
-      {
-        name: 'useSplitAttrs',
-        path: 'use-split-attrs'
+        name: 'Web Workers',
+        opened: true,
+        children: [
+          {
+            name: 'useWebWorker',
+            badge: 'new',
+            path: 'use-web-worker'
+          },
+          {
+            name: 'useWebWorkerFn',
+            badge: 'new',
+            path: 'use-web-worker-fn'
+          }
+        ]
       }
     ]
   },
