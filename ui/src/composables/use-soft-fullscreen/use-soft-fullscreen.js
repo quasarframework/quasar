@@ -38,8 +38,10 @@ import { noop } from '../../utils/event/event.js'
  *    target      - ref (or getter) of an Element or a component instance;
  *                  defaults to the root element of the current component
  *    fullscreen  - the requested state; the element enters or leaves
- *                  fullscreen whenever it changes (and re-enters when its
- *                  KeepAlive-cached component gets activated again)
+ *                  fullscreen whenever it changes (a request made while the
+ *                  target cannot be resolved yet waits for it; the element
+ *                  also re-enters when its KeepAlive-cached component gets
+ *                  activated again)
  *    noRouteExit - keep the fullscreen state across route changes
  *
  * The element gets moved to <body> (a filler node holds its place) so that
@@ -126,6 +128,9 @@ export default function useSoftFullscreen(options) {
     historyEntry,
     noRouteExit = false,
     requested,
+    // a `fullscreen` request that found no target yet; honored as soon
+    // as one resolves
+    pending = false,
     // plain mirror of inFullscreen: setFullscreen() runs inside the
     // effect on a request change, and reading the ref there would make
     // the effect track its own output
@@ -149,8 +154,12 @@ export default function useSoftFullscreen(options) {
     if (active || isDestroyed()) return
 
     const node = getTargetElement(target, vm)
-    if (node === null) return
+    if (node === null) {
+      pending = requested
+      return
+    }
 
+    pending = false
     cancelRestore()
 
     if (counter === 0) {
@@ -281,6 +290,10 @@ export default function useSoftFullscreen(options) {
     const requestChanged = newRequested !== requested
     requested = newRequested
 
+    if (!requested) {
+      pending = false
+    }
+
     if (active && newEl !== el) {
       // the element in fullscreen is no longer the target
       exitFullscreen()
@@ -288,6 +301,9 @@ export default function useSoftFullscreen(options) {
     } else if (requestChanged && requested !== active) {
       if (requested) setFullscreen()
       else exitFullscreen()
+    } else if (pending && !active && newEl !== null) {
+      // the target the request was waiting for is here
+      setFullscreen()
     }
   })
 

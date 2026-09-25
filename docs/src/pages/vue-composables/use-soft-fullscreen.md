@@ -94,16 +94,16 @@ Without a `target`, the composable drives the root element of the component it i
 You can drive the state either way:
 
 - imperatively, through `setFullscreen()`, `exitFullscreen()` and `toggleFullscreen()`
-- declaratively, through the `fullscreen` option: the element enters or leaves the fullscreen state whenever the option changes (and starts in it when the option is `true` at mount)
+- declaratively, through the `fullscreen` option: the element enters or leaves the fullscreen state whenever the option changes (and starts in it when the option is `true` at mount; a request made while the target does not exist yet waits for it)
 
-The declarative form is what a `fullscreen` prop of your own component maps to. Both forms mix freely; the composable only acts on the option when its value changes, so a state you set imperatively stays put until the option changes again.
+The declarative form is what a `fullscreen` prop of your own component maps to. Both forms mix freely; the composable only acts on the option when its value changes, so a state you set imperatively stays put until the option changes again. The same holds for the exits the composable performs on its own (the phone's back button, a route change): with the option still `true`, set it to `false` and back to `true` to re-enter, or keep the option in sync with `inFullscreen` (a `v-model`-style prop does exactly that).
 
 ## Changing the options while running
 
 The options can be a plain Object, a Ref or a getter Function. A plain Object is read once. With a Ref or a getter, the composable tracks whatever reactive state the options read and re-applies them whenever that state changes:
 
 - flipping `fullscreen` enters or leaves the fullscreen state
-- pointing `target` to another element while in fullscreen puts the current element back in place and, if the state was requested through the `fullscreen` option, moves the new one to fullscreen; a target that goes away (through `v-if`) leaves the fullscreen state
+- pointing `target` to another element while in fullscreen puts the current element back in place and, if the state was requested through the `fullscreen` option, moves the new one to fullscreen; a target that goes away (through `v-if`) leaves the fullscreen state and, while the option still asks for it, gets back to fullscreen when it comes back
 - `noRouteExit` applies to the next route change
 
 A component kept alive by `<KeepAlive>` leaves the fullscreen state when it gets deactivated. When it gets activated again, it goes back to fullscreen only if the `fullscreen` option asks for it.

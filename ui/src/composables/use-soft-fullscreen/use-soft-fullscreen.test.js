@@ -308,6 +308,91 @@ describe('[useSoftFullscreen API]', () => {
         expect(bodyHasFullscreenClass()).toBe(false)
       })
 
+      test('a fullscreen request waits for a target rendered later', async () => {
+        const show = ref(false)
+        let target
+        let result
+        wrapper = mount(
+          defineComponent({
+            setup() {
+              target = ref(null)
+              result = useSoftFullscreen({ target, fullscreen: true })
+              return () =>
+                h('div', [show.value ? h('section', { ref: target }) : null])
+            }
+          }),
+          { attachTo: createMountTarget() }
+        )
+        const root = wrapper.element
+
+        // nothing to move yet
+        expect(result.inFullscreen.value).toBe(false)
+        expect(bodyHasFullscreenClass()).toBe(false)
+
+        show.value = true
+        await nextTick()
+
+        const el = document.querySelector('section')
+        expect(result.inFullscreen.value).toBe(true)
+        expect(el.parentElement).toBe(document.body)
+        expect(root.children).toHaveLength(1)
+
+        result.exitFullscreen()
+        expect(el.parentElement).toBe(root)
+      })
+
+      test('a requested state follows the target through a v-if round trip', async () => {
+        const show = ref(true)
+        let target
+        let result
+        wrapper = mount(
+          defineComponent({
+            setup() {
+              target = ref(null)
+              result = useSoftFullscreen({ target, fullscreen: true })
+              return () =>
+                h('div', [show.value ? h('section', { ref: target }) : null])
+            }
+          }),
+          { attachTo: createMountTarget() }
+        )
+        const root = wrapper.element
+
+        expect(result.inFullscreen.value).toBe(true)
+
+        show.value = false
+        await nextTick()
+        expect(result.inFullscreen.value).toBe(false)
+        expect(root.children).toHaveLength(0)
+
+        show.value = true
+        await nextTick()
+
+        const el = document.querySelector('section')
+        expect(result.inFullscreen.value).toBe(true)
+        expect(el.parentElement).toBe(document.body)
+
+        result.exitFullscreen()
+        expect(el.parentElement).toBe(root)
+      })
+
+      test('a manual exit with the option still set stays out', () => {
+        const noRouteExit = ref(false)
+        const { inFullscreen, exitFullscreen } = mountRootAndTarget(() => ({
+          fullscreen: true,
+          noRouteExit: noRouteExit.value
+        }))
+
+        expect(inFullscreen.value).toBe(true)
+
+        exitFullscreen()
+        expect(inFullscreen.value).toBe(false)
+
+        // an unrelated option change does not re-enter
+        noRouteExit.value = true
+        expect(inFullscreen.value).toBe(false)
+      })
+
       test('keeps the body class while another element is still fullscreen', () => {
         const first = mountRootAndTarget()
         const el = document.createElement('div')
