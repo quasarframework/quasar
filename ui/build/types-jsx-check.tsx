@@ -10,7 +10,25 @@ import {
   type TouchPan,
   type TouchRepeat
 } from 'quasar'
-import { type ObjectDirective, defineComponent, ref } from 'vue'
+import {
+  type GlobalComponents,
+  type ObjectDirective,
+  defineComponent,
+  ref
+} from 'vue'
+
+// what a template ref to <q-btn> resolves to: the instance methods next to
+// the exact props and slots (no index signature hiding unknown slot names)
+type QBtnTemplateRef = InstanceType<GlobalComponents['QBtn']>
+export function checkTemplateRef(btn: QBtnTemplateRef) {
+  btn.click()
+  btn.$props.dense
+  btn.$slots.loading
+  // @ts-expect-error unknown methods are rejected
+  btn.nonexistent()
+  // @ts-expect-error unknown slots are rejected
+  btn.$slots.nonexistent
+}
 
 // the binding a directive's hooks receive; vue-tsc checks each template
 // usage ("v-dir:arg.modifier=\"value\"") against these same generics

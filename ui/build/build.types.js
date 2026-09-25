@@ -791,7 +791,7 @@ function getIndexDts(apis, quasarLangIndex) {
   ] of Object.entries(componentToSubTypeMap)) {
     writeLine(
       contents,
-      `${typeName}: GlobalComponentConstructor<${propsTypeName}, ${slotsTypeName}>`,
+      `${typeName}: GlobalComponentConstructor<${propsTypeName}, ${slotsTypeName}, ${typeName}>`,
       1
     )
   }

@@ -2,7 +2,13 @@
   <q-page class="flex flex-center">
     <div class="column items-center second-page-style">
       <SharedStyleBadge />
-      <q-btn color="secondary" to="/" label="Go to Index Page" no-caps />
+      <q-btn
+        ref="indexBtn"
+        color="secondary"
+        to="/"
+        label="Go to Index Page"
+        no-caps
+      />
       <div v-touch-pan.horizontal.prevent="onPan" v-resize:100="onResize" />
       <!-- @vue-expect-error unknown directive modifier -->
       <div v-touch-pan.typo="onPan" />
@@ -11,11 +17,18 @@
 </template>
 
 <script setup lang="ts">
-// the directive usages above are asserted by the e2e typecheck step
+// the directive usages and the template ref above are asserted by the
+// e2e typecheck step
+import { useTemplateRef } from 'vue'
+
 import SharedStyleBadge from '@/components/SharedStyleBadge'
 
+const indexBtn = useTemplateRef('indexBtn')
+
 function onPan() {}
-function onResize() {}
+function onResize() {
+  indexBtn.value?.$el.classList.contains('q-btn')
+}
 </script>
 
 <style scoped>

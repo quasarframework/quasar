@@ -63,8 +63,17 @@ export type PublicProps = VNodeProps &
 // GlobalComponentConstructor helper is kind of like the ComponentConstructor type helper, but simpler and keeps the Volar errors simpler,
 // and also similar to the usage in official Vue packages: https://github.com/vuejs/vue-next/blob/d84d5ecdbdf709570122175d6565bb61fae877f2/packages/runtime-core/src/components/BaseTransition.ts#L258-L264 or https://github.com/vuejs/vue-router-next/blob/5dd5f47515186ce34efb9118dda5aad0bb773439/src/RouterView.ts#L160-L172 etc.
 // TODO: This can be replaced with `DefineComponent` once this PR gets merged: https://github.com/vuejs/vue-next/pull/4465
-export type GlobalComponentConstructor<Props = {}, Slots = {}> = {
-  new (): {
+// The instance (the `QBtn` interface: ComponentPublicInstance plus the
+// public methods) is what a template ref resolves to, e.g.
+// `useTemplateRef('btn').value.click()`; its `$props`/`$slots` are
+// replaced by the exact ones (the instance `$slots` carries an index
+// signature that would hide unknown slot names)
+export type GlobalComponentConstructor<
+  Props = {},
+  Slots = {},
+  Instance = {}
+> = {
+  new (): Omit<Instance, "$props" | "$slots"> & {
     $props: PublicProps & Props;
     $slots: Slots;
   };
