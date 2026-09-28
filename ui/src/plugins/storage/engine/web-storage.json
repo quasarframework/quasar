@@ -2,17 +2,6 @@
   "meta": {
     "docsUrl": "https://v2.quasar.dev/quasar-plugins/web-storage"
   },
-
-  "props": {
-    "items": {
-      "type": "Object",
-      "addedIn": "v2.34",
-      "reactive": true,
-      "desc": "A reactive view of the storage, one property per key: reading a property gives the item value (null while missing), assigning one persists it (as setItem() does) and deleting it removes it; a nested change of an object or Array value gets persisted too. It follows the changes made through the other methods and those made from another tab/window of the same origin. It is not enumerable and has no 'in' (see getAllKeys(), getAll() and hasItem()). A key read from a component (or any effect scope) is tracked while that scope lives; a key first read outside of one, for the rest of the page",
-      "examples": ["{ theme: 'dark', settings: { notifications: true } }"]
-    }
-  },
-
   "methods": {
     "hasItem": {
       "desc": "Check if storage item exists",
@@ -30,7 +19,6 @@
         "desc": "Does the item exist or not?"
       }
     },
-
     "getLength": {
       "desc": "Get storage number of entries",
       "params": null,
@@ -39,7 +27,6 @@
         "desc": "Number of entries"
       }
     },
-
     "getItem": {
       "tsType": "WebStorageGetItemMethodType",
       "desc": "Get a storage item value",
@@ -66,7 +53,6 @@
         "examples": ["'john12'", "702"]
       }
     },
-
     "getIndex": {
       "tsType": "WebStorageGetIndexMethodType",
       "desc": "Get the storage item value at specific index",
@@ -91,7 +77,6 @@
         "desc": "Storage item value at that index; null past the end"
       }
     },
-
     "getKey": {
       "tsType": "WebStorageGetKeyMethodType",
       "desc": "Get the storage key at specific index",
@@ -108,7 +93,6 @@
         "examples": ["'userId'"]
       }
     },
-
     "getAll": {
       "desc": "Retrieve all items in storage",
       "params": null,
@@ -118,7 +102,6 @@
         "examples": ["{ userId: 'rstoenescu', timesLoggedIn: 14 }"]
       }
     },
-
     "getAllKeys": {
       "tsType": "WebStorageGetAllKeysMethodType",
       "desc": "Retrieve all keys in storage",
@@ -129,9 +112,8 @@
         "examples": ["['userId', 'password']"]
       }
     },
-
     "setItem": {
-      "desc": "Set item in storage",
+      "desc": "Set item in storage; a null or undefined value removes the item (as removeItem() does)",
       "alias": "set",
       "params": {
         "key": {
@@ -140,7 +122,6 @@
           "required": true,
           "examples": ["'userId'"]
         },
-
         "value": {
           "type": [
             "Number",
@@ -150,10 +131,9 @@
             "Function",
             "Object",
             "Array",
-            "String",
-            "null"
+            "String"
           ],
-          "desc": "Entry value; a Function is stored as its source and null/undefined as the Strings the browser makes of them (use removeItem() to remove an item)",
+          "desc": "Entry value; a Function is stored as its source",
           "required": true,
           "params": {
             "...params": {
@@ -170,7 +150,6 @@
       },
       "returns": null
     },
-
     "removeItem": {
       "desc": "Remove a storage item",
       "alias": "remove",
@@ -184,19 +163,76 @@
       },
       "returns": null
     },
-
     "clear": {
       "desc": "Remove everything from the storage",
       "params": null,
       "returns": null
     },
-
     "isEmpty": {
       "desc": "Determine if storage has any items",
       "params": null,
       "returns": {
         "type": "Boolean",
         "desc": "Tells if storage is empty or not"
+      }
+    },
+    "useItem": {
+      "desc": "Get a Vue ref bound to a storage item: it reads the item value (the default, or null, while missing), assigning it persists the value (null removes the item, or resets it to the default) and a nested change of an object or Array value gets persisted too. It follows the changes made through the other methods, through other refs of the same item and from another tab/window of the same origin. It is released together with the calling scope (a component, a Pinia store, an effectScope()); outside of one, call its stop() method when done",
+      "addedIn": "v2.34",
+      "params": {
+        "key": {
+          "type": "String",
+          "desc": "Entry key",
+          "required": true,
+          "examples": ["'theme'"]
+        },
+        "options": {
+          "type": "Object",
+          "desc": "Options",
+          "definition": {
+            "default": {
+              "type": [
+                "Number",
+                "Boolean",
+                "Date",
+                "RegExp",
+                "Object",
+                "Array",
+                "String"
+              ],
+              "desc": "Value the ref reads while the item is missing; it gets stored when the ref attaches to a missing item and again whenever the item is removed",
+              "examples": ["'light'", "{ notifications: true }"]
+            },
+            "deep": {
+              "type": "Boolean",
+              "desc": "Hand out an object or Array value reactive, so that a nested change gets tracked and persisted; set it to false for a large value that you only ever assign as a whole",
+              "default": "true"
+            },
+            "disabled": {
+              "type": ["Boolean", "Object", "Function"],
+              "tsType": "MaybeRefOrGetter<boolean>",
+              "desc": "While true the ref is detached from the storage (a plain in-memory ref); once false again it attaches like a new ref: the stored value wins if the item exists, otherwise the current value gets stored",
+              "examples": ["true", "() => consent.value !== true"]
+            },
+            "onError": {
+              "type": "Function",
+              "desc": "Called when the storage cannot be written (quota exceeded, private browsing) or a stored value cannot be decoded; without it the error is thrown",
+              "params": {
+                "err": {
+                  "type": "Error",
+                  "desc": "The error"
+                }
+              },
+              "returns": null,
+              "examples": ["err => { Notify.create(err.message) }"]
+            }
+          }
+        }
+      },
+      "returns": {
+        "type": "Object",
+        "tsType": "WebStorageItemRef",
+        "desc": "A Vue ref with an extra stop() method that detaches it from the storage"
       }
     }
   }

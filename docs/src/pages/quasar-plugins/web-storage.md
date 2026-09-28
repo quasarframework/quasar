@@ -1,22 +1,22 @@
 ---
 title: Local/Session Storage Plugins
-desc: A Quasar plugin that wraps the Local/Session Storage, retrieving data with its original JS type and exposing it reactively.
-keys: LocalStorage,SessionStorage,useStorage,items
+desc: A Quasar plugin that wraps the Local/Session Storage, retrieving data with its original JS type and binding storage items to Vue refs.
+keys: LocalStorage,SessionStorage,useItem,useStorage
 examples: WebStorage
 ---
 
-Quasar provides a wrapper over [Web Storage API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API). Besides the usual methods, it exposes the storage as a [reactive view](#reactive-items) (v2.34+): read `$q.localStorage.items.myTheme` in a template or a computed and it updates whenever the item changes through the plugin, from anywhere in your app or from another tab or window.
+Quasar provides a wrapper over [Web Storage API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API). Besides the usual methods, it binds a storage item to a Vue ref (v2.34+): `$q.localStorage.useItem('theme')` reads and writes the item, updates whenever the item changes through the plugin, from anywhere in your app or from another tab or window, and works in a template, a computed, a watcher or a Pinia store alike.
 
 > [!NOTE]
 > Web Storage API only retrieves strings. **Quasar retrieves data with its original data type.** You tell it to store a Number then to retrieve it and it will still be a Number, not a string representation of the number as with Web Storage API. Same for JSON, Regular Expressions, Dates, Booleans and so on.
 
 > [!WARNING]
-> Read and write through the plugin only. It encodes what it stores in order to keep the data type, so its methods and the native `localStorage`/`sessionStorage` ones are not interchangeable: an item written natively does not read back with its type and a native write in the same tab goes unnoticed by the [reactive view](#reactive-items).
+> Read and write through the plugin only. It encodes what it stores in order to keep the data type, so its methods and the native `localStorage`/`sessionStorage` ones are not interchangeable: an item written natively does not read back with its type and a native write in the same tab goes unnoticed by the [item refs](#item-refs).
 
 > [!WARNING]
 > **Note about SSR/SSG**
 >
-> Web Storage is a browser API only. On the server-side of SSR/SSG builds every item reads as missing and every write is dropped, so guard anything that must run against real data with a client-side check (or `onMounted()`); the client-side works as usual.
+> Web Storage is a browser API only. On the server-side of SSR/SSG builds every item reads as missing, every write is dropped and an item ref reads as its default, so guard anything that must run against real data with a client-side check (or `onMounted()`); the client-side works as usual.
 
 <DocApi file="LocalStorage" />
 
@@ -64,74 +64,102 @@ try {
 > [!NOTE]
 > For an exhaustive list of methods, please check the API section.
 
-## Reactive items <q-badge label="v2.34+" />
+## Item refs <q-badge label="v2.34+" />
 
-The `items` property is a reactive view of the storage, one property per key. Reading a property gives you the item value (`null` while it is missing), assigning one persists it and deleting it removes it. A template, a computed or a watcher reading it re-evaluates whenever the item changes through the plugin, from anywhere in your app or from another tab or window of the same origin.
+`useItem(key, options)` returns a Vue ref bound to a storage item. Reading it gives you the item value (its default, or `null`, while the item is missing), assigning it persists the value right away and a nested change of an object or Array value gets persisted too. A template, a computed or a watcher reading it re-evaluates whenever the item changes through the plugin, from anywhere in your app or from another tab or window of the same origin.
 
 ```js
 import { useQuasar } from 'quasar'
 
 setup () {
   const $q = useQuasar()
-  const { items } = $q.localStorage
 
-  items.myTheme // 'dark', or null while missing
-  items.myTheme = 'dark' // persisted
-  delete items.myTheme // removed; same as removeItem('myTheme')
+  const theme = $q.localStorage.useItem('theme', { default: 'light' })
 
-  items.myTheme ??= 'light' // stores a default the first time only
+  theme.value // 'light' while the item is missing, the stored value otherwise
+  theme.value = 'dark' // persisted; every other ref of the item follows
+  theme.value = null // removed, which reads as the default again
 
   // a nested change of an object (or Array) gets persisted too
-  items.settings = { notifications: true }
-  items.settings.notifications = false
+  const settings = $q.localStorage.useItem('settings', {
+    default: { notifications: true }
+  })
+  settings.value.notifications = false
+
+  return { theme, settings }
 }
 ```
 
 ```html
 <!-- straight in a template -->
-<q-toggle
-  v-model="$q.localStorage.items.enableNotifications"
-  label="Notifications"
-/>
+<q-toggle v-model="settings.notifications" label="Notifications" />
 ```
 
-<DocExample title="Reactive items" file="Basic" />
+The options, all optional:
+
+```js
+$q.localStorage.useItem('settings', {
+  // value the ref reads while the item is missing; it gets stored when
+  // the ref attaches to a missing item and whenever the item is removed
+  // (default: none, the ref then reads null)
+  default: { notifications: true },
+
+  // hand out an object or Array value reactive, so that a nested change
+  // gets tracked and persisted; false for a large value that you only
+  // ever assign as a whole (default: true)
+  deep: true,
+
+  // while true the ref is detached from the storage, a plain in-memory
+  // ref; once false again it attaches like a new ref (default: false)
+  disabled: false,
+
+  // called when the storage cannot be written (quota exceeded, private
+  // browsing) or a stored value cannot be decoded (default: none, the
+  // error is thrown)
+  onError(err) {
+    /* ... */
+  }
+})
+```
+
+<DocExample title="Item ref" file="Basic" />
 
 <DocExample title="Nested changes" file="Nested" />
+
+<DocExample title="Persist on demand" file="Disabled" />
 
 > [!TIP]
 > **Typed keys**
 >
-> The view is typed as any key holding any storable value. Declare your own keys once, per storage area, to have them checked everywhere (optional, as a key can be deleted, and `null`, as it reads while missing):
+> An item ref is typed as any storable value, or as its default when one is given. Declare your own keys once, per storage area, to have every `useItem()` call checked against them, defaults included:
 >
 > ```ts
 > declare module 'quasar' {
 >   interface LocalStorageItems {
->     theme?: 'light' | 'dark' | null
+>     theme: 'light' | 'dark'
 >   }
 >
 >   interface SessionStorageItems {
->     draft?: { title: string } | null
+>     draft: { title: string }
 >   }
 > }
 > ```
 
 > [!NOTE]
-> The view is deliberately not enumerable and has no `in`: `Object.keys()` or a `v-for` over it see nothing and `'theme' in items` is always `false`, so that no key gets tracked without being read. Use `getAllKeys()`, `getAll()` or `hasItem()` for those.
+> An item with a default always holds a value: while a ref with a default is attached to it, removing the item (`removeItem()`, `clear()`, assigning `null`, another tab) stores the default again. A ref without a default reads `null` for a removed item.
 
 > [!NOTE]
-> Nested changes are tracked when made through the view (`items.settings.notifications = false`), on plain Objects and Arrays only. Mutating the original object you assigned, or a `Date` in place (`items.since.setFullYear(2027)`), persists nothing: assign through the view instead.
+> Nested changes are tracked when made through the ref (`settings.value.notifications = false`), on plain Objects and Arrays only. Mutating the original object you assigned, or a `Date` in place (`since.value.setFullYear(2027)`), persists nothing: assign through the ref instead. With `deep: false` the ref hands out the plain value and only an assignment persists.
 
 > [!TIP]
 > **Outside of a component**
 >
-> - The view can be used anywhere: in a boot file, a store or a plain module. A key read from a component (or any Vue effect scope, a Pinia store included) is tracked while that scope lives and released with the last of them; a key first read outside of any scope stays tracked for the rest of the page.
-> - One quirk follows from this: a `watch()` created outside of any scope, on a key that a component is already reading, gets released together with that component and stops firing. Create such a watcher inside an `effectScope()` (or read the key from it before any component does, so that the key gets tracked for the rest of the page).
+> `useItem()` can also be called outside of `setup()`: in a boot file, a store or a plain module. A ref created inside a Vue effect scope (a component or a Pinia store) is released together with it; one created outside of any scope stays bound to the storage for the rest of the page: call its `stop()` method when you are done with it.
 
 > [!WARNING]
 > **Note about SSR/SSG**
 >
-> The server has no storage, so it renders every item as missing. On the client, the view reads the same way until the page is hydrated, then every reader catches up on its own: the markup matches on both sides and no hydration error gets triggered. Expect a flash of the missing state on the first paint, and make it read well (a `?? 'light'` fallback, for instance).
+> The server has no storage, so it renders every item ref as its default. On the client, the ref reads the same way until the page is hydrated, then catches up on its own: the markup matches on both sides and no hydration error gets triggered. Expect a flash of the default on the first paint, and pick a default that reads well.
 
 ## Data Types
 
@@ -144,4 +172,4 @@ The following data types are retrieved with the same data type they were stored 
 - Regular Expressions (flags included, v2.34+)
 - Plain JavaScript Objects and Arrays (anything `JSON.stringify()` handles)
 
-A Function is stored as its source and comes back as a String. Any other value, `null` and `undefined` included, is stored the way the browser stringifies it and comes back as that String; a `null` read always means a missing item, and removing one is `removeItem()`'s job.
+A Function is stored as its source and comes back as a String. Storing `null` or `undefined` removes the item (v2.34+; older versions stored the Strings the browser makes of them), so a `null` read always means a missing item. Any other value is stored the way the browser stringifies it and comes back as that String.

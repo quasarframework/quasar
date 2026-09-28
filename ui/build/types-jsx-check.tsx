@@ -3,10 +3,13 @@
 // pass cannot do. Every "@ts-expect-error" below is an assertion too: the
 // line must keep erroring, or the check fails.
 import {
+  LocalStorage,
   type MetaOptions,
   QBtn,
   QInput,
   type QTableColumn,
+  SessionStorage,
+  type WebStorageItemRef,
   noop,
   type Resize,
   type TouchPan,
@@ -67,6 +70,34 @@ export const resizeStaticArg: DirectiveBindingOf<Resize>['arg'] = '100'
 export const resizeDynamicArg: DirectiveBindingOf<Resize>['arg'] = 100
 // @ts-expect-error a non-numeric argument is rejected
 export const resizeTypoArg: DirectiveBindingOf<Resize>['arg'] = 'fast'
+
+// the storage keys declared once per area type every useItem() call
+declare module 'quasar' {
+  interface LocalStorageItems {
+    theme: 'light' | 'dark'
+  }
+  interface SessionStorageItems {
+    draft: { title: string }
+  }
+}
+export const theme: WebStorageItemRef<'light' | 'dark' | null> =
+  LocalStorage.useItem('theme')
+export const themeWithDefault: WebStorageItemRef<'light' | 'dark'> =
+  LocalStorage.useItem('theme', { default: 'light' })
+// @ts-expect-error a value outside the declared type is rejected
+theme.value = 'blue'
+// @ts-expect-error a default outside the declared type is rejected
+LocalStorage.useItem('theme', { default: 'blue' })
+// an undeclared key takes any storable value; its default sets the type
+export const count: WebStorageItemRef<number> = LocalStorage.useItem('count', {
+  default: 0
+})
+export const sessionDraft: WebStorageItemRef<{ title: string } | null> =
+  SessionStorage.useItem('draft')
+export const draft = LocalStorage.useItem('draft')
+// @ts-expect-error a key declared on the other area is not typed here
+draft.value?.title
+theme.stop()
 
 export default defineComponent({
   setup() {

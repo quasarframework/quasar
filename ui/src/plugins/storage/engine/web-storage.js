@@ -1,16 +1,18 @@
 import {
+  customRef,
   effectScope,
-  getCurrentInstance,
   getCurrentScope,
-  markRaw,
   onScopeDispose,
+  reactive,
   ref,
+  shallowRef,
+  toValue,
   watch
 } from 'vue'
 
 import { isRuntimeSsrPreHydration } from '../../platform/Platform.js'
 import { noop } from '../../../utils/event/event.js'
-import { isDate, isRegexp } from '../../../utils/is/is.js'
+import { isDate, isObject, isRegexp } from '../../../utils/is/is.js'
 
 function encode(value) {
   if (isDate(value)) {
@@ -94,34 +96,24 @@ function decode(value) {
   }
 }
 
-// the traps forward symbols, Vue's own flag probes (__v_isRef, __v_raw,
-// markRaw's __v_skip...), toJSON and the Object.prototype names (toString,
-// valueOf, constructor...) untouched, so that probing or coercing the view
-// never tracks a key; everything else is a storage key
-function isStorageKey(key) {
-  return (
-    typeof key === 'string' &&
-    !key.startsWith('__v_') &&
-    key !== 'toJSON' &&
-    !(key in Object.prototype)
-  )
+function getItemRefOptions(options) {
+  return {
+    defaultValue: options?.default ?? null,
+    deep: options?.deep !== false,
+    disabled: options?.disabled,
+    onError: options?.onError
+  }
 }
 
-// every item reads as missing and every write is dropped
-const emptyItems = markRaw(
-  new Proxy(
-    {},
-    {
-      get: (target, key) => (isStorageKey(key) ? null : target[key]),
-      set: () => true,
-      deleteProperty: () => true
-    }
-  )
-)
+// a plain ref that reads as the default: the server has no storage and
+// the client must render the same markup until it gets hydrated
+function getEmptyItemRef(key, options) {
+  const { defaultValue, deep } = getItemRefOptions(options)
+  return Object.assign((deep ? ref : shallowRef)(defaultValue), { stop: noop })
+}
 
 export function getEmptyStorage() {
   return {
-    items: emptyItems,
     has: () => false, // alias for hasItem; TODO: remove in Qv3
     hasItem: () => false,
     getLength: () => 0,
@@ -135,24 +127,9 @@ export function getEmptyStorage() {
     remove: noop, // alias for removeItem; TODO: remove in Qv3
     removeItem: noop,
     clear: noop,
-    isEmpty: () => true
+    isEmpty: () => true,
+    useItem: getEmptyItemRef
   }
-}
-
-// an entry remembers the encoded form of what it last got from the
-// storage side, so that its watcher can tell a change made through
-// the items view (to persist) from one it merely got told about
-function assign(entry, value, encoded) {
-  entry.synced = encoded
-  entry.itemRef.value = value
-}
-
-// the effect scope reading the items view right now: a component's
-// (setup or render), a store's, a custom effectScope()...; a stopped
-// one (an unmounted hook reads with the component's) can own nothing
-function getReaderScope() {
-  const scope = getCurrentScope() ?? getCurrentInstance()?.scope
-  return scope?.active ? scope : void 0
 }
 
 export function getStorage(type) {
@@ -162,24 +139,26 @@ export function getStorage(type) {
       return item ? decode(item) : null
     }
 
-  // key -> the entry behind the items view: created on first read,
-  // owned by the effect scopes reading it and released with the last of
-  // them; a key first read with no scope active is pinned for the rest
-  // of the page
-  const entries = new Map()
+  // key -> the receivers of the item refs attached to that key; each
+  // one is told about every change of its item made through this
+  // storage object, another ref of the item or another document of
+  // the origin
+  const attached = new Map()
 
   // a null value means the item is gone
-  function syncEntry(key, value, encoded) {
-    const entry = entries.get(key)
-
-    if (entry !== void 0) {
-      assign(entry, value, encoded ?? encode(value))
-    }
+  function notify(key, value, encoded, except) {
+    attached.get(key)?.forEach(receive => {
+      if (receive !== except) {
+        receive(value, encoded)
+      }
+    })
   }
 
-  function syncAllEntries() {
-    entries.forEach(entry => {
-      assign(entry, null, null)
+  function notifyAll() {
+    attached.forEach(receivers => {
+      receivers.forEach(receive => {
+        receive(null, null)
+      })
     })
   }
 
@@ -189,171 +168,221 @@ export function getStorage(type) {
     if (evt.storageArea !== webStorage) return
 
     if (evt.key === null) {
-      syncAllEntries()
+      notifyAll()
     } else {
       const raw = evt.newValue
-      syncEntry(evt.key, raw ? decode(raw) : null)
+      notify(evt.key, raw ? decode(raw) : null, raw)
+    }
+  }
+
+  function attach(key, receive) {
+    let receivers = attached.get(key)
+
+    if (receivers === void 0) {
+      if (attached.size === 0) {
+        window.addEventListener('storage', onStorage)
+      }
+
+      receivers = new Set()
+      attached.set(key, receivers)
+    }
+
+    receivers.add(receive)
+  }
+
+  function detach(key, receive) {
+    const receivers = attached.get(key)
+
+    if (receivers?.delete(receive) && receivers.size === 0) {
+      attached.delete(key)
+
+      if (attached.size === 0) {
+        window.removeEventListener('storage', onStorage)
+      }
     }
   }
 
   const hasItem = key => webStorage.getItem(key) !== null
+
+  const removeItem = key => {
+    webStorage.removeItem(key)
+    notify(key, null, null)
+  }
+
   const setItem = (key, value) => {
+    if (value === null || value === void 0) {
+      removeItem(key)
+      return
+    }
+
     const encoded = encode(value)
     webStorage.setItem(key, encoded)
 
-    if (entries.has(key)) {
-      // a function is stored as its source and a value encode() hands
-      // back as is (null, undefined...) as the string the browser makes
-      // of it: what reads back is what the entry holds
-      if (typeof encoded !== 'string' || typeof value === 'function') {
-        syncEntry(key, get(key))
+    // a function is stored as its source and a value encode() hands
+    // back as is (a BigInt...) as the string the browser makes of it:
+    // what reads back is what the refs get
+    if (typeof encoded !== 'string' || typeof value === 'function') {
+      const stored = get(key)
+      notify(key, stored, encode(stored))
+    } else {
+      notify(key, value, encoded)
+    }
+  }
+
+  function useItem(key, options) {
+    const { defaultValue, deep, disabled, onError } = getItemRefOptions(options)
+
+    // the raw value; a plain object or Array is handed out reactive by
+    // the getter, so that a nested change gets tracked and persisted
+    let value = defaultValue,
+      // the encoded form of what the storage side last agreed on, so
+      // that a change made through the ref (to persist) can be told
+      // from one it merely got told about
+      synced = null,
+      isAttached = false,
+      trigger
+
+    const fail = err => {
+      if (onError !== void 0) {
+        onError(err)
       } else {
-        syncEntry(key, value, encoded)
+        throw err
       }
     }
-  }
-  const removeItem = key => {
-    webStorage.removeItem(key)
-    syncEntry(key, null, null)
-  }
 
-  function seed(entry, key) {
-    const raw = webStorage.getItem(key)
+    const itemRef = customRef((track, triggerRef) => {
+      trigger = triggerRef
 
-    if (raw) {
-      const value = decode(raw)
-      assign(entry, value, encode(value))
-    }
-  }
-
-  // a missing item is synced as (null, null) and encode(null) is null,
-  // so a missing item never gets written on its own
-  function persist(key, entry, value) {
-    const encoded = encode(value)
-
-    if (encoded !== entry.synced) {
-      webStorage.setItem(key, encoded)
-      entry.synced = encoded
-    }
-  }
-
-  function createEntry(key) {
-    const entry = {
-      itemRef: ref(null),
-      synced: null,
-      // its watchers live in a detached scope, so that no reader's
-      // scope takes them down with it
-      scope: effectScope(true),
-      owners: new Set(),
-      pinned: false
-    }
-
-    if (entries.size === 0) {
-      window.addEventListener('storage', onStorage)
-    }
-
-    entries.set(key, entry)
-
-    entry.scope.run(() => {
-      // the server rendered with nothing in store, so the stored value
-      // must not land before the markup is hydrated
-      if (isRuntimeSsrPreHydration.value) {
-        watch(
-          isRuntimeSsrPreHydration,
-          () => {
-            seed(entry, key)
-          },
-          { once: true }
-        )
-      } else {
-        seed(entry, key)
-      }
-
-      watch(
-        entry.itemRef,
-        value => {
-          persist(key, entry, value)
+      return {
+        get() {
+          track()
+          return deep && (isObject(value) || Array.isArray(value))
+            ? reactive(value)
+            : value
         },
-        { deep: true }
-      )
+
+        set(newValue) {
+          assign(
+            newValue === null || newValue === void 0 ? defaultValue : newValue
+          )
+          persist()
+        }
+      }
     })
 
-    return entry
-  }
-
-  function releaseEntry(key, entry) {
-    entry.scope.stop()
-    entries.delete(key)
-
-    if (entries.size === 0) {
-      window.removeEventListener('storage', onStorage)
-    }
-  }
-
-  function getEntry(key) {
-    const entry = entries.get(key) ?? createEntry(key)
-
-    if (!entry.pinned) {
-      const reader = getReaderScope()
-
-      if (reader === void 0) {
-        // an event handler or a watcher getter of a component that owns
-        // the key reads with no scope active; only a key nobody owns
-        // gets pinned by such a read
-        if (entry.owners.size === 0) {
-          entry.pinned = true
-        }
-      } else if (!entry.owners.has(reader)) {
-        entry.owners.add(reader)
-        reader.run(() => {
-          onScopeDispose(() => {
-            entry.owners.delete(reader)
-
-            if (entry.owners.size === 0 && !entry.pinned) {
-              // a nested change made right before is still waiting for
-              // the watcher to flush
-              persist(key, entry, entry.itemRef.value)
-              releaseEntry(key, entry)
-            }
-          })
-        })
-      }
+    function assign(newValue) {
+      value = newValue
+      trigger()
     }
 
-    return entry
-  }
+    function persist() {
+      if (!isAttached) return
 
-  // the view is deliberately not enumerable (getAllKeys()/getAll() are)
-  // and has no "in" (hasItem() has): both would create an entry, with
-  // its decoded copy and watcher, for a key nobody reads
-  const items = markRaw(
-    new Proxy(
-      {},
-      {
-        get: (target, key) =>
-          isStorageKey(key) ? getEntry(key).itemRef.value : target[key],
+      let encoded = value === null ? null : encode(value)
+      if (encoded === synced) return
 
-        set(_, key, value) {
-          if (isStorageKey(key)) {
-            setItem(key, value)
+      try {
+        if (encoded === null) {
+          webStorage.removeItem(key)
+        } else {
+          webStorage.setItem(key, encoded)
+
+          if (typeof encoded !== 'string' || typeof value === 'function') {
+            assign(get(key))
+            encoded = encode(value)
           }
+        }
+      } catch (err) {
+        fail(err)
+        return
+      }
 
-          return true
+      synced = encoded
+      notify(key, value, encoded, receive)
+    }
+
+    // the storage side changed the item (setItem(), removeItem(),
+    // clear(), another ref of the key or another document); a removed
+    // item goes back to the default, which gets persisted again
+    function receive(newValue, encoded) {
+      if (newValue === null) {
+        synced = null
+        assign(defaultValue)
+      } else {
+        synced = encoded
+        assign(newValue)
+      }
+
+      persist()
+    }
+
+    function seed() {
+      let raw
+
+      try {
+        raw = webStorage.getItem(key)
+        if (raw !== null) {
+          const stored = decode(raw)
+          synced = encode(stored)
+          assign(stored)
+        }
+      } catch (err) {
+        fail(err)
+        return
+      }
+
+      // a missing item gets the current value (the default, or what
+      // the ref was set to meanwhile)
+      persist()
+    }
+
+    const scope = effectScope(true)
+
+    scope.run(() => {
+      // attached: the ref follows the item and persists into it;
+      // detached: a plain in-memory ref. The server rendered with nothing
+      // in store, so the stored value must not land before the markup is
+      // hydrated; a disabled ref stays detached and attaches like a new
+      // one once enabled
+      watch(
+        () => !isRuntimeSsrPreHydration.value && toValue(disabled) !== true,
+        on => {
+          if (on) {
+            isAttached = true
+            attach(key, receive)
+            seed()
+          } else if (isAttached) {
+            isAttached = false
+            detach(key, receive)
+          }
         },
+        { immediate: true }
+      )
 
-        deleteProperty(_, key) {
-          if (isStorageKey(key)) {
-            removeItem(key)
-          }
-
-          return true
-        }
+      if (deep) {
+        watch(itemRef, persist, { deep: true })
       }
-    )
-  )
+    })
+
+    itemRef.stop = () => {
+      scope.stop()
+
+      if (isAttached) {
+        isAttached = false
+        detach(key, receive)
+      }
+    }
+
+    // released with the calling scope (a component, a Pinia store, an
+    // effectScope()); outside of one, stop() is the caller's job
+    if (getCurrentScope() !== void 0) {
+      onScopeDispose(itemRef.stop)
+    }
+
+    return itemRef
+  }
 
   return {
-    items,
     has: hasItem, // TODO: remove in Qv3
     hasItem,
     getLength: () => webStorage.length,
@@ -389,8 +418,9 @@ export function getStorage(type) {
     removeItem,
     clear: () => {
       webStorage.clear()
-      syncAllEntries()
+      notifyAll()
     },
-    isEmpty: () => webStorage.length === 0
+    isEmpty: () => webStorage.length === 0,
+    useItem
   }
 }

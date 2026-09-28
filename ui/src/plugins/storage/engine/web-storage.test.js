@@ -3,7 +3,6 @@ import { describe, expect, test } from 'vitest'
 import { getEmptyStorage, getStorage } from './web-storage.js'
 
 const objectDefinition = {
-  items: expect.any(Object),
   has: expect.any(Function), // alias of hasItem
   hasItem: expect.any(Function),
   getLength: expect.any(Function),
@@ -17,7 +16,8 @@ const objectDefinition = {
   remove: expect.any(Function), // alias of removeItem
   removeItem: expect.any(Function),
   clear: expect.any(Function),
-  isEmpty: expect.any(Function)
+  isEmpty: expect.any(Function),
+  useItem: expect.any(Function)
 }
 
 describe('[webStorage API]', () => {

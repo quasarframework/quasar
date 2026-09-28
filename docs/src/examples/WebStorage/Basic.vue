@@ -6,7 +6,7 @@
     </div>
 
     <q-btn-toggle
-      v-model="$q.localStorage.items.myTheme"
+      v-model="theme"
       push
       glossy
       toggle-color="primary"
@@ -20,7 +20,7 @@
 
     <div>
       The storage item holds
-      <q-badge :label="$q.localStorage.items.myTheme ?? 'nothing'" />
+      <q-badge :label="theme" />
     </div>
 
     <div class="q-gutter-sm">
@@ -35,7 +35,7 @@
         no-caps
         outline
         color="primary"
-        label="Remove the item"
+        label="Remove the item (back to the default)"
         @click="$q.localStorage.removeItem('myTheme')"
       />
     </div>
@@ -46,4 +46,6 @@
 import { useQuasar } from 'quasar'
 
 const $q = useQuasar()
+
+const theme = $q.localStorage.useItem('myTheme', { default: 'system' })
 </script>

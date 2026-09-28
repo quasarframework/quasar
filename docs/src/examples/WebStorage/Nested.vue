@@ -5,18 +5,12 @@
       settings survive.
     </div>
 
-    <q-toggle
-      v-model="$q.localStorage.items.mySettings.notifications"
-      label="Notifications"
-    />
-    <q-toggle
-      v-model="$q.localStorage.items.mySettings.sounds"
-      label="Sounds"
-    />
+    <q-toggle v-model="settings.notifications" label="Notifications" />
+    <q-toggle v-model="settings.sounds" label="Sounds" />
 
     <div>
       The stored object is
-      <q-badge :label="JSON.stringify($q.localStorage.items.mySettings)" />
+      <q-badge :label="JSON.stringify(settings)" />
     </div>
   </div>
 </template>
@@ -26,9 +20,7 @@ import { useQuasar } from 'quasar'
 
 const $q = useQuasar()
 
-// stores the default the first time, keeps what is there afterwards
-$q.localStorage.items.mySettings ??= {
-  notifications: true,
-  sounds: false
-}
+const settings = $q.localStorage.useItem('mySettings', {
+  default: { notifications: true, sounds: false }
+})
 </script>

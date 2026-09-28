@@ -8,8 +8,9 @@ import { LocalStorage } from 'quasar'
 
 export const STORAGE_KEY = 'hydration-theme'
 
-export const items = {
+export const item = {
   setup() {
-    return () => h('div', String(LocalStorage.items[STORAGE_KEY]))
+    const theme = LocalStorage.useItem(STORAGE_KEY, { default: 'light' })
+    return () => h('div', theme.value)
   }
 }
