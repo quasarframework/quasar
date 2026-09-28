@@ -31,13 +31,14 @@ import { useDebounce } from 'quasar'
 setup () {
   const {
     debounceFn,        // call it as you would call fn
-    cancelDebounce,    // drop the waiting call
-    flushDebounce,     // run the waiting call right away
+                       //   debounceFn.cancel() drops the waiting call
+                       //   debounceFn.flush() runs the waiting call right away
     isDebouncePending  // Ref<boolean>
-  } = useDebounce(fn, 300, {
-    // all optional:
-    immediate: true // run fn on the first call instead of the last one (default: false)
-  })
+  } = useDebounce(
+    fn,
+    300, // ms to wait after the last call (default: 250)
+    true // immediate: run fn on the first call instead of the last one (default: false)
+  )
 
   // ...
 }
@@ -47,35 +48,21 @@ setup () {
 function useDebounce<F extends (...args: any[]) => any>(
   fn: F,
   wait?: number, // default: 250
-  options?: {
-    immediate?: boolean
-  }
+  immediate?: boolean // default: false
 ): {
-  debounceFn: (this: ThisParameterType<F>, ...args: Parameters<F>) => void
-  cancelDebounce: () => void
-  flushDebounce: () => void
+  debounceFn: ((this: ThisParameterType<F>, ...args: Parameters<F>) => void) & {
+    cancel(): void
+    flush(): void
+  }
   isDebouncePending: Ref<boolean>
 }
 ```
 
-`debounceFn` takes the same arguments as `fn` and forwards `this` to it, so it can replace `fn` anywhere: an event handler, a watcher callback, an Options API method. Calling it while a call is already waiting replaces that call and restarts the wait.
+`debounceFn` takes the same arguments as `fn` and forwards `this` to it, so it can replace `fn` anywhere: an event handler, a watcher callback, an Options API method. Calling it while a call is already waiting replaces that call and restarts the wait. Like the util's, it carries `cancel()` (drops the waiting call) and `flush()` (runs the waiting call right away).
 
-`isDebouncePending` is `true` while a call to `fn` is waiting to run. It turns `false` right before `fn` runs, when you call `cancelDebounce()` or `flushDebounce()`, and when the component gets destroyed or deactivated.
+`isDebouncePending` is `true` while a call to `fn` is waiting to run. It turns `false` right before `fn` runs, when you call `debounceFn.cancel()` or `debounceFn.flush()`, and when the component gets destroyed or deactivated.
 
-With `immediate: true`, `fn` runs on the first call instead and the calls made during the following `wait` milliseconds are swallowed (each of them restarts the wait). No call ever waits in this mode, so `isDebouncePending` stays `false` and `flushDebounce()` has nothing to run; `cancelDebounce()` ends the wait period, so that the next call runs right away.
-
-Should you need more than one useDebounce() per component, simply rename the properties of the returned object:
-
-```js
-const { debounceFn: search, isDebouncePending: isSearchPending } = useDebounce(
-  runSearch,
-  300
-)
-const { debounceFn: saveDraft, flushDebounce: flushDraft } = useDebounce(
-  sendDraft,
-  1000
-)
-```
+With `immediate` set to `true`, `fn` runs on the first call instead and the calls made during the following `wait` milliseconds are swallowed (each of them restarts the wait). No call ever waits in this mode, so `isDebouncePending` stays `false` and `debounceFn.flush()` has nothing to run; `debounceFn.cancel()` ends the wait period, so that the next call runs right away.
 
 ## Example
 
@@ -92,14 +79,14 @@ setup () {
   // <q-editor v-model="draft" />
   const draft = ref('')
 
-  const { debounceFn: saveDraft, flushDebounce: flushDraft } = useDebounce(value => {
+  const { debounceFn: saveDraft } = useDebounce(value => {
     // send it to the server...
   }, 1000)
 
   watch(draft, saveDraft)
 
   onBeforeRouteLeave(() => {
-    flushDraft()
+    saveDraft.flush()
   })
 
   return { draft }

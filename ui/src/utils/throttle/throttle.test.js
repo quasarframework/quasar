@@ -155,7 +155,7 @@ describe('[throttle API]', () => {
 
       test('"trailing" runs the last call made during the window at its end', () => {
         const callback = vi.fn()
-        const fn = throttle(callback, 100, { trailing: true })
+        const fn = throttle(callback, 100, true)
         const context = { fn }
 
         fn(1)
@@ -186,7 +186,7 @@ describe('[throttle API]', () => {
 
       test('"trailing" skips the run when no call was made during the window', () => {
         const callback = vi.fn()
-        const fn = throttle(callback, 100, { trailing: true })
+        const fn = throttle(callback, 100, true)
 
         fn()
         vi.runAllTimers()
@@ -198,7 +198,7 @@ describe('[throttle API]', () => {
         const callback = vi.fn(() => {
           if (callback.mock.calls.length < 3) fn()
         })
-        const fn = throttle(callback, 100, { trailing: true })
+        const fn = throttle(callback, 100, true)
 
         fn()
         expect(callback).toHaveBeenCalledOnce()
@@ -215,7 +215,7 @@ describe('[throttle API]', () => {
 
       test('cancel() drops the waiting call and closes the window', () => {
         const callback = vi.fn()
-        const fn = throttle(callback, 100, { trailing: true })
+        const fn = throttle(callback, 100, true)
 
         fn()
         fn()
@@ -231,7 +231,7 @@ describe('[throttle API]', () => {
 
       test('flush() runs the waiting call right away and opens a fresh window', () => {
         const callback = vi.fn()
-        const fn = throttle(callback, 100, { trailing: true })
+        const fn = throttle(callback, 100, true)
 
         fn(1)
         vi.advanceTimersByTime(50)

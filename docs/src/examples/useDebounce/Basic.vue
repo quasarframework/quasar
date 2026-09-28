@@ -41,9 +41,7 @@ function track(evt) {
 }
 
 const { debounceFn: trailingTrack, isDebouncePending } = useDebounce(track, 250)
-const { debounceFn: immediateTrack } = useDebounce(track, 250, {
-  immediate: true
-})
+const { debounceFn: immediateTrack } = useDebounce(track, 250, true)
 
 const isWaiting = computed(
   () => immediate.value !== true && isDebouncePending.value

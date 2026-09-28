@@ -14,18 +14,15 @@ export function useAnimationFrame(): {
   removeAnimationFrame: () => void;
 };
 
-export interface UseDebounceOptions {
-  immediate?: boolean;
-}
-
 export function useDebounce<F extends (...args: any[]) => any>(
   fn: F,
   wait?: number,
-  options?: UseDebounceOptions
+  immediate?: boolean
 ): {
-  debounceFn: (this: ThisParameterType<F>, ...args: Parameters<F>) => void;
-  cancelDebounce: () => void;
-  flushDebounce: () => void;
+  debounceFn: ((this: ThisParameterType<F>, ...args: Parameters<F>) => void) & {
+    cancel(): void;
+    flush(): void;
+  };
   isDebouncePending: Ref<boolean>;
 };
 
@@ -369,19 +366,13 @@ export function useTick(): {
   removeTick: () => void;
 };
 
-export interface UseThrottleOptions {
-  trailing?: boolean;
-}
-
 export function useThrottle<F extends (...args: any[]) => any>(
   fn: F,
   limit?: number,
-  options?: UseThrottleOptions
-): {
-  throttleFn: F;
-  cancelThrottle: () => void;
-  flushThrottle: () => void;
-  isThrottlePending: Ref<boolean>;
+  trailing?: boolean
+): F & {
+  cancel(): void;
+  flush(): void;
 };
 
 export function useTimeout(): {

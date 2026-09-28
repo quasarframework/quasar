@@ -12,8 +12,8 @@
             @update:model-value="onQuery"
           />
           <q-toggle v-model="immediate" label="immediate" />
-          <q-btn flat label="flushDebounce()" @click="onFlushDebounce" />
-          <q-btn flat label="cancelDebounce()" @click="onCancelDebounce" />
+          <q-btn flat label="debounceFn.flush()" @click="onFlushDebounce" />
+          <q-btn flat label="debounceFn.cancel()" @click="onCancelDebounce" />
           <q-badge
             :color="isDebouncePending ? 'positive' : 'grey'"
             :label="isDebouncePending ? 'pending' : 'idle'"
@@ -30,12 +30,8 @@
         <div class="row q-gutter-sm items-center">
           <q-btn color="primary" label="call()" @click="onClick" />
           <q-toggle v-model="trailing" label="trailing" />
-          <q-btn flat label="flushThrottle()" @click="onFlushThrottle" />
-          <q-btn flat label="cancelThrottle()" @click="onCancelThrottle" />
-          <q-badge
-            :color="isThrottlePending ? 'positive' : 'grey'"
-            :label="isThrottlePending ? 'pending' : 'idle'"
-          />
+          <q-btn flat label="throttleFn.flush()" @click="onFlushThrottle" />
+          <q-btn flat label="throttleFn.cancel()" @click="onCancelThrottle" />
           <q-badge color="secondary" :label="`calls: ${calls}`" />
           <q-badge color="secondary" :label="`runs: ${throttleRuns}`" />
           <q-badge color="secondary" :label="`last: ${lastCall}`" />
@@ -72,7 +68,7 @@ function onSearch(value) {
 }
 
 const trailingDebounce = useDebounce(onSearch, 500)
-const immediateDebounce = useDebounce(onSearch, 500, { immediate: true })
+const immediateDebounce = useDebounce(onSearch, 500, true)
 const debounceApi = computed(() =>
   immediate.value === true ? immediateDebounce : trailingDebounce
 )
@@ -84,10 +80,10 @@ function onQuery(value) {
   debounceApi.value.debounceFn(value)
 }
 function onFlushDebounce() {
-  debounceApi.value.flushDebounce()
+  debounceApi.value.debounceFn.flush()
 }
 function onCancelDebounce() {
-  debounceApi.value.cancelDebounce()
+  debounceApi.value.debounceFn.cancel()
 }
 
 const calls = ref(0)
@@ -101,23 +97,20 @@ function onRun(n) {
 }
 
 const droppingThrottle = useThrottle(onRun, 500)
-const trailingThrottle = useThrottle(onRun, 500, { trailing: true })
-const throttleApi = computed(() =>
+const trailingThrottle = useThrottle(onRun, 500, true)
+const throttleFn = computed(() =>
   trailing.value === true ? trailingThrottle : droppingThrottle
-)
-const isThrottlePending = computed(
-  () => throttleApi.value.isThrottlePending.value
 )
 
 function onClick() {
   calls.value++
-  throttleApi.value.throttleFn(calls.value)
+  throttleFn.value(calls.value)
 }
 function onFlushThrottle() {
-  throttleApi.value.flushThrottle()
+  throttleFn.value.flush()
 }
 function onCancelThrottle() {
-  throttleApi.value.cancelThrottle()
+  throttleFn.value.cancel()
 }
 
 const showChild = ref(true)

@@ -1,7 +1,5 @@
 // oxlint-disable-next-line default-param-last
-export default function throttle(fn, limit = 250, options) {
-  const trailing = options?.trailing === true
-
+export default function throttle(fn, limit = 250, trailing) {
   let timer = null,
     lastThis,
     lastArgs = null,
@@ -43,7 +41,7 @@ export default function throttle(fn, limit = 250, options) {
     if (timer === null) {
       timer = setTimeout(onTimeout, limit)
       result = fn.apply(this, args)
-    } else if (trailing) {
+    } else if (trailing === true) {
       // oxlint-disable-next-line unicorn/no-this-assignment
       lastThis = this
       lastArgs = args

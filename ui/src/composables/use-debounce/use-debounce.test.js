@@ -35,12 +35,11 @@ describe('[useDebounce API]', () => {
   describe('[Functions]', () => {
     describe('[(function)default]', () => {
       test('has correct return value', () => {
-        const { debounceFn, cancelDebounce, flushDebounce, isDebouncePending } =
-          mountDebounce(vi.fn())
+        const { debounceFn, isDebouncePending } = mountDebounce(vi.fn())
 
         expect(debounceFn).toBeTypeOf('function')
-        expect(cancelDebounce).toBeTypeOf('function')
-        expect(flushDebounce).toBeTypeOf('function')
+        expect(debounceFn.cancel).toBeTypeOf('function')
+        expect(debounceFn.flush).toBeTypeOf('function')
         expect(isRef(isDebouncePending)).toBe(true)
         expect(isDebouncePending.value).toBe(false)
       })
@@ -89,29 +88,29 @@ describe('[useDebounce API]', () => {
         expect(fn.mock.contexts[0]).toBe(context)
       })
 
-      test('cancelDebounce() drops the waiting call', () => {
+      test('debounceFn.cancel() drops the waiting call', () => {
         const fn = vi.fn()
-        const { debounceFn, cancelDebounce } = mountDebounce(fn, wait)
+        const { debounceFn } = mountDebounce(fn, wait)
 
         debounceFn()
-        cancelDebounce()
+        debounceFn.cancel()
         vi.runAllTimers()
 
         expect(fn).not.toHaveBeenCalled()
         expect(vi.getTimerCount()).toBe(0)
       })
 
-      test('flushDebounce() runs the waiting call right away', () => {
+      test('debounceFn.flush() runs the waiting call right away', () => {
         const fn = vi.fn()
-        const { debounceFn, flushDebounce } = mountDebounce(fn, wait)
+        const { debounceFn } = mountDebounce(fn, wait)
 
         debounceFn('a')
-        flushDebounce()
+        debounceFn.flush()
 
         expect(fn).toHaveBeenCalledExactlyOnceWith('a')
         expect(vi.getTimerCount()).toBe(0)
 
-        flushDebounce()
+        debounceFn.flush()
         vi.runAllTimers()
         expect(fn).toHaveBeenCalledOnce()
       })
@@ -121,8 +120,7 @@ describe('[useDebounce API]', () => {
         const fn = vi.fn(() => {
           pendingWhenRun = isDebouncePending.value
         })
-        const { debounceFn, cancelDebounce, flushDebounce, isDebouncePending } =
-          mountDebounce(fn, wait)
+        const { debounceFn, isDebouncePending } = mountDebounce(fn, wait)
 
         debounceFn()
         expect(isDebouncePending.value).toBe(true)
@@ -135,11 +133,11 @@ describe('[useDebounce API]', () => {
         expect(isDebouncePending.value).toBe(false)
 
         debounceFn()
-        cancelDebounce()
+        debounceFn.cancel()
         expect(isDebouncePending.value).toBe(false)
 
         debounceFn()
-        flushDebounce()
+        debounceFn.flush()
         expect(isDebouncePending.value).toBe(false)
       })
 
@@ -167,7 +165,7 @@ describe('[useDebounce API]', () => {
 
       test('"immediate" runs fn on the first call and swallows the rest', () => {
         const fn = vi.fn()
-        const { debounceFn } = mountDebounce(fn, wait, { immediate: true })
+        const { debounceFn } = mountDebounce(fn, wait, true)
         const context = { debounceFn }
 
         context.debounceFn('a')
@@ -190,20 +188,19 @@ describe('[useDebounce API]', () => {
 
       test('"immediate" never has a call waiting', () => {
         const fn = vi.fn()
-        const { debounceFn, cancelDebounce, flushDebounce, isDebouncePending } =
-          mountDebounce(fn, wait, { immediate: true })
+        const { debounceFn, isDebouncePending } = mountDebounce(fn, wait, true)
 
         debounceFn()
         debounceFn()
         expect(isDebouncePending.value).toBe(false)
 
         // nothing to flush, the wait period keeps running
-        flushDebounce()
+        debounceFn.flush()
         debounceFn()
         expect(fn).toHaveBeenCalledOnce()
 
-        // cancelDebounce() ends the wait period
-        cancelDebounce()
+        // debounceFn.cancel() ends the wait period
+        debounceFn.cancel()
         debounceFn()
         expect(fn).toHaveBeenCalledTimes(2)
       })

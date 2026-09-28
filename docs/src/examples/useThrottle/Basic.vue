@@ -39,10 +39,8 @@ function track(evt) {
   position.value = `${Math.round(point.clientX)}, ${Math.round(point.clientY)}`
 }
 
-const { throttleFn: dropping } = useThrottle(track, 250)
-const { throttleFn: trailingTrack } = useThrottle(track, 250, {
-  trailing: true
-})
+const dropping = useThrottle(track, 250)
+const trailingTrack = useThrottle(track, 250, true)
 
 function onMove(evt) {
   events.value++

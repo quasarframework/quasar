@@ -66,14 +66,10 @@ export function openURL<F extends (...args: any[]) => any>(
   windowFeatures?: object
 ): void;
 
-export interface ThrottleOptions {
-  trailing?: boolean;
-}
-
 export function throttle<F extends (...args: any[]) => any>(
   fn: F,
   limit?: number,
-  options?: ThrottleOptions
+  trailing?: boolean
 ): F & {
   cancel(): void;
   flush(): void;

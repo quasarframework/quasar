@@ -1,6 +1,6 @@
 import { enableAutoUnmount, mount } from '@vue/test-utils'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
-import { defineComponent, h, isRef } from 'vue'
+import { defineComponent, h } from 'vue'
 
 import useThrottle from './use-throttle.js'
 
@@ -18,31 +18,28 @@ afterEach(() => {
 })
 
 function mountThrottle(...args) {
-  let api
+  let throttleFn
   const wrapper = mount(
     defineComponent({
       setup() {
-        api = useThrottle(...args)
+        throttleFn = useThrottle(...args)
         return () => h('div')
       }
     })
   )
 
-  return { wrapper, ...api }
+  return { wrapper, throttleFn }
 }
 
 describe('[useThrottle API]', () => {
   describe('[Functions]', () => {
     describe('[(function)default]', () => {
       test('has correct return value', () => {
-        const { throttleFn, cancelThrottle, flushThrottle, isThrottlePending } =
-          mountThrottle(vi.fn())
+        const { throttleFn } = mountThrottle(vi.fn())
 
         expect(throttleFn).toBeTypeOf('function')
-        expect(cancelThrottle).toBeTypeOf('function')
-        expect(flushThrottle).toBeTypeOf('function')
-        expect(isRef(isThrottlePending)).toBe(true)
-        expect(isThrottlePending.value).toBe(false)
+        expect(throttleFn.cancel).toBeTypeOf('function')
+        expect(throttleFn.flush).toBeTypeOf('function')
       })
 
       test('runs fn right away, then drops the calls made during the window', () => {
@@ -92,7 +89,7 @@ describe('[useThrottle API]', () => {
 
       test('"trailing" runs the last call made during the window at its end', () => {
         const fn = vi.fn()
-        const { throttleFn } = mountThrottle(fn, limit, { trailing: true })
+        const { throttleFn } = mountThrottle(fn, limit, true)
         const context = { throttleFn }
 
         throttleFn('a')
@@ -115,15 +112,13 @@ describe('[useThrottle API]', () => {
         expect(fn).toHaveBeenLastCalledWith('d')
       })
 
-      test('cancelThrottle() drops the waiting call and closes the window', () => {
+      test('throttleFn.cancel() drops the waiting call and closes the window', () => {
         const fn = vi.fn()
-        const { throttleFn, cancelThrottle } = mountThrottle(fn, limit, {
-          trailing: true
-        })
+        const { throttleFn } = mountThrottle(fn, limit, true)
 
         throttleFn()
         throttleFn()
-        cancelThrottle()
+        throttleFn.cancel()
         expect(vi.getTimerCount()).toBe(0)
 
         vi.runAllTimers()
@@ -133,109 +128,32 @@ describe('[useThrottle API]', () => {
         expect(fn).toHaveBeenCalledTimes(2)
       })
 
-      test('flushThrottle() runs the waiting call right away and opens a fresh window', () => {
+      test('throttleFn.flush() runs the waiting call right away and opens a fresh window', () => {
         const fn = vi.fn()
-        const { throttleFn, flushThrottle, isThrottlePending } = mountThrottle(
-          fn,
-          limit,
-          { trailing: true }
-        )
+        const { throttleFn } = mountThrottle(fn, limit, true)
 
         throttleFn('a')
         throttleFn('b')
-        flushThrottle()
+        throttleFn.flush()
         expect(fn).toHaveBeenCalledTimes(2)
         expect(fn).toHaveBeenLastCalledWith('b')
 
         throttleFn('c')
         expect(fn).toHaveBeenCalledTimes(2)
-        expect(isThrottlePending.value).toBe(true)
 
         vi.advanceTimersByTime(limit)
         expect(fn).toHaveBeenCalledTimes(3)
         expect(fn).toHaveBeenLastCalledWith('c')
-        expect(isThrottlePending.value).toBe(false)
-      })
-
-      test('isThrottlePending is true while a trailing call is waiting', () => {
-        let pendingWhenRun = null
-        const fn = vi.fn(() => {
-          pendingWhenRun = isThrottlePending.value
-        })
-        const { throttleFn, cancelThrottle, flushThrottle, isThrottlePending } =
-          mountThrottle(fn, limit, { trailing: true })
-
-        throttleFn()
-        expect(isThrottlePending.value).toBe(false)
-
-        throttleFn()
-        expect(isThrottlePending.value).toBe(true)
-
-        vi.advanceTimersByTime(limit - 1)
-        expect(isThrottlePending.value).toBe(true)
-
-        vi.advanceTimersByTime(1)
-        expect(fn).toHaveBeenCalledTimes(2)
-        expect(pendingWhenRun).toBe(false)
-        expect(isThrottlePending.value).toBe(false)
-
-        throttleFn()
-        cancelThrottle()
-        expect(isThrottlePending.value).toBe(false)
-
-        throttleFn()
-        throttleFn()
-        flushThrottle()
-        expect(isThrottlePending.value).toBe(false)
-      })
-
-      test('isThrottlePending stays true when fn calls throttleFn again', () => {
-        let runs = 0
-        const { throttleFn, isThrottlePending } = mountThrottle(
-          () => {
-            if (runs++ < 2) {
-              throttleFn()
-            }
-          },
-          limit,
-          { trailing: true }
-        )
-
-        throttleFn()
-        expect(runs).toBe(1)
-        expect(isThrottlePending.value).toBe(true)
-
-        vi.advanceTimersByTime(limit)
-        expect(runs).toBe(2)
-        expect(isThrottlePending.value).toBe(true)
-
-        vi.advanceTimersByTime(limit)
-        expect(runs).toBe(3)
-        expect(isThrottlePending.value).toBe(false)
-      })
-
-      test('isThrottlePending never turns true without "trailing"', () => {
-        const { throttleFn, isThrottlePending } = mountThrottle(vi.fn(), limit)
-
-        throttleFn()
-        throttleFn()
-        expect(isThrottlePending.value).toBe(false)
       })
 
       test('drops the waiting call when the component gets destroyed', () => {
         const fn = vi.fn()
-        const { wrapper, throttleFn, isThrottlePending } = mountThrottle(
-          fn,
-          limit,
-          { trailing: true }
-        )
+        const { wrapper, throttleFn } = mountThrottle(fn, limit, true)
 
         throttleFn()
         throttleFn()
-        expect(isThrottlePending.value).toBe(true)
 
         wrapper.unmount()
-        expect(isThrottlePending.value).toBe(false)
         expect(vi.getTimerCount()).toBe(0)
 
         throttleFn()
@@ -248,7 +166,7 @@ describe('[useThrottle API]', () => {
       test('warns outside of a component instance', () => {
         const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
 
-        const { throttleFn } = useThrottle(vi.fn(), limit)
+        const throttleFn = useThrottle(vi.fn(), limit)
 
         // the lifecycle hooks are the Vue ones; use the throttle() util
         // outside of a component instead

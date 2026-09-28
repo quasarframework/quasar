@@ -359,42 +359,31 @@ If your App uses JavaScript to accomplish taxing tasks, a debounce function is e
 
 Debouncing enforces that a function not be called again until a certain amount of time has passed without it being called. As in "execute this function only if 100 milliseconds have passed without it being called."
 
+```ts
+function debounce<F extends (...args: any[]) => any>(
+  fn: F,
+  wait?: number,
+  immediate?: boolean
+): ((this: ThisParameterType<F>, ...args: Parameters<F>) => void) & {
+  cancel(): void
+  flush(): void
+}
+```
+
 When `immediate` is `true`, the wait period starts before the callback runs, so calls made from within that callback are debounced too.
 
 A quick example: you have a resize listener on the window which does some element dimension calculations and (possibly) repositions a few elements. That isn't a heavy task in itself but being repeatedly fired after numerous resizes will really slow your App down. So why not limit the rate at which the function can fire?
 
 ```js
-// Returns a function, that, as long as it continues to be invoked, will not
-// be triggered. The function will be called after it stops being called for
-// N milliseconds. If `immediate` is passed, trigger the function on the
-// leading edge, instead of the trailing.
 import { debounce } from 'quasar'
 
-(Debounced Function) debounce(Function fn, Number milliseconds_to_wait, Boolean immediate)
-
-// Example:
 window.addEventListener(
   'resize',
-  debounce(function() {
-    // .... things to do ...
+  debounce(function () {
+    /* ... */
   }, 300 /*ms to wait*/)
 )
 ```
-
-Or calling as a method in a .vue file:
-
-```js
-methods: {
-  myMethod () { .... }
-},
-
-created () {
-  this.myMethod = debounce(this.myMethod, 500)
-}
-```
-
-> [!WARNING]
-> Debouncing your functions using a method declaration like `myMethod: debounce(function () { // Code }, 500)` will mean that the debounced method will be shared between _all_ rendered instances of this component, so debouncing is also shared. Moreover, `this.myMethod.cancel()` won't work, because Vue wraps each method with another function to ensure proper `this` binding. This should be avoided by following the code snippet above.
 
 The debounced Function carries two methods: `cancel()` drops the waiting call and `flush()` runs it right away. With `immediate`, no call ever waits: `flush()` does nothing and `cancel()` ends the wait period, so that the next call runs right away.
 
@@ -414,77 +403,54 @@ search.cancel() // nothing waiting anymore, no-op
 
 There's also a `frameDebounce` available which delays calling your function until next browser frame is scheduled to run (read about `requestAnimationFrame`). It carries `cancel()` only: the next frame is never more than a few milliseconds away, so there is nothing to flush.
 
-```js
+```ts
+function frameDebounce<F extends (...args: any[]) => any>(
+  fn: F
+): ((this: ThisParameterType<F>, ...args: Parameters<F>) => void) & {
+  cancel(): void
+}
+
 import { frameDebounce } from 'quasar'
-
-(Debounced Function) frameDebounce(Function fn)
-
-// Example:
 window.addEventListener(
   'resize',
-  frameDebounce(function() {
-    .... things to do ...
+  frameDebounce(function () {
+    /* ... */
   })
 )
 ```
+
+> [!TIP]
+> Inside a component, prefer the [useAnimationFrame](/vue-composables/use-animation-frame) composable: it schedules a Function on the next frame too, with the pending frame dropped when the component gets destroyed.
 
 ## throttle
 
 Throttling enforces a maximum number of times a function can be called over time. As in "execute this function at most once every X milliseconds."
 
-```js
+```ts
+function throttle<F extends (...args: any[]) => any>(
+  fn: F,
+  limit?: number,
+  trailing?: boolean // v2.34+
+): F & {
+  cancel(): void
+  flush(): void
+}
+
 import { throttle } from 'quasar'
-
-(Throttled Function) throttle(Function fn, Number limit_in_milliseconds, Object options)
-// options are described further below
-
-// Example:
 window.addEventListener(
   'resize',
-  throttle(function() {
-    .... things to do ...
+  throttle(function () {
+    /* ... */
   }, 300 /* execute at most once every 0.3s */)
 )
 ```
 
-Or calling as a method in a .vue file:
-
-```js
-methods: {
-  myMethod () { .... }
-},
-
-created () {
-  this.myMethod = throttle(this.myMethod, 500)
-}
-```
-
-> [!WARNING]
-> Throttling your functions using a method declaration like `myMethod: throttle(function () { // Code }, 500)` will mean that the throttled method will be shared between _all_ rendered instances of this component, so throttling is also shared. This should be avoided by following the code snippet above.
-
-### Throttle options <q-badge label="v2.34+" />
-
-The first call runs right away and the calls made during the following `limit` milliseconds are dropped, so a burst of calls ends with the state of its first call. With the `trailing` option, the last call made during a window runs at the end of it instead (with its own arguments), so the state of the last call always gets through; that run opens a window of its own.
-
-```js
-(Throttled Function) throttle(Function fn, Number limit_in_milliseconds, Object options)
-
-// options (all optional):
-//   trailing: Boolean - also run the last call made during a window at its end (default: false)
-
-// Example:
-window.addEventListener(
-  'scroll',
-  throttle(function() {
-    // .... the final scroll position gets through too ...
-  }, 100, { trailing: true })
-)
-```
+The first call runs right away and the calls made during the following `limit` milliseconds are dropped, so a burst of calls ends with the state of its first call. With `trailing` set to `true`, the last call made during a window runs at the end of it instead (with its own arguments), so the state of the last call always gets through; that run opens a window of its own.
 
 The throttled Function carries two methods: `cancel()` drops the waiting call and closes the window, so that the next call runs right away; `flush()` runs the waiting call right away, as if the window had just ended, so a fresh window opens and the rate limit holds; without a waiting call it does nothing.
 
 > [!TIP]
-> Inside a component, prefer the [useThrottle](/vue-composables/use-throttle) composable: the same throttled Function, with the waiting call dropped when the component gets destroyed and a reactive `isThrottlePending` Ref.
+> Inside a component, prefer the [useThrottle](/vue-composables/use-throttle) composable: the same throttled Function, with the waiting call dropped when the component gets destroyed.
 
 ## extend - (Deep) Copy Objects
 
