@@ -2,8 +2,8 @@
   "mixins": ["plugins/storage/engine/web-storage"],
   "injection": "$q.sessionStorage",
   "methods": {
-    "useItem": {
-      "tsType": "SessionStorageUseItemMethodType"
+    "useStorage": {
+      "tsType": "SessionStorageUseStorageMethodType"
     }
   }
 }

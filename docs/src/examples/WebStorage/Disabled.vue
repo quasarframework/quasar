@@ -24,7 +24,7 @@ const $q = useQuasar()
 
 const remember = ref(false)
 
-const name = $q.localStorage.useItem('myName', {
+const name = $q.localStorage.useStorage('myName', {
   default: '',
   disabled: () => remember.value !== true
 })

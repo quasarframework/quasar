@@ -176,7 +176,7 @@
         "desc": "Tells if storage is empty or not"
       }
     },
-    "useItem": {
+    "useStorage": {
       "desc": "Get a Vue ref bound to a storage item: it reads the item value (the default, or null, while missing), assigning it persists the value (null removes the item, or resets it to the default) and a nested change of an object or Array value gets persisted too. It follows the changes made through the other methods, through other refs of the same item and from another tab/window of the same origin. It is released together with the calling scope (a component, a Pinia store, an effectScope()); outside of one, call its stop() method when done",
       "addedIn": "v2.34",
       "params": {
@@ -231,7 +231,7 @@
       },
       "returns": {
         "type": "Object",
-        "tsType": "WebStorageItemRef",
+        "tsType": "WebStorageRef",
         "desc": "A Vue ref with an extra stop() method that detaches it from the storage"
       }
     }

@@ -347,19 +347,19 @@ describe('[SessionStorage API]', () => {
       })
     })
 
-    describe('[(method)useItem]', () => {
+    describe('[(method)useStorage]', () => {
       // a write behind the storage object's back stays unseen by a ref
       const writeBehind = (key, value) => {
-        SessionStorage.setItem('useItem.encoded', value)
+        SessionStorage.setItem('useStorage.encoded', value)
         window.sessionStorage.setItem(
           key,
-          window.sessionStorage.getItem('useItem.encoded')
+          window.sessionStorage.getItem('useStorage.encoded')
         )
       }
 
       test('should be callable', () => {
         mountPlugin()
-        const theme = SessionStorage.useItem('useItem.callable')
+        const theme = SessionStorage.useStorage('useStorage.callable')
 
         expect(isRef(theme)).toBe(true)
         expect(theme.stop).toBeTypeOf('function')
@@ -371,35 +371,35 @@ describe('[SessionStorage API]', () => {
         const {
           vm: { $q }
         } = mountPlugin()
-        expect($q.sessionStorage.useItem).toBe(SessionStorage.useItem)
+        expect($q.sessionStorage.useStorage).toBe(SessionStorage.useStorage)
       })
 
       test('reads the stored value', () => {
         mountPlugin()
-        SessionStorage.setItem('useItem.stored', { a: [1] })
+        SessionStorage.setItem('useStorage.stored', { a: [1] })
 
-        const item = SessionStorage.useItem('useItem.stored')
+        const item = SessionStorage.useStorage('useStorage.stored')
         expect(item.value).toStrictEqual({ a: [1] })
       })
 
       test('persists an assignment right away and removes on null', () => {
         mountPlugin()
-        const item = SessionStorage.useItem('useItem.assign')
+        const item = SessionStorage.useStorage('useStorage.assign')
 
         item.value = 5
-        expect(SessionStorage.getItem('useItem.assign')).toBe(5)
+        expect(SessionStorage.getItem('useStorage.assign')).toBe(5)
 
         item.value = null
-        expect(SessionStorage.hasItem('useItem.assign')).toBe(false)
+        expect(SessionStorage.hasItem('useStorage.assign')).toBe(false)
         expect(item.value).toBeNull()
       })
 
       test('reads a value it does not encode back as the browser stores it', () => {
         mountPlugin()
-        const item = SessionStorage.useItem('useItem.raw')
+        const item = SessionStorage.useStorage('useStorage.raw')
 
         item.value = 10n
-        expect(SessionStorage.getItem('useItem.raw')).toBe('10')
+        expect(SessionStorage.getItem('useStorage.raw')).toBe('10')
         expect(item.value).toBe('10')
 
         const fn = () => 5
@@ -410,14 +410,14 @@ describe('[SessionStorage API]', () => {
       test('stores the default of a missing item and keeps a stored value', () => {
         mountPlugin()
 
-        const missing = SessionStorage.useItem('useItem.default', {
+        const missing = SessionStorage.useStorage('useStorage.default', {
           default: 'light'
         })
         expect(missing.value).toBe('light')
-        expect(SessionStorage.getItem('useItem.default')).toBe('light')
+        expect(SessionStorage.getItem('useStorage.default')).toBe('light')
 
-        SessionStorage.setItem('useItem.default', 'dark')
-        const stored = SessionStorage.useItem('useItem.default', {
+        SessionStorage.setItem('useStorage.default', 'dark')
+        const stored = SessionStorage.useStorage('useStorage.default', {
           default: 'light'
         })
         expect(stored.value).toBe('dark')
@@ -425,46 +425,46 @@ describe('[SessionStorage API]', () => {
 
       test('resets a removed item to its default', () => {
         mountPlugin()
-        const theme = SessionStorage.useItem('useItem.reset', {
+        const theme = SessionStorage.useStorage('useStorage.reset', {
           default: 'light'
         })
 
         theme.value = 'dark'
         theme.value = null
         expect(theme.value).toBe('light')
-        expect(SessionStorage.getItem('useItem.reset')).toBe('light')
+        expect(SessionStorage.getItem('useStorage.reset')).toBe('light')
 
         theme.value = 'dark'
-        SessionStorage.removeItem('useItem.reset')
+        SessionStorage.removeItem('useStorage.reset')
         expect(theme.value).toBe('light')
-        expect(SessionStorage.getItem('useItem.reset')).toBe('light')
+        expect(SessionStorage.getItem('useStorage.reset')).toBe('light')
 
         theme.value = 'dark'
         SessionStorage.clear()
         expect(theme.value).toBe('light')
-        expect(SessionStorage.getItem('useItem.reset')).toBe('light')
+        expect(SessionStorage.getItem('useStorage.reset')).toBe('light')
       })
 
       test('follows the other methods', () => {
         mountPlugin()
-        const item = SessionStorage.useItem('useItem.follow')
+        const item = SessionStorage.useStorage('useStorage.follow')
         const doubled = computed(() => item.value * 2)
 
-        SessionStorage.setItem('useItem.follow', 2)
+        SessionStorage.setItem('useStorage.follow', 2)
         expect(doubled.value).toBe(4)
 
-        SessionStorage.removeItem('useItem.follow')
+        SessionStorage.removeItem('useStorage.follow')
         expect(item.value).toBeNull()
 
-        SessionStorage.setItem('useItem.follow', 3)
+        SessionStorage.setItem('useStorage.follow', 3)
         SessionStorage.clear()
         expect(item.value).toBeNull()
       })
 
       test('keeps two refs of the same item in step', async () => {
         mountPlugin()
-        const first = SessionStorage.useItem('useItem.twin')
-        const second = SessionStorage.useItem('useItem.twin')
+        const first = SessionStorage.useStorage('useStorage.twin')
+        const second = SessionStorage.useStorage('useStorage.twin')
 
         first.value = { count: 1 }
         expect(second.value).toStrictEqual({ count: 1 })
@@ -472,14 +472,14 @@ describe('[SessionStorage API]', () => {
         second.value.count = 2
         await nextTick()
         expect(first.value.count).toBe(2)
-        expect(SessionStorage.getItem('useItem.twin')).toStrictEqual({
+        expect(SessionStorage.getItem('useStorage.twin')).toStrictEqual({
           count: 2
         })
       })
 
       test('persists a nested change', async () => {
         mountPlugin()
-        const settings = SessionStorage.useItem('useItem.nested', {
+        const settings = SessionStorage.useStorage('useStorage.nested', {
           default: { notifications: true, tags: ['a'] }
         })
 
@@ -487,7 +487,7 @@ describe('[SessionStorage API]', () => {
         settings.value.tags.push('b')
         await nextTick()
 
-        expect(SessionStorage.getItem('useItem.nested')).toStrictEqual({
+        expect(SessionStorage.getItem('useStorage.nested')).toStrictEqual({
           notifications: false,
           tags: ['a', 'b']
         })
@@ -495,7 +495,7 @@ describe('[SessionStorage API]', () => {
 
       test('hands out a plain value and ignores nested changes when not deep', async () => {
         mountPlugin()
-        const settings = SessionStorage.useItem('useItem.shallow', {
+        const settings = SessionStorage.useStorage('useStorage.shallow', {
           default: { notifications: true },
           deep: false
         })
@@ -503,65 +503,67 @@ describe('[SessionStorage API]', () => {
         expect(isReactive(settings.value)).toBe(false)
         settings.value.notifications = false
         await nextTick()
-        expect(SessionStorage.getItem('useItem.shallow')).toStrictEqual({
+        expect(SessionStorage.getItem('useStorage.shallow')).toStrictEqual({
           notifications: true
         })
 
         settings.value = { notifications: false }
-        expect(SessionStorage.getItem('useItem.shallow')).toStrictEqual({
+        expect(SessionStorage.getItem('useStorage.shallow')).toStrictEqual({
           notifications: false
         })
       })
 
       test('does not write back what it got told about', async () => {
         mountPlugin()
-        const item = SessionStorage.useItem('useItem.echo')
+        const item = SessionStorage.useStorage('useStorage.echo')
 
-        SessionStorage.setItem('useItem.echo', { a: 1 })
-        SessionStorage.removeItem('useItem.echo')
+        SessionStorage.setItem('useStorage.echo', { a: 1 })
+        SessionStorage.removeItem('useStorage.echo')
         await nextTick()
-        expect(SessionStorage.hasItem('useItem.echo')).toBe(false)
+        expect(SessionStorage.hasItem('useStorage.echo')).toBe(false)
 
         // the encoded form of a value, as another document would store it
-        SessionStorage.setItem('useItem.echo.encoded', 'dark')
-        const encoded = window.sessionStorage.getItem('useItem.echo.encoded')
-        window.sessionStorage.setItem('useItem.echo', encoded)
+        SessionStorage.setItem('useStorage.echo.encoded', 'dark')
+        const encoded = window.sessionStorage.getItem('useStorage.echo.encoded')
+        window.sessionStorage.setItem('useStorage.echo', encoded)
         window.dispatchEvent(
           new StorageEvent('storage', {
-            key: 'useItem.echo',
+            key: 'useStorage.echo',
             newValue: encoded,
             storageArea: window.sessionStorage
           })
         )
-        window.sessionStorage.removeItem('useItem.echo')
+        window.sessionStorage.removeItem('useStorage.echo')
         await nextTick()
-        expect(SessionStorage.hasItem('useItem.echo')).toBe(false)
+        expect(SessionStorage.hasItem('useStorage.echo')).toBe(false)
         expect(item.value).toBe('dark')
       })
 
       test('follows a change made from another document', () => {
         mountPlugin()
-        const theme = SessionStorage.useItem('useItem.event')
+        const theme = SessionStorage.useStorage('useStorage.event')
         expect(theme.value).toBeNull()
 
         // the encoded form of a value, as another document would store it
-        SessionStorage.setItem('useItem.event.encoded', 'dark')
-        const encoded = window.sessionStorage.getItem('useItem.event.encoded')
+        SessionStorage.setItem('useStorage.event.encoded', 'dark')
+        const encoded = window.sessionStorage.getItem(
+          'useStorage.event.encoded'
+        )
 
-        window.sessionStorage.setItem('useItem.event', encoded)
+        window.sessionStorage.setItem('useStorage.event', encoded)
         window.dispatchEvent(
           new StorageEvent('storage', {
-            key: 'useItem.event',
+            key: 'useStorage.event',
             newValue: encoded,
             storageArea: window.sessionStorage
           })
         )
         expect(theme.value).toBe('dark')
 
-        window.sessionStorage.removeItem('useItem.event')
+        window.sessionStorage.removeItem('useStorage.event')
         window.dispatchEvent(
           new StorageEvent('storage', {
-            key: 'useItem.event',
+            key: 'useStorage.event',
             newValue: null,
             storageArea: window.sessionStorage
           })
@@ -569,10 +571,10 @@ describe('[SessionStorage API]', () => {
         expect(theme.value).toBeNull()
 
         // another storage area is not this one
-        window.sessionStorage.setItem('useItem.event', encoded)
+        window.sessionStorage.setItem('useStorage.event', encoded)
         window.dispatchEvent(
           new StorageEvent('storage', {
-            key: 'useItem.event',
+            key: 'useStorage.event',
             newValue: encoded,
             storageArea: window.localStorage
           })
@@ -589,46 +591,48 @@ describe('[SessionStorage API]', () => {
       })
 
       test('is released with the component that created it', () => {
-        SessionStorage.setItem('useItem.release', 'dark')
+        SessionStorage.setItem('useStorage.release', 'dark')
         let theme
 
         const wrapper = mount({
           setup() {
-            theme = SessionStorage.useItem('useItem.release')
+            theme = SessionStorage.useStorage('useStorage.release')
             return () => h('div', theme.value)
           }
         })
         expect(wrapper.text()).toBe('dark')
 
         wrapper.unmount()
-        SessionStorage.setItem('useItem.release', 'light')
+        SessionStorage.setItem('useStorage.release', 'light')
         expect(theme.value).toBe('dark')
 
         theme.value = 'system'
-        expect(SessionStorage.getItem('useItem.release')).toBe('light')
+        expect(SessionStorage.getItem('useStorage.release')).toBe('light')
       })
 
       test('is released with the scope that created it', () => {
         const scope = effectScope()
-        const theme = scope.run(() => SessionStorage.useItem('useItem.scope'))
+        const theme = scope.run(() =>
+          SessionStorage.useStorage('useStorage.scope')
+        )
 
-        SessionStorage.setItem('useItem.scope', 'dark')
+        SessionStorage.setItem('useStorage.scope', 'dark')
         expect(theme.value).toBe('dark')
 
         scope.stop()
-        SessionStorage.setItem('useItem.scope', 'light')
+        SessionStorage.setItem('useStorage.scope', 'light')
         expect(theme.value).toBe('dark')
       })
 
       test('works outside of a component instance', () => {
         const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
-        const theme = SessionStorage.useItem('useItem.outside')
+        const theme = SessionStorage.useStorage('useStorage.outside')
 
-        SessionStorage.setItem('useItem.outside', 'dark')
+        SessionStorage.setItem('useStorage.outside', 'dark')
         expect(theme.value).toBe('dark')
 
         theme.stop()
-        SessionStorage.setItem('useItem.outside', 'light')
+        SessionStorage.setItem('useStorage.outside', 'light')
         expect(theme.value).toBe('dark')
 
         expect(warn).not.toHaveBeenCalled()
@@ -638,7 +642,7 @@ describe('[SessionStorage API]', () => {
       test('keeps a store-held ref in step across the components using it', async () => {
         const store = effectScope()
         const theme = store.run(() =>
-          SessionStorage.useItem('useItem.store', { default: 'light' })
+          SessionStorage.useStorage('useStorage.store', { default: 'light' })
         )
         const isDark = store.run(() => computed(() => theme.value === 'dark'))
 
@@ -646,7 +650,7 @@ describe('[SessionStorage API]', () => {
         expect(first.text()).toBe('false')
         first.unmount()
 
-        SessionStorage.setItem('useItem.store', 'dark')
+        SessionStorage.setItem('useStorage.store', 'dark')
         const second = mount({ render: () => h('div', String(isDark.value)) })
         expect(second.text()).toBe('true')
 
@@ -661,16 +665,16 @@ describe('[SessionStorage API]', () => {
       test('detaches while disabled and attaches like a new ref once enabled', () => {
         mountPlugin()
         const disabled = ref(true)
-        const theme = SessionStorage.useItem('useItem.disabled', {
+        const theme = SessionStorage.useStorage('useStorage.disabled', {
           default: 'light',
           disabled
         })
 
         // a plain in-memory ref meanwhile
-        expect(SessionStorage.hasItem('useItem.disabled')).toBe(false)
+        expect(SessionStorage.hasItem('useStorage.disabled')).toBe(false)
         theme.value = 'dark'
-        expect(SessionStorage.hasItem('useItem.disabled')).toBe(false)
-        SessionStorage.setItem('useItem.disabled', 'system')
+        expect(SessionStorage.hasItem('useStorage.disabled')).toBe(false)
+        SessionStorage.setItem('useStorage.disabled', 'system')
         expect(theme.value).toBe('dark')
 
         // the stored value wins
@@ -680,20 +684,20 @@ describe('[SessionStorage API]', () => {
 
           disabled.value = true
           await nextTick()
-          SessionStorage.removeItem('useItem.disabled')
+          SessionStorage.removeItem('useStorage.disabled')
           theme.value = 'dark'
 
           // the current value gets stored when the item is missing
           disabled.value = false
           await nextTick()
-          expect(SessionStorage.getItem('useItem.disabled')).toBe('dark')
+          expect(SessionStorage.getItem('useStorage.disabled')).toBe('dark')
         })
       })
 
       test('reports a storage failure through onError', () => {
         mountPlugin()
         const errors = []
-        const item = SessionStorage.useItem('useItem.error', {
+        const item = SessionStorage.useStorage('useStorage.error', {
           onError: err => {
             errors.push(err)
           }
@@ -709,10 +713,10 @@ describe('[SessionStorage API]', () => {
 
         expect(errors).toHaveLength(1)
         expect(errors[0].name).toBe('QuotaExceededError')
-        expect(SessionStorage.hasItem('useItem.error')).toBe(false)
+        expect(SessionStorage.hasItem('useStorage.error')).toBe(false)
 
         // thrown without onError
-        const plain = SessionStorage.useItem('useItem.error.plain')
+        const plain = SessionStorage.useStorage('useStorage.error.plain')
         const throwing = vi
           .spyOn(Storage.prototype, 'setItem')
           .mockImplementation(() => {
@@ -728,9 +732,9 @@ describe('[SessionStorage API]', () => {
         mountPlugin()
         const errors = []
 
-        writeBehind('useItem.decode', 'x')
-        window.sessionStorage.setItem('useItem.decode', '__q_objt|{oops')
-        const item = SessionStorage.useItem('useItem.decode', {
+        writeBehind('useStorage.decode', 'x')
+        window.sessionStorage.setItem('useStorage.decode', '__q_objt|{oops')
+        const item = SessionStorage.useStorage('useStorage.decode', {
           default: 'light',
           onError: err => {
             errors.push(err)
@@ -744,7 +748,7 @@ describe('[SessionStorage API]', () => {
 
       test('is never wrapped by reactive()', () => {
         mountPlugin()
-        const theme = SessionStorage.useItem('useItem.reactive')
+        const theme = SessionStorage.useStorage('useStorage.reactive')
 
         expect(reactive({ theme }).theme).toBeNull()
         theme.value = 'dark'

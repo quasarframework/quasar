@@ -2,8 +2,8 @@
   "mixins": ["plugins/storage/engine/web-storage"],
   "injection": "$q.localStorage",
   "methods": {
-    "useItem": {
-      "tsType": "LocalStorageUseItemMethodType"
+    "useStorage": {
+      "tsType": "LocalStorageUseStorageMethodType"
     }
   }
 }

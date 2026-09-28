@@ -20,7 +20,7 @@ import { useQuasar } from 'quasar'
 
 const $q = useQuasar()
 
-const settings = $q.localStorage.useItem('mySettings', {
+const settings = $q.localStorage.useStorage('mySettings', {
   default: { notifications: true, sounds: false }
 })
 </script>

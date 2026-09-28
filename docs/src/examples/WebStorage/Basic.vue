@@ -48,5 +48,5 @@ import { useQuasar } from 'quasar'
 
 const $q = useQuasar()
 
-const myTheme = $q.localStorage.useItem('myTheme', { default: 'system' })
+const myTheme = $q.localStorage.useStorage('myTheme', { default: 'system' })
 </script>

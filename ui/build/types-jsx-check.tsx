@@ -11,7 +11,7 @@ import {
   QInput,
   type QTableColumn,
   SessionStorage,
-  type WebStorageItemRef,
+  type WebStorageRef,
   noop,
   type Resize,
   type TouchPan,
@@ -73,7 +73,7 @@ export const resizeDynamicArg: DirectiveBindingOf<Resize>['arg'] = 100
 // @ts-expect-error a non-numeric argument is rejected
 export const resizeTypoArg: DirectiveBindingOf<Resize>['arg'] = 'fast'
 
-// the storage keys declared once per area type every useItem() call,
+// the storage keys declared once per area type every useStorage() call,
 // the cookie names every useCookie() call
 declare module 'quasar' {
   interface LocalStorageItems {
@@ -95,21 +95,21 @@ lang.value = 'fr'
 export const visitor = Cookies.useCookie('visitor')
 // @ts-expect-error an undeclared cookie is a String or an Object
 visitor.value?.title
-export const theme: WebStorageItemRef<'light' | 'dark' | null> =
-  LocalStorage.useItem('theme')
-export const themeWithDefault: WebStorageItemRef<'light' | 'dark'> =
-  LocalStorage.useItem('theme', { default: 'light' })
+export const theme: WebStorageRef<'light' | 'dark' | null> =
+  LocalStorage.useStorage('theme')
+export const themeWithDefault: WebStorageRef<'light' | 'dark'> =
+  LocalStorage.useStorage('theme', { default: 'light' })
 // @ts-expect-error a value outside the declared type is rejected
 theme.value = 'blue'
 // @ts-expect-error a default outside the declared type is rejected
-LocalStorage.useItem('theme', { default: 'blue' })
+LocalStorage.useStorage('theme', { default: 'blue' })
 // an undeclared key takes any storable value; its default sets the type
-export const count: WebStorageItemRef<number> = LocalStorage.useItem('count', {
+export const count: WebStorageRef<number> = LocalStorage.useStorage('count', {
   default: 0
 })
-export const sessionDraft: WebStorageItemRef<{ title: string } | null> =
-  SessionStorage.useItem('draft')
-export const draft = LocalStorage.useItem('draft')
+export const sessionDraft: WebStorageRef<{ title: string } | null> =
+  SessionStorage.useStorage('draft')
+export const draft = LocalStorage.useStorage('draft')
 // @ts-expect-error a key declared on the other area is not typed here
 draft.value?.title
 theme.stop()

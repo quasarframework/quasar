@@ -31,7 +31,7 @@ export type WebStorageGetKeyMethodType = <
 export type WebStorageGetAllKeysMethodType = () => string[];
 
 /**
- * The typed keys of each storage area, for `useItem()`. Augment them
+ * The typed keys of each storage area, for `useStorage()`. Augment them
  * once to have your keys checked at every call:
  *
  *   declare module "quasar" {
@@ -52,42 +52,41 @@ export interface LocalStorageItems {}
 // oxlint-disable-next-line typescript/no-empty-object-type
 export interface SessionStorageItems {}
 
-export interface WebStorageUseItemOptions<T> {
+export interface WebStorageRefOptions<T> {
   default?: T;
   deep?: boolean;
   disabled?: MaybeRefOrGetter<boolean>;
   onError?: (err: Error) => void;
 }
 
-export type WebStorageItemRef<T = WebStorageGetMethodReturnType | null> =
-  Ref<T> & {
-    stop: () => void;
-  };
+export type WebStorageRef<T = WebStorageGetMethodReturnType | null> = Ref<T> & {
+  stop: () => void;
+};
 
-export interface WebStorageUseItemMethodType<Items> {
+export interface WebStorageUseStorageMethodType<Items> {
   <K extends keyof Items & string>(
     key: K,
-    options: WebStorageUseItemOptions<Items[K]> & { default: Items[K] }
-  ): WebStorageItemRef<Items[K]>;
+    options: WebStorageRefOptions<Items[K]> & { default: Items[K] }
+  ): WebStorageRef<Items[K]>;
   <K extends keyof Items & string>(
     key: K,
-    options?: WebStorageUseItemOptions<Items[K]>
-  ): WebStorageItemRef<Items[K] | null>;
+    options?: WebStorageRefOptions<Items[K]>
+  ): WebStorageRef<Items[K] | null>;
   <K extends string, T extends WebStorageGetMethodReturnType>(
     key: K extends keyof Items ? never : K,
-    options: WebStorageUseItemOptions<T> & { default: T }
-  ): WebStorageItemRef<T>;
+    options: WebStorageRefOptions<T> & { default: T }
+  ): WebStorageRef<T>;
   <
     K extends string,
     T extends WebStorageGetMethodReturnType = WebStorageGetMethodReturnType
   >(
     key: K extends keyof Items ? never : K,
-    options?: WebStorageUseItemOptions<T>
-  ): WebStorageItemRef<T | null>;
+    options?: WebStorageRefOptions<T>
+  ): WebStorageRef<T | null>;
 }
 
-export type LocalStorageUseItemMethodType =
-  WebStorageUseItemMethodType<LocalStorageItems>;
+export type LocalStorageUseStorageMethodType =
+  WebStorageUseStorageMethodType<LocalStorageItems>;
 
-export type SessionStorageUseItemMethodType =
-  WebStorageUseItemMethodType<SessionStorageItems>;
+export type SessionStorageUseStorageMethodType =
+  WebStorageUseStorageMethodType<SessionStorageItems>;

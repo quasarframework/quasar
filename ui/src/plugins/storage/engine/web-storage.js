@@ -96,7 +96,7 @@ function decode(value) {
   }
 }
 
-function getItemRefOptions(options) {
+function getStorageRefOptions(options) {
   return {
     defaultValue: options?.default ?? null,
     deep: options?.deep !== false,
@@ -107,8 +107,8 @@ function getItemRefOptions(options) {
 
 // a plain ref that reads as the default: the server has no storage and
 // the client must render the same markup until it gets hydrated
-function getEmptyItemRef(key, options) {
-  const { defaultValue, deep } = getItemRefOptions(options)
+function getEmptyStorageRef(key, options) {
+  const { defaultValue, deep } = getStorageRefOptions(options)
   return Object.assign((deep ? ref : shallowRef)(defaultValue), { stop: noop })
 }
 
@@ -128,7 +128,7 @@ export function getEmptyStorage() {
     removeItem: noop,
     clear: noop,
     isEmpty: () => true,
-    useItem: getEmptyItemRef
+    useStorage: getEmptyStorageRef
   }
 }
 
@@ -139,7 +139,7 @@ export function getStorage(type) {
       return item ? decode(item) : null
     }
 
-  // key -> the receivers of the item refs attached to that key; each
+  // key -> the receivers of the storage refs attached to that key; each
   // one is told about every change of its item made through this
   // storage object, another ref of the item or another document of
   // the origin
@@ -229,8 +229,9 @@ export function getStorage(type) {
     }
   }
 
-  function useItem(key, options) {
-    const { defaultValue, deep, disabled, onError } = getItemRefOptions(options)
+  function useStorage(key, options) {
+    const { defaultValue, deep, disabled, onError } =
+      getStorageRefOptions(options)
 
     // the raw value; a plain object or Array is handed out reactive by
     // the getter, so that a nested change gets tracked and persisted
@@ -250,7 +251,7 @@ export function getStorage(type) {
       }
     }
 
-    const itemRef = customRef((track, triggerRef) => {
+    const storageRef = customRef((track, triggerRef) => {
       trigger = triggerRef
 
       return {
@@ -360,11 +361,11 @@ export function getStorage(type) {
       )
 
       if (deep) {
-        watch(itemRef, persist, { deep: true })
+        watch(storageRef, persist, { deep: true })
       }
     })
 
-    itemRef.stop = () => {
+    storageRef.stop = () => {
       scope.stop()
 
       if (isAttached) {
@@ -376,10 +377,10 @@ export function getStorage(type) {
     // released with the calling scope (a component, a Pinia store, an
     // effectScope()); outside of one, stop() is the caller's job
     if (getCurrentScope() !== void 0) {
-      onScopeDispose(itemRef.stop)
+      onScopeDispose(storageRef.stop)
     }
 
-    return itemRef
+    return storageRef
   }
 
   return {
@@ -421,6 +422,6 @@ export function getStorage(type) {
       notifyAll()
     },
     isEmpty: () => webStorage.length === 0,
-    useItem
+    useStorage
   }
 }

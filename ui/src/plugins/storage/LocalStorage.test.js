@@ -347,19 +347,19 @@ describe('[LocalStorage API]', () => {
       })
     })
 
-    describe('[(method)useItem]', () => {
+    describe('[(method)useStorage]', () => {
       // a write behind the storage object's back stays unseen by a ref
       const writeBehind = (key, value) => {
-        LocalStorage.setItem('useItem.encoded', value)
+        LocalStorage.setItem('useStorage.encoded', value)
         window.localStorage.setItem(
           key,
-          window.localStorage.getItem('useItem.encoded')
+          window.localStorage.getItem('useStorage.encoded')
         )
       }
 
       test('should be callable', () => {
         mountPlugin()
-        const theme = LocalStorage.useItem('useItem.callable')
+        const theme = LocalStorage.useStorage('useStorage.callable')
 
         expect(isRef(theme)).toBe(true)
         expect(theme.stop).toBeTypeOf('function')
@@ -371,35 +371,35 @@ describe('[LocalStorage API]', () => {
         const {
           vm: { $q }
         } = mountPlugin()
-        expect($q.localStorage.useItem).toBe(LocalStorage.useItem)
+        expect($q.localStorage.useStorage).toBe(LocalStorage.useStorage)
       })
 
       test('reads the stored value', () => {
         mountPlugin()
-        LocalStorage.setItem('useItem.stored', { a: [1] })
+        LocalStorage.setItem('useStorage.stored', { a: [1] })
 
-        const item = LocalStorage.useItem('useItem.stored')
+        const item = LocalStorage.useStorage('useStorage.stored')
         expect(item.value).toStrictEqual({ a: [1] })
       })
 
       test('persists an assignment right away and removes on null', () => {
         mountPlugin()
-        const item = LocalStorage.useItem('useItem.assign')
+        const item = LocalStorage.useStorage('useStorage.assign')
 
         item.value = 5
-        expect(LocalStorage.getItem('useItem.assign')).toBe(5)
+        expect(LocalStorage.getItem('useStorage.assign')).toBe(5)
 
         item.value = null
-        expect(LocalStorage.hasItem('useItem.assign')).toBe(false)
+        expect(LocalStorage.hasItem('useStorage.assign')).toBe(false)
         expect(item.value).toBeNull()
       })
 
       test('reads a value it does not encode back as the browser stores it', () => {
         mountPlugin()
-        const item = LocalStorage.useItem('useItem.raw')
+        const item = LocalStorage.useStorage('useStorage.raw')
 
         item.value = 10n
-        expect(LocalStorage.getItem('useItem.raw')).toBe('10')
+        expect(LocalStorage.getItem('useStorage.raw')).toBe('10')
         expect(item.value).toBe('10')
 
         const fn = () => 5
@@ -410,14 +410,14 @@ describe('[LocalStorage API]', () => {
       test('stores the default of a missing item and keeps a stored value', () => {
         mountPlugin()
 
-        const missing = LocalStorage.useItem('useItem.default', {
+        const missing = LocalStorage.useStorage('useStorage.default', {
           default: 'light'
         })
         expect(missing.value).toBe('light')
-        expect(LocalStorage.getItem('useItem.default')).toBe('light')
+        expect(LocalStorage.getItem('useStorage.default')).toBe('light')
 
-        LocalStorage.setItem('useItem.default', 'dark')
-        const stored = LocalStorage.useItem('useItem.default', {
+        LocalStorage.setItem('useStorage.default', 'dark')
+        const stored = LocalStorage.useStorage('useStorage.default', {
           default: 'light'
         })
         expect(stored.value).toBe('dark')
@@ -425,46 +425,46 @@ describe('[LocalStorage API]', () => {
 
       test('resets a removed item to its default', () => {
         mountPlugin()
-        const theme = LocalStorage.useItem('useItem.reset', {
+        const theme = LocalStorage.useStorage('useStorage.reset', {
           default: 'light'
         })
 
         theme.value = 'dark'
         theme.value = null
         expect(theme.value).toBe('light')
-        expect(LocalStorage.getItem('useItem.reset')).toBe('light')
+        expect(LocalStorage.getItem('useStorage.reset')).toBe('light')
 
         theme.value = 'dark'
-        LocalStorage.removeItem('useItem.reset')
+        LocalStorage.removeItem('useStorage.reset')
         expect(theme.value).toBe('light')
-        expect(LocalStorage.getItem('useItem.reset')).toBe('light')
+        expect(LocalStorage.getItem('useStorage.reset')).toBe('light')
 
         theme.value = 'dark'
         LocalStorage.clear()
         expect(theme.value).toBe('light')
-        expect(LocalStorage.getItem('useItem.reset')).toBe('light')
+        expect(LocalStorage.getItem('useStorage.reset')).toBe('light')
       })
 
       test('follows the other methods', () => {
         mountPlugin()
-        const item = LocalStorage.useItem('useItem.follow')
+        const item = LocalStorage.useStorage('useStorage.follow')
         const doubled = computed(() => item.value * 2)
 
-        LocalStorage.setItem('useItem.follow', 2)
+        LocalStorage.setItem('useStorage.follow', 2)
         expect(doubled.value).toBe(4)
 
-        LocalStorage.removeItem('useItem.follow')
+        LocalStorage.removeItem('useStorage.follow')
         expect(item.value).toBeNull()
 
-        LocalStorage.setItem('useItem.follow', 3)
+        LocalStorage.setItem('useStorage.follow', 3)
         LocalStorage.clear()
         expect(item.value).toBeNull()
       })
 
       test('keeps two refs of the same item in step', async () => {
         mountPlugin()
-        const first = LocalStorage.useItem('useItem.twin')
-        const second = LocalStorage.useItem('useItem.twin')
+        const first = LocalStorage.useStorage('useStorage.twin')
+        const second = LocalStorage.useStorage('useStorage.twin')
 
         first.value = { count: 1 }
         expect(second.value).toStrictEqual({ count: 1 })
@@ -472,14 +472,14 @@ describe('[LocalStorage API]', () => {
         second.value.count = 2
         await nextTick()
         expect(first.value.count).toBe(2)
-        expect(LocalStorage.getItem('useItem.twin')).toStrictEqual({
+        expect(LocalStorage.getItem('useStorage.twin')).toStrictEqual({
           count: 2
         })
       })
 
       test('persists a nested change', async () => {
         mountPlugin()
-        const settings = LocalStorage.useItem('useItem.nested', {
+        const settings = LocalStorage.useStorage('useStorage.nested', {
           default: { notifications: true, tags: ['a'] }
         })
 
@@ -487,7 +487,7 @@ describe('[LocalStorage API]', () => {
         settings.value.tags.push('b')
         await nextTick()
 
-        expect(LocalStorage.getItem('useItem.nested')).toStrictEqual({
+        expect(LocalStorage.getItem('useStorage.nested')).toStrictEqual({
           notifications: false,
           tags: ['a', 'b']
         })
@@ -495,7 +495,7 @@ describe('[LocalStorage API]', () => {
 
       test('hands out a plain value and ignores nested changes when not deep', async () => {
         mountPlugin()
-        const settings = LocalStorage.useItem('useItem.shallow', {
+        const settings = LocalStorage.useStorage('useStorage.shallow', {
           default: { notifications: true },
           deep: false
         })
@@ -503,65 +503,65 @@ describe('[LocalStorage API]', () => {
         expect(isReactive(settings.value)).toBe(false)
         settings.value.notifications = false
         await nextTick()
-        expect(LocalStorage.getItem('useItem.shallow')).toStrictEqual({
+        expect(LocalStorage.getItem('useStorage.shallow')).toStrictEqual({
           notifications: true
         })
 
         settings.value = { notifications: false }
-        expect(LocalStorage.getItem('useItem.shallow')).toStrictEqual({
+        expect(LocalStorage.getItem('useStorage.shallow')).toStrictEqual({
           notifications: false
         })
       })
 
       test('does not write back what it got told about', async () => {
         mountPlugin()
-        const item = LocalStorage.useItem('useItem.echo')
+        const item = LocalStorage.useStorage('useStorage.echo')
 
-        LocalStorage.setItem('useItem.echo', { a: 1 })
-        LocalStorage.removeItem('useItem.echo')
+        LocalStorage.setItem('useStorage.echo', { a: 1 })
+        LocalStorage.removeItem('useStorage.echo')
         await nextTick()
-        expect(LocalStorage.hasItem('useItem.echo')).toBe(false)
+        expect(LocalStorage.hasItem('useStorage.echo')).toBe(false)
 
         // the encoded form of a value, as another document would store it
-        LocalStorage.setItem('useItem.echo.encoded', 'dark')
-        const encoded = window.localStorage.getItem('useItem.echo.encoded')
-        window.localStorage.setItem('useItem.echo', encoded)
+        LocalStorage.setItem('useStorage.echo.encoded', 'dark')
+        const encoded = window.localStorage.getItem('useStorage.echo.encoded')
+        window.localStorage.setItem('useStorage.echo', encoded)
         window.dispatchEvent(
           new StorageEvent('storage', {
-            key: 'useItem.echo',
+            key: 'useStorage.echo',
             newValue: encoded,
             storageArea: window.localStorage
           })
         )
-        window.localStorage.removeItem('useItem.echo')
+        window.localStorage.removeItem('useStorage.echo')
         await nextTick()
-        expect(LocalStorage.hasItem('useItem.echo')).toBe(false)
+        expect(LocalStorage.hasItem('useStorage.echo')).toBe(false)
         expect(item.value).toBe('dark')
       })
 
       test('follows a change made from another document', () => {
         mountPlugin()
-        const theme = LocalStorage.useItem('useItem.event')
+        const theme = LocalStorage.useStorage('useStorage.event')
         expect(theme.value).toBeNull()
 
         // the encoded form of a value, as another document would store it
-        LocalStorage.setItem('useItem.event.encoded', 'dark')
-        const encoded = window.localStorage.getItem('useItem.event.encoded')
+        LocalStorage.setItem('useStorage.event.encoded', 'dark')
+        const encoded = window.localStorage.getItem('useStorage.event.encoded')
 
-        window.localStorage.setItem('useItem.event', encoded)
+        window.localStorage.setItem('useStorage.event', encoded)
         window.dispatchEvent(
           new StorageEvent('storage', {
-            key: 'useItem.event',
+            key: 'useStorage.event',
             newValue: encoded,
             storageArea: window.localStorage
           })
         )
         expect(theme.value).toBe('dark')
 
-        window.localStorage.removeItem('useItem.event')
+        window.localStorage.removeItem('useStorage.event')
         window.dispatchEvent(
           new StorageEvent('storage', {
-            key: 'useItem.event',
+            key: 'useStorage.event',
             newValue: null,
             storageArea: window.localStorage
           })
@@ -569,10 +569,10 @@ describe('[LocalStorage API]', () => {
         expect(theme.value).toBeNull()
 
         // another storage area is not this one
-        window.localStorage.setItem('useItem.event', encoded)
+        window.localStorage.setItem('useStorage.event', encoded)
         window.dispatchEvent(
           new StorageEvent('storage', {
-            key: 'useItem.event',
+            key: 'useStorage.event',
             newValue: encoded,
             storageArea: window.sessionStorage
           })
@@ -589,46 +589,48 @@ describe('[LocalStorage API]', () => {
       })
 
       test('is released with the component that created it', () => {
-        LocalStorage.setItem('useItem.release', 'dark')
+        LocalStorage.setItem('useStorage.release', 'dark')
         let theme
 
         const wrapper = mount({
           setup() {
-            theme = LocalStorage.useItem('useItem.release')
+            theme = LocalStorage.useStorage('useStorage.release')
             return () => h('div', theme.value)
           }
         })
         expect(wrapper.text()).toBe('dark')
 
         wrapper.unmount()
-        LocalStorage.setItem('useItem.release', 'light')
+        LocalStorage.setItem('useStorage.release', 'light')
         expect(theme.value).toBe('dark')
 
         theme.value = 'system'
-        expect(LocalStorage.getItem('useItem.release')).toBe('light')
+        expect(LocalStorage.getItem('useStorage.release')).toBe('light')
       })
 
       test('is released with the scope that created it', () => {
         const scope = effectScope()
-        const theme = scope.run(() => LocalStorage.useItem('useItem.scope'))
+        const theme = scope.run(() =>
+          LocalStorage.useStorage('useStorage.scope')
+        )
 
-        LocalStorage.setItem('useItem.scope', 'dark')
+        LocalStorage.setItem('useStorage.scope', 'dark')
         expect(theme.value).toBe('dark')
 
         scope.stop()
-        LocalStorage.setItem('useItem.scope', 'light')
+        LocalStorage.setItem('useStorage.scope', 'light')
         expect(theme.value).toBe('dark')
       })
 
       test('works outside of a component instance', () => {
         const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
-        const theme = LocalStorage.useItem('useItem.outside')
+        const theme = LocalStorage.useStorage('useStorage.outside')
 
-        LocalStorage.setItem('useItem.outside', 'dark')
+        LocalStorage.setItem('useStorage.outside', 'dark')
         expect(theme.value).toBe('dark')
 
         theme.stop()
-        LocalStorage.setItem('useItem.outside', 'light')
+        LocalStorage.setItem('useStorage.outside', 'light')
         expect(theme.value).toBe('dark')
 
         expect(warn).not.toHaveBeenCalled()
@@ -638,7 +640,7 @@ describe('[LocalStorage API]', () => {
       test('keeps a store-held ref in step across the components using it', async () => {
         const store = effectScope()
         const theme = store.run(() =>
-          LocalStorage.useItem('useItem.store', { default: 'light' })
+          LocalStorage.useStorage('useStorage.store', { default: 'light' })
         )
         const isDark = store.run(() => computed(() => theme.value === 'dark'))
 
@@ -646,7 +648,7 @@ describe('[LocalStorage API]', () => {
         expect(first.text()).toBe('false')
         first.unmount()
 
-        LocalStorage.setItem('useItem.store', 'dark')
+        LocalStorage.setItem('useStorage.store', 'dark')
         const second = mount({ render: () => h('div', String(isDark.value)) })
         expect(second.text()).toBe('true')
 
@@ -661,16 +663,16 @@ describe('[LocalStorage API]', () => {
       test('detaches while disabled and attaches like a new ref once enabled', () => {
         mountPlugin()
         const disabled = ref(true)
-        const theme = LocalStorage.useItem('useItem.disabled', {
+        const theme = LocalStorage.useStorage('useStorage.disabled', {
           default: 'light',
           disabled
         })
 
         // a plain in-memory ref meanwhile
-        expect(LocalStorage.hasItem('useItem.disabled')).toBe(false)
+        expect(LocalStorage.hasItem('useStorage.disabled')).toBe(false)
         theme.value = 'dark'
-        expect(LocalStorage.hasItem('useItem.disabled')).toBe(false)
-        LocalStorage.setItem('useItem.disabled', 'system')
+        expect(LocalStorage.hasItem('useStorage.disabled')).toBe(false)
+        LocalStorage.setItem('useStorage.disabled', 'system')
         expect(theme.value).toBe('dark')
 
         // the stored value wins
@@ -680,20 +682,20 @@ describe('[LocalStorage API]', () => {
 
           disabled.value = true
           await nextTick()
-          LocalStorage.removeItem('useItem.disabled')
+          LocalStorage.removeItem('useStorage.disabled')
           theme.value = 'dark'
 
           // the current value gets stored when the item is missing
           disabled.value = false
           await nextTick()
-          expect(LocalStorage.getItem('useItem.disabled')).toBe('dark')
+          expect(LocalStorage.getItem('useStorage.disabled')).toBe('dark')
         })
       })
 
       test('reports a storage failure through onError', () => {
         mountPlugin()
         const errors = []
-        const item = LocalStorage.useItem('useItem.error', {
+        const item = LocalStorage.useStorage('useStorage.error', {
           onError: err => {
             errors.push(err)
           }
@@ -709,10 +711,10 @@ describe('[LocalStorage API]', () => {
 
         expect(errors).toHaveLength(1)
         expect(errors[0].name).toBe('QuotaExceededError')
-        expect(LocalStorage.hasItem('useItem.error')).toBe(false)
+        expect(LocalStorage.hasItem('useStorage.error')).toBe(false)
 
         // thrown without onError
-        const plain = LocalStorage.useItem('useItem.error.plain')
+        const plain = LocalStorage.useStorage('useStorage.error.plain')
         const throwing = vi
           .spyOn(Storage.prototype, 'setItem')
           .mockImplementation(() => {
@@ -728,9 +730,9 @@ describe('[LocalStorage API]', () => {
         mountPlugin()
         const errors = []
 
-        writeBehind('useItem.decode', 'x')
-        window.localStorage.setItem('useItem.decode', '__q_objt|{oops')
-        const item = LocalStorage.useItem('useItem.decode', {
+        writeBehind('useStorage.decode', 'x')
+        window.localStorage.setItem('useStorage.decode', '__q_objt|{oops')
+        const item = LocalStorage.useStorage('useStorage.decode', {
           default: 'light',
           onError: err => {
             errors.push(err)
@@ -744,7 +746,7 @@ describe('[LocalStorage API]', () => {
 
       test('is never wrapped by reactive()', () => {
         mountPlugin()
-        const theme = LocalStorage.useItem('useItem.reactive')
+        const theme = LocalStorage.useStorage('useStorage.reactive')
 
         expect(reactive({ theme }).theme).toBeNull()
         theme.value = 'dark'

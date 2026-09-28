@@ -17,7 +17,7 @@ const objectDefinition = {
   removeItem: expect.any(Function),
   clear: expect.any(Function),
   isEmpty: expect.any(Function),
-  useItem: expect.any(Function)
+  useStorage: expect.any(Function)
 }
 
 describe('[webStorage API]', () => {

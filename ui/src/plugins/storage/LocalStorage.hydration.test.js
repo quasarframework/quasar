@@ -18,7 +18,7 @@ describe('LocalStorage SSR hydration', () => {
     LocalStorage.removeItem(STORAGE_KEY)
   })
 
-  test('useItem() reads as the default until the client takeover', async () => {
+  test('useStorage() reads as the default until the client takeover', async () => {
     const result = await hydrate(fixturesPath, 'item', item)
 
     expect(result.consoleOutput).toEqual([])
