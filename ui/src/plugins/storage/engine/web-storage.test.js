@@ -3,6 +3,7 @@ import { describe, expect, test } from 'vitest'
 import { getEmptyStorage, getStorage } from './web-storage.js'
 
 const objectDefinition = {
+  items: expect.any(Object),
   has: expect.any(Function), // alias of has
   hasItem: expect.any(Function),
   getLength: expect.any(Function),

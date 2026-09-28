@@ -1,5 +1,11 @@
 {
   "mixins": ["plugins/storage/engine/web-storage"],
 
-  "injection": "$q.localStorage"
+  "injection": "$q.localStorage",
+
+  "props": {
+    "items": {
+      "tsType": "LocalStorageItems"
+    }
+  }
 }

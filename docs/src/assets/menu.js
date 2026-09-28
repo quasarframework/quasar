@@ -671,6 +671,7 @@ export default [
       },
       {
         name: 'Local/Session Storage',
+        badge: 'update',
         path: 'web-storage'
       },
       {

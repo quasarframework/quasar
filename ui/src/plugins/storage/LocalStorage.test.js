@@ -1,4 +1,13 @@
-import { h } from 'vue'
+import {
+  computed,
+  effectScope,
+  h,
+  isRef,
+  nextTick,
+  onUnmounted,
+  reactive,
+  toRef
+} from 'vue'
 import { describe, expect, test } from 'vitest'
 import { config, mount } from '@vue/test-utils'
 
@@ -225,6 +234,29 @@ describe('[LocalStorage API]', () => {
 
         LocalStorage.setItem('RegExp', /abc/)
         expect(LocalStorage.getItem('RegExp')).toStrictEqual(/abc/)
+
+        LocalStorage.setItem('RegExp', /a\/b|c/gi)
+        expect(LocalStorage.getItem('RegExp')).toStrictEqual(/a\/b|c/gi)
+      })
+
+      test('can decode a RegExp stored without flags by older versions', () => {
+        mountPlugin()
+
+        // the form written before the flags were kept
+        window.localStorage.setItem('RegExp.legacy', '__q_expr|gi|x')
+        expect(LocalStorage.getItem('RegExp.legacy')).toStrictEqual(/gi|x/)
+      })
+
+      test('stores null and undefined as the strings the browser makes of them', () => {
+        mountPlugin()
+
+        LocalStorage.setItem('null', null)
+        expect(LocalStorage.hasItem('null')).toBe(true)
+        expect(LocalStorage.getItem('null')).toBe('null')
+
+        LocalStorage.setItem('null', void 0)
+        expect(LocalStorage.hasItem('null')).toBe(true)
+        expect(LocalStorage.getItem('null')).toBe('undefined')
       })
 
       test('can encode + decode a Function', () => {
@@ -312,6 +344,345 @@ describe('[LocalStorage API]', () => {
           vm: { $q }
         } = mountPlugin()
         expect($q.localStorage.isEmpty).toBe(LocalStorage.isEmpty)
+      })
+    })
+  })
+
+  describe('[Props]', () => {
+    describe('[(prop)items]', () => {
+      test('is correct type', () => {
+        mountPlugin()
+        expect(LocalStorage.items).toBeTypeOf('object')
+      })
+
+      // a released key is read afresh from the storage on its next read,
+      // so a write behind the view's back tells a live entry from a
+      // released one
+      const writeBehind = (key, value) => {
+        LocalStorage.setItem('items.encoded', value)
+        window.localStorage.setItem(
+          key,
+          window.localStorage.getItem('items.encoded')
+        )
+      }
+
+      test('is released with the component that read it', async () => {
+        const wrapper = mount({
+          render: () => h('div', String(LocalStorage.items['items.release']))
+        })
+
+        LocalStorage.setItem('items.release', 'dark')
+        await nextTick()
+        expect(wrapper.text()).toBe('dark')
+
+        writeBehind('items.release', 'behind')
+        expect(wrapper.text()).toBe('dark')
+
+        wrapper.unmount()
+
+        const scope = effectScope()
+        expect(scope.run(() => LocalStorage.items['items.release'])).toBe(
+          'behind'
+        )
+        scope.stop()
+      })
+
+      test('is released with the last of its reader scopes', () => {
+        const first = effectScope()
+        const second = effectScope()
+
+        LocalStorage.setItem('items.scopes', 'dark')
+        first.run(() => void LocalStorage.items['items.scopes'])
+        second.run(() => void LocalStorage.items['items.scopes'])
+
+        writeBehind('items.scopes', 'behind')
+        first.stop()
+        expect(second.run(() => LocalStorage.items['items.scopes'])).toBe(
+          'dark'
+        )
+
+        second.stop()
+        const third = effectScope()
+        expect(third.run(() => LocalStorage.items['items.scopes'])).toBe(
+          'behind'
+        )
+        third.stop()
+      })
+
+      test('stays tracked once first read outside of any scope', () => {
+        const scope = effectScope()
+
+        LocalStorage.setItem('items.pinned', 'dark')
+        void LocalStorage.items['items.pinned']
+        scope.run(() => void LocalStorage.items['items.pinned'])
+        scope.stop()
+
+        writeBehind('items.pinned', 'behind')
+        expect(LocalStorage.items['items.pinned']).toBe('dark')
+      })
+
+      test('can be read from an unmounted hook', () => {
+        let read
+
+        const wrapper = mount({
+          setup() {
+            onUnmounted(() => {
+              read = LocalStorage.items['items.unmounted']
+            })
+            return () => h('div')
+          }
+        })
+
+        LocalStorage.setItem('items.unmounted', 'dark')
+        wrapper.unmount()
+
+        expect(read).toBe('dark')
+      })
+
+      test('is not pinned by a scope-less read of an owned key', () => {
+        const scope = effectScope()
+
+        LocalStorage.setItem('items.owned', 'dark')
+        scope.run(() => void LocalStorage.items['items.owned'])
+        // an event handler of the owner reads with no scope active
+        void LocalStorage.items['items.owned']
+        scope.stop()
+
+        writeBehind('items.owned', 'behind')
+        const reader = effectScope()
+        expect(reader.run(() => LocalStorage.items['items.owned'])).toBe(
+          'behind'
+        )
+        reader.stop()
+      })
+
+      test('is not tracked by a probe of the view', () => {
+        expect(isRef(LocalStorage.items)).toBe(false)
+        expect(JSON.stringify(LocalStorage.items)).toBe('{}')
+
+        for (const key of ['__v_isRef', '__v_raw', 'toJSON']) {
+          expect(LocalStorage.hasItem(key)).toBe(false)
+          expect(LocalStorage.items[key]).toBeUndefined()
+        }
+      })
+
+      test('is reactive', () => {
+        mountPlugin()
+        const theme = computed(() => LocalStorage.items['items.reactive'])
+
+        expect(theme.value).toBeNull()
+
+        LocalStorage.setItem('items.reactive', 'dark')
+        expect(theme.value).toBe('dark')
+
+        LocalStorage.removeItem('items.reactive')
+        expect(theme.value).toBeNull()
+
+        LocalStorage.setItem('items.reactive', 'dark')
+        LocalStorage.clear()
+        expect(theme.value).toBeNull()
+      })
+
+      test('matches $q API', () => {
+        const {
+          vm: { $q }
+        } = mountPlugin()
+        expect($q.localStorage.items).toBe(LocalStorage.items)
+      })
+
+      test('reads, writes and removes items', () => {
+        mountPlugin()
+        const { items } = LocalStorage
+
+        expect(items['items.rw']).toBeNull()
+
+        items['items.rw'] = { notifications: true }
+        expect(LocalStorage.getItem('items.rw')).toStrictEqual({
+          notifications: true
+        })
+        expect(items['items.rw']).toStrictEqual({ notifications: true })
+
+        delete items['items.rw']
+        expect(LocalStorage.hasItem('items.rw')).toBe(false)
+        expect(items['items.rw']).toBeNull()
+      })
+
+      test('stores null and undefined like setItem() does', async () => {
+        mountPlugin()
+        const { items } = LocalStorage
+
+        items['items.null'] = 'set'
+        items['items.null'] = null
+        expect(LocalStorage.hasItem('items.null')).toBe(true)
+        expect(items['items.null']).toBe(LocalStorage.getItem('items.null'))
+
+        // what it reads back is not written again
+        const raw = window.localStorage.getItem('items.null')
+        await nextTick()
+        expect(window.localStorage.getItem('items.null')).toBe(raw)
+
+        items['items.null'] = void 0
+        expect(LocalStorage.hasItem('items.null')).toBe(true)
+        expect(items['items.null']).toBe(LocalStorage.getItem('items.null'))
+
+        // nothing gets written back for a removed item either
+        LocalStorage.removeItem('items.null')
+        await nextTick()
+        expect(LocalStorage.hasItem('items.null')).toBe(false)
+      })
+
+      test('reads a function back as its source', () => {
+        mountPlugin()
+        const fn = () => 5
+
+        LocalStorage.items['items.fn'] = fn
+        expect(LocalStorage.items['items.fn']).toBe(fn.toString())
+        expect(LocalStorage.getItem('items.fn')).toBe(fn.toString())
+      })
+
+      test('starts with the stored value', () => {
+        mountPlugin()
+        LocalStorage.setItem('items.stored', 5)
+
+        expect(LocalStorage.items['items.stored']).toBe(5)
+      })
+
+      test('persists a nested change', async () => {
+        mountPlugin()
+        const { items } = LocalStorage
+
+        items['items.nested'] = { notifications: true, tags: ['a'] }
+        items['items.nested'].notifications = false
+        items['items.nested'].tags.push('b')
+        await nextTick()
+
+        expect(LocalStorage.getItem('items.nested')).toStrictEqual({
+          notifications: false,
+          tags: ['a', 'b']
+        })
+      })
+
+      test('works through toRef()', async () => {
+        mountPlugin()
+        const theme = toRef(LocalStorage.items, 'items.toRef')
+
+        expect(theme.value).toBeNull()
+
+        theme.value = 'dark'
+        expect(LocalStorage.getItem('items.toRef')).toBe('dark')
+
+        LocalStorage.setItem('items.toRef', 'light')
+        expect(theme.value).toBe('light')
+
+        theme.value = null
+        await nextTick()
+        expect(LocalStorage.hasItem('items.toRef')).toBe(true)
+        expect(theme.value).toBe(LocalStorage.getItem('items.toRef'))
+      })
+
+      test('lets ??= set a default', () => {
+        mountPlugin()
+        const { items } = LocalStorage
+
+        items['items.default'] ??= 'light'
+        expect(LocalStorage.getItem('items.default')).toBe('light')
+
+        items['items.default'] = 'dark'
+        items['items.default'] ??= 'light'
+        expect(items['items.default']).toBe('dark')
+      })
+
+      test('is not enumerable and has no "in"', () => {
+        mountPlugin()
+        LocalStorage.setItem('items.enum', 1)
+
+        expect(Object.keys(LocalStorage.items)).toStrictEqual([])
+        expect({ ...LocalStorage.items }).toStrictEqual({})
+        expect('items.enum' in LocalStorage.items).toBe(false)
+      })
+
+      test('persists a pending nested change when released', () => {
+        const scope = effectScope()
+
+        scope.run(() => {
+          LocalStorage.items['items.pending'] = { a: 1 }
+          LocalStorage.items['items.pending'].a = 2
+        })
+        scope.stop()
+
+        expect(LocalStorage.getItem('items.pending')).toStrictEqual({ a: 2 })
+      })
+
+      test('follows a change made from another document', () => {
+        mountPlugin()
+        const theme = computed(() => LocalStorage.items['items.event'])
+        expect(theme.value).toBeNull()
+
+        // the encoded form of a value, as another document would store it
+        LocalStorage.setItem('items.event.encoded', 'dark')
+        const encoded = window.localStorage.getItem('items.event.encoded')
+
+        window.localStorage.setItem('items.event', encoded)
+        window.dispatchEvent(
+          new StorageEvent('storage', {
+            key: 'items.event',
+            newValue: encoded,
+            storageArea: window.localStorage
+          })
+        )
+        expect(theme.value).toBe('dark')
+
+        window.localStorage.removeItem('items.event')
+        window.dispatchEvent(
+          new StorageEvent('storage', {
+            key: 'items.event',
+            newValue: null,
+            storageArea: window.localStorage
+          })
+        )
+        expect(theme.value).toBeNull()
+
+        // another storage area is not this one
+        window.localStorage.setItem('items.event', encoded)
+        window.dispatchEvent(
+          new StorageEvent('storage', {
+            key: 'items.event',
+            newValue: encoded,
+            storageArea: window.sessionStorage
+          })
+        )
+        expect(theme.value).toBeNull()
+      })
+
+      test('does not write back what it got told about', async () => {
+        mountPlugin()
+        const { items } = LocalStorage
+
+        void items['items.echo']
+        LocalStorage.setItem('items.echo', { a: 1 })
+        LocalStorage.removeItem('items.echo')
+        await nextTick()
+
+        expect(LocalStorage.hasItem('items.echo')).toBe(false)
+      })
+
+      test('is never wrapped by reactive()', () => {
+        mountPlugin()
+        expect(reactive(LocalStorage.items)).toBe(LocalStorage.items)
+        expect(reactive({ items: LocalStorage.items }).items).toBe(
+          LocalStorage.items
+        )
+      })
+
+      test('is read again once released', () => {
+        const wrapper = mount({
+          render: () => h('div', String(LocalStorage.items['items.again']))
+        })
+
+        wrapper.unmount()
+
+        LocalStorage.setItem('items.again', 'dark')
+        expect(LocalStorage.items['items.again']).toBe('dark')
       })
     })
   })

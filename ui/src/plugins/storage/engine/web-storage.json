@@ -3,6 +3,16 @@
     "docsUrl": "https://v2.quasar.dev/quasar-plugins/web-storage"
   },
 
+  "props": {
+    "items": {
+      "type": "Object",
+      "addedIn": "v2.34",
+      "reactive": true,
+      "desc": "A reactive view of the storage, one property per key: reading a property gives the item value (null while missing), assigning one persists it (as setItem() does) and deleting it removes it; a nested change of an object or Array value gets persisted too. It follows the changes made through the other methods and those made from another tab/window of the same origin. It is not enumerable and has no 'in' (see getAllKeys(), getAll() and hasItem()). A key read from a component (or any effect scope) is tracked while that scope lives; a key first read outside of one, for the rest of the page",
+      "examples": ["{ theme: 'dark', settings: { notifications: true } }"]
+    }
+  },
+
   "methods": {
     "hasItem": {
       "desc": "Check if storage item exists",
@@ -17,7 +27,7 @@
       },
       "returns": {
         "type": "Boolean",
-        "desc": "Does the item exists or not?"
+        "desc": "Does the item exist or not?"
       }
     },
 
@@ -47,13 +57,12 @@
           "Boolean",
           "Date",
           "RegExp",
-          "Function",
           "Object",
           "Array",
           "String",
           "null"
         ],
-        "desc": "Storage item value",
+        "desc": "Storage item value; null for a missing item",
         "examples": ["'john12'", "702"]
       }
     },
@@ -74,13 +83,12 @@
           "Boolean",
           "Date",
           "RegExp",
-          "Function",
           "Object",
           "Array",
           "String",
           "null"
         ],
-        "desc": "Storage item index"
+        "desc": "Storage item value at that index; null past the end"
       }
     },
 
@@ -145,7 +153,7 @@
             "String",
             "null"
           ],
-          "desc": "Entry value",
+          "desc": "Entry value; a Function is stored as its source and null/undefined as the Strings the browser makes of them (use removeItem() to remove an item)",
           "required": true,
           "params": {
             "...params": {

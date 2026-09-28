@@ -27,3 +27,24 @@ export type WebStorageGetKeyMethodType = <
 ) => T | null;
 
 export type WebStorageGetAllKeysMethodType = () => string[];
+
+/**
+ * The keys of the reactive `items` view of each storage area. Augment
+ * them to type your own keys:
+ *
+ *   declare module "quasar" {
+ *     interface LocalStorageItems {
+ *       theme?: "light" | "dark";
+ *     }
+ *     interface SessionStorageItems {
+ *       draft?: { title: string };
+ *     }
+ *   }
+ */
+export interface LocalStorageItems {
+  [key: string]: WebStorageGetMethodReturnType | null | undefined;
+}
+
+export interface SessionStorageItems {
+  [key: string]: WebStorageGetMethodReturnType | null | undefined;
+}
