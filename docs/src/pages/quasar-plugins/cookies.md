@@ -1,5 +1,5 @@
 ---
-title: Cookies
+title: Cookies Plugin
 desc: A Quasar plugin which manages browser cookies over the standardized 'document.cookie', making it easy to read and write cookies even with SSR apps.
 keys: Cookies,useCookie
 examples: Cookies
@@ -35,7 +35,7 @@ The `ssrContext` is available in [@quasar/app-vite Boot File](/quasar-cli-vite/b
 
 The reason for this is that in a client-only app, every user will be using a fresh instance of the app in their browser. For server-side rendering we want the same: each request should have a fresh, isolated app instance so that there is no cross-request state pollution. So Cookies needs to be bound to each request separately.
 
-## Cookie refs <q-badge label="v2.34+" />
+## Cookie refs (useCookie) <q-badge label="v2.34+" />
 
 `useCookie(name, options)` returns a Vue ref bound to a cookie. Reading it gives you the cookie value (its default, or `null`, while the cookie is missing), assigning it stores the value right away and a nested change of an Object or Array value gets stored too. A template, a computed or a watcher reading it re-evaluates whenever the cookie changes through the plugin, from anywhere in your app. Where the browser has the [Cookie Store API](https://developer.mozilla.org/en-US/docs/Web/API/Cookie_Store_API), a cookie set by the server, by another tab or natively is followed as well.
 

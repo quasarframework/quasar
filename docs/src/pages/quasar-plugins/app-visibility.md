@@ -1,5 +1,5 @@
 ---
-title: App Visibility
+title: App Visibility Plugin
 desc: A Quasar plugin that wraps the Page Visibility API, letting you know when your app is visible or in focus.
 keys: AppVisibility
 examples: AppVisibility

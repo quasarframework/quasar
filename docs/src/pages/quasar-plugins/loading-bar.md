@@ -1,5 +1,5 @@
 ---
-title: LoadingBar
+title: Loading Bar Plugin
 desc: A Quasar plugin that wraps the QAjaxBar component for the easiest way of showing such a loading indicator in an app.
 keys: LoadingBar
 related:

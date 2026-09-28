@@ -1,5 +1,5 @@
 ---
-title: App Wake Lock
+title: App Wake Lock Plugin
 desc: A Quasar plugin that keeps the screen from turning off through the Screen Wake Lock API.
 keys: AppWakeLock
 badge: v2.34+

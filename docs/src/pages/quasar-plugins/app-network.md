@@ -1,5 +1,5 @@
 ---
-title: App Network
+title: App Network Plugin
 desc: A Quasar plugin that tells you whether the browser is online and what kind of connection it has.
 keys: AppNetwork
 badge: v2.34+

@@ -1,5 +1,5 @@
 ---
-title: Fullscreen Plugin
+title: App Fullscreen Plugin
 desc: A Quasar plugin to toggle the fullscreen state of your app through the Web Fullscreen API.
 keys: AppFullScreen
 examples: AppFullscreen

@@ -1,5 +1,5 @@
 ---
-title: Notify
+title: Notify Plugin
 desc: A Quasar plugin to display animated messages to users like notifications, toasts and snackbars.
 keys: Notify
 examples: Notify

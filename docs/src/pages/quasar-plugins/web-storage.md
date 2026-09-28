@@ -15,7 +15,7 @@ The native `localStorage` and `sessionStorage` only hold strings, throw when the
 - **A missing item reads as `null`**, and `hasItem()`, `getAll()`, `getAllKeys()` and `isEmpty()` answer the questions the native API makes you loop for.
 - **One API on both areas**, injected as `$q.localStorage` and `$q.sessionStorage` in components and importable as `LocalStorage` and `SessionStorage` everywhere else.
 - **Safe on the server.** In SSR/SSG builds the plugins are stubs there, so universal code needs no `typeof window` guards.
-- **Reactivity.** A [storage ref](#storage-refs) turns a storage item into a Vue ref that stays in step with the storage, with every other ref of the item and with the other tabs of your app, holds a default while the item is missing and can be typed once per key.
+- **Reactivity.** A [storage ref](#storage-refs-usestorage) turns a storage item into a Vue ref that stays in step with the storage, with every other ref of the item and with the other tabs of your app, holds a default while the item is missing and can be typed once per key.
 
 The one thing to keep in mind: the plugins encode what they store in order to keep the data type, so their methods and the native ones are not interchangeable. An item written natively does not read back with its type and a native write in the same tab goes unnoticed by the storage refs. Pick one side per key, and if you migrate an item from native storage read it natively once and store it through the plugin.
 
@@ -80,7 +80,7 @@ The following data types are retrieved with the same data type they were stored 
 
 A Function is stored as its source and comes back as a String. Storing `null` or `undefined` removes the item (v2.34+; older versions stored the Strings the browser makes of them), so a `null` read always means a missing item. Any other value is stored the way the browser stringifies it and comes back as that String.
 
-## Storage refs <q-badge label="v2.34+" />
+## Storage refs (useStorage) <q-badge label="v2.34+" />
 
 `useStorage(key, options)` returns a Vue ref bound to a storage item. Reading it gives you the item value (its default, or `null`, while the item is missing), assigning it persists the value right away and a nested change of an object or Array value gets persisted too. A template, a computed or a watcher reading it re-evaluates whenever the item changes through the plugin, from anywhere in your app or from another tab or window of the same origin.
 

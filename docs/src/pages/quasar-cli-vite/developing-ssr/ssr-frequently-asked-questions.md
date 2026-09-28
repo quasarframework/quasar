@@ -33,4 +33,4 @@ Also a good idea is to read the [Writing Universal Code](/quasar-cli-vite/develo
 
 ## Why isn't LocalStorage and SessionStorage working?
 
-Web Storage is a browser-only API. On the server the plugins are safe to call but hold nothing: every item reads as missing and every write is dropped, and a [storage ref](/quasar-plugins/web-storage#storage-refs) reads as its default until the page is hydrated. Read real data in client-side code only, such as after the component mounts.
+Web Storage is a browser-only API. On the server the plugins are safe to call but hold nothing: every item reads as missing and every write is dropped, and a [storage ref](/quasar-plugins/web-storage#storage-refs-usestorage) reads as its default until the page is hydrated. Read real data in client-side code only, such as after the component mounts.

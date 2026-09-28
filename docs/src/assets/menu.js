@@ -651,6 +651,7 @@ export default [
       },
       {
         name: 'Cookies',
+        badge: 'update',
         path: 'cookies'
       },
       {

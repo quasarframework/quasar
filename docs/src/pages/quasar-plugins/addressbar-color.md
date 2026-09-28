@@ -1,5 +1,5 @@
 ---
-title: AddressbarColor Plugin
+title: Addressbar Color Plugin
 desc: A Quasar plugin for changing the addressbar color on newer mobile browsers.
 keys: AddressbarColor
 ---
