@@ -772,6 +772,11 @@ export default [
             path: 'use-intersection'
           },
           {
+            name: 'useKeyboardShortcut',
+            badge: 'new',
+            path: 'use-keyboard-shortcut'
+          },
+          {
             name: 'useMutation',
             badge: 'new',
             path: 'use-mutation'

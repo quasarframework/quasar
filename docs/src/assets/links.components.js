@@ -612,6 +612,11 @@ const composables = [
     tag: 'composable'
   },
   {
+    name: 'useKeyboardShortcut',
+    description: 'React to keyboard shortcuts like Mod+K or Escape',
+    tag: 'composable'
+  },
+  {
     name: 'useMutation',
     description: 'Watch for changes made to the DOM tree of an element',
     tag: 'composable'

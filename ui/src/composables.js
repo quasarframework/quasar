@@ -11,6 +11,7 @@ export { default as useHydration } from './composables/use-hydration/use-hydrati
 export { default as useId } from './composables/use-id/use-id.js'
 export { default as useIdle } from './composables/use-idle/use-idle.js'
 export { default as useIntersection } from './composables/use-intersection/use-intersection.js'
+export { default as useKeyboardShortcut } from './composables/use-keyboard-shortcut/use-keyboard-shortcut.js'
 export { default as useInterval } from './composables/use-interval/use-interval.js'
 export { default as useMeta } from './composables/use-meta/use-meta.js'
 export { default as useMutation } from './composables/use-mutation/use-mutation.js'

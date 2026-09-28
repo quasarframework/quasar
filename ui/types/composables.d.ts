@@ -301,6 +301,26 @@ export function useIdle(options?: MaybeRefOrGetter<UseIdleOptions>): {
   stopIdle: () => void;
 };
 
+export interface UseKeyboardShortcutOptions {
+  target?: MaybeRefOrGetter<
+    EventTarget | ComponentPublicInstance | null | undefined
+  >;
+  keyup?: boolean;
+  capture?: boolean;
+  repeat?: boolean;
+  preventDefault?: boolean;
+  ignoreInputs?: boolean;
+  disabled?: boolean;
+}
+
+export function useKeyboardShortcut(
+  shortcut: MaybeRefOrGetter<string | string[]>,
+  handler: (evt: KeyboardEvent, shortcut: string) => void,
+  options?: MaybeRefOrGetter<UseKeyboardShortcutOptions>
+): {
+  stopKeyboardShortcut: () => void;
+};
+
 export function useMeta(options: MetaOptions | (() => MetaOptions)): void;
 
 export function useObjectUrl(
