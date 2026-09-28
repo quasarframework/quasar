@@ -7,16 +7,22 @@ examples: WebStorage
 
 Quasar provides a wrapper over [Web Storage API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API). Besides the usual methods, it binds a storage item to a Vue ref (v2.34+): `$q.localStorage.useItem('theme')` reads and writes the item, updates whenever the item changes through the plugin, from anywhere in your app or from another tab or window, and works in a template, a computed, a watcher or a Pinia store alike.
 
-> [!NOTE]
-> Web Storage API only retrieves strings. **Quasar retrieves data with its original data type.** You tell it to store a Number then to retrieve it and it will still be a Number, not a string representation of the number as with Web Storage API. Same for JSON, Regular Expressions, Dates, Booleans and so on.
+## Why not the native API?
 
-> [!WARNING]
-> Read and write through the plugin only. It encodes what it stores in order to keep the data type, so its methods and the native `localStorage`/`sessionStorage` ones are not interchangeable: an item written natively does not read back with its type and a native write in the same tab goes unnoticed by the [item refs](#item-refs).
+The native `localStorage` and `sessionStorage` only hold strings, throw when the storage is unavailable and know nothing about Vue. The plugins add what an app ends up writing by hand around them:
+
+- **Data types survive.** You store a Number, a Boolean, a Date, a Regular Expression, an Object or an Array and you get the same thing back, not its string form. See [Data Types](#data-types).
+- **A missing item reads as `null`**, and `hasItem()`, `getAll()`, `getAllKeys()` and `isEmpty()` answer the questions the native API makes you loop for.
+- **One API on both areas**, injected as `$q.localStorage` and `$q.sessionStorage` in components and importable as `LocalStorage` and `SessionStorage` everywhere else.
+- **Safe on the server.** In SSR/SSG builds the plugins are stubs there, so universal code needs no `typeof window` guards.
+- **Reactivity.** An [item ref](#item-refs) turns a storage item into a Vue ref that stays in step with the storage, with every other ref of the item and with the other tabs of your app, holds a default while the item is missing and can be typed once per key.
+
+The one thing to keep in mind: the plugins encode what they store in order to keep the data type, so their methods and the native ones are not interchangeable. An item written natively does not read back with its type and a native write in the same tab goes unnoticed by the item refs. Pick one side per key, and if you migrate an item from native storage read it natively once and store it through the plugin.
 
 > [!WARNING]
 > **Note about SSR/SSG**
 >
-> Web Storage is a browser API only. On the server-side of SSR/SSG builds every item reads as missing, every write is dropped and an item ref reads as its default, so guard anything that must run against real data with a client-side check (or `onMounted()`); the client-side works as usual.
+> Web Storage is a browser API only. On the server-side of SSR/SSG builds every item reads as missing, every write is dropped and an item ref reads as its default; the client renders the same way until the page is hydrated, then every item ref catches up on its own, so the markup matches on both sides. Guard anything that must run against real data with a client-side check (or `onMounted()`); the client-side works as usual.
 
 <DocApi file="LocalStorage" />
 
@@ -61,8 +67,18 @@ try {
 }
 ```
 
-> [!NOTE]
-> For an exhaustive list of methods, please check the API section.
+## Data Types
+
+The following data types are retrieved with the same data type they were stored with:
+
+- Strings
+- Numbers
+- Booleans
+- Dates
+- Regular Expressions (flags included, v2.34+)
+- Plain JavaScript Objects and Arrays (anything `JSON.stringify()` handles)
+
+A Function is stored as its source and comes back as a String. Storing `null` or `undefined` removes the item (v2.34+; older versions stored the Strings the browser makes of them), so a `null` read always means a missing item. Any other value is stored the way the browser stringifies it and comes back as that String.
 
 ## Item refs <q-badge label="v2.34+" />
 
@@ -129,47 +145,30 @@ $q.localStorage.useItem('settings', {
 <DocExample title="Persist on demand" file="Disabled" />
 
 > [!TIP]
-> **Typed keys**
->
-> An item ref is typed as any storable value, or as its default when one is given. Declare your own keys once, per storage area, to have every `useItem()` call checked against them, defaults included:
->
-> ```ts
-> declare module 'quasar' {
->   interface LocalStorageItems {
->     theme: 'light' | 'dark'
->   }
->
->   interface SessionStorageItems {
->     draft: { title: string }
->   }
-> }
-> ```
-
-> [!NOTE]
-> An item with a default always holds a value: while a ref with a default is attached to it, removing the item (`removeItem()`, `clear()`, assigning `null`, another tab) stores the default again. A ref without a default reads `null` for a removed item.
-
-> [!NOTE]
-> Nested changes are tracked when made through the ref (`settings.value.notifications = false`), on plain Objects and Arrays only. Mutating the original object you assigned, or a `Date` in place (`since.value.setFullYear(2027)`), persists nothing: assign through the ref instead. With `deep: false` the ref hands out the plain value and only an assignment persists.
-
-> [!TIP]
 > **Outside of a component**
 >
 > `useItem()` can also be called outside of `setup()`: in a boot file, a store or a plain module. A ref created inside a Vue effect scope (a component or a Pinia store) is released together with it; one created outside of any scope stays bound to the storage for the rest of the page: call its `stop()` method when you are done with it.
 
-> [!WARNING]
-> **Note about SSR/SSG**
->
-> The server has no storage, so it renders every item ref as its default. On the client, the ref reads the same way until the page is hydrated, then catches up on its own: the markup matches on both sides and no hydration error gets triggered. Expect a flash of the default on the first paint, and pick a default that reads well.
+### Defaults
 
-## Data Types
+An item with a default always holds a value. While a ref with a default is attached to it, removing the item (`removeItem()`, `clear()`, assigning `null`, another tab) stores the default again, so every reader and every tab agree on what the item holds. A ref without a default reads `null` for a removed item. Two refs of the same item with different defaults disagree only while the item is missing, and the first one to attach settles it.
 
-The following data types are retrieved with the same data type they were stored with:
+### Objects and Arrays
 
-- Strings
-- Numbers
-- Booleans
-- Dates
-- Regular Expressions (flags included, v2.34+)
-- Plain JavaScript Objects and Arrays (anything `JSON.stringify()` handles)
+Nested changes are tracked when made through the ref (`settings.value.notifications = false`), on plain Objects and Arrays only. Mutating the original object you assigned, or a `Date` in place (`since.value.setFullYear(2027)`), persists nothing: assign through the ref instead. With `deep: false` the ref hands out the plain value and only an assignment persists, which is the cheaper choice for a large value that you replace as a whole.
 
-A Function is stored as its source and comes back as a String. Storing `null` or `undefined` removes the item (v2.34+; older versions stored the Strings the browser makes of them), so a `null` read always means a missing item. Any other value is stored the way the browser stringifies it and comes back as that String.
+### Typed keys
+
+An item ref is typed as any storable value, or as its default when one is given. Declare your own keys once, per storage area, to have every `useItem()` call checked against them, defaults included:
+
+```ts
+declare module 'quasar' {
+  interface LocalStorageItems {
+    theme: 'light' | 'dark'
+  }
+
+  interface SessionStorageItems {
+    draft: { title: string }
+  }
+}
+```
