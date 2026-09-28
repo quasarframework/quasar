@@ -3,9 +3,11 @@
 // pass cannot do. Every "@ts-expect-error" below is an assertion too: the
 // line must keep erroring, or the check fails.
 import {
+  type MetaOptions,
   QBtn,
   QInput,
   type QTableColumn,
+  noop,
   type Resize,
   type TouchPan,
   type TouchRepeat
@@ -29,6 +31,10 @@ export function checkTemplateRef(btn: QBtnTemplateRef) {
   // @ts-expect-error unknown slots are rejected
   btn.$slots.nonexistent
 }
+
+// hand-written declarations that reach the index through the barrels
+export const meta: MetaOptions = { title: 'x' }
+export const noopFn: () => void = noop
 
 // the binding a directive's hooks receive; vue-tsc checks each template
 // usage ("v-dir:arg.modifier=\"value\"") against these same generics

@@ -32,6 +32,8 @@ interface ExportFileOpts {
 // others utils
 export function clone<T>(data: T): T;
 
+export function noop(): void;
+
 export function copyToClipboard(text: string): Promise<void>;
 
 export function debounce<F extends (...args: any[]) => any>(

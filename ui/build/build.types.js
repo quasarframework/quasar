@@ -410,6 +410,7 @@ function getIndexDts(apis, quasarLangIndex) {
   writeLine(quasarTypeContents, 'export as namespace quasar')
   // We expose `ts-helpers` because they are needed by `@quasar/app` augmentations
   writeLine(quasarTypeContents, "export * from './ts-helpers'")
+  writeLine(quasarTypeContents, "export * from './meta'")
   writeLine(quasarTypeContents, "export * from './utils'")
   writeLine(quasarTypeContents, "export * from './composables'")
   writeLine(quasarTypeContents, "export * from './feature-flag'")
