@@ -14,6 +14,21 @@ export function useAnimationFrame(): {
   removeAnimationFrame: () => void;
 };
 
+export interface UseDebounceOptions {
+  immediate?: boolean;
+}
+
+export function useDebounce<F extends (...args: any[]) => any>(
+  fn: F,
+  wait?: number,
+  options?: UseDebounceOptions
+): {
+  debounceFn: (this: ThisParameterType<F>, ...args: Parameters<F>) => void;
+  cancelDebounce: () => void;
+  flushDebounce: () => void;
+  isDebouncePending: Ref<boolean>;
+};
+
 export type DialogDismissReason =
   | "cancel"
   | "backdrop"
@@ -352,6 +367,21 @@ export function useSplitAttrs(): {
 export function useTick(): {
   registerTick: (fn: () => void) => void;
   removeTick: () => void;
+};
+
+export interface UseThrottleOptions {
+  trailing?: boolean;
+}
+
+export function useThrottle<F extends (...args: any[]) => any>(
+  fn: F,
+  limit?: number,
+  options?: UseThrottleOptions
+): {
+  throttleFn: F;
+  cancelThrottle: () => void;
+  flushThrottle: () => void;
+  isThrottlePending: Ref<boolean>;
 };
 
 export function useTimeout(): {

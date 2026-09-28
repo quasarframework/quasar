@@ -105,3 +105,6 @@ The returned `isTimeoutPending` is a reactive boolean Ref which is `true` while 
   }
 </script>
 ```
+
+> [!TIP]
+> For this exact pattern, a Function that runs once the calls stop coming, the [useDebounce](/vue-composables/use-debounce) composable wraps your Function directly and forwards its arguments.

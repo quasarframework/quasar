@@ -542,6 +542,11 @@ const composables = [
     tag: 'composable'
   },
   {
+    name: 'useDebounce',
+    description: 'Debounce a function, dropped with the component',
+    tag: 'composable'
+  },
+  {
     name: 'useDialogPluginComponent',
     description: 'Access Dialog Plugin functionality',
     tag: 'composable'
@@ -640,6 +645,11 @@ const composables = [
     name: 'useSoftFullscreen',
     description:
       'Make an element take over the viewport, without the Fullscreen API',
+    tag: 'composable'
+  },
+  {
+    name: 'useThrottle',
+    description: 'Throttle a function, dropped with the component',
     tag: 'composable'
   },
   {

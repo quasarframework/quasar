@@ -42,6 +42,7 @@ export function debounce<F extends (...args: any[]) => any>(
   immediate?: boolean
 ): ((this: ThisParameterType<F>, ...args: Parameters<F>) => void) & {
   cancel(): void;
+  flush(): void;
 };
 
 export function frameDebounce<F extends (...args: any[]) => any>(
@@ -65,10 +66,18 @@ export function openURL<F extends (...args: any[]) => any>(
   windowFeatures?: object
 ): void;
 
+export interface ThrottleOptions {
+  trailing?: boolean;
+}
+
 export function throttle<F extends (...args: any[]) => any>(
   fn: F,
-  limit: number
-): F;
+  limit?: number,
+  options?: ThrottleOptions
+): F & {
+  cancel(): void;
+  flush(): void;
+};
 
 export function uid(): string;
 

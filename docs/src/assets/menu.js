@@ -737,6 +737,11 @@ export default [
             path: 'use-animation-frame'
           },
           {
+            name: 'useDebounce',
+            badge: 'new',
+            path: 'use-debounce'
+          },
+          {
             name: 'useIdle',
             badge: 'new',
             path: 'use-idle'
@@ -744,6 +749,11 @@ export default [
           {
             name: 'useInterval',
             path: 'use-interval'
+          },
+          {
+            name: 'useThrottle',
+            badge: 'new',
+            path: 'use-throttle'
           },
           {
             name: 'useTick',

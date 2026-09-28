@@ -20,6 +20,7 @@ describe('[debounce API]', () => {
         expect(fn).toBeTypeOf('function')
 
         expect(fn.cancel).toBeTypeOf('function')
+        expect(fn.flush).toBeTypeOf('function')
       })
 
       test('should debounce with fast timeout', () => {
@@ -189,6 +190,83 @@ describe('[debounce API]', () => {
 
         expect(callback).not.toHaveBeenCalled()
       })
+      test('preserves "this"', () => {
+        const callback = vi.fn()
+        const fn = debounce(callback, 100)
+        const context = { fn }
+
+        context.fn()
+        vi.advanceTimersByTime(100)
+
+        expect(callback.mock.contexts[0]).toBe(context)
+      })
+
+      test('flush() runs the waiting call right away', () => {
+        const callback = vi.fn()
+        const fn = debounce(callback, 100)
+
+        fn(1)
+        fn(2)
+        fn.flush()
+
+        expect(callback).toHaveBeenCalledExactlyOnceWith(2)
+        expect(vi.getTimerCount()).toBe(0)
+
+        vi.runAllTimers()
+        expect(callback).toHaveBeenCalledOnce()
+      })
+
+      test('flush() does nothing without a waiting call', () => {
+        const callback = vi.fn()
+        const fn = debounce(callback, 100)
+
+        fn.flush()
+        expect(callback).not.toHaveBeenCalled()
+
+        fn()
+        vi.advanceTimersByTime(100)
+        fn.flush()
+        expect(callback).toHaveBeenCalledOnce()
+      })
+
+      test('flush() does nothing in immediate mode', () => {
+        const callback = vi.fn()
+        const fn = debounce(callback, 100, true)
+
+        fn()
+        fn()
+        fn.flush()
+        expect(callback).toHaveBeenCalledOnce()
+
+        // the wait period keeps running
+        fn()
+        expect(callback).toHaveBeenCalledOnce()
+
+        vi.advanceTimersByTime(100)
+        fn()
+        expect(callback).toHaveBeenCalledTimes(2)
+      })
+
+      test('a call made from within the callback waits anew', () => {
+        const callback = vi.fn(() => {
+          if (callback.mock.calls.length < 3) fn()
+        })
+        const fn = debounce(callback, 100)
+
+        fn()
+        vi.advanceTimersByTime(100)
+        expect(callback).toHaveBeenCalledOnce()
+
+        vi.advanceTimersByTime(99)
+        expect(callback).toHaveBeenCalledOnce()
+
+        vi.advanceTimersByTime(1)
+        expect(callback).toHaveBeenCalledTimes(2)
+
+        vi.runAllTimers()
+        expect(callback).toHaveBeenCalledTimes(3)
+      })
+
       test('cancel() re-arms the leading edge in immediate mode', () => {
         const callback = vi.fn()
         const fn = debounce(callback, 100, true)
