@@ -36,10 +36,10 @@ setup () {
     scrollDelta, scrollInflectionPoint, refreshScroll, stopScroll
   } = useScroll({
     // all optional:
-    scrollTarget,        // the scroll container; omit it for auto detection
-    axis: 'vertical',    // 'vertical', 'horizontal' or 'both'
-    debounce: 100,       // ms per report; omit for one per frame, 0 for every event
-    disabled: false,     // pause listening
+    scrollTarget,        // the scroll container (default: auto detected from the component's own root element)
+    axis: 'both',        // 'vertical', 'horizontal' or 'both' (default: 'vertical')
+    debounce: 100,       // ms per report; 0 for one on every scroll event (default: one per animation frame)
+    disabled: true,      // pause listening (default: false)
     onScroll (details) { // called with the scroll details on every change
       // ...
     }

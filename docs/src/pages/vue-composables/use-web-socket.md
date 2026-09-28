@@ -34,20 +34,20 @@ setup () {
     {
       // all optional:
 
-      lazy: true, // do not open the socket on mount;
+      lazy: true, // do not open the socket on mount (default: false);
                   // openSocket() or the first sendSocketMessage() does it
 
-      protocols: ['chat'],        // the native sub-protocol(s)
-      binaryType: 'arraybuffer',  // 'blob' (default) or 'arraybuffer'
+      protocols: ['chat'],        // the native sub-protocol(s) (default: none)
+      binaryType: 'arraybuffer',  // 'blob' or 'arraybuffer' (default: 'blob')
 
-      autoReconnect: {  // default: true (Infinity retries, 1s doubling up to 30s);
-        retries: 5,     // false disables it
-        delay: attempt => 500 * (attempt + 1) // ms; a number works too
+      autoReconnect: {  // reopen a socket that closed on its own (default: true; false disables it)
+        retries: 5,     // number of attempts (default: Infinity)
+        delay: attempt => 500 * (attempt + 1) // ms, a number works too (default: 1s doubling up to 30s)
       },
 
-      heartbeat: {         // default: false; true for the defaults below
-        message: 'ping',   // what to send
-        interval: 30000    // every X ms while the socket is open
+      heartbeat: {         // send a message at a fixed interval while open (default: false; true for the defaults below)
+        message: 'ping',   // what to send (default: 'ping')
+        interval: 30000    // every X ms while the socket is open (default: 30000)
       },
 
       onOpen (evt) { // called each time the socket opens

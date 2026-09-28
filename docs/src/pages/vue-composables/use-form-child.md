@@ -21,7 +21,7 @@ setup () {
     validate, // Function; Can be async;
               // Should return a Boolean (or a Promise resolving to a Boolean)
     resetValidation,    // Optional function which resets validation
-    requiresQForm: true // should it error out if no parent QForm is found?
+    requiresQForm: true // error out if no parent QForm is found (default: false)
   })
 }
 ```

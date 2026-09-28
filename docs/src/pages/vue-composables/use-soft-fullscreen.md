@@ -38,9 +38,9 @@ setup () {
     inFullscreen, setFullscreen, exitFullscreen, toggleFullscreen
   } = useSoftFullscreen({
     // all optional:
-    target,             // omit it for the component's own root element
-    fullscreen: false,  // the requested state (declarative form)
-    noRouteExit: false  // keep the state across route changes
+    target,             // (default: the component's own root element)
+    fullscreen: true,   // the requested state, declarative form (default: false)
+    noRouteExit: true   // keep the state across route changes (default: false)
   })
 
   // ...

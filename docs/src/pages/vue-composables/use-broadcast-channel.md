@@ -40,7 +40,7 @@ setup () {
     {
       // all optional:
 
-      lazy: true, // do not connect the channel on mount;
+      lazy: true, // do not connect the channel on mount (default: false);
                   // connectChannel() or postChannelMessage() does it
 
       onConnect () { // called each time the channel gets connected

@@ -43,15 +43,16 @@ setup () {
     stopDropZone
   } = useDropZone({
     // all optional:
-    target,                 // omit it to use the component's own root element
-    disabled: false,        // stop accepting drops
+    target,                 // (default: the component's own root element)
+    disabled: true,         // stop accepting drops (default: false)
 
-    multiple: false,        // accept more than one file per drop
-    accept: 'image/*,.pdf', // same format as the native "accept" attribute
-    maxFileSize: 1048576,   // bytes
-    maxTotalSize: 10485760, // bytes
-    maxFiles: 5,
-    filter (files) {        // keep only the files you return
+    // validation, same meaning as the QFile/QUploader props:
+    multiple: true,         // accept more than one file per drop (default: false)
+    accept: 'image/*,.pdf', // same format as the native "accept" attribute (default: any file)
+    maxFileSize: 1048576,   // bytes (default: no limit)
+    maxTotalSize: 10485760, // bytes (default: no limit)
+    maxFiles: 5,            // (default: no limit)
+    filter (files) {        // keep only the files you return (default: keep them all)
       return files.filter(file => file.name.endsWith('.jpg'))
     },
 

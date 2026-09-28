@@ -39,15 +39,16 @@ setup () {
     resetFilePicker
   } = useFilePicker({
     // all optional:
-    multiple: false,        // allow picking more than one file
-    accept: 'image/*,.pdf', // same format as the native "accept" attribute
-    capture: 'environment', // 'user' or 'environment'; asks mobile devices for the camera
-    directory: false,       // pick a folder instead of files
+    multiple: true,         // allow picking more than one file (default: false)
+    accept: 'image/*,.pdf', // same format as the native "accept" attribute (default: any file)
+    capture: 'environment', // 'user' or 'environment'; asks mobile devices for the camera (default: none)
+    directory: true,        // pick a folder instead of files (default: false)
 
-    maxFileSize: 1048576,   // bytes
-    maxTotalSize: 10485760, // bytes
-    maxFiles: 5,
-    filter (files) {        // keep only the files you return
+    // validation, same meaning as the QFile/QUploader props:
+    maxFileSize: 1048576,   // bytes (default: no limit)
+    maxTotalSize: 10485760, // bytes (default: no limit)
+    maxFiles: 5,            // (default: no limit)
+    filter (files) {        // keep only the files you return (default: keep them all)
       return files.filter(file => file.name.endsWith('.jpg'))
     },
 

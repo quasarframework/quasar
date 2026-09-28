@@ -39,10 +39,10 @@ setup () {
       // ...
     },
     {                  // all optional:
-      capture: false,  // addEventListener() options
-      passive: false,
-      once: false,
-      disabled: false  // pause listening
+      capture: true,   // addEventListener() option (default: false)
+      passive: true,   // addEventListener() option (default: left to the browser)
+      once: true,      // addEventListener() option (default: false)
+      disabled: true   // pause listening (default: false)
     }
   )
 

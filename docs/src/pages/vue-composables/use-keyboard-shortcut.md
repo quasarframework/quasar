@@ -35,13 +35,13 @@ setup () {
       // shortcut - the shortcut String that matched it
     },
     { // all optional:
-      target: window,        // element, component or window to listen on
-      keyup: false,          // fire on keyup instead of keydown
-      capture: false,        // listen in the capture phase
-      repeat: false,         // also fire while the key is held down
-      preventDefault: true,  // prevent the browser's own action for the key
-      ignoreInputs: true,    // skip typing shortcuts while in a text field
-      disabled: false        // pause listening
+      target: window,        // element, component or window to listen on (default: window)
+      keyup: true,           // fire on keyup instead of keydown (default: false)
+      capture: true,         // listen in the capture phase (default: false)
+      repeat: true,          // also fire while the key is held down (default: false)
+      preventDefault: false, // prevent the browser's own action for the key (default: true)
+      ignoreInputs: false,   // skip typing shortcuts while in a text field (default: true)
+      disabled: true         // pause listening (default: false)
     }
   )
 

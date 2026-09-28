@@ -30,11 +30,11 @@ import { useIdle } from 'quasar'
 setup () {
   const { isIdle, lastActive, resetIdle, stopIdle } = useIdle({
     // all optional:
-    timeout: 60000,  // ms of inactivity before the user counts as idle
-    events: [        // the events (on document) that count as an activity
+    timeout: 30000,   // ms of inactivity before the user counts as idle (default: 60000)
+    events: [         // the events (on document) that count as an activity (default: the ones below)
       'mousemove', 'mousedown', 'keydown', 'touchstart', 'wheel'
     ],
-    disabled: false, // pause tracking
+    disabled: true,   // pause tracking (default: false)
     onIdle (isIdle) { // called on every transition
       // ...
     }

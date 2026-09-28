@@ -30,10 +30,10 @@ setup () {
     (a, b) => a + b, // the function to run in the worker
     {
       // all optional:
-      timeout: 10000,          // ms before a running call gets rejected
-      dependencies: [ /* ... */ ],      // script URLs the function needs
-      localDependencies: [ /* ... */ ], // your own functions it calls
-      transfer: (a, b) => [ /* ... */ ], // Transferables among the arguments
+      timeout: 10000,          // ms before a running call gets rejected (default: none, calls never time out)
+      dependencies: [ /* ... */ ],      // script URLs the function needs (default: none)
+      localDependencies: [ /* ... */ ], // your own functions it calls (default: none)
+      transfer: (a, b) => [ /* ... */ ], // Transferables among the arguments (default: none, everything is cloned)
 
       onSuccess (result, args) { // called when a call resolves
         // ...

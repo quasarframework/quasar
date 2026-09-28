@@ -37,13 +37,13 @@ setup () {
     {
       // all optional:
 
-      lazy: true, // do not create the worker on mount;
+      lazy: true, // do not create the worker on mount (default: false);
                   // the first postWorkerMessage() does it
 
       // the native Worker options, used when "source" is a URL:
-      type: 'module',            // 'module' (default) or 'classic'
-      name: 'primes',            // labels the worker in the devtools
-      credentials: 'same-origin', // for a module worker script
+      type: 'classic',       // 'module' or 'classic' (default: 'module')
+      name: 'primes',        // labels the worker in the devtools (default: none)
+      credentials: 'include', // for a module worker script (default: 'same-origin')
 
       onMessage (data, evt) { // called with each message from the worker
         // ...

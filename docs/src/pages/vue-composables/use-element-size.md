@@ -34,9 +34,9 @@ setup () {
 
   const { elementSize, refreshElementSize, stopElementSize } = useElementSize({
     // all optional:
-    target,                  // omit it to measure the component's own root element
-    debounce: 0,             // milliseconds; at most one measurement per window
-    disabled: false,         // pause observing
+    target,                  // (default: the component's own root element)
+    debounce: 100,           // ms; at most one measurement per window (default: 0, one per change)
+    disabled: true,          // pause observing (default: false)
     onResize (elementSize) { // called with { width, height } on every change
       // ...
     }

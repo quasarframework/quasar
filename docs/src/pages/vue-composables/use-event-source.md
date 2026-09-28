@@ -34,16 +34,16 @@ setup () {
     {
       // all optional:
 
-      lazy: true, // do not open the stream on mount;
+      lazy: true, // do not open the stream on mount (default: false);
                   // openSource() does it
 
-      withCredentials: true, // send cookies on a cross-origin URL
+      withCredentials: true, // send cookies on a cross-origin URL (default: false)
       events: ['update'],    // named events to listen to, on top of
-                             // the unnamed ("message") ones
+                             // the unnamed ("message") ones (default: none)
 
-      autoReconnect: {  // default: true (Infinity retries, 1s doubling up to 30s);
-        retries: 5,     // false disables it
-        delay: attempt => 500 * (attempt + 1) // ms; a number works too
+      autoReconnect: {  // reopen a stream the browser gave up on (default: true; false disables it)
+        retries: 5,     // number of attempts (default: Infinity)
+        delay: attempt => 500 * (attempt + 1) // ms, a number works too (default: 1s doubling up to 30s)
       },
 
       onOpen (evt) { // called each time the stream opens

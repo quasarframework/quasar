@@ -33,10 +33,10 @@ setup () {
 
   const { mutationRecords, stopMutation } = useMutation({
     // all optional:
-    target,               // omit it to observe the component's own root element
+    target,               // (default: the component's own root element)
 
-    // MutationObserver options; with none of them set,
-    // every kind of change gets observed
+    // MutationObserver options (default: none set, which observes
+    // every kind of change)
     childList: true,
     attributes: true,
     characterData: true,
@@ -45,8 +45,8 @@ setup () {
     characterDataOldValue: true,
     attributeFilter: [ 'class', 'style' ],
 
-    once: false,          // stop after the first batch of records
-    disabled: false,      // pause observing
+    once: true,           // stop after the first batch of records (default: false)
+    disabled: true,       // pause observing (default: false)
     onMutation (records) { // called with the Array of MutationRecord
       // return false to stop observing for good
     }

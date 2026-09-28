@@ -32,12 +32,12 @@ setup () {
 
   const { isIntersecting, refreshIntersection, stopIntersection } = useIntersection({
     // all optional:
-    target,               // omit it to observe the component's own root element
-    root: null,           // Element used as viewport; null for the browser viewport
-    rootMargin: '0px',    // CSS-like margin around the root
-    threshold: 0,         // Number or Array of Numbers (0 to 1)
-    once: false,          // stop observing after the first time the target is visible
-    disabled: false,      // pause observing
+    target,               // (default: the component's own root element)
+    root: null,           // Element used as viewport (default: null, the browser viewport)
+    rootMargin: '10px',   // CSS-like margin around the root (default: '0px')
+    threshold: 0.5,       // Number or Array of Numbers, 0 to 1 (default: 0)
+    once: true,           // stop observing after the first time the target is visible (default: false)
+    disabled: true,       // pause observing (default: false)
     onIntersect (entry) { // called with every IntersectionObserverEntry
       // return false to stop observing
     }
