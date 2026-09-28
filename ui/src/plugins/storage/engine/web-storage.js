@@ -4,8 +4,6 @@ import {
   getCurrentScope,
   onScopeDispose,
   reactive,
-  ref,
-  shallowRef,
   toValue,
   watch
 } from 'vue'
@@ -105,11 +103,43 @@ function getStorageRefOptions(options) {
   }
 }
 
-// a plain ref that reads as the default: the server has no storage and
-// the client must render the same markup until it gets hydrated
+// a copy of the default, as the storage would hand it back: the ref
+// never hands out (and mutates through a nested change) the caller's
+// own object
+function fresh(defaultValue) {
+  return typeof defaultValue === 'object' && defaultValue !== null
+    ? decode(encode(defaultValue))
+    : defaultValue
+}
+
+function isDeepValue(value) {
+  return isObject(value) || Array.isArray(value)
+}
+
+// an in-memory ref that reads as the default: the server has no storage
+// and the client must render the same markup until it gets hydrated
 function getEmptyStorageRef(key, options) {
   const { defaultValue, deep } = getStorageRefOptions(options)
-  return Object.assign((deep ? ref : shallowRef)(defaultValue), { stop: noop })
+  let value = fresh(defaultValue)
+
+  const storageRef = customRef((track, trigger) => ({
+    get() {
+      track()
+      return deep && isDeepValue(value) ? reactive(value) : value
+    },
+
+    set(newValue) {
+      value =
+        newValue === null || newValue === void 0
+          ? fresh(defaultValue)
+          : newValue
+      trigger()
+    }
+  }))
+
+  storageRef.stop = noop
+
+  return storageRef
 }
 
 export function getEmptyStorage() {
@@ -136,7 +166,7 @@ export function getStorage(type) {
   const webStorage = window[type + 'Storage'],
     get = key => {
       const item = webStorage.getItem(key)
-      return item ? decode(item) : null
+      return item === null ? null : decode(item)
     }
 
   // key -> the receivers of the storage refs attached to that key; each
@@ -145,11 +175,12 @@ export function getStorage(type) {
   // the origin
   const attached = new Map()
 
-  // a null value means the item is gone
-  function notify(key, value, encoded, except) {
+  // a null value means the item is gone; an error, that the stored
+  // value cannot be decoded
+  function notify(key, value, encoded, except, error) {
     attached.get(key)?.forEach(receive => {
       if (receive !== except) {
-        receive(value, encoded)
+        receive(value, encoded, error)
       }
     })
   }
@@ -169,9 +200,20 @@ export function getStorage(type) {
 
     if (evt.key === null) {
       notifyAll()
-    } else {
+    } else if (attached.has(evt.key)) {
       const raw = evt.newValue
-      notify(evt.key, raw ? decode(raw) : null, raw)
+      let value = null
+
+      try {
+        if (raw !== null) {
+          value = decode(raw)
+        }
+      } catch (err) {
+        notify(evt.key, null, raw, void 0, err)
+        return
+      }
+
+      notify(evt.key, value, raw)
     }
   }
 
@@ -215,17 +257,14 @@ export function getStorage(type) {
       return
     }
 
-    const encoded = encode(value)
-    webStorage.setItem(key, encoded)
+    webStorage.setItem(key, encode(value))
 
-    // a function is stored as its source and a value encode() hands
-    // back as is (a BigInt...) as the string the browser makes of it:
-    // what reads back is what the refs get
-    if (typeof encoded !== 'string' || typeof value === 'function') {
+    // what reads back is what the refs get: a function as its source, a
+    // value encode() hands back as is (a BigInt...) as the string the
+    // browser makes of it, an object as a copy of the caller's
+    if (attached.has(key)) {
       const stored = get(key)
       notify(key, stored, encode(stored))
-    } else {
-      notify(key, value, encoded)
     }
   }
 
@@ -235,7 +274,7 @@ export function getStorage(type) {
 
     // the raw value; a plain object or Array is handed out reactive by
     // the getter, so that a nested change gets tracked and persisted
-    let value = defaultValue,
+    let value = fresh(defaultValue),
       // the encoded form of what the storage side last agreed on, so
       // that a change made through the ref (to persist) can be told
       // from one it merely got told about
@@ -257,14 +296,14 @@ export function getStorage(type) {
       return {
         get() {
           track()
-          return deep && (isObject(value) || Array.isArray(value))
-            ? reactive(value)
-            : value
+          return deep && isDeepValue(value) ? reactive(value) : value
         },
 
         set(newValue) {
           assign(
-            newValue === null || newValue === void 0 ? defaultValue : newValue
+            newValue === null || newValue === void 0
+              ? fresh(defaultValue)
+              : newValue
           )
           persist()
         }
@@ -305,10 +344,26 @@ export function getStorage(type) {
     // the storage side changed the item (setItem(), removeItem(),
     // clear(), another ref of the key or another document); a removed
     // item goes back to the default, which gets persisted again
-    function receive(newValue, encoded) {
+    function receive(newValue, encoded, error) {
+      if (error !== void 0) {
+        fail(error)
+        return
+      }
+
+      if (newValue === null) {
+        // another ref of the item, told first, may have stored its
+        // default meanwhile: the first one to attach settles it
+        const raw = webStorage.getItem(key)
+
+        if (raw !== null) {
+          newValue = decode(raw)
+          encoded = encode(newValue)
+        }
+      }
+
       if (newValue === null) {
         synced = null
-        assign(defaultValue)
+        assign(fresh(defaultValue))
       } else {
         synced = encoded
         assign(newValue)
@@ -318,11 +373,13 @@ export function getStorage(type) {
     }
 
     function seed() {
-      let raw
-
       try {
-        raw = webStorage.getItem(key)
-        if (raw !== null) {
+        const raw = webStorage.getItem(key)
+
+        if (raw === null) {
+          // whatever was agreed on before detaching is gone
+          synced = null
+        } else {
           const stored = decode(raw)
           synced = encode(stored)
           assign(stored)

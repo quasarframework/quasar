@@ -59,7 +59,22 @@ export interface WebStorageRefOptions<T> {
   onError?: (err: Error) => void;
 }
 
-export type WebStorageRef<T = WebStorageGetMethodReturnType | null> = Ref<T> & {
+// what a default types the ref as: a String, Number or Boolean default
+// leaves every value of that type assignable (declare the key in
+// LocalStorageItems/SessionStorageItems for a union)
+type WebStorageValueOf<T> = T extends string
+  ? string
+  : T extends number
+    ? number
+    : T extends boolean
+      ? boolean
+      : T;
+
+// assigning null removes the item (or resets it to the default)
+export type WebStorageRef<T = WebStorageGetMethodReturnType | null> = Ref<
+  T,
+  T | null
+> & {
   stop: () => void;
 };
 
@@ -75,7 +90,7 @@ export interface WebStorageUseStorageMethodType<Items> {
   <K extends string, T extends WebStorageGetMethodReturnType>(
     key: K extends keyof Items ? never : K,
     options: WebStorageRefOptions<T> & { default: T }
-  ): WebStorageRef<T>;
+  ): WebStorageRef<WebStorageValueOf<T>>;
   <
     K extends string,
     T extends WebStorageGetMethodReturnType = WebStorageGetMethodReturnType

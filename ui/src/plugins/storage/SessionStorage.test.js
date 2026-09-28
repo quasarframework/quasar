@@ -87,6 +87,14 @@ describe('[SessionStorage API]', () => {
         } = mountPlugin()
         expect($q.sessionStorage.getItem).toBe(SessionStorage.getItem)
       })
+
+      test('reads an item natively stored as an empty String', () => {
+        mountPlugin()
+
+        window.sessionStorage.setItem('getItem.empty', '')
+        expect(SessionStorage.getItem('getItem.empty')).toBe('')
+        expect(SessionStorage.hasItem('getItem.empty')).toBe(true)
+      })
     })
 
     describe('[(method)getIndex]', () => {
@@ -692,6 +700,102 @@ describe('[SessionStorage API]', () => {
           await nextTick()
           expect(SessionStorage.getItem('useStorage.disabled')).toBe('dark')
         })
+      })
+
+      test('never mutates the default it was given', async () => {
+        mountPlugin()
+        const defaultValue = { count: 0 }
+        const settings = SessionStorage.useStorage('useStorage.ownDefault', {
+          default: defaultValue
+        })
+
+        settings.value.count = 1
+        await nextTick()
+        expect(SessionStorage.getItem('useStorage.ownDefault')).toStrictEqual({
+          count: 1
+        })
+        expect(defaultValue).toStrictEqual({ count: 0 })
+
+        settings.value = null
+        expect(settings.value).toStrictEqual({ count: 0 })
+        expect(settings.value).not.toBe(defaultValue)
+      })
+
+      test('hands a ref a copy of what setItem() stores', async () => {
+        mountPlugin()
+        const stored = { count: 0 }
+        const settings = SessionStorage.useStorage('useStorage.copy')
+
+        SessionStorage.setItem('useStorage.copy', stored)
+        settings.value.count = 1
+        await nextTick()
+        expect(SessionStorage.getItem('useStorage.copy')).toStrictEqual({
+          count: 1
+        })
+        expect(stored).toStrictEqual({ count: 0 })
+      })
+
+      test('stores the current value again when it attaches to an item removed meanwhile', async () => {
+        mountPlugin()
+        const disabled = ref(false)
+        const theme = SessionStorage.useStorage('useStorage.reattach', {
+          disabled
+        })
+
+        theme.value = 'dark'
+        disabled.value = true
+        await nextTick()
+        SessionStorage.removeItem('useStorage.reattach')
+
+        disabled.value = false
+        await nextTick()
+        expect(SessionStorage.getItem('useStorage.reattach')).toBe('dark')
+      })
+
+      test('lets the first attached ref settle differing defaults', () => {
+        mountPlugin()
+        const first = SessionStorage.useStorage('useStorage.defaults', {
+          default: 'first'
+        })
+        const second = SessionStorage.useStorage('useStorage.defaults', {
+          default: 'second'
+        })
+        expect(second.value).toBe('first')
+
+        SessionStorage.removeItem('useStorage.defaults')
+        expect(first.value).toBe('first')
+        expect(second.value).toBe('first')
+        expect(SessionStorage.getItem('useStorage.defaults')).toBe('first')
+
+        SessionStorage.clear()
+        expect(second.value).toBe('first')
+        expect(SessionStorage.getItem('useStorage.defaults')).toBe('first')
+      })
+
+      test('reports an undecodable value stored by another document through onError', () => {
+        mountPlugin()
+        const errors = []
+        const item = SessionStorage.useStorage('useStorage.decode.event', {
+          default: 'light',
+          onError: err => {
+            errors.push(err)
+          }
+        })
+
+        window.sessionStorage.setItem(
+          'useStorage.decode.event',
+          '__q_objt|{oops'
+        )
+        window.dispatchEvent(
+          new StorageEvent('storage', {
+            key: 'useStorage.decode.event',
+            newValue: '__q_objt|{oops',
+            storageArea: window.sessionStorage
+          })
+        )
+        expect(errors).toHaveLength(1)
+        expect(errors[0]).toBeInstanceOf(SyntaxError)
+        expect(item.value).toBe('light')
       })
 
       test('reports a storage failure through onError', () => {

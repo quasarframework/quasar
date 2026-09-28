@@ -78,7 +78,7 @@ The following data types are retrieved with the same data type they were stored 
 - Regular Expressions (flags included, v2.34+)
 - Plain JavaScript Objects and Arrays (anything `JSON.stringify()` handles)
 
-A Function is stored as its source and comes back as a String. Storing `null` or `undefined` removes the item (v2.34+; older versions stored the Strings the browser makes of them), so a `null` read always means a missing item. Any other value is stored the way the browser stringifies it and comes back as that String.
+A Function is stored as its source and comes back as a String. Storing `null` or `undefined` removes the item (v2.34+; older versions stored the Strings the browser makes of them), so a `null` read always means a missing item, even for an item another script stored natively as an empty String. Any other value is stored the way the browser stringifies it and comes back as that String.
 
 ## Storage refs (useStorage) <q-badge label="v2.34+" />
 
@@ -157,11 +157,11 @@ An item with a default always holds a value. While a ref with a default is attac
 
 ### Objects and Arrays
 
-Nested changes are tracked when made through the ref (`settings.value.notifications = false`), on plain Objects and Arrays only. Mutating the original object you assigned, or a `Date` in place (`since.value.setFullYear(2027)`), persists nothing: assign through the ref instead. With `deep: false` the ref hands out the plain value and only an assignment persists, which is the cheaper choice for a large value that you replace as a whole.
+Nested changes are tracked when made through the ref (`settings.value.notifications = false`), on plain Objects and Arrays only. Mutating the original object you assigned, or a `Date` in place (`since.value.setFullYear(2027)`), persists nothing: assign through the ref instead. The default is never handed out itself but copied, so assigning `null` always reads as the default you gave. With `deep: false` the ref hands out the plain value and only an assignment persists, which is the cheaper choice for a large value that you replace as a whole.
 
 ### Typed keys
 
-A storage ref is typed as any storable value, or as its default when one is given. Declare your own keys once, per storage area, to have every `useStorage()` call checked against them, defaults included:
+A storage ref is typed as any storable value, or after its default when one is given (a String, Number or Boolean default types it as that primitive). Declare your own keys once, per storage area, to have every `useStorage()` call checked against them, defaults and unions included:
 
 ```ts TypeScript
 declare module 'quasar' {

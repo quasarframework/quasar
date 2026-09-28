@@ -87,6 +87,14 @@ describe('[LocalStorage API]', () => {
         } = mountPlugin()
         expect($q.localStorage.getItem).toBe(LocalStorage.getItem)
       })
+
+      test('reads an item natively stored as an empty String', () => {
+        mountPlugin()
+
+        window.localStorage.setItem('getItem.empty', '')
+        expect(LocalStorage.getItem('getItem.empty')).toBe('')
+        expect(LocalStorage.hasItem('getItem.empty')).toBe(true)
+      })
     })
 
     describe('[(method)getIndex]', () => {
@@ -690,6 +698,99 @@ describe('[LocalStorage API]', () => {
           await nextTick()
           expect(LocalStorage.getItem('useStorage.disabled')).toBe('dark')
         })
+      })
+
+      test('never mutates the default it was given', async () => {
+        mountPlugin()
+        const defaultValue = { count: 0 }
+        const settings = LocalStorage.useStorage('useStorage.ownDefault', {
+          default: defaultValue
+        })
+
+        settings.value.count = 1
+        await nextTick()
+        expect(LocalStorage.getItem('useStorage.ownDefault')).toStrictEqual({
+          count: 1
+        })
+        expect(defaultValue).toStrictEqual({ count: 0 })
+
+        settings.value = null
+        expect(settings.value).toStrictEqual({ count: 0 })
+        expect(settings.value).not.toBe(defaultValue)
+      })
+
+      test('hands a ref a copy of what setItem() stores', async () => {
+        mountPlugin()
+        const stored = { count: 0 }
+        const settings = LocalStorage.useStorage('useStorage.copy')
+
+        LocalStorage.setItem('useStorage.copy', stored)
+        settings.value.count = 1
+        await nextTick()
+        expect(LocalStorage.getItem('useStorage.copy')).toStrictEqual({
+          count: 1
+        })
+        expect(stored).toStrictEqual({ count: 0 })
+      })
+
+      test('stores the current value again when it attaches to an item removed meanwhile', async () => {
+        mountPlugin()
+        const disabled = ref(false)
+        const theme = LocalStorage.useStorage('useStorage.reattach', {
+          disabled
+        })
+
+        theme.value = 'dark'
+        disabled.value = true
+        await nextTick()
+        LocalStorage.removeItem('useStorage.reattach')
+
+        disabled.value = false
+        await nextTick()
+        expect(LocalStorage.getItem('useStorage.reattach')).toBe('dark')
+      })
+
+      test('lets the first attached ref settle differing defaults', () => {
+        mountPlugin()
+        const first = LocalStorage.useStorage('useStorage.defaults', {
+          default: 'first'
+        })
+        const second = LocalStorage.useStorage('useStorage.defaults', {
+          default: 'second'
+        })
+        expect(second.value).toBe('first')
+
+        LocalStorage.removeItem('useStorage.defaults')
+        expect(first.value).toBe('first')
+        expect(second.value).toBe('first')
+        expect(LocalStorage.getItem('useStorage.defaults')).toBe('first')
+
+        LocalStorage.clear()
+        expect(second.value).toBe('first')
+        expect(LocalStorage.getItem('useStorage.defaults')).toBe('first')
+      })
+
+      test('reports an undecodable value stored by another document through onError', () => {
+        mountPlugin()
+        const errors = []
+        const item = LocalStorage.useStorage('useStorage.decode.event', {
+          default: 'light',
+          onError: err => {
+            errors.push(err)
+          }
+        })
+
+        window.localStorage.setItem('useStorage.decode.event', '__q_objt|{oops')
+        window.dispatchEvent(
+          new StorageEvent('storage', {
+            key: 'useStorage.decode.event',
+            newValue: '__q_objt|{oops',
+            storageArea: window.localStorage
+          })
+        )
+        expect(errors).toHaveLength(1)
+        expect(errors[0]).toBeInstanceOf(SyntaxError)
+        expect(item.value).toBe('light')
       })
 
       test('reports a storage failure through onError', () => {

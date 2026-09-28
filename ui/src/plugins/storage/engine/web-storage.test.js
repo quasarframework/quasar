@@ -1,3 +1,4 @@
+import { isRef } from 'vue'
 import { describe, expect, test } from 'vitest'
 
 import { getEmptyStorage, getStorage } from './web-storage.js'
@@ -26,6 +27,23 @@ describe('[webStorage API]', () => {
       test('has correct return value', () => {
         const result = getEmptyStorage()
         expect(result).toStrictEqual(objectDefinition)
+      })
+
+      test('hands out an in-memory storage ref', () => {
+        const { useStorage } = getEmptyStorage()
+        const defaultValue = { count: 0 }
+        const settings = useStorage('settings', { default: defaultValue })
+
+        expect(isRef(settings)).toBe(true)
+        expect(settings.stop).toBeTypeOf('function')
+        expect(useStorage('theme').value).toBeNull()
+
+        settings.value.count = 1
+        expect(settings.value.count).toBe(1)
+        expect(defaultValue).toStrictEqual({ count: 0 })
+
+        settings.value = null
+        expect(settings.value).toStrictEqual({ count: 0 })
       })
     })
 

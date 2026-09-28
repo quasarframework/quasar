@@ -216,7 +216,7 @@
             },
             "onError": {
               "type": "Function",
-              "desc": "Called when the storage cannot be written (quota exceeded, private browsing) or a stored value cannot be decoded; without it the error is thrown",
+              "desc": "Called when the storage cannot be written (quota exceeded, private browsing) or a stored value cannot be decoded (when the ref attaches, or when another tab stored it); without it the error is thrown",
               "params": {
                 "err": {
                   "type": "Error",
