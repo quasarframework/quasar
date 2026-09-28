@@ -464,6 +464,14 @@ describe('[SessionStorage API]', () => {
           expect(SessionStorage.hasItem(key)).toBe(false)
           expect(SessionStorage.items[key]).toBeUndefined()
         }
+
+        // coercing it reads toString and valueOf
+        expect(String(SessionStorage.items)).toBe('[object Object]')
+
+        for (const key of ['toString', 'valueOf', 'constructor']) {
+          expect(SessionStorage.hasItem(key)).toBe(false)
+          expect(SessionStorage.items[key]).toBe(Object.prototype[key])
+        }
       })
 
       test('is reactive', () => {
@@ -538,6 +546,16 @@ describe('[SessionStorage API]', () => {
         SessionStorage.items['items.fn'] = fn
         expect(SessionStorage.items['items.fn']).toBe(fn.toString())
         expect(SessionStorage.getItem('items.fn')).toBe(fn.toString())
+      })
+
+      test('reads a value it does not encode back as the browser stores it', () => {
+        mountPlugin()
+        const { items } = SessionStorage
+
+        void items['items.raw']
+        items['items.raw'] = 10n
+        expect(SessionStorage.getItem('items.raw')).toBe('10')
+        expect(items['items.raw']).toBe('10')
       })
 
       test('starts with the stored value', () => {

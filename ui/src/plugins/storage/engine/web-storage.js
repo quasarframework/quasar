@@ -95,19 +95,28 @@ function decode(value) {
 }
 
 // the traps forward symbols, Vue's own flag probes (__v_isRef, __v_raw,
-// markRaw's __v_skip...) and toJSON untouched, so that probing the view
+// markRaw's __v_skip...), toJSON and the Object.prototype names (toString,
+// valueOf, constructor...) untouched, so that probing or coercing the view
 // never tracks a key; everything else is a storage key
 function isStorageKey(key) {
-  return typeof key === 'string' && !key.startsWith('__v_') && key !== 'toJSON'
+  return (
+    typeof key === 'string' &&
+    !key.startsWith('__v_') &&
+    key !== 'toJSON' &&
+    !(key in Object.prototype)
+  )
 }
 
 // every item reads as missing and every write is dropped
 const emptyItems = markRaw(
-  new Proxy(Object.create(null), {
-    get: (target, key) => (isStorageKey(key) ? null : target[key]),
-    set: () => true,
-    deleteProperty: () => true
-  })
+  new Proxy(
+    {},
+    {
+      get: (target, key) => (isStorageKey(key) ? null : target[key]),
+      set: () => true,
+      deleteProperty: () => true
+    }
+  )
 )
 
 export function getEmptyStorage() {
@@ -193,10 +202,10 @@ export function getStorage(type) {
     webStorage.setItem(key, encoded)
 
     if (entries.has(key)) {
-      // a function is stored as its source and null/undefined as the
-      // strings the browser makes of them: what reads back is what
-      // the entry holds
-      if (value === null || value === void 0 || typeof value === 'function') {
+      // a function is stored as its source and a value encode() hands
+      // back as is (null, undefined...) as the string the browser makes
+      // of it: what reads back is what the entry holds
+      if (typeof encoded !== 'string' || typeof value === 'function') {
         syncEntry(key, get(key))
       } else {
         syncEntry(key, value, encoded)
@@ -318,26 +327,29 @@ export function getStorage(type) {
   // and has no "in" (hasItem() has): both would create an entry, with
   // its decoded copy and watcher, for a key nobody reads
   const items = markRaw(
-    new Proxy(Object.create(null), {
-      get: (target, key) =>
-        isStorageKey(key) ? getEntry(key).itemRef.value : target[key],
+    new Proxy(
+      {},
+      {
+        get: (target, key) =>
+          isStorageKey(key) ? getEntry(key).itemRef.value : target[key],
 
-      set(_, key, value) {
-        if (isStorageKey(key)) {
-          setItem(key, value)
+        set(_, key, value) {
+          if (isStorageKey(key)) {
+            setItem(key, value)
+          }
+
+          return true
+        },
+
+        deleteProperty(_, key) {
+          if (isStorageKey(key)) {
+            removeItem(key)
+          }
+
+          return true
         }
-
-        return true
-      },
-
-      deleteProperty(_, key) {
-        if (isStorageKey(key)) {
-          removeItem(key)
-        }
-
-        return true
       }
-    })
+    )
   )
 
   return {

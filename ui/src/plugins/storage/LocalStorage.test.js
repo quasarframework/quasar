@@ -464,6 +464,14 @@ describe('[LocalStorage API]', () => {
           expect(LocalStorage.hasItem(key)).toBe(false)
           expect(LocalStorage.items[key]).toBeUndefined()
         }
+
+        // coercing it reads toString and valueOf
+        expect(String(LocalStorage.items)).toBe('[object Object]')
+
+        for (const key of ['toString', 'valueOf', 'constructor']) {
+          expect(LocalStorage.hasItem(key)).toBe(false)
+          expect(LocalStorage.items[key]).toBe(Object.prototype[key])
+        }
       })
 
       test('is reactive', () => {
@@ -538,6 +546,16 @@ describe('[LocalStorage API]', () => {
         LocalStorage.items['items.fn'] = fn
         expect(LocalStorage.items['items.fn']).toBe(fn.toString())
         expect(LocalStorage.getItem('items.fn')).toBe(fn.toString())
+      })
+
+      test('reads a value it does not encode back as the browser stores it', () => {
+        mountPlugin()
+        const { items } = LocalStorage
+
+        void items['items.raw']
+        items['items.raw'] = 10n
+        expect(LocalStorage.getItem('items.raw')).toBe('10')
+        expect(items['items.raw']).toBe('10')
       })
 
       test('starts with the stored value', () => {

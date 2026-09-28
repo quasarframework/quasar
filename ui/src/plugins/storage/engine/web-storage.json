@@ -104,7 +104,7 @@
       },
       "returns": {
         "type": ["String", "null"],
-        "desc": "Storage key",
+        "desc": "Storage key; null past the end",
         "examples": ["'userId'"]
       }
     },

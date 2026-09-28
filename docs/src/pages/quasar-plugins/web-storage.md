@@ -5,10 +5,13 @@ keys: LocalStorage,SessionStorage,useStorage,items
 examples: WebStorage
 ---
 
-Quasar provides a wrapper over [Web Storage API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API). Besides the usual methods, it exposes the storage as a [reactive view](#reactive-items) (v2.34+): read `$q.localStorage.items.myTheme` in a template or a computed and it updates whenever the item changes, from anywhere in your app or from another tab or window.
+Quasar provides a wrapper over [Web Storage API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API). Besides the usual methods, it exposes the storage as a [reactive view](#reactive-items) (v2.34+): read `$q.localStorage.items.myTheme` in a template or a computed and it updates whenever the item changes through the plugin, from anywhere in your app or from another tab or window.
 
 > [!NOTE]
 > Web Storage API only retrieves strings. **Quasar retrieves data with its original data type.** You tell it to store a Number then to retrieve it and it will still be a Number, not a string representation of the number as with Web Storage API. Same for JSON, Regular Expressions, Dates, Booleans and so on.
+
+> [!WARNING]
+> Read and write through the plugin only. It encodes what it stores in order to keep the data type, so its methods and the native `localStorage`/`sessionStorage` ones are not interchangeable: an item written natively does not read back with its type and a native write in the same tab goes unnoticed by the [reactive view](#reactive-items).
 
 > [!WARNING]
 > **Note about SSR/SSG**
@@ -63,7 +66,7 @@ try {
 
 ## Reactive items <q-badge label="v2.34+" />
 
-The `items` property is a reactive view of the storage, one property per key. Reading a property gives you the item value (`null` while it is missing), assigning one persists it and deleting it removes it. A template, a computed or a watcher reading it re-evaluates whenever the item changes, from anywhere in your app or from another tab or window of the same origin.
+The `items` property is a reactive view of the storage, one property per key. Reading a property gives you the item value (`null` while it is missing), assigning one persists it and deleting it removes it. A template, a computed or a watcher reading it re-evaluates whenever the item changes through the plugin, from anywhere in your app or from another tab or window of the same origin.
 
 ```js
 import { useQuasar } from 'quasar'
@@ -99,16 +102,16 @@ setup () {
 > [!TIP]
 > **Typed keys**
 >
-> The view is typed as any key holding any storable value. Declare your own keys once, per storage area, to have them checked everywhere:
+> The view is typed as any key holding any storable value. Declare your own keys once, per storage area, to have them checked everywhere (optional, as a key can be deleted, and `null`, as it reads while missing):
 >
 > ```ts
 > declare module 'quasar' {
 >   interface LocalStorageItems {
->     theme?: 'light' | 'dark'
+>     theme?: 'light' | 'dark' | null
 >   }
 >
 >   interface SessionStorageItems {
->     draft?: { title: string }
+>     draft?: { title: string } | null
 >   }
 > }
 > ```

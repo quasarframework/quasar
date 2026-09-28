@@ -4,7 +4,7 @@ import { getEmptyStorage, getStorage } from './web-storage.js'
 
 const objectDefinition = {
   items: expect.any(Object),
-  has: expect.any(Function), // alias of has
+  has: expect.any(Function), // alias of hasItem
   hasItem: expect.any(Function),
   getLength: expect.any(Function),
   getItem: expect.any(Function),

@@ -34,10 +34,10 @@ export type WebStorageGetAllKeysMethodType = () => string[];
  *
  *   declare module "quasar" {
  *     interface LocalStorageItems {
- *       theme?: "light" | "dark";
+ *       theme?: "light" | "dark" | null;
  *     }
  *     interface SessionStorageItems {
- *       draft?: { title: string };
+ *       draft?: { title: string } | null;
  *     }
  *   }
  */
