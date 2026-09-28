@@ -1,6 +1,25 @@
 let queue = []
 let waitFlags = []
 
+let refocusTarget = null
+
+export function isRefocusing(target) {
+  return refocusTarget !== null && target === refocusTarget
+}
+
+// Native focus events run during focus(). Mark only the restored target
+// so a tooltip can distinguish a portal's focus return from navigation.
+export function refocus(target) {
+  const previousTarget = refocusTarget
+  refocusTarget = target
+
+  try {
+    target.focus({ preventScroll: true })
+  } finally {
+    refocusTarget = previousTarget
+  }
+}
+
 function clearFlag(flag) {
   waitFlags = waitFlags.filter(entry => entry !== flag)
 }

@@ -38,6 +38,7 @@ import {
 } from '../../utils/private.keyboard/escape-key.js'
 import { clearSelection } from '../../utils/private.selection/selection.js'
 import { hSlot } from '../../utils/private.render/render.js'
+import { isRefocusing } from '../../utils/private.focus/focus-manager.js'
 
 let nonSelectableCount = 0
 
@@ -401,7 +402,9 @@ export default /*#__PURE__*/ createComponent({
 
     function onFocusin(evt) {
       const el = evt.target
-      if (!el) return
+      // Closing a dialog/menu restores focus, but is not a request to
+      // show the trigger's tooltip (Chromium may mark it focus-visible).
+      if (!el || isRefocusing(el) === true) return
 
       // only react to keyboard focus, not to focus coming from a pointer,
       // so the tooltip doesn't pop up when the target is clicked

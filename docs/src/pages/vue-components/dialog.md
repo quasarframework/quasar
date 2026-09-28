@@ -96,6 +96,8 @@ QDialog follows the [WAI-ARIA dialog pattern](https://www.w3.org/WAI/ARIA/apg/pa
 
 Focus is managed for you. On open, it moves into the dialog — to the first element bearing an `autofocus` (or `data-autofocus`) attribute, or to the dialog body itself when there is none. While the dialog is modal, focus that strays outside of it gets recaptured back in, and on close it returns to the element that opened the dialog. The `no-focus`, `no-refocus` and `allow-focus-outside` props opt out of each of these behaviors, should you need to manage focus yourself. <kbd>Escape</kbd> dismisses the dialog — a `persistent` dialog responds with its "shake" animation instead.
 
+If the opener has a QTooltip, this focus return does not open it. Subsequent hover or keyboard navigation still shows the tooltip; see the [focus restoration example](/vue-components/tooltip#accessibility).
+
 > [!WARNING]
 > One thing QDialog cannot do for you is provide an accessible name — by default it is announced as an unnamed dialog. Pass an `aria-label`, or better, give your title element an `id` and reference it with `aria-labelledby`; both are attributes that fall through onto the `role="dialog"` element.
 

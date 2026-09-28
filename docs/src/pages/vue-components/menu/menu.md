@@ -134,4 +134,6 @@ Do keep in mind that when the role lives on the [QList](/vue-components/list-and
 
 Since the menu renders next to the end of the page, letting <kbd>Tab</kbd> walk past its last focusable element (or <kbd>Shift</kbd> + <kbd>Tab</kbd> before its first one) would drop keyboard focus out of the page. Following the [WAI-ARIA APG](https://www.w3.org/WAI/ARIA/apg/patterns/menu-button/), the menu instead closes and focus continues from its anchor, just like <kbd>Escape</kbd> closes it while returning focus to the anchor. Tabbing between multiple focusable elements _inside_ the menu works as usual, and a `persistent` menu opts out of this dismissal too.
 
+Returning focus to the anchor does not open its QTooltip. The tooltip still responds to subsequent hover or keyboard navigation.
+
 Note that focusable menu items are plain Tab stops — QMenu does not (yet) provide the Arrow-key navigation that the [APG menu pattern](https://www.w3.org/WAI/ARIA/apg/patterns/menu-button/) describes for `role="menu"` content.

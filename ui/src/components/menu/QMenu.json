@@ -141,7 +141,7 @@
 
     "no-refocus": {
       "type": "Boolean",
-      "desc": "(Accessibility) When Menu gets hidden, do not refocus on the DOM element that previously had focus",
+      "desc": "(Accessibility) When Menu gets hidden, do not refocus on the DOM element that previously had focus; The default focus return does not open that element's QTooltip",
       "category": "behavior"
     },
 
