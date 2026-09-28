@@ -16,9 +16,9 @@
         }
       },
       "returns": {
-        "type": ["String", "null"],
-        "desc": "Cookie value; Returns null if cookie not found",
-        "examples": ["'john12'"]
+        "type": ["String", "Object", "Array", "null"],
+        "desc": "Cookie value, decoded; a JSON cookie is parsed into its Object or Array; Returns null if cookie not found",
+        "examples": ["'john12'", "{ theme: 'dark' }"]
       }
     },
     "getAll": {
@@ -26,7 +26,7 @@
       "params": null,
       "returns": {
         "type": "Object",
-        "desc": "Object with cookie names (as keys) and their values",
+        "desc": "Object with cookie names (as keys) and their values, decoded and parsed as get() returns them",
         "examples": ["{ userId: 'john12', XFrame: 'x534' }"]
       }
     },
@@ -40,10 +40,10 @@
           "examples": ["'userId'"]
         },
         "value": {
-          "type": "String",
-          "desc": "Cookie value",
+          "type": ["String", "Number", "Boolean", "Object", "Array"],
+          "desc": "Cookie value; an Object or Array is stored as JSON and parsed back by get(); anything else reads back as a String",
           "required": true,
-          "examples": ["'john12'"]
+          "examples": ["'john12'", "{ theme: 'dark' }"]
         },
         "options": {
           "type": "Object",
@@ -121,7 +121,7 @@
         },
         "options": {
           "type": "Object",
-          "desc": "Cookie options",
+          "desc": "Cookie options; a cookie is removed only by a write carrying the same path and domain it was set with, and a __Secure- or __Host- prefixed one needs secure as well",
           "definition": {
             "path": {
               "type": "String",
@@ -132,6 +132,24 @@
               "type": "String",
               "desc": "Cookie domain",
               "examples": ["'.foo.com'"]
+            },
+            "sameSite": {
+              "type": "String",
+              "desc": "SameSite cookie option",
+              "values": ["'Lax'", "'Strict'", "'None'"]
+            },
+            "httpOnly": {
+              "type": "Boolean",
+              "desc": "Is cookie Http Only?"
+            },
+            "secure": {
+              "type": "Boolean",
+              "desc": "Is cookie secure? (https only)"
+            },
+            "other": {
+              "type": "String",
+              "desc": "Raw string for other cookie options; To be used as a last resort for possible newer props that are currently not yet implemented in Quasar",
+              "examples": ["'SomeNewCookieProp'"]
             }
           }
         }

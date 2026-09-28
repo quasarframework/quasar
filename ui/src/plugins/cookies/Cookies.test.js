@@ -6,6 +6,12 @@ import Cookies, { getObject } from './Cookies.js'
 
 const mountPlugin = () => mount({ render: () => h('div') })
 
+// a cookie written by the server or another document, not by the plugin
+function writeNatively(cookie) {
+  // oxlint-disable-next-line unicorn/no-document-cookie
+  document.cookie = cookie
+}
+
 // We override Quasar install so it installs this plugin
 const quasarVuePlugin = config.global.plugins.find(
   entry => entry.name === 'Quasar'
@@ -35,7 +41,13 @@ const cookieNames = [
   'q-test-use-release',
   'q-test-use-scope',
   'q-test-use-outside',
-  'q-test-use-disabled'
+  'q-test-use-disabled',
+  'q-test-use-reattach',
+  'q-test-use-defaults',
+  'q-test-use-own-default',
+  'q-test-use-stale-event',
+  'q-test-use-encoded name',
+  'q-test-use-dropped'
 ]
 
 afterEach(() => {
@@ -73,6 +85,16 @@ describe('[Cookies API]', () => {
         expect(Cookies.getAll()).toMatchObject({
           'q-test-get-all': 'value'
         })
+      })
+
+      test('hands out the values as get() does', () => {
+        mountPlugin()
+
+        Cookies.set('q-test-get-all', { user: 'john doe' })
+
+        expect(Cookies.getAll()['q-test-get-all']).toStrictEqual(
+          Cookies.get('q-test-get-all')
+        )
       })
     })
 
@@ -268,10 +290,15 @@ describe('[Cookies API]', () => {
       test('writes and removes with the cookie options', () => {
         mountPlugin()
         const written = []
+        const { set: write } = Object.getOwnPropertyDescriptor(
+          Document.prototype,
+          'cookie'
+        )
         const setter = vi
           .spyOn(Document.prototype, 'cookie', 'set')
-          .mockImplementation(cookie => {
+          .mockImplementation(function setter(cookie) {
             written.push(cookie)
+            write.call(this, cookie)
           })
 
         const cookie = Cookies.useCookie('q-test-use-attrs', {
@@ -295,6 +322,7 @@ describe('[Cookies API]', () => {
         expect(theme.value).toBeNull()
 
         // as the browser reports a cookie set by the server or another tab
+        writeNatively('q-test-use-store-event=dark')
         window.cookieStore.dispatchEvent(
           new CookieChangeEvent('change', {
             changed: [{ name: 'q-test-use-store-event', value: 'dark' }]
@@ -302,6 +330,7 @@ describe('[Cookies API]', () => {
         )
         expect(theme.value).toBe('dark')
 
+        writeNatively('q-test-use-store-event=; Max-Age=-1')
         window.cookieStore.dispatchEvent(
           new CookieChangeEvent('change', {
             deleted: [{ name: 'q-test-use-store-event' }]
@@ -355,6 +384,122 @@ describe('[Cookies API]', () => {
 
         expect(warn).not.toHaveBeenCalled()
         warn.mockRestore()
+      })
+
+      test('stores the current value again when it attaches to a cookie removed meanwhile', async () => {
+        mountPlugin()
+        const disabled = ref(false)
+        const theme = Cookies.useCookie('q-test-use-reattach', { disabled })
+
+        theme.value = 'dark'
+        disabled.value = true
+        await nextTick()
+        Cookies.remove('q-test-use-reattach')
+
+        disabled.value = false
+        await nextTick()
+        expect(Cookies.get('q-test-use-reattach')).toBe('dark')
+      })
+
+      test('lets the first attached ref settle differing defaults', () => {
+        mountPlugin()
+        const first = Cookies.useCookie('q-test-use-defaults', {
+          default: 'first'
+        })
+        const second = Cookies.useCookie('q-test-use-defaults', {
+          default: 'second'
+        })
+        expect(second.value).toBe('first')
+
+        Cookies.remove('q-test-use-defaults')
+        expect(first.value).toBe('first')
+        expect(second.value).toBe('first')
+        expect(Cookies.get('q-test-use-defaults')).toBe('first')
+      })
+
+      test('never mutates the default it was given', async () => {
+        mountPlugin()
+        const defaultValue = { count: 0 }
+        const disabled = ref(true)
+        const settings = Cookies.useCookie('q-test-use-own-default', {
+          default: defaultValue,
+          disabled
+        })
+
+        // detached: a nested change stays in the ref
+        settings.value.count = 1
+        await nextTick()
+        expect(defaultValue).toStrictEqual({ count: 0 })
+
+        // attached: the default is stored, then changed through the ref
+        disabled.value = false
+        await nextTick()
+        settings.value.count = 2
+        await nextTick()
+        expect(Cookies.get('q-test-use-own-default')).toStrictEqual({
+          count: 2
+        })
+        expect(defaultValue).toStrictEqual({ count: 0 })
+
+        settings.value = null
+        expect(settings.value).toStrictEqual({ count: 0 })
+        expect(settings.value).not.toBe(defaultValue)
+      })
+
+      test('re-reads the cookie on a stale Cookie Store event', () => {
+        mountPlugin()
+        const theme = Cookies.useCookie('q-test-use-stale-event', {
+          default: 'light'
+        })
+        theme.value = 'dark'
+
+        // the browser reports the earlier writes of this document later on
+        window.cookieStore.dispatchEvent(
+          new CookieChangeEvent('change', {
+            deleted: [{ name: 'q-test-use-stale-event' }]
+          })
+        )
+        expect(theme.value).toBe('dark')
+
+        window.cookieStore.dispatchEvent(
+          new CookieChangeEvent('change', {
+            changed: [{ name: 'q-test-use-stale-event', value: 'light' }]
+          })
+        )
+        expect(theme.value).toBe('dark')
+        expect(Cookies.get('q-test-use-stale-event')).toBe('dark')
+      })
+
+      test('follows a Cookie Store event of an encoded name', () => {
+        mountPlugin()
+        const cookie = Cookies.useCookie('q-test-use-encoded name')
+
+        // the cookie got written natively meanwhile, as the browser stores it
+        writeNatively('q-test-use-encoded%20name=john')
+        window.cookieStore.dispatchEvent(
+          new CookieChangeEvent('change', {
+            changed: [{ name: 'q-test-use-encoded%20name', value: 'john' }]
+          })
+        )
+        expect(cookie.value).toBe('john')
+      })
+
+      test('reads back what the browser kept of a dropped write', () => {
+        mountPlugin()
+        const cookie = Cookies.useCookie('q-test-use-dropped', { deep: false })
+        // above the 4KB a browser accepts for a cookie
+        const tooLarge = 'x'.repeat(5000)
+
+        cookie.value = tooLarge
+        expect(cookie.value).toBeNull()
+
+        cookie.value = 'kept'
+        cookie.value = tooLarge
+        expect(cookie.value).toBe('kept')
+
+        cookie.value = tooLarge
+        expect(cookie.value).toBe('kept')
+        expect(Cookies.get('q-test-use-dropped')).toBe('kept')
       })
 
       test('detaches while disabled and attaches like a new ref once enabled', async () => {
@@ -436,6 +581,26 @@ describe('[Cookies API]', () => {
           'theme=dark'
         ])
         expect(ssrContext.req.headers.cookie).toBe('theme=dark; userId=john12')
+      })
+
+      test('replaces a request cookie it sets again', () => {
+        const ssrContext = {
+          req: { headers: { cookie: 'theme=light; userId=john12' } },
+          res: { setHeader: vi.fn() }
+        }
+        const cookies = getObject(ssrContext)
+
+        cookies.set('theme', 'dark')
+        expect(cookies.get('theme')).toBe('dark')
+        expect(cookies.getAll()).toStrictEqual({
+          theme: 'dark',
+          userId: 'john12'
+        })
+        expect(ssrContext.req.headers.cookie).toBe('theme=dark; userId=john12')
+
+        cookies.remove('theme')
+        expect(cookies.getAll()).toStrictEqual({ userId: 'john12' })
+        expect(ssrContext.req.headers.cookie).toBe('userId=john12')
       })
 
       test('ignores malformed cookie encoding', () => {

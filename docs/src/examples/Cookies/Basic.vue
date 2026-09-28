@@ -2,7 +2,8 @@
   <div class="q-pa-md q-gutter-y-md">
     <div>
       Pick a theme, then reload the page: the cookie remembers the choice for a
-      month. Another tab of the site follows it too.
+      month. In a browser with the Cookie Store API, another tab of the site
+      follows it too.
     </div>
 
     <q-btn-toggle

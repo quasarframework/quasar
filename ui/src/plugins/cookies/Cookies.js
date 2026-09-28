@@ -125,19 +125,17 @@ function set(key, val, opts = {}, ssr) {
 
     ssr.res.setHeader('Set-Cookie', ssr.req.qCookies)
 
-    let all = ssr.req.headers.cookie || ''
+    // the request now carries the new value (one entry per cookie)
+    const encodedKey = encodeURIComponent(key)
+    const others = ssr.req.headers.cookie
+      ? ssr.req.headers.cookie
+          .split('; ')
+          .filter(entry => entry.split('=', 1)[0] !== encodedKey)
+      : []
 
-    if (maxAge !== void 0 && isDeletion) {
-      const encodedKey = encodeURIComponent(key)
-      all = all
-        .split('; ')
-        .filter(entry => entry.split('=', 1)[0] !== encodedKey)
-        .join('; ')
-    } else {
-      all = all ? `${keyValue}; ${all}` : keyValue
-    }
-
-    ssr.req.headers.cookie = all
+    ssr.req.headers.cookie = (isDeletion ? others : [keyValue, ...others]).join(
+      '; '
+    )
   } else {
     // oxlint-disable-next-line unicorn/no-document-cookie
     document.cookie = cookie
@@ -167,7 +165,12 @@ function get(key, ssr) {
     cookie = parts.join('=')
 
     if (!key) {
-      result[name] = cookie
+      if (!Object.hasOwn(result, name)) {
+        const value = read(cookie)
+        if (value !== void 0) {
+          result[name] = value
+        }
+      }
     } else if (key === name) {
       result = read(cookie) ?? null
       break
@@ -183,6 +186,15 @@ function remove(key, options, ssr) {
 
 function has(key, ssr) {
   return get(key, ssr) !== null
+}
+
+// a copy of the default, as the cookie would hand it back: the ref
+// never hands out (and mutates through a nested change) the caller's
+// own object
+function fresh(defaultValue) {
+  return defaultValue === Object(defaultValue)
+    ? read(stringifyCookieValue(defaultValue))
+    : defaultValue
 }
 
 function getCookieRefOptions(options) {
@@ -214,13 +226,23 @@ export function getObject(ssr) {
 
   // the cookie jar changed: another document, a response header, a
   // native write... (Cookie Store API; without it, only the writes
-  // made through this object reach the refs)
+  // made through this object reach the refs). The event also echoes
+  // the writes made through this object, later and possibly stale, so
+  // the jar is re-read instead of trusting the payload; the event
+  // carries the name as stored (encoded)
   function onChange(evt) {
-    evt.changed.forEach(cookie => {
-      notify(cookie.name, read(cookie.value) ?? null)
-    })
-    evt.deleted.forEach(cookie => {
-      notify(cookie.name, null)
+    const names = new Set()
+
+    for (const cookie of [...evt.changed, ...evt.deleted]) {
+      try {
+        names.add(decodeURIComponent(cookie.name))
+      } catch {}
+    }
+
+    names.forEach(name => {
+      if (attached.has(name)) {
+        notify(name, get(name))
+      }
     })
   }
 
@@ -260,7 +282,7 @@ export function getObject(ssr) {
     // the value as the plugin reads it (a Number comes back as a
     // String); a plain object or Array is handed out reactive by the
     // getter, so that a nested change gets tracked and persisted
-    let value = defaultValue,
+    let value = fresh(defaultValue),
       // the encoded form of what the cookie jar last agreed on, so that
       // a change made through the ref (to persist) can be told from one
       // it merely got told about
@@ -281,7 +303,9 @@ export function getObject(ssr) {
 
         set(newValue) {
           assign(
-            newValue === null || newValue === void 0 ? defaultValue : newValue
+            newValue === null || newValue === void 0
+              ? fresh(defaultValue)
+              : newValue
           )
           persist()
         }
@@ -301,13 +325,16 @@ export function getObject(ssr) {
 
       if (encoded === null) {
         remove(name, removeOpts, ssr)
+        synced = null
       } else {
         set(name, value, cookieOpts, ssr)
-        // what reads back is what the ref holds
-        assign(get(name, ssr))
+        // what reads back is what the ref holds (the browser drops a
+        // write it does not accept without a word)
+        const stored = get(name, ssr)
+        synced = stored === null ? null : stringifyCookieValue(stored)
+        assign(stored)
       }
 
-      synced = encoded
       notify(name, value, receive)
     }
 
@@ -316,20 +343,26 @@ export function getObject(ssr) {
     // the default, which gets stored again
     function receive(newValue) {
       if (newValue === null) {
-        synced = null
-        assign(defaultValue)
-      } else {
-        synced = stringifyCookieValue(newValue)
-        assign(newValue)
+        // another ref of the cookie, told first, may have stored its
+        // default meanwhile: the first one to attach settles it
+        newValue = get(name, ssr)
       }
 
+      const encoded = newValue === null ? null : stringifyCookieValue(newValue)
+      if (encoded === synced) return
+
+      synced = encoded
+      assign(newValue === null ? fresh(defaultValue) : newValue)
       persist()
     }
 
     function seed() {
       const stored = get(name, ssr)
 
-      if (stored !== null) {
+      if (stored === null) {
+        // whatever was agreed on before detaching is gone
+        synced = null
+      } else {
         synced = stringifyCookieValue(stored)
         assign(stored)
       }

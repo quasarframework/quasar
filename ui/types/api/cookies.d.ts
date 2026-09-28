@@ -34,7 +34,12 @@ export interface CookieRefOptions<T> {
   other?: string;
 }
 
-export type CookieRef<T = CookieValue | null> = Ref<T> & {
+// what a default types the ref as: a String default leaves every
+// String assignable (declare the cookie in CookieValues for a union)
+type CookieValueOf<T> = T extends string ? string : T;
+
+// assigning null removes the cookie (or resets it to the default)
+export type CookieRef<T = CookieValue | null> = Ref<T, T | null> & {
   stop: () => void;
 };
 
@@ -50,7 +55,7 @@ export interface CookiesUseCookieMethodType {
   <K extends string, T extends CookieValue>(
     name: K extends keyof CookieValues ? never : K,
     options: CookieRefOptions<T> & { default: T }
-  ): CookieRef<T>;
+  ): CookieRef<CookieValueOf<T>>;
   <K extends string, T extends CookieValue = CookieValue>(
     name: K extends keyof CookieValues ? never : K,
     options?: CookieRefOptions<T>

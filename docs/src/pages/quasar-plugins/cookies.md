@@ -77,8 +77,8 @@ $q.cookies.useCookie('settings', {
   disabled: false,
 
   // the cookie options every write from the ref uses, as set() takes
-  // them (see "Write a Cookie" below); a removal carries the same path
-  // and domain (default: none)
+  // them (see "Write a Cookie" below); a removal carries them all but
+  // the expiry (default: none)
   expires: '30d',
   path: '/',
   domain: '.example.com',
@@ -108,7 +108,7 @@ Keep in mind that a cookie holds about 4KB, attributes included, and the encodin
 
 ### Typed cookies
 
-A ref is typed as a String or an Object, or as its default when one is given. Declare your cookies once to have every `useCookie()` call checked against them, defaults included:
+A ref is typed as a String or an Object, or after its default when one is given (a String default types it as a String). Declare your cookies once to have every `useCookie()` call checked against them, defaults and unions included:
 
 ```ts TypeScript
 declare module 'quasar' {
@@ -147,7 +147,7 @@ import { Cookies } from 'quasar'
 const cookies = Cookies.getAll()
 ```
 
-`cookies` variable will be an object with key-value pairs (cookie_name : cookie_value).
+`cookies` variable will be an object with key-value pairs (cookie_name : cookie_value), each value decoded and parsed as `get()` returns it.
 
 ```js Inside of a Vue file
 import { useQuasar } from 'quasar'
@@ -307,4 +307,4 @@ setup () {
 ```
 
 > [!WARNING]
-> When a cookie was previously set with specific `path` and/or `domain` then it can be successfully removed only if the same attributes are passed in to remove() through the `options` parameter. This is in accordance to RFC6265.
+> When a cookie was previously set with specific `path` and/or `domain` then it can be successfully removed only if the same attributes are passed in to remove() through the `options` parameter. This is in accordance to RFC6265. A cookie with a `__Secure-` or `__Host-` prefixed name needs `secure: true` as well, as the browser accepts no write of it without the attribute.
