@@ -13,7 +13,7 @@ function fixtureFor(name) {
   return {
     setup() {
       const $q = useQuasar()
-      const theme = $q.cookies.useCookie(name, { default: 'light' })
+      const theme = $q.cookies.useCookie(name, { default: () => 'light' })
       return () => h('div', theme.value)
     }
   }

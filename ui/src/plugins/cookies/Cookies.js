@@ -188,24 +188,21 @@ function has(key, ssr) {
   return get(key, ssr) !== null
 }
 
-// a copy of the default, as the cookie would hand it back: the ref
-// never hands out (and mutates through a nested change) the caller's
-// own object
-function fresh(defaultValue) {
-  return defaultValue === Object(defaultValue)
-    ? read(stringifyCookieValue(defaultValue))
-    : defaultValue
+function noDefault() {
+  return null
 }
 
 function getCookieRefOptions(options) {
   const {
-    default: defaultValue = null,
+    // a function, called each time the ref takes the default: an Object
+    // or Array default is a fresh one every time
+    default: getDefault = noDefault,
     deep = true,
     disabled,
     ...cookieOpts
   } = options ?? {}
 
-  return { defaultValue, deep, disabled, cookieOpts }
+  return { getDefault, deep, disabled, cookieOpts }
 }
 
 export function getObject(ssr) {
@@ -274,7 +271,7 @@ export function getObject(ssr) {
   }
 
   function useCookie(name, options) {
-    const { defaultValue, deep, disabled, cookieOpts } =
+    const { getDefault, deep, disabled, cookieOpts } =
       getCookieRefOptions(options)
     // a removal must carry the same path/domain, never the expiry
     const { expires: _, ...removeOpts } = cookieOpts
@@ -282,7 +279,7 @@ export function getObject(ssr) {
     // the value as the plugin reads it (a Number comes back as a
     // String); a plain object or Array is handed out reactive by the
     // getter, so that a nested change gets tracked and persisted
-    let value = fresh(defaultValue),
+    let value = getDefault(),
       // the encoded form of what the cookie jar last agreed on, so that
       // a change made through the ref (to persist) can be told from one
       // it merely got told about
@@ -303,9 +300,7 @@ export function getObject(ssr) {
 
         set(newValue) {
           assign(
-            newValue === null || newValue === void 0
-              ? fresh(defaultValue)
-              : newValue
+            newValue === null || newValue === void 0 ? getDefault() : newValue
           )
           persist()
         }
@@ -352,7 +347,7 @@ export function getObject(ssr) {
       if (encoded === synced) return
 
       synced = encoded
-      assign(newValue === null ? fresh(defaultValue) : newValue)
+      assign(newValue === null ? getDefault() : newValue)
       persist()
     }
 

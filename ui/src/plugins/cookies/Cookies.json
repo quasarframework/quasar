@@ -172,9 +172,14 @@
           "desc": "Ref options, followed by the cookie options every write from the ref uses (see set())",
           "definition": {
             "default": {
-              "type": ["String", "Object", "Array"],
-              "desc": "Value the ref reads while the cookie is missing; it gets stored when the ref attaches to a missing cookie (on the client only) and again whenever the cookie is removed",
-              "examples": ["'light'", "{ notifications: true }"]
+              "type": "Function",
+              "desc": "Returns the value the ref reads while the cookie is missing; called when the ref is created and each time the ref takes the default again (a null assignment, a removal), so that an Object or Array default is a fresh one every time; the value gets stored when the ref attaches to a missing cookie (on the client only) and again whenever the cookie is removed",
+              "params": null,
+              "returns": {
+                "type": ["String", "Object", "Array"],
+                "desc": "The default value"
+              },
+              "examples": ["() => 'light'", "() => ({ notifications: true })"]
             },
             "deep": {
               "type": "Boolean",

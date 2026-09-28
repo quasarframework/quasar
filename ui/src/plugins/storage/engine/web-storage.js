@@ -94,22 +94,19 @@ function decode(value) {
   }
 }
 
+function noDefault() {
+  return null
+}
+
 function getStorageRefOptions(options) {
   return {
-    defaultValue: options?.default ?? null,
+    // a function, called each time the ref takes the default: an object
+    // or Array default is a fresh one every time
+    getDefault: options?.default ?? noDefault,
     deep: options?.deep !== false,
     disabled: options?.disabled,
     onError: options?.onError
   }
-}
-
-// a copy of the default, as the storage would hand it back: the ref
-// never hands out (and mutates through a nested change) the caller's
-// own object
-function fresh(defaultValue) {
-  return typeof defaultValue === 'object' && defaultValue !== null
-    ? decode(encode(defaultValue))
-    : defaultValue
 }
 
 function isDeepValue(value) {
@@ -119,8 +116,8 @@ function isDeepValue(value) {
 // an in-memory ref that reads as the default: the server has no storage
 // and the client must render the same markup until it gets hydrated
 function getEmptyStorageRef(key, options) {
-  const { defaultValue, deep } = getStorageRefOptions(options)
-  let value = fresh(defaultValue)
+  const { getDefault, deep } = getStorageRefOptions(options)
+  let value = getDefault()
 
   const storageRef = customRef((track, trigger) => ({
     get() {
@@ -129,10 +126,7 @@ function getEmptyStorageRef(key, options) {
     },
 
     set(newValue) {
-      value =
-        newValue === null || newValue === void 0
-          ? fresh(defaultValue)
-          : newValue
+      value = newValue === null || newValue === void 0 ? getDefault() : newValue
       trigger()
     }
   }))
@@ -269,12 +263,12 @@ export function getStorage(type) {
   }
 
   function useStorage(key, options) {
-    const { defaultValue, deep, disabled, onError } =
+    const { getDefault, deep, disabled, onError } =
       getStorageRefOptions(options)
 
     // the raw value; a plain object or Array is handed out reactive by
     // the getter, so that a nested change gets tracked and persisted
-    let value = fresh(defaultValue),
+    let value = getDefault(),
       // the encoded form of what the storage side last agreed on, so
       // that a change made through the ref (to persist) can be told
       // from one it merely got told about
@@ -301,9 +295,7 @@ export function getStorage(type) {
 
         set(newValue) {
           assign(
-            newValue === null || newValue === void 0
-              ? fresh(defaultValue)
-              : newValue
+            newValue === null || newValue === void 0 ? getDefault() : newValue
           )
           persist()
         }
@@ -363,7 +355,7 @@ export function getStorage(type) {
 
       if (newValue === null) {
         synced = null
-        assign(fresh(defaultValue))
+        assign(getDefault())
       } else {
         synced = encoded
         assign(newValue)

@@ -46,7 +46,7 @@ setup () {
   const $q = useQuasar()
 
   const theme = $q.cookies.useCookie('theme', {
-    default: 'light',
+    default: () => 'light',
     expires: '30d'
   })
 
@@ -62,10 +62,12 @@ The options, all optional:
 
 ```js
 $q.cookies.useCookie('settings', {
-  // value the ref reads while the cookie is missing; it gets stored when
-  // the ref attaches to a missing cookie and whenever the cookie is
-  // removed (default: none, the ref then reads null)
-  default: { notifications: true },
+  // returns the value the ref reads while the cookie is missing; called
+  // each time the ref takes the default, so an Object or Array is a
+  // fresh one every time; the value gets stored when the ref attaches
+  // to a missing cookie and whenever the cookie is removed (default:
+  // none, the ref then reads null)
+  default: () => ({ notifications: true }),
 
   // hand out an Object or Array value reactive, so that a nested change
   // gets tracked and stored; false for a value that you only ever
@@ -108,7 +110,7 @@ Keep in mind that a cookie holds about 4KB, attributes included, and the encodin
 
 ### Typed cookies
 
-A ref is typed as a String or an Object, or after its default when one is given (a String default types it as a String). Declare your cookies once to have every `useCookie()` call checked against them, defaults and unions included:
+A ref is typed as a String or an Object, or after what its default returns when one is given (a String default types it as a String). Declare your cookies once to have every `useCookie()` call checked against them, defaults and unions included:
 
 ```ts TypeScript
 declare module 'quasar' {

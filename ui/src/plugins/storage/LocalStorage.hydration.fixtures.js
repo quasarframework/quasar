@@ -10,7 +10,9 @@ export const STORAGE_KEY = 'hydration-theme'
 
 export const item = {
   setup() {
-    const theme = LocalStorage.useStorage(STORAGE_KEY, { default: 'light' })
+    const theme = LocalStorage.useStorage(STORAGE_KEY, {
+      default: () => 'light'
+    })
     return () => h('div', theme.value)
   }
 }

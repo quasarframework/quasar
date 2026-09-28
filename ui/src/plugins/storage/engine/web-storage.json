@@ -191,17 +191,22 @@
           "desc": "Options",
           "definition": {
             "default": {
-              "type": [
-                "Number",
-                "Boolean",
-                "Date",
-                "RegExp",
-                "Object",
-                "Array",
-                "String"
-              ],
-              "desc": "Value the ref reads while the item is missing; it gets stored when the ref attaches to a missing item and again whenever the item is removed",
-              "examples": ["'light'", "{ notifications: true }"]
+              "type": "Function",
+              "desc": "Returns the value the ref reads while the item is missing; called when the ref is created and each time the ref takes the default again (a null assignment, a removal), so that an object or Array default is a fresh one every time; the value gets stored when the ref attaches to a missing item and again whenever the item is removed",
+              "params": null,
+              "returns": {
+                "type": [
+                  "Number",
+                  "Boolean",
+                  "Date",
+                  "RegExp",
+                  "Object",
+                  "Array",
+                  "String"
+                ],
+                "desc": "The default value"
+              },
+              "examples": ["() => 'light'", "() => ({ notifications: true })"]
             },
             "deep": {
               "type": "Boolean",

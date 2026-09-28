@@ -50,7 +50,7 @@ import { useQuasar } from 'quasar'
 const $q = useQuasar()
 
 const myTheme = $q.cookies.useCookie('myTheme', {
-  default: 'system',
+  default: () => 'system',
   expires: '30d'
 })
 </script>

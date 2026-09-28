@@ -87,26 +87,57 @@ declare module 'quasar' {
   }
 }
 export const lang: CookieRef<'en' | 'ro'> = Cookies.useCookie('lang', {
-  default: 'en',
+  default: () => 'en',
   expires: '30d'
 })
 // @ts-expect-error a value outside the declared type is rejected
 lang.value = 'fr'
+// null resets a ref to its default
+lang.value = null
+// @ts-expect-error a default is a function
+Cookies.useCookie('lang', { default: 'en' })
 export const visitor = Cookies.useCookie('visitor')
 // @ts-expect-error an undeclared cookie is a String or an Object
 visitor.value?.title
+visitor.value = null
+// an undeclared cookie takes a String or an Object; a String default types
+// it as a String, not as that literal
+export const region: CookieRef<string> = Cookies.useCookie('region', {
+  default: () => 'eu'
+})
+region.value = 'us'
+// @ts-expect-error a String default types the cookie as a String
+region.value = 5
+Cookies.set('settings', { notifications: true })
+Cookies.remove('__Secure-session', { secure: true, path: '/' })
 export const theme: WebStorageRef<'light' | 'dark' | null> =
   LocalStorage.useStorage('theme')
 export const themeWithDefault: WebStorageRef<'light' | 'dark'> =
-  LocalStorage.useStorage('theme', { default: 'light' })
+  LocalStorage.useStorage('theme', { default: () => 'light' })
 // @ts-expect-error a value outside the declared type is rejected
 theme.value = 'blue'
+themeWithDefault.value = null
 // @ts-expect-error a default outside the declared type is rejected
-LocalStorage.useStorage('theme', { default: 'blue' })
-// an undeclared key takes any storable value; its default sets the type
+LocalStorage.useStorage('theme', { default: () => 'blue' })
+// @ts-expect-error a default is a function
+LocalStorage.useStorage('theme', { default: 'light' })
+// an undeclared key takes any storable value; what its default returns
+// sets the type, a primitive widened
 export const count: WebStorageRef<number> = LocalStorage.useStorage('count', {
-  default: 0
+  default: () => 0
 })
+count.value = 5
+count.value = null
+export const remember: WebStorageRef<boolean> = SessionStorage.useStorage(
+  'remember',
+  { default: () => false }
+)
+remember.value = true
+export const settings: WebStorageRef<{ on: boolean }> = LocalStorage.useStorage(
+  'settings',
+  { default: () => ({ on: true }) }
+)
+settings.value.on = false
 export const sessionDraft: WebStorageRef<{ title: string } | null> =
   SessionStorage.useStorage('draft')
 export const draft = LocalStorage.useStorage('draft')

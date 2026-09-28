@@ -185,14 +185,14 @@ describe('[Cookies API]', () => {
         mountPlugin()
 
         const missing = Cookies.useCookie('q-test-use-default', {
-          default: 'light'
+          default: () => 'light'
         })
         expect(missing.value).toBe('light')
         expect(Cookies.get('q-test-use-default')).toBe('light')
 
         Cookies.set('q-test-use-default', 'dark')
         const stored = Cookies.useCookie('q-test-use-default', {
-          default: 'light'
+          default: () => 'light'
         })
         expect(stored.value).toBe('dark')
       })
@@ -200,7 +200,7 @@ describe('[Cookies API]', () => {
       test('resets a removed cookie to its default', () => {
         mountPlugin()
         const theme = Cookies.useCookie('q-test-use-reset', {
-          default: 'light'
+          default: () => 'light'
         })
 
         theme.value = 'dark'
@@ -243,7 +243,7 @@ describe('[Cookies API]', () => {
       test('stores a nested change', async () => {
         mountPlugin()
         const settings = Cookies.useCookie('q-test-use-nested', {
-          default: { notifications: true, tags: ['a'] }
+          default: () => ({ notifications: true, tags: ['a'] })
         })
 
         settings.value.notifications = false
@@ -259,7 +259,7 @@ describe('[Cookies API]', () => {
       test('hands out a plain value and ignores nested changes when not deep', async () => {
         mountPlugin()
         const settings = Cookies.useCookie('q-test-use-shallow', {
-          default: { notifications: true },
+          default: () => ({ notifications: true }),
           deep: false
         })
 
@@ -404,10 +404,10 @@ describe('[Cookies API]', () => {
       test('lets the first attached ref settle differing defaults', () => {
         mountPlugin()
         const first = Cookies.useCookie('q-test-use-defaults', {
-          default: 'first'
+          default: () => 'first'
         })
         const second = Cookies.useCookie('q-test-use-defaults', {
-          default: 'second'
+          default: () => 'second'
         })
         expect(second.value).toBe('first')
 
@@ -417,21 +417,21 @@ describe('[Cookies API]', () => {
         expect(Cookies.get('q-test-use-defaults')).toBe('first')
       })
 
-      test('never mutates the default it was given', async () => {
+      test('takes a fresh default each time', async () => {
         mountPlugin()
-        const defaultValue = { count: 0 }
+        const getDefault = vi.fn(() => ({ count: 0 }))
         const disabled = ref(true)
         const settings = Cookies.useCookie('q-test-use-own-default', {
-          default: defaultValue,
+          default: getDefault,
           disabled
         })
+        expect(getDefault).toHaveBeenCalledTimes(1)
 
         // detached: a nested change stays in the ref
         settings.value.count = 1
         await nextTick()
-        expect(defaultValue).toStrictEqual({ count: 0 })
 
-        // attached: the default is stored, then changed through the ref
+        // attached: the current value is stored, then changed through the ref
         disabled.value = false
         await nextTick()
         settings.value.count = 2
@@ -439,17 +439,20 @@ describe('[Cookies API]', () => {
         expect(Cookies.get('q-test-use-own-default')).toStrictEqual({
           count: 2
         })
-        expect(defaultValue).toStrictEqual({ count: 0 })
+        expect(getDefault).toHaveBeenCalledTimes(1)
 
         settings.value = null
+        expect(getDefault).toHaveBeenCalledTimes(2)
         expect(settings.value).toStrictEqual({ count: 0 })
-        expect(settings.value).not.toBe(defaultValue)
+        expect(Cookies.get('q-test-use-own-default')).toStrictEqual({
+          count: 0
+        })
       })
 
       test('re-reads the cookie on a stale Cookie Store event', () => {
         mountPlugin()
         const theme = Cookies.useCookie('q-test-use-stale-event', {
-          default: 'light'
+          default: () => 'light'
         })
         theme.value = 'dark'
 
@@ -506,7 +509,7 @@ describe('[Cookies API]', () => {
         mountPlugin()
         const disabled = ref(true)
         const theme = Cookies.useCookie('q-test-use-disabled', {
-          default: 'light',
+          default: () => 'light',
           disabled
         })
 
@@ -544,7 +547,7 @@ describe('[Cookies API]', () => {
         expect(userId.value).toBe('john12')
 
         // a missing cookie's default is left to the client
-        const theme = cookies.useCookie('theme', { default: 'light' })
+        const theme = cookies.useCookie('theme', { default: () => 'light' })
         expect(theme.value).toBe('light')
         expect(ssrContext.res.setHeader).not.toHaveBeenCalled()
 

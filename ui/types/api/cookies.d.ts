@@ -16,13 +16,13 @@ type CookieValue = string | object;
  *   }
  *
  * A cookie that is not declared accepts any cookie value; its default,
- * when given, sets the type.
+ * when given, sets the type by what it returns.
  */
 // oxlint-disable-next-line typescript/no-empty-object-type
 export interface CookieValues {}
 
 export interface CookieRefOptions<T> {
-  default?: T;
+  default?: () => T;
   deep?: boolean;
   disabled?: MaybeRefOrGetter<boolean>;
   expires?: number | string | Date;
@@ -46,7 +46,9 @@ export type CookieRef<T = CookieValue | null> = Ref<T, T | null> & {
 export interface CookiesUseCookieMethodType {
   <K extends keyof CookieValues & string>(
     name: K,
-    options: CookieRefOptions<CookieValues[K]> & { default: CookieValues[K] }
+    options: CookieRefOptions<CookieValues[K]> & {
+      default: () => CookieValues[K];
+    }
   ): CookieRef<CookieValues[K]>;
   <K extends keyof CookieValues & string>(
     name: K,
@@ -54,7 +56,7 @@ export interface CookiesUseCookieMethodType {
   ): CookieRef<CookieValues[K] | null>;
   <K extends string, T extends CookieValue>(
     name: K extends keyof CookieValues ? never : K,
-    options: CookieRefOptions<T> & { default: T }
+    options: CookieRefOptions<T> & { default: () => T }
   ): CookieRef<CookieValueOf<T>>;
   <K extends string, T extends CookieValue = CookieValue>(
     name: K extends keyof CookieValues ? never : K,

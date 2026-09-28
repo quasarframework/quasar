@@ -25,7 +25,7 @@ const $q = useQuasar()
 const remember = ref(false)
 
 const name = $q.localStorage.useStorage('myName', {
-  default: '',
+  default: () => '',
   disabled: () => remember.value !== true
 })
 </script>

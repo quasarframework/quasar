@@ -90,7 +90,9 @@ import { useQuasar } from 'quasar'
 setup () {
   const $q = useQuasar()
 
-  const theme = $q.localStorage.useStorage('theme', { default: 'light' })
+  const theme = $q.localStorage.useStorage('theme', {
+    default: () => 'light'
+  })
 
   theme.value // 'light' while the item is missing, the stored value otherwise
   theme.value = 'dark' // persisted; every other ref of the item follows
@@ -98,7 +100,7 @@ setup () {
 
   // a nested change of an object (or Array) gets persisted too
   const settings = $q.localStorage.useStorage('settings', {
-    default: { notifications: true }
+    default: () => ({ notifications: true })
   })
   settings.value.notifications = false
 
@@ -115,10 +117,12 @@ The options, all optional:
 
 ```js
 $q.localStorage.useStorage('settings', {
-  // value the ref reads while the item is missing; it gets stored when
-  // the ref attaches to a missing item and whenever the item is removed
-  // (default: none, the ref then reads null)
-  default: { notifications: true },
+  // returns the value the ref reads while the item is missing; called
+  // each time the ref takes the default, so an object or Array is a
+  // fresh one every time; the value gets stored when the ref attaches
+  // to a missing item and whenever the item is removed (default: none,
+  // the ref then reads null)
+  default: () => ({ notifications: true }),
 
   // hand out an object or Array value reactive, so that a nested change
   // gets tracked and persisted; false for a large value that you only
@@ -157,11 +161,11 @@ An item with a default always holds a value. While a ref with a default is attac
 
 ### Objects and Arrays
 
-Nested changes are tracked when made through the ref (`settings.value.notifications = false`), on plain Objects and Arrays only. Mutating the original object you assigned, or a `Date` in place (`since.value.setFullYear(2027)`), persists nothing: assign through the ref instead. The default is never handed out itself but copied, so assigning `null` always reads as the default you gave. With `deep: false` the ref hands out the plain value and only an assignment persists, which is the cheaper choice for a large value that you replace as a whole.
+Nested changes are tracked when made through the ref (`settings.value.notifications = false`), on plain Objects and Arrays only. Mutating the original object you assigned, or a `Date` in place (`since.value.setFullYear(2027)`), persists nothing: assign through the ref instead. The default is a function for the same reason: every time the ref takes it, assigning `null` included, it reads as a fresh value. With `deep: false` the ref hands out the plain value and only an assignment persists, which is the cheaper choice for a large value that you replace as a whole.
 
 ### Typed keys
 
-A storage ref is typed as any storable value, or after its default when one is given (a String, Number or Boolean default types it as that primitive). Declare your own keys once, per storage area, to have every `useStorage()` call checked against them, defaults and unions included:
+A storage ref is typed as any storable value, or after what its default returns when one is given (a String, Number or Boolean default types it as that primitive). Declare your own keys once, per storage area, to have every `useStorage()` call checked against them, defaults and unions included:
 
 ```ts TypeScript
 declare module 'quasar' {

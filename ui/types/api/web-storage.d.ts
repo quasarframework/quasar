@@ -44,7 +44,7 @@ export type WebStorageGetAllKeysMethodType = () => string[];
  *   }
  *
  * A key that is not declared accepts any storable value; its default,
- * when given, sets the type.
+ * when given, sets the type by what it returns.
  */
 // oxlint-disable-next-line typescript/no-empty-object-type
 export interface LocalStorageItems {}
@@ -53,7 +53,7 @@ export interface LocalStorageItems {}
 export interface SessionStorageItems {}
 
 export interface WebStorageRefOptions<T> {
-  default?: T;
+  default?: () => T;
   deep?: boolean;
   disabled?: MaybeRefOrGetter<boolean>;
   onError?: (err: Error) => void;
@@ -81,7 +81,7 @@ export type WebStorageRef<T = WebStorageGetMethodReturnType | null> = Ref<
 export interface WebStorageUseStorageMethodType<Items> {
   <K extends keyof Items & string>(
     key: K,
-    options: WebStorageRefOptions<Items[K]> & { default: Items[K] }
+    options: WebStorageRefOptions<Items[K]> & { default: () => Items[K] }
   ): WebStorageRef<Items[K]>;
   <K extends keyof Items & string>(
     key: K,
@@ -89,7 +89,7 @@ export interface WebStorageUseStorageMethodType<Items> {
   ): WebStorageRef<Items[K] | null>;
   <K extends string, T extends WebStorageGetMethodReturnType>(
     key: K extends keyof Items ? never : K,
-    options: WebStorageRefOptions<T> & { default: T }
+    options: WebStorageRefOptions<T> & { default: () => T }
   ): WebStorageRef<WebStorageValueOf<T>>;
   <
     K extends string,

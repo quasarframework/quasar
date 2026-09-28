@@ -419,14 +419,14 @@ describe('[SessionStorage API]', () => {
         mountPlugin()
 
         const missing = SessionStorage.useStorage('useStorage.default', {
-          default: 'light'
+          default: () => 'light'
         })
         expect(missing.value).toBe('light')
         expect(SessionStorage.getItem('useStorage.default')).toBe('light')
 
         SessionStorage.setItem('useStorage.default', 'dark')
         const stored = SessionStorage.useStorage('useStorage.default', {
-          default: 'light'
+          default: () => 'light'
         })
         expect(stored.value).toBe('dark')
       })
@@ -434,7 +434,7 @@ describe('[SessionStorage API]', () => {
       test('resets a removed item to its default', () => {
         mountPlugin()
         const theme = SessionStorage.useStorage('useStorage.reset', {
-          default: 'light'
+          default: () => 'light'
         })
 
         theme.value = 'dark'
@@ -488,7 +488,7 @@ describe('[SessionStorage API]', () => {
       test('persists a nested change', async () => {
         mountPlugin()
         const settings = SessionStorage.useStorage('useStorage.nested', {
-          default: { notifications: true, tags: ['a'] }
+          default: () => ({ notifications: true, tags: ['a'] })
         })
 
         settings.value.notifications = false
@@ -504,7 +504,7 @@ describe('[SessionStorage API]', () => {
       test('hands out a plain value and ignores nested changes when not deep', async () => {
         mountPlugin()
         const settings = SessionStorage.useStorage('useStorage.shallow', {
-          default: { notifications: true },
+          default: () => ({ notifications: true }),
           deep: false
         })
 
@@ -650,7 +650,9 @@ describe('[SessionStorage API]', () => {
       test('keeps a store-held ref in step across the components using it', async () => {
         const store = effectScope()
         const theme = store.run(() =>
-          SessionStorage.useStorage('useStorage.store', { default: 'light' })
+          SessionStorage.useStorage('useStorage.store', {
+            default: () => 'light'
+          })
         )
         const isDark = store.run(() => computed(() => theme.value === 'dark'))
 
@@ -674,7 +676,7 @@ describe('[SessionStorage API]', () => {
         mountPlugin()
         const disabled = ref(true)
         const theme = SessionStorage.useStorage('useStorage.disabled', {
-          default: 'light',
+          default: () => 'light',
           disabled
         })
 
@@ -702,23 +704,27 @@ describe('[SessionStorage API]', () => {
         })
       })
 
-      test('never mutates the default it was given', async () => {
+      test('takes a fresh default each time', async () => {
         mountPlugin()
-        const defaultValue = { count: 0 }
+        const getDefault = vi.fn(() => ({ count: 0 }))
         const settings = SessionStorage.useStorage('useStorage.ownDefault', {
-          default: defaultValue
+          default: getDefault
         })
+        expect(getDefault).toHaveBeenCalledTimes(1)
 
         settings.value.count = 1
         await nextTick()
         expect(SessionStorage.getItem('useStorage.ownDefault')).toStrictEqual({
           count: 1
         })
-        expect(defaultValue).toStrictEqual({ count: 0 })
+        expect(getDefault).toHaveBeenCalledTimes(1)
 
         settings.value = null
+        expect(getDefault).toHaveBeenCalledTimes(2)
         expect(settings.value).toStrictEqual({ count: 0 })
-        expect(settings.value).not.toBe(defaultValue)
+        expect(SessionStorage.getItem('useStorage.ownDefault')).toStrictEqual({
+          count: 0
+        })
       })
 
       test('hands a ref a copy of what setItem() stores', async () => {
@@ -755,10 +761,10 @@ describe('[SessionStorage API]', () => {
       test('lets the first attached ref settle differing defaults', () => {
         mountPlugin()
         const first = SessionStorage.useStorage('useStorage.defaults', {
-          default: 'first'
+          default: () => 'first'
         })
         const second = SessionStorage.useStorage('useStorage.defaults', {
-          default: 'second'
+          default: () => 'second'
         })
         expect(second.value).toBe('first')
 
@@ -776,7 +782,7 @@ describe('[SessionStorage API]', () => {
         mountPlugin()
         const errors = []
         const item = SessionStorage.useStorage('useStorage.decode.event', {
-          default: 'light',
+          default: () => 'light',
           onError: err => {
             errors.push(err)
           }
@@ -839,7 +845,7 @@ describe('[SessionStorage API]', () => {
         writeBehind('useStorage.decode', 'x')
         window.sessionStorage.setItem('useStorage.decode', '__q_objt|{oops')
         const item = SessionStorage.useStorage('useStorage.decode', {
-          default: 'light',
+          default: () => 'light',
           onError: err => {
             errors.push(err)
           }

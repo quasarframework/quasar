@@ -419,14 +419,14 @@ describe('[LocalStorage API]', () => {
         mountPlugin()
 
         const missing = LocalStorage.useStorage('useStorage.default', {
-          default: 'light'
+          default: () => 'light'
         })
         expect(missing.value).toBe('light')
         expect(LocalStorage.getItem('useStorage.default')).toBe('light')
 
         LocalStorage.setItem('useStorage.default', 'dark')
         const stored = LocalStorage.useStorage('useStorage.default', {
-          default: 'light'
+          default: () => 'light'
         })
         expect(stored.value).toBe('dark')
       })
@@ -434,7 +434,7 @@ describe('[LocalStorage API]', () => {
       test('resets a removed item to its default', () => {
         mountPlugin()
         const theme = LocalStorage.useStorage('useStorage.reset', {
-          default: 'light'
+          default: () => 'light'
         })
 
         theme.value = 'dark'
@@ -488,7 +488,7 @@ describe('[LocalStorage API]', () => {
       test('persists a nested change', async () => {
         mountPlugin()
         const settings = LocalStorage.useStorage('useStorage.nested', {
-          default: { notifications: true, tags: ['a'] }
+          default: () => ({ notifications: true, tags: ['a'] })
         })
 
         settings.value.notifications = false
@@ -504,7 +504,7 @@ describe('[LocalStorage API]', () => {
       test('hands out a plain value and ignores nested changes when not deep', async () => {
         mountPlugin()
         const settings = LocalStorage.useStorage('useStorage.shallow', {
-          default: { notifications: true },
+          default: () => ({ notifications: true }),
           deep: false
         })
 
@@ -648,7 +648,9 @@ describe('[LocalStorage API]', () => {
       test('keeps a store-held ref in step across the components using it', async () => {
         const store = effectScope()
         const theme = store.run(() =>
-          LocalStorage.useStorage('useStorage.store', { default: 'light' })
+          LocalStorage.useStorage('useStorage.store', {
+            default: () => 'light'
+          })
         )
         const isDark = store.run(() => computed(() => theme.value === 'dark'))
 
@@ -672,7 +674,7 @@ describe('[LocalStorage API]', () => {
         mountPlugin()
         const disabled = ref(true)
         const theme = LocalStorage.useStorage('useStorage.disabled', {
-          default: 'light',
+          default: () => 'light',
           disabled
         })
 
@@ -700,23 +702,27 @@ describe('[LocalStorage API]', () => {
         })
       })
 
-      test('never mutates the default it was given', async () => {
+      test('takes a fresh default each time', async () => {
         mountPlugin()
-        const defaultValue = { count: 0 }
+        const getDefault = vi.fn(() => ({ count: 0 }))
         const settings = LocalStorage.useStorage('useStorage.ownDefault', {
-          default: defaultValue
+          default: getDefault
         })
+        expect(getDefault).toHaveBeenCalledTimes(1)
 
         settings.value.count = 1
         await nextTick()
         expect(LocalStorage.getItem('useStorage.ownDefault')).toStrictEqual({
           count: 1
         })
-        expect(defaultValue).toStrictEqual({ count: 0 })
+        expect(getDefault).toHaveBeenCalledTimes(1)
 
         settings.value = null
+        expect(getDefault).toHaveBeenCalledTimes(2)
         expect(settings.value).toStrictEqual({ count: 0 })
-        expect(settings.value).not.toBe(defaultValue)
+        expect(LocalStorage.getItem('useStorage.ownDefault')).toStrictEqual({
+          count: 0
+        })
       })
 
       test('hands a ref a copy of what setItem() stores', async () => {
@@ -753,10 +759,10 @@ describe('[LocalStorage API]', () => {
       test('lets the first attached ref settle differing defaults', () => {
         mountPlugin()
         const first = LocalStorage.useStorage('useStorage.defaults', {
-          default: 'first'
+          default: () => 'first'
         })
         const second = LocalStorage.useStorage('useStorage.defaults', {
-          default: 'second'
+          default: () => 'second'
         })
         expect(second.value).toBe('first')
 
@@ -774,7 +780,7 @@ describe('[LocalStorage API]', () => {
         mountPlugin()
         const errors = []
         const item = LocalStorage.useStorage('useStorage.decode.event', {
-          default: 'light',
+          default: () => 'light',
           onError: err => {
             errors.push(err)
           }
@@ -834,7 +840,7 @@ describe('[LocalStorage API]', () => {
         writeBehind('useStorage.decode', 'x')
         window.localStorage.setItem('useStorage.decode', '__q_objt|{oops')
         const item = LocalStorage.useStorage('useStorage.decode', {
-          default: 'light',
+          default: () => 'light',
           onError: err => {
             errors.push(err)
           }

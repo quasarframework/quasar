@@ -31,8 +31,9 @@ describe('[webStorage API]', () => {
 
       test('hands out an in-memory storage ref', () => {
         const { useStorage } = getEmptyStorage()
-        const defaultValue = { count: 0 }
-        const settings = useStorage('settings', { default: defaultValue })
+        const settings = useStorage('settings', {
+          default: () => ({ count: 0 })
+        })
 
         expect(isRef(settings)).toBe(true)
         expect(settings.stop).toBeTypeOf('function')
@@ -40,7 +41,6 @@ describe('[webStorage API]', () => {
 
         settings.value.count = 1
         expect(settings.value.count).toBe(1)
-        expect(defaultValue).toStrictEqual({ count: 0 })
 
         settings.value = null
         expect(settings.value).toStrictEqual({ count: 0 })
