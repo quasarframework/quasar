@@ -69,7 +69,7 @@ function useKeyboardShortcut(
 }
 ```
 
-Each call registers one action. Pass an Array of shortcuts when several key combinations should trigger the same action; the handler receives the one that matched, so it can still tell them apart.
+Each call registers one action. Pass an Array of shortcuts when several key combinations should trigger the same action; the handler receives the one that matched, so it can still tell them apart. A press runs the handler once, for the first shortcut in the Array it matches, so overlapping entries are safe: `['Mod+K', 'Ctrl+K']` fires once on every platform, even where `Mod` is Ctrl.
 
 ## Writing a shortcut
 
