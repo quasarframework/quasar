@@ -33,6 +33,11 @@ export interface QuasarSsrConfiguration {
    * Configure the Vue Router routes for which you don't want to inject
    * preload tags (on production only!).
    *
+   * Only the route-level tags (the chunks a route needs, taken from the
+   * build manifest) are left out; the modulepreload tags Vite writes into
+   * the HTML template for the app entry's own static imports stay on every
+   * route.
+   *
    * You can use picomatch patterns to match the routes you want
    * no preload tags for. https://www.npmjs.com/package/picomatch
    *

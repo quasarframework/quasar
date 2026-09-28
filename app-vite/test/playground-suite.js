@@ -93,6 +93,18 @@ const expectSharedChunkCss = (html, clientDir, repro = '') => {
   ).toBeLessThan(secondPageIndex)
 }
 
+// Vite writes a <link rel=modulepreload> into the HTML template itself for
+// every chunk the app entry imports statically (Rolldown splits the modules
+// the entry shares with a page chunk into one); those are build output on
+// every route, not the route-level tags the webserver adds from the
+// manifest, so noPreloadTagRoutes leaves them alone.
+const modulePreloadTagRE = /<link\s[^>]*rel="?modulepreload"?[^>]*>/g
+const getModulePreloadTags = html => html.match(modulePreloadTagRE) ?? []
+const getTemplatePreloadTags = distDir =>
+  getModulePreloadTags(
+    readFileSync(join(distDir, 'render-template.js'), 'utf8')
+  )
+
 // The full per-playground pipeline, driving every mode through the real
 // CLI. Register it inside a describe() block; returns the step registrar
 // so a playground can append its own extra steps.
@@ -383,9 +395,13 @@ export function definePlaygroundSuite({ playgroundDir, scriptExt }) {
     // rendering (a client-side rendered shell ships an empty q-app div)
     expect(html).toContain(fixtureMarkers.indexPageContent)
     expect(html).toContain(fixtureMarkers.jsxGreeting)
-    // preload tags are rendered by default — the no-preload-routes step
-    // below asserts their absence, so pin their presence here
-    expect(html).toContain('modulepreload')
+    // route-level preload tags are rendered by default — the
+    // no-preload-routes step below asserts their absence, so pin their
+    // presence here (the template's own static tags don't count)
+    const templateTags = getTemplatePreloadTags(join(playgroundDir, 'dist/ssr'))
+    expect(
+      getModulePreloadTags(html).filter(tag => !templateTags.includes(tag))
+    ).not.toEqual([])
 
     if (hasStore) {
       // the store got used during the render and its state serialized
@@ -438,8 +454,11 @@ export function definePlaygroundSuite({ playgroundDir, scriptExt }) {
 
           // '/' is still server-rendered...
           expect(html).toContain(fixtureMarkers.indexPageContent)
-          // ...but as a no-preload route it carries no preload tags
-          expect(html).not.toContain('modulepreload')
+          // ...but as a no-preload route it carries no route-level preload
+          // tags: only the template's own static ones remain
+          expect(getModulePreloadTags(html)).toEqual(
+            getTemplatePreloadTags(distDir)
+          )
         }
       )
     }
