@@ -364,7 +364,8 @@ function onInputMouseup(e) {
   }
 }
 
-useKeyboardShortcut('Mod+K', () => {
+// Ctrl+K works on macOS too, next to the Command key the label shows
+useKeyboardShortcut(['Mod+K', 'Ctrl+K'], () => {
   inputRef.value.focus()
 })
 
