@@ -68,16 +68,8 @@
 </template>
 
 <script setup>
-import { LoadingBar, useQuasar } from 'quasar'
-import {
-  computed,
-  markRaw,
-  onBeforeUnmount,
-  onMounted,
-  ref,
-  useTemplateRef,
-  watch
-} from 'vue'
+import { LoadingBar, useKeyboardShortcut, useQuasar } from 'quasar'
+import { computed, markRaw, onMounted, ref, useTemplateRef, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
 import AppSearchResults from './search/SearchResults.vue'
@@ -372,28 +364,19 @@ function onInputMouseup(e) {
   }
 }
 
-function onGlobalKeydown(e) {
-  if ((e.ctrlKey || e.metaKey) && e.keyCode === 75 /* K */) {
-    e.preventDefault()
-    inputRef.value.focus()
-  }
-}
+useKeyboardShortcut('Mod+K', () => {
+  inputRef.value.focus()
+})
 
 onMounted(() => {
   // If we have a search string in the query (mostly from tab-to-search functionality),
   // we need to open the drawer to fill in the search string in the input later
   const searchQuery = $route.query.search
 
-  window.addEventListener('keydown', onGlobalKeydown)
-
   if (searchQuery) {
     terms.value = searchQuery
     inputRef.value.focus()
   }
-})
-
-onBeforeUnmount(() => {
-  window.removeEventListener('keydown', onGlobalKeydown)
 })
 </script>
 
