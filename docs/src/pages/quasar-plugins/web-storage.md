@@ -138,6 +138,8 @@ $q.localStorage.useItem('settings', {
 })
 ```
 
+### Examples
+
 <DocExample title="Item ref" file="Basic" />
 
 <DocExample title="Nested changes" file="Nested" />

@@ -1,8 +1,8 @@
 <template>
   <div class="q-pa-md q-gutter-y-md">
     <div>
-      Pick a theme, then reload the page or open it in another tab: the choice
-      is remembered and every tab follows it.
+      Pick a theme, then reload the page: the cookie remembers the choice for a
+      month. Another tab of the site follows it too.
     </div>
 
     <q-btn-toggle
@@ -19,7 +19,7 @@
     />
 
     <div>
-      The storage item holds
+      The cookie holds
       <q-badge :label="myTheme" />
     </div>
 
@@ -48,5 +48,8 @@ import { useQuasar } from 'quasar'
 
 const $q = useQuasar()
 
-const myTheme = $q.localStorage.useItem('myTheme', { default: 'system' })
+const myTheme = $q.cookies.useCookie('myTheme', {
+  default: 'system',
+  expires: '30d'
+})
 </script>

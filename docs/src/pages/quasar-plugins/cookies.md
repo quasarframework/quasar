@@ -1,13 +1,11 @@
 ---
 title: Cookies
 desc: A Quasar plugin which manages browser cookies over the standardized 'document.cookie', making it easy to read and write cookies even with SSR apps.
-keys: Cookies
+keys: Cookies,useCookie
+examples: Cookies
 ---
 
-This is a wrapper over the standardized `document.cookie`.
-
-> [!NOTE]
-> In addition to the standard way of dealing with cookies, with Cookie Plugin you can read and write cookies using JSON objects. It can also manage cookies from SSR.
+This is a wrapper over the standardized `document.cookie`. It reads and writes JSON objects as well as strings, manages the request cookies on the server side of SSR/SSG builds and binds a cookie to a Vue ref (v2.34+): `$q.cookies.useCookie('theme')` reads and writes the cookie and updates whenever it changes through the plugin, from anywhere in your app.
 
 <DocApi file="Cookies" />
 
@@ -36,6 +34,93 @@ function (ssrContext) {
 The `ssrContext` is available in [@quasar/app-vite Boot File](/quasar-cli-vite/boot-files). And also in the [@quasar/app-vite preFetch](/quasar-cli-vite/prefetch-feature) feature, where it is supplied as a parameter.
 
 The reason for this is that in a client-only app, every user will be using a fresh instance of the app in their browser. For server-side rendering we want the same: each request should have a fresh, isolated app instance so that there is no cross-request state pollution. So Cookies needs to be bound to each request separately.
+
+## Cookie refs <q-badge label="v2.34+" />
+
+`useCookie(name, options)` returns a Vue ref bound to a cookie. Reading it gives you the cookie value (its default, or `null`, while the cookie is missing), assigning it stores the value right away and a nested change of an Object or Array value gets stored too. A template, a computed or a watcher reading it re-evaluates whenever the cookie changes through the plugin, from anywhere in your app. Where the browser has the [Cookie Store API](https://developer.mozilla.org/en-US/docs/Web/API/Cookie_Store_API), a cookie set by the server, by another tab or natively is followed as well.
+
+```js
+import { useQuasar } from 'quasar'
+
+setup () {
+  const $q = useQuasar()
+
+  const theme = $q.cookies.useCookie('theme', {
+    default: 'light',
+    expires: '30d'
+  })
+
+  theme.value // 'light' while the cookie is missing, the stored value otherwise
+  theme.value = 'dark' // stored for 30 days; every other ref of the cookie follows
+  theme.value = null // removed, which reads as the default again
+
+  return { theme }
+}
+```
+
+The options, all optional:
+
+```js
+$q.cookies.useCookie('settings', {
+  // value the ref reads while the cookie is missing; it gets stored when
+  // the ref attaches to a missing cookie and whenever the cookie is
+  // removed (default: none, the ref then reads null)
+  default: { notifications: true },
+
+  // hand out an Object or Array value reactive, so that a nested change
+  // gets tracked and stored; false for a value that you only ever
+  // assign as a whole (default: true)
+  deep: true,
+
+  // while true the ref is detached from the cookie, a plain in-memory
+  // ref; once false again it attaches like a new ref (default: false)
+  disabled: false,
+
+  // the cookie options every write from the ref uses, as set() takes
+  // them (see "Write a Cookie" below); a removal carries the same path
+  // and domain (default: none)
+  expires: '30d',
+  path: '/',
+  domain: '.example.com',
+  sameSite: 'Lax',
+  secure: true
+})
+```
+
+### Example
+
+<DocExample title="Cookie ref" file="Basic" />
+
+> [!TIP]
+> **Outside of a component**
+>
+> `useCookie()` can also be called outside of `setup()`: in a boot file, a store or a plain module. A ref created inside a Vue effect scope (a component or a Pinia store) is released together with it; one created outside of any scope stays bound to the cookie for the rest of the page: call its `stop()` method when you are done with it.
+
+### Defaults
+
+A cookie with a default always holds a value. While a ref with a default is attached to it, removing the cookie (`remove()`, assigning `null`, another tab) stores the default again, so every reader agrees on what the cookie holds. A ref without a default reads `null` for a removed cookie. Two refs of the same cookie with different defaults disagree only while the cookie is missing, and the first one to attach settles it.
+
+### Objects and Arrays
+
+An Object or Array is stored as JSON, like `set()` does, and read back as a fresh copy: nested changes are tracked when made through the ref (`settings.value.notifications = false`), on plain Objects and Arrays only, and every one of them writes the whole value again. Mutating the original object you assigned persists nothing: assign through the ref instead. With `deep: false` the ref hands out the plain value and only an assignment stores. A Number or a Boolean assigned to the ref reads back as a String, as `get()` returns it.
+
+Keep in mind that a cookie holds about 4KB, attributes included, and the encoding triples every brace, quote and colon. The browser drops a write it does not accept (too large, or with attributes it rejects) without a word; the ref then reads back what the cookie jar holds, `null` or the default.
+
+### Typed cookies
+
+A ref is typed as a String or an Object, or as its default when one is given. Declare your cookies once to have every `useCookie()` call checked against them, defaults included:
+
+```ts TypeScript
+declare module 'quasar' {
+  interface CookieValues {
+    theme: 'light' | 'dark'
+  }
+}
+```
+
+### On the server
+
+On the server side of SSR/SSG builds, `$q.cookies.useCookie()` reads the request cookie, so the ref renders the real value and the client matches it on hydration. Outside of a component there, use `Cookies.parseSSR(ssrContext).useCookie()`, as the [notes on SSR/SSG](#notes-on-ssr-ssg) explain for the other methods; the `Cookies` import itself has no methods on the server. A write there goes out as a `Set-Cookie` header, like `set()` does; a missing cookie's default is not stored by the server, the client stores it once it attaches. A cookie set with `httpOnly` is the one the server reads and the client cannot, so keep those out of rendered markup.
 
 ## Read a Cookie
 

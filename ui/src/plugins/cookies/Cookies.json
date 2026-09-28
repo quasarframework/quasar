@@ -2,9 +2,7 @@
   "meta": {
     "docsUrl": "https://v2.quasar.dev/quasar-plugins/cookies"
   },
-
   "injection": "$q.cookies",
-
   "methods": {
     "get": {
       "tsType": "CookiesGetMethodType",
@@ -23,7 +21,6 @@
         "examples": ["'john12'"]
       }
     },
-
     "getAll": {
       "desc": "Get all cookies",
       "params": null,
@@ -33,7 +30,6 @@
         "examples": ["{ userId: 'john12', XFrame: 'x534' }"]
       }
     },
-
     "set": {
       "desc": "Set cookie",
       "params": {
@@ -43,14 +39,12 @@
           "required": true,
           "examples": ["'userId'"]
         },
-
         "value": {
           "type": "String",
           "desc": "Cookie value",
           "required": true,
           "examples": ["'john12'"]
         },
-
         "options": {
           "type": "Object",
           "desc": "Cookie options",
@@ -101,7 +95,6 @@
       },
       "returns": null
     },
-
     "has": {
       "desc": "Check if cookie exists",
       "params": {
@@ -117,7 +110,6 @@
         "desc": "Does cookie exists or not?"
       }
     },
-
     "remove": {
       "desc": "Remove a cookie",
       "params": {
@@ -127,7 +119,6 @@
           "required": true,
           "examples": ["'userId'"]
         },
-
         "options": {
           "type": "Object",
           "desc": "Cookie options",
@@ -147,7 +138,87 @@
       },
       "returns": null
     },
-
+    "useCookie": {
+      "tsType": "CookiesUseCookieMethodType",
+      "desc": "Get a Vue ref bound to a cookie: it reads the cookie value (the default, or null, while missing), assigning it stores the value (null removes the cookie, or resets it to the default) and a nested change of an Object or Array value gets stored too. It follows the changes made through set()/remove(), through other refs of the same cookie and, where the browser has the Cookie Store API, those made by the server or another tab/window. It is released together with the calling scope (a component, a Pinia store, an effectScope()); outside of one, call its stop() method when done",
+      "addedIn": "v2.34",
+      "params": {
+        "name": {
+          "type": "String",
+          "desc": "Cookie name",
+          "required": true,
+          "examples": ["'theme'"]
+        },
+        "options": {
+          "type": "Object",
+          "desc": "Ref options, followed by the cookie options every write from the ref uses (see set())",
+          "definition": {
+            "default": {
+              "type": ["String", "Object", "Array"],
+              "desc": "Value the ref reads while the cookie is missing; it gets stored when the ref attaches to a missing cookie (on the client only) and again whenever the cookie is removed",
+              "examples": ["'light'", "{ notifications: true }"]
+            },
+            "deep": {
+              "type": "Boolean",
+              "desc": "Hand out an Object or Array value reactive, so that a nested change gets tracked and persisted; set it to false for a value that you only ever assign as a whole",
+              "default": "true"
+            },
+            "disabled": {
+              "type": ["Boolean", "Object", "Function"],
+              "tsType": "MaybeRefOrGetter<boolean>",
+              "desc": "While true the ref is detached from the cookie (a plain in-memory ref); once false again it attaches like a new ref: the stored value wins if the cookie exists, otherwise the current value gets stored",
+              "examples": ["true", "() => consent.value !== true"]
+            },
+            "expires": {
+              "type": ["Number", "String", "Date"],
+              "desc": "Cookie expires detail; If specified as Number, then the unit is days; If specified as String, it can either be raw stringified date or in Xd Xh Xm Xs format (see examples)",
+              "examples": [
+                "30",
+                "'Wed, 13 Jan 2021 22:23:01 GMT'",
+                "'1d'",
+                "'15m'",
+                "'13d'",
+                "'1d 15m'",
+                "'1d 3h 5m 3s'"
+              ]
+            },
+            "path": {
+              "type": "String",
+              "desc": "Cookie path",
+              "examples": ["'/accounts'"]
+            },
+            "domain": {
+              "type": "String",
+              "desc": "Cookie domain",
+              "examples": ["'.foo.com'"]
+            },
+            "sameSite": {
+              "type": "String",
+              "desc": "SameSite cookie option",
+              "values": ["'Lax'", "'Strict'", "'None'"]
+            },
+            "httpOnly": {
+              "type": "Boolean",
+              "desc": "Is cookie Http Only?"
+            },
+            "secure": {
+              "type": "Boolean",
+              "desc": "Is cookie secure? (https only)"
+            },
+            "other": {
+              "type": "String",
+              "desc": "Raw string for other cookie options; To be used as a last resort for possible newer props that are currently not yet implemented in Quasar",
+              "examples": ["'SomeNewCookieProp'"]
+            }
+          }
+        }
+      },
+      "returns": {
+        "type": "Object",
+        "tsType": "CookieRef",
+        "desc": "A Vue ref with an extra stop() method that detaches it from the cookie"
+      }
+    },
     "parseSSR": {
       "desc": "For SSR/SSG usage only, and only on the global import (not on $q.cookies)",
       "params": {

@@ -22,7 +22,9 @@ const mountedList = []
  * an RTL lang pack) and `setupApp(app)` (further app setup, e.g.
  * installing the router from ./router.js). The Node side applies both
  * automatically; the test must pass them along here so the browser
- * side matches.
+ * side matches. A `requestHeaders` export (e.g. `{ cookie: 'a=1' }`)
+ * lands on the server-side request only: the test puts the browser
+ * in the same state itself (setting that cookie before hydrating).
  *
  * One takeover() per test FILE, as its last act (enforced below): it
  * flips the module-level isRuntimeSsrPreHydration state and platform

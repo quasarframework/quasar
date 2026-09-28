@@ -3,6 +3,8 @@
 // pass cannot do. Every "@ts-expect-error" below is an assertion too: the
 // line must keep erroring, or the check fails.
 import {
+  type CookieRef,
+  Cookies,
   LocalStorage,
   type MetaOptions,
   QBtn,
@@ -71,7 +73,8 @@ export const resizeDynamicArg: DirectiveBindingOf<Resize>['arg'] = 100
 // @ts-expect-error a non-numeric argument is rejected
 export const resizeTypoArg: DirectiveBindingOf<Resize>['arg'] = 'fast'
 
-// the storage keys declared once per area type every useItem() call
+// the storage keys declared once per area type every useItem() call,
+// the cookie names every useCookie() call
 declare module 'quasar' {
   interface LocalStorageItems {
     theme: 'light' | 'dark'
@@ -79,7 +82,19 @@ declare module 'quasar' {
   interface SessionStorageItems {
     draft: { title: string }
   }
+  interface CookieValues {
+    lang: 'en' | 'ro'
+  }
 }
+export const lang: CookieRef<'en' | 'ro'> = Cookies.useCookie('lang', {
+  default: 'en',
+  expires: '30d'
+})
+// @ts-expect-error a value outside the declared type is rejected
+lang.value = 'fr'
+export const visitor = Cookies.useCookie('visitor')
+// @ts-expect-error an undeclared cookie is a String or an Object
+visitor.value?.title
 export const theme: WebStorageItemRef<'light' | 'dark' | null> =
   LocalStorage.useItem('theme')
 export const themeWithDefault: WebStorageItemRef<'light' | 'dark'> =

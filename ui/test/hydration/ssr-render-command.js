@@ -44,7 +44,10 @@ export async function ssrRender(_ctx, fixturesPath, exportName, userAgent) {
   // amend the body attributes from them) run once the render is done
   const onRenderedList = []
   const ssrContext = {
-    req: { headers: { 'user-agent': userAgent }, url: '/' },
+    req: {
+      headers: { 'user-agent': userAgent, ...fixturesModule.requestHeaders },
+      url: '/'
+    },
     res: {},
     onRendered: fn => {
       onRenderedList.push(fn)
