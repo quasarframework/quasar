@@ -1,5 +1,5 @@
 <template>
-  <div class="q-pa-md q-gutter-md">
+  <div class="q-pa-md">
     <div class="q-gutter-sm">
       <q-btn
         color="primary"
@@ -10,7 +10,7 @@
       <q-btn color="secondary" push label="Pick a folder" @click="pickFolder" />
     </div>
 
-    <div v-if="acceptedPickerFiles.length !== 0" class="q-gutter-sm">
+    <div v-if="acceptedPickerFiles.length !== 0" class="q-gutter-sm q-mt-md">
       <q-badge :label="`${acceptedPickerFiles.length} file(s)`" />
       <div
         v-for="file in acceptedPickerFiles.slice(0, 10)"
