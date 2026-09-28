@@ -25,8 +25,9 @@ import { noop } from '../../utils/event/event.js'
  *                 kind of change gets observed (same as v-mutation)
  *    once       - stop observing after the first batch of records;
  *                 setting it back to false starts observing again
+ *                 (default: false)
  *    disabled   - pause observing (a `once` that already fired stays off
- *                 for as long as `once` holds)
+ *                 for as long as `once` holds; default: false)
  *    onMutation - called with the Array of MutationRecord; return false
  *                 to stop for good
  */

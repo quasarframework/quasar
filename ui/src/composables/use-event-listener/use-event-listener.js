@@ -20,8 +20,9 @@ import { noop } from '../../utils/event/event.js'
  * event   - event name, or an Array of names (ref or getter accepted)
  * handler - called with the Event
  * options - plain object, ref or getter of:
- *    capture, passive, once - addEventListener() options
- *    disabled               - pause listening
+ *    capture, passive, once - addEventListener() options (default: unset,
+ *                             the browser's own defaults apply)
+ *    disabled               - pause listening (default: false)
  */
 
 // Text and Comment nodes are EventTargets too, but nothing dispatches on

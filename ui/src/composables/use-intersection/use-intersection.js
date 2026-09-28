@@ -25,11 +25,13 @@ import { noop } from '../../utils/event/event.js'
  * options - plain object, ref or getter of:
  *    target      - ref (or getter) of an Element or a component instance;
  *                  defaults to the root element of the current component
- *    root, rootMargin, threshold - IntersectionObserver options
+ *    root, rootMargin, threshold - IntersectionObserver options (default:
+ *                  null, '0px', 0)
  *    once        - stop observing after the first intersecting entry;
  *                  setting it back to false starts observing again
+ *                  (default: false)
  *    disabled    - pause observing (a `once` that already fired stays off
- *                  for as long as `once` holds)
+ *                  for as long as `once` holds; default: false)
  *    onIntersect - called with every entry; return false to stop for good
  */
 

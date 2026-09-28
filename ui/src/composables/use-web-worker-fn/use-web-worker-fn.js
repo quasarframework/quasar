@@ -14,10 +14,13 @@ import { noop } from '../../utils/event/event.js'
  *           value travel through structured cloning)
  * options - plain object (all optional):
  *    timeout           - ms after which a running call gets rejected and
- *                        the worker killed
- *    dependencies      - script URLs loaded in the worker (importScripts)
+ *                        the worker killed (default: none, calls never
+ *                        time out)
+ *    dependencies      - script URLs loaded in the worker (importScripts;
+ *                        default: none)
  *    localDependencies - named functions (or classes) inlined into the
  *                        worker script, callable from fn by their name
+ *                        (default: none)
  *    transfer(...args) - returns the Transferable objects among the call's
  *                        arguments (moved instead of cloned)
  *    onSuccess(result, args) - called when a call resolves

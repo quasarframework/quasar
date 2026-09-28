@@ -11,8 +11,10 @@ import { validateFiles } from '../private.use-file/validate-files.js'
  *
  * options - plain object, ref or getter of (all optional):
  *    multiple, accept, capture, directory - the native file input settings
+ *               (default: unset, a single file of any type)
  *    maxFileSize, maxTotalSize, maxFiles, filter - validation, same
- *               meaning as the QFile/QUploader props
+ *               meaning as the QFile/QUploader props (default: no
+ *               restriction)
  *    onChange   - called with the accepted File[] after a selection
  *    onRejected - called with the { failedPropValidation, file } entries
  *    onCancel   - called when the dialog is dismissed

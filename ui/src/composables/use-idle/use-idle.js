@@ -26,6 +26,7 @@ import { noop } from '../../utils/event/event.js'
  *               an activity (default: mousemove, mousedown, keydown,
  *               touchstart, wheel)
  *    disabled - pause tracking; while paused the user is never idle
+ *               (default: false)
  *    onIdle   - called with the new isIdle value on every transition
  */
 

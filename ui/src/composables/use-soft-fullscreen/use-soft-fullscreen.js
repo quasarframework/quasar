@@ -41,8 +41,9 @@ import { noop } from '../../utils/event/event.js'
  *                  fullscreen whenever it changes (a request made while the
  *                  target cannot be resolved yet waits for it; the element
  *                  also re-enters when its KeepAlive-cached component gets
- *                  activated again)
+ *                  activated again; default: false)
  *    noRouteExit - keep the fullscreen state across route changes
+ *                  (default: false)
  *
  * The element gets moved to <body> (a filler node holds its place) so that
  * it escapes any ancestor overflow, transform or stacking context; the

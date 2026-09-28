@@ -23,9 +23,11 @@ import { validateFiles } from '../private.use-file/validate-files.js'
  * options - plain object, ref or getter of (all optional):
  *    target   - ref (or getter) of an Element or a component instance;
  *               defaults to the root element of the current component
- *    disabled - stop accepting drops (the browser's default applies again)
+ *    disabled - stop accepting drops, the browser's default applies again
+ *               (default: false)
  *    multiple, accept, maxFileSize, maxTotalSize, maxFiles, filter -
  *               validation, same meaning as the QFile/QUploader props
+ *               (default: no restriction)
  *    onDrop     - called with the accepted File[] and the drop Event
  *    onRejected - called with the { failedPropValidation, file } entries
  *    onEnter    - called with the Event when a drag enters the zone

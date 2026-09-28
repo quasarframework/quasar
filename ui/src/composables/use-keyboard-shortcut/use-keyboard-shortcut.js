@@ -21,14 +21,15 @@ import { noop } from '../../utils/event/event.js'
  * options  - plain object, ref or getter of:
  *    target         - element, component or window to listen on (default:
  *                     window)
- *    keyup          - fire on keyup instead of keydown
- *    capture        - listen in the capture phase
+ *    keyup          - fire on keyup instead of keydown (default: false)
+ *    capture        - listen in the capture phase (default: false)
  *    repeat         - also fire for the auto-repeated events of a held key
+ *                     (default: false)
  *    preventDefault - false keeps the browser's own action for a matched
  *                     key (default: true)
  *    ignoreInputs   - false lets printable, unmodified shortcuts fire while
  *                     typing in a text field (default: true)
- *    disabled       - pause listening
+ *    disabled       - pause listening (default: false)
  */
 
 const modifierAliases = {

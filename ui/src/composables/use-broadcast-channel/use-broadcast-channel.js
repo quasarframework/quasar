@@ -23,7 +23,7 @@ import { noop } from '../../utils/event/event.js'
  *    lazy                 - do not connect the channel on mount (or
  *                           right away, outside of a component);
  *                           connectChannel() or postChannelMessage()
- *                           does it
+ *                           does it (default: false)
  *    onConnect()          - called each time the channel gets connected
  *    onMessage(data, evt) - called with each message received from
  *                           another browsing context (tab, window,

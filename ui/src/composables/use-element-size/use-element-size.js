@@ -19,8 +19,9 @@ import { noop } from '../../utils/event/event.js'
  * options - plain object, ref or getter of:
  *    target   - ref (or getter) of an Element or a component instance;
  *               defaults to the root element of the current component
- *    debounce - ms between two measurements (0 - measure on every change)
- *    disabled - pause observing
+ *    debounce - ms between two measurements (default: 0, measure on every
+ *               change)
+ *    disabled - pause observing (default: false)
  *    onResize - called with { width, height } whenever the size changes
  */
 

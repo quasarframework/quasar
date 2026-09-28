@@ -24,7 +24,9 @@ import { noop } from '../../utils/event/event.js'
  * options - plain object (all optional):
  *    lazy                 - do not open the socket on mount; openSocket()
  *                           or the first sendSocketMessage() does it
- *    protocols            - the native sub-protocol(s) (string or Array)
+ *                           (default: false)
+ *    protocols            - the native sub-protocol(s) (string or Array;
+ *                           default: none)
  *    binaryType           - 'blob' (default) or 'arraybuffer'
  *    autoReconnect        - reopen a socket that closed on its own
  *                           (default: true); false, or { retries, delay }

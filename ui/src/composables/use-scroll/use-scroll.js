@@ -37,7 +37,7 @@ import { listenOpts, noop } from '../../utils/event/event.js'
  *    axis         - 'vertical' (default), 'horizontal' or 'both'
  *    debounce     - ms between two reports; omit it for at most one report
  *                   per animation frame, 0 for one on every scroll event
- *    disabled     - pause listening
+ *    disabled     - pause listening (default: false)
  *    onScroll     - called with the scroll details on every change
  */
 

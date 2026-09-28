@@ -21,8 +21,10 @@ import { noop } from '../../utils/event/event.js'
  *    lazy                    - do not create the worker on mount (or
  *                              right away, outside of a component); the
  *                              first postWorkerMessage() does it
+ *                              (default: false)
  *    type, name, credentials - the native Worker options, for a URL
- *                              source (type defaults to 'module')
+ *                              source (default: type 'module', the
+ *                              browser's own for the others)
  *    onMessage(data, evt)    - called with each message from the worker
  *    onError(evt)            - called with the 'error' / 'messageerror'
  *                              events of the worker

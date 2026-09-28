@@ -21,10 +21,12 @@ import { noop } from '../../utils/event/event.js'
  *           open stream reconnects to the new URL when it changes
  * options - plain object (all optional):
  *    lazy                 - do not open the stream on mount; openSource()
- *                           does it
+ *                           does it (default: false)
  *    withCredentials      - send cookies/auth on a cross-origin URL
+ *                           (default: false)
  *    events               - Array of named event types to listen to on
- *                           top of the unnamed ("message") ones
+ *                           top of the unnamed ("message") ones (default:
+ *                           none)
  *    autoReconnect        - reopen a stream the browser gave up on (a
  *                           non-200 response, a wrong content type, a
  *                           refused connection); the browser retries
