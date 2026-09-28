@@ -1,6 +1,6 @@
 <template>
   <div class="q-pa-md">
-    <div class="q-gutter-sm q-mb-md">
+    <div class="q-mb-md">
       <q-toggle v-model="listening" label="Listen to keydown on the document" />
     </div>
 

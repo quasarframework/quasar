@@ -8,6 +8,11 @@
 
     &--side
       color: color-mix(in srgb, currentColor 54%, transparent)
+      // Chrome re-resolves the currentColor inside color-mix() only on
+      // elements with an explicit transition declaration; without one
+      // the mix keeps the previous inherited color after a dark-mode
+      // toggle or an active-state change (text goes white on light)
+      transition: none
       align-items: flex-start
       padding-right: 16px
       width: auto
@@ -45,12 +50,15 @@
 
     &--overline
       color: color-mix(in srgb, currentColor 70%, transparent)
+      transition: none // Chrome stale currentColor, see __section--side
 
     &--caption
       color: color-mix(in srgb, currentColor 54%, transparent)
+      transition: none // Chrome stale currentColor, see __section--side
 
     &--header
       color: color-mix(in srgb, currentColor 54%, transparent)
+      transition: none // Chrome stale currentColor, see __section--side
       padding: 16px
       font-size: $item-label-header-font-size
       line-height: $item-label-header-line-height
