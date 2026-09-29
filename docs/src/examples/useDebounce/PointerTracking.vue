@@ -9,7 +9,7 @@
       Move the pointer here
     </div>
 
-    <div class="q-mt-md">
+    <div class="q-mt-md row justify-end">
       <q-badge color="grey-7" :label="`events: ${events}`" />
     </div>
 
@@ -69,11 +69,11 @@ function createTracker(label, description, options) {
 
 const trackers = [
   createTracker(
-    '(default)',
+    '(default: { leading: false, trailing: true })',
     'Runs once the pointer stops for 250ms, with where it stopped.'
   ),
   createTracker(
-    'true',
+    'true ({ leading: true, trailing: false })',
     'Runs where the movement started; the moves that follow within 250ms are swallowed.',
     true
   ),

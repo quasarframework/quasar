@@ -9,7 +9,7 @@
       Move the pointer here
     </div>
 
-    <div class="q-mt-md">
+    <div class="q-mt-md row justify-end">
       <q-badge color="grey-7" :label="`events: ${events}`" />
     </div>
 

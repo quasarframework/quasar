@@ -8,14 +8,10 @@
  *              keep coming; needs `trailing` (default: none)
  */
 function parseOptions(options) {
-  if (options === true) {
-    return { leading: true, trailing: false }
-  }
-
   if (Object(options) === options) {
-    const trailing = options.trailing !== false
+    const trailing = options.trailing ?? true
     return {
-      leading: options.leading === true,
+      leading: options.leading,
       trailing,
       maxWait:
         trailing && typeof options.maxWait === 'number'
@@ -24,7 +20,9 @@ function parseOptions(options) {
     }
   }
 
-  return { leading: false, trailing: true }
+  return options
+    ? { leading: true, trailing: false }
+    : { leading: false, trailing: true }
 }
 
 // oxlint-disable-next-line default-param-last

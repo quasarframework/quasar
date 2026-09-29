@@ -8,7 +8,6 @@ beforeEach(() => {
 
 afterEach(() => {
   vi.clearAllTimers()
-  vi.restoreAllMocks()
 })
 
 describe('[throttle API]', () => {

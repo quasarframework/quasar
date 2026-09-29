@@ -403,7 +403,7 @@ window.addEventListener(
 )
 ```
 
-The debounced Function carries two methods and a flag: `cancel()` drops the waiting call, `flush()` runs it right away and `isPending` is `true` while a call is waiting (treat it as read-only). Without a trailing run (`true` or `trailing: false`), no call ever waits: `isPending` stays `false`, `flush()` does nothing and `cancel()` ends the wait period, so that the next call runs right away.
+The debounced Function carries two methods and a flag: `cancel()` drops the waiting call, `flush()` runs it right away and `isPending` is `true` while a call is waiting (treat it as read-only). Without a trailing run (`true`, or `leading` with `trailing: false`), no call ever waits: `isPending` stays `false`, `flush()` does nothing and `cancel()` ends the wait period, so that the next call runs right away. With neither edge (`{ trailing: false }` alone), `fn` never runs.
 
 ```js
 const search = debounce(query => {
@@ -452,7 +452,7 @@ Throttling enforces a maximum number of times a function can be called over time
 ```ts
 function throttle<F extends (...args: any[]) => any>(
   fn: F,
-  limit?: number,
+  limit?: number, // default: 250
   trailing?: boolean // v2.34+
 ): F & {
   cancel(): void // v2.34+
