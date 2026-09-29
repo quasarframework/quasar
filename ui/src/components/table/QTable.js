@@ -527,7 +527,7 @@ export default /*#__PURE__*/ createComponent({
         const slot = slots['body-selection']
         const content =
           slot !== void 0
-            ? slot(getBodySelectionScope({ key, row, pageIndex }))
+            ? slot(getBodyRowScope({ key, row, pageIndex }))
             : [
                 h(QCheckbox, {
                   modelValue: selected,
@@ -544,7 +544,11 @@ export default /*#__PURE__*/ createComponent({
         child.unshift(h('td', { class: 'q-table--col-auto-width' }, content))
       }
 
-      const data = { key, class: { selected } }
+      const data = {
+        key,
+        class: { selected },
+        style: props.tableRowStyleFn?.(row)
+      }
 
       if (props.onRowClick !== void 0) {
         data.class['cursor-pointer'] = true
@@ -567,18 +571,32 @@ export default /*#__PURE__*/ createComponent({
         }
       }
 
-      if (props.tableRowStyleFn !== void 0) {
-        data.style = props.tableRowStyleFn(row)
+      const rowCls = props.tableRowClassFn?.(row)
+      if (rowCls) {
+        data.class[rowCls] = true
       }
 
-      if (props.tableRowClassFn !== void 0) {
-        const cls = props.tableRowClassFn(row)
-        if (cls) {
-          data.class[cls] = true
-        }
-      }
+      const tr = h('tr', data, child)
 
-      return h('tr', data, child)
+      const bodyExpand = slots['body-expand']
+      if (bodyExpand === void 0) return tr
+
+      // the slot renders the extra row itself (a QTr with the
+      // "expandable" prop); keyed together with its data row so the
+      // pair is patched as one
+      return h(Fragment, { key }, [
+        tr,
+        ...bodyExpand(
+          getBodyRowScope({
+            key,
+            row,
+            pageIndex,
+            __trStyle: data.style,
+            __trClass:
+              (rowCls ? ` ${rowCls}` : '') + (selected ? ' selected' : '')
+          })
+        )
+      ])
     }
 
     function getTBody() {
@@ -630,7 +648,7 @@ export default /*#__PURE__*/ createComponent({
       return data
     }
 
-    function getBodySelectionScope(data) {
+    function getBodyRowScope(data) {
       injectBodyCommonScope(data)
       return data
     }

@@ -1343,6 +1343,78 @@
       }
     },
 
+    "body-expand": {
+      "desc": "Slot to define the expansion row rendered after each body row; Suggestion: QTr with the 'expandable' prop + QTd spanning all columns; the slot is called for every row, so gate the cell's content on the scope's 'expand' (a plain v-if, or a QSlideTransition around it to animate); toggle the expansion from a 'body-cell-[name]' slot; ignored when the 'body' slot is used",
+      "addedIn": "v2.34",
+      "scope": {
+        "key": {
+          "type": "Any",
+          "desc": "Row's key"
+        },
+        "row": {
+          "type": "Object",
+          "desc": "Row object"
+        },
+        "rowIndex": {
+          "type": "Number",
+          "desc": "Row's index (0 based) in the filtered and sorted table"
+        },
+        "pageIndex": {
+          "type": "Number",
+          "desc": "Row's index (0 based) in the current page of the filtered and sorted table"
+        },
+        "cols": {
+          "type": "Object",
+          "desc": "Column definitions"
+        },
+        "colsMap": {
+          "type": "Object",
+          "desc": "Column mapping (key is column name, value is column object)"
+        },
+        "sort": {
+          "type": "Function",
+          "desc": "Trigger a table sort",
+          "params": {
+            "col": {
+              "type": ["String", "Object"],
+              "required": true,
+              "desc": "Column name or column definition object",
+              "examples": ["'calories'"]
+            }
+          },
+          "returns": null
+        },
+        "selected": {
+          "type": "Boolean",
+          "desc": "(Only if using selection) Is row selected? Can directly be assigned new Boolean value which changes selection state",
+          "reactive": true
+        },
+        "expand": {
+          "type": "Boolean",
+          "desc": "Is row expanded? Can directly be assigned new Boolean value which changes expanded state",
+          "reactive": true
+        },
+        "__trClass": {
+          "type": "String",
+          "desc": "Internal prop passed down to QTr (if used)"
+        },
+        "__trStyle": {
+          "type": "String",
+          "required": false,
+          "desc": "Internal prop passed down to QTr (if used)"
+        },
+        "color": {
+          "extends": "color"
+        },
+        "dark": {
+          "extends": "dark"
+        },
+        "dense": {
+          "extends": "dense"
+        }
+      }
+    },
+
     "header-selection": {
       "desc": "Slot to define how header selection column looks like (available only for multiple selection mode); Suggestion: QCheckbox",
       "scope": {

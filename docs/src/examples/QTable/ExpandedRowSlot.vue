@@ -8,37 +8,27 @@
       :columns="columns"
       row-key="name"
     >
-      <template #header="props">
-        <q-tr :props="props">
-          <q-th auto-width />
-          <q-th v-for="col in props.cols" :key="col.name" :props="props">
-            {{ col.label }}
-          </q-th>
-        </q-tr>
+      <template #body-cell-expand="props">
+        <q-td :props="props" auto-width>
+          <q-btn
+            size="sm"
+            color="accent"
+            round
+            dense
+            :icon="props.expand ? 'remove' : 'add'"
+            :aria-expanded="props.expand"
+            @click="props.expand = !props.expand"
+          />
+        </q-td>
       </template>
 
-      <template #body="props">
-        <q-tr :props="props">
-          <q-td auto-width>
-            <q-btn
-              size="sm"
-              color="accent"
-              round
-              dense
-              @click="props.expand = !props.expand"
-              :icon="props.expand ? 'remove' : 'add'"
-            />
-          </q-td>
-          <q-td v-for="col in props.cols" :key="col.name" :props="props">
-            {{ col.value }}
-          </q-td>
-        </q-tr>
+      <template #body-expand="props">
         <q-tr expandable :props="props">
           <q-td colspan="100%">
             <q-slide-transition>
-              <div v-show="props.expand">
+              <div v-if="props.expand">
                 <div class="q-py-sm text-left">
-                  This is expand slot for row above: {{ props.row.name }}.
+                  This is the expansion of: {{ props.row.name }}.
                 </div>
               </div>
             </q-slide-transition>
@@ -51,6 +41,7 @@
 
 <script setup>
 const columns = [
+  { name: 'expand', label: '', field: () => '' },
   // #region
   {
     name: 'name',

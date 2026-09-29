@@ -2452,6 +2452,78 @@ describe('[QTable API]', () => {
         expect(noData.text()).toBe('empty')
       })
     })
+
+    describe('[(slot)body-expand]', () => {
+      test('renders the content', async () => {
+        let slotScope
+        const slotContent = 'some-slot-content'
+        const wrapper = mountTable(
+          {
+            rowKey: 'id',
+            selection: 'multiple',
+            pagination: { rowsPerPage: 0 }
+          },
+          {
+            slots: {
+              'body-expand': scope => {
+                if (scope.key === getRows()[0].id) slotScope = scope
+                return h('tr', { class: 'expand-row' }, [
+                  h('td', scope.expand ? slotContent : '')
+                ])
+              }
+            }
+          }
+        )
+
+        // one extra row after each data row; the slot gates its own
+        // content on the scope's "expand"
+        const rows = wrapper.findAll('tbody tr')
+        expect(rows).toHaveLength(getRows().length * 2)
+        expect(
+          rows.every((row, i) => row.classes('expand-row') === (i % 2 === 1))
+        ).toBe(true)
+        expect(wrapper.html()).not.toContain(slotContent)
+
+        expect(slotScope).toStrictEqual({
+          ...bodyCommonScopeShape,
+          __trClass: expect.any(String),
+          __trStyle: void 0
+        })
+        expect(slotScope.expand).toBe(false)
+
+        await wrapper.setProps({ expanded: [getRows()[0].id] })
+        await flushPromises()
+
+        expect(rows[1].text()).toBe(slotContent)
+        expect(
+          wrapper.findAll('tbody tr.expand-row').map(row => row.text())
+        ).toStrictEqual([
+          slotContent,
+          ...Array.from({ length: getRows().length - 1 }, () => '')
+        ])
+        expect(slotScope.expand).toBe(true)
+      })
+
+      test('is ignored when the body slot is used', () => {
+        const slotContent = 'some-slot-content'
+        const wrapper = mountTable(
+          {
+            rowKey: 'id',
+            expanded: [getRows()[0].id],
+            pagination: { rowsPerPage: 0 }
+          },
+          {
+            slots: {
+              body: () => h('tr', [h('td', 'body-slot')]),
+              'body-expand': () => h('tr', [h('td', slotContent)])
+            }
+          }
+        )
+
+        expect(wrapper.findAll('tbody tr')).toHaveLength(getRows().length)
+        expect(wrapper.html()).not.toContain(slotContent)
+      })
+    })
   })
 
   describe('[Events]', () => {
