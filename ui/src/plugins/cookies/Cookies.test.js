@@ -22,6 +22,7 @@ quasarVuePlugin.install = app => install(app, { plugins: { Cookies } })
 const cookieNames = [
   'q-test-get',
   'q-test-get-all',
+  '__proto__',
   'q-test-set',
   'q-test-has',
   'q-test-remove',
@@ -95,6 +96,18 @@ describe('[Cookies API]', () => {
         expect(Cookies.getAll()['q-test-get-all']).toStrictEqual(
           Cookies.get('q-test-get-all')
         )
+      })
+
+      test('skips a __proto__ cookie instead of retargeting the prototype', () => {
+        mountPlugin()
+
+        Cookies.set('__proto__', { polluted: true })
+
+        const all = Cookies.getAll()
+
+        expect(Object.getPrototypeOf(all)).toBe(Object.prototype)
+        expect(all.polluted).toBeUndefined()
+        expect(Object.hasOwn(all, '__proto__')).toBe(false)
       })
     })
 

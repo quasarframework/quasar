@@ -165,7 +165,9 @@ function get(key, ssr) {
     cookie = parts.join('=')
 
     if (!key) {
-      if (!Object.hasOwn(result, name)) {
+      // a __proto__ cookie holding an object would retarget the result's
+      // prototype instead of adding a key to it; extend() skips it too
+      if (name !== '__proto__' && !Object.hasOwn(result, name)) {
         const value = read(cookie)
         if (value !== void 0) {
           result[name] = value
