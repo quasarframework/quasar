@@ -31,6 +31,24 @@ describe('[QBtnGroup API]', () => {
       })
     })
 
+    describe('[(prop)vertical]', () => {
+      test('type Boolean has effect', async () => {
+        const wrapper = mount(QBtnGroup)
+        const target = wrapper.get('.q-btn-group')
+
+        expect(target.classes()).toContain('q-btn-group--horizontal')
+        expect(target.classes()).toContain('row')
+        expect(target.classes()).not.toContain('q-btn-group--vertical')
+
+        await wrapper.setProps({ vertical: true })
+
+        expect(target.classes()).toContain('q-btn-group--vertical')
+        expect(target.classes()).toContain('column')
+        expect(target.classes()).not.toContain('q-btn-group--horizontal')
+        expect(target.classes()).not.toContain('row')
+      })
+    })
+
     describe('[(prop)outline]', () => {
       test('type Boolean has effect', async () => {
         await expectBooleanClass('outline', 'q-btn-group--outline')

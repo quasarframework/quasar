@@ -17,3 +17,16 @@ export const basic = {
       'onUpdate:modelValue': () => {}
     })
 }
+
+export const vertical = {
+  render: () =>
+    h(QBtnToggle, {
+      modelValue: 'a',
+      vertical: true,
+      options: [
+        { label: 'A', value: 'a' },
+        { label: 'B', value: 'b' }
+      ],
+      'onUpdate:modelValue': () => {}
+    })
+}

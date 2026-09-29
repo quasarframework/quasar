@@ -13,3 +13,11 @@ export const basic = {
       h(QBtn, { label: 'Two' })
     ])
 }
+
+export const vertical = {
+  render: () =>
+    h(QBtnGroup, { vertical: true }, () => [
+      h(QBtn, { label: 'One' }),
+      h(QBtn, { label: 'Two' })
+    ])
+}

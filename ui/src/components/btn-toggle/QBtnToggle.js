@@ -62,6 +62,7 @@ export default /*#__PURE__*/ createComponent({
     stretch: Boolean,
 
     spread: Boolean,
+    vertical: Boolean,
 
     clearable: Boolean,
 
@@ -176,7 +177,8 @@ export default /*#__PURE__*/ createComponent({
           rounded: props.rounded,
           stretch: props.stretch,
           glossy: props.glossy,
-          spread: props.spread
+          spread: props.spread,
+          vertical: props.vertical
         },
         getContent
       )

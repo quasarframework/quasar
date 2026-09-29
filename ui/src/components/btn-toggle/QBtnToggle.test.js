@@ -100,6 +100,15 @@ describe('[QBtnToggle API]', () => {
       })
     })
 
+    describe('[(prop)vertical]', () => {
+      test('type Boolean has effect', () => {
+        const wrapper = mountBtnToggle({ vertical: true })
+
+        expect(wrapper.classes()).toContain('q-btn-group--vertical')
+        expect(wrapper.classes()).not.toContain('q-btn-group--horizontal')
+      })
+    })
+
     describe('[(prop)outline]', () => {
       test('type Boolean has effect', () => {
         const wrapper = mountBtnToggle({ outline: true })

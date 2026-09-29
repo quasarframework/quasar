@@ -15,7 +15,7 @@ You can conveniently group [QBtn](/vue-components/button) and [QBtnDropdown](/vu
 
 ## Usage
 
-<DocExample title="Examples" file="Group" />
+<DocExample title="Various Groups" file="Group" />
 
 > [!IMPORTANT]
 > You must use same design props (flat, outline, push, ...) on both the parent QBtnGroup and the children QBtn/QBtnDropdown.
@@ -23,6 +23,10 @@ You can conveniently group [QBtn](/vue-components/button) and [QBtnDropdown](/vu
 <DocExample title="Spread horizontally" file="GroupSpread" />
 
 <DocExample title="With QBtnDropdown" file="WithDropdown" />
+
+Set the `vertical` prop to stack the buttons instead of placing them side by side. Every design (flat, outline, push, ...) and a nested split QBtnDropdown work the same way as horizontally. With `spread`, the group fills the height of its parent, so give the parent a height.
+
+<DocExample title="Vertical (v2.34+)" file="Vertical" />
 
 ## Accessibility <q-badge label="v2.25+" />
 

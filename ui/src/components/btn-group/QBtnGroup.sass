@@ -16,26 +16,60 @@
   > .q-btn-group
     box-shadow: none
 
-    &:first-child
-      > .q-btn:first-child
-        border-top-left-radius: inherit
-        border-bottom-left-radius: inherit
-    &:last-child
-      > .q-btn:last-child
-        border-top-right-radius: inherit
-        border-bottom-right-radius: inherit
-  > .q-btn-group:not(:first-child) > .q-btn:first-child:before
-    border-left: 0
-  > .q-btn-group:not(:last-child) > .q-btn:last-child:before
-    border-right: 0
-  > .q-btn-item:not(:last-child)
-    border-top-right-radius: 0
-    border-bottom-right-radius: 0
-  > .q-btn-item:not(:first-child)
-    border-top-left-radius: 0
-    border-bottom-left-radius: 0
   > .q-btn-item.q-btn--standard:before
     z-index: -1
+
+  &--horizontal
+    > .q-btn-group
+      &:first-child
+        > .q-btn:first-child
+          border-top-left-radius: inherit
+          border-bottom-left-radius: inherit
+      &:last-child
+        > .q-btn:last-child
+          border-top-right-radius: inherit
+          border-bottom-right-radius: inherit
+    > .q-btn-group:not(:first-child) > .q-btn:first-child:before
+      border-left: 0
+    > .q-btn-group:not(:last-child) > .q-btn:last-child:before
+      border-right: 0
+    > .q-btn-item:not(:last-child)
+      border-top-right-radius: 0
+      border-bottom-right-radius: 0
+    > .q-btn-item:not(:first-child)
+      border-top-left-radius: 0
+      border-bottom-left-radius: 0
+    > .q-btn-item + .q-btn-item:before
+      border-left: 0
+    > .q-btn-item:not(:last-child):before
+      border-right: 0
+
+  &--vertical
+    > .q-btn-group
+      &:first-child
+        > .q-btn:first-child
+          border-top-left-radius: inherit
+        > .q-btn:last-child
+          border-top-right-radius: inherit
+      &:last-child
+        > .q-btn:first-child
+          border-bottom-left-radius: inherit
+        > .q-btn:last-child
+          border-bottom-right-radius: inherit
+    > .q-btn-group:not(:first-child) > .q-btn:before
+      border-top: 0
+    > .q-btn-group:not(:last-child) > .q-btn:before
+      border-bottom: 0
+    > .q-btn-item:not(:last-child)
+      border-bottom-left-radius: 0
+      border-bottom-right-radius: 0
+    > .q-btn-item:not(:first-child)
+      border-top-left-radius: 0
+      border-top-right-radius: 0
+    > .q-btn-item + .q-btn-item:before
+      border-top: 0
+    > .q-btn-item:not(:last-child):before
+      border-bottom: 0
 
   &--push
     border-radius: $button-push-border-radius
@@ -62,13 +96,8 @@
   &--flat, &--outline, &--unelevated
     box-shadow: none
 
-  &--outline
-    > .q-separator
-      display: none
-    > .q-btn-item + .q-btn-item:before
-      border-left: 0
-    > .q-btn-item:not(:last-child):before
-      border-right: 0
+  &--outline > .q-separator
+    display: none
 
   &--stretch
     align-self: stretch

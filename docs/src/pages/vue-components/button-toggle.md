@@ -18,8 +18,6 @@ The QBtnToggle component is another basic element for user input, similar to QRa
 
 ## Usage
 
-### Basic
-
 <DocExample title="Basic" file="Basic" />
 
 ### Design
@@ -30,6 +28,10 @@ The QBtnToggle component is another basic element for user input, similar to QRa
 <DocExample title="Some design examples" file="Design" />
 
 <DocExample title="Spread horizontally" file="Spread" />
+
+Set the `vertical` prop to stack the options instead of placing them side by side; useful when the horizontal space is scarce. With `spread`, the options share the height of the parent, so give the parent a height.
+
+<DocExample title="Vertical (v2.34+)" file="Vertical" />
 
 ### Custom content
 

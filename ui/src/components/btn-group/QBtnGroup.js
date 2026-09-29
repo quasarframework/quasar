@@ -15,7 +15,8 @@ export default /*#__PURE__*/ createComponent({
     push: Boolean,
     stretch: Boolean,
     glossy: Boolean,
-    spread: Boolean
+    spread: Boolean,
+    vertical: Boolean
   },
 
   setup(props, { slots }) {
@@ -35,7 +36,9 @@ export default /*#__PURE__*/ createComponent({
         .join(' ')
 
       return (
-        `q-btn-group row no-wrap${cls.length !== 0 ? ' ' + cls : ''}` +
+        'q-btn-group no-wrap q-btn-group--' +
+        (props.vertical ? 'vertical column' : 'horizontal row') +
+        (cls.length !== 0 ? ' ' + cls : '') +
         (props.spread ? ' q-btn-group--spread' : ' inline')
       )
     })

@@ -6,8 +6,15 @@
   "props": {
     "spread": {
       "type": "Boolean",
-      "desc": "Spread horizontally to all available space",
+      "desc": "Spread to all available space (horizontally; or vertically when the 'vertical' prop is set)",
       "category": "content"
+    },
+
+    "vertical": {
+      "type": "Boolean",
+      "desc": "Stack the buttons vertically instead of side by side",
+      "category": "content",
+      "addedIn": "v2.34"
     },
 
     "outline": {
