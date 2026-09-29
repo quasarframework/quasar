@@ -8,6 +8,40 @@
       <q-toggle v-model="reverse" label="Reverse" class="q-mr-sm" />
       <q-toggle v-model="container" label="Container" />
 
+      <div class="scroll q-my-md" style="border: 1px solid black">
+        <q-infinite-scroll
+          @load="loadHorizontal"
+          :disable="disable"
+          :reverse="reverse"
+          :offset="250"
+          horizontal
+          v-if="active"
+        >
+          <template v-slot:loading>
+            <div class="column justify-center q-mx-md">
+              <q-spinner-dots color="primary" size="40px" />
+            </div>
+          </template>
+
+          <q-card
+            v-for="(item, index) in itemsHorizontal"
+            :key="reverse ? itemsHorizontal.length - index : index"
+            class="q-ma-sm"
+            style="width: 180px"
+            flat
+            bordered
+          >
+            <q-card-section>
+              <q-chip square color="secondary" class="shadow-1">
+                {{ reverse ? itemsHorizontal.length - index : index + 1 }}
+              </q-chip>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+              eiusmod tempor incididunt ut labore et dolore magna aliqua.
+            </q-card-section>
+          </q-card>
+        </q-infinite-scroll>
+      </div>
+
       <div ref="scrollTarget" :style="styles">
         <q-infinite-scroll
           @load="loadRef"
@@ -105,6 +139,7 @@
 <script setup>
 import { computed, ref } from 'vue'
 
+const itemsHorizontal = ref([{}, {}, {}, {}, {}])
 const itemsReverse = ref([{}, {}, {}, {}, {}])
 const itemsRef = ref([{}, {}, {}, {}, {}])
 const itemsId = ref([{}, {}, {}, {}, {}])
@@ -118,6 +153,18 @@ const styles = computed(() =>
     ? 'height: 300px; border: 1px solid black; overflow: auto;'
     : ''
 )
+
+function loadHorizontal(index, done) {
+  console.log('load horizontal called', index)
+  setTimeout(() => {
+    if (reverse.value) {
+      itemsHorizontal.value.splice(0, 0, {}, {}, {}, {}, {}, {}, {})
+    } else {
+      itemsHorizontal.value.push({}, {}, {}, {}, {}, {}, {})
+    }
+    done()
+  }, 2500)
+}
 
 function loadReverse(index, done) {
   console.log('load reverse called', index)

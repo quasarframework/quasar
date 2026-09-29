@@ -50,6 +50,33 @@ function content(height = 1000) {
   return () => h('div', { style: `height: ${height}px` })
 }
 
+// the sideways counterpart: 1000px worth of content in a row (text goes
+// inside a sized box, as a fractional text width would round the scroll
+// size up past the reachable scroll positions)
+function rowContent(width = 1000, text = void 0) {
+  return () =>
+    h('div', { style: `width: ${width}px; height: 50px; flex: none` }, text)
+}
+
+function rowLoading() {
+  return h('div', { style: 'width: 50px; flex: none' }, 'Loading')
+}
+
+// switches the mounted component's page to right-to-left; the scroll
+// target turns RTL too, so it counts its scroll position from its right
+// edge (negative values going left)
+async function withRtl(wrapper, target, fn) {
+  wrapper.vm.$q.lang.rtl = true
+  target.dir = 'rtl'
+  await nextTick()
+
+  try {
+    await fn()
+  } finally {
+    wrapper.vm.$q.lang.rtl = false
+  }
+}
+
 function mountInfiniteScroll(
   props = {},
   slots = {},
@@ -297,6 +324,111 @@ describe('[QInfiniteScroll API]', () => {
         )
       })
     })
+
+    describe('[(prop)horizontal]', () => {
+      test('type Boolean has effect', async () => {
+        const { target, wrapper } = mountInfiniteScroll(
+          { horizontal: true, offset: 550 },
+          { default: rowContent() }
+        )
+
+        expect(wrapper.classes()).toContain('q-infinite-scroll--horizontal')
+
+        // the end of the content is 900px right of the visible area
+        await notLoaded(wrapper)
+
+        // ...and 550px right of it now
+        target.scrollLeft = 350
+        await loaded(wrapper)
+      })
+
+      test('with reverse it starts at the end of the row and loads at its start', async () => {
+        const contentWidth = ref(1000)
+        const { target, wrapper } = mountInfiniteScroll(
+          { horizontal: true, reverse: true },
+          {
+            default: () => rowContent(contentWidth.value, 'Content')(),
+            loading: rowLoading
+          }
+        )
+
+        // starts scrolled to the right, with the loading slot at the left
+        expect(target.scrollLeft).toBe(target.scrollWidth - target.clientWidth)
+        expect(wrapper.text()).toBe('LoadingContent')
+        await notLoaded(wrapper)
+
+        target.scrollLeft = 100
+        await loaded(wrapper)
+
+        // the loaded batch prepends 600px worth of content
+        contentWidth.value = 1600
+        await nextTick()
+
+        const [, done] = wrapper.emitted('load')[0]
+        done()
+        await nextTick()
+        await nextTick()
+
+        // the scroll position follows the content that got pushed right
+        expect(target.scrollLeft).toBe(700)
+      })
+
+      test('loads from the left in a right-to-left language', async () => {
+        const { target, wrapper } = mountInfiniteScroll(
+          { horizontal: true, offset: 550 },
+          { default: rowContent() }
+        )
+
+        await withRtl(wrapper, target, async () => {
+          // the row starts at the right edge; its end is 900px left of
+          // the visible area
+          expect(target.scrollLeft).toBe(0)
+          await notLoaded(wrapper)
+
+          // ...and 550px left of it now
+          target.scrollLeft = -350
+          await loaded(wrapper)
+        })
+      })
+
+      test('with reverse in a right-to-left language it starts at the left and loads at the right', async () => {
+        const contentWidth = ref(1000)
+        const { target, wrapper } = mountInfiniteScroll(
+          { horizontal: true, reverse: true },
+          {
+            default: () => rowContent(contentWidth.value, 'Content')(),
+            loading: rowLoading
+          }
+        )
+
+        await withRtl(wrapper, target, async () => {
+          // the placement changed, so the app tells the component
+          wrapper.vm.updateScrollTarget()
+
+          // scrolled to the left, with the loading slot at the right
+          expect(target.scrollLeft).toBe(
+            target.clientWidth - target.scrollWidth
+          )
+          expect(wrapper.text()).toBe('LoadingContent')
+          await notLoaded(wrapper)
+
+          target.scrollLeft = -100
+          await loaded(wrapper)
+
+          // the loaded batch prepends 600px worth of content at the right
+          contentWidth.value = 1600
+          await nextTick()
+
+          const [, done] = wrapper.emitted('load')[0]
+          done()
+          await nextTick()
+          await nextTick()
+
+          // the scroll position follows the content that got pushed left
+          expect(target.scrollLeft).toBe(-700)
+        })
+      })
+    })
   })
 
   describe('[Slots]', () => {
@@ -531,6 +663,16 @@ describe('[QInfiniteScroll API]', () => {
       const { wrapper } = mountInfiniteScroll({}, { default: content(100) })
 
       expect(wrapper.element.getBoundingClientRect().height).toBe(100)
+    })
+
+    test('the sentinel takes no room sideways either', () => {
+      const { wrapper } = mountInfiniteScroll(
+        { horizontal: true },
+        { default: rowContent(300) }
+      )
+
+      // the root spans the row that overflows its scroll target
+      expect(wrapper.element.getBoundingClientRect().width).toBe(300)
     })
 
     test('does not load while an overlay scroll-locks the page', async () => {

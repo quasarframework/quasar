@@ -15,15 +15,19 @@ import {
 import InfiniteScrollLoading from './InfiniteScrollLoading.js'
 
 import useIntersection from '../../composables/use-intersection/use-intersection.js'
+import useQuasar from '../../composables/use-quasar/use-quasar.js'
 
 import { createComponent } from '../../utils/private.create/create.js'
 import debounce from '../../utils/debounce/debounce.js'
-import { height } from '../../utils/dom/dom.js'
+import { height, width } from '../../utils/dom/dom.js'
 import {
+  getHorizontalScrollPosition,
   getScrollHeight,
   getScrollTarget,
+  getScrollWidth,
   getVerticalScrollPosition,
   scrollTargetProp,
+  setHorizontalScrollPosition,
   setVerticalScrollPosition
 } from '../../utils/scroll/scroll.js'
 import {
@@ -64,12 +68,15 @@ export default /*#__PURE__*/ createComponent({
     },
 
     disable: Boolean,
-    reverse: Boolean
+    reverse: Boolean,
+    horizontal: Boolean
   },
 
   emits: ['load'],
 
   setup(props, { slots, emit }) {
+    const $q = useQuasar()
+
     const isFetching = ref(false)
     const isWorking = ref(true)
     const suppressAnchoring = ref(false)
@@ -86,9 +93,68 @@ export default /*#__PURE__*/ createComponent({
     const rootClasses = computed(
       () =>
         'q-infinite-scroll' +
+        (props.horizontal ? ' q-infinite-scroll--horizontal' : '') +
         (props.reverse ? ' q-infinite-scroll--reverse' : '') +
         (suppressAnchoring.value ? ' q-infinite-scroll--no-anchoring' : '')
     )
+
+    // the sentinel sits along the edge the loads extend, at the end of
+    // the content (the start of it in reverse mode); the edge is logical
+    // in horizontal mode, so that the sentinel follows the direction of
+    // the text (RTL flips it) without any class change
+    const sentinelClass = computed(
+      () =>
+        'q-infinite-scroll__sentinel q-infinite-scroll__sentinel--' +
+        (props.horizontal
+          ? props.reverse
+            ? 'start'
+            : 'end'
+          : props.reverse
+            ? 'top'
+            : 'bottom')
+    )
+
+    // the physical side of the visible area that loading reaches out of
+    // (an observer's rootMargin, like a client rect, knows no direction)
+    const loadingSide = computed(() => {
+      if (!props.horizontal) {
+        return props.reverse ? 'top' : 'bottom'
+      }
+
+      const start = $q.lang.rtl === true ? 'right' : 'left'
+      const end = $q.lang.rtl === true ? 'left' : 'right'
+
+      return props.reverse ? start : end
+    })
+
+    // scroll size, position and visible size along the loading axis; the
+    // horizontal position is read and set as a distance from the start
+    // edge, since an RTL scroller counts its scroll position from its
+    // right edge (negative values going left)
+    function getScrollSize(target) {
+      return props.horizontal ? getScrollWidth(target) : getScrollHeight(target)
+    }
+
+    function getScrollPosition(target) {
+      return props.horizontal
+        ? Math.abs(getHorizontalScrollPosition(target))
+        : getVerticalScrollPosition(target)
+    }
+
+    function setScrollPosition(target, position) {
+      if (props.horizontal) {
+        setHorizontalScrollPosition(
+          target,
+          $q.lang.rtl === true ? -position : position
+        )
+      } else {
+        setVerticalScrollPosition(target, position)
+      }
+    }
+
+    function getVisibleSize(target) {
+      return props.horizontal ? width(target) : height(target)
+    }
 
     // the scroll target is resolved before the observer first runs (both
     // happen on mount, in this order), so that it observes with the
@@ -116,13 +182,17 @@ export default /*#__PURE__*/ createComponent({
     // A sentinel marks the end of the content the loads extend, and the
     // observer reports when it comes within `offset` of the scroll
     // target's visible area (the target is the observer's root, so the
-    // margin grows its own box; the page's margin grows the viewport). No
-    // scroll listener: nothing runs while the user scrolls through the
-    // content, and no scroll position gets read, which makes the check
-    // immune to a scroll lock pinning the page (the content sits where it
-    // sat).
+    // margin grows its own box on the loading side; the page's margin
+    // grows the viewport). No scroll listener: nothing runs while the
+    // user scrolls through the content, and no scroll position gets
+    // read, which makes the check immune to a scroll lock pinning the
+    // page (the content sits where it sat).
     const { isIntersecting, refreshIntersection } = useIntersection(() => {
       const target = scrollTargetRef.value
+      const side = loadingSide.value
+      const margin = ['top', 'right', 'bottom', 'left']
+        .map(edge => (edge === side ? props.offset : 0) + 'px')
+        .join(' ')
 
       return {
         target: sentinelRef,
@@ -132,9 +202,7 @@ export default /*#__PURE__*/ createComponent({
           target !== null && target !== window && target.contains(rootRef.value)
             ? target
             : null,
-        rootMargin: props.reverse
-          ? `${props.offset}px 0px 0px 0px`
-          : `0px 0px ${props.offset}px 0px`,
+        rootMargin: margin,
         disabled: props.disable || !isWorking.value,
         onIntersect
       }
@@ -174,8 +242,7 @@ export default /*#__PURE__*/ createComponent({
             right: document.documentElement.clientWidth
           }
 
-      const rect = el.getBoundingClientRect()
-      let { top, bottom } = rect
+      let { top, bottom, left, right } = el.getBoundingClientRect()
 
       for (
         let node = el.parentElement;
@@ -187,14 +254,18 @@ export default /*#__PURE__*/ createComponent({
         const clip = node.getBoundingClientRect()
         if (clip.top > top) top = clip.top
         if (clip.bottom < bottom) bottom = clip.bottom
-        if (top > bottom) return false
+        if (clip.left > left) left = clip.left
+        if (clip.right < right) right = clip.right
+        if (top > bottom || left > right) return false
       }
 
+      const side = loadingSide.value
+
       return (
-        bottom >= rootTop - (props.reverse ? props.offset : 0) &&
-        top <= rootBottom + (props.reverse ? 0 : props.offset) &&
-        rect.right >= rootLeft &&
-        rect.left <= rootRight
+        bottom >= rootTop - (side === 'top' ? props.offset : 0) &&
+        top <= rootBottom + (side === 'bottom' ? props.offset : 0) &&
+        right >= rootLeft - (side === 'left' ? props.offset : 0) &&
+        left <= rootRight + (side === 'right' ? props.offset : 0)
       )
     }
 
@@ -249,7 +320,7 @@ export default /*#__PURE__*/ createComponent({
       isFetching.value = true
 
       // In reverse mode we compensate for the prepended content ourselves, by
-      // pushing the scroll position down by however much taller the content
+      // pushing the scroll position on by however much larger the content
       // got. The browser's CSS scroll anchoring does the very same thing, so
       // while a load is in flight we opt out of it -- otherwise both fire and
       // the list jumps by a whole batch. We only suppress it for the duration
@@ -259,20 +330,16 @@ export default /*#__PURE__*/ createComponent({
         suppressAnchoring.value = true
       }
 
-      const heightBefore = getScrollHeight(target)
+      const sizeBefore = getScrollSize(target)
 
       emit('load', index, isDone => {
         if (isWorking.value) {
           isFetching.value = false
           nextTick(() => {
             if (props.reverse) {
-              const heightAfter = getScrollHeight(target),
-                scrollPosition = getVerticalScrollPosition(target),
-                heightDifference = heightAfter - heightBefore
-
-              setVerticalScrollPosition(
+              setScrollPosition(
                 target,
-                scrollPosition + heightDifference
+                getScrollPosition(target) + getScrollSize(target) - sizeBefore
               )
             }
 
@@ -329,12 +396,12 @@ export default /*#__PURE__*/ createComponent({
         )
       }
 
-      // reverse mode starts scrolled to the bottom; from a fixed overlay
+      // reverse mode starts scrolled to the end; from a fixed overlay
       // that would scroll the page behind it instead
       if (isWorking.value && props.reverse && !inFixedSubtree) {
-        setVerticalScrollPosition(
+        setScrollPosition(
           target,
-          getScrollHeight(target) - height(target)
+          getScrollSize(target) - getVisibleSize(target)
         )
       }
     }
@@ -375,14 +442,14 @@ export default /*#__PURE__*/ createComponent({
 
     onActivated(() => {
       if (scrollPos !== false && scrollTargetRef.value !== null) {
-        setVerticalScrollPosition(scrollTargetRef.value, scrollPos)
+        setScrollPosition(scrollTargetRef.value, scrollPos)
       }
     })
 
     onDeactivated(() => {
       scrollPos =
         scrollTargetRef.value !== null
-          ? getVerticalScrollPosition(scrollTargetRef.value)
+          ? getScrollPosition(scrollTargetRef.value)
           : false
     })
 
@@ -424,7 +491,7 @@ export default /*#__PURE__*/ createComponent({
       const child = hUniqueSlot(slots.default, [])
       const sentinel = h('div', {
         ref: sentinelRef,
-        class: 'q-infinite-scroll__sentinel'
+        class: sentinelClass.value
       })
 
       if (renderLoadingSlot.value) {

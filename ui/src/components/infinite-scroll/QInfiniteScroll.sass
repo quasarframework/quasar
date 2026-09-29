@@ -1,14 +1,31 @@
 .q-infinite-scroll
+  // a block only grows with its content vertically; laid out sideways,
+  // the items line up in a row and the root spans them, so that its end
+  // (and the sentinel on it) is the content's end inside a horizontal
+  // scroller
+  &--horizontal
+    display: flex
+    min-width: fit-content
+
   // a strip over the last pixel of the content it marks the end of, so
   // it takes no room of its own
   &__sentinel
-    height: 1px
-    margin-top: -1px
     pointer-events: none
+    flex: none
 
-  &--reverse &__sentinel
-    margin-top: 0
-    margin-bottom: -1px
+    &--top, &--bottom
+      height: 1px
+    &--bottom
+      margin-top: -1px
+    &--top
+      margin-bottom: -1px
+
+    &--start, &--end
+      width: 1px
+    &--end
+      margin-inline-start: -1px
+    &--start
+      margin-inline-end: -1px
 
   &--no-anchoring
     // only set while a reverse-mode load is in flight; the component compensates

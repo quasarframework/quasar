@@ -6,7 +6,7 @@
   "props": {
     "offset": {
       "type": "Number",
-      "desc": "Distance (pixels) from the end of the content (the top of it in reverse mode) to the visible area of the scroll target at which loading more content starts, in advance",
+      "desc": "Distance (pixels) from the end of the content (the start of it in reverse mode) to the visible area of the scroll target at which loading more content starts, in advance",
       "default": "500",
       "category": "behavior"
     },
@@ -33,8 +33,15 @@
 
     "reverse": {
       "type": "Boolean",
-      "desc": "Scroll area should behave like a messenger - starting scrolled to bottom and loading when reaching the top",
+      "desc": "Scroll area should behave like a messenger - starting scrolled to the end (bottom, or the inline end when horizontal) and loading when reaching the start",
       "category": "behavior"
+    },
+
+    "horizontal": {
+      "type": "Boolean",
+      "desc": "Lay the content out in a row and load more when the scroll target reaches its end sideways (the inline end, so right-to-left languages load from the left); the scroll target must scroll horizontally",
+      "category": "behavior|content",
+      "addedIn": "v2.34"
     }
   },
 

@@ -30,6 +30,10 @@ Scroll to the bottom to see QInfiniteScroll in action.
 
 <DocExample title="Reverse (Messenger style)" file="Reverse" scrollable />
 
+With the `horizontal` prop (v2.34+) the content is laid out in a row and more of it is loaded when the scroll target gets within `offset` pixels of its end sideways. The end follows the direction of the text, so a right-to-left language loads from the left. Combine it with `reverse` to load at the start of the row instead. The scroll target must be able to scroll horizontally, and if it only has the `scroll-x` class, point the `scroll-target` prop at it (see the tips below).
+
+<DocExample title="Horizontal" file="Horizontal" />
+
 ## Tips
 
 > [!NOTE]
@@ -38,6 +42,7 @@ Scroll to the bottom to see QInfiniteScroll in action.
 > Please read [here](/vue-components/scroll-observer#determining-scrolling-container) about how Quasar determines the container to attach scrolling events to.
 
 - Works best when placed as direct child of the Vue component rendering your Page
+- Quasar detects the scrolling container by its `scroll`, `scroll-y` or `overflow-auto` class; for a `horizontal` QInfiniteScroll inside a container that only has the `scroll-x` class, point the `scroll-target` prop at it
 - If you change the parent of this component, don't forget to call `updateScrollTarget()` on the QInfiniteScroll Vue reference.
 - If you need to specify the scroll target inner element (because the auto detected one is not the desired one) pass a CSS selector (as string), the DOM element or a Vue component reference (which stands for its root element) in the `scroll-target` prop
 - The `offset` is measured against the scroll target's visible area, so a scrolling container that is not detected (nor specified) as the scroll target only reveals the end of the content as it actually scrolls into view; there, loading starts as if `offset` were 0
