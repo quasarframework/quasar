@@ -61,7 +61,7 @@ export default defineConfig(ctx => ({
         return {
           build: {
             assetsDir: 'a',
-            chunkSizeWarningLimit: 600,
+            chunkSizeWarningLimit: 700,
             rolldownOptions: {
               checks: { pluginTimings: false },
               output: {
