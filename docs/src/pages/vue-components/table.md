@@ -50,6 +50,8 @@ columns: [
     label: 'Dessert (100g serving)',
 
     // row Object property to determine value for this column
+    // (optional; a column rendered entirely through its
+    // "body-cell-[name]" slot needs none)
     field: 'name',
     // OR field: row => row.some.nested.prop,
 

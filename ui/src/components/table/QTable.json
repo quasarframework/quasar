@@ -164,8 +164,7 @@
         },
         "field": {
           "type": ["String", "Function"],
-          "required": true,
-          "desc": "Row Object property to determine value for this column or function which maps to the required property",
+          "desc": "Row Object property to determine value for this column or function which maps to the required property; a column without it (for example, one rendered entirely through its 'body-cell-[name]' slot) has an empty value and is skipped when sorting or filtering",
           "params": {
             "row": {
               "type": "Object",

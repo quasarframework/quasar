@@ -41,7 +41,7 @@
 
 <script setup>
 const columns = [
-  { name: 'expand', label: '', field: () => '' },
+  { name: 'expand', label: '' },
   // #region
   {
     name: 'name',

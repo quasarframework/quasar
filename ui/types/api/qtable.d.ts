@@ -5,6 +5,6 @@ export type QTableColumn<
   Key = keyof Row extends string ? keyof Row : string,
   Field = Key | ((row: Row) => any)
 > = Omit<NonNullable<QTableProps["columns"]>[number], "field" | "format"> & {
-  field: Field;
+  field?: Field;
   format?: (val: any, row: Row) => string;
 };
