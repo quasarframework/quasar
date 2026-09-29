@@ -15,6 +15,13 @@
       "type": "Boolean",
       "desc": "Disable hover effect",
       "category": "style"
+    },
+
+    "expandable": {
+      "type": "Boolean",
+      "desc": "Marks the row as the expansion of the row above it: the row collapses to zero height while its cell has no visible content and gets a q-tr--expanded or q-tr--collapsed class from the expansion state (the collapsed row draws no cell borders); animate the cell's content with a QSlideTransition",
+      "category": "behavior",
+      "addedIn": "v2.34"
     }
   },
 

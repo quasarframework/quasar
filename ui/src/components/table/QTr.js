@@ -8,7 +8,8 @@ export default /*#__PURE__*/ createComponent({
 
   props: {
     props: Object,
-    noHover: Boolean
+    noHover: Boolean,
+    expandable: Boolean
   },
 
   setup(props, { slots }) {
@@ -19,10 +20,15 @@ export default /*#__PURE__*/ createComponent({
           style: props.props?.__trStyle,
           class:
             'q-tr' +
-            (props.props === void 0 || props.props.header
+            (props.props === void 0 ||
+            props.props.header ||
+            !props.props.__trClass
               ? ''
-              : ' ' + props.props.__trClass) +
-            (props.noHover ? ' q-tr--no-hover' : '')
+              : props.props.__trClass) +
+            (props.noHover ? ' q-tr--no-hover' : '') +
+            (props.expandable
+              ? ` q-tr--expandable q-tr--${props.props?.expand ? 'expanded' : 'collapsed'}`
+              : '')
         },
         hSlot(slots.default)
       )

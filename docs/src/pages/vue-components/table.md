@@ -280,9 +280,18 @@ However, if you want to fully customize the content, check the example below, wh
 
 <DocExample title="Internal expansion model" file="ExpandedRowInternal" />
 
-An external expansion model can also be used:
+```js External expansion model
+// <q-table v-model:expanded="expanded">
 
-<DocExample title="External expansion model" file="ExpandedRowExternal" />
+const expanded = ref([
+  // Array of row keys
+  'Ice cream sandwich'
+])
+```
+
+A table row cannot slide open by itself, so animate the content inside its cell instead: keep the extra `QTr` always rendered with the (v2.34+) `expandable` prop and wrap the content in a [QSlideTransition](/vue-components/slide-transition) toggled with `v-show`. An expandable row collapses to zero height while its cell has no visible content, and it gets a `q-tr--expanded` or `q-tr--collapsed` class from the expansion state (a collapsed row draws no cell borders, so the separators stay single lines).
+
+<DocExample title="Animated expansion" file="ExpandedRowSlide" />
 
 If you are using virtual scroll with QTable, you should know that there are 2 utility CSS classes that control VirtualScroll size calculation:
 

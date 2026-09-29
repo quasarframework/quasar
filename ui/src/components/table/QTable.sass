@@ -241,6 +241,20 @@
       height: 24px
 
 /*
+ * Expansion row (the content slides inside its cell)
+ */
+.q-table tbody
+  .q-tr--expandable
+    height: 0
+    > td
+      height: 0
+      padding-top: 0
+      padding-bottom: 0
+
+  .q-tr--collapsed > td
+    border-width: 0 !important
+
+/*
  * On light background
  */
 .q-table__bottom

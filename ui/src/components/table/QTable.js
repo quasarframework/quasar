@@ -486,25 +486,16 @@ export default /*#__PURE__*/ createComponent({
         selected = isRowSelected(key)
 
       if (bodySlot !== void 0) {
-        const cfg = {
-          key,
-          row,
-          pageIndex,
-          __trClass: selected ? 'selected' : ''
-        }
-
-        if (props.tableRowStyleFn !== void 0) {
-          cfg.__trStyle = props.tableRowStyleFn(row)
-        }
-
-        if (props.tableRowClassFn !== void 0) {
-          const cls = props.tableRowClassFn(row)
-          if (cls) {
-            cfg.__trClass = `${cls} ${cfg.__trClass}`
-          }
-        }
-
-        return bodySlot(getBodyScope(cfg))
+        const cls = props.tableRowClassFn?.(row)
+        return bodySlot(
+          getBodyScope({
+            key,
+            row,
+            pageIndex,
+            __trStyle: props.tableRowStyleFn?.(row),
+            __trClass: (cls ? ` ${cls}` : '') + (selected ? ' selected' : '')
+          })
+        )
       }
 
       const bodyCell = slots['body-cell'],

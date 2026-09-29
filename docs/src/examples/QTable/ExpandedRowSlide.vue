@@ -7,12 +7,10 @@
       :rows="rows"
       :columns="columns"
       row-key="name"
-      v-model:expanded="expanded"
     >
       <template #header="props">
         <q-tr :props="props">
           <q-th auto-width />
-
           <q-th v-for="col in props.cols" :key="col.name" :props="props">
             {{ col.label }}
           </q-th>
@@ -22,22 +20,28 @@
       <template #body="props">
         <q-tr :props="props">
           <q-td auto-width>
-            <q-toggle
-              v-model="props.expand"
-              checked-icon="add"
-              unchecked-icon="remove"
+            <q-btn
+              size="sm"
+              color="accent"
+              round
+              dense
+              @click="props.expand = !props.expand"
+              :icon="props.expand ? 'remove' : 'add'"
             />
           </q-td>
-
           <q-td v-for="col in props.cols" :key="col.name" :props="props">
             {{ col.value }}
           </q-td>
         </q-tr>
-        <q-tr v-show="props.expand" :props="props">
+        <q-tr expandable :props="props">
           <q-td colspan="100%">
-            <div class="text-left"
-              >This is expand slot for row above: {{ props.row.name }}.</div
-            >
+            <q-slide-transition>
+              <div v-show="props.expand">
+                <div class="q-py-sm text-left">
+                  This is expand slot for row above: {{ props.row.name }}.
+                </div>
+              </div>
+            </q-slide-transition>
           </q-td>
         </q-tr>
       </template>
@@ -46,8 +50,6 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
-
 const columns = [
   // #region
   {
@@ -191,9 +193,4 @@ const rows = [
   }
   // #endregion
 ]
-
-const expanded = ref([
-  // Array of row keys
-  'Ice cream sandwich'
-])
 </script>

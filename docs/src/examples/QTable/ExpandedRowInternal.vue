@@ -33,7 +33,7 @@
             {{ col.value }}
           </q-td>
         </q-tr>
-        <q-tr v-show="props.expand" :props="props">
+        <q-tr v-if="props.expand" :props="props">
           <q-td colspan="100%">
             <div class="text-left"
               >This is expand slot for row above: {{ props.row.name }}.</div

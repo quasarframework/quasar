@@ -11,7 +11,7 @@ describe('[QTr API]', () => {
           props: {
             props: {
               header: false,
-              __trClass: 'selected-row',
+              __trClass: ' selected-row',
               __trStyle: { height: '40px' }
             }
           }
@@ -29,6 +29,25 @@ describe('[QTr API]', () => {
         })
 
         expect(wrapper.classes()).toContain('q-tr--no-hover')
+      })
+    })
+
+    describe('[(prop)expandable]', () => {
+      test('type Boolean has effect', async () => {
+        const wrapper = mount(QTr)
+
+        expect(wrapper.classes()).not.toContain('q-tr--expandable')
+
+        await wrapper.setProps({ expandable: true })
+
+        expect(wrapper.classes()).toContain('q-tr--expandable')
+        expect(wrapper.classes()).toContain('q-tr--collapsed')
+        expect(wrapper.classes()).not.toContain('q-tr--expanded')
+
+        await wrapper.setProps({ props: { expand: true } })
+
+        expect(wrapper.classes()).toContain('q-tr--expanded')
+        expect(wrapper.classes()).not.toContain('q-tr--collapsed')
       })
     })
   })
