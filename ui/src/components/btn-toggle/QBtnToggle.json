@@ -23,6 +23,8 @@
       "overrides": {
         "props": {
           "align": {
+            "desc": "Label or content alignment of each option; when not set, QBtn's own default ('center') applies",
+            "__delete": ["default"],
             "addedIn": "v2.34"
           }
         }

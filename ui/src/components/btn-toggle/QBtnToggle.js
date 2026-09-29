@@ -59,10 +59,7 @@ export default /*#__PURE__*/ createComponent({
     readonly: Boolean,
     disable: Boolean,
 
-    align: {
-      ...useAlignProps.align,
-      default: 'center'
-    },
+    align: useAlignProps.align,
     stack: Boolean,
     stretch: Boolean,
 
