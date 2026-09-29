@@ -14,7 +14,10 @@ const columns = [
     align: 'left',
     field: row => row.name,
     format: val => `${val}`,
-    sortable: true
+    sortable: true,
+    classes: 'bg-grey-2 text-dark ellipsis',
+    style: 'max-width: 100px',
+    headerClasses: 'bg-primary text-white'
   },
   {
     name: 'calories',

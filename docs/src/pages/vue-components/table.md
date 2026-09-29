@@ -135,9 +135,6 @@ columns: [
 
 <DocExample title="Dense" file="Dense" />
 
-> [!TIP]
-> You can use the `dense` prop along with `$q.screen` to create a responsive behavior. Example: `:dense="$q.screen.lt.md"`. More info: [Screen Plugin](/options/screen-plugin).
-
 ## Omitting columns definition
 
 You can omit specifying the `columns`. QTable will infer the columns from the properties of the first row of the data. Note that labels are uppercased and sorting is enabled:
@@ -145,9 +142,6 @@ You can omit specifying the `columns`. QTable will infer the columns from the pr
 <DocExample title="Infering columns from data" file="InferColumns" />
 
 ## Sticky header/column
-
-> [!WARNING]
-> Sticky headers and columns are achieved through CSS with `position: sticky`. This is NOT supported on all browsers. Check [caniuse.com](https://caniuse.com/#search=sticky) before using this technique.
 
 > [!NOTE]
 > Pay attention to the code in the "style" section in the following examples, especially around `position: sticky`.
@@ -162,11 +156,9 @@ The `footer` slot (rendered as a real `<tfoot>` element) can be made sticky the 
 
 <DocExample title="Sticky first column" file="StickyColumn" />
 
-<DocExample title="Sticky last column" file="StickyLastColumn" />
-
 <DocExample title="Sticky header and column" file="StickyHeaderAndColumn" />
 
-<DocExample title="Sticky header and last column" file="StickyHeaderAndLastColumn" />
+A sticky last column is the same CSS with `:last-child` instead of `:first-child` and `right: 0` instead of `left: 0`.
 
 ## Separators
 
@@ -181,7 +173,7 @@ The `footer` slot (rendered as a real `<tfoot>` element) can be made sticky the 
 
 <DocExample title="Custom coloring" file="CustomColor" />
 
-<DocExample title="No header/footer" file="NoHeaderFooter" />
+The `hide-header` prop removes the header; the bottom layer has its own props, see "Handling bottom layer" below.
 
 ## Virtual scrolling
 
@@ -193,9 +185,15 @@ You can dynamically load new rows when scroll reaches the end:
 
 <DocExample title="Dynamic loading virtual scroll" file="VirtscrollDynamic" />
 
-You can have both virtual scroll and pagination:
+Virtual scroll and pagination combine: the virtual list holds the current page, so set the page size through the `pagination` model:
 
-<DocExample title="Virtual scroll and pagination" file="VirtscrollPagination" />
+```js
+// <q-table virtual-scroll v-model:pagination="pagination" ...>
+
+const pagination = ref({
+  rowsPerPage: 1000
+})
+```
 
 The example below shows how virtual scroll can be used along with a sticky header. Notice the `virtual-scroll-sticky-start` prop which is set to the header height.
 
@@ -224,7 +222,17 @@ There are 2 utility CSS classes that control VirtualScroll size calculation:
 
 <DocExample title="Multiple selection" file="MultipleSelection" />
 
-<DocExample title="Selection cell slots" file="SelectionSlots" />
+The selection cells are slots too, should you want something other than the checkboxes:
+
+```html
+<template #header-selection="scope">
+  <q-toggle v-model="scope.selected" />
+</template>
+
+<template #body-selection="scope">
+  <q-toggle v-model="scope.selected" />
+</template>
+```
 
 <DocExample title="Selection cell slots with range selection" file="SelectionSlotsRange" />
 
@@ -235,8 +243,6 @@ There are 2 utility CSS classes that control VirtualScroll size calculation:
 Please note that columns marked as `required` (in the column definition) cannot be toggled and are always visible.
 
 <DocExample title="Visible columns, custom top and fullscreen" file="VisibleColumns" />
-
-<DocExample title="Visible columns" file="VisibleColumns2" />
 
 ## Popup editing
 
@@ -253,14 +259,11 @@ Please note that columns marked as `required` (in the column definition) cannot 
 
 ## Grid style
 
-> [!TIP]
-> You can use the `grid` prop along with `$q.screen` to create a responsive behavior. Example: `:grid="$q.screen.lt.md"`. More info: [Screen Plugin](/options/screen-plugin).
-
 In the example below, we let QTable deal with displaying the grid mode (not using the specific slot):
 
 <DocExample title="Grid style" file="GridStyle" />
 
-<DocExample title="Grid with header" file="GridHeader" />
+The `grid-header` prop keeps the table header above the cards.
 
 <DocExample title="Colored grid style" file="GridStyleColored" />
 
@@ -327,13 +330,21 @@ Note the difference between `bottom-row` and `footer`: the former renders extra 
 > [!NOTE]
 > When `pagination` has a property named `rowsNumber`, then this means that you’ll be configuring Table for **server**-side pagination (& sorting & filtering). See _"Server side pagination, filter and sorting"_ section.
 
-Below are two examples of handling the pagination (and sorting and rows per page).
+The initial pagination (with the sorting and the rows per page) is a plain object:
 
-The first example highlights how to configure the initial pagination:
+```js
+// <q-table :pagination="initialPagination" ...>
 
-<DocExample title="Initial pagination" file="PaginationInitial" />
+const initialPagination = {
+  sortBy: 'desc',
+  descending: false,
+  page: 2,
+  rowsPerPage: 3
+  // rowsNumber: xx if getting data from a server
+}
+```
 
-The second example uses the "v-model:pagination" directive because we want to access its current value at any time. A use-case for the technique below can be to control the pagination from outside of QTable.
+Use `v-model:pagination` instead when you need its current value at any time, for example to control the pagination from outside of QTable:
 
 <DocExample title="Synchronized pagination" file="PaginationSync" />
 
@@ -366,9 +377,15 @@ Below, we use a slot which gets applied to each body cell:
 
 <DocExample title="Body-cell slot" file="SlotBodyCell" />
 
-You can also customize a particular column. The syntax for this slot is `body-cell-[name]`, where `[name]` is the column's `name` from the `columns` definition.
+You can also customize a particular column. The syntax for this slot is `body-cell-[name]`, where `[name]` is the column's `name` from the `columns` definition:
 
-<DocExample title="Body-cell-[name] slot" file="SlotBodyCellName" />
+```html
+<template #body-cell-name="props">
+  <q-td :props="props">
+    <q-badge color="purple" :label="props.value" />
+  </q-td>
+</template>
+```
 
 ## Header slots
 
@@ -380,15 +397,26 @@ Below, we use a slot which gets applied to each header cell:
 
 <DocExample title="Header-cell slot" file="SlotHeaderCell" />
 
-You can also customize a particular header cell. The syntax for this slot is `header-cell-[name]`, where `[name]` is the column's `name` from the `columns` definition.
+You can also customize a particular header cell. The syntax for this slot is `header-cell-[name]`, where `[name]` is the column's `name` from the `columns` definition:
 
-<DocExample title="Header-cell-[name] slot" file="SlotHeaderCellName" />
+```html
+<template #header-cell-calories="props">
+  <q-th :props="props">
+    <q-icon name="thumb_up" size="1.5em" />
+    {{ props.col.label }}
+  </q-th>
+</template>
+```
 
 ## No data
 
-<DocExample title="No Data Label" file="NoData" />
+The `no-data-label` prop sets the message of an empty table:
 
-There is also a "no-data" scoped slot (see below) that you can also to customize the messages for both when a filter doesn't returns any results or the table has no data to display. Also type something into the "Search" input.
+```html
+<q-table no-data-label="I didn't find anything for you" ... />
+```
+
+The `no-data` scoped slot customizes the whole area and tells whether there are no rows or a filter returned nothing. Type something into the "Search" input below:
 
 <DocExample title="No Data Slot" file="NoDataSlot" />
 
@@ -404,11 +432,13 @@ There are a few properties that you can use to hide the bottom layer or specific
 
 ## Responsive tables
 
-In order to create responsive tables, we have two tools at our disposal: `dense` and `grid` properties. We can connect these with `$q.screen`. More info: [Screen Plugin](/options/screen-plugin).
+The `dense` and `grid` props can follow `$q.screen` (see the [Screen Plugin](/options/screen-plugin)):
 
-First example below uses `$q.screen.lt.md` (for enabling dense mode) and the second examples uses `$q.screen.xs` to enable grid mode, so play with browser width to see them in action.
+```html
+<q-table :dense="$q.screen.lt.md" ... />
+```
 
-<DocExample title="Using dense prop" file="ResponsiveDense" />
+The example below switches to grid mode on `$q.screen.xs`, so play with the browser width to see it in action:
 
 <DocExample title="Using grid prop" file="ResponsiveGrid" />
 
