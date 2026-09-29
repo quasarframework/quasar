@@ -92,11 +92,16 @@ export default function usePositionEngine({
       if (stopPositionWatcher === void 0) {
         // with CSS anchor positioning the anchor() styles adapt on their
         // own and only the frozen flip/cap decision needs re-checking;
-        // the fallback engine recomputes the whole position
+        // the fallback engine recomputes the whole position; the anchor
+        // itself can change while open (a shared popup re-targeted, or
+        // a target prop that resolves right after the model turned on)
         stopPositionWatcher = watch(
-          () =>
-            `${$q.screen.width}|${$q.screen.height}|${props.self}|` +
-            `${props.anchor}|${$q.lang.rtl}`,
+          [
+            anchorEl,
+            () =>
+              `${$q.screen.width}|${$q.screen.height}|${props.self}|` +
+              `${props.anchor}|${$q.lang.rtl}`
+          ],
           () => {
             if (showing.value) engine.updatePosition()
           }

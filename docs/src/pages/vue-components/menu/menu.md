@@ -73,7 +73,7 @@ In the example below there's a few transitions showcased. For a full list of tra
 
 ### Reusable
 
-The example below shows how to create a re-usable menu that can be shared with different targets.
+The example below shows how to create a re-usable menu that can be shared with different targets. The `target` can also change while the menu is shown, in which case the menu re-anchors to the new target.
 
 <DocExample title="Using target" file="Target" />
 

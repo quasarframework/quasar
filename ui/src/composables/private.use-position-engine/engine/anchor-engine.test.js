@@ -426,6 +426,58 @@ describe('[anchorEngine API]', () => {
         expect(engine.positionStyle.value).toBe('')
       })
 
+      test('names an anchor that resolves after the show', async () => {
+        // an anchor must precede the positioned element in tree order,
+        // as a portaled popup's anchor always does
+        const anchors = [
+          createAnchor({ top: 100, left: 100, width: 100, height: 30 }),
+          createAnchor({ top: 300, left: 200, width: 100, height: 30 })
+        ]
+        const anchorEl = ref(null)
+        const target = createTarget()
+        const engine = useCssAnchorEngine(props, {
+          anchorEl,
+          innerRef: ref(target),
+          anchorOrigin: computed(() => origin('bottom left')),
+          selfOrigin: computed(() => origin('top left'))
+        })
+
+        // shown before the target prop resolved (#18559)
+        engine.handleShow()
+        expect(engine.positionStyle.value).toBe('')
+
+        anchorEl.value = anchors[0]
+
+        engine.handleTick()
+        const style = engine.positionStyle.value
+        expect(style.positionAnchor).toBe(
+          anchorEl.value.style.getPropertyValue('anchor-name')
+        )
+        expect(style.positionAnchor).toMatch(/^--q-/)
+        applyStyle(target, style)
+
+        await nextFrame()
+        const rect = target.getBoundingClientRect()
+        expect(rect.top).toBe(130)
+        expect(rect.left).toBe(100)
+
+        // a re-target while showing moves the name along
+        anchorEl.value = anchors[1]
+        engine.updatePosition()
+        expect(anchors[0].style.getPropertyValue('anchor-name')).toBe('')
+        expect(engine.positionStyle.value.positionAnchor).toBe(
+          anchorEl.value.style.getPropertyValue('anchor-name')
+        )
+        applyStyle(target, engine.positionStyle.value)
+
+        await nextFrame()
+        expect(target.getBoundingClientRect().top).toBe(330)
+        expect(target.getBoundingClientRect().left).toBe(200)
+
+        engine.releaseAnchor(false)
+        expect(anchorEl.value.style.getPropertyValue('anchor-name')).toBe('')
+      })
+
       test('positions around the anchor point instead of the box', async () => {
         const anchorEl = createAnchor({
           top: 100,

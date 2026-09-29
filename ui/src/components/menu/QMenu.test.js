@@ -1,6 +1,6 @@
 import { flushPromises, mount } from '@vue/test-utils'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
-import { KeepAlive, defineComponent, h } from 'vue'
+import { KeepAlive, createVNode, defineComponent, h } from 'vue'
 import { useRoute } from 'vue-router'
 
 import { getRouter } from 'testing/runtime/router.js'
@@ -448,6 +448,70 @@ describe('[QMenu API]', () => {
           target.remove()
         }
       })
+
+      // a compiled template updates its dynamic props in attribute order,
+      // so with v-model written before :target the model turns on while
+      // the target still resolves to false (#18559)
+      test.each([
+        ['CSS anchor positioning', false],
+        ['JS positioning fallback', true]
+      ])(
+        'anchors a target that resolves right after the model turns on (%s)',
+        async (_, forceJsFallback) => {
+          engineOverride.forceJsFallback = forceJsFallback
+
+          const target = document.createElement('div')
+          Object.assign(target.style, {
+            position: 'fixed',
+            top: '100px',
+            left: '100px',
+            width: '200px',
+            height: '30px'
+          })
+          document.body.append(target)
+
+          try {
+            activeWrapper = mount(
+              defineComponent({
+                props: { state: Object },
+                setup(componentProps) {
+                  return () =>
+                    h('div', [
+                      createVNode(
+                        QMenu,
+                        {
+                          modelValue: componentProps.state.show,
+                          target: componentProps.state.target || false
+                        },
+                        {
+                          default: () =>
+                            h('div', {
+                              style: { width: '50px', height: '20px' }
+                            })
+                        },
+                        8 /* PatchFlags.PROPS */,
+                        ['modelValue', 'target']
+                      )
+                    ])
+                }
+              }),
+              {
+                props: { state: { show: false, target: null } },
+                attachTo: document.body
+              }
+            )
+
+            await activeWrapper.setProps({ state: { show: true, target } })
+            await vi.runAllTimersAsync()
+
+            const rect = getMenuRect()
+            expect(rect.top).toBe(130)
+            expect(rect.left).toBe(100)
+          } finally {
+            target.remove()
+          }
+        }
+      )
     })
 
     describe('[(prop)no-parent-event]', () => {

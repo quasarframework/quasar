@@ -285,9 +285,27 @@ export function useCssAnchorEngine(
     return style
   })
 
+  // the anchor is named on show; a target that resolves only after the
+  // show (v-model and target updated in the same tick, target written
+  // last in the template) or that changes while the popup is open gets
+  // named on the next pass instead, so the popup never stays unanchored
+  const acquireAnchorName = () => {
+    // a rapid re-show can land while the previous hide transition
+    // still holds the name; reuse it instead of acquiring twice
+    if (namedAnchorEl === anchorEl.value) return
+
+    releaseAnchor(false)
+    namedAnchorEl = anchorEl.value
+    anchorName.value = setAnchorName(namedAnchorEl)
+  }
+
   const updatePosition = () => {
+    if (anchorEl.value === null) return
+
+    acquireAnchorName()
+
     const el = innerRef.value
-    if (el === null || anchorEl.value === null) return
+    if (el === null) return
 
     if (anchorPoint.value === null) {
       // the pass measures with the caps lifted, which clamps the scroll
@@ -351,13 +369,7 @@ export function useCssAnchorEngine(
       boundary.value = null
       positioned.value = false
 
-      // a rapid re-show can land while the previous hide transition
-      // still holds the name; reuse it instead of acquiring twice
-      if (namedAnchorEl !== anchorEl.value) {
-        releaseAnchor(false)
-        namedAnchorEl = anchorEl.value
-        anchorName.value = setAnchorName(namedAnchorEl)
-      }
+      if (anchorEl.value !== null) acquireAnchorName()
     }
   }
 }
