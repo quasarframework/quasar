@@ -8,6 +8,7 @@ import {
   useFormInject,
   useFormProps
 } from '../../composables/use-form/private.use-form.js'
+import { useAlignProps } from '../../composables/private.use-align/use-align.js'
 
 import { hMergeSlot } from '../../utils/private.render/render.js'
 import { getBtnDesignAttr } from '../btn/use-btn.js'
@@ -58,6 +59,10 @@ export default /*#__PURE__*/ createComponent({
     readonly: Boolean,
     disable: Boolean,
 
+    align: {
+      ...useAlignProps.align,
+      default: 'center'
+    },
     stack: Boolean,
     stretch: Boolean,
 
@@ -126,6 +131,7 @@ export default /*#__PURE__*/ createComponent({
             size: mergeOpt(opt, 'size'),
             padding: mergeOpt(opt, 'padding'),
             ripple: mergeOpt(opt, 'ripple'),
+            align: mergeOpt(opt, 'align'),
             stack: mergeOpt(opt, 'stack') === true,
             stretch: mergeOpt(opt, 'stretch') === true,
 

@@ -14,9 +14,13 @@
     <q-btn-toggle
       v-model="model"
       vertical
-      outline
+      push
       no-caps
-      toggle-color="primary"
+      color="white"
+      text-color="dark"
+      toggle-color="amber"
+      toggle-text-color="dark"
+      align="left"
       :options="[
         { label: 'Left', value: 'one', icon: 'format_align_left' },
         { label: 'Center', value: 'two', icon: 'format_align_center' },
@@ -31,8 +35,8 @@
       rounded
       unelevated
       style="height: 160px"
+      color="yellow-2"
       toggle-color="teal"
-      color="white"
       text-color="teal"
       :options="[
         { label: 'One', value: 'one' },

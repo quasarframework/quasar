@@ -249,6 +249,36 @@ describe('[QBtnToggle API]', () => {
       })
     })
 
+    describe('[(prop)align]', () => {
+      test('type String has effect', () => {
+        const wrapper = mountBtnToggle({ align: 'left' })
+
+        for (const btn of getButtons(wrapper)) {
+          expect(btn.get('.q-btn__content').classes()).toContain(
+            'justify-start'
+          )
+        }
+      })
+
+      test('an option can override it', () => {
+        const wrapper = mountBtnToggle({
+          align: 'left',
+          options: [
+            ...options.slice(0, -1),
+            { ...options.at(-1), align: 'right' }
+          ]
+        })
+        const buttons = getButtons(wrapper)
+
+        expect(buttons[0].get('.q-btn__content').classes()).toContain(
+          'justify-start'
+        )
+        expect(buttons.at(-1).get('.q-btn__content').classes()).toContain(
+          'justify-end'
+        )
+      })
+    })
+
     describe('[(prop)stack]', () => {
       test('type Boolean has effect', () => {
         const wrapper = mountBtnToggle({ stack: true })

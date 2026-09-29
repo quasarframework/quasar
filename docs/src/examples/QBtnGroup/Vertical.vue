@@ -1,9 +1,9 @@
 <template>
   <div class="q-pa-md row q-gutter-md items-start">
     <q-btn-group vertical>
-      <q-btn color="primary" label="First" icon="timeline" />
-      <q-btn color="primary" label="Second" icon="visibility" />
-      <q-btn color="primary" label="Third" icon="update" />
+      <q-btn color="primary" label="First" align="left" icon="timeline" />
+      <q-btn color="primary" label="Second" align="left" icon="visibility" />
+      <q-btn color="primary" label="Third" align="left" icon="update" />
     </q-btn-group>
 
     <q-btn-group vertical push>

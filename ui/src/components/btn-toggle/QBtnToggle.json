@@ -15,9 +15,17 @@
           "padding",
           "no-caps",
           "no-wrap",
+          "align",
           "stack",
           "stretch"
         ]
+      },
+      "overrides": {
+        "props": {
+          "align": {
+            "addedIn": "v2.34"
+          }
+        }
       }
     }
   ],

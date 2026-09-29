@@ -24,9 +24,9 @@ You can conveniently group [QBtn](/vue-components/button) and [QBtnDropdown](/vu
 
 <DocExample title="With QBtnDropdown" file="WithDropdown" />
 
-Set the `vertical` prop to stack the buttons instead of placing them side by side. Every design (flat, outline, push, ...) and a nested split QBtnDropdown work the same way as horizontally. With `spread`, the group fills the height of its parent, so give the parent a height.
+Set the `vertical` prop (v2.34+) to stack the buttons instead of placing them side by side. Every design (flat, outline, push, ...) and a nested split QBtnDropdown work the same way as horizontally. Stacked buttons look best with their content aligned to one side, which is what `align="left"` on each QBtn does. With `spread`, the group fills the height of its parent, so give the parent a height.
 
-<DocExample title="Vertical (v2.34+)" file="Vertical" />
+<DocExample title="Vertical" file="Vertical" />
 
 ## Accessibility <q-badge label="v2.25+" />
 

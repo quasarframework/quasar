@@ -29,9 +29,9 @@ The QBtnToggle component is another basic element for user input, similar to QRa
 
 <DocExample title="Spread horizontally" file="Spread" />
 
-Set the `vertical` prop to stack the options instead of placing them side by side; useful when the horizontal space is scarce. With `spread`, the options share the height of the parent, so give the parent a height.
+Set the `vertical` prop (v2.34+) to stack the options instead of placing them side by side; useful when the horizontal space is scarce. Stacked options look best with their content aligned to one side; use the `align` prop (v2.34+), which an option can override through its own `align` property. With `spread`, the options share the height of the parent, so give the parent a height.
 
-<DocExample title="Vertical (v2.34+)" file="Vertical" />
+<DocExample title="Vertical" file="Vertical" />
 
 ### Custom content
 
