@@ -275,31 +275,10 @@ However, if you want to fully customize the content, check the example below, wh
 
 ## Expanding rows
 
-The `body-expand` slot (v2.34+) is the simplest way: QTable keeps rendering the body rows and calls the slot after each one, so you only declare the extra row. The slot is called for every row, so gate it on the `expand` scope property. To animate it, as in the example, keep a `QTr` with the `expandable` prop always rendered (it collapses to zero height while its cell has no visible content) and wrap the cell's content in a [QSlideTransition](/vue-components/slide-transition); without animation, a `v-if` on the `QTr` itself costs nothing per row (second snippet). Toggle the expansion from a `body-cell-[name]` slot through the same `expand` property (or through the `expanded` model). The slot is ignored when you take over the whole row with the `body` slot.
+QTable holds the expansion state of each row: the scope of every body slot exposes a writable `expand` Boolean for its row, and the `expanded` model holds the keys of the expanded rows, so the state can also be read or set from outside:
 
-<DocExample title="Expansion slot" file="ExpandedRowSlot" />
-
-```html Slot with no animation
-<template #body-expand="props">
-  <q-tr v-if="props.expand" :props="props">
-    <q-td colspan="100%">
-      <div class="text-left"
-        >This is expand slot for row above: {{ props.row.name }}.</div
-      >
-    </q-td>
-  </q-tr>
-</template>
-```
-
-For a fully custom expansion, render the extra row yourself in the `body` slot:
-
-> [!IMPORTANT]
-> Add unique (distinct) `key` on QTr if you generate more than one QTr from a row in data.
-
-<DocExample title="Internal expansion model" file="ExpandedRowInternal" />
-
-```js External expansion model
-// <q-table v-model:expanded="expanded">
+```js
+// <q-table v-model:expanded="expanded" row-key="name">
 
 const expanded = ref([
   // Array of row keys
@@ -307,48 +286,35 @@ const expanded = ref([
 ])
 ```
 
-A table row cannot slide open by itself, so animate the content inside its cell instead: keep the extra `QTr` always rendered with the (v2.34+) `expandable` prop and wrap the content in a [QSlideTransition](/vue-components/slide-transition) toggled with `v-show`. An expandable row collapses to zero height while its cell has no visible content, and it gets a `q-tr--expanded` or `q-tr--collapsed` class from the expansion state (a collapsed row draws no cell borders, so the separators stay single lines).
+The `body-expand` slot (v2.34+) declares the extra row: QTable keeps rendering the body rows and calls the slot after each one with the row's scope, and the toggle can live in a `body-cell-[name]` slot. The slot is called for every row, so gate it on `expand`. To animate it, keep a `QTr` with the `expandable` prop (v2.34+) always rendered (it collapses to zero height while its cell has no visible content) and wrap the cell's content in a [QSlideTransition](/vue-components/slide-transition):
+
+<DocExample title="Expansion slot" file="ExpandedRowSlot" />
+
+Without animation, a `v-if` on the `QTr` itself is the cheapest:
 
 ```html
-<template #body="props">
-  <q-tr :props="props">
-    <q-td auto-width>
-      <q-btn
-        size="sm"
-        color="accent"
-        round
-        dense
-        @click="props.expand = !props.expand"
-        :icon="props.expand ? 'remove' : 'add'"
-      />
-    </q-td>
-    <q-td v-for="col in props.cols" :key="col.name" :props="props">
-      {{ col.value }}
-    </q-td>
-  </q-tr>
-  <q-tr expandable :props="props">
+<template #body-expand="props">
+  <q-tr v-if="props.expand" :props="props">
     <q-td colspan="100%">
-      <q-slide-transition>
-        <div v-show="props.expand">
-          <div class="q-py-sm text-left">
-            This is expand slot for row above: {{ props.row.name }}.
-          </div>
-        </div>
-      </q-slide-transition>
+      This is the expansion of: {{ props.row.name }}.
     </q-td>
   </q-tr>
 </template>
 ```
 
-If you are using virtual scroll with QTable, you should know that there are 2 utility CSS classes that control VirtualScroll size calculation:
+If you render the rows yourself through the `body` slot, render the expansion row there as well (the `body-expand` slot is ignored then), with a distinct `key` on each `QTr`:
 
-- Use `q-virtual-scroll--with-prev` class on an element rendered by the VirtualScroll to indicate that the element should be grouped with the previous one (main use case is for multiple table rows generated from the same row of data).
-- Use `q-virtual-scroll--skip` class on an element rendered by the VirtualScroll to indicate that the element's size should be ignored in size calculations.
+<DocExample title="Expansion in the body slot" file="ExpandedRowInternal" />
 
-<DocExample title="Virtual scroll with expansion model" file="VirtscrollExpandedRow" />
+With virtual scroll, the expansion row's height must be counted together with its data row's, so add the `q-virtual-scroll--with-prev` class to it (see "Virtual scrolling" above):
 
-> [!IMPORTANT]
-> An expanded row is just another `QTr` rendered for the same row of data, so the same rules from "Virtual scrolling" apply: give it its own unique `key` and the `q-virtual-scroll--with-prev` class, so its height is added to the main row when VirtualScroll calculates sizes — even while it's hidden with `v-show`.
+```html
+<template #body-expand="props">
+  <q-tr v-if="props.expand" :props="props" class="q-virtual-scroll--with-prev">
+    ...
+  </q-tr>
+</template>
+```
 
 ## Before/after slots
 
