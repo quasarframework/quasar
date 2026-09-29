@@ -1,6 +1,22 @@
 let queue = []
 let waitFlags = []
 
+let refocusing = false
+
+// Focus events fire synchronously inside focus(), so the flag is up
+// exactly while the restored element's focusin runs; QTooltip uses it to
+// tell a portal's focus return apart from keyboard navigation (the
+// browser may classify the return as :focus-visible)
+export function refocus(el) {
+  refocusing = true
+  el.focus({ preventScroll: true })
+  refocusing = false
+}
+
+export function isRefocusing() {
+  return refocusing
+}
+
 function clearFlag(flag) {
   waitFlags = waitFlags.filter(entry => entry !== flag)
 }

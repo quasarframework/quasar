@@ -13,6 +13,8 @@ import { defineComponent, h, shallowRef, withDirectives } from 'vue'
 
 import QDialog from '../../components/dialog/QDialog.js'
 import QMenu from '../../components/menu/QMenu.js'
+import QBtn from '../../components/btn/QBtn.js'
+import QTooltip from '../../components/tooltip/QTooltip.js'
 import ClosePopup from '../../directives/close-popup/ClosePopup.js'
 import usePortalRefocus from './use-portal-refocus.js'
 
@@ -62,6 +64,18 @@ async function realClick(el) {
     x: 1275,
     y: 795
   })
+}
+
+async function pressKey(key, keyCode, modifiers = 0) {
+  for (const type of ['keyDown', 'keyUp']) {
+    await cdp().send('Input.dispatchKeyEvent', {
+      type,
+      key,
+      windowsVirtualKeyCode: keyCode,
+      modifiers
+    })
+  }
+  await settle()
 }
 
 // the fake timers settle a portal's transition bookkeeping instantly,
@@ -212,6 +226,51 @@ function mountTwoDialogs() {
   }
 }
 
+function mountPopupWithTooltip(Popup, wrapped, delay) {
+  wrapper = mount(
+    defineComponent({
+      setup() {
+        const popupRef = shallowRef(null)
+        const tooltip = () =>
+          h(QTooltip, { delay, ...noTransition }, () => 'Tip')
+        const popup = () =>
+          h(Popup, { ref: popupRef, ...noTransition }, () =>
+            h('div', { class: 'popup-content', tabindex: 0 }, 'Popup content')
+          )
+
+        return () => {
+          const button = h(
+            QBtn,
+            {
+              class: 'opener',
+              label: 'Open',
+              onClick: Popup === QDialog ? () => popupRef.value.show() : void 0
+            },
+            () => [wrapped ? null : tooltip(), Popup === QMenu ? popup() : null]
+          )
+
+          return h('div', [
+            h('button', { class: 'before' }, 'Before'),
+            wrapped
+              ? h('div', { class: 'inline-block' }, [button, tooltip()])
+              : button,
+            h('button', { class: 'after' }, 'After'),
+            Popup === QDialog ? popup() : null
+          ])
+        }
+      }
+    })
+  )
+
+  return {
+    opener: wrapper.get('.opener').element,
+    before: wrapper.get('.before').element,
+    after: wrapper.get('.after').element,
+    popup: wrapper.findComponent(Popup).vm,
+    tooltip: wrapper.findComponent(QTooltip)
+  }
+}
+
 describe('[usePortalRefocus API]', () => {
   describe('[Functions]', () => {
     describe('[(function)default]', () => {
@@ -352,6 +411,102 @@ describe('[usePortalRefocus API]', () => {
 
         expect(document.activeElement).toBe(anchor)
       })
+    })
+  })
+
+  describe('[Accessibility]', () => {
+    test.each([
+      ['dialog', QDialog, false, 0],
+      ['keyboard-opened dialog', QDialog, false, 0, true],
+      ['dialog with a delayed tooltip', QDialog, false, 50],
+      ['dialog with a wrapper', QDialog, true, 0],
+      ['menu', QMenu, false, 0]
+    ])(
+      'keeps the tooltip closed when a %s restores focus after Escape',
+      async (_name, Popup, wrapped, delay, keyboard) => {
+        const { opener, before, popup, tooltip } = mountPopupWithTooltip(
+          Popup,
+          wrapped,
+          delay
+        )
+
+        if (keyboard === true) {
+          before.focus()
+          await pressKey('Tab', 9)
+          expect(document.activeElement).toBe(opener)
+          expect(document.querySelector('.q-tooltip')).not.toBeNull()
+          await pressKey('Enter', 13)
+        } else {
+          await realClick(opener)
+        }
+        await settle()
+        expect(popup.contentEl).not.toBeNull()
+        expect(document.activeElement).not.toBe(opener)
+        const showsBeforeRestore = tooltip.emitted('beforeShow')?.length || 0
+
+        await pressKey('Escape', 27)
+
+        expect(popup.contentEl).toBeNull()
+        expect(document.activeElement).toBe(opener)
+        // The browser classifies Escape-driven restoration as visible
+        // focus, even when the popup was opened with the mouse (#18556).
+        expect(opener.matches(':focus-visible')).toBe(true)
+        expect(document.querySelector('.q-tooltip')).toBeNull()
+        expect(tooltip.emitted('beforeShow')?.length || 0).toBe(
+          showsBeforeRestore
+        )
+
+        // A later deliberate keyboard focus must still show the tooltip.
+        await pressKey('Tab', 9, 8)
+        expect(document.activeElement).toBe(before)
+        await pressKey('Tab', 9)
+        expect(document.activeElement).toBe(opener)
+        expect(document.querySelector('.q-tooltip')).not.toBeNull()
+
+        // Escape dismisses just the tooltip without moving focus.
+        await pressKey('Escape', 27)
+        expect(document.querySelector('.q-tooltip')).toBeNull()
+        expect(document.activeElement).toBe(opener)
+
+        // Pointer hover remains available after the restoration too.
+        const { x, y, width, height } = opener.getBoundingClientRect()
+        await cdp().send('Input.dispatchMouseEvent', {
+          type: 'mouseMoved',
+          x: x + width / 2,
+          y: y + height / 2
+        })
+        await settle()
+        expect(document.querySelector('.q-tooltip')).not.toBeNull()
+        expect(tooltip.emitted('beforeShow')).toHaveLength(
+          showsBeforeRestore + 2
+        )
+
+        await cdp().send('Input.dispatchMouseEvent', {
+          type: 'mouseMoved',
+          x: 1275,
+          y: 795
+        })
+        await settle()
+      }
+    )
+
+    test('does not flash the anchor tooltip during a menu Tab handoff', async () => {
+      const { opener, after, popup, tooltip } = mountPopupWithTooltip(
+        QMenu,
+        false,
+        0
+      )
+      await realClick(opener)
+      await settle()
+      document.querySelector('.popup-content').focus()
+      await settle()
+
+      await pressKey('Tab', 9)
+
+      expect(popup.contentEl).toBeNull()
+      expect(document.activeElement).toBe(after)
+      expect(document.querySelector('.q-tooltip')).toBeNull()
+      expect(tooltip.emitted('beforeShow')).toBeUndefined()
     })
   })
 })

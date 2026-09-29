@@ -1,7 +1,7 @@
 import { getCurrentInstance } from 'vue'
 
 import { portalProxyList } from '../../utils/private.portal/portal.js'
-import { addFocusFn } from '../../utils/private.focus/focus-manager.js'
+import { addFocusFn, refocus } from '../../utils/private.focus/focus-manager.js'
 
 /*
  * A focus-taking portal (QMenu, QDialog) remembers the element that was
@@ -72,7 +72,7 @@ export default function usePortalRefocus(props, isTakingFocus) {
     }
 
     addFocusFn(() => {
-      if (target.isConnected) target.focus({ preventScroll: true })
+      if (target.isConnected) refocus(target)
     })
   }
 
@@ -82,7 +82,7 @@ export default function usePortalRefocus(props, isTakingFocus) {
     if (refocusTarget === null) return
 
     if (refocusTarget.isConnected) {
-      resolveTarget(evt).focus({ preventScroll: true })
+      refocus(resolveTarget(evt))
     }
 
     refocusTarget = null

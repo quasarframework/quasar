@@ -1,8 +1,10 @@
-import { afterEach, describe, expect, test, vi } from 'vitest'
+import { afterEach, describe, expect, onTestFinished, test, vi } from 'vitest'
 
 import {
   addFocusFn,
   addFocusWaitFlag,
+  isRefocusing,
+  refocus,
   removeFocusFn,
   removeFocusWaitFlag
 } from './focus-manager.js'
@@ -33,6 +35,13 @@ function createTestWaitFlag() {
   const obj = {}
   waitFlagList.push(obj)
   return obj
+}
+
+function createFocusable() {
+  const el = document.createElement('button')
+  document.body.append(el)
+  onTestFinished(() => el.remove())
+  return el
 }
 
 describe('[focusManager API]', () => {
@@ -179,6 +188,35 @@ describe('[focusManager API]', () => {
 
         removeFocusWaitFlag(obj)
         expect(fn).not.toHaveBeenCalled()
+      })
+    })
+
+    describe('[(function)refocus]', () => {
+      test('has correct return value', () => {
+        const el = createFocusable()
+
+        expect(refocus(el)).toBeUndefined()
+        expect(document.activeElement).toBe(el)
+      })
+
+      test('flags only the focusin it triggers', () => {
+        const el = createFocusable()
+        const observed = []
+        el.addEventListener('focusin', () => {
+          observed.push(isRefocusing())
+        })
+
+        refocus(el)
+        el.blur()
+        el.focus()
+
+        expect(observed).toStrictEqual([true, false])
+      })
+    })
+
+    describe('[(function)isRefocusing]', () => {
+      test('has correct return value', () => {
+        expect(isRefocusing()).toBe(false)
       })
     })
   })
