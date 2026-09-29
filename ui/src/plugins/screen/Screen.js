@@ -171,6 +171,8 @@ export default /*#__PURE__*/ createReactivePlugin(
 
         this.setDebounce = delay => {
           if (updateEvt !== void 0) {
+            // a resize caught by the outgoing listener still gets through
+            updateEvt.flush?.()
             target.removeEventListener('resize', updateEvt, passive)
           }
 

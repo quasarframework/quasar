@@ -545,6 +545,37 @@ describe('[Screen API]', () => {
           await viewportChange
         }
       })
+
+      test('applies a resize caught by the outgoing listener', async () => {
+        mountPlugin()
+        Screen.setDebounce(1000)
+
+        let viewportChange
+        try {
+          const resizeEvt = new Promise(resolve => {
+            window.visualViewport.addEventListener('resize', resolve, {
+              once: true
+            })
+          })
+
+          vi.useFakeTimers()
+
+          viewportChange = page.viewport(100, defaultViewport.height)
+          await resizeEvt
+          expect(Screen.width).not.toBe(100)
+
+          Screen.setDebounce(16)
+          expect(Screen.width).toBe(100)
+
+          // the outgoing listener's wait does not fire a second update
+          vi.advanceTimersByTime(1000)
+          expect(vi.getTimerCount()).toBe(0)
+        } finally {
+          vi.useRealTimers()
+          Screen.setDebounce(16) // restore the plugin's default
+          await viewportChange
+        }
+      })
     })
   })
 })
