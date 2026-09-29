@@ -36,13 +36,20 @@ export function noop(): void;
 
 export function copyToClipboard(text: string): Promise<void>;
 
+export interface DebounceOptions {
+  leading?: boolean;
+  trailing?: boolean;
+  maxWait?: number;
+}
+
 export function debounce<F extends (...args: any[]) => any>(
   fn: F,
   wait?: number,
-  immediate?: boolean
+  options?: boolean | DebounceOptions
 ): ((this: ThisParameterType<F>, ...args: Parameters<F>) => void) & {
   cancel(): void;
   flush(): void;
+  readonly isPending: boolean;
 };
 
 export function frameDebounce<F extends (...args: any[]) => any>(

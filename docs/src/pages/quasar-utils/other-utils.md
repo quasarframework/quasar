@@ -362,15 +362,33 @@ Debouncing enforces that a function not be called again until a certain amount o
 ```ts
 function debounce<F extends (...args: any[]) => any>(
   fn: F,
-  wait?: number,
-  immediate?: boolean
+  wait?: number, // default: 250
+  options?:
+    // default: false
+    // true is equivalent to { leading: true, trailing: false }
+    | boolean
+    // v2.34+
+    | {
+        leading?: boolean // default: false
+        trailing?: boolean // default: true
+        maxWait?: number // default: none
+      }
 ): ((this: ThisParameterType<F>, ...args: Parameters<F>) => void) & {
   cancel(): void
-  flush(): void
+  flush(): void // v2.34+
+  readonly isPending: boolean // v2.34+
 }
 ```
 
-When `immediate` is `true`, the wait period starts before the callback runs, so calls made from within that callback are debounced too.
+By default the debounced Function runs `fn` on the trailing edge: once the calls stop for `wait` milliseconds, with the last call's arguments. The `options` parameter (an object as of v2.34) tunes that:
+
+- `leading` runs `fn` on the first call of a burst too, with that call's arguments. The trailing run then happens only if calls were made after the leading one.
+- `trailing` set to `false` drops the trailing run.
+- `maxWait` runs `fn` at least once every `maxWait` milliseconds while the calls keep coming (with the latest arguments), so a burst that never stops still gets through. It needs the trailing run. A `maxWait` run ends the wait period: the next call starts a burst of its own.
+
+Passing `true` instead of an object is shorthand for `{ leading: true, trailing: false }`: `fn` runs on the first call only and the calls made during the following `wait` milliseconds are swallowed (each of them restarts the wait). Note that `{ leading: true }` alone keeps the trailing run.
+
+The wait period starts before `fn` runs, so calls made from within `fn` are debounced too.
 
 A quick example: you have a resize listener on the window which does some element dimension calculations and (possibly) repositions a few elements. That isn't a heavy task in itself but being repeatedly fired after numerous resizes will really slow your App down. So why not limit the rate at which the function can fire?
 
@@ -385,7 +403,7 @@ window.addEventListener(
 )
 ```
 
-The debounced Function carries two methods: `cancel()` drops the waiting call and `flush()` runs it right away. With `immediate`, no call ever waits: `flush()` does nothing and `cancel()` ends the wait period, so that the next call runs right away.
+The debounced Function carries two methods and a flag: `cancel()` drops the waiting call, `flush()` runs it right away and `isPending` is `true` while a call is waiting (treat it as read-only). Without a trailing run (`true` or `trailing: false`), no call ever waits: `isPending` stays `false`, `flush()` does nothing and `cancel()` ends the wait period, so that the next call runs right away.
 
 ```js
 const search = debounce(query => {
@@ -394,12 +412,17 @@ const search = debounce(query => {
 
 search('qua')
 search('quasar')
+search.isPending // v2.34+; true
 search.flush() // v2.34+; runs right away with 'quasar'
 search.cancel() // nothing waiting anymore, no-op
+
+// saves at most 300ms after the last edit
+// and at least once every 5s while editing
+const saveDraft = debounce(save, 300, { maxWait: 5000 })
 ```
 
 > [!TIP]
-> Inside a component, prefer the [useDebounce](/vue-composables/use-debounce) composable: the same debounced Function, with the waiting call dropped when the component gets destroyed and a reactive `isDebouncePending` Ref.
+> Inside a component, prefer the [useDebounce](/vue-composables/use-debounce) composable: the same debounced Function, with the waiting call dropped when the component gets destroyed and a reactive `isPending`.
 
 There's also a `frameDebounce` available which delays calling your function until next browser frame is scheduled to run (read about `requestAnimationFrame`). It carries `cancel()` only: the next frame is never more than a few milliseconds away, so there is nothing to flush.
 
@@ -432,8 +455,8 @@ function throttle<F extends (...args: any[]) => any>(
   limit?: number,
   trailing?: boolean // v2.34+
 ): F & {
-  cancel(): void
-  flush(): void
+  cancel(): void // v2.34+
+  flush(): void // v2.34+
 }
 
 import { throttle } from 'quasar'

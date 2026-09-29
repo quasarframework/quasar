@@ -10,12 +10,12 @@ related:
   - /quasar-utils/other-utils
 ---
 
-The `useDebounce()` composable is the [debounce](/quasar-utils/other-utils#debounce) util made aware of your component: it returns the same kind of debounced Function, drops the waiting call when the component gets destroyed or deactivated (keep-alive related), ignores the calls made while it is in that state, and tells you through a reactive Ref whether a call is waiting.
+The `useDebounce()` composable is the [debounce](/quasar-utils/other-utils#debounce) util made aware of your component: it returns the very same debounced Function, drops the waiting call when the component gets destroyed or deactivated (keep-alive related), and makes its `isPending` reactive, so your template can use it directly.
 
 Debouncing runs your Function once, after the calls stop coming for `wait` milliseconds: typing into a search field, resizing, dragging. The last call's arguments are the ones your Function receives.
 
 > [!NOTE]
-> On the server-side of SSR or SSG modes, `debounceFn` does nothing and `isDebouncePending` stays `false`.
+> On the server-side of SSR or SSG modes, `debounceFn` does nothing and `debounceFn.isPending` stays `false`.
 
 > [!NOTE]
 > The composable is for `setup()` only. Outside of a component (a boot file, a store, a plain module) use the [debounce](/quasar-utils/other-utils#debounce) util directly: it is the same Function, and nothing there gets destroyed that could drop a waiting call for you.
@@ -29,15 +29,18 @@ Debouncing runs your Function once, after the calls stop coming for `wait` milli
 import { useDebounce } from 'quasar'
 
 setup () {
-  const {
-    debounceFn,        // call it as you would call fn
-                       //   debounceFn.cancel() drops the waiting call
-                       //   debounceFn.flush() runs the waiting call right away
-    isDebouncePending  // Ref<boolean>
-  } = useDebounce(
+  // call it as you would call fn
+  //   debounceFn.cancel() drops the waiting call
+  //   debounceFn.flush() runs the waiting call right away
+  //   debounceFn.isPending is true while a call is waiting (reactive)
+  const debounceFn = useDebounce(
     fn,
     300, // ms to wait after the last call (default: 250)
-    true // immediate: run fn on the first call instead of the last one (default: false)
+    { // options; true is shorthand for { leading: true, trailing: false }
+      leading: false, // also run fn on the first call of a burst (default: false)
+      trailing: true, // run fn once the calls stop (default: true)
+      maxWait: 2000 // run fn at least this often while the calls keep coming (default: none)
+    }
   )
 
   // ...
@@ -48,27 +51,36 @@ setup () {
 function useDebounce<F extends (...args: any[]) => any>(
   fn: F,
   wait?: number, // default: 250
-  immediate?: boolean // default: false
-): {
-  debounceFn: ((this: ThisParameterType<F>, ...args: Parameters<F>) => void) & {
-    cancel(): void
-    flush(): void
-  }
-  isDebouncePending: Ref<boolean>
+  options?:
+    // default: false
+    // true is equivalent to { leading: true, trailing: false }
+    | boolean
+    // v2.34+
+    | {
+        leading?: boolean // default: false
+        trailing?: boolean // default: true
+        maxWait?: number // default: none
+      }
+): ((this: ThisParameterType<F>, ...args: Parameters<F>) => void) & {
+  cancel(): void
+  flush(): void
+  readonly isPending: boolean // reactive
 }
 ```
 
-`debounceFn` takes the same arguments as `fn` and forwards `this` to it, so it can replace `fn` anywhere: an event handler, a watcher callback, an Options API method. Calling it while a call is already waiting replaces that call and restarts the wait. Like the util's, it carries `cancel()` (drops the waiting call) and `flush()` (runs the waiting call right away).
+The returned Function takes the same arguments as `fn` and forwards `this` to it, so it can replace `fn` anywhere: an event handler, a watcher callback, an Options API method. Calling it while a call is already waiting replaces that call and restarts the wait. Like the util's, it carries `cancel()` (drops the waiting call) and `flush()` (runs the waiting call right away).
 
-`isDebouncePending` is `true` while a call to `fn` is waiting to run. It turns `false` right before `fn` runs, when you call `debounceFn.cancel()` or `debounceFn.flush()`, and when the component gets destroyed or deactivated.
+Its `isPending` is `true` while a call to `fn` is waiting to run. It turns `false` right before `fn` runs, when you call `cancel()` or `flush()`, and when the component gets destroyed or deactivated. Unlike the util's, it is reactive: read it in your template (`v-if="search.isPending"`), in a `computed()` or in a `watch(() => search.isPending, ...)` and it gets tracked. Do not destructure it out of the Function though (`const { isPending } = search` copies the current Boolean); when you need a Ref, use `computed(() => search.isPending)`.
 
-With `immediate` set to `true`, `fn` runs on the first call instead and the calls made during the following `wait` milliseconds are swallowed (each of them restarts the wait). No call ever waits in this mode, so `isDebouncePending` stays `false` and `debounceFn.flush()` has nothing to run; `debounceFn.cancel()` ends the wait period, so that the next call runs right away.
+The `options` are the [debounce](/quasar-utils/other-utils#debounce) util's. With `leading` on, `fn` also runs on the first call of a burst, right away, so nothing waits until a second call comes. With `maxWait`, `fn` runs at least once every `maxWait` milliseconds while the calls keep coming, so `isPending` turns `false` at each of these runs too.
+
+Passing `true` (shorthand for `{ leading: true, trailing: false }`) runs `fn` on the first call only; the calls made during the following `wait` milliseconds are swallowed (each of them restarts the wait). No call ever waits in this mode, so `isPending` stays `false` and `flush()` has nothing to run; `cancel()` ends the wait period, so that the next call runs right away.
 
 ## Example
 
-<DocExample title="Pointer tracking" file="Basic" />
+<DocExample title="Pointer tracking" file="PointerTracking" />
 
-Saving a draft while the user edits, with the last edit saved for sure before leaving the page:
+Saving a draft while the user edits, at least every five seconds of continuous editing, with the last edit saved for sure before leaving the page:
 
 ```js
 import { ref, watch } from 'vue'
@@ -79,9 +91,9 @@ setup () {
   // <q-editor v-model="draft" />
   const draft = ref('')
 
-  const { debounceFn: saveDraft } = useDebounce(value => {
+  const saveDraft = useDebounce(value => {
     // send it to the server...
-  }, 1000)
+  }, 1000, { maxWait: 5000 })
 
   watch(draft, saveDraft)
 

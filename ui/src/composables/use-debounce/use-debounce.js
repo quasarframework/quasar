@@ -1,69 +1,49 @@
-import { getCurrentInstance, onBeforeUnmount, onDeactivated, ref } from 'vue'
+import { onBeforeUnmount, onDeactivated, ref } from 'vue'
 
 import debounce from '../../utils/debounce/debounce.js'
-import { vmIsDestroyed } from '../../utils/private.vm/vm.js'
 import { noop } from '../../utils/event/event.js'
 
 /*
  * Usage:
- *    const { debounceFn, isDebouncePending } = useDebounce(fn[, wait[, immediate]])
+ *    const debounceFn = useDebounce(fn[, wait[, options]])
  *
- * debounceFn         - the debounce() util applied to fn, dropping its
- *                      waiting call when the component gets destroyed or
- *                      deactivated
- * debounceFn.cancel  - drops the waiting call
- * debounceFn.flush   - runs the waiting call right away
- * isDebouncePending  - Ref<boolean>; true while a call to fn is waiting
+ * debounceFn           - the debounce() util applied to fn, dropping its
+ *                        waiting call when the component gets destroyed or
+ *                        deactivated
+ * debounceFn.cancel    - drops the waiting call
+ * debounceFn.flush     - runs the waiting call right away
+ * debounceFn.isPending - reactive (Boolean); true while a call to fn is
+ *                        waiting; computed(() => debounceFn.isPending) when
+ *                        a Ref is needed (toRef() would treat the function
+ *                        as a getter)
  *
- * wait      - ms to wait after the last call (default: 250)
- * immediate - fn runs on the first call instead of the last one; the
- *             calls made during the wait period are swallowed
- *             (default: false)
+ * wait    - ms to wait after the last call (default: 250)
+ * options - the debounce() util's: true, or { leading, trailing, maxWait }
+ *           (default: { leading: false, trailing: true })
  */
 
 function ssrDebounceFn() {}
 ssrDebounceFn.cancel = noop
 ssrDebounceFn.flush = noop
+ssrDebounceFn.isPending = false
 
 // oxlint-disable-next-line default-param-last
-export default function useDebounce(fn, wait = 250, immediate) {
-  const isDebouncePending = ref(false)
+export default function useDebounce(fn, wait = 250, options) {
+  if (__QUASAR_SSR_SERVER__) return ssrDebounceFn
 
-  if (__QUASAR_SSR_SERVER__) {
-    return { debounceFn: ssrDebounceFn, isDebouncePending }
-  }
+  const debounced = debounce(fn, wait, options)
+  const isPending = ref(false)
 
-  const vm = getCurrentInstance()
-
-  const debounced = debounce(
-    function wrapped(...args) {
-      // settled before fn runs: a call made from within fn waits anew
-      isDebouncePending.value = false
-      fn.apply(this, args)
-    },
-    wait,
-    immediate
-  )
-
-  function debounceFn(...args) {
-    if (!vmIsDestroyed(vm)) {
-      debounced.apply(this, args)
-
-      if (immediate !== true) {
-        isDebouncePending.value = true
-      }
+  // the util assigns isPending at each transition; route it through a Ref
+  Object.defineProperty(debounced, 'isPending', {
+    get: () => isPending.value,
+    set: value => {
+      isPending.value = value
     }
-  }
+  })
 
-  debounceFn.cancel = () => {
-    debounced.cancel()
-    isDebouncePending.value = false
-  }
+  onDeactivated(debounced.cancel)
+  onBeforeUnmount(debounced.cancel)
 
-  debounceFn.flush = debounced.flush
-
-  onDeactivated(debounceFn.cancel)
-  onBeforeUnmount(debounceFn.cancel)
-
-  return { debounceFn, isDebouncePending }
+  return debounced
 }

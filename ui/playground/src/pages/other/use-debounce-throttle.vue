@@ -69,21 +69,19 @@ function onSearch(value) {
 
 const trailingDebounce = useDebounce(onSearch, 500)
 const immediateDebounce = useDebounce(onSearch, 500, true)
-const debounceApi = computed(() =>
+const debounceFn = computed(() =>
   immediate.value === true ? immediateDebounce : trailingDebounce
 )
-const isDebouncePending = computed(
-  () => debounceApi.value.isDebouncePending.value
-)
+const isDebouncePending = computed(() => debounceFn.value.isPending)
 
 function onQuery(value) {
-  debounceApi.value.debounceFn(value)
+  debounceFn.value(value)
 }
 function onFlushDebounce() {
-  debounceApi.value.debounceFn.flush()
+  debounceFn.value.flush()
 }
 function onCancelDebounce() {
-  debounceApi.value.debounceFn.cancel()
+  debounceFn.value.cancel()
 }
 
 const calls = ref(0)
@@ -119,17 +117,14 @@ const DebounceChild = defineComponent({
   name: 'DebounceChild',
   setup() {
     const runs = ref(0)
-    const { debounceFn, isDebouncePending: isChildPending } = useDebounce(
-      () => {
-        runs.value++
-      },
-      3000
-    )
+    const childFn = useDebounce(() => {
+      runs.value++
+    }, 3000)
 
     return () =>
       h('div', { class: 'row q-gutter-sm items-center q-mt-sm' }, [
-        h('button', { onClick: debounceFn }, 'call (3s), then hide me'),
-        h('span', `pending: ${isChildPending.value}, runs: ${runs.value}`)
+        h('button', { onClick: childFn }, 'call (3s), then hide me'),
+        h('span', `pending: ${childFn.isPending}, runs: ${runs.value}`)
       ])
   }
 })

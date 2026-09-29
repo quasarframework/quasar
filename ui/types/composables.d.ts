@@ -1,6 +1,7 @@
 import { QDialog } from "quasar";
 import { MetaOptions } from "./meta";
 import { QRejectedEntry } from "./api/qfile";
+import { DebounceOptions } from "./utils";
 import {
   ComponentPublicInstance,
   MaybeRefOrGetter,
@@ -17,13 +18,11 @@ export function useAnimationFrame(): {
 export function useDebounce<F extends (...args: any[]) => any>(
   fn: F,
   wait?: number,
-  immediate?: boolean
-): {
-  debounceFn: ((this: ThisParameterType<F>, ...args: Parameters<F>) => void) & {
-    cancel(): void;
-    flush(): void;
-  };
-  isDebouncePending: Ref<boolean>;
+  options?: boolean | DebounceOptions
+): ((this: ThisParameterType<F>, ...args: Parameters<F>) => void) & {
+  cancel(): void;
+  flush(): void;
+  readonly isPending: boolean;
 };
 
 export type DialogDismissReason =

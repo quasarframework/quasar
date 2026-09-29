@@ -1,6 +1,6 @@
 import { enableAutoUnmount, mount } from '@vue/test-utils'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
-import { defineComponent, h } from 'vue'
+import { KeepAlive, defineComponent, h } from 'vue'
 
 import useThrottle from './use-throttle.js'
 
@@ -156,8 +156,34 @@ describe('[useThrottle API]', () => {
         wrapper.unmount()
         expect(vi.getTimerCount()).toBe(0)
 
-        throttleFn()
+        vi.runAllTimers()
         expect(fn).toHaveBeenCalledOnce()
+      })
+
+      test('drops the waiting call when the component gets deactivated', async () => {
+        const fn = vi.fn()
+        let throttleFn
+        const Child = defineComponent({
+          setup() {
+            throttleFn = useThrottle(fn, limit, true)
+            return () => h('div')
+          }
+        })
+        const wrapper = mount(
+          defineComponent({
+            props: { show: Boolean },
+            setup(props) {
+              return () => h(KeepAlive, props.show ? h(Child) : null)
+            }
+          }),
+          { props: { show: true } }
+        )
+
+        throttleFn()
+        throttleFn()
+
+        await wrapper.setProps({ show: false })
+        expect(vi.getTimerCount()).toBe(0)
 
         vi.runAllTimers()
         expect(fn).toHaveBeenCalledOnce()

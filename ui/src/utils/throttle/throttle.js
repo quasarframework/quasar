@@ -41,7 +41,7 @@ export default function throttle(fn, limit = 250, trailing) {
     if (timer === null) {
       timer = setTimeout(onTimeout, limit)
       result = fn.apply(this, args)
-    } else if (trailing === true) {
+    } else if (trailing) {
       // oxlint-disable-next-line unicorn/no-this-assignment
       lastThis = this
       lastArgs = args

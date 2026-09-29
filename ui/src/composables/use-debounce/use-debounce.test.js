@@ -1,6 +1,6 @@
 import { enableAutoUnmount, mount } from '@vue/test-utils'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
-import { defineComponent, h, isRef } from 'vue'
+import { KeepAlive, computed, defineComponent, h, nextTick, watch } from 'vue'
 
 import useDebounce from './use-debounce.js'
 
@@ -18,30 +18,29 @@ afterEach(() => {
 })
 
 function mountDebounce(...args) {
-  let api
+  let debounceFn
   const wrapper = mount(
     defineComponent({
       setup() {
-        api = useDebounce(...args)
-        return () => h('div')
+        debounceFn = useDebounce(...args)
+        return () => h('div', debounceFn.isPending ? 'pending' : 'idle')
       }
     })
   )
 
-  return { wrapper, ...api }
+  return { wrapper, debounceFn }
 }
 
 describe('[useDebounce API]', () => {
   describe('[Functions]', () => {
     describe('[(function)default]', () => {
       test('has correct return value', () => {
-        const { debounceFn, isDebouncePending } = mountDebounce(vi.fn())
+        const { debounceFn } = mountDebounce(vi.fn())
 
         expect(debounceFn).toBeTypeOf('function')
         expect(debounceFn.cancel).toBeTypeOf('function')
         expect(debounceFn.flush).toBeTypeOf('function')
-        expect(isRef(isDebouncePending)).toBe(true)
-        expect(isDebouncePending.value).toBe(false)
+        expect(debounceFn.isPending).toBe(false)
       })
 
       test('runs fn once the wait elapses after the last call', () => {
@@ -115,35 +114,59 @@ describe('[useDebounce API]', () => {
         expect(fn).toHaveBeenCalledOnce()
       })
 
-      test('isDebouncePending is true while a call to fn is waiting', () => {
+      test('isPending is true while a call to fn is waiting', () => {
         let pendingWhenRun = null
         const fn = vi.fn(() => {
-          pendingWhenRun = isDebouncePending.value
+          pendingWhenRun = debounceFn.isPending
         })
-        const { debounceFn, isDebouncePending } = mountDebounce(fn, wait)
+        const { debounceFn } = mountDebounce(fn, wait)
 
         debounceFn()
-        expect(isDebouncePending.value).toBe(true)
+        expect(debounceFn.isPending).toBe(true)
 
         vi.advanceTimersByTime(wait - 1)
-        expect(isDebouncePending.value).toBe(true)
+        expect(debounceFn.isPending).toBe(true)
 
         vi.advanceTimersByTime(1)
         expect(pendingWhenRun).toBe(false)
-        expect(isDebouncePending.value).toBe(false)
+        expect(debounceFn.isPending).toBe(false)
 
         debounceFn()
         debounceFn.cancel()
-        expect(isDebouncePending.value).toBe(false)
+        expect(debounceFn.isPending).toBe(false)
 
         debounceFn()
         debounceFn.flush()
-        expect(isDebouncePending.value).toBe(false)
+        expect(debounceFn.isPending).toBe(false)
       })
 
-      test('isDebouncePending stays true when fn calls debounceFn again', () => {
+      test('isPending is reactive: render, watch and computed track it', async () => {
+        const { wrapper, debounceFn } = mountDebounce(vi.fn(), wait)
+        const seen = []
+        watch(
+          () => debounceFn.isPending,
+          value => seen.push(value)
+        )
+        const pendingRef = computed(() => debounceFn.isPending)
+
+        expect(wrapper.text()).toBe('idle')
+        expect(pendingRef.value).toBe(false)
+
+        debounceFn()
+        await nextTick()
+        expect(wrapper.text()).toBe('pending')
+        expect(pendingRef.value).toBe(true)
+
+        vi.advanceTimersByTime(wait)
+        await nextTick()
+        expect(wrapper.text()).toBe('idle')
+        expect(pendingRef.value).toBe(false)
+        expect(seen).toEqual([true, false])
+      })
+
+      test('isPending stays true when fn calls debounceFn again', () => {
         let runs = 0
-        const { debounceFn, isDebouncePending } = mountDebounce(() => {
+        const { debounceFn } = mountDebounce(() => {
           if (runs++ < 2) {
             debounceFn()
           }
@@ -152,18 +175,18 @@ describe('[useDebounce API]', () => {
         debounceFn()
         vi.advanceTimersByTime(wait)
         expect(runs).toBe(1)
-        expect(isDebouncePending.value).toBe(true)
+        expect(debounceFn.isPending).toBe(true)
 
         vi.advanceTimersByTime(wait)
         expect(runs).toBe(2)
-        expect(isDebouncePending.value).toBe(true)
+        expect(debounceFn.isPending).toBe(true)
 
         vi.advanceTimersByTime(wait)
         expect(runs).toBe(3)
-        expect(isDebouncePending.value).toBe(false)
+        expect(debounceFn.isPending).toBe(false)
       })
 
-      test('"immediate" runs fn on the first call and swallows the rest', () => {
+      test('"true" runs fn on the first call and swallows the rest', () => {
         const fn = vi.fn()
         const { debounceFn } = mountDebounce(fn, wait, true)
         const context = { debounceFn }
@@ -186,13 +209,13 @@ describe('[useDebounce API]', () => {
         expect(fn).toHaveBeenLastCalledWith('d')
       })
 
-      test('"immediate" never has a call waiting', () => {
+      test('"true" never has a call waiting', () => {
         const fn = vi.fn()
-        const { debounceFn, isDebouncePending } = mountDebounce(fn, wait, true)
+        const { debounceFn } = mountDebounce(fn, wait, true)
 
         debounceFn()
         debounceFn()
-        expect(isDebouncePending.value).toBe(false)
+        expect(debounceFn.isPending).toBe(false)
 
         // nothing to flush, the wait period keeps running
         debounceFn.flush()
@@ -205,22 +228,101 @@ describe('[useDebounce API]', () => {
         expect(fn).toHaveBeenCalledTimes(2)
       })
 
+      test('{ leading: true } runs on both edges; a call waits only after the leading one', () => {
+        const fn = vi.fn()
+        const { debounceFn } = mountDebounce(fn, wait, { leading: true })
+
+        debounceFn('a')
+        expect(fn).toHaveBeenCalledExactlyOnceWith('a')
+        expect(debounceFn.isPending).toBe(false)
+
+        debounceFn('b')
+        expect(debounceFn.isPending).toBe(true)
+
+        vi.advanceTimersByTime(wait)
+        expect(fn).toHaveBeenCalledTimes(2)
+        expect(fn).toHaveBeenLastCalledWith('b')
+        expect(debounceFn.isPending).toBe(false)
+      })
+
+      test('{ leading: true, trailing: false } is the "true" mode', () => {
+        const fn = vi.fn()
+        const { debounceFn } = mountDebounce(fn, wait, {
+          leading: true,
+          trailing: false
+        })
+
+        debounceFn('a')
+        debounceFn('b')
+        expect(fn).toHaveBeenCalledExactlyOnceWith('a')
+        expect(debounceFn.isPending).toBe(false)
+
+        vi.runAllTimers()
+        expect(fn).toHaveBeenCalledOnce()
+      })
+
+      test('maxWait runs fn while the calls keep coming', () => {
+        const fn = vi.fn()
+        const { debounceFn } = mountDebounce(fn, wait, { maxWait: 2 * wait })
+
+        for (let i = 1; i <= 4; i++) {
+          debounceFn(i)
+          expect(debounceFn.isPending).toBe(true)
+          vi.advanceTimersByTime(wait / 2)
+        }
+
+        expect(fn).toHaveBeenCalledExactlyOnceWith(4)
+        expect(debounceFn.isPending).toBe(false)
+
+        debounceFn(5)
+        expect(debounceFn.isPending).toBe(true)
+        vi.advanceTimersByTime(wait)
+        expect(fn).toHaveBeenCalledTimes(2)
+        expect(fn).toHaveBeenLastCalledWith(5)
+        expect(debounceFn.isPending).toBe(false)
+        expect(vi.getTimerCount()).toBe(0)
+      })
+
       test('drops the waiting call when the component gets destroyed', () => {
         const fn = vi.fn()
-        const { wrapper, debounceFn, isDebouncePending } = mountDebounce(
-          fn,
-          wait
+        const { wrapper, debounceFn } = mountDebounce(fn, wait)
+
+        debounceFn()
+        expect(debounceFn.isPending).toBe(true)
+
+        wrapper.unmount()
+        expect(debounceFn.isPending).toBe(false)
+        expect(vi.getTimerCount()).toBe(0)
+
+        vi.runAllTimers()
+        expect(fn).not.toHaveBeenCalled()
+      })
+
+      test('drops the waiting call when the component gets deactivated', async () => {
+        const fn = vi.fn()
+        let debounceFn
+        const Child = defineComponent({
+          setup() {
+            debounceFn = useDebounce(fn, wait)
+            return () => h('div')
+          }
+        })
+        const wrapper = mount(
+          defineComponent({
+            props: { show: Boolean },
+            setup(props) {
+              return () => h(KeepAlive, props.show ? h(Child) : null)
+            }
+          }),
+          { props: { show: true } }
         )
 
         debounceFn()
-        expect(isDebouncePending.value).toBe(true)
+        expect(debounceFn.isPending).toBe(true)
 
-        wrapper.unmount()
-        expect(isDebouncePending.value).toBe(false)
+        await wrapper.setProps({ show: false })
+        expect(debounceFn.isPending).toBe(false)
         expect(vi.getTimerCount()).toBe(0)
-
-        debounceFn()
-        expect(isDebouncePending.value).toBe(false)
 
         vi.runAllTimers()
         expect(fn).not.toHaveBeenCalled()
@@ -229,7 +331,7 @@ describe('[useDebounce API]', () => {
       test('warns outside of a component instance', () => {
         const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
 
-        const { debounceFn } = useDebounce(vi.fn(), wait)
+        const debounceFn = useDebounce(vi.fn(), wait)
 
         // the lifecycle hooks are the Vue ones; use the debounce() util
         // outside of a component instead

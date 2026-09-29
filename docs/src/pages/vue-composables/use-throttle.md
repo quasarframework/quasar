@@ -10,7 +10,7 @@ related:
   - /quasar-utils/other-utils
 ---
 
-The `useThrottle()` composable is the [throttle](/quasar-utils/other-utils#throttle) util made aware of your component: it returns the same kind of throttled Function, drops the waiting call when the component gets destroyed or deactivated (keep-alive related) and ignores the calls made while it is in that state.
+The `useThrottle()` composable is the [throttle](/quasar-utils/other-utils#throttle) util made aware of your component: it returns the very same throttled Function and drops the waiting call when the component gets destroyed or deactivated (keep-alive related).
 
 Throttling runs your Function at most once every `limit` milliseconds while the calls keep coming: a scroll or mousemove handler that updates the UI, a progress report, a button that must not submit twice. The first call runs right away; the calls made during the following `limit` milliseconds are dropped, or, with `trailing` set to `true`, the last of them runs at the end of the window.
 
@@ -58,7 +58,7 @@ Without `trailing`, only the calls that find no window open run, so a burst of c
 
 ## Example
 
-<DocExample title="Pointer tracking" file="Basic" />
+<DocExample title="Pointer tracking" file="PointerTracking" />
 
 Protecting a button against double submissions:
 
