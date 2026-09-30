@@ -1,3 +1,6 @@
+import { createHash } from 'node:crypto'
+import { readFile } from 'node:fs/promises'
+import { join } from 'node:path'
 import { defineConfig } from '#q-app'
 
 // import shikiCssStashPlugin from './build/shiki-css-stash.js'
@@ -150,13 +153,33 @@ export default defineConfig(ctx => ({
     injectPWAMetaTags: false,
     swFilename: 'service-worker.js',
 
-    async extendPWAInjectManifestOptions() {
+    async extendPWAInjectManifestOptions({ globDirectory }) {
       return {
         // (arrays merge by concatenation, onto app-vite's defaults)
         // never in the precache: a precached agent file would be served
         // from it ahead of the worker's NetworkOnly route; the OpenSearch
         // descriptor is fetched by browsers, never by the app
         globIgnores: ['**/*.md', ...agentFiles, 'search_manifest.xml'],
+        // A deploy replaces every file in place under the same name, so a
+        // worker halfway through downloading its precache would complete
+        // it with the rest of the files from the newer build (the manifest
+        // revision is never checked against what arrives). Fetched with
+        // the file's subresource integrity hash, such a file fails the
+        // install instead; the next update check starts over from the
+        // newer worker.
+        manifestTransforms: [
+          async manifest => ({
+            manifest: await Promise.all(
+              manifest.map(async entry => {
+                const content = await readFile(join(globDirectory, entry.url))
+                const hash = createHash('sha256')
+                  .update(content)
+                  .digest('base64')
+                return { ...entry, integrity: `sha256-${hash}` }
+              })
+            )
+          })
+        ],
         additionalManifestEntries: [
           ...(await getSponsors()),
           ...(await getTeam())
