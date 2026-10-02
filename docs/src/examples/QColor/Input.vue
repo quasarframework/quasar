@@ -19,7 +19,7 @@
         filled
         v-model="secondColor"
         :rules="['anyColor']"
-        hint="With validation"
+        hint="With validation and alpha (HEXA)"
         class="my-input"
       >
         <template #append>
@@ -42,7 +42,7 @@
 import { ref } from 'vue'
 
 const color = ref('#FF00FF')
-const secondColor = ref('#027be3')
+const secondColor = ref('#027be301')
 </script>
 
 <style lang="sass" scoped>

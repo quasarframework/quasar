@@ -446,6 +446,102 @@ describe('[QColor API]', () => {
     })
   })
 
+  describe('[Generic]', () => {
+    test('preserves every alpha byte when editing HEXA and feeding back the model', async () => {
+      const wrapper = mountColor({ modelValue: '#12345600' })
+      const input = getHeaderInput(wrapper)
+
+      for (let alpha = 0; alpha < 256; alpha++) {
+        const color = '#123456' + alpha.toString(16).padStart(2, '0')
+        await input.setValue(color)
+        expect(wrapper.emitted('update:modelValue').at(-1)).toStrictEqual([
+          color
+        ])
+        await wrapper.setProps({ modelValue: color })
+        await input.trigger('blur')
+        expect(wrapper.emitted('change').at(-1)).toStrictEqual([color])
+        expect(input.element.value).toBe(color)
+      }
+    })
+
+    test('preserves every alpha byte supplied by the parent', async () => {
+      const wrapper = mountColor({ modelValue: '#123456ff' })
+      const input = getHeaderInput(wrapper)
+
+      for (let alpha = 0; alpha < 256; alpha++) {
+        const color = '#123456' + alpha.toString(16).padStart(2, '0')
+        await wrapper.setProps({ modelValue: color })
+        expect(input.element.value).toBe(color)
+        await input.trigger('blur')
+        expect(wrapper.emitted('change').at(-1)).toStrictEqual([color])
+      }
+    })
+
+    test.each([
+      ['#1234', '#11223344'],
+      ['#12345601', '#12345601'],
+      ['rgba(18,52,86,0.004)', '#12345601']
+    ])('preserves alpha in the default value %s', (defaultValue, expected) => {
+      const wrapper = mountColor({
+        modelValue: null,
+        defaultValue,
+        formatModel: 'hexa'
+      })
+      expect(getHeaderInput(wrapper).element.value).toBe(expected)
+    })
+
+    test('preserves fractional RGBA alpha on parent updates and edits', async () => {
+      const wrapper = mountColor({ modelValue: 'rgba(0,0,0,0.001)' })
+      const input = getHeaderInput(wrapper)
+      expect(input.element.value).toBe('rgba(0,0,0,0.001)')
+      await wrapper.setProps({ modelValue: 'rgba(0,0,0,0.0015)' })
+      expect(input.element.value).toBe('rgba(0,0,0,0.0015)')
+      await input.setValue('rgba(0,0,0,0.004)')
+      expect(wrapper.emitted('update:modelValue').at(-1)).toStrictEqual([
+        'rgba(0,0,0,0.004)'
+      ])
+      await wrapper.setProps({ modelValue: 'rgba(0,0,0,0.004)' })
+      await input.trigger('blur')
+      expect(wrapper.emitted('change').at(-1)).toStrictEqual([
+        'rgba(0,0,0,0.004)'
+      ])
+    })
+
+    test('retains alpha when editing RGB and accepts fractional percentages in Tune', async () => {
+      const wrapper = mountColor({
+        modelValue: '#12345601',
+        defaultView: 'tune'
+      })
+      const inputs = wrapper.findAll('.q-color-picker__tune-tab input')
+      await inputs[0].setValue('35')
+      expect(wrapper.emitted('update:modelValue').at(-1)).toStrictEqual([
+        '#23345601'
+      ])
+      await inputs[3].trigger('blur')
+      expect(wrapper.emitted('change').at(-1)).toStrictEqual(['#23345601'])
+      await inputs[3].setValue('0.4')
+      expect(wrapper.emitted('update:modelValue').at(-1)).toStrictEqual([
+        '#23345601'
+      ])
+      await inputs[3].setValue('1')
+      expect(wrapper.emitted('update:modelValue').at(-1)).toStrictEqual([
+        '#23345603'
+      ])
+    })
+
+    test('retains alpha when choosing a palette color without alpha', async () => {
+      const wrapper = mountColor({
+        modelValue: '#12345601',
+        defaultView: 'palette',
+        palette: ['#abcdef']
+      })
+      await pickFirstPaletteColor(wrapper)
+      expect(wrapper.emitted('update:modelValue').at(-1)).toStrictEqual([
+        '#abcdef01'
+      ])
+    })
+  })
+
   describe('[Events]', () => {
     describe('[(event)update:model-value]', () => {
       test('is emitting', async () => {

@@ -35,7 +35,6 @@ import throttle from '../../utils/throttle/throttle.js'
 import { between } from '../../utils/format/format.js'
 import { stop, stopAndPrevent } from '../../utils/event/event.js'
 import {
-  hexToRgb,
   hsvToRgb,
   luminosity,
   rgbToHex,
@@ -152,10 +151,30 @@ const alphaTrackImg =
   'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAAH0lEQVQoU2NkYGAwZkAFZ5G5jPRRgOYEVDeB3EBjBQBOZwTVugIGyAAAAABJRU5ErkJggg=='
 
 const numericRE = /^[0-9]+$/
+const alphaRE = /^(?:[0-9]+(?:\.[0-9]*)?|\.[0-9]+)$/
 const hexRE = /^#[0-9A-Fa-f]+$/
 const rgbRE = /^rgb\([0-9]{1,3},[0-9]{1,3},[0-9]{1,3}\)$/
 const rgbaRE =
   /^rgba\([0-9]{1,3},[0-9]{1,3},[0-9]{1,3},(0|0\.[0-9]+[1-9]|0\.[1-9]+|1)\)$/
+
+function parseColor(value) {
+  const rgb = textToRgb(value)
+
+  // Color utils round alpha to whole percentages. The picker must retain
+  // all 256 HEXA values, including when a parent feeds the model back in.
+  if (rgb.a !== void 0) {
+    const color = value.replaceAll(' ', '')
+    if (color.startsWith('#')) {
+      const alpha = color.length === 5 ? color[4].repeat(2) : color.slice(-2)
+      rgb.a = (Number.parseInt(alpha, 16) / 255) * 100
+    } else {
+      const alpha = Number.parseFloat(color.slice(color.lastIndexOf(',') + 1))
+      rgb.a = between(alpha, 0, 1) * 100
+    }
+  }
+
+  return rgb
+}
 
 export default /*#__PURE__*/ createComponent({
   name: 'QColor',
@@ -381,7 +400,10 @@ export default /*#__PURE__*/ createComponent({
       () => props.modelValue,
       v => {
         const localModel = parseModel(v || props.defaultValue)
-        if (localModel.hex !== model.value.hex) {
+        if (
+          localModel.hex !== model.value.hex ||
+          localModel.rgb !== model.value.rgb
+        ) {
           model.value = localModel
         }
       }
@@ -392,7 +414,10 @@ export default /*#__PURE__*/ createComponent({
       v => {
         if (!props.modelValue && v) {
           const localModel = parseModel(v)
-          if (localModel.hex !== model.value.hex) {
+          if (
+            localModel.hex !== model.value.hex ||
+            localModel.rgb !== model.value.rgb
+          ) {
             model.value = localModel
           }
         }
@@ -441,7 +466,7 @@ export default /*#__PURE__*/ createComponent({
         }
       }
 
-      const localModel = textToRgb(v)
+      const localModel = parseColor(v)
 
       if (alpha && localModel.a === void 0) {
         localModel.a = 100
@@ -567,12 +592,12 @@ export default /*#__PURE__*/ createComponent({
     function onNumericChange(value, formatModel, max, evt, change) {
       if (evt !== void 0) stop(evt)
 
-      if (!numericRE.test(value)) {
+      if (!(formatModel === 'a' ? alphaRE : numericRE).test(value)) {
         if (change) proxy.$forceUpdate()
         return
       }
 
-      const val = Math.floor(Number(value))
+      const val = Number(value)
 
       if (val < 0 || val > max) {
         if (change) proxy.$forceUpdate()
@@ -614,7 +639,7 @@ export default /*#__PURE__*/ createComponent({
           return true
         }
 
-        rgb = hexToRgb(inp)
+        rgb = parseColor(inp)
       } else {
         let localModel
 
@@ -1139,7 +1164,6 @@ export default /*#__PURE__*/ createComponent({
               }),
               h('input', {
                 value: model.value.a,
-                maxlength: 3,
                 readonly: !editable.value,
                 onChange: stop,
                 ...getCache('aIn', {
