@@ -20,6 +20,8 @@ The QColor component provides a method to input colors.
 
 <DocExample title="Basic" file="Basic" />
 
+HEXA input preserves all 256 alpha values, including small changes such as `#00000000` to `#00000001`. RGBA input also preserves fractional alpha. In the Tune view, the alpha text field accepts fractional percentages; alpha sliders adjust opacity in whole-percentage steps.
+
 ### With QInput
 
 <DocExample title="Input" file="Input" />

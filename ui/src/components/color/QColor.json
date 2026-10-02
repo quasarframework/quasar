@@ -29,7 +29,7 @@
 
     "format-model": {
       "type": "String",
-      "desc": "Forces a certain model format upon the model",
+      "desc": "Forces a certain model format upon the model; HEXA preserves all 256 alpha values and RGBA preserves fractional alpha",
       "default": "'auto'",
       "values": ["'auto'", "'hex'", "'rgb'", "'hexa'", "'rgba'"],
       "category": "model"
