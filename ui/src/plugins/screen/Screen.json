@@ -145,7 +145,7 @@
 
     "orientation": {
       "type": "Object",
-      "desc": "The device's screen orientation (from the Screen Orientation API), not the viewport's aspect ratio; a narrow desktop window still reports 'landscape'",
+      "desc": "The device's screen orientation (from the Screen Orientation API), not the viewport's aspect ratio; a narrow desktop window still reports 'landscape'; stays at the 'portrait-primary' default where that API is unavailable",
       "reactive": true,
       "addedIn": "v2.34",
       "definition": {

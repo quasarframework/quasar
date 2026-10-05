@@ -195,20 +195,24 @@ export default /*#__PURE__*/ createReactivePlugin(
         }
 
         const { orientation } = window.screen
-        const updateOrientation = () => {
-          const { type, angle } = orientation
-          const portrait = type.startsWith('portrait')
 
-          Object.assign(this.orientation, {
-            type,
-            angle,
-            portrait,
-            landscape: !portrait
-          })
+        // not available in Safari < 16.4 and in jsdom
+        if (orientation !== void 0) {
+          const updateOrientation = () => {
+            const { type, angle } = orientation
+            const portrait = type.startsWith('portrait')
+
+            Object.assign(this.orientation, {
+              type,
+              angle,
+              portrait,
+              landscape: !portrait
+            })
+          }
+
+          updateOrientation()
+          orientation.addEventListener('change', updateOrientation, passive)
         }
-
-        updateOrientation()
-        orientation.addEventListener('change', updateOrientation, passive)
       }
 
       if (isRuntimeSsrPreHydration.value) {

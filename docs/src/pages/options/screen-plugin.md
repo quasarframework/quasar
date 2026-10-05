@@ -63,7 +63,7 @@ import { Screen } from 'quasar'
 >
 > This is the orientation of the physical screen, so a narrow desktop window still reports `landscape`. When you want the viewport's shape instead, compare `$q.screen.width` with `$q.screen.height` or use the `(orientation: portrait)` CSS media query.
 
-On the server-side, the orientation is unknown and defaults to `portrait-primary` (mobile-first, in line with the `xs` breakpoint default); the real value lands on the client once hydration completes.
+On the server-side, the orientation is unknown and defaults to `portrait-primary` (mobile-first, in line with the `xs` breakpoint default); the real value lands on the client once hydration completes. It also stays at that default wherever the Screen Orientation API is unavailable (jsdom, for example).
 
 ## Body classes
 
