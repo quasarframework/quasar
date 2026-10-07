@@ -20,7 +20,7 @@ export function rgbToHex({ r, g, b, a }) {
   return '#' + (b | (g << 8) | (r << 16) | (1 << 24)).toString(16).slice(1) + a
 }
 
-export function rgbToString({ r, g, b, a }) {
+export function rgbToText({ r, g, b, a }) {
   // a fractional percent divided by 100 picks up float noise (0.7 -> 0.006999…)
   return `rgb${a !== void 0 ? 'a' : ''}(${r},${g},${b}${a !== void 0 ? ',' + Number((a / 100).toFixed(10)) : ''})`
 }
@@ -304,6 +304,7 @@ export default {
   hsvToRgb,
   rgbToHsv,
   textToRgb,
+  rgbToText,
   lighten,
   luminosity,
   brightness,

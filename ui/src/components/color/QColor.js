@@ -40,7 +40,7 @@ import {
   luminosity,
   rgbToHex,
   rgbToHsv,
-  rgbToString,
+  rgbToText,
   textToRgb
 } from '../../utils/colors/colors.js'
 
@@ -411,7 +411,7 @@ export default /*#__PURE__*/ createComponent({
     function updateModel(rgb, change) {
       // update internally
       model.value.hex = rgbToHex(rgb)
-      model.value.rgb = rgbToString(rgb)
+      model.value.rgb = rgbToText(rgb)
       model.value.r = rgb.r
       model.value.g = rgb.g
       model.value.b = rgb.b
@@ -457,7 +457,7 @@ export default /*#__PURE__*/ createComponent({
       }
 
       localModel.hex = rgbToHex(localModel)
-      localModel.rgb = rgbToString(localModel)
+      localModel.rgb = rgbToText(localModel)
 
       return Object.assign(localModel, rgbToHsv(localModel))
     }

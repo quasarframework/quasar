@@ -2,7 +2,7 @@
 
 import { describe, expect, test } from 'vitest'
 
-import colors, { rgbToString } from './colors.js'
+import colors from './colors.js'
 
 describe('[colors API]', () => {
   describe('[Functions]', () => {
@@ -220,7 +220,7 @@ describe('[colors API]', () => {
         ['rgba(0, 0, 0, 0.57)', 57]
       ])('textToRgb(%s) keeps the decimals of the alpha', (value, a) => {
         expect(colors.textToRgb(value).a).toBe(a)
-        expect(rgbToString(colors.textToRgb(value))).toBe(
+        expect(colors.rgbToText(colors.textToRgb(value))).toBe(
           value.replaceAll(' ', '')
         )
       })
@@ -562,7 +562,7 @@ describe('[colors API]', () => {
       })
     })
 
-    describe('[(function)rgbToString]', () => {
+    describe('[(function)rgbToText]', () => {
       test.each([
         ['black', { r: 0, g: 0, b: 0 }, 'rgb(0,0,0)'],
         ['white', { r: 255, g: 255, b: 255 }, 'rgb(255,255,255)'],
@@ -573,8 +573,8 @@ describe('[colors API]', () => {
         ['cyan', { r: 0, g: 255, b: 255 }, 'rgb(0,255,255)'],
         ['magenta', { r: 255, g: 0, b: 255 }, 'rgb(255,0,255)'],
         ['gray', { r: 128, g: 128, b: 128 }, 'rgb(128,128,128)']
-      ])('rgbToString(%s)', (_, value, expected) => {
-        expect(rgbToString(value)).toBe(expected)
+      ])('rgbToText(%s)', (_, value, expected) => {
+        expect(colors.rgbToText(value)).toBe(expected)
       })
 
       test.each([
@@ -587,8 +587,8 @@ describe('[colors API]', () => {
         ['cyan', { r: 0, g: 255, b: 255, a: 58 }, 'rgba(0,255,255,0.58)'],
         ['magenta', { r: 255, g: 0, b: 255, a: 58 }, 'rgba(255,0,255,0.58)'],
         ['gray', { r: 128, g: 128, b: 128, a: 58 }, 'rgba(128,128,128,0.58)']
-      ])('rgbToString(%s, a:58)', (_, value, expected) => {
-        expect(rgbToString(value)).toBe(expected)
+      ])('rgbToText(%s, a:58)', (_, value, expected) => {
+        expect(colors.rgbToText(value)).toBe(expected)
       })
 
       test.each([
@@ -597,9 +597,9 @@ describe('[colors API]', () => {
         [50.2, 'rgba(0,0,0,0.502)'],
         [100, 'rgba(0,0,0,1)']
       ])(
-        'rgbToString() prints a fractional alpha %s without float noise',
+        'rgbToText() prints a fractional alpha %s without float noise',
         (a, expected) => {
-          expect(rgbToString({ r: 0, g: 0, b: 0, a })).toBe(expected)
+          expect(colors.rgbToText({ r: 0, g: 0, b: 0, a })).toBe(expected)
         }
       )
     })
