@@ -62,6 +62,17 @@ describe('[colors API]', () => {
         })
       })
 
+      test('hexToRgb() keeps the precision of the alpha byte', () => {
+        expect(colors.hexToRgb('#00000001').a).toBe(0.4)
+        expect(colors.hexToRgb('#00000080').a).toBe(50.2)
+        expect(colors.hexToRgb('#0001').a).toBe(6.7)
+
+        for (let alpha = 0; alpha < 256; alpha++) {
+          const hex = '#000000' + alpha.toString(16).padStart(2, '0')
+          expect(colors.rgbToHex(colors.hexToRgb(hex))).toBe(hex)
+        }
+      })
+
       test('hexToRgb(<invalid>) throws', () => {
         expect(() => {
           colors.hexToRgb()
@@ -200,6 +211,18 @@ describe('[colors API]', () => {
         ['gray', 'rgb(128, 128, 128, .33)', { r: 128, g: 128, b: 128, a: 33 }]
       ])('textToRgb(%s)', (_, value, expected) => {
         expect(colors.textToRgb(value)).toStrictEqual(expected)
+      })
+
+      test.each([
+        ['rgba(0, 0, 0, 0.004)', 0.4],
+        ['rgba(0, 0, 0, 0.0015)', 0.15],
+        ['rgba(0, 0, 0, 0.07)', 7],
+        ['rgba(0, 0, 0, 0.57)', 57]
+      ])('textToRgb(%s) keeps the decimals of the alpha', (value, a) => {
+        expect(colors.textToRgb(value).a).toBe(a)
+        expect(rgbToString(colors.textToRgb(value))).toBe(
+          value.replaceAll(' ', '')
+        )
       })
 
       test('textToRgb(rgba() without an alpha) is opaque', () => {
@@ -567,6 +590,18 @@ describe('[colors API]', () => {
       ])('rgbToString(%s, a:58)', (_, value, expected) => {
         expect(rgbToString(value)).toBe(expected)
       })
+
+      test.each([
+        [0.7, 'rgba(0,0,0,0.007)'],
+        [7.000000000000001, 'rgba(0,0,0,0.07)'],
+        [50.2, 'rgba(0,0,0,0.502)'],
+        [100, 'rgba(0,0,0,1)']
+      ])(
+        'rgbToString() prints a fractional alpha %s without float noise',
+        (a, expected) => {
+          expect(rgbToString({ r: 0, g: 0, b: 0, a })).toBe(expected)
+        }
+      )
     })
   })
 })

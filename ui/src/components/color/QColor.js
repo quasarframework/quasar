@@ -152,6 +152,7 @@ const alphaTrackImg =
   'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAAH0lEQVQoU2NkYGAwZkAFZ5G5jPRRgOYEVDeB3EBjBQBOZwTVugIGyAAAAABJRU5ErkJggg=='
 
 const numericRE = /^[0-9]+$/
+const alphaRE = /^[0-9]*\.?[0-9]+$/
 const hexRE = /^#[0-9A-Fa-f]+$/
 const rgbRE = /^rgb\([0-9]{1,3},[0-9]{1,3},[0-9]{1,3}\)$/
 const rgbaRE =
@@ -377,11 +378,19 @@ export default /*#__PURE__*/ createComponent({
       ]
     ])
 
+    // an echo of the emitted value must not rebuild the model (it would
+    // drop the hue of a grey and the alpha decimals the hex byte rounded
+    // away), so compare the format being emitted rather than the hex alone
+    function isModelEcho(localModel) {
+      const key = isOutputHex.value ? 'hex' : 'rgb'
+      return localModel[key] === model.value[key]
+    }
+
     watch(
       () => props.modelValue,
       v => {
         const localModel = parseModel(v || props.defaultValue)
-        if (localModel.hex !== model.value.hex) {
+        if (!isModelEcho(localModel)) {
           model.value = localModel
         }
       }
@@ -392,7 +401,7 @@ export default /*#__PURE__*/ createComponent({
       v => {
         if (!props.modelValue && v) {
           const localModel = parseModel(v)
-          if (localModel.hex !== model.value.hex) {
+          if (!isModelEcho(localModel)) {
             model.value = localModel
           }
         }
@@ -567,12 +576,12 @@ export default /*#__PURE__*/ createComponent({
     function onNumericChange(value, formatModel, max, evt, change) {
       if (evt !== void 0) stop(evt)
 
-      if (!numericRE.test(value)) {
+      if (!(formatModel === 'a' ? alphaRE : numericRE).test(value)) {
         if (change) proxy.$forceUpdate()
         return
       }
 
-      const val = Math.floor(Number(value))
+      const val = Number(value)
 
       if (val < 0 || val > max) {
         if (change) proxy.$forceUpdate()
@@ -665,12 +674,7 @@ export default /*#__PURE__*/ createComponent({
           return true
         }
 
-        rgb = {
-          r: localModel[0],
-          g: localModel[1],
-          b: localModel[2],
-          a: hasAlpha.value ? localModel[3] * 100 : void 0
-        }
+        rgb = textToRgb(inp)
       }
 
       const hsv = rgbToHsv(rgb)
@@ -1139,7 +1143,6 @@ export default /*#__PURE__*/ createComponent({
               }),
               h('input', {
                 value: model.value.a,
-                maxlength: 3,
                 readonly: !editable.value,
                 onChange: stop,
                 ...getCache('aIn', {

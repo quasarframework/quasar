@@ -933,4 +933,136 @@ describe('[QColor API]', () => {
       })
     })
   })
+
+  describe('[Generic]', () => {
+    describe('[alpha precision]', () => {
+      function getTuneInputs(wrapper) {
+        return wrapper.findAll('.q-color-picker__tune-tab input')
+      }
+
+      test('emits every HEXA alpha byte typed in the header as is', async () => {
+        const wrapper = mountColor({ modelValue: '#12345600' })
+        const input = getHeaderInput(wrapper)
+
+        for (let alpha = 1; alpha < 256; alpha++) {
+          const color = '#123456' + alpha.toString(16).padStart(2, '0')
+          await input.setValue(color)
+          expect(wrapper.emitted('update:modelValue').at(-1)).toStrictEqual([
+            color
+          ])
+        }
+      })
+
+      test('keeps the alpha byte of the model through an unrelated edit', async () => {
+        const wrapper = mountColor({
+          modelValue: '#12345601',
+          defaultView: 'tune'
+        })
+
+        await getTuneInputs(wrapper)[0].setValue('35')
+        expect(wrapper.emitted('update:modelValue').at(-1)).toStrictEqual([
+          '#23345601'
+        ])
+
+        await wrapper.setProps({ modelValue: '#23345601' })
+        await getTuneInputs(wrapper)[0].setValue('36')
+        expect(wrapper.emitted('update:modelValue').at(-1)).toStrictEqual([
+          '#24345601'
+        ])
+      })
+
+      test('shows a HEXA alpha byte as a percent with one decimal', () => {
+        const wrapper = mountColor({
+          modelValue: '#12345680',
+          defaultView: 'tune'
+        })
+
+        expect(getTuneInputs(wrapper)[3].element.value).toBe('50.2')
+
+        const rgbaWrapper = mountColor({
+          modelValue: '#12345680',
+          formatModel: 'rgba'
+        })
+        expect(getHeaderInput(rgbaWrapper).element.value).toBe(
+          'rgba(18,52,86,0.502)'
+        )
+      })
+
+      test('accepts a fractional percent in the Tune alpha field', async () => {
+        const wrapper = mountColor({
+          modelValue: '#12345600',
+          defaultView: 'tune'
+        })
+        const input = getTuneInputs(wrapper)[3]
+
+        await input.setValue('0.4')
+        expect(wrapper.emitted('update:modelValue').at(-1)).toStrictEqual([
+          '#12345601'
+        ])
+
+        await input.setValue('12.34')
+        expect(wrapper.emitted('update:modelValue').at(-1)).toStrictEqual([
+          '#1234561f'
+        ])
+      })
+
+      test('keeps a whole percent set through Tune when the parent echoes the hex', async () => {
+        const wrapper = mountColor({
+          modelValue: '#12345680',
+          defaultView: 'tune'
+        })
+        const input = getTuneInputs(wrapper)[3]
+
+        await input.setValue('50')
+        expect(wrapper.emitted('update:modelValue').at(-1)).toStrictEqual([
+          '#12345680'
+        ])
+
+        await wrapper.setProps({ modelValue: '#12345680' })
+        expect(input.element.value).toBe('50')
+      })
+
+      test('keeps the alpha byte when picking a palette color without one', async () => {
+        const wrapper = mountColor({
+          modelValue: '#12345601',
+          defaultView: 'palette',
+          palette: ['#abcdef']
+        })
+
+        await pickFirstPaletteColor(wrapper)
+        expect(wrapper.emitted('update:modelValue').at(-1)).toStrictEqual([
+          '#abcdef01'
+        ])
+      })
+
+      test('keeps the decimals of an rgba() alpha', async () => {
+        const wrapper = mountColor({
+          modelValue: 'rgba(0,0,0,0.07)',
+          defaultView: 'tune'
+        })
+        const input = getHeaderInput(wrapper)
+
+        expect(getTuneInputs(wrapper)[3].element.value).toBe('7')
+
+        await input.setValue('rgba(0,0,0,0.004)')
+        expect(wrapper.emitted('update:modelValue').at(-1)).toStrictEqual([
+          'rgba(0,0,0,0.004)'
+        ])
+
+        await wrapper.setProps({ modelValue: 'rgba(0,0,0,0.0015)' })
+        expect(input.element.value).toBe('rgba(0,0,0,0.0015)')
+        expect(getTuneInputs(wrapper)[3].element.value).toBe('0.15')
+      })
+
+      test('parses the alpha of a shorthand HEXA default value', () => {
+        const wrapper = mountColor({
+          modelValue: null,
+          defaultValue: '#1234',
+          formatModel: 'hexa'
+        })
+
+        expect(getHeaderInput(wrapper).element.value).toBe('#11223344')
+      })
+    })
+  })
 })

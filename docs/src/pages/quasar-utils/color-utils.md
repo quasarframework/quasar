@@ -23,6 +23,8 @@ These functions take a color as string or Object and convert it to another forma
 | `textToRgb` | String        | Object             | Converts a HEX/A color String (`#RRGGBB<AA>`) or a RGB/A color String(`rgb(R, G, B<, A>)`) to its RGB/A representation as an Object (`{ r: [0-255], g: [0-255], b: [0-255}<,  a: [0-100]>}`). If Alpha channel is present in the original object it will be present also in the output. |
 | `hsvToRgb`  | String        | Object             | Converts a HSV/A color Object (`{ h: [0-360], s: [0-100], v: [0-100},  a: [0-100]}`) to its RGB/A representation as an Object (`{ r: [0-255], g: [0-255], b: [0-255}<,  a: [0-100]>}`). If Alpha channel is present in the original object it will be present also in the output.       |
 
+The alpha channel (`a`) is a percentage that keeps the precision of its source: a HEXA byte converts to one decimal (`#80` is `50.2`) and an `rgba()` alpha keeps its decimals, so a color survives a round trip through these functions unchanged.
+
 ## Color Processing
 
 These functions perform changes on the color or extract specific information.

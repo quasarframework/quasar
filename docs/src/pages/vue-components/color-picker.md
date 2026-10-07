@@ -20,6 +20,8 @@ The QColor component provides a method to input colors.
 
 <DocExample title="Basic" file="Basic" />
 
+The alpha channel keeps the precision of the model: every HEXA byte and every `rgba()` decimal survives a round trip through the picker, so the Tune view's alpha field can show a decimal (`#80` is `50.2`%).
+
 ### With QInput
 
 <DocExample title="Input" file="Input" />

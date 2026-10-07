@@ -21,7 +21,8 @@ export function rgbToHex({ r, g, b, a }) {
 }
 
 export function rgbToString({ r, g, b, a }) {
-  return `rgb${a !== void 0 ? 'a' : ''}(${r},${g},${b}${a !== void 0 ? ',' + a / 100 : ''})`
+  // a fractional percent divided by 100 picks up float noise (0.7 -> 0.006999…)
+  return `rgb${a !== void 0 ? 'a' : ''}(${r},${g},${b}${a !== void 0 ? ',' + Number((a / 100).toFixed(10)) : ''})`
 }
 
 export function hexToRgb(hex) {
@@ -44,7 +45,8 @@ export function hexToRgb(hex) {
         r: (num >> 24) & 255,
         g: (num >> 16) & 255,
         b: (num >> 8) & 255,
-        a: Math.round((num & 255) / 2.55)
+        // one decimal of percent lets every byte survive rgbToHex()
+        a: Math.round(((num & 255) / 2.55) * 10) / 10
       }
     : { r: num >> 16, g: (num >> 8) & 255, b: num & 255 }
 }
@@ -166,7 +168,8 @@ export function textToRgb(str) {
     const safeAlpha = Number.isFinite(alpha)
       ? Math.max(0, Math.min(1, alpha))
       : 1
-    rgb.a = Math.round(safeAlpha * 100)
+    // toFixed() strips the float noise of alpha * 100 (0.07 -> 7.000000000000001)
+    rgb.a = Number((safeAlpha * 100).toFixed(10))
   }
 
   return rgb
