@@ -2,6 +2,7 @@ import { existsSync } from 'node:fs'
 import { basename, join } from 'node:path'
 
 import {
+  applyWin32NestedAliasQuirk,
   createNodeRolldownConfig,
   createViteConfig,
   extendRolldownConfig,
@@ -34,19 +35,7 @@ async function preloadScript(quasarConf, name) {
   })
   const { appPaths } = quasarConf.ctx
 
-  if (process.platform === 'win32') {
-    /**
-     * Required for Windows, otherwise Rolldown will fail to build
-     * because it will report that matched alias "#q-app/electron/preload"
-     * cannot be resolved (even though #q-app alias is defined).
-     * The order of aliases also matters, as '#q-app' needs to be defined
-     * only after the more specific ones.
-     */
-    cfg.resolve.alias = {
-      '#q-app/electron/preload': '@quasar/app-vite/electron/preload',
-      ...cfg.resolve.alias
-    }
-  }
+  applyWin32NestedAliasQuirk(cfg, ['electron/preload'])
 
   cfg.external = ['electron']
   cfg.resolve.modules = [
@@ -101,19 +90,7 @@ export const quasarElectronConfig = {
     })
     const { appPaths } = quasarConf.ctx
 
-    if (process.platform === 'win32') {
-      /**
-       * Required for Windows, otherwise Rolldown will fail to build
-       * because it will report that matched alias "#q-app/electron/main"
-       * cannot be resolved (even though #q-app alias is defined).
-       * The order of aliases also matters, as '#q-app' needs to be defined
-       * only after the more specific ones.
-       */
-      cfg.resolve.alias = {
-        '#q-app/electron/main': '@quasar/app-vite/electron/main',
-        ...cfg.resolve.alias
-      }
-    }
+    applyWin32NestedAliasQuirk(cfg, ['electron/main'])
 
     if (quasarConf.ctx.dev) {
       const inputFile = appPaths.resolve.entry('electron/q.entry.main.js')

@@ -404,6 +404,31 @@ export function createNodeRolldownConfig(
 }
 
 /**
+ * Required for Windows host, otherwise Rolldown will fail to build
+ * because it reports that the matched alias "#q-app/<subPath>"
+ * cannot be resolved (even though the "#q-app" alias is defined).
+ * The order of aliases also matters, as '#q-app' needs to be defined
+ * only after the more specific ones.
+ *
+ * @param {object} rolldownConf
+ * @param {string[]} subPathList - "@quasar/app-vite" export sub-paths
+ *   (without the leading "./") that the compiled script may import
+ */
+export function applyWin32NestedAliasQuirk(rolldownConf, subPathList) {
+  if (process.platform !== 'win32') return
+
+  const alias = {}
+  for (const subPath of subPathList) {
+    alias[`#q-app/${subPath}`] = `@quasar/app-vite/${subPath}`
+  }
+
+  rolldownConf.resolve.alias = {
+    ...alias,
+    ...rolldownConf.resolve.alias
+  }
+}
+
+/**
  * Warning!
  *
  * Remember to update this.#registerDiff() calls when adding/removing quasarConf

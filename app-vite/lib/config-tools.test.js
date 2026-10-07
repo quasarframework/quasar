@@ -1,9 +1,10 @@
 import { mkdirSync, mkdtempSync, rmSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
-import { afterAll, beforeAll, describe, expect, test } from 'vitest'
+import { afterAll, afterEach, beforeAll, describe, expect, test } from 'vitest'
 
 import {
+  applyWin32NestedAliasQuirk,
   createBrowserRolldownConfig,
   createViteConfig,
   getModeDepsAliases
@@ -167,5 +168,69 @@ describe('[config-tools.js] createViteConfig()', () => {
       createBrowserRolldownConfig(quasarConf, { shippedToClient: true })
         .transform.jsx
     ).toBeUndefined()
+  })
+})
+
+describe('[config-tools.js] applyWin32NestedAliasQuirk()', () => {
+  const realPlatform = Object.getOwnPropertyDescriptor(process, 'platform')
+
+  function stubPlatform(value) {
+    Object.defineProperty(process, 'platform', {
+      ...realPlatform,
+      value
+    })
+  }
+
+  afterEach(() => {
+    Object.defineProperty(process, 'platform', realPlatform)
+  })
+
+  test('leaves the aliases alone outside Windows', () => {
+    stubPlatform('linux')
+    const alias = { '#q-app': '@quasar/app-vite' }
+    const cfg = { resolve: { alias } }
+
+    applyWin32NestedAliasQuirk(cfg, ['bex/background'])
+
+    expect(cfg.resolve.alias).toBe(alias)
+    expect(cfg.resolve.alias).toEqual({ '#q-app': '@quasar/app-vite' })
+  })
+
+  test('registers the sub-path aliases ahead of "#q-app" on Windows', () => {
+    stubPlatform('win32')
+    const cfg = {
+      resolve: {
+        alias: { '@': '/app/src', '#q-app': '@quasar/app-vite' }
+      }
+    }
+
+    applyWin32NestedAliasQuirk(cfg, ['bex/background', 'bex/content'])
+
+    expect(Object.entries(cfg.resolve.alias)).toEqual([
+      ['#q-app/bex/background', '@quasar/app-vite/bex/background'],
+      ['#q-app/bex/content', '@quasar/app-vite/bex/content'],
+      ['@', '/app/src'],
+      ['#q-app', '@quasar/app-vite']
+    ])
+  })
+
+  test('keeps a user-defined alias for the same sub-path', () => {
+    stubPlatform('win32')
+    const cfg = {
+      resolve: {
+        alias: {
+          '#q-app/bex/content': '/app/my-bridge.js',
+          '#q-app': '@quasar/app-vite'
+        }
+      }
+    }
+
+    applyWin32NestedAliasQuirk(cfg, ['bex/background', 'bex/content'])
+
+    expect(cfg.resolve.alias).toEqual({
+      '#q-app/bex/background': '@quasar/app-vite/bex/background',
+      '#q-app/bex/content': '/app/my-bridge.js',
+      '#q-app': '@quasar/app-vite'
+    })
   })
 })

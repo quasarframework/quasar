@@ -3,6 +3,7 @@ import { join } from 'node:path'
 import { mergeConfig as mergeViteConfig } from 'vite'
 
 import {
+  applyWin32NestedAliasQuirk,
   createBrowserRolldownConfig,
   createViteConfig,
   extendRolldownConfig,
@@ -68,21 +69,7 @@ export const quasarBexConfig = {
       shippedToClient: true
     })
 
-    if (process.platform === 'win32') {
-      /**
-       * Required for Windows, otherwise Rolldown will fail to build
-       * because it will report that matched alias "#q-app/bex/background"
-       * (or "#q-app/bex/content") cannot be resolved
-       * (even though #q-app alias is defined).
-       * The order of aliases also matters, as '#q-app' needs to be defined
-       * only after the more specific ones.
-       */
-      cfg.resolve.alias = {
-        '#q-app/bex/background': '@quasar/app-vite/bex/background',
-        '#q-app/bex/content': '@quasar/app-vite/bex/content',
-        ...cfg.resolve.alias
-      }
-    }
+    applyWin32NestedAliasQuirk(cfg, ['bex/background', 'bex/content'])
 
     cfg.transform.define = {
       ...cfg.transform.define,
