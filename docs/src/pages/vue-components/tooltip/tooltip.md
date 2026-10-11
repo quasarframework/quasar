@@ -42,6 +42,8 @@ The example below shows how to create a re-usable tooltip that can be shared wit
 
 <DocExample title="Using target" file="Target" />
 
+String `target` selectors are resolved when QTooltip mounts and when the `target` prop changes; adding a matching element later does not attach the tooltip automatically. For a target rendered asynchronously or behind `v-if`, bind a reactive DOM element reference (for example, `:target="anchorElement || false"`), or mount QTooltip with `v-if` only after the target exists.
+
 ### Positioning
 
 The position of QTooltip can be customized. It keeps account of the `anchor` and `self` optional props.

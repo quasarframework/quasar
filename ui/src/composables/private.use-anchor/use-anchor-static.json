@@ -2,7 +2,7 @@
   "props": {
     "target": {
       "type": ["Boolean", "String", "Element"],
-      "desc": "Configure a target element to trigger component toggle; 'true' means it enables the parent DOM element, 'false' means it disables attaching events to any DOM elements; By using a String (CSS selector) or a DOM element it attaches the events to the specified DOM element (if it exists)",
+      "desc": "Configure a target element to trigger component toggle; 'true' means it enables the parent DOM element, 'false' means it disables attaching events to any DOM elements; By using a String (CSS selector) or a DOM element it attaches the events to the specified DOM element (if it exists). String targets are resolved when the component mounts and when this prop changes, not when the DOM changes. For a target rendered later, bind an element ref and use 'false' until it exists, or mount the popup after the target exists",
       "default": "true",
       "examples": ["false", ".my-parent", "#target-id", "$refs.target"],
       "category": "behavior"
