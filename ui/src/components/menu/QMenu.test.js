@@ -449,6 +449,64 @@ describe('[QMenu API]', () => {
         }
       })
 
+      // a String target may name an element that gets rendered after the
+      // menu mounted (v-if, async component) (#18566)
+      test('picks a late String target on its first interaction', async () => {
+        vi.spyOn(console, 'warn').mockImplementation(() => {})
+        const wrapper = mountMenu({ target: '#late-target' })
+        const target = document.createElement('div')
+        target.id = 'late-target'
+
+        try {
+          document.body.append(target)
+          target.dispatchEvent(
+            new PointerEvent('pointerover', { bubbles: true })
+          )
+          target.dispatchEvent(new MouseEvent('click'))
+          await flushPromises()
+          await vi.runAllTimersAsync()
+
+          expect(getMenu()).not.toBeNull()
+
+          // the anchor events are wired up to the target, not to the parent
+          await getAnchor(wrapper).trigger('click')
+          await vi.runAllTimersAsync()
+
+          expect(getMenu()).not.toBeNull()
+        } finally {
+          target.remove()
+        }
+      })
+
+      test('picks a late String target when the model turns on', async () => {
+        vi.spyOn(console, 'warn').mockImplementation(() => {})
+        const wrapper = mountMenu({ target: '#late-target' })
+        const target = document.createElement('div')
+        target.id = 'late-target'
+        Object.assign(target.style, {
+          position: 'fixed',
+          top: '100px',
+          left: '100px',
+          width: '50px',
+          height: '20px'
+        })
+
+        try {
+          document.body.append(target)
+          await wrapper.setProps({
+            menuProps: { target: '#late-target', modelValue: true }
+          })
+          await flushPromises()
+          await vi.runAllTimersAsync()
+
+          expect(getMenu()).not.toBeNull()
+          expect(getMenuRect().top).toBeCloseTo(120, 0)
+          expect(getMenuRect().left).toBeCloseTo(100, 0)
+        } finally {
+          target.remove()
+        }
+      })
+
       // a compiled template updates its dynamic props in attribute order,
       // so with v-model written before :target the model turns on while
       // the target still resolves to false (#18559)

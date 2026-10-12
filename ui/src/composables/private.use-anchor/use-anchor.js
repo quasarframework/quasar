@@ -110,11 +110,59 @@ export default function useAnchor({
   // some engines, at release on others) and it must not act a second time
   let touchHoldOwned = false
 
+  // a String target may name an element that gets rendered only after
+  // this component mounted (a v-if that flips later, an async component);
+  // while the selector matches nothing, the anchor is picked lazily:
+  // document-level capture listeners check the element the user interacts
+  // with (pointerover precedes every other event of a pointer/touch/click
+  // gesture and focusin precedes keyup, so the anchor listeners are wired
+  // in time for the very interaction that revealed it) and the model or
+  // show() query the document again
+  let pendingSelector = false
+
+  const pendingEvents = {
+    check(evt) {
+      // pointerover and focusin only ever target Elements
+      const el = evt.target.closest(props.target)
+      if (el !== null) setLateAnchorEl(el)
+    }
+  }
+
+  function startPendingSelector() {
+    pendingSelector = true
+    addEvt(pendingEvents, 'pending', [
+      [document, 'pointerover', 'check', 'passiveCapture'],
+      [document, 'focusin', 'check', 'passiveCapture']
+    ])
+  }
+
+  function stopPendingSelector() {
+    if (!pendingSelector) return
+    pendingSelector = false
+    cleanEvt(pendingEvents, 'pending')
+  }
+
+  function setLateAnchorEl(el) {
+    stopPendingSelector()
+    anchorEl.value = el
+    configureAnchorEl()
+    configureAnchorAria()
+  }
+
+  function queryPendingSelector() {
+    if (!pendingSelector) return false
+
+    const el = document.querySelector(props.target)
+    if (el === null) return false
+
+    setLateAnchorEl(el)
+    return true
+  }
+
   function canShow(evt) {
     // abort with no parent configured or on multi-touch
-    return anchorEl.value === null
-      ? false
-      : evt === void 0 || evt.touches === void 0 || evt.touches.length <= 1
+    if (anchorEl.value === null && !queryPendingSelector()) return false
+    return evt === void 0 || evt.touches === void 0 || evt.touches.length <= 1
   }
 
   const anchorEvents = {}
@@ -314,6 +362,8 @@ export default function useAnchor({
   }
 
   function pickAnchorEl() {
+    stopPendingSelector()
+
     if (
       props.target === false ||
       props.target === '' ||
@@ -323,11 +373,13 @@ export default function useAnchor({
     } else if (props.target === true) {
       setAnchorEl(proxy.$el.parentNode)
     } else {
-      let el = props.target
+      let el = props.target,
+        validSelector = false
 
       if (typeof props.target === 'string') {
         try {
           el = document.querySelector(props.target)
+          validSelector = true
         } catch {
           el = void 0
         }
@@ -338,7 +390,16 @@ export default function useAnchor({
         configureAnchorEl()
       } else {
         anchorEl.value = null
-        console.error(`Anchor: target "${props.target}" not found`)
+
+        if (validSelector) {
+          startPendingSelector()
+          console.warn(
+            `Anchor: target "${props.target}" not found; it gets picked` +
+              ' once a matching element is interacted with or the component is shown'
+          )
+        } else {
+          console.error(`Anchor: target "${props.target}" not found`)
+        }
       }
     }
 
@@ -398,6 +459,16 @@ export default function useAnchor({
     watch(showing, updateAnchorAria)
   }
 
+  // the model bypasses canShow() (it is respected, not gated), so a late
+  // anchor is queried before useModelToggle's own watcher (registered
+  // after this one by every consumer) processes the show
+  watch(
+    () => props.modelValue,
+    val => {
+      if (val === true && anchorEl.value === null) queryPendingSelector()
+    }
+  )
+
   onMounted(() => {
     pickAnchorEl()
 
@@ -408,6 +479,7 @@ export default function useAnchor({
 
   onBeforeUnmount(() => {
     if (touchTimer !== null) clearTimeout(touchTimer)
+    stopPendingSelector()
     unconfigureAnchorEl()
     unconfigureAnchorAria()
   })

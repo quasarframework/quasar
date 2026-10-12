@@ -40,6 +40,8 @@ In the example below there's a few transitions showcased. For a full list of tra
 
 The example below shows how to create a re-usable tooltip that can be shared with different targets. The `target` can also change while the tooltip is shown, in which case the tooltip re-anchors to the new target.
 
+A `target` given as a CSS selector is looked up when the tooltip mounts. If nothing matches yet (the element is rendered later by a `v-if` or an async component), the tooltip picks the first matching element that gets interacted with, or the first match when it is shown through its model or `show()` method.
+
 <DocExample title="Using target" file="Target" />
 
 ### Positioning

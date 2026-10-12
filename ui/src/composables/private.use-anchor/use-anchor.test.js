@@ -184,16 +184,140 @@ describe('[useAnchor API]', () => {
         const { anchor } = mountAnchor({
           componentProps: {
             modelValue: true,
-            target: '[invalid-selector'
+            target: '!invalid-selector'
           }
         })
 
         expect(anchor.anchorEl).$ref(null)
         expect(anchor.canShow()).toBe(false)
         expect(consoleError).toHaveBeenCalledWith(
-          'Anchor: target "[invalid-selector" not found'
+          'Anchor: target "!invalid-selector" not found'
         )
         expect(wrapper.emitted('update:modelValue')).toStrictEqual([[false]])
+      })
+
+      function mountPendingAnchor(options = {}) {
+        const consoleWarn = vi
+          .spyOn(console, 'warn')
+          .mockImplementation(() => {})
+        const mounted = mountAnchor({
+          ...options,
+          componentProps: { target: '#late-anchor', ...options.componentProps }
+        })
+
+        expect(mounted.anchor.anchorEl).$ref(null)
+        expect(consoleWarn).toHaveBeenCalledExactlyOnceWith(
+          'Anchor: target "#late-anchor" not found; it gets picked' +
+            ' once a matching element is interacted with or the component is shown'
+        )
+
+        return mounted
+      }
+
+      function createLateAnchor(tag) {
+        const el = createElement(tag)
+        el.id = 'late-anchor'
+        return el
+      }
+
+      test('picks a late selector target on the first pointer interaction', () => {
+        const { anchor, toggle } = mountPendingAnchor({
+          getPopupRole: () => 'menu'
+        })
+        const bystander = createElement()
+
+        bystander.dispatchEvent(
+          new PointerEvent('pointerover', { bubbles: true })
+        )
+
+        expect(anchor.anchorEl).$ref(null)
+
+        const lateAnchor = createLateAnchor('button')
+        const inner = document.createElement('span')
+        lateAnchor.append(inner)
+
+        inner.dispatchEvent(new PointerEvent('pointerover', { bubbles: true }))
+
+        expect(anchor.anchorEl).$ref(lateAnchor)
+        expect(lateAnchor.getAttribute('aria-expanded')).toBe('false')
+        expect(lateAnchor.getAttribute('aria-haspopup')).toBe('menu')
+
+        const clickEvent = new MouseEvent('click')
+        lateAnchor.dispatchEvent(clickEvent)
+
+        expect(toggle).toHaveBeenCalledExactlyOnceWith(clickEvent)
+      })
+
+      test('picks a late selector target on keyboard focus', () => {
+        const { anchor, toggle } = mountPendingAnchor()
+        const lateAnchor = createLateAnchor('button')
+
+        lateAnchor.dispatchEvent(new FocusEvent('focusin', { bubbles: true }))
+
+        expect(anchor.anchorEl).$ref(lateAnchor)
+
+        const enterEvent = new KeyboardEvent('keyup', { keyCode: 13 })
+        lateAnchor.dispatchEvent(enterEvent)
+
+        expect(toggle).toHaveBeenCalledExactlyOnceWith(enterEvent)
+      })
+
+      test('picks a late selector target when shown programmatically', () => {
+        const { anchor, toggle } = mountPendingAnchor()
+
+        expect(anchor.canShow()).toBe(false)
+
+        const lateAnchor = createLateAnchor()
+
+        expect(anchor.canShow()).toBe(true)
+        expect(anchor.anchorEl).$ref(lateAnchor)
+
+        const clickEvent = new MouseEvent('click')
+        lateAnchor.dispatchEvent(clickEvent)
+
+        expect(toggle).toHaveBeenCalledExactlyOnceWith(clickEvent)
+      })
+
+      test('picks a late selector target when the model turns on', async () => {
+        const { anchor } = mountPendingAnchor()
+        const lateAnchor = createLateAnchor()
+
+        await wrapper.setProps({ modelValue: true })
+
+        expect(anchor.anchorEl).$ref(lateAnchor)
+        expect(wrapper.emitted('update:modelValue')).toBeUndefined()
+      })
+
+      test('stops waiting for a late selector target once re-targeted', async () => {
+        const { anchor } = mountPendingAnchor()
+        const otherTarget = createElement()
+
+        await wrapper.setProps({ target: otherTarget })
+
+        expect(anchor.anchorEl).$ref(otherTarget)
+
+        const lateAnchor = createLateAnchor()
+        lateAnchor.dispatchEvent(
+          new PointerEvent('pointerover', { bubbles: true })
+        )
+
+        expect(anchor.anchorEl).$ref(otherTarget)
+      })
+
+      test('stops waiting for a late selector target when unmounted', () => {
+        const { anchor, toggle } = mountPendingAnchor()
+
+        wrapper.unmount()
+        wrapper = void 0
+
+        const lateAnchor = createLateAnchor()
+        lateAnchor.dispatchEvent(
+          new PointerEvent('pointerover', { bubbles: true })
+        )
+        lateAnchor.dispatchEvent(new MouseEvent('click'))
+
+        expect(anchor.anchorEl).$ref(null)
+        expect(toggle).not.toHaveBeenCalled()
       })
 
       test('leaves model repair to callers when emission is avoided', () => {

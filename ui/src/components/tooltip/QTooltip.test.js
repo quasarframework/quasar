@@ -312,6 +312,30 @@ describe('[QTooltip API]', () => {
         }
       })
 
+      // a String target may name an element that gets rendered after the
+      // tooltip mounted (v-if, async component) (#18566)
+      test('picks a late String target on its first hover', async () => {
+        vi.spyOn(console, 'warn').mockImplementation(() => {})
+        mountTooltip({ target: '#late-target' })
+        const target = document.createElement('div')
+        target.id = 'late-target'
+
+        try {
+          document.body.append(target)
+          target.dispatchEvent(
+            new PointerEvent('pointerover', { bubbles: true })
+          )
+          target.dispatchEvent(new PointerEvent('pointerenter'))
+          await flushPromises()
+          await vi.runAllTimersAsync()
+
+          expect(getTooltip()).not.toBeNull()
+          expect(target.getAttribute('aria-describedby')).toBe(getTooltip().id)
+        } finally {
+          target.remove()
+        }
+      })
+
       // a compiled template updates its dynamic props in attribute order,
       // so with v-model written before :target the model turns on while
       // the target still resolves to false (#18559)
