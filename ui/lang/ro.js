@@ -20,7 +20,7 @@ export default {
     range: 'Interval',
     noValue: 'Fără valoare',
     resize: 'Redimensionează',
-    expand: label => (label ? `Deschideți "${label}"` : 'Deschide'),
+    expand: label => (label ? `Deschide "${label}"` : 'Deschide'),
     collapse: label => (label ? `Închide "${label}"` : 'Închide')
   },
   date: {
@@ -52,8 +52,10 @@ export default {
     loading: 'Se încarcă...',
     selectedRecords: rows =>
       rows > 1
-        ? rows + ' înregistrări selectate.'
-        : (rows === 0 ? 'Nici o' : '1') + ' înregistrare selectată.',
+        ? rows +
+          (rows % 100 === 0 || rows % 100 >= 20 ? ' de' : '') +
+          ' înregistrări selectate.'
+        : (rows === 0 ? 'Nicio' : '1') + ' înregistrare selectată.',
     recordsPerPage: 'Înregistrări pe pagină:',
     allRows: 'Toate',
     pagination: (start, end, total) => start + '-' + end + ' din ' + total,
@@ -99,8 +101,8 @@ export default {
     underline: 'Subliniat',
     unorderedList: 'Listă neordonată',
     orderedList: 'Listă ordonată',
-    subscript: 'Dedesubt',
-    superscript: 'Deasupra',
+    subscript: 'Indice',
+    superscript: 'Exponent',
     hyperlink: 'Hyperlink',
     toggleFullscreen: 'Comută ecran complet',
     quote: 'Citat',
@@ -109,14 +111,14 @@ export default {
     right: 'Aliniere la dreapta',
     justify: 'Aliniere totală',
     print: 'Tipărește',
-    outdent: 'Scade spațierea',
-    indent: 'Crește spațierea',
+    outdent: 'Micșorează indentarea',
+    indent: 'Mărește indentarea',
     removeFormat: 'Îndepărtează formatările',
     formatting: 'Formatare',
     fontSize: 'Mărime font',
     align: 'Aliniază',
     hr: 'Adaugă linie orizontală',
-    undo: 'Schimbă inapoi',
+    undo: 'Anulează',
     redo: 'Refă',
     heading1: 'Titlu 1',
     heading2: 'Titlu 2',
@@ -130,14 +132,14 @@ export default {
     size2: 'Mic',
     size3: 'Normal',
     size4: 'Mediu-mare',
-    size5: 'Big',
+    size5: 'Mare',
     size6: 'Foarte mare',
     size7: 'Maxim',
     defaultFont: 'Font implicit',
     viewSource: 'Vizualizare sursă'
   },
   tree: {
-    noNodes: 'Nu sunt date disponibile',
+    noNodes: 'Nu sunt noduri disponibile',
     noResults: 'Nu am găsit noduri care să corespundă'
   }
 }
