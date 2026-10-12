@@ -186,7 +186,7 @@ export default defineCapacitorConfig({
 
 Replace `00000000-0000-0000-0000-000000000000` with your actual App ID from the Capawesome Cloud Console. The App ID is not the same as the app identifier (e.g. `com.example.app`).
 
-With `autoUpdateStrategy: 'background'`, the plugin checks for updates on app start and resume, downloads them in the background, and applies them on the next launch, without any extra code. `readyTimeout` and `autoBlockRolledBackBundles` enable [automatic rollback](https://capawesome.io/docs/cloud/live-updates/rollbacks/): if the app does not report itself as ready within 10 seconds after an update, the plugin reverts to the previous bundle and blocks the broken one.
+With `autoUpdateStrategy: 'background'`, the plugin checks for updates on app start and resume, downloads them in the background, and applies them on the next launch, without any extra code. `readyTimeout` and `autoBlockRolledBackBundles` enable [automatic rollback](https://capawesome.io/docs/cloud/live-updates/rollbacks/): if the app does not report itself as ready within 10 seconds after an update, the plugin reverts to the bundle built into the installed native app and `autoBlockRolledBackBundles` blocks the broken bundle from being installed again.
 
 After configuring the plugin, sync your Capacitor project again:
 
@@ -241,7 +241,7 @@ npx @capawesome/cli apps:liveupdates:upload --path src-capacitor/www
 
 The CLI asks which app to upload to and publishes the bundle to the app's default [channel](https://capawesome.io/docs/cloud/live-updates/channels/). Congratulations! You have successfully published your first live update.
 
-To test it, install a release build of your app on a device, make a visible change to your web app, rebuild, and upload a new bundle with the same command. Force-close and restart the app, wait about 15 to 30 seconds for the download, then restart it again to see the change. Do not test with `quasar dev -m capacitor`, since live reload loads the web app from the dev server instead of the installed bundle.
+To test it, install a build of your app on a device, make a visible change to your web app, rebuild, and upload a new bundle with the same command. Force-close and restart the app, wait about 15 to 30 seconds for the download, then restart it again to see the change. Do not test with `quasar dev -m capacitor`, since live reload loads the web app from the dev server instead of the installed bundle.
 
 > [!IMPORTANT]
 > A Live Update can only change the web layer and must stay compatible with the native binary installed on the device. A bundle that relies on a plugin or native change the installed app does not have will crash the app on launch. Once you ship more than one native version, publish each bundle to a channel that matches the native version, as described in [Make Updates Version-Compatible](https://capawesome.io/docs/cloud/live-updates/setup/#make-updates-version-compatible).
@@ -261,7 +261,8 @@ export default defineCapacitorConfig({
   plugins: {
     LiveUpdate: {
       // ...
-      publicKey: '-----BEGIN PUBLIC KEY-----MIGf...IDAQAB-----END PUBLIC KEY-----'
+      publicKey:
+        '-----BEGIN PUBLIC KEY-----MIGf...IDAQAB-----END PUBLIC KEY-----'
     }
   }
 })
@@ -283,6 +284,11 @@ Pass `--channel` to publish to a specific [channel](https://capawesome.io/docs/c
 npx @capawesome/cli apps:liveupdates:upload --path src-capacitor/www --channel production --rollout-percentage 10
 ```
 
-To publish from a CI pipeline, create an [API token](https://capawesome.io/docs/cloud/accounts/tokens/), expose it as the `CAPAWESOME_TOKEN` environment variable, and pass `--app-id` so the command runs without prompts.
+To publish from a CI pipeline, create an [API token](https://capawesome.io/docs/cloud/accounts/tokens/), store it as a secret in your CI provider, and log in with it before uploading. Pass `--app-id` and `--yes` so the commands run without prompts:
+
+```bash
+npx @capawesome/cli login --token $CAPAWESOME_TOKEN
+npx @capawesome/cli apps:liveupdates:upload --path src-capacitor/www --app-id 00000000-0000-0000-0000-000000000000 --yes
+```
 
 Feel free to check out the [documentation](https://capawesome.io/docs/sdks/capacitor/live-update/) of the Live Update plugin to see what else you can do with it.
