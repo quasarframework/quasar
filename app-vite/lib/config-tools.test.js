@@ -7,6 +7,7 @@ import {
   applyWin32NestedAliasQuirk,
   createBrowserRolldownConfig,
   createViteConfig,
+  getFilenameBasedRoutingScanEntries,
   getModeDepsAliases
 } from './config-tools.js'
 import { QuasarConfigFile } from './quasar-config-file.js'
@@ -135,7 +136,9 @@ describe('[config-tools.js] createViteConfig()', () => {
     const clientConf = await createConf(quasarConf)
     expect(clientConf.optimizeDeps.entries).toEqual([
       'index.html',
-      '.quasar/dev-spa/client-entry.js'
+      '.quasar/dev-spa/client-entry.js',
+      // playground-js/quasar.config.js sets "filenameBasedRouting: true"
+      'src/pages/**/*.vue'
     ])
 
     // the SSR/SSG server-side Vite instance does not serve the client deps
@@ -202,6 +205,34 @@ describe('[config-tools.js] createViteConfig()', () => {
       createBrowserRolldownConfig(quasarConf, { shippedToClient: true })
         .transform.jsx
     ).toBeUndefined()
+  })
+})
+
+describe('[config-tools.js] getFilenameBasedRoutingScanEntries()', () => {
+  test('returns nothing when filename-based routing is off', () => {
+    expect(getFilenameBasedRoutingScanEntries(false, appDir)).toEqual([])
+  })
+
+  test('globs the default routes folder for .vue pages', () => {
+    expect(
+      getFilenameBasedRoutingScanEntries({ root: appDir }, appDir)
+    ).toEqual(['src/pages/**/*.vue'])
+  })
+
+  test('follows custom routes folders and extensions', () => {
+    expect(
+      getFilenameBasedRoutingScanEntries(
+        {
+          root: appDir,
+          extensions: ['.vue', '.tsx'],
+          routesFolder: [
+            'src/views',
+            { src: join(appDir, 'src/admin'), extensions: ['.md'] }
+          ]
+        },
+        appDir
+      )
+    ).toEqual(['src/views/**/*.vue', 'src/views/**/*.tsx', 'src/admin/**/*.md'])
   })
 })
 

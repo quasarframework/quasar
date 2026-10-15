@@ -1,4 +1,4 @@
-import { join, relative } from 'node:path'
+import { join, relative, resolve } from 'node:path'
 import { quasar as quasarVitePlugin } from '@quasar/vite-plugin'
 import vueVitePlugin from '@vitejs/plugin-vue'
 import { mergeConfig, normalizePath } from 'vite'
@@ -158,6 +158,34 @@ export function getModeDepsAliases(appPaths, pkg, modeDeps) {
  * Remember to update this.#registerDiff() calls when adding/removing quasarConf
  * properties needed for the build.
  */
+// the dep scanner externalizes virtual modules, so with filename-based
+// routing it never gets past vue-router/auto-routes to the (lazy) page
+// components; the routes folders are scanned directly instead
+export function getFilenameBasedRoutingScanEntries(
+  filenameBasedRouting,
+  appDir
+) {
+  if (!filenameBasedRouting) {
+    return []
+  }
+
+  // same defaults as vue-router's Vite plugin
+  const {
+    root = appDir,
+    routesFolder = 'src/pages',
+    extensions = ['.vue']
+  } = filenameBasedRouting
+
+  return (Array.isArray(routesFolder) ? routesFolder : [routesFolder]).flatMap(
+    folder => {
+      const { src, extensions: folderExtensions = extensions } =
+        typeof folder === 'string' ? { src: folder } : folder
+      const dir = normalizePath(relative(appDir, resolve(root, src)))
+      return folderExtensions.map(ext => `${dir}/**/*${ext}`)
+    }
+  )
+}
+
 export async function createViteConfig(
   quasarConf,
   {
@@ -323,6 +351,10 @@ export async function createViteConfig(
             appPaths.appDir,
             quasarConf.metaConf.entryScript.absolutePath
           )
+        ),
+        ...getFilenameBasedRoutingScanEntries(
+          quasarConf.build.filenameBasedRouting,
+          appPaths.appDir
         )
       )
     } else {
