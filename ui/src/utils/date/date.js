@@ -207,10 +207,11 @@ function getRegexData(mask, dateLocale) {
       }
       case 'DDD':
       case 'DDDD': {
+        map.DDD = index
         return String.raw`(\d{1,3})`
       }
       case 'DDDo': {
-        index++
+        map.DDD = index++ // bumping to DDD
         return String.raw`(\d{1,3}(st|nd|rd|th))`
       }
       case 'w': {
@@ -591,6 +592,20 @@ export function __splitDate(str, mask, dateLocale, calendar, defaultModel) {
       date.year = weekDate.getFullYear()
       date.month = weekDate.getMonth() + 1
       date.day = weekDate.getDate()
+    }
+
+    if (map.DDD !== void 0 && date.day === null && calendar !== 'persian') {
+      const dayOfYear = Number.parseInt(match[map.DDD], 10)
+      if (date.year === null || dayOfYear < 1) return date
+
+      const yearDate = new Date(2000, 0, dayOfYear)
+      yearDate.setFullYear(date.year, 0, dayOfYear)
+
+      // rejects day 366 of a year that only has 365 of them
+      if (yearDate.getFullYear() !== date.year) return date
+
+      date.month = yearDate.getMonth() + 1
+      date.day = yearDate.getDate()
     }
 
     if (map.H !== void 0) {

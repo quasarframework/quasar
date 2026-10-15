@@ -308,6 +308,43 @@ describe('[date API]', () => {
         ]).toStrictEqual([1, date.getWeekOfYear(value)])
       })
 
+      test.each(['DDD', 'DDDD', 'DDDo'])(
+        'resolves a day of the year from the %s token',
+        token => {
+          const value = new Date(2020, 9, 4),
+            mask = 'YYYY ' + token
+
+          expect(
+            date.extractDate(date.formatDate(value, mask), mask)
+          ).toStrictEqual(value)
+        }
+      )
+
+      test('round-trips every day of a leap year through its day of the year', () => {
+        const mask = 'YYYY-DDDD',
+          failed = []
+
+        let day = new Date(2020, 0, 1)
+
+        while (day.getFullYear() === 2020) {
+          const result = date.extractDate(date.formatDate(day, mask), mask)
+
+          if (result.getTime() !== day.getTime()) {
+            failed.push(date.formatDate(day, 'YYYY-MM-DD'))
+          }
+
+          day = date.addToDate(day, { days: 1 })
+        }
+
+        expect(failed).toStrictEqual([])
+      })
+
+      test('lets an explicit calendar date win over the day of the year', () => {
+        expect(
+          date.extractDate('2020-001 2020-03-05', 'YYYY-DDDD YYYY-MM-DD')
+        ).toStrictEqual(new Date(2020, 2, 5))
+      })
+
       test('lets an explicit calendar date win over ISO week tokens', () => {
         expect(
           date.extractDate('2021-W52 2022-01-01', 'GGGG-[W]ww YYYY-MM-DD')
@@ -330,7 +367,10 @@ describe('[date API]', () => {
         ['2020-W54', 'GGGG-[W]ww'],
         ['2021-W53', 'GGGG-[W]ww'],
         ['2020-W40-8', 'GGGG-[W]ww-E'],
-        ['40', 'ww']
+        ['40', 'ww'],
+        ['2020-000', 'YYYY-DDDD'],
+        ['2021-366', 'YYYY-DDDD'],
+        ['278', 'DDDD']
       ])('returns Invalid Date for %o with mask %s', (value, mask) => {
         const result = date.extractDate(value, mask)
 

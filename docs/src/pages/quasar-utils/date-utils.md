@@ -500,6 +500,19 @@ date.extractDate('2021-W52 2022-01-01', 'GGGG-[W]ww YYYY-MM-DD')
 // January 1st 2022
 ```
 
+### Extracting the day of the year <q-badge label="v2.36+" />
+
+A mask that carries a day of the year (`DDD`, `DDDo` or `DDDD`) together with a year resolves to that day, so `formatDate()` output round-trips back into the same date:
+
+```js
+import { date } from 'quasar'
+
+date.extractDate('2020-278', 'YYYY-DDDD')
+// Sunday, October 4th 2020
+```
+
+A day of the year outside the year (`000`, or `366` in a year that only has 365 days) is an `Invalid Date`. When a mask carries both a day of the year and a full calendar date, the calendar date wins.
+
 > [!WARNING]
 > The `dd` token shortens a day name to its first two characters, which is not unique in every language (Chinese shortens all seven days to the same two characters). Where the current language pack is ambiguous that way, `dd` is matched but ignored, and the date resolves to the Monday of the week. Use `ddd`, `dddd` or `E` for a weekday that parses everywhere.
 
