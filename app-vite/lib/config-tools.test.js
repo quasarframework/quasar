@@ -164,6 +164,9 @@ describe('[config-tools.js] createViteConfig()', () => {
 
     const viteConf = await createConf(quasarConf)
     expect(viteConf.oxc.jsx).toEqual(quasarConf.build.vueJsx)
+    expect(viteConf.optimizeDeps.rolldownOptions.transform.jsx).toEqual(
+      quasarConf.build.vueJsx
+    )
   })
 
   test('leaves the Oxc defaults alone when build.vueJsx is off', async () => {
@@ -172,6 +175,7 @@ describe('[config-tools.js] createViteConfig()', () => {
 
     const viteConf = await createConf(quasarConf)
     expect(viteConf.oxc).toBeUndefined()
+    expect(viteConf.optimizeDeps.rolldownOptions).toBeUndefined()
   })
 
   test('hands over the JSX transformation on "preserve"', async () => {
@@ -180,6 +184,7 @@ describe('[config-tools.js] createViteConfig()', () => {
 
     const viteConf = await createConf(quasarConf)
     expect(viteConf.oxc.jsx).toBe('preserve')
+    expect(viteConf.optimizeDeps.rolldownOptions.transform.jsx).toBe('preserve')
   })
 
   // the browser scripts that Rolldown builds on its own (BEX scripts, the

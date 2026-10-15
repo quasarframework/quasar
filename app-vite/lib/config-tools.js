@@ -243,7 +243,13 @@ export async function createViteConfig(
     },
 
     optimizeDeps: {
-      entries: ['index.html']
+      entries: ['index.html'],
+      // the dep scanner transpiles .jsx/.tsx on its own (Vite does not hand
+      // it the oxc options above), so it needs the same JSX runtime or it
+      // injects React's and fails to resolve react/jsx-dev-runtime
+      ...(build.vueJsx
+        ? { rolldownOptions: { transform: { jsx: build.vueJsx } } }
+        : {})
     },
 
     plugins: [
