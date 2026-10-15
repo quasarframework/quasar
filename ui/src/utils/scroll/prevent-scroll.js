@@ -81,13 +81,21 @@ function onAppleResize(evt) {
   })
 }
 
+// the path of the current route: in hash router mode the pathname never
+// changes and the route lives in the hash ("#/route"), while "#section"
+// is only an anchor of the current route
+function getRoutePath() {
+  const { hash, pathname } = window.location
+  return hash.startsWith('#/') ? hash.slice(1).split(/[?#]/)[0] : pathname
+}
+
 function apply(action) {
   const body = document.body
 
   if (action === 'add') {
     scrollPositionX = getHorizontalScrollPosition(window)
     scrollPositionY = getVerticalScrollPosition(window)
-    routePath = window.location.pathname
+    routePath = getRoutePath()
     isIos = client.is.ios
 
     const classList = ['q-document--prevent-scroll']
@@ -171,7 +179,7 @@ function apply(action) {
     // release listeners instead
     if (
       isIos &&
-      window.location.pathname === routePath &&
+      getRoutePath() === routePath &&
       (getHorizontalScrollPosition(window) !== scrollPositionX ||
         getVerticalScrollPosition(window) !== scrollPositionY)
     ) {
