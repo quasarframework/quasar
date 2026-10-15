@@ -1,7 +1,7 @@
-import { join } from 'node:path'
+import { join, relative } from 'node:path'
 import { quasar as quasarVitePlugin } from '@quasar/vite-plugin'
 import vueVitePlugin from '@vitejs/plugin-vue'
-import { mergeConfig } from 'vite'
+import { mergeConfig, normalizePath } from 'vite'
 import { merge } from 'webpack-merge'
 
 import { getPackage } from './utils/get-package.js'
@@ -305,6 +305,19 @@ export async function createViteConfig(
           }
         },
         quasarConf.devServer
+      )
+
+      // Vite's dep scanner reads index.html from disk (before the
+      // quasarViteIndexHtmlTransformPlugin injects the entry script tag), so
+      // it must be pointed at the entry itself; root-relative POSIX because
+      // Vite reads optimizeDeps.entries as globs relative to the root
+      viteConf.optimizeDeps.entries.push(
+        normalizePath(
+          relative(
+            appPaths.appDir,
+            quasarConf.metaConf.entryScript.absolutePath
+          )
+        )
       )
     } else {
       // protect against Vite (or a Vite plugin) mutating the original

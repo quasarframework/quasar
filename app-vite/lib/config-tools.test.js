@@ -124,6 +124,35 @@ describe('[config-tools.js] createViteConfig()', () => {
     process.chdir(originalCwd)
   })
 
+  test('scans the dev client entry for dependencies to pre-bundle', async () => {
+    const configFile = new QuasarConfigFile({
+      ctx: getCtx({ mode: 'spa', dev: true }),
+      port: 9200,
+      host: 'localhost'
+    })
+    const quasarConf = await configFile.read()
+
+    const clientConf = await createConf(quasarConf)
+    expect(clientConf.optimizeDeps.entries).toEqual([
+      'index.html',
+      '.quasar/dev-spa/client-entry.js'
+    ])
+
+    // the SSR/SSG server-side Vite instance does not serve the client deps
+    const serverConf = await createViteConfig(quasarConf, {
+      compileId: 'vite-ssr-server',
+      shippedToClient: false
+    })
+    expect(serverConf.optimizeDeps.entries).toEqual(['index.html'])
+  })
+
+  test('keeps the dep scan on index.html alone for production builds', async () => {
+    const quasarConf = await readPlaygroundConf()
+
+    const viteConf = await createConf(quasarConf)
+    expect(viteConf.optimizeDeps.entries).toEqual(['index.html'])
+  })
+
   test('points Oxc at the Vue JSX runtime when build.vueJsx is set', async () => {
     // playground-js/quasar.config.js sets "vueJsx: true" (it carries a
     // breadcrumb comment pointing back here)
