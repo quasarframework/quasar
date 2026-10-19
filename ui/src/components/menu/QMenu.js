@@ -246,7 +246,6 @@ export default /*#__PURE__*/ createComponent({
     const menuClass = computed(
       () =>
         'q-menu scroll' +
-        (posEngine.viaCssAnchor ? '' : ' q-position-engine') +
         (props.square ? ' q-menu--square' : '') +
         (isDark() ? ' q-menu--dark q-dark' : '')
     )
@@ -370,7 +369,7 @@ export default /*#__PURE__*/ createComponent({
           innerRef.value.click()
         }
 
-        if (!posEngine.viaCssAnchor) posEngine.track()
+        posEngine.track()
         showPortal(true) // done showing portal
         emit('show', evt)
       })
@@ -517,7 +516,11 @@ export default /*#__PURE__*/ createComponent({
                       )
                     }
                   : {}),
-                class: [menuClass.value, attrs.class],
+                class: [
+                  menuClass.value +
+                    (posEngine.viaCssAnchor ? '' : ' q-position-engine'),
+                  attrs.class
+                ],
                 style: [
                   attrs.style,
                   transitionStyle(),

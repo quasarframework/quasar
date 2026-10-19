@@ -2159,6 +2159,40 @@ describe('[QMenu API]', () => {
       expect(onHide).toHaveBeenCalledTimes(1)
       expect(getPortalEl()).toBe(null)
     })
+
+    test('positions through the JS engine when anchored inside a shadow root', async () => {
+      // CSS anchor names are tree-scoped: the menu is teleported to
+      // <body>, where a name declared inside a web component's shadow
+      // root never resolves (#18576)
+      const host = document.createElement('div')
+      document.body.prepend(host)
+      const mountPoint = document.createElement('div')
+      host.attachShadow({ mode: 'open' }).append(mountPoint)
+
+      try {
+        const wrapper = mountMenu(
+          void 0,
+          {
+            default: () =>
+              h('div', { style: { width: '50px', height: '20px' } })
+          },
+          { attachTo: mountPoint }
+        )
+        setAnchorRect(wrapper)
+
+        await showMenu(wrapper)
+
+        const rect = getMenuRect()
+        expect(rect.top).toBe(150)
+        expect(rect.left).toBe(100)
+        expect(getMenu().classList.contains('q-position-engine')).toBe(true)
+        expect(
+          getAnchor(wrapper).element.style.getPropertyValue('anchor-name')
+        ).toBe('')
+      } finally {
+        host.remove()
+      }
+    })
   })
 
   describe('[Accessibility]', () => {

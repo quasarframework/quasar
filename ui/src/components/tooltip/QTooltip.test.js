@@ -49,7 +49,7 @@ afterEach(() => {
  * QTooltip renders through a portal, so it is mounted inside an anchor
  * and the resulting node is looked up in the document.
  */
-function mountTooltip(props, slots) {
+function mountTooltip(props, slots, mountOptions) {
   props ||= {}
   slots ||= { default: () => 'Tip' }
 
@@ -66,7 +66,8 @@ function mountTooltip(props, slots) {
     {
       props: { tooltipProps: props },
       slots,
-      attachTo: document.body
+      attachTo: document.body,
+      ...mountOptions
     }
   )
 
@@ -1249,6 +1250,39 @@ describe('[QTooltip API]', () => {
 
       expect(onHide).toHaveBeenCalledTimes(1)
       expect(getPortalEl()).toBe(null)
+    })
+
+    test('positions through the JS engine when anchored inside a shadow root', async () => {
+      // CSS anchor names are tree-scoped: the tooltip is teleported to
+      // <body>, where a name declared inside a web component's shadow
+      // root never resolves (#18576)
+      const host = document.createElement('div')
+      document.body.prepend(host)
+      const mountPoint = document.createElement('div')
+      host.attachShadow({ mode: 'open' }).append(mountPoint)
+
+      try {
+        const wrapper = mountTooltip(void 0, void 0, { attachTo: mountPoint })
+        Object.assign(getAnchor(wrapper).element.style, {
+          position: 'fixed',
+          top: '100px',
+          left: '100px',
+          width: '100px',
+          height: '50px'
+        })
+
+        await showTooltip(wrapper)
+
+        const rect = getTooltip().getBoundingClientRect()
+        expect(rect.top).toBe(164)
+        expect(rect.left + rect.width / 2).toBeCloseTo(150, 0)
+        expect(getTooltip().classList.contains('q-position-engine')).toBe(true)
+        expect(
+          getAnchor(wrapper).element.style.getPropertyValue('anchor-name')
+        ).toBe('')
+      } finally {
+        host.remove()
+      }
     })
   })
 

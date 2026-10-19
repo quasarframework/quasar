@@ -33,7 +33,8 @@ const anchorBox = { top: 100, left: 100, width: 200, height: 100 }
 function mountPopup({
   trackContent = false,
   popupProps = {},
-  popupStyle = {}
+  popupStyle = {},
+  attachTo
 } = {}) {
   let engine, anchorEl
   const showing = ref(false)
@@ -105,7 +106,7 @@ function mountPopup({
           [h(Popup, props.popupProps)]
         )
     }),
-    { props: { popupProps } }
+    { props: { popupProps }, attachTo }
   )
 
   return {
@@ -151,7 +152,7 @@ describe('[usePositionEngine API]', () => {
           positionStyle: expect.any(Object),
           updatePosition: expect.any(Function),
           handleTick: expect.any(Function),
-          track: popup.engine.viaCssAnchor ? void 0 : expect.any(Function),
+          track: expect.any(Function),
           handleShow: expect.any(Function),
           releaseAnchor: expect.any(Function)
         })
@@ -321,10 +322,104 @@ describe('[usePositionEngine API]', () => {
 
         expect(() => {
           popup.engine.updatePosition()
+          popup.engine.handleTick()
+          popup.engine.track()
           popup.engine.releaseAnchor(true)
           popup.engine.releaseAnchor(false)
         }).not.toThrow()
+        expect(popup.engine.positionStyle.value).toBe('')
         expect(popup.anchor.style.getPropertyValue('anchor-name')).toBe('')
+      })
+    })
+
+    describe('shadow DOM anchors', () => {
+      // CSS anchor names are tree-scoped: the popup lives in <body>, so
+      // a name declared inside a shadow root never resolves from there
+      // (#18576)
+      function createShadowMountPoint() {
+        const host = document.createElement('div')
+        document.body.prepend(host)
+        const mountPoint = document.createElement('div')
+        host.attachShadow({ mode: 'open' }).append(mountPoint)
+        return { host, mountPoint }
+      }
+
+      test('an anchor inside a shadow root runs the JS fallback', async () => {
+        const { host, mountPoint } = createShadowMountPoint()
+
+        try {
+          const popup = mountPopup({ attachTo: mountPoint })
+
+          const el = await popup.show()
+          expect(popup.engine.viaCssAnchor).toBe(false)
+          expect(el.classList.contains('q-position-engine')).toBe(true)
+          expect(popup.anchor.style.getPropertyValue('anchor-name')).toBe('')
+          expectPlacedAt(el, { top: 200, centerX: 200 })
+          expect(getComputedStyle(el).visibility).toBe('visible')
+
+          // keeps tracking like any fallback popup
+          popup.anchor.style.top = '300px'
+          document.dispatchEvent(new Event('scroll'))
+          expectPlacedAt(el, { top: 400, centerX: 200 })
+
+          await popup.hide()
+        } finally {
+          host.remove()
+        }
+      })
+
+      test('the engine follows the anchor, releasing the previous one', async () => {
+        const { host, mountPoint } = createShadowMountPoint()
+        const shadowAnchor = document.createElement('div')
+        Object.assign(shadowAnchor.style, {
+          position: 'fixed',
+          top: '300px',
+          left: '300px',
+          width: '100px',
+          height: '50px'
+        })
+        mountPoint.append(shadowAnchor)
+
+        try {
+          const popup = mountPopup()
+          const { anchor, engine } = popup
+
+          await popup.show()
+          expect(engine.viaCssAnchor).toBe(true)
+          expect(anchor.style.getPropertyValue('anchor-name')).toMatch(/^--q-/)
+
+          // re-targeted into the shadow tree during the leave transition:
+          // the native engine lets go of the anchor it still held
+          engine.releaseAnchor(true)
+          popup.anchorEl.value = shadowAnchor
+          const el = await popup.show()
+
+          expect(engine.viaCssAnchor).toBe(false)
+          expect(anchor.style.getPropertyValue('anchor-name')).toBe('')
+          expect(shadowAnchor.style.getPropertyValue('anchor-name')).toBe('')
+          expectPlacedAt(el, { top: 350, centerX: 350 })
+
+          // the same anchor is not re-examined on the next show
+          await popup.hide()
+          const getRootNode = vi.spyOn(shadowAnchor, 'getRootNode')
+          await popup.show()
+          expect(getRootNode).not.toHaveBeenCalled()
+          expect(engine.viaCssAnchor).toBe(false)
+
+          // and back to the light DOM
+          await popup.hide()
+          popup.anchorEl.value = anchor
+          const el2 = await popup.show()
+
+          expect(engine.viaCssAnchor).toBe(true)
+          expect(anchor.style.getPropertyValue('anchor-name')).toMatch(/^--q-/)
+          expectPlacedAt(el2, { top: 200, centerX: 200 })
+
+          await popup.hide()
+          expect(anchor.style.getPropertyValue('anchor-name')).toBe('')
+        } finally {
+          host.remove()
+        }
       })
     })
 
