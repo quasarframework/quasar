@@ -228,6 +228,54 @@ describe('[preventScroll API]', () => {
         expect(scrollTo).not.toHaveBeenCalled()
       })
 
+      test('does not scroll back when the hash mode route changed meanwhile', async () => {
+        // with the hash router the pathname stays the same across routes
+        mockPlatform({ ios: true, nativeMobile: false })
+        makeDocumentScrollable()
+        const { pathname, search, hash } = window.location
+
+        restoreFns.push(() => {
+          window.history.replaceState({}, '', `${pathname}${search}${hash}`)
+        })
+
+        window.history.replaceState({}, '', `${pathname}${search}#/page-a`)
+        window.scrollTo(0, 180)
+
+        preventScroll(true)
+        await expect.poll(() => window.scrollY).toBe(0)
+
+        const scrollTo = vi.spyOn(window, 'scrollTo')
+        window.history.replaceState({}, '', `${pathname}${search}#/page-b`)
+        preventScroll(false)
+
+        expect(scrollTo).not.toHaveBeenCalled()
+      })
+
+      test('scrolls back when only the query or anchor of a hash mode route changed', async () => {
+        mockPlatform({ ios: true, nativeMobile: false })
+        makeDocumentScrollable()
+        const { pathname, search, hash } = window.location
+
+        restoreFns.push(() => {
+          window.history.replaceState({}, '', `${pathname}${search}${hash}`)
+        })
+
+        for (const next of ['#/page-a?tab=2', '#/page-a#section']) {
+          window.history.replaceState({}, '', `${pathname}${search}#/page-a`)
+          window.scrollTo(0, 180)
+
+          preventScroll(true)
+          await expect.poll(() => window.scrollY).toBe(0)
+
+          const scrollTo = vi.spyOn(window, 'scrollTo')
+          window.history.replaceState({}, '', `${pathname}${search}${next}`)
+          preventScroll(false)
+
+          expect(scrollTo).toHaveBeenCalledExactlyOnceWith(0, 180)
+          scrollTo.mockRestore()
+        }
+      })
+
       test('reserves the gutter of a scrollbar that took up layout space', () => {
         makeDocumentScrollable()
         // the headless browser hides its scrollbars, so a classic one --
