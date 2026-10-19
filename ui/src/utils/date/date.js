@@ -594,10 +594,11 @@ export function __splitDate(str, mask, dateLocale, calendar, defaultModel) {
       date.day = weekDate.getDate()
     }
 
-    if (map.DDD !== void 0 && date.day === null && calendar !== 'persian') {
+    if (map.DDD !== void 0 && date.day === null) {
       const dayOfYear = Number.parseInt(match[map.DDD], 10)
       if (date.year === null || dayOfYear < 1) return date
 
+      // setFullYear() keeps years 0-99 as such (the Date constructor maps them to 19xx)
       const yearDate = new Date(2000, 0, dayOfYear)
       yearDate.setFullYear(date.year, 0, dayOfYear)
 
