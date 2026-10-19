@@ -83,10 +83,14 @@ function onAppleResize(evt) {
 
 // the path of the current route: in hash router mode the pathname never
 // changes and the route lives in the hash ("#/route"), while "#section"
-// is only an anchor of the current route
+// is only an anchor of the current route; the pathname stays part of the
+// key so a path-shaped anchor in history mode ("/a#/x") cannot mask a
+// pathname change ("/b#/x")
 function getRoutePath() {
   const { hash, pathname } = window.location
-  return hash.startsWith('#/') ? hash.slice(1).split(/[?#]/)[0] : pathname
+  return hash.startsWith('#/')
+    ? `${pathname}#${hash.slice(1).split(/[?#]/)[0]}`
+    : pathname
 }
 
 function apply(action) {

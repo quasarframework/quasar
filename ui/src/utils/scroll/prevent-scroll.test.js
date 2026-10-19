@@ -276,6 +276,29 @@ describe('[preventScroll API]', () => {
         }
       })
 
+      test('does not scroll back when the pathname changed behind a path-shaped anchor', async () => {
+        // history mode with a "#/x" anchor must not read as a hash route
+        mockPlatform({ ios: true, nativeMobile: false })
+        makeDocumentScrollable()
+        const { pathname, search, hash } = window.location
+
+        restoreFns.push(() => {
+          window.history.replaceState({}, '', `${pathname}${search}${hash}`)
+        })
+
+        window.history.replaceState({}, '', '/page-a#/x')
+        window.scrollTo(0, 180)
+
+        preventScroll(true)
+        await expect.poll(() => window.scrollY).toBe(0)
+
+        const scrollTo = vi.spyOn(window, 'scrollTo')
+        window.history.replaceState({}, '', '/page-b#/x')
+        preventScroll(false)
+
+        expect(scrollTo).not.toHaveBeenCalled()
+      })
+
       test('reserves the gutter of a scrollbar that took up layout space', () => {
         makeDocumentScrollable()
         // the headless browser hides its scrollbars, so a classic one --
