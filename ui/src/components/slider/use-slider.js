@@ -152,7 +152,12 @@ export default function useSlider({
   const roundValueFn = computed(() => {
     if (props.step === 0) return v => v
 
-    const decimals = (String(props.step).trim().split('.')[1] || '').length
+    // the values sit on a grid anchored on innerMin (0.5, 1.5, ...
+    // for a min of 0.5 and a step of 1), so its decimals are kept too
+    const decimals = Math.max(
+      (String(props.step).trim().split('.')[1] || '').length,
+      (String(innerMin.value).trim().split('.')[1] || '').length
+    )
     return v => Number.parseFloat(v.toFixed(decimals))
   })
 

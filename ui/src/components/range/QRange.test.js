@@ -212,6 +212,22 @@ describe('[QRange API]', () => {
         ])
       })
 
+      test('keeps the values aligned to a fractional min', async () => {
+        const wrapper = mountRange({
+          min: 0.5,
+          max: 10.5,
+          step: 1,
+          modelValue: { min: 0.5, max: 10.5 }
+        })
+
+        // the valid values are 0.5, 1.5, 2.5 ... 10.5
+        await focusAndPress(getMinThumb(wrapper))
+
+        expect(wrapper.emitted('update:modelValue')).toStrictEqual([
+          [{ min: 1.5, max: 10.5 }]
+        ])
+      })
+
       test('only accepts a positive value', () => {
         const { validator, default: defaultValue } = QRange.props.step
 
