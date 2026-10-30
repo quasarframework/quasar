@@ -727,14 +727,14 @@ import { ref } from 'vue'
 ${
   pick.left
     ? `const leftDrawerOpen = ref(false)
-toggleLeftDrawer () {
+function toggleLeftDrawer () {
   leftDrawerOpen.value = !leftDrawerOpen.value
 }${pick.right ? '\n\n' : ''}`
     : ''
 }${
           pick.right
             ? `const rightDrawerOpen = ref(false)
-toggleRightDrawer () {
+function toggleRightDrawer () {
   rightDrawerOpen.value = !rightDrawerOpen.value
 }`
             : ''
