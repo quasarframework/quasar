@@ -14,6 +14,21 @@ function mountKnob(props = {}, options = {}) {
   })
 }
 
+/**
+ * The knob is given an explicit 100x100 box, so a click on the middle of
+ * its bottom edge is exactly half a turn: the middle of the min-max range.
+ */
+async function clickAtHalfTurn(wrapper) {
+  wrapper.element.getBoundingClientRect = () => ({
+    top: 0,
+    left: 0,
+    width: 100,
+    height: 100
+  })
+
+  await wrapper.trigger('click', { clientX: 50, clientY: 100 })
+}
+
 describe('[QKnob API]', () => {
   describe('[Props]', () => {
     describe('[(prop)name]', () => {
@@ -69,6 +84,21 @@ describe('[QKnob API]', () => {
 
         expect(wrapper.get('.q-knob').attributes('aria-valuemin')).toBe('8')
       })
+
+      test('anchors the values of a step', async () => {
+        const wrapper = mountKnob({
+          min: 0,
+          max: 10,
+          innerMin: 0.25,
+          step: 1,
+          modelValue: 0.25
+        })
+
+        // the valid values are 0.25, 1.25, 2.25 ...
+        await clickAtHalfTurn(wrapper)
+
+        expect(wrapper.emitted('update:modelValue')).toStrictEqual([[5.25]])
+      })
     })
 
     describe('[(prop)inner-max]', () => {
@@ -87,6 +117,31 @@ describe('[QKnob API]', () => {
 
         expect(wrapper.emitted('update:modelValue')).toStrictEqual([[15]])
       })
+
+      test.each([
+        ['a fractional min', { min: 0.5, max: 10.5, step: 1 }, 1.5, 5.5],
+        [
+          'a min that is not a multiple of it',
+          { min: 5, max: 105, step: 10 },
+          15,
+          55
+        ]
+      ])(
+        'keeps the values aligned to %s',
+        async (_, props, afterKey, afterClick) => {
+          const wrapper = mountKnob({ ...props, modelValue: props.min })
+
+          // the keyboard and the pointer land on the same values:
+          // min, min + step, min + 2 * step ...
+          await wrapper.trigger('keydown', { keyCode: 39 })
+          await clickAtHalfTurn(wrapper)
+
+          expect(wrapper.emitted('update:modelValue')).toStrictEqual([
+            [afterKey],
+            [afterClick]
+          ])
+        }
+      )
 
       test('accepts a value written in exponent notation', async () => {
         const wrapper = mountKnob({

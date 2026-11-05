@@ -39,6 +39,8 @@ Sometimes you need to restrict the model value to an interval inside of the trac
 
 ### Custom step
 
+The valid values are counted from `min` (or from `inner-min`, when set): a `min` of 5 with a `step` of 10 gives 5, 15, 25 and so on.
+
 <DocExample title="Custom step" file="Step" />
 
 ### Offset angle

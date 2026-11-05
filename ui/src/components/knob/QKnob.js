@@ -130,7 +130,12 @@ export default /*#__PURE__*/ createComponent({
             : '')
     )
 
-    const decimals = computed(() => getDecimalsCount(props.step))
+    // the values sit on a grid anchored on innerMin (5, 15, 25 ... for
+    // a min of 5 and a step of 10), same as QSlider, so the decimals
+    // of innerMin are kept too
+    const decimals = computed(() =>
+      Math.max(getDecimalsCount(props.step), getDecimalsCount(innerMin.value))
+    )
     const step = computed(() => (props.step === 0 ? 1 : props.step))
     const instantFeedback = computed(
       () => props.instantFeedback || dragging.value
@@ -254,7 +259,7 @@ export default /*#__PURE__*/ createComponent({
       let newModel = props.min + (angle / 360) * (props.max - props.min)
 
       if (step.value !== 0) {
-        const modulo = newModel % step.value
+        const modulo = (newModel - innerMin.value) % step.value
 
         newModel =
           newModel -
