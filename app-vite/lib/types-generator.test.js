@@ -87,7 +87,7 @@ describe('[types-generator.js] generateTypes()', () => {
     const tsconfig = JSON.parse(readGenerated(appDir, 'tsconfig.json'))
     expect(tsconfig.compilerOptions.paths['#q-app']).toBeDefined()
     expect(tsconfig.compilerOptions.paths['@/*']).toEqual(['./../src/*'])
-    expect(tsconfig.include).toBeDefined()
+    expect(tsconfig.include).toContain('./../**/*.vue')
 
     // CLI augmentations + vite client types
     const declarations = readGenerated(appDir, 'quasar.d.ts')
