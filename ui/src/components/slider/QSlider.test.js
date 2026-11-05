@@ -192,6 +192,23 @@ describe('[QSlider API]', () => {
         expect(stepWrapper.emitted('update:modelValue')).toStrictEqual([[60]])
       })
 
+      test('keeps the values aligned to a fractional min', async () => {
+        const wrapper = mountSlider({
+          min: 0.5,
+          max: 10.5,
+          step: 1,
+          modelValue: 0.5
+        })
+
+        // the valid values are 0.5, 1.5, 2.5 ... 10.5
+        await clickAt(wrapper, { clientX: 10 })
+        expect(wrapper.emitted('update:modelValue')[0]).toStrictEqual([1.5])
+
+        await wrapper.setProps({ modelValue: 1.5 })
+        await getTrackContainer(wrapper).trigger('keydown', { keyCode: 39 })
+        expect(wrapper.emitted('update:modelValue').at(-1)).toStrictEqual([2.5])
+      })
+
       test('only accepts a positive value', () => {
         const { validator, default: defaultValue } = QSlider.props.step
 
