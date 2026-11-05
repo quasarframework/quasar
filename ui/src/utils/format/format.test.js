@@ -96,5 +96,32 @@ describe('[format API]', () => {
         expect(format.pad(value, 3, char)).toBe(expected)
       })
     })
+
+    describe('[(function)getDecimalsCount]', () => {
+      test.each([
+        ['a whole number', 12, 0],
+        ['a fraction', 0.25, 2],
+        ['a negative fraction', -1.5, 1],
+        ['a small number in exponent notation', 1e-7, 7],
+        ['a mantissa with decimals in exponent notation', 2.5e-7, 8],
+        ['a large number in exponent notation', 1e21, 0],
+        ['a large mantissa with decimals', 1.5e21, 0],
+        ['a number that is not finite', Number.NaN, 0],
+        ['a numeric string', '0.25', 2],
+        ['a string with trailing zeros', '1.50', 2],
+        ['a string with spaces around it', ' 0.5 ', 1],
+        ['a string in exponent notation', '2.5E-7', 8],
+        ['a string that is not a number', 'abc', 0]
+      ])('has correct return value for %s', (_, value, expected) => {
+        expect(format.getDecimalsCount(value)).toBe(expected)
+      })
+
+      test('stays within what toFixed() accepts', () => {
+        const count = format.getDecimalsCount(Number.MIN_VALUE)
+
+        expect(count).toBe(100)
+        expect(() => (1).toFixed(count)).not.toThrow()
+      })
+    })
   })
 })

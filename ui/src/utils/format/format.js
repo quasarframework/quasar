@@ -39,10 +39,24 @@ export function pad(v, length = 2, char = '0') {
   return String(v).padStart(length, char)
 }
 
+/**
+ * How many decimals a number (or its string form) needs when written
+ * in fixed notation. Exponent notation counts too: String(1e-7) is
+ * "1e-7", not "0.0000001". Capped at 100, the most that toFixed()
+ * accepts.
+ */
+export function getDecimalsCount(value) {
+  const [mantissa, exponent] = String(value).trim().toLowerCase().split('e')
+  const count = (mantissa.split('.')[1] || '').length - (Number(exponent) || 0)
+
+  return count > 0 ? Math.min(count, 100) : 0
+}
+
 export default {
   humanStorageSize,
   capitalize,
   between,
   normalizeToInterval,
-  pad
+  pad,
+  getDecimalsCount
 }

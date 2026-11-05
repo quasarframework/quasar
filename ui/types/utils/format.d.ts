@@ -4,4 +4,5 @@ export namespace format {
   function between(v: number, min: number, max: number): number;
   function normalizeToInterval(v: number, min: number, max: number): number;
   function pad(v: string, length?: number, char?: string): string;
+  function getDecimalsCount(value: number | string): number;
 }

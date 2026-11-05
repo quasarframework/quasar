@@ -1,7 +1,7 @@
 ---
 title: Formatter Utils
 desc: A set of Quasar methods for formatting values. Capitalizing, padding, normalizing and more.
-keys: capitalize,humanStorageSize,between,normalizeToInterval,pad
+keys: capitalize,humanStorageSize,between,normalizeToInterval,pad,getDecimalsCount
 ---
 
 ### Helping Tree-Shake
@@ -93,3 +93,25 @@ const { pad } = format
 console.log(pad('2', 4))
 // '0002'
 ```
+
+## Count Decimals <q-badge label="v2.35.3+" />
+
+Tells how many decimals a number (or a numeric string) needs when written in fixed notation, which is what `toFixed()` asks for. Unlike splitting `String(value)` on the dot, it also handles the numbers that JS prints in exponent notation.
+
+```js
+import { format } from 'quasar'
+const { getDecimalsCount } = format
+
+// (Number) getDecimalsCount(Number | String)
+console.log(getDecimalsCount(12)) // 0
+console.log(getDecimalsCount(0.25)) // 2
+console.log(getDecimalsCount(1e-7)) // 7 (String(1e-7) is '1e-7')
+console.log(getDecimalsCount('1.50')) // 2 (a string keeps its trailing zeros)
+
+// rounding a sum back to the precision of its operands
+const step = 0.1
+console.log(0.2 + step) // 0.30000000000000004
+console.log(Number.parseFloat((0.2 + step).toFixed(getDecimalsCount(step)))) // 0.3
+```
+
+The result never goes above 100, the most that `toFixed()` accepts.
