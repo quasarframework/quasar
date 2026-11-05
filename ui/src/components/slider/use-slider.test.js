@@ -219,11 +219,29 @@ describe('[useSlider API]', () => {
       })
 
       test.each([
-        ['keeps the value untouched', 0, 12.3456, 12.3456],
-        ['rounds to whole numbers', 1, 12.3456, 12],
-        ['rounds to the step decimals', 0.01, 12.3456, 12.35]
-      ])('%s', (_, step, value, expected) => {
-        const { slider } = mountSlider({ step })
+        ['keeps the value untouched', { step: 0 }, 12.3456, 12.3456],
+        ['rounds to whole numbers', { step: 1 }, 12.3456, 12],
+        ['rounds to the step decimals', { step: 0.01 }, 12.3456, 12.35],
+        [
+          'keeps the decimals of a fractional min',
+          { step: 1, min: 0.5 },
+          12.5,
+          12.5
+        ],
+        [
+          'keeps the decimals of a fractional inner min',
+          { step: 1, innerMin: 0.25 },
+          12.25,
+          12.25
+        ],
+        [
+          'reads a step written in exponent notation',
+          { step: 1e-7 },
+          0.12345678,
+          0.1234568
+        ]
+      ])('%s', (_, props, value, expected) => {
+        const { slider } = mountSlider(props)
 
         expect(slider.state.roundValueFn.value(value)).toBe(expected)
       })

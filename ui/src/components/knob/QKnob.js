@@ -12,7 +12,11 @@ import TouchPan from '../../directives/touch-pan/TouchPan.js'
 
 import { createComponent } from '../../utils/private.create/create.js'
 import { position, stopAndPrevent } from '../../utils/event/event.js'
-import { between, normalizeToInterval } from '../../utils/format/format.js'
+import {
+  between,
+  getDecimalsCount,
+  normalizeToInterval
+} from '../../utils/format/format.js'
 
 import useQuasar from '../../composables/use-quasar/use-quasar.js'
 import {
@@ -126,9 +130,7 @@ export default /*#__PURE__*/ createComponent({
             : '')
     )
 
-    const decimals = computed(
-      () => (String(props.step).trim().split('.')[1] || '').length
-    )
+    const decimals = computed(() => getDecimalsCount(props.step))
     const step = computed(() => (props.step === 0 ? 1 : props.step))
     const instantFeedback = computed(
       () => props.instantFeedback || dragging.value

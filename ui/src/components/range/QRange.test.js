@@ -172,6 +172,23 @@ describe('[QRange API]', () => {
         expect(getInnerTrack(wrapper).$style('left')).toBe(`${propVal}%`)
         expect(getInnerTrack(wrapper).$style('width')).toBe('70%')
       })
+
+      test('anchors the values of a step', async () => {
+        const wrapper = mountRange({
+          min: 0,
+          max: 10,
+          innerMin: 0.25,
+          step: 1,
+          modelValue: { min: 0.25, max: 10 }
+        })
+
+        // the valid values are 0.25, 1.25, 2.25 ...
+        await focusAndPress(getMinThumb(wrapper))
+
+        expect(wrapper.emitted('update:modelValue')).toStrictEqual([
+          [{ min: 1.25, max: 10 }]
+        ])
+      })
     })
 
     describe('[(prop)inner-max]', () => {

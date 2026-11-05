@@ -18,7 +18,7 @@ import {
   useFormProps
 } from '../../composables/use-form/private.use-form.js'
 
-import { between } from '../../utils/format/format.js'
+import { between, getDecimalsCount } from '../../utils/format/format.js'
 import { position } from '../../utils/event/event.js'
 import { isNumber, isObject } from '../../utils/is/is.js'
 
@@ -155,8 +155,8 @@ export default function useSlider({
     // the values sit on a grid anchored on innerMin (0.5, 1.5, ...
     // for a min of 0.5 and a step of 1), so its decimals are kept too
     const decimals = Math.max(
-      (String(props.step).trim().split('.')[1] || '').length,
-      (String(innerMin.value).trim().split('.')[1] || '').length
+      getDecimalsCount(props.step),
+      getDecimalsCount(innerMin.value)
     )
     return v => Number.parseFloat(v.toFixed(decimals))
   })
@@ -305,10 +305,11 @@ export default function useSlider({
     // accumulating floats drifts (0.1 + 0.1 + 0.1 = 0.30000000000000004),
     // so each tick is computed from the start and rounded back to its
     // operands' precision; the raw sum stays the fallback so an exotic
-    // step (e.g. 1e-7, where the rounding is a no-op) cannot stall the loop
+    // step (below 1e-100, more decimals than toFixed() keeps) cannot
+    // stall the loop
     const decimals = Math.max(
-      (String(step).trim().split('.')[1] || '').length,
-      (String(props.min).trim().split('.')[1] || '').length
+      getDecimalsCount(step),
+      getDecimalsCount(props.min)
     )
 
     let index = 0

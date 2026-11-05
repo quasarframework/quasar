@@ -154,6 +154,21 @@ describe('[QSlider API]', () => {
         expect(getInnerTrack(wrapper).$style('left')).toBe(`${propVal}%`)
         expect(getInnerTrack(wrapper).$style('width')).toBe('90%')
       })
+
+      test('anchors the values of a step', async () => {
+        const wrapper = mountSlider({
+          min: 0,
+          max: 10,
+          innerMin: 0.25,
+          step: 1,
+          modelValue: 0.25
+        })
+
+        // the valid values are 0.25, 1.25, 2.25 ...
+        await clickAt(wrapper, { clientX: 30 })
+
+        expect(wrapper.emitted('update:modelValue')).toStrictEqual([[3.25]])
+      })
     })
 
     describe('[(prop)inner-max]', () => {
@@ -207,6 +222,19 @@ describe('[QSlider API]', () => {
         await wrapper.setProps({ modelValue: 1.5 })
         await getTrackContainer(wrapper).trigger('keydown', { keyCode: 39 })
         expect(wrapper.emitted('update:modelValue').at(-1)).toStrictEqual([2.5])
+      })
+
+      test('accepts a value written in exponent notation', async () => {
+        const wrapper = mountSlider({
+          min: 0,
+          max: 1e-6,
+          step: 1e-7,
+          modelValue: 0
+        })
+
+        await clickAt(wrapper, { clientX: 30 })
+
+        expect(wrapper.emitted('update:modelValue')).toStrictEqual([[3e-7]])
       })
 
       test('only accepts a positive value', () => {

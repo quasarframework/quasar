@@ -87,6 +87,19 @@ describe('[QKnob API]', () => {
 
         expect(wrapper.emitted('update:modelValue')).toStrictEqual([[15]])
       })
+
+      test('accepts a value written in exponent notation', async () => {
+        const wrapper = mountKnob({
+          min: 0,
+          max: 1e-6,
+          step: 1e-7,
+          modelValue: 0
+        })
+
+        await wrapper.trigger('keydown', { keyCode: 39 })
+
+        expect(wrapper.emitted('update:modelValue')).toStrictEqual([[1e-7]])
+      })
     })
 
     describe('[(prop)reverse]', () => {
