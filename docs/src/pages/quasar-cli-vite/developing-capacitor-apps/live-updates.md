@@ -292,3 +292,105 @@ npx @capawesome/cli apps:liveupdates:upload --path src-capacitor/www --app-id 00
 ```
 
 Feel free to check out the [documentation](https://capawesome.io/docs/sdks/capacitor/live-update/) of the Live Update plugin to see what else you can do with it.
+
+## OtaKit
+
+[OtaKit](https://otakit.app/) is an open-source (MIT) live update service used through the `@otakit/capacitor-updater` plugin. Each release is described by an ES256-signed manifest; devices download it and the bundle files from a CDN, the plugin checks every file's SHA-256 hash against the signed manifest before using it, and a new bundle that fails to start is rolled back automatically. You can use the hosted service or [self-host](https://otakit.app/docs/self-host) the whole stack.
+
+### OtaKit Installation
+
+Navigate to the Capacitor project directory and install the plugin:
+
+```bash
+cd src-capacitor
+```
+
+```tabs
+<<| bash PNPM |>>
+pnpm add @otakit/capacitor-updater
+<<| bash Yarn |>>
+yarn add @otakit/capacitor-updater
+<<| bash NPM |>>
+npm install @otakit/capacitor-updater
+<<| bash Bun |>>
+bun add @otakit/capacitor-updater
+```
+
+Then synchronize the native projects:
+
+```bash
+npx cap sync
+```
+
+### OtaKit Configuration
+
+Create an app in the [OtaKit dashboard](https://console.otakit.app/) and copy its generated app ID into your `capacitor.config` file. The app ID is not the same as the app identifier (e.g. `com.example.app`).
+
+```ts /src-capacitor/capacitor.config.ts
+import { defineCapacitorConfig } from '@quasar/app-vite/capacitor'
+
+export default defineCapacitorConfig({
+  plugins: {
+    OtaKit: {
+      appId: 'YOUR_OTAKIT_APP_ID'
+    }
+  }
+})
+```
+
+With this configuration, the plugin downloads new bundles in the background and activates them on the next cold start of the app. See [update strategies](https://otakit.app/docs/update-strategies) to apply updates on resume or after your own prompt instead.
+
+After configuring the plugin, synchronize the Capacitor project again:
+
+```bash
+npx cap sync
+```
+
+### OtaKit Usage
+
+Call `notifyAppReady()` once the application has loaded, for example in the `onMounted` hook of your root component. If a newly activated bundle never confirms that it started, the plugin rolls back to the last working bundle:
+
+```js
+import { OtaKit } from '@otakit/capacitor-updater'
+
+await OtaKit.notifyAppReady()
+```
+
+### OtaKit Publishing updates
+
+Create the Capacitor web bundle from the root of your Quasar project:
+
+```bash
+quasar build -m capacitor -T [android|ios] --skip-pkg
+```
+
+Install the [OtaKit CLI](https://otakit.app/docs/cli) and sign in:
+
+```bash
+npm install -g @otakit/cli
+otakit login
+```
+
+Upload the `src-capacitor/www` folder and release it to the default channel:
+
+```bash
+otakit upload src-capacitor/www --release
+```
+
+To test it, install a build of your app that contains the plugin on a device, make a visible change to your web app, rebuild, and upload again. Open the app so it downloads the update, then close it completely and open it once more to see the change. Do not test with `quasar dev -m capacitor`, since live reload loads the web app from the dev server instead of the installed bundle.
+
+> [!IMPORTANT]
+> A live update can only change the web layer and must stay compatible with the native binary installed on the device. When you ship a native change, set a new `runtimeVersion` in the plugin configuration so each bundle reaches only the native builds it was made for, as described in [channels](https://otakit.app/docs/channels).
+
+### OtaKit Channels and rollouts
+
+Pass a channel name to `--release` to publish to it, for example a `staging` channel for testers, and `--rollout` to release to a share of devices first:
+
+```bash
+otakit upload src-capacitor/www --release staging
+otakit upload src-capacitor/www --release production --rollout 10
+```
+
+Devices follow the channel set as `channel` in the plugin configuration or chosen at runtime with `setChannel()`. Raise a rollout later with `otakit rollout --channel production --percent 50`.
+
+To publish from a CI pipeline, store an OtaKit API token and your app ID as the `OTAKIT_TOKEN` and `OTAKIT_APP_ID` secrets; the CLI reads them without prompts. See the [CI guide](https://otakit.app/docs/ci) for a complete GitHub Actions workflow.
