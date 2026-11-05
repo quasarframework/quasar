@@ -240,8 +240,9 @@ function generateTsConfig(quasarConf, fsUtils) {
 
       paths
     },
-    // include and exclude are relative to .quasar
-    include: ['./*.d.ts', './../**/*'],
+    // include and exclude are relative to .quasar;
+    // .vue needs its own glob, Rolldown only matches TS/JS files on "*"
+    include: ['./*.d.ts', './../**/*', './../**/*.vue'],
     exclude: [
       './../dist',
       './../node_modules',
