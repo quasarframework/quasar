@@ -26,6 +26,9 @@ export const env = {
     : {})
 }
 delete env.NODE_ENV
+// Vitest points NODE_PATH at its own module store; the CLI must resolve its
+// dependencies as it does outside the test runner.
+delete env.NODE_PATH
 
 const reproFor = (cwd, command) =>
   `\n\nTo reproduce manually:\n  cd ${cwd}\n  ${command}\n`
@@ -104,6 +107,26 @@ export function getFreePort() {
 
 function killTree(child) {
   return (async () => {
+    if (child.pid === void 0) return
+
+    if (process.platform === 'win32') {
+      if (child.exitCode !== null || child.signalCode !== null) return
+
+      // Windows has no POSIX process groups. Killing only the parent
+      // leaves its server processes running and their files locked.
+      const { code, output } = await run(
+        'taskkill',
+        ['/pid', String(child.pid), '/T', '/F'],
+        import.meta.dirname
+      )
+
+      if (code !== 0 && child.exitCode === null && child.signalCode === null) {
+        throw new Error(`Could not stop process tree ${child.pid}:\n${output}`)
+      }
+
+      return
+    }
+
     try {
       process.kill(-child.pid, 'SIGTERM')
     } catch {}

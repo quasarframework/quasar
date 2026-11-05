@@ -77,6 +77,51 @@ jobs:
       - name: Run unit tests
         run: pnpm test:unit
 
+  ssg-windows:
+    needs: build-ui
+
+    permissions:
+      contents: read
+
+    runs-on: windows-latest
+    timeout-minutes: 20
+
+    defaults:
+      run:
+        working-directory: app-vite
+
+    name: SSG tests for app-vite on Windows
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@fc06bc1257f339d1d5d8b3a19a8cae5388b55320 # v5
+
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm i
+
+      - name: Download UI build artifact
+        uses: actions/download-artifact@v8
+        with:
+          name: ui-build-app-vite
+          path: ui/dist
+
+      - name: Test native renderer imports and quasar info
+        run: pnpm test:unit lib/modes/ssg/ssg-builder.test.js lib/cmd/info.test.js
+
+      - name: Test SPA dev servers for both playgrounds
+        run: pnpm test:e2e -t "serves the app in SPA dev mode"
+
+      - name: Test SSG builds and dev servers for both playgrounds
+        run: pnpm test:e2e:ssg
+
   build-ui:
     permissions:
       contents: read # to fetch code (actions/checkout)
