@@ -6,6 +6,7 @@ import { useRoute } from 'vue-router'
 import { getRouter } from 'testing/runtime/router.js'
 import Platform from '../../plugins/platform/Platform.js'
 import { validatePosition } from '../../composables/private.use-position-engine/use-position-engine.js'
+import QInput from '../input/QInput.js'
 import QTooltip from './QTooltip.js'
 
 // the test browser is a Chromium, so QTooltip takes the CSS anchor
@@ -69,6 +70,30 @@ function mountTooltip(props, slots, mountOptions) {
       attachTo: document.body,
       ...mountOptions
     }
+  )
+
+  return activeWrapper
+}
+
+/** Mounts an independent input so a tooltip's portal can hold its focus request. */
+function mountTooltipWithInput(props) {
+  activeWrapper = mount(
+    defineComponent({
+      props: { renderTooltip: { type: Boolean, default: true } },
+      setup(componentProps) {
+        return () =>
+          h('div', [
+            h('button', { class: 'my-anchor' }, [
+              'Information',
+              componentProps.renderTooltip
+                ? h(QTooltip, props, () => 'Tip')
+                : null
+            ]),
+            h(QInput)
+          ])
+      }
+    }),
+    { attachTo: document.body }
   )
 
   return activeWrapper
@@ -770,6 +795,35 @@ describe('[QTooltip API]', () => {
   })
 
   describe('[Generic]', () => {
+    test('programmatic show cancels a pending hide delay', async () => {
+      const wrapper = mountTooltip({ hideDelay: 500 })
+      const tooltip = getTooltipComponent(wrapper)
+      await getAnchor(wrapper).trigger('pointerleave')
+      expect(vi.getTimerCount()).toBeGreaterThan(0)
+
+      tooltip.vm.show()
+      await vi.advanceTimersByTimeAsync(500)
+
+      expect(tooltip.emitted('show')).toHaveLength(1)
+      expect(tooltip.emitted('hide')).toBeUndefined()
+      expect(getTooltip()).not.toBeNull()
+    })
+
+    test('programmatic hide cancels a pending show delay', async () => {
+      const wrapper = mountTooltip({ delay: 500 })
+      const tooltip = getTooltipComponent(wrapper)
+      await showTooltip(wrapper)
+      await getAnchor(wrapper).trigger('pointerenter', { pointerType: 'mouse' })
+      expect(vi.getTimerCount()).toBeGreaterThan(0)
+
+      tooltip.vm.hide()
+      await vi.advanceTimersByTimeAsync(500)
+
+      expect(tooltip.emitted('show')).toHaveLength(1)
+      expect(tooltip.emitted('hide')).toHaveLength(1)
+      expect(getTooltip()).toBeNull()
+    })
+
     describe('viewport boundary', () => {
       test('keeps its natural width when flipped away from the right edge', async () => {
         await expectNaturalWidthAtTheRightEdge()
@@ -1287,6 +1341,91 @@ describe('[QTooltip API]', () => {
   })
 
   describe('[Accessibility]', () => {
+    test('completes opening and releases queued input focus when keyboard focus follows hover', async () => {
+      const duration = 300
+      const wrapper = mountTooltipWithInput({ transitionDuration: duration })
+      const anchor = getAnchor(wrapper)
+      const tooltip = getTooltipComponent(wrapper)
+      const input = wrapper.getComponent(QInput)
+
+      await anchor.trigger('pointerenter', { pointerType: 'mouse' })
+      await vi.advanceTimersByTimeAsync(0)
+      expect(getTooltip()).not.toBeNull()
+      expect(tooltip.emitted('show')).toBeUndefined()
+
+      anchor.element.focus()
+      expect(anchor.element.matches(':focus-visible')).toBe(true)
+      await vi.advanceTimersByTimeAsync(0)
+      input.vm.focus()
+      expect(document.activeElement).not.toBe(input.get('input').element)
+
+      await vi.advanceTimersByTimeAsync(duration)
+
+      expect(tooltip.emitted('show')).toHaveLength(1)
+      expect(document.activeElement).toBe(input.get('input').element)
+    })
+
+    test('completes an interrupted opening when pointer leave and blur overlap', async () => {
+      const duration = 300
+      const wrapper = mountTooltipWithInput({ transitionDuration: duration })
+      const anchor = getAnchor(wrapper)
+      const tooltip = getTooltipComponent(wrapper)
+      const input = wrapper.getComponent(QInput)
+      anchor.element.focus()
+      await anchor.trigger('pointerenter', { pointerType: 'mouse' })
+      await vi.advanceTimersByTimeAsync(0)
+      const portal = document.querySelector('[id^="q-portal--tooltip"]')
+      expect(portal).not.toBeNull()
+
+      await anchor.trigger('pointerleave', { pointerType: 'mouse' })
+      await vi.advanceTimersByTimeAsync(0)
+      expect(tooltip.emitted('beforeHide')).toHaveLength(1)
+      expect(tooltip.emitted('hide')).toBeUndefined()
+      anchor.element.dispatchEvent(
+        new FocusEvent('focusout', {
+          relatedTarget: input.get('input').element
+        })
+      )
+      await vi.advanceTimersByTimeAsync(0)
+      input.vm.focus()
+      expect(document.activeElement).not.toBe(input.get('input').element)
+
+      await vi.advanceTimersByTimeAsync(duration)
+
+      expect(tooltip.emitted('show')).toBeUndefined()
+      expect(tooltip.emitted('hide')).toHaveLength(1)
+      expect(portal.isConnected).toBe(false)
+      expect(document.activeElement).toBe(input.get('input').element)
+    })
+
+    test('releases queued focus and cancels delayed work when unmounted during opening', async () => {
+      const duration = 300
+      const onShow = vi.fn()
+      const wrapper = mountTooltipWithInput({
+        transitionDuration: duration,
+        delay: 100,
+        onShow
+      })
+      const anchor = getAnchor(wrapper)
+      const tooltip = getTooltipComponent(wrapper)
+      const input = wrapper.getComponent(QInput)
+      tooltip.vm.show()
+      await flushPromises()
+      expect(getTooltip()).not.toBeNull()
+      await anchor.trigger('pointerenter', { pointerType: 'mouse' })
+      input.vm.focus()
+      expect(document.activeElement).not.toBe(input.get('input').element)
+      expect(vi.getTimerCount()).toBeGreaterThan(0)
+
+      await wrapper.setProps({ renderTooltip: false })
+
+      expect(document.activeElement).toBe(input.get('input').element)
+      expect(document.querySelector('[id^="q-portal--tooltip"]')).toBeNull()
+      await vi.advanceTimersByTimeAsync(duration * 2)
+      expect(onShow).not.toHaveBeenCalled()
+      expect(getTooltip()).toBeNull()
+    })
+
     test('applies a dynamic id to the tooltip and its aria wiring', async () => {
       const wrapper = mountTooltip({ id: 'tip-a' })
       await showTooltip(wrapper)

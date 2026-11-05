@@ -85,4 +85,8 @@ QTooltip implements the [WAI-ARIA tooltip pattern](https://www.w3.org/WAI/ARIA/a
 
 Focus returned by a closing QDialog or QMenu does not open the anchor's tooltip. The anchor still receives focus, and hovering it or tabbing away and back shows the tooltip as usual, so there is no need to disable the focus return with `no-refocus`.
 
+Hover and keyboard focus can overlap while the tooltip is opening. Its transition still completes, so a programmatic focus request from another component, such as `QInput.focus()`, can continue.
+
+<DocExample title="Keyboard focus during a transition" file="FocusDuringTransition" />
+
 Two things to keep in mind. A tooltip is a _description_, not a name — an icon-only button still needs its own `aria-label`, with the tooltip merely supplementing it. And the tooltip itself is transparent to the mouse (it cannot be hovered, and it hides when the pointer leaves the anchor), so keep its content short and non-interactive.

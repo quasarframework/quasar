@@ -23,6 +23,7 @@ import useTransition, {
 } from '../../composables/private.use-transition/use-transition.js'
 import useTick from '../../composables/use-tick/use-tick.js'
 import useTransitionEnd from '../../composables/private.use-transition-end/use-transition-end.js'
+import useTimeout from '../../composables/use-timeout/use-timeout.js'
 import useId from '../../composables/use-id/use-id.js'
 import usePositionEngine, {
   parsePosition,
@@ -151,9 +152,9 @@ export default /*#__PURE__*/ createComponent({
     const selfOrigin = computed(() => parsePosition(props.self, $q.lang.rtl))
     const hideOnRouteChange = computed(() => !props.persistent)
 
-    // registerTimeout also drives delay/hideDelay: sharing the slot with
-    // the transition tail keeps a starting delay able to supersede it
-    const { registerTimeout, registerTransitionEnd } = useTransitionEnd(props)
+    // Repeated anchor events must not cancel portal transition completion.
+    const { registerTimeout, removeTimeout } = useTimeout()
+    const { registerTransitionEnd } = useTransitionEnd(props)
     const { transitionProps, transitionStyle } = useTransition(props)
 
     const { anchorEl, canShow, anchorEvents } = useAnchor({
@@ -218,6 +219,7 @@ export default /*#__PURE__*/ createComponent({
     )
 
     function handleShow(evt) {
+      removeTimeout()
       cleanEvt(anchorEvents, 'cursorTemp')
 
       showPortal()
@@ -238,6 +240,7 @@ export default /*#__PURE__*/ createComponent({
     }
 
     function handleHide(evt) {
+      removeTimeout()
       removeTick()
       hidePortal()
       anchorCleanup(true)
