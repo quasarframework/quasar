@@ -381,11 +381,27 @@ export function definePlaygroundSuite({ playgroundDir, scriptExt }) {
             headers: { accept: 'text/html' }
           })
           expect(response.status).toBe(200)
+          expect(response.headers.get('cache-control')).toBeNull()
 
           expectSharedChunkCss(
             await response.text(),
             join(playgroundDir, 'dist/ssr/client')
           )
+
+          const asset = readdirSync(
+            join(playgroundDir, 'dist/ssr/client/assets')
+          ).find(file => file.endsWith('.css'))
+          expect(asset).toBeDefined()
+          const staticResponse = await fetch(`${origin}/assets/${asset}`)
+          expect(staticResponse.status).toBe(200)
+          expect(staticResponse.headers.get('cache-control')).toBe(
+            `public, max-age=${30 * 24 * 60 * 60}`
+          )
+
+          const missingResponse = await fetch(
+            `${origin}/assets/missing-cache-check.css`
+          )
+          expect(missingResponse.headers.get('cache-control')).toBeNull()
         }
       }
     )

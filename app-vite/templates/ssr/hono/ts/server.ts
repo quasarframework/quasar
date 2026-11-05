@@ -195,14 +195,18 @@ export const serveStaticContent = defineSsrServeStaticContent(
       const { maxAge: maxAgeOpt, ...serveOpts } = opts;
       const cacheAge = maxAgeOpt !== void 0 ? maxAgeOpt : maxAge;
 
+      const staticOpts: Parameters<typeof serveStatic>[0] = { ...serveOpts };
       if (cacheAge > 0) {
-        app.get(routePath, async (c, next) => {
-          c.header("Cache-Control", `public, max-age=${cacheAge}`);
-          await next();
-        });
+        const { onFound } = staticOpts;
+        staticOpts.onFound = async (path, c) => {
+          c.header(
+            "Cache-Control",
+            `public, max-age=${Math.floor(cacheAge / 1000)}`
+          );
+          await onFound?.(path, c);
+        };
       }
 
-      const staticOpts: Parameters<typeof serveStatic>[0] = { ...serveOpts };
       if (isDir) {
         staticOpts.root = pubPath;
       } else {

@@ -12,6 +12,8 @@ The `/src-ssr/server.js` file is a simple JavaScript/TypeScript file which boots
 > [!WARNING]
 > The `/src-ssr/server.js` file is used for both DEV and PROD, so please be careful on how you configure it. To differentiate between the two states you can use `import.meta.env.QUASAR_DEV` and `import.meta.env.QUASAR_PROD`.
 
+For Hono, set public cache headers only in `serveStatic`'s `onFound` callback, as shown below. The `maxAge` option is in milliseconds; the HTTP `max-age` value is in seconds. Requests that fall through to SSR must keep the application's own cache policy.
+
 Now let's see what it contains, for JS projects first and then for TypeScript. Pick the one you want to use based on the webserver of your choice:
 
 <llm-exclude reason="Mirrors the TypeScript :::details below without the type annotations. LLMs can derive the JS form from the TS version.">
@@ -198,10 +200,14 @@ export const serveStaticContent = defineSsrServeStaticContent(
       const cacheAge = localMaxAge ?? maxAge
 
       if (cacheAge > 0) {
-        app.get(routePath, async (c, next) => {
-          c.header('Cache-Control', `public, max-age=${cacheAge}`)
-          await next()
-        })
+        const { onFound } = serveOpts
+        serveOpts.onFound = async (path, c) => {
+          c.header(
+            'Cache-Control',
+            `public, max-age=${Math.floor(cacheAge / 1000)}`
+          )
+          await onFound?.(path, c)
+        }
       }
 
       if (publicPath !== '/') {
@@ -967,14 +973,18 @@ export const serveStaticContent = defineSsrServeStaticContent(
       const { maxAge: maxAgeOpt, ...serveOpts } = opts;
       const cacheAge = maxAgeOpt !== void 0 ? maxAgeOpt : maxAge;
 
+      const staticOpts: Parameters<typeof serveStatic>[0] = { ...serveOpts };
       if (cacheAge > 0) {
-        app.get(routePath, async (c, next) => {
-          c.header("Cache-Control", `public, max-age=${cacheAge}`);
-          await next();
-        });
+        const { onFound } = staticOpts;
+        staticOpts.onFound = async (path, c) => {
+          c.header(
+            "Cache-Control",
+            `public, max-age=${Math.floor(cacheAge / 1000)}`
+          );
+          await onFound?.(path, c);
+        };
       }
 
-      const staticOpts: Parameters<typeof serveStatic>[0] = { ...serveOpts };
       if (isDir) {
         staticOpts.root = pubPath;
       } else {

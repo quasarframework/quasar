@@ -123,7 +123,12 @@ interface SsrServeStaticFnParams {
    * Other custom options...
    */
   // Keep this in sync with ssr-prod-webserver
-  opts?: { maxAge?: number };
+  opts?: {
+    /**
+     * Static-file cache lifetime in milliseconds. Defaults to 30 days in production.
+     */
+    maxAge?: number;
+  };
 }
 
 type SsrServeStaticFn = (
