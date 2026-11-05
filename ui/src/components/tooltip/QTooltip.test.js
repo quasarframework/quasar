@@ -75,7 +75,7 @@ function mountTooltip(props, slots, mountOptions) {
   return activeWrapper
 }
 
-/** Mounts an independent input so a tooltip's portal can hold its focus request. */
+/** Mounts an independent input next to the anchor, as a focus target. */
 function mountTooltipWithInput(props) {
   activeWrapper = mount(
     defineComponent({
@@ -1341,12 +1341,29 @@ describe('[QTooltip API]', () => {
   })
 
   describe('[Accessibility]', () => {
-    test('completes opening and releases queued input focus when keyboard focus follows hover', async () => {
+    test('holds no focus request back while opening', async () => {
+      const duration = 300
+      const wrapper = mountTooltipWithInput({ transitionDuration: duration })
+      const tooltip = getTooltipComponent(wrapper)
+      const input = wrapper.getComponent(QInput)
+
+      await getAnchor(wrapper).trigger('pointerenter', { pointerType: 'mouse' })
+      await vi.advanceTimersByTimeAsync(0)
+      expect(getTooltip()).not.toBeNull()
+      expect(tooltip.emitted('show')).toBeUndefined()
+
+      input.vm.focus()
+      expect(document.activeElement).toBe(input.get('input').element)
+
+      await vi.advanceTimersByTimeAsync(duration)
+      expect(tooltip.emitted('show')).toHaveLength(1)
+    })
+
+    test('completes opening when keyboard focus follows hover', async () => {
       const duration = 300
       const wrapper = mountTooltipWithInput({ transitionDuration: duration })
       const anchor = getAnchor(wrapper)
       const tooltip = getTooltipComponent(wrapper)
-      const input = wrapper.getComponent(QInput)
 
       await anchor.trigger('pointerenter', { pointerType: 'mouse' })
       await vi.advanceTimersByTimeAsync(0)
@@ -1355,14 +1372,11 @@ describe('[QTooltip API]', () => {
 
       anchor.element.focus()
       expect(anchor.element.matches(':focus-visible')).toBe(true)
-      await vi.advanceTimersByTimeAsync(0)
-      input.vm.focus()
-      expect(document.activeElement).not.toBe(input.get('input').element)
 
       await vi.advanceTimersByTimeAsync(duration)
 
       expect(tooltip.emitted('show')).toHaveLength(1)
-      expect(document.activeElement).toBe(input.get('input').element)
+      expect(tooltip.emitted('hide')).toBeUndefined()
     })
 
     test('completes an interrupted opening when pointer leave and blur overlap', async () => {
@@ -1386,19 +1400,14 @@ describe('[QTooltip API]', () => {
           relatedTarget: input.get('input').element
         })
       )
-      await vi.advanceTimersByTimeAsync(0)
-      input.vm.focus()
-      expect(document.activeElement).not.toBe(input.get('input').element)
-
       await vi.advanceTimersByTimeAsync(duration)
 
       expect(tooltip.emitted('show')).toBeUndefined()
       expect(tooltip.emitted('hide')).toHaveLength(1)
       expect(portal.isConnected).toBe(false)
-      expect(document.activeElement).toBe(input.get('input').element)
     })
 
-    test('releases queued focus and cancels delayed work when unmounted during opening', async () => {
+    test('cancels delayed work when unmounted during opening', async () => {
       const duration = 300
       const onShow = vi.fn()
       const wrapper = mountTooltipWithInput({
@@ -1408,18 +1417,14 @@ describe('[QTooltip API]', () => {
       })
       const anchor = getAnchor(wrapper)
       const tooltip = getTooltipComponent(wrapper)
-      const input = wrapper.getComponent(QInput)
       tooltip.vm.show()
       await flushPromises()
       expect(getTooltip()).not.toBeNull()
       await anchor.trigger('pointerenter', { pointerType: 'mouse' })
-      input.vm.focus()
-      expect(document.activeElement).not.toBe(input.get('input').element)
       expect(vi.getTimerCount()).toBeGreaterThan(0)
 
       await wrapper.setProps({ renderTooltip: false })
 
-      expect(document.activeElement).toBe(input.get('input').element)
       expect(document.querySelector('[id^="q-portal--tooltip"]')).toBeNull()
       await vi.advanceTimersByTimeAsync(duration * 2)
       expect(onShow).not.toHaveBeenCalled()

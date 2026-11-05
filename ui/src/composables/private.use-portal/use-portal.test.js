@@ -1,9 +1,13 @@
-import { afterEach, describe, expect, onTestFinished, test } from 'vitest'
+import { afterEach, describe, expect, onTestFinished, test, vi } from 'vitest'
 import { mount } from '@vue/test-utils'
 import { defineComponent, getCurrentInstance, h, nextTick, ref } from 'vue'
 
 import usePortal from './use-portal.js'
 import { portalProxyList } from '../../utils/private.portal/portal.js'
+import {
+  addFocusFn,
+  removeFocusFn
+} from '../../utils/private.focus/focus-manager.js'
 
 let wrapper
 
@@ -163,6 +167,44 @@ describe('[usePortal API]', () => {
   })
 
   describe('[Generic]', () => {
+    describe('focus requests', () => {
+      function requestFocus() {
+        const focusFn = vi.fn()
+
+        addFocusFn(focusFn)
+        onTestFinished(() => {
+          removeFocusFn(focusFn)
+        })
+
+        return focusFn
+      }
+
+      test.each(['menu', 'dialog'])(
+        'an opening %s holds a focus request back until it is done showing',
+        type => {
+          const { portal } = mountPortal({ type })
+
+          portal.showPortal()
+          const focusFn = requestFocus()
+          expect(focusFn).not.toHaveBeenCalled()
+
+          portal.showPortal(true)
+          expect(focusFn).toHaveBeenCalledTimes(1)
+        }
+      )
+
+      test('an opening tooltip holds no focus request back (it does not take focus)', () => {
+        const { portal } = mountPortal({ type: 'tooltip' })
+
+        portal.showPortal()
+        expect(requestFocus()).toHaveBeenCalledTimes(1)
+
+        portal.showPortal(true)
+        portal.hidePortal(false)
+        expect(requestFocus()).toHaveBeenCalledTimes(1)
+      })
+    })
+
     // a QField hosting a menu/dialog inside its control hears these on the
     // control (see use-field), so they must bubble from a node that sits in
     // the field's markup while the popup opens, closes or gets unmounted

@@ -96,8 +96,9 @@ export default function usePortal(vm, innerRef, renderPortalContent, type) {
   // events dispatched from this component's placeholder node, which sits
   // in the field's own markup (portal content is teleported to <body>, so
   // a popup nested in another popup's content never reaches the field).
-  // Tooltips never take focus, so they stay silent.
-  const notifiesField = type !== 'tooltip'
+  // Tooltips never take focus, so they stay silent; for the same reason
+  // they hold no focus request back while opening.
+  const takesFocus = type !== 'tooltip'
   let fieldNotified = false
 
   function notifyField(name) {
@@ -139,11 +140,13 @@ export default function usePortal(vm, innerRef, renderPortalContent, type) {
       // register portal
       portalProxyList.push(vm.proxy)
 
-      addFocusWaitFlag(focusObj)
+      if (takesFocus) {
+        addFocusWaitFlag(focusObj)
 
-      if (notifiesField && !silent) {
-        fieldNotified = true
-        notifyField('popup-show')
+        if (!silent) {
+          fieldNotified = true
+          notifyField('popup-show')
+        }
       }
     }
   }
