@@ -1518,6 +1518,62 @@ describe('[QTree API]', () => {
   })
 
   describe('[Generic]', () => {
+    // #18584
+    test('keeps the children of an expanded node visible when they are removed and restored', async () => {
+      vi.useFakeTimers()
+      const wrapper = mountTree({ expanded: ['fruits'], duration: 10 })
+
+      // the node keeps its key (and its place in the model) throughout
+      await wrapper.setProps({
+        nodes: [{ id: 'fruits', label: 'Fruits' }, getNodes()[1]]
+      })
+      expect(wrapper.find('.q-tree__node-collapsible').exists()).toBe(false)
+
+      await wrapper.setProps({ nodes: getNodes() })
+
+      // the model did not change, so nothing slides
+      expect(
+        wrapper.get('.q-tree__node-collapsible').element.getAnimations()
+      ).toHaveLength(0)
+
+      await vi.runAllTimersAsync()
+      vi.useRealTimers()
+
+      expect(getLabels(wrapper)).toStrictEqual([
+        'Fruits',
+        'Apple',
+        'Banana',
+        'Bread'
+      ])
+      expect(getHeader(wrapper, 'Fruits').attributes('aria-expanded')).toBe(
+        'true'
+      )
+      expect(wrapper.emitted()).not.toHaveProperty('afterShow')
+      expect(wrapper.emitted()).not.toHaveProperty('afterHide')
+    })
+
+    test('keeps the restored children visible when expanded again while the removed ones were sliding shut', async () => {
+      vi.useFakeTimers()
+      const wrapper = mountTree({ expanded: ['fruits'], duration: 10 })
+
+      // the collapse is still sliding when its content goes away
+      await wrapper.setProps({ expanded: [] })
+      await wrapper.setProps({
+        nodes: [{ id: 'fruits', label: 'Fruits' }, getNodes()[1]]
+      })
+      await wrapper.setProps({ nodes: getNodes(), expanded: ['fruits'] })
+
+      await vi.runAllTimersAsync()
+      vi.useRealTimers()
+
+      expect(getLabels(wrapper)).toStrictEqual([
+        'Fruits',
+        'Apple',
+        'Banana',
+        'Bread'
+      ])
+    })
+
     test('renders a collapsed subtree only after its first expansion', async () => {
       // an instant toggle, so the collapse settles within the tick
       const wrapper = mountTree({ duration: 0 })

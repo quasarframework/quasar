@@ -1180,8 +1180,11 @@ export default /*#__PURE__*/ createComponent({
     // there (flipping the visibility once a hide completes)
     function useCollapsible(nodeProps) {
       const elRef = shallowRef(null)
-      const expanded = computed(
-        () => getMetaRef(nodeProps.node[props.nodeKey]).value?.expanded === true
+      // the model alone, not meta.expanded: a node losing its children
+      // (and its collapsible along with them) is not a collapse, nor is
+      // getting them back an expansion
+      const expanded = computed(() =>
+        expandedFlags.has(nodeProps.node[props.nodeKey])
       )
       const hidden = ref(!expanded.value)
       const { onEnter, onLeave } = useSlideTransition(
@@ -1189,8 +1192,10 @@ export default /*#__PURE__*/ createComponent({
         onSlideEnd
       )
 
+      // the slide of a collapsible that got unmounted meanwhile can
+      // settle after the node was expanded again
       function hide() {
-        hidden.value = true
+        hidden.value = !expanded.value
       }
 
       function slide() {
