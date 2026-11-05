@@ -26,6 +26,9 @@ export const env = {
     : {})
 }
 delete env.NODE_ENV
+// Vitest points NODE_PATH at its own module store; the CLI must resolve its
+// dependencies as it does outside the test runner.
+delete env.NODE_PATH
 
 const reproFor = (cwd, command) =>
   `\n\nTo reproduce manually:\n  cd ${cwd}\n  ${command}\n`

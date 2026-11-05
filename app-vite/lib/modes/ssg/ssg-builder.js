@@ -1,4 +1,5 @@
 import { join } from 'node:path'
+import { pathToFileURL } from 'node:url'
 import { merge } from 'webpack-merge'
 
 import { AppBuilder } from '../../app-builder.js'
@@ -317,6 +318,10 @@ async function loadFilenameBasedRoutes(viteServerConfig, createServer) {
   }
 }
 
+export function loadSsgRenderer(distDir) {
+  return import(pathToFileURL(join(distDir, '__ssg__/ssg-script.js')).href)
+}
+
 export class QuasarModeBuilder extends AppBuilder {
   #viteServerConfig
 
@@ -498,8 +503,8 @@ export class QuasarModeBuilder extends AppBuilder {
   }
 
   async #renderSsgPages() {
-    const { renderSsgPage, getSsgPages } = await import(
-      join(this.quasarConf.build.distDir, '__ssg__/ssg-script.js')
+    const { renderSsgPage, getSsgPages } = await loadSsgRenderer(
+      this.quasarConf.build.distDir
     )
 
     const ssgPageList = await getSsgPages({

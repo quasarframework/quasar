@@ -540,6 +540,35 @@ export function definePlaygroundSuite({ playgroundDir, scriptExt }) {
     }
   })
 
+  stepTest(
+    'builds the app in SSG mode with URL-sensitive output paths',
+    async () => {
+      await ensureSsgMode()
+
+      const distDir = 'dist/ssg output #100%'
+      await withModifiedConfig(
+        {
+          from: 'build: {',
+          to: `build: {\n    distDir: ${JSON.stringify(distDir)},`
+        },
+        async () => {
+          const { code, output, repro } = await runQuasar(
+            ['build', '-m', 'ssg'],
+            playgroundDir
+          )
+          expect(code, output + repro).toBe(0)
+
+          const html = readFileSync(
+            join(playgroundDir, distDir, 'index.html'),
+            'utf8'
+          )
+          expect(html, repro).toContain(fixtureMarkers.indexPageContent)
+          expect(html, repro).toContain(fixtureMarkers.jsxGreeting)
+        }
+      )
+    }
+  )
+
   stepTest('builds the app in SSG mode with a CSR route', async () => {
     await ensureSsgMode()
 

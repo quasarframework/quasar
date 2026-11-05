@@ -30,6 +30,8 @@ quasar build --mode ssg
 
 The default output directory is `dist/ssg`. The build fails if `getSsgPages()` returns no pages or if two page definitions try to write the same file.
 
+The output directory can contain spaces, `#`, or `%`. On Windows, SSG builds support drive-letter paths, including projects stored on a drive other than `C:`.
+
 > [!TIP]
 > Should you want to change the default error handling behaviour of the SSG render process (fail on first error), and instead you want to go through all SSG pages then error out, or just warn but not fail, or ignore the errors completely, you can use the quasar.config > ssg > [onSsgRendererError](/quasar-cli-vite/developing-ssg/configuring-ssg).
 
