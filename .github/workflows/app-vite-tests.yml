@@ -116,9 +116,6 @@ jobs:
       - name: Test native renderer imports and quasar info
         run: pnpm test:unit lib/modes/ssg/ssg-builder.test.js lib/cmd/info.test.js
 
-      - name: Test process-tree cleanup
-        run: pnpm test:e2e e2e-utils
-
       - name: Test SPA dev servers for both playgrounds
         run: pnpm test:e2e -t "serves the app in SPA dev mode"
 

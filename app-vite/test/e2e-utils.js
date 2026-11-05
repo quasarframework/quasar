@@ -105,7 +105,7 @@ export function getFreePort() {
   })
 }
 
-export function killTree(child) {
+function killTree(child) {
   return (async () => {
     if (child.pid === void 0) return
 
