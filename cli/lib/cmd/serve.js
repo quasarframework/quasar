@@ -76,6 +76,7 @@ if (argv.help) {
 import { existsSync } from 'node:fs'
 import { readFile } from 'node:fs/promises'
 import { join, isAbsolute } from 'node:path'
+import { pathToFileURL } from 'node:url'
 
 import { cliPkg } from '../cli-pkg.js'
 import { log, warn, fatal } from '../logger.js'
@@ -132,7 +133,7 @@ if (argv.proxy) {
   }
 
   // Import the config file
-  const { default: proxyFn } = await import(argv.proxy)
+  const { default: proxyFn } = await import(pathToFileURL(argv.proxy).href)
   const { proxy } = await import('hono/proxy')
 
   proxyFn({ app, proxy })
