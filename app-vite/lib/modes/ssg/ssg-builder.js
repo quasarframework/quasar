@@ -1,4 +1,5 @@
 import { join } from 'node:path'
+import { pathToFileURL } from 'node:url'
 import { merge } from 'webpack-merge'
 
 import { AppBuilder } from '../../app-builder.js'
@@ -499,7 +500,9 @@ export class QuasarModeBuilder extends AppBuilder {
 
   async #renderSsgPages() {
     const { renderSsgPage, getSsgPages } = await import(
-      join(this.quasarConf.build.distDir, '__ssg__/ssg-script.js')
+      pathToFileURL(
+        join(this.quasarConf.build.distDir, '__ssg__/ssg-script.js')
+      ).href
     )
 
     const ssgPageList = await getSsgPages({
