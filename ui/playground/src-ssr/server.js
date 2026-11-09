@@ -180,10 +180,12 @@ export const serveStaticContent = defineSsrServeStaticContent(
       const cacheAge = localMaxAge ?? maxAge
 
       if (cacheAge > 0) {
-        app.get(routePath, async (c, next) => {
-          c.header('Cache-Control', `public, max-age=${cacheAge}`)
-          await next()
-        })
+        const { onFound } = serveOpts
+        const cacheControlValue = `public, max-age=${Math.floor(cacheAge / 1000)}`
+        serveOpts.onFound = async (path, c) => {
+          c.header('Cache-Control', cacheControlValue)
+          await onFound?.(path, c)
+        }
       }
 
       app.use(

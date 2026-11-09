@@ -178,11 +178,9 @@ export const serveStaticContent = defineSsrServeStaticContent(
 
       if (cacheAge > 0) {
         const { onFound } = serveOpts
+        const cacheControlValue = `public, max-age=${Math.floor(cacheAge / 1000)}`
         serveOpts.onFound = async (path, c) => {
-          c.header(
-            'Cache-Control',
-            `public, max-age=${Math.floor(cacheAge / 1000)}`
-          )
+          c.header('Cache-Control', cacheControlValue)
           await onFound?.(path, c)
         }
       }
