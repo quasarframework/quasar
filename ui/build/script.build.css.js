@@ -22,7 +22,7 @@ function moveUseStatementsToTop(code) {
     ? code
     : [...new Set(useStatements)].join('\n') +
         '\n' +
-        code.replace(sassUseRE, '')
+        code.replaceAll(sassUseRE, '')
 }
 
 function compileSass(src) {

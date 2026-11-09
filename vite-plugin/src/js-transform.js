@@ -173,11 +173,11 @@ function countNewlines(str) {
  * without requiring a source map.
  */
 export function mapQuasarImports(code, importMap = {}) {
-  return code.replace(
+  return code.replaceAll(
     importQuasarRegex,
     (fullMatch, match) =>
       match
-        .replace(stripCommentsRegex, '')
+        .replaceAll(stripCommentsRegex, '')
         .split(',')
         .map(identifier => {
           const data = identifier.split(' as ')
@@ -211,9 +211,9 @@ export function mapQuasarImports(code, importMap = {}) {
  * positions in the rest of the file remain valid without a source map.
  */
 export function removeQuasarImports(code, importMap, importSet, reverseMap) {
-  return code.replace(importQuasarRegex, (fullMatch, match) => {
+  return code.replaceAll(importQuasarRegex, (fullMatch, match) => {
     match
-      .replace(stripCommentsRegex, '')
+      .replaceAll(stripCommentsRegex, '')
       .split(',')
       .forEach(identifier => {
         const data = identifier.split(' as ')

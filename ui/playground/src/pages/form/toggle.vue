@@ -3,9 +3,7 @@
     <div class="q-layout-padding" :class="dark ? 'bg-black text-white' : ''">
       <div class="label bg-secondary text-white">
         Model
-        <span class="right-detail"
-          ><em>{{ checked }}</em></span
-        >
+        <span class="right-detail"><em>{{ checked }}</em></span>
       </div>
       <q-toggle
         v-model="dark"
@@ -200,9 +198,7 @@
       <p class="caption">Array Model</p>
       <div class="label bg-secondary text-white">
         Model
-        <span class="right-detail"
-          ><em>{{ selection }}</em></span
-        >
+        <span class="right-detail"><em>{{ selection }}</em></span>
       </div>
 
       <q-toggle

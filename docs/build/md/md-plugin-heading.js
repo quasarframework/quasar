@@ -10,7 +10,7 @@ const apiNameRE = /file="([^"]+)"/
 const docInstallRE = /^<DocInstall(?:\s+title="([^"]*)")?\s*/
 
 function parseContent(str) {
-  const title = String(str).replace(titleRE, '').trim()
+  const title = String(str).replaceAll(titleRE, '').trim()
 
   return {
     id: slugify(str),

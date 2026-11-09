@@ -172,7 +172,7 @@ test('colors the update message when FORCE_COLOR requests it', () => {
 
   // same box as the uncolored render, plus color escapes on the
   // highlighted parts
-  expect(output.replace(ansiRE, '')).toBe(expectedNotificationBox)
+  expect(output.replaceAll(ansiRE, '')).toBe(expectedNotificationBox)
   expect(output).toContain('\u001B[32m2.0.0\u001B[39m')
   expect(output).toContain('\u001B[36mnpm i -g @quasar/cli\u001B[39m')
 })

@@ -67,7 +67,7 @@ if (argv._.length !== 0 && argv._.length !== 2) {
   process.exit(1)
 }
 
-import { green, gray } from 'kolorist'
+import { gray, green } from 'kolorist'
 
 import { getCtx } from '../utils/get-ctx.js'
 import { generateTypes } from '../types-generator.js'

@@ -3,9 +3,7 @@
     <div class="q-layout-padding">
       <div class="label bg-secondary text-white">
         Model
-        <span class="right-detail"
-          ><em>{{ ratingModel }}</em></span
-        >
+        <span class="right-detail"><em>{{ ratingModel }}</em></span>
       </div>
 
       <div class="column q-gutter-md" style="font-size: 2rem; margin-top: 20px">
@@ -105,9 +103,7 @@
 
       <div class="label bg-secondary text-white">
         Half Model
-        <span class="right-detail"
-          ><em>{{ halfModel }}</em></span
-        >
+        <span class="right-detail"><em>{{ halfModel }}</em></span>
       </div>
 
       <div class="column q-gutter-md" style="font-size: 2rem; margin-top: 20px">

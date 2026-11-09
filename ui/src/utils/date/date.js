@@ -73,7 +73,7 @@ function getRegexData(mask, dateLocale) {
   const map = {}
   let index = 0
 
-  const regexText = mask.replace(reverseToken, match => {
+  const regexText = mask.replaceAll(reverseToken, match => {
     index++
     switch (match) {
       case 'YY': {
@@ -1265,7 +1265,7 @@ function compileMask(mask) {
   const parts = []
   let index = 0
 
-  mask.replace(token, (match, text, offset) => {
+  mask.replaceAll(token, (match, text, offset) => {
     if (offset > index) {
       parts.push(mask.slice(index, offset))
     }

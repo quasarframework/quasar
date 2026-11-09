@@ -68,7 +68,7 @@ function bracketBalance(str) {
 export function parseVariablesFile(text) {
   const uses = []
   const decls = []
-  const lines = text.replace(blockCommentRegex, ' ').split('\n')
+  const lines = text.replaceAll(blockCommentRegex, ' ').split('\n')
 
   for (let i = 0; i < lines.length; i++) {
     const line = stripLineComment(lines[i]).trim()

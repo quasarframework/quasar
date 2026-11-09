@@ -93,6 +93,25 @@ function getWheelDist(a, b, threshold) {
   return Math.min(diff, threshold - diff)
 }
 
+function getNormalizedClockValue(val, { min, max, values, threshold }) {
+  if (val === min) {
+    return min
+  }
+
+  if (val < min || val > max) {
+    return getWheelDist(val, min, threshold) <=
+      getWheelDist(val, max, threshold)
+      ? min
+      : max
+  }
+
+  const index = values.findIndex(v => val <= v),
+    before = values[index - 1],
+    after = values[index]
+
+  return val - before <= after - val ? before : after
+}
+
 function getValidValues(start, count, testFn) {
   const values = Array.from(
     { length: count + 1 },
@@ -228,14 +247,14 @@ export default /*#__PURE__*/ createComponent({
       }
     })
 
+    const formatDisplayModel = value => (value === '--' ? value : fmtNum(value))
     const displayModel = computed(() => {
       const units = stringModel.value
-      const format = value => (value === '--' ? value : fmtNum(value))
 
       return {
-        hour: format(units.hour),
-        minute: format(units.minute),
-        second: format(units.second)
+        hour: formatDisplayModel(units.hour),
+        minute: formatDisplayModel(units.minute),
+        second: formatDisplayModel(units.second)
       }
     })
 
@@ -410,25 +429,6 @@ export default /*#__PURE__*/ createComponent({
       Object.assign(innerModel.value, date) // reset any pending changes to innerModel
 
       view.value = 'hour'
-    }
-
-    function getNormalizedClockValue(val, { min, max, values, threshold }) {
-      if (val === min) {
-        return min
-      }
-
-      if (val < min || val > max) {
-        return getWheelDist(val, min, threshold) <=
-          getWheelDist(val, max, threshold)
-          ? min
-          : max
-      }
-
-      const index = values.findIndex(v => val <= v),
-        before = values[index - 1],
-        after = values[index]
-
-      return val - before <= after - val ? before : after
     }
 
     function getMask() {

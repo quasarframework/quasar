@@ -11,9 +11,7 @@
       <q-toggle size="150px" v-model="shape" val="150px" label="Size '150px'" />
     </div>
 
-    <div class="q-px-sm">
-      Your selection is: <strong>{{ shape }}</strong>
-    </div>
+    <div class="q-px-sm"> Your selection is: <strong>{{ shape }}</strong> </div>
   </div>
 </template>
 

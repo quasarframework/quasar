@@ -75,7 +75,7 @@ const js = computed(() => {
   const defineComponents = []
   const exportedKeys = new Set()
 
-  let codeWithoutImports = jsCode.replace(importRegex, match => {
+  let codeWithoutImports = jsCode.replaceAll(importRegex, match => {
     imports.push(match)
     return ''
   })
@@ -151,9 +151,9 @@ const js = computed(() => {
     [
       imports
         .join('\n')
-        .replace(quasarImports, replace('Quasar'))
-        .replace(vueImports, replace('Vue'))
-        .replace(otherImports, '')
+        .replaceAll(quasarImports, replace('Quasar'))
+        .replaceAll(vueImports, replace('Vue'))
+        .replaceAll(otherImports, '')
         .trim(),
 
       defineComponents.length !== 0
@@ -255,7 +255,7 @@ ${html.value}
 const REGION_LINE_RE =
   /^[ \t]*(?:\/\/|\/\*|<!--)\s*#(?:end)?region\b[^\n]*\n?/gm
 
-const stripRegions = text => (text ?? '').replace(REGION_LINE_RE, '')
+const stripRegions = text => (text ?? '').replaceAll(REGION_LINE_RE, '')
 
 function open(whichParts) {
   parts.value = whichParts.reduce((acc, item) => {

@@ -337,6 +337,7 @@ function getProjectPackageManager(folder) {
   while (folder.length !== 0 && folder.at(-1) !== sep) {
     for (const pm of packageManagersList) {
       if (
+        // oxlint-disable-next-line no-loop-func
         pm.lockFiles.some(lockFile => fs.existsSync(join(folder, lockFile)))
       ) {
         return pm

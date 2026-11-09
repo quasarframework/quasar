@@ -75,11 +75,11 @@ if (argv.help) {
 
 import { existsSync } from 'node:fs'
 import { readFile } from 'node:fs/promises'
-import { join, isAbsolute } from 'node:path'
+import { isAbsolute, join } from 'node:path'
 import { pathToFileURL } from 'node:url'
 
 import { cliPkg } from '../cli-pkg.js'
-import { log, warn, fatal } from '../logger.js'
+import { fatal, log, warn } from '../logger.js'
 
 const root = getAbsolutePath(argv._[0] || '.')
 const resolve = path => join(root, path)

@@ -213,7 +213,7 @@ function postProcess(joinedOutput) {
   let result = joinedOutput.replaceAll(/^> [ \t]*\n(?!> )/gm, '')
   result = result.replaceAll(/^((?:> )*>) $/gm, '$1')
   result = result.replaceAll(/\n{3,}/g, '\n\n')
-  result = result.replace(PLAIN_BLOCKQUOTE_PREFIX_RE, (line, word) => {
+  result = result.replaceAll(PLAIN_BLOCKQUOTE_PREFIX_RE, (line, word) => {
     const alert = PLAIN_ALERT_MAP[word]
     if (!alert) {
       return line

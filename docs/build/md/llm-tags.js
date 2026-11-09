@@ -51,7 +51,7 @@ export function readLlmTagAttributes(tag, attributes) {
 }
 
 /** @param {string} code */
-const mask = code => code.replace(TAG_RE, `<$1${MASK}llm-`)
+const mask = code => code.replaceAll(TAG_RE, `<$1${MASK}llm-`)
 
 /**
  * Hide the tags written inside code, fenced or inline, from the passes
@@ -70,7 +70,7 @@ export function maskCodeLlmTags(source) {
       const marker = FENCE_RE.exec(line)?.[1]
       if (fence === null) {
         fence = marker ?? null
-        return marker === void 0 ? line.replace(INLINE_CODE_RE, mask) : line
+        return marker === void 0 ? line.replaceAll(INLINE_CODE_RE, mask) : line
       }
       if (
         marker !== void 0 &&

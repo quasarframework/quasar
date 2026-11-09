@@ -231,7 +231,7 @@ function dispatch(token, ctx, contextKey) {
   // the page is written into a package slice.
   if (STANDARD_HTML_TAGS.has(tagLower)) {
     const cleaned = token.content
-      .replace(DROP_VUE_COMPONENT_RE, '')
+      .replaceAll(DROP_VUE_COMPONENT_RE, '')
       .replaceAll(
         /\b(src|href)="(\/[^"]*)"/g,
         (_, attr, value) => `${attr}="${siteHref(value, ctx)}"`

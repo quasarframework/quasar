@@ -80,6 +80,56 @@ const getNodeClickHandler = import.meta.env.QUASAR_SERVER
       }
     }
 
+// plain elements, not QItem: a link is one anchor with one class,
+// the treeitem around it is the Tab stop and activates it on Enter
+function getHeader({ node }) {
+  const child = []
+
+  if (node.icon !== void 0) {
+    child.push(h(QIcon, { name: node.icon }))
+  }
+
+  child.push(node.label)
+
+  if (node.badge !== void 0) {
+    child.push(h(QBadge, { label: node.badge, class: 'header-badge' }))
+  }
+
+  if (node.children !== void 0) {
+    return h('div', { class: 'doc-item' }, child)
+  }
+
+  if (node.external) {
+    return h(
+      'a',
+      {
+        class: 'doc-item',
+        href: node.path,
+        target: '_blank',
+        tabindex: -1,
+        onClick: stopClick
+      },
+      child
+    )
+  }
+
+  // class, tabindex and the click listener fall through to the anchor
+  // RouterLink renders; both active classes map to one so the active
+  // link carries no router-link-* class
+  return h(
+    RouterLink,
+    {
+      to: node.path,
+      class: 'doc-item',
+      activeClass: '',
+      exactActiveClass: 'doc-item--active',
+      tabindex: -1,
+      onClick: stopClick
+    },
+    () => child
+  )
+}
+
 export default {
   setup() {
     if (nodes === null) {
@@ -95,56 +145,6 @@ export default {
         expanded.value = getExpandedKeys(path, expanded.value)
       }
     )
-
-    // plain elements, not QItem: a link is one anchor with one class,
-    // the treeitem around it is the Tab stop and activates it on Enter
-    function getHeader({ node }) {
-      const child = []
-
-      if (node.icon !== void 0) {
-        child.push(h(QIcon, { name: node.icon }))
-      }
-
-      child.push(node.label)
-
-      if (node.badge !== void 0) {
-        child.push(h(QBadge, { label: node.badge, class: 'header-badge' }))
-      }
-
-      if (node.children !== void 0) {
-        return h('div', { class: 'doc-item' }, child)
-      }
-
-      if (node.external) {
-        return h(
-          'a',
-          {
-            class: 'doc-item',
-            href: node.path,
-            target: '_blank',
-            tabindex: -1,
-            onClick: stopClick
-          },
-          child
-        )
-      }
-
-      // class, tabindex and the click listener fall through to the anchor
-      // RouterLink renders; both active classes map to one so the active
-      // link carries no router-link-* class
-      return h(
-        RouterLink,
-        {
-          to: node.path,
-          class: 'doc-item',
-          activeClass: '',
-          exactActiveClass: 'doc-item--active',
-          tabindex: -1,
-          onClick: stopClick
-        },
-        () => child
-      )
-    }
 
     function onUpdateExpanded(val) {
       expanded.value = val

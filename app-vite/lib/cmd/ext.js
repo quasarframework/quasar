@@ -41,7 +41,7 @@ if (argv.help) {
   process.exit(0)
 }
 
-import { log, warn, dot } from '../utils/logger.js'
+import { dot, log, warn } from '../utils/logger.js'
 import { green } from 'kolorist'
 
 if (argv._.length !== 0 && argv._.length !== 2) {

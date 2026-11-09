@@ -49,8 +49,8 @@ its own branch, not on dev) — not handled here.
 - Base = the last PUBLISHED release; drafts and prereleases are never
   the base:
   `gh release list --repo quasarframework/quasar --limit 300
---json tagName,isPrerelease,isDraft
---jq '[.[] | select((.isPrerelease or .isDraft) | not) | select(.tagName | startswith("<prefix>"))][0].tagName'`
+  --json tagName,isPrerelease,isDraft
+  --jq '[.[] | select((.isPrerelease or .isDraft) | not) | select(.tagName | startswith("<prefix>"))][0].tagName'`
   A rarely-released package's last release can sit far down the list —
   on no match, raise the limit before concluding it has no releases.
   Note any prefix-matching DRAFT for steps 7/8.
@@ -180,12 +180,12 @@ Draft release — never a duplicate:
   don't pass `--latest` flags when creating/editing the draft — the
   label is enforced at publish time by the handoff below.
 - If a release for the tag already exists (`gh release view "<tag>"
---repo quasarframework/quasar --json isDraft` — finds drafts too):
+  --repo quasarframework/quasar --json isDraft` — finds drafts too):
   PUBLISHED -> stop, report the anomaly; DRAFT -> update it in place
   (`gh release edit "<tag>" ... --draft --title "<tag>"
---notes-file <file>`).
+  --notes-file <file>`).
 - Otherwise `gh release create "<tag>" --repo quasarframework/quasar
---draft --title "<tag>" --notes-file <file>` — tag and title are
+  --draft --title "<tag>" --notes-file <file>` — tag and title are
   the full tag name; the body is the notes WITHOUT the leading tag
   line. A draft creates no tag (it is cut from dev HEAD at publish
   time).

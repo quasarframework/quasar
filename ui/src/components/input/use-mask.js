@@ -35,7 +35,7 @@ const patternTesters = {
 
 const { tokenMap: DEFAULT_TOKEN_MAP, tokenKeys: DEFAULT_TOKEN_MAP_KEYS } =
   /*#__PURE__*/ getTokenMap({
-    '#': { pattern: '[\\d]', negate: '[^\\d]' },
+    '#': { pattern: String.raw`[\d]`, negate: String.raw`[^\d]` },
 
     S: { pattern: '[a-zA-Z]', negate: '[^a-zA-Z]' },
     N: { pattern: '[0-9a-zA-Z]', negate: '[^0-9a-zA-Z]' },
@@ -270,7 +270,7 @@ export default function useMask(
         typeof props.fillMask === 'string' && props.fillMask.length !== 0
           ? props.fillMask.slice(0, 1)
           : '_',
-      fillCharEscaped = fillChar.replace(escRegex, String.raw`\$&`),
+      fillCharEscaped = fillChar.replaceAll(escRegex, String.raw`\$&`),
       unmask = [],
       extract = [],
       mask = []
@@ -305,7 +305,7 @@ export default function useMask(
           unmaskChar =
             c === '\\'
               ? String.raw`\\\\`
-              : c.replace(escRegex, String.raw`\\$&`)
+              : c.replaceAll(escRegex, String.raw`\\$&`)
           mask.push(c)
         }
 

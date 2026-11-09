@@ -40,6 +40,10 @@ const YARN_RE = /\byarn\b/i
 const NPM_RE = /\bnpm\b/i
 const BUN_RE = /\bbun\b/i
 
+function isPlainNpm({ label }) {
+  return NPM_RE.test(label) && !PNPM_RE.test(label)
+}
+
 /**
  * Drop redundant alternative-syntax tabs when the canonical one is present.
  * Pruning is conservative: a pair/trio must be fully present before any drop.
@@ -70,7 +74,6 @@ export function pruneTabs(tabs) {
   // Package managers: pnpm stands for yarn, npm and bun, whose commands
   // follow from it. "pnpm" contains the substring "npm" so we exclude
   // pnpm-labelled tabs from the npm checks explicitly.
-  const isPlainNpm = ({ label }) => NPM_RE.test(label) && !PNPM_RE.test(label)
   const hasPnpm = tabs.some(({ label }) => PNPM_RE.test(label))
   const hasYarn = tabs.some(({ label }) => YARN_RE.test(label))
   const hasNpm = tabs.some(isPlainNpm)

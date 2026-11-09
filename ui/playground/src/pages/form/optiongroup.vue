@@ -19,9 +19,7 @@
       <p class="text-h6 text-weight-bold">Radio</p>
       <div class="label bg-secondary text-white">
         Model
-        <span class="right-detail"
-          ><em>{{ radio }}</em></span
-        >
+        <span class="right-detail"><em>{{ radio }}</em></span>
       </div>
       <q-option-group
         inline
@@ -67,9 +65,7 @@
       <p class="text-h6 text-weight-bold">Checkbox</p>
       <div class="label bg-secondary text-white">
         Model
-        <span class="right-detail"
-          ><em>{{ checkbox }}</em></span
-        >
+        <span class="right-detail"><em>{{ checkbox }}</em></span>
       </div>
       <q-option-group
         inline
@@ -115,9 +111,7 @@
       <p class="text-h6 text-weight-bold">Toggle</p>
       <div class="label bg-secondary text-white">
         Model
-        <span class="right-detail"
-          ><em>{{ toggle }}</em></span
-        >
+        <span class="right-detail"><em>{{ toggle }}</em></span>
       </div>
       <q-option-group
         inline

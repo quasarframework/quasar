@@ -12,9 +12,9 @@
     >
       <q-card>
         <q-card-section>
-          Counting: <q-badge color="secondary">{{ counter }}</q-badge
-          >. Will only count when opened, using the show/hide events to control
-          count timer.
+          Counting: <q-badge color="secondary">{{ counter }}</q-badge>. Will
+          only count when opened, using the show/hide events to control count
+          timer.
         </q-card-section>
       </q-card>
     </q-expansion-item>

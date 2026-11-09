@@ -1,8 +1,7 @@
 <template>
   <div class="q-pa-md">
     <div class="q-mb-md">
-      Browser User Agent: "<strong>{{ $q.platform.userAgent }}</strong
-      >"
+      Browser User Agent: "<strong>{{ $q.platform.userAgent }}</strong>"
     </div>
 
     <q-markup-table flat bordered dense>

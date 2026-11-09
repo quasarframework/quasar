@@ -8,7 +8,7 @@ function replaceScript(html, scriptFilename, scriptCode) {
   const reScript = new RegExp(
     `<script([^>]*?) src="[./]*${scriptFilename}"([^>]*)></script>`
   )
-  const newCode = scriptCode.replace(preloadRE, 'void 0')
+  const newCode = scriptCode.replaceAll(preloadRE, 'void 0')
   return html
     .replace(
       reScript,

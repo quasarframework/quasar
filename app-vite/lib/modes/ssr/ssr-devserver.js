@@ -240,7 +240,7 @@ export class QuasarModeDevserver extends AppDevserver {
       publicPath === '/'
         ? url => url || '/'
         : url =>
-            url ? (publicPath + url).replace(multiSlashRE, '/') : publicPath
+            url ? (publicPath + url).replaceAll(multiSlashRE, '/') : publicPath
 
     const viteClient = (this.clientServer = await createServer(
       await quasarSsrConfig.viteClient(quasarConf)

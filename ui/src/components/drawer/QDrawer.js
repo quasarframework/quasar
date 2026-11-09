@@ -668,6 +668,7 @@ export default /*#__PURE__*/ createComponent({
 
       lastDesktopState = props.showIfAbove
 
+      // oxlint-disable-next-line unicorn/consistent-function-scoping
       const fn = () => {
         const action = showing.value ? handleShow : handleHide
         action(false, true)

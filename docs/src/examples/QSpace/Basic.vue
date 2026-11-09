@@ -21,9 +21,7 @@
 
       <q-space />
 
-      <div>
-        Quasar <q-badge>v{{ $q.version }}</q-badge>
-      </div>
+      <div> Quasar <q-badge>v{{ $q.version }}</q-badge> </div>
     </div>
   </div>
 </template>

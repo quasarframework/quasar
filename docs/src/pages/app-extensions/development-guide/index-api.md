@@ -553,7 +553,9 @@ type Callback = (
   pkgJson: { [index in string]: any },
   api: IndexAPI
 ) =>
-  void | { [index in string]: any } | Promise<void | { [index in string]: any }>
+  | void
+  | { [index in string]: any }
+  | Promise<void | { [index in string]: any }>
 
 // Example:
 api.extendSSRPackageJson((pkgJson, api) => {
@@ -783,7 +785,9 @@ type Callback = (
   pkgJson: { [index in string]: any },
   api: IndexAPI
 ) =>
-  void | { [index in string]: any } | Promise<void | { [index in string]: any }>
+  | void
+  | { [index in string]: any }
+  | Promise<void | { [index in string]: any }>
 
 // Example:
 api.extendElectronPackageJson((pkgJson, api) => {

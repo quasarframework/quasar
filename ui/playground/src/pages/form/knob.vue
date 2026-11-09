@@ -3,9 +3,7 @@
     <div class="q-layout-padding">
       <div class="label bg-secondary text-white">
         Model
-        <span class="right-detail"
-          ><em>{{ model }}</em></span
-        >
+        <span class="right-detail"><em>{{ model }}</em></span>
       </div>
 
       <p class="caption">Default (@update:model-value, @change)</p>

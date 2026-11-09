@@ -845,6 +845,14 @@ function getObjectMixinSource(from, printErrorAndExit) {
   return objectMixinSourceCache.get(file)
 }
 
+function applyPlainKeys(def, spec) {
+  for (const key of Object.keys(spec)) {
+    if (!affixRE.test(key)) {
+      def[key] = structuredClone(spec[key])
+    }
+  }
+}
+
 function applyObjectMixins(api, objectMixins, mainFile) {
   // section -> name -> { from, def }
   const pulled = {}
@@ -1096,14 +1104,6 @@ function applyObjectMixins(api, objectMixins, mainFile) {
           '"explicitOverrideForAll" requires an explicit override ' +
             `(an empty Object suffices) for: ${missing.join(', ')}`
         )
-      }
-    }
-
-    const applyPlainKeys = (def, spec) => {
-      for (const key of Object.keys(spec)) {
-        if (!affixRE.test(key)) {
-          def[key] = structuredClone(spec[key])
-        }
       }
     }
 

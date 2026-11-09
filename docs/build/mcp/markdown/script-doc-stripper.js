@@ -17,5 +17,5 @@ const SCRIPT_DOC_RE = /<script doc>[\s\S]*?<\/script>/g
  * @returns {string} source with <script doc> blocks removed
  */
 export function stripScriptDoc(source) {
-  return source.replace(SCRIPT_DOC_RE, '')
+  return source.replaceAll(SCRIPT_DOC_RE, '')
 }

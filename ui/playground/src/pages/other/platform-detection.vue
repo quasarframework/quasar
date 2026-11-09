@@ -6,10 +6,7 @@
         following:
       </p>
 
-      <p>
-        User agent: "<strong>{{ $q.platform.userAgent }}</strong
-        >"
-      </p>
+      <p> User agent: "<strong>{{ $q.platform.userAgent }}</strong>" </p>
 
       <q-markup-table bordered flat>
         <thead>

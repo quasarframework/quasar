@@ -37,6 +37,10 @@ function validateComponent(comp) {
     : Promise.resolve({ valid, comp })
 }
 
+function emitOutcomeEvent(emit, res, compRef) {
+  emit(`validation${res ? 'Success' : 'Error'}`, compRef)
+}
+
 export default /*#__PURE__*/ createComponent({
   name: 'QForm',
 
@@ -64,10 +68,6 @@ export default /*#__PURE__*/ createComponent({
 
       const index = ++validateIndex
 
-      const emitEvent = (res, compRef) => {
-        emit(`validation${res ? 'Success' : 'Error'}`, compRef)
-      }
-
       const errorsPromise = props.greedy
         ? Promise.all(registeredComponents.map(validateComponent)).then(res =>
             res.filter(r => !r.valid)
@@ -86,7 +86,7 @@ export default /*#__PURE__*/ createComponent({
 
       return errorsPromise.then(errors => {
         if (errors === void 0 || errors.length === 0) {
-          if (index === validateIndex) emitEvent(true)
+          if (index === validateIndex) emitOutcomeEvent(emit, true)
           return true
         }
 
@@ -95,7 +95,7 @@ export default /*#__PURE__*/ createComponent({
           const { comp, err } = errors[0]
 
           if (err !== void 0) console.error(err)
-          emitEvent(false, comp)
+          emitOutcomeEvent(emit, false, comp)
 
           if (localFocus) {
             // Try to focus first mounted and active component

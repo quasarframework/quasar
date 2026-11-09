@@ -49,6 +49,54 @@ function registerProps(opts) {
   return newProps
 }
 
+function getContent() {
+  if (!Plugin.isActive) return null
+
+  const content = [
+    h(props.spinner, {
+      class: 'q-loading__spinner',
+      color: props.spinnerColor,
+      size: props.spinnerSize
+    })
+  ]
+
+  if (props.message) {
+    content.push(
+      h('div', {
+        class:
+          'q-loading__message' +
+          (props.messageColor ? ` text-${props.messageColor}` : ''),
+        [props.html ? 'innerHTML' : 'textContent']: props.message
+      })
+    )
+  }
+
+  return h(
+    'div',
+    {
+      class:
+        'q-loading fullscreen flex flex-center z-max ' +
+        props.customClass.trim(),
+      key: props.uid
+    },
+    [
+      h('div', {
+        class:
+          'q-loading__backdrop' +
+          (props.backgroundColor ? ` bg-${props.backgroundColor}` : '')
+      }),
+
+      h(
+        'div',
+        {
+          class: 'q-loading__box column items-center ' + props.boxClass
+        },
+        content
+      )
+    ]
+  )
+}
+
 const Plugin = /*#__PURE__*/ createReactivePlugin(
   {
     isActive: false
@@ -74,6 +122,18 @@ const Plugin = /*#__PURE__*/ createReactivePlugin(
 
           const el = createGlobalNode('q-loading')
 
+          function onAfterLeave() {
+            // might be called to finalize
+            // previous leave, even if it was cancelled
+            if (!Plugin.isActive && app !== void 0) {
+              preventScroll(false)
+              app.unmount(el)
+              removeGlobalNode(el)
+              app = void 0
+              vm = void 0
+            }
+          }
+
           app = createChildApp(
             {
               name: 'QLoading',
@@ -82,73 +142,6 @@ const Plugin = /*#__PURE__*/ createReactivePlugin(
                 onMounted(() => {
                   preventScroll(true)
                 })
-
-                function onAfterLeave() {
-                  // might be called to finalize
-                  // previous leave, even if it was cancelled
-                  if (!Plugin.isActive && app !== void 0) {
-                    preventScroll(false)
-                    app.unmount(el)
-                    removeGlobalNode(el)
-                    app = void 0
-                    vm = void 0
-                  }
-                }
-
-                function getContent() {
-                  if (!Plugin.isActive) return null
-
-                  const content = [
-                    h(props.spinner, {
-                      class: 'q-loading__spinner',
-                      color: props.spinnerColor,
-                      size: props.spinnerSize
-                    })
-                  ]
-
-                  if (props.message) {
-                    content.push(
-                      h('div', {
-                        class:
-                          'q-loading__message' +
-                          (props.messageColor
-                            ? ` text-${props.messageColor}`
-                            : ''),
-                        [props.html ? 'innerHTML' : 'textContent']:
-                          props.message
-                      })
-                    )
-                  }
-
-                  return h(
-                    'div',
-                    {
-                      class:
-                        'q-loading fullscreen flex flex-center z-max ' +
-                        props.customClass.trim(),
-                      key: props.uid
-                    },
-                    [
-                      h('div', {
-                        class:
-                          'q-loading__backdrop' +
-                          (props.backgroundColor
-                            ? ` bg-${props.backgroundColor}`
-                            : '')
-                      }),
-
-                      h(
-                        'div',
-                        {
-                          class:
-                            'q-loading__box column items-center ' +
-                            props.boxClass
-                        },
-                        content
-                      )
-                    ]
-                  )
-                }
 
                 return () =>
                   h(

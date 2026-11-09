@@ -3,9 +3,7 @@
     <div class="q-layout-padding" :class="dark ? 'bg-black text-white' : ''">
       <div class="label bg-secondary text-white">
         Model
-        <span class="right-detail"
-          ><em>{{ option }}</em></span
-        >
+        <span class="right-detail"><em>{{ option }}</em></span>
       </div>
       <q-toggle
         v-model="dark"

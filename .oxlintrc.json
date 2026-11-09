@@ -297,7 +297,8 @@
     {
       "files": ["docs/src/examples/**"],
       "rules": {
-        "no-alert": "off"
+        "no-alert": "off",
+        "unicorn/catch-error-name": "off"
       }
     },
 

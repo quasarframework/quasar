@@ -30,9 +30,7 @@
         color="cyan"
       />
     </div>
-    <div class="q-px-sm">
-      Your selection is: <strong>{{ color }}</strong>
-    </div>
+    <div class="q-px-sm"> Your selection is: <strong>{{ color }}</strong> </div>
   </div>
 </template>
 

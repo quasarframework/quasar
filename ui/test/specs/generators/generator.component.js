@@ -132,7 +132,7 @@ function getPropTest({ name, camelCaseName, jsonEntry, json, ctx }) {
     return jsonEntry.values
       .map(val =>
         getPropTestFn({
-          testStrPrefix: `value ${val.replace(quoteRE, '"')}`,
+          testStrPrefix: `value ${val.replaceAll(quoteRE, '"')}`,
           val
         })
       )

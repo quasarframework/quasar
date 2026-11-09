@@ -44,10 +44,10 @@ export function applyLlmContentControl(source, form) {
     return when === null || when === form
   }
   const output = maskCodeLlmTags(source)
-    .replace(EXCLUDE_RE, (_, attributes, body) =>
+    .replaceAll(EXCLUDE_RE, (_, attributes, body) =>
       applies('llm-exclude', attributes) ? '' : body
     )
-    .replace(ONLY_RE, (_, attributes, body) =>
+    .replaceAll(ONLY_RE, (_, attributes, body) =>
       applies('llm-only', attributes) ? body : ''
     )
   const stray = STRAY_RE.exec(output)

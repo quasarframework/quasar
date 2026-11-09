@@ -34,9 +34,7 @@
             </thead>
             <tbody>
               <tr v-for="shortcut in shortcuts" :key="shortcut.keys">
-                <td
-                  ><kbd>{{ shortcut.keys }}</kbd></td
-                >
+                <td><kbd>{{ shortcut.keys }}</kbd></td>
                 <td>{{ shortcut.action }}</td>
               </tr>
             </tbody>

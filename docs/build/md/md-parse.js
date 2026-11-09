@@ -28,7 +28,7 @@ const LLM_EXCLUDE_CLOSE_RE = /<\/llm-exclude>/g
 function splitRenderedContent(mdPageContent) {
   const userScripts = new Set()
 
-  const mdContent = mdPageContent.replace(scriptRE, (_, p1) => {
+  const mdContent = mdPageContent.replaceAll(scriptRE, (_, p1) => {
     userScripts.add(p1)
     return ''
   })
@@ -64,15 +64,15 @@ function splitRenderedContent(mdPageContent) {
 export function applyHtmlContentControl(source) {
   return unmaskCodeLlmTags(
     maskCodeLlmTags(source)
-      .replace(LLM_ONLY_RE, (match, attributes) => {
+      .replaceAll(LLM_ONLY_RE, (match, attributes) => {
         readLlmTagAttributes('llm-only', attributes)
         return '\n'.repeat(match.split('\n').length - 1)
       })
-      .replace(LLM_EXCLUDE_OPEN_RE, (_, attributes) => {
+      .replaceAll(LLM_EXCLUDE_OPEN_RE, (_, attributes) => {
         readLlmTagAttributes('llm-exclude', attributes)
         return ''
       })
-      .replace(LLM_EXCLUDE_CLOSE_RE, '')
+      .replaceAll(LLM_EXCLUDE_CLOSE_RE, '')
   )
 }
 

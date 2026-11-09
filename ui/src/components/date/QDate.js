@@ -58,6 +58,22 @@ function getShortDate(date) {
   return { year: date.year, month: date.month, day: date.day }
 }
 
+function getEmitParams(action, date) {
+  return date.from !== void 0
+    ? {
+        reason: `${action}-range`,
+        details: {
+          ...getShortDate(date.target),
+          from: getShortDate(date.from),
+          to: getShortDate(date.to)
+        }
+      }
+    : {
+        reason: `${action}-day`,
+        details: getShortDate(date)
+      }
+}
+
 export default /*#__PURE__*/ createComponent({
   name: 'QDate',
 
@@ -228,20 +244,25 @@ export default /*#__PURE__*/ createComponent({
         )
     )
 
-    const rangeModel = computed(() => {
-      const fn = date => decodeString(date, innerMask.value, innerLocale.value)
-      return normalizedModel.value
+    const decodeRangeModel = date =>
+      decodeString(date, innerMask.value, innerLocale.value)
+
+    const rangeModel = computed(() =>
+      normalizedModel.value
         .filter(
           date => isObject(date) && date.from !== void 0 && date.to !== void 0
         )
-        .map(range => ({ from: fn(range.from), to: fn(range.to) }))
+        .map(range => ({
+          from: decodeRangeModel(range.from),
+          to: decodeRangeModel(range.to)
+        }))
         .filter(
           range =>
             range.from.dateHash !== null &&
             range.to.dateHash !== null &&
             range.from.dateHash < range.to.dateHash
         )
-    })
+    )
 
     const getNativeDateFn = computed(() =>
       props.calendar !== 'persian'
@@ -1161,22 +1182,6 @@ export default /*#__PURE__*/ createComponent({
       })
     }
 
-    function getEmitParams(action, date) {
-      return date.from !== void 0
-        ? {
-            reason: `${action}-range`,
-            details: {
-              ...getShortDate(date.target),
-              from: getShortDate(date.from),
-              to: getShortDate(date.to)
-            }
-          }
-        : {
-            reason: `${action}-day`,
-            details: getShortDate(date)
-          }
-    }
-
     function encodeEntry(date, dateMask, dateLocale) {
       return date.from !== void 0
         ? {
@@ -1465,6 +1470,18 @@ export default /*#__PURE__*/ createComponent({
       ]
     }
 
+    const yearIsDisabled = year =>
+      (minNav.value !== null && minNav.value.year > year) ||
+      (maxNav.value !== null && maxNav.value.year < year)
+
+    const monthIsDisabled = month =>
+      (minNav.value !== null &&
+        viewModel.value.year === minNav.value.year &&
+        minNav.value.month > month) ||
+      (maxNav.value !== null &&
+        viewModel.value.year === maxNav.value.year &&
+        maxNav.value.month < month)
+
     const renderViews = {
       Calendar: () => [
         h(
@@ -1592,13 +1609,6 @@ export default /*#__PURE__*/ createComponent({
       Months() {
         const currentYear =
           isHydrated.value && viewModel.value.year === today.value.year
-        const isDisabled = month =>
-          (minNav.value !== null &&
-            viewModel.value.year === minNav.value.year &&
-            minNav.value.month > month) ||
-          (maxNav.value !== null &&
-            viewModel.value.year === maxNav.value.year &&
-            maxNav.value.month < month)
 
         const content = innerLocale.value.monthsShort.map((month, i) => {
           const active = viewModel.value.month === i + 1
@@ -1621,7 +1631,7 @@ export default /*#__PURE__*/ createComponent({
                 color: active ? computedColor.value : null,
                 textColor: active ? computedTextColor.value : null,
                 tabindex: tabindex.value,
-                disable: isDisabled(i + 1),
+                disable: monthIsDisabled(i + 1),
                 ...getCache('month#' + i, {
                   onClick: () => {
                     setMonth(i + 1)
@@ -1663,10 +1673,6 @@ export default /*#__PURE__*/ createComponent({
           stop = start + yearsInterval,
           years = []
 
-        const isDisabled = year =>
-          (minNav.value !== null && minNav.value.year > year) ||
-          (maxNav.value !== null && maxNav.value.year < year)
-
         for (let i = start; i <= stop; i++) {
           const active = viewModel.value.year === i
 
@@ -1690,7 +1696,7 @@ export default /*#__PURE__*/ createComponent({
                   color: active ? computedColor.value : null,
                   textColor: active ? computedTextColor.value : null,
                   tabindex: tabindex.value,
-                  disable: isDisabled(i),
+                  disable: yearIsDisabled(i),
                   ...getCache('yr#' + i, {
                     onClick: () => {
                       setYear(i)
@@ -1721,7 +1727,7 @@ export default /*#__PURE__*/ createComponent({
                   icon: dateArrow.value[0],
                   'aria-label': $q.lang.date.prevRangeYears(yearsInterval),
                   tabindex: tabindex.value,
-                  disable: isDisabled(start),
+                  disable: yearIsDisabled(start),
                   ...getCache('y-', {
                     onClick: () => {
                       startYear.value -= yearsInterval
@@ -1752,7 +1758,7 @@ export default /*#__PURE__*/ createComponent({
                   icon: dateArrow.value[1],
                   'aria-label': $q.lang.date.nextRangeYears(yearsInterval),
                   tabindex: tabindex.value,
-                  disable: isDisabled(stop),
+                  disable: yearIsDisabled(stop),
                   ...getCache('y+', {
                     onClick: () => {
                       startYear.value += yearsInterval

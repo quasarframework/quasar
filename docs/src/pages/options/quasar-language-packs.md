@@ -185,14 +185,17 @@ Example with a QSelect to dynamically change the Quasar components language:
   import languages from 'quasar/lang/index.json'
   import { ref, watch } from 'vue'
 
-  const modules = import.meta.glob('../../node_modules/quasar/lang/{de,en-US,es}.js')
+  const modules = import.meta.glob(
+    '../../node_modules/quasar/lang/{de,en-US,es}.js'
+  )
 
   const appLanguages = languages.filter(lang =>
     ['de', 'en-US', 'es'].includes(lang.isoName)
   )
 
   const langOptions = appLanguages.map(lang => ({
-    label: lang.nativeName, value: lang.isoName
+    label: lang.nativeName,
+    value: lang.isoName
   }))
 
   const $q = useQuasar()

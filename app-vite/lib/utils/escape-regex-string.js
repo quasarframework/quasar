@@ -8,5 +8,5 @@ const dashReplace = String.raw`\x2d`
  * to new RegExp()
  */
 export function escapeRegexString(str) {
-  return str.replace(escRE, escReplace).replace(dashRE, dashReplace)
+  return str.replaceAll(escRE, escReplace).replaceAll(dashRE, dashReplace)
 }

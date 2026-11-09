@@ -61,7 +61,7 @@ import { displayBanner } from '../utils/banner.js'
 
 await displayBanner({ argv, ctx, cmd: argv.cmd })
 
-import { log, fatal } from '../utils/logger.js'
+import { fatal, log } from '../utils/logger.js'
 
 import { isModeInstalled } from '../modes/modes-utils.js'
 

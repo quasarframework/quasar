@@ -101,11 +101,9 @@ export class QuasarModeBuilder extends AppBuilder {
           })
 
           await localPromise
-        } else {
+        } else if (typeof warn === 'function') {
           // Ignore things like sockets or symlinks and emit a warning
-          if (typeof warn === 'function') {
-            warn(`Skipping unsupported entry type at ${fullPath}`)
-          }
+          warn(`Skipping unsupported entry type at ${fullPath}`)
         }
       }
     }

@@ -10,6 +10,15 @@ const scrollDuration = 500
 
 export const headerOffset = 166 // TODO dynamic header
 
+function targetOffset(el) {
+  return Math.max(
+    0,
+    el.getBoundingClientRect().top +
+      getVerticalScrollPosition(window) -
+      headerOffset
+  )
+}
+
 export default function injectScroll(store) {
   let preventTocUpdate = store.$route.hash.length > 1
 
@@ -75,15 +84,6 @@ export default function injectScroll(store) {
     } else {
       scrollToCurrentAnchor()
     }
-  }
-
-  function targetOffset(el) {
-    return Math.max(
-      0,
-      el.getBoundingClientRect().top +
-        getVerticalScrollPosition(window) -
-        headerOffset
-    )
   }
 
   // the same linear approach as Quasar's animated scroll, re-aiming at the

@@ -55,7 +55,7 @@ export default async function releaseNotesRequest(packages, versionRE) {
         date: release.created_at,
         body: md
           .render(release.body)
-          .replace(
+          .replaceAll(
             ghLinkRE,
             '<a href="https://github.com/quasarframework/quasar/issues/$1" class="doc-link" target="_blank">#$1</a>'
           )

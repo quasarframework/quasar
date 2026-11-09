@@ -372,6 +372,10 @@ export default function useSlider({
     }
   })
 
+  function markerValueInRange({ value }) {
+    return value >= props.min && value <= props.max
+  }
+
   function getMarkerList(def) {
     if (def === false) return null
 
@@ -386,12 +390,10 @@ export default function useSlider({
       })
     }
 
-    const filterFn = ({ value }) => value >= props.min && value <= props.max
-
     if (Array.isArray(def)) {
       return def
         .map(item => (isObject(item) ? item : { value: item }))
-        .filter(filterFn)
+        .filter(markerValueInRange)
     }
 
     return Object.keys(def)
@@ -400,7 +402,7 @@ export default function useSlider({
         const value = Number(key)
         return isObject(item) ? { ...item, value } : { value, label: item }
       })
-      .filter(filterFn)
+      .filter(markerValueInRange)
   }
 
   function getMarkerLabelStyle(val) {

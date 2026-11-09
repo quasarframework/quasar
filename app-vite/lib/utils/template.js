@@ -46,7 +46,7 @@ function throwParseError(message, str, index) {
 
 function escapeRegExp(str) {
   // From MDN
-  return str.replace(escapeRegexpRE, String.raw`\$&`) // $& means the whole matched string
+  return str.replaceAll(escapeRegexpRE, String.raw`\$&`) // $& means the whole matched string
 }
 
 function trimWS(str, wsLeft, wsRight) {

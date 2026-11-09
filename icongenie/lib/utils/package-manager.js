@@ -109,6 +109,7 @@ function getProjectPackageManager(packageManagersList, dir) {
   // the dir tree up to the root
   while (dir.length !== 0 && dir.at(-1) !== sep) {
     for (const pm of packageManagersList) {
+      // oxlint-disable-next-line no-loop-func
       if (pm.lockFiles.some(lockFile => fs.existsSync(join(dir, lockFile)))) {
         return pm
       }

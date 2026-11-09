@@ -583,7 +583,7 @@ export class QuasarModeBuilder extends AppBuilder {
       const ssrContext = ssgPage.ssrContext ?? {}
       const url =
         'http://localhost' +
-        (this.quasarConf.build.publicPath + ssgPage.route).replace(
+        (this.quasarConf.build.publicPath + ssgPage.route).replaceAll(
           multiSlashRE,
           '/'
         )

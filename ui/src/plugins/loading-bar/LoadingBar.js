@@ -10,6 +10,14 @@ import { isObject } from '../../utils/is/is.js'
 
 const barRef = shallowRef(null)
 
+function onStart() {
+  Plugin.isActive = true
+}
+
+function onStop() {
+  Plugin.isActive = false
+}
+
 const Plugin = /*#__PURE__*/ createReactivePlugin(
   {
     isActive: false
@@ -35,14 +43,6 @@ const Plugin = /*#__PURE__*/ createReactivePlugin(
       const props = ref(
         $q.config.loadingBar !== void 0 ? { ...$q.config.loadingBar } : {}
       )
-
-      function onStart() {
-        Plugin.isActive = true
-      }
-
-      function onStop() {
-        Plugin.isActive = false
-      }
 
       const el = createGlobalNode('q-loading-bar')
 

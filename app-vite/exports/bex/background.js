@@ -19,7 +19,7 @@ function interceptRequests(devServerPort) {
     url.searchParams.set('t', Date.now())
 
     // fetch the requested resource
-    const request = await fetch(url.href.replace(hrefRE, ''))
+    const request = await fetch(url.href.replaceAll(hrefRE, ''))
 
     // and return it wrapped as if it comes from the extension
     return new Response(request.body, {

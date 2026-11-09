@@ -58,7 +58,7 @@ test('FORCE_COLOR=0 prints the raw asset byte-for-byte', () => {
 })
 
 test('the color asset is exactly the raw asset with colors applied', () => {
-  expect(colorAsset.replace(sgrRE, '')).toBe(rawAsset)
+  expect(colorAsset.replaceAll(sgrRE, '')).toBe(rawAsset)
 })
 
 test('the color gradient runs between the brand endpoints', () => {

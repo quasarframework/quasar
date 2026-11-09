@@ -74,7 +74,7 @@ export function getAssetsFiles(assets) {
     }
 
     if (tag) {
-      file.tag = tag.replace(
+      file.tag = tag.replaceAll(
         tagRegex,
         (_, p) => file[p === 'size' ? 'width' : p]
       )

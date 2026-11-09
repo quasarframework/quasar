@@ -52,7 +52,7 @@ const camelCaseRE = /((-|\.)\w)/g
 const camelCaseInnerRE = /-|\./
 export function camelCase(str) {
   // assumes kebab case "str"
-  return str.replace(camelCaseRE, text =>
+  return str.replaceAll(camelCaseRE, text =>
     text.replace(camelCaseInnerRE, '').toUpperCase()
   )
 }
@@ -60,7 +60,7 @@ export function camelCase(str) {
 const kebabRE = /([a-zA-Z])([A-Z])/g
 export function kebabCase(str) {
   // assumes pascal case "str"
-  return str.replace(kebabRE, '$1-$2').toLowerCase()
+  return str.replaceAll(kebabRE, '$1-$2').toLowerCase()
 }
 
 export function capitalize(str) {

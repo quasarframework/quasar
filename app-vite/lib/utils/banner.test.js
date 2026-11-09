@@ -22,7 +22,7 @@ function captureOutput() {
     logSpy.mock.calls
       .map(args => args.join(' '))
       .join('\n')
-      .replace(ansiRE, '')
+      .replaceAll(ansiRE, '')
 }
 
 // banner lines are asserted on label + value, decoupled from the

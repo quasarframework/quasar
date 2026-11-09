@@ -123,7 +123,7 @@ describe('[print-build-summary.js]', () => {
       const lines = getAssetLines(assetList, false)
       const appJs = lines[1]
 
-      expect(appJs.asset.replace(ansiRE, '')).toBe('assets/app.js')
+      expect(appJs.asset.replaceAll(ansiRE, '')).toBe('assets/app.js')
       expect(appJs.assetLen).toBe('assets/app.js'.length)
       expect(appJs.size).toBe('2.00 KB')
       expect(appJs.sizeLen).toBe('2.00 KB'.length)
@@ -144,7 +144,7 @@ describe('[print-build-summary.js]', () => {
       )
 
       const entry = lines.find(line => line !== 'separator' && line.assetLen)
-      expect(entry.gzipped.replace(ansiRE, '')).toBe('-')
+      expect(entry.gzipped.replaceAll(ansiRE, '')).toBe('-')
       expect(entry.gzippedLen).toBe(1)
     })
 
@@ -153,10 +153,10 @@ describe('[print-build-summary.js]', () => {
       const lines = getAssetLines(getAssets(distDir), true)
 
       const jsEntry = lines[1]
-      expect(jsEntry.gzipped.replace(ansiRE, '')).toMatch(/^\d+\.\d\d KB$/)
+      expect(jsEntry.gzipped.replaceAll(ansiRE, '')).toMatch(/^\d+\.\d\d KB$/)
 
       const jsonEntry = lines[5]
-      expect(jsonEntry.gzipped.replace(ansiRE, '')).toBe('-')
+      expect(jsonEntry.gzipped.replaceAll(ansiRE, '')).toBe('-')
       expect(jsonEntry.gzippedLen).toBe(1)
     })
   })
@@ -168,7 +168,7 @@ describe('[print-build-summary.js]', () => {
       printBuildSummary(distDir, true)
 
       const lines = logSpy.mock.calls.map(args =>
-        args.join(' ').replace(ansiRE, '')
+        args.join(' ').replaceAll(ansiRE, '')
       )
 
       expect(lines[0]).toBe('\n Build summary with important files:')
@@ -199,7 +199,7 @@ describe('[print-build-summary.js]', () => {
       printBuildSummary(distDir, false)
 
       const output = logSpy.mock.calls
-        .map(args => args.join(' ').replace(ansiRE, ''))
+        .map(args => args.join(' ').replaceAll(ansiRE, ''))
         .join('\n')
 
       expect(output).toContain('Asset')

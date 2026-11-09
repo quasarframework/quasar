@@ -7,9 +7,7 @@
       <q-radio v-model="shape" val="polygon" label="Polygon" />
     </div>
 
-    <div class="q-px-sm">
-      Your selection is: <strong>{{ shape }}</strong>
-    </div>
+    <div class="q-px-sm"> Your selection is: <strong>{{ shape }}</strong> </div>
   </div>
 </template>
 

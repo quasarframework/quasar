@@ -152,7 +152,7 @@ async function convertExternalImports(content) {
   const tokenMap = {}
   let tokenIndex = 0
 
-  const tokenContent = content.replace(
+  const tokenContent = content.replaceAll(
     importRE,
     (_, importIdMatch, __, packageMatch) => {
       const token = `____token_${tokenIndex++}____`

@@ -106,13 +106,10 @@ export function useTableSort(
       } else {
         descending = false
       }
+    } else if (sortOrder === 'ad') {
+      descending = true
     } else {
-      // ascending
-      if (sortOrder === 'ad') {
-        descending = true
-      } else {
-        sortBy = null
-      }
+      sortBy = null
     }
 
     setPagination({ sortBy, descending, page: 1 })

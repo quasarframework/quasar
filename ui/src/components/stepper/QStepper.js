@@ -38,7 +38,7 @@ function matchesName(pattern, name) {
 function camelizeProps(props) {
   const acc = {}
   for (const key in props) {
-    const newKey = key.replace(camelRE, m => m[1].toUpperCase())
+    const newKey = key.replaceAll(camelRE, m => m[1].toUpperCase())
     acc[newKey] = props[key]
   }
   return acc
