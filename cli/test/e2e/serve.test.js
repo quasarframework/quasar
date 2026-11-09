@@ -1,4 +1,10 @@
-import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs'
+import {
+  copyFileSync,
+  mkdirSync,
+  mkdtempSync,
+  rmSync,
+  writeFileSync
+} from 'node:fs'
 import { request } from 'node:https'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
@@ -26,8 +32,12 @@ function httpsGet(url) {
 const workDir = mkdtempSync(join(tmpdir(), 'quasar-cli-serve-'))
 const distDir = join(workDir, 'dist')
 const proxyFile = join(workDir, 'proxy-config.mjs')
+// a "#" starts the URL fragment if the path gets imported as is
+const specialCharsDir = join(workDir, 'proxy#1 dir')
+const specialCharsProxyFile = join(specialCharsDir, 'proxy-config.mjs')
 
 mkdirSync(join(distDir, 'sub'), { recursive: true })
+mkdirSync(specialCharsDir)
 writeFileSync(
   join(distDir, 'index.html'),
   '<html><body>INDEX-PAGE</body></html>'
@@ -43,6 +53,7 @@ writeFileSync(
     "  app.get('/proxy-marker', c => c.text('PROXIED-RESPONSE'))\n" +
     '}\n'
 )
+copyFileSync(proxyFile, specialCharsProxyFile)
 
 afterAll(() => {
   rmSync(workDir, { recursive: true, force: true })
@@ -134,6 +145,17 @@ describe('[e2e] serve', () => {
       const index = await fetch(url)
       expect(index.status).toBe(200)
     })
+  })
+
+  test('loads a proxy definition file from a path with special chars', async () => {
+    await withServer(
+      serveArgs(['--proxy', specialCharsProxyFile]),
+      async ({ url }) => {
+        const proxied = await fetch(`${url}/proxy-marker`)
+        expect(proxied.status).toBe(200)
+        expect(await proxied.text()).toBe('PROXIED-RESPONSE')
+      }
+    )
   })
 
   test('serves over TLS with a generated certificate', async () => {
