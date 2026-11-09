@@ -1,4 +1,4 @@
-import { client } from '../platform/Platform.js'
+import { client, getNativeBridge } from '../platform/Platform.js'
 import { noop } from '../../utils/event/event.js'
 import getCssVar from '../../utils/css-var/get-css-var.js'
 
@@ -38,8 +38,13 @@ export default {
       ? hexColor => {
           const val = hexColor || getCssVar('primary')
 
-          if (client.is.nativeMobile && window.StatusBar) {
-            window.StatusBar.backgroundColorByHexString(val)
+          const statusBar = getNativeBridge('StatusBar')
+
+          if (
+            client.is.nativeMobile &&
+            typeof statusBar?.backgroundColorByHexString === 'function'
+          ) {
+            statusBar.backgroundColorByHexString(val)
           } else {
             setColor(val)
           }

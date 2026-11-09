@@ -104,6 +104,24 @@ const hasTouch = __QUASAR_SSR_SERVER__
   ? false
   : 'ontouchstart' in window || window.navigator.maxTouchPoints > 0
 
+// An element with an id/name attribute and a named iframe are also
+// exposed as window properties; none of them is a native bridge.
+// Reading a property of a cross-origin iframe window throws, so the
+// global of a native bridge must only be accessed through this.
+export function getNativeBridge(name) {
+  const bridge = window[name]
+
+  if (
+    bridge !== void 0 &&
+    bridge !== null &&
+    !(bridge instanceof Node) &&
+    !(bridge instanceof HTMLCollection) &&
+    bridge.window !== bridge
+  ) {
+    return bridge
+  }
+}
+
 function getPlatform(UA) {
   const userAgent = normalizeUserAgent(UA)
   const platformMatch = getPlatformMatch(userAgent)
@@ -219,13 +237,13 @@ function getPlatform(UA) {
     } else if (document.location.href.includes('-extension://')) {
       browser.bex = true
     } else {
-      if (window.Capacitor !== void 0) {
+      if (getNativeBridge('Capacitor') !== void 0) {
         browser.capacitor = true
         browser.nativeMobile = true
         browser.nativeMobileWrapper = 'capacitor'
       } else if (
-        window._cordovaNative !== void 0 ||
-        window.cordova !== void 0
+        getNativeBridge('_cordovaNative') !== void 0 ||
+        getNativeBridge('cordova') !== void 0
       ) {
         browser.cordova = true
         browser.nativeMobile = true

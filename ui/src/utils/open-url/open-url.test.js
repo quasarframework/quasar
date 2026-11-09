@@ -35,6 +35,19 @@ afterEach(() => {
   vi.restoreAllMocks()
 })
 
+// A sandboxed iframe is cross-origin, so reading
+// any property of its window throws
+function addCrossOriginFrame(name) {
+  const iframe = document.createElement('iframe')
+  iframe.setAttribute('sandbox', '')
+  iframe.name = name
+  document.body.append(iframe)
+
+  expect(() => window[name].open).toThrow()
+
+  return iframe
+}
+
 describe('[openUrl API]', () => {
   describe('[Functions]', () => {
     describe('[(function)default]', () => {
@@ -154,6 +167,37 @@ describe('[openUrl API]', () => {
         }
       })
 
+      test('falls back to a new window when cordova is a DOM named property', () => {
+        setPlatform('cordova', true)
+        const openSpy = mockWindowOpen()
+        const container = document.createElement('div')
+        container.innerHTML =
+          '<details id="cordova"></details>' +
+          '<details id="cordova" name="InAppBrowser"></details>'
+        document.body.append(container)
+
+        try {
+          expect(window.cordova.InAppBrowser.open).toBe(false)
+          expect(() => openUrl(url)).not.toThrow()
+          expect(openSpy).toHaveBeenCalledTimes(1)
+        } finally {
+          container.remove()
+        }
+      })
+
+      test('falls back to a new window when cordova is a cross-origin iframe', () => {
+        setPlatform('cordova', true)
+        const openSpy = mockWindowOpen()
+        const iframe = addCrossOriginFrame('cordova')
+
+        try {
+          expect(() => openUrl(url)).not.toThrow()
+          expect(openSpy).toHaveBeenCalledTimes(1)
+        } finally {
+          iframe.remove()
+        }
+      })
+
       test('delegates to SafariViewController on iOS when available', () => {
         setPlatform('ios', true)
         const openSpy = mockWindowOpen()
@@ -199,6 +243,19 @@ describe('[openUrl API]', () => {
           expect(openSpy).toHaveBeenCalledTimes(1)
         } finally {
           element.remove()
+        }
+      })
+
+      test('falls back to a new window when SafariViewController is a cross-origin iframe', () => {
+        setPlatform('ios', true)
+        const openSpy = mockWindowOpen()
+        const iframe = addCrossOriginFrame('SafariViewController')
+
+        try {
+          expect(() => openUrl(url)).not.toThrow()
+          expect(openSpy).toHaveBeenCalledTimes(1)
+        } finally {
+          iframe.remove()
         }
       })
     })

@@ -33,6 +33,20 @@ async function loadPlatformForUserAgent(userAgent) {
   }
 }
 
+// Markup that exposes "name" as a window property
+const domNamedProperties = [
+  ['an element', name => `<div id="${name}"></div>`],
+  [
+    'a collection of elements',
+    name => `<div id="${name}"></div><div id="${name}"></div>`
+  ],
+  ['a named iframe', name => `<iframe name="${name}"></iframe>`],
+  [
+    'a named cross-origin iframe',
+    name => `<iframe sandbox name="${name}"></iframe>`
+  ]
+]
+
 describe('[Platform API]', () => {
   describe('[Injection]', () => {
     test('is injected into $q', () => {
@@ -155,6 +169,56 @@ describe('[Platform API]', () => {
           version: '106.0.0.0'
         })
       })
+
+      test.each([
+        ['Capacitor', 'capacitor'],
+        ['cordova', 'cordova'],
+        ['_cordovaNative', 'cordova']
+      ])('detects the "%s" native bridge', async (name, wrapper) => {
+        window[name] = {}
+
+        try {
+          const platform = await loadPlatformForUserAgent(navigator.userAgent)
+
+          expect(platform.is).toMatchObject({
+            [wrapper]: true,
+            nativeMobile: true,
+            nativeMobileWrapper: wrapper
+          })
+        } finally {
+          delete window[name]
+        }
+      })
+
+      describe.each(['Capacitor', 'cordova', '_cordovaNative'])(
+        'when "%s" is a DOM named property',
+        name => {
+          test.each(domNamedProperties)(
+            'does not take %s for a native bridge',
+            async (_, getMarkup) => {
+              const container = document.createElement('div')
+              container.innerHTML = getMarkup(name)
+              document.body.append(container)
+
+              try {
+                expect(window[name]).toBeDefined()
+
+                const platform = await loadPlatformForUserAgent(
+                  navigator.userAgent
+                )
+
+                expect(platform.is).toMatchObject({
+                  capacitor: false,
+                  cordova: false,
+                  nativeMobile: false
+                })
+              } finally {
+                container.remove()
+              }
+            }
+          )
+        }
+      )
     })
 
     describe('[(prop)has]', () => {

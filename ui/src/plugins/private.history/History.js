@@ -1,4 +1,4 @@
-import { client } from '../platform/Platform.js'
+import { client, getNativeBridge } from '../platform/Platform.js'
 import { noop } from '../../utils/event/event.js'
 
 const getTrue = () => true
@@ -54,7 +54,8 @@ export default {
       // if we're on Capacitor mode
       capacitor &&
       // and it's also not in Capacitor's main instance
-      (window.Capacitor === void 0 || window.Capacitor.Plugins.App === void 0)
+      typeof getNativeBridge('Capacitor')?.Plugins?.App?.addListener !==
+        'function'
     ) {
       return
     }

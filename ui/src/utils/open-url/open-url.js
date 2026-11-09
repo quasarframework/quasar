@@ -1,4 +1,4 @@
-import Platform from '../../plugins/platform/Platform.js'
+import Platform, { getNativeBridge } from '../../plugins/platform/Platform.js'
 
 import { noop } from '../event/event.js'
 import { isNumber } from '../is/is.js'
@@ -21,8 +21,10 @@ function openWindow(url, reject, windowFeatures) {
   let open = window.open
 
   if (Platform.is.cordova) {
-    if (cordova?.InAppBrowser?.open !== void 0) {
-      open = cordova.InAppBrowser.open
+    const inAppBrowser = getNativeBridge('cordova')?.InAppBrowser
+
+    if (typeof inAppBrowser?.open === 'function') {
+      open = inAppBrowser.open
     } else if (navigator?.app !== void 0) {
       return navigator.app.loadUrl(url, {
         openExternal: true
@@ -49,7 +51,7 @@ function openWindow(url, reject, windowFeatures) {
 }
 
 export default function openUrl(url, reject, windowFeatures) {
-  const safariViewController = window.SafariViewController
+  const safariViewController = getNativeBridge('SafariViewController')
 
   if (
     Platform.is.ios &&
