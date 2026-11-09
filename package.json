@@ -18,12 +18,12 @@
   },
   "devDependencies": {
     "husky": "^9.1.7",
-    "lint-staged": "^17.5.1",
+    "lint-staged": "^17.6.0",
     "oxfmt": "0.68.0",
     "oxlint": "1.83.0",
-    "oxlint-tsgolint": "^7.0.2002",
+    "oxlint-tsgolint": "^7.0.2006",
     "typescript": "^6.0.3",
-    "vitest": "^5.0.1"
+    "vitest": "^5.1.0"
   },
   "lint-staged": {
     "*.{js,ts,vue,mjs,cjs,json,css,sass,md}": [

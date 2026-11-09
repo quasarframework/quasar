@@ -12,12 +12,12 @@
   "dependencies": {
     "@quasar/extras": "workspace:*",
     "quasar": "workspace:*",
-    "vue": "^3.5.43"
+    "vue": "^3.5.45"
   },
   "devDependencies": {
-    "@vitejs/plugin-vue": "^6.0.9",
+    "@vitejs/plugin-vue": "^6.0.10",
     "pug": "^3.0.4",
-    "sass-embedded": "^1.104.1",
-    "vite": "^8.3.0"
+    "sass-embedded": "^1.108.1",
+    "vite": "~8.3.6"
   }
 }

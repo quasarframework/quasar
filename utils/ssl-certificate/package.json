@@ -34,11 +34,11 @@
     "prepublishOnly": "pnpm test"
   },
   "dependencies": {
-    "fs-extra": "^11.4.0",
+    "fs-extra": "^11.4.1",
     "selfsigned": "^5.5.0"
   },
   "devDependencies": {
-    "vitest": "^5.0.1"
+    "vitest": "^5.1.0"
   },
   "engines": {
     "node": ">= 16"

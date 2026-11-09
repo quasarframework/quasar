@@ -49,12 +49,12 @@
     "prepublishOnly": "pnpm test"
   },
   "dependencies": {
-    "@modelcontextprotocol/sdk": "^1.30.0",
+    "@modelcontextprotocol/sdk": "^1.32.2",
     "@quasar/update-notifier": "workspace:^",
-    "zod": "^4.6.0"
+    "zod": "^4.6.7"
   },
   "devDependencies": {
-    "vitest": "^5.0.1"
+    "vitest": "^5.1.0"
   },
   "engines": {
     "node": ">= 22.0.0"

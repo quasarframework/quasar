@@ -12,17 +12,17 @@
   },
   "dependencies": {
     "@quasar/extras": "workspace:*",
-    "pinia": "^4.0.2",
+    "pinia": "^4.1.0",
     "quasar": "workspace:*",
-    "vue": "^3.5.43",
-    "vue-router": "^5.3.1"
+    "vue": "^3.5.45",
+    "vue-router": "^5.4.0"
   },
   "devDependencies": {
     "@quasar/app-vite": "workspace:*",
     "@types/node": "^26.6.2",
     "typescript": "^6.0.0",
-    "vite": "^8.3.0",
-    "vue-tsc": "^3.3.11"
+    "vite": "~8.3.6",
+    "vue-tsc": "^3.3.14"
   },
   "engines": {
     "node": ">= 26 || ^24 || ^22.12",

@@ -59,20 +59,20 @@
     "ci-info": "^4.4.0",
     "cross-spawn": "^7.0.6",
     "elementtree": "^0.1.7",
-    "fs-extra": "^11.4.0",
+    "fs-extra": "^11.4.1",
     "is-png": "^3.0.1",
-    "joi": "^18.2.9",
+    "joi": "^18.3.2",
     "kolorist": "^1.8.0",
     "png2icons": "^2.0.1",
     "potrace": "^2.1.5",
     "read-chunk": "^5.0.0",
-    "sharp": "^0.35.4",
+    "sharp": "^0.35.5",
     "svgo": "^4.1.0",
     "tinyglobby": "^0.2.17",
     "untildify": "^6.0.0"
   },
   "devDependencies": {
-    "vitest": "^5.0.1"
+    "vitest": "^5.1.0"
   },
   "engines": {
     "node": ">= 22.22.0"
