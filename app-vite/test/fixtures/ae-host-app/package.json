@@ -9,6 +9,6 @@
     "quasar": "^2.35.2"
   },
   "devDependencies": {
-    "@quasar/app-vite": "^3.10.3"
+    "@quasar/app-vite": "^3.10.4"
   }
 }
