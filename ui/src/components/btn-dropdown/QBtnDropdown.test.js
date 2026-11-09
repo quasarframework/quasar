@@ -711,6 +711,18 @@ describe('[QBtnDropdown API]', () => {
     })
 
     describe('[(prop)disable]', () => {
+      test('makes an already open menu inert until re-enabled', async () => {
+        const wrapper = mountBtnDropdown()
+        await showMenu(wrapper)
+        expect(getMenu().inert).toBe(false)
+
+        await wrapper.setProps({ disable: true })
+        expect(getMenu().inert).toBe(true)
+
+        await wrapper.setProps({ disable: false })
+        expect(getMenu().inert).toBe(false)
+      })
+
       test('type Boolean has effect', async () => {
         const wrapper = mountBtnDropdown()
 

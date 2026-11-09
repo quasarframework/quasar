@@ -48,6 +48,8 @@ The `toggle` slot (v2.25+) adds content to the dropdown toggle itself, next to t
 
 <DocExample title="Using v-model" file="Model" />
 
+Setting `disable` prevents interaction with the button and its dropdown content, including content that is already open.
+
 <DocExample title="Disable" file="Disable" />
 
 The following example won't work with UMD version (so in Codepen/jsFiddle too) because it relies on the existence of Vue Router.

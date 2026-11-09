@@ -220,6 +220,7 @@ export default /*#__PURE__*/ createComponent({
             {
               ref: menuRef,
               id: targetUid.value,
+              inert: props.disable || void 0,
               class: props.contentClass,
               style: props.contentStyle,
               cover: props.cover,

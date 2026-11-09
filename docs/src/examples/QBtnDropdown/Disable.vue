@@ -1,8 +1,14 @@
 <template>
   <div class="q-pa-md">
+    <q-btn
+      flat
+      class="q-mb-sm"
+      label="Disable first dropdown in 2 seconds"
+      @click="scheduleDisable"
+    />
     <div class="row q-gutter-sm">
       <q-btn-dropdown
-        disable
+        :disable="disabled"
         class="glossy"
         color="primary"
         label="Default"
@@ -91,3 +97,15 @@
     </div>
   </div>
 </template>
+
+<script setup>
+import { ref } from 'vue'
+
+const disabled = ref(false)
+
+function scheduleDisable() {
+  setTimeout(() => {
+    disabled.value = true
+  }, 2000)
+}
+</script>

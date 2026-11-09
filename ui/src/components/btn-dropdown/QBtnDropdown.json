@@ -66,6 +66,11 @@
   },
 
   "props": {
+    "disable": {
+      "extends": "disable",
+      "desc": "Disable the button and prevent interaction with its dropdown content"
+    },
+
     "model-value": {
       "type": "Boolean",
       "__delete": ["default"]
