@@ -1,5 +1,6 @@
 import { scroll } from 'quasar'
 import { nextTick, onBeforeUnmount, onMounted, watch } from 'vue'
+import { NavigationFailureType, isNavigationFailure } from 'vue-router'
 
 const { setVerticalScrollPosition, getVerticalScrollPosition } = scroll
 
@@ -21,6 +22,7 @@ function targetOffset(el) {
 
 export default function injectScroll(store) {
   let preventTocUpdate = store.$route.hash.length > 1
+  let stopDuplicateWatch
 
   // an anchor jump lands before the blocks above its target have their
   // final height (an example mounting, an API card filling once its file
@@ -183,12 +185,25 @@ export default function injectScroll(store) {
       scrollToCurrentAnchor(true)
     }, 0)
 
+    // a link to the anchor the address bar already holds (the reader followed
+    // it, scrolled away and clicks it again) is a duplicated navigation: the
+    // route does not change, so the route watcher never hears of it
+    stopDuplicateWatch = store.$router.afterEach((to, _, failure) => {
+      if (
+        to.hash.length > 1 &&
+        isNavigationFailure(failure, NavigationFailureType.duplicated)
+      ) {
+        scrollToCurrentAnchor(true)
+      }
+    })
+
     readerInputs.forEach(name => {
       window.addEventListener(name, onReaderInput, { passive: true })
     })
   })
 
   onBeforeUnmount(() => {
+    stopDuplicateWatch?.()
     clearTimeout(scrollTimer)
     clearTimeout(anchorTimer)
     cancelAnimationFrame(scrollFrame)
