@@ -108,6 +108,8 @@ export default {
         const vars = Object.keys(brand)
           .map(key => `--q-${key}:${brand[key]};`)
           .join('')
+          // Protect the HTML raw-text element, including untrusted brand keys.
+          .replaceAll(/<\/style/gi, String.raw`<\/style`)
 
         ssrContext._meta.endingHeadTags += `<style>:root{${vars}}</style>`
       }
