@@ -4,6 +4,7 @@ import extend from '../../utils/extend/extend.js'
 let updateId = null,
   currentClientMeta
 
+const nullStr = String.fromCodePoint(0)
 const encodeHtmlChars = {
   '&': '&amp;',
   '<': '&lt;',
@@ -20,30 +21,31 @@ const encodeJsonChars = {
   '\u2029': String.raw`\u2029`
 }
 
-const validAttrName = /^[^\s"'>/=]+$/
-
+const validAttrNameRE = /^[^\s"'>/=]+$/
 function isValidAttrName(name) {
-  return (
-    validAttrName.test(name) && name.includes(String.fromCodePoint(0)) === false
-  )
+  return validAttrNameRE.test(name) && !name.includes(nullStr)
 }
 
+const htmlCharsRE = /[&<>"']/g
 function encodeHtml(value) {
-  return String(value).replaceAll(/[&<>"']/g, char => encodeHtmlChars[char])
+  return String(value).replaceAll(htmlCharsRE, char => encodeHtmlChars[char])
 }
 
+const jsonCharsRE = /[<>&\u2028\u2029]/g
 function encodeJson(value) {
   return JSON.stringify(value).replaceAll(
-    /[<>&\u2028\u2029]/g,
+    jsonCharsRE,
     char => encodeJsonChars[char]
   )
 }
 
-function protectRawText(value, tagName) {
-  return String(value).replaceAll(
-    new RegExp(`</${tagName}`, 'gi'),
-    `<\\/${tagName}`
-  )
+const scriptEndTagRE = /<\/script/gi
+const noscriptEndTagRE = /<\/noscript/gi
+function escapeScriptHtml(value) {
+  return String(value).replaceAll(scriptEndTagRE, String.raw`<\/script`)
+}
+function escapeNoscriptHtml(value) {
+  return String(value).replaceAll(noscriptEndTagRE, String.raw`<\/noscript`)
 }
 
 export const clientList = []
@@ -213,8 +215,7 @@ function getHead(meta) {
 
       output += `<${type} ${attrs.join(' ')} data-qmeta="${encodeHtml(att)}">`
       if (type === 'script') {
-        output +=
-          protectRawText(metaType[att].innerHTML || '', 'script') + '</script>'
+        output += escapeScriptHtml(metaType[att].innerHTML || '') + '</script>'
       }
     }
   })
@@ -269,7 +270,7 @@ function injectServerMeta(ssrContext) {
     Object.keys(data.noscript)
       .map(
         name =>
-          `<noscript data-qmeta="${encodeHtml(name)}">${protectRawText(data.noscript[name], 'noscript')}</noscript>`
+          `<noscript data-qmeta="${encodeHtml(name)}">${escapeNoscriptHtml(data.noscript[name])}</noscript>`
       )
       .join('') +
     `<script${nonce} id="qmeta-init">window.__Q_META__=${delete data.noscript && encodeJson(data)}</script>`
