@@ -292,3 +292,7 @@ npx @capawesome/cli apps:liveupdates:upload --path src-capacitor/www --app-id 00
 ```
 
 Feel free to check out the [documentation](https://capawesome.io/docs/sdks/capacitor/live-update/) of the Live Update plugin to see what else you can do with it.
+
+## Other providers
+
+Other live update services for Capacitor exist too, such as [OtaKit](https://otakit.app/) (MIT-licensed, [self-hostable](https://otakit.app/docs/self-host)). Whichever one you choose, hold it to the requirements in the caution note at the top of this page.
