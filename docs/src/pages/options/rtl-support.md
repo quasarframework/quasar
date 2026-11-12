@@ -103,7 +103,7 @@ Also notice the `<html dir="rtl">` tag at the beginning of the generated html fi
 
 ## How it works
 
-RTL is tightly coupled to [Quasar Language Packs](/options/quasar-language-packs). **When Quasar is set to use an RTL language** (language pack has "rtl" prop set to "true") and **RTL support is enabled** (check the "Enabling RTL support" section above), then the UI will dynamically transform Quasar & your website/app code for RTL.
+RTL is tightly coupled to [Quasar Language Packs](/options/quasar-language-packs). **When Quasar is set to use an RTL language** (language pack has "rtl" prop set to "true") and **RTL support is enabled** (check the ["Enabling RTL support"](#enabling-rtl-support) section above), then the UI will dynamically transform Quasar & your website/app code for RTL.
 
 Let's discuss about each of these requirements:
 
@@ -111,7 +111,7 @@ Let's discuss about each of these requirements:
    See [Quasar Language Packs](/options/quasar-language-packs) on how you can set a language. You can set a language as default or dynamically set one.
 
 2. _RTL support needs to be enabled_.
-   Please double-check the "Enabling RTL support" section above. What this does is it compiles CSS for both your website/app code and for Quasar components and add corresponding RTL CSS rules automatically. Your CSS bundle will slightly increase in size due to the addition of these CSS rules.
+   Please double-check the ["Enabling RTL support"](#enabling-rtl-support) section above. What this does is it compiles CSS for both your website/app code and for Quasar components and add corresponding RTL CSS rules automatically. Your CSS bundle will slightly increase in size due to the addition of these CSS rules.
 
 3. Optional: _Treat devland source CSS as RTL_.
    By default, Quasar assumes that all styles are written in LTR direction and generates corresponding RTL styles for them. Should you wish to write your own css directly in RTL then you need to:

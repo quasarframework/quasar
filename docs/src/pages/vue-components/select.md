@@ -87,7 +87,7 @@ A hover-triggered open does not focus the select, so it emits no `@focus`/`@blur
 
 <DocExample title="Multiple selection, counter and max-values" file="ModelMultipleCounter" />
 
-The model content can be influenced by `emit-value` prop as you'll learn in "The options" section below.
+The model content can be influenced by `emit-value` prop as you'll learn in ["The options"](#the-options) section below.
 
 ## The options
 

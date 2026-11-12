@@ -133,7 +133,7 @@ It is also possible to offset a cell. For example: `offset-4` offsets a third of
 
 Wrapping is a key feature in understanding Flex CSS classes. You are not bound to use exactly 12 points per row. You can use less or even more.
 
-This allows you, among other things, to dynamically stack rows vertically on smaller screens while displaying them on a single line on bigger screens. Read the "Responsive Design" section.
+This allows you, among other things, to dynamically stack rows vertically on smaller screens while displaying them on a single line on bigger screens. Read the ["Responsive Design"](#responsive-design) section.
 
 ```html
 <div class="row">

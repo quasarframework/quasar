@@ -330,7 +330,7 @@ Note the difference between `bottom-row` and `footer`: the former renders extra 
 ## Pagination
 
 > [!NOTE]
-> When `pagination` has a property named `rowsNumber`, then this means that you’ll be configuring Table for **server**-side pagination (& sorting & filtering). See _"Server side pagination, filter and sorting"_ section.
+> When `pagination` has a property named `rowsNumber`, then this means that you’ll be configuring Table for **server**-side pagination (& sorting & filtering). See ["Server side pagination, filter and sorting"](#server-side-pagination-filter-and-sorting) section.
 
 The initial pagination (with the sorting and the rows per page) is a plain object:
 

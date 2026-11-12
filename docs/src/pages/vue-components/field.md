@@ -17,7 +17,7 @@ QField allows you to display any form control (or almost anything as a matter of
 ## Design
 
 > [!NOTE]
-> The examples below use dumb content (text) just to show you the design that QField can use. For checking out examples that wrap real components, see the "Basic Features" section.
+> The examples below use dumb content (text) just to show you the design that QField can use. For checking out examples that wrap real components, see the ["Basic Features"](#basic-features) section.
 
 > [!TIP]
 > QField does not (and should not) manage your `control` slot, so if you use `label` prop, it might be a good idea to also specify `stack-label`, otherwise it might overlap your control when QField is not focused.

@@ -18,7 +18,7 @@ From a UI perspective, you can think of Dialogs as a type of floating modal, whi
 
 The advantage of using Dialogs as Quasar Plugins as opposed to QDialog component is that the plugin can also be called from outside of Vue space and doesn't require you to manage their templates. But as a result, their customization cannot be compared to their component counterpart.
 
-However, **you can also supply a component for the Dialog Plugin to render** (see the "Invoking custom component" section) which is a great way to avoid cluttering your Vue templates with inline dialogs (and it will also help you better organize your project files and also reuse dialogs).
+However, **you can also supply a component for the Dialog Plugin to render** (see the ["Invoking custom component"](#invoking-custom-component) section) which is a great way to avoid cluttering your Vue templates with inline dialogs (and it will also help you better organize your project files and also reuse dialogs).
 
 With the QDialog plugin, you can programmatically build three types of dialogs with the following form content:
 
