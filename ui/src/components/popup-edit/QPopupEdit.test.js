@@ -799,6 +799,22 @@ describe('[QPopupEdit API]', () => {
 
   describe('[Slots]', () => {
     describe('[(slot)default]', () => {
+      test('shares the scope accessors between instances (#18577)', async () => {
+        const scopes = []
+
+        for (const modelValue of ['first', 'second']) {
+          const wrapper = mountPopupEdit({ modelValue })
+          await showPopup(wrapper)
+
+          expect(lastScope.value).toBe(modelValue)
+          scopes.push(lastScope)
+
+          wrapper.unmount()
+        }
+
+        expect(scopes[0]).$sharedAccessors(scopes[1], ['value'])
+      })
+
       test('renders the content', async () => {
         const slotContent = 'some-slot-content'
         const wrapper = mountPopupEdit({}, () =>

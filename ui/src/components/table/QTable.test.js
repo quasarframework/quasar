@@ -1886,6 +1886,32 @@ describe('[QTable API]', () => {
     })
 
     describe('[(slot)body]', () => {
+      test('shares the scope accessors between instances (#18577)', () => {
+        const scopes = [0, 1].map(() => {
+          let slotScope
+          mountTable(
+            { selection: 'multiple' },
+            {
+              slots: {
+                body: scope => {
+                  slotScope = scope
+                  return 'some-slot-content'
+                }
+              }
+            }
+          )
+          return slotScope
+        })
+
+        expect(scopes[0]).$sharedAccessors(scopes[1], ['selected', 'expand'])
+        expect(scopes[0].cols[0]).$sharedAccessors(scopes[1].cols[0], ['value'])
+
+        // each scope still reads its own row
+        expect(scopes[0].cols.map(col => col.value)).toStrictEqual(
+          scopes[0].cols.map(col => scopes[0].row[col.field])
+        )
+      })
+
       test('renders the content', () => {
         let slotScope
         const slotContent = 'some-slot-content'
@@ -1948,6 +1974,30 @@ describe('[QTable API]', () => {
     })
 
     describe('[(slot)body-cell]', () => {
+      test('shares the scope accessors between instances (#18577)', () => {
+        const scopes = [0, 1].map(() => {
+          let slotScope
+          mountTable(
+            { selection: 'multiple' },
+            {
+              slots: {
+                'body-cell': scope => {
+                  slotScope = scope
+                  return h('td')
+                }
+              }
+            }
+          )
+          return slotScope
+        })
+
+        expect(scopes[0]).$sharedAccessors(scopes[1], [
+          'selected',
+          'expand',
+          'value'
+        ])
+      })
+
       test('renders the content', () => {
         let slotScope
         const slotContent = 'some-slot-content'

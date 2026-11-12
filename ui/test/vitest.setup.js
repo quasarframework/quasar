@@ -254,7 +254,39 @@ export function $reactive(received, expected) {
   }
 }
 
+/**
+ * The accessor properties of two objects (slot scopes of two component
+ * instances) are backed by the same get/set functions, so none of them
+ * can capture an instance (#18577).
+ *
+ * Examples:
+ *   expect(scopeA).$sharedAccessors(scopeB, [ 'expand', 'selected' ])
+ */
+export function $sharedAccessors(received, other, propNames) {
+  const failed = propNames.filter(name => {
+    const a = Object.getOwnPropertyDescriptor(received, name)
+    const b = Object.getOwnPropertyDescriptor(other, name)
+
+    return (
+      typeof a?.get !== 'function' ||
+      a.enumerable !== true ||
+      received === other ||
+      a.get !== b?.get ||
+      a.set !== b?.set
+    )
+  })
+
+  return {
+    pass: failed.length === 0,
+    message: () =>
+      `expected two distinct objects to${this.isNot ? ' not' : ''} share the accessors of ${this.utils.printExpected(
+        propNames
+      )}; failing: ${this.utils.printReceived(failed)}`
+  }
+}
+
 expect.extend({
+  $sharedAccessors,
   $any,
   $emits,
   $props,

@@ -53,7 +53,8 @@ import {
 
 import {
   injectMultipleProps,
-  injectProp
+  injectScopeProps,
+  scopeOwnerKey
 } from '../../utils/private.inject-obj-prop/inject-obj-prop.js'
 import { createComponent } from '../../utils/private.create/create.js'
 
@@ -67,6 +68,63 @@ commonVirtScrollPropsList.forEach(p => {
 function getCellValue(col, row) {
   const val = typeof col.field === 'function' ? col.field(row) : row[col.field]
   return col.format !== void 0 ? col.format(val, row) : val
+}
+
+// slot scope accessors, shared by all QTable instances
+// (see injectScopeProps() for the reason)
+
+const expandDescriptor = {
+  enumerable: true,
+  get() {
+    return this[scopeOwnerKey].isRowExpanded(this.key)
+  },
+  set(adding) {
+    this[scopeOwnerKey].updateExpanded(this.key, adding)
+  }
+}
+
+const bodyScopeDescriptors = { expand: expandDescriptor }
+
+const bodySelectionScopeDescriptors = {
+  selected: {
+    enumerable: true,
+    get() {
+      return this[scopeOwnerKey].isRowSelected(this.key)
+    },
+    set(adding) {
+      this[scopeOwnerKey].updateSelection([this.key], [this.row], adding)
+    }
+  },
+  expand: expandDescriptor
+}
+
+const headerSelectionScopeDescriptors = {
+  selected: {
+    enumerable: true,
+    get() {
+      return this[scopeOwnerKey].headerSelectedValue.value
+    },
+    set(val) {
+      this[scopeOwnerKey].onMultipleSelectionSet(val)
+    }
+  }
+}
+
+const bodyCellValueDescriptor = {
+  enumerable: true,
+  get() {
+    return getCellValue(this.col, this.row)
+  }
+}
+
+// owner: the body scope that the col belongs to
+const bodyColScopeDescriptors = {
+  value: {
+    enumerable: true,
+    get() {
+      return getCellValue(this, this[scopeOwnerKey].row)
+    }
+  }
 }
 
 export default /*#__PURE__*/ createComponent({
@@ -636,7 +694,7 @@ export default /*#__PURE__*/ createComponent({
       injectBodyCommonScope(data)
 
       data.cols = data.cols.map(col =>
-        injectProp({ ...col }, 'value', () => getCellValue(col, data.row))
+        injectScopeProps({ ...col }, data, bodyColScopeDescriptors)
       )
 
       return data
@@ -644,7 +702,7 @@ export default /*#__PURE__*/ createComponent({
 
     function getBodyCellScope(data) {
       injectBodyCommonScope(data)
-      injectProp(data, 'value', () => getCellValue(data.col, data.row))
+      Object.defineProperty(data, 'value', bodyCellValueDescriptor)
       return data
     }
 
@@ -664,24 +722,12 @@ export default /*#__PURE__*/ createComponent({
         dense: props.dense
       })
 
-      if (hasSelectionMode.value) {
-        injectProp(
-          data,
-          'selected',
-          () => isRowSelected(data.key),
-          (adding, evt) => {
-            updateSelection([data.key], [data.row], adding, evt)
-          }
-        )
-      }
-
-      injectProp(
+      injectScopeProps(
         data,
-        'expand',
-        () => isRowExpanded(data.key),
-        adding => {
-          updateExpanded(data.key, adding)
-        }
+        scopeOwner,
+        hasSelectionMode.value
+          ? bodySelectionScopeDescriptors
+          : bodyScopeDescriptors
       )
     }
 
@@ -766,6 +812,16 @@ export default /*#__PURE__*/ createComponent({
     const headerSelectedValue = computed(() =>
       someRowsSelected.value ? null : allRowsSelected.value
     )
+
+    // what the (shared) slot scope accessors need from this instance
+    const scopeOwner = {
+      isRowExpanded,
+      updateExpanded,
+      isRowSelected,
+      updateSelection,
+      headerSelectedValue,
+      onMultipleSelectionSet
+    }
 
     function getTHead() {
       const child = getTHeadTR()
@@ -868,12 +924,7 @@ export default /*#__PURE__*/ createComponent({
       })
 
       if (multipleSelection.value) {
-        injectProp(
-          data,
-          'selected',
-          () => headerSelectedValue.value,
-          onMultipleSelectionSet
-        )
+        injectScopeProps(data, scopeOwner, headerSelectionScopeDescriptors)
       }
 
       return data

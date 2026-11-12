@@ -839,6 +839,27 @@ describe('[QField API]', () => {
     })
 
     describe('[(slot)control]', () => {
+      test('shares the scope accessors between instances (#18577)', () => {
+        const scopes = [0, 1].map(() => {
+          let slotScope
+          const wrapper = mountField(
+            {},
+            {
+              slots: {
+                control: scope => {
+                  slotScope = scope
+                  return 'some-slot-content'
+                }
+              }
+            }
+          )
+          expect(slotScope.field).toBe(wrapper.element)
+          return slotScope
+        })
+
+        expect(scopes[0]).$sharedAccessors(scopes[1], ['field'])
+      })
+
       test('renders the content', () => {
         let slotScope
         const slotContent = 'some-slot-content'

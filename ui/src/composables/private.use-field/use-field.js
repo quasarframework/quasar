@@ -25,7 +25,10 @@ import useValidate, {
 } from '../private.use-validate/use-validate.js'
 
 import { hSlot } from '../../utils/private.render/render.js'
-import { injectProp } from '../../utils/private.inject-obj-prop/inject-obj-prop.js'
+import {
+  injectScopeProps,
+  scopeOwnerKey
+} from '../../utils/private.inject-obj-prop/inject-obj-prop.js'
 import { prevent, stopAndPrevent } from '../../utils/event/event.js'
 import {
   addFocusFn,
@@ -223,6 +226,17 @@ function getInnerAppendNode(key, content) {
       )
 }
 
+// shared by all instances (see injectScopeProps() for the reason);
+// owner: the field state
+const controlSlotScopeDescriptors = {
+  field: {
+    enumerable: true,
+    get() {
+      return this[scopeOwnerKey].rootRef.value
+    }
+  }
+}
+
 export default function useField(state) {
   const { props, emit, slots, attrs, proxy } = getCurrentInstance()
   const $q = useQuasar()
@@ -404,7 +418,7 @@ export default function useField(state) {
   const controlSlotScope = computed(() =>
     // "field" is resolved on access, as the root element is only
     // available after the first render
-    injectProp(
+    injectScopeProps(
       {
         id: state.targetUid.value,
         editable: state.editable.value,
@@ -416,8 +430,8 @@ export default function useField(state) {
         ariaDescribedby: errorMessageId.value,
         ariaErrormessage: errorMessageId.value
       },
-      'field',
-      () => state.rootRef.value
+      state,
+      controlSlotScopeDescriptors
     )
   )
 

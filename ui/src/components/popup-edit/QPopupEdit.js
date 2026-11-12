@@ -8,7 +8,24 @@ import useQuasar from '../../composables/use-quasar/use-quasar.js'
 import { createComponent } from '../../utils/private.create/create.js'
 import clone from '../../utils/clone/clone.js'
 import { isDeepEqual } from '../../utils/is/is.js'
-import { injectProp } from '../../utils/private.inject-obj-prop/inject-obj-prop.js'
+import {
+  injectScopeProps,
+  scopeOwnerKey
+} from '../../utils/private.inject-obj-prop/inject-obj-prop.js'
+
+// shared by all instances (see injectScopeProps() for the reason);
+// owner: the ref holding the current model
+const scopeDescriptors = {
+  value: {
+    enumerable: true,
+    get() {
+      return this[scopeOwnerKey].value
+    },
+    set(val) {
+      this[scopeOwnerKey].value = val
+    }
+  }
+}
 
 export default /*#__PURE__*/ createComponent({
   name: 'QPopupEdit',
@@ -65,7 +82,7 @@ export default /*#__PURE__*/ createComponent({
     let validated = false
 
     const scope = computed(() =>
-      injectProp(
+      injectScopeProps(
         {
           initialValue: initialValue.value,
           validate: props.validate,
@@ -73,11 +90,8 @@ export default /*#__PURE__*/ createComponent({
           cancel,
           updatePosition
         },
-        'value',
-        () => currentModel.value,
-        val => {
-          currentModel.value = val
-        }
+        currentModel,
+        scopeDescriptors
       )
     )
 

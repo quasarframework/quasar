@@ -972,6 +972,30 @@ describe('[QTree API]', () => {
 
   describe('[Slots]', () => {
     describe('[(slot)default-header]', () => {
+      test('shares the scope accessors between instances (#18577)', () => {
+        const scopes = [0, 1].map(() => {
+          let slotScope
+          mountTree(
+            {},
+            {
+              slots: {
+                'default-header': scope => {
+                  slotScope = scope
+                  return 'some-slot-content'
+                }
+              }
+            }
+          )
+          return slotScope
+        })
+
+        expect(scopes[0]).$sharedAccessors(scopes[1], [
+          'expanded',
+          'ticked',
+          'indeterminate'
+        ])
+      })
+
       test('renders the content', () => {
         let slotScope
         const slotContent = 'some-slot-content'

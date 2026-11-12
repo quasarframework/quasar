@@ -33,7 +33,10 @@ import { createComponent } from '../../utils/private.create/create.js'
 import { listenOpts, stopAndPrevent } from '../../utils/event/event.js'
 import { getScrollTarget, scrollTargetProp } from '../../utils/scroll/scroll.js'
 import { shouldIgnoreKey } from '../../utils/private.keyboard/key-composition.js'
-import { injectProp } from '../../utils/private.inject-obj-prop/inject-obj-prop.js'
+import {
+  injectScopeProps,
+  scopeOwnerKey
+} from '../../utils/private.inject-obj-prop/inject-obj-prop.js'
 
 const tickStrategyOptions = ['none', 'strict', 'leaf', 'leaf-filtered']
 
@@ -153,6 +156,43 @@ function getNodeMedia(node) {
       class: `q-tree__${node.img ? 'img' : 'avatar'} q-mr-sm`,
       src
     })
+  }
+}
+
+// slot scope accessors, shared by all QTree instances
+// (see injectScopeProps() for the reason); owner: the meta of the node
+const slotScopeDescriptors = {
+  expanded: {
+    enumerable: true,
+    get() {
+      return this[scopeOwnerKey].expanded
+    },
+    set(val) {
+      if (val !== this[scopeOwnerKey].expanded) {
+        this.tree.setExpanded(this.key, val)
+      }
+    }
+  },
+
+  ticked: {
+    enumerable: true,
+    get() {
+      return this[scopeOwnerKey].ticked
+    },
+    set(val) {
+      if (val !== this[scopeOwnerKey].ticked) {
+        this.tree.setTicked([this.key], val)
+      }
+    }
+  },
+
+  // read-only: a node becomes partially ticked through its children,
+  // so there is nothing to assign here -- tick them instead
+  indeterminate: {
+    enumerable: true,
+    get() {
+      return this[scopeOwnerKey].indeterminate === true
+    }
   }
 }
 
@@ -1126,41 +1166,17 @@ export default /*#__PURE__*/ createComponent({
     }
 
     function getSlotScope(node, localMeta, key) {
-      const scope = {
-        tree: proxy,
-        node,
-        key,
-        color: props.color,
-        dark: isDark()
-      }
-
-      injectProp(
-        scope,
-        'expanded',
-        () => localMeta.expanded,
-        val => {
-          if (val !== localMeta.expanded) {
-            setExpanded(key, val)
-          }
-        }
+      return injectScopeProps(
+        {
+          tree: proxy,
+          node,
+          key,
+          color: props.color,
+          dark: isDark()
+        },
+        localMeta,
+        slotScopeDescriptors
       )
-
-      injectProp(
-        scope,
-        'ticked',
-        () => localMeta.ticked,
-        val => {
-          if (val !== localMeta.ticked) {
-            setTicked([key], val)
-          }
-        }
-      )
-
-      // read-only: a node becomes partially ticked through its children,
-      // so there is nothing to assign here -- tick them instead
-      injectProp(scope, 'indeterminate', () => localMeta.indeterminate === true)
-
-      return scope
     }
 
     function getChildren(nodes) {
