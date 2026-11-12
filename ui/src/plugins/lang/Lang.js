@@ -18,6 +18,14 @@ function splitTag(tag) {
     )
 }
 
+// The shape of a BCP 47 language tag: hyphen-separated subtags of 1 to 8
+// letters or digits. Anything else is not a value for the lang attribute.
+const langTagRE = /^[a-z\d]{1,8}(?:-[a-z\d]{1,8})*$/i
+
+function isLangTag(isoName) {
+  return typeof isoName === 'string' && langTagRE.test(isoName)
+}
+
 function getLocale() {
   if (__QUASAR_SSR_SERVER__) return
 
@@ -141,8 +149,9 @@ const Plugin = /*#__PURE__*/ createReactivePlugin(
           ssrContext.$q.config.lang === void 0 ||
           !ssrContext.$q.config.lang.noHtmlAttrs
         ) {
-          const dir = lang.rtl ? 'rtl' : 'ltr'
-          const attrs = `lang=${lang.isoName} dir=${dir}`
+          const attrs =
+            `dir=${lang.rtl ? 'rtl' : 'ltr'}` +
+            (isLangTag(lang.isoName) ? ` lang=${lang.isoName}` : '')
 
           ssrContext._meta.htmlAttrs =
             ssrContext.__qPrevLang !== void 0
@@ -165,7 +174,12 @@ const Plugin = /*#__PURE__*/ createReactivePlugin(
         ) {
           const el = document.documentElement
           el.setAttribute('dir', lang.rtl ? 'rtl' : 'ltr')
-          el.setAttribute('lang', lang.isoName)
+
+          if (isLangTag(lang.isoName)) {
+            el.setAttribute('lang', lang.isoName)
+          } else {
+            el.removeAttribute('lang')
+          }
         }
 
         // optional root keys (formatNumber) must not survive from

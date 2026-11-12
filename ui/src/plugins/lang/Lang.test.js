@@ -191,6 +191,51 @@ describe('[Lang API]', () => {
         expect(wrapper.vm.$q.lang.formatNumber).toBeUndefined()
       })
 
+      test('sets the lang and dir attributes of the document', () => {
+        mountPlugin()
+        const el = document.documentElement
+
+        Lang.set({ ...langEn, isoName: 'he', rtl: true })
+        expect(el.getAttribute('lang')).toBe('he')
+        expect(el.getAttribute('dir')).toBe('rtl')
+
+        Lang.set({ ...langEn, isoName: 'zh-Hant-TW' })
+        expect(el.getAttribute('lang')).toBe('zh-Hant-TW')
+        expect(el.getAttribute('dir')).toBe('ltr')
+
+        Lang.set(langEn)
+      })
+
+      test.each([
+        'x><script>window.__langXss=true</script>',
+        'x onmouseover=alert(1)',
+        'en_US',
+        'en-',
+        'abcdefghi',
+        '',
+        void 0,
+        null,
+        7
+      ])(
+        'removes the lang attribute for the isoName %j, which is not a language tag',
+        isoName => {
+          const wrapper = mountPlugin()
+          const el = document.documentElement
+
+          Lang.set({ ...langEn, isoName: 'he', rtl: true })
+          expect(el.getAttribute('lang')).toBe('he')
+
+          Lang.set({ ...langEn, isoName })
+          expect(el.hasAttribute('lang')).toBe(false)
+          expect(el.getAttribute('dir')).toBe('ltr')
+          // the pack itself is applied as given
+          expect(wrapper.vm.$q.lang.isoName).toBe(isoName)
+
+          Lang.set(langEn)
+          expect(el.getAttribute('lang')).toBe('en-US')
+        }
+      )
+
       test('should be callable', () => {
         const wrapper = mountPlugin()
 

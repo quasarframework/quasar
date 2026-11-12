@@ -23,7 +23,7 @@
       "definition": {
         "isoName": {
           "type": "String",
-          "desc": "The ISO name of the Quasar language pack",
+          "desc": "The ISO name of the Quasar language pack; it becomes the 'lang' HTML attribute only when it is a language tag (letters, digits and hyphens, like 'en-US')",
           "examples": ["'en-US'"]
         },
         "nativeName": {
@@ -761,7 +761,7 @@
           "definition": {
             "isoName": {
               "type": "String",
-              "desc": "The ISO name of the Quasar language pack",
+              "desc": "The ISO name of the Quasar language pack; it becomes the 'lang' HTML attribute only when it is a language tag (letters, digits and hyphens, like 'en-US')",
               "required": true,
               "examples": ["'en-US'"]
             },

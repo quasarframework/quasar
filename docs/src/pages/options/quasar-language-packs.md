@@ -160,6 +160,8 @@ export default defineBoot(async ({ ssrContext }) => {
 
 ## Change Quasar Language Pack at Runtime
 
+Setting a Language Pack also sets the `dir` and `lang` attributes of the `<html>` tag; `lang` is set only when the pack's `isoName` is a language tag (letters, digits and hyphens, like `en-US`).
+
 ### Changing Language Pack
 
 Example with a QSelect to dynamically change the Quasar components language:

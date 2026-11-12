@@ -166,7 +166,7 @@ export async function hydrate(
   }
 }
 
-// "lang=he dir=rtl" / "data-server-rendered" -> [name, value] pairs
+// "dir=rtl lang=he" / "data-server-rendered" -> [name, value] pairs
 function parseAttrs(str) {
   if (str.length === 0) return []
 
