@@ -24,8 +24,8 @@ export default {
     collapse: label => (label ? `Kolapsi "${label}"` : 'Kolapso')
   },
   date: {
-    days: 'Dimanĉo_Lundo_Mardo_Merkredo_Jaŭdo_Vendredo_Sabato'.split('_'),
-    daysShort: 'Dim_Lun_Mar_Mer_Jaŭ_Ven_Sab'.split('_'),
+    days: 'Dimanĉo_Lundo_Mardo_Merkredo_Ĵaŭdo_Vendredo_Sabato'.split('_'),
+    daysShort: 'Dim_Lun_Mar_Mer_Ĵaŭ_Ven_Sab'.split('_'),
     months:
       'Januaro_Februaro_Marto_Aprilo_Majo_Junio_Julio_Aŭgusto_Septembro_Oktobro_Novembro_Decembro'.split(
         '_'
