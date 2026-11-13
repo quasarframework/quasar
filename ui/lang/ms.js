@@ -24,7 +24,7 @@ export default {
     collapse: label => (label ? `Runtuhkan "${label}"` : 'Runtuh')
   },
   date: {
-    days: 'Ahad_Isnin_Selasa_Rabu_Khamis_Jummat_Sabtu'.split('_'),
+    days: 'Ahad_Isnin_Selasa_Rabu_Khamis_Jumaat_Sabtu'.split('_'),
     daysShort: 'Aha_Isn_Sel_Rab_Kha_Jum_Sab'.split('_'),
     months:
       'Januari_Februari_Mac_April_Mei_Jun_Julai_Ogos_September_Oktober_November_Disember'.split(

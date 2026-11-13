@@ -29,7 +29,7 @@ export default {
     ),
     daysShort: 'Die_Hën_Mar_Mër_Enj_Pre_Sht'.split('_'),
     months:
-      'Janar_Shkurt_Mars_Pril_Maj_Qershor_Korrik_Gusht_Shtator_Tetor_Nëntor_Dhjetor'.split(
+      'Janar_Shkurt_Mars_Prill_Maj_Qershor_Korrik_Gusht_Shtator_Tetor_Nëntor_Dhjetor'.split(
         '_'
       ),
     monthsShort: 'Jan_Shk_Mar_Pri_Maj_Qer_Kor_Gus_Sht_Tet_Nën_Dhj'.split('_'),
