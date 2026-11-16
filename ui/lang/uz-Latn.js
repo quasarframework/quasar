@@ -87,7 +87,7 @@ export default {
     palette: 'Palitra',
     value: 'Rang qiymati',
     hue: 'Tus',
-    alpha: 'Shaffoflik',
+    alpha: 'Noshaffoflik',
     saturation: "To'yinganlik",
     brightness: 'Yorqinlik'
   },
