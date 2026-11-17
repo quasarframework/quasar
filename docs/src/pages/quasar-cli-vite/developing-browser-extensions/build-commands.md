@@ -105,7 +105,7 @@ You can find following places to investigate the errors and outputs from the con
 
 If changes do not reach the browser, reload the extension from the extensions page. If that does not help, restart the browser and the Quasar development process.
 
-For more information, please visit [Debugging extensions](https://developer.chrome.com/docs/extensions/mv2/tut_debugging/).
+For more information, please visit [Debugging extensions](https://developer.chrome.com/docs/extensions/get-started/tutorial/debug).
 
 ## Building for production
 
