@@ -136,7 +136,7 @@ interface ElectronBuilderQuasarContext extends BaseElectronQuasarContext {
    * Publish options.
    *
    * If not set, its default value is deduced by the environment.
-   * See https://www.electron.build/configuration/publish#how-to-publish
+   * See https://www.electron.build/docs/publish#how-to-publish
    */
   readonly publish?: "onTag" | "onTagOrDraft" | "always" | "never";
   /**
