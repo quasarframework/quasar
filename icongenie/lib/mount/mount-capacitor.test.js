@@ -6,6 +6,7 @@ import {
   realpathSync,
   rmSync,
   statSync,
+  symlinkSync,
   writeFileSync
 } from 'node:fs'
 import { tmpdir } from 'node:os'
@@ -294,5 +295,69 @@ describe('verifyCapacitor', () => {
 
     await mountCapacitor(ios.filter(file => file.dark !== true))
     expect(stripAnsi(verifyCapacitor(dark))).toContain('Contents.json')
+  })
+})
+
+describe('mounted files stay inside the project folder', () => {
+  const outside = realpathSync(
+    mkdtempSync(join(tmpdir(), 'icongenie-mount-outside-'))
+  )
+
+  function expectExit(fn) {
+    const exit = vi.spyOn(process, 'exit').mockImplementation(code => {
+      throw new Error(`exit(${code})`)
+    })
+    const error = vi.spyOn(console, 'error').mockImplementation(() => {})
+
+    return expect(fn())
+      .rejects.toThrow('exit(1)')
+      .finally(() => {
+        exit.mockRestore()
+        error.mockRestore()
+      })
+  }
+
+  afterAll(() => {
+    rmSync(outside, { recursive: true, force: true })
+  })
+
+  test('Android: adaptive icon folder linked outside of the project', async () => {
+    const launcher = {
+      generator: 'launcher',
+      platform: 'capacitor-android',
+      folder: 'linked-res/mipmap-mdpi'
+    }
+    const linkedFiles = getAssetsFiles([
+      { ...launcher, name: 'fg.png', variant: 'foreground' },
+      { ...launcher, name: 'bg.png', variant: 'background' },
+      { ...launcher, name: 'ic_launcher.png', variant: 'legacy' }
+    ])
+
+    mkdirSync(join(projectFolder, 'linked-res'))
+    symlinkSync(outside, join(projectFolder, 'linked-res/mipmap-anydpi-v26'))
+
+    await expectExit(() => mountCapacitor(linkedFiles))
+
+    expect(existsSync(join(outside, 'ic_launcher.xml'))).toBe(false)
+  })
+
+  test('iOS: Contents.json linked outside of the project', async () => {
+    const linkedFiles = getAssetsFiles([
+      {
+        generator: 'png',
+        platform: 'capacitor-ios',
+        name: 'icon.png',
+        folder: 'linked.imageset',
+        sizes: [1024]
+      }
+    ])
+    const target = join(outside, 'Contents.json')
+
+    mkdirSync(join(projectFolder, 'linked.imageset'))
+    symlinkSync(target, join(projectFolder, 'linked.imageset/Contents.json'))
+
+    await expectExit(() => mountCapacitor(linkedFiles))
+
+    expect(existsSync(target)).toBe(false)
   })
 })

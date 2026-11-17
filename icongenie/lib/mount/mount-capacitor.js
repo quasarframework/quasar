@@ -4,6 +4,7 @@ import { ensureDirSync } from 'fs-extra'
 import { green, red } from 'kolorist'
 
 import { appDir, resolveDir } from '../utils/app-paths.js'
+import { ensureInsideProject } from '../utils/get-assets-files.js'
 import { log, warn } from '../utils/logger.js'
 import { createInstance } from '../utils/package-manager.js'
 
@@ -25,6 +26,13 @@ function getResourceName(file) {
 }
 
 function writeIfChanged(absoluteName, content) {
+  // derived from an asset path, so not covered by the asset's own check
+  ensureInsideProject(
+    absoluteName,
+    'Mounted file',
+    getRelativeName(absoluteName)
+  )
+
   if (
     existsSync(absoluteName) &&
     readFileSync(absoluteName, 'utf8') === content

@@ -50,7 +50,7 @@ The `assets` array can contain custom definitions for **extra assets**, should y
 
 In 99% of the cases you won't need to specify the `assets` array, but Icon Genie is designed to be very flexible, so it includes this feature too.
 
-Asset `folder` and `name` values are resolved relative to the Quasar project folder. They cannot target a location outside the project folder, either directly or through a symbolic link.
+Asset `folder` and `name` values are resolved relative to the Quasar project folder. They cannot target a location outside the project folder, either directly or through a symbolic link. The same goes for the files written when mounting them, so a `capacitor-android` asset cannot sit directly in the project folder.
 
 Some asset props only apply to specific generators or platforms:
 

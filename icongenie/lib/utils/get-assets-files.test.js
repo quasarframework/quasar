@@ -1,4 +1,5 @@
 import {
+  existsSync,
   mkdirSync,
   mkdtempSync,
   realpathSync,
@@ -169,5 +170,47 @@ describe('getAssetsFiles', () => {
     } finally {
       rmSync(outside, { recursive: true, force: true })
     }
+  })
+
+  test('rejects a dangling symbolic link pointing outside the project folder', () => {
+    const outside = mkdtempSync(join(tmpdir(), 'icongenie-outside-'))
+    mkdirSync(join(projectFolder, 'dangling'))
+    symlinkSync(
+      join(outside, 'favicon.ico'),
+      join(projectFolder, 'dangling/favicon.ico')
+    )
+
+    try {
+      expect(() =>
+        getAssetsFiles([
+          { generator: 'ico', name: 'favicon.ico', folder: 'dangling' }
+        ])
+      ).toThrow('exit(1)')
+      expect(existsSync(join(outside, 'favicon.ico'))).toBe(false)
+    } finally {
+      rmSync(outside, { recursive: true, force: true })
+    }
+  })
+
+  test('rejects Capacitor Android assets placed in the project folder itself', () => {
+    const asset = {
+      generator: 'launcher',
+      name: 'ic_launcher_foreground.png',
+      platform: 'capacitor-android',
+      variant: 'foreground',
+      sizes: [108]
+    }
+
+    expect(() => getAssetsFiles([{ ...asset, folder: '.' }])).toThrow('exit(1)')
+    expect(() => getAssetsFiles([{ ...asset, folder: 'res/..' }])).toThrow(
+      'exit(1)'
+    )
+    expect(() =>
+      getAssetsFiles([{ ...asset, folder: 'mipmap-mdpi' }])
+    ).not.toThrow()
+    // no derived mount path for the other platforms
+    expect(() =>
+      getAssetsFiles([{ ...asset, platform: 'capacitor-ios', folder: '.' }])
+    ).not.toThrow()
   })
 })
