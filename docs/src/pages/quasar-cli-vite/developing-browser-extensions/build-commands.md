@@ -56,7 +56,7 @@ In line with the screenshot above, the following steps must be taken:
 3. Click "Load unpacked". This will present you with the _folder_ selection dialog. Navigate to and select your `/dist/bex-chrome--dev/` folder.
 4. You should now see your BEX mounted in Chrome.
 
-More information about debugging Chrome Browser Extensions can be found in the [official documentation](https://developer.chrome.com/extensions/tut_debugging).
+More information about debugging Chrome Browser Extensions can be found in the [official documentation](https://developer.chrome.com/docs/extensions/get-started/tutorial/debug).
 
 ### Other Chromium browsers
 
