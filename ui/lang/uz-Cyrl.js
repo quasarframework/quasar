@@ -20,12 +20,12 @@ export default {
     range: 'Диапазон',
     noValue: 'Қиймат йўқ',
     resize: 'Ўлчамни ўзгартириш',
-    expand: label => (label ? `"${label}" ни кенгайтириш` : 'ъКенгайтиришъ'),
-    collapse: label => (label ? `"${label}" ни йиғиш` : 'ъЙиқилишъ')
+    expand: label => (label ? `"${label}" ни кенгайтириш` : 'Кенгайтириш'),
+    collapse: label => (label ? `"${label}" ни йиғиш` : 'Йиғиш')
   },
   date: {
     days: 'Якшанба_Душанба_Сешанба_Чоршанба_Пайшанба_Жума_Шанба'.split('_'),
-    daysShort: 'Як_Душ_Се_Чор_Пай_Жума_Шанба'.split('_'),
+    daysShort: 'Якш_Душ_Сеш_Чор_Пай_Жум_Шан'.split('_'),
     months:
       'Январь_Февраль_Март_Апрель_Май_Июнь_Июль_Август_Сентябрь_Октябрь_Ноябрь_Декабрь'.split(
         '_'
@@ -36,7 +36,7 @@ export default {
     pluralDay: 'Кунлар',
     prevMonth: 'Олдинги ой',
     nextMonth: 'Кейинги ой',
-    prevYear: 'Ўтган йили',
+    prevYear: 'Олдинги йил',
     nextYear: 'Кейинги йил',
     today: 'Бугун',
     prevRangeYears: range => `Олдинги ${range} йил`,
@@ -52,14 +52,14 @@ export default {
     loading: 'Юкланмоқда...',
     selectedRecords: rows => {
       if (rows === 0) {
-        return 'Хеч қандай маълумотлар танланмади.'
+        return 'Ҳеч қандай маълумотлар танланмади.'
       }
       if (rows === 1) {
         return '1 та маълумот танланди.'
       }
-      return rows + ' та маълумотлар танланди.'
+      return rows + ' та маълумот танланди.'
     },
-    recordsPerPage: 'Сахифадаги қаторлар:',
+    recordsPerPage: 'Саҳифадаги қаторлар:',
     allRows: 'Барчаси',
     pagination: (start, end, total) => start + '-' + end + ' жами ' + total,
     columns: 'Устунлар',
@@ -83,7 +83,7 @@ export default {
     palette: 'Палитра',
     value: 'Ранг қиймати',
     hue: 'Тус',
-    alpha: 'Хиралик',
+    alpha: 'Ношаффофлик',
     saturation: 'Тўйинганлик',
     brightness: 'Ёрқинлик'
   },
@@ -100,35 +100,35 @@ export default {
     url: 'УРЛ',
     bold: 'Қалин',
     italic: 'Курсив',
-    strikethrough: 'Чизилган',
+    strikethrough: 'Устидан чизилган',
     underline: 'Тагига чизилган',
-    unorderedList: 'Тартибсиз руйхат',
-    orderedList: 'Тартибга киритилган руйхат',
+    unorderedList: 'Тартибсиз рўйхат',
+    orderedList: 'Тартибга киритилган рўйхат',
     subscript: 'Сатр остида',
     superscript: 'Сатр устида',
-    hyperlink: 'Гиперхавола',
+    hyperlink: 'Гиперҳавола',
     toggleFullscreen: 'Тўлиқ экран режимига ўтиш',
     quote: 'Иқтибос',
     left: 'Чапга сафлаш',
     center: 'Марказга сафлаш',
-    right: 'Ўнгдан сафлаш',
+    right: 'Ўнгга сафлаш',
     justify: 'Икки томондан сафлаш',
     print: 'Чоп этиш',
     outdent: 'Чекинишни камайтириш',
     indent: 'Чекинишни кўпайтириш',
     removeFormat: 'Форматлашни ўчириб ташлаш',
     formatting: 'Форматлаш',
-    fontSize: 'Шрифт хажми',
+    fontSize: 'Шрифт ҳажми',
     align: 'Сафлаш',
-    hr: 'Горизонтал қоидани киритиш',
+    hr: 'Горизонтал чизиқ қўйиш',
     undo: 'Бекор қилиш',
     redo: 'Такрорлаш',
-    heading1: 'Сарлавха 1',
-    heading2: 'Сарлавха 2',
-    heading3: 'Сарлавха 3',
-    heading4: 'Сарлавха 4',
-    heading5: 'Сарлавха 5',
-    heading6: 'Сарлавха 6',
+    heading1: 'Сарлавҳа 1',
+    heading2: 'Сарлавҳа 2',
+    heading3: 'Сарлавҳа 3',
+    heading4: 'Сарлавҳа 4',
+    heading5: 'Сарлавҳа 5',
+    heading6: 'Сарлавҳа 6',
     paragraph: 'Параграф',
     code: 'Код',
     size1: 'Ўта кичик',
@@ -142,7 +142,7 @@ export default {
     viewSource: 'Манбани кўриш'
   },
   tree: {
-    noNodes: 'Кесишмалар мавжуд эмас',
-    noResults: 'Мос келадиган кесишмалар топилмади'
+    noNodes: 'Тугунлар йўқ',
+    noResults: 'Мос келадиган тугунлар топилмади'
   }
 }
