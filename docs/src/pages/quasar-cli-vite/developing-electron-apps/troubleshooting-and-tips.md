@@ -32,7 +32,7 @@ In development, Quasar starts Electron's main process with Node's `--inspect` op
 
 ```bash
 Debugger listening on ws://127.0.0.1:5858/b285586a-6091-4c41-b6ea-0d389e6f9c93
-For help, see: https://nodejs.org/en/docs/inspector
+For help, see: https://nodejs.org/learn/getting-started/debugging
 ```
 
 Set the preferred port with `quasar.config > electron > inspectPort`. Quasar uses the closest available port when that port is occupied.

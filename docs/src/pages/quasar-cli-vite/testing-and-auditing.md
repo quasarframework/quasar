@@ -47,7 +47,7 @@ If you ever need to review your installation choices you can take a look at `qua
 ### Documentation
 
 - [@vue/test-utils](https://test-utils.vuejs.org)
-- [jest 24](https://facebook.github.io/jest/)
+- [jest 24](https://jestjs.io/)
 - [cypress](https://docs.cypress.io/guides/core-concepts/introduction-to-cypress.html#Cypress-Is-Simple)
 - [lighthouse](https://developers.google.com/web/tools/lighthouse/#cli)
 - [snyk](https://snyk.io/test)
