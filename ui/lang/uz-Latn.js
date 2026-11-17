@@ -21,13 +21,13 @@ export default {
     noValue: "Qiymat yo'q",
     resize: "O'lchamni o'zgartirish",
     expand: label => (label ? `"${label}" ni kengaytirish` : 'Kengaytirish'),
-    collapse: label => (label ? `"${label}" ni yig'ish` : 'Yiqilish')
+    collapse: label => (label ? `"${label}" ni yig'ish` : "Yig'ish")
   },
   date: {
     days: 'Yakshanba_Dushanba_Seshanba_Chorshanba_Payshanba_Juma_Shanba'.split(
       '_'
     ),
-    daysShort: 'Yak_Du_Se_Chor_Pay_Juma_Shanba'.split('_'),
+    daysShort: 'Yak_Dush_Sesh_Chor_Pay_Jum_Shan'.split('_'),
     months:
       'Yanvar_Fevral_Mart_Aprel_May_Iyun_Iyul_Avgust_Sentabr_Oktabr_Noyabr_Dekabr'.split(
         '_'
@@ -40,7 +40,7 @@ export default {
     pluralDay: 'Kunlar',
     prevMonth: 'Oldingi oy',
     nextMonth: 'Keyingi oy',
-    prevYear: "O'tgan yili",
+    prevYear: 'Oldingi yil',
     nextYear: 'Keyingi yil',
     today: 'Bugun',
     prevRangeYears: range => `Oldingi ${range} yil`,
@@ -61,9 +61,9 @@ export default {
       if (rows === 1) {
         return "1 ta ma'lumot tanlandi."
       }
-      return rows + " ta ma'lumotlar tanlandi."
+      return rows + " ta ma'lumot tanlandi."
     },
-    recordsPerPage: 'Saxifadagi qatorlar:',
+    recordsPerPage: 'Sahifadagi qatorlar:',
     allRows: 'Barchasi',
     pagination: (start, end, total) => start + '-' + end + ' jami ' + total,
     columns: 'Ustunlar',
@@ -87,7 +87,7 @@ export default {
     palette: 'Palitra',
     value: 'Rang qiymati',
     hue: 'Tus',
-    alpha: 'Xiralik',
+    alpha: 'Noshaffoflik',
     saturation: "To'yinganlik",
     brightness: 'Yorqinlik'
   },
@@ -104,7 +104,7 @@ export default {
     url: 'URL',
     bold: 'Qalin',
     italic: 'Kursiv',
-    strikethrough: 'Chizilgan',
+    strikethrough: 'Ustidan chizilgan',
     underline: 'Tagiga chizilgan',
     unorderedList: "Tartibsiz ro'yxat",
     orderedList: "Tartibga keltirilgan ro'yxat",
@@ -115,7 +115,7 @@ export default {
     quote: 'Iqtibos',
     left: 'Chapga saflash',
     center: 'Markazga saflash',
-    right: "O'nggadan saflash",
+    right: "O'ngga saflash",
     justify: 'Ikki tomondan saflash',
     print: 'Chop etish',
     outdent: 'Chekinishni kamaytirish',
@@ -124,7 +124,7 @@ export default {
     formatting: 'Formatlash',
     fontSize: 'Shrift hajmi',
     align: 'Saflash',
-    hr: 'Gorizontal qoidani kiritish',
+    hr: "Gorizontal chiziq qo'yish",
     undo: 'Bekor qilish',
     redo: 'Takrorlash',
     heading1: 'Sarlavha 1',
@@ -135,7 +135,7 @@ export default {
     heading6: 'Sarlavha 6',
     paragraph: 'Paragraf',
     code: 'Kod',
-    size1: 'Juda kichkik',
+    size1: 'Juda kichik',
     size2: 'Biroz kichik',
     size3: 'Oddiy',
     size4: "O'rta katta",
@@ -146,7 +146,7 @@ export default {
     viewSource: "Manbani ko'rish"
   },
   tree: {
-    noNodes: 'Kesishmalar mavjud emas',
-    noResults: 'Mos keladigan kesishmalar topilmadi'
+    noNodes: "Tugunlar yo'q",
+    noResults: 'Mos keladigan tugunlar topilmadi'
   }
 }
