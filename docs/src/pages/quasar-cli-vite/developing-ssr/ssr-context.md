@@ -76,7 +76,7 @@ ssrContext: {
 }
 ```
 
-More information on the purpose and required format of the `nonce` property is available on [MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/nonce).
+More information on the purpose and required format of the `nonce` property is available on [MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Global_attributes/nonce).
 
 The exact `req` and `res` types depend on the selected webserver (Hono, Express, Fastify, or Koa). They represent the current request and response; consult that webserver's API before using framework-specific properties.
 

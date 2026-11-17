@@ -221,7 +221,7 @@ A plain blockquote is a neutral note. A blockquote opening with one of GitHub's 
 
 The marker is the first line of the blockquote, alone on it, in uppercase. A first line in bold, alone in its paragraph, is the title of the alert (the docs' own convention: GitHub shows it as a bold line); without it the alert shows the default label of its marker.
 
-> For a full list of our `wonderful` people who make Quasar happen, visit the [Backers](https://github.com/quasarframework/quasar/blob/dev/backers.md) page.
+> For a full list of our `wonderful` people who make Quasar happen, visit the [Why donate](/why-donate) page.
 >
 > - It is important that you specify all sections of a QLayout, even if you don't use them.
 > - When QDrawer is set into overlay mode, **it will force it to go into fixed position**, regardless if QLayout's "view" prop is configured with "l/r" or "L/R".

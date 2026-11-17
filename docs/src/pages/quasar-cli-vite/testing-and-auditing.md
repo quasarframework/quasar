@@ -48,9 +48,9 @@ If you ever need to review your installation choices you can take a look at `qua
 
 - [@vue/test-utils](https://test-utils.vuejs.org)
 - [jest](https://jestjs.io/)
-- [cypress](https://docs.cypress.io/guides/core-concepts/introduction-to-cypress.html#Cypress-Is-Simple)
-- [lighthouse](https://developers.google.com/web/tools/lighthouse/#cli)
-- [snyk](https://snyk.io/test)
+- [cypress](https://docs.cypress.io/app/core-concepts/introduction-to-cypress)
+- [lighthouse](https://developer.chrome.com/docs/lighthouse/overview#cli)
+- [snyk](https://snyk.io)
 - [nlf](https://www.npmjs.com/package/nlf)
-- [chai](http://www.chaijs.com/)
+- [chai](https://www.chaijs.com/)
 - [istanbul](https://istanbul.js.org/)

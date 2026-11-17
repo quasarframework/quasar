@@ -301,7 +301,7 @@ some-folder/__my.css
 
 #### Using scope
 
-You can also inject some decision-making code into the files to be rendered by interpolating with [lodash/template](https://lodash.com/docs/4.17.15#template) syntax.
+You can also inject some decision-making code into the files to be rendered by interpolating with [lodash/template](https://lodash.com/docs/4.18.1#template) syntax.
 
 ```js src/install.js
 // (my-folder is located in same folder as

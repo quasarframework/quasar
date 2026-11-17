@@ -295,4 +295,4 @@ Feel free to check out the [documentation](https://capawesome.io/docs/sdks/capac
 
 ## Other providers
 
-Other live update services for Capacitor exist too, such as [OtaKit](https://otakit.app/) (MIT-licensed, [self-hostable](https://otakit.app/docs/self-host)). Whichever one you choose, hold it to the requirements in the caution note at the top of this page.
+Other live update services for Capacitor exist too, such as [OtaKit](https://www.otakit.app/) (MIT-licensed, [self-hostable](https://www.otakit.app/docs/self-host)). Whichever one you choose, hold it to the requirements in the caution note at the top of this page.

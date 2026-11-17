@@ -95,7 +95,7 @@ Pick `App with Quasar CLI`.
    ```
 
    > [!IMPORTANT]
-   > If you are using Yarn, make sure that the Yarn [global install location](https://yarnpkg.com/lang/en/docs/cli/global/) is in your PATH:
+   > If you are using Yarn, make sure that the Yarn [global install location](https://classic.yarnpkg.com/en/docs/cli/global/) is in your PATH:
    > <br><br>
    >
    > ```bash
@@ -112,9 +112,9 @@ Pick `App with Quasar CLI`.
    > [!WARNING]
    > **WSL2**
    >
-   > Microsoft's recommended [Node.js development environment setup in WSL2](https://docs.microsoft.com/en-us/windows/nodejs/setup-on-wsl2).
+   > Microsoft's recommended [Node.js development environment setup in WSL2](https://learn.microsoft.com/en-us/windows/dev-environment/javascript/nodejs-on-wsl).
    >
-   > When using WSL2 (Windows Subsystem for Linux) [Microsoft recommends](https://docs.microsoft.com/en-us/windows/wsl/compare-versions#performance-across-os-file-systems) keeping files in the linux file system to maximize performance. Projects will build around 3X slower and HMR (Hot Module Reload) will not work without a hack if the project files are on the Windows mount instead of the local linux file system. This is also true in Docker for Windows based development environments.
+   > When using WSL2 (Windows Subsystem for Linux) [Microsoft recommends](https://learn.microsoft.com/en-us/windows/wsl/compare-versions#increased-file-io-performance) keeping files in the linux file system to maximize performance. Projects will build around 3X slower and HMR (Hot Module Reload) will not work without a hack if the project files are on the Windows mount instead of the local linux file system. This is also true in Docker for Windows based development environments.
 
 ## How Quasar CLI works
 

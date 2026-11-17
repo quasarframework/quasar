@@ -17,7 +17,7 @@ The `v-html` directive is a wonderful way to programmatically render markup, but
 
 > "Dynamically rendering arbitrary HTML on your website can be very dangerous because it can easily lead to XSS vulnerabilities. Only use HTML interpolation on trusted content and never on user-provided content."
 
-If you don't know what that means, take a quick look at what OWASP has to say about [XSS (aka cross-site scripting)](https://owasp.org/www-community/attacks/xss/).
+If you don't know what that means, take a quick look at what OWASP has to say about [XSS (aka cross-site scripting)](https://community.owasp.org/attacks/xss/).
 
 To be fair, this _is_ good advice, but **DON'T** be all hand-wavy. **DO** think like an attacker who will innovate, social engineer, lie, phish and steal their way into your systems. What if a Vite plugin exploit arises and changes your page in an evil way? What if someone makes a dastardly and ill-intentioned PR? What if suddenly a third party API changes and instead of plaintext starts sending the same structure but with different content? What if the systems you thought were safe turn out to actually have been backdoored? What if a junior dev makes an accidental and fundamentally threatening change to the code that isn't reviewed properly? (Yes, idiocy is sometimes as dangerous as bad intentions!) The point is, **DO** anticipate the unexpected by preparing for the absolute worst case scenario and hardening all of your systems.
 
@@ -182,7 +182,7 @@ Archive decompression attacks for directory traversal are a real security issue 
 - **DON'T** use MD5 or SHA1
 - **DON’T** create your [own cryptographic solution](https://about.unimelb.edu.au/newsroom/news/2019/march/researchers-find-trapdoor-in-swissvote-election-system)
 
-A great place to read about this topic and properly choose an industrial strength solution is [libsodium](https://download.libsodium.org/doc/)
+A great place to read about this topic and properly choose an industrial strength solution is [libsodium](https://libsodium.gitbook.io/doc/)
 
 ## Distribution
 
@@ -223,7 +223,7 @@ When you generate your project with the SSR mode, you are provided with a minima
 
 - **DON'T** forget to set restrictive headers
 - **DON'T** think that headers alone will protect you from all attacks
-- **DO** read about [headers](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers)
+- **DO** read about [headers](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers)
 
 ## Environmental Safety
 

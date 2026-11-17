@@ -49,4 +49,4 @@ Reference them with a root-relative URL, e.g. `<img src="/logo.png">`. Such URLs
 
 ## More info with Vite
 
-Please read Vite's guide [here](https://vitejs.dev/guide/assets.html).
+Please read Vite's guide [here](https://vite.dev/guide/assets).

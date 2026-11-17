@@ -44,7 +44,7 @@ When you want to handle mouse events too, use the `mouse` modifier:
 
 ### Handling Key Events
 
-When you want to handle key events too, use [keycodes](https://keycode.info/) as modifiers:
+When you want to handle key events too, use [keycodes](https://www.toptal.com/developers/keycode/) as modifiers:
 
 ```html
 <div v-touch-repeat.65.70="myHandler">...</div>

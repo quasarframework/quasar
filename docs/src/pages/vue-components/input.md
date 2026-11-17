@@ -70,8 +70,8 @@ All the attributes set on `QInput` that are not in the list of `props` in the **
 
 Please check these resources for more information about native attributes (for input check also the specific attributes for each type):
 
-- [input](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input)
-- [textarea](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea)
+- [input](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/input)
+- [textarea](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/textarea)
 
 ### Clearable
 

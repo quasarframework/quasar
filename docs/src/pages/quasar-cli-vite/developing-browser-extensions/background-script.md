@@ -6,7 +6,7 @@ desc: (@quasar/app-vite) How to communicate using your background script with ot
 The background script runs in the context of the BEX itself and can listen to all available browser extension events.
 
 > [!NOTE]
-> In Chrome with [Manifest v3](https://developer.chrome.com/docs/extensions/mv3/intro/) your background script is actually a Service Worker. This does not currently apply to Firefox with Manifest v3 (yet).
+> In Chrome with [Manifest v3](https://developer.chrome.com/docs/extensions/develop/migrate/what-is-mv3/) your background script is actually a Service Worker. This does not currently apply to Firefox with Manifest v3 (yet).
 
 ## Registering a background script
 

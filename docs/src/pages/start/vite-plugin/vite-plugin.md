@@ -3,7 +3,7 @@ title: Vite plugin for Quasar
 desc: How to embed Quasar into a Vite app.
 ---
 
-If you want to embed Quasar into your existing [Vite](https://vitejs.dev) project then follow this guide to install and use the `@quasar/vite-plugin`.
+If you want to embed Quasar into your existing [Vite](https://vite.dev) project then follow this guide to install and use the `@quasar/vite-plugin`.
 What our Vite plugin offers out of the box is tree-shaking for Quasar and also Quasar Sass variables integration.
 
 > [!IMPORTANT]
@@ -35,7 +35,7 @@ bun create vite my-vue-app
 # then select "Vue"
 ```
 
-For the official (and full) guide, please visit the [Vite guide for scaffolding](https://vitejs.dev/guide/#scaffolding-your-first-vite-project) a Vite project. **Select "Vue" when asked.**
+For the official (and full) guide, please visit the [Vite guide for scaffolding](https://vite.dev/guide/#scaffolding-your-first-vite-project) a Vite project. **Select "Vue" when asked.**
 
 ## Installation
 

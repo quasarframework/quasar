@@ -21,7 +21,7 @@ build: {
 }
 ```
 
-More info: [css.modules](https://vitejs.dev/config/#css-modules), [css.postcss](https://vitejs.dev/config/#css-postcss), [css.preprocessorOptions](https://vitejs.dev/config/#css-preprocessoroptions).
+More info: [css.modules](https://vite.dev/config/shared-options#css-modules), [css.postcss](https://vite.dev/config/shared-options#css-postcss), [css.preprocessorOptions](https://vite.dev/config/shared-options#css-preprocessoroptions).
 
 ## Usage
 

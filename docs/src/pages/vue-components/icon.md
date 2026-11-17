@@ -9,7 +9,7 @@ related:
 ---
 
 The QIcon component allows you to easily insert icons within other components or any other area of your pages.
-Quasar supports out of the box: [Material Icons](https://fonts.google.com/icons?icon.set=Material+Icons) , [Material Symbols](https://fonts.google.com/icons?icon.set=Material+Symbols) , [Font Awesome](https://fontawesome.com/icons), [Ionicons](http://ionicons.com/), [MDI](https://materialdesignicons.com/), [Eva Icons](https://akveo.github.io/eva-icons), [Themify Icons](https://themify.me/themify-icons), [Line Awesome](https://icons8.com/line-awesome) and [Bootstrap Icons](https://icons.getbootstrap.com/).
+Quasar supports out of the box: [Material Icons](https://fonts.google.com/icons?icon.set=Material+Icons) , [Material Symbols](https://fonts.google.com/icons?icon.set=Material+Symbols) , [Font Awesome](https://fontawesome.com/icons), [Ionicons](https://ionic.io/ionicons/), [MDI](https://pictogrammers.com/library/mdi/), [Eva Icons](https://akveo.github.io/eva-icons), [Themify Icons](https://themify.me/themify-icons), [Line Awesome](https://icons8.com/line-awesome) and [Bootstrap Icons](https://icons.getbootstrap.com/).
 
 Furthermore you can [add support by yourself](/vue-components/icon#custom-mapping) for any icon lib.
 
@@ -117,12 +117,12 @@ CSS custom properties allow per-icon changes, state changes, and runtime theming
 #### Material Icons (Google)
 
 - Icon names are always in snake_case.
-- Go to [Material Icons and Symbols](https://material.io/icons/), look for your desired icon. Remember its name (eg. "all_inbox") and use it.
+- Go to [Material Icons and Symbols](https://fonts.google.com/icons), look for your desired icon. Remember its name (eg. "all_inbox") and use it.
 
 #### MDI (Material Design Icons)
 
 - Icon names are in hyphen-separated case and always begin with "mdi-" prefix.
-- Go to [MDI](https://materialdesignicons.com/), look for your desired icon, click on it. A dialog box will appear. Get the title (eg. "account-key"), prefix it with "mdi-" and you get the result (eg. "mdi-account-key").
+- Go to [MDI](https://pictogrammers.com/library/mdi/), look for your desired icon, click on it. A dialog box will appear. Get the title (eg. "account-key"), prefix it with "mdi-" and you get the result (eg. "mdi-account-key").
 
 #### Fontawesome
 
@@ -134,7 +134,7 @@ CSS custom properties allow per-icon changes, state changes, and runtime theming
 #### Ionicons
 
 - Icon names are in hyphen-separated case and always begin with "ion-", "ion-md-", "ion-ios-" or "ion-logo-" prefixes.
-- Go to [Ionicons (v4)](https://ionicons.com/v4), look for your desired icon, and click on it. At the bottom of the page, a popup will appear. Notice something like `<ion-icon name="square-outline"></ion-icon>`. Remember the name (eg. "square-outline"). Based on the variant that you want (auto-detect platform, material, or iOS), you'd get the result: `ion-square-outline` or `ion-md-square-outline` or `ion-ios-square-outline`.
+- Go to [Ionicons (v4)](https://ionic.io/ionicons/v4), look for your desired icon, and click on it. At the bottom of the page, a popup will appear. Notice something like `<ion-icon name="square-outline"></ion-icon>`. Remember the name (eg. "square-outline"). Based on the variant that you want (auto-detect platform, material, or iOS), you'd get the result: `ion-square-outline` or `ion-md-square-outline` or `ion-ios-square-outline`.
 - **Note:** Starting with v5, Ionicons no longer supplies a webfont. Also, they no longer have Material or IOS variants.
 
 #### Eva Icons
@@ -219,49 +219,49 @@ Svg icons are supplied by `@quasar/extras` (although you can supply [your own sv
 #### SVG Material Icons (Google)
 
 - Icon names are in camel-case and always begin with "mat" prefix.
-- Go to [Material Icons](https://material.io/icons/), look for your desired icon and remember its name (eg. "all_inbox"), prefix it with "mat" and camel-case the result (eg. "matAllInbox").
+- Go to [Material Icons](https://fonts.google.com/icons), look for your desired icon and remember its name (eg. "all_inbox"), prefix it with "mat" and camel-case the result (eg. "matAllInbox").
 - Import statement example: `import { matAllInbox } from '@quasar/extras/material-icons'`.
 
 #### SVG Material Icons Outlined (Google)
 
 - Icon names are in camel-case and always begin with "outlined" prefix.
-- Go to [Material Icons](https://material.io/icons/), look for your desired icon and remember its name (eg. "all_inbox"), prefix it with "outlined" and camel-case the result (eg. "outlinedAllInbox").
+- Go to [Material Icons](https://fonts.google.com/icons), look for your desired icon and remember its name (eg. "all_inbox"), prefix it with "outlined" and camel-case the result (eg. "outlinedAllInbox").
 - Import statement example: `import { outlinedAllInbox } from '@quasar/extras/material-icons-outlined'`.
 
 #### SVG Material Icons Sharp (Google)
 
 - Icon names are in camel-case and always begin with "sharp" prefix.
-- Go to [Material Icons](https://material.io/icons/), look for your desired icon and remember its name (eg. "all_inbox"), prefix it with "sharp" and camel-case the result (eg. "sharpAllInbox").
+- Go to [Material Icons](https://fonts.google.com/icons), look for your desired icon and remember its name (eg. "all_inbox"), prefix it with "sharp" and camel-case the result (eg. "sharpAllInbox").
 - Import statement example: `import { sharpAllInbox } from '@quasar/extras/material-icons-sharp'`.
 
 #### SVG Material Icons Round (Google)
 
 - Icon names are in camel-case and always begin with "round" prefix.
-- Go to [Material Icons](https://material.io/icons/), look for your desired icon and remember its name (eg. "all_inbox"), prefix it with "round" and camel-case the result (eg. "roundAllInbox").
+- Go to [Material Icons](https://fonts.google.com/icons), look for your desired icon and remember its name (eg. "all_inbox"), prefix it with "round" and camel-case the result (eg. "roundAllInbox").
 - Import statement example: `import { roundAllInbox } from '@quasar/extras/material-icons-round'`.
 
 #### SVG Material Symbols Outlined (Google)
 
 - Icon names are in camel-case and always begin with "symOutlined" prefix.
-- Go to [Material Icons](https://material.io/icons/), look for your desired icon and remember its name (eg. "all_inbox"), prefix it with "symOutlined" and camel-case the result (eg. "symOutlinedAllInbox").
+- Go to [Material Icons](https://fonts.google.com/icons), look for your desired icon and remember its name (eg. "all_inbox"), prefix it with "symOutlined" and camel-case the result (eg. "symOutlinedAllInbox").
 - Import statement example: `import { symOutlinedAllInbox } from '@quasar/extras/material-symbols-outlined'`.
 
 #### SVG Material Symbols Sharp (Google)
 
 - Icon names are in camel-case and always begin with "symSharp" prefix.
-- Go to [Material Icons](https://material.io/icons/), look for your desired icon and remember its name (eg. "all_inbox"), prefix it with "symSharp" and camel-case the result (eg. "symSharpAllInbox").
+- Go to [Material Icons](https://fonts.google.com/icons), look for your desired icon and remember its name (eg. "all_inbox"), prefix it with "symSharp" and camel-case the result (eg. "symSharpAllInbox").
 - Import statement example: `import { symSharpAllInbox } from '@quasar/extras/material-symbols-sharp'`.
 
 #### SVG Material Symbols Rounded (Google)
 
 - Icon names are in camel-case and always begin with "symRounded" prefix.
-- Go to [Material Icons](https://material.io/icons/), look for your desired icon and remember its name (eg. "all_inbox"), prefix it with "symRounded" and camel-case the result (eg. "symRoundedAllInbox").
+- Go to [Material Icons](https://fonts.google.com/icons), look for your desired icon and remember its name (eg. "all_inbox"), prefix it with "symRounded" and camel-case the result (eg. "symRoundedAllInbox").
 - Import statement example: `import { symRoundedAllInbox } from '@quasar/extras/material-symbols-rounded'`.
 
 #### SVG MDI (Material Design Icons)
 
 - Icon names are in camel-case and always begin with "mdi" prefix.
-- Go to [MDI](https://materialdesignicons.com/), look for your desired icon, click on it. A dialog box will appear. Get the title (eg. "account-key"), prefix it with "mdi" and camel-case the result (eg. "mdiAccountKey").
+- Go to [MDI](https://pictogrammers.com/library/mdi/), look for your desired icon, click on it. A dialog box will appear. Get the title (eg. "account-key"), prefix it with "mdi" and camel-case the result (eg. "mdiAccountKey").
 - Import statement example: `import { mdiAccountKey } from '@quasar/extras/mdi-v7'`.
 
 #### SVG Fontawesome
@@ -276,8 +276,8 @@ Svg icons are supplied by `@quasar/extras` (although you can supply [your own sv
 
 - Ionicons v4: Icon names are in camel-case and always begin with "ionMd" or "ionIos" prefixes.
 - Ionicons v8: Icon names are in camel-case and always begin with "ion" prefix.
-- Ionicons v4: Go to [Ionicons v4](https://ionicons.com/v4/), look for your desired icon, click on it. At the bottom of the page there will appear a popup. Notice something like `<ion-icon name="square-outline"></ion-icon>`. Remember the name (eg. "square-outline"). Camel-case this name and prefix it with either "ionMd" (for material variant) or "ionIos" (for iOS variant).
-- Ionicons v5/v6: Go to [Ionicons v6](https://ionicons.com/), look for your desired icon, click on it. At the bottom of the page there will appear a popup. Notice something like `<ion-icon name="square-outline"></ion-icon>`. Remember the name (eg. "square-outline"). Prefix it with "ion" and camel-case the result (eg. "ionSquareOutline").
+- Ionicons v4: Go to [Ionicons v4](https://ionic.io/ionicons/v4/), look for your desired icon, click on it. At the bottom of the page there will appear a popup. Notice something like `<ion-icon name="square-outline"></ion-icon>`. Remember the name (eg. "square-outline"). Camel-case this name and prefix it with either "ionMd" (for material variant) or "ionIos" (for iOS variant).
+- Ionicons v5/v6: Go to [Ionicons v6](https://ionic.io/ionicons/), look for your desired icon, click on it. At the bottom of the page there will appear a popup. Notice something like `<ion-icon name="square-outline"></ion-icon>`. Remember the name (eg. "square-outline"). Prefix it with "ion" and camel-case the result (eg. "ionSquareOutline").
 - Ionicons v4: Import statement example: `import { ionMdSquareOutline } from '@quasar/extras/ionicons-v4'`.
 - Ionicons v8: Import statement example: `import { ionSquareOutline } from '@quasar/extras/ionicons-v8'`.
 

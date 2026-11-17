@@ -70,7 +70,7 @@ const props = defineProps({
 
 const url = computed(() => ({
   avatar: 'https://cdn.quasar.dev/team/' + props.avatar,
-  twitter: 'https://twitter.com/' + props.twitter,
+  twitter: 'https://x.com/' + props.twitter,
   github: 'https://github.com/' + props.github,
   email: 'mailto:' + props.email
 }))

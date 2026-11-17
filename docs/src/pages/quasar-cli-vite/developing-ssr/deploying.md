@@ -24,7 +24,7 @@ Copy the distributables folder to the server, install its production dependencie
 
 ## Enhancing Performance
 
-By default, the webserver runs on only one of the available server's cores. What you could do is make it use all cores. There is a solution for this: [PM2](http://pm2.keymetrics.io/).
+By default, the webserver runs on only one of the available server's cores. What you could do is make it use all cores. There is a solution for this: [PM2](https://pm2.keymetrics.io/).
 
 After installing PM2 on the server, the `start` script can look like this instead:
 

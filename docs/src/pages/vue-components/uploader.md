@@ -45,7 +45,7 @@ By default, multiple files will be uploaded individually (one thread per file). 
 <DocExample title="Basic restrictions" file="RestrictionBasic" />
 
 > [!NOTE]
-> In the example above, we're using `accept` property. Its value must be a comma separated list of unique file type specifiers. Maps to 'accept' attribute of native input type=file element. [More info](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/file#Unique_file_type_specifiers).
+> In the example above, we're using `accept` property. Its value must be a comma separated list of unique file type specifiers. Maps to 'accept' attribute of native input type=file element. [More info](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/input/file#unique_file_type_specifiers).
 
 > [!WARNING]
 > Recommended format for the `accept` property is `<mediatype>/<extension>`. Examples: "image/jpeg", "image/png". QUploader uses an `<input type="file">` under the hood and it relies entirely on the host browser to trigger the file picker. If the `accept` property (that gets applied to the input) is not correct, no file picker will appear on screen or it will appear but it will accept all file types.
@@ -108,7 +108,7 @@ The header and per-file buttons are icon-only, so they carry localized accessibl
 QUploader works by default with the HTTP(S) protocol to upload files (but it's not limited to it as you'll see in the section following this one).
 
 > [!NOTE]
-> It is by no means required to use a Node.js server or Spring or ASP.NET like below -- you can handle file upload however you want, as long as the method you are using fits the HTTP protocol. Example with [PHP](https://secure.php.net/manual/en/features.file-upload.php).
+> It is by no means required to use a Node.js server or Spring or ASP.NET like below -- you can handle file upload however you want, as long as the method you are using fits the HTTP protocol. Example with [PHP](https://www.php.net/manual/en/features.file-upload.php).
 
 ### Node.js
 
@@ -255,7 +255,7 @@ public class UploadRest {
 
 ### PHP/Laravel
 
-Below is a [Laravel](https://laravel.com/docs/master/requests#files) example. Attribute `field-name="image"` is mapping with `$request->file('image')`, which also makes the file directly addressable in Laravel's validation rules.
+Below is a [Laravel](https://laravel.com/framework/docs/master/requests#files) example. Attribute `field-name="image"` is mapping with `$request->file('image')`, which also makes the file directly addressable in Laravel's validation rules.
 
 ```
 // PHP (controller)

@@ -87,7 +87,7 @@ The `opts` parameter is optional and can be a String (mimeType) or an Object wit
 - **mimeType** (optional)
 
   Examples: 'application/octet-stream' (default), 'text/plain', 'application/json', 'text/plain;charset=UTF-8', 'video/mp4', 'image/png', 'application/pdf'
-  [https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types)
+  [https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/MIME_types](https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/MIME_types)
 
 - **byteOrderMark** (optional)
 

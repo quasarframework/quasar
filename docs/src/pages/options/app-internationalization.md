@@ -9,10 +9,10 @@ related:
 Internationalization is a design process that ensures a product (a website or application) can be adapted to various languages and regions without requiring engineering changes to the source code. Think of internationalization as readiness for localization.
 
 > [!TIP]
-> The recommended package for handling website/app is [vue-i18n](https://github.com/intlify/vue-i18n-next). This package should be added through a [@quasar/app-vite Boot File](/quasar-cli-vite/boot-files). On the Boot File documentation page you can see a specific example for plugging in vue-i18n.
+> The recommended package for handling website/app is [vue-i18n](https://github.com/intlify/vue-i18n). This package should be added through a [@quasar/app-vite Boot File](/quasar-cli-vite/boot-files). On the Boot File documentation page you can see a specific example for plugging in vue-i18n.
 
 > [!NOTE]
-> Quasar documentation assumes you are already familiar with [vue-i18n](https://github.com/intlify/vue-i18n-next). Below it's described only the basics of how to make use of it in a Quasar CLI project. For the full list of its features please visit the [Vue I18n documentation](https://vue-i18n.intlify.dev).
+> Quasar documentation assumes you are already familiar with [vue-i18n](https://github.com/intlify/vue-i18n). Below it's described only the basics of how to make use of it in a Quasar CLI project. For the full list of its features please visit the [Vue I18n documentation](https://vue-i18n.intlify.dev).
 
 ## Setup manually
 
@@ -59,7 +59,7 @@ export type MessageLanguages = keyof typeof messages;
 // Type-define 'en-US' as the master schema for the resource
 export type MessageSchema = typeof messages['en-US'];
 
-// See https://vue-i18n.intlify.dev/guide/advanced/typescript.html#global-resource-schema-type-definition
+// See https://vue-i18n.intlify.dev/guide/advanced/typescript#global-resource-schema-type-definition
 /* eslint-disable @typescript-eslint/no-empty-object-type */
 declare module 'vue-i18n' {
   // define the locale messages schema
@@ -242,7 +242,7 @@ export default {
 
 Many languages, such as Greek, German and Dutch have non-intuitive rules for uppercase display, and there is an edge case that you should be aware of:
 
-QBtn component will use the CSS `text-transform: uppercase` rule to automatically turn its label into all-caps. According to the [MDN webdocs](https://developer.mozilla.org/en-US/docs/Web/CSS/text-transform), "The language is defined by the lang HTML attribute or the xml:lang XML attribute." Unfortunately, this has spotty implementation across browsers, and the 2017 ISO standard for the uppercase German eszett `ß` has not really entered the canon. At the moment you have two options:
+QBtn component will use the CSS `text-transform: uppercase` rule to automatically turn its label into all-caps. According to the [MDN webdocs](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/text-transform), "The language is defined by the lang HTML attribute or the xml:lang XML attribute." Unfortunately, this has spotty implementation across browsers, and the 2017 ISO standard for the uppercase German eszett `ß` has not really entered the canon. At the moment you have two options:
 
 1. use the prop `no-caps` in your label and write the string as it should appear
 2. use the prop `no-caps` in your label and rewrite the string with [toLocaleUpperCase](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/toLocaleUpperCase) by using the locale as detected by `$q.lang.getLocale()`

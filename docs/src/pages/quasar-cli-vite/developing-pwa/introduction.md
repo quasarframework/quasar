@@ -27,7 +27,7 @@ More information available on Addy Osmani's [article about PWA](https://addyosma
 ## Manifest File
 
 An app manifest file describes the resources your app will need. This includes your app’s displayed name, icons, as well as splash screen. You will see this as `/src-pwa/manifest.json`.
-More information: [Manifest file](https://developer.mozilla.org/en-US/docs/Web/Manifest).
+More information: [Manifest file](https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps/Manifest).
 
 ## Service Worker
 

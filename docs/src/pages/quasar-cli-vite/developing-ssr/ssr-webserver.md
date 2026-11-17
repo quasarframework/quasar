@@ -294,7 +294,7 @@ export const create = defineSsrCreate(async (/* { ... } */) => {
   if (import.meta.env.QUASAR_PROD) {
     /**
      * Optional: secure your app with Helmet
-     * (https://helmetjs.github.io/)
+     * (https://helmet.js.org/)
      */
     const { default: helmet } = await import('helmet')
     app.use(helmet())
@@ -1078,7 +1078,7 @@ export const create = defineSsrCreate(async (/* { ... } */) => {
   if (import.meta.env.QUASAR_PROD) {
     /**
      * Optional: secure your app with Helmet
-     * (https://helmetjs.github.io/)
+     * (https://helmet.js.org/)
      */
     const { default: helmet } = await import("helmet");
     app.use(helmet());

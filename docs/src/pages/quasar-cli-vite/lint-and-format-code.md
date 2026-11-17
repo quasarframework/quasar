@@ -529,4 +529,4 @@ The linting rules can be removed, changed, or added. Notice some things:
 - Some rules are standard ESLint ones. Example: 'brace-style'.
 - Some rules are for eslint-plugin-vue. Example: 'vue/max-attributes-per-line'.
 
-You can add/remove/change rules by first visiting [https://eslint.org/docs/rules/](https://eslint.org/docs/rules/) or [https://eslint.vuejs.org/rules](https://eslint.vuejs.org/rules).
+You can add/remove/change rules by first visiting [https://eslint.org/docs/latest/rules/](https://eslint.org/docs/latest/rules/) or [https://eslint.vuejs.org/rules](https://eslint.vuejs.org/rules).

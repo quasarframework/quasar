@@ -39,7 +39,7 @@ Returns a HEX String representation of the calculated `color`.
 
 ### luminosity (color)
 
-Calculates the [relative luminance](http://www.w3.org/TR/WCAG20/#relativeluminancedef) of the `color`.
+Calculates the [relative luminance](https://www.w3.org/TR/WCAG20/#relativeluminancedef) of the `color`.
 
 Accepts a HEX/A String, a RGB/A String or a RGB/A Object as `color`.
 Returns a value between 0 and 1.

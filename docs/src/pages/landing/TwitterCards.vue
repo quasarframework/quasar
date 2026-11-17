@@ -254,7 +254,7 @@ const tweetsList = [
 ].map(entry => ({
   ...entry,
   avatar: `/landing/tweets/${entry.avatar}`,
-  link: `https://twitter.com/${entry.handle}/status/${entry.id}`
+  link: `https://x.com/${entry.handle}/status/${entry.id}`
 }))
 </script>
 

@@ -12,7 +12,7 @@ Quasar does not ship with an HTTP client and does not require a specific one. Th
 
 - [ofetch](https://github.com/unjs/ofetch) - a thin fetch wrapper with automatic JSON parsing and interceptors
 - [axios](https://github.com/axios/axios) - a widely used client with interceptors and a large ecosystem (plugins, OpenAPI codegen support, etc.)
-- [VueUse useFetch](https://vueuse.org/core/useFetch) - a reactive fetch composable
+- [VueUse useFetch](https://vueuse.org/core/usefetch) - a reactive fetch composable
 - [Pinia Colada](https://github.com/posva/pinia-colada) and [TanStack Query](https://github.com/TanStack/query) - caching and async state management on top of any of the above
 
 ## A shared API client

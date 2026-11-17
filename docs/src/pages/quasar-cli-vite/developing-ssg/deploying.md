@@ -207,7 +207,7 @@ For hybrid CSR routes, add rewrites for only those routes:
 }
 ```
 
-Vercel automatically serves a `404.html` from the output directory when no other static file or route matches. See the [Vercel rewrites documentation](https://vercel.com/docs/rewrites) for more routing options.
+Vercel automatically serves a `404.html` from the output directory when no other static file or route matches. See the [Vercel rewrites documentation](https://vercel.com/docs/routing/rewrites) for more routing options.
 
 ### Example: GitHub Pages
 

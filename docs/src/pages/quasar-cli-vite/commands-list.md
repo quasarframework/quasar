@@ -234,7 +234,7 @@ $ quasar build -h
 
     ONLY for electron-builder (when using "publish" parameter):
     --publish, -P   Publish options [onTag|onTagOrDraft|always|never]
-                      - see https://www.electron.build/configuration/publish
+                      - see https://www.electron.build/publish
 ```
 
 The Quasar CLI can pack everything together and optimize your App for production. It minifies source code, extracts vendor components, leverages browser cache and much more.

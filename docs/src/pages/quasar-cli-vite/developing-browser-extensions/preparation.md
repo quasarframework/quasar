@@ -56,7 +56,7 @@ This will add BEX mode automatically, if it is missing, by creating the `/src-be
 > [!NOTE]
 > The `src-bex` folder is just a standard browser extension folder so you are free to use it as you would any other browser extension project folder. Please refer to supported Browser Extension documentation to learn more.
 >
-> - [Google Chrome Browser Extension Documentation](https://developer.chrome.com/extensions)
+> - [Google Chrome Browser Extension Documentation](https://developer.chrome.com/docs/extensions)
 > - [Firefox Browser Extension Documentation](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions)
 > - **Other Chromium Based Browsers** - Refer to their specific documentation.
 

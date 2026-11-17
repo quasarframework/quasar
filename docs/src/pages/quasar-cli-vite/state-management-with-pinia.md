@@ -27,7 +27,7 @@ scope:
 
 In large applications, state management often becomes complex due to multiple pieces of state scattered across many components and the interactions between them. It is often overlooked that the source of truth in Vue instances is the raw data object - a Vue instance simply proxies access to it. Therefore, if you have a piece of state that should be shared by multiple instances, you should avoid duplicating it and share it by identity.
 
-The recommended way to go if you want components sharing state is Pinia. Take a look at its [documentation](https://pinia.vuejs.org/) before diving in. It has a great feature when used along the [Vue dev-tools](https://github.com/vuejs/vue-devtools) browser extension like Time Travel debugging.
+The recommended way to go if you want components sharing state is Pinia. Take a look at its [documentation](https://pinia.vuejs.org/) before diving in. It has a great feature when used along the [Vue dev-tools](https://devtools.vuejs.org) browser extension like Time Travel debugging.
 
 We won't go into details on how to configure or use Pinia since it has great docs. Instead we'll just show you what the folder structure looks like when using it on a Quasar project.
 

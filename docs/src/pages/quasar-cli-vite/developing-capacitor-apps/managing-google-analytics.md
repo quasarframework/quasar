@@ -21,7 +21,7 @@ Native Google Analytics runs through Firebase, so create a [Firebase](https://co
 
 ## Install an analytics plugin
 
-The example below uses [`@capacitor-firebase/analytics`](https://capawesome.io/plugins/firebase/analytics/). Follow its installation guide completely, including creating the Firebase projects, adding the Android and iOS configuration files, and configuring each native project.
+The example below uses [`@capacitor-firebase/analytics`](https://capawesome.io/docs/sdks/capacitor/firebase/analytics/). Follow its installation guide completely, including creating the Firebase projects, adding the Android and iOS configuration files, and configuring each native project.
 
 Install Capacitor-specific dependencies from `/src-capacitor`, then synchronize the native projects:
 

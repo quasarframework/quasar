@@ -82,7 +82,7 @@ A wake lock only lives while the page is visible. As soon as the user switches t
 > [!WARNING]
 > **When the request is refused**
 >
-> The browser rejects `request()` with a `NotAllowedError` when the page is hidden, when the device is in a battery saver mode, or when a `screen-wake-lock` [Permissions Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Permissions-Policy/screen-wake-lock) forbids it (relevant when your app runs inside an iframe). Treat the rejection as a soft failure: the screen behaves as it always did.
+> The browser rejects `request()` with a `NotAllowedError` when the page is hidden, when the device is in a battery saver mode, or when a `screen-wake-lock` [Permissions Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Permissions-Policy/screen-wake-lock) forbids it (relevant when your app runs inside an iframe). Treat the rejection as a soft failure: the screen behaves as it always did.
 
 ## Browser support
 

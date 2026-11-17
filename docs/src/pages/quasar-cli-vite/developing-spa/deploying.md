@@ -21,7 +21,7 @@ By default, this writes the production-ready files to `/dist/spa`. If you config
 
 Serve these files through HTTP or HTTPS. Opening `index.html` directly with the `file://` protocol is not supported.
 
-Common choices for web servers are [nginx](https://www.nginx.com/), [Caddy](https://caddyserver.com/), [Apache](https://httpd.apache.org/), [Express](https://expressjs.com/); but you should be able to use whatever web server you want.
+Common choices for web servers are [nginx](https://nginx.org/), [Caddy](https://caddyserver.com/), [Apache](https://httpd.apache.org/), [Express](https://expressjs.com/); but you should be able to use whatever web server you want.
 
 Hash-mode routing requires only static file hosting. History-mode routing also requires a fallback that serves `index.html` when a requested application route does not match a static file. Do not rewrite requests for existing assets.
 

@@ -96,7 +96,7 @@ scope:
         url: https://marketplace.visualstudio.com/items?itemName=EditorConfig.EditorConfig
       - l: 'eslint.config.js'
         e: ESLint config
-        url: https://eslint.org/docs/latest/user-guide/configuring/configuration-files#using-configuration-files
+        url: https://eslint.org/docs/latest/use/configure/configuration-files#configuration-file
       - l: postcss.config.js
         e: PostCSS config
         url: https://github.com/postcss/postcss

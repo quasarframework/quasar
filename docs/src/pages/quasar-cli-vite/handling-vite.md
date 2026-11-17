@@ -5,7 +5,7 @@ related:
   - /quasar-cli-vite/quasar-config-file
 ---
 
-The build system uses [Vite](https://vitejs.dev) to create the UI of your website/app (`/src` folder). Don't worry if you aren't acquainted with Vite. Out of the box, you won't need to configure it because it already has everything set up.
+The build system uses [Vite](https://vite.dev) to create the UI of your website/app (`/src` folder). Don't worry if you aren't acquainted with Vite. Out of the box, you won't need to configure it because it already has everything set up.
 
 ## Updating Vite config
 

@@ -19,11 +19,11 @@ Choose a maintained Cordova plugin or analytics provider that supports your targ
 
 ## Preparation
 
-Before we can start implementing Google Analytics into your application, you'll need an account for [Google Analytics](https://analytics.google.com) and [Google Tagmanager](https://tagmanager.google.com/). So let's do that first. When you have these accounts, it's time to configure Tag manager. Follow the steps in this [Multiminds article](https://www.multiminds.eu/blog/2016/12/google-analytics-and-tag-manager-with-ionic-and-cordova-apps/) to do so.
+Before we can start implementing Google Analytics into your application, you'll need an account for [Google Analytics](https://analytics.google.com) and [Google Tagmanager](https://tagmanager.google.com/). So let's do that first. When you have these accounts, it's time to configure Tag manager. Follow the steps in this [Multiminds article](https://www.multiminds.eu/news/google-analytics-and-tag-manager-with-ionic-and-cordova-apps/) to do so.
 
 ## Application integration
 
-> For this guide, we'll assume you have a fixed sessionId that you send to Google Analytics. Google Analytics uses a sessionId to distinguish different users from each other. If you want to create an anonymous sessionId, see [Analytics Documentation on user id](https://developers.google.com/analytics/devguides/collection/analyticsjs/cookies-user-id).
+> For this guide, we'll assume you have a fixed sessionId that you send to Google Analytics. Google Analytics uses a sessionId to distinguish different users from each other. If you want to create an anonymous sessionId, see [Analytics Documentation on user id](https://developers.google.com/analytics/devguides/collection/ga4/user-id).
 
 Wrap the selected plugin behind a small application service rather than calling a plugin global throughout the UI. This gives the app one place to:
 

@@ -133,7 +133,7 @@ Browser stores may require submitted code to be readable during review, so Quasa
 
 Since Quasar removes the burden of building and packaging your Browser Extension, once you are finished developing your extension, it is ready to be published. The publishing process differs between browsers, but the official documentation will guide you through the process.
 
-**Chrome** - [Publishing a Chrome Browser Extension](https://developer.chrome.com/webstore/publish)
+**Chrome** - [Publishing a Chrome Browser Extension](https://developer.chrome.com/docs/webstore/publish)
 
 **Firefox** - [Publishing a Firefox Add On (Browser Extension)](https://extensionworkshop.com/documentation/publish/)
 

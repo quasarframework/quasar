@@ -114,4 +114,4 @@ const routes = Object.keys(importList).map(key => {
 
 ### Other import options
 
-More info on importing assets with Vite [here](https://vitejs.dev/guide/assets.html).
+More info on importing assets with Vite [here](https://vite.dev/guide/assets).

@@ -9,7 +9,7 @@ related:
 **Better SEO for your website!** The Meta plugin can dynamically change page title, manage `<meta>` tags, manage `<html>` and `<body>` DOM element attributes, add/remove/change `<style>` and `<script>` tags in the head of your document (useful for CDN stylesheets or for json-ld markup, for example), or manage `<noscript>` tags.
 
 > [!TIP]
-> Take full advantage of this feature by using it with **Quasar CLI**, especially **for the SSR (Server-Side Rendering) and SSG builds**. It may make sense to use it for SPA (Single Page Applications) too, however the meta information in this case will be added at runtime and not supplied directly by the webserver (as on SSR/SSG builds). Modern web-crawlers like the [Googlebot](https://developers.google.com/search/docs/guides/javascript-seo-basics) may render dynamic pages and extract out the dynamically set meta information.
+> Take full advantage of this feature by using it with **Quasar CLI**, especially **for the SSR (Server-Side Rendering) and SSG builds**. It may make sense to use it for SPA (Single Page Applications) too, however the meta information in this case will be added at runtime and not supplied directly by the webserver (as on SSR/SSG builds). Modern web-crawlers like the [Googlebot](https://developers.google.com/search/docs/crawling-indexing/javascript/javascript-seo-basics) may render dynamic pages and extract out the dynamically set meta information.
 
 <DocInstall plugins="Meta" />
 

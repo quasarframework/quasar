@@ -32,7 +32,7 @@ You can freely edit these files. Notice a few things:
 
 1. `register-sw.js` is automatically imported into your app (like any other `/src` file). It registers the service worker created by Workbox and lets you respond to its lifecycle events. The generated worker depends on `quasar.config > pwa > workboxMode`.
 2. `sw/custom-sw.js` will be your service worker file ONLY if workbox plugin mode is set to "InjectManifest" (quasar.config file > pwa > workboxMode: 'InjectManifest'). Otherwise, Quasar and Workbox will create a service-worker file for you. The `/src-pwa/sw/` folder is the WebWorker context. Anything inside it runs in the service worker, not the main thread.
-3. It makes sense to run [Lighthouse](https://developers.google.com/web/tools/lighthouse/) tests on production builds only.
+3. It makes sense to run [Lighthouse](https://developer.chrome.com/docs/lighthouse/overview/) tests on production builds only.
 
 > [!NOTE]
 > Read more on `register-sw.js` and how to interact with the Service Worker on [Handling Service Worker](/quasar-cli-vite/developing-pwa/handling-service-worker) documentation page.
@@ -148,7 +148,7 @@ export default defineConfig(ctx => {
 })
 ```
 
-More information: [Workbox](https://developers.google.com/web/tools/workbox).
+More information: [Workbox](https://developer.chrome.com/docs/workbox).
 
 ## Adding your own meta tags in index.html
 
@@ -242,7 +242,7 @@ When NOT to use GenerateSW:
 - You want to import additional scripts or add additional logic.
 
 > [!NOTE]
-> Please check the available workboxOptions for this mode on [Workbox website](https://developers.google.com/web/tools/workbox/reference-docs/latest/module-workbox-build#.generateSW).
+> Please check the available workboxOptions for this mode on [Workbox website](https://developer.chrome.com/docs/workbox/modules/workbox-build#generatesw).
 
 ### InjectManifest
 
@@ -260,7 +260,7 @@ When NOT to use InjectManifest:
 > [!IMPORTANT]
 >
 > - If you want to use this mode, you will have to write the service worker (`/src-pwa/sw/custom-sw.js`) file by yourself.
-> - Please check the available workboxOptions for this mode on [Workbox website](https://developers.google.com/web/tools/workbox/reference-docs/latest/module-workbox-build#.injectManifest).
+> - Please check the available workboxOptions for this mode on [Workbox website](https://developer.chrome.com/docs/workbox/modules/workbox-build#injectmanifest).
 
 The following snippet is the default code for a custom service worker (`/src-pwa/sw/custom-sw.js`) which mimics the behavior of `generateSW` mode:
 
@@ -359,7 +359,7 @@ pwa: {
 }
 ```
 
-Please read about the [manifest config](https://developer.mozilla.org/en-US/docs/Web/Manifest) before diving in.
+Please read about the [manifest config](https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps/Manifest) before diving in.
 
 > [!NOTE]
 > Note that you don't need to edit your index.html file (generated from `/index.html`) to link to the manifest file. Quasar CLI takes care of embedding the right things for you.
@@ -371,10 +371,10 @@ This option affects only the manifest request. If you add runtime caching for au
 
 ## PWA Checklist
 
-More info: [PWA Checklist](https://web.dev/pwa-checklist/)
+More info: [PWA Checklist](https://web.dev/articles/pwa-checklist/)
 
 > [!WARNING]
-> Do not run [Lighthouse](https://developers.google.com/web/tools/lighthouse/) on your development build because at this stage the code is intentionally not optimized and contains embedded source maps (among many other things). See the [Testing and Auditing](/quasar-cli-vite/testing-and-auditing) section of these docs for more information.
+> Do not run [Lighthouse](https://developer.chrome.com/docs/lighthouse/overview/) on your development build because at this stage the code is intentionally not optimized and contains embedded source maps (among many other things). See the [Testing and Auditing](/quasar-cli-vite/testing-and-auditing) section of these docs for more information.
 
 ## Reload & Update Automatically
 

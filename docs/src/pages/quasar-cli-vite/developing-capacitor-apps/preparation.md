@@ -9,7 +9,7 @@ Before we dive in to the actual development, we need to do some preparation work
 
 ### Android setup
 
-- You will need to install Android Studio and the Android platform SDK on your machine. You can [download the Android Studio here](https://developer.android.com/studio/index.html) and follow these [installation steps](https://developer.android.com/studio/install.html) afterwards.
+- You will need to install Android Studio and the Android platform SDK on your machine. You can [download the Android Studio here](https://developer.android.com/studio) and follow these [installation steps](https://developer.android.com/studio/install) afterwards.
 
 - After installing the Android SDK, accept its licenses by running `sdkmanager --licenses`. With a current command-line tools installation, `sdkmanager` is under `$ANDROID_HOME/cmdline-tools/latest/bin`.
 

@@ -88,7 +88,7 @@ The UI files will be injected and available as `www` folder when you build (or d
 
 ## Manifest.json
 
-The most important config file for your BEX is `/src-bex/manifest.json`. It is recommended that you [read up on this file](https://developer.chrome.com/extensions/manifest) before starting your project.
+The most important config file for your BEX is `/src-bex/manifest.json`. It is recommended that you [read up on this file](https://developer.chrome.com/docs/extensions/reference/manifest) before starting your project.
 
 When you first add the BEX mode, you will notice that the manifest file contains three root props: `all`, `chrome` & `firefox`. The manifest for chrome is deeply merged from all+chrome, while the firefox one is generated from all+firefox. You could even have different manifest versions for each target:
 
@@ -191,7 +191,7 @@ In summary:
 > Given content scripts run in the web page context, this means that only BEX's that interact with a web page can use content scripts. Popups, Options and Devtools **will not** have a _content script_ running behind them. They will all however have the _background script_.
 
 > [!NOTE]
-> In Chrome with [Manifest v3](https://developer.chrome.com/docs/extensions/mv3/intro/) your background script is actually a Service Worker. This does not currently apply to Firefox with Manifest v3 (yet).
+> In Chrome with [Manifest v3](https://developer.chrome.com/docs/extensions/develop/migrate/what-is-mv3/) your background script is actually a Service Worker. This does not currently apply to Firefox with Manifest v3 (yet).
 
 ## CSS
 

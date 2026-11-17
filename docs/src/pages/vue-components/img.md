@@ -35,11 +35,11 @@ In the example below, we add a blur and sepia effect. Furthermore, we make use o
 
 ### Fit mode
 
-There are multiple ways in which the image can be displayed through the `fit` property: 'cover', 'fill' (default), 'contain', 'none', 'scale-down'. It is basically the same thing as the CSS prop called [object-fit](https://developer.mozilla.org/en-US/docs/Web/CSS/object-fit).
+There are multiple ways in which the image can be displayed through the `fit` property: 'cover', 'fill' (default), 'contain', 'none', 'scale-down'. It is basically the same thing as the CSS prop called [object-fit](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/object-fit).
 
 Some modes lead to empty space (horizontally or vertically) besides the image.
 
-You can also configure the position through `position` property, which is equivalent to the CSS [object-position](https://developer.mozilla.org/en-US/docs/Web/CSS/object-position) one. Its default value is "50% 50%".
+You can also configure the position through `position` property, which is equivalent to the CSS [object-position](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/object-position) one. Its default value is "50% 50%".
 
 <DocExample title="Fit modes" file="FitModes" />
 
@@ -56,15 +56,15 @@ When you have big-sized images, you can use a placeholder image (recommended to 
 ### Responsive
 
 > [!NOTE]
-> To grasp the `sizes` and `srcset` properties, please read about native support on [responsive images](https://developer.mozilla.org/en-US/docs/Learn/HTML/Multimedia_and_embedding/Responsive_images#Why_responsive_images) because **QImg relies on that entirely**.
+> To grasp the `sizes` and `srcset` properties, please read about native support on [responsive images](https://developer.mozilla.org/en-US/docs/Web/HTML/Guides/Responsive_images#why_responsive_images) because **QImg relies on that entirely**.
 
 <DocExample title="Responsive" file="Responsive" />
 
 > [!NOTE]
-> For `sizes` property, please read about Resolution Switching: [Different Sizes](https://developer.mozilla.org/en-US/docs/Learn/HTML/Multimedia_and_embedding/Responsive_images#Resolution_switching_Different_sizes).
+> For `sizes` property, please read about Resolution Switching: [Different Sizes](https://developer.mozilla.org/en-US/docs/Web/HTML/Guides/Responsive_images#resolution_switching_different_sizes).
 
 > [!NOTE]
-> For `srcset` property, please read about Resolution Switching: [Same size, different resolutions](https://developer.mozilla.org/en-US/docs/Learn/HTML/Multimedia_and_embedding/Responsive_images#Resolution_switching_Same_size_different_resolutions).
+> For `srcset` property, please read about Resolution Switching: [Same size, different resolutions](https://developer.mozilla.org/en-US/docs/Web/HTML/Guides/Responsive_images#resolution_switching_same_size_different_resolutions).
 
 ### No native context menu
 

@@ -123,7 +123,7 @@ Protect release credentials, pin dependencies through the lockfile, review depen
 
 ### Pay to get hacked
 
-Somebody smart might have hacked your project (or an underlying library). If you are making money with this app, consider getting a [Hacker One](https://hackerone.com) account and running a constant bounty award. At least you'll be able to convince the hacker to be ethical and NOT sell the exploit to your competitor.
+Somebody smart might have hacked your project (or an underlying library). If you are making money with this app, consider getting a [Hacker One](https://www.hackerone.com) account and running a constant bounty award. At least you'll be able to convince the hacker to be ethical and NOT sell the exploit to your competitor.
 
 ### Get help
 
