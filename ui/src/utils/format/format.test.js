@@ -14,16 +14,31 @@ describe('[format API]', () => {
         ['1.0MB', 1024 * 1024],
         ['1.0GB', 1024 * 1024 * 1024],
         ['1.0TB', 1024 * 1024 * 1024 * 1024],
-        ['1.0PB', 1024 * 1024 * 1024 * 1024 * 1024]
+        ['1.0PB', 1024 * 1024 * 1024 * 1024 * 1024],
+        ['1023.9B', 1023.9],
+        ['1.0KB', 1023.96],
+        ['1.0MB', 1024 * 1024 - 1],
+        ['1.0GB', 1024 * 1024 * 1024 - 1],
+        ['1023.9KB', 1024 * 1023.9],
+        ['1024.0PB', 1024 ** 6 - 1] // no unit above PB
       ])('handles %s correctly', (expected, value) => {
         expect(format.humanStorageSize(value)).toBe(expected)
+      })
+
+      test('accepts numeric strings', () => {
+        expect(format.humanStorageSize('500')).toBe('500.0B')
+        expect(format.humanStorageSize('2048')).toBe('2.0KB')
       })
 
       test.each([
         ['100.000B', 3, 100],
         ['1KB', 0, 1024],
         ['2.25KB', 2, 1024 * 2.25],
-        ['2.2500KB', 4, 1024 * 2.25]
+        ['2.2500KB', 4, 1024 * 2.25],
+        ['1KB', 0, 1023.5],
+        ['1023KB', 0, 1023 * 1024 + 511],
+        ['1.00KB', 2, 1023.996],
+        ['1023.99B', 2, 1023.99]
       ])(
         'handles %s with %d decimals correctly',
         (expected, decimals, value) => {
