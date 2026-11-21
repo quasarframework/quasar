@@ -50,6 +50,7 @@ const { humanStorageSize } = format
 
 // humanStorageSize(value, decimals = 1)
 // "decimals" param requires Quasar v2.15.3+
+// "value" is a number or a numeric string; anything else throws a TypeError
 
 console.log(humanStorageSize(13087))
 // 12.8KB

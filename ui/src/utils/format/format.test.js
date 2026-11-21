@@ -32,9 +32,34 @@ describe('[format API]', () => {
         expect(format.humanStorageSize(value)).toBe(expected)
       })
 
-      test('accepts numeric strings', () => {
-        expect(format.humanStorageSize('500')).toBe('500.0B')
-        expect(format.humanStorageSize('2048')).toBe('2.0KB')
+      test.each([
+        ['500.0B', '500'],
+        ['2.0KB', '2048'],
+        ['1.0MB', '1048575'],
+        ['-2.0KB', '-2048'],
+        ['1.5KB', ' 1536 ']
+      ])('accepts a numeric string: %s', (expected, value) => {
+        expect(format.humanStorageSize(value)).toBe(expected)
+      })
+
+      test.each([
+        [null],
+        [Number.NaN],
+        [''],
+        ['  '],
+        ['abc'],
+        ['12abc'],
+        [true],
+        [2048n],
+        [{}],
+        [[2048]]
+      ])('throws on a non-numeric value: %s', value => {
+        expect(() => format.humanStorageSize(value)).toThrow(TypeError)
+        expect(() => format.humanStorageSize(value, 0)).toThrow(TypeError)
+      })
+
+      test('throws when called without a value', () => {
+        expect(() => format.humanStorageSize()).toThrow(TypeError)
       })
 
       test.each([

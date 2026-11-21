@@ -2,7 +2,17 @@ const units = ['B', 'KB', 'MB', 'GB', 'TB', 'PB']
 const unitsUpperLen = units.length - 1
 
 export function humanStorageSize(rawBytes, decimals = 1) {
-  let bytes = Number(rawBytes)
+  let bytes =
+    typeof rawBytes === 'string' && rawBytes.trim() !== ''
+      ? Number(rawBytes)
+      : rawBytes
+
+  if (typeof bytes !== 'number' || Number.isNaN(bytes)) {
+    throw new TypeError(
+      'humanStorageSize: expected a number or a numeric string'
+    )
+  }
+
   let u = 0
   let fixedBytes = bytes.toFixed(decimals)
 
