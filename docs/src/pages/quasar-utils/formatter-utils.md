@@ -56,10 +56,6 @@ console.log(humanStorageSize(13087))
 
 console.log(humanStorageSize(1024 * 1024 * 2.25, 3))
 // 2.250MB
-
-// the unit is picked after rounding to "decimals"
-console.log(humanStorageSize(1024 * 1024 - 1))
-// 1.0MB (not 1024.0KB)
 ```
 
 ## Normalize Number to Interval
