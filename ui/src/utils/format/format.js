@@ -3,7 +3,11 @@ const units = ['B', 'KB', 'MB', 'GB', 'TB', 'PB']
 export function humanStorageSize(bytes, decimals = 1) {
   let u = 0
 
-  while (Number.parseInt(bytes, 10) >= 1024 && u < units.length - 1) {
+  bytes = Number(bytes)
+
+  // compare the value as it will be displayed: 1048575 bytes must read
+  // "1.0MB", not "1024.0KB"
+  while (Number(bytes.toFixed(decimals)) >= 1024 && u < units.length - 1) {
     bytes /= 1024
     ++u
   }
