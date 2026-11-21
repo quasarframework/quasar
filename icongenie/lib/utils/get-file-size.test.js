@@ -24,5 +24,6 @@ describe('getFileSize', () => {
     expect(getFileSize(fileOf(1024))).toBe('1.0KB')
     expect(getFileSize(fileOf(1536))).toBe('1.5KB')
     expect(getFileSize(fileOf(1024 * 1024 * 2.25))).toBe('2.3MB')
+    expect(getFileSize(fileOf(1024 * 1024 - 1))).toBe('1.0MB')
   })
 })
