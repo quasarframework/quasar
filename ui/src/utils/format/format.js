@@ -1,18 +1,20 @@
 const units = ['B', 'KB', 'MB', 'GB', 'TB', 'PB']
+const unitsUpperLen = units.length - 1
 
-export function humanStorageSize(bytes, decimals = 1) {
+export function humanStorageSize(rawBytes, decimals = 1) {
+  let bytes = Number(rawBytes)
   let u = 0
-
-  bytes = Number(bytes)
+  let fixedBytes = bytes.toFixed(decimals)
 
   // compare the value as it will be displayed: 1048575 bytes must read
   // "1.0MB", not "1024.0KB"
-  while (Number(bytes.toFixed(decimals)) >= 1024 && u < units.length - 1) {
+  while (Number(fixedBytes) >= 1024 && u < unitsUpperLen) {
     bytes /= 1024
     ++u
+    fixedBytes = bytes.toFixed(decimals)
   }
 
-  return `${bytes.toFixed(decimals)}${units[u]}`
+  return `${fixedBytes}${units[u]}`
 }
 
 export function capitalize(str) {
