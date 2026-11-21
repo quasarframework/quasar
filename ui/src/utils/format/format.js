@@ -8,7 +8,7 @@ export function humanStorageSize(rawBytes, decimals = 1) {
 
   // compare the value as it will be displayed: 1048575 bytes must read
   // "1.0MB", not "1024.0KB"
-  while (Number(fixedBytes) >= 1024 && u < unitsUpperLen) {
+  while (Math.abs(Number(fixedBytes)) >= 1024 && u < unitsUpperLen) {
     bytes /= 1024
     ++u
     fixedBytes = bytes.toFixed(decimals)
