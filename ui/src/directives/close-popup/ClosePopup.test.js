@@ -78,6 +78,25 @@ describe('[ClosePopup API]', () => {
       expect(portalMocks.closePortals).not.toHaveBeenCalled()
     })
 
+    test('as undefined', async () => {
+      const TestComponent = defineComponent({
+        render: () => withDirectives(h('div'), [[ClosePopup]])
+      })
+
+      const wrapper = mount(TestComponent)
+
+      expect(wrapper.element.__qclosepopup).toBe(1)
+
+      await wrapper.trigger('click')
+      vi.runAllTimers()
+
+      expect(portalMocks.closePortals).toHaveBeenCalledWith(
+        { name: 'portal' },
+        expect.any(Event),
+        1
+      )
+    })
+
     test('resolves the directive element when a descendant is clicked', async () => {
       const TestComponent = defineComponent({
         render: () =>

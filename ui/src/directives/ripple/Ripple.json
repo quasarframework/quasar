@@ -37,7 +37,7 @@
   },
 
   "value": {
-    "type": ["Boolean", "Object"],
+    "type": ["Boolean", "Object", "undefined"],
     "desc": "Boolean (if just wanting to enable/disable) or Object for configuring more options",
     "definition": {
       "early": {
