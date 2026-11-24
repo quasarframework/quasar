@@ -516,31 +516,36 @@ describe('[colors API]', () => {
 
     describe('[(function)changeAlpha]', () => {
       test.each([
-        ['white', '#ffffff', 0.1, '#ffffff1a'],
-        ['black', '#000000', 0.1, '#0000001a'],
-        ['red', '#ff0000', 0.1, '#ff00001a'],
-        ['green', '#00ff00', 0.1, '#00ff001a'],
-        ['blue', '#0000ff', 0.1, '#0000ff1a'],
-        ['yellow', '#ffff00', 0.1, '#ffff001a'],
-        ['cyan', '#00ffff', 0.1, '#00ffff1a'],
-        ['magenta', '#ff00ff', 0.1, '#ff00ff1a'],
-        ['gray', '#808080', 0.1, '#8080801a']
+        ['white', '#ffffff', 0.1, '#ffffffff'],
+        ['black', '#000000', 0.1, '#000000ff'],
+        ['red', '#ff0000', 0.1, '#ff0000ff'],
+        ['green', '#00ff00', 0.1, '#00ff00ff'],
+        ['blue', '#0000ff', 0.1, '#0000ffff'],
+        ['yellow', '#ffff00', 0.1, '#ffff00ff'],
+        ['cyan', '#00ffff', 0.1, '#00ffffff'],
+        ['magenta', '#ff00ff', 0.1, '#ff00ffff'],
+        ['gray', '#808080', 0.1, '#808080ff']
       ])('changeAlpha(%s, 0.1)', (_, color, offset, expected) => {
         expect(colors.changeAlpha(color, offset)).toBe(expected)
       })
 
       test.each([
-        ['white', '#ffffff', -0.1, '#ffffff00'],
-        ['black', '#000000', -0.1, '#00000000'],
-        ['red', '#ff0000', -0.1, '#ff000000'],
-        ['green', '#00ff00', -0.1, '#00ff0000'],
-        ['blue', '#0000ff', -0.1, '#0000ff00'],
-        ['yellow', '#ffff00', -0.1, '#ffff0000'],
-        ['cyan', '#00ffff', -0.1, '#00ffff00'],
-        ['magenta', '#ff00ff', -0.1, '#ff00ff00'],
-        ['gray', '#808080', -0.1, '#80808000']
+        ['white', '#ffffff', -0.1, '#ffffffe6'],
+        ['black', '#000000', -0.1, '#000000e6'],
+        ['red', '#ff0000', -0.1, '#ff0000e6'],
+        ['green', '#00ff00', -0.1, '#00ff00e6'],
+        ['blue', '#0000ff', -0.1, '#0000ffe6'],
+        ['yellow', '#ffff00', -0.1, '#ffff00e6'],
+        ['cyan', '#00ffff', -0.1, '#00ffffe6'],
+        ['magenta', '#ff00ff', -0.1, '#ff00ffe6'],
+        ['gray', '#808080', -0.1, '#808080e6']
       ])('changeAlpha(%s, -0.1)', (_, color, offset, expected) => {
         expect(colors.changeAlpha(color, offset)).toBe(expected)
+      })
+
+      test('treats a color without alpha as opaque', () => {
+        expect(colors.changeAlpha('#ff0000', -1)).toBe('#ff000000')
+        expect(colors.changeAlpha('rgb(255,0,0)', -0.5)).toBe('#ff000080')
       })
 
       test('changeAlpha(<invalid>) throws', () => {
