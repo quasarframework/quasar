@@ -271,7 +271,7 @@ export function changeAlpha(color, offset) {
   }
 
   const { r, g, b, a } = textToRgb(color)
-  const alpha = a !== void 0 ? a / 100 : 0
+  const alpha = a !== void 0 ? a / 100 : 1
 
   return rgbToHex({
     r,
