@@ -65,7 +65,8 @@ Returns the same type as input for fgColor.
 Increments or decrements the alpha of a string color.
 
 Accepts a HEX/A String as `color` and a number between -1 and 1 (including edges) as `offset`.
-Use a negative value to decrement and a positive number to increment (ex: `changeAlpha('#ff0000', -0.1)` to decrement alpha by 10%).
+Use a negative value to decrement and a positive number to increment (ex: `changeAlpha('#ff0000ff', -0.1)` to decrement alpha by 10%).
+A color without an alpha channel starts from alpha 0, so `changeAlpha('#ff0000', 0.1)` returns `#ff00001a` (red at 10% alpha).
 Returns HEX/A String.
 
 ## Helper - getPaletteColor

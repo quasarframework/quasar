@@ -261,6 +261,8 @@ export function blend(fgColor, bgColor) {
   return typeof fgColor === 'string' ? rgbToHex(ret) : ret
 }
 
+// TODO Quasar v3: treat a color without an alpha channel as opaque
+// (alpha 1, like blend() does) instead of starting from alpha 0
 export function changeAlpha(color, offset) {
   if (typeof color !== 'string') {
     throw new TypeError('Expected a string as color')
